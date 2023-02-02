@@ -2,14 +2,14 @@
 /* @var $this ClassroomConfigurationControler */
 /* @var $form ActiveForm */
 /* @var $title String */
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'school-configuration-form',
     'enableAjaxValidation' => false
-        ));
+]);
 
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     Yii::t('default', 'Reaproveitamento das Turmas'),
-);
+];
 ?>
 
 <div class="row-fluid">

@@ -8,9 +8,9 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/instructors.js', CClientScript::POS_END);
-$cs->registerScript("vars", "
+$cs->registerScript('vars', "
 	var getInstructorsDisciplinesURL = '" . $this->createUrl('timesheet/getInstructorDisciplines') . "';
-	var loadUnavailability = '" . $this->createUrl("loadUnavailability") . "';", CClientScript::POS_HEAD);
+	var loadUnavailability = '" . $this->createUrl('loadUnavailability') . "';", CClientScript::POS_HEAD);
 $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.instructors', 'Instructors'));
 ?>
 
@@ -40,15 +40,15 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.instructors', 'Instructor
         <div class="buttons span9">
             <button data-toggle="modal" data-target="#add-instructors-modal"
                     class="btn btn-primary btn-icon glyphicons circle_plus">
-                <i></i><?= yii::t('timesheetModule.instructors', "Add Instructors") ?>
+                <i></i><?= yii::t('timesheetModule.instructors', 'Add Instructors') ?>
             </button>
             <button data-toggle="modal" data-target="#add-instructors-unavailability-modal"
                     class="btn btn-primary btn-icon glyphicons circle_plus">
-                <i></i><?= yii::t('timesheetModule.instructors', "Add Unavailability") ?>
+                <i></i><?= yii::t('timesheetModule.instructors', 'Add Unavailability') ?>
             </button>
-            <a href="<?= yii::app()->createUrl("timesheet/timesheet/index") ?>"
+            <a href="<?= yii::app()->createUrl('timesheet/timesheet/index') ?>"
                class="btn btn-primary btn-icon glyphicons calendar">
-                <i></i><?= yii::t('timesheetModule.instructors', "Timesheets") ?>
+                <i></i><?= yii::t('timesheetModule.instructors', 'Timesheets') ?>
             </a>
         </div>
     </div>
@@ -57,9 +57,9 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.instructors', 'Instructor
 <div class="innerLR home">
     <div class="row-fluid">
         <div class="span4">
-            <?= CHtml::dropDownList('instructor_school_fk', "", CHtml::listData(InstructorSchool::model()->findAllByAttributes(["school_fk" => Yii::app()->user->school]), 'id', 'instructorFk.name'), [
-                "prompt" => yii::t("timesheetModule.instructors", "Select a Instructor"),
-                "class" => "select-search-on span12",
+            <?= CHtml::dropDownList('instructor_school_fk', '', CHtml::listData(InstructorSchool::model()->findAllByAttributes(['school_fk' => Yii::app()->user->school]), 'id', 'instructorFk.name'), [
+                'prompt' => yii::t('timesheetModule.instructors', 'Select a Instructor'),
+                'class' => 'select-search-on span12',
             ]); ?>
         </div>
     </div>
@@ -74,18 +74,18 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.instructors', 'Instructor
         <div class="span10">
             <table class="table-unavailability table table-bordered morning table0">
                 <tr>
-                    <th class="schedule"><?= yii::t('timesheetModule.instructors', "Schedule"); ?></th>
-                    <th week_day="1"><?= yii::t('timesheetModule.instructors', "Monday"); ?></th>
-                    <th week_day="2"><?= yii::t('timesheetModule.instructors', "Tuesday"); ?></th>
-                    <th week_day="3"><?= yii::t('timesheetModule.instructors', "Wednesday"); ?></th>
-                    <th week_day="4"><?= yii::t('timesheetModule.instructors', "Thursday"); ?></th>
-                    <th week_day="5"><?= yii::t('timesheetModule.instructors', "Friday"); ?></th>
-                    <th week_day="6"><?= yii::t('timesheetModule.instructors', "Saturday"); ?></th>
-                    <th week_day="0"><?= yii::t('timesheetModule.instructors', "Sunday"); ?></th>
+                    <th class="schedule"><?= yii::t('timesheetModule.instructors', 'Schedule'); ?></th>
+                    <th week_day="1"><?= yii::t('timesheetModule.instructors', 'Monday'); ?></th>
+                    <th week_day="2"><?= yii::t('timesheetModule.instructors', 'Tuesday'); ?></th>
+                    <th week_day="3"><?= yii::t('timesheetModule.instructors', 'Wednesday'); ?></th>
+                    <th week_day="4"><?= yii::t('timesheetModule.instructors', 'Thursday'); ?></th>
+                    <th week_day="5"><?= yii::t('timesheetModule.instructors', 'Friday'); ?></th>
+                    <th week_day="6"><?= yii::t('timesheetModule.instructors', 'Saturday'); ?></th>
+                    <th week_day="0"><?= yii::t('timesheetModule.instructors', 'Sunday'); ?></th>
                 </tr>
                 <?php for ($i = 0; $i < 10; $i++): ?>
                     <tr id="h<?= $i ?>">
-                        <th><?= $i+1 ?></th>
+                        <th><?= $i + 1 ?></th>
                         <td week_day="1" turn="0"></td>
                         <td week_day="2" turn="0"></td>
                         <td week_day="3" turn="0"></td>
@@ -98,18 +98,18 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.instructors', 'Instructor
             </table>
             <table class="table-unavailability table table-bordered afternoon table1">
                 <tr>
-                    <th class="schedule"><?= yii::t('timesheetModule.instructors', "Schedule"); ?></th>
-                    <th week_day="1"><?= yii::t('timesheetModule.instructors', "Monday"); ?></th>
-                    <th week_day="2"><?= yii::t('timesheetModule.instructors', "Tuesday"); ?></th>
-                    <th week_day="3"><?= yii::t('timesheetModule.instructors', "Wednesday"); ?></th>
-                    <th week_day="4"><?= yii::t('timesheetModule.instructors', "Thursday"); ?></th>
-                    <th week_day="5"><?= yii::t('timesheetModule.instructors', "Friday"); ?></th>
-                    <th week_day="6"><?= yii::t('timesheetModule.instructors', "Saturday"); ?></th>
-                    <th week_day="0"><?= yii::t('timesheetModule.instructors', "Sunday"); ?></th>
+                    <th class="schedule"><?= yii::t('timesheetModule.instructors', 'Schedule'); ?></th>
+                    <th week_day="1"><?= yii::t('timesheetModule.instructors', 'Monday'); ?></th>
+                    <th week_day="2"><?= yii::t('timesheetModule.instructors', 'Tuesday'); ?></th>
+                    <th week_day="3"><?= yii::t('timesheetModule.instructors', 'Wednesday'); ?></th>
+                    <th week_day="4"><?= yii::t('timesheetModule.instructors', 'Thursday'); ?></th>
+                    <th week_day="5"><?= yii::t('timesheetModule.instructors', 'Friday'); ?></th>
+                    <th week_day="6"><?= yii::t('timesheetModule.instructors', 'Saturday'); ?></th>
+                    <th week_day="0"><?= yii::t('timesheetModule.instructors', 'Sunday'); ?></th>
                 </tr>
                 <?php for ($i = 0; $i < 10; $i++): ?>
                     <tr id="h<?= $i ?>">
-                        <th><?= $i+1 ?></th>
+                        <th><?= $i + 1 ?></th>
                         <td week_day="1" turn="1"></td>
                         <td week_day="2" turn="1"></td>
                         <td week_day="3" turn="1"></td>
@@ -122,18 +122,18 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.instructors', 'Instructor
             </table>
             <table class="table-unavailability table table-bordered night table2">
                 <tr>
-                    <th class="schedule"><?= yii::t('timesheetModule.instructors', "Schedule"); ?></th>
-                    <th week_day="1"><?= yii::t('timesheetModule.instructors', "Monday"); ?></th>
-                    <th week_day="2"><?= yii::t('timesheetModule.instructors', "Tuesday"); ?></th>
-                    <th week_day="3"><?= yii::t('timesheetModule.instructors', "Wednesday"); ?></th>
-                    <th week_day="4"><?= yii::t('timesheetModule.instructors', "Thursday"); ?></th>
-                    <th week_day="5"><?= yii::t('timesheetModule.instructors', "Friday"); ?></th>
-                    <th week_day="6"><?= yii::t('timesheetModule.instructors', "Saturday"); ?></th>
-                    <th week_day="0"><?= yii::t('timesheetModule.instructors', "Sunday"); ?></th>
+                    <th class="schedule"><?= yii::t('timesheetModule.instructors', 'Schedule'); ?></th>
+                    <th week_day="1"><?= yii::t('timesheetModule.instructors', 'Monday'); ?></th>
+                    <th week_day="2"><?= yii::t('timesheetModule.instructors', 'Tuesday'); ?></th>
+                    <th week_day="3"><?= yii::t('timesheetModule.instructors', 'Wednesday'); ?></th>
+                    <th week_day="4"><?= yii::t('timesheetModule.instructors', 'Thursday'); ?></th>
+                    <th week_day="5"><?= yii::t('timesheetModule.instructors', 'Friday'); ?></th>
+                    <th week_day="6"><?= yii::t('timesheetModule.instructors', 'Saturday'); ?></th>
+                    <th week_day="0"><?= yii::t('timesheetModule.instructors', 'Sunday'); ?></th>
                 </tr>
                 <?php for ($i = 0; $i < 10; $i++): ?>
                     <tr id="h<?= $i ?>">
-                        <th><?= $i+1 ?></th>
+                        <th><?= $i + 1 ?></th>
                         <td week_day="1" turn="2"></td>
                         <td week_day="2" turn="2"></td>
                         <td week_day="3" turn="2"></td>
@@ -152,26 +152,26 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.instructors', 'Instructor
 <!-- Modals -->
 
 <div class="modal fade" id="add-instructors-modal" tabindex="-1" role="dialog"
-     aria-labelledby="<?= Yii::t("timesheetModule.instructors", "Add Instructors") ?>">
+     aria-labelledby="<?= Yii::t('timesheetModule.instructors', 'Add Instructors') ?>">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"
-                        aria-label="<?= Yii::t("timesheetModule.instructors", "Close") ?>">
+                        aria-label="<?= Yii::t('timesheetModule.instructors', 'Close') ?>">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title"
-                    id="myModalLabel"><?= Yii::t("timesheetModule.instructors", "Add Instructors") ?></h4>
+                    id="myModalLabel"><?= Yii::t('timesheetModule.instructors', 'Add Instructors') ?></h4>
             </div>
             <div class="modal-body">
                 <div class="row-fluid">
                     <form id="add-instructors-form" method="POST"
                           action="<?= $this->createUrl('timesheet/addInstructors') ?>">
                         <div class=" span12">
-                            <?= CHtml::label(Yii::t("timesheetModule.instructors", "Instructors"), "add-instructors-ids", ['class' => 'control-label']); ?>
+                            <?= CHtml::label(Yii::t('timesheetModule.instructors', 'Instructors'), 'add-instructors-ids', ['class' => 'control-label']); ?>
                             <div class="span12">
-                                <?= CHtml::dropDownList("add-instructors-ids", "", CHtml::listData(InstructorIdentification::model()->findAll(['order' => 'name']), 'id', 'name'), [
-                                    "class" => "select-search-on span11", "multiple" => "multiple"
+                                <?= CHtml::dropDownList('add-instructors-ids', '', CHtml::listData(InstructorIdentification::model()->findAll(['order' => 'name']), 'id', 'name'), [
+                                    'class' => 'select-search-on span11', 'multiple' => 'multiple'
                                 ]) ?>
                             </div>
                         </div>
@@ -181,10 +181,10 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.instructors', 'Instructor
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">
-                    <?= yii::t("timesheetModule.instructors", "Cancel") ?>
+                    <?= yii::t('timesheetModule.instructors', 'Cancel') ?>
                 </button>
                 <button type="button" class="btn btn-primary" id="add-instructors-button">
-                    <?= yii::t("timesheetModule.instructors", "Add") ?>
+                    <?= yii::t('timesheetModule.instructors', 'Add') ?>
                 </button>
             </div>
         </div>
@@ -193,16 +193,16 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.instructors', 'Instructor
 
 
 <div class="modal fade" id="add-instructors-unavailability-modal" tabindex="-1" role="dialog"
-     aria-labelledby="<?= Yii::t("timesheetModule.instructors", "Add Instructors Unavailability") ?>">
+     aria-labelledby="<?= Yii::t('timesheetModule.instructors', 'Add Instructors Unavailability') ?>">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"
-                        aria-label="<?= Yii::t("timesheetModule.instructors", "Close") ?>">
+                        aria-label="<?= Yii::t('timesheetModule.instructors', 'Close') ?>">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    <?= Yii::t("timesheetModule.instructors", "Add Instructors Unavailability") ?>
+                    <?= Yii::t('timesheetModule.instructors', 'Add Instructors Unavailability') ?>
                 </h4>
             </div>
             <div class="modal-body">
@@ -210,9 +210,9 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.instructors', 'Instructor
                       action="<?= $this->createUrl('timesheet/addInstructorsUnavailability') ?>">
                     <div class="row-fluid">
                         <div class=" span12">
-                            <?= CHtml::label(Yii::t("timesheetModule.instructors", "Instructors"), "add-instructors-unavailability-ids", ['class' => 'control-label']); ?>
-                            <?= CHtml::dropDownList("add-instructors-unavailability-ids", "", CHtml::listData(InstructorSchool::model()->findAll(), 'id', 'name'), [
-                                "class" => "select-search-on span12", "multiple" => "multiple"
+                            <?= CHtml::label(Yii::t('timesheetModule.instructors', 'Instructors'), 'add-instructors-unavailability-ids', ['class' => 'control-label']); ?>
+                            <?= CHtml::dropDownList('add-instructors-unavailability-ids', '', CHtml::listData(InstructorSchool::model()->findAll(), 'id', 'name'), [
+                                'class' => 'select-search-on span12', 'multiple' => 'multiple'
                             ]) ?>
                         </div>
                     </div>
@@ -220,47 +220,47 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.instructors', 'Instructor
 
                     <div class="row-fluid" id="add-instructors-unavailability-times">
                         <div class=" span12">
-                            <?= CHtml::label(Yii::t("timesheetModule.instructors", "Unavailability"), "add-instructors-unavailability-times", ['class' => 'control-label']); ?>
+                            <?= CHtml::label(Yii::t('timesheetModule.instructors', 'Unavailability'), 'add-instructors-unavailability-times', ['class' => 'control-label']); ?>
                         </div>
 
                         <div class="row-fluid">
                             <div class=" span4">
-                                <?= CHtml::label(Yii::t("timesheetModule.instructors", "Turn"), "", ['class' => 'control-label']); ?>
+                                <?= CHtml::label(Yii::t('timesheetModule.instructors', 'Turn'), '', ['class' => 'control-label']); ?>
                             </div>
                             <div class=" span4">
-                                <?= CHtml::label(Yii::t("timesheetModule.instructors", "Schedule"), "", ['class' => 'control-label']); ?>
+                                <?= CHtml::label(Yii::t('timesheetModule.instructors', 'Schedule'), '', ['class' => 'control-label']); ?>
                             </div>
                             <div class=" span3">
-                                <?= CHtml::label(Yii::t("timesheetModule.instructors", "Week Day"), "", ['class' => 'control-label']); ?>
+                                <?= CHtml::label(Yii::t('timesheetModule.instructors', 'Week Day'), '', ['class' => 'control-label']); ?>
                             </div>
                         </div>
                         <div class="row-fluid add-instructors-unavailability-times"
                              id="add-instructors-unavailability-times_0">
                             <div class=" span4">
-                                <?= CHtml::dropDownList("add-instructors-unavailability-turn[0]", "", [
-                                    "0" => "Manhã",
-                                    "1" => "Tarde",
-                                    "2" => "Noite"
+                                <?= CHtml::dropDownList('add-instructors-unavailability-turn[0]', '', [
+                                    '0' => 'Manhã',
+                                    '1' => 'Tarde',
+                                    '2' => 'Noite'
                                 ], [
-                                    "class" => "span12"
+                                    'class' => 'span12'
                                 ]) ?>
                             </div>
                             <div class=" span4">
-                                <?= CHtml::numberField("add-instructors-unavailability-schedule[0]", "", [
-                                    "min" => "1",
-                                    "max" => "10",
-                                    "class" => "span12"
+                                <?= CHtml::numberField('add-instructors-unavailability-schedule[0]', '', [
+                                    'min' => '1',
+                                    'max' => '10',
+                                    'class' => 'span12'
                                 ]) ?>
                             </div>
                             <div class=" span3">
-                                <?= CHtml::dropDownList("add-instructors-unavailability-week-day[0]", "", Schedule::weekDays(), [
-                                    "class" => "span12"
+                                <?= CHtml::dropDownList('add-instructors-unavailability-week-day[0]', '', Schedule::weekDays(), [
+                                    'class' => 'span12'
                                 ]) ?>
                             </div>
                         </div>
                         <div class=" span12">
-                            <?= CHtml::link("+ " . Yii::t("timesheetModule.instructors", "new unavailability"), "#", [
-                                "id" => "add-unavailability", 'class' => 'control-label'
+                            <?= CHtml::link('+ ' . Yii::t('timesheetModule.instructors', 'new unavailability'), '#', [
+                                'id' => 'add-unavailability', 'class' => 'control-label'
                             ]); ?>
                         </div>
                     </div>
@@ -269,10 +269,10 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.instructors', 'Instructor
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">
-                    <?= yii::t("timesheetModule.instructors", "Cancel") ?>
+                    <?= yii::t('timesheetModule.instructors', 'Cancel') ?>
                 </button>
                 <button type="button" class="btn btn-primary" id="add-instructors-unavailability-button">
-                    <?= yii::t("timesheetModule.instructors", "Add") ?>
+                    <?= yii::t('timesheetModule.instructors', 'Add') ?>
                 </button>
             </div>
         </div>

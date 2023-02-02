@@ -2,10 +2,10 @@
 /* @var $this CoursePlanController */
 /* @var $dataProvider CActiveDataProvider */
 
-    $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));  
+    $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
-    $cs->registerCssFile($themeUrl . '/css/template2.css');  
+    $cs->registerCssFile($themeUrl . '/css/template2.css');
 ?>
 
 <div id="mainPage" class="main">
@@ -28,50 +28,50 @@
             <?php endif ?>
             <div class="widget">
                 <div class="widget-body">
-                    <?php $this->widget('zii.widgets.grid.CGridView', array(
+                    <?php $this->widget('zii.widgets.grid.CGridView', [
                         'dataProvider' => $dataProvider,
                         'enablePagination' => true,
                         'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                        'columns' => array(
-                            array(
+                        'columns' => [
+                            [
                                 'header' => Yii::t('default', 'Name'),
                                 'name' => 'name',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->name,Yii::app()->createUrl("courseplan/update",array("id"=>$data->id)))',
-                                'htmlOptions' => array('width' => '25%')
-                            ),
-                            array(
+                                'htmlOptions' => ['width' => '25%']
+                            ],
+                            [
                                 'header' => Yii::t('default', 'Stage'),
                                 'name' => 'modality_fk',
                                 'type' => 'raw',
                                 'value' => '$data->modalityFk->name',
-                                'htmlOptions' => array('width' => '25%'),
-                            ),
-                            array(
+                                'htmlOptions' => ['width' => '25%'],
+                            ],
+                            [
                                 'header' => Yii::t('default', 'Discipline'),
                                 'name' => 'discipline_fk',
                                 'value' => '$data->disciplineFk->name',
-                                'htmlOptions' => array('width' => '20%'),
+                                'htmlOptions' => ['width' => '20%'],
                                 'filter' => false
-                            ),
-                            array(
+                            ],
+                            [
                                 'header' => Yii::t('default', 'Autor'),
                                 'name' => 'users_fk',
                                 'value' => '$data->usersFk->name',
-                                'htmlOptions' => array('width' => '25%'),
+                                'htmlOptions' => ['width' => '25%'],
                                 'filter' => false
-                            ),
-                            array(
+                            ],
+                            [
                                 'class' => 'CButtonColumn',
-                                 'template' => '{delete}',
-                                 'buttons' => array(
-                                    'delete' => array(
-                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/cancelar',
-                                    )
-                                )
-                                ),
-                        ),
-                    ));?>
+                                'template' => '{delete}',
+                                'buttons' => [
+                                    'delete' => [
+                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/cancelar',
+                                    ]
+                                ]
+                            ],
+                        ],
+                    ]); ?>
                     
                     
                 </div>   

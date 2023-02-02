@@ -5,6 +5,8 @@
 // This is the main Web application configuration. Any writable
 // CWebApplication propeties can be configured here.
 
+Yii::setPathOfAlias('vendor', dirname(__FILE__) . '/../../vendor');
+
 $errorHandlerOptions = [
     'errorAction' => 'site/error',
 ];
@@ -21,7 +23,7 @@ $logOptions = [
 
 if (YII_DEBUG) {
     $errorHandlerOptions = [
-        'class' => 'application.vendor.igorsantos07.yii-whoops.WhoopsErrorHandler',
+        'class' => 'vendor.igorsantos07.yii-whoops.WhoopsErrorHandler',
     ];
 
     $logOptions = [
@@ -53,6 +55,7 @@ return [
         'application.modules.calendar.models.*',
         'application.modules.curricularmatrix.models.*',
         'application.modules.quiz.models.*',
+        'vendor.igorsantos07.yii-whoops.*',
     ],
     'modules' => [
         // uncomment the following to enable the Gii tool

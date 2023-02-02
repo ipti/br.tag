@@ -11,11 +11,11 @@ $cs->registerScriptFile($baseUrl . '/js/classes/class-contents/dialogs.js', CCli
 $cs->registerCssFile($themeUrl . '/css/template2.css');
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));
 
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'classes-form',
     'enableAjaxValidation' => false,
-    'action' => CHtml::normalizeUrl(array('classes/saveClassContents')),
-));
+    'action' => CHtml::normalizeUrl(['classes/saveClassContents']),
+]);
 
 ?>
 
@@ -39,11 +39,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 <table class="table table-bordered table-striped visible-print">
     <tr>
         <th>Escola:</th>
-        <td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>
+        <td colspan="7"><?php echo $school->inep_id . ' - ' . $school->name ?></td>
     <tr>
     <tr>
         <th>Estado:</th>
-        <td colspan="2"><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
+        <td colspan="2"><?php echo $school->edcensoUfFk->name . ' - ' . $school->edcensoUfFk->acronym ?></td>
         <th>Municipio:</th>
         <td colspan="2"><?php echo $school->edcensoCityFk->name ?></td>
         <th>Endereço:</th>
@@ -51,12 +51,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <tr>
     <tr>
         <th>Localização:</th>
-        <td colspan="2"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
+        <td colspan="2"><?php echo($school->location == 1 ? 'URBANA' : 'RURAL') ?></td>
         <th>Dependência Administrativa:</th>
         <td colspan="4"><?php
                         $ad = $school->administrative_dependence;
-                        echo ($ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
-                            "PRIVADA")));
+                        echo($ad == 1 ? 'FEDERAL' : ($ad == 2 ? 'ESTADUAL' : ($ad == 3 ? 'MUNICIPAL' :
+                            'PRIVADA')));
                         ?></td>
     <tr>
 </table>
@@ -79,7 +79,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <div>
             <div>
                 <div class="controls">
-                <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required', 'style' => 'width: 53px;')); ?>
+                <?php echo CHtml::label(yii::t('default', 'Classroom') . ' *', 'classroom', ['class' => 'control-label required', 'style' => 'width: 53px;']); ?>
                 </div>
                 <div class="controls">
                 <select class="select-search-on control-input" id="classroom" name="classroom">
@@ -92,11 +92,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             
             
                 
-                    <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 'control-label required', 'style' => 'width: 53px;')); ?>
+                    <?php echo CHtml::label(yii::t('default', 'Month') . ' *', 'month', ['class' => 'control-label required', 'style' => 'width: 53px;']); ?>
                 
 
                 <?php
-                echo CHtml::dropDownList('month', '', array(
+                echo CHtml::dropDownList('month', '', [
                     1 => 'Janeiro',
                     2 => 'Fevereiro',
                     3 => 'Março',
@@ -109,21 +109,21 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     10 => 'Outubro',
                     11 => 'Novembro',
                     12 => 'Dezembro'
-                ), array(
+                ], [
                     'key' => 'id',
                     'class' => 'select-search-on control-input',
                     'prompt' => 'Selecione o mês',
-                ));
+                ]);
                 ?>
 
             </div>
             <div class="disciplines-container">
-                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required')); ?>
+                <?php echo CHtml::label(yii::t('default', 'Discipline') . ' *', 'disciplines', ['class' => 'control-label required']); ?>
                 <?php
-                echo CHtml::dropDownList('disciplines', '', array(), array(
+                echo CHtml::dropDownList('disciplines', '', [], [
                     'key' => 'id',
                     'class' => 'select-search-on control-input',
-                ));
+                ]);
                 ?>
             </div>
             <div class="pull-right">
@@ -155,13 +155,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <div class="row-fluid">
             <div class="span12">
                 <div class="control-group">
-                    <?php echo CHtml::label(Yii::t('default', 'Name'), 'add-content-name', array('class' => 'control-label')); ?>
+                    <?php echo CHtml::label(Yii::t('default', 'Name'), 'add-content-name', ['class' => 'control-label']); ?>
                     <div class="controls">
                         <?php echo CHtml::textField('add-content-name', ''); ?>
                     </div>
                 </div>
                 <div class="control-group">
-                    <?php echo CHtml::label(Yii::t('default', 'Description'), 'add-content-description', array('class' => 'control-label')); ?>
+                    <?php echo CHtml::label(Yii::t('default', 'Description'), 'add-content-description', ['class' => 'control-label']); ?>
                     <div class="controls">
                         <?php echo CHtml::textField('add-content-description', ''); ?>
                     </div>

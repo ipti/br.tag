@@ -10,16 +10,16 @@ $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/lunch.js', CClientScript::POS_END);
 
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'Menu',
     'enableClientValidation' => true,
-    'clientOptions' => array(
+    'clientOptions' => [
         'validateOnSubmit' => true,
-    ),
-    'htmlOptions' => array(
+    ],
+    'htmlOptions' => [
         'class' => 'form-horizontal',
-    ),
-));
+    ],
+]);
 ?>
 
 <?php if (Yii::app()->user->hasFlash('success')): ?>
@@ -51,12 +51,12 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="widget-body in" style="height: auto;">
             <div class="row-fluid">
                 <div class="span12">
-                    <?= CHTML::activeLabel($menuModel, 'date', ['class' => "control-label"]) ?>
+                    <?= CHTML::activeLabel($menuModel, 'date', ['class' => 'control-label']) ?>
                     <div class="form-group ">
                         <?php $date = 'date';
                         ?>
-                        <?= CHTML::textField("none", date("d/m/Y", strtotime($menuModel->date)), ['class' => "span8 form-control", "readonly" => "readonly"]) ?>
-                        <?= CHTML::hiddenField(chtml::resolveName($menuModel, $date), $menuModel->date, ['class' => "span10 form-control", "readonly" => "readonly"]) ?>
+                        <?= CHTML::textField('none', date('d/m/Y', strtotime($menuModel->date)), ['class' => 'span8 form-control', 'readonly' => 'readonly']) ?>
+                        <?= CHTML::hiddenField(chtml::resolveName($menuModel, $date), $menuModel->date, ['class' => 'span10 form-control', 'readonly' => 'readonly']) ?>
                     </div>
                 </div>
             </div>
@@ -64,10 +64,10 @@ $form = $this->beginWidget('CActiveForm', array(
 
             <div class="row-fluid">
                 <div class="span12">
-                    <?= CHTML::activeLabel($menuModel, 'name', ['class' => "control-label"]) ?>
+                    <?= CHTML::activeLabel($menuModel, 'name', ['class' => 'control-label']) ?>
                     <div class="form-group ">
                         <?php $name = 'name'; ?>
-                        <?= CHTML::textField(chtml::resolveName($menuModel, $name), $menuModel->name, ['class' => "span8 form-control"]) ?>
+                        <?= CHTML::textField(chtml::resolveName($menuModel, $name), $menuModel->name, ['class' => 'span8 form-control']) ?>
                     </div>
                 </div>
             </div>
@@ -112,7 +112,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 $meal = $menuMeal->meal;
                                 $odd = !$odd;
                                 ?>
-                                <tr class="<?= $odd ? "odd" : "" ?>">
+                                <tr class="<?= $odd ? 'odd' : '' ?>">
                                     <td id="id">REF<?= $meal->id ?></td>
                                     <td id="restrictions"><?= $meal->restrictions ?></td>
                                     <td id="portions">
@@ -120,9 +120,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <tbody>
                                             <?php foreach ($meal->mealPortions as $mealPortion):
                                                 $portion = $mealPortion->portion ?>
-                                                <tr class="<?= $odd ? "odd" : "" ?>">
+                                                <tr class="<?= $odd ? 'odd' : '' ?>">
                                                     <td><?= $portion->item->name ?></td>
-                                                    <td class="span2"><?= (floatval($mealPortion->amount) . "x " . floatval($portion->measure)) . " " . $portion->unity->acronym ?></td>
+                                                    <td class="span2"><?= (floatval($mealPortion->amount) . 'x ' . floatval($portion->measure)) . ' ' . $portion->unity->acronym ?></td>
                                                     <td class="span1 text-right">
                                                         <a data-toggle="modal" href="#removePortion"
                                                            data-meal-portion-id="<?= $mealPortion->id ?>"
@@ -133,7 +133,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 </tr>
                                             <?php endforeach ?>
                                             <tr>
-                                                <td colspan="3"  class="<?= $odd ? "odd" : "" ?>">
+                                                <td colspan="3"  class="<?= $odd ? 'odd' : '' ?>">
 
                                                     <a data-toggle="modal" href="#addPortion"
                                                        data-meal-id="<?= $menuMeal->meal_fk ?>"
@@ -178,9 +178,9 @@ $form = $this->beginWidget('CActiveForm', array(
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Add Portion'); ?></h4>
                 </div>
-                <form id="portion" method="post" action="<?= yii::app()->createUrl("lunch/lunch/addPortion") ?>">
-                    <?= CHtml::hiddenField("Menu[id]", $menuModel->id, ["id" => "menu-id"]) ?>
-                    <?= CHtml::hiddenField("MealPortion[meal_fk]", "", ["id" => "meal-id"]) ?>
+                <form id="portion" method="post" action="<?= yii::app()->createUrl('lunch/lunch/addPortion') ?>">
+                    <?= CHtml::hiddenField('Menu[id]', $menuModel->id, ['id' => 'menu-id']) ?>
+                    <?= CHtml::hiddenField('MealPortion[meal_fk]', '', ['id' => 'meal-id']) ?>
                     <div class="modal-body">
                         <div id="is-add-amount" class="widget widget-scroll margin-bottom-none">
                             <div class="widget-head">
@@ -191,10 +191,14 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="widget-body">
                                 <div class="row-fluid">
                                     <div class=" span4">
-                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Portion'), 'MealPortion[portion_fk]', array('class' => 'control-label')); ?>
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Portion'), 'MealPortion[portion_fk]', ['class' => 'control-label']); ?>
                                         <div class="controls span12">
-                                            <?= CHtml::dropDownList('MealPortion[portion_fk]', '',
-                                                CHtml::listData(Portion::model()->findAll(), 'id', 'concatName'), ['class' => 'span12']); ?>
+                                            <?= CHtml::dropDownList(
+                                                    'MealPortion[portion_fk]',
+                                                    '',
+                                                    CHtml::listData(Portion::model()->findAll(), 'id', 'concatName'),
+                                                    ['class' => 'span12']
+                                                ); ?>
                                         </div>
                                     </div>
                                     <div class="span2">
@@ -207,7 +211,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         </div>
                                     </div>
                                     <div class=" span6">
-                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MealPortion[amount]', array('class' => 'control-label')); ?>
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MealPortion[amount]', ['class' => 'control-label']); ?>
                                         <div class="controls span12">
                                             <?= CHtml::numberField('MealPortion[amount]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10']); ?>
                                         </div>
@@ -224,31 +228,39 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="widget-body">
                                 <div class="row-fluid">
                                     <div class=" span6">
-                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Item'), 'Item', array('class' => 'control-label')); ?>
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Item'), 'Item', ['class' => 'control-label']); ?>
                                         <div class="controls span12">
-                                            <?= CHtml::dropDownList('Portion[item_fk]', '',
-                                                CHtml::listData(Item::model()->with(["inventories" => ["select" => "amount", 'condition' => 'amount > 0']])->findAll(), 'id', 'concatName'), ['class' => 'pull-left span10']); ?>
+                                            <?= CHtml::dropDownList(
+                                                    'Portion[item_fk]',
+                                                    '',
+                                                    CHtml::listData(Item::model()->with(['inventories' => ['select' => 'amount', 'condition' => 'amount > 0']])->findAll(), 'id', 'concatName'),
+                                                    ['class' => 'pull-left span10']
+                                                ); ?>
 
                                         </div>
                                     </div>
 
                                     <div class=" span2">
-                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MealPortion[amount]', array('class' => 'control-label')); ?>
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MealPortion[amount]', ['class' => 'control-label']); ?>
                                         <div class="controls span12">
                                             <?= CHtml::numberField('MealPortion[amount]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10']); ?>
                                         </div>
                                     </div>
                                     <div class=" span2">
-                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', array('class' => 'control-label')); ?>
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', ['class' => 'control-label']); ?>
                                         <div class="controls span12">
                                             <?= CHtml::numberField('Portion[measure]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10']); ?>
                                         </div>
                                     </div>
                                     <div class=" span2">
-                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', array('class' => 'control-label')); ?>
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', ['class' => 'control-label']); ?>
                                         <div class="controls span12">
-                                            <?= CHtml::dropDownList('Portion[unity_fk]', '',
-                                                CHtml::listData(Unity::model()->findAll(['order' => 'acronym']), 'id', 'acronym'), ['class' => ' span10']); ?>
+                                            <?= CHtml::dropDownList(
+                                                    'Portion[unity_fk]',
+                                                    '',
+                                                    CHtml::listData(Unity::model()->findAll(['order' => 'acronym']), 'id', 'acronym'),
+                                                    ['class' => ' span10']
+                                                ); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -273,9 +285,9 @@ $form = $this->beginWidget('CActiveForm', array(
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Add Portion'); ?></h4>
                 </div>
-                <form id="portion" method="post" action="<?= yii::app()->createUrl("lunch/lunch/removePortion") ?>">
-                    <?= CHtml::hiddenField("Menu[id]", $menuModel->id, ["id" => "menu-id"]) ?>
-                    <?= CHtml::hiddenField("MealPortion[id]", "", ["id" => "meal-portion-id"]) ?>
+                <form id="portion" method="post" action="<?= yii::app()->createUrl('lunch/lunch/removePortion') ?>">
+                    <?= CHtml::hiddenField('Menu[id]', $menuModel->id, ['id' => 'menu-id']) ?>
+                    <?= CHtml::hiddenField('MealPortion[id]', '', ['id' => 'meal-portion-id']) ?>
                     <div class="modal-body">
                         <div id="is-add-amount" class="widget widget-scroll margin-bottom-none">
                             <div class="widget-head">
@@ -286,14 +298,18 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="widget-body">
                                 <div class="row-fluid">
                                     <div class=" span6">
-                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Portion'), 'MealPortion[portion_fk]', array('class' => 'control-label')); ?>
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Portion'), 'MealPortion[portion_fk]', ['class' => 'control-label']); ?>
                                         <div class="controls span12">
-                                            <?= CHtml::dropDownList('MealPortion[portion_fk]', '',
-                                                CHtml::listData(Portion::model()->findAll(), 'id', 'concatName'), ['disabled' => 'true', 'class' => 'span10']); ?>
+                                            <?= CHtml::dropDownList(
+                                                    'MealPortion[portion_fk]',
+                                                    '',
+                                                    CHtml::listData(Portion::model()->findAll(), 'id', 'concatName'),
+                                                    ['disabled' => 'true', 'class' => 'span10']
+                                                ); ?>
                                         </div>
                                     </div>
                                     <div class=" span6">
-                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MealPortion[amount]', array('class' => 'control-label')); ?>
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MealPortion[amount]', ['class' => 'control-label']); ?>
                                         <div class="controls span12">
                                             <?= CHtml::numberField('MealPortion[amount]', '1', ['min' => '1', 'step' => '1', 'class' => 'span10']); ?>
                                         </div>
@@ -320,8 +336,8 @@ $form = $this->beginWidget('CActiveForm', array(
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Add Portion'); ?></h4>
                 </div>
-                <form id="portion" method="post" action="<?= yii::app()->createUrl("lunch/lunch/addMeal") ?>">
-                    <?= CHtml::hiddenField("MenuMeal[menu_fk]", $menuModel->id, ["id" => "menu-id"]) ?>
+                <form id="portion" method="post" action="<?= yii::app()->createUrl('lunch/lunch/addMeal') ?>">
+                    <?= CHtml::hiddenField('MenuMeal[menu_fk]', $menuModel->id, ['id' => 'menu-id']) ?>
                     <div class="modal-body">
                         <div id="is-add-amount" class="widget widget-scroll margin-bottom-none">
                             <div class="widget-head">
@@ -332,13 +348,13 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="widget-body">
                                 <div class="row-fluid">
                                     <div class=" span6">
-                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Restrictions'), 'Meal[restrictions]', array('class' => 'control-label')); ?>
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Restrictions'), 'Meal[restrictions]', ['class' => 'control-label']); ?>
                                         <div class="controls span12">
-                                            <?= CHtml::textArea('Meal[restrictions]', '', ['style'=>'resize: vertical;', 'class' => 'span10']); ?>
+                                            <?= CHtml::textArea('Meal[restrictions]', '', ['style' => 'resize: vertical;', 'class' => 'span10']); ?>
                                         </div>
                                     </div>
                                     <div class=" span6">
-                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MenuMeal[amount]', array('class' => 'control-label')); ?>
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MenuMeal[amount]', ['class' => 'control-label']); ?>
                                         <div class="controls span12">
                                             <?= CHtml::numberField('MenuMeal[amount]', '1', ['min' => '1', 'step' => '1', 'class' => 'span10']); ?>
                                         </div>
@@ -367,9 +383,9 @@ $form = $this->beginWidget('CActiveForm', array(
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Update Lunch'); ?></h4>
                 </div>
-                <form id="portion" method="post" action="<?= yii::app()->createUrl("lunch/lunch/changeMeal") ?>">
-                    <?= CHtml::hiddenField("MenuMeal[menu_fk]", $menuModel->id, ["id" => "menu-id"]) ?>
-                    <?= CHtml::hiddenField("MenuMeal[meal_fk]", '', ["id" => "meal-id"]) ?>
+                <form id="portion" method="post" action="<?= yii::app()->createUrl('lunch/lunch/changeMeal') ?>">
+                    <?= CHtml::hiddenField('MenuMeal[menu_fk]', $menuModel->id, ['id' => 'menu-id']) ?>
+                    <?= CHtml::hiddenField('MenuMeal[meal_fk]', '', ['id' => 'meal-id']) ?>
                     <div class="modal-body">
                         <div id="is-add-amount" class="widget widget-scroll margin-bottom-none">
                             <div class="widget-head">
@@ -380,13 +396,13 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="widget-body">
                                 <div class="row-fluid">
                                     <div class=" span6">
-                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Restrictions'), 'Meal[restrictions]', array( 'class' => 'control-label')); ?>
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Restrictions'), 'Meal[restrictions]', ['class' => 'control-label']); ?>
                                         <div class="controls span12">
-                                            <?= CHtml::textArea('Meal[restrictions]', '', ['style'=>'resize: vertical;', 'class' => 'span10']); ?>
+                                            <?= CHtml::textArea('Meal[restrictions]', '', ['style' => 'resize: vertical;', 'class' => 'span10']); ?>
                                         </div>
                                     </div>
                                     <div class=" span6">
-                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MenuMeal[amount]', array('class' => 'control-label')); ?>
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MenuMeal[amount]', ['class' => 'control-label']); ?>
                                         <div class="controls span12">
                                             <?= CHtml::numberField('MenuMeal[amount]', '1', ['min' => '1', 'step' => '1', 'class' => 'span10']); ?>
                                         </div>

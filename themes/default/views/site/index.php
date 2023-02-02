@@ -1,30 +1,33 @@
 <?php
-	$baseUrl = Yii::app()->baseUrl;
-	$themeUrl = Yii::app()->theme->baseUrl; 
-	$cs = Yii::app()->getClientScript();
-	$cs->registerScriptFile($baseUrl . '/js/site/index.js', CClientScript::POS_END);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts.js', CClientScript::POS_END);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/serial.js', CClientScript::POS_END);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/pie.js', CClientScript::POS_END);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/lang/pt.js', CClientScript::POS_END);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/themes/light.js', CClientScript::POS_END);
-	$cs->registerCssFile($themeUrl . '/css/template2.css');
-	/* @var $this SiteController */
+    $baseUrl = Yii::app()->baseUrl;
+    $themeUrl = Yii::app()->theme->baseUrl;
+    $cs = Yii::app()->getClientScript();
+    $cs->registerScriptFile($baseUrl . '/js/site/index.js', CClientScript::POS_END);
+    $cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts.js', CClientScript::POS_END);
+    $cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/serial.js', CClientScript::POS_END);
+    $cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/pie.js', CClientScript::POS_END);
+    $cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/lang/pt.js', CClientScript::POS_END);
+    $cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/themes/light.js', CClientScript::POS_END);
+    $cs->registerCssFile($themeUrl . '/css/template2.css');
+    /* @var $this SiteController */
 
-	$cs->registerScript("vars",
-		"var loadMoreLogs = '" . $this->createUrl("site/loadMoreLogs") . "'; " .
-		"var loadLineChartData = '" . $this->createUrl("site/loadLineChartData") . "'; " .
-		"var loadCylinderChartData = '" . $this->createUrl("site/loadCylinderChartData") . "'; " .
-		"var loadPieChartData = '" . $this->createUrl("site/loadPieChartData") . "'; ", CClientScript::POS_HEAD);
+    $cs->registerScript(
+        'vars',
+        "var loadMoreLogs = '" . $this->createUrl('site/loadMoreLogs') . "'; " .
+        "var loadLineChartData = '" . $this->createUrl('site/loadLineChartData') . "'; " .
+        "var loadCylinderChartData = '" . $this->createUrl('site/loadCylinderChartData') . "'; " .
+        "var loadPieChartData = '" . $this->createUrl('site/loadPieChartData') . "'; ",
+        CClientScript::POS_HEAD
+    );
 
-	$this->pageTitle = Yii::app()->name . '';
-	$this->breadcrumbs = [
-		'',
-	];
+    $this->pageTitle = Yii::app()->name . '';
+    $this->breadcrumbs = [
+        '',
+    ];
 
-	$year = Yii::app()->user->year;
+    $year = Yii::app()->user->year;
 
-	$logCount = count(Log::model()->findAll("school_fk = :school", [':school' => Yii::app()->user->school]));
+    $logCount = count(Log::model()->findAll('school_fk = :school', [':school' => Yii::app()->user->school]));
 ?>
 
 

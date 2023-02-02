@@ -19,10 +19,10 @@ $cs->registerCssFile($themeUrl . '/css/dataTables.fontAwesome.css');
 $cs->registerCssFile($themeUrl . '/css/template2.css');
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'course-plan-form',
     'enableAjaxValidation' => false,
-));
+]);
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 
@@ -61,16 +61,16 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <div class=" span5">
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo CHtml::label(yii::t('default', 'Stage') . "*", 'modality_fk', array('class' => 'control-label required')); ?>
+                                    <?php echo CHtml::label(yii::t('default', 'Stage') . '*', 'modality_fk', ['class' => 'control-label required']); ?>
                                 </div>
                                 <div class="controls">
                                     <?php
-                                    echo $form->dropDownList($coursePlan, 'modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array(
+                                    echo $form->dropDownList($coursePlan, 'modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), [
                                         'key' => 'id',
                                         'class' => 'select-search-on control-input',
                                         'prompt' => 'Selecione o estágio',
 
-                                    ));
+                                    ]);
                                     ?>
                                 </div>
 
@@ -79,14 +79,14 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <div class=" span5">
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo CHtml::label(yii::t('default', 'Disciplines') . "*", 'discipline_fk', array('class' => 'control-label required')); ?>
+                                    <?php echo CHtml::label(yii::t('default', 'Disciplines') . '*', 'discipline_fk', ['class' => 'control-label required']); ?>
                                 </div>
                                 <div class="controls coursePlan-input"><?php
-                                                                        echo $form->dropDownList($coursePlan, 'discipline_fk', CHtml::listData(EdcensoDiscipline::model()->findAll(), 'id', 'name'), array(
+                                                                        echo $form->dropDownList($coursePlan, 'discipline_fk', CHtml::listData(EdcensoDiscipline::model()->findAll(), 'id', 'name'), [
                                                                             'key' => 'id',
                                                                             'class' => 'select-search-on control-input',
                                                                             'prompt' => 'Selecione a disciplina',
-                                                                        ));
+                                                                        ]);
                                                                         ?>
                                 </div>
                             </div>
@@ -96,14 +96,14 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <div class=" span12">
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo CHtml::label(yii::t('default', 'Name') . "*", 'name', array(
+                                    <?php echo CHtml::label(yii::t('default', 'Name') . '*', 'name', [
                                         'class' => 'control-label required',
-                                        
-                                    )); ?>
+
+                                    ]); ?>
                                 </div>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'style' => 'width: 931px'));
+                                    echo $form->textField($coursePlan, 'name', ['size' => 400, 'maxlength' => 500, 'style' => 'width: 931px']);
                                     ?>
                                 </div>
 
@@ -160,13 +160,13 @@ for ($i = 0; $i < 3; $i++) { ?>
         <div class="row-fluid">
             <div class="span12">
                 <div class="control-group">
-                    <?php echo CHtml::label(Yii::t('default', 'Name') . '*', 'add-' . $modals[$i]['id'] . '-name', array('class' => 'control-label')); ?>
+                    <?php echo CHtml::label(Yii::t('default', 'Name') . '*', 'add-' . $modals[$i]['id'] . '-name', ['class' => 'control-label']); ?>
                     <div class="controls">
                         <?php echo CHtml::textField('add-' . $modals[$i]['id'] . '-name', ''); ?>
                     </div>
                 </div>
                 <div class="control-group">
-                    <?php echo CHtml::label(Yii::t('default', 'Description'), 'add-' . $modals[$i]['id'] . '-description', array('class' => 'control-label')); ?>
+                    <?php echo CHtml::label(Yii::t('default', 'Description'), 'add-' . $modals[$i]['id'] . '-description', ['class' => 'control-label']); ?>
                     <div class="controls">
                         <?php echo CHtml::textField('add-' . $modals[$i]['id'] . '-description', ''); ?>
                     </div>
@@ -185,7 +185,7 @@ for ($i = 0; $i < 3; $i++) { ?>
     var btnCancel = "<?php echo Yii::t('default', 'Cancel'); ?>";
 
     var labelClass = "<?= Yii::t('default', 'Class'); ?>";
-    var labelObjective = "<?= Yii::t('default', 'Objective') . "*"; ?>";
+    var labelObjective = "<?= Yii::t('default', 'Objective') . '*'; ?>";
     var labelContent = "<?= Yii::t('default', 'Content'); ?>";
     var labelResource = "<?= Yii::t('default', 'Resource'); ?>";
     var labelType = "<?= Yii::t('default', 'Type'); ?>";

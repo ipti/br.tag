@@ -35,11 +35,11 @@
                     </tr>
                 </table>
             </td>
-            <? for($i=1; $i<=14; $i++): ?>
+            <?php for ($i = 1; $i <= 14; $i++): ?>
             <td>
                 <div class="contentEditable no-border" contenteditable="true">  </div>
             </td>
-            <? endfor; ?>
+            <?php endfor; ?>
             <td><div class="contentEditable no-border" contenteditable="true">  </div></td>
         </tr>
         <tr class="font-size-10">
@@ -51,11 +51,11 @@
                     </tr>
                 </table>
             </td>
-            <? for($i=1; $i<=14; $i++): ?>
+            <?php for ($i = 1; $i <= 14; $i++): ?>
             <td>
                 <div class="contentEditable <?= $i >= 11 ? 'width-20' : '' ?> no-border" contenteditable="true">  </div>
             </td>
-            <? endfor; ?>
+            <?php endfor; ?>
             <td><div class="contentEditable no-border" contenteditable="true">  </div></td>
         </tr>
 
@@ -84,11 +84,11 @@
                 </tr>
             </table>
             </td>
-            <? for($i=1; $i<=14; $i++): ?>
+            <?php for ($i = 1; $i <= 14; $i++): ?>
             <td>
                 <div class="contentEditable no-border" contenteditable="true">  </div>
             </td>
-            <? endfor; ?>
+            <?php endfor; ?>
             <td><div class="contentEditable no-border" contenteditable="true">  </div></td>
         </tr>
         
@@ -101,11 +101,11 @@
                 </tr>
             </table>
             </td>
-            <? for($i=1; $i<=14; $i++): ?>
+            <?php for ($i = 1; $i <= 14; $i++): ?>
             <td>
                 <div class="contentEditable no-border" contenteditable="true">  </div>
             </td>
-            <? endfor; ?>
+            <?php endfor; ?>
             <td><div class="contentEditable no-border" contenteditable="true">  </div></td>
         </tr>
         <tr class="font-size-10">
@@ -132,11 +132,11 @@
                 </tr>
             </table>
             </td>
-            <? for($i=1; $i<=14; $i++): ?>
+            <?php for ($i = 1; $i <= 14; $i++): ?>
             <td>
                 <div class="contentEditable no-border" contenteditable="true">  </div>
             </td>
-            <? endfor; ?>
+            <?php endfor; ?>
             <td><div class="contentEditable no-border" contenteditable="true">  </div></td>
         </tr>
         
@@ -149,11 +149,11 @@
                 </tr>
             </table>
             </td>
-            <? for($i=1; $i<=14; $i++): ?>
+            <?php for ($i = 1; $i <= 14; $i++): ?>
             <td>
                 <div class="contentEditable no-border" contenteditable="true">  </div>
             </td>
-            <? endfor; ?>
+            <?php endfor; ?>
             <td><div class="contentEditable no-border" contenteditable="true">  </div></td>
         </tr>
         <tr class="font-size-10">
@@ -180,11 +180,11 @@
                 </tr>
             </table>
             </td>
-            <? for($i=1; $i<=14; $i++): ?>
+            <?php for ($i = 1; $i <= 14; $i++): ?>
             <td>
                 <div class="contentEditable no-border" contenteditable="true">  </div>
             </td>
-            <? endfor; ?>
+            <?php endfor; ?>
             <td><div class="contentEditable no-border" contenteditable="true">  </div></td>
         </tr>
         
@@ -197,11 +197,11 @@
                 </tr>
             </table>
             </td>
-            <? for($i=1; $i<=14; $i++): ?>
+            <?php for ($i = 1; $i <= 14; $i++): ?>
             <td>
                 <div class="contentEditable no-border" contenteditable="true">  </div>
             </td>
-            <? endfor; ?>
+            <?php endfor; ?>
             <td><div class="contentEditable no-border" contenteditable="true">  </div></td>
         </tr>
         <tr class="font-size-10">
@@ -229,11 +229,11 @@
                 </tr>
             </table>
             </td>
-            <? for($i=1; $i<=14; $i++): ?>
+            <?php for ($i = 1; $i <= 14; $i++): ?>
             <td>
                 <div class="contentEditable no-border" contenteditable="true">  </div>
             </td>
-            <? endfor; ?>
+            <?php endfor; ?>
             <td><div class="contentEditable no-border" contenteditable="true">  </div></td>
         </tr>
         
@@ -246,11 +246,11 @@
                 </tr>
             </table>
             </td>
-            <? for($i=1; $i<=14; $i++): ?>
+            <?php for ($i = 1; $i <= 14; $i++): ?>
             <td>
                 <div class="contentEditable no-border" contenteditable="true">  </div>
             </td>
-            <? endfor; ?>
+            <?php endfor; ?>
             <td><div class="contentEditable no-border" contenteditable="true">  </div></td>
         </tr>
         <tr class="font-size-10">

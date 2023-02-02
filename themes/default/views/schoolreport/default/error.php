@@ -5,13 +5,12 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $homeUrl = Yii::app()->controller->module->baseUrl;
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
-
 $cs = Yii::app()->getClientScript();
-$cs->registerCss('mycss', "
+$cs->registerCss('mycss', '
 .column{
     max-width: 900px!important;
     }
-");
+');
 
 $this->pageTitle = Yii::app()->name . ' - Error';
 ?>
@@ -33,7 +32,7 @@ $this->pageTitle = Yii::app()->name . ' - Error';
             </div>
             <div class="ui left aligned segment" style="max-height: 300px; overflow-x:auto;overflow-y:auto;white-space:normal;">
                 <p>Informações Técnicas:<p>
-                <p><?= json_encode($error);?></p>
+                <p><?= json_encode($error); ?></p>
             </div>
             <div class="ui segment">
                 <input type="submit" class="ui inverted fluid large tag-blue submit button" onclick="window.history.back();" value="Voltar"/>

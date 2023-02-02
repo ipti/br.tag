@@ -3,7 +3,7 @@
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/common/js/grades.js', CClientScript::POS_END);
-$cs->registerScript("vars", "var getGradesUrl = '".Yii::app()->createUrl("schoolreport/default/getGrades", ['eid'=>$eid])."'", CClientScript::POS_BEGIN);
+$cs->registerScript('vars', "var getGradesUrl = '" . Yii::app()->createUrl('schoolreport/default/getGrades', ['eid' => $eid]) . "'", CClientScript::POS_BEGIN);
 $cs->registerCssFile($baseScriptUrl . '/common/css/grades.css');
 
 ?>
@@ -25,21 +25,21 @@ $cs->registerCssFile($baseScriptUrl . '/common/css/grades.css');
         </tr>
     </thead>
     <tbody>
-    <?php foreach($disciplines as $did=>$name){
-        echo "<tr did='$did'>"
-            ."<td class='left aligned'>$name</td>"
-            ."<td></td>"
-            ."<td></td>"
-            ."<td></td>"
-            ."<td></td>"
-            ."<td></td>"
-            ."<td></td>"
-            ."<td></td>"
-            ."<td></td>"
-            ."<td></td>"
-            ."<td></td>"
-            ."</tr>";
-    }
+    <?php foreach ($disciplines as $did => $name) {
+    echo "<tr did='$did'>"
+            . "<td class='left aligned'>$name</td>"
+            . '<td></td>'
+            . '<td></td>'
+            . '<td></td>'
+            . '<td></td>'
+            . '<td></td>'
+            . '<td></td>'
+            . '<td></td>'
+            . '<td></td>'
+            . '<td></td>'
+            . '<td></td>'
+            . '</tr>';
+}
     ?>
     </tbody>
 </table>

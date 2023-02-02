@@ -21,7 +21,7 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.index', 'Calendar'));
         <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
             <div class="buttons span9">
                 <a class="tag-button medium-button new-calendar-button">
-                    <?= yii::t('calendarModule.index', "New Calendar") ?>
+                    <?= yii::t('calendarModule.index', 'New Calendar') ?>
                 </a>
             </div>
         <?php } ?>

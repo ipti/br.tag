@@ -1,9 +1,9 @@
 <div id="mainPage" class="main">
     <?php
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Group'));
-    $this->menu = array(
-        array('label' => Yii::t('default', 'Create Group'), 'url' => array('quizCreate'), 'description' => Yii::t('default', 'This action create a new Group')),
-    );
+    $this->menu = [
+        ['label' => Yii::t('default', 'Create Group'), 'url' => ['quizCreate'], 'description' => Yii::t('default', 'This action create a new Group')],
+    ];
     ?>
 
     <div class="row-fluid">
@@ -26,23 +26,23 @@
             <div class="widget">
                 <div class="widget-body">
                     <?php
-                    $this->widget('zii.widgets.grid.CGridView', array(
+                    $this->widget('zii.widgets.grid.CGridView', [
                         'dataProvider' => $filter->search(),
                         'filter' => $filter,
                         'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'enablePagination' => true,
-                        'columns' => array(
-                            array(
+                        'columns' => [
+                            [
                                 'name' => 'id',
-                                'htmlOptions' => array('width' => '150px')
-                            ),
-                            array(
+                                'htmlOptions' => ['width' => '150px']
+                            ],
+                            [
                                 'name' => 'name',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->name ." [" . $data->quiz->name . "]",Yii::app()->createUrl("quiz/default/updateGroup", array("id"=>$data->id)))',
-                            )
-                        )
-                    ));
+                            ]
+                        ]
+                    ]);
                     ?>
                 </div>   
             </div>

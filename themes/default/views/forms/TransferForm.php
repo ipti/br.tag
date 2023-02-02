@@ -17,7 +17,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             /*<![CDATA[*/
             jQuery(function ($) {
                 jQuery.ajax({'type': 'GET',
-                    'data': {'enrollment_id':<?php echo $enrollment_id;?>},
+                    'data': {'enrollment_id':<?php echo $enrollment_id; ?>},
                     'url': '<?php echo Yii::app()->createUrl('forms/getTransferFormInformation') ?>',
                     'success': function (data) {
                         gerarRelatorio(data);
@@ -67,16 +67,16 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <span class="birth_state"></span>
                     </td>
                     <td style="text-align: center">
-                        <?php 
+                        <?php
                             switch ($nationality) {
                                 case '1':
-                                    echo "BRASILEIRA";
+                                    echo 'BRASILEIRA';
                                     break;
                                 case '2':
-                                    echo "BRASILEIRA: NASCIDO NO EXTERIOR OU NATURALIZADO";
+                                    echo 'BRASILEIRA: NASCIDO NO EXTERIOR OU NATURALIZADO';
                                     break;
                                 case '3':
-                                    echo "ESTRANGEIRA";
+                                    echo 'ESTRANGEIRA';
                                     break;
                             }
                         ?>
@@ -653,7 +653,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </table>
             
             <br><br><br>
-            <span class="pull-right"><?=$school->edcensoCityFk->name?>/<?=$school->edcensoUfFk->acronym?>, <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "."; ?></span>
+            <span class="pull-right"><?=$school->edcensoCityFk->name?>/<?=$school->edcensoUfFk->acronym?>, <?php echo date('d') . ' de ' . yii::t('default', date('F')) . ' de ' . date('Y') . '.'; ?></span>
             <br><br><br>
             <div class="pull-left" style="text-align: center">
                 <span>______________________________________________________________________</span>

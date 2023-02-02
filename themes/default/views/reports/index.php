@@ -6,9 +6,9 @@ $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/css/reports.css');
 
 $this->pageTitle = 'TAG - ' . Yii::t('default', 'Reports');
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     Yii::t('default', 'Reports'),
-);
+];
 ?>
 
 <div class="row-fluid">
@@ -50,7 +50,7 @@ $this->breadcrumbs = array(
                 </a>
             </div>
             <div class="span2">
-                <a href="<?php echo Yii::app()->createUrl('reports/studentsbetween5and14yearsoldreport', array('id' => Yii::app()->user->school)) ?>" class="widget-stats" target="_blank">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentsbetween5and14yearsoldreport', ['id' => Yii::app()->user->school]) ?>" class="widget-stats" target="_blank">
                     <div><i class="fa fa-heartbeat fa-4x"></i></div>
                     <span class="report-title">Alunos com Idade entre 5 e 14 Anos (SUS)</span>
                     <div class="clearfix"></div>
@@ -74,7 +74,7 @@ $this->breadcrumbs = array(
         <div class="span12" style="margin: 10px 0 0 0">
 
             <div class="span2">
-                <a href="<?php echo Yii::app()->createUrl('reports/educationalassistantperclassroomreport', array('id' => Yii::app()->user->school)) ?>" class="widget-stats" target="_blank">
+                <a href="<?php echo Yii::app()->createUrl('reports/educationalassistantperclassroomreport', ['id' => Yii::app()->user->school]) ?>" class="widget-stats" target="_blank">
                     <div><i class="fa fa-handshake-o fa-4x"></i></div>
                     <span class="report-title">Auxiliar/Assistente Educacional por Turma</span>
                     <div class="clearfix"></div>
@@ -195,22 +195,22 @@ $this->breadcrumbs = array(
                             <div class="row-fluid">
                                 <div class=" span12" style="margin: 10px 0 10px 0; padding: 0px 0px 0px 69px">
                                     <div class=controls>
-                                        <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 'control-label')); ?>
+                                        <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', ['class' => 'control-label']); ?>
                                     </div>
                                     <div class=controls>
                                         <?php
-                                        echo CHtml::dropDownList('classroom', '', CHtml::listData(Classroom::model()->findAll(array('condition' => 'school_inep_fk=' . Yii::app()->user->school . ' && school_year = ' . Yii::app()->user->year, 'order' => 'name')), 'id', 'name'), array(
+                                        echo CHtml::dropDownList('classroom', '', CHtml::listData(Classroom::model()->findAll(['condition' => 'school_inep_fk=' . Yii::app()->user->school . ' && school_year = ' . Yii::app()->user->year, 'order' => 'name']), 'id', 'name'), [
                                             'key' => 'id',
                                             'class' => 'select-search-on control-input',
                                             'prompt' => 'Selecione a turma',
-                                            'ajax' => array(
+                                            'ajax' => [
                                                 'type' => 'POST',
                                                 'url' => CController::createUrl('classes/getDisciplines'),
                                                 'success' => 'function(data){
                                                         $("#disciplines").html(decodeHtml(data));
                                                     }'
-                                            )
-                                        ));
+                                            ]
+                                        ]);
                                         ?>
                                     </div>
                                 </div>
@@ -239,22 +239,22 @@ $this->breadcrumbs = array(
                     <div class="row-fluid">
                         <div class=" span12" style="margin: 10px 0 10px 0px; padding: 0px 0px 0px 69px">
                             <div class=controls>
-                                <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 'control-label')); ?>
+                                <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', ['class' => 'control-label']); ?>
                             </div>
                             <div class=controls>
                                 <?php
-                                echo CHtml::dropDownList('classroom2', '', CHtml::listData(Classroom::model()->findAll(array('condition' => 'school_inep_fk=' . Yii::app()->user->school . ' && school_year = ' . Yii::app()->user->year, 'order' => 'name')), 'id', 'name'), array(
+                                echo CHtml::dropDownList('classroom2', '', CHtml::listData(Classroom::model()->findAll(['condition' => 'school_inep_fk=' . Yii::app()->user->school . ' && school_year = ' . Yii::app()->user->year, 'order' => 'name']), 'id', 'name'), [
                                     'key' => 'id',
                                     'class' => 'select-search-on control-input',
                                     'prompt' => 'Todas as turmas',
-                                    'ajax' => array(
+                                    'ajax' => [
                                         'type' => 'POST',
                                         'url' => CController::createUrl('classes/getDisciplines'),
                                         'success' => 'function(data){
                                                 $("#disciplines").html(decodeHtml(data));
                                             }'
-                                    )
-                                ));
+                                    ]
+                                ]);
                                 ?>
                             </div>
                         </div>

@@ -1,6 +1,5 @@
 <?php
 
-
 /* @var $this ReportsController */
 /* @var $professor mixed */
 /* @var $classroom mixed */
@@ -21,7 +20,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
     <?php
 
-
     if (count($classroom) == 0) {
         echo "<br><span class='alert alert-primary'>N&atilde;o h&aacute; turmas para esta escola.</span>";
     } else { ?>
@@ -38,8 +36,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             $ordem = 1;
 
             foreach ($classroom as $c) {
-
-                $disciplinas = array();
+                $disciplinas = [];
 
                 $count = 0;
                 foreach ($disciplina as $d) {
@@ -49,23 +46,23 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 }
 
                 if (count($disciplinas) > 0) {
-                    $html = "";
-                    $html .= "<tr>"
-                        . "<td>" . $ordem . "</td>"
-                        . "<td>" . $c['name'] . "</td>"
-                        . "<td>" . $c['stage'] . "</td>"
-                        . "<td>";
+                    $html = '';
+                    $html .= '<tr>'
+                        . '<td>' . $ordem . '</td>'
+                        . '<td>' . $c['name'] . '</td>'
+                        . '<td>' . $c['stage'] . '</td>'
+                        . '<td>';
                     $hasDiscipline = false;
                     for ($i = 0; $i < 13; $i++) {
                         if ($disciplinas[$i] != null) {
                             $hasDiscipline = true;
-                            $html .= $disciplinas[$i] . ", ";
+                            $html .= $disciplinas[$i] . ', ';
                         }
                     }
                     if ($hasDiscipline) {
                         $html = substr($html, 0, -2);
                     }
-                    $html .= "</td></tr>";
+                    $html .= '</td></tr>';
                     $ordem++;
                     echo $html;
                 }

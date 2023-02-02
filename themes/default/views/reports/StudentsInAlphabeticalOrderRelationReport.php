@@ -30,28 +30,27 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
         <?php
         $ordem = 1;
-        foreach($students as $s) {
-
-            $html = "";
-            $html .= "<tr>"
-                . "<td>" . $ordem . "</td>"
-                . "<td>" . $s['studentInepId'] . "</td>"
-                . "<td>" . $s['studentName'] . "</td>"
-                . "<td>" . $s['birthday'] . "</td>"
-                . "<td>" . $s['classroom_inep_id'] . "</td>"
-                . "<td>" . $s['name'] . "</td>"
-                . "<td>" . $s['assistance_type'] . "</td>"
-                . "<td>" . $s['modality'] . "</td>"
-                . "<td>" . $s['stage'] . "</td>"
-                . "</tr>";
+        foreach ($students as $s) {
+            $html = '';
+            $html .= '<tr>'
+                . '<td>' . $ordem . '</td>'
+                . '<td>' . $s['studentInepId'] . '</td>'
+                . '<td>' . $s['studentName'] . '</td>'
+                . '<td>' . $s['birthday'] . '</td>'
+                . '<td>' . $s['classroom_inep_id'] . '</td>'
+                . '<td>' . $s['name'] . '</td>'
+                . '<td>' . $s['assistance_type'] . '</td>'
+                . '<td>' . $s['modality'] . '</td>'
+                . '<td>' . $s['stage'] . '</td>'
+                . '</tr>';
 
             $ordem++;
             echo $html;
         }
-        $html = "";
-        $html .= "<tr>"
-                . "<td colspan= 4>" . " <b> Total de alunos nessa turma: </b>" . ($ordem-1) . "</td>"
-            . "</tr>";
+        $html = '';
+        $html .= '<tr>'
+                . '<td colspan= 4>' . ' <b> Total de alunos nessa turma: </b>' . ($ordem - 1) . '</td>'
+            . '</tr>';
 
         echo $html;
         ?>

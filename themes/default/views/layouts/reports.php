@@ -1,18 +1,18 @@
 <?php
 $cs = Yii::app()->clientScript;
-$cs->scriptMap = array(
+$cs->scriptMap = [
     'jquery.js' => false,
     'jquery.ba-bbq.js' => false
-);
+];
 $baseUrl = Yii::app()->theme->baseUrl;
 $cs->registerScriptFile($baseUrl . '/js/jquery.min.js', CClientScript::POS_HEAD);
 $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HEAD);
 /*
 $result = Yii::app()->db->createCommand("SELECT `year`,
-	se_total/@x * 100 as se_percent,
-	c_total/@y * 100 as c_percent,
-	@x := se_total as se_total,
-	@y := c_total as c_total
+    se_total/@x * 100 as se_percent,
+    c_total/@y * 100 as c_percent,
+    @x := se_total as se_total,
+    @y := c_total as c_total
 FROM iMob
 JOIN (select @x := 1) AS i
 JOIN (select @y := 1) AS j;
@@ -21,7 +21,7 @@ JOIN (select @y := 1) AS j;
 $result  = $result[count($result)-1];
 
 $r = array('s1'=>$result['se_percent'],'s2'=>$result['se_total'],
-		'c1'=>$result['c_percent'],'c2'=>$result['c_total']);
+        'c1'=>$result['c_percent'],'c2'=>$result['c_total']);
 
 //inverteString("% de matrículas").inverteString("% de turmas")
 $imob =  strrev(str_pad(ceil($r['s1']), 4, "0", STR_PAD_LEFT)).".".strrev(str_pad(ceil($r['c1']), 4, "0", STR_PAD_LEFT));

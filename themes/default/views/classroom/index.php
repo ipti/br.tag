@@ -3,9 +3,9 @@
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Classrooms'));
 
     $contextDesc = Yii::t('default', 'Available actions that may be taken on Classroom.');
-    $this->menu = array(
-        array('label' => Yii::t('default', 'Create a new Classroom'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new Classroom')),
-    );
+    $this->menu = [
+        ['label' => Yii::t('default', 'Create a new Classroom'), 'url' => ['create'], 'description' => Yii::t('default', 'This action create a new Classroom')],
+    ];
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
     $cs->registerCssFile($themeUrl . '/css/template2.css');
@@ -44,56 +44,56 @@
             <div class="widget">  
                 <div class="widget-body">
                     <?php
-                    $this->widget('zii.widgets.grid.CGridView', array(
+                    $this->widget('zii.widgets.grid.CGridView', [
                         'dataProvider' => $filter->search(),
                         'enablePagination' => true,
                         'filter' => $filter,
                         'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-vertical-center checkboxs',
-                        'columns' => array(
-                            array(
+                        'columns' => [
+                            [
                                 'name' => 'name',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->name,Yii::app()->createUrl("classroom/update",array("id"=>$data->id)))',
-                                'htmlOptions' => array('width' => '400px')
-                            ),
-                            array(
+                                'htmlOptions' => ['width' => '400px']
+                            ],
+                            [
                                 'name' => 'edcensoStageVsModalityFk',
                                 'header' => 'Etapa',
                                 'value' => '$data->edcensoStageVsModalityFk->name',
-                                'htmlOptions' => array('width' => '400px'),
-                            ),
-                            array(
+                                'htmlOptions' => ['width' => '400px'],
+                            ],
+                            [
                                 'header' => 'Horário',
                                 'value' => '$data->initial_hour.":".$data->initial_minute." - ".$data->final_hour.":".$data->final_minute',
-                                'htmlOptions' => array('width' => '200px'),
+                                'htmlOptions' => ['width' => '200px'],
                                 'filter' => false
-                            ),
-                            array(
-                                'class' => 'CButtonColumn', 
+                            ],
+                            [
+                                'class' => 'CButtonColumn',
                                 'template' => '{update}',
-                                'buttons' => array(
-                                    'update' => array(
-                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/edit',
-                                    )
-                                )
-                            ),
-                            array(
-                            'class' => 'CButtonColumn', 
-                            'template' => '{delete}',
-                            'buttons' => array(
-                                'delete' => array(
-                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/cancelar',
-                                )
-                            )
-                        ),
-                        ),
-                    ));
+                                'buttons' => [
+                                    'update' => [
+                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/edit',
+                                    ]
+                                ]
+                            ],
+                            [
+                                'class' => 'CButtonColumn',
+                                'template' => '{delete}',
+                                'buttons' => [
+                                    'delete' => [
+                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/cancelar',
+                                    ]
+                                ]
+                            ],
+                        ],
+                    ]);
                     ?>
                 </div>   
             </div>
         </div>
         <div class="columntwo">
-            <a href="<?php echo Yii::app()->createUrl("wizard/configuration/classroom"); ?>"><?php echo Yii::t('default', 'Reaproveitamento de Turmas') . ' ' . (Yii::app()->user->year - 1) ?></a>
+            <a href="<?php echo Yii::app()->createUrl('wizard/configuration/classroom'); ?>"><?php echo Yii::t('default', 'Reaproveitamento de Turmas') . ' ' . (Yii::app()->user->year - 1) ?></a>
         </div>
     </div>
 

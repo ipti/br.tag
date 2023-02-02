@@ -45,7 +45,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                 </div>-->
 
                 <!--                <div class="span3">-->
-                <!--                    <a href="--><?php //echo Yii::app()->createUrl('admin/clearDB') 
+                <!--                    <a href="--><?php //echo Yii::app()->createUrl('admin/clearDB')
                                                     ?><!--" class="widget-stats">-->
                 <!--                        <span class="glyphicons database_minus"><i></i></span>-->
                 <!--       5                <span class="txt">Limpar Banco</span>-->
@@ -60,7 +60,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                     </a>
                 </div>
                 <div class="span2">
-                    <a href="<?php echo Yii::app()->createUrl('admin/editPassword', array("id" => Yii::app()->user->loginInfos->id)) ?>" class="widget-stats">
+                    <a href="<?php echo Yii::app()->createUrl('admin/editPassword', ['id' => Yii::app()->user->loginInfos->id]) ?>" class="widget-stats">
                         <span class="glyphicons keys"><i></i></span>
                         <span class="txt">Alterar Senha</span>
                         <div class="clearfix"></div>

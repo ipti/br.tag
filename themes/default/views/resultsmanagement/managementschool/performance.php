@@ -5,22 +5,22 @@
  */
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
-$this->headerDescription = CHtml::tag("span", [],$school->name.CHtml::tag("span", []," | ".yii::t('resultsmanagementModule.managementSchool', 'Performance')));
+$this->headerDescription = CHtml::tag('span', [], $school->name . CHtml::tag('span', [], ' | ' . yii::t('resultsmanagementModule.managementSchool', 'Performance')));
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScript("variables", '
-    var chartDataUrl = "'.$this->createUrl("loadPerformanceChartData").'";
-    var $sid = "'.$school->inep_id.'";
-    var proficiencyDataUrl = "'.$this->createUrl("loadDataForProficiency").'";
-    var evolutionDataUrl = "'.$this->createUrl("loadDataForEvolution").'";
-',CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl.'/lib/js/plugins/charts/flot/jquery.flot.min.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/iniPerformanceChart.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/filterPerformance.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/filterProficiency.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/filterEvolution.js', CClientScript::POS_END);
-$cs->registerCssFile($baseScriptUrl.'/common/css/resultsmanagement.css');
+$cs->registerScript('variables', '
+    var chartDataUrl = "' . $this->createUrl('loadPerformanceChartData') . '";
+    var $sid = "' . $school->inep_id . '";
+    var proficiencyDataUrl = "' . $this->createUrl('loadDataForProficiency') . '";
+    var evolutionDataUrl = "' . $this->createUrl('loadDataForEvolution') . '";
+', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/lib/js/plugins/charts/flot/jquery.flot.min.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/common/js/performance/iniPerformanceChart.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/common/js/performance/filterPerformance.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/common/js/performance/filterProficiency.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/common/js/performance/filterEvolution.js', CClientScript::POS_END);
+$cs->registerCssFile($baseScriptUrl . '/common/css/resultsmanagement.css');
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -36,16 +36,16 @@ $cs->registerCssFile($baseScriptUrl.'/common/css/resultsmanagement.css');
             <div class="widget-body">
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-1">
-                        <?= $this->renderPartial('partialViews/_efficiency', array('data' => $efficiencies)); ?>
+                        <?= $this->renderPartial('partialViews/_efficiency', ['data' => $efficiencies]); ?>
                     </div>
                     <div class="tab-pane" id="tab-2">
-                        <?= $this->renderPartial('partialViews/_performance', array('school' => $school,'classrooms' => $classrooms)); ?>
+                        <?= $this->renderPartial('partialViews/_performance', ['school' => $school, 'classrooms' => $classrooms]); ?>
                     </div>
                     <div class="tab-pane" id="tab-3">
-                        <?= $this->renderPartial('partialViews/_proficiency', array('school' => $school,'classrooms' => $classrooms)); ?>
+                        <?= $this->renderPartial('partialViews/_proficiency', ['school' => $school, 'classrooms' => $classrooms]); ?>
                     </div>
                     <div class="tab-pane" id="tab-4">
-                        <?= $this->renderPartial('partialViews/_evolution', array('school' => $school,'classrooms' => $classrooms)); ?>
+                        <?= $this->renderPartial('partialViews/_evolution', ['school' => $school, 'classrooms' => $classrooms]); ?>
                     </div>
                 </div>
             </div>

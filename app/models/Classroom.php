@@ -87,7 +87,6 @@
  */
 class Classroom extends AltActiveRecord
 {
-
     /**
      * @return string the associated database table name
      */
@@ -117,19 +116,19 @@ class Classroom extends AltActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('name, edcenso_stage_vs_modality_fk, modality, school_inep_fk, initial_hour, initial_minute, final_hour, final_minute, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, school_year, pedagogical_mediation_type', 'required'),
-            array('pedagogical_mediation_type, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type, mais_educacao_participator, complementary_activity_type_1, complementary_activity_type_2, complementary_activity_type_3, complementary_activity_type_4, complementary_activity_type_5, complementary_activity_type_6, modality, edcenso_professional_education_course_fk, discipline_chemistry, discipline_physics, discipline_mathematics, discipline_biology, discipline_science, discipline_language_portuguese_literature, discipline_foreign_language_english, discipline_foreign_language_spanish, discipline_foreign_language_franch, discipline_foreign_language_other, discipline_arts, discipline_physical_education, discipline_history, discipline_geography, discipline_philosophy, discipline_social_study, discipline_sociology, discipline_informatics, discipline_professional_disciplines, discipline_special_education_and_inclusive_practices, discipline_sociocultural_diversity, discipline_libras, discipline_pedagogical, discipline_religious, discipline_native_language, discipline_others, school_year, calendar_fk, schooling, diff_location, course, complementary_activity, aee', 'numerical', 'integerOnly' => true),
-            array('register_type, initial_hour, initial_minute, final_hour, final_minute, edcenso_stage_vs_modality_fk', 'length', 'max' => 2),
-            array('school_inep_fk', 'length', 'max' => 8),
-            array('inep_id', 'length', 'max' => 10),
-            array('name', 'length', 'max' => 80),
-            array('turn', 'length', 'max' => 45),
-            array('hash', 'length', 'max' => 40),
+        return [
+            ['name, edcenso_stage_vs_modality_fk, modality, school_inep_fk, initial_hour, initial_minute, final_hour, final_minute, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, school_year, pedagogical_mediation_type', 'required'],
+            ['pedagogical_mediation_type, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type, mais_educacao_participator, complementary_activity_type_1, complementary_activity_type_2, complementary_activity_type_3, complementary_activity_type_4, complementary_activity_type_5, complementary_activity_type_6, modality, edcenso_professional_education_course_fk, discipline_chemistry, discipline_physics, discipline_mathematics, discipline_biology, discipline_science, discipline_language_portuguese_literature, discipline_foreign_language_english, discipline_foreign_language_spanish, discipline_foreign_language_franch, discipline_foreign_language_other, discipline_arts, discipline_physical_education, discipline_history, discipline_geography, discipline_philosophy, discipline_social_study, discipline_sociology, discipline_informatics, discipline_professional_disciplines, discipline_special_education_and_inclusive_practices, discipline_sociocultural_diversity, discipline_libras, discipline_pedagogical, discipline_religious, discipline_native_language, discipline_others, school_year, calendar_fk, schooling, diff_location, course, complementary_activity, aee', 'numerical', 'integerOnly' => true],
+            ['register_type, initial_hour, initial_minute, final_hour, final_minute, edcenso_stage_vs_modality_fk', 'length', 'max' => 2],
+            ['school_inep_fk', 'length', 'max' => 8],
+            ['inep_id', 'length', 'max' => 10],
+            ['name', 'length', 'max' => 80],
+            ['turn', 'length', 'max' => 45],
+            ['hash', 'length', 'max' => 40],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, school_inep_fk, inep_id, id, name, pedagogical_mediation_type, initial_hour, initial_minute, final_hour, final_minute, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type, mais_educacao_participator, complementary_activity_type_1, complementary_activity_type_2, complementary_activity_type_3, complementary_activity_type_4, complementary_activity_type_5, complementary_activity_type_6, aee_braille_system_education, aee_optical_and_non_optical_resources, aee_mental_processes_development_strategies, aee_mobility_and_orientation_techniques, aee_libras, aee_caa_use_education, aee_curriculum_enrichment_strategy, aee_soroban_use_education, aee_usability_and_functionality_of_computer_accessible_education, aee_teaching_of_Portuguese_language_written_modality, aee_strategy_for_school_environment_autonomy, modality, edcenso_stage_vs_modality_fk, edcenso_professional_education_course_fk, discipline_chemistry, discipline_physics, discipline_mathematics, discipline_biology, discipline_science, discipline_language_portuguese_literature, discipline_foreign_language_english, discipline_foreign_language_spanish, discipline_foreign_language_franch, discipline_foreign_language_other, discipline_arts, discipline_physical_education, discipline_history, discipline_geography, discipline_philosophy, discipline_social_study, discipline_sociology, discipline_informatics, discipline_professional_disciplines, discipline_special_education_and_inclusive_practices, discipline_sociocultural_diversity, discipline_libras, discipline_pedagogical, discipline_religious, discipline_native_language, discipline_others, school_year, turn, create_date, fkid, calendar_fk', 'safe', 'on' => 'search'),
-        );
+            ['register_type, school_inep_fk, inep_id, id, name, pedagogical_mediation_type, initial_hour, initial_minute, final_hour, final_minute, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type, mais_educacao_participator, complementary_activity_type_1, complementary_activity_type_2, complementary_activity_type_3, complementary_activity_type_4, complementary_activity_type_5, complementary_activity_type_6, aee_braille_system_education, aee_optical_and_non_optical_resources, aee_mental_processes_development_strategies, aee_mobility_and_orientation_techniques, aee_libras, aee_caa_use_education, aee_curriculum_enrichment_strategy, aee_soroban_use_education, aee_usability_and_functionality_of_computer_accessible_education, aee_teaching_of_Portuguese_language_written_modality, aee_strategy_for_school_environment_autonomy, modality, edcenso_stage_vs_modality_fk, edcenso_professional_education_course_fk, discipline_chemistry, discipline_physics, discipline_mathematics, discipline_biology, discipline_science, discipline_language_portuguese_literature, discipline_foreign_language_english, discipline_foreign_language_spanish, discipline_foreign_language_franch, discipline_foreign_language_other, discipline_arts, discipline_physical_education, discipline_history, discipline_geography, discipline_philosophy, discipline_social_study, discipline_sociology, discipline_informatics, discipline_professional_disciplines, discipline_special_education_and_inclusive_practices, discipline_sociocultural_diversity, discipline_libras, discipline_pedagogical, discipline_religious, discipline_native_language, discipline_others, school_year, turn, create_date, fkid, calendar_fk', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -139,15 +138,15 @@ class Classroom extends AltActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'classBoards' => array(self::HAS_MANY, 'ClassBoard', 'classroom_fk'),
-            'schedules' => array(self::HAS_MANY, 'Schedule', 'classroom_fk'),
-            'schoolInepFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_fk'),
-            'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
-            'edcensoProfessionalEducationCourseFk' => array(self::BELONGS_TO, 'EdcensoProfessionalEducationCourse', 'edcenso_professional_education_course_fk'),
-            'instructorTeachingDatas' => array(self::HAS_MANY, 'InstructorTeachingData', 'classroom_id_fk'),
-            'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'classroom_fk', 'order' => 'student_identification.name ASC', 'join' => 'JOIN student_identification ON student_identification.id=studentEnrollments.student_fk'),
-        );
+        return [
+            'classBoards' => [self::HAS_MANY, 'ClassBoard', 'classroom_fk'],
+            'schedules' => [self::HAS_MANY, 'Schedule', 'classroom_fk'],
+            'schoolInepFk' => [self::BELONGS_TO, 'SchoolIdentification', 'school_inep_fk'],
+            'edcensoStageVsModalityFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'],
+            'edcensoProfessionalEducationCourseFk' => [self::BELONGS_TO, 'EdcensoProfessionalEducationCourse', 'edcenso_professional_education_course_fk'],
+            'instructorTeachingDatas' => [self::HAS_MANY, 'InstructorTeachingData', 'classroom_id_fk'],
+            'studentEnrollments' => [self::HAS_MANY, 'StudentEnrollment', 'classroom_fk', 'order' => 'student_identification.name ASC', 'join' => 'JOIN student_identification ON student_identification.id=studentEnrollments.student_fk'],
+        ];
     }
 
     /**
@@ -155,7 +154,7 @@ class Classroom extends AltActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'register_type' => Yii::t('default', 'Register Type'),
             'school_inep_fk' => Yii::t('default', 'School Inep Fk'),
             'inep_id' => Yii::t('default', 'Inep'),
@@ -175,7 +174,7 @@ class Classroom extends AltActiveRecord
             'week_days_saturday' => Yii::t('default', 'Week Days Saturday'),
             'assistance_type' => Yii::t('default', 'Differentiated Operating Place'),
             'mais_educacao_participator' => Yii::t('default', 'Mais Educacao Participator'),
-            'complementary_activity_type_1' => Yii::t('default', 'Complementary Activity Type 1') . " *",
+            'complementary_activity_type_1' => Yii::t('default', 'Complementary Activity Type 1') . ' *',
             'complementary_activity_type_2' => Yii::t('default', 'Complementary Activity Type 2'),
             'complementary_activity_type_3' => Yii::t('default', 'Complementary Activity Type 3'),
             'complementary_activity_type_4' => Yii::t('default', 'Complementary Activity Type 4'),
@@ -224,16 +223,16 @@ class Classroom extends AltActiveRecord
             'school_year' => Yii::t('default', 'School Year'),
             'turn' => Yii::t('default', 'Turn'),
             'create_date' => Yii::t('default', 'Create Time'),
-            // Support Labels 
+            // Support Labels
             'disciplines' => Yii::t('default', 'Disciplines'),
             'classroom_days' => Yii::t('default', 'Classsrom Days'),
             'stage' => Yii::t('default', 'Stage'),
             'schooling' => Yii::t('default', 'Schooling'),
-            'diff_location' => Yii::t('default', 'Classroom Diff Location') . " *",
+            'diff_location' => Yii::t('default', 'Classroom Diff Location') . ' *',
             'course' => Yii::t('default', 'Course'),
             'complementary_activity' => Yii::t('default', 'Complementary Activity'),
             'aee' => Yii::t('default', 'AEE'),
-        );
+        ];
     }
 
     /**
@@ -252,7 +251,7 @@ class Classroom extends AltActiveRecord
     {
         //  Please modify the following code to remove attributes that should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('register_type', $this->register_type, true);
         //$criteria->with = array('edcensoStageVsModalityFk');
@@ -265,18 +264,18 @@ class Classroom extends AltActiveRecord
         $criteria->compare('school_year', Yii::app()->user->year);
         //$criteria->addCondition('edcensoStageVsModalityFk.name like "%' . $this->edcensoStageVsModalityFk . '%"');
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-            'sort' => array(
-                'defaultOrder' => array(
+            'sort' => [
+                'defaultOrder' => [
                     'school_inep_fk' => CSort::SORT_ASC,
                     'name' => CSort::SORT_ASC,
-                ),
-            ),
-            'pagination' => array(
+                ],
+            ],
+            'pagination' => [
                 'pageSize' => 50,
-            ),
-        ));
+            ],
+        ]);
     }
 
     /**
@@ -301,7 +300,7 @@ class Classroom extends AltActiveRecord
         $schoolDays = 0;
         switch ($exam) {
             case 1:
-                $initial = new DateTime("01/01/" . yii::app()->user->year);
+                $initial = new DateTime('01/01/' . yii::app()->user->year);
                 $final = new DateTime($schoolConfiguration->exam1);
                 break;
             case 2:
@@ -322,10 +321,10 @@ class Classroom extends AltActiveRecord
 
         $dates = [];
         foreach ($this->schedules as $schedule) {
-            $date = new DateTime($schedule->day . "-" . $schedule->month . "-" . yii::app()->user->year);
+            $date = new DateTime($schedule->day . '-' . $schedule->month . '-' . yii::app()->user->year);
             if ($date > $initial && $date <= $final && $schedule->unavailable == 0) {
-                if (!in_array($date->format("Y-m-d"), $dates)) {
-                    array_push($dates, $date->format("Y-m-d"));
+                if (!in_array($date->format('Y-m-d'), $dates)) {
+                    array_push($dates, $date->format('Y-m-d'));
                     $schoolDays++;
                 }
             }
@@ -340,7 +339,7 @@ class Classroom extends AltActiveRecord
         $workingHours = 0;
         switch ($exam) {
             case 1:
-                $initial = new DateTime("01/01/" . yii::app()->user->year);
+                $initial = new DateTime('01/01/' . yii::app()->user->year);
                 $final = new DateTime($schoolConfiguration->exam1);
                 break;
             case 2:
@@ -360,7 +359,7 @@ class Classroom extends AltActiveRecord
         }
 
         foreach ($this->schedules as $schedule) {
-            $date = new DateTime($schedule->day . "-" . $schedule->month . "-" . yii::app()->user->year);
+            $date = new DateTime($schedule->day . '-' . $schedule->month . '-' . yii::app()->user->year);
             if ($date > $initial && $date <= $final && $schedule->unavailable == 0) {
                 $workingHours++;
             }
@@ -371,7 +370,7 @@ class Classroom extends AltActiveRecord
     public function getWorkingDaysByDiscipline($discipline)
     {
         /* @var $schoolConfiguration SchoolConfiguration */
-        $model = WorkByDiscipline::model()->find('classroom_fk=:classroom_fk AND discipline_fk=:discipline_fk', array(':classroom_fk' => $this->id, ':discipline_fk' => $discipline));
+        $model = WorkByDiscipline::model()->find('classroom_fk=:classroom_fk AND discipline_fk=:discipline_fk', [':classroom_fk' => $this->id, ':discipline_fk' => $discipline]);
         return $model->school_days;
     }
 
@@ -385,5 +384,4 @@ class Classroom extends AltActiveRecord
     {
         return parent::model($className);
     }
-
 }

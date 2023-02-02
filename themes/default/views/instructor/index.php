@@ -2,9 +2,9 @@
     <?php
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Instructor Identifications'));
     $contextDesc = Yii::t('default', 'Available actions that may be taken on InstructorIdentification.');
-    $this->menu = array(
-        array('label' => Yii::t('default', 'Create a new InstructorIdentification'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new InstructorIdentification')),
-    );
+    $this->menu = [
+        ['label' => Yii::t('default', 'Create a new InstructorIdentification'), 'url' => ['create'], 'description' => Yii::t('default', 'This action create a new InstructorIdentification')],
+    ];
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
     $cs->registerCssFile($themeUrl . '/css/template2.css');
@@ -40,30 +40,30 @@
         <div class="widget">
             <div class="widget-body">
                 <?php
-                $this->widget('zii.widgets.grid.CGridView', array(
+                $this->widget('zii.widgets.grid.CGridView', [
                     'dataProvider' => $filter->search(),
                     'enablePagination' => true,
                     'filter' => $filter,
                     'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                    'columns' => array(
-                        array(
+                    'columns' => [
+                        [
                             'name' => 'name',
                             'type' => 'raw',
                             'value' => 'CHtml::link($data->name,Yii::app()->createUrl("instructor/update",array("id"=>$data->id)))',
-                            'htmlOptions' => array('width'=> '400px')
-                        ),
-                        array(
+                            'htmlOptions' => ['width' => '400px']
+                        ],
+                        [
                             'name' => 'documents',
                             'header' => 'CPF',
                             'value' => '$data->documents->cpf',
-                            'htmlOptions' => array('width'=> '400px')
-                        ),
-                        array(
+                            'htmlOptions' => ['width' => '400px']
+                        ],
+                        [
                             'name' => 'birthday_date',
                             'filter' => false
-                        ),
-                        ),
-                ));
+                        ],
+                    ],
+                ]);
                 ?>
             </div>
         </div>

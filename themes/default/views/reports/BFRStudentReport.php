@@ -18,7 +18,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     <div>
         <table class="table table-bordered table-striped">
             <?php
-            $html = "";
+            $html = '';
             foreach ($report as $name => $r) {
             }
             echo $html;
@@ -40,18 +40,18 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         ?>
     </tr>
     <?php
-    $rows = "";
-    foreach ($report as $key=>$r){
-        $rows .= "<tr>"
-            . "<td style='text-align: center;'>" . ($key + 1) . "</td>"
-            . "<td>" . $r['inep_id'] . "</td>"
-            . "<td>" . $r['name'] . "</td>"
-            . "<td>" . $r['turma'] . "</td>"
-            . "<td style='text-align: center;'>" . $r['birthday'] . "</td>";
+    $rows = '';
+    foreach ($report as $key => $r) {
+        $rows .= '<tr>'
+            . "<td style='text-align: center;'>" . ($key + 1) . '</td>'
+            . '<td>' . $r['inep_id'] . '</td>'
+            . '<td>' . $r['name'] . '</td>'
+            . '<td>' . $r['turma'] . '</td>'
+            . "<td style='text-align: center;'>" . $r['birthday'] . '</td>';
 //        for ($i = 1; $i <= 31; $i++) {
 //            $rows.= '<td>&nbsp;</td>';
 //        }
-        $rows .= "</tr>";
+        $rows .= '</tr>';
     }
     echo $rows;
     ?>

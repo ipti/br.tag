@@ -30,25 +30,25 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                 <td>CÓDIGO: <?= $classroom->school_inep_fk?></td>
             </tr>
             <tr>
-                <td colspan="1">ENDEREÇO: <?= $school->address . (strlen($school->address_number) != 0 ? ", " . $school->address_number : "")?></td>
+                <td colspan="1">ENDEREÇO: <?= $school->address . (strlen($school->address_number) != 0 ? ', ' . $school->address_number : '')?></td>
                 <td colspan="1">TURNO:
                     <?php
-                        switch($classroom->turn){
-                            case "M":
-                                echo "MANHÃ";
+                        switch ($classroom->turn) {
+                            case 'M':
+                                echo 'MANHÃ';
                                 break;
-                            case "T":
-                                echo "TARDE";
+                            case 'T':
+                                echo 'TARDE';
                                 break;
-                            case "N":
-                                echo "NOITE";
+                            case 'N':
+                                echo 'NOITE';
                                 break;
                         }
                     ?>
                 </td>
                 <td colspan="1">SÉRIE/ANO:
                     <?php
-                        $stage = "";
+                        $stage = '';
                         switch ($classroom->edcenso_stage_vs_modality_fk) {
                             case '4':
                                 $stage = '1ª SÉRIE';
@@ -146,22 +146,22 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                 <th rowspan="" style="text-align: center;">DATA DE NASCIMENTO</th>
                 <?php
                     for ($i = 1; $i <= 31; $i++) {
-                        echo '<td>'.$i.'</td>';
+                        echo '<td>' . $i . '</td>';
                     }
                 ?>
             </tr>
             <?php
-                $rows = "";
-                foreach ($report as $key=>$r){
-                    $rows .= "<tr>"
-                            . "<td style='text-align: center;'>" . ($key + 1) . "</td>"
-                            . "<td style='text-align: center;'>" . $r['inep_id'] . "</td>"
-                            . "<td>" . $r['name'] . "</td>"
-                            . "<td style='text-align: center;'>" . $r['birthday'] . "</td>";
+                $rows = '';
+                foreach ($report as $key => $r) {
+                    $rows .= '<tr>'
+                            . "<td style='text-align: center;'>" . ($key + 1) . '</td>'
+                            . "<td style='text-align: center;'>" . $r['inep_id'] . '</td>'
+                            . '<td>' . $r['name'] . '</td>'
+                            . "<td style='text-align: center;'>" . $r['birthday'] . '</td>';
                     for ($i = 1; $i <= 31; $i++) {
-                        $rows.= '<td>&nbsp;</td>';
+                        $rows .= '<td>&nbsp;</td>';
                     }
-                            $rows .= "</tr>";
+                    $rows .= '</tr>';
                 }
                 echo $rows;
             ?>

@@ -32,16 +32,22 @@ services:
       - 3306:3306
     expose:
       - 3306
-      
+    deploy:
+        resources:
+            limits:
+              cpus: '2'
+              memory: 1024M
+            reservations:
+              cpus: '1'
+              memory: 1GB
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: tag
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     volumes:
-      - ./db:/var/lib/mysql
-      - .\dump.sql:/docker-entrypoint-initdb.d/dump.sql
-      # - ./dump-data.sql:/docker-entrypoint-initdb.d/dump-data.sql
+      - ./docker/mysql/dbfiles:/var/lib/mysql
+      - ./docker/mysql/initdb:/docker-entrypoint-initdb.d
     networks:
       - tag-v3-network
   

@@ -12,22 +12,21 @@ Yii::app()->clientScript->registerMetaTag('origin', 'referrer');
 Yii::app()->clientScript->registerMetaTag('origin-when-cross-origin', 'referrer');
 Yii::app()->clientScript->registerMetaTag('no-referrer-when-downgrade', 'referrer');
 
-
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'questiongroup-form',
     'enableAjaxValidation' => false,
-));
+]);
 ?>
 
 <div class="row-fluid  hidden-print">
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo $title; ?></h3>  
         <div class="buttons">
-            <?php echo CHtml::htmlButton('<i></i>' . ($questionGroup->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'save_question_group_button', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
+            <?php echo CHtml::htmlButton('<i></i>' . ($questionGroup->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), ['id' => 'save_question_group_button', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button']);
             ?>
-            <?php 
-                if(!$questionGroup->isNewRecord){
-                    echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Delete'), array('id' => 'delete_question_group_button', 'class' => 'btn btn-icon btn-primary last glyphicons delete', 'type' => 'button'));
+            <?php
+                if (!$questionGroup->isNewRecord) {
+                    echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Delete'), ['id' => 'delete_question_group_button', 'class' => 'btn btn-icon btn-primary last glyphicons delete', 'type' => 'button']);
                 }
             ?>
         </div>
@@ -61,29 +60,41 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="row-fluid">
                             <div class=" span5">
                                 <div class="control-group">                
-                                    <?php echo $form->labelEx($questionGroup, 'question_group_id', array('class' => 'control-label')); ?>
+                                    <?php echo $form->labelEx($questionGroup, 'question_group_id', ['class' => 'control-label']); ?>
                                     <div class="controls">
                                     <?php
                                         $questionGroups = QuestionGroup::model()->findAll();
 
-                                        echo $form->dropDownList($questionGroup, 'question_group_id',
+                                        echo $form->dropDownList(
+                                            $questionGroup,
+                                            'question_group_id',
                                             CHtml::listData(
-                                                $questionGroups, 'id', 'name'),
-                                            array("prompt" => "Selecione um Grupo", 'class' => 'select-search-on')); ?>
+                                                $questionGroups,
+                                                'id',
+                                                'name'
+                                            ),
+                                            ['prompt' => 'Selecione um Grupo', 'class' => 'select-search-on']
+                                        ); ?>
                                         <?php echo $form->error($questionGroup, 'question_group_id'); ?>
                                     </div>
                                 </div> 
                                 <!-- .control-group -->
                                 <div class="control-group">
-                                    <?php echo $form->labelEx($questionGroup, 'question_id', array('class' => 'control-label required')); ?>
+                                    <?php echo $form->labelEx($questionGroup, 'question_id', ['class' => 'control-label required']); ?>
                                     <div class="controls">
                                     <?php
                                         $questions = Question::model()->findAll();
 
-                                        echo $form->dropDownList($questionGroup, 'question_id',
+                                        echo $form->dropDownList(
+                                            $questionGroup,
+                                            'question_id',
                                             CHtml::listData(
-                                                $questions, 'id', 'description'),
-                                            array("prompt" => "Selecione uma Questão", 'class' => 'select-search-on')); ?>
+                                                $questions,
+                                                'id',
+                                                'description'
+                                            ),
+                                            ['prompt' => 'Selecione uma Questão', 'class' => 'select-search-on']
+                                        ); ?>
                                         <?php echo $form->error($questionGroup, 'question_id'); ?>
                                     </div>
                                 </div>

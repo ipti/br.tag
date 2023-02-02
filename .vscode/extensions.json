@@ -11,6 +11,7 @@
 		"DEVSENSE.phptools-vscode",
 		"MehediDracula.php-namespace-resolver",
 		"bmewburn.vscode-intelephense-client",
+		"hakcorp.php-awesome-snippets",
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
 	"unwantedRecommendations": [

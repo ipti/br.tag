@@ -15,7 +15,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             /*<![CDATA[*/
             jQuery(function ($) {
                 jQuery.ajax({'type': 'GET',
-                    'data': {'enrollment_id':<?php echo $enrollment_id;?>},
+                    'data': {'enrollment_id':<?php echo $enrollment_id; ?>},
                     'url': '<?php echo Yii::app()->createUrl('forms/getTransferRequirementInformation') ?>',
                     'success': function (data) {
                         gerarRelatorio(data);
@@ -41,28 +41,28 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Venho requerer da Divisão de Inspeção Escolar o documento de transferência de 
                 <span class="name" style="font-weight: bold"></span>, 
                 <?php
-                    if ($gender == '1'){
-                        echo "filho de ";
+                    if ($gender == '1') {
+                        echo 'filho de ';
                     } else {
-                        echo "filha de ";
+                        echo 'filha de ';
                     }
                 ?>
                 <span class="mother"></span>
                 e 
                 <span class="father"></span>, 
                 <?php
-                    if ($gender == '1'){
-                        echo "nascido em ";
+                    if ($gender == '1') {
+                        echo 'nascido em ';
                     } else {
-                        echo "nascida em ";
+                        echo 'nascida em ';
                     }
                 ?>
                 <span class="birthday"></span>, 
                 <?php
-                    if ($gender == '1'){
-                        echo "matriculado no ano de ";
+                    if ($gender == '1') {
+                        echo 'matriculado no ano de ';
                     } else {
-                        echo "matriculada no ano de ";
+                        echo 'matriculada no ano de ';
                     }
                 ?>
                 <span class="enrollment_date"></span>
@@ -144,14 +144,14 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             $c = '4º';
                             break;
                     }
-                    echo 'no '. $c. ' Ano. ';
+                    echo 'no ' . $c . ' Ano. ';
                 ?>
                 No ensejo, informo que 
                 <?php
-                    if ($gender == '1'){
-                        echo "o aluno ";
+                    if ($gender == '1') {
+                        echo 'o aluno ';
                     } else {
-                        echo "a aluna ";
+                        echo 'a aluna ';
                     }
                 ?>
                 irá estudar no(a) _______________________________________.<br><br>
@@ -161,7 +161,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 
                 <br><br><br><br>
                 <span class="pull-right">
-                    <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
+                    <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . ' de ' . yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?>
                 </span>
                 <br/><br/><br><br><br>
                 <div style="text-align: center">

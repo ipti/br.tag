@@ -15,10 +15,10 @@ $title = Yii::t('lunchModule.lunch', 'New Menu');
 
 
 <div class="innerLR home">
-    <?= $this->renderPartial('_form', array(
+    <?= $this->renderPartial('_form', [
         'menuModel' => $menu,
         'title' => $title,
-        'isUpdate'=>false
-    ));
+        'isUpdate' => false
+    ]);
     ?>        
 </div>

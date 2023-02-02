@@ -24,25 +24,25 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                 <td>CÓDIGO: <?= $classroom->school_inep_fk?></td>
             </tr>-->
             <!--<tr>
-                <td colspan="1">ENDEREÇO: <?= $school->address . (strlen($school->address_number) != 0 ? ", " . $school->address_number : "")?></td>
+                <td colspan="1">ENDEREÇO: <?= $school->address . (strlen($school->address_number) != 0 ? ', ' . $school->address_number : '')?></td>
                 <td colspan="1">TURNO:
                     <?php
-                        switch($classroom->turn){
-                            case "M":
-                                echo "MANHÃ";
+                        switch ($classroom->turn) {
+                            case 'M':
+                                echo 'MANHÃ';
                                 break;
-                            case "T":
-                                echo "TARDE";
+                            case 'T':
+                                echo 'TARDE';
                                 break;
-                            case "N":
-                                echo "NOITE";
+                            case 'N':
+                                echo 'NOITE';
                                 break;
                         }
                     ?> - 08:00h às 11:00h
                 </td>
                 <td colspan="1">CARGA HORÁRIA: 3h
                     <?php
-                        $stage = "";
+                        $stage = '';
                         switch ($classroom->edcenso_stage_vs_modality_fk) {
                             case '4':
                                 $stage = '1ª SÉRIE';
@@ -154,20 +154,20 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                 ?>
             </tr>
             <?php
-                $rows = "";
-                
-                foreach ($report as $key=>$r){
-                    $rows .= "<tr>"
-                            . "<td style='text-align: center;'>" . ($key + 1) . "</td>"
-                            . "<td style='width:230px'> " . $r['name'] . "</td>"
-                            . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
-                            . "<td style='text-align: center;'>" . $r['phone'] . "</td>"
-                            . "<td style='text-align: center;'>" . $r['mother'] . "</td>"
-                            . "<td style='text-align: center;'>" . $r['neighborhood'] . "</td>"
+                $rows = '';
+
+                foreach ($report as $key => $r) {
+                    $rows .= '<tr>'
+                            . "<td style='text-align: center;'>" . ($key + 1) . '</td>'
+                            . "<td style='width:230px'> " . $r['name'] . '</td>'
+                            . "<td style='text-align: center;'>" . $r['birthday'] . '</td>'
+                            . "<td style='text-align: center;'>" . $r['phone'] . '</td>'
+                            . "<td style='text-align: center;'>" . $r['mother'] . '</td>'
+                            . "<td style='text-align: center;'>" . $r['neighborhood'] . '</td>'
                             . "<td style='text-align: center; width:300px'>
                             
                             </td>";
-                            $rows .= "</tr>";
+                    $rows .= '</tr>';
                 }
                 echo $rows;
             ?>

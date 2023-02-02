@@ -4,7 +4,7 @@
     $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     $schoolStrcture = SchoolStructure::model()->find('school_inep_id_fk', Yii::app()->user->school);
     $initial_date = strtotime($school->initial_date);
-    $final_date =   strtotime($school->final_date);
+    $final_date = strtotime($school->final_date);
     $datediff = $final_date - $initial_date;
 
     $totalDays = abs(round($datediff / (60 * 60 * 24)));
@@ -43,12 +43,12 @@
     </table>
   </div>
   
-  <? switch($type){ 
+  <?php switch ($type) {
       case 1:
-        $this->renderPartial('_regular_education', array());
+        $this->renderPartial('_regular_education', []);
       break;
       case 2:
-        $this->renderPartial('_education_eja', array());
+        $this->renderPartial('_education_eja', []);
       break;
      }
   ?>
@@ -57,7 +57,7 @@
   <div id="boxDate"  class="row-grid no-border mb-30 mt-40">
     <div class="col no-border">
       <span class="pull-right">
-        <?= $school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
+        <?= $school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . ' de ' . yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?>
       </span>
     </div>
   </div>

@@ -23,12 +23,12 @@ $absences = $a['absences'];
 $recoveryIndex = 1;
 $averageIndex = 1;
 
-$disciplinesCount = (count($disciplines['base'])+count($disciplines['diversified']));
+$disciplinesCount = (count($disciplines['base']) + count($disciplines['diversified']));
 $disciplineBaseCount = count($disciplines['base']);
 $disciplineDiversifiedCount = count($disciplines['diversified']);
 $workingHoursTotal = array_sum($workingHours);
 $schoolDaysTotal = array_sum($schoolDays);
-$absencesTotal = array_sum(array_slice($absences,0, 4));
+$absencesTotal = array_sum(array_slice($absences, 0, 4));
 
 @$frequencyTotal = (array_sum($frequencyByDiscipline['base']) + array_sum($frequencyByDiscipline['diversified'])) / (count($frequencyByDiscipline['base']) + count($frequencyByDiscipline['diversified']));
 $frequencyTotal = number_format($frequencyTotal, 2, ',', '');
@@ -119,9 +119,9 @@ $frequencyTotal = number_format($frequencyTotal, 2, ',', '');
                     <?php foreach ($recovery[$recoveryIndex]['diversified'] as $grade): ?>
                         <td><?= $grade ?></td>
                     <?php endforeach; ?>
-                    <td><? /* $schoolDays[$i] */ ?></td>
-                    <td><? /* $workingHours[$i] */ ?></td>
-                    <td><? /* $faultsCount['exam'][$i] */ ?></td>
+                    <td><?php /* $schoolDays[$i] */ ?></td>
+                    <td><?php /* $workingHours[$i] */ ?></td>
+                    <td><?php /* $faultsCount['exam'][$i] */ ?></td>
                     <?php $recoveryIndex++; ?>
                 </tr>
                 <tr>
@@ -133,9 +133,9 @@ $frequencyTotal = number_format($frequencyTotal, 2, ',', '');
                     <?php foreach ($averages[$averageIndex]['diversified'] as $grade): ?>
                         <td><?= $grade ?></td>
                     <?php endforeach; ?>
-                    <td><? /* $schoolDays[$i] */ ?></td>
-                    <td><? /* $workingHours[$i] */ ?></td>
-                    <td><? /* $absences[$i] */ ?></td>
+                    <td><?php /* $schoolDays[$i] */ ?></td>
+                    <td><?php /* $workingHours[$i] */ ?></td>
+                    <td><?php /* $absences[$i] */ ?></td>
                     <?php $averageIndex++; ?>
                 </tr>
                 <?php for ($i = 3; $i <= 4; $i++): ?>
@@ -163,9 +163,9 @@ $frequencyTotal = number_format($frequencyTotal, 2, ',', '');
                     <?php foreach ($recovery[$recoveryIndex]['diversified'] as $grade): ?>
                         <td><?= $grade ?></td>
                     <?php endforeach; ?>
-                    <td><? /* $schoolDays[$i] */ ?></td>
-                    <td><? /* $workingHours[$i] */ ?></td>
-                    <td><? /* $absences[$i] */ ?></td>
+                    <td><?php /* $schoolDays[$i] */ ?></td>
+                    <td><?php /* $workingHours[$i] */ ?></td>
+                    <td><?php /* $absences[$i] */ ?></td>
                     <?php $recoveryIndex++; ?>
                 </tr>
                 <tr>
@@ -177,9 +177,9 @@ $frequencyTotal = number_format($frequencyTotal, 2, ',', '');
                     <?php foreach ($averages[$averageIndex]['diversified'] as $grade): ?>
                         <td><?= $grade ?></td>
                     <?php endforeach; ?>
-                    <td><? /* $schoolDays[$i] */ ?></td>
-                    <td><? /* $workingHours[$i] */ ?></td>
-                    <td><? /* $faultsCount['exam'][$i] */ ?></td>
+                    <td><?php /* $schoolDays[$i] */ ?></td>
+                    <td><?php /* $workingHours[$i] */ ?></td>
+                    <td><?php /* $faultsCount['exam'][$i] */ ?></td>
                     <?php $averageIndex++; ?>
                 </tr>
                 <tr>
@@ -245,13 +245,13 @@ $frequencyTotal = number_format($frequencyTotal, 2, ',', '');
                 <tr>
                     <td style="text-align:right;" colspan="3">FREQUÊNCIAS %</td>
                     <?php foreach ($frequencyByDiscipline['base'] as $frequency): ?>
-                        <td><?= $frequency  . is_null($frequency) ? '' : "%" ?></td>
+                        <td><?= $frequency . is_null($frequency) ? '' : '%' ?></td>
                     <?php endforeach; ?>
                     <?php foreach ($frequencyByDiscipline['diversified'] as $frequency): ?>
-                        <td><?= $frequency . is_null($frequency) ? '' : "%" ?></td>
+                        <td><?= $frequency . is_null($frequency) ? '' : '%' ?></td>
                     <?php endforeach; ?>
                     <td></td>
-                    <td><?= $frequencyTotal ."%"?></td>
+                    <td><?= $frequencyTotal . '%'?></td>
                     <td></td>
                 </tr>
             </table>
@@ -310,7 +310,7 @@ $frequencyTotal = number_format($frequencyTotal, 2, ',', '');
                 <div>
                     <div style="text-align: center;line-height: 15px;">
                         <span class="pull-right">
-                            <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
+                            <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . ' de ' . yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?>
                         </span>
                         <br><br><br><br>
                         <div>

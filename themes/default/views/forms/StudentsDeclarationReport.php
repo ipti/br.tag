@@ -19,7 +19,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <?php else: ?><b><?php echo $report['cc_new'] ?></b><?php endif; ?>
             filho(a) do Sr. <b><?php echo $report['father'] ?></b> e da Srª. <b><?php echo $report['mother'] ?></b>, 
             matriculado(a) no <b><?php echo $report['stage'] ?></b>, turma "<b><?php echo $report['classroom'] ?></b>" turno 
-            <b><?php echo (($report['turn'] == 'M') ? 'Matutino' : (($report['turn'] == 'T') ? 'Vespertino' : (($report['turn'] == 'N') ? 'Noturno' : '________')));?></b>
+            <b><?php echo(($report['turn'] == 'M') ? 'Matutino' : (($report['turn'] == 'T') ? 'Vespertino' : (($report['turn'] == 'N') ? 'Noturno' : '________'))); ?></b>
             no ano de <b><?php echo $report['year'] ?></b>.
             <br><br>
             Encontra-se na situação:
@@ -53,7 +53,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <br>
         <br>
         <p style="margin: 0 auto; text-align: right; width:600px">
-            <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
+            <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . ' de ' . yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?>
         </p>
         <br>
         <br>

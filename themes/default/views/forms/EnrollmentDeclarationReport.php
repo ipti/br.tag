@@ -19,7 +19,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             /*<![CDATA[*/
             jQuery(function ($) {
                     jQuery.ajax({'type': 'GET',
-                        'data': {'enrollment_id':<?php echo $enrollment_id;?>},
+                        'data': {'enrollment_id':<?php echo $enrollment_id; ?>},
                         'url': '<?php echo Yii::app()->createUrl('forms/getEnrollmentDeclarationInformation') ?>',
                         'success': function (data) {
                             gerarRelatorio(data);
@@ -44,20 +44,20 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 Declaramos para os devidos fins que
                 <span class="name" style="font-weight: bold"></span>,
                 <?php
-                if ($gender == '1'){
-                    echo "filho de ";
+                if ($gender == '1') {
+                    echo 'filho de ';
                 } else {
-                    echo "filha de ";
+                    echo 'filha de ';
                 }
                 ?>
                 <span class="filiation_1"></span>
                 e
                 <span class="filiation_2"></span>,
                 <?php
-                if ($gender == '1'){
-                    echo "nascido em ";
+                if ($gender == '1') {
+                    echo 'nascido em ';
                 } else {
-                    echo "nascida em ";
+                    echo 'nascida em ';
                 }
                 ?>
                 <span class="birthday"></span>
@@ -144,58 +144,57 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 }
                 switch ($stage) {
                     case '1':
-                        echo "na Educação Infantil e encontra-se frequentando regularmente as aulas.";
+                        echo 'na Educação Infantil e encontra-se frequentando regularmente as aulas.';
                         break;
                     case '2':
                     case '3':
-                        echo "no " . $c . " Ano do Ensino Fundamental, onde ";
-                        if ($gender == '1'){
-                            echo "o mesmo:";
+                        echo 'no ' . $c . ' Ano do Ensino Fundamental, onde ';
+                        if ($gender == '1') {
+                            echo 'o mesmo:';
                         } else {
-                            echo "a mesma:";
+                            echo 'a mesma:';
                         }
                         break;
                     case '4':
-                        echo "no " . $c . " Ano do Ensino Médio, onde ";
-                        if ($gender == '1'){
-                            echo "o mesmo:";
+                        echo 'no ' . $c . ' Ano do Ensino Médio, onde ';
+                        if ($gender == '1') {
+                            echo 'o mesmo:';
                         } else {
-                            echo "a mesma:";
+                            echo 'a mesma:';
                         }
                         break;
                     case '6':
-                        echo "no _____ ano da Educação de Jovens e Adultos, onde ";
-                        if ($gender == '1'){
-                            echo "o mesmo:";
+                        echo 'no _____ ano da Educação de Jovens e Adultos, onde ';
+                        if ($gender == '1') {
+                            echo 'o mesmo:';
                         } else {
-                            echo "a mesma:";
+                            echo 'a mesma:';
                         }
                         break;
                     case '7':
                         if ($class == '56') {
-                            echo "no _____ Ano do __________________________________________, onde ";
-                            if ($gender == '1'){
-                                echo "o mesmo:";
+                            echo 'no _____ Ano do __________________________________________, onde ';
+                            if ($gender == '1') {
+                                echo 'o mesmo:';
                             } else {
-                                echo "a mesma:";
+                                echo 'a mesma:';
                             }
-                        } else if ($class == '41') {
-                            echo "no " . $c . " Ano do Ensino Fundamental, onde ";
-                            if ($gender == '1'){
-                                echo "o mesmo:";
+                        } elseif ($class == '41') {
+                            echo 'no ' . $c . ' Ano do Ensino Fundamental, onde ';
+                            if ($gender == '1') {
+                                echo 'o mesmo:';
                             } else {
-                                echo "a mesma:";
+                                echo 'a mesma:';
                             }
                         } else {
-                            echo "no " . $c . " Ano do Ensino Fundamental, onde ";
-                            if ($gender == '1'){
-                                echo "o mesmo:";
+                            echo 'no ' . $c . ' Ano do Ensino Fundamental, onde ';
+                            if ($gender == '1') {
+                                echo 'o mesmo:';
                             } else {
-                                echo "a mesma:";
+                                echo 'a mesma:';
                             }
                         }
                         break;
-
                 }
                 ?>
                 <br/><br/>
@@ -240,7 +239,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <?php
                 switch ($stage) {
                     case '1':
-                        echo "<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>";
+                        echo '<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>';
                         break;
                     case '2':
                     case '3':
@@ -248,40 +247,38 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     case '7':
 
                         if ($gender == '1') {
-                            $situacaoAp =  "aprovado";
+                            $situacaoAp = 'aprovado';
                         } else {
-                            $situacaoAp =  "aprovada";
+                            $situacaoAp = 'aprovada';
                         }
-                        if ($class == '56'){
-                            $ano =  " para o _____ Ano do __________________________________________<br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
-                        }
-                        else if ($class == '41'){
-                            $ano =  " para o _____ Ano do Ensino Médio<br>";
-                        }
-                         else {
-                            $ano =  " para o ______Ano do Ensino Fundamental<br>"
+                        if ($class == '56') {
+                            $ano = ' para o _____ Ano do __________________________________________<br>'
+                                . '(&nbsp;&nbsp;&nbsp;&nbsp;) foi ';
+                        } elseif ($class == '41') {
+                            $ano = ' para o _____ Ano do Ensino Médio<br>';
+                        } else {
+                             $ano = ' para o ______Ano do Ensino Fundamental<br>'
                                 //echo " para o " . $c . " Ano do Ensino Fundamental<br>"
                             ;
-                        }
+                         }
                         if ($gender == '1') {
-                            $situacaoRp = "reprovado<br>";
+                            $situacaoRp = 'reprovado<br>';
                         } else {
-                            $situacaoRp =  "reprovada<br>";
+                            $situacaoRp = 'reprovada<br>';
                         }
 
-                        echo "<br><br><br><br>"
-                            .  "<label id='textOption'> Escolha uma Opção:</label>"
-                            ." <select id='optionForm'>"
-                            ."<option value='está frequentando normalmente as aulas' > está frequentando normalmente as aulas</option>"
-                            ."<option value='cancelou a matrícula' >cancelou a matrícula</option>"
-                            ."<option value='abandonou os estudos' >abandonou os estudos</option>"
-                            ."<option>"."Foi ".$situacaoAp .$ano ."</option>"
-                            ."<option>"."Foi ".$situacaoRp."</option>"
-                            ."<option value='solicitou transferência'>solicitou transferência</option>"
-                            ."<option value=' prazo de expedição do documento'> prazo de expedição do documento _____ dias</option>"
+                        echo '<br><br><br><br>'
+                            . "<label id='textOption'> Escolha uma Opção:</label>"
+                            . " <select id='optionForm'>"
+                            . "<option value='está frequentando normalmente as aulas' > está frequentando normalmente as aulas</option>"
+                            . "<option value='cancelou a matrícula' >cancelou a matrícula</option>"
+                            . "<option value='abandonou os estudos' >abandonou os estudos</option>"
+                            . '<option>' . 'Foi ' . $situacaoAp . $ano . '</option>'
+                            . '<option>' . 'Foi ' . $situacaoRp . '</option>'
+                            . "<option value='solicitou transferência'>solicitou transferência</option>"
+                            . "<option value=' prazo de expedição do documento'> prazo de expedição do documento _____ dias</option>"
 
-                            ."</select>";
+                            . '</select>';
 
 //                            . "<br>(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
 //                        if ($gender == '1') {
@@ -306,64 +303,63 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
                     case '4':
 
-
                         if ($gender == '1') {
-                            $situacaoAp =  "aprovado";
+                            $situacaoAp = 'aprovado';
                         } else {
-                            $situacaoAp =  "aprovada";
+                            $situacaoAp = 'aprovada';
                         }
-                        if ($class == '56'){
-                            $ano =  " para o _____ Ano do __________________________________________<br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
+                        if ($class == '56') {
+                            $ano = ' para o _____ Ano do __________________________________________<br>'
+                                . '(&nbsp;&nbsp;&nbsp;&nbsp;) foi ';
                         } else {
-                            $ano =  " para o ______Ano do Ensino Fundamental<br>"
+                            $ano = ' para o ______Ano do Ensino Fundamental<br>'
                                 //echo " para o " . $c . " Ano do Ensino Fundamental<br>"
                             ;
                         }
                         if ($gender == '1') {
-                            $situacaoRp = "reprovado<br>";
+                            $situacaoRp = 'reprovado<br>';
                         } else {
-                            $situacaoRp =  "reprovada<br>";
+                            $situacaoRp = 'reprovada<br>';
                         }
 
-                        echo "<br><br><br><br>"
-                            .  "<label id='textOption'> Escolha uma Opção:</label>"
-                            ." <select id='optionForm'>"
-                            ."<option value='está frequentando normalmente as aulas' > está frequentando normalmente as aulas</option>"
-                            ."<option value='cancelou a matrícula' >cancelou a matrícula</option>"
-                            ."<option value='abandonou os estudos' >abandonou os estudos</option>"
-                            ."<option>"."Foi ".$situacaoAp .$ano ."</option>"
-                            ."<option>"."Foi ".$situacaoRp."</option>"
-                            ."<option value='solicitou transferência'>solicitou transferência</option>"
-                            ."<option value=' prazo de expedição do documento'> prazo de expedição do documento _____ dias</option>"
+                        echo '<br><br><br><br>'
+                            . "<label id='textOption'> Escolha uma Opção:</label>"
+                            . " <select id='optionForm'>"
+                            . "<option value='está frequentando normalmente as aulas' > está frequentando normalmente as aulas</option>"
+                            . "<option value='cancelou a matrícula' >cancelou a matrícula</option>"
+                            . "<option value='abandonou os estudos' >abandonou os estudos</option>"
+                            . '<option>' . 'Foi ' . $situacaoAp . $ano . '</option>'
+                            . '<option>' . 'Foi ' . $situacaoRp . '</option>'
+                            . "<option value='solicitou transferência'>solicitou transferência</option>"
+                            . "<option value=' prazo de expedição do documento'> prazo de expedição do documento _____ dias</option>"
 
-                            ."</select>";
+                            . '</select>';
                         break;
 
                     case '6':
                         if ($gender == '1') {
-                            $situacaoAp =  "aprovado";
+                            $situacaoAp = 'aprovado';
                         } else {
-                            $situacaoAp = "aprovada";
+                            $situacaoAp = 'aprovada';
                         }
                         if ($gender == '1') {
-                            $situacaoRp = "reprovado<br>";
+                            $situacaoRp = 'reprovado<br>';
                         } else {
-                            $situacaoRp =  "reprovada<br>";
+                            $situacaoRp = 'reprovada<br>';
                         }
 
-                        echo "<br><br><br><br>"
-                            .  "<label id='textOption'> Escolha uma Opção:</label>"
-                            ." <select id='optionForm'>"
-                            ."<option value='está frequentando normalmente as aulas' > está frequentando normalmente as aulas</option>"
-                            ."<option value='cancelou a matrícula' >cancelou a matrícula</option>"
-                            ."<option value='abandonou os estudos' >abandonou os estudos</option>"
-                            ."<option>"."Foi ".$situacaoAp .$ano ."</option>"
-                            ."<option>"."Foi ".$situacaoRp."</option>"
-                            ."<option value='solicitou transferência'>solicitou transferência</option>"
-                            ."<option value=' prazo de expedição do documento'> prazo de expedição do documento ____ dias</option>"
+                        echo '<br><br><br><br>'
+                            . "<label id='textOption'> Escolha uma Opção:</label>"
+                            . " <select id='optionForm'>"
+                            . "<option value='está frequentando normalmente as aulas' > está frequentando normalmente as aulas</option>"
+                            . "<option value='cancelou a matrícula' >cancelou a matrícula</option>"
+                            . "<option value='abandonou os estudos' >abandonou os estudos</option>"
+                            . '<option>' . 'Foi ' . $situacaoAp . $ano . '</option>'
+                            . '<option>' . 'Foi ' . $situacaoRp . '</option>'
+                            . "<option value='solicitou transferência'>solicitou transferência</option>"
+                            . "<option value=' prazo de expedição do documento'> prazo de expedição do documento ____ dias</option>"
 
-                            ."</select>";
+                            . '</select>';
                         break;
                 }
                 ?>
@@ -375,10 +371,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </span>
                 <br/><br/><br/><br/>
                 <span class="pull-right">
-                    <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
+                    <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . ' de ' . yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?>
                 </span>
                 <br/><br/><br/><br/>
-                <?php if(!(isset($school->act_of_acknowledgement))){?>
+                <?php if (!(isset($school->act_of_acknowledgement))) {?>
                     <!--<div style="text-align: center">
                         <span style="font-size: 14px">
                             SIMONE MOURA DE SOUZA ALMEIDA

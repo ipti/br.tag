@@ -10,20 +10,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 $classroom = Classroom::model()->findByPk($classroom_id);
 $enrollments = $classroom->studentEnrollments;
 
-
-
 foreach ($enrollments as $enrollment) {
-    $this->renderPartial('StudentFileForm', array('enrollment_id'=>$enrollment->id));
-?>
+    $this->renderPartial('StudentFileForm', ['enrollment_id' => $enrollment->id]); ?>
 <div style="page-break-after: always;"></div>
 <?php
 }
-
-
-
-
-
-
-
 
 ?>

@@ -10,7 +10,7 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::POS_END);
-$cs->registerCssFile($themeUrl . '/css/template2.css');  
+$cs->registerCssFile($themeUrl . '/css/template2.css');
 ?>
 
 <div class="row-fluid">
@@ -20,10 +20,10 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
         </h3>
 
         <div style="width:250px" class="buttons pull-right">
-            <a data-toggle="modal" href="<?= yii::app()->createUrl("/lunch/lunch/create")?>" class="tag-button medium-button">
+            <a data-toggle="modal" href="<?= yii::app()->createUrl('/lunch/lunch/create')?>" class="tag-button medium-button">
                 <?= Yii::t('lunchModule.lunch', 'New Menu'); ?>
             </a>
-			<a data-toggle="modal" href="<?= yii::app()->createUrl("/lunch/stock")?>" class="tag-button medium-button">
+			<a data-toggle="modal" href="<?= yii::app()->createUrl('/lunch/stock')?>" class="tag-button medium-button">
                 <?= Yii::t('lunchModule.lunch', 'Stock'); ?>
             </a>
         </div>
@@ -46,10 +46,10 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                     <tbody>
                     <?php foreach ($this->school->menus() as $menu): ?>
                         <tr>
-                            <td><a href="<?= yii::app()->createUrl('/lunch/lunch/update',['id'=>$menu->id])?>"><?= $menu->name; ?></a></td>
-                            <td><?= date('d/m/Y h:i',strtotime($menu->date)); ?></td>
+                            <td><a href="<?= yii::app()->createUrl('/lunch/lunch/update', ['id' => $menu->id])?>"><?= $menu->name; ?></a></td>
+                            <td><?= date('d/m/Y h:i', strtotime($menu->date)); ?></td>
                             <td class="center">
-                                <a href="<?= yii::app()->createUrl('/lunch/lunch/update',['id'=>$menu->id])?>"><span class="fa fa-cutlery"></span></a>
+                                <a href="<?= yii::app()->createUrl('/lunch/lunch/update', ['id' => $menu->id])?>"><span class="fa fa-cutlery"></span></a>
                             </td>
                         </tr>
                     <?php endforeach ?>

@@ -1,6 +1,6 @@
 <?php
 
-class SagresModule extends CWebModule 
+class SagresModule extends CWebModule
 {
     public function init()
     {

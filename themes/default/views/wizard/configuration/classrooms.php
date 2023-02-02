@@ -2,14 +2,14 @@
 /** @var $this ClassroomConfigurationControler */
 /** @var $title String */
 /** @var $form CActiveForm */
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'school-configuration-form',
     'enableAjaxValidation' => false
-        ));
+]);
 
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     Yii::t('default', 'Reaproveitamento das Turmas'),
-);
+];
 
 $lastYear = (Yii::app()->user->year - 1);
 $school = Yii::app()->user->school;
@@ -24,7 +24,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
             <?php echo $title; ?>
         </h3>
         <div class="tag-buttons-container buttons">
-            <?php echo CHtml::htmlButton('' . Yii::t('default', 'Copy'), array('class' => 'tag-button small-button last ', 'type' => 'submit')); ?>
+            <?php echo CHtml::htmlButton('' . Yii::t('default', 'Copy'), ['class' => 'tag-button small-button last ', 'type' => 'submit']); ?>
         </div>
     </div>
 </div>
@@ -52,11 +52,11 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                         <div class=" span12">
                             <div class="control-group">
                                 <?php
-                                echo chtml::dropDownList('Classrooms', "", CHtml::listData(Classroom::model()->findAllByAttributes(array('school_year' => $lastYear, 'school_inep_fk'=>$school),array('order'=>'name ASC')), 'id', 'name'), array(
+                                echo chtml::dropDownList('Classrooms', '', CHtml::listData(Classroom::model()->findAllByAttributes(['school_year' => $lastYear, 'school_inep_fk' => $school], ['order' => 'name ASC']), 'id', 'name'), [
                                     'class' => 'select-search-on',
                                     'multiple' => 'multiple',
                                     'placeholder' => Yii::t('default', 'Select Classrom'),
-                                ));
+                                ]);
                                 ?> 
                             </div>
                         </div>

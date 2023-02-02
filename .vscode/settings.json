@@ -2,7 +2,7 @@
     "php.problems.scope": "user",
     "php.problems.exclude" : {
         "/" : [437],
-        "app/vendor/": true,
+        "/vendor/": true,
         "app/extensions/**": true,
         "app/gii/**": true,
         "app/migrations/**": true,
@@ -19,6 +19,7 @@
     "php-cs-fixer.autoFixByBracket": true,
     "php-cs-fixer.autoFixBySemicolon": false,
     "php-cs-fixer.formatHtml": false,
-    "php-cs-fixer.documentFormattingProvider": true
+    "php-cs-fixer.documentFormattingProvider": true,
+    "php.validate.executablePath": "C:\\tools\\php72\\php.exe",
     
 }

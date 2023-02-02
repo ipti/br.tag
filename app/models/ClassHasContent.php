@@ -15,99 +15,100 @@
  */
 class ClassHasContent extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'class_has_content';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'class_has_content';
+    }
 
-        public function behaviors() {
-            return [
-                'afterSave'=>[
-                    'class'=>'application.behaviors.CAfterSaveBehavior',
-                    'schoolInepId' => Yii::app()->user->school,
-                ],
-            ];
-        }
-        
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('schedule_fk, content_fk', 'required'),
-			array('id, schedule_fk, content_fk', 'numerical', 'integerOnly'=>true),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, schedule_fk, content_fk', 'safe', 'on'=>'search'),
-		);
-	}
+    public function behaviors()
+    {
+        return [
+            'afterSave' => [
+                'class' => 'application.behaviors.CAfterSaveBehavior',
+                'schoolInepId' => Yii::app()->user->school,
+            ],
+        ];
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'scheduleFk' => array(self::BELONGS_TO, 'Schedule', 'schedule_fk'),
-			'contentFk' => array(self::BELONGS_TO, 'ClassResources', 'content_fk'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return [
+            ['schedule_fk, content_fk', 'required'],
+            ['id, schedule_fk, content_fk', 'numerical', 'integerOnly' => true],
+            // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
+            ['id, schedule_fk, content_fk', 'safe', 'on' => 'search'],
+        ];
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' =>  Yii::t('default', 'ID'),
-			'schedule_fk' =>  Yii::t('default', 'Schedule Fk'),
-			'content_fk' =>  Yii::t('default', 'Resource Fk'),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return [
+            'scheduleFk' => [self::BELONGS_TO, 'Schedule', 'schedule_fk'],
+            'contentFk' => [self::BELONGS_TO, 'ClassResources', 'content_fk'],
+        ];
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('default', 'ID'),
+            'schedule_fk' => Yii::t('default', 'Schedule Fk'),
+            'content_fk' => Yii::t('default', 'Resource Fk'),
+        ];
+    }
 
-		$criteria=new CDbCriteria;
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     *
+     * Typical usecase:
+     * - Initialize the model fields with values from filter form.
+     * - Execute this method to get CActiveDataProvider instance which will filter
+     * models according to data in model fields.
+     * - Pass data provider to CGridView, CListView or any similar widget.
+     *
+     * @return CActiveDataProvider the data provider that can return the models
+     * based on the search/filter conditions.
+     */
+    public function search()
+    {
+        // @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('schedule_fk',$this->schedule_fk);
-		$criteria->compare('content_fk',$this->content_fk);
+        $criteria = new CDbCriteria();
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
+        $criteria->compare('id', $this->id);
+        $criteria->compare('schedule_fk', $this->schedule_fk);
+        $criteria->compare('content_fk', $this->content_fk);
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return ClassHasContent the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
+    }
+
+    /**
+     * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
+     * @param string $className active record class name.
+     * @return ClassHasContent the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 }

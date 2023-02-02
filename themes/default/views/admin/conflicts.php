@@ -1,15 +1,15 @@
 <?php
-	/* @var $this AdminController */
+    /* @var $this AdminController */
 
-	$baseUrl = Yii::app()->baseUrl;
-	$cs = Yii::app()->getClientScript();
-	$cs->registerScriptFile($baseUrl . '/js/admin/index/global.js', CClientScript::POS_END);
+    $baseUrl = Yii::app()->baseUrl;
+    $cs = Yii::app()->getClientScript();
+    $cs->registerScriptFile($baseUrl . '/js/admin/index/global.js', CClientScript::POS_END);
 
-	$this->pageTitle = 'TAG - ' . Yii::t('default', 'Conflicts');
+    $this->pageTitle = 'TAG - ' . Yii::t('default', 'Conflicts');
 
-	$form = $this->beginWidget('CActiveForm', [
-		'id' => 'conflicts', 'enableAjaxValidation' => FALSE,
-	]);
+    $form = $this->beginWidget('CActiveForm', [
+        'id' => 'conflicts', 'enableAjaxValidation' => false,
+    ]);
 
 ?>
 
@@ -38,7 +38,7 @@
 				<div class="tab-content">
 					<!-- Tab content -->
 					<?php foreach ($conflicts as $category => $data) : ?>
-						<div class="tab-pane <?=$category == "instructors" ? "active" : ""?>" id="<?=$category?>">
+						<div class="tab-pane <?=$category == 'instructors' ? 'active' : ''?>" id="<?=$category?>">
 							<?php foreach ($data as $conflict): ?>
 								<div class="conflict-container">
 									<div class="conflict-1">
@@ -47,17 +47,17 @@
 										</div>
 										<div class="conflict-values">
 											<?php
-												$diff = [];
-												$attributes0 = $conflict[0]->attributes;
-												$attributes1 = $conflict[1]->attributes;
-												foreach ($attributes0 as $key => $value) {
-													if ($value != $attributes1[$key]) {
-														$diff[$key] = $attributes1[$key];
-													}
-												}
-												foreach ($attributes0 as $key => $value) :
-													if (isset($diff[$key])) :
-														?>
+                                                $diff = [];
+                                                $attributes0 = $conflict[0]->attributes;
+                                                $attributes1 = $conflict[1]->attributes;
+                                                foreach ($attributes0 as $key => $value) {
+                                                    if ($value != $attributes1[$key]) {
+                                                        $diff[$key] = $attributes1[$key];
+                                                    }
+                                                }
+                                                foreach ($attributes0 as $key => $value) :
+                                                    if (isset($diff[$key])) :
+                                                        ?>
 														<p class="conflict-value">
 															<strong><?= $conflict[0]->getAttributeLabel($key) ?>
 																:</strong> <?= $value ?>
@@ -71,9 +71,9 @@
 										</div>
 										<div class="conflict-values">
 											<?php
-												foreach ($attributes1 as $key => $value) :
-													if (isset($diff[$key])) :
-														?>
+                                                foreach ($attributes1 as $key => $value) :
+                                                    if (isset($diff[$key])) :
+                                                        ?>
 														<p class="conflict-value">
 															<strong><?= $conflict[1]->getAttributeLabel($key) ?>
 																:</strong> <?= $value ?>

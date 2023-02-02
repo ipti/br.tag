@@ -10,8 +10,8 @@ $uf = EdcensoUf::model()->findByPk($school['edcenso_uf_fk']);
       <div class="row-grid no-border">
         <div class="col-2  no-border p-5">
         <?php
-          if(isset($school->logo_file_name)){
-              echo '<img id="logo" src="data:'.$school->logo_file_type.';base64,'.base64_encode($school->logo_file_content).'">';
+          if (isset($school->logo_file_name)) {
+              echo '<img id="logo" src="data:' . $school->logo_file_type . ';base64,' . base64_encode($school->logo_file_content) . '">';
           };
         ?>
         </div>
@@ -76,19 +76,19 @@ $uf = EdcensoUf::model()->findByPk($school['edcenso_uf_fk']);
       </div>
     </div> 
   </div>
-  <? for($i=1; $i <= 12; $i++): ?>
+  <?php for ($i = 1; $i <= 12; $i++): ?>
     <div class="row-grid">
-      <div class="col-1 no-border-right no-border-left no-border-top <?= $i==12 ? 'no-border-bottom' : '' ?>"><div class="contentEditable no-border" contenteditable="true"></div></div>
-      <div class="col-3 no-border-right no-border-top <?= $i==12 ? 'no-border-bottom' : '' ?>"><div class="contentEditable no-border" contenteditable="true"></div></div>
+      <div class="col-1 no-border-right no-border-left no-border-top <?= $i == 12 ? 'no-border-bottom' : '' ?>"><div class="contentEditable no-border" contenteditable="true"></div></div>
+      <div class="col-3 no-border-right no-border-top <?= $i == 12 ? 'no-border-bottom' : '' ?>"><div class="contentEditable no-border" contenteditable="true"></div></div>
       <div class="col no-border-bottom no-border-bottom no-border-top no-border-right ">
         <div class="row-grid no-border">
-          <div class="col-3  no-border-left no-border-top no-border-right <?= $i==12 ? 'no-border-bottom' : '' ?>">
+          <div class="col-3  no-border-left no-border-top no-border-right <?= $i == 12 ? 'no-border-bottom' : '' ?>">
             <div class="contentEditable no-border" contenteditable="true"></div>
           </div>
-          <div class="col no-border-top no-border-right <?= $i==12 ? 'no-border-bottom' : '' ?>">
+          <div class="col no-border-top no-border-right <?= $i == 12 ? 'no-border-bottom' : '' ?>">
             <div class="contentEditable no-border" contenteditable="true"></div>
           </div>
-          <div class="col  no-border-right no-border-top <?= $i==12 ? 'no-border-bottom' : '' ?>">
+          <div class="col  no-border-right no-border-top <?= $i == 12 ? 'no-border-bottom' : '' ?>">
             <div class="contentEditable no-border" contenteditable="true"></div>
           </div>
         </div>
@@ -122,7 +122,7 @@ $uf = EdcensoUf::model()->findByPk($school['edcenso_uf_fk']);
         </div>
       </div>
     </div>
-  <? endfor; ?>
+  <?php endfor; ?>
   <div class="min-height-40 row-grid">
     <div class="col p-5 no-border-left no-border-right no-border-bottom">
       <span class="font-bold">Observação:</span>

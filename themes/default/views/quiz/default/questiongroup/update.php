@@ -4,6 +4,6 @@
     $title = Yii::t('default', 'Update Question Group');
     ?>
     <?php
-        echo $this->renderPartial('//quiz/default/questiongroup/_form', array('questionGroup' => $questionGroup, 'title' => $title));
+        echo $this->renderPartial('//quiz/default/questiongroup/_form', ['questionGroup' => $questionGroup, 'title' => $title]);
     ?>
 </div>

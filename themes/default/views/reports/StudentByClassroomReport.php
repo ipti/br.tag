@@ -6,16 +6,14 @@
 $baseUrl = Yii::app()->baseUrl;
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
-function age($date){
-    $temp = explode('/',$date);
+function age($date)
+{
+    $temp = explode('/', $date);
     //$date = str_replace('/','',$date);
-    $date1 = new DateTime($temp[2].$temp[1].$temp[0]);
+    $date1 = new DateTime($temp[2] . $temp[1] . $temp[0]);
     $age = $date1->diff(new DateTime());
     return $age->y;
-
 }
-
-
 
 ?>
 <div class="pageA4H">
@@ -37,9 +35,9 @@ function age($date){
             <th> <b>RG Responsável</b> </th>
         </tr>
         <?php
-        $oldClassroom = "";
-        foreach($classroom as $c){
-            if($c['classroom_id'] != $oldClassroom){ ?>
+        $oldClassroom = '';
+        foreach ($classroom as $c) {
+            if ($c['classroom_id'] != $oldClassroom) { ?>
                 <tr>
                     <td style="text-align: center; font-size: 14px; vertical-align: inherit;" colspan="7" align="center" valign="middle" height="30"> <b><?= $c['classroom_name'] ?></b></td>
                 </tr>
@@ -58,10 +56,9 @@ function age($date){
                 <td><?= $c['responsable_name'] ?></td>
                 <td><?= $c['responsable_rg'] ?></td>
             </tr>
-    <?php 
+    <?php
             $oldClassroom = $c['classroom_id'];
-    
-        } 
+        }
     ?>
     </table>
     <?php $this->renderPartial('footer'); ?>

@@ -2,10 +2,10 @@
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'classroom-form',
     'enableAjaxValidation' => false,
-        ));
+]);
 ?>
 
 
@@ -28,15 +28,14 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div id="widget-StudentsList" class="widget" style="margin-top: 8px;">
                             <?php
                             if (!$modelClassroom->isNewRecord) {
-                            $classroom = $modelClassroom->id;
-                            $criteria = new CDbCriteria();
-                            $criteria->alias = 'e';
-                            $criteria->select = '*';
-                            $criteria->join = 'JOIN student_identification s ON s.id = e.student_fk';
-                            $criteria->condition = "classroom_fk = $classroom";
-                            $criteria->order = 's.name';
-                            $enrollments = StudentEnrollment::model()->findAll($criteria);
-                            ?>
+                                $classroom = $modelClassroom->id;
+                                $criteria = new CDbCriteria();
+                                $criteria->alias = 'e';
+                                $criteria->select = '*';
+                                $criteria->join = 'JOIN student_identification s ON s.id = e.student_fk';
+                                $criteria->condition = "classroom_fk = $classroom";
+                                $criteria->order = 's.name';
+                                $enrollments = StudentEnrollment::model()->findAll($criteria); ?>
                             <style type="text/css" media="print">
                                 a[href]:after {
                                     content:"" !important;
@@ -49,25 +48,24 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </thead>
                                 <tbody>
                                      <?php
-                                     if(isset($enrollments)){
-                                        foreach ($enrollments as $enr) {
-                                            $namepublic = $enr->id.'[public_transport]';
-                                            echo "<tr><td>".$enr->studentFk->name."</a></td>";
-                                            echo "<td>".CHtml::dropDownList($namepublic, $enr->public_transport, array('1'=>'SIM','0'=>'NÃO'))."</td></tr>";
-                                        }
-                                        echo "<tr><th>Total:</th><td>" . count($enrollments) . "</td></tr>";
-                                    } else {
-                                        echo "<tr><th>Não há alunos matriculados.</th></tr>";
-                                    }
-                                    ?>
+                                     if (isset($enrollments)) {
+                                         foreach ($enrollments as $enr) {
+                                             $namepublic = $enr->id . '[public_transport]';
+                                             echo '<tr><td>' . $enr->studentFk->name . '</a></td>';
+                                             echo '<td>' . CHtml::dropDownList($namepublic, $enr->public_transport, ['1' => 'SIM', '0' => 'NÃO']) . '</td></tr>';
+                                         }
+                                         echo '<tr><th>Total:</th><td>' . count($enrollments) . '</td></tr>';
+                                     } else {
+                                         echo '<tr><th>Não há alunos matriculados.</th></tr>';
+                                     } ?>
                                 </tbody>
                                 <tfooter>
                                     <?php
-                                    echo '<tr><td><input value="Atualizar Todos" type="submit" class="btn btn-icon btn-primary"><i></i></input></td></tr>';
-                                    ?>
+                                    echo '<tr><td><input value="Atualizar Todos" type="submit" class="btn btn-icon btn-primary"><i></i></input></td></tr>'; ?>
                                 </tfooter>
                             </table>
-                            <?php }?>
+                            <?php
+                            }?>
                         </div>
                     </div>
                 </div>

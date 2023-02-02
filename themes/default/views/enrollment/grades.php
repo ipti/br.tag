@@ -15,11 +15,11 @@ $cs->registerCssFile($baseUrl . '/css/grades.css');
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Grades'));
 
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'classes-form',
     'enableAjaxValidation' => false,
-    'action' => CHtml::normalizeUrl(array('enrollment/saveGrades')),
-));
+    'action' => CHtml::normalizeUrl(['enrollment/saveGrades']),
+]);
 $cs->registerCssFile($themeUrl . '/css/template2.css');
 ?>
 
@@ -43,13 +43,13 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
 
         <div class="filter-bar margin-bottom-none">
             <div>
-                <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'small-label control-label required')); ?>
+                <?php echo CHtml::label(yii::t('default', 'Classroom') . ' *', 'classroom', ['class' => 'small-label control-label required']); ?>
                 <?php
-                echo CHtml::dropDownList('classroom', '', $classrooms, array(
+                echo CHtml::dropDownList('classroom', '', $classrooms, [
                     'key' => 'id',
                     'class' => 'select-search-on control-input',
                     'prompt' => 'Selecione a turma',
-                    ));
+                ]);
                 ?>
             </div>
             <div class="no-disciplines-guide">Algumas Disciplinas não aparecem na tabela? <span class="no-disciplines-link">Saiba mais</span>.</div>

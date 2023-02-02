@@ -70,76 +70,81 @@
  * @property StudentIdentification[] $studentIdentifications
  * @property UsersSchool[] $usersSchools
  */
-class SchoolIdentification extends AltActiveRecord {
-
+class SchoolIdentification extends AltActiveRecord
+{
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return SchoolIdentification the static model class
      */
-    public static function model($className = __CLASS__) {
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return 'school_identification';
     }
 
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules() {
+    public function rules()
+    {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('name, inep_id, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, offer_or_linked_unity, id_difflocation', 'required'),
-            array('manager_role, situation, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, offer_or_linked_unity, regulation, id_difflocation, linked_mec, linked_army, linked_helth, linked_other, regulation_organ, regulation_organ_federal, regulation_organ_state, regulation_organ_municipal, private_school_organization_civil_society, manager_contract_type', 'numerical', 'integerOnly'=>true),
-            array('register_type, ddd', 'length', 'max'=>2),
-            array('inep_id, cep, public_phone_number, fax_number, inep_head_school', 'length', 'max'=>8),
-            array('manager_cpf', 'length', 'max'=>11),
-            array('manager_name, name, address, logo_file_name, manager_access_criterion', 'length', 'max'=>100),
-            array('manager_email, address_neighborhood, email, logo_file_type', 'length', 'max'=>50),
-            array('initial_date, final_date, address_number', 'length', 'max'=>10),
-            array('latitude, longitude, address_complement', 'length', 'max'=>20),
-            array('phone_number, other_phone_number', 'length', 'max'=>9),
-            array('edcenso_regional_education_organ_fk', 'length', 'max'=>5),
-            array('private_school_maintainer_cnpj, private_school_cnpj, ies_code', 'length', 'max'=>14),
-            array('logo_file_content, act_of_acknowledgement', 'safe'),
+        return [
+            ['name, inep_id, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, offer_or_linked_unity, id_difflocation', 'required'],
+            ['manager_role, situation, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, offer_or_linked_unity, regulation, id_difflocation, linked_mec, linked_army, linked_helth, linked_other, regulation_organ, regulation_organ_federal, regulation_organ_state, regulation_organ_municipal, private_school_organization_civil_society, manager_contract_type', 'numerical', 'integerOnly' => true],
+            ['register_type, ddd', 'length', 'max' => 2],
+            ['inep_id, cep, public_phone_number, fax_number, inep_head_school', 'length', 'max' => 8],
+            ['manager_cpf', 'length', 'max' => 11],
+            ['manager_name, name, address, logo_file_name, manager_access_criterion', 'length', 'max' => 100],
+            ['manager_email, address_neighborhood, email, logo_file_type', 'length', 'max' => 50],
+            ['initial_date, final_date, address_number', 'length', 'max' => 10],
+            ['latitude, longitude, address_complement', 'length', 'max' => 20],
+            ['phone_number, other_phone_number', 'length', 'max' => 9],
+            ['edcenso_regional_education_organ_fk', 'length', 'max' => 5],
+            ['private_school_maintainer_cnpj, private_school_cnpj, ies_code', 'length', 'max' => 14],
+            ['logo_file_content, act_of_acknowledgement', 'safe'],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, inep_id, manager_cpf, manager_name, manager_role, manager_email, situation, initial_date, final_date, name, latitude, longitude, cep, address, address_number, address_complement, address_neighborhood, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, ddd, phone_number, public_phone_number, other_phone_number, fax_number, email, edcenso_regional_education_organ_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, private_school_maintainer_cnpj, private_school_cnpj, offer_or_linked_unity, inep_head_school, ies_code, regulation, logo_file_name, logo_file_type, logo_file_content, act_of_acknowledgement', 'safe', 'on'=>'search'),
-        );
+            ['register_type, inep_id, manager_cpf, manager_name, manager_role, manager_email, situation, initial_date, final_date, name, latitude, longitude, cep, address, address_number, address_complement, address_neighborhood, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, ddd, phone_number, public_phone_number, other_phone_number, fax_number, email, edcenso_regional_education_organ_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, private_school_maintainer_cnpj, private_school_cnpj, offer_or_linked_unity, inep_head_school, ies_code, regulation, logo_file_name, logo_file_type, logo_file_content, act_of_acknowledgement', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
      * @return array relational rules.
      */
-    public function relations() {
+    public function relations()
+    {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'classrooms' => array(self::HAS_MANY, 'Classroom', 'school_inep_fk'),
-            'instructorDocumentsAndAddresses' => array(self::HAS_MANY, 'InstructorDocumentsAndAddress', 'school_inep_id_fk'),
-            'instructorTeachingDatas' => array(self::HAS_MANY, 'InstructorTeachingData', 'school_inep_id_fk'),
-            'edcensoUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'),
-            'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
-            'edcensoDistrictFk' => array(self::BELONGS_TO, 'EdcensoDistrict', 'edcenso_district_fk'),
-            'schoolStagesConceptGrades' => array(self::HAS_MANY, 'SchoolStagesConceptGrades', 'school_fk'),
-            'studentDocumentsAndAddresses' => array(self::HAS_MANY, 'StudentDocumentsAndAddress', 'school_inep_id_fk'),
-            'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'school_inep_id_fk'),
-            'studentIdentifications' => array(self::HAS_MANY, 'StudentIdentification', 'school_inep_id_fk'),
-            'structure'=> [self::HAS_ONE, 'SchoolStructure','school_inep_id_fk'],
-        );
+        return [
+            'classrooms' => [self::HAS_MANY, 'Classroom', 'school_inep_fk'],
+            'instructorDocumentsAndAddresses' => [self::HAS_MANY, 'InstructorDocumentsAndAddress', 'school_inep_id_fk'],
+            'instructorTeachingDatas' => [self::HAS_MANY, 'InstructorTeachingData', 'school_inep_id_fk'],
+            'edcensoUfFk' => [self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'],
+            'edcensoCityFk' => [self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'],
+            'edcensoDistrictFk' => [self::BELONGS_TO, 'EdcensoDistrict', 'edcenso_district_fk'],
+            'schoolStagesConceptGrades' => [self::HAS_MANY, 'SchoolStagesConceptGrades', 'school_fk'],
+            'studentDocumentsAndAddresses' => [self::HAS_MANY, 'StudentDocumentsAndAddress', 'school_inep_id_fk'],
+            'studentEnrollments' => [self::HAS_MANY, 'StudentEnrollment', 'school_inep_id_fk'],
+            'studentIdentifications' => [self::HAS_MANY, 'StudentIdentification', 'school_inep_id_fk'],
+            'structure' => [self::HAS_ONE, 'SchoolStructure', 'school_inep_id_fk'],
+        ];
     }
 
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels() {
-        return array(
+    public function attributeLabels()
+    {
+        return [
             'register_type' => Yii::t('default', 'Register Type'),
             'inep_id' => Yii::t('default', 'Inep'),
             'manager_cpf' => Yii::t('default', 'Manager Cpf'),
@@ -196,19 +201,20 @@ class SchoolIdentification extends AltActiveRecord {
             'private_school_organization_civil_society' => Yii::t('default', 'Organization Civil Society'),
             'manager_access_criterion' => Yii::t('default', 'Manager Access Criterion'),
             'manager_contract_type' => Yii::t('default', 'Manager Contract Type'),
-        );
+        ];
     }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search() {
+    public function search()
+    {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria = new CDbCriteria;
-        if(Yii::app()->user->hardfoot == true){
+        $criteria = new CDbCriteria();
+        if (Yii::app()->user->hardfoot == true) {
             $criteria->compare('inep_id', Yii::app()->user->school);
         }
         $criteria->compare('register_type', $this->register_type, true);
@@ -247,17 +253,16 @@ class SchoolIdentification extends AltActiveRecord {
         $criteria->compare('private_school_cnpj', $this->private_school_cnpj, true);
         $criteria->compare('regulation', $this->regulation);
 
-        return new CActiveDataProvider($this, array(
-                    'criteria' => $criteria,
-                    'sort' => array(
-                        'defaultOrder' => array(
-                            'name' => CSort::SORT_ASC
-                        ),
-                    ),
-                    'pagination' => array(
-                        'pageSize' => 15,
-                    ),
-                ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+            'sort' => [
+                'defaultOrder' => [
+                    'name' => CSort::SORT_ASC
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 15,
+            ],
+        ]);
     }
-
 }

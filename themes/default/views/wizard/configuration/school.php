@@ -3,17 +3,17 @@
 /* @var $this SchoolConfigurationControler */
 /* @var $form CActiveForm */
 
-$this->breadcrumbs = array(
-    Yii::t('app', 'School Configurarion') => array('index'),
+$this->breadcrumbs = [
+    Yii::t('app', 'School Configurarion') => ['index'],
     Yii::t('app', 'Create'),
-);
+];
 
 $title = Yii::t('app', 'School Configurarion');
 
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'school-configuration-form',
     'enableAjaxValidation' => false
-));
+]);
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($themeUrl . '/css/template2.css');
@@ -26,7 +26,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
         </h3>
 
         <div class="tag-buttons-container buttons">
-            <?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('class' => 'tag-button small-button last', 'type' => 'submit')); ?></div>
+            <?php echo CHtml::htmlButton(Yii::t('default', 'Save'), ['class' => 'tag-button small-button last', 'type' => 'submit']); ?></div>
     </div>
 </div>
 <div class="innerLR">
@@ -52,10 +52,10 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
             <div class="tab-content">
                 <div class="tab-pane active" id="time">
                     <div class="school-schedules row-fluid">
-                        <?php echo $form->hiddenField($model, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
+                        <?php echo $form->hiddenField($model, 'school_inep_id_fk', ['value' => Yii::app()->user->school]); ?>
                         <div class="span5">
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'morning_initial', array('class' => 'control-label controls ml-10')); ?>
+                                <?php echo $form->labelEx($model, 'morning_initial', ['class' => 'control-label controls ml-10']); ?>
                                 <div class="controls">
                                     <?php echo $form->timeField($model, 'morning_initial'); ?>
                                 </div>
@@ -63,7 +63,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                             </div>
                             <!-- row -->
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'afternoom_initial', array('class' => 'control-label controls ml-10')); ?>
+                                <?php echo $form->labelEx($model, 'afternoom_initial', ['class' => 'control-label controls ml-10']); ?>
                                 <div class="controls">
                                     <?php echo $form->timeField($model, 'afternoom_initial'); ?>
                                 </div>
@@ -71,7 +71,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                             </div>
                             <!-- row -->
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'night_initial', array('class' => 'control-label controls ml-10')); ?>
+                                <?php echo $form->labelEx($model, 'night_initial', ['class' => 'control-label controls ml-10']); ?>
                                 <div class="controls">
                                     <?php echo $form->timeField($model, 'night_initial'); ?>
                                 </div>
@@ -79,7 +79,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                             </div>
                             <!-- row -->
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'allday_initial', array('class' => 'control-label controls ml-10')); ?>
+                                <?php echo $form->labelEx($model, 'allday_initial', ['class' => 'control-label controls ml-10']); ?>
                                 <div class="controls">
                                     <?php echo $form->timeField($model, 'allday_initial'); ?>
                                 </div>
@@ -89,7 +89,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                         </div>
                         <div class="span6">
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'morning_final', array('class' => 'control-label controls ml-10')); ?>
+                                <?php echo $form->labelEx($model, 'morning_final', ['class' => 'control-label controls ml-10']); ?>
                                 <div class="controls">
                                     <?php echo $form->timeField($model, 'morning_final'); ?>
                                 </div>
@@ -97,7 +97,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                             </div>
                             <!-- row -->
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'afternoom_final', array('class' => 'control-label controls ml-10')); ?>
+                                <?php echo $form->labelEx($model, 'afternoom_final', ['class' => 'control-label controls ml-10']); ?>
                                 <div class="controls">
                                     <?php echo $form->timeField($model, 'afternoom_final'); ?>
                                 </div>
@@ -105,7 +105,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                             </div>
                             <!-- row -->
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'night_final', array('class' => 'control-label controls ml-10')); ?>
+                                <?php echo $form->labelEx($model, 'night_final', ['class' => 'control-label controls ml-10']); ?>
                                 <div class="controls">
                                     <?php echo $form->timeField($model, 'night_final'); ?>
                                 </div>
@@ -113,7 +113,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                             </div>
                             <!-- row -->
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'allday_final', array('class' => 'control-label controls ml-10')); ?>
+                                <?php echo $form->labelEx($model, 'allday_final', ['class' => 'control-label controls ml-10']); ?>
                                 <div class="controls">
                                     <?php echo $form->timeField($model, 'allday_final'); ?>
                                 </div>
@@ -128,28 +128,28 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                     <div class="test-dates row-fluid">
                         <div class=" span5">
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'exam1', array('class' => 'control-label controls ml-10')); ?>
+                                <?php echo $form->labelEx($model, 'exam1', ['class' => 'control-label controls ml-10']); ?>
                                 <div class="controls">
                                     <?php echo $form->dateField($model, 'exam1'); ?>
                                 </div>
                                 <?php echo $form->error($model, 'exam1'); ?>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'exam2', array('class' => 'control-label controls ml-10')); ?>
+                                <?php echo $form->labelEx($model, 'exam2', ['class' => 'control-label controls ml-10']); ?>
                                 <div class="controls">
                                     <?php echo $form->dateField($model, 'exam2'); ?>
                                 </div>
                                 <?php echo $form->error($model, 'exam2'); ?>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'exam3', array('class' => 'control-label controls ml-10')); ?>
+                                <?php echo $form->labelEx($model, 'exam3', ['class' => 'control-label controls ml-10']); ?>
                                 <div class="controls">
                                     <?php echo $form->dateField($model, 'exam3'); ?>
                                 </div>
                                 <?php echo $form->error($model, 'exam3'); ?>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'exam4', array('class' => 'control-label controls ml-10')); ?>
+                                <?php echo $form->labelEx($model, 'exam4', ['class' => 'control-label controls ml-10']); ?>
                                 <div class="controls">
                                     <?php echo $form->dateField($model, 'exam4'); ?>
                                 </div>
@@ -158,35 +158,35 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                         </div>
                         <div class=" span6">
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'recovery1', array('class' => 'control-label controls ml-10')); ?>
+                                <?php echo $form->labelEx($model, 'recovery1', ['class' => 'control-label controls ml-10']); ?>
                                 <div class="controls">
                                     <?php echo $form->dateField($model, 'recovery1'); ?>
                                 </div>
                                 <?php echo $form->error($model, 'recovery1'); ?>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'recovery2', array('class' => 'control-label controls ml-10')); ?>
+                                <?php echo $form->labelEx($model, 'recovery2', ['class' => 'control-label controls ml-10']); ?>
                                 <div class="controls">
                                     <?php echo $form->dateField($model, 'recovery2'); ?>
                                 </div>
                                 <?php echo $form->error($model, 'recovery2'); ?>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'recovery3', array('class' => 'control-label controls ml-10')); ?>
+                                <?php echo $form->labelEx($model, 'recovery3', ['class' => 'control-label controls ml-10']); ?>
                                 <div class="controls">
                                     <?php echo $form->dateField($model, 'recovery3'); ?>
                                 </div>
                                 <?php echo $form->error($model, 'recovery3'); ?>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'recovery4', array('class' => 'control-label controls ml-10')); ?>
+                                <?php echo $form->labelEx($model, 'recovery4', ['class' => 'control-label controls ml-10']); ?>
                                 <div class="controls">
                                     <?php echo $form->dateField($model, 'recovery4'); ?>
                                 </div>
                                 <?php echo $form->error($model, 'recovery4'); ?>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'recovery_final', array('class' => 'control-label controls ml-10')); ?>
+                                <?php echo $form->labelEx($model, 'recovery_final', ['class' => 'control-label controls ml-10']); ?>
                                 <div class="controls">
                                     <?php echo $form->dateField($model, 'recovery_final'); ?>
                                 </div>

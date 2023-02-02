@@ -51,21 +51,21 @@
 
 </style>
 <?php
-    /** 
+    /**
      * @var $enrollment string
      * @var StudentEnrollment $student StudentEnrollment
      * @var $school_address
-     * @var $school_year string 
-     * 
+     * @var $school_year string
+     *
      **/
 ?>
 <div>
     <div class="main">
         <div class="container">
-            <div class="header centered"><?php echo $student->schoolInepIdFk->name;?><br/><span style="font-size: 12px; font-weight: normal"><?php echo $school_address; ?> </span></div>
+            <div class="header centered"><?php echo $student->schoolInepIdFk->name; ?><br/><span style="font-size: 12px; font-weight: normal"><?php echo $school_address; ?> </span></div>
             <h3 class="title">TERMO DE COMPROMISSO</h3>
             <br/>
-            <div class="first-box">Eu ______________________________________________________, responsável pelo(a) aluno(a) <span class="bold"><?php echo $student->studentFk->name;?></span>, matriculado(a) no <span class="bold"><?php echo $student->classroomFk->name?></span> do ano letivo de <span class="bold"><?php echo $school_year;?></span>, ciente de que as aulas serão oferecidas em horário integral (das 7h às 16h30m), comprometo-me em:</div>
+            <div class="first-box">Eu ______________________________________________________, responsável pelo(a) aluno(a) <span class="bold"><?php echo $student->studentFk->name; ?></span>, matriculado(a) no <span class="bold"><?php echo $student->classroomFk->name?></span> do ano letivo de <span class="bold"><?php echo $school_year; ?></span>, ciente de que as aulas serão oferecidas em horário integral (das 7h às 16h30m), comprometo-me em:</div>
             <ul>
                 <li>Encaminhá-lo com uniforme completo doado pelo Instituto, meia branca e tênis preto de livre escolha sob minha responsablidade;</li>
                 <li>Fazê-lo(a) cumprir diariamente o horário de entrada 7h, com tolerância máxima de 10min e em caso de atraso deverei me dirigir à Direção para apresentar as justificativas e em caso contrário serei advertido.</li>

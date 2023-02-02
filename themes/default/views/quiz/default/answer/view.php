@@ -9,6 +9,6 @@
     <?php
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Quiz Answer'));
     $title = Yii::t('default', 'Create a new Quiz');
-    $this->widget('quiz.widgets.QuizWidget', array('quizId' => $quizId, 'studentId' => $studentId ));
+    $this->widget('quiz.widgets.QuizWidget', ['quizId' => $quizId, 'studentId' => $studentId]);
     ?>
 </div>

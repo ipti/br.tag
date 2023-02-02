@@ -6,8 +6,7 @@
     $listYears = [];
     $actualYear = date('Y');
 
-
-    for ($i=0; $i < 5; $i++) {
+    for ($i = 0; $i < 5; $i++) {
         $year = $actualYear - $i;
         $listYears[$year] = $year;
     }
@@ -20,7 +19,7 @@
         </div>
     </div>
 
-    <?php echo CHtml::beginForm('', 'post', ["enctype" => "multipart/form-data"]); ?>
+    <?php echo CHtml::beginForm('', 'post', ['enctype' => 'multipart/form-data']); ?>
 
     <div class="innerLR">
 
@@ -38,7 +37,7 @@
             <div class="widget-body form-horizontal">
                 <div class="tab-content">
                     <div class="tab-pane active" id="import-indentify">
-                        <?php if(Yii::app()->user->hasFlash('success')): ?>
+                        <?php if (Yii::app()->user->hasFlash('success')): ?>
                             <div class="row-fluid">
                                 <div class="span12">
                                     <div class="alert alert-success">
@@ -48,7 +47,7 @@
                                 </div>
                             </div>
                         <?php endif; ?>
-                        <?php if(Yii::app()->user->hasFlash('error')): ?>
+                        <?php if (Yii::app()->user->hasFlash('error')): ?>
                             <div class="row-fluid">
                                 <div class="span12">
                                     <div class="alert alert-error">
@@ -59,7 +58,7 @@
                             </div>
                         <?php endif; ?>
 
-                        <?php if($importModel->hasErrors()): ?>
+                        <?php if ($importModel->hasErrors()): ?>
                             <div class="row-fluid">
                                 <div class="span12">
                                     <?= CHtml::errorSummary($importModel); ?>
@@ -69,7 +68,7 @@
                         <div class="row-fluid">
                             <div class="span4">
                                 <div class="control-group">
-                                    <?= CHtml::activeLabel($importModel, 'file', array('class' => 'control-label')); ?>
+                                    <?= CHtml::activeLabel($importModel, 'file', ['class' => 'control-label']); ?>
                                     <div class="controls">
                                         <?= CHtml::activeFileField($importModel, 'file'); ?>
                                     </div>
@@ -78,7 +77,7 @@
                             <div class="row-fluid">
                                 <div class="span4">
                                     <div class="control-group">
-                                        <?= CHtml::activeLabel($importModel, 'probable', array('class' => 'control-label')); ?>
+                                        <?= CHtml::activeLabel($importModel, 'probable', ['class' => 'control-label']); ?>
                                         <div class="controls">
                                             <?= CHtml::activeCheckBox($importModel, 'probable'); ?>
                                         </div>
@@ -89,12 +88,12 @@
                         <div class="row-fluid">
                             <div class="span12">
                                 <div class="control-group">
-                                    <?= CHtml::submitButton('Importar', ['class'=> 'btn btn-primary']); ?>
+                                    <?= CHtml::submitButton('Importar', ['class' => 'btn btn-primary']); ?>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <?php if(Yii::app()->user->hasFlash('log')): ?>
+                    <?php if (Yii::app()->user->hasFlash('log')): ?>
                         <div class="row-fluid">
                             <div class="span12">
                                 <?= Yii::app()->user->getFlash('log'); ?>

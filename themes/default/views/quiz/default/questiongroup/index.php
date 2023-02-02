@@ -1,9 +1,9 @@
 <div id="mainPage" class="main">
     <?php
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Question Group'));
-    $this->menu = array(
-        array('label' => Yii::t('default', 'Create Question Group'), 'url' => array('createQuestionGroup'), 'description' => Yii::t('default', 'This action create a new Question Group')),
-    );
+    $this->menu = [
+        ['label' => Yii::t('default', 'Create Question Group'), 'url' => ['createQuestionGroup'], 'description' => Yii::t('default', 'This action create a new Question Group')],
+    ];
     ?>
 
     <div class="row-fluid">
@@ -26,22 +26,22 @@
             <div class="widget">
                 <div class="widget-body">
                     <?php
-                    $this->widget('zii.widgets.grid.CGridView', array(
+                    $this->widget('zii.widgets.grid.CGridView', [
                         'dataProvider' => $filter->search(),
                         'filter' => $filter,
                         'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'enablePagination' => true,
-                        'columns' => array(
-                            array(
+                        'columns' => [
+                            [
                                 'name' => 'question_group_id',
-                                'htmlOptions' => array('width' => '150px')
-                            ),
-                            array(
+                                'htmlOptions' => ['width' => '150px']
+                            ],
+                            [
                                 'name' => 'question_id',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link(Question::model()->findByPk($data->question_id)->description,Yii::app()->createUrl("quiz/default/updateQuestionGroup", array("questionGroupId"=>$data->question_group_id, "questionId"=>$data->question_id)))',
-                            ))
-                    ));
+                            ]]
+                    ]);
                     ?>
                 </div>   
             </div>

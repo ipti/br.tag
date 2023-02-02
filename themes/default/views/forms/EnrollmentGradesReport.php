@@ -28,7 +28,7 @@ $faultsCount['discipline'] = [];
 $faultsCount['discipline']['base'] = [];
 $faultsCount['discipline']['diversified'] = [];
 $faultsCount['exam'] = [];
-$faultsCount['total'] = 0;;
+$faultsCount['total'] = 0; ;
 $givenClassesByDiscipline = [];
 $givenClassesByDiscipline['base'] = [];
 $givenClassesByDiscipline['diversified'] = [];
@@ -57,7 +57,7 @@ foreach ($enrollment->grades as $grades) {
     /* @var $discipline EdcensoDiscipline */
     $discipline = $grades->disciplineFk;
     $disciplineId = $discipline->id;
-    $type = "";
+    $type = '';
     if ($disciplineId < 99) {
         $type = 'base';
     } else {
@@ -67,11 +67,11 @@ foreach ($enrollment->grades as $grades) {
     $disciplines[$type][$disciplineId] = $discipline->name;
     $faults = $enrollment->classFaults;
 
-    $exams[1][$type][$disciplineId] = $grades->grade1 != null ? $grades->grade1 : "";
-    $exams[2][$type][$disciplineId] = $grades->grade2 != null ? $grades->grade2 : "";
-    $exams[3][$type][$disciplineId] = $grades->grade3 != null ? $grades->grade3 : "";
-    $exams[4][$type][$disciplineId] = $grades->grade4 != null ? $grades->grade4 : "";
-    $finals[$type][$disciplineId] = $grades->recovery_final_grade != null ? $grades->recovery_final_grade : "";
+    $exams[1][$type][$disciplineId] = $grades->grade1 != null ? $grades->grade1 : '';
+    $exams[2][$type][$disciplineId] = $grades->grade2 != null ? $grades->grade2 : '';
+    $exams[3][$type][$disciplineId] = $grades->grade3 != null ? $grades->grade3 : '';
+    $exams[4][$type][$disciplineId] = $grades->grade4 != null ? $grades->grade4 : '';
+    $finals[$type][$disciplineId] = $grades->recovery_final_grade != null ? $grades->recovery_final_grade : '';
     $averages[$type][$disciplineId] = $grades->getAverage();
     $finalAverage[$type][$disciplineId] = $grades->getFinalAverage();
 
@@ -87,7 +87,7 @@ $faultsCount['exam'][3] = count($enrollment->getFaultsByExam(3));
 $faultsCount['exam'][4] = count($enrollment->getFaultsByExam(4));
 $faultsCount['total'] = $faultsCount['exam'][1] + $faultsCount['exam'][2] + $faultsCount['exam'][3] + $faultsCount['exam'][4];
 
-$disciplinesCount = (count($disciplines['base'])+count($disciplines['diversified']));
+$disciplinesCount = (count($disciplines['base']) + count($disciplines['diversified']));
 $disciplineBaseCount = count($disciplines['base']) + 1;
 $disciplineDiversifiedCount = count($disciplines['diversified']) + 1;
 
@@ -246,16 +246,16 @@ $disciplineDiversifiedCount = count($disciplines['diversified']) + 1;
                 <tr>
                     <td style="text-align:right;" colspan="2">FREQUÊNCIAS %</td>
                     <?php foreach ($frequencyByDiscipline['base'] as $frequency): ?>
-                        <td><?= number_format($frequency  * 100,2, ',', '')  ."%"?></td>
+                        <td><?= number_format($frequency * 100, 2, ',', '') . '%'?></td>
                     <?php endforeach; ?>
                     <td></td>
                     <?php foreach ($frequencyByDiscipline['diversified'] as $frequency): ?>
-                        <td><?= number_format($frequency  * 100,2, ',', '') ."%"?></td>
+                        <td><?= number_format($frequency * 100, 2, ',', '') . '%'?></td>
                     <?php endforeach; ?>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><?= number_format($frequencyTotal  * 100,2, ',', '')  ."%"?></td>
+                    <td><?= number_format($frequencyTotal * 100, 2, ',', '') . '%'?></td>
                 </tr>
             </table>
             <br/>

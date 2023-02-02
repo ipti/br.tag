@@ -1,27 +1,27 @@
 <?php
-	/**
-	 * Created by PhpStorm.
-	 * User: IPTIPC100
-	 * Date: 29/06/2016
-	 * Time: 14:02
-	 */
-	$baseUrl = Yii::app()->baseUrl;
-	$themeUrl = Yii::app()->theme->baseUrl;
-	$cs = Yii::app()->getClientScript();
-	$cs->registerScriptFile($baseUrl . '/js/instructor/form/updateEmails.js', CClientScript::POS_END);
-	$cs->registerCssFile($themeUrl . '/css/template2.css');
-	$this->setPageTitle('TAG - ' . Yii::t('default', 'Update Instructor e-mails'));
+    /**
+     * Created by PhpStorm.
+     * User: IPTIPC100
+     * Date: 29/06/2016
+     * Time: 14:02
+     */
+    $baseUrl = Yii::app()->baseUrl;
+    $themeUrl = Yii::app()->theme->baseUrl;
+    $cs = Yii::app()->getClientScript();
+    $cs->registerScriptFile($baseUrl . '/js/instructor/form/updateEmails.js', CClientScript::POS_END);
+    $cs->registerCssFile($themeUrl . '/css/template2.css');
+    $this->setPageTitle('TAG - ' . Yii::t('default', 'Update Instructor e-mails'));
 
-	$form = $this->beginWidget('CActiveForm', [
-		'id' => 'updateEmails-form', 'enableAjaxValidation' => FALSE,
-	]);
+    $form = $this->beginWidget('CActiveForm', [
+        'id' => 'updateEmails-form', 'enableAjaxValidation' => false,
+    ]);
 ?>
 
 <div class="row-fluid">
 	<div class="span12">
 		<h3 class="heading-mosaic"><?= yii::t('default', 'Update Instructor e-mails') ?></h3>
 		<div class="tag-buttons-container buttons">
-			<?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('id' => 'save-emails', 'class' => 'tag-button small-button last', 'type' => 'button')); ?>
+			<?php echo CHtml::htmlButton(Yii::t('default', 'Save'), ['id' => 'save-emails', 'class' => 'tag-button small-button last', 'type' => 'button']); ?>
 		</div>
 	</div>
 </div>

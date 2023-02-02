@@ -309,7 +309,7 @@
 <span style="font-size:12px;">Corte</span><span> ----------------------------------------------------------------------------------------------------------------------------</span>
 <div class="receipt">
     <div style="text-align:justify;">COMPROVANTE DE ENTREGA: Recebi o boletim do aluno: <?php echo $student->studentFk->name ?> matriculado no(a) <?php echo $student->classroomFk->name?>, turma ___.</div>
-    <div>Data do Recebimento: <?php echo date("d/m/Y")?> Assinatura do Responsável: _______________________________________________</div>
+    <div>Data do Recebimento: <?php echo date('d/m/Y')?> Assinatura do Responsável: _______________________________________________</div>
 </div>
 <span>----------------------------------------------------------------------------------------------------------------------------------</span>
 </body>

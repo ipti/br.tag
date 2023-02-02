@@ -36,15 +36,15 @@ class StudentController extends Controller
      */
     public function accessRules()
     {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'comparestudentname', 'comparestudentcpf', 'comparestudentcertificate', 'create', 'update', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
-                'users' => array('@'),
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+        return [
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['index', 'view', 'comparestudentname', 'comparestudentcpf', 'comparestudentcertificate', 'create', 'update', 'getcities', 'getnotaryoffice', 'getnations', 'delete'],
+                'users' => ['@'],
+            ],
+            ['deny', // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
@@ -121,7 +121,8 @@ class StudentController extends Controller
         }
     }
 
-    public function actionCompareStudentName() { 
+    public function actionCompareStudentName()
+    {
         $data = StudentIdentification::model()->findAll();
         $result = [];
         foreach ($data as $student) {
@@ -130,22 +131,23 @@ class StudentController extends Controller
         echo json_encode($result);
     }
 
-    public function actionCompareStudentCertificate($student_certificate) {
-        $data = StudentDocumentsAndAddress::model()->find('civil_certification_term_number=:civil_certification_term_number', array(':civil_certification_term_number' => $student_certificate));
+    public function actionCompareStudentCertificate($student_certificate)
+    {
+        $data = StudentDocumentsAndAddress::model()->find('civil_certification_term_number=:civil_certification_term_number', [':civil_certification_term_number' => $student_certificate]);
         $result = [];
         $result[$data->student_fk] = $data->id;
 
         echo json_encode($result);
     }
 
-    public function actionCompareStudentCpf($student_responsable_cpf) {
-        $data = StudentIdentification::model()->find('responsable_cpf=:responsable_cpf', array(':responsable_cpf' => $student_responsable_cpf));
+    public function actionCompareStudentCpf($student_responsable_cpf)
+    {
+        $data = StudentIdentification::model()->find('responsable_cpf=:responsable_cpf', [':responsable_cpf' => $student_responsable_cpf]);
         $result = [];
         $result[$data->name] = $data->id;
 
         echo json_encode($result);
     }
-
 
     /**
      * Creates a new model.
@@ -156,10 +158,10 @@ class StudentController extends Controller
         $modelStudentIdentification = new StudentIdentification();
         //@todo Checar o paramentro antes
         $modelStudentIdentification->deficiency = 0;
-        $modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress;
-        $modelEnrollment = new StudentEnrollment;
+        $modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress();
+        $modelEnrollment = new StudentEnrollment();
 
-        $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
+        $vaccines = Vaccine::model()->findAll(['order' => 'name']);
         $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => $modelStudentIdentification->id]]);
         if ($studentVaccinesSaves) {
             $studentVaccinesSaves = array_map(function ($item) {
@@ -169,7 +171,7 @@ class StudentController extends Controller
 
         $vaccines = Vaccine::model()->findAll(['order' => 'name']);
         $studentVaccinesSaves = [];
-        
+
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model
         if (isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])) {
@@ -177,24 +179,24 @@ class StudentController extends Controller
             $modelStudentDocumentsAndAddress->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
 
             // Validação CPF->Certidão->Nome
-            if($modelStudentIdentification->responsable_cpf != null) {
-                $student_test_cpf = StudentIdentification::model()->find('responsable_cpf=:responsable_cpf', array(':responsable_cpf'=>$modelStudentIdentification->responsable_cpf));
-                if(isset($student_test_cpf)) {
-                    Yii::app()->user->setFlash('error', Yii::t('default', "O CPF do responsável informado já está cadastrado"));
-                    $this->redirect(array('index'));
+            if ($modelStudentIdentification->responsable_cpf != null) {
+                $student_test_cpf = StudentIdentification::model()->find('responsable_cpf=:responsable_cpf', [':responsable_cpf' => $modelStudentIdentification->responsable_cpf]);
+                if (isset($student_test_cpf)) {
+                    Yii::app()->user->setFlash('error', Yii::t('default', 'O CPF do responsável informado já está cadastrado'));
+                    $this->redirect(['index']);
                 }
             }
-            if($modelStudentDocumentsAndAddress->civil_certification_term_number != null) {
-                $student_test_certificate = StudentIdentification::model()->find('civil_certification_term_number=:civil_certification_term_number', array(':civil_certification_term_number'=>$modelStudentDocumentsAndAddress->civil_certification_term_number));
-                if(isset($student_test_certificate)) {
-                    Yii::app()->user->setFlash('error', Yii::t('default', "O Nº do Termo da Certidão informado já está cadastrado"));
-                    $this->redirect(array('index'));
+            if ($modelStudentDocumentsAndAddress->civil_certification_term_number != null) {
+                $student_test_certificate = StudentIdentification::model()->find('civil_certification_term_number=:civil_certification_term_number', [':civil_certification_term_number' => $modelStudentDocumentsAndAddress->civil_certification_term_number]);
+                if (isset($student_test_certificate)) {
+                    Yii::app()->user->setFlash('error', Yii::t('default', 'O Nº do Termo da Certidão informado já está cadastrado'));
+                    $this->redirect(['index']);
                 }
             }
-            $student_test_name = StudentIdentification::model()->find('name=:name', array(':name'=>$modelStudentIdentification->name));
-            if(isset($student_test_name)) {
-                Yii::app()->user->setFlash('error', Yii::t('default', "O nome do aluno informado já está cadastrado"));
-                $this->redirect(array('index'));
+            $student_test_name = StudentIdentification::model()->find('name=:name', [':name' => $modelStudentIdentification->name]);
+            if (isset($student_test_name)) {
+                Yii::app()->user->setFlash('error', Yii::t('default', 'O nome do aluno informado já está cadastrado'));
+                $this->redirect(['index']);
             }
 
             //Atributos comuns entre as tabelas
@@ -223,10 +225,10 @@ class StudentController extends Controller
                                 //$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
                             }
 
-                            if(isset($_POST['Vaccine']['vaccine_id'])) {
+                            if (isset($_POST['Vaccine']['vaccine_id'])) {
                                 if (count($_POST['Vaccine']['vaccine_id']) > 0) {
                                     StudentVaccine::model()->deleteAll("student_id = $modelStudentIdentification->id");
-    
+
                                     foreach ($_POST['Vaccine']['vaccine_id'] as $vaccine_id) {
                                         $studentVaccine = new StudentVaccine();
                                         $studentVaccine->student_id = $modelStudentIdentification->id;
@@ -312,7 +314,7 @@ class StudentController extends Controller
                             //$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
                         }
 
-                        if(isset($_POST['Vaccine']['vaccine_id'])) {
+                        if (isset($_POST['Vaccine']['vaccine_id'])) {
                             if (count($_POST['Vaccine']['vaccine_id']) > 0) {
                                 if ($studentVaccinesSaves) {
                                     StudentVaccine::model()->deleteAll("student_id = $modelStudentIdentification->id");

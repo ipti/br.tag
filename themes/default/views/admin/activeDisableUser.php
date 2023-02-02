@@ -23,38 +23,38 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Users'));
     <div class="widget">
         <div class="widget-body">
             <?php
-            $this->widget('zii.widgets.grid.CGridView', array(
+            $this->widget('zii.widgets.grid.CGridView', [
                 'dataProvider' => $dataProvider,
                 'enablePagination' => true,
                 'filter' => $filter,
                 'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                'columns' => array(
-                    array(
+                'columns' => [
+                    [
                         'name' => 'name',
                         'type' => 'raw',
                         'value' => 'CHtml::link($data->name,Yii::app()->createUrl("admin/disableUser",array("id"=>$data->id)))',
-                    ),
-                    array(
+                    ],
+                    [
                         'name' => 'username',
                         'type' => 'raw',
                         'value' => 'CHtml::link($data->username)',
-                    ),
+                    ],
 
-                    array(
-                        'class'=>'CLinkColumn',
+                    [
+                        'class' => 'CLinkColumn',
                         'cssClassExpression' => '$data->active? show : hide',
-                        'urlExpression'=>'Yii::app()->createUrl("admin/disableUser",array("id"=>$data->id))',
-                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/unpublished_FILL0_wght600_GRAD200_opsz48.svg'
-                    ),
+                        'urlExpression' => 'Yii::app()->createUrl("admin/disableUser",array("id"=>$data->id))',
+                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/unpublished_FILL0_wght600_GRAD200_opsz48.svg'
+                    ],
 
-                    array(
-                        'class'=>'CLinkColumn',
+                    [
+                        'class' => 'CLinkColumn',
                         'cssClassExpression' => '$data->active? hide : show',
-                        'urlExpression'=>'Yii::app()->createUrl("admin/activeUser",array("id"=>$data->id))',
-                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/check_circle_FILL0_wght600_GRAD200_opsz48.svg'
-                    ),
-                ),
-            ));
+                        'urlExpression' => 'Yii::app()->createUrl("admin/activeUser",array("id"=>$data->id))',
+                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/check_circle_FILL0_wght600_GRAD200_opsz48.svg'
+                    ],
+                ],
+            ]);
             ?>
         </div>
     </div>

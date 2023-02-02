@@ -10,15 +10,15 @@ $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js', CCl
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js', CClientScript::POS_END);
 
 $cs->registerCssFile($themeUrl . '/css/template2.css');
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'school-configuration-form',
     'enableAjaxValidation' => false
-        ));
+]);
 
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     Yii::t('default', 'Student Configuration'),
-);
-$this->setPageTitle("TAG - " . Yii::t('default', 'Student Configuration'));
+];
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Student Configuration'));
 $lastYear = (Yii::app()->user->year - 1);
 $year = (Yii::app()->user->year);
 
@@ -46,24 +46,28 @@ $model = new StudentEnrollment();
                     <div class="row-fluid">	
                         <div class="span5">
                             <div class="control-group">
-                                <?php echo Chtml::label('Turma de '.$lastYear.':','', array('class' => 'controls control-label ml-10 required')); ?>
+                                <?php echo Chtml::label('Turma de ' . $lastYear . ':', '', ['class' => 'controls control-label ml-10 required']); ?>
                                 <div class="controls">
-                                    <?php echo chtml::dropDownList('Classrooms', "", CHtml::listData(Classroom::model()->findAll("school_year = :sy AND school_inep_fk = :si order by name",
-                                            array("sy" => (Yii::app()->user->year-1), "si"=>yii::app()->user->school)), 'id', 'name'), array(
-                                        'class' => 'select-search-on',
-                                        'multiple' => 'multiple',
-                                        'placeholder' => Yii::t('default', 'Select Classroom'),
-                                    ));
+                                    <?php echo chtml::dropDownList('Classrooms', '', CHtml::listData(Classroom::model()->findAll(
+    'school_year = :sy AND school_inep_fk = :si order by name',
+    ['sy' => (Yii::app()->user->year - 1), 'si' => yii::app()->user->school]
+), 'id', 'name'), [
+    'class' => 'select-search-on',
+    'multiple' => 'multiple',
+    'placeholder' => Yii::t('default', 'Select Classroom'),
+]);
                                     ?>
                                 </div>
                             </div>
                         </div>
                         <div class="span5">
                             <div class="control-group">
-                                <?php echo Chtml::label('Turma de '.Yii::app()->user->year.':','', array('class' => 'controls control-label ml-10 required')); ?>
+                                <?php echo Chtml::label('Turma de ' . Yii::app()->user->year . ':', '', ['class' => 'controls control-label ml-10 required']); ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($model, 'classroom_fk', CHtml::listData(Classroom::model()->findAll("school_year = :sy AND school_inep_fk = :si order by name",
-                                            array("sy" => (Yii::app()->user->year-1), "si"=>yii::app()->user->school)), 'id', 'name'), array("prompt" => "Selecione uma Turma", 'class' => 'select-search-on')); ?>
+                                    <?php echo $form->dropDownList($model, 'classroom_fk', CHtml::listData(Classroom::model()->findAll(
+                                        'school_year = :sy AND school_inep_fk = :si order by name',
+                                        ['sy' => (Yii::app()->user->year - 1), 'si' => yii::app()->user->school]
+                                    ), 'id', 'name'), ['prompt' => 'Selecione uma Turma', 'class' => 'select-search-on']); ?>
                                     <?php echo $form->error($model, 'classroom_fk'); ?>
                                 </div>
                             </div>
@@ -71,7 +75,7 @@ $model = new StudentEnrollment();
                         <div class="span1">
                             <div class="tag-buttons-container buttons">
                                 <div class="control-group">
-                                    <?php echo CHtml::htmlButton( Yii::t('default', 'Save'), array('class' => 'tag-button small-button last', 'type' => 'submit')); ?>
+                                    <?php echo CHtml::htmlButton(Yii::t('default', 'Save'), ['class' => 'tag-button small-button last', 'type' => 'submit']); ?>
                                 </div>
                             </div>
                         </div>

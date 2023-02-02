@@ -3,9 +3,9 @@
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Data Statistics'));
     $title = Yii::t('default', 'Data Statistics');
     $contextDesc = Yii::t('default', 'Available actions that may be taken on User.');
-    $this->menu = array(
-        array('label' => Yii::t('default', 'List User'), 'url' => array('index'), 'description' => Yii::t('default', 'This action list all User, you can search, delete and update')),
-    );
+    $this->menu = [
+        ['label' => Yii::t('default', 'List User'), 'url' => ['index'], 'description' => Yii::t('default', 'This action list all User, you can search, delete and update')],
+    ];
     ?>
     ?>
     <div class="row-fluid">

@@ -29,7 +29,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
          }*/
         ?>
         <div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">
-            <?php //echo $namereport ?>
+            <?php //echo $namereport?>
             <?php echo 'FICHA INDIVIDUAL DO ALUNO - '?>
             <span class="stage"><?php echo $data['stage']?></span>
         </div>
@@ -43,12 +43,12 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                     echo '<td colspan="3" style="border-bottom: 1px solid black;">'
                         . 'SITUAÇÃO DA MATRÍCULA: ☐ MPP ☐ MPC ☐ MPR'
                         . '</td>';
-                } else if ($_REQUEST['type'] == '1' or $_REQUEST['type'] == '2') {
+                } elseif ($_REQUEST['type'] == '1' or $_REQUEST['type'] == '2') {
                     echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
                     echo '<td colspan="3" style="border-bottom: 1px solid black;">'
                         . 'SITUAÇÃO DA MATRÍCULA: ☐ MI ☐ MC ☐ MR ☐ MT'
                         . '</td>';
-                } else if ($_REQUEST['type'] == '3') {
+                } elseif ($_REQUEST['type'] == '3') {
                     echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
                     echo '<td colspan="3" style="border-bottom: 1px solid black;">'
                         . 'SITUAÇÃO DA MATRÍCULA: ☐ MI ☐ MC ☐ MR ☐ MT'
@@ -59,22 +59,19 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
             <tr>
                 <?php
                 if ($_REQUEST['type'] == '2') {
-                    echo '<td colspan="3">O(A) ALUNO(A) REQUER SUA MATRÍCULA ';
-                    ?>
+                    echo '<td colspan="3">O(A) ALUNO(A) REQUER SUA MATRÍCULA '; ?>
                     NO_________ANO
                     <!--<span class="class"></span>-->
                     <?php
                     echo ', DE ACORDO COM SITUAÇÃO APRESENTADA ABAIXO, A QUAL PEDE DEFERIMENTO.</td>';
                 } else {
-                    echo '<td colspan="3">O INDICADO ABAIXO, IDENTIFICADO, REPRESENTADO QUANDO MENOR, REQUER SUA MATRÍCULA ';
-                    ?>
+                    echo '<td colspan="3">O INDICADO ABAIXO, IDENTIFICADO, REPRESENTADO QUANDO MENOR, REQUER SUA MATRÍCULA '; ?>
                     <?php
-                    if ($_REQUEST['type'] == '0'){
+                    if ($_REQUEST['type'] == '0') {
                         echo '<span class="class"></span>';
-                    }else{
+                    } else {
                         echo 'NO_________ANO';
-                    }
-                    ?>
+                    } ?>
                     <?php
                     echo ' DESTA UNIDADE DE ENSINO, NESTE ANO LETIVO, NESTES TERMOS, PEDE DEFERIMENTO.</td>';
                 }
@@ -174,7 +171,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         </tr>
         <tr>
             <td>
-                <?php if($data['cc'] == 1){ ?>
+                <?php if ($data['cc'] == 1) { ?>
                     <div id="old_cc">
                         <div class="span9"><b>08 - Certidão Civil de <span class="cc_type"><?= $data['cc_type'] ?></span></b></div>
                         <br/>
@@ -185,7 +182,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                         <div class="span4"><b>Cidade: </b><span class="cc_city"><?= $data['cc_city'] ?></span></div>
                         <div class="span1"><b>UF: </b><span class="cc_uf"></span><?= $data['cc_uf'] ?></div>
                     </div>
-                <?php } else{ ?>
+                <?php } else { ?>
                     <div id="new_cc">
                         <div class="span9"><b>08 - Certidão Civil:</b>
                         </div>
@@ -245,7 +242,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
 
     <table style="margin-top:10px;" id="report-table" class="table table-bordered">
         <tr><th style="text-align: center">CARACTERIZAÇÃO</th></tr>
-        <?php if(GLOGALGROUP != 1){?>
+        <?php if (GLOGALGROUP != 1) {?>
             <tr>
                 <td>
                     <div class="span12"><b>15 - Matrícula do aluno: </b></div>
@@ -280,10 +277,10 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                     <br>
                     <div style="margin-right: -20px;">
                         <?php
-                        if ($_REQUEST['type'] == '0'){ ?>
+                        if ($_REQUEST['type'] == '0') { ?>
                             <span class="current_stage_situation"><?= $data['current_stage_situation'] ?></span>
                             <?php
-                        }else{?>
+                        } else {?>
                             <div class="padding-5"><b>☐</b> Primeira matrícula no Curso (Nível e/ou modalidade de ensino)</div>
                             <div class="padding-5"><b>☐</b> Promovido na série/etapa anterior do mesmo curso (nível e/ou modalidade de ensino)</div>
                             <div class="padding-5"> <b>☐</b> Repetente</div>
@@ -355,7 +352,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
     </table>
 </div>
 
-<?php if(GLOGALGROUP != 1){?>
+<?php if (GLOGALGROUP != 1) {?>
     <div class='container-report mt-30 mb-30'>
     <table class="table-border">
       <tr class="blue-background titleBig text-center">
@@ -371,7 +368,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         <th>Assinatura do(a) Responsável pela Matrícula</th>
         <th>Assinatura dos Pais ou Responsável</th>
       </tr>
-      <? for($i=1; $i <= 12; $i++): ?>
+      <?php for ($i = 1; $i <= 12; $i++): ?>
         <tr>
           <td><div class="contentEditable no-border" contenteditable="true"></div></td>
           <td><div class="contentEditable no-border" contenteditable="true"></div></td>
@@ -382,7 +379,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
           <td><div class="contentEditable no-border" contenteditable="true"></div></td>
           <td><div class="contentEditable no-border" contenteditable="true"></div></td>
         </tr>
-      <? endfor; ?>
+      <?php endfor; ?>
     </table>
   </div>
 </div>

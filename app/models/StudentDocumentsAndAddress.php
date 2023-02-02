@@ -75,15 +75,15 @@ class StudentDocumentsAndAddress extends AltActiveRecord
         return 'student_documents_and_address';
     }
 
-  /*  public function behaviors()
-    {
-        return [
-            'afterSave' => [
-              //  'class' => 'application.behaviors.CAfterSaveBehavior',
-              //  'schoolInepId' => Yii::app()->user->school,
-            ],
-        ];
-    }*/
+    /*  public function behaviors()
+      {
+          return [
+              'afterSave' => [
+                //  'class' => 'application.behaviors.CAfterSaveBehavior',
+                //  'schoolInepId' => Yii::app()->user->school,
+              ],
+          ];
+      }*/
 
     /**
      * @return array validation rules for model attributes.
@@ -92,24 +92,24 @@ class StudentDocumentsAndAddress extends AltActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('school_inep_id_fk, residence_zone', 'required'),
-            array('rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, civil_certification, civil_certification_type, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, residence_zone, edcenso_uf_fk, edcenso_city_fk, received_cc, received_address, received_photo, received_nis, received_history, received_responsable_rg, received_responsable_cpf, justice_restriction, diff_location, consent_form', 'numerical', 'integerOnly'=>true),
-            array('register_type', 'length', 'max'=>2),
-            array('school_inep_id_fk, civil_certification_term_number, civil_certification_book, cep', 'length', 'max'=>8),
-            array('student_fk', 'length', 'max'=>12),
-            array('rg_number, foreign_document_or_passport, complement, cns', 'length', 'max'=>20),
-            array('rg_number_expediction_date, civil_certification_date, number', 'length', 'max'=>10),
-            array('civil_certification_sheet', 'length', 'max'=>4),
-            array('civil_register_enrollment_number', 'length', 'max'=>32),
-            array('cpf, nis', 'length', 'max'=>11),
-            array('address', 'length', 'max'=>100),
-            array('neighborhood', 'length', 'max'=>50),
-            array('hash', 'length', 'max'=>40),
+        return [
+            ['school_inep_id_fk, residence_zone', 'required'],
+            ['rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, civil_certification, civil_certification_type, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, residence_zone, edcenso_uf_fk, edcenso_city_fk, received_cc, received_address, received_photo, received_nis, received_history, received_responsable_rg, received_responsable_cpf, justice_restriction, diff_location, consent_form', 'numerical', 'integerOnly' => true],
+            ['register_type', 'length', 'max' => 2],
+            ['school_inep_id_fk, civil_certification_term_number, civil_certification_book, cep', 'length', 'max' => 8],
+            ['student_fk', 'length', 'max' => 12],
+            ['rg_number, foreign_document_or_passport, complement, cns', 'length', 'max' => 20],
+            ['rg_number_expediction_date, civil_certification_date, number', 'length', 'max' => 10],
+            ['civil_certification_sheet', 'length', 'max' => 4],
+            ['civil_register_enrollment_number', 'length', 'max' => 32],
+            ['cpf, nis', 'length', 'max' => 11],
+            ['address', 'length', 'max' => 100],
+            ['neighborhood', 'length', 'max' => 50],
+            ['hash', 'length', 'max' => 40],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, student_fk, id, rg_number, rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, rg_number_expediction_date, civil_certification, civil_certification_type, civil_certification_term_number, civil_certification_sheet, civil_certification_book, civil_certification_date, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, civil_register_enrollment_number, cpf, foreign_document_or_passport, nis, residence_zone, cep, address, number, complement, neighborhood, edcenso_uf_fk, edcenso_city_fk, received_cc, received_address, received_photo, received_nis, received_history, received_responsable_rg, received_responsable_cpf, cns, fkid, justice_restriction, diff_location', 'safe', 'on'=>'search'),
-        );
+            ['register_type, school_inep_id_fk, student_fk, id, rg_number, rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, rg_number_expediction_date, civil_certification, civil_certification_type, civil_certification_term_number, civil_certification_sheet, civil_certification_book, civil_certification_date, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, civil_register_enrollment_number, cpf, foreign_document_or_passport, nis, residence_zone, cep, address, number, complement, neighborhood, edcenso_uf_fk, edcenso_city_fk, received_cc, received_address, received_photo, received_nis, received_history, received_responsable_rg, received_responsable_cpf, cns, fkid, justice_restriction, diff_location', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -119,15 +119,15 @@ class StudentDocumentsAndAddress extends AltActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
-            'rgNumberEdcensoOrganIdEmitterFk' => array(self::BELONGS_TO, 'EdcensoOrganIdEmitter', 'rg_number_edcenso_organ_id_emitter_fk'),
-            'rgNumberEdcensoUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'rg_number_edcenso_uf_fk'),
-            'edcensoUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'),
-            'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
-            'notaryOfficeUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'notary_office_uf_fk'),
-            'notaryOfficeCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'notary_office_city_fk'),
-        );
+        return [
+            'schoolInepIdFk' => [self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'],
+            'rgNumberEdcensoOrganIdEmitterFk' => [self::BELONGS_TO, 'EdcensoOrganIdEmitter', 'rg_number_edcenso_organ_id_emitter_fk'],
+            'rgNumberEdcensoUfFk' => [self::BELONGS_TO, 'EdcensoUf', 'rg_number_edcenso_uf_fk'],
+            'edcensoUfFk' => [self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'],
+            'edcensoCityFk' => [self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'],
+            'notaryOfficeUfFk' => [self::BELONGS_TO, 'EdcensoUf', 'notary_office_uf_fk'],
+            'notaryOfficeCityFk' => [self::BELONGS_TO, 'EdcensoCity', 'notary_office_city_fk'],
+        ];
     }
 
     /**
@@ -135,7 +135,7 @@ class StudentDocumentsAndAddress extends AltActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'register_type' => Yii::t('default', 'Register Type'),
             'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
             'student_fk' => Yii::t('default', 'Student Fk'),
@@ -176,7 +176,7 @@ class StudentDocumentsAndAddress extends AltActiveRecord
             'justice_restriction' => Yii::t('default', 'Justice Restriction'),
             'diff_location' => Yii::t('default', 'Diff Location'),
             'consent_form' => Yii::t('default', 'Consent Form'),
-        );
+        ];
     }
 
     /**
@@ -188,7 +188,7 @@ class StudentDocumentsAndAddress extends AltActiveRecord
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('register_type', $this->register_type, true);
         $criteria->compare('school_inep_id_fk', $this->school_inep_id_fk, true);
@@ -222,14 +222,13 @@ class StudentDocumentsAndAddress extends AltActiveRecord
         $criteria->compare('edcenso_uf_fk', $this->edcenso_uf_fk);
         $criteria->compare('edcenso_city_fk', $this->edcenso_city_fk);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 
     protected function beforeSave()
     {
-
         return parent::beforeSave();
     }
 }

@@ -1,20 +1,20 @@
 <?php
-	/* @var $this SiteController */
-	/* @var $error array */
+    /* @var $this SiteController */
+    /* @var $error array */
 
-	$this->pageTitle = Yii::app()->name . ' - Error';
+    $this->pageTitle = Yii::app()->name . ' - Error';
 ?>
 
 
 
 <?php
-	/* @var $this ReportsController */
-	/* @var $report mixed */
-	$baseUrl = Yii::app()->baseUrl;
-	$themeUrl = Yii::app()->theme->baseUrl;
-	$cs = Yii::app()->getClientScript();
-	$cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js', CClientScript::POS_END);
-	$cs->registerCssFile($themeUrl . '/css/template2.css'); 
+    /* @var $this ReportsController */
+    /* @var $report mixed */
+    $baseUrl = Yii::app()->baseUrl;
+    $themeUrl = Yii::app()->theme->baseUrl;
+    $cs = Yii::app()->getClientScript();
+    $cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js', CClientScript::POS_END);
+    $cs->registerCssFile($themeUrl . '/css/template2.css');
 
 ?>
 
@@ -42,14 +42,14 @@
 
 			Informações Técnicas:</br>
 			<pre><?php foreach ($error as $key => $err) {
-					echo $key . ": ";
-					if (is_array($err)) {
-						echo json_encode($err);
-					} else {
-						echo $err;
-					}
-					echo "<br>";
-				} ?></pre>
+    echo $key . ': ';
+    if (is_array($err)) {
+        echo json_encode($err);
+    } else {
+        echo $err;
+    }
+    echo '<br>';
+} ?></pre>
 		</div>
 	</div>
 </div>

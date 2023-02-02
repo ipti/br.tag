@@ -1,7 +1,7 @@
 <?php
 /**
  * @var Quiz $quiz quiz model
- * 
+ *
  */
 ?>
 

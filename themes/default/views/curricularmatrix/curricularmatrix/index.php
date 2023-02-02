@@ -10,7 +10,7 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.2');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/curricularmatrix.js?v=1.1', CClientScript::POS_END);
-$cs->registerScript("vars", "var addMatrix = '" . $this->createUrl("addMatrix") . "';", CClientScript::POS_HEAD);
+$cs->registerScript('vars', "var addMatrix = '" . $this->createUrl('addMatrix') . "';", CClientScript::POS_HEAD);
 $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricular Matrix'));
 $cs->registerCssFile($themeUrl . '/css/template2.css');
 ?>
@@ -24,38 +24,38 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
     <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)): ?>
         <div class="tag-row">
             <div class="">
-                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Stage'), 'stages', ['class' => "control-label"]) ?>
+                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Stage'), 'stages', ['class' => 'control-label']) ?>
                 <div class="form-group ">
-                    <?= CHtml::dropDownList("stages", [], CHtml::listData(EdcensoStageVsModality::model()->findAll(), "id", "name"), [
-                        "multiple" => "multiple", "class" => "select-search-on control-input span12"
+                    <?= CHtml::dropDownList('stages', [], CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), [
+                        'multiple' => 'multiple', 'class' => 'select-search-on control-input span12'
                     ]) ?>
                 </div>
             </div>
             <div class="">
-                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Disciplines'), 'disciplines', ['class' => "control-label"]) ?>
+                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Disciplines'), 'disciplines', ['class' => 'control-label']) ?>
                 <div class="form-group ">
-                    <?= CHtml::dropDownList("disciplines", [], CHtml::listData(EdcensoDiscipline::model()->findAll(), "id", "name"), [
-                        "multiple" => "multiple", "class" => "select-search-on control-input span12"
+                    <?= CHtml::dropDownList('disciplines', [], CHtml::listData(EdcensoDiscipline::model()->findAll(), 'id', 'name'), [
+                        'multiple' => 'multiple', 'class' => 'select-search-on control-input span12'
                     ]) ?>
                 </div>
             </div>
             <div class="">
-                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Workload'), 'workload', ['class' => "control-label"]) ?>
+                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Workload'), 'workload', ['class' => 'control-label']) ?>
                 <div class="form-group ">
-                    <?= CHtml::numberField("workload", "0", ["min" => "0", "max" => "9999", "class" => "small-input"]) ?>
+                    <?= CHtml::numberField('workload', '0', ['min' => '0', 'max' => '9999', 'class' => 'small-input']) ?>
                 </div>
             </div>
             <div class="">
-                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Credits'), 'credits', ['class' => "control-label"]) ?>
+                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Credits'), 'credits', ['class' => 'control-label']) ?>
                 <div class="form-group ">
-                    <?= CHtml::numberField("credits", "0", ["min" => "0", "max" => "99", "class" => "small-input"]) ?>
+                    <?= CHtml::numberField('credits', '0', ['min' => '0', 'max' => '99', 'class' => 'small-input']) ?>
                 </div>
             </div>
             <div class="">
-                <?= CHtml::label("&nbsp;", 'credits', ['class' => "control-label"]) ?>
+                <?= CHtml::label('&nbsp;', 'credits', ['class' => 'control-label']) ?>
                 <div class="form-group ">
                     <?= CHtml::button(Yii::t('curricularMatrixModule.index', 'Add'), [
-                        "id" => "add-matrix", "class" => "tag-button small-button"
+                        'id' => 'add-matrix', 'class' => 'tag-button small-button'
                     ]) ?>
                 </div>
             </div>
@@ -73,7 +73,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
             $this->widget('zii.widgets.grid.CGridView', [
                 'id' => 'matrizgridview', 'dataProvider' => $filter->search(), 'filter' => $filter,
                 'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                'enablePagination' => TRUE, 'columns' => [
+                'enablePagination' => true, 'columns' => [
                     [
                         'header' => Yii::t('curricularMatrixModule.index', 'Stage'),
                         'name' => 'stage_fk',
@@ -102,12 +102,12 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                     }
                     $(".alert-container").show();
                 }',
-                'buttons' => array(
-                    'delete' => array(
-                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/cancelar',
-                    ))
+                        'buttons' => [
+                            'delete' => [
+                                'imageUrl' => Yii::app()->theme->baseUrl . '/img/cancelar',
+                            ]]
                     ],
-                    
+
                 ],
             ]);
             ?>
@@ -131,7 +131,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
             <form method="post">
                 <div class="modal-body">
                     <div class="row-fluid">
-                        <b>Tem certeza</b> que deseja reaproveitar a matriz curricular de <?php echo (Yii::app()->user->year - 1) ?>?</b>
+                        <b>Tem certeza</b> que deseja reaproveitar a matriz curricular de <?php echo(Yii::app()->user->year - 1) ?>?</b>
                     </div>
                 </div>
 

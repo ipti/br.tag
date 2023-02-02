@@ -70,7 +70,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
                                     <td><?= $item['id'] ?></td>
                                     <td><?= $item['name'] ?></td>
                                     <td><?= $item['description'] ?></td>
-                                    <td class="text-left"><?= $item['amount'] * $item['measure'] . " " . $item['unity'] ?></td>
+                                    <td class="text-left"><?= $item['amount'] * $item['measure'] . ' ' . $item['unity'] ?></td>
                                 </tr>
                             <?php endforeach ?>
                             </tbody>
@@ -99,22 +99,22 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
                         </thead>
                         <tbody>
                         <?php foreach ($this->school->transactions() as $transaction) {
-                            $isSpent = !is_null($transaction['motivation']);
-                            $amount = ($isSpent ? (-1) : (1)) * $transaction['amount'] * $transaction['measure'] . $transaction['acronym'];
-                            $name = $transaction['name'];
-                            $date = date("d/m/Y, h:i ", strtotime($transaction['date']));
-                            $text = $amount . " de <strong>" . $name . "</strong> em " . $date;
-                            $motivation = $isSpent ? $transaction['motivation'] : " - ";
-                            ?>
+    $isSpent = !is_null($transaction['motivation']);
+    $amount = ($isSpent ? (-1) : (1)) * $transaction['amount'] * $transaction['measure'] . $transaction['acronym'];
+    $name = $transaction['name'];
+    $date = date('d/m/Y, h:i ', strtotime($transaction['date']));
+    $text = $amount . ' de <strong>' . $name . '</strong> em ' . $date;
+    $motivation = $isSpent ? $transaction['motivation'] : ' - '; ?>
                             <tr>
                                 <td class="center">
-                                    <span class="fa fa-<?= $isSpent ? "minus red" : "plus green" ?>"></span>
+                                    <span class="fa fa-<?= $isSpent ? 'minus red' : 'plus green' ?>"></span>
                                 </td>
                                 <td><?= $text; ?></td>
                                 <td><span><?= $motivation; ?></span></td>
 
                             </tr>
-                        <?php } ?>
+                        <?php
+} ?>
                         </tbody>
 
                     </table>
@@ -132,11 +132,11 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
                 <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Add Item'); ?></h4>
             </div>
             <?php
-            $form = $this->beginWidget('CActiveForm', array(
+            $form = $this->beginWidget('CActiveForm', [
                 'id' => 'add-item',
                 'enableAjaxValidation' => false,
                 'action' => Yii::app()->createUrl('lunch/stock/addItem')
-            ));
+            ]);
             ?>
             <div class="modal-body">
 
@@ -150,10 +150,14 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
 
                         <div class="row-fluid">
                             <div class=" span4">
-                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Item'), 'Item', array('class' => 'control-label')); ?>
+                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Item'), 'Item', ['class' => 'control-label']); ?>
                                 <div class="controls span12">
-                                    <?= CHtml::dropDownList('Inventory[item]', '',
-                                        CHtml::listData(Item::model()->findAll(), 'id', 'concatName'), ['class' => 'pull-left span12']); ?>
+                                    <?= CHtml::dropDownList(
+                'Inventory[item]',
+                '',
+                CHtml::listData(Item::model()->findAll(), 'id', 'concatName'),
+                ['class' => 'pull-left span12']
+            ); ?>
 
                                 </div>
                             </div>
@@ -167,7 +171,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
                                 </div>
                             </div>
                             <div class=" span6">
-                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', array('class' => 'control-label')); ?>
+                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', ['class' => 'control-label']); ?>
                                 <div class="controls span12">
                                     <?= CHtml::numberField('Inventory[amount]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10']); ?>
                                 </div>
@@ -184,34 +188,38 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
                     <div class="widget-body">
                         <div class="row-fluid">
                             <div class=" span6">
-                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Name'), 'Name', array('class' => 'control-label')); ?>
+                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Name'), 'Name', ['class' => 'control-label']); ?>
                                 <div class="controls span12">
                                     <?= CHtml::textField('Item[name]', '', ['class' => ' span10']); ?>
                                 </div>
                             </div>
                             <div class=" span2">
-                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', array('class' => 'control-label')); ?>
+                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', ['class' => 'control-label']); ?>
                                 <div class="controls span12">
                                     <?= CHtml::numberField('Inventory[amount]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10']); ?>
                                 </div>
                             </div>
                             <div class=" span2">
-                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', array('class' => 'control-label')); ?>
+                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', ['class' => 'control-label']); ?>
                                 <div class="controls span12">
                                     <?= CHtml::numberField('Item[measure]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10']); ?>
                                 </div>
                             </div>
                             <div class=" span2">
-                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', array('class' => 'control-label')); ?>
+                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', ['class' => 'control-label']); ?>
                                 <div class="controls span12">
-                                    <?= CHtml::dropDownList('Item[unity_fk]', '',
-                                        CHtml::listData(Unity::model()->findAll(), 'id', 'acronym'), ['class' => ' span8']); ?>
+                                    <?= CHtml::dropDownList(
+                                            'Item[unity_fk]',
+                                            '',
+                                            CHtml::listData(Unity::model()->findAll(), 'id', 'acronym'),
+                                            ['class' => ' span8']
+                                        ); ?>
                                 </div>
                             </div>
                         </div>
                         <div class="row-fluid">
                             <div class=" span12">
-                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Description'), 'Description', array('class' => 'control-label')); ?>
+                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Description'), 'Description', ['class' => 'control-label']); ?>
                                 <div class="controls span12">
                                     <?= CHtml::textField('Item[description]', '', ['class' => ' span11']); ?>
                                 </div>
@@ -237,23 +245,27 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
                 <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Remove Item'); ?></h4>
             </div>
             <?php
-            $form = $this->beginWidget('CActiveForm', array(
+            $form = $this->beginWidget('CActiveForm', [
                 'id' => 'remove-item',
                 'enableAjaxValidation' => false,
                 'action' => Yii::app()->createUrl('lunch/stock/removeItem')
-            ));
+            ]);
             ?>
             <div class="modal-body">
                 <div class="row-fluid">
                     <div class=" span6">
-                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Item'), 'Item', array('class' => 'control-label')); ?>
+                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Item'), 'Item', ['class' => 'control-label']); ?>
                         <div class="controls span12">
-                            <?= CHtml::dropDownList('Item', '',
-                                CHtml::listData(Item::model()->findAll(), 'id', 'concatName'), ['class' => 'span10']); ?>
+                            <?= CHtml::dropDownList(
+                'Item',
+                '',
+                CHtml::listData(Item::model()->findAll(), 'id', 'concatName'),
+                ['class' => 'span10']
+            ); ?>
                         </div>
                     </div>
                     <div class=" span6">
-                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', array('class' => 'control-label')); ?>
+                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', ['class' => 'control-label']); ?>
                         <div class="controls span12">
                             <?= CHtml::numberField('Amount', '1', ['min' => '0', 'step' => '0.1', 'class' => 'span10']); ?>
                         </div>
@@ -261,9 +273,9 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
                 </div>
                 <div class="row-fluid">
                     <div class="span12">
-                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Motivation'), 'Motivation', array('class' => 'control-label')); ?>
+                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Motivation'), 'Motivation', ['class' => 'control-label']); ?>
                         <div class="controls span12">
-                            <?= CHtml::textField('Motivation', "", ['class' => 'span11']); ?>
+                            <?= CHtml::textField('Motivation', '', ['class' => 'span11']); ?>
                         </div>
                     </div>
                 </div>
