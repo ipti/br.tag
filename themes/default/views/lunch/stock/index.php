@@ -209,11 +209,11 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
                                 <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', ['class' => 'control-label']); ?>
                                 <div class="controls span12">
                                     <?= CHtml::dropDownList(
-                                            'Item[unity_fk]',
-                                            '',
-                                            CHtml::listData(Unity::model()->findAll(), 'id', 'acronym'),
-                                            ['class' => ' span8']
-                                        ); ?>
+                'Item[unity_fk]',
+                '',
+                CHtml::listData(Unity::model()->findAll(), 'id', 'acronym'),
+                ['class' => ' span8']
+            ); ?>
                                 </div>
                             </div>
                         </div>

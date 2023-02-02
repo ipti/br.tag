@@ -257,10 +257,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         } elseif ($class == '41') {
                             $ano = ' para o _____ Ano do Ensino Médio<br>';
                         } else {
-                             $ano = ' para o ______Ano do Ensino Fundamental<br>'
+                            $ano = ' para o ______Ano do Ensino Fundamental<br>'
                                 //echo " para o " . $c . " Ano do Ensino Fundamental<br>"
                             ;
-                         }
+                        }
                         if ($gender == '1') {
                             $situacaoRp = 'reprovado<br>';
                         } else {

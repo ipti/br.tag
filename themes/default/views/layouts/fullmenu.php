@@ -258,7 +258,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
                         <div class="row-fluid">
                             <div class=" span12" style="margin: 10px 0 10px 0; padding: 0px 0px 0px 69px">
                                 <div class=controls>
-                                    <?php echo CHtml::label(yii::t('default', 'Year'), 'year', array('class' => 'control-label')); ?>
+                                    <?php echo CHtml::label(yii::t('default', 'Year'), 'year', ['class' => 'control-label']); ?>
                                 </div>
                                 <div class=controls>
                                     <select name="years" id="years" placeholder="Selecione o ano">
@@ -266,9 +266,9 @@ $baseUrl = Yii::app()->theme->baseUrl;
                                         $years = range(date('Y'), 2014);
                                         for ($i = 0; $i < count($years); $i++) {
                                             if ($years[$i] == Yii::app()->user->year) {
-                                                echo "<option value=" . $years[$i] . " selected>" . $years[$i] . "</option>";
+                                                echo '<option value=' . $years[$i] . ' selected>' . $years[$i] . '</option>';
                                             } else {
-                                                echo "<option value=" . $years[$i] . ">" . $years[$i] . "</option>";
+                                                echo '<option value=' . $years[$i] . '>' . $years[$i] . '</option>';
                                             }
                                         }
                                         ?>

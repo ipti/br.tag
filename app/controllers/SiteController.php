@@ -136,7 +136,7 @@ class SiteController extends Controller
 
     public function actionChangeYear()
     {
-        if(isset($_POST['years']) && !empty($_POST['years'])) {
+        if (isset($_POST['years']) && !empty($_POST['years'])) {
             Yii::app()->user->year = $_POST['years'];
         }
 
@@ -144,7 +144,7 @@ class SiteController extends Controller
         exit;
     }
 
-    private function loadLogsHtml($limit, $date = NULL)
+    private function loadLogsHtml($limit, $date = null)
     {
         $baseUrl = Yii::app()->theme->baseUrl;
         if ($date == null) {

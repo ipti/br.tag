@@ -1272,19 +1272,19 @@ $form = $this->beginWidget('CActiveForm', [
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->DropDownList(
-                                        $modelEnrollment,
-                                        'previous_stage_situation',
-                                        [
-                                            null => 'Selecione',
-                                            '0' => 'Não frequentou',
-                                            '1' => 'Reprovado',
-                                            '2' => 'Afastado por transferência',
-                                            '3' => 'Afastado por abandono',
-                                            '4' => 'Matrícula final em Educação Infantil',
-                                            '5' => 'Promovido'
-                                        ],
-                                        ['class' => 'select-search-off control-input']
-                                    ); ?>
+                                            $modelEnrollment,
+                                            'previous_stage_situation',
+                                            [
+                                                null => 'Selecione',
+                                                '0' => 'Não frequentou',
+                                                '1' => 'Reprovado',
+                                                '2' => 'Afastado por transferência',
+                                                '3' => 'Afastado por abandono',
+                                                '4' => 'Matrícula final em Educação Infantil',
+                                                '5' => 'Promovido'
+                                            ],
+                                            ['class' => 'select-search-off control-input']
+                                        ); ?>
                                     <?php echo $form->error($modelEnrollment, 'previous_stage_situation'); ?>
                                 </div>
                             </div>
