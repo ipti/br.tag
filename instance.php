@@ -279,7 +279,7 @@ switch ($domain) {
         break;
     default:
         $instance = 'SERGIPE';
-        $db = 'br.ong.tag.rj.buzios';
+        $db = 'io.escola.demo';
         break;
 }
 define('GLOGALGROUP', $_GLOBALGROUP);
