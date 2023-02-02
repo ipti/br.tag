@@ -1,5 +1,9 @@
 # Atualizações
 
+## [Versão 3.1.1]
+**Melhorias**
+- Alterar valores de anos anteriores com o mesmo login sem precisar acessar o ano
+
 ## [Versão 3.0.1]
 **Melhorias**
 - Pesquisa de aluno por inep_id

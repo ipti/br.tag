@@ -2,32 +2,30 @@
 
 class AdminController extends Controller
 {
-    public $layout = 'fullmenu';
-
-    public function accessRules()
-    {
-        return [
-            [
-                'allow',
-                'actions' => [
-                    'CreateUser', 'index', 'conflicts', 'import', 'export', 'clearDB', 'DisableUser', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
-                    'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'
-                ], 'users' => ['@'],
-            ],
-        ];
-    }
-
-    /**
-     * Show the Index Page.
-     */
-    public function actionIndex()
-    {
-        $this->render('index');
-    }
-
-    public function actionCreateUser()
-    {
-        $model = new Users();
+	public $layout = 'fullmenu';
+	public function accessRules()
+	{
+		return [
+			[
+				'allow',
+				'actions' => [
+					'CreateUser', 'index', 'conflicts', 'import', 'export', 'clearDB', 
+                    'disableUser', 'activeUser', 'activeDisableUser', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
+					'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'
+				], 'users' => ['@'],
+			],
+		];
+	}
+	/**
+	 * Show the Index Page.
+	 */
+	public function actionIndex()
+	{
+		$this->render('index');
+	}
+	public function actionCreateUser()
+	{
+		$model = new Users;
 
         if (isset($_POST['Users'], $_POST['Confirm'])) {
             $model->attributes = $_POST['Users'];
