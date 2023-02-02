@@ -38,7 +38,7 @@ class StudentController extends Controller
     {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'comparestudentname', 'comparestudentcpf', 'comparestudentcertificate', 'create', 'update', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
+                'actions' => array('index', 'view', 'comparestudentname', 'comparestudentcpf', 'comparestudentcivilregisterenrollmentnumber', 'comparestudentcertificate', 'create', 'update', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -124,24 +124,32 @@ class StudentController extends Controller
     public function actionCompareStudentName() { 
         $data = StudentIdentification::model()->findAll();
         $result = [];
-        foreach ($data as $student) {
+        foreach ($data as $student){
             $result[$student->name] = $student->id;
         }
         echo json_encode($result);
     }
 
-    public function actionCompareStudentCertificate($student_certificate) {
-        $data = StudentDocumentsAndAddress::model()->find('civil_certification_term_number=:civil_certification_term_number', array(':civil_certification_term_number' => $student_certificate));
+    public function actionCompareStudentCertificate($civil_certification_term_number) {
+        $data = StudentDocumentsAndAddress::model()->find('civil_certification_term_number=:civil_certification_term_number', array(':civil_certification_term_number' => $civil_certification_term_number));
         $result = [];
         $result[$data->student_fk] = $data->id;
 
         echo json_encode($result);
     }
 
-    public function actionCompareStudentCpf($student_responsable_cpf) {
-        $data = StudentIdentification::model()->find('responsable_cpf=:responsable_cpf', array(':responsable_cpf' => $student_responsable_cpf));
+    public function actionCompareStudentCivilRegisterEnrollmentNumber($civil_register_enrollment_number) {
+        $data = StudentDocumentsAndAddress::model()->find('civil_register_enrollment_number=:civil_register_enrollment_number', array(':civil_register_enrollment_number' => $civil_register_enrollment_number));
         $result = [];
-        $result[$data->name] = $data->id;
+        $result[$data->student_fk] = $data->id;
+
+        echo json_encode($result);
+    }
+
+    public function actionCompareStudentCpf($student_cpf) {
+        $data = StudentDocumentsAndAddress::model()->find('cpf=:cpf', array(':cpf' => $student_cpf));
+        $result = [];
+        $result[$data->student_fk] = $data->id;
 
         echo json_encode($result);
     }
@@ -187,11 +195,6 @@ class StudentController extends Controller
                     Yii::app()->user->setFlash('error', Yii::t('default', "O Nº do Termo da Certidão informado já está cadastrado"));
                     $this->redirect(array('index'));
                 }
-            }
-            $student_test_name = StudentIdentification::model()->find('name=:name', array(':name'=>$modelStudentIdentification->name));
-            if(isset($student_test_name)) {
-                Yii::app()->user->setFlash('error', Yii::t('default', "O nome do aluno informado já está cadastrado"));
-                $this->redirect(array('index'));
             }
 
             //Atributos comuns entre as tabelas
