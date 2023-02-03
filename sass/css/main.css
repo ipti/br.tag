@@ -15,6 +15,7 @@
 /* Border width */
 /* Opacity */
 /* Line Height */
+/*Font Weight*/
 /* Color */
 /* Product */
 /* Ink */
@@ -32,6 +33,7 @@
 /* Border width */
 /* Opacity */
 /* Line Height */
+/*Font Weight*/
 /* mixin */
 /* line 5, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button {
@@ -92,6 +94,7 @@
 /* Border width */
 /* Opacity */
 /* Line Height */
+/*Font Weight*/
 /* mixin */
 /* line 4, ../../../../wamp64/www/br.tag/sass/scss/_input.scss */
 .t-input-container {
@@ -133,12 +136,12 @@
 /* Border width */
 /* Opacity */
 /* Line Height */
+/*Font Weight*/
 /* mixin */
 /* line 4, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
 .t-tabs {
   display: flex;
   list-style: none;
-  height: 27px;
   margin: 0em 0em 0em 0em;
   padding: 0em 0em 0em 0em;
   overflow-x: scroll;
@@ -148,20 +151,20 @@
 @media (min-width: 768px) {
   /* line 4, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
   .t-tabs {
-    height: 72px;
-    padding: 0.2em 1em 0.2em 1em;
+    padding: 0.75em 1em 0.75em 1em;
     margin: 0em 1em 0em 0em;
     display: inline-block;
+    overflow-x: hidden;
   }
 }
 
 @media (min-width: 1536px) {
   /* line 4, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
   .t-tabs {
-    height: 72px;
-    padding: 0.3em 1em 0.3em 1em;
+    padding: 0.375em 1em 0.375em 1em;
     margin: 0em 1em 0em 0em;
     display: inline-block;
+    overflow-x: hidden;
   }
 }
 
@@ -169,7 +172,6 @@
 .t-tabs .t-tabs__contents {
   display: flex;
   list-style: none;
-  height: 30px;
   margin: 0em 1em 0em 0em;
   padding: 0em 0em 0em 0em;
 }
@@ -177,7 +179,7 @@
 @media (min-width: 768px) {
   /* line 27, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
   .t-tabs .t-tabs__contents {
-    padding: 0.2em 1em 0.2em 1em;
+    padding: 0.25em 1em 0.25em 1em;
     margin: 0em 1em 0em 0em;
   }
 }
@@ -186,58 +188,62 @@
   /* line 27, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
   .t-tabs .t-tabs__contents {
     margin: 0em 1em 0em 0em;
-    padding: 0.3em 1em 0.3em 1em;
+    padding: 0.375em 1em 0.375em 1em;
     display: inline-block;
   }
 }
 
-/* line 47, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
+/* line 46, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
 .t-tabs .t-tabs__contents .t-tabs__itens {
-  width: 10em;
   padding: 0em 0em 0em 0em;
   margin: 0em 1em 0em 0em;
-  border-bottom: #e8edf1 solid 0.15em;
+  border-bottom: #eaeaf8 solid 0.15em;
   text-align: center;
 }
 
+/* line 52, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
+.t-tabs .t-tabs__contents .t-tabs__itens.active {
+  border-bottom: #18204e solid 0.15em;
+  font-weight: 700;
+}
+
 @media (min-width: 768px) {
-  /* line 47, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
+  /* line 46, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
   .t-tabs .t-tabs__contents .t-tabs__itens {
     padding: 0em 0em 0em 0em;
     margin: 0em 1em 0em 0em;
-    width: 13em;
   }
 }
 
 @media (min-width: 1536px) {
-  /* line 47, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
+  /* line 46, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
   .t-tabs .t-tabs__contents .t-tabs__itens {
     padding: 0em 0em 0em 0em;
     margin: 0em 1em 0em 0em;
     display: inline-block;
-    width: 13em;
   }
 }
 
-/* line 67, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
+/* line 68, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
 .t-tabs .t-tabs__contents .t-tabs__itens .t-tabs__link {
-  font-size: 14px;
-  color: #252A31;
+  font-size: 16px;
+  height: auto;
+  color: #52647a;
 }
 
 @media (min-width: 768px) {
-  /* line 67, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
+  /* line 68, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
   .t-tabs .t-tabs__contents .t-tabs__itens .t-tabs__link {
-    margin: 0em 1em 0em 0em;
-    padding: 0.2em 1em 0.2em 1em;
+    margin: 0em 0em 0em 0em;
+    padding: 0.25em 1em 0.25em 1em;
   }
 }
 
 @media (min-width: 1536px) {
-  /* line 67, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
+  /* line 68, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
   .t-tabs .t-tabs__contents .t-tabs__itens .t-tabs__link {
     margin: 0em 1em 0em 0em;
-    padding: 0.3em 1em 0.3em 1em;
+    padding: 0.375em 1em 0.375em 1em;
     display: inline-block;
   }
 }

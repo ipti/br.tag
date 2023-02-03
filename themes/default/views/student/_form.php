@@ -18,6 +18,7 @@ $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js', CCl
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/functions.js', CClientScript::POS_END);
 $cs->registerCssFile($themeUrl . '/css/template2.css');
+$cs->registerCssFile($baseUrl. 'sass/css/main.css');
 /* */
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'student',
@@ -51,28 +52,28 @@ $form = $this->beginWidget('CActiveForm', array(
         echo $form->errorSummary($modelStudentDocumentsAndAddress);
         ?>
         <div class="alert alert-error student-error no-show"></div>
-        <div class="widget-head">
-            <ul class="tab-student" style="display:none">
-                <li id="tab-student-identify" class="active">
-                    <a class="glyphicons vcard" href="#student-identify" data-toggle="tab">
+        <div class="t-tabs">
+            <ul class="t-tabs__contents">
+                <li id="tab-student-identify" class="t-tabs__itens active">
+                    <a class="t-tabs__link" href="#student-identify" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Identification') ?>
                     </a>
                 </li>
-                <li id="tab-student-documents">
-                    <a class="glyphicons credit_card" href="#student-documents" data-toggle="tab">
+                <li id="tab-student-documents" class="t-tabs__itens ">
+                    <a class="t-tabs__link" href="#student-documents" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Documents') ?>
                     </a>
                 </li>
-                <li id="tab-student-address">
-                    <a class="glyphicons home" href="#student-address" data-toggle="tab">
+                <li id="tab-student-address" class="t-tabs__itens ">
+                    <a class="t-tabs__link" href="#student-address" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Address') ?>
                     </a>
                 </li>
-                <li id="tab-student-enrollment">
-                    <a class="glyphicons book_open" href="#student-enrollment" data-toggle="tab">
+                <li id="tab-student-enrollment" class="t-tabs__itens ">
+                    <a class="t-tabs__link" href="#student-enrollment" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Enrollment') ?>
                     </a>

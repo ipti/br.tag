@@ -5,82 +5,83 @@
     
     display: flex;
     list-style: none;
-    height: 27px;
-    margin: 0em 0em 0em 0em;
-    padding: 0em 0em 0em 0em;
+    margin: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
+    padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
     overflow-x: scroll;
     overflow-y: hidden;
 
     @include device(tablet) {
-        height: 72px;
-        padding: 0.2em 1em 0.2em 1em;
-        margin: 0em 1em 0em 0em;
+    
+        padding: $spaceSmall $spaceMedium $spaceSmall $spaceMedium;
+        margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
         display: inline-block;
+        overflow-x: hidden;
     }
     @include device(desktop) {
-        height: 72px;
-        padding: 0.3em 1em 0.3em 1em;
-        margin: 0em 1em 0em 0em;
+        padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
+        margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
         display: inline-block;
+        overflow-x: hidden;
     }
 
     .t-tabs__contents {
         display: flex;
         list-style: none;
-        height: 30px;
-        margin: 0em 1em 0em 0em;
-        padding: 0em 0em 0em 0em;
+        margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
+        padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
 
         
 
         @include device(tablet) {
-            padding: 0.2em 1em 0.2em 1em;
-            margin: 0em 1em 0em 0em;
+            padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
+            margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
     
         }
         @include device(desktop) {
-            margin: 0em 1em 0em 0em;
-            padding: 0.3em 1em 0.3em 1em;
+            margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
+            padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
             display: inline-block;
         }
 
         .t-tabs__itens {
-            width: 10em;
-            padding: 0em 0em 0em 0em;
-            margin: 0em 1em 0em 0em;
-            border-bottom: $colorsBaseCloudDark solid 0.15em;
+            padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
+            margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
+            border-bottom: $colorsBaseProductLight solid 0.15em;
             text-align: center;
             
+            &.active {
+                border-bottom: $colorsBaseProductDarkActive solid 0.15em;
+                font-weight: $fontWeightBold;
+
+            }
 
             @include device(tablet) {
-                padding: 0em 0em 0em 0em;
-                margin: 0em 1em 0em 0em;
-                width: 13em;
+                padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
+                margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
         
             }
             @include device(desktop) {
-                padding: 0em 0em 0em 0em;
-                margin: 0em 1em 0em 0em;
+                padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
+                margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
                 display: inline-block;
-                width: 13em;
             }
             .t-tabs__link {
-                font-size: $spaceNormal;
-                color: $colorsTextPrimary;
+                font-size: $FontSizeFormLabel;
+                height: auto;
+                color: $colorsBaseInkLightHover;
                 @include device(tablet) {
-                    margin: 0em 1em 0em 0em;
-                    padding: 0.2em 1em 0.2em 1em;
+                    margin: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
+                    padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
             
                 }
                 @include device(desktop) {
-                    margin: 0em 1em 0em 0em;
-                    padding: 0.3em 1em 0.3em 1em;
+                    margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
+                    padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
                     display: inline-block;
                 }
             }
 
            
         }
-    }
-
+    } 
 }
