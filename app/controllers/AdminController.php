@@ -71,7 +71,7 @@ class AdminController extends Controller
 				'pageSize' => 12,
 			)
 		));
-		$this->render('ActiveDisableUser', ['dataProvider' => $dataProvider, 'filter' => $filter]);
+		$this->render('activeDisableUser', ['dataProvider' => $dataProvider, 'filter' => $filter]);
 	}
 
 	public function actionDisableUser($id)
