@@ -40,7 +40,7 @@ class InstructorController extends Controller
             [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
-                    'index', 'view', 'create', 'update', 'updateEmails', 'saveEmails', 'getCity', 'getCityByCep',
+                    'index', 'view', 'create', 'update', 'updateEmails', 'frequency', 'saveEmails', 'getCity', 'getCityByCep',
                     'getInstitutions', 'getCourses', 'delete'
                 ], 'users' => ['@'],
             ], [
@@ -573,6 +573,15 @@ preenchidos";
         } else {
             $this->render("updateEmails", ["instructors" => $instructors]);
         }
+    }
+
+    public function actionFrequency() 
+    {
+        $instructors = InstructorIdentification::model()->findAll([
+            'order' => 'name',
+        ]);
+
+        $this->render('frequency', ['instructors' => $instructors]);
     }
 
 }

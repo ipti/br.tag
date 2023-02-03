@@ -687,6 +687,9 @@ return array(
 
     //Instructor email update
     'Update Instructor e-mails' => "Atualizar e-mail dos professores",
+
+    //Instructor frequency
+    'Instructor frequency' => "Frequência do professor",
     
     //Classboards
     'Insert class' => 'Inserir aula',

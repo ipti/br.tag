@@ -14,6 +14,7 @@
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Instructor Identifications') ?></h3>
             <div class="buttons span7 hide-responsive">
+                <a href="<?php echo Yii::app()->createUrl('instructor/frequency')?>" class="tag-button medium-button">Frequência</a>
                 <a href="<?php echo Yii::app()->createUrl('instructor/updateEmails')?>" class="tag-button medium-button">Atualizar e-mails</a>
                 <a href="<?php echo Yii::app()->createUrl('instructor/create')?>" class="tag-button medium-button">Adicionar professor</a>
             </div>
