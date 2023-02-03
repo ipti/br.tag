@@ -28,13 +28,6 @@ const Sidebar = () => {
     //   Icon: <IconHouse />
     // },
     {
-      to: "/cronograma",
-      name: "Cronograma",
-      exact: false,
-      IconActive: <IconScheduleActive />,
-      Icon: <IconSchedule />
-    },
-    {
       to: "/escolas",
       name: "Escolas",
       exact: false,

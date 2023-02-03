@@ -78,38 +78,7 @@ const Create = props => {
                 direction="row"
                 spacing={3}
               >
-                <Grid item md={6} sm={6}>
-                  <FormControl
-                    component="fieldset"
-                    className={classes.formControl}
-                  >
-                    <FormLabel>Número de Vagas</FormLabel>
-                    <TextField
-                      variant="outlined"
-                      name="vacancies"
-                      value={props.values.vacancies}
-                      onChange={props.handleChange}
-                      className={classes.textField}
-                    />
 
-                    <div className={classes.formFieldError}>
-                      {props.errors.vacancies}
-                    </div>
-                  </FormControl>
-                  <Grid container direction="row">
-                    <Grid item md={4} sm={6}>
-                      {!loadingIcon ? (
-                        <ButtonPurple
-                          onClick={props.handleSubmit}
-                          type="submit"
-                          title="Salvar"
-                        />
-                      ) : (
-                        <Loading />
-                      )}
-                    </Grid>
-                  </Grid>
-                </Grid>
                 <BoxVacancies
                   quantity={data && data.remaining}
                   title="Restante"

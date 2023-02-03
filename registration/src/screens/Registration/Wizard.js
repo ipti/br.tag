@@ -12,6 +12,7 @@ import StepFour from "./StepFour";
 import StepFive from "./StepFive";
 import StepSix from "./StepSix";
 import Finish from "./Finish";
+import Classroom from "./ClassRoom";
 
 class Wizard extends Component {
   constructor(props) {
@@ -27,12 +28,12 @@ class Wizard extends Component {
 
   componentMapping = {
     "0": Start,
-    "1": StepOne,
-    "2": StepTwo,
-    "3": StepThree,
-    "4": StepFour,
-    "5": StepFive,
-    "6": StepSix,
+    "1": Classroom,
+    "2": StepOne,
+    "3": StepTwo,
+    "4": StepThree,
+    "5": StepFour,
+    "6": StepFive,
     "7": Finish
   };
 
