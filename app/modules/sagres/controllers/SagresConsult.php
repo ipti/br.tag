@@ -167,7 +167,7 @@ class SagresConsult {
     public function setAtendimento($id_professional){
         $atendimento_t = new AtendimentoTType;
 
-        $query = "SELECT a.date , a.local FROM attendance as a WHERE a.professional_fk = " . $id_professional .";"; 
+        $query = "SELECT a.date , a.local FROM attendance a WHERE a.professional_fk = " . $id_professional .";"; 
     
         $atendimentos = Yii::app()->db->createCommand($query)->queryAll();
     
