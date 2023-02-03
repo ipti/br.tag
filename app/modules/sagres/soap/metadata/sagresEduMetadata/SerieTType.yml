@@ -5,7 +5,8 @@ SagresEdu\SerieTType:
             access_type: public_method
             serialized_name: descricao
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getDescricao
                 setter: setDescricao
@@ -15,7 +16,8 @@ SagresEdu\SerieTType:
             access_type: public_method
             serialized_name: modalidade
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getModalidade
                 setter: setModalidade

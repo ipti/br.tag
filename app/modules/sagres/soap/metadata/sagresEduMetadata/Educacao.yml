@@ -1,3 +1,3 @@
 SagresEdu\Educacao:
     xml_root_name: educacao
-    xml_root_namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+    xml_root_namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'

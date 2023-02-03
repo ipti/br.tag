@@ -1,6 +1,11 @@
-<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.tce.se.gov.br/sagres2022/xml/sagresEdu" version="1.0" xml:lang="pt-BR"
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.tce.se.gov.br/sagres2023/xml/sagresEdu" version="1.0" xml:lang="pt-BR"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:edu="http://www.tce.se.gov.br/sagres2022/xml/sagresEdu">
+	xmlns:edu="http://www.tce.se.gov.br/sagres2023/xml/sagresEdu"
+	xmlns:gen="http://www.tce.se.gov.br/sagres2023/xml/genericos"
+	xmlns:tab="http://www.tce.se.gov.br/sagres2023/xml/tabelasInternas">
+	
+	<xsd:import namespace = "http://www.tce.se.gov.br/sagres2023/xml/genericos" schemaLocation="genericos.xsd"/>
+	<xsd:import namespace = "http://www.tce.se.gov.br/sagres2023/xml/tabelasInternas" schemaLocation="tabelasInternas.xsd"/>
 	
 	<xsd:simpleType name="turno_t">
 		<xsd:restriction base="xsd:integer">
@@ -13,7 +18,7 @@
 		
 	<xsd:simpleType name="data_t">
 		<xsd:restriction base="xsd:date">    
-			<xsd:minInclusive value="2022-01-01"/>    			 
+			<xsd:minInclusive value="2021-01-01"/>    			 
 		</xsd:restriction>	
 	</xsd:simpleType>	
 		
@@ -2010,7 +2015,8 @@
 		</xsd:element>
 	  </xsd:sequence>
 	</xsd:complexType>	
-		
+			
+	
 	<xsd:complexType name="profissional_t">
 	  <xsd:sequence>
 		<xsd:element name="cpfProfissional" type="edu:cpf_t" />
@@ -2024,8 +2030,9 @@
 		</xsd:element>
 		<xsd:element name="idEscola" type="edu:idEscola_t" minOccurs="0"/>
 		<xsd:element name="fundeb" type="xsd:boolean" />
+		<xsd:element name="atendimento" type="edu:atendimento_t" minOccurs="0" maxOccurs="unbounded"/>		
 	  </xsd:sequence>
-	</xsd:complexType>		
+	</xsd:complexType>			
 
 	<xsd:complexType name="diretor_t">
 	  <xsd:sequence>
@@ -2051,8 +2058,7 @@
 			  <xsd:maxLength value="200" />
 			</xsd:restriction>
 		  </xsd:simpleType>		  
-		</xsd:element>
-		<xsd:element name="profissional" type="edu:profissional_t" />
+		</xsd:element>		
 	  </xsd:sequence>
 	</xsd:complexType>	
 	
@@ -2084,13 +2090,23 @@
 	<!-- CABECALHO -->	
 	<xsd:complexType name="cabecalho_t">
 		<xsd:sequence>
+			<xsd:element nillable="false" name="codigoUnidGestora" type="tab:codigoUnidGestora_t"/>
+			<xsd:element nillable="false" name="nomeUnidGestora" type="gen:nomeUnidGestora_t"/>
+			<xsd:element nillable="false" name="cpfResponsavel" type="gen:cpfGestor_t"/>
+			<xsd:element nillable="false" name="cpfGestor" type="gen:cpfGestor_t"/>
+			<xsd:element nillable="false" name="anoReferencia" type="gen:anoReferencia_t"/>
+			<xsd:element nillable="false" name="mesReferencia" type="gen:mesReferencia_t"/>
+			<xsd:element nillable="false" name="versaoXml" type="gen:versaoXml_t"/>
+			<xsd:element nillable="false" name="diaInicPresContas" type="gen:diaInicPresContas_t"/>
+			<xsd:element nillable="false" name="diaFinaPresContas" type="gen:diaFinaPresContas_t"/>			
 		</xsd:sequence>
 	</xsd:complexType>		
 	
 	<xsd:complexType name="educacao_t">
-		<xsd:sequence>		
+		<xsd:sequence>	
+			<xsd:element name="PrestacaoContas" type="edu:cabecalho_t" />		
 			<xsd:element name="escola" type="edu:escola_t" maxOccurs="unbounded"/>
-			<xsd:element name="atendimento" type="edu:atendimento_t" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="profissional" type="edu:profissional_t" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>	
 	

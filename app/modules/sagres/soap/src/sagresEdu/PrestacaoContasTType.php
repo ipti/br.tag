@@ -273,5 +273,3 @@ class PrestacaoContasTType {
         return $this;
     }
 }
-
-

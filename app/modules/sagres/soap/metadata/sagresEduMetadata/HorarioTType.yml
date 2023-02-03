@@ -5,7 +5,8 @@ SagresEdu\HorarioTType:
             access_type: public_method
             serialized_name: dia_semana
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getDiaSemana
                 setter: setDiaSemana
@@ -15,7 +16,8 @@ SagresEdu\HorarioTType:
             access_type: public_method
             serialized_name: duracao
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getDuracao
                 setter: setDuracao
@@ -25,7 +27,8 @@ SagresEdu\HorarioTType:
             access_type: public_method
             serialized_name: hora_inicio
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getHoraInicio
                 setter: setHoraInicio
@@ -35,7 +38,8 @@ SagresEdu\HorarioTType:
             access_type: public_method
             serialized_name: disciplina
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getDisciplina
                 setter: setDisciplina
@@ -45,12 +49,13 @@ SagresEdu\HorarioTType:
             access_type: public_method
             serialized_name: cpfProfessor
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getCpfProfessor
                 setter: setCpfProfessor
             xml_list:
                 inline: true
                 entry_name: cpfProfessor
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             type: array<string>

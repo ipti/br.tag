@@ -5,7 +5,8 @@ SagresEdu\AtendimentoTType:
             access_type: public_method
             serialized_name: data
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getData
                 setter: setData
@@ -15,18 +16,9 @@ SagresEdu\AtendimentoTType:
             access_type: public_method
             serialized_name: local
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getLocal
                 setter: setLocal
             type: string
-        profissional:
-            expose: true
-            access_type: public_method
-            serialized_name: profissional
-            xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
-            accessor:
-                getter: getProfissional
-                setter: setProfissional
-            type: SagresEdu\ProfissionalTType

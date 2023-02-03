@@ -12,6 +12,11 @@ class EducacaoTType
 {
 
     /**
+     * @var \SagresEdu\CabecalhoTType $prestacaoContas
+     */
+    private $prestacaoContas = null;
+
+    /**
      * @var \SagresEdu\EscolaTType[] $escola
      */
     private $escola = [
@@ -19,11 +24,33 @@ class EducacaoTType
     ];
 
     /**
-     * @var \SagresEdu\AtendimentoTType[] $atendimento
+     * @var \SagresEdu\ProfissionalTType[] $profissional
      */
-    private $atendimento = [
+    private $profissional = [
         
     ];
+
+    /**
+     * Gets as prestacaoContas
+     *
+     * @return \SagresEdu\CabecalhoTType
+     */
+    public function getPrestacaoContas()
+    {
+        return $this->prestacaoContas;
+    }
+
+    /**
+     * Sets a new prestacaoContas
+     *
+     * @param \SagresEdu\CabecalhoTType $prestacaoContas
+     * @return self
+     */
+    public function setPrestacaoContas(\SagresEdu\CabecalhoTType $prestacaoContas)
+    {
+        $this->prestacaoContas = $prestacaoContas;
+        return $this;
+    }
 
     /**
      * Adds as escola
@@ -82,58 +109,58 @@ class EducacaoTType
     }
 
     /**
-     * Adds as atendimento
+     * Adds as profissional
      *
      * @return self
-     * @param \SagresEdu\AtendimentoTType $atendimento
+     * @param \SagresEdu\ProfissionalTType $profissional
      */
-    public function addToAtendimento(\SagresEdu\AtendimentoTType $atendimento)
+    public function addToProfissional(\SagresEdu\ProfissionalTType $profissional)
     {
-        $this->atendimento[] = $atendimento;
+        $this->profissional[] = $profissional;
         return $this;
     }
 
     /**
-     * isset atendimento
+     * isset profissional
      *
      * @param int|string $index
      * @return bool
      */
-    public function issetAtendimento($index)
+    public function issetProfissional($index)
     {
-        return isset($this->atendimento[$index]);
+        return isset($this->profissional[$index]);
     }
 
     /**
-     * unset atendimento
+     * unset profissional
      *
      * @param int|string $index
      * @return void
      */
-    public function unsetAtendimento($index)
+    public function unsetProfissional($index)
     {
-        unset($this->atendimento[$index]);
+        unset($this->profissional[$index]);
     }
 
     /**
-     * Gets as atendimento
+     * Gets as profissional
      *
-     * @return \SagresEdu\AtendimentoTType[]
+     * @return \SagresEdu\ProfissionalTType[]
      */
-    public function getAtendimento()
+    public function getProfissional()
     {
-        return $this->atendimento;
+        return $this->profissional;
     }
 
     /**
-     * Sets a new atendimento
+     * Sets a new profissional
      *
-     * @param \SagresEdu\AtendimentoTType[] $atendimento
+     * @param \SagresEdu\ProfissionalTType[] $profissional
      * @return self
      */
-    public function setAtendimento(array $atendimento)
+    public function setProfissional(array $profissional)
     {
-        $this->atendimento = $atendimento;
+        $this->profissional = $profissional;
         return $this;
     }
 

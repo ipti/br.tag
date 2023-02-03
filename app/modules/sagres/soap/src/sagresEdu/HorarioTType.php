@@ -176,7 +176,7 @@ class HorarioTType
      * @param string $cpfProfessor
      * @return self
      */
-    public function setCpfProfessor(string $cpfProfessor)
+    public function setCpfProfessor($cpfProfessor)
     {
         $this->cpfProfessor = $cpfProfessor;
         return $this;

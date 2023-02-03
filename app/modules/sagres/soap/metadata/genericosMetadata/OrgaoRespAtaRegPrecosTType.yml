@@ -5,6 +5,7 @@ Genericos\OrgaoRespAtaRegPrecosTType:
             access_type: public_method
             serialized_name: cnpj
             xml_element:
+                cdata: false
                 namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
             accessor:
                 getter: getCnpj
@@ -15,6 +16,7 @@ Genericos\OrgaoRespAtaRegPrecosTType:
             access_type: public_method
             serialized_name: nome
             xml_element:
+                cdata: false
                 namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
             accessor:
                 getter: getNome

@@ -22,11 +22,6 @@ class AtendimentoTType
     private $local = null;
 
     /**
-     * @var \SagresEdu\ProfissionalTType $profissional
-     */
-    private $profissional = null;
-
-    /**
      * Gets as data
      *
      * @return \DateTime
@@ -67,28 +62,6 @@ class AtendimentoTType
     public function setLocal($local)
     {
         $this->local = $local;
-        return $this;
-    }
-
-    /**
-     * Gets as profissional
-     *
-     * @return \SagresEdu\ProfissionalTType
-     */
-    public function getProfissional()
-    {
-        return $this->profissional;
-    }
-
-    /**
-     * Sets a new profissional
-     *
-     * @param \SagresEdu\ProfissionalTType $profissional
-     * @return self
-     */
-    public function setProfissional(\SagresEdu\ProfissionalTType $profissional)
-    {
-        $this->profissional = $profissional;
         return $this;
     }
 

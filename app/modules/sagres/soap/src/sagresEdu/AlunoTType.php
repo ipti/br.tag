@@ -1,7 +1,6 @@
 <?php
 
 namespace SagresEdu;
-use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * Class representing AlunoTType
@@ -18,7 +17,7 @@ class AlunoTType
     private $cpfAluno = null;
 
     /**
-     * @var date $dataNascimento
+     * @var \DateTime $dataNascimento
      */
     private $dataNascimento = null;
 
@@ -62,7 +61,7 @@ class AlunoTType
     /**
      * Gets as dataNascimento
      *
-     * @return date
+     * @return \DateTime
      */
     public function getDataNascimento()
     {
@@ -72,10 +71,10 @@ class AlunoTType
     /**
      * Sets a new dataNascimento
      *
-     * @param $dataNascimento
+     * @param \DateTime $dataNascimento
      * @return self
      */
-    public function setDataNascimento($dataNascimento)
+    public function setDataNascimento(\DateTime $dataNascimento)
     {
         $this->dataNascimento = $dataNascimento;
         return $this;

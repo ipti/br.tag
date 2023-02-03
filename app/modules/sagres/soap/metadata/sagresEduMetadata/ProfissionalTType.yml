@@ -5,7 +5,8 @@ SagresEdu\ProfissionalTType:
             access_type: public_method
             serialized_name: cpfProfissional
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getCpfProfissional
                 setter: setCpfProfissional
@@ -15,7 +16,8 @@ SagresEdu\ProfissionalTType:
             access_type: public_method
             serialized_name: especialidade
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getEspecialidade
                 setter: setEspecialidade
@@ -25,7 +27,8 @@ SagresEdu\ProfissionalTType:
             access_type: public_method
             serialized_name: idEscola
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getIdEscola
                 setter: setIdEscola
@@ -35,8 +38,24 @@ SagresEdu\ProfissionalTType:
             access_type: public_method
             serialized_name: fundeb
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getFundeb
                 setter: setFundeb
             type: bool
+        atendimento:
+            expose: true
+            access_type: public_method
+            serialized_name: atendimento
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+            accessor:
+                getter: getAtendimento
+                setter: setAtendimento
+            xml_list:
+                inline: true
+                entry_name: atendimento
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+            type: array<SagresEdu\AtendimentoTType>

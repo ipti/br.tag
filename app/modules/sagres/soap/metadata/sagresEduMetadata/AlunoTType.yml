@@ -5,7 +5,8 @@ SagresEdu\AlunoTType:
             access_type: public_method
             serialized_name: cpfAluno
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getCpfAluno
                 setter: setCpfAluno
@@ -15,7 +16,8 @@ SagresEdu\AlunoTType:
             access_type: public_method
             serialized_name: data_nascimento
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getDataNascimento
                 setter: setDataNascimento
@@ -25,7 +27,8 @@ SagresEdu\AlunoTType:
             access_type: public_method
             serialized_name: nome
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getNome
                 setter: setNome
@@ -35,7 +38,8 @@ SagresEdu\AlunoTType:
             access_type: public_method
             serialized_name: pcd
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getPcd
                 setter: setPcd
@@ -45,7 +49,8 @@ SagresEdu\AlunoTType:
             access_type: public_method
             serialized_name: sexo
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getSexo
                 setter: setSexo

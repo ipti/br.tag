@@ -10,7 +10,7 @@ namespace SagresEdu;
  */
 class TurmaTType
 {
-    
+
     /**
      * @var int $periodo
      */

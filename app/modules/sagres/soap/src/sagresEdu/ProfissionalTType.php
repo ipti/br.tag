@@ -32,6 +32,13 @@ class ProfissionalTType
     private $fundeb = null;
 
     /**
+     * @var \SagresEdu\AtendimentoTType[] $atendimento
+     */
+    private $atendimento = [
+        
+    ];
+
+    /**
      * Gets as cpfProfissional
      *
      * @return string
@@ -116,6 +123,62 @@ class ProfissionalTType
     public function setFundeb($fundeb)
     {
         $this->fundeb = $fundeb;
+        return $this;
+    }
+
+    /**
+     * Adds as atendimento
+     *
+     * @return self
+     * @param \SagresEdu\AtendimentoTType $atendimento
+     */
+    public function addToAtendimento(\SagresEdu\AtendimentoTType $atendimento)
+    {
+        $this->atendimento[] = $atendimento;
+        return $this;
+    }
+
+    /**
+     * isset atendimento
+     *
+     * @param int|string $index
+     * @return bool
+     */
+    public function issetAtendimento($index)
+    {
+        return isset($this->atendimento[$index]);
+    }
+
+    /**
+     * unset atendimento
+     *
+     * @param int|string $index
+     * @return void
+     */
+    public function unsetAtendimento($index)
+    {
+        unset($this->atendimento[$index]);
+    }
+
+    /**
+     * Gets as atendimento
+     *
+     * @return \SagresEdu\AtendimentoTType[]
+     */
+    public function getAtendimento()
+    {
+        return $this->atendimento;
+    }
+
+    /**
+     * Sets a new atendimento
+     *
+     * @param \SagresEdu\AtendimentoTType[] $atendimento
+     * @return self
+     */
+    public function setAtendimento(array $atendimento)
+    {
+        $this->atendimento = $atendimento;
         return $this;
     }
 

@@ -1,2 +1,101 @@
 SagresEdu\CabecalhoTType:
-    properties: {  }
+    properties:
+        codigoUnidGestora:
+            expose: true
+            access_type: public_method
+            serialized_name: codigoUnidGestora
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+            accessor:
+                getter: getCodigoUnidGestora
+                setter: setCodigoUnidGestora
+            type: string
+        nomeUnidGestora:
+            expose: true
+            access_type: public_method
+            serialized_name: nomeUnidGestora
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+            accessor:
+                getter: getNomeUnidGestora
+                setter: setNomeUnidGestora
+            type: string
+        cpfResponsavel:
+            expose: true
+            access_type: public_method
+            serialized_name: cpfResponsavel
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+            accessor:
+                getter: getCpfResponsavel
+                setter: setCpfResponsavel
+            type: string
+        cpfGestor:
+            expose: true
+            access_type: public_method
+            serialized_name: cpfGestor
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+            accessor:
+                getter: getCpfGestor
+                setter: setCpfGestor
+            type: string
+        anoReferencia:
+            expose: true
+            access_type: public_method
+            serialized_name: anoReferencia
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+            accessor:
+                getter: getAnoReferencia
+                setter: setAnoReferencia
+            type: int
+        mesReferencia:
+            expose: true
+            access_type: public_method
+            serialized_name: mesReferencia
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+            accessor:
+                getter: getMesReferencia
+                setter: setMesReferencia
+            type: int
+        versaoXml:
+            expose: true
+            access_type: public_method
+            serialized_name: versaoXml
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+            accessor:
+                getter: getVersaoXml
+                setter: setVersaoXml
+            type: int
+        diaInicPresContas:
+            expose: true
+            access_type: public_method
+            serialized_name: diaInicPresContas
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+            accessor:
+                getter: getDiaInicPresContas
+                setter: setDiaInicPresContas
+            type: int
+        diaFinaPresContas:
+            expose: true
+            access_type: public_method
+            serialized_name: diaFinaPresContas
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+            accessor:
+                getter: getDiaFinaPresContas
+                setter: setDiaFinaPresContas
+            type: int

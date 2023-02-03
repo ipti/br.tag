@@ -1631,6 +1631,8 @@
 			<xs:enumeration value="17195701"/>  <!-- 17195701 - Transferência Especial da União - Principal -->
 			<xs:enumeration value="17195801"/>  <!-- 17195801 - Transferência Obrigatória Decorrente da Lei Complementar nº 176/2020 - Principal -->
 			<xs:enumeration value="17195901"/>  <!-- 17195901 - Transferência de Recursos do Fundo de Amparo ao Trabalhador - FAT - Principal -->
+			<xs:enumeration value="17196201"/>  <!-- 17196201 - Transferência da Compensação Financeira das Perdas com Arrecadação de ICMS - Art. 3º, §4º, LC nº 194/2022 - Principal -->
+			<xs:enumeration value="17196301"/>  <!-- 17196301 - Transferência da Compensação Financeira das Perdas com Arrecadação de ICMS referente à apropriação da parcela da CFEM devida a União - Art. 3º, §5º, LC nº 194/2022 - Principal -->
 			<xs:enumeration value="17199901"/>  <!-- 17199901 - Outras Transferências de Recursos da União e de suas Entidades - Principal -->
 			<xs:enumeration value="17215001"/>  <!-- 17215001 - Cota-Parte do ICMS - Principal -->
 			<xs:enumeration value="17215101"/>  <!-- 17215101 - Cota-Parte do IPVA - Principal -->
@@ -3677,6 +3679,8 @@
 			<xs:enumeration value="77195701"/>  <!-- 77195701 - Transferência Especial da União - Principal -->
 			<xs:enumeration value="77195801"/>  <!-- 77195801 - Transferência Obrigatória Decorrente da Lei Complementar nº 176/2020 - Principal -->
 			<xs:enumeration value="77195901"/>  <!-- 77195901 - Transferência de Recursos do Fundo de Amparo ao Trabalhador - FAT - Principal -->
+			<xs:enumeration value="77196201"/>  <!-- 77196201 - Transferência da Compensação Financeira das Perdas com Arrecadação de ICMS - Art. 3º, §4º, LC nº 194/2022 - Principal -->
+			<xs:enumeration value="77196301"/>  <!-- 77196301 - Transferência da Compensação Financeira das Perdas com Arrecadação de ICMS referente à apropriação da parcela da CFEM devida a União - Art. 3º, §5º, LC nº 194/2022 - Principal -->
 			<xs:enumeration value="77199901"/>  <!-- 77199901 - Outras Transferências de Recursos da União e de suas Entidades - Principal -->
 			<xs:enumeration value="77215001"/>  <!-- 77215001 - Cota-Parte do ICMS - Principal -->
 			<xs:enumeration value="77215101"/>  <!-- 77215101 - Cota-Parte do IPVA - Principal -->
@@ -11861,6 +11865,8 @@
 			<xs:enumeration value="9517195701"/>  <!-- 9517195701 - FUNDEB - Transferência Especial da União - Principal -->
 			<xs:enumeration value="9517195801"/>  <!-- 9517195801 - FUNDEB - Transferência Obrigatória Decorrente da Lei Complementar nº 176/2020 - Principal -->
 			<xs:enumeration value="9517195901"/>  <!-- 9517195901 - FUNDEB - Transferência de Recursos do Fundo de Amparo ao Trabalhador - FAT - Principal -->
+			<xs:enumeration value="9517196201"/>  <!-- 9517196201 - FUNDEB - Transferência da Compensação Financeira das Perdas com Arrecadação de ICMS - Art. 3º, §4º, LC nº 194/2022 - Principal -->
+			<xs:enumeration value="9517196301"/>  <!-- 9517196301 - FUNDEB - Transferência da Compensação Financeira das Perdas com Arrecadação de ICMS referente à apropriação da parcela da CFEM devida a União - Art. 3º, §5º, LC nº 194/2022 - Principal -->
 			<xs:enumeration value="9517199901"/>  <!-- 9517199901 - FUNDEB - Outras Transferências de Recursos da União e de suas Entidades - Principal -->
 			<xs:enumeration value="9517215001"/>  <!-- 9517215001 - FUNDEB - Cota-Parte do ICMS - Principal -->
 			<xs:enumeration value="9517215101"/>  <!-- 9517215101 - FUNDEB - Cota-Parte do IPVA - Principal -->
@@ -19855,6 +19861,7 @@
 			<xs:enumeration value="15001001"/>  <!-- 15001001 - Identificação das despesas com manutenção e desenvolvimento do ensino -->
 			<xs:enumeration value="15001002"/>  <!-- 15001002 - Identificação das despesas com ações e serviços públicos de saúde -->
 			<xs:enumeration value="15010000"/>  <!-- 15010000 - Outros Recursos não Vinculados -->
+			<xs:enumeration value="15020000"/>  <!-- 15020000 - Recursos não vinculados da compensação de impostos -->
 			<xs:enumeration value="15400000"/>  <!-- 15400000 - Transferências do FUNDEB - Impostos e Transferências de Impostos -->
 			<xs:enumeration value="15401070"/>  <!-- 15401070 - Identificação do percentual aplicado no pagamento da remuneração dos profissionais da educação básica em efetivo exercício -->
 			<xs:enumeration value="15410000"/>  <!-- 15410000 - Transferências do FUNDEB – Complementação da União - VAAF -->
@@ -19972,6 +19979,7 @@
 			<xs:enumeration value="25001001"/>  <!-- 25001001 - Identificação das despesas com manutenção e desenvolvimento do ensino - Exercícios Anteriores -->
 			<xs:enumeration value="25001002"/>  <!-- 25001002 - Identificação das despesas com ações e serviços públicos de saúde - Exercícios Anteriores -->
 			<xs:enumeration value="25010000"/>  <!-- 25010000 - Outros Recursos não Vinculados - Exercícios Anteriores -->
+			<xs:enumeration value="25020000"/>  <!-- 25020000 - Recursos não vinculados da compensação de impostos - Exercícios Anteriores -->
 			<xs:enumeration value="25400000"/>  <!-- 25400000 - Transferências do FUNDEB - Impostos e Transferências de Impostos - Exercícios Anteriores -->
 			<xs:enumeration value="25401070"/>  <!-- 25401070 - Identificação do percentual aplicado no pagamento da remuneração dos profissionais da educação básica em efetivo exercício - Exercícios Anteriores -->
 			<xs:enumeration value="25410000"/>  <!-- 25410000 - Transferências do FUNDEB – Complementação da União - VAAF - Exercícios Anteriores -->
@@ -20141,7 +20149,7 @@
 	<xs:simpleType name="codigoUnidGestora_t">
 		<xs:restriction base="xs:string">
 				<xs:enumeration value="201031"/>
-				<xs:enumeration value="201050"/>		
+				<xs:enumeration value="201050"/>
 				<xs:enumeration value="001115"/>  <!-- 001115 - FUNDO DOS DIREITOS DA CRIANCA E DO ADOLESCENTE - ARACAJU -->
 				<xs:enumeration value="001116"/>  <!-- 001116 - FUNDACAO MUNICIPAL DO TRABALHO -->
 				<xs:enumeration value="001117"/>  <!-- 001117 - FUNDO MUNICIPAL DE ASSISTENCIA SOCIAL -ARACAJU-DESATIVADO 2005 -->

@@ -5,7 +5,8 @@ SagresEdu\CardapioTType:
             access_type: public_method
             serialized_name: data
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getData
                 setter: setData
@@ -15,7 +16,8 @@ SagresEdu\CardapioTType:
             access_type: public_method
             serialized_name: turno
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getTurno
                 setter: setTurno
@@ -25,7 +27,8 @@ SagresEdu\CardapioTType:
             access_type: public_method
             serialized_name: descricao_merenda
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getDescricaoMerenda
                 setter: setDescricaoMerenda
@@ -35,7 +38,8 @@ SagresEdu\CardapioTType:
             access_type: public_method
             serialized_name: ajustado
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getAjustado
                 setter: setAjustado

@@ -5,7 +5,8 @@ SagresEdu\MatriculaTType:
             access_type: public_method
             serialized_name: numero
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getNumero
                 setter: setNumero
@@ -15,7 +16,8 @@ SagresEdu\MatriculaTType:
             access_type: public_method
             serialized_name: data_matricula
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getDataMatricula
                 setter: setDataMatricula
@@ -25,7 +27,8 @@ SagresEdu\MatriculaTType:
             access_type: public_method
             serialized_name: data_cancelamento
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getDataCancelamento
                 setter: setDataCancelamento
@@ -35,7 +38,8 @@ SagresEdu\MatriculaTType:
             access_type: public_method
             serialized_name: numero_faltas
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getNumeroFaltas
                 setter: setNumeroFaltas
@@ -45,7 +49,8 @@ SagresEdu\MatriculaTType:
             access_type: public_method
             serialized_name: aprovado
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getAprovado
                 setter: setAprovado
@@ -55,7 +60,8 @@ SagresEdu\MatriculaTType:
             access_type: public_method
             serialized_name: aluno
             xml_element:
-                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
             accessor:
                 getter: getAluno
                 setter: setAluno

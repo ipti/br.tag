@@ -5,6 +5,7 @@ Genericos\NaContratoTType:
             access_type: public_method
             serialized_name: tipoContrato
             xml_element:
+                cdata: false
                 namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
             accessor:
                 getter: getTipoContrato
@@ -15,6 +16,7 @@ Genericos\NaContratoTType:
             access_type: public_method
             serialized_name: nrContrato
             xml_element:
+                cdata: false
                 namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
             accessor:
                 getter: getNrContrato
@@ -25,6 +27,7 @@ Genericos\NaContratoTType:
             access_type: public_method
             serialized_name: anoContrato
             xml_element:
+                cdata: false
                 namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
             accessor:
                 getter: getAnoContrato

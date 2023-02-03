@@ -5,6 +5,7 @@ Genericos\NumeroLdoTType:
             access_type: public_method
             serialized_name: numero
             xml_element:
+                cdata: false
                 namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
             accessor:
                 getter: getNumero
@@ -15,6 +16,7 @@ Genericos\NumeroLdoTType:
             access_type: public_method
             serialized_name: ano
             xml_element:
+                cdata: false
                 namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
             accessor:
                 getter: getAno
