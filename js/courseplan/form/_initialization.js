@@ -22,9 +22,13 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
                 var textArray = state.text.split("|");
                 return textArray[0];
             },
-            formatResult: function (data){
+            formatResult: function (data) {
                 var textArray = data.text.split("|");
-                return "<div><b class='competence-code'>(" + textArray[0] + ")</b> <span class='competence-description'>" + textArray[1] + "</span></div>";
+                if (textArray.length === 1) {
+                    return "<div class='competence-optgroup'><b>" + textArray[0] + "</b></div>";
+                } else {
+                    return "<div><b class='competence-code'>(" + textArray[0] + ")</b> <span class='competence-description'>" + textArray[1] + "</span></div>";
+                }
             },
             escapeMarkup: function (m) {
                 return m;
@@ -103,7 +107,6 @@ $(document).on("change", "#CoursePlan_discipline_fk", function () {
         url: "?r=courseplan/getCompetences",
         cache: false,
         data: {
-            stage: $("#CoursePlan_modality_fk").val(),
             discipline: $("#CoursePlan_discipline_fk").val()
         },
         beforeSend: function () {
@@ -113,11 +116,15 @@ $(document).on("change", "#CoursePlan_discipline_fk", function () {
         success: function (data) {
             data = JSON.parse(data);
             var options = "";
-            $.each(data, function () {
-                options += "<option value='" + this.id + "'>" + this.code + "|" + this.description + "</option>";
+            $.each(data, function (i, competence) {
+                options += "<optgroup label='" + competence.stageName + "'>";
+                $.each(competence.data, function() {
+                    options += "<option value='" + this.id + "'>" + this.code + "|" + this.description + "|" + competence.stageName + "</option>";
+                });
+                options += "</optgroup>";
             });
             $(".js-all-competences").html(options);
-            $("select.competence-select").each(function() {
+            $("select.competence-select").each(function () {
                 var selectedValue = $(this).val();
                 $(this).html($(".js-all-competences")[0].innerHTML);
                 $(this).val(selectedValue !== null ? selectedValue : []).trigger("change.select2");

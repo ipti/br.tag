@@ -129,16 +129,22 @@ class CourseplanController extends Controller
             $this->actionSave();
         } else {
 
-            $resources = CourseClassResources::model()->findAll();
-            $types = CourseClassTypes::model()->findAll();
-            $competences = CourseClassCompetences::model()->findAll();
+            $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
+            $types = CourseClassTypes::model()->findAll(array('order'=>'name'));
+
+            $criteria = new CDbCriteria();
+            $criteria->alias = "ccc";
+            $criteria->join = "join edcenso_stage_vs_modality esvm on esvm.id = ccc.edcenso_stage_vs_modality_fk";
+            $criteria->order = "esvm.name, ccc.code";
+            $competences = CourseClassCompetences::model()->findAll($criteria);
+            $competenceArray = $this->buildCompetenceArray($competences);
 
             $this->render('form', array(
                 'coursePlan' => new CoursePlan(),
                 'stages' => $this->getStages(),
                 'resources' => $resources,
                 'types' => $types,
-                'competences' => $competences
+                'competences' => $competenceArray
             ));
         }
     }
@@ -155,16 +161,22 @@ class CourseplanController extends Controller
         } else {
             $coursePlan = $this->loadModel($id);
 
-            $resources = CourseClassResources::model()->findAll();
-            $types = CourseClassTypes::model()->findAll();
-            $competences = CourseClassCompetences::model()->findAll();
+            $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
+            $types = CourseClassTypes::model()->findAll(array('order'=>'name'));
+
+            $criteria = new CDbCriteria();
+            $criteria->alias = "ccc";
+            $criteria->join = "join edcenso_stage_vs_modality esvm on esvm.id = ccc.edcenso_stage_vs_modality_fk";
+            $criteria->order = "esvm.name, ccc.code";
+            $competences = CourseClassCompetences::model()->findAll($criteria);
+            $competenceArray = $this->buildCompetenceArray($competences);
 
             $this->render('form', array(
                 'coursePlan' => $coursePlan,
                 'stages' => $this->getStages(),
                 'resources' => $resources,
                 'types' => $types,
-                'competences' => $competences
+                'competences' => $competenceArray
             ));
         }
     }
@@ -236,7 +248,7 @@ class CourseplanController extends Controller
                 array_push($result, ["id" => $discipline['id'], "name" => CHtml::encode($disciplinesLabels[$discipline['id']])]);
             }
         } else {
-            $disciplines = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix where stage_fk = :stage_fk and school_year = :year")->bindParam(":stage_fk", $_POST["stage"])->bindParam(":year", Yii::app()->user->year)->queryAll();
+            $disciplines = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name")->bindParam(":stage_fk", $_POST["stage"])->bindParam(":year", Yii::app()->user->year)->queryAll();
             foreach ($disciplines as $i => $discipline) {
                 if (isset($discipline['discipline_fk'])) {
                     array_push($result, ["id" => $discipline['discipline_fk'], "name" => CHtml::encode($disciplinesLabels[$discipline['discipline_fk']])]);
@@ -248,18 +260,32 @@ class CourseplanController extends Controller
 
     public function actionGetCompetences()
     {
-        $result = [];
-        if ($_POST["discipline"] !== "" && $_POST["stage"] !== "") {
-            $competences = CourseClassCompetences::model()->findAll("edcenso_stage_vs_modality_fk = :stage and edcenso_discipline_fk = :discipline", [":stage" => $_POST["stage"], ":discipline" => $_POST["discipline"]]);
-        } else if ($_POST["stage"] !== "") {
-            $competences = CourseClassCompetences::model()->findAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $_POST["stage"]]);
+        $criteria = new CDbCriteria();
+        $criteria->alias = "ccc";
+        $criteria->join = "join edcenso_stage_vs_modality esvm on esvm.id = ccc.edcenso_stage_vs_modality_fk";
+        $criteria->order = "esvm.name, ccc.code";
+        if ($_POST["discipline"] !== "") {
+            $criteria->condition = "ccc.edcenso_discipline_fk = :discipline";
+            $criteria->params = ["discipline" => $_POST["discipline"]];
+            $competences = CourseClassCompetences::model()->findAll($criteria);
         } else {
             $competences = CourseClassCompetences::model()->findAll();
         }
-        foreach ($competences as $competence) {
-            array_push($result, $competence->attributes);
-        }
+        $result = $this->buildCompetenceArray($competences);
         echo json_encode($result);
+    }
+
+    private function buildCompetenceArray($competences) {
+        $competenceArray = [];
+        foreach($competences as $competence) {
+            if (!isset($competenceArray[$competence->edcenso_stage_vs_modality_fk])) {
+                $competenceArray[$competence->edcenso_stage_vs_modality_fk]["data"] = [];
+            }
+            $competenceArray[$competence->edcenso_stage_vs_modality_fk]["stageName"] = $competence->edcensoStageVsModalityFk->name;
+            $competenceData = $competence->attributes;
+            array_push($competenceArray[$competence->edcenso_stage_vs_modality_fk]["data"], $competenceData);
+        }
+        return $competenceArray;
     }
 
     /**

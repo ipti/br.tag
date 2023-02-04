@@ -163,8 +163,13 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php endforeach; ?>
                         </div>
                         <div class="js-all-competences no-show">
-                            <?php foreach ($competences as $competence) : ?>
-                                <option value="<?= $competence->id ?>"><?= $competence->code . "|" . $competence->description?></option>
+                            <?php foreach ($competences as $stage => $competence) : ?>
+                                <optgroup label="<?= $competence["stageName"]?>">
+                                    <?php foreach ($competence["data"] as $competenceData): ?>
+                                        <option value="<?= $competenceData["id"] ?>"><?= $competenceData["code"] . "|" . $competenceData["description"] . "|" . $competence["stageName"] ?></option>
+                                    <?php endforeach; ?>
+                                </optgroup>
+
                             <?php endforeach; ?>
                         </div>
                     </div>
