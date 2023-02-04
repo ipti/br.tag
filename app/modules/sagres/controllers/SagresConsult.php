@@ -31,13 +31,14 @@ class SagresConsult {
         $escolas_t = new EscolaTType;
         $educacao_t = new EducacaoTType;
         $atendimento_t = new AtendimentoTType;
+        $profissional_t = new ProfissionalTType;
         //$prestacao_contas_t = new PrestacaoContasTType;
 
         //$prestacao_contas_t = $this->setPrestacaocontas();
         $escolas_t = $this->getAllEscolas(); 
-        $educacao_t->setEscola($escolas_t);    
-        $atendimento_t = $this->setAtendimento();
-        $educacao_t->setAtendimento([$atendimento_t]);
+        $educacao_t->setEscola($escolas_t);
+        $profissional_t = $this->getProfissional();
+        $educacao_t->setProfissional([$profissional_t]);
 
         return $educacao_t;      
     }
@@ -169,12 +170,11 @@ class SagresConsult {
 
         $query = "SELECT a.date , a.local FROM attendance a WHERE a.professional_fk = " . $id_professional .";"; 
     
-        $atendimentos = Yii::app()->db->createCommand($query)->queryAll();
-    
-        foreach($atendimentos as $atendimento){
-            $atendimento_t->setData(new DateTime($atendimento['data']));
-            $atendimento_t->setLocal($atendimento['local']);          
-        }
+        $atendimento = Yii::app()->db->createCommand($query)->queryRow();
+
+        $atendimento_t->setData(new DateTime($atendimento['data']));
+        $atendimento_t->setLocal($atendimento['local']);          
+        
 
         return $atendimento_t;
     }
@@ -298,8 +298,8 @@ class SagresConsult {
         $profissional_t->setIdEscola($profissional['idEscola']);
         $profissional_t->setFundeb($profissional['fundeb']);
         $atendimento_t = $this->setAtendimento($profissional['id_professional']);
+        $profissional_t->setAtendimento([$atendimento_t]);
           
-
         return $profissional_t;    
     }
 
