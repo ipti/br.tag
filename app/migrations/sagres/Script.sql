@@ -23,3 +23,7 @@ ALTER TABLE professional ADD CONSTRAINT fk_schoolidentificationProfessional FORE
 ALTER TABLE `student_enrollment` ADD `date_cancellation_enrollment` DATE NULL DEFAULT NULL AFTER `status`;
 ALTER TABLE `school_identification` ADD `number_ato` VARCHAR(30) NOT NULL AFTER `final_date`;
 ALTER TABLE `lunch_menu` ADD `adjusted` TINYINT NOT NULL AFTER date;
+
+
+INSERT INTO professional VALUES (1,'71685776035','Médico','28022041', 1);
+INSERT INTO attendance VALUES (1, curdate(), 'Itabaiana', 1);
