@@ -168,13 +168,14 @@ class SagresConsult {
     public function setAtendimento($id_professional){
         $atendimento_t = new AtendimentoTType;
 
-        $query = "SELECT a.date , a.local FROM attendance a WHERE a.professional_fk = " . $id_professional .";"; 
+        $query = "SELECT date, local FROM attendance WHERE professional_fk = " .$id_professional.";"; 
     
-        $atendimento = Yii::app()->db->createCommand($query)->queryRow();
+        $atendimentos = Yii::app()->db->createCommand($query)->queryAll();
 
-        $atendimento_t->setData(new DateTime($atendimento['data']));
-        $atendimento_t->setLocal($atendimento['local']);          
-        
+        foreach($atendimentos as $atendimento){
+            $atendimento_t->setData(new DateTime($atendimento['date']));
+            $atendimento_t->setLocal($atendimento['local']);          
+        }
 
         return $atendimento_t;
     }
@@ -291,14 +292,16 @@ class SagresConsult {
         $query = "SELECT id_professional, cpf_professional AS cpfProfissional, specialty AS especialidade, inep_id_fk AS idEscola, fundeb 
                 FROM professional;";
        
-        $profissional = Yii::app()->db->createCommand($query)->queryAll();
+        $profissionais = Yii::app()->db->createCommand($query)->queryAll();
 
-        $profissional_t->setCpfProfissional($profissional['cpfProfissional']);
-        $profissional_t->setEspecialidade($profissional['especialidade']);
-        $profissional_t->setIdEscola($profissional['idEscola']);
-        $profissional_t->setFundeb($profissional['fundeb']);
-        $atendimento_t = $this->setAtendimento($profissional['id_professional']);
-        $profissional_t->setAtendimento([$atendimento_t]);
+        foreach ($profissionais as $profissional) {
+            $profissional_t->setCpfProfissional($profissional['cpfProfissional']);
+            $profissional_t->setEspecialidade($profissional['especialidade']);
+            $profissional_t->setIdEscola($profissional['idEscola']);
+            $profissional_t->setFundeb($profissional['fundeb']);
+            $atendimento_t = $this->setAtendimento($profissional['id_professional']);
+            $profissional_t->setAtendimento([$atendimento_t]);
+        }
           
         return $profissional_t;    
     }
