@@ -77,7 +77,7 @@ const StepFour = props => {
     <>
       <Formik
         initialValues={initialValues}
-        onSubmit={values => props.next(5, values)}
+        onSubmit={values => props.next(6, values)}
         validationSchema={validationSchema}
         validateOnChange={false}
         enableReinitialize

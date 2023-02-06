@@ -4,6 +4,8 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Loading from "../../components/Loading/CircularLoadingButtomActions";
 import { Formik, Form } from "formik";
+import Select from 'react-select';
+import AsyncSelect from "react-select/async";
 import {
   FormControlLabel,
   FormLabel,
@@ -36,6 +38,20 @@ const theme = createMuiTheme({
   }
 });
 
+const customStyles = {
+  control: base => ({
+    ...base,
+    height: "60px",
+    
+    minHeight: "60px",
+    fontFamily: "Roboto, Helvetica, Arial, sans-serif"
+  }),
+  menu: base => ({
+    ...base,
+    fontFamily: "Roboto, Helvetica, Arial, sans-serif"
+  })
+};
+
 const Create = props => {
   const classes = useStyles();
   const {
@@ -44,7 +60,8 @@ const Create = props => {
     handleSubmit,
     validationSchema,
     isEdit,
-    loadingIcon
+    loadingIcon,
+    schools
   } = props;
 
   return (
@@ -60,6 +77,7 @@ const Create = props => {
           <h1 className={`${classes.title} ${classes.floatLeft}`}>
             {`Cronograma - ${isEdit ? "Editar" : "Adicionar"}`}
           </h1>
+
         </Grid>
       </Grid>
       <Formik
@@ -100,23 +118,6 @@ const Create = props => {
                         </div>
                       </FormControl>
                     </Grid>
-                    <Grid item md={3} sm={3}>
-                      <ThemeProvider theme={theme}>
-                        <FormControlLabel
-                          control={
-                            <Switch
-                              checked={props.values.isActive || false}
-                              name="isActive"
-                              onChange={handleChangeActive}
-                              color="primary"
-                              inputProps={{ "aria-label": "primary checkbox" }}
-                              label="Ativo"
-                            />
-                          }
-                          label="Ativo"
-                        />
-                      </ThemeProvider>
-                    </Grid>
                   </Grid>
                 </Grid>
                 <Grid
@@ -125,62 +126,30 @@ const Create = props => {
                   direction="row"
                   spacing={2}
                 >
+                   <Grid item md={12} sm={12}>
+                    <TitleWithLine title="Escolas" />
+                  </Grid>
                   <Grid item md={12} sm={12}>
-                    <TitleWithLine title="Transferência Interna" />
-                  </Grid>
-                  <Grid item md={4} sm={4}>
                     <FormControl
                       component="fieldset"
                       className={classes.formControl}
                     >
-                      <FormLabel>Data Início</FormLabel>
-                      <KeyboardDatePicker
-                        disableToolbar
-                        name="internalTransferDateStart"
-                        inputVariant="outlined"
-                        format="dd/MM/yyyy"
-                        margin="normal"
-                        value={props.values.internalTransferDateStart}
-                        onChange={value =>
-                          props.setFieldValue(
-                            "internalTransferDateStart",
-                            value
-                          )
-                        }
-                        KeyboardButtonProps={{
-                          "aria-label": "Alterar data"
+                      <Select
+                        getOptionValue={opt => opt.name}
+                        getOptionLabel={opt => opt.name}
+                        onChange={selectedOption => {
+                          console.log(selectedOption.filter(school => school.inep_id))
+                          selectedOption.filter(school => school.id)
+                          props.setFieldValue("start_date", selectedOption)
+                          console.log(selectedOption)
                         }}
+                        isMulti
+                        styles={customStyles}
+                        name="colors"
+                        options={schools}
+                        className="basic-multi-select"
+                        classNamePrefix="select"
                       />
-
-                      <div className={classes.formFieldError}>
-                        {props.errors.internalTransferDateStart}
-                      </div>
-                    </FormControl>
-                  </Grid>
-                  <Grid item md={4} sm={4}>
-                    <FormControl
-                      component="fieldset"
-                      className={classes.formControl}
-                    >
-                      <FormLabel>Data Fim</FormLabel>
-                      <KeyboardDatePicker
-                        disableToolbar
-                        name="internalTransferDateEnd"
-                        value={props.values.internalTransferDateEnd}
-                        inputVariant="outlined"
-                        format="dd/MM/yyyy"
-                        margin="normal"
-                        onChange={value =>
-                          props.setFieldValue("internalTransferDateEnd", value)
-                        }
-                        KeyboardButtonProps={{
-                          "aria-label": "Alterar data"
-                        }}
-                      />
-
-                      <div className={classes.formFieldError}>
-                        {props.errors.internalTransferDateEnd}
-                      </div>
                     </FormControl>
                   </Grid>
                 </Grid>
@@ -201,13 +170,13 @@ const Create = props => {
                       <FormLabel>Data Início</FormLabel>
                       <KeyboardDatePicker
                         disableToolbar
-                        name="newStudentDateStart"
-                        value={props.values.newStudentDateStart}
+                        name="start_date"
+                         value={props.values.start_date}
                         inputVariant="outlined"
                         format="dd/MM/yyyy"
                         margin="normal"
                         onChange={value =>
-                          props.setFieldValue("newStudentDateStart", value)
+                          props.setFieldValue("start_date", value)
                         }
                         KeyboardButtonProps={{
                           "aria-label": "Alterar data"
@@ -215,7 +184,7 @@ const Create = props => {
                       />
 
                       <div className={classes.formFieldError}>
-                        {props.errors.newStudentDateStart}
+                        {props.errors.start_date}
                       </div>
                     </FormControl>
                   </Grid>
@@ -227,13 +196,13 @@ const Create = props => {
                       <FormLabel>Data Fim</FormLabel>
                       <KeyboardDatePicker
                         disableToolbar
-                        name="newStudentDateEnd"
-                        value={props.values.newStudentDateEnd}
+                        name="end_date"
+                         value={props.values.end_date}
                         inputVariant="outlined"
                         format="dd/MM/yyyy"
                         margin="normal"
                         onChange={value =>
-                          props.setFieldValue("newStudentDateEnd", value)
+                          props.setFieldValue("end_date", value)
                         }
                         KeyboardButtonProps={{
                           "aria-label": "Alterar data"
@@ -241,7 +210,7 @@ const Create = props => {
                       />
 
                       <div className={classes.formFieldError}>
-                        {props.errors.newStudentDateEnd}
+                        {props.errors.end_date}
                       </div>
                     </FormControl>
                   </Grid>

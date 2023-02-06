@@ -50,7 +50,7 @@ const Home = props => {
     setInputValueClassroom(newValue);
   };
 
-  
+
   const {
     registration,
     handleSubmit,
@@ -190,7 +190,7 @@ const Home = props => {
           <div className={classes.lineGrayClean}></div>
         </Grid>
       </Grid>
-
+      {/* 
       <Grid
         className={`${classes.contentMain} ${classes.marginTop30}`}
         container
@@ -240,7 +240,7 @@ const Home = props => {
           <div className={classes.formFieldError}>
           </div>
         </Grid>
-      </Grid>
+      </Grid> */}
       {/* <Grid container direction="row" spacing={3}>
         <Grid item md={5}>
           <img

@@ -50,7 +50,18 @@ const Routes = () => (
       <Route path="/login" exact component={Login} />
       <Route path="/matricula" exact component={RegistrationHome} />
       <Route path="/matricula/:id" exact component={ReMatricula} />
-      <PrivateRoute exact path="/" component={School} />
+      <PrivateRoute exact path="/" component={Schedule} />
+      <PrivateRoute exact path="/cronograma" component={Schedule} />
+      <PrivateRoute
+        exact
+        path="/cronograma/adicionar"
+        component={ScheduleForm}
+      />
+      <PrivateRoute
+        exact
+        path="/cronograma/editar/:id"
+        component={ScheduleForm}
+      />
       <PrivateRoute exact path="/escolas" component={School} />
       <PrivateRoute exact path="/escolas/:id" component={SchoolClassrooms} />
       <PrivateRoute exact path="/turmas" component={Classroom} />

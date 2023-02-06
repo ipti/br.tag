@@ -73,8 +73,6 @@ const Home = props => {
   const responsableName = student?.responsable_name ?? nullableField;
   const responsableCpf = student?.responsable_cpf ?? nullableField;
 
-  console.log(student)
-
   const classroomName = data?.name ?? nullableField;
   const modality = data?.modality === 1 ? 'Ensino Regular' : data?.modality === 2 ? 'Educação Especial' : data?.modality === 3 ? 'Educação de jovens e adultos (EJA)' : data?.modality === 4 ? 'Educação profissional' : nullableField;
 

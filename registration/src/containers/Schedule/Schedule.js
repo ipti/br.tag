@@ -69,12 +69,12 @@ const Home = props => {
         <Loading />
       ) : (
         <>
-          {/* <Schedule
+          <Schedule
             // pagination={props.schedule.pagination}
             // activePage={page}
             // data={props.schedule.schedules}
             // handlePage={handlePage}
-          /> */}
+          />
           {alert()}
         </>
       )}

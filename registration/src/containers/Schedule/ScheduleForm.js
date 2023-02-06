@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import moment from "moment";
 import Loading from "../../components/Loading/CircularLoading";
 import Alert from "../../components/Alert/CustomizedSnackbars";
+import { useFetchRequestSchools } from "../../query/Schedule";
+import { Controller } from "../../controller/Schedule/index";
 
 const Form = props => {
   const [active, setActive] = useState(true);
@@ -14,7 +16,10 @@ const Form = props => {
   const [isEdit, setIsEdit] = useState(false);
   const [open, setOpen] = useState(false);
   const [redirect, setRedirect] = useState(false);
+  const { requestSaveEventPreMutation } = Controller()
   let history = useHistory();
+
+  const {data} = useFetchRequestSchools()
 
   useEffect(() => {
     if (props.match.params.id && loadData) {
@@ -78,49 +83,32 @@ const Form = props => {
 
   const handleSubmit = values => {
     let data = {
-      internalTransferDateStart: values.internalTransferDateStart,
-      internalTransferDateEnd: values.internalTransferDateEnd,
-      newStudentDateStart: values.newStudentDateStart,
-      newStudentDateEnd: values.newStudentDateEnd,
+      start_date: values.internalTransferDateStart,
+      end_date: values.internalTransferDateEnd,
+      school_identificationArray: values.school_identificationArray,
       year: values.year,
-      isActive: values.isActive
     };
+      console.log(data);
+    requestSaveEventPreMutation.mutation(data)
 
-    if (isEdit) {
-      props.dispatch({
-        type: "FETCH_UPDATE_SCHEDULE",
-        data,
-        id: props.match.params.id
-      });
-    } else {
-      props.dispatch({ type: "FETCH_SAVE_SCHEDULE", data });
-    }
-    setRedirect(true);
-    setLoadingButtom(true);
+    // if (isEdit) {
+    //   props.dispatch({
+    //     type: "FETCH_UPDATE_SCHEDULE",
+    //     data,
+    //     id: props.match.params.id
+    //   });
+    // } else {
+    //   props.dispatch({ type: "FETCH_SAVE_SCHEDULE", data });
+    // }
+    // setRedirect(true);
+    // setLoadingButtom(true);
   };
 
   const validationSchema = Yup.object().shape({
-    internalTransferDateStart: Yup.date()
+      start_date: Yup.date()
       .nullable()
       .required("Campo obrigatório!"),
-    internalTransferDateEnd: Yup.date()
-      .when(
-        "internalTransferDateStart",
-        (internalTransferDateStart, schema) => {
-          if (internalTransferDateStart !== null) {
-            return schema.min(
-              internalTransferDateStart,
-              "A Data Final deve ser maior do que a data inicial"
-            );
-          }
-        }
-      )
-      .nullable()
-      .required("Campo obrigatório!"),
-    newStudentDateStart: Yup.date()
-      .nullable()
-      .required("Campo obrigatório!"),
-    newStudentDateEnd: Yup.date()
+      end_date: Yup.date()
       .when("newStudentDateStart", (newStudentDateStart, schema) => {
         if (newStudentDateStart !== null) {
           return schema.min(
@@ -138,45 +126,11 @@ const Form = props => {
 
   const initialValues = () => {
     let initialValues = {
-      internalTransferDateStart: null,
-      internalTransferDateEnd: null,
-      newStudentDateStart: null,
-      newStudentDateEnd: null,
+      start_date: null,
+      end_date: null,
       year: "",
-      isActive: active
+      school_identificationArray: "",
     };
-
-    if (isEdit && props?.schedule?.schedule?.status) {
-      initialValues = {
-        internalTransferDateStart: moment(
-          props.schedule.schedule.data.internalTransferDateStart
-            .split("/")
-            .reverse()
-            .join("-")
-        ),
-        internalTransferDateEnd: moment(
-          props.schedule.schedule.data.internalTransferDateEnd
-            .split("/")
-            .reverse()
-            .join("-")
-        ),
-        newStudentDateStart: moment(
-          props.schedule.schedule.data.newStudentDateStart
-            .split("/")
-            .reverse()
-            .join("-")
-        ),
-        newStudentDateEnd: moment(
-          props.schedule.schedule.data.newStudentDateEnd
-            .split("/")
-            .reverse()
-            .join("-")
-        ),
-        year: props.schedule.schedule.data.year,
-        isActive: active
-      };
-    }
-
     return initialValues;
   };
 
@@ -188,12 +142,13 @@ const Form = props => {
         <>
           <ScheduleForm
             initialValues={initialValues()}
-            validationSchema={validationSchema}
-            handleSubmit={handleSubmit}
-            handleChangeActive={handleChangeActive}
-            active={active}
-            isEdit={isEdit}
-            loadingIcon={props?.loading}
+             validationSchema={validationSchema}
+            schools={data}
+             handleSubmit={handleSubmit}
+            // handleChangeActive={handleChangeActive}
+            // active={active}
+            // isEdit={isEdit}
+            // loadingIcon={props?.loading}
           />
           {alert()}
         </>
@@ -202,13 +157,5 @@ const Form = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    schedule: state.schedule,
-    fetchSchedule: state.schedule.fetchSchedule,
-    error: state.schedule.msgError,
-    loading: state.schedule.loading
-  };
-};
 
-export default connect(mapStateToProps)(Form);
+export default Form;

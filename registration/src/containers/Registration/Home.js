@@ -143,9 +143,9 @@ const Home = props => {
 
   const handleStudent = isStudent => {
     if (!isStudent) {
-      next(3);
+      next(4);
     } else {
-      next(2);
+      next(3);
     }
   };
 
