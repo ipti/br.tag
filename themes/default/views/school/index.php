@@ -5,18 +5,22 @@
     $this->menu = array(
         array('label' => Yii::t('default', 'Create a new SchoolIdentification'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new SchoolIdentification')),
     );
+    $themeUrl = Yii::app()->theme->baseUrl;
+    $cs = Yii::app()->getClientScript();
+    $cs->registerCssFile($themeUrl . '/css/template2.css');
+   
     ?>
 
     <div class="row-fluid">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'School Identifications') ?></h3>  
             <div class="buttons  hide-responsive">
-                <a href="<?php echo Yii::app()->createUrl('school/create') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar escola</a>
+                <a href="<?php echo Yii::app()->createUrl('school/create') ?>" class="tag-button medium-button"> Adicionar escola</a>
             </div>
         </div>
     </div>
 
-    <div class="innerLR">
+    <div class="tag-inner">
         <div class="span12 hide-box">
             <div class="">
                 <a id="button-add-school" href="<?php echo Yii::app()->createUrl('school/create') ?>" class="pull-right btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar escola</a>
@@ -35,7 +39,7 @@
                     $this->widget('zii.widgets.grid.CGridView', array(
                         'dataProvider' => $filter->search(),
                         'filter' => $filter,
-                        'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'enablePagination' => true,
                         'columns' => array(
                             array(

@@ -159,13 +159,14 @@ $(formIdentification + 'manager_cpf').focusout(function () {
 $(formIdentification + 'manager_name').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
-    var ret = validateNamePerson(($(id).val()));
-    if (!ret[0]) {
-        $(id).attr('value', '');
-        addError(id, ret[1]);
-    } else {
-        removeError(id);
-    }
+    validateNamePerson(($(id).val()), function (ret) {
+        if (!ret[0]) {
+            $(id).attr('value', '');
+            addError(id, ret[1]);
+        } else {
+            removeError(id);
+        } 
+    });
 });
 
 $(formIdentification + 'manager_email').focusout(function () {

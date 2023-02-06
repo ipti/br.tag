@@ -1,6 +1,9 @@
 <?php
 
 return array(
+    // Ano
+    'Year' => 'Ano',
+
     //Meses
     'January' => 'Janeiro',
     'February' => 'Fevereiro',
@@ -737,6 +740,7 @@ return array(
     'Human Resources' => 'Recursos Humanos',
     'Feed' => 'Alimentação',
     'Educational Data' => 'Dados Educacionais',
+    'Address and Contact' => 'Endereço e contato',
     'Documents' => 'Documentos',
     'Address' => 'Endereço',
     'Documents and Address' => 'Documentos e Endereço',

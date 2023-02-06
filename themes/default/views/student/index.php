@@ -5,6 +5,9 @@
     $this->menu = array(
         array('label' => Yii::t('default', 'Create a new StudentIdentification'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new StudentIdentification')),
     );
+    $themeUrl = Yii::app()->theme->baseUrl;
+    $cs = Yii::app()->getClientScript();
+    $cs->registerCssFile($themeUrl . '/css/template2.css');
     ?>
 
     <div class="row-fluid">
@@ -12,9 +15,9 @@
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Student Identifications') ?></h3>  
             <div class="buttons span7">
                 <!--<a href="<?= CHtml::normalizeUrl(array('student/create'))?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos PNE</a>-->
-                <a href="<?= CHtml::normalizeUrl(array('wizard/configuration/student'))?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i>Matrícula em Grupo</a>
-                <a href="<?= CHtml::normalizeUrl(array('student/create'))?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> <?= Yii::t('default', 'Add') ?></a>
-                <a href="<?= CHtml::normalizeUrl(array('student/create', 'simple' => 1))?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> <?= Yii::t('default', 'Add (Fast)') ?></a>
+                <a href="<?= CHtml::normalizeUrl(array('wizard/configuration/student'))?>" class="tag-button medium-button">Matrícula em Grupo</a>
+                <a href="<?= CHtml::normalizeUrl(array('student/create'))?>" class="tag-button medium-button"><?= Yii::t('default', 'Add') ?></a>
+                <a href="<?= CHtml::normalizeUrl(array('student/create', 'simple' => 1))?>" class="tag-button medium-button"> <?= Yii::t('default', 'Add (Fast)') ?></a>
             </div>
 
         </div>
@@ -32,6 +35,16 @@
     </div>
 
     <div class="innerLR">
+        <?php if (Yii::app()->user->hasFlash('error')): ?>
+            <div class="alert alert-error">
+                <?php echo Yii::app()->user->getFlash('error') ?>
+            </div>
+            <?php
+            if (isset($buttons))
+                echo $buttons;
+            ?>
+            <br/>
+        <?php endif ?>
         <?php if (Yii::app()->user->hasFlash('success')): ?>
             <div class="alert alert-success">
                 <?php echo Yii::app()->user->getFlash('success') ?>
@@ -53,7 +66,7 @@
                     'filter' => $filter,
                     'selectableRows' => 1,
                     'selectionChanged' => 'function(id){ location.href = "' . $this->createUrl('update') . '/id/"+$.fn.yiiGridView.getSelection(id);}',
-                    'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                    'itemsCssClass' => 'student-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                         array(
                             'name' => 'name',
@@ -74,7 +87,11 @@
                         array(
                             'name' => 'birthday',
                             'filter' => false
-                        ),),
+                        ),
+                        array(
+                            'name' => 'inep_id'
+                        ),
+                    ),
                 ));
                 ?>
             </div>
