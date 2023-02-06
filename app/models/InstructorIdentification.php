@@ -9,6 +9,7 @@
  * @property string $inep_id
  * @property integer $id
  * @property string $name
+ * @property string $civil_name
  * @property string $email
  * @property string $nis
  * @property string $birthday_date
@@ -91,20 +92,20 @@ class InstructorIdentification extends AltActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return [
-            ['school_inep_id_fk, name, birthday_date, sex, color_race, nationality, edcenso_nation_fk, deficiency, filiation', 'required'],
-            ['sex, color_race, filiation, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_gifted, users_fk', 'numerical', 'integerOnly' => true],
-            ['register_type', 'length', 'max' => 2],
-            ['school_inep_id_fk', 'length', 'max' => 8],
-            ['inep_id', 'length', 'max' => 12],
-            ['name, email, filiation_1, filiation_2', 'length', 'max' => 100],
-            ['nis', 'length', 'max' => 11],
-            ['birthday_date', 'length', 'max' => 10],
-            ['hash', 'length', 'max' => 40],
+        return array(
+            array('school_inep_id_fk, name, civil_name, birthday_date, sex, color_race, nationality, edcenso_nation_fk, deficiency, filiation', 'required'),
+            array('sex, color_race, filiation, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_gifted, users_fk', 'numerical', 'integerOnly'=>true),
+            array('register_type', 'length', 'max'=>2),
+            array('school_inep_id_fk', 'length', 'max'=>8),
+            array('inep_id', 'length', 'max'=>12),
+            array('name, civil_name, email, filiation_1, filiation_2', 'length', 'max'=>100),
+            array('nis', 'length', 'max'=>11),
+            array('birthday_date', 'length', 'max'=>10),
+            array('hash', 'length', 'max'=>40),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            ['register_type, school_inep_id_fk, inep_id, id, name, email, nis, birthday_date, sex, color_race, filiation, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, hash, users_fk', 'safe', 'on' => 'search'],
-        ];
+            array('register_type, school_inep_id_fk, inep_id, id, name, civil_name, email, nis, birthday_date, sex, color_race, filiation, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, hash, users_fk', 'safe', 'on'=>'search'),
+        );
     }
 
     /**
@@ -135,7 +136,8 @@ class InstructorIdentification extends AltActiveRecord
             'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
             'inep_id' => Yii::t('default', 'Inep'),
             'id' => Yii::t('default', 'ID'),
-            'name' => Yii::t('default', 'Name'),
+            'name' => Yii::t('default', 'Nome social'),
+            'civil_name' => Yii::t('default', 'Nome civil'),
             'email' => Yii::t('default', 'Email'),
             'nis' => Yii::t('default', 'Nis'),
             'birthday_date' => Yii::t('default', 'Birthday Date'),

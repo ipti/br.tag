@@ -73,7 +73,7 @@
                                 'template' => '{update}',
                                 'buttons' => [
                                     'update' => [
-                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/edit',
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
                                     ]
                                 ]
                             ],
@@ -82,7 +82,7 @@
                                 'template' => '{delete}',
                                 'buttons' => [
                                     'delete' => [
-                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/cancelar',
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
                                     ]
                                 ]
                             ],

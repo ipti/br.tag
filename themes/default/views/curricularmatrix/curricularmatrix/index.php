@@ -72,8 +72,9 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
             <?php
             $this->widget('zii.widgets.grid.CGridView', [
                 'id' => 'matrizgridview', 'dataProvider' => $filter->search(), 'filter' => $filter,
-                'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                'enablePagination' => true, 'columns' => [
+
+                'itemsCssClass' => 'curricularmatrix-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                'enablePagination' => TRUE, 'columns' => [
                     [
                         'header' => Yii::t('curricularMatrixModule.index', 'Stage'),
                         'name' => 'stage_fk',
@@ -106,6 +107,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                             'delete' => [
                                 'imageUrl' => Yii::app()->theme->baseUrl . '/img/cancelar',
                             ]]
+
                     ],
 
                 ],

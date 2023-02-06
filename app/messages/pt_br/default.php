@@ -571,12 +571,14 @@ return [
 
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',
-
+    
     //InstructorIdentification
     'Birthday Date' => 'Data de Nascimento',
     'Filiation 1' => 'Nome Completo da Mãe',
     'Filiation 2' => 'Nome Completo do Pai',
     'Full name' => 'Nome completo',
+    'Social Name' => 'Nome Social',
+    'Civil Name' => 'Nome Civil',
     'Full mothers name' => 'Nome completo da mãe',
     'Full fathers name' => 'Nome completo do pai',
 

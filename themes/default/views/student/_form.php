@@ -107,7 +107,18 @@ $form = $this->beginWidget('CActiveForm', [
                                     <!-- <span
                                             class="btn-action single glyphicons circle_question_mark"
                                             data-toggle="tooltip" data-placement="top"
-                                            data-original-title="<?php echo Yii::t('help', 'Student Full Name'); ?>"><i></i></span> -->
+                                            data-original-title="<?php echo Yii::t('help', 'Student Full Civil Name'); ?>"><i></i></span> -->
+                                    <?php echo $form->error($modelStudentIdentification, 'name'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'name', array('class' => 'control-label')); ?>
+                                <div class="controls required">
+                                    <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
+                                    <span id="similarMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                        <img id="warningNameIcon" onclick="displayRecords()" style="display: none;" src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>">
+                                        <img id="errorNameIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>">
+                                    </span>
                                     <?php echo $form->error($modelStudentIdentification, 'name'); ?>
                                 </div>
                             </div>
@@ -377,11 +388,11 @@ $form = $this->beginWidget('CActiveForm', [
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'nis', ['class' => 'control-label']); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'nis', ['size' => 11, 'maxlength' => 11]); ?>
-                                    <!-- <span
-                                            class="btn-action single glyphicons circle_question_mark"
-                                            data-toggle="tooltip" data-placement="top"
-                                            data-original-title="<?php echo Yii::t('help', 'NIS') . ' ' . Yii::t('help', 'Only Numbers'); ?>"><i></i></span> -->
+                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'nis', array('size' => 11, 'maxlength' => 11)); ?>
+                                    <span id="nisMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                        <img id="errorNisIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>">
+                                    </span>
+
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'nis'); ?>
                                 </div>
                             </div>
@@ -439,7 +450,12 @@ $form = $this->beginWidget('CActiveForm', [
                                     <?php echo $form->labelEx($modelStudentIdentification, 'responsable_cpf', ['class' => 'control-label']); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', ['size' => 60, 'maxlength' => 14]); ?>
+
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 14)); ?>
+                                    <!-- <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                        <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>">
+                                    </span> -->
+
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_cpf'); ?>
                                 </div>
                             </div>
@@ -721,7 +737,10 @@ $form = $this->beginWidget('CActiveForm', [
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_term_number', ['class' => 'control-label']); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_term_number', ['size' => 8, 'maxlength' => 8, 'disabled' => 'disabled', 'class' => 'nationality-sensitive br']); ?>
+                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_term_number', array('size' => 8, 'maxlength' => 8, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
+                                            <span id="termMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                                <img id="errorTermIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>">
+                                            </span>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_term_number'); ?>
                                         </div>
                                     </div>
@@ -816,7 +835,11 @@ $form = $this->beginWidget('CActiveForm', [
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', ['class' => 'control-label']); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', ['disabled' => 'disabled', 'class' => 'nationality-sensitive br span6']); ?>
+
+                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array("disabled" => "disabled", "class" => "nationality-sensitive br span6")); ?>
+                                            <span id="registerMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                                <img id="registerIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>">
+                                            </span>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number'); ?>
                                         </div>
                                     </div>
@@ -877,11 +900,10 @@ $form = $this->beginWidget('CActiveForm', [
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf', ['class' => 'control-label']); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', ['size' => 11, 'maxlength' => 14, 'disabled' => 'disabled', 'class' => 'nationality-sensitive br']); ?>
-                                            <!-- <span
-                                                    class="btn-action single glyphicons circle_question_mark"
-                                                    data-toggle="tooltip" data-placement="top"
-                                                    data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span> -->
+                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
+                                            <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                                <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>">
+                                            </span>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'cpf'); ?>
                                         </div>
                                     </div>
