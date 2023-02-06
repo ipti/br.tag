@@ -580,6 +580,8 @@ return array(
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',
     
+
+    
     //InstructorIdentification
     'Nis' => 'Nº de Identificação Social (NIS)',
     'Birthday Date' => 'Data de Nascimento',
