@@ -102,38 +102,16 @@ $(formIdentification + 'birthday').focusout(function () {
 
 $(formIdentification + 'filiation').change(function () {
     var simple = getUrlVars()['simple'];
-    $(formIdentification + 'filiation_1').attr("disabled", "disabled");
-    $(formIdentification + 'filiation_1_rg').attr("disabled", "disabled");
-    $(formIdentification + 'filiation_1_cpf').attr("disabled", "disabled");
-    $(formIdentification + 'filiation_1_scholarity').attr("disabled", "disabled");
-    $(formIdentification + 'filiation_1_job').attr("disabled", "disabled");
-    $(formIdentification + 'filiation_2').attr("disabled", "disabled");
-    $(formIdentification + 'filiation_2_rg').attr("disabled", "disabled");
-    $(formIdentification + 'filiation_2_cpf').attr("disabled", "disabled");
-    $(formIdentification + 'filiation_2_scholarity').attr("disabled", "disabled");
-    $(formIdentification + 'filiation_2_job').attr("disabled", "disabled");
+    $('.js-disabled-finputs').attr("disabled", "disabled");
     if ($(formIdentification + 'filiation').val() == 1) {
-        $(formIdentification + 'filiation_1').removeAttr("disabled").closest(".control-group").show();
-        $(formIdentification + 'filiation_1_rg').removeAttr("disabled");
-        $(formIdentification + 'filiation_1_cpf').removeAttr("disabled");
-        $(formIdentification + 'filiation_1_scholarity').removeAttr("disabled");
-        $(formIdentification + 'filiation_1_job').removeAttr("disabled");
-        $(formIdentification + 'filiation_2').removeAttr("disabled").closest(".control-group").show();
-        $(formIdentification + 'filiation_2_rg').removeAttr("disabled");
-        $(formIdentification + 'filiation_2_cpf').removeAttr("disabled");
-        $(formIdentification + 'filiation_2_scholarity').removeAttr("disabled");
-        $(formIdentification + 'filiation_2_job').removeAttr("disabled");
+        $('.js-disabled-finputs').removeAttr("disabled");
+        $(formIdentification + 'filiation_1').closest(".js-visibility-fname").show();
+        $(formIdentification + 'filiation_2').closest(".js-visibility-fname").show();
     } else {
-        $(formIdentification + 'filiation_1').val("").closest(".control-group").css("display", simple === "1" ? "none" : "block");
-        $(formIdentification + 'filiation_1_rg').val("");
-        $(formIdentification + 'filiation_1_cpf').val("");
-        $(formIdentification + 'filiation_1_scholarity').val("");
-        $(formIdentification + 'filiation_1_job').val("");
-        $(formIdentification + 'filiation_2').val("").closest(".control-group").css("display", simple === "1" ? "none" : "block");
-        $(formIdentification + 'filiation_2_rg').val("");
-        $(formIdentification + 'filiation_2_cpf').val("");
-        $(formIdentification + 'filiation_2_scholarity').val("");
-        $(formIdentification + 'filiation_2_job').val("");
+        $('.js-finput-clear').val("")
+        $(formIdentification + 'filiation_1').closest(".js-visibility-fname").css("display", simple === "1" ? "none" : "block");
+        $(formIdentification + 'filiation_2').closest(".js-visibility-fname").css("display", simple === "1" ? "none" : "block");
+
     }
 });
 $(formIdentification + 'filiation').trigger('change');
@@ -182,28 +160,29 @@ $(formIdentification + 'nationality').change(function () {
     var nobr = nationality + ".no-br";
     var simple = getUrlVars()['simple'];
     $(nationality).attr("disabled", "disabled");
+    console.log($(this).val())
     if ($(this).val() == 3) {
         $(nobr).removeAttr("disabled");
         $(formIdentification + 'edcenso_nation_fk').val(null).trigger('change').select2('readonly', false);
         $(formIdentification + 'edcenso_uf_fk').val("").trigger("change.select2");
         $(formIdentification + 'edcenso_city_fk').val("").trigger("change.select2");
-        $(formIdentification + 'edcenso_uf_fk').closest(".control-group").css("display", simple === "1" ? "none" : "block").find(".control-label").removeClass("required").html("Estado");
-        $(formIdentification + 'edcenso_city_fk').closest(".control-group").css("display", simple === "1" ? "none" : "block").find(".control-label").removeClass("required").html("Cidade");
+        $(formIdentification + 'edcenso_uf_fk').closest(".js-change-required").css("display", simple === "1" ? "none" : "block").find("label").removeClass("required").html("Estado");
+        $(formIdentification + 'edcenso_city_fk').closest(".js-change-required").css("display", simple === "1" ? "none" : "block").find("label").removeClass("required").html("Cidade");
     } else if ($(this).val() == "") {
         $(formIdentification + 'edcenso_nation_fk').val(null).trigger('change').attr("disabled", "disabled");
         $(nationality).attr("disabled", "disabled");
-        $(formIdentification + 'edcenso_uf_fk').val("").trigger("change.select2").closest(".control-group").css("display", simple == "1" ? "none" : "block").find(".control-label").removeClass("required").html("Estado");
-        $(formIdentification + 'edcenso_city_fk').val("").trigger("change.select2").closest(".control-group").css("display", simple == "1" ? "none" : "block").find(".control-label").removeClass("required").html("Cidade");
+        $(formIdentification + 'edcenso_uf_fk').val("").trigger("change.select2").closest(".js-change-required").css("display", simple == "1" ? "none" : "block").find("label").removeClass("required").html("Estado");
+        $(formIdentification + 'edcenso_city_fk').val("").trigger("change.select2").closest(".js-change-required").css("display", simple == "1" ? "none" : "block").find("label").removeClass("required").html("Cidade");
     } else {
         $(formIdentification + 'edcenso_nation_fk').val(76).trigger('change').removeAttr("disabled").select2('readonly', true);
         $(br).removeAttr("disabled");
         $(formDocumentsAndAddress + 'civil_certification').trigger("change");
         if ($(this).val() == "1") {
-            $(formIdentification + 'edcenso_uf_fk').removeAttr("disabled").closest(".control-group").show().find(".control-label").addClass("required").html("Estado *");
-            $(formIdentification + 'edcenso_city_fk').removeAttr("disabled").closest(".control-group").show().find(".control-label").addClass("required").html("Cidade *");
+            $(formIdentification + 'edcenso_uf_fk').removeAttr("disabled").closest(".js-change-required").show().find("label").addClass("required").html("Estado *");
+            $(formIdentification + 'edcenso_city_fk').removeAttr("disabled").closest(".js-change-required").show().find("label").addClass("required").html("Cidade *");
         } else {
-            $(formIdentification + 'edcenso_uf_fk').val("").trigger("change.select2").attr("disabled", "disabled").closest(".control-group").css("display", simple == "1" ? "none" : "block").find(".control-label").removeClass("required").html("Estado");
-            $(formIdentification + 'edcenso_city_fk').val("").trigger("change.select2").attr("disabled", "disabled").closest(".control-group").css("display", simple == "1" ? "none" : "block").find(".control-label").removeClass("required").html("Cidade");
+            $(formIdentification + 'edcenso_uf_fk').val("").trigger("change.select2").attr("disabled", "disabled").closest(".js-change-required").css("display", simple == "1" ? "none" : "block").find("label").removeClass("required").html("Estado");
+            $(formIdentification + 'edcenso_city_fk').val("").trigger("change.select2").attr("disabled", "disabled").closest(".js-change-required").css("display", simple == "1" ? "none" : "block").find("label").removeClass("required").html("Cidade");
         }
     }
 });
@@ -409,12 +388,12 @@ $(document).on("change", ".linked-deficiency", function (evt, indirect) {
 $(deficiency).change(function () {
     if ($(this).is(":checked")) {
         $(allDeficiency).removeAttr('disabled');
-        $("#StudentIdentification_deficiencies").parent(".control-group").show().find(".control-label").addClass("required");
+        $("#StudentIdentification_deficiencies").parent(".js-change-required").show().find("label").addClass("required");
         $("#StudentIdentification_deficiency_type_blindness").trigger("change", [true]);
         $(".resources-container").show();
     } else {
         $(allDeficiency).attr('disabled', "disabled").removeAttr('checked');
-        $("#StudentIdentification_deficiencies").parent(".control-group").hide();
+        $("#StudentIdentification_deficiencies").parent(".js-visibility-deficiencies").hide();
         $("#StudentIdentification_resource_aid_lector").closest(".control-group").hide();
         $(".resources-container").hide();
         $(".resources-container input[type=checkbox]").prop("checked", false);
