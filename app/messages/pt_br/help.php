@@ -39,7 +39,8 @@ return array(
     'Email' => 'exemplo@email.com.br',
     
     //Ajuda Aluno
-    'Student Full Name' => 'Informe o nome completo do aluno.',
+    'Student Full Civil Name' => 'Informe o nome civil completo do aluno.',
+    'Student Full Social Name' => 'Informe o nome social completo do aluno.',
     'NIS' => 'Número de Identificação Social para famílias que participam de programas sociais do governo como o Bolsa Família.',
     'Birthday' => 'Data de nascimento completa do aluno.',
     'Date' => 'Apenas números, seguindo a estrutura: Dia/Mês/Ano',

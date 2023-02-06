@@ -99,10 +99,19 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <!-- name student -->
                             <div class="control-group">
-                                <div class="controls required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'name', array('class' => 'control-label')); ?>
-                                </div>
+                                <?php echo $form->labelEx($modelStudentIdentification, 'civil_name', array('class' => 'control-label')); ?>
                                 <div class="controls">
+                                    <?php echo $form->textField($modelStudentIdentification, 'civil_name', array('size' => 60, 'maxlength' => 100)); ?>
+                                    <span
+                                            class="btn-action single glyphicons circle_question_mark"
+                                            data-toggle="tooltip" data-placement="top"
+                                            data-original-title="<?php echo Yii::t('help', 'Student Full Civil Name'); ?>"><i></i></span>
+                                    <?php echo $form->error($modelStudentIdentification, 'name'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'name', array('class' => 'control-label')); ?>
+                                <div class="controls required">
                                     <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
                                     <span id="similarMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
                                         <img id="warningNameIcon" onclick="displayRecords()" style="display: none;" src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>">

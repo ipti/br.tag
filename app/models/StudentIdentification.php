@@ -9,6 +9,7 @@
  * @property string $inep_id
  * @property integer $id
  * @property string $name
+ * @property string $civil_name
  * @property string $birthday
  * @property integer $sex
  * @property integer $color_race
@@ -111,12 +112,12 @@ class StudentIdentification extends AltActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('school_inep_id_fk, name, birthday, sex, color_race, filiation, nationality, edcenso_nation_fk, deficiency, send_year', 'required'),
+            array('school_inep_id_fk, name, civil_name, birthday, sex, color_race, filiation, nationality, edcenso_nation_fk, deficiency, send_year', 'required'),
             array('sex, color_race, filiation, scholarity, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_zoomed_test_18, resource_braille_test, resource_proof_language, resource_cd_audio, resource_video_libras, resource_none, send_year, responsable, responsable_scholarity, filiation_1_scholarity, filiation_2_scholarity, bf_participator, no_document_desc', 'numerical', 'integerOnly'=>true),
             array('register_type', 'length', 'max'=>2),
             array('school_inep_id_fk', 'length', 'max'=>8),
             array('inep_id', 'length', 'max'=>12),
-            array('name, filiation_1, filiation_2', 'length', 'max'=>100),
+            array('name, civil_name, filiation_1, filiation_2', 'length', 'max'=>100),
             array('id_email', 'length', 'max'=>255),
             array('id_email', 'email'),
             array('birthday', 'length', 'max'=>10),
@@ -127,7 +128,7 @@ class StudentIdentification extends AltActiveRecord {
             array('last_change, food_restrictions', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, inep_id, id, name, birthday, sex, color_race, filiation, id_email, scholarity, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_zoomed_test_18, resource_braille_test, resource_proof_language, resource_cd_audio, resource_video_libras, resource_none, send_year, last_change, responsable, responsable_name, responsable_rg, responsable_cpf, responsable_scholarity, responsable_job, bf_participator, food_restrictions, responsable_telephone, fkid, no_documents_desc', 'safe', 'on'=>'search'),
+            array('register_type, school_inep_id_fk, inep_id, id, name, civil_name, birthday, sex, color_race, filiation, id_email, scholarity, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_zoomed_test_18, resource_braille_test, resource_proof_language, resource_cd_audio, resource_video_libras, resource_none, send_year, last_change, responsable, responsable_name, responsable_rg, responsable_cpf, responsable_scholarity, responsable_job, bf_participator, food_restrictions, responsable_telephone, fkid, no_documents_desc', 'safe', 'on'=>'search'),
         );
     }
 
@@ -156,7 +157,8 @@ class StudentIdentification extends AltActiveRecord {
             'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
             'inep_id' => Yii::t('default', 'ID INEP'),
             'id' => Yii::t('default', 'ID'),
-            'name' => Yii::t('default', 'Name'),
+            'name' => Yii::t('default', 'Social Name'),
+            'civil_name' => Yii::t('default', 'Civil Name'),
             'birthday' => Yii::t('default', 'Birthday'),
             'sex' => Yii::t('default', 'Sex'),
             'color_race' => Yii::t('default', 'Color Race'),
