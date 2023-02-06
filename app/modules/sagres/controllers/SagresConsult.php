@@ -145,17 +145,19 @@ class SagresConsult {
                     join edcenso_discipline ed ON ed.id = s.discipline_fk
                 where ed.id = " . $id_turma . ";"; 
         
-        $horario = Yii::app()->db->createCommand($query)->queryAll();
+        $horarios = Yii::app()->db->createCommand($query)->queryAll();
 
+
+        foreach ($horarios as $horario) {
             $horario_t->setDiaSemana($horario['diaSemana']);
             $horario_t->setDuracao($horario['duracao']);
             $horario_t->setHoraInicio(new DateTime());
-            $horario_t->setDisciplina($horario['disciplina']);    
-            if($horario['cpfProfessor'] == null)
+            $horario_t->setDisciplina($horario['disciplina']);
+            if ($horario['cpfProfessor'] == null)
                 $horario_t->setCpfProfessor('00000000000');
             else
                 $horario_t->setCpfProfessor($horario['cpfProfessor']);
-        
+        }
 
         return [$horario_t];
     }
