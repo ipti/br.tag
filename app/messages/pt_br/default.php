@@ -1,6 +1,9 @@
 <?php
 
 return array(
+    // Ano
+    'Year' => 'Ano',
+
     //Meses
     'January' => 'Janeiro',
     'February' => 'Fevereiro',
@@ -589,6 +592,7 @@ return array(
     'Filiation 2' => 'Nome Completo do Pai',
     'Nationality' => 'Nacionalidade',
     'Edcenso Nation Fk' => 'País de origem',
+    'Full name' => 'Nome completo',
     'Social Name' => 'Nome Social',
     'Civil Name' => 'Nome Civil',
     'Full mothers name' => 'Nome completo da mãe',
@@ -738,6 +742,7 @@ return array(
     'Human Resources' => 'Recursos Humanos',
     'Feed' => 'Alimentação',
     'Educational Data' => 'Dados Educacionais',
+    'Address and Contact' => 'Endereço e contato',
     'Documents' => 'Documentos',
     'Address' => 'Endereço',
     'Documents and Address' => 'Documentos e Endereço',

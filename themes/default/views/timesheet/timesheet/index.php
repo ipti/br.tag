@@ -6,6 +6,7 @@
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
 $cs = Yii::app()->getClientScript();
+$themeUrl = Yii::app()->theme->baseUrl;
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.1');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/timesheet.js?v=1.4', CClientScript::POS_END);
 $cs->registerScript("vars",
@@ -16,7 +17,7 @@ $cs->registerScript("vars",
     "var changeSchedulesURL = '" . $this->createUrl("changeSchedules") . "'; " .
     "var getInstructorsUrl = '" . $this->createUrl("getInstructors") . "'; " .
     "var changeInstructorUrl = '" . $this->createUrl("changeInstructor") . "'; ", CClientScript::POS_HEAD);
-
+    $cs->registerCssFile($themeUrl . '/css/template2.css');
 $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'));
 ?>
 
@@ -50,11 +51,11 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
 <div class="innerLR home">
     <div class="filter-bar margin-bottom-none">
         <div>
-            <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required')); ?>
-            <?= CHtml::dropDownList('classroom_fk', "", CHtml::listData(Classroom::model()->findAll("school_inep_fk = :school_inep_fk and school_year = :school_year order by name", ["school_inep_fk" => Yii::app()->user->school, "school_year" => Yii::app()->user->year]), 'id', 'name'), ["prompt" => yii::t("timesheetModule.timesheet", "Select a Classroom"), "class" => "select-search-on span6 classroom-id"]); ?>
+            <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required small-label')); ?>
+            <?= CHtml::dropDownList('classroom_fk', "", CHtml::listData(Classroom::model()->findAll("school_inep_fk = :school_inep_fk and school_year = :school_year order by name", ["school_inep_fk" => Yii::app()->user->school, "school_year" => Yii::app()->user->year]), 'id', 'name'), ["prompt" => yii::t("timesheetModule.timesheet", "Select a Classroom"), "class" => "select-search-on control-input classroom-id"]); ?>
         </div>
         <div class="schedule-info display-hide">
-            <button class="btn btn-primary btn-icon glyphicons circle_plus btn-generate-timesheet">
+            <button class="tag-button small-button wide-button  btn-generate-timesheet">
                 <i></i><?= yii::t('timesheetModule.timesheet', "Generate automatic timesheet") ?>
             </button>
         </div>
@@ -205,11 +206,11 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                 </form>
             </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">
+            <div class="modal-footer modal-container-buttons">
+                <button type="button" class="tag-button-light small-button" data-dismiss="modal">
                     <?= yii::t("timesheetModule.instructors", "Cancel") ?>
                 </button>
-                <button type="button" class="btn btn-primary" id="add-instructors-disciplines-button">
+                <button type="button" class="tag-button small-button" id="add-instructors-disciplines-button">
                     <?= yii::t("timesheetModule.instructors", "Add") ?>
                 </button>
             </div>

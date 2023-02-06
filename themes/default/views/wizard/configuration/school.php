@@ -14,6 +14,9 @@ $form = $this->beginWidget('CActiveForm', array(
     'id' => 'school-configuration-form',
     'enableAjaxValidation' => false
 ));
+$themeUrl = Yii::app()->theme->baseUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerCssFile($themeUrl . '/css/template2.css');
 ?>
 
 <div class="row-fluid">
@@ -22,8 +25,8 @@ $form = $this->beginWidget('CActiveForm', array(
             <span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span>
         </h3>
 
-        <div class="buttons">
-            <?php echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'submit')); ?></div>
+        <div class="tag-buttons-container buttons">
+            <?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('class' => 'tag-button small-button last', 'type' => 'submit')); ?></div>
     </div>
 </div>
 <div class="innerLR">
@@ -33,13 +36,13 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="widget-head">
             <ul class="tab-sorcerer">
                 <li id="tab-time" class="active">
-                    <a class="glyphicons vcard" href="#time" data-toggle="tab">
-                        <i></i> <?php echo Yii::t('wizardModule.labels', 'Schedule') ?>
+                    <a href="#time" data-toggle="tab">
+                       <?php echo Yii::t('wizardModule.labels', 'Schedule') ?>
                     </a>
                 </li>
                 <li id="tab-exams">
-                    <a class="glyphicons vcard" href="#exams" data-toggle="tab">
-                        <i></i> <?php echo Yii::t('wizardModule.labels', 'Exam dates') ?>
+                    <a href="#exams" data-toggle="tab">
+                        <?php echo Yii::t('wizardModule.labels', 'Exam dates') ?>
                     </a>
                 </li>
             </ul>
@@ -48,11 +51,11 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="widget-body form-horizontal">
             <div class="tab-content">
                 <div class="tab-pane active" id="time">
-                    <div class="row-fluid">
+                    <div class="school-schedules row-fluid">
                         <?php echo $form->hiddenField($model, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
-                        <div class=" span5">
+                        <div class="span5">
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'morning_initial', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'morning_initial', array('class' => 'control-label controls ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->timeField($model, 'morning_initial'); ?>
                                 </div>
@@ -60,7 +63,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <!-- row -->
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'afternoom_initial', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'afternoom_initial', array('class' => 'control-label controls ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->timeField($model, 'afternoom_initial'); ?>
                                 </div>
@@ -68,7 +71,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <!-- row -->
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'night_initial', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'night_initial', array('class' => 'control-label controls ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->timeField($model, 'night_initial'); ?>
                                 </div>
@@ -76,7 +79,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <!-- row -->
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'allday_initial', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'allday_initial', array('class' => 'control-label controls ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->timeField($model, 'allday_initial'); ?>
                                 </div>
@@ -86,7 +89,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="span6">
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'morning_final', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'morning_final', array('class' => 'control-label controls ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->timeField($model, 'morning_final'); ?>
                                 </div>
@@ -94,7 +97,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <!-- row -->
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'afternoom_final', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'afternoom_final', array('class' => 'control-label controls ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->timeField($model, 'afternoom_final'); ?>
                                 </div>
@@ -102,7 +105,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <!-- row -->
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'night_final', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'night_final', array('class' => 'control-label controls ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->timeField($model, 'night_final'); ?>
                                 </div>
@@ -110,7 +113,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <!-- row -->
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'allday_final', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'allday_final', array('class' => 'control-label controls ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->timeField($model, 'allday_final'); ?>
                                 </div>
@@ -122,31 +125,31 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
 
                 <div class="tab-pane" id="exams">
-                    <div class="row-fluid">
+                    <div class="test-dates row-fluid">
                         <div class=" span5">
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'exam1', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'exam1', array('class' => 'control-label controls ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->dateField($model, 'exam1'); ?>
                                 </div>
                                 <?php echo $form->error($model, 'exam1'); ?>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'exam2', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'exam2', array('class' => 'control-label controls ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->dateField($model, 'exam2'); ?>
                                 </div>
                                 <?php echo $form->error($model, 'exam2'); ?>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'exam3', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'exam3', array('class' => 'control-label controls ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->dateField($model, 'exam3'); ?>
                                 </div>
                                 <?php echo $form->error($model, 'exam3'); ?>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'exam4', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'exam4', array('class' => 'control-label controls ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->dateField($model, 'exam4'); ?>
                                 </div>
@@ -155,35 +158,35 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class=" span6">
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'recovery1', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'recovery1', array('class' => 'control-label controls ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->dateField($model, 'recovery1'); ?>
                                 </div>
                                 <?php echo $form->error($model, 'recovery1'); ?>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'recovery2', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'recovery2', array('class' => 'control-label controls ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->dateField($model, 'recovery2'); ?>
                                 </div>
                                 <?php echo $form->error($model, 'recovery2'); ?>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'recovery3', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'recovery3', array('class' => 'control-label controls ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->dateField($model, 'recovery3'); ?>
                                 </div>
                                 <?php echo $form->error($model, 'recovery3'); ?>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'recovery4', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'recovery4', array('class' => 'control-label controls ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->dateField($model, 'recovery4'); ?>
                                 </div>
                                 <?php echo $form->error($model, 'recovery4'); ?>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'recovery_final', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'recovery_final', array('class' => 'control-label controls ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->dateField($model, 'recovery_final'); ?>
                                 </div>

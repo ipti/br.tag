@@ -13,6 +13,9 @@ $this->breadcrumbs = array(
 
 $lastYear = (Yii::app()->user->year - 1);
 $school = Yii::app()->user->school;
+$themeUrl = Yii::app()->theme->baseUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerCssFile($themeUrl . '/css/template2.css');
 ?>
 
 <div class="row-fluid">
@@ -20,8 +23,8 @@ $school = Yii::app()->user->school;
         <h3 class="heading-mosaic">
             <?php echo $title; ?>
         </h3>
-        <div class="buttons">
-            <?php echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Copy'), array('class' => 'btn btn-icon btn-primary last glyphicons roundabout', 'type' => 'submit')); ?>
+        <div class="tag-buttons-container buttons">
+            <?php echo CHtml::htmlButton('' . Yii::t('default', 'Copy'), array('class' => 'tag-button small-button last ', 'type' => 'submit')); ?>
         </div>
     </div>
 </div>
@@ -35,8 +38,8 @@ $school = Yii::app()->user->school;
         <div class="widget-head">
             <ul class="tab-sorcerer">
                 <li id="tab-classroom" class="active">
-                    <a class="glyphicons vcard" href="#classroom" data-toggle="tab"> 
-                        <i></i> <?php echo Yii::t('default', 'Classroom') . ' ' . $lastYear ?>
+                    <a href="#classroom" data-toggle="tab"> 
+                        <?php echo Yii::t('default', 'Classroom') . ' ' . $lastYear ?>
                     </a>
                 </li>
             </ul>
@@ -50,7 +53,7 @@ $school = Yii::app()->user->school;
                             <div class="control-group">
                                 <?php
                                 echo chtml::dropDownList('Classrooms', "", CHtml::listData(Classroom::model()->findAllByAttributes(array('school_year' => $lastYear, 'school_inep_fk'=>$school),array('order'=>'name ASC')), 'id', 'name'), array(
-                                    'class' => 'select-search-on span12',
+                                    'class' => 'select-search-on',
                                     'multiple' => 'multiple',
                                     'placeholder' => Yii::t('default', 'Select Classrom'),
                                 ));
