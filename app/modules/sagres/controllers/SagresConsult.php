@@ -14,9 +14,8 @@ class SagresConsult {
 
     static public function actionExport(){
         $sagres = new SagresConsult;
-        $educacao_t = new EducacaoTType;
-
         $educacao_t = $sagres->getEducacao();
+        
         $sagresEduXML = $sagres->generatesSagresEduXML($educacao_t);
         $sagres->actionExportSagresXML($sagresEduXML);
         //$sagres->validatorSagresEduExportXML($educacao_t);
@@ -28,17 +27,16 @@ class SagresConsult {
      * @return EducacaoTType 
      */
     public function getEducacao(){
-        $escolas_t = new EscolaTType;
         $educacao_t = new EducacaoTType;
-        $atendimento_t = new AtendimentoTType;
-        $profissional_t = new ProfissionalTType;
         //$prestacao_contas_t = new PrestacaoContasTType;
 
         //$prestacao_contas_t = $this->setPrestacaocontas();
         $escolas_t = $this->getAllEscolas(); 
+        
         $educacao_t->setEscola($escolas_t);
+
         $profissional_t = $this->getProfissional();
-        $educacao_t->setProfissional([$profissional_t]);
+        $educacao_t->setProfissional($profissional_t);
 
         return $educacao_t;      
     }
@@ -52,37 +50,43 @@ class SagresConsult {
     public function getAllEscolas() {
         $escola_t = new EscolaTType;
        
-        $query = "SELECT si.inep_id FROM school_identification si WHERE si.inep_id = 28022041";
+        $query = "SELECT si.inep_id FROM school_identification si";
         $escolas = Yii::app()->db->createCommand($query)->queryAll();
 
+        $school = [];
         foreach($escolas as $escola){
             $escola_t->setIdEscola($escola['inep_id']); 
 
             $turma = $this->getTurmaType($escola['inep_id']);
-            $escola_t->setTurma([$turma]);
+            $escola_t->setTurma($turma);
            
             $diretor = $this->getDiretorType($escola['inep_id']);
             $escola_t->setDiretor($diretor);
 
             $cardapio = $this->getCardapioType($escola['inep_id']);
-            $escola_t->setCardapio([$cardapio]);
+            $escola_t->setCardapio($cardapio);
+
+           $sch = array(
+                'inep_id' => $escola_t->getIdEscola(),
+                'diretor' => $escola_t->getDiretor(),
+                'cardapio' => $escola_t->getCardapio()
+            );
+
+            array_push($school, $sch);
         } 
 
        
-        return [$escola_t];
+        return $school;
     }
 
 
     //Class TurmaTType
     /**
      * Summary of TurmaTType
-     * @return TurmaTType 
+     * @return TurmaTType[]
      */
     public function getTurmaType($inep_id) {
         $turma_t = new TurmaTType;
-        $matricula_t = new MatriculaTType;
-        $serie_t = new SerieTType;
-        $horario_t = new HorarioTType;
     
         $query = "SELECT c.school_inep_fk, c.id, c.name, c.turn, se.enrollment_id  
                 FROM classroom c
@@ -91,23 +95,35 @@ class SagresConsult {
 
         $turmas = Yii::app()->db->createCommand($query)->queryAll();
 
+        $turm = [];
         foreach ($turmas as $turma) {
             $turma_t->setPeriodo('0');
             $turma_t->setDescricao($turma["name"]);
             $turma_t->setTurno($turma['turn']);
 
             $serie_t = $this->getSerieType($turma['id']);
-            $turma_t->setSerie([$serie_t]);
+            $turma_t->setSerie($serie_t);
+
+            /* 
             $matricula_t = $this->getMatriculaType(98);
             $turma_t->setMatricula([$matricula_t]);
             $horario_t = $this->setHorario($turma['id']);
             $turma_t->setHorario([$horario_t]);    
 
-            $turma_t->setFinalTurma('0'); 
+            $turma_t->setFinalTurma('0');  */
+
+            $sch = array(
+                'periodo' => $turma_t->getPeriodo(),
+                'descricao' => $turma_t->getDescricao(),
+                'turno' => $turma_t->getTurno(),
+                'serie' => $turma_t->getSerie()
+            );
+
+            array_push($turm, $sch);
 
         }
 
-        return $turma_t;
+        return $turm;
     }
 
     //Class SerieTType
@@ -124,11 +140,19 @@ class SagresConsult {
 
         $series = Yii::app()->db->createCommand($query)->queryAll();
 
+        $seri = [];
         foreach($series as $serie){
             $serie_t->setDescricao($serie['descricao']);
             $serie_t->setModalidade($serie['modalidade']);
+
+            $sch = array(
+                'descricao' => $serie_t->getDescricao(),
+                'modalidade' => $serie_t->getModalidade()
+            );
+
+            array_push($seri, $sch);
         }
-        return [$serie_t];
+        return $seri;
     }
 
 
@@ -230,11 +254,12 @@ class SagresConsult {
     //Class CardapioTType
      /**
      * Summary of CardapioTType
-     * @return CardapioTType 
+     * @return CardapioTType[] 
      */
     public function getCardapioType($id_escola){
-        $cardapio_t = new CardapioTType;    
-        
+        $cardapio_t = new CardapioTType;
+
+        $card = [];
         $query = "SELECT lm.date AS data, cr.turn AS turno, li.description AS descricaoMerenda, lm.adjusted AS ajustado 
                 FROM classroom cr 
                     JOIN school_identification si ON si.inep_id = cr.school_inep_fk 
@@ -246,23 +271,26 @@ class SagresConsult {
                     JOIN lunch_item li ON li.id = lp.item_fk
                 WHERE si.inep_id = " . $id_escola . ";"; 
 
-        $cardapio = Yii::app()->db->createCommand($query)->queryAll();  
-           
-        $cardapio_t->setData(new DateTime($cardapio['data']));
+        $cardapios = Yii::app()->db->createCommand($query)->queryAll();  
 
-        if($cardapio['turno'] = 'M')
-            $cardapio_t->setTurno('1');
-        if($cardapio['turno'] = 'V')
-            $cardapio_t->setTurno('2');
-        if($cardapio['turno'] = 'N')
-            $cardapio_t->setTurno('3');
-        if($cardapio['turno'] = 'I')
-            $cardapio_t->setTurno('4');
+        foreach ($cardapios as $cardapio) {
+               
+            $cardapio_t->setData(new DateTime($cardapio['data']));
+            $cardapio_t->setTurno($cardapio['turno']);
+            $cardapio_t->setDescricaoMerenda($cardapio['descricaoMerenda']);
+            $cardapio_t->setAjustado($cardapio['ajustado']); 
+            
+            $sch = array(
+                'data' => $cardapio_t->getData(),
+                'turno' => $cardapio_t->getTurno(),
+                'descricao' => $cardapio_t->getDescricaoMerenda(),
+                'ajustado' => $cardapio_t->getAjustado()
+            );
 
-        $cardapio_t->setDescricaoMerenda($cardapio['descricaoMerenda']);
-        $cardapio_t->setAjustado($cardapio['ajustado']);   
+            array_push($card, $sch);
+        }
 
-        return $cardapio_t;
+        return $card;
     }
 
     //Class DiretorTType
@@ -296,6 +324,8 @@ class SagresConsult {
        
         $profissionais = Yii::app()->db->createCommand($query)->queryAll();
 
+        $array = [];
+
         foreach ($profissionais as $profissional) {
             $profissional_t->setCpfProfissional($profissional['cpfProfissional']);
             $profissional_t->setEspecialidade($profissional['especialidade']);
@@ -303,9 +333,20 @@ class SagresConsult {
             $profissional_t->setFundeb($profissional['fundeb']);
             $atendimento_t = $this->setAtendimento($profissional['id_professional']);
             $profissional_t->setAtendimento([$atendimento_t]);
+   
+
+            $pro = array(
+                'cpfProfissional' =>$profissional_t->getCpfProfissional(),
+                'especialidade' => $profissional_t->getEspecialidade(),
+                'idEscola' => $profissional_t->getIdEscola(),
+                'fundeb' => $profissional_t->getFundeb(),
+                'atendimento' => $profissional_t->getAtendimento()
+            );
+
+            array_push($array, $pro);
         }
           
-        return $profissional_t;    
+        return $array;    
     }
 
     //MatriculaTType
