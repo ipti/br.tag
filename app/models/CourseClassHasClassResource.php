@@ -6,13 +6,13 @@
  * The followings are the available columns in table 'course_class_has_class_resource':
  * @property integer $id
  * @property integer $course_class_fk
- * @property integer $class_resource_fk
+ * @property integer $course_class_resource_fk
  * @property string $amount
  * @property string $fkid
  *
  * The followings are the available model relations:
+ * @property CourseClassResources $courseClassResourceFk
  * @property CourseClass $courseClassFk
- * @property ClassResource $classResourceFk
  */
 class CourseClassHasClassResource extends CActiveRecord
 {
@@ -24,15 +24,6 @@ class CourseClassHasClassResource extends CActiveRecord
 		return 'course_class_has_class_resource';
 	}
 
-        public function behaviors() {
-            return [
-                'afterSave'=>[
-                    'class'=>'application.behaviors.CAfterSaveBehavior',
-                    'schoolInepId' => Yii::app()->user->school,
-                ],
-            ];
-        }
-        
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -41,12 +32,13 @@ class CourseClassHasClassResource extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('course_class_fk, class_resource_fk', 'required'),
-			array('course_class_fk, class_resource_fk', 'numerical', 'integerOnly'=>true),
+			array('course_class_fk, course_class_resource_fk', 'required'),
+			array('course_class_fk, course_class_resource_fk', 'numerical', 'integerOnly'=>true),
 			array('amount', 'length', 'max'=>10),
+			array('fkid', 'length', 'max'=>40),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, course_class_fk, class_resource_fk, amount', 'safe', 'on'=>'search'),
+			array('id, course_class_fk, course_class_resource_fk, amount, fkid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,8 +50,8 @@ class CourseClassHasClassResource extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'courseClassResourceFk' => array(self::BELONGS_TO, 'CourseClassResources', 'course_class_resource_fk'),
 			'courseClassFk' => array(self::BELONGS_TO, 'CourseClass', 'course_class_fk'),
-			'classResourceFk' => array(self::BELONGS_TO, 'ClassResource', 'class_resource_fk'),
 		);
 	}
 
@@ -71,8 +63,9 @@ class CourseClassHasClassResource extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'course_class_fk' => 'Course Class Fk',
-			'class_resource_fk' => 'Class Resource Fk',
+			'course_class_resource_fk' => 'Course Class Resource Fk',
 			'amount' => 'Amount',
+			'fkid' => 'Fkid',
 		);
 	}
 
@@ -96,8 +89,9 @@ class CourseClassHasClassResource extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('course_class_fk',$this->course_class_fk);
-		$criteria->compare('class_resource_fk',$this->class_resource_fk);
+		$criteria->compare('course_class_resource_fk',$this->course_class_resource_fk);
 		$criteria->compare('amount',$this->amount,true);
+		$criteria->compare('fkid',$this->fkid,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

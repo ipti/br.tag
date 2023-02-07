@@ -37,8 +37,8 @@ class ClassesController extends Controller
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index',
                     'frequency', 'saveFrequency',
-                    'classContents', 'getClassContents', 'saveClassContents', 'saveContent',
-                    'getdisciplines', 'getfrequency', 'getcontents', 'saveJustification'),
+                    'classContents', 'getClassContents', 'saveClassContents',
+                    'getdisciplines', 'getfrequency', 'saveJustification'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -76,42 +76,6 @@ class ClassesController extends Controller
     }
 
     /**
-     * Get all contents
-     */
-    public function actionGetContents()
-    {
-        $contents = ClassResources::model()->findAllByAttributes(['type' => ClassResources::CONTENT]);
-        $return = [];
-        foreach ($contents as $content) {
-            $return[$content->id] = $content->name;
-        }
-        echo json_encode($return);
-    }
-
-    /**
-     *   Save a new Content
-     */
-    public function actionSaveContent()
-    {
-        if (isset($_POST['name']) && !empty($_POST['name'])) {
-            $name = strtoupper($_POST['name']);
-            $description = isset($_POST['description']) ? strtoupper($_POST['description']) : "";
-            $type = isset($_POST['type']) ? $_POST['type'] : 1;
-            $exist = ClassResources::model()->exists('name = :n', ['n' => $name]);
-            if (!$exist) {
-                $newContent = new ClassResources();
-                $newContent->name = $name;
-                $newContent->description = $description;
-                $newContent->type = $type;
-                $newContent->save();
-
-                $return = ['id' => $newContent->id, 'name' => $newContent->name];
-                echo json_encode($return);
-            }
-        }
-    }
-
-    /**
      * Get all classes by classroom, discipline and month
      */
     public function actionGetClassContents()
@@ -124,11 +88,73 @@ class ClassesController extends Controller
         if (!empty($schedules)) {
             foreach ($schedules as $schedule) {
                 $classContents[$schedule->day]["available"] = date("Y-m-d") >= Yii::app()->user->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
-                foreach ($schedule->classHasContents as $classHasContent) {
-                    $classContents[$schedule->day]["contents"][$classHasContent->contentFk->id] = $classHasContent->contentFk->description;
+                foreach ($schedule->classContents as $classContent) {
+                    if (!isset($classContents[$schedule->day]["contents"])) {
+                        $classContents[$schedule->day]["contents"] = [];
+                    }
+                    array_push($classContents[$schedule->day]["contents"], $classContent->courseClassFk->id);
                 }
             }
-            echo json_encode(["valid" => true, "classContents" => $classContents]);
+
+            if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+                if ($_POST["fundamentalMaior"] == "1") {
+                    $courseClasses = Yii::app()->db->createCommand(
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc 
+                        join course_plan cp on cp.id = cc.course_plan_fk
+                        join edcenso_discipline ed on cp.discipline_fk = ed.id
+                        where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk = :discipline_fk and cp.users_fk = :users_fk
+                        order by ed.name, cp.name"
+                    )
+                        ->bindParam(":school_inep_fk", Yii::app()->user->school)
+                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(":discipline_fk", $_POST["discipline"])
+                        ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
+                        ->queryAll();
+                } else {
+                    $courseClasses = Yii::app()->db->createCommand(
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc 
+                        join course_plan cp on cp.id = cc.course_plan_fk
+                        join edcenso_discipline ed on cp.discipline_fk = ed.id
+                        where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk
+                        order by ed.name, cp.name"
+                    )
+                        ->bindParam(":school_inep_fk", Yii::app()->user->school)
+                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
+                        ->queryAll();
+                }
+            } else {
+                if ($_POST["fundamentalMaior"] == "1") {
+                    $courseClasses = Yii::app()->db->createCommand(
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc 
+                        join course_plan cp on cp.id = cc.course_plan_fk
+                        join edcenso_discipline ed on cp.discipline_fk = ed.id
+                        where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk = :discipline_fk
+                        order by ed.name, cp.name"
+                    )
+                        ->bindParam(":school_inep_fk", Yii::app()->user->school)
+                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(":discipline_fk", $_POST["discipline"])
+                        ->queryAll();
+                } else {
+                    $courseClasses = Yii::app()->db->createCommand(
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc 
+                        join course_plan cp on cp.id = cc.course_plan_fk
+                        join edcenso_discipline ed on cp.discipline_fk = ed.id
+                        where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk
+                        order by ed.name, cp.name"
+                    )
+                        ->bindParam(":school_inep_fk", Yii::app()->user->school)
+                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->queryAll();
+                }
+            }
+
+            echo json_encode([
+                "valid" => true,
+                "classContents" => $classContents,
+                "courseClasses" => $courseClasses,
+            ]);
         } else {
             echo json_encode(["valid" => false, "error" => "Não existe quadro de horário com dias letivos para o mês selecionado."]);
         }
@@ -147,11 +173,11 @@ class ClassesController extends Controller
         foreach ($_POST["classContents"] as $classContent) {
             foreach ($schedules as $schedule) {
                 if ($schedule->day == $classContent["day"]) {
-                    ClassHasContent::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
+                    ClassContents::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
                     foreach ($classContent["contents"] as $content) {
-                        $classHasContent = new ClassHasContent();
+                        $classHasContent = new ClassContents();
                         $classHasContent->schedule_fk = $schedule->id;
-                        $classHasContent->content_fk = $content;
+                        $classHasContent->course_class_fk = $content;
                         $classHasContent->save();
                     }
                     break;
@@ -160,169 +186,174 @@ class ClassesController extends Controller
         }
     }
 
-/**
- * Open the Frequency View.
- */
-public
-function actionFrequency()
-{
-    if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-        $criteria = new CDbCriteria;
-        $criteria->alias = "c";
-        $criteria->join = ""
-            . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
-            . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
-        $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
-        $criteria->order = "name";
-        $criteria->params = array(':school_year' => Yii::app()->user->year, ':school_inep_fk' => Yii::app()->user->school, ':users_fk' => Yii::app()->user->loginInfos->id);
+    ////////////
+    //FREQUÊNCIA
+    ////////////
 
-        $classrooms = Classroom::model()->findAll($criteria);
-    } else {
-        $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
-    }
-    $this->render('frequency', array(
-        'classrooms' => $classrooms
-    ));
-}
+    /**
+     * Open the Frequency View.
+     */
+    public
+    function actionFrequency()
+    {
+        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            $criteria = new CDbCriteria;
+            $criteria->alias = "c";
+            $criteria->join = ""
+                . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
+                . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
+            $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
+            $criteria->order = "name";
+            $criteria->params = array(':school_year' => Yii::app()->user->year, ':school_inep_fk' => Yii::app()->user->school, ':users_fk' => Yii::app()->user->loginInfos->id);
 
-/**
- * Get all frequency by classroom, discipline and month
- */
-public
-function actionGetFrequency()
-{
-    if ($_POST["fundamentalMaior"] == "1") {
-        $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"], "discipline_fk" => $_POST["discipline"]]);
-    } else {
-        $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"]]);
-    }
-    $criteria = new CDbCriteria();
-    $criteria->with = array('studentFk');
-    $criteria->together = true;
-    $criteria->order = 'name';
-    $enrollments = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $_POST["classroom"]), $criteria);
-    if ($schedules != null) {
-        if ($enrollments != null) {
-            $students = [];
-            $dayName = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
-            foreach ($enrollments as $enrollment) {
-                $array["studentId"] = $enrollment->student_fk;
-                $array["studentName"] = $enrollment->studentFk->name;
-                $array["schedules"] = [];
-                foreach ($schedules as $schedule) {
-                    $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
-                    $available = date("Y-m-d") >= Yii::app()->user->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
-                    array_push($array["schedules"], [
-                        "available" => $available,
-                        "day" => $schedule->day,
-                        "week_day" => $dayName[$schedule->week_day],
-                        "schedule" => $schedule->schedule,
-                        "fault" => $classFault != null,
-                        "justification" => $classFault->justification
-                    ]);
-                }
-                array_push($students, $array);
-            }
-            echo json_encode(["valid" => true, "students" => $students]);
+            $classrooms = Classroom::model()->findAll($criteria);
         } else {
-            echo json_encode(["valid" => false, "error" => "Matricule alunos nesta turma para trazer o quadro de frequência."]);
+            $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
         }
-    } else {
-        echo json_encode(["valid" => false, "error" => "No quadro de horário da turma, não existe dia letivo no mês selecionado para esta disciplina."]);
+        $this->render('frequency', array(
+            'classrooms' => $classrooms
+        ));
     }
-}
 
-/**
- * Save the frequency for each student and class.
- */
-public
-function actionSaveFrequency()
-{
-    if ($_POST["fundamentalMaior"] == "1") {
-        $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "schedule" => $_POST["schedule"]]);
-        $this->saveFrequency($schedule);
-    } else {
-        $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
-        foreach ($schedules as $schedule) {
+    /**
+     * Get all frequency by classroom, discipline and month
+     */
+    public
+    function actionGetFrequency()
+    {
+        if ($_POST["fundamentalMaior"] == "1") {
+            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"], "discipline_fk" => $_POST["discipline"]]);
+        } else {
+            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"]]);
+        }
+        $criteria = new CDbCriteria();
+        $criteria->with = array('studentFk');
+        $criteria->together = true;
+        $criteria->order = 'name';
+        $enrollments = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $_POST["classroom"]), $criteria);
+        if ($schedules != null) {
+            if ($enrollments != null) {
+                $students = [];
+                $dayName = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+                foreach ($enrollments as $enrollment) {
+                    $array["studentId"] = $enrollment->student_fk;
+                    $array["studentName"] = $enrollment->studentFk->name;
+                    $array["schedules"] = [];
+                    foreach ($schedules as $schedule) {
+                        $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
+                        $available = date("Y-m-d") >= Yii::app()->user->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
+                        array_push($array["schedules"], [
+                            "available" => $available,
+                            "day" => $schedule->day,
+                            "week_day" => $dayName[$schedule->week_day],
+                            "schedule" => $schedule->schedule,
+                            "fault" => $classFault != null,
+                            "justification" => $classFault->justification
+                        ]);
+                    }
+                    array_push($students, $array);
+                }
+                echo json_encode(["valid" => true, "students" => $students]);
+            } else {
+                echo json_encode(["valid" => false, "error" => "Matricule alunos nesta turma para trazer o quadro de frequência."]);
+            }
+        } else {
+            echo json_encode(["valid" => false, "error" => "No quadro de horário da turma, não existe dia letivo no mês selecionado para esta disciplina."]);
+        }
+    }
+
+    /**
+     * Save the frequency for each student and class.
+     */
+    public
+    function actionSaveFrequency()
+    {
+        if ($_POST["fundamentalMaior"] == "1") {
+            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "schedule" => $_POST["schedule"]]);
             $this->saveFrequency($schedule);
+        } else {
+            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
+            foreach ($schedules as $schedule) {
+                $this->saveFrequency($schedule);
+            }
         }
     }
-}
 
-private
-function saveFrequency($schedule)
-{
-    if ($_POST["studentId"] != null) {
-        if ($_POST["fault"] == "1") {
-            $classFault = new ClassFaults();
-            $classFault->student_fk = $_POST["studentId"];
-            $classFault->schedule_fk = $schedule->id;
-            $classFault->save();
-        } else {
-            ClassFaults::model()->deleteAll("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
-        }
-    } else {
-        if ($_POST["fault"] == "1") {
-            $enrollments = StudentEnrollment::model()->findAll("classroom_fk = :classroom_fk", ["classroom_fk" => $_POST["classroomId"]]);
-            foreach ($enrollments as $enrollment) {
-                $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
-                if ($classFault == null) {
-                    $classFault = new ClassFaults();
-                    $classFault->student_fk = $enrollment->student_fk;
-                    $classFault->schedule_fk = $schedule->id;
-                    $classFault->save();
-                }
+    private
+    function saveFrequency($schedule)
+    {
+        if ($_POST["studentId"] != null) {
+            if ($_POST["fault"] == "1") {
+                $classFault = new ClassFaults();
+                $classFault->student_fk = $_POST["studentId"];
+                $classFault->schedule_fk = $schedule->id;
+                $classFault->save();
+            } else {
+                ClassFaults::model()->deleteAll("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
             }
         } else {
-            ClassFaults::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
+            if ($_POST["fault"] == "1") {
+                $enrollments = StudentEnrollment::model()->findAll("classroom_fk = :classroom_fk", ["classroom_fk" => $_POST["classroomId"]]);
+                foreach ($enrollments as $enrollment) {
+                    $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
+                    if ($classFault == null) {
+                        $classFault = new ClassFaults();
+                        $classFault->student_fk = $enrollment->student_fk;
+                        $classFault->schedule_fk = $schedule->id;
+                        $classFault->save();
+                    }
+                }
+            } else {
+                ClassFaults::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
+            }
         }
     }
-}
 
-public function actionSaveJustification() {
-    if ($_POST["fundamentalMaior"] == "1") {
-        $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "schedule" => $_POST["schedule"]]);
-        $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
-        $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
-        $classFault->save();
-    } else {
-        $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
-        foreach ($schedules as $schedule) {
+    public function actionSaveJustification()
+    {
+        if ($_POST["fundamentalMaior"] == "1") {
+            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "schedule" => $_POST["schedule"]]);
             $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
             $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
             $classFault->save();
+        } else {
+            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
+            foreach ($schedules as $schedule) {
+                $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
+                $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
+                $classFault->save();
+            }
         }
     }
-}
 
-/**
- * Get all disciplines by classroom
- */
-public
-function actionGetDisciplines()
-{
-    $classroom = Classroom::model()->findByPk($_POST["classroom"]);
-    $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
-    if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-        $disciplines = Yii::app()->db->createCommand(
-            "select ed.id from teaching_matrixes tm 
+    /**
+     * Get all disciplines by classroom
+     */
+    public
+    function actionGetDisciplines()
+    {
+        $classroom = Classroom::model()->findByPk($_POST["classroom"]);
+        $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
+        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            $disciplines = Yii::app()->db->createCommand(
+                "select ed.id from teaching_matrixes tm 
                 join instructor_teaching_data itd on itd.id = tm.teaching_data_fk 
                 join instructor_identification ii on ii.id = itd.instructor_fk
                 join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
                 join edcenso_discipline ed on ed.id = cm.discipline_fk
                 where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name")
-            ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $classroom->id)->queryAll();
-        foreach ($disciplines as $discipline) {
-            echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true));
-        }
-    } else {
-        echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione a disciplina'), true);
-        $classr = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix where stage_fk = :stage_fk and school_year = :year")->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
-        foreach ($classr as $i => $discipline) {
-            if (isset($discipline['discipline_fk'])) {
-                echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['discipline_fk']), CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true));
+                ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $classroom->id)->queryAll();
+            foreach ($disciplines as $discipline) {
+                echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true));
+            }
+        } else {
+            echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione a disciplina'), true);
+            $classr = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name")->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
+            foreach ($classr as $i => $discipline) {
+                if (isset($discipline['discipline_fk'])) {
+                    echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['discipline_fk']), CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true));
+                }
             }
         }
     }
-}
 }
