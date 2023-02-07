@@ -60,3 +60,8 @@ $(document).on("click", ".collapse-icon", function() {
     }
 });
 
+$(document).ready( function () {
+    $("#yw0_c3").css('display', 'none');
+    $(".filters :nth-child(4)").css('display', 'none');
+})
+
