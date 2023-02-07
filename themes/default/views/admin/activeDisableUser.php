@@ -24,7 +24,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Users'));
         <div class="widget-body">
             <?php
             $this->widget('zii.widgets.grid.CGridView', array(
-                'dataProvider' => $dataProvider,
+                'dataProvider' => $filter->search(),
                 'enablePagination' => true,
                 'filter' => $filter,
                 'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',

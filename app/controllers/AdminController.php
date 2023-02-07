@@ -64,7 +64,7 @@ class AdminController extends Controller
 			$filter->attributes = $_GET['Users'];
 		}
 		$criteria = new CDbCriteria;
-		$criteria->condition = 'id != 1';
+		$criteria->condition = "username != 'admin'";
 		$dataProvider = new CActiveDataProvider('Users', array(
 			'criteria' => $criteria,
 			'pagination' => array(
