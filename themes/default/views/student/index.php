@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.2/r-2.4.0/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.13.2/r-2.4.0/datatables.min.js"></script>
 <div id="mainPage" class="main">
     <?php
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Student Identifications'));
@@ -61,12 +63,11 @@
                 //<button type="submit" class="btn btn-icon btn-primary glyphicons circle_ok"><i>Ok</i></button>
                 //@done S1 - 05 - Tirar borda esquerda e direita do filtro por nome dos alunos
                 $this->widget('zii.widgets.grid.CGridView', array(
-                    'dataProvider' => $filter->search(),
-                    'enablePagination' => true,
-                    'filter' => $filter,
+                    'dataProvider' => $dataProvider,
+                    'enablePagination' => false,
                     'selectableRows' => 1,
                     'selectionChanged' => 'function(id){ location.href = "' . $this->createUrl('update') . '/id/"+$.fn.yiiGridView.getSelection(id);}',
-                    'itemsCssClass' => 'student-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                    'itemsCssClass' => 'js-tag-table student-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                         array(
                             'name' => 'name',

@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.2/r-2.4.0/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.13.2/r-2.4.0/datatables.min.js"></script>
 <div id="mainPage" class="main">
     <?php
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Classrooms'));
@@ -45,10 +47,9 @@
                 <div class="widget-body">
                     <?php
                     $this->widget('zii.widgets.grid.CGridView', array(
-                        'dataProvider' => $filter->search(),
-                        'enablePagination' => true,
-                        'filter' => $filter,
-                        'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-vertical-center checkboxs',
+                        'dataProvider' => $dataProvider,
+                        'enablePagination' => false,
+                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-vertical-center checkboxs',
                         'columns' => array(
                             array(
                                 'name' => 'name',
