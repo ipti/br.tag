@@ -191,10 +191,14 @@ function compareSimilarName(name1, name2) {
 
 const {origin,pathname} = window.location;
 
+const buscar = (dados, chave, conteudo) => {
+    const item = dados[chave];
+    return Object.values(item).indexOf(conteudo) !== -1 ? item : null;
+};
+
 function validateNamePerson(personName, handler){
     var complete_name = personName.split(' ');  
     var passExp = true;
-    var passName = false;
     var passSimilarName = [];
     var ret = new Array();
     for(var i=0; i<complete_name.length;i++){
@@ -207,27 +211,27 @@ function validateNamePerson(personName, handler){
     $.ajax({
         url: `${origin}${pathname}?r=student/comparestudentname`
     }).success(function (response) {
-        $.each( $.parseJSON( response ), function(name, id){
-            if(name == personName){
-                passName = true
-            }else {
-                if(compareSimilarName(personName, name)){
-                    passSimilarName[0] = true
-                    passSimilarName[1] = name
-                }
-            }
-            
-        });
+        const names = $.parseJSON( response );
+        var names_teste = Object.keys(names);
+        var formatSimilares = [];
+        const similares = names_teste.filter((name) => compareSimilarName(name, personName));
+        var array_students = []
+        for (let index = 0; index < similares.length; index++) {
+            student_teste = new Object();
+            student_teste.name = similares[index];
+            student_teste.id = names[similares[index]];
+            array_students.push(student_teste);
+        }
+
+        for (let index = 0; index < array_students.length; index++) {
+            var similares_text = `<a style="color: #2E33B7; font-size: 13px;" href='${origin}${pathname}?r=student/update&id=${array_students[index].id}' >${array_students[index].name}</a><br>`;
+            formatSimilares.push(similares_text);
+        }
         if(passExp){
-            if(passName) {
-                ret[0] = false;
-                ret[1] = "O nome já está cadastrado.";
-                handler(ret);
-                return
-            }
-            if(passSimilarName[0]) {
+            if(similares.length > 0) {
                 ret[0] = true;
-                ret[1] = `Existe um registro "${passSimilarName[1]}" similar cadastrado.`;
+                ret[1] = "Cadastro(s) similar(es) encontrado(s), verifique com atenção os dados. Clique para exibir registros";
+                ret[2] = `<p style="display: none;" id="registrosSimilares">${formatSimilares}</p>`
                 handler(ret);
                 return
             }
@@ -269,10 +273,10 @@ function validateCpf(cpf, handler){
     var ret = new Array();
     var passCpf = false;
     $.ajax({
-        url: `${origin}${pathname}?r=student/comparestudentcpf&student_responsable_cpf=${cpf}`,
+        url: `${origin}${pathname}?r=student/comparestudentcpf&student_cpf=${cpf}`,
     }).success(function (response) {
-        $.each( $.parseJSON( response ), function(name, id){
-            if(name != '') passCpf = true
+        $.each( $.parseJSON( response ), function(student_fk, id){
+            if(student_fk != '') passCpf = true
         });
 
         if (cpf == "00000000000" || cpf == "11111111111"
@@ -288,7 +292,7 @@ function validateCpf(cpf, handler){
         }else{
             if(passCpf) {
                 ret[0] = false;
-                ret[1] = "CPF já cadastrado";
+                ret[1] = "CPF já vinculado com cadastro de aluno existente.";
                 handler(ret);
                 return;
             }
@@ -330,6 +334,7 @@ function validateCpf(cpf, handler){
         }
 
         if(cpf == "00000000000" || cpf == "00000000191"){
+            console.log(rule(cpf, numberRules.cpf));
             ret[0] = false;
             ret[1] = "Informe um CPF válido. Deve possuir apenas números.";
             handler(ret);
@@ -345,7 +350,7 @@ function validateCivilCertificationTermNumber(term_number, handler) {
     var ret = new Array();
     var passTerm = false;
     $.ajax({
-        url: `${origin}${pathname}?r=student/comparestudentcertificate&student_certificate=${term_number}`,
+        url: `${origin}${pathname}?r=student/comparestudentcertificate&civil_certification_term_number=${term_number}`,
     }).success(function (response) {
         $.each( $.parseJSON( response ), function(student_fk, id){
             console.log(student_fk)
@@ -353,7 +358,29 @@ function validateCivilCertificationTermNumber(term_number, handler) {
         });
         if(passTerm) {
             ret[0] = false;
-            ret[1] = "Nº de certidão já cadastrado";
+            ret[1] = "Nº de certidão já vinculada com cadastro de aluno existente.";
+            handler(ret);
+            return;
+        }
+    });
+}
+
+function validateCivilRegisterEnrollmentNumber(term_number, handler) {
+    term_number = term_number.split(/[.-]/);
+    term_number = term_number.join('');
+    console.log(term_number);
+    var ret = new Array();
+    var passTerm = false;
+    $.ajax({
+        url: `${origin}${pathname}?r=student/comparestudentcivilregisterenrollmentnumber&civil_register_enrollment_number=${term_number}`,
+    }).success(function (response) {
+        $.each( $.parseJSON( response ), function(student_fk, id){
+            console.log(student_fk)
+            if(student_fk != '') passTerm = true
+        });
+        if(passTerm) {
+            ret[0] = false;
+            ret[1] = "Nº de certidão já vinculada com cadastro de aluno existente.";
             handler(ret);
             return;
         }
@@ -386,7 +413,8 @@ function errorMessage(id,message){
 function warningMessage(id,message) {
     removeWarningMessage(id);
     id = $(id).attr("id");
-    $("#"+id).parent().append("<span id='"+id+"_warn' class='warning'><br/>"+message+"</span>");
+    $("#"+id).parent().append("<span id='"+id+"_warn' class='warning'><br/>"+message.replace(',','')+"</span>");
+    $("#registrosSimilares").css('margin','5px 0px 0px 1px');
 }
 
 function removeErrorMessage(id){
@@ -420,20 +448,24 @@ function removeWarningNotification(id){
 }
 
 function addError(id, message){
-    errorMessage(id, message);
+    if(message != null) errorMessage(id, message);
     errorNotification(id);
 }
-function removeError(id){
+function removeError(id, id_caixa, id_icon){
+    if(id_caixa != null) $(id_caixa).attr('data-original-title', '');
+    if(id_icon != null) $(id_icon).css('display', 'none');
     removeErrorMessage(id);
     removeErrorNotification(id);
 }
 
-function addWarning(id, message){
-    warningMessage(id, message);
+function addWarning(id, message, id_caixa, id_icon){
+    $(id_icon).css('display', 'inline-block');
+    $(id_caixa).attr('data-original-title', message);
     warningNotification(id);
 }
-function removeWarning(id){
-    removeWarningMessage(id);
+function removeWarning(id, id_caixa, id_icon){
+    $(id_icon).css('display', 'none');
+    $(id_caixa).attr('data-original-title', '');
     removeWarningNotification(id);
 }
 

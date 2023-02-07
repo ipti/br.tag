@@ -139,9 +139,12 @@
 .grid-view .filters input {
     width: 413px !important;
     border: 1px solid #ccc;
-    margin-top: 10px;
-    margin-left: 12px;
+    margin: 0px 0px 2px 12px;
 }
+.student-table.tag-table thead tr.filters input, .curricularmatrix-table.tag-table thead tr.filters input{
+    width: 260px !important;
+}
+
 /* 
     paginação
 */
@@ -388,13 +391,10 @@
     margin-right: 10px;
 }
 
-.select2-container.select-search-on.control-input.frequency-input{
+.select2-container.select-search-on.control-input.frequency-input, .select2-container.select-search-on.control-input.classContents-input {
     width: 170px !important;
 }
-.select2-container.select-search-on.control-input.frequency-input .select2-choice{
+.select2-container.select-search-on.control-input.frequency-input .select2-choice, .select2-container.select-search-on.control-input.classContents-input .select2-choice{
     width: 160px !important;
 
-.student-table.tag-table  input {
-    width: 300px !important;
-    margin: 0px 0px 3px 12px;
 }

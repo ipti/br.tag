@@ -217,7 +217,7 @@ form {
 }
 
 .logs {
-    padding: 0px !important;
+    padding: 0px 0px 24px 0px !important;
     max-height: 405px;
     overflow-y: auto;
 }

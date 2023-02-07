@@ -62,7 +62,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                                 'template' => '{delete}',
                                 'buttons' => array(
                                     'delete' => array(
-                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/cancelar',
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
                                     )
                                 ),
                                 'afterDelete' => 'function(link, success, data){

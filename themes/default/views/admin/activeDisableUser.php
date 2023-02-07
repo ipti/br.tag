@@ -32,7 +32,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Users'));
                     array(
                         'name' => 'name',
                         'type' => 'raw',
-                        'value' => 'CHtml::link($data->name,Yii::app()->createUrl("admin/disableUser",array("id"=>$data->id)))',
+                        'value' => 'CHtml::link($data->name)',
                     ),
                     array(
                         'name' => 'username',

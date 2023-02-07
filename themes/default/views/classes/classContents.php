@@ -79,13 +79,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required', 'style' => 'width: 53px;')); ?>
                 </div>
                 <div class="controls">
-                    <select class="select-search-on control-input" id="classroom" name="classroom">
-                        <option>Selecione a turma</option>
-                        <?php foreach ($classrooms as $classroom) : ?>
-                            <option value="<?= $classroom->id ?>"
-                                    fundamentalmaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
-                        <?php endforeach; ?>
-                    </select>
+                <select class="select-search-on control-input classContents-input" id="classroom" name="classroom">
+                    <option>Selecione a turma</option>
+                    <?php foreach ($classrooms as $classroom) : ?>
+                        <option value="<?= $classroom->id ?>" fundamentalmaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
+                    <?php endforeach; ?>
+                </select>
                 </div>
 
 
@@ -108,18 +107,18 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     12 => 'Dezembro'
                 ), array(
                     'key' => 'id',
-                    'class' => 'select-search-on control-input',
+                    'class' => 'select-search-on control-input classContents-input',
                     'prompt' => 'Selecione o mês',
                 ));
                 ?>
 
             </div>
             <div class="disciplines-container">
-                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required')); ?>
+                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required' ,'style' => 'width: 85px;')); ?>
                 <?php
                 echo CHtml::dropDownList('disciplines', '', array(), array(
                     'key' => 'id',
-                    'class' => 'select-search-on control-input',
+                    'class' => 'select-search-on control-input classContents-input',
                 ));
                 ?>
             </div>
