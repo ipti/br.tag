@@ -1,30 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "course_class".
+ * This is the model class for table "course_class_resources".
  *
- * The followings are the available columns in table 'course_class':
+ * The followings are the available columns in table 'course_class_resources':
  * @property integer $id
- * @property integer $order
- * @property string $objective
- * @property integer $course_plan_fk
- * @property string $fkid
+ * @property string $name
  *
  * The followings are the available model relations:
- * @property ClassContents[] $classContents
- * @property CoursePlan $coursePlanFk
- * @property CourseClassHasClassCompetence[] $courseClassHasClassCompetences
  * @property CourseClassHasClassResource[] $courseClassHasClassResources
- * @property CourseClassHasClassType[] $courseClassHasClassTypes
  */
-class CourseClass extends CActiveRecord
+class CourseClassResources extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'course_class';
+		return 'course_class_resources';
 	}
 
 	/**
@@ -35,12 +28,11 @@ class CourseClass extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('order, objective, course_plan_fk', 'required'),
-			array('order, course_plan_fk', 'numerical', 'integerOnly'=>true),
-			array('fkid', 'length', 'max'=>40),
+			array('name', 'required'),
+			array('name', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, order, objective, course_plan_fk, fkid', 'safe', 'on'=>'search'),
+			array('id, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,11 +44,7 @@ class CourseClass extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'classContents' => array(self::HAS_MANY, 'ClassContents', 'course_class_fk'),
-			'coursePlanFk' => array(self::BELONGS_TO, 'CoursePlan', 'course_plan_fk'),
-			'courseClassHasClassCompetences' => array(self::HAS_MANY, 'CourseClassHasClassCompetence', 'course_class_fk'),
-			'courseClassHasClassResources' => array(self::HAS_MANY, 'CourseClassHasClassResource', 'course_class_fk'),
-			'courseClassHasClassTypes' => array(self::HAS_MANY, 'CourseClassHasClassType', 'course_class_fk'),
+			'courseClassHasClassResources' => array(self::HAS_MANY, 'CourseClassHasClassResource', 'course_class_resource_fk'),
 		);
 	}
 
@@ -67,10 +55,7 @@ class CourseClass extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'order' => 'Order',
-			'objective' => 'Objective',
-			'course_plan_fk' => 'Course Plan Fk',
-			'fkid' => 'Fkid',
+			'name' => 'Name',
 		);
 	}
 
@@ -93,10 +78,7 @@ class CourseClass extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('order',$this->order);
-		$criteria->compare('objective',$this->objective,true);
-		$criteria->compare('course_plan_fk',$this->course_plan_fk);
-		$criteria->compare('fkid',$this->fkid,true);
+		$criteria->compare('name',$this->name,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -107,7 +89,7 @@ class CourseClass extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return CourseClass the static model class
+	 * @return CourseClassResources the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

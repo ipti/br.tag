@@ -8576,11 +8576,22 @@ input[type="text"] {
     vertical-align: middle !important;
 }
 
-.contents-select {
-    width: 100% !important;
+.select2-container.course-classes-select {
     margin-bottom: 0;
     opacity: 100;
     -webkit-appearance: none;
+}
+
+.course-classes-optgroup, .competence-optgroup {
+    text-decoration: underline;
+}
+
+.course-classes-option {
+    font-size: 12px;
+}
+
+.course-classes-option {
+    font-size: 12px;
 }
 
 .contents-day {
@@ -8611,34 +8622,117 @@ input[type="text"] {
     width: 120px;
 }
 
+#course-plan-form .js-course-plan-loading-disciplines, #course-plan-form .js-course-plan-loading-competences {
+    display: none;
+    font-size: 20px;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+.objective-title {
+    padding: 10px 18px !important;
+}
+
 .course-class {
-    margin-left: 100px;
     display: block;
-    width: 100%;
+    padding: 10px 150px;
+    min-height: 250px
+}
+
+.course-class-column1 {
+    width: 60% !important;
+    display: inline-block;
+}
+
+.course-class-column2 {
+    width: 39% !important;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .course-class-objective {
     resize: none;
-    height: 100px;
+    height: 120px;
+    width: 700px;
+}
+
+.competence-code, .competence-description {
+    font-size: 12px;
+}
+
+.courseplan-competence-container {
+    width: 700px;
+    display: inline-block;
+}
+
+.competence-select {
+    width: 718px;
+}
+
+.courseplan-type-container {
+    width: 525px;
+    display: inline-block;
+}
+
+.type-select {
+    width: 525px;
+}
+
+.resource-select {
+    display: inline-block;
 }
 
 .resources {
-    margin-top: 10px;
+    margin-top: 25px;
 }
 
-.resources p {
-    line-height: 10px;
-    padding: 0 0 5px 0;
-    border-bottom: 1px solid #ccc;
+.detailed-row:hover {
+    background: #fff !important;
+}
+
+.course-class-resource {
+    position: relative;
+    display: inline-block;
+    border: 1px solid black;
+    padding: 5px 15px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+}
+
+.remove-course-class.unavailable {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
 
 .remove-resource {
-    color: #bd362f;
+    color: #fff;
     cursor: pointer;
+    position: absolute;
+    top: -9px;
+    right: -9px;
+    padding: 4px 5px 5px;
+    background: #bd362f;
+    border-radius: 13px;
+    font-size: 10px !important;
+}
+
+.remove-resource:hover {
+    background:  #a9302a;
 }
 
 .details-control {
     cursor: pointer;
+}
+
+tbody .details-control {
+    border-right: 1px solid;
+    font-size: 20px;
+    background: #3F45EA;
+    color: #fff;
+}
+
+tbody .details-control:hover {
+    background: #41619b;
 }
 
 .instructor-emails .control-label {
@@ -8993,6 +9087,18 @@ input[type="text"] {
     width: 20px !important;
     height: 20px;
     margin-top: 0px !important;
+}
+
+#widget-class-contents .select2-container-multi .select2-choices .select2-search-field input {
+    padding: 0;
+}
+
+#widget-class-contents {
+    width: 100%;
+}
+
+#widget-class-contents .widget-head, #widget-class-contents .widget-head {
+    width: 100%;
 }
 
 .innerLR .loading-frequency, .innerLR .loading-class-contents {

@@ -181,7 +181,7 @@ table.table-timesheet td {
     cursor: default;
 }
 
-.tables-timesheet .frequency-unavailable {
+.tables-timesheet .frequency-or-classcontent-unavailable {
     background: beige !important;
     cursor: default;
 }
