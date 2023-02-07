@@ -21,29 +21,6 @@ const Form = props => {
 
   const {data} = useFetchRequestSchools()
 
-  useEffect(() => {
-    if (props.match.params.id && loadData) {
-      props.dispatch({
-        type: "FETCH_SCHEDULE",
-        data: { id: props.match.params.id }
-      });
-      setIsEdit(true);
-      setLoadData(false);
-    }
-
-    if (props.schedule?.schedule) {
-      setActive(props.schedule?.schedule?.data?.isActive);
-    }
-
-    if (redirect && props?.fetchSchedule?.status === "1" && !props?.error) {
-      history.push("/cronograma");
-    } else {
-      setOpen(true);
-      setTimeout(function() {
-        setOpen(false);
-      }, 6000);
-    }
-  }, [history, isEdit, loadData, props, redirect]);
 
   const handleChangeActive = event => {
     setActive(event.target.checked);
@@ -83,25 +60,12 @@ const Form = props => {
 
   const handleSubmit = values => {
     let data = {
-      start_date: values.internalTransferDateStart,
-      end_date: values.internalTransferDateEnd,
+      start_date: values.start_date,
+      end_date: values.end_date,
       school_identificationArray: values.school_identificationArray,
-      year: values.year,
+      year: parseInt(values.year),
     };
-      console.log(data);
-    requestSaveEventPreMutation.mutation(data)
-
-    // if (isEdit) {
-    //   props.dispatch({
-    //     type: "FETCH_UPDATE_SCHEDULE",
-    //     data,
-    //     id: props.match.params.id
-    //   });
-    // } else {
-    //   props.dispatch({ type: "FETCH_SAVE_SCHEDULE", data });
-    // }
-    // setRedirect(true);
-    // setLoadingButtom(true);
+    requestSaveEventPreMutation.mutate(data)
   };
 
   const validationSchema = Yup.object().shape({
@@ -109,10 +73,10 @@ const Form = props => {
       .nullable()
       .required("Campo obrigatório!"),
       end_date: Yup.date()
-      .when("newStudentDateStart", (newStudentDateStart, schema) => {
-        if (newStudentDateStart !== null) {
+      .when("start_date", (start_date, schema) => {
+        if (start_date !== null) {
           return schema.min(
-            newStudentDateStart,
+            start_date,
             "A Data Final deve ser maior do que a data inicial"
           );
         }

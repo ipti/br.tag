@@ -1,30 +1,23 @@
-import React from "react";
-import PropTypes from "prop-types";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import Loading from "../../components/Loading/CircularLoadingButtomActions";
-import { Formik, Form } from "formik";
-import Select from 'react-select';
-import AsyncSelect from "react-select/async";
-import {
-  FormControlLabel,
-  FormLabel,
-  FormControl,
-  Switch
-} from "@material-ui/core";
-import { ButtonPurple } from "../../components/Buttons";
-import brLocale from "date-fns/locale/pt-BR";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker
-} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import { TitleWithLine } from "../../components/Titles";
 import {
-  makeStyles,
-  createMuiTheme,
-  ThemeProvider
+  FormControl, FormLabel
+} from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
+import {
+  createMuiTheme, makeStyles
 } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import {
+  KeyboardDatePicker, MuiPickersUtilsProvider
+} from "@material-ui/pickers";
+import brLocale from "date-fns/locale/pt-BR";
+import { Form, Formik } from "formik";
+import PropTypes from "prop-types";
+import React from "react";
+import Select from 'react-select';
+import { ButtonPurple } from "../../components/Buttons";
+import Loading from "../../components/Loading/CircularLoadingButtomActions";
+import { TitleWithLine } from "../../components/Titles";
 import styleBase from "../../styles";
 import styles from "./styles";
 
@@ -42,7 +35,7 @@ const customStyles = {
   control: base => ({
     ...base,
     height: "60px",
-    
+
     minHeight: "60px",
     fontFamily: "Roboto, Helvetica, Arial, sans-serif"
   }),
@@ -63,6 +56,7 @@ const Create = props => {
     loadingIcon,
     schools
   } = props;
+
 
   return (
     <>
@@ -88,6 +82,7 @@ const Create = props => {
         enableReinitialize
       >
         {props => {
+
           return (
             <Form>
               <MuiPickersUtilsProvider locale={brLocale} utils={DateFnsUtils}>
@@ -126,7 +121,7 @@ const Create = props => {
                   direction="row"
                   spacing={2}
                 >
-                   <Grid item md={12} sm={12}>
+                  <Grid item md={12} sm={12}>
                     <TitleWithLine title="Escolas" />
                   </Grid>
                   <Grid item md={12} sm={12}>
@@ -134,22 +129,27 @@ const Create = props => {
                       component="fieldset"
                       className={classes.formControl}
                     >
+                      <div style={{width: "200px"}}> 
                       <Select
                         getOptionValue={opt => opt.name}
                         getOptionLabel={opt => opt.name}
                         onChange={selectedOption => {
-                          console.log(selectedOption.filter(school => school.inep_id))
-                          selectedOption.filter(school => school.id)
-                          props.setFieldValue("start_date", selectedOption)
-                          console.log(selectedOption)
+                          var schools = [];
+                          for (var i = 0; i < selectedOption.length; i++) {
+                            schools = [...schools, selectedOption[i].inep_id]
+                            console.log(schools)
+                          }
+                          props.setFieldValue("school_identificationArray", schools)
                         }}
                         isMulti
                         styles={customStyles}
-                        name="colors"
+                        name="school_identificationArray"
                         options={schools}
                         className="basic-multi-select"
                         classNamePrefix="select"
                       />
+                      </div>
+                      
                     </FormControl>
                   </Grid>
                 </Grid>
@@ -171,7 +171,7 @@ const Create = props => {
                       <KeyboardDatePicker
                         disableToolbar
                         name="start_date"
-                         value={props.values.start_date}
+                        value={props.values.start_date}
                         inputVariant="outlined"
                         format="dd/MM/yyyy"
                         margin="normal"
@@ -197,7 +197,7 @@ const Create = props => {
                       <KeyboardDatePicker
                         disableToolbar
                         name="end_date"
-                         value={props.values.end_date}
+                        value={props.values.end_date}
                         inputVariant="outlined"
                         format="dd/MM/yyyy"
                         margin="normal"

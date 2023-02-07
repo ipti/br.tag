@@ -8,6 +8,7 @@ import AsyncSelect from "react-select/async";
 import { idSchool } from "../../services/auth";
 import { useState } from "react";
 import { FormControl, FormLabel } from "@material-ui/core";
+import { now } from "moment";
 
 const useStyles = makeStyles(styles);
 
@@ -25,9 +26,11 @@ const customStyles = {
 };
 const Start = props => {
   const classes = useStyles();
-  const [calendar_event, setCalendar_event] = useState()
+  const [startDate, setStartDate] = useState()
+  const [endDate, setEndDate] = useState()
 
-  const date = Date(Date.now());
+  const datenow = Date.now();
+  const date = new Date(datenow)
 
 
   const searchSchools = (inputValue, callback) => {
@@ -42,7 +45,7 @@ const Start = props => {
   
 
   const onButton = () => {
-    if(calendar_event?.start_date <= date ){
+    if(startDate <= date.getTime() && date.getTime() <= endDate){
       props.setIsActive(true)
       props.nextStep('1')
   } else {
@@ -83,9 +86,8 @@ const Start = props => {
               placeholder="Digite o nome da escola"
               onChange={selectedOption => {
                 idSchool(selectedOption.inep_id);
-                setCalendar_event(selectedOption.calendar_event.find(e => e.id === 1))
-                
-                
+                setStartDate(new Date(selectedOption.event_pre_registration[0].start_date).getTime())
+                setEndDate(new Date(selectedOption.event_pre_registration[0].end_date).getTime())
               }}
               className={classes.selectField}
               getOptionValue={opt => opt.inep_id}

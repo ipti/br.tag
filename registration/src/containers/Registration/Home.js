@@ -24,7 +24,7 @@ const Home = props => {
   const { requestSaveRegistrationMutation } = Controller()
   const [isActive, setIsActive] = useState(true);
 
-
+console.log(isActive)
   // useEffect(() => {
   //   setOpen(false);
 
@@ -60,7 +60,7 @@ const Home = props => {
 
 
   const { data } = useFetchRequestSchoolList();
-
+  
   const onSubmit = () => {
     if (dataValues?.birthday) {
       dataValues.birthday = dataValues.birthday
@@ -164,7 +164,7 @@ const Home = props => {
         style={{ minWidth: "100%" }}
       >
         <Grid item lg={4} md={5} xs={10}>
-          {true ? (
+          {isActive ? (
             <Wizard
               schools={data}
               next={next}

@@ -3,6 +3,7 @@ import { Schedule } from "../../screens/Schedule";
 import { connect } from "react-redux";
 import Loading from "../../components/Loading/CircularLoading";
 import Alert from "../../components/Alert/CustomizedSnackbars";
+import { useFetchRequestSchecule } from "../../query/Schedule";
 
 const Home = props => {
   const [loadData, setLoadData] = useState(true);
@@ -13,6 +14,8 @@ const Home = props => {
     setPage(pageInfo.activePage);
     setLoadDataPaginate(true);
   };
+
+  const {data} = useFetchRequestSchecule()
 
   // useEffect(() => {
   //   if (loadData) {
@@ -72,7 +75,7 @@ const Home = props => {
           <Schedule
             // pagination={props.schedule.pagination}
             // activePage={page}
-            // data={props.schedule.schedules}
+             data={data}
             // handlePage={handlePage}
           />
           {alert()}

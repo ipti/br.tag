@@ -38,7 +38,8 @@ const requestSchoolList = async () => {
         params: {
           include: {
             classroom: true,
-            calendar_event: true
+            calendar_event: true,
+            event_pre_registration: true
           }
         }
       })
