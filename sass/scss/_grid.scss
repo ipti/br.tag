@@ -1,0 +1,22 @@
+@import '_functions.scss';
+@import '_tokens.scss';
+
+
+.row {
+    display: flex;
+    flex-direction: column;
+
+    @include device(mobile) {
+        flex-direction: row;
+    }
+}
+
+.column {
+    margin-left: $spaceLarge/2;
+    margin-right: $spaceLarge/2;
+}
+
+[class^="col-"].clearfix {
+    margin-left: 0;
+    margin-right: 0;
+}

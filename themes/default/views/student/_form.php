@@ -80,7 +80,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 </li>
             </ul>
         </div>
-        <div class="widget-body form-horizontal">
+        <div>
             <div class="tab-content" style="display:none">
                 <!-- Tab content Botão de próximo -->
                 <div id="buttons-student" class="">
@@ -91,34 +91,34 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <!-- Tab Student Identify -->
                 <div class="tab-pane active" id="student-identify">
-                    <div class="row-fluid">
-                        <div class=" span6">
+                    <div class="row">
+                        <div class="column">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
                                 </div>
                             </div>
                             <!-- name student -->
-                            <div class="control-group t-input-container">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'name', array('class' => 'control-label t-input-container__label--required')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 't-input-container__input')); ?>
+                            <div class="t-field-text">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'name', array('class' => 'control-label t-field-text__label--required')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input')); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'name'); ?>
                             </div>
 
 
-                            <div class="control-group t-input-container">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'birthday', array('class' => 'control-label  t-input-container__label--required')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'birthday', array('size' => 10, 'maxlength' => 10, 'class' => 't-input-container__input')); ?>
+                            <div class="t-field-text">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'birthday', array('class' => 'control-label  t-field-text__label--required')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'birthday', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'birthday'); ?>
                             </div>
-                            <div class="control-group t-input-container">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'sex', array('class' => 'control-label t-input-container__label--required')); ?>
-                                    <?php echo $form->DropDownList($modelStudentIdentification, 'sex', array(null => "Selecione o sexo", "1" => "Masculino", "2" => "Feminino"), array('class' => 'select-search-off control-input t-input-container__input')); ?>
+                            <div class="t-field-select">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'sex', array('class' => 'control-label t-field-select__label--required')); ?>
+                                    <?php echo $form->DropDownList($modelStudentIdentification, 'sex', array(null => "Selecione o sexo", "1" => "Masculino", "2" => "Feminino"), array('class' => 'select-search-off control-input t-field-select__input', 'style'=>'width: 100%')); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'sex'); ?>
                             </div>
 
-                            <div class="control-group t-input-container">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'color_race', array('class' => 'control-label t-input-container__label--required')); ?>
+                            <div class="t-field-select">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'color_race', array('class' => 'control-label t-field-select__label--required')); ?>
                                     <?php
                                     echo $form->DropDownList($modelStudentIdentification, 'color_race', array(
                                         null => "Selecione a cor/raça",
@@ -128,50 +128,47 @@ $form = $this->beginWidget('CActiveForm', array(
                                         "3" => "Parda",
                                         "4" => "Amarela",
                                         "5" => "Indígena"
-                                    ), array('class' => 'select-search-off control-input t-input-container__input'));
+                                    ), array('class' => 'select-search-off control-input t-field-select__input', 'style'=>'width: 100%'));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'color_race'); ?>
                             </div>
-                            <div class="control-group t-input-container">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation', array('class' => 'control-label  t-input-container__label--required')); ?>
-                                    <?php echo $form->DropDownList($modelStudentIdentification, 'filiation', array(null => "Selecione a filiação", "0" => "Não declarado/Ignorado", "1" => "Pai e/ou Mãe"), array('class' => 'select-search-off control-input t-input-container__input')); ?>
+                            <div class="t-field-select">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation', array('class' => 'control-label  t-field-select__label--required')); ?>
+                                    <?php echo $form->DropDownList($modelStudentIdentification, 'filiation', array(null => "Selecione a filiação", "0" => "Não declarado/Ignorado", "1" => "Pai e/ou Mãe"), array('class' => 'select-search-off control-input t-field-select__input', 'style'=>'width: 100%')); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation'); ?>
                             </div>
 
-                            <div class="control-group js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'id_email', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'id_email', array('size' => 60, 'maxlength' => 255)); ?>
+                            <div class=" t-field-text js-hide-not-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'id_email', array('class' => 'control-label  t-field-text__label')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'id_email', array('size' => 60, 'maxlength' => 255, 'class'=>'t-field-text__input')); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'id_email'); ?>
                             </div>
 
-                            <div class="control-group js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'scholarity', array('class' => 'control-label')); ?>
-                                    <?php echo $form->DropDownList($modelStudentIdentification, 'scholarity', array(null => "Selecione a escolaridade", "1" => "Formação Geral", "2" => "Modalidade Normal (Magistério)", "3" => "Curso Técnico", "4" => "Magistério Indígena Modalidade Normal"), array('class' => 'select-search-off control-input')); ?>
+                            <div class="t-field-select js-hide-not-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'scholarity', array('class' => 'control-label t-field-select__label')); ?>
+                                    <?php echo $form->DropDownList($modelStudentIdentification, 'scholarity', array(null => "Selecione a escolaridade", "1" => "Formação Geral", "2" => "Modalidade Normal (Magistério)", "3" => "Curso Técnico", "4" => "Magistério Indígena Modalidade Normal"), array('class' => 'select-search-off control-input t-field-select__input', 'style'=>'width: 100%')); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'scholarity'); ?>
                             </div>
 
-                            <div class="control-group js-hide-not-required js-visibility-fname">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_1', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear")); ?>
+                            <div class="t-field-text js-hide-not-required js-visibility-fname">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1', array('class' => 'control-label t-field-text__label')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_1', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input")); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_1'); ?>
                             </div>
 
-                            <div class="control-group js-hide-not-required"> 
+                            <div class="js-hide-not-required"> 
                                     <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_rg', array('class' => 'control-label')); ?>
                                     <?php echo $form->textField($modelStudentIdentification, 'filiation_1_rg', array('size' => 60, 'maxlength' => 45, "class"=> "js-disabled-finputs js-finput-clear")); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_1_rg'); ?>
                             </div>
-                            <div class="control-group js-hide-not-required">
+                            <div class="js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_cpf', array('class' => 'control-label')); ?>
                                     <?php echo $form->textField($modelStudentIdentification, 'filiation_1_cpf', array('size' => 60, 'maxlength' => 14, "class"=>"js-disabled-finputs js-finput-clear")); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_1_cpf'); ?>
                             </div>
 
-                           <div class="control-group js-hide-not-required">
-                                <div class="controls">
+                           <div class="js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_scholarity', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
                                     <?php
                                     echo $form->dropDownList($modelStudentIdentification, 'filiation_1_scholarity', array(
                                         0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
@@ -180,37 +177,33 @@ $form = $this->beginWidget('CActiveForm', array(
                                     ), array('class' => 'select-search-off js-disabled-finputs js-finput-clear'));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_1_scholarity'); ?>
-                                </div>
                             </div>
 
-                            <div class="control-group js-hide-not-required"> 
+                            <div class="js-hide-not-required"> 
                                     <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_job', array('class' => 'control-label')); ?>
                                     <?php echo $form->textField($modelStudentIdentification, 'filiation_1_job', array('size' => 60, 'maxlength' => 100, "class"=>"js-disabled-finputs js-finput-clear")); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_1_job'); ?>
                             </div>
 
-                            <div class="control-group js-hide-not-required js-visibility-fname">
+                            <div class="js-hide-not-required js-visibility-fname">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2', array('class' => 'control-label')); ?>
                                     <?php echo $form->textField($modelStudentIdentification, 'filiation_2', array('size' => 60, 'maxlength' => 100, "class"=>"js-disabled-finputs js-finput-clear")); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_2'); ?>
                             </div>
 
-                            <div class="control-group js-hide-not-required">
+                            <div class="js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_rg', array('class' => 'control-label')); ?>
                                     <?php echo $form->textField($modelStudentIdentification, 'filiation_2_rg', array('size' => 60, 'maxlength' => 45, "class"=>"js-disabled-finputs js-finput-clear")); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_2_rg'); ?>
                             </div>
-                            <div class="control-group js-hide-not-required">
+                            <div class="js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_cpf', array('class' => 'control-label')); ?>
                                     <?php echo $form->textField($modelStudentIdentification, 'filiation_2_cpf', array('size' => 60, 'maxlength' => 14, "class"=>"js-disabled-finputs js-finput-clear")); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_2_cpf'); ?>
                             </div>
 
-                            <div class="control-group js-hide-not-required">
-                                <div class="controls">
+                            <div class="js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_scholarity', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
                                     <?php
                                     echo $form->dropDownList($modelStudentIdentification, 'filiation_2_scholarity', array(
                                         0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
@@ -219,19 +212,18 @@ $form = $this->beginWidget('CActiveForm', array(
                                     ), array('class' => 'select-search-off js-disabled-finputs js-finput-clear'));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_2_scholarity'); ?>
-                                </div>
                             </div>
 
-                            <div class="control-group js-hide-not-required">
+                            <div class="js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_job', array('class' => 'control-label')); ?>
                                     <?php echo $form->textField($modelStudentIdentification, 'filiation_2_job', array('size' => 60, 'maxlength' => 100, "class"=>"js-disabled-finputs js-finput-clear")); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_2_job'); ?>
                             </div>
 
-                            <div class="control-group t-input-container">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'nationality', array('class' => 'control-label t-input-container__label--required')); ?>
+                            <div class="t-input">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'nationality', array('class' => 'control-label t-input__label--required')); ?>
                                     <?php
-                                    echo $form->dropDownList($modelStudentIdentification, 'nationality', array(null => "Selecione a nacionalidade", "1" => "Brasileira", "2" => "Brasileira: Nascido no exterior ou Naturalizado", "3" => "Estrangeira"), array('class' => 'select-search-off control-input t-input-container__input'), array('ajax' => array(
+                                    echo $form->dropDownList($modelStudentIdentification, 'nationality', array(null => "Selecione a nacionalidade", "1" => "Brasileira", "2" => "Brasileira: Nascido no exterior ou Naturalizado", "3" => "Estrangeira"), array('class' => 'select-search-off control-input t-input__text'), array('ajax' => array(
                                         'type' => 'POST',
                                         'url' => CController::createUrl('student/getnations'),
                                         'update' => '#StudentIdentification_edcenso_nation_fk'
@@ -240,16 +232,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentIdentification, 'nationality'); ?>
                             </div>
 
-                            <div class="control-group t-input-container">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_nation_fk', array('class' => 'control-label t-input-container__label--required')); ?>
+                            <div class="t-input">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_nation_fk', array('class' => 'control-label t-input__label--required')); ?>
                                     <?php
-                                    echo $form->dropDownList($modelStudentIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma nação", 'class' => 'select-search-on nationality-sensitive no-br t-input-container__input', 'disabled' => 'disabled'));
+                                    echo $form->dropDownList($modelStudentIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma nação", 'class' => 'select-search-on nationality-sensitive no-br t-input__text', 'disabled' => 'disabled'));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'edcenso_nation_fk'); ?>
                             </div>
 
-                            <div class="control-group js-hide-not-required js-change-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_uf_fk', array('class' => 'control-label t-input-container__label')); ?>
+                            <div class="js-hide-not-required js-change-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_uf_fk', array('class' => 'control-label t-input__label')); ?>
                                     <?php
                                     echo $form->dropDownList($modelStudentIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
                                         'ajax' => array(
@@ -265,7 +257,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentIdentification, 'edcenso_uf_fk'); ?>
                             </div>
 
-                            <div class="control-group js-hide-not-required js-change-required">
+                            <div class="js-hide-not-required js-change-required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_city_fk', array('class' => 'control-label')); ?>
                                     <?php
                                     echo $form->dropDownList($modelStudentIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentIdentification->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array(
@@ -279,7 +271,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 
                         </div>
-                        <div class=" span6">
+                        <div class="column">
                             <div class="separator"></div>
                             <div class="control-group js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'nis', array('class' => 'control-label')); ?>
@@ -411,7 +403,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </label>
                                 </div>
                             </div>
-                            <div class="control-group hide-responsive resources-container">
+                            <div class="control-group js-visibility-dresource hide-responsive resources-container">
                                 <div class="controls">
                                     <label class="control-label"><?php echo Yii::t('default', 'Required Resources'); ?></label>
                                 </div>
@@ -846,9 +838,9 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="tab-pane" id="student-address">
                     <div class="row-fluid">
                         <div class=" span6">
-                            <div class="control-group t-input-container">
-                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'residence_zone', array('class' => 'control-label  t-input-container__label--required')); ?>
-                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'residence_zone', array(null => "Selecione uma zona", "1" => "URBANA", "2" => "RURAL"), array('class' => 'select-search-off control-input t-input-container__input')); ?>
+                            <div class="control-group t-input">
+                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'residence_zone', array('class' => 'control-label  t-input__label--required')); ?>
+                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'residence_zone', array(null => "Selecione uma zona", "1" => "URBANA", "2" => "RURAL"), array('class' => 'select-search-off control-input t-input__text')); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'residence_zone'); ?>
                             </div>
                             <div class="control-group  js-hide-not-required">
@@ -930,8 +922,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <!-- turma -->
-                            <div class="control-group t-input-container">
-                                    <?php echo $form->labelEx($modelEnrollment, 'classroom_fk', array('class' => 'control-label  t-input-container__label--required')); ?>
+                            <div class="control-group t-input">
+                                    <?php echo $form->labelEx($modelEnrollment, 'classroom_fk', array('class' => 'control-label  t-input__label--required')); ?>
                                     <?php
                                     $stage = $modelStudentIdentification->getCurrentStageVsModality();
                                     $stages = implode(",", EdcensoStageVsModality::getNextStages($stage));
@@ -951,7 +943,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             'id',
                                             'name'
                                         ),
-                                        array("prompt" => "Selecione uma Turma", 'class' => 'select-search-off control-input  t-input-container__input')
+                                        array("prompt" => "Selecione uma Turma", 'class' => 'select-search-off control-input  t-input__text')
                                     ); ?>
                                     <?php echo $form->error($modelEnrollment, 'classroom_fk'); ?>
                             </div>
@@ -1049,12 +1041,12 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->textField($modelEnrollment, 'school_admission_date', array('size' => 10, 'maxlength' => 10)); ?>
                                     <?php echo $form->error($modelEnrollment, 'school_admission_date'); ?>
                             </div>
-                            <div class="control-group t-input-container">
-                                    <?php echo $form->labelEx($modelEnrollment, 'public_transport', array('class' => 'control-label t-input-container__label--required')); ?>
-                                    <?php echo $form->checkBox($modelEnrollment, 'public_transport', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-input-container__input')); ?>
+                            <div class="control-group t-input">
+                                    <?php echo $form->labelEx($modelEnrollment, 'public_transport', array('class' => 'control-label t-input__label--required')); ?>
+                                    <?php echo $form->checkBox($modelEnrollment, 'public_transport', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-input__text')); ?>
                             </div>
-                            <div class="control-group t-input-container" id="transport_responsable">
-                                    <?php echo $form->labelEx($modelEnrollment, 'transport_responsable_government', array('class' => 'control-label t-input-container__label--required')); ?>
+                            <div class="control-group t-input" id="transport_responsable">
+                                    <?php echo $form->labelEx($modelEnrollment, 'transport_responsable_government', array('class' => 'control-label t-input__label--required')); ?>
                                     <?php echo $form->dropDownList($modelEnrollment, 'transport_responsable_government', array(null => "Selecione o poder público do transporte", "1" => "Estadual", "2" => "Municipal"), array('class' => 'select-search-off control-input')); ?>
                                     <?php echo $form->error($modelEnrollment, 'transport_responsable_government'); ?>
                             </div>

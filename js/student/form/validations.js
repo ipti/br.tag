@@ -394,7 +394,7 @@ $(deficiency).change(function () {
     } else {
         $(allDeficiency).attr('disabled', "disabled").removeAttr('checked');
         $("#StudentIdentification_deficiencies").parent(".js-visibility-deficiencies").hide();
-        $("#StudentIdentification_resource_aid_lector").closest(".control-group").hide();
+        $("#StudentIdentification_resource_aid_lector").closest(".js-visibility-dresource").hide();
         $(".resources-container").hide();
         $(".resources-container input[type=checkbox]").prop("checked", false);
     }
