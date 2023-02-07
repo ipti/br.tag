@@ -1,0 +1,87 @@
+@import '_tokens.scss';
+@import '_functions.scss';
+
+.t-tabs {
+    
+    display: flex;
+    list-style: none;
+    margin: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
+    padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
+    overflow-x: scroll;
+    overflow-y: hidden;
+
+    @include device(tablet) {
+    
+        padding: $spaceSmall $spaceMedium $spaceSmall $spaceMedium;
+        margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
+        display: inline-block;
+        overflow-x: hidden;
+    }
+    @include device(desktop) {
+        padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
+        margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
+        display: inline-block;
+        overflow-x: hidden;
+    }
+
+    .t-tabs__contents {
+        display: flex;
+        list-style: none;
+        margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
+        padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
+
+        
+
+        @include device(tablet) {
+            padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
+            margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
+    
+        }
+        @include device(desktop) {
+            margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
+            padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
+            display: inline-block;
+        }
+
+        .t-tabs__itens {
+            padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
+            margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
+            border-bottom: $colorsBaseProductLight solid 0.15em;
+            text-align: center;
+            
+            &.active {
+                border-bottom: $colorsBaseProductDarkActive solid 0.15em;
+                font-weight: $fontWeightBold;
+
+            }
+
+            @include device(tablet) {
+                padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
+                margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
+        
+            }
+            @include device(desktop) {
+                padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
+                margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
+                display: inline-block;
+            }
+            .t-tabs__link {
+                font-size: $FontSizeFormLabel;
+                height: auto;
+                color: $colorsBaseInkLightHover;
+                @include device(tablet) {
+                    margin: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
+                    padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
+            
+                }
+                @include device(desktop) {
+                    margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
+                    padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
+                    display: inline-block;
+                }
+            }
+
+           
+        }
+    } 
+}

@@ -11,7 +11,8 @@ $cs->registerScriptFile($baseUrl . '/js/school/form/functions.js', CClientScript
 $cs->registerScriptFile($baseUrl . '/js/school/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/school/form/pagination.js', CClientScript::POS_END);
 $cs->registerCssFile($themeUrl . '/css/template2.css');
-$cs->registerCssFile('sass/css/main.css');
+$cs->registerCssFile($baseUrl. 'sass/css/main.css');
+
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'school',
@@ -44,25 +45,26 @@ $form = $this->beginWidget('CActiveForm', array(
         <?php echo $form->errorSummary($modelSchoolIdentification); ?>
         <?php echo $form->errorSummary($modelSchoolStructure); ?>
         <div class="alert alert-error school-error no-show"></div>
-        <div class="widget-head">
-            <ul class="tab-school">
-                <li id="tab-school-indentify" class="active"><a class="glyphicons edit" href="#school-indentify" data-toggle="tab">
+        <div class="t-tabs">
+            <ul class="t-tabs__contents" >
+                <li id="tab-school-indentify" class="active t-tabs__itens"><a class="t-tabs__link" href="#school-indentify" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Identification') ?>
                     </a></li>
-                <li id="tab-school-addressContact"><a class="glyphicons settings" href="#school-addressContact" data-toggle="tab">
+                <li id="tab-school-addressContact" class="t-tabs__itens">
+                    <a class="t-tabs__link" href="#school-addressContact" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Address and Contact') ?>
                     </a></li>
-                <li id="tab-school-structure"><a class="glyphicons settings" href="#school-structure" data-toggle="tab">
+                <li id="tab-school-structure" class="t-tabs__itens"><a class="t-tabs__link" href="#school-structure" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Structure') ?>
                     </a></li>
-                <li id="tab-school-equipment"><a class="glyphicons imac" href="#school-equipment" data-toggle="tab">
+                <li id="tab-school-equipment" class="t-tabs__itens"><a class="t-tabs__link" href="#school-equipment" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Equipments') ?>
                     </a></li>
-                <li id="tab-school-education"><a class="glyphicons book" href="#school-education" data-toggle="tab">
+                <li id="tab-school-education" class="t-tabs__itens"><a class="t-tabs__link" href="#school-education" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Educational Data') ?>
                     </a></li>

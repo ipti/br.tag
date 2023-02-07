@@ -34,7 +34,7 @@
     $colorsAlertInfoBackground: #E8F4FD;
     $colorsAlertInfoBorder: #d0e9fb;
     /* Cloud */
-    $spaceLarge: #e8edf1;
+    $colorsBaseCloudDark: #e8edf1;
     $colorsBaseCloudNormalActive: #cad4de;
     $colorsBaseCloudNormalHover: #dce3e9;
     $colorsBaseCloudNormal: #eff2f5;
@@ -58,17 +58,20 @@
 
 
 /* Space */    
-$spaceLarge: 24px;
-$spaceMedium: 16px;
-$spaceSmall: 12px;
-$spaceXLarge: 32px;
-$spaceXSmall: 8px;
-$spaceXXLarge: 40px;
-$spaceXXXLarge: 52px;
-$spaceXXXSmall: 4px;
-$spaceXXXXSmall: 2px;
-$spaceNormal: 14px;
-$spaceXXSmall: 6px;
+$spaceLarge: 1.5em;
+$spaceMedium: 1em;
+$spaceSmall: 0.75em;
+$spaceXLarge: 2em;
+$spaceXSmall: 0.5em;
+$spaceXXLarge: 2.5em;
+$spaceXXXLarge: 3.25em;
+$spaceXXXSmall: 0.25em;
+$spaceXXXXSmall: 0.12em;
+$spaceNormal: 0.875em;
+$spaceXXSmall: 0.375em;
+$spaceEmpty: 0.0em;
+
+
 
 /* Font size */
 $FontSizeHeadingTitle1: 24px;
@@ -130,7 +133,15 @@ $lineHeightHeadingDisplaySubtitle: 28px;
 $lineHeightHeadingTitle1: 36px;
 $lineHeightHeadingTitle2: 28px;
 $lineHeightHeadingTitle3: 24px;
-$lineHeightText: 1.4;
+$lineHeightText: 1.4px;
 $lineHeightTextSmall: 16px;
 $lineHeightTextNormal: 20px;
 $lineHeightTextLarge: 24px;
+
+/*Font Weight*/
+$fontWeightBold: 700;
+$fontWeightHeadingDisplay: 700;
+$fontWeightHeadingDisplaySubtitle: 400;
+$fontWeightSemiRegular: 400;
+$fontWeightRegular: 500;
+$fontWeightSemiBold: 600;

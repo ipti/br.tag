@@ -44,6 +44,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
     <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/jquery-ui-1.9.2.custom.min.css' />
     <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/font-awesome.min.css' />
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/home.css?v=1.0" />
+    <link href="<?php echo Yii::app()->baseUrl; ?>sass/css/main.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -99,7 +100,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
                 <li id="menu-logout">
                     <!-- Menu Toggle Button  -->
 
-                    <a class="logout" href="<?php echo yii::app()->createUrl('site/logout') ?>">
+                    <a class="t-button t-logout" href="<?php echo yii::app()->createUrl('site/logout') ?>">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.svg" />
                         <span>Sair</span>
                     </a>

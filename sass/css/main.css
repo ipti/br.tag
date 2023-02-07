@@ -35,11 +35,12 @@ table { border-collapse: collapse; border-spacing: 0; }
 /* Border width */
 /* Opacity */
 /* Line Height */
+/*Font Weight*/
 .row { display: flex; flex-direction: column; }
 
 @media (min-width: 640px) { .row { flex-direction: row; } }
 
-.column { margin-left: 12px; margin-right: 12px; }
+.column { margin-left: 0.75em; margin-right: 0.75em; }
 
 [class^="col-"].clearfix { margin-left: 0; margin-right: 0; }
 
@@ -60,6 +61,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 /* Border width */
 /* Opacity */
 /* Line Height */
+/*Font Weight*/
 /* Color */
 /* Product */
 /* Ink */
@@ -77,17 +79,20 @@ table { border-collapse: collapse; border-spacing: 0; }
 /* Border width */
 /* Opacity */
 /* Line Height */
+/*Font Weight*/
 /* mixin */
-.t-button { padding: 6px; font-size: 12px; background-color: #3f45ea; color: #FFFFFF; border-radius: 4px; text-decoration: none; }
+.t-button { padding: 0.3em 1em 0.3em 1em; font-size: 12px; background-color: #3f45ea; color: #FFFFFF; border-radius: 4px; text-decoration: none; }
 
-@media (min-width: 640px) { .t-button { padding: 6px; font-size: 12px; } }
+@media (min-width: 768px) { .t-button { padding: 0.2em 1em 0.2em 1em; font-size: 14px; } }
 
-@media (min-width: 768px) { .t-button { padding: 14px 16px; font-size: 16px; } }
-
-@media (min-width: 1537px) { .t-button { padding: 14px 52px; } }
+@media (min-width: 1536px) { .t-button { padding: 0.3em 1em 0.3em 1em; } }
 
 .t-button:hover, .t-button--active { text-decoration: none; color: #FFFFFF; background-color: #272B96; }
 
+.t-button.t-logout { background-color: #94a8be; }
+
+.t-button.t-logout:hover { background-color: #5F738C; }
+
 /* Color */
 /* Product */
 /* Ink */
@@ -105,6 +110,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 /* Border width */
 /* Opacity */
 /* Line Height */
+/*Font Weight*/
 /* mixin */
 .t-field-text__label--required { font-weight: bold; }
 
@@ -127,6 +133,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 /* Border width */
 /* Opacity */
 /* Line Height */
+/*Font Weight*/
 /* mixin */
 .t-field-select { width: 100%; }
 
@@ -137,3 +144,48 @@ table { border-collapse: collapse; border-spacing: 0; }
 .t-field-select__input.select2-container .select2-choice { width: 100%; }
 
 /* mixin */
+/* mixin */
+/* Color */
+/* Product */
+/* Ink */
+/* Text */
+/* Alert1 */
+/* Cloud */
+/* White */
+/* Alert2 */
+/* Alert3 */
+/* Space */
+/* Font size */
+/* Grid */
+/* Dimension */
+/* Border Radius */
+/* Border width */
+/* Opacity */
+/* Line Height */
+/*Font Weight*/
+/* mixin */
+.t-tabs { display: flex; list-style: none; margin: 0em 0em 0em 0em; padding: 0em 0em 0em 0em; overflow-x: scroll; overflow-y: hidden; }
+
+@media (min-width: 768px) { .t-tabs { padding: 0.75em 1em 0.75em 1em; margin: 0em 1em 0em 0em; display: inline-block; overflow-x: hidden; } }
+
+@media (min-width: 1536px) { .t-tabs { padding: 0.375em 1em 0.375em 1em; margin: 0em 1em 0em 0em; display: inline-block; overflow-x: hidden; } }
+
+.t-tabs .t-tabs__contents { display: flex; list-style: none; margin: 0em 1em 0em 0em; padding: 0em 0em 0em 0em; }
+
+@media (min-width: 768px) { .t-tabs .t-tabs__contents { padding: 0.25em 1em 0.25em 1em; margin: 0em 1em 0em 0em; } }
+
+@media (min-width: 1536px) { .t-tabs .t-tabs__contents { margin: 0em 1em 0em 0em; padding: 0.375em 1em 0.375em 1em; display: inline-block; } }
+
+.t-tabs .t-tabs__contents .t-tabs__itens { padding: 0em 0em 0em 0em; margin: 0em 1em 0em 0em; border-bottom: #eaeaf8 solid 0.15em; text-align: center; }
+
+.t-tabs .t-tabs__contents .t-tabs__itens.active { border-bottom: #18204e solid 0.15em; font-weight: 700; }
+
+@media (min-width: 768px) { .t-tabs .t-tabs__contents .t-tabs__itens { padding: 0em 0em 0em 0em; margin: 0em 1em 0em 0em; } }
+
+@media (min-width: 1536px) { .t-tabs .t-tabs__contents .t-tabs__itens { padding: 0em 0em 0em 0em; margin: 0em 1em 0em 0em; display: inline-block; } }
+
+.t-tabs .t-tabs__contents .t-tabs__itens .t-tabs__link { font-size: 16px; height: auto; color: #52647a; }
+
+@media (min-width: 768px) { .t-tabs .t-tabs__contents .t-tabs__itens .t-tabs__link { margin: 0em 0em 0em 0em; padding: 0.25em 1em 0.25em 1em; } }
+
+@media (min-width: 1536px) { .t-tabs .t-tabs__contents .t-tabs__itens .t-tabs__link { margin: 0em 1em 0em 0em; padding: 0.375em 1em 0.375em 1em; display: inline-block; } }
