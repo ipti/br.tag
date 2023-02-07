@@ -98,7 +98,6 @@ class Users extends CActiveRecord
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('username',$this->username,true);
 		$criteria->compare('password',$this->password,true);
-		// $criteria->compare('active',$this->active);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
