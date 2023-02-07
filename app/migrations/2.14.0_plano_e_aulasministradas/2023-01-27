@@ -82,5 +82,7 @@ ALTER TABLE `class_has_content`
 CHANGE `content_fk` `course_class_fk` int NOT NULL AFTER `schedule_fk`,
 RENAME TO `class_contents`;
 
+delete from class_contents;
+
 ALTER TABLE `class_contents`
 ADD FOREIGN KEY (`course_class_fk`) REFERENCES `course_class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
