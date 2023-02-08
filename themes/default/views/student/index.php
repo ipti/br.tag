@@ -34,7 +34,7 @@
         </div>
     </div>
 
-    <div class="innerLR">
+    <div class="tag-inner">
         <?php if (Yii::app()->user->hasFlash('error')): ?>
             <div class="alert alert-error">
                 <?php echo Yii::app()->user->getFlash('error') ?>
