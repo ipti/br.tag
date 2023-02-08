@@ -137,7 +137,6 @@ const Create = props => {
                           var schools = [];
                           for (var i = 0; i < selectedOption.length; i++) {
                             schools = [...schools, selectedOption[i].inep_id]
-                            console.log(schools)
                           }
                           props.setFieldValue("school_identificationArray", schools)
                         }}

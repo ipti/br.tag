@@ -20,6 +20,23 @@ const requestStudent = async id => {
 };
 
 
+// request stages classroom 
+export const requestSchoolStages = async id => {
+  return await api
+        .get("/school-pre-registration/" + id,
+            {
+                params: {
+                    year: 2023
+                }
+            })
+        .then(response => response.data)
+        .catch(err => {
+            throw err;
+        });
+};
+
+
+
 // registred pre identification
 export const requestSaveRegistration = data => {
     return api
@@ -77,3 +94,7 @@ const requestSchoolList = async () => {
     return useQuery(["useRequestSchoolList"], () => requestSchoolList());
   };
   
+
+  export const useFetchRequestSchoolStages = ({ id }) => {
+    return useQuery(["useRequestSchoolStages", id], () => requestSchoolStages(id));
+  };

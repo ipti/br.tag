@@ -10,7 +10,7 @@ const Main = props => {
   const { children } = props;
   const classes = useStyles();
 
-  return (
+  return(
     <Grid container direction="column">
       <Grid container item md={12} className={classes.header}>
         <Header />

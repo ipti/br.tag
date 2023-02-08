@@ -9,6 +9,7 @@ import { TitleWithLine } from "../../components/Titles";
 import { BoxStatus } from "../../components/Boxes";
 import { ButtonPurple, ButtonLinePurple } from "../../components/Buttons";
 import Loading from "../../components/Loading/CircularLoadingButtomActions";
+import Select from "react-select";
 
 // Assets
 import IconMale from "../../assets/images/male-icon.png";
@@ -19,8 +20,23 @@ import IconClassroom from "../../assets/images/classroom-icon.png";
 // Styles
 import styles from "./styles";
 import { useFetchRequestClassroom } from "../../query/classroom";
+import { FormControl, FormLabel} from "@material-ui/core";
 
 const useStyles = makeStyles(styles);
+
+
+const customStyles = {
+  control: base => ({
+    ...base,
+    height: "60px",
+    minHeight: "60px",
+    fontFamily: "Roboto, Helvetica, Arial, sans-serif"
+  }),
+  menu: base => ({
+    ...base,
+    fontFamily: "Roboto, Helvetica, Arial, sans-serif"
+  })
+};
 
 const Home = props => {
   const classes = useStyles();
@@ -50,26 +66,26 @@ const Home = props => {
   const studentBirthday = student?.birthday
   // ? format(studentDate, "dd/MM/yyyy")
   // : "";
-  var city =  nullableField;
+  var city = nullableField;
   var state = nullableField;
-  if(student.edcenso_city){
+  if (student.edcenso_city) {
     city = student?.edcenso_city.name
   }
-  if(student?.edcenso_uf){
+  if (student?.edcenso_uf) {
     state = student.edcenso_uf['name']
   }
-  
+
   // const studentEdcenso = student.edcenso_city['name'];
   // console.log(studentEdcenso)
   const status = student?.newStudent;
 
   const address = student?.address ?? nullableField;
   const cep = student?.cep ?? nullableField;
-  
+
   const number = student?.number ?? nullableField;
   const neighborhood = student?.neighborhood ?? nullableField;
   const complement = student?.complement === '' ? nullableField : student?.complement;
- 
+
   const responsableName = student?.responsable_name ?? nullableField;
   const responsableCpf = student?.responsable_cpf ?? nullableField;
 
@@ -248,10 +264,26 @@ const Home = props => {
             src={IconClassroom}
             alt="Icone de Turma"
           />
-          <div className={classes.floatLeft}>
-            <p className={classes.label}>Turma</p>
-            {classroomName}
-          </div>
+          <FormControl
+            component="fieldset"
+            className={classes.formControl}
+          >
+            <FormLabel>Turma *</FormLabel>
+            <Select
+              styles={customStyles}
+              className="basic-single"
+              classNamePrefix="select"
+              placeholder="Selecione a Turma"
+              // options={data.classroom}
+              // onChange={selectedOption => {
+              //   handleChange(selectedOption.id);
+              //   setSchoolInepFk(selectedOption.school_inep_fk)
+              //   setInepId(selectedOption.inep_id)
+              // }}
+              // getOptionValue={opt => opt.classroom}
+              // getOptionLabel={opt => opt.name}
+            />
+          </FormControl>
         </Grid>
         <Grid item md={3}>
           <p className={classes.label}>Modalidade</p>

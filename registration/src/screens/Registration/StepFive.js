@@ -140,7 +140,6 @@ const StepFive = props => {
         setLoadStates(false)
       })();
     }
-    
   },)
   const PurpleRadio = withStyles({
     root: {
@@ -151,7 +150,7 @@ const StepFive = props => {
     checked: {}
   })(props => <Radio color="default" {...props} />);
 
-
+  
 
   return (
     <>
@@ -163,7 +162,7 @@ const StepFive = props => {
         enableReinitialize
       >
         {({ errors, values, touched, handleChange, handleSubmit, setFieldValue }) => {
-
+          console.log(values)
           const errorList = {
             cep: touched.cep && errors.cep,
             address: touched.address && errors.address,

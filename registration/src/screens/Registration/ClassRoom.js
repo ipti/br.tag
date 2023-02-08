@@ -1,13 +1,13 @@
-import React from "react";
+import { FormControl, FormLabel } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import { ButtonPurple } from "../../components/Buttons";
+import React from "react";
+import Select from "react-select";
 import homeImg from "../../assets/images/illustration-home.png";
+import { ButtonPurple } from "../../components/Buttons";
+import { useFetchRequestSchoolStages } from "../../query/registration";
+import { getIdSchool, idStage } from "../../services/auth";
 import styles from "./styles";
-import AsyncSelect from "react-select/async";
-import { idSchool } from "../../services/auth";
-import { useState } from "react";
-import { FormControl, FormLabel } from "@material-ui/core";
 
 const useStyles = makeStyles(styles);
 
@@ -25,17 +25,13 @@ const customStyles = {
 };
 const Classroom = props => {
     const classes = useStyles();
-    const [calendar_event, setCalendar_event] = useState()
 
     const date = Date(Date.now());
 
+    const { data } = useFetchRequestSchoolStages({id: getIdSchool()})
 
-    const searchSchools = (inputValue, callback) => {
-        if (inputValue.trim().length >= 3) {
-            const buscaLowerCase = inputValue.toLowerCase();
-            callback(props.schools.filter(school => school.name.toLowerCase().includes(buscaLowerCase)));
-        }
-    };
+
+    console.log(props)
 
 
     const onButton = () => {
@@ -66,28 +62,18 @@ const Classroom = props => {
                         className={classes.formControl}
                     >
                         <FormLabel>Turma *</FormLabel>
-                        {/* <AsyncSelect
-              styles={customStyles}
-              cacheOptions
-              loadOptions={searchSchools}
-              defaultOptions
-              placeholder="Digite o nome da escola"
-              onChange={selectedOption => {
-                idSchool(selectedOption.inep_id);
-                setCalendar_event(selectedOption.calendar_event.find(e => e.id === 1))
-              }}
-              className={classes.selectField}
-              getOptionValue={opt => opt.inep_id}
-              getOptionLabel={opt => opt.inep_id + " - " + opt.name}
-              loadingMessage={() => "Carregando"}
-              noOptionsMessage={obj => {
-                if (obj.inputValue.trim().length >= 3) {
-                  return "Nenhuma escola encontrada";
-                } else {
-                  return "Digite 3 ou mais caracteres";
-                }
-              }}
-            /> */}
+                        <Select
+                            styles={customStyles}
+                            className="basic-single"
+                            classNamePrefix="select"
+                            placeholder="Selecione a Turma"
+                            options={data}
+                            onChange={selectedOption => {
+                                idStage(selectedOption)
+                            }}
+                        getOptionValue={opt => opt.name}
+                        getOptionLabel={opt => opt.name}
+                        />
                     </FormControl>
                 </Grid>
             </Grid>
