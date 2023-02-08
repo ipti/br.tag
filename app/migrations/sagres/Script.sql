@@ -27,3 +27,6 @@ ALTER TABLE `lunch_menu` ADD `adjusted` TINYINT NOT NULL AFTER date;
 
 INSERT INTO professional VALUES (1,'71685776035','Médico','28022041', 1);
 INSERT INTO attendance VALUES (1, curdate(), 'Itabaiana', 1);
+
+UPDATE student_identification
+SET birthday = STR_TO_DATE(birthday, '%Y-%m-%d');

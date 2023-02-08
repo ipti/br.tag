@@ -12,153 +12,116 @@ use Datetime;
 
 class SagresConsult {
 
-    static public function actionExport(){
+    static public function actionExport()
+    {
         $sagres = new SagresConsult;
-        $educacao_t = $sagres->getEducacao();
-        
-        $sagresEduXML = $sagres->generatesSagresEduXML($educacao_t);
+        $objEducacaoT = $sagres->getEducacaoData();
+    
+        $sagresEduXML = $sagres->generatesSagresEduXML($objEducacaoT);
         $sagres->actionExportSagresXML($sagresEduXML);
-        //$sagres->validatorSagresEduExportXML($educacao_t);
     }
 
-    //Class MAIN EducacaoTType
-    /**
-     * Summary of EducacaoTType
-     * @return EducacaoTType 
-     */
-    public function getEducacao(){
-        $educacao_t = new EducacaoTType;
-        //$prestacao_contas_t = new PrestacaoContasTType;
-
-        //$prestacao_contas_t = $this->setPrestacaocontas();
-        $escolas_t = $this->getAllEscolas(); 
-        
-        $educacao_t->setEscola($escolas_t);
-
-        $profissional_t = $this->getProfissional();
-        $educacao_t->setProfissional($profissional_t);
-
-        return $educacao_t;      
+    public function getEducacaoData(): EducacaoTType
+    {
+        $education = new EducacaoTType;
+        $schools = $this->getAllSchools();
+        $professionals = $this->getProfessionalData();
+    
+        $education->setEscola($schools);
+        $education->setProfissional($professionals);
+    
+        return $education;
     }
 
-
-        //Class complexType EscolaTType
     /**
      * Summary of EscolaTType
-     * @return \SagresEdu\EscolaTType[] 
+     * @return EscolaTType[] 
      */
-    public function getAllEscolas() {
-        $escola_t = new EscolaTType;
-       
+    public function getAllSchools() {
+        $schoolList = [];
+    
         $query = "SELECT si.inep_id FROM school_identification si";
-        $escolas = Yii::app()->db->createCommand($query)->queryAll();
-
-        $school = [];
-        foreach($escolas as $escola){
-            $escola_t->setIdEscola($escola['inep_id']); 
-
-            $turma = $this->getTurmaType($escola['inep_id']);
-            $escola_t->setTurma($turma);
-           
-            $diretor = $this->getDiretorType($escola['inep_id']);
-            $escola_t->setDiretor($diretor);
-
-            $cardapio = $this->getCardapioType($escola['inep_id']);
-            $escola_t->setCardapio($cardapio);
-
-           $sch = array(
-                'inep_id' => $escola_t->getIdEscola(),
-                'diretor' => $escola_t->getDiretor(),
-                'cardapio' => $escola_t->getCardapio()
-            );
-
-            array_push($school, $sch);
-        } 
-
-       
-        return $school;
+        $schools = Yii::app()->db->createCommand($query)->queryAll();
+    
+        foreach ($schools as $school) {
+            $schoolType = new EscolaTType;
+            $schoolType->setIdEscola($school['inep_id']); 
+    
+            $schoolType->setTurma($this->getTurmaType($school['inep_id']));
+            $schoolType->setDiretor($this->getDiretorType($school['inep_id']));
+            $schoolType->setCardapio($this->getCardapioType($school['inep_id']));
+    
+            $schoolList[] = $schoolType;
+        }
+    
+        return $schoolList;
     }
-
-
-    //Class TurmaTType
+    
     /**
      * Summary of TurmaTType
      * @return TurmaTType[]
      */
     public function getTurmaType($inep_id) {
-        $turma_t = new TurmaTType;
+        $turmaList = [];
     
         $query = "SELECT c.school_inep_fk, c.id, c.name, c.turn, se.enrollment_id  
-                FROM classroom c
+                    FROM classroom c
                     JOIN student_enrollment se ON se.classroom_fk = c.id 
-                WHERE c.school_inep_fk = ". $inep_id. ";";
+                    WHERE c.school_inep_fk = ". $inep_id. ";";
 
         $turmas = Yii::app()->db->createCommand($query)->queryAll();
 
-        $turm = [];
         foreach ($turmas as $turma) {
-            $turma_t->setPeriodo('0');
-            $turma_t->setDescricao($turma["name"]);
-            $turma_t->setTurno($turma['turn']);
+            $turmaType = new TurmaTType;
+            $turmaType->setPeriodo('0');
+            $turmaType->setDescricao($turma["name"]);
+            $turmaType->setTurno($turma['turn']);
+            $turmaType->setSerie($this->getSerieType($turma['id']));
+        
+            //$matricula_t = $this->getMatriculaType($turma['id']);
+            //$turma_t->setMatricula($matricula_t);
+            //$turmaType->setHorario($this->setHorario($turma['id']));   
+            $turmaType->setFinalTurma('0');  
 
-            $serie_t = $this->getSerieType($turma['id']);
-            $turma_t->setSerie($serie_t);
-
-            /* 
-            $matricula_t = $this->getMatriculaType(98);
-            $turma_t->setMatricula([$matricula_t]);
-            $horario_t = $this->setHorario($turma['id']);
-            $turma_t->setHorario([$horario_t]);    
-
-            $turma_t->setFinalTurma('0');  */
-
-            $sch = array(
-                'periodo' => $turma_t->getPeriodo(),
-                'descricao' => $turma_t->getDescricao(),
-                'turno' => $turma_t->getTurno(),
-                'serie' => $turma_t->getSerie()
-            );
-
-            array_push($turm, $sch);
-
+            $turmaList[] = $turmaType;
         }
 
-        return $turm;
+        return $turmaList;
     }
 
-    //Class SerieTType
-       /**
+
+    /**
      * Summary of SerieTType
      * @return SerieTType[] 
      */
-    public function getSerieType($id_turma) {
-        $serie_t = new SerieTType;
-
+    public function getSerieType($id_turma) 
+    {
+        $serieList = [];
+    
         $query = "SELECT c.name as descricao, c.modality as modalidade 
                 FROM classroom c 
                 where c.id = " . $id_turma . ";"; 
-
+    
         $series = Yii::app()->db->createCommand($query)->queryAll();
-
-        $seri = [];
+    
         foreach($series as $serie){
-            $serie_t->setDescricao($serie['descricao']);
-            $serie_t->setModalidade($serie['modalidade']);
-
-            $sch = array(
-                'descricao' => $serie_t->getDescricao(),
-                'modalidade' => $serie_t->getModalidade()
-            );
-
-            array_push($seri, $sch);
+            $serieType = new SerieTType;
+            $serieType->setDescricao($serie['descricao']);
+            $serieType->setModalidade($serie['modalidade']);
+            $serieList[] =  $serieType;
         }
-        return $seri;
+
+        return $serieList;
     }
-
-
-    //Class HorarioTType
-    public function setHorario($id_turma){
-        $horario_t = new HorarioTType;
+    
+    
+    /**
+     * Summary of SerieTType
+     * @return HorarioTType[] 
+     */
+    public function setHorario($id_turma)
+    {
+        $horarioList = [];
         
         $query = "SELECT s.week_day AS diaSemana, (c.final_hour - c.initial_hour) AS duracao, 
                        c.initial_hour AS hora_inicio, ed.name AS disciplina, idaa.cpf AS cpfProfessor  
@@ -173,83 +136,88 @@ class SagresConsult {
 
 
         foreach ($horarios as $horario) {
+            $horario_t = new HorarioTType;
             $horario_t->setDiaSemana($horario['diaSemana']);
             $horario_t->setDuracao($horario['duracao']);
             $horario_t->setHoraInicio(new DateTime());
             $horario_t->setDisciplina($horario['disciplina']);
-            if ($horario['cpfProfessor'] == null)
-                $horario_t->setCpfProfessor('00000000000');
-            else
-                $horario_t->setCpfProfessor($horario['cpfProfessor']);
+            $horario_t->setCpfProfessor(empty($horario['cpfProfessor']) ? '00000000000' : $horario['cpfProfessor']);
+
+            $horarioList[] = $horario_t;
         }
 
-        return [$horario_t];
+        return  $horarioList;
     }
 
-    //Class complexType AtendimentoTType
     /**
      * Summary of EscolaTType
-     * @return AtendimentoTType 
+     * @return AtendimentoTType[] 
      */
-    public function setAtendimento($id_professional){
-        $atendimento_t = new AtendimentoTType;
-
-        $query = "SELECT date, local FROM attendance WHERE professional_fk = " .$id_professional.";"; 
+    public function geAttendance($professional_id)
+    {
+        $attendanceList = [];
     
-        $atendimentos = Yii::app()->db->createCommand($query)->queryAll();
-
-        foreach($atendimentos as $atendimento){
-            $atendimento_t->setData(new DateTime($atendimento['date']));
-            $atendimento_t->setLocal($atendimento['local']);          
+        $query = "SELECT date, local FROM attendance WHERE professional_fk = " .$professional_id.";"; 
+        $attendances = Yii::app()->db->createCommand($query)->queryAll();
+    
+        foreach($attendances as $attendance){
+            $attendance_t = new AtendimentoTType;
+            $attendance_t->setData(new DateTime($attendance['date']));
+            $attendance_t->setLocal($attendance['local']);
+            $attendanceList[] = $attendance_t;
         }
-
-        return $atendimento_t;
+    
+        return $attendanceList;
     }
+    
 
-    public function setPrestacaocontas(){
-        $prestacao_contas_t = new PrestacaoContasTType;
+    public function setPrestacaocontas(): PrestacaoContasTType
+    {
+        $provisionAccountsType = new PrestacaoContasTType;
 
         $query = "SELECT pa.id, pa.codigounidgestora, pa.nomeunidgestora, pa.cpfcontador, pa.cpfgestor, pa.anoreferencia, 
                        pa.mesreferencia, pa.versaoxml, pa.diainicprescontas, pa.diafinaprescontas
                 FROM provision_accounts pa";
 
-        $prestacaocontas = Yii::app()->db->createCommand($query)->queryAll();
+        $financialReporting = Yii::app()->db->createCommand($query)->queryAll();
 
+        $provisionAccountsType->setCodigoUnidGestora($financialReporting['codigounidgestora']);
+        $provisionAccountsType->setNomeUnidGestora($financialReporting['nomeunidgestora']);
+        $provisionAccountsType->setCpfContador($financialReporting['cpfcontador']);
+        $provisionAccountsType->setCpfGestor($financialReporting['cpfgestor']);
+        $provisionAccountsType->setAnoReferencia($financialReporting['anoreferencia']);
+        $provisionAccountsType->setMesReferencia($financialReporting['mesreferencia']);
+        $provisionAccountsType->setVersaoXml($financialReporting['versaoxml']);
+        $provisionAccountsType->setDiaInicPresContas($financialReporting['diainicprescontas']);
+        $provisionAccountsType->setDiaFinaPresContas($financialReporting['diafinaprescontas']);
 
-        $prestacao_contas_t->setCodigoUnidGestora($prestacaocontas['codigounidgestora']);
-        $prestacao_contas_t->setNomeUnidGestora($prestacaocontas['nomeunidgestora']);
-        $prestacao_contas_t->setCpfContador($prestacaocontas['cpfcontador']);
-        $prestacao_contas_t->setCpfGestor($prestacaocontas['cpfgestor']);
-        $prestacao_contas_t->setAnoReferencia($prestacaocontas['anoreferencia']);
-        $prestacao_contas_t->setMesReferencia($prestacaocontas['mesreferencia']);
-        $prestacao_contas_t->setVersaoXml($prestacaocontas['versaoxml']);
-        $prestacao_contas_t->setDiaInicPresContas($prestacaocontas['diainicprescontas']);
-        $prestacao_contas_t->setDiaFinaPresContas($prestacaocontas['diafinaprescontas']);
-
-        return $prestacao_contas_t;
+        return $provisionAccountsType;
     }
 
-    //Class AlunoTType
-    public function getAluno($id_matricula) {
-        $aluno_t = new AlunoTType;
-
+    public function getStudent($id_matricula): AlunoTType 
+    {
+        $studentType = new AlunoTType;
+    
         $query = "SELECT si2.responsable_cpf AS cpfAluno, si2.birthday AS data_nascimento, 
                        si2.name AS nome, si2.deficiency AS pcd, si2.sex AS sexo 
                 FROM student_enrollment se 
                     JOIN school_identification si ON si.inep_id = se.school_inep_id_fk 
                     JOIN student_identification si2 ON si.inep_id = si2.school_inep_id_fk
-                WHERE se.enrollment_id = " . 11473602 . " and si2.responsable_cpf = 06215212563;";
+                WHERE se.enrollment_id = :id_matricula;";
+    
+        $student = Yii::app()->db->createCommand($query)
+            ->bindValue(':id_matricula', $id_matricula)
+            ->queryRow();
 
-        $aluno = Yii::app()->db->createCommand($query)->queryRow();
- 
-        $aluno_t->setNome($aluno['nome']);
-        $aluno_t->setDataNascimento(new Datetime());
-        $aluno_t->setCpfAluno($aluno['cpfAluno']);
-        $aluno_t->setPcd($aluno['pcd']);
-        $aluno_t->setSexo($aluno['sexo']);
-
-        return $aluno_t;
-    }  
+        $studentType->setNome($student['nome']);
+        $studentType->setDataNascimento(new DateTime($student['data_nascimento']));
+        $studentType->setCpfAluno($student['cpfAluno']);
+        $studentType->setPcd($student['pcd']);
+        $studentType->setSexo($student['sexo']);
+    
+        return $studentType;
+    }
+    
 
     //Class CardapioTType
      /**
@@ -257,9 +225,8 @@ class SagresConsult {
      * @return CardapioTType[] 
      */
     public function getCardapioType($id_escola){
-        $cardapio_t = new CardapioTType;
-
-        $card = [];
+        $lista_cardapio = [];
+    
         $query = "SELECT lm.date AS data, cr.turn AS turno, li.description AS descricaoMerenda, lm.adjusted AS ajustado 
                 FROM classroom cr 
                     JOIN school_identification si ON si.inep_id = cr.school_inep_fk 
@@ -270,36 +237,24 @@ class SagresConsult {
                     JOIN lunch_portion lp ON lp.id = lmp.portion_fk 
                     JOIN lunch_item li ON li.id = lp.item_fk
                 WHERE si.inep_id = " . $id_escola . ";"; 
-
+    
         $cardapios = Yii::app()->db->createCommand($query)->queryAll();  
-
+    
         foreach ($cardapios as $cardapio) {
-               
+            $cardapio_t = new CardapioTType;
             $cardapio_t->setData(new DateTime($cardapio['data']));
             $cardapio_t->setTurno($cardapio['turno']);
             $cardapio_t->setDescricaoMerenda($cardapio['descricaoMerenda']);
             $cardapio_t->setAjustado($cardapio['ajustado']); 
-            
-            $sch = array(
-                'data' => $cardapio_t->getData(),
-                'turno' => $cardapio_t->getTurno(),
-                'descricao' => $cardapio_t->getDescricaoMerenda(),
-                'ajustado' => $cardapio_t->getAjustado()
-            );
-
-            array_push($card, $sch);
+    
+            $lista_cardapio[] = $cardapio_t;
         }
-
-        return $card;
+    
+        return $lista_cardapio;
     }
 
-    //Class DiretorTType
-     /**
-     * Sets a new diretor
-     *
-     * @return DiretorTType
-     */
-    public function getDiretorType($id_escola){
+    public function getDiretorType($id_escola): DiretorTType
+    {
         $diretor_t = new DiretorTType;
       
         $query = "SELECT manager_cpf AS cpfDiretor, number_ato AS nrAto 
@@ -314,71 +269,57 @@ class SagresConsult {
         return $diretor_t;
     }
 
-    //Class ProfissionalTType
-    public function getProfissional(){
-        $profissional_t = new ProfissionalTType;
-        $atendimento_t = new AtendimentoTType;
+    public function getProfessionalData(){
+        $lista_profissionais = [];
 
         $query = "SELECT id_professional, cpf_professional AS cpfProfissional, specialty AS especialidade, inep_id_fk AS idEscola, fundeb 
                 FROM professional;";
        
         $profissionais = Yii::app()->db->createCommand($query)->queryAll();
 
-        $array = [];
-
         foreach ($profissionais as $profissional) {
+            $profissional_t = new ProfissionalTType;
             $profissional_t->setCpfProfissional($profissional['cpfProfissional']);
             $profissional_t->setEspecialidade($profissional['especialidade']);
             $profissional_t->setIdEscola($profissional['idEscola']);
             $profissional_t->setFundeb($profissional['fundeb']);
-            $atendimento_t = $this->setAtendimento($profissional['id_professional']);
-            $profissional_t->setAtendimento([$atendimento_t]);
-   
-
-            $pro = array(
-                'cpfProfissional' =>$profissional_t->getCpfProfissional(),
-                'especialidade' => $profissional_t->getEspecialidade(),
-                'idEscola' => $profissional_t->getIdEscola(),
-                'fundeb' => $profissional_t->getFundeb(),
-                'atendimento' => $profissional_t->getAtendimento()
-            );
-
-            array_push($array, $pro);
+            $profissional_t->setAtendimento($this->geAttendance($profissional['id_professional']));
+            $lista_profissionais[] = $profissional_t;
         }
-          
-        return $array;    
+
+        return $lista_profissionais;
     }
 
-    //MatriculaTType
-         /**
+    /**
      * Sets a new MatriculaTType
      *
      * @return MatriculaTType[]
      */
     public function getMatriculaType($id){
-        $matricula_t = new MatriculaTType;
-        $aluno_t = new AlunoTType;
-
+        $matriculas_t = [];
+    
         $query = "SELECT se.enrollment_id AS numero, se.create_date AS data_matricula, 
                          se.date_cancellation_enrollment AS data_cancelamento 
                   FROM student_enrollment se 
-                  WHERE se.classroom_fk  =  " . 98 .";";
-
+                  WHERE se.classroom_fk  =  " . $id .";";
+    
         $matriculas = Yii::app()->db->createCommand($query)->queryAll();
-
+    
         foreach($matriculas as $matricula){
+            $matricula_t = new MatriculaTType;
             $matricula_t->setNumero($matricula['numero']);
             $matricula_t->setDataMatricula(new DateTime($matricula['data_matricula']));
             $matricula_t->setDataCancelamento(new DateTime($matricula['data_cancelamento']));
             $numberFaults = '0' ;//$this->returnNumberFaults($matricula);
             $matricula_t->setNumeroFaltas($numberFaults);
             $matricula_t->setAprovado('0');
-            $aluno_t = $this->getAluno($matricula['numero']);
-            $matricula_t->setAluno($aluno_t);
+            $matricula_t->setAluno($this->getStudent($matricula['numero']));
+            $matriculas_t[] = $matricula_t;
         }
-
-        return [$matricula_t];
+    
+        return $matriculas_t;
     }
+    
 
     public function returnNumberFaults($matricula){
         $query = "select cf.faults from schedule t
