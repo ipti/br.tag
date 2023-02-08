@@ -156,74 +156,74 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_1'); ?>
                             </div>
 
-                            <div class="js-hide-not-required"> 
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_rg', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_1_rg', array('size' => 60, 'maxlength' => 45, "class"=> "js-disabled-finputs js-finput-clear")); ?>
+                            <div class="t-field-text  js-hide-not-required"> 
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_rg', array('class' => 'control-label t-field-text__label')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_1_rg', array('size' => 60, 'maxlength' => 45, "class"=> "js-disabled-finputs js-finput-clear t-field-text__input")); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_1_rg'); ?>
                             </div>
-                            <div class="js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_cpf', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_1_cpf', array('size' => 60, 'maxlength' => 14, "class"=>"js-disabled-finputs js-finput-clear")); ?>
+                            <div class="t-field-text js-hide-not-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_cpf', array('class' => 'control-label t-field-text__label')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_1_cpf', array('size' => 60, 'maxlength' => 14, "class"=>"js-disabled-finputs js-finput-clear t-field-text__input")); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_1_cpf'); ?>
                             </div>
 
-                           <div class="js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_scholarity', array('class' => 'control-label')); ?>
+                           <div class="t-field-select js-hide-not-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_scholarity', array('class' => 'control-label t-field-select__label')); ?>
                                     <?php
                                     echo $form->dropDownList($modelStudentIdentification, 'filiation_1_scholarity', array(
                                         0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
                                         3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
                                         6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'
-                                    ), array('class' => 'select-search-off js-disabled-finputs js-finput-clear'));
+                                    ), array('class' => 'select-search-off js-disabled-finputs js-finput-clear t-field-select__input', 'style'=>'width: 100%'));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_1_scholarity'); ?>
                             </div>
 
-                            <div class="js-hide-not-required"> 
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_job', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_1_job', array('size' => 60, 'maxlength' => 100, "class"=>"js-disabled-finputs js-finput-clear")); ?>
+                            <div class="t-field-text js-hide-not-required"> 
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_job', array('class' => 'control-label t-field-text__label')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_1_job', array('size' => 60, 'maxlength' => 100, "class"=>"js-disabled-finputs js-finput-clear t-field-text__input")); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_1_job'); ?>
                             </div>
 
-                            <div class="js-hide-not-required js-visibility-fname">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_2', array('size' => 60, 'maxlength' => 100, "class"=>"js-disabled-finputs js-finput-clear")); ?>
+                            <div class="t-field-text js-hide-not-required js-visibility-fname">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2', array('class' => 'control-label t-field-text__label')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_2', array('size' => 60, 'maxlength' => 100, "class"=>"js-disabled-finputs js-finput-clear t-field-text__input")); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_2'); ?>
                             </div>
 
-                            <div class="js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_rg', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_2_rg', array('size' => 60, 'maxlength' => 45, "class"=>"js-disabled-finputs js-finput-clear")); ?>
+                            <div class="t-field-text js-hide-not-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_rg', array('class' => 'control-label t-field-text__label')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_2_rg', array('size' => 60, 'maxlength' => 45, "class"=>"js-disabled-finputs js-finput-clear t-field-text__input")); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_2_rg'); ?>
                             </div>
-                            <div class="js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_cpf', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_2_cpf', array('size' => 60, 'maxlength' => 14, "class"=>"js-disabled-finputs js-finput-clear")); ?>
+                            <div class="t-field-text js-hide-not-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_cpf', array('class' => 'control-label t-field-text__label')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_2_cpf', array('size' => 60, 'maxlength' => 14, "class"=>"js-disabled-finputs js-finput-clear t-field-text__input")); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_2_cpf'); ?>
                             </div>
 
-                            <div class="js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_scholarity', array('class' => 'control-label')); ?>
+                            <div class="t-field-select js-hide-not-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_scholarity', array('class' => 'control-label t-field-select__label')); ?>
                                     <?php
                                     echo $form->dropDownList($modelStudentIdentification, 'filiation_2_scholarity', array(
                                         0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
                                         3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
                                         6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'
-                                    ), array('class' => 'select-search-off js-disabled-finputs js-finput-clear'));
+                                    ), array('class' => 'select-search-off js-disabled-finputs js-finput-clear t-field-select__input', 'style'=>'width: 100%'));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_2_scholarity'); ?>
                             </div>
 
-                            <div class="js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_job', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_2_job', array('size' => 60, 'maxlength' => 100, "class"=>"js-disabled-finputs js-finput-clear")); ?>
+                            <div class="t-field-text js-hide-not-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_job', array('class' => 'control-label t-field-text__label')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_2_job', array('size' => 60, 'maxlength' => 100, "class"=>"js-disabled-finputs js-finput-clear t-field-text__input")); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_2_job'); ?>
                             </div>
 
-                            <div class="t-input">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'nationality', array('class' => 'control-label t-input__label--required')); ?>
+                            <div class="t-field-select">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'nationality', array('class' => 'control-label t-field-select__label--required')); ?>
                                     <?php
-                                    echo $form->dropDownList($modelStudentIdentification, 'nationality', array(null => "Selecione a nacionalidade", "1" => "Brasileira", "2" => "Brasileira: Nascido no exterior ou Naturalizado", "3" => "Estrangeira"), array('class' => 'select-search-off control-input t-input__text'), array('ajax' => array(
+                                    echo $form->dropDownList($modelStudentIdentification, 'nationality', array(null => "Selecione a nacionalidade", "1" => "Brasileira", "2" => "Brasileira: Nascido no exterior ou Naturalizado", "3" => "Estrangeira"), array('class' => 'select-search-off control-input t-field-select__input', 'style'=>'width: 100%'), array('ajax' => array(
                                         'type' => 'POST',
                                         'url' => CController::createUrl('student/getnations'),
                                         'update' => '#StudentIdentification_edcenso_nation_fk'
@@ -232,16 +232,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentIdentification, 'nationality'); ?>
                             </div>
 
-                            <div class="t-input">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_nation_fk', array('class' => 'control-label t-input__label--required')); ?>
+                            <div class="t-field-select">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_nation_fk', array('class' => 'control-label t-field-select__label--required')); ?>
                                     <?php
-                                    echo $form->dropDownList($modelStudentIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma nação", 'class' => 'select-search-on nationality-sensitive no-br t-input__text', 'disabled' => 'disabled'));
+                                    echo $form->dropDownList($modelStudentIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma nação", 'class' => 'select-search-on nationality-sensitive no-br t-input__text t-field-select__input', 'style'=>'width: 100%', 'disabled' => 'disabled'));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'edcenso_nation_fk'); ?>
                             </div>
 
-                            <div class="js-hide-not-required js-change-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_uf_fk', array('class' => 'control-label t-input__label')); ?>
+                            <div class="t-field-select js-hide-not-required js-change-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_uf_fk', array('class' => 'control-label t-field-select__label')); ?>
                                     <?php
                                     echo $form->dropDownList($modelStudentIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
                                         'ajax' => array(
@@ -250,20 +250,22 @@ $form = $this->beginWidget('CActiveForm', array(
                                             'update' => '#StudentIdentification_edcenso_city_fk'
                                         ),
                                         "prompt" => "Selecione um estado",
-                                        "class" => "select-search-on control-input nationality-sensitive br",
+                                        "class" => "select-search-on control-input nationality-sensitive br t-field-select__input", 
+                                        "style"=>"width: 100%",
                                         "disabled" => "disabled",
                                     ));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'edcenso_uf_fk'); ?>
                             </div>
 
-                            <div class="js-hide-not-required js-change-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_city_fk', array('class' => 'control-label')); ?>
+                            <div class="t-field-select js-hide-not-required js-change-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_city_fk', array('class' => 'control-label t-field-select__label')); ?>
                                     <?php
                                     echo $form->dropDownList($modelStudentIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentIdentification->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array(
                                         "prompt" => "Selecione uma cidade",
                                         "disabled" => "disabled",
-                                        'class' => 'select-search-on control-input nationality-sensitive br'
+                                        'class' => 'select-search-on control-input nationality-sensitive br t-field-select__input', 
+                                        'style'=>'width: 100%',
                                     ));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'edcenso_city_fk'); ?>
@@ -273,60 +275,60 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column">
                             <div class="separator"></div>
-                            <div class="control-group js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'nis', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'nis', array('size' => 11, 'maxlength' => 11)); ?>
+                            <div class="t-field-text control-group js-hide-not-required">
+                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'nis', array('class' => 'control-label t-field-text__label')); ?>
+                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'nis', array('size' => 11, 'maxlength' => 11, 'class'=>'t-field-text__input')); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'nis'); ?>
                             </div>
-                            <div class="control-group js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'inep_id', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'inep_id', array('size' => 60, 'maxlength' => 12)); ?>
+                            <div class="t-field-text js-hide-not-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'inep_id', array('class' => 'control-label t-field-text__label')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'inep_id', array('size' => 60, 'maxlength' => 12, 'class'=>'t-field-text__input')); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'inep_id'); ?>
                             </div>
-                            <div class="control-group js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'responsable', array('class' => 'control-label')); ?>
+                            <div class="t-field-select js-hide-not-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'responsable', array('class' => 'control-label t-field-select__label')); ?>
                                     <?php
-                                    echo $form->dropDownList($modelStudentIdentification, 'responsable', array(0 => 'Pai', 1 => 'Mãe', 2 => 'Outro',), array('class' => 'select-search-off control-input'));
+                                    echo $form->dropDownList($modelStudentIdentification, 'responsable', array(0 => 'Pai', 1 => 'Mãe', 2 => 'Outro',), array('class' => 'select-search-off control-input t-field-select__input', 'style'=>'width: 100%'));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'responsable'); ?>
                             </div>
-                            <div class="control-group js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'responsable_telephone', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_telephone', array('size' => 60, 'maxlength' => 15)); ?>
+                            <div class="t-field-text js-hide-not-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'responsable_telephone', array('class' => 'control-label t-field-text__label')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_telephone', array('size' => 60, 'maxlength' => 15, 'class'=>'t-field-text__input')); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_telephone'); ?>
                             </div>
 
-                            <div class="control-group js-hide-not-required" style="<?php echo (isset($modelStudentIdentification->responsable_name)) ? '' : 'display:none'; ?>" id="responsable_name">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'responsable_name', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_name', array('size' => 60, 'maxlength' => 100)); ?>
+                            <div class="t-field-text js-hide-not-required" style="<?php echo (isset($modelStudentIdentification->responsable_name)) ? '' : 'display:none'; ?>" id="responsable_name">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'responsable_name', array('class' => 'control-label  t-field-text__label')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_name', array('size' => 60, 'maxlength' => 100, 'class'=>'t-field-text__input')); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_name'); ?>
                             </div>
-                            <div class="control-group js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'responsable_rg', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_rg', array('size' => 60, 'maxlength' => 45)); ?>
+                            <div class="t-field-text js-hide-not-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'responsable_rg', array('class' => 'control-label t-field-text__label')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_rg', array('size' => 60, 'maxlength' => 45, 'class'=>'t-field-text__input')); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_rg'); ?>
                             </div>
-                            <div class="control-group js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'responsable_cpf', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 14)); ?>
+                            <div class="t-field-text js-hide-not-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'responsable_cpf', array('class' => 'control-label t-field-text__label')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 14, 'class'=>'t-field-text__input')); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_cpf'); ?>
                             </div>
 
-                            <div class="control-group js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'responsable_scholarity', array('class' => 'control-label')); ?>
+                            <div class="t-field-select js-hide-not-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'responsable_scholarity', array('class' => 'control-label t-field-select__label')); ?>
                                     <?php
                                     echo $form->dropDownList($modelStudentIdentification, 'responsable_scholarity', array(
                                         0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
                                         3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
                                         6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'
-                                    ), array('class' => 'select-search-off control-input'));
+                                    ), array('class' => 'select-search-off control-input t-field-select__input', 'style'=>'width: 100%'));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_scholarity'); ?>
                             </div>
 
-                            <div class="control-group js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'responsable_job', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_job', array('size' => 60, 'maxlength' => 100)); ?>
+                            <div class="t-field-text js-hide-not-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'responsable_job', array('class' => 'control-label t-field-text__label')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_job', array('size' => 60, 'maxlength' => 100, 'class'=>'t-field-text__input')); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_job'); ?>
                             </div>
 
@@ -337,9 +339,9 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
 
-                            <div class="control-group js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'food_restrictions', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textArea($modelStudentIdentification, 'food_restrictions'); ?>
+                            <div class="t-field-tarea js-hide-not-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'food_restrictions', array('class' => 'control-label t-field-tarea')); ?>
+                                    <?php echo $form->textArea($modelStudentIdentification, 'food_restrictions', array('class'=>'t-field-tarea__input')); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'food_restrictions'); ?>
                             </div>
 
@@ -460,10 +462,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group hide-responsive  js-hide-not-required" id="vaccine">
-                                <div class="controls">
+                                <div>
                                     <label class="control-label"><?php echo Yii::t('default', 'Vaccine'); ?></label>
                                 </div>
-                                <div class="controls vaccines-container">
+                                <div class="vaccines-container">
                                     <?php foreach ($vaccines as $vaccine) : ?>
                                         <label class="checkbox">
                                             <?= $vaccine->name; ?>
