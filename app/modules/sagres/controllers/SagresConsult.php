@@ -14,21 +14,18 @@ class SagresConsult {
 
     static public function actionExport()
     {
+        $yearSagresConsult = 2022;
+
         $sagres = new SagresConsult;
-        $objEducacaoT = $sagres->getEducacaoData();
-    
-        $sagresEduXML = $sagres->generatesSagresEduXML($objEducacaoT);
+        $sagresEduXML = $sagres->generatesSagresEduXML($sagres->getEducacaoData($yearSagresConsult));
         $sagres->actionExportSagresXML($sagresEduXML);
     }
 
-    public function getEducacaoData(): EducacaoTType
+    public function getEducacaoData($year): EducacaoTType
     {
-        $education = new EducacaoTType;
-        $schools = $this->getAllSchools();
-        $professionals = $this->getProfessionalData();
-    
-        $education->setEscola($schools);
-        $education->setProfissional($professionals);
+        $education = new EducacaoTType; 
+        $education->setEscola($this->getAllSchools($year));
+        $education->setProfissional($this->getProfessionalData($year));
     
         return $education;
     }
@@ -37,7 +34,8 @@ class SagresConsult {
      * Summary of EscolaTType
      * @return EscolaTType[] 
      */
-    public function getAllSchools() {
+    public function getAllSchools($year) 
+    {
         $schoolList = [];
     
         $query = "SELECT si.inep_id FROM school_identification si";
@@ -47,9 +45,9 @@ class SagresConsult {
             $schoolType = new EscolaTType;
             $schoolType->setIdEscola($school['inep_id']); 
     
-            $schoolType->setTurma($this->getTurmaType($school['inep_id']));
+            $schoolType->setTurma($this->getTurmaType($school['inep_id'], $year));
             $schoolType->setDiretor($this->getDiretorType($school['inep_id']));
-            $schoolType->setCardapio($this->getCardapioType($school['inep_id']));
+            $schoolType->setCardapio($this->getCardapioType($school['inep_id'], $year));
     
             $schoolList[] = $schoolType;
         }
@@ -61,13 +59,13 @@ class SagresConsult {
      * Summary of TurmaTType
      * @return TurmaTType[]
      */
-    public function getTurmaType($inep_id) {
+    public function getTurmaType($inep_id, $year) {
         $turmaList = [];
     
         $query = "SELECT c.school_inep_fk, c.id, c.name, c.turn, se.enrollment_id  
                     FROM classroom c
                     JOIN student_enrollment se ON se.classroom_fk = c.id 
-                    WHERE c.school_inep_fk = ". $inep_id. ";";
+                    WHERE c.school_inep_fk = ". $inep_id . " and c.school_year = ". $year . ";";
 
         $turmas = Yii::app()->db->createCommand($query)->queryAll();
 
@@ -75,11 +73,18 @@ class SagresConsult {
             $turmaType = new TurmaTType;
             $turmaType->setPeriodo('0');
             $turmaType->setDescricao($turma["name"]);
-            $turmaType->setTurno($turma['turn']);
+
+            if ($turma['turn'] == 'M')      
+                $turmaType->setTurno('1');
+            else if($turma['turn'] == 'V')
+                $turmaType->setTurno('2');
+            else if($turma['turn'] == 'N')
+                $turmaType->setTurno('3');
+            else if($turma['turn'] == 'I')
+                $turmaType->setTurno('4');
+
             $turmaType->setSerie($this->getSerieType($turma['id']));
-        
-            //$matricula_t = $this->getMatriculaType($turma['id']);
-            //$turma_t->setMatricula($matricula_t);
+            //$turmaType->setMatricula($this->getMatriculaType($turma['id']));
             //$turmaType->setHorario($this->setHorario($turma['id']));   
             $turmaType->setFinalTurma('0');  
 
@@ -224,8 +229,8 @@ class SagresConsult {
      * Summary of CardapioTType
      * @return CardapioTType[] 
      */
-    public function getCardapioType($id_escola){
-        $lista_cardapio = [];
+    public function getCardapioType($id_escola, $year){
+        $cardapioList = [];
     
         $query = "SELECT lm.date AS data, cr.turn AS turno, li.description AS descricaoMerenda, lm.adjusted AS ajustado 
                 FROM classroom cr 
@@ -236,26 +241,26 @@ class SagresConsult {
                     JOIN lunch_meal_portion lmp ON lmp.meal_fk = lme.id 
                     JOIN lunch_portion lp ON lp.id = lmp.portion_fk 
                     JOIN lunch_item li ON li.id = lp.item_fk
-                WHERE si.inep_id = " . $id_escola . ";"; 
+                WHERE si.inep_id = " . $id_escola . " and cr.school_year = " . $year . ";"; 
     
         $cardapios = Yii::app()->db->createCommand($query)->queryAll();  
     
         foreach ($cardapios as $cardapio) {
-            $cardapio_t = new CardapioTType;
-            $cardapio_t->setData(new DateTime($cardapio['data']));
-            $cardapio_t->setTurno($cardapio['turno']);
-            $cardapio_t->setDescricaoMerenda($cardapio['descricaoMerenda']);
-            $cardapio_t->setAjustado($cardapio['ajustado']); 
+            $cardapioType = new CardapioTType;
+            $cardapioType->setData(new DateTime($cardapio['data']));
+            $cardapioType->setTurno($cardapio['turno']);
+            $cardapioType->setDescricaoMerenda($cardapio['descricaoMerenda']);
+            $cardapioType->setAjustado($cardapio['ajustado']); 
     
-            $lista_cardapio[] = $cardapio_t;
+            $cardapioList[] = $cardapioType;
         }
     
-        return $lista_cardapio;
+        return $cardapioList;
     }
 
     public function getDiretorType($id_escola): DiretorTType
     {
-        $diretor_t = new DiretorTType;
+        $diretorType = new DiretorTType;
       
         $query = "SELECT manager_cpf AS cpfDiretor, number_ato AS nrAto 
                 FROM school_identification 
@@ -263,31 +268,34 @@ class SagresConsult {
 
         $diretor = Yii::app()->db->createCommand($query)->queryRow();
 
-        $diretor_t->setCpfDiretor($diretor['cpfDiretor']);
-        $diretor_t->setNrAto($diretor['nrAto']);
+        $diretorType->setCpfDiretor($diretor['cpfDiretor']);
+        $diretorType->setNrAto($diretor['nrAto']);
 
-        return $diretor_t;
+        return $diretorType;
     }
 
-    public function getProfessionalData(){
-        $lista_profissionais = [];
+    public function getProfessionalData($anoAtendimento)
+    {
+        $profissionaisList = [];
 
         $query = "SELECT id_professional, cpf_professional AS cpfProfissional, specialty AS especialidade, inep_id_fk AS idEscola, fundeb 
-                FROM professional;";
+                FROM professional p
+                JOIN attendance a ON p.id_professional = a.professional_fk 
+                WHERE YEAR(a.date) = " . $anoAtendimento . ";";
        
         $profissionais = Yii::app()->db->createCommand($query)->queryAll();
 
         foreach ($profissionais as $profissional) {
-            $profissional_t = new ProfissionalTType;
-            $profissional_t->setCpfProfissional($profissional['cpfProfissional']);
-            $profissional_t->setEspecialidade($profissional['especialidade']);
-            $profissional_t->setIdEscola($profissional['idEscola']);
-            $profissional_t->setFundeb($profissional['fundeb']);
-            $profissional_t->setAtendimento($this->geAttendance($profissional['id_professional']));
-            $lista_profissionais[] = $profissional_t;
+            $profissionalType = new ProfissionalTType;
+            $profissionalType->setCpfProfissional($profissional['cpfProfissional']);
+            $profissionalType->setEspecialidade($profissional['especialidade']);
+            $profissionalType->setIdEscola($profissional['idEscola']);
+            $profissionalType->setFundeb($profissional['fundeb']);
+            $profissionalType->setAtendimento($this->geAttendance($profissional['id_professional']));
+            $profissionaisList[] = $profissionalType;
         }
 
-        return $lista_profissionais;
+        return $profissionaisList;
     }
 
     /**
@@ -295,8 +303,9 @@ class SagresConsult {
      *
      * @return MatriculaTType[]
      */
-    public function getMatriculaType($id){
-        $matriculas_t = [];
+    public function getMatriculaType($id)
+    {
+        $matriculasList = [];
     
         $query = "SELECT se.enrollment_id AS numero, se.create_date AS data_matricula, 
                          se.date_cancellation_enrollment AS data_cancelamento 
@@ -306,18 +315,17 @@ class SagresConsult {
         $matriculas = Yii::app()->db->createCommand($query)->queryAll();
     
         foreach($matriculas as $matricula){
-            $matricula_t = new MatriculaTType;
-            $matricula_t->setNumero($matricula['numero']);
-            $matricula_t->setDataMatricula(new DateTime($matricula['data_matricula']));
-            $matricula_t->setDataCancelamento(new DateTime($matricula['data_cancelamento']));
-            $numberFaults = '0' ;//$this->returnNumberFaults($matricula);
-            $matricula_t->setNumeroFaltas($numberFaults);
-            $matricula_t->setAprovado('0');
-            $matricula_t->setAluno($this->getStudent($matricula['numero']));
-            $matriculas_t[] = $matricula_t;
+            $matriculaType = new MatriculaTType;
+            $matriculaType->setNumero($matricula['numero']);
+            $matriculaType->setDataMatricula(new DateTime($matricula['data_matricula']));
+            $matriculaType->setDataCancelamento(new DateTime($matricula['data_cancelamento']));
+            $matriculaType->setNumeroFaltas($this->returnNumberFaults($matricula['numero']));
+            $matriculaType->setAprovado('0');
+            $matriculaType->setAluno($this->getStudent($matricula['numero']));
+            $matriculasList[] = $matriculaType;
         }
     
-        return $matriculas_t;
+        return $matriculasList;
     }
     
 
@@ -338,9 +346,9 @@ class SagresConsult {
                         and se.enrollment_id = " . $matricula['numero'] . "
                         and si.name is not null";
 
-        $numero_faltas = Yii::app()->db->createCommand($query)->queryRow();
+        $numeroFaltas = Yii::app()->db->createCommand($query)->queryRow();
 
-        return intval(($numero_faltas == null) ? '0' : $numero_faltas);
+        return intval(($numeroFaltas == null) ? '0' : $numeroFaltas);
     }
 
     public function generatesSagresEduXML($sagresEduObject){
@@ -366,7 +374,7 @@ class SagresConsult {
         $fileName = "ExportSagres.xml";
         $fileDir = "./app/export/SagresEdu/" . $fileName;
         $file = fopen($fileDir, 'w');
-        $linha = $xml;
+        $linha = preg_replace("/" . preg_quote('<![CDATA[') . "(.*?)" . preg_quote(']]>') . "/mis", "\\1", $xml);;
         fwrite($file,$linha); 
         fclose($file);
         readfile($fileDir);
