@@ -26,26 +26,25 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Users'));
             $this->widget('zii.widgets.grid.CGridView', array(
                 'dataProvider' => $dataProvider,
                 'enablePagination' => false,
+                'enableSorting' => false,
                 'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                 'columns' => array(
                     array(
                         'name' => 'name',
                         'type' => 'raw',
-                        'value' => 'CHtml::link($data->name)',
+                        'value' => '$data->name',
                     ),
                     array(
                         'name' => 'username',
                         'type' => 'raw',
-                        'value' => 'CHtml::link($data->username)',
+                        'value' => '$data->username',
                     ),
-
                     array(
                         'class'=>'CLinkColumn',
                         'cssClassExpression' => '$data->active? show : hide',
                         'urlExpression'=>'Yii::app()->createUrl("admin/disableUser",array("id"=>$data->id))',
                         'imageUrl' => Yii::app()->theme->baseUrl.'/img/unpublished_FILL0_wght600_GRAD200_opsz48.svg'
                     ),
-
                     array(
                         'class'=>'CLinkColumn',
                         'cssClassExpression' => '$data->active? hide : show',

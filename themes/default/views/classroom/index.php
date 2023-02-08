@@ -49,12 +49,13 @@
                     $this->widget('zii.widgets.grid.CGridView', array(
                         'dataProvider' => $dataProvider,
                         'enablePagination' => false,
+                        'enableSorting' => false,
                         'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-vertical-center checkboxs',
                         'columns' => array(
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("classroom/update",array("id"=>$data->id)))',
+                                'value' => '$data->name',
                                 'htmlOptions' => array('width' => '400px')
                             ),
                             array(
@@ -82,11 +83,11 @@
                             'class' => 'CButtonColumn', 
                             'template' => '{delete}',
                             'buttons' => array(
-                                'delete' => array(
-                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                    'delete' => array(
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                    )
                                 )
-                            )
-                        ),
+                            ),
                         ),
                     ));
                     ?>

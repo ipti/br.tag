@@ -50,8 +50,27 @@
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("school/update", array("id"=>$data->inep_id)))',
-                            ),),
+                                'value' => '$data->name',
+                            ),
+                            array(
+                                'class' => 'CButtonColumn', 
+                                'template' => '{update}',
+                                'buttons' => array(
+                                    'update' => array(
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+                                    )
+                                )
+                            ),
+                            array(
+                                'class' => 'CButtonColumn', 
+                                'template' => '{delete}',
+                                'buttons' => array(
+                                    'delete' => array(
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                    )
+                                )
+                            ),
+                        ),
                     ));
                     ?>
                 </div>   

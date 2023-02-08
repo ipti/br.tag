@@ -65,14 +65,14 @@
                 $this->widget('zii.widgets.grid.CGridView', array(
                     'dataProvider' => $dataProvider,
                     'enablePagination' => false,
+                    'enableSorting' => false,
                     'selectableRows' => 1,
-                    'selectionChanged' => 'function(id){ location.href = "' . $this->createUrl('update') . '/id/"+$.fn.yiiGridView.getSelection(id);}',
                     'itemsCssClass' => 'js-tag-table student-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                         array(
                             'name' => 'name',
                             'type' => 'raw',
-                            'value' => 'CHtml::link($data->name,yii::app()->createUrl("student/update",array("id"=>$data->id)))',
+                            'value' => '$data->name',
                         ),
                         /*array(
                             'header' => '',
@@ -92,6 +92,24 @@
                         array(
                             'name' => 'inep_id'
                         ),
+                        array(
+                            'class' => 'CButtonColumn', 
+                            'template' => '{update}',
+                            'buttons' => array(
+                                'update' => array(
+                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+                                )
+                            )
+                        ),
+                        array(
+                        'class' => 'CButtonColumn', 
+                        'template' => '{delete}',
+                        'buttons' => array(
+                            'delete' => array(
+                                'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                            )
+                        )
+                    ),
                     ),
                 ));
                 ?>
