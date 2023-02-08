@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.2/r-2.4.0/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.13.2/r-2.4.0/datatables.min.js"></script>
 <?php
 /* @var $this CoursePlanController */
 /* @var $dataProvider CActiveDataProvider */
@@ -26,8 +28,8 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                 <div class="widget-body">
                     <?php $this->widget('zii.widgets.grid.CGridView', array(
                         'dataProvider' => $dataProvider,
-                        'enablePagination' => true,
-                        'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'enablePagination' => false,
+                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'columns' => array(
                             array(
                                 'header' => Yii::t('default', 'Name'),
