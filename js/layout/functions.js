@@ -14,10 +14,13 @@ $(document).ready(function () {
         $("#menu").toggleClass("hidden-menu");
         div.toggleClass("sidebar-cover")
     });
-    $(".js-tag-table").dataTable({
-        language: getLanguage(),
-        responsive: true 
-    });
+
+    if($(".js-tag-table").length) {
+        $(".js-tag-table").dataTable({
+            language: getLanguage(),
+            responsive: true 
+        });
+    }
 });
 
 function getLanguage() {
