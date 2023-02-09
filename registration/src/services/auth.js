@@ -2,6 +2,7 @@ export const isAuthenticated = () => localStorage.getItem("token") !== null;
 export const getToken = () => localStorage.getItem("token");
 export const getIdSchool = () => localStorage.getItem("id-school");
 export const getIdStage = () => localStorage.getItem("id-stage");
+export const getIdEvent = () => localStorage.getItem("id-event");
 export const login = token => {
   localStorage.setItem("token", token);
 };
@@ -15,4 +16,8 @@ export const idSchool = id => {
 
 export const idStage = id => {
   localStorage.setItem("id-stage", id)
+}
+
+export const idEvent = id => {
+  localStorage.setItem("id-event", id)
 }

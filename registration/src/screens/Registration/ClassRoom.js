@@ -31,9 +31,10 @@ const Classroom = props => {
     const { data } = useFetchRequestSchoolStages({id: getIdSchool()})
 
 
-    console.log(props)
-
-
+    const initialValues = {
+        edcenso_stage_vs_modality: '',
+      };
+      
     const onButton = () => {
         props.nextStep('2')
     }

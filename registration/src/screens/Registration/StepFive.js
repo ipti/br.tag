@@ -56,7 +56,7 @@ const StepFive = props => {
   const [citys, setCitys] = useState([])
   const [loadStates, setLoadStates] = useState(true)
 
-
+console.log(props)
 
   const validationSchema = Yup.object().shape({
     cep: Yup.string().required("Campo obrigatório!"),
@@ -417,7 +417,7 @@ const StepFive = props => {
                 <Grid item xs={6}>
                   {!loadingButtom ? (
                     <ButtonPurple
-                      onClick={handleSubmit}
+                      onClick={props.handleSubmit}
                       type="submit"
                       title="Continuar"
                     />

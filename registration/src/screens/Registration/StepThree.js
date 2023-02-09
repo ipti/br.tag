@@ -30,6 +30,7 @@ import * as Yup from "yup";
 import styleBase from "../../styles";
 import styles from "./styles";
 import { useState } from "react";
+import { getIdEvent, getIdSchool } from "../../services/auth";
 
 const useStyles = makeStyles(styles);
 
@@ -68,14 +69,14 @@ const TextMaskCpf = props => {
         inputRef(ref ? ref.inputElement : null);
       }}
       mask={[/\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, "-", /\d/, /\d/]}
-     // placeholderChar={"_"}
+      // placeholderChar={"_"}
       showMask
     />
   );
 };
 
-const checkDeficiency = (deficiency, setFieldValue) =>{
-  if(deficiency){
+const checkDeficiency = (deficiency, setFieldValue) => {
+  if (deficiency) {
     setFieldValue("deficiency_type_blindness", false);
     setFieldValue("deficiency_type_low_vision", false);
     setFieldValue("deficiency_type_deafness", false);
@@ -91,16 +92,16 @@ const checkDeficiency = (deficiency, setFieldValue) =>{
 
 const StepThree = props => {
   const classes = useStyles();
-  const [cegueiraDisabled, setCegueiraDisabled ] = useState(false);
-  const [baixaVisaoDisabled , setBaixaVisaoDisabled ] = useState(false);
-  const [surdezDisabled , setSurdezDisabled ] = useState(false);
-  const [defAuditivaDisabled , setDefAuditivaDisabled ] = useState(false);
-  const [surdoCegueiraDisabled , setSurdoCegueiraDisabled ] = useState(false);
-  const [defFisicaDisabled ] = useState(false);
-  const [defIntelectualDisabled , setDefIntelectualDisabled ] = useState(false);
-  const [deficienciaMultDisabled  ] = useState(false);
-  const [transAutistaDisabled ] = useState(false); 
-  const [superDotacaoDisabled , setSuperDotacaoDisabled ] = useState(false);
+  const [cegueiraDisabled, setCegueiraDisabled] = useState(false);
+  const [baixaVisaoDisabled, setBaixaVisaoDisabled] = useState(false);
+  const [surdezDisabled, setSurdezDisabled] = useState(false);
+  const [defAuditivaDisabled, setDefAuditivaDisabled] = useState(false);
+  const [surdoCegueiraDisabled, setSurdoCegueiraDisabled] = useState(false);
+  const [defFisicaDisabled] = useState(false);
+  const [defIntelectualDisabled, setDefIntelectualDisabled] = useState(false);
+  const [deficienciaMultDisabled] = useState(false);
+  const [transAutistaDisabled] = useState(false);
+  const [superDotacaoDisabled, setSuperDotacaoDisabled] = useState(false);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Campo obrigatório!"),
@@ -112,13 +113,16 @@ const StepThree = props => {
   });
 
   const initialValues = {
+    school_identification: getIdSchool(),
+    event_pre_registration: getIdEvent(),
+    edcenso_stage_vs_modality: 14,
     name: props?.student?.name ?? '',
     birthday: props?.student?.birthday ?? '',
     color_race: props?.student?.color_race ?? '',
     sex: props?.student?.sex ?? '',
     cpf: props?.student?.cpf ?? "",
     deficiency: props?.student?.deficiency ?? false,
-    deficiency_type_blindness: props?.student?.deficiency_type_blindness ??  false,
+    deficiency_type_blindness: props?.student?.deficiency_type_blindness ?? false,
     deficiency_type_low_vision: props?.student?.deficiency_type_low_vision ?? false,
     deficiency_type_deafness: props?.student?.deficiency_type_deafness ?? false,
     deficiency_type_disability_hearing: props?.student?.deficiency_type_disability_hearing ?? false,
@@ -130,7 +134,7 @@ const StepThree = props => {
     deficiency_type_gifted: props?.student?.deficiency_type_gifted ?? false
   };
 
- 
+
 
   return (
     <>
@@ -144,7 +148,6 @@ const StepThree = props => {
         {({ errors, values, touched, handleChange, handleSubmit, setFieldValue }) => {
 
 
-        console.log(values)
           const errorList = {
             name: touched.name && errors.name,
             birthday: touched.birthday && errors.birthday,
@@ -154,58 +157,56 @@ const StepThree = props => {
             deficiency: touched.deficiency && errors.deficiency
           };
 
-       
-
-          if(values.deficiency_type_blindness){
+          if (values.deficiency_type_blindness) {
             setBaixaVisaoDisabled(true);
             setSurdezDisabled(true);
             setSurdoCegueiraDisabled(true);
-          }else{
+          } else {
             setBaixaVisaoDisabled(false);
             setSurdezDisabled(false);
           }
 
-          if(values.deficiency_type_low_vision){
+          if (values.deficiency_type_low_vision) {
             setCegueiraDisabled(true);
             setSurdoCegueiraDisabled(true);
           }
-          if(!values.deficiency_type_low_vision && !values.deficiency_type_blindness){
+          if (!values.deficiency_type_low_vision && !values.deficiency_type_blindness) {
             setCegueiraDisabled(false);
             setSurdoCegueiraDisabled(false);
           }
 
-          if(values.deficiency_type_deafness){
+          if (values.deficiency_type_deafness) {
             setCegueiraDisabled(true);
             setSurdoCegueiraDisabled(true);
             setDefAuditivaDisabled(true)
-          }else{
+          } else {
             setDefAuditivaDisabled(false)
           }
 
-          if(values.deficiency_type_disability_hearing){
+          if (values.deficiency_type_disability_hearing) {
             setSurdoCegueiraDisabled(true);
             setSurdezDisabled(true);
           }
 
-          if(values.deficiency_type_deafblindness){
+          if (values.deficiency_type_deafblindness) {
             setCegueiraDisabled(true);
             setBaixaVisaoDisabled(true);
             setSurdezDisabled(true);
             setDefAuditivaDisabled(true);
           }
 
-          if(values.deficiency_type_intelectual_disability){
+          if (values.deficiency_type_intelectual_disability) {
             setSuperDotacaoDisabled(true)
-          } else{
+          } else {
             setSuperDotacaoDisabled(false)
           }
 
-          if(values.deficiency_type_gifted){
+          if (values.deficiency_type_gifted) {
             setDefIntelectualDisabled(true)
-          }else{
+          } else {
             setDefIntelectualDisabled(false)
           }
-          
+
           return (
             <Form>
               <Grid
@@ -377,7 +378,7 @@ const StepThree = props => {
                       value={values.deficiency}
                       name="deficiency"
                       onChange={handleChange}
-                      onClick={()=> checkDeficiency(values.deficiency, setFieldValue)}
+                      onClick={() => checkDeficiency(values.deficiency, setFieldValue)}
                       row
                     >
                       <FormControlLabel
@@ -397,126 +398,126 @@ const StepThree = props => {
                   </FormControl>
                 </Grid>
               </Grid>
-              {values.deficiency === 'true' ? 
+              {values.deficiency === 'true' ?
                 <Grid
-                className={`${classes.contentMain}`}
-                container
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Grid item xs={12}>
-                  <FormControl
-                    component="fieldset"
-                    className={classes.formControl}
-                  >
-                     <FormLabel component="legend">Deficiência *</FormLabel>
-                     <FormGroup>
-                      <FormControlLabel
-                      disabled={cegueiraDisabled}
-                      control={
-                        <Checkbox 
-                          checked={values.deficiency_type_blindness}
-                          onChange={handleChange}
-                        />} 
-                      name='deficiency_type_blindness'
-                      label="Cegueira" 
-                      />
-                      <FormControlLabel 
-                        disabled={baixaVisaoDisabled} 
-                        control={
-                          <Checkbox 
-                            checked={values.deficiency_type_low_vision}
-                            onChange={handleChange}
-                          />} 
-                        name="deficiency_type_low_vision"
-                        label="Baixa visão" 
-                      />
-                      <FormControlLabel
-                        disabled={surdezDisabled} 
-                        control={
-                          <Checkbox 
-                            checked={values.deficiency_type_deafness}
-                            onChange={handleChange}
-                          />} 
-                        name="deficiency_type_deafness"
-                        label="Surdez" 
-                      />
-                      <FormControlLabel
-                        disabled={defAuditivaDisabled}
-                        control={
-                          <Checkbox 
-                            checked={values.deficiency_type_disability_hearing}
-                            onChange={handleChange}
-                          />} 
-                        name="deficiency_type_disability_hearing"
-                        label="Deficiência auditiva" 
-                      />
-                      <FormControlLabel
-                        disabled={surdoCegueiraDisabled} 
-                        control={
-                          <Checkbox
-                            checked={values.deficiency_type_deafblindness}
-                            onChange={handleChange}
-                          />}
-                        name="deficiency_type_deafblindness" 
-                        label="Surdocegueira" 
-                      />
-                      <FormControlLabel
-                        disabled={defFisicaDisabled} 
-                        control={
-                          <Checkbox 
-                            checked={values.deficiency_type_phisical_disability}
-                            onChange={handleChange}
-                          />}
-                        name="deficiency_type_phisical_disability" 
-                        label="Deficiência Física" 
-                      />
-                      <FormControlLabel
-                        disabled={defIntelectualDisabled} 
-                        control={
-                          <Checkbox
-                            checked={values.deficiency_type_intelectual_disability}
-                            onChange={handleChange} 
-                          />}
-                        name="deficiency_type_intelectual_disability" 
-                        label="Deficiência Intelectual" 
-                      />
-                      <FormControlLabel
-                        disabled={deficienciaMultDisabled} 
-                        control={
-                          <Checkbox 
-                            checked={values.deficiency_type_multiple_disabilities}
-                            onChange={handleChange}
-                          />}
-                        name="deficiency_type_multiple_disabilities" 
-                        label="Deficiência Múltipla" 
-                      />
-                      <FormControlLabel
-                        disabled={transAutistaDisabled} 
-                        control={
-                          <Checkbox 
-                            checked={values.deficiency_type_autism}
-                            onChange={handleChange}
-                          />}
-                        name="deficiency_type_autism" 
-                        label="Transtorno do Espectro Autista" 
-                      />
-                      <FormControlLabel
-                      disabled={superDotacaoDisabled} 
-                        control={
-                          <Checkbox
-                            checked={values.deficiency_type_gifted}
-                            onChange={handleChange}
-                          />} 
-                        name="deficiency_type_gifted"
-                        label="Altas Habilidades / Super Dotação" 
-                      />
-                    </FormGroup>
-                  </FormControl>
+                  className={`${classes.contentMain}`}
+                  container
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Grid item xs={12}>
+                    <FormControl
+                      component="fieldset"
+                      className={classes.formControl}
+                    >
+                      <FormLabel component="legend">Deficiência *</FormLabel>
+                      <FormGroup>
+                        <FormControlLabel
+                          disabled={cegueiraDisabled}
+                          control={
+                            <Checkbox
+                              checked={values.deficiency_type_blindness}
+                              onChange={handleChange}
+                            />}
+                          name='deficiency_type_blindness'
+                          label="Cegueira"
+                        />
+                        <FormControlLabel
+                          disabled={baixaVisaoDisabled}
+                          control={
+                            <Checkbox
+                              checked={values.deficiency_type_low_vision}
+                              onChange={handleChange}
+                            />}
+                          name="deficiency_type_low_vision"
+                          label="Baixa visão"
+                        />
+                        <FormControlLabel
+                          disabled={surdezDisabled}
+                          control={
+                            <Checkbox
+                              checked={values.deficiency_type_deafness}
+                              onChange={handleChange}
+                            />}
+                          name="deficiency_type_deafness"
+                          label="Surdez"
+                        />
+                        <FormControlLabel
+                          disabled={defAuditivaDisabled}
+                          control={
+                            <Checkbox
+                              checked={values.deficiency_type_disability_hearing}
+                              onChange={handleChange}
+                            />}
+                          name="deficiency_type_disability_hearing"
+                          label="Deficiência auditiva"
+                        />
+                        <FormControlLabel
+                          disabled={surdoCegueiraDisabled}
+                          control={
+                            <Checkbox
+                              checked={values.deficiency_type_deafblindness}
+                              onChange={handleChange}
+                            />}
+                          name="deficiency_type_deafblindness"
+                          label="Surdocegueira"
+                        />
+                        <FormControlLabel
+                          disabled={defFisicaDisabled}
+                          control={
+                            <Checkbox
+                              checked={values.deficiency_type_phisical_disability}
+                              onChange={handleChange}
+                            />}
+                          name="deficiency_type_phisical_disability"
+                          label="Deficiência Física"
+                        />
+                        <FormControlLabel
+                          disabled={defIntelectualDisabled}
+                          control={
+                            <Checkbox
+                              checked={values.deficiency_type_intelectual_disability}
+                              onChange={handleChange}
+                            />}
+                          name="deficiency_type_intelectual_disability"
+                          label="Deficiência Intelectual"
+                        />
+                        <FormControlLabel
+                          disabled={deficienciaMultDisabled}
+                          control={
+                            <Checkbox
+                              checked={values.deficiency_type_multiple_disabilities}
+                              onChange={handleChange}
+                            />}
+                          name="deficiency_type_multiple_disabilities"
+                          label="Deficiência Múltipla"
+                        />
+                        <FormControlLabel
+                          disabled={transAutistaDisabled}
+                          control={
+                            <Checkbox
+                              checked={values.deficiency_type_autism}
+                              onChange={handleChange}
+                            />}
+                          name="deficiency_type_autism"
+                          label="Transtorno do Espectro Autista"
+                        />
+                        <FormControlLabel
+                          disabled={superDotacaoDisabled}
+                          control={
+                            <Checkbox
+                              checked={values.deficiency_type_gifted}
+                              onChange={handleChange}
+                            />}
+                          name="deficiency_type_gifted"
+                          label="Altas Habilidades / Super Dotação"
+                        />
+                      </FormGroup>
+                    </FormControl>
+                  </Grid>
                 </Grid>
-              </Grid>
-              : null
+                : null
               }
               <Grid
                 className={`${classes.marginTop} ${classes.marginButtom}`}

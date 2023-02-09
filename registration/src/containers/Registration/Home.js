@@ -81,12 +81,16 @@ console.log(isActive)
         responsable_cpf: dataValues.responsable_cpf.replace(/\D/g, ''),
         responsable_telephone: dataValues.responsable_telephone.replace(/\D/g, ''),
         father_name: dataValues.father_name === "" ? null : dataValues.father_name,
-        mother_name: dataValues.mother_name === "" ? null : dataValues.mother_name
+        mother_name: dataValues.mother_name === "" ? null : dataValues.mother_name,
+        event_pre_registration: parseInt(dataValues.event_pre_registration),
+        edcenso_stage_vs_modality: parseInt(dataValues.edcenso_stage_vs_modality)
       }
     )
   };
 
   const next = (step, values) => {
+
+    console.log(values)
     let data = Object.assign(dataValues, values);
     if (
       step === 1 &&
@@ -172,6 +176,7 @@ console.log(isActive)
               handleStudent={handleStudent}
               loadingButtom={props.loading}
               setIsActive={setIsActive}
+              handleSubmit={onSubmit}
             />
           ) : (
             <Wait />
