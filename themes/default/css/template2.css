@@ -345,10 +345,11 @@
     .fullmenu-toggle-button {
         display: flex;
     }
-    .fullmenu-sidebar {
+    .fullmenu-sidebar{
+        left: -190px;
         transition: left 500ms;
     }
-    .hidden-menu {
+    .hidden-menu:active {
         left: -190px;
         transition: left 500ms;
     }
