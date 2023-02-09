@@ -1,4 +1,4 @@
- var div = $("<div></div>").addClass("sidebar-cover");
+ var div = $("<div></div>");
         $("body").append(div); 
 
 $(document).ready(function(){

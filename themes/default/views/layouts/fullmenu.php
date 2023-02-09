@@ -112,7 +112,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
         <!-- Sidebar menu & content wrapper -->
         <div id="wrapper">
             <!-- Sidebar menu -->
-            <div id="menu" class="hidden-print fullmenu-sidebar" >
+            <div id="menu" class="hidden-print fullmenu-sidebar hidden-menu" >
                 <div class="colorful-bar">
                     <span id="span-color-blue"></span>
                     <span id="span-color-red"></span>

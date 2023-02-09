@@ -345,13 +345,12 @@
     .fullmenu-toggle-button {
         display: flex;
     }
-    .fullmenu-sidebar{
-        left: -190px;
+   /*  .fullmenu-sidebar{
         transition: left 500ms;
-    }
-    .hidden-menu:active {
+    } */
+    .hidden-menu {
         left: -190px;
-        transition: left 500ms;
+        
     }
     .voltar-tobnav {
         display:  none;
