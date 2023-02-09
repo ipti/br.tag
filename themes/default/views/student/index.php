@@ -66,7 +66,6 @@
                     'dataProvider' => $dataProvider,
                     'enablePagination' => false,
                     'enableSorting' => false,
-                    'selectableRows' => 1,
                     'itemsCssClass' => 'js-tag-table student-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                         array(
@@ -87,7 +86,8 @@
                         ),
                         array(
                             'name' => 'birthday',
-                            'filter' => false
+                            'filter' => false,
+                            'htmlOptions' => array('width' => '160px')
                         ),
                         array(
                             'name' => 'inep_id'
