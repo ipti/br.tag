@@ -2,6 +2,7 @@
 @import '../_functions.scss';
 
 .t-field-tarea {
+    margin-bottom: $DimensionLarge;
     &__label{
         &--required {
             font-weight: bold;

@@ -275,7 +275,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column">
                             <div class="separator"></div>
-                            <div class="t-field-text control-group js-hide-not-required">
+                            <div class="t-field-text js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'nis', array('class' => 'control-label t-field-text__label')); ?>
                                     <?php echo $form->textField($modelStudentDocumentsAndAddress, 'nis', array('size' => 11, 'maxlength' => 11, 'class'=>'t-field-text__input')); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'nis'); ?>
@@ -332,37 +332,35 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_job'); ?>
                             </div>
 
-                            <div class="control-group js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'bf_participator', array('class' => 'control-label')); ?>
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'bf_participator'); ?>
+                            <div class="t-field-checkbox js-hide-not-required">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'bf_participator', array('class' => 'control-label t-field-checkbox__label')); ?>
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'bf_participator', array('class' => 't-field-checkbox__input')); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'bf_participator'); ?>
                             </div>
 
 
                             <div class="t-field-tarea js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'food_restrictions', array('class' => 'control-label t-field-tarea')); ?>
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'food_restrictions', array('class' => 'control-label t-field-tarea__label')); ?>
                                     <?php echo $form->textArea($modelStudentIdentification, 'food_restrictions', array('class'=>'t-field-tarea__input')); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'food_restrictions'); ?>
                             </div>
 
-                            <div class="control-group">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'send_year', array('class' => 'control-label')); ?>
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'send_year', array('value' => date('Y') + 1, 'uncheckValue' => (date('Y')))); ?>
+                            <div class="t-field-checkbox">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'send_year', array('class' => 'control-label t-field-checkbox__label--required')); ?>
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'send_year', array('value' => date('Y') + 1, 'uncheckValue' => (date('Y')), 'class' => 't-field-checkbox__input')); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'send_year'); ?>
                             </div>
 
-                            <div class="control-group">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'deficiency', array('class' => 'control-label')); ?>
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            <div class="t-field-checkbox">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'deficiency', array('class' => 'control-label t-field-checkbox__label--required')); ?>
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'deficiency'); ?>
                             </div>
 
-                            <div class="control-group deficiencies-container js-change-required js-visibility-deficiencies">
-                                <div class="controls">
+                            <div class="deficiencies-container js-change-required js-visibility-deficiencies">
                                     <label class="control-label"><?php echo Yii::t('default', 'Deficiency Type'); ?>
                                         *</label>
-                                </div>
-                                <div class="controls" id="StudentIdentification_deficiencies">
+                                <div id="StudentIdentification_deficiencies">
                                     <label class="checkbox">
                                         <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_blindness']; ?>
                                         <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
@@ -405,11 +403,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </label>
                                 </div>
                             </div>
-                            <div class="control-group js-visibility-dresource hide-responsive resources-container">
-                                <div class="controls">
+                            <div class=" js-visibility-dresource hide-responsive resources-container">
                                     <label class="control-label"><?php echo Yii::t('default', 'Required Resources'); ?></label>
-                                </div>
-                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo StudentIdentification::model()->attributeLabels()['resource_aid_lector']; ?>
                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_lector', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -459,9 +454,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo StudentIdentification::model()->attributeLabels()['resource_none']; ?>
                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_none', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                </div>
                             </div>
-                            <div class="control-group hide-responsive  js-hide-not-required" id="vaccine">
+                            <div class="hide-responsive  js-hide-not-required" id="vaccine">
                                 <div>
                                     <label class="control-label"><?php echo Yii::t('default', 'Vaccine'); ?></label>
                                 </div>
@@ -488,7 +482,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <!-- <i style="font-size: 0.8em;">(Marcar os documentos que foram entregues).</i> -->
                                         </h5>
                                     </div>
-                                    <div class="control-group" id="received">
+                                    <div class="control-group" id="received" style="margin-left:34px;">
                                         <div class="controls">
                                             <div class="span3">
                                                 <label class="checkbox">

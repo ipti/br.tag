@@ -94,6 +94,10 @@
 /* Line Height */
 /*Font Weight*/
 /* mixin */
+.t-field-text { margin-bottom: 24px; }
+
+.t-field-text__label { display: flex; align-items: center; }
+
 .t-field-text__label--required { font-weight: bold; }
 
 .t-field-text__input, .t-field-text input[type="text"] { width: 100%; }
@@ -117,7 +121,7 @@
 /* Line Height */
 /*Font Weight*/
 /* mixin */
-.t-field-select { width: 100%; }
+.t-field-select { width: 100%; margin-bottom: 24px; }
 
 .t-field-select__label--required { font-weight: bold; }
 
@@ -144,9 +148,36 @@
 /* Line Height */
 /*Font Weight*/
 /* mixin */
+.t-field-tarea { margin-bottom: 24px; }
+
 .t-field-tarea__label--required { font-weight: bold; }
 
 .t-field-tarea__input, .t-field-tarea textarea { width: 100%; }
+
+/* Color */
+/* Product */
+/* Ink */
+/* Text */
+/* Alert1 */
+/* Cloud */
+/* White */
+/* Alert2 */
+/* Alert3 */
+/* Space */
+/* Font size */
+/* Grid */
+/* Dimension */
+/* Border Radius */
+/* Border width */
+/* Opacity */
+/* Line Height */
+/*Font Weight*/
+/* mixin */
+.t-field-checkbox { margin-bottom: 24px; }
+
+.t-field-checkbox__label--required { font-weight: bold; }
+
+.t-field-checkbox__input, .t-field-checkbox input[type="checkbox"] { background: #FFFFFF; height: 20px; width: 20px; margin: 0 2px 0; }
 
 /* mixin */
 /* mixin */

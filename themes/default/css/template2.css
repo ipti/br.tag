@@ -399,3 +399,7 @@
     margin-right: 10px;
 }
 .t-input-container__input { width: 328px; }
+
+.control-group{
+    margin-left: 34px;
+}
