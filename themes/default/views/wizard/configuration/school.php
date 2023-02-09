@@ -17,6 +17,7 @@ $form = $this->beginWidget('CActiveForm', array(
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($themeUrl . '/css/template2.css');
+$cs->registerCssFile($baseUrl. 'sass/css/main.css');
 ?>
 
 <div class="row-fluid">
@@ -33,15 +34,15 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
     <div class="widget widget-tabs border-bottom-none">
         <?php echo $form->errorSummary($model); ?>
 
-        <div class="widget-head">
-            <ul class="tab-sorcerer">
-                <li id="tab-time" class="active">
-                    <a href="#time" data-toggle="tab">
+        <div class="t-tabs">
+            <ul class="t-tabs__contents">
+                <li id="tab-time" class="active t-tabs__itens">
+                    <a href="#time" data-toggle="tab" class="t-tabs__link">
                        <?php echo Yii::t('wizardModule.labels', 'Schedule') ?>
                     </a>
                 </li>
-                <li id="tab-exams">
-                    <a href="#exams" data-toggle="tab">
+                <li id="tab-exams" class="t-tabs__itens">
+                    <a href="#exams" data-toggle="tab" class="t-tabs__link">
                         <?php echo Yii::t('wizardModule.labels', 'Exam dates') ?>
                     </a>
                 </li>

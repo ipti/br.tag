@@ -2,6 +2,11 @@
 /* @var $this ClassroomConfigurationControler */
 /* @var $form ActiveForm */
 /* @var $title String */
+$baseUrl = Yii::app()->baseUrl;
+$baseUrl = Yii::app()->theme->baseUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerCssFile($baseUrl. 'sass/css/main.css');
+
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'school-configuration-form',
     'enableAjaxValidation' => false
@@ -9,6 +14,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 $this->breadcrumbs = array(
     Yii::t('default', 'Reaproveitamento das Turmas'),
+    
 );
 ?>
 
@@ -30,26 +36,29 @@ $this->breadcrumbs = array(
             <div class="tab-content">
                 <div class="tab-pane active" id="student">
                     <div class="row-fluid">	
-                        <div class=" span5"> 
+                        <div class=" span6"> 
                             <div class="row-fluid">
-                                <div class="span3">
-                                    <a href="<?php echo yii::app()->createUrl('wizard/Configuration/school')?>" class="widget-stats">
-                                        <span class="glyphicons flag"><i></i></span>
-                                        <span class="txt">School</span>
+                                <div class="t-cards">
+                                    <a href="<?php echo yii::app()->createUrl('wizard/Configuration/school')?>" class="t-cards-link">
+                                        <span class="t-cards-icon"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/escola.svg" /></span>
+                                        <span class="t-cards-title">Escola</span>
+                                        <span class="t-cards-subtitle">Como funciona a página inicial do tag?</span>
                                         <div class="clearfix"></div>
                                     </a>
                                 </div>
-                                <div class="span3">
-                                    <a href="<?php echo yii::app()->createUrl('wizard/Configuration/classroom')?>" class="widget-stats">
-                                        <span class="glyphicons flag"><i></i></span>
-                                        <span class="txt">Classrooms</span>
+                                <div class="t-cards">
+                                    <a href="<?php echo yii::app()->createUrl('wizard/Configuration/classroom')?>" class="t-cards-link">
+                                        <span class="t-cards-icon"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/turma.svg" /></span>
+                                        <span class="t-cards-title">Turmas</span>
+                                        <span class="t-cards-subtitle">Como funciona a página inicial do tag?</span>
                                         <div class="clearfix"></div>
                                     </a>
                                 </div>
-                                <div class="span3">
-                                    <a href="<?php echo yii::app()->createUrl('wizard/Configuration/student')?>" class="widget-stats">
-                                        <span class="glyphicons flag"><i></i></span>
-                                        <span class="txt">Students</span>
+                                <div class="t-cards">
+                                    <a href="<?php echo yii::app()->createUrl('wizard/Configuration/student')?>" class="t-cards-link">
+                                        <span class="t-cards-icon"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/aluno.svg" /></span>
+                                        <span class="t-cards-title">Aluno</span>
+                                        <span class="t-cards-subtitle">Como funciona a página inicial do tag?</span>
                                         <div class="clearfix"></div>
                                     </a>
                                 </div>
