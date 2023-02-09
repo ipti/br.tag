@@ -1,0 +1,13 @@
+@import '../_tokens.scss';
+@import '../_functions.scss';
+
+.t-field-text {
+    &__label{
+        &--required {
+            font-weight: bold;
+        }
+    }
+    &__input, input[type="text"] {
+        width: 100%;
+    }
+}

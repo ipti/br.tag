@@ -1,0 +1,13 @@
+@import '../_tokens.scss';
+@import '../_functions.scss';
+
+.t-field-tarea {
+    &__label{
+        &--required {
+            font-weight: bold;
+        }
+    }
+    &__input, textarea {
+        width: 100%;
+    }
+}
