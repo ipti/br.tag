@@ -7,7 +7,7 @@ $yii=dirname(__FILE__).'/app/vendor/autoload.php';
 $instance=dirname(__FILE__).'/instance.php';
 $configtag=dirname(__FILE__).'/config.php';
 $config=dirname(__FILE__).'/app/config/main.php';
-$sagres=dirname(__FILE__).'/app/modules/sagres/controllers/SagresConsult.php';
+$sagres=dirname(__FILE__).'/app/modules/sagres/models/SagresConsultModel.php';
 
 $escola_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/EscolaTType.php';
 $turma_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/TurmaTType.php';

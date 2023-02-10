@@ -215,6 +215,9 @@ $baseUrl = Yii::app()->theme->baseUrl;
                             <li id="menu-censo" class="<?= strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ? 'active' : '' ?>">
                                 <a class="sidebar-item-tag" href="<?php echo yii::app()->createUrl('censo/validate') ?> "><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/educacenso.svg" /><span>Educacenso</span></a>
                             </li>
+                            <li id="menu-sagres" class="<?= strpos($_SERVER['REQUEST_URI'], "?r=sagres") ? 'active' : '' ?>">
+                                <a class="sidebar-item-tag" href="<?php echo yii::app()->createUrl('sagres') ?> "><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/educacenso.svg" /><span>Sagres</span></a>
+                            </li>
                         <?php endif ?>
                         <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
                             <li id="menu-admin" class="<?= strpos($_SERVER['REQUEST_URI'], "?r=admin") ? 'active' : '' ?> hide-responsive">

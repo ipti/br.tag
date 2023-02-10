@@ -1,7 +1,5 @@
 <div id="mainPage" class="main" style="margin-top:40px; padding: 10px">
     <?php
-    $sagres = new SagresEdu\SagresConsult;
-    $sagres->actionExport();
     
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Censo'));
     $title = Yii::t('default', 'Create a new User');

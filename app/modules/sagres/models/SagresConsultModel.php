@@ -10,24 +10,24 @@ use JMS\Serializer\SerializerBuilder;
 use Yii as yii;
 use Datetime;
 
-class SagresConsult 
+class SagresConsultModel
 {
 
     static public function actionExport()
     {
         $yearSagresConsult = 2022;
 
-        $sagres = new SagresConsult;
+        $sagres = new SagresConsultModel;
         $sagresEduXML = $sagres->generatesSagresEduXML($sagres->getEducacaoData($yearSagresConsult));
         $sagres->actionExportSagresXML($sagresEduXML);
     }
 
     public function getEducacaoData($year): EducacaoTType
     {
-        $education = new EducacaoTType; 
+        $education = new EducacaoTType;
         $education->setEscola($this->getAllSchools($year));
         $education->setProfissional($this->getProfessionalData($year));
-    
+
         return $education;
     }
 
@@ -35,35 +35,35 @@ class SagresConsult
      * Summary of EscolaTType
      * @return EscolaTType[] 
      */
-    public function getAllSchools($year) 
+    public function getAllSchools($year)
     {
         $schoolList = [];
-    
+
         $query = "SELECT si.inep_id FROM school_identification si";
         $schools = Yii::app()->db->createCommand($query)->queryAll();
-    
+
         foreach ($schools as $school) {
             $schoolType = new EscolaTType;
-            $schoolType->setIdEscola($school['inep_id']); 
-    
+            $schoolType->setIdEscola($school['inep_id']);
+
             $schoolType->setTurma($this->getTurmaType($school['inep_id'], $year));
             $schoolType->setDiretor($this->getDiretorType($school['inep_id']));
             $schoolType->setCardapio($this->getCardapioType($school['inep_id'], $year));
-    
+
             $schoolList[] = $schoolType;
         }
-    
+
         return $schoolList;
     }
-    
+
     /**
      * Summary of TurmaTType
      * @return TurmaTType[]
      */
-    public function getTurmaType($inep_id, $year) 
+    public function getTurmaType($inep_id, $year)
     {
         $turmaList = [];
-    
+
         $query = "SELECT 
                     c.school_inep_fk, 
                     c.id, 
@@ -72,39 +72,19 @@ class SagresConsult
                     se.enrollment_id  
                 FROM classroom c
                 JOIN student_enrollment se ON se.classroom_fk = c.id 
-                WHERE c.school_inep_fk = ". $inep_id . " and c.school_year = ". $year . ";";
+                WHERE c.school_inep_fk = " . $inep_id . " and c.school_year = " . $year . ";";
 
         $turmas = Yii::app()->db->createCommand($query)->queryAll();
 
-        $turnos = array(
-            'M' => '1',
-            'V' => '2',
-            'N' => '3',
-            'I' => '4',
-        );
-
-        foreach ($turmas as $turma) 
-        {
+        foreach ($turmas as $turma) {
             $turmaType = new TurmaTType;
             $turmaType->setPeriodo('0');
-            $turmaType->setDescricao($turma["name"]);
-     
-            switch ($turma['turn']) 
-            {
-                case 'M': $turmaType->setTurno($turnos['M']); break;
-                case 'V': $turmaType->setTurno($turnos['V']); break;
-                case 'N': $turmaType->setTurno($turnos['N']); break;
-                case 'I': $turmaType->setTurno($turnos['I']); break;
-                default:
-                    // Código para lidar com valores inválidos
-                    $turmaType->setTurno(0);
-                    break;
-            }
-
+            $turmaType->setDescricao($turma["name"]);        
+            $turmaType->setTurno($this->convertTurn($turma['turn']));
             $turmaType->setSerie($this->getSerieType($turma['id']));
             //$turmaType->setMatricula($this->getMatriculaType($turma['id']));
             //$turmaType->setHorario($this->setHorario($turma['id']));   
-            $turmaType->setFinalTurma('0');  
+            $turmaType->setFinalTurma('0');
 
             $turmaList[] = $turmaType;
         }
@@ -117,29 +97,29 @@ class SagresConsult
      * Summary of SerieTType
      * @return SerieTType[] 
      */
-    public function getSerieType($id_turma) 
+    public function getSerieType($id_turma)
     {
         $serieList = [];
-    
+
         $query = "SELECT 
                     c.name as descricao, 
                     c.modality as modalidade 
                 FROM classroom c 
-                where c.id = " . $id_turma . ";"; 
-    
+                where c.id = " . $id_turma . ";";
+
         $series = Yii::app()->db->createCommand($query)->queryAll();
-    
-        foreach($series as $serie){
+
+        foreach ($series as $serie) {
             $serieType = new SerieTType;
             $serieType->setDescricao($serie['descricao']);
             $serieType->setModalidade($serie['modalidade']);
-            $serieList[] =  $serieType;
+            $serieList[] = $serieType;
         }
 
         return $serieList;
     }
-    
-    
+
+
     /**
      * Summary of SerieTType
      * @return HorarioTType[] 
@@ -147,7 +127,7 @@ class SagresConsult
     public function setHorario($id_turma)
     {
         $horarioList = [];
-        
+
         $query = "SELECT 
                     s.week_day AS diaSemana, 
                     (c.final_hour - c.initial_hour) AS duracao, 
@@ -159,13 +139,12 @@ class SagresConsult
                     join instructor_documents_and_address idaa ON idaa.school_inep_id_fk = si.inep_id 
                     join schedule s ON s.classroom_fk = c.id 
                     join edcenso_discipline ed ON ed.id = s.discipline_fk
-                where ed.id = " . $id_turma . ";"; 
-        
+                where ed.id = " . $id_turma . ";";
+
         $horarios = Yii::app()->db->createCommand($query)->queryAll();
 
 
-        foreach ($horarios as $horario) 
-        {
+        foreach ($horarios as $horario) {
             $horario_t = new HorarioTType;
             $horario_t->setDiaSemana($horario['diaSemana']);
             $horario_t->setDuracao($horario['duracao']);
@@ -176,7 +155,7 @@ class SagresConsult
             $horarioList[] = $horario_t;
         }
 
-        return  $horarioList;
+        return $horarioList;
     }
 
     /**
@@ -186,25 +165,24 @@ class SagresConsult
     public function geAttendance($professional_id)
     {
         $attendanceList = [];
-    
+
         $query = "SELECT 
                     date, 
                     local 
                 FROM attendance 
-                WHERE professional_fk = " .$professional_id.";"; 
+                WHERE professional_fk = " . $professional_id . ";";
         $attendances = Yii::app()->db->createCommand($query)->queryAll();
-    
-        foreach($attendances as $attendance)
-        {
+
+        foreach ($attendances as $attendance) {
             $attendanceType = new AtendimentoTType;
             $attendanceType->setData(new DateTime($attendance['date']));
             $attendanceType->setLocal($attendance['local']);
             $attendanceList[] = $attendanceType;
         }
-    
+
         return $attendanceList;
     }
-    
+
 
     public function getPrestacaocontas(): PrestacaoContasTType
     {
@@ -238,10 +216,10 @@ class SagresConsult
         return $provisionAccountsType;
     }
 
-    public function getStudent($id_matricula): AlunoTType 
+    public function getStudent($id_matricula): AlunoTType
     {
         $studentType = new AlunoTType;
-    
+
         $query = "SELECT 
                     si2.responsable_cpf AS cpfAluno, 
                     si2.birthday AS data_nascimento, 
@@ -252,7 +230,7 @@ class SagresConsult
                     JOIN school_identification si ON si.inep_id = se.school_inep_id_fk 
                     JOIN student_identification si2 ON si.inep_id = si2.school_inep_id_fk
                 WHERE se.enrollment_id = :id_matricula;";
-    
+
         $student = Yii::app()->db->createCommand($query)
             ->bindValue(':id_matricula', $id_matricula)
             ->queryRow();
@@ -262,20 +240,20 @@ class SagresConsult
         $studentType->setCpfAluno($student['cpfAluno']);
         $studentType->setPcd($student['pcd']);
         $studentType->setSexo($student['sexo']);
-    
+
         return $studentType;
     }
-    
+
 
     //Class CardapioTType
-     /**
+    /**
      * Summary of CardapioTType
      * @return CardapioTType[] 
      */
     public function getCardapioType($id_escola, $year)
     {
         $cardapioList = [];
-    
+
         $query = "SELECT 
                     lm.date AS data, 
                     cr.turn AS turno, 
@@ -289,28 +267,27 @@ class SagresConsult
                     JOIN lunch_meal_portion lmp ON lmp.meal_fk = lme.id 
                     JOIN lunch_portion lp ON lp.id = lmp.portion_fk 
                     JOIN lunch_item li ON li.id = lp.item_fk
-                WHERE si.inep_id = " . $id_escola . " and cr.school_year = " . $year . ";"; 
-    
-        $cardapios = Yii::app()->db->createCommand($query)->queryAll();  
-    
-        foreach ($cardapios as $cardapio) 
-        {
+                WHERE si.inep_id = " . $id_escola . " and cr.school_year = " . $year . ";";
+
+        $cardapios = Yii::app()->db->createCommand($query)->queryAll();
+
+        foreach ($cardapios as $cardapio) {
             $cardapioType = new CardapioTType;
             $cardapioType->setData(new DateTime($cardapio['data']));
-            $cardapioType->setTurno($cardapio['turno']);
+            $cardapioType->setTurno($this->convertTurn($cardapio['turno']));
             $cardapioType->setDescricaoMerenda($cardapio['descricaoMerenda']);
-            $cardapioType->setAjustado($cardapio['ajustado']); 
-    
+            $cardapioType->setAjustado($cardapio['ajustado']);
+
             $cardapioList[] = $cardapioType;
         }
-    
+
         return $cardapioList;
     }
 
     public function getDiretorType($id_escola): DiretorTType
     {
         $diretorType = new DiretorTType;
-      
+
         $query = "SELECT manager_cpf AS cpfDiretor, number_ato AS nrAto 
                 FROM school_identification 
                 WHERE inep_id = " . $id_escola . ";";
@@ -331,11 +308,10 @@ class SagresConsult
                 FROM professional p
                 JOIN attendance a ON p.id_professional = a.professional_fk 
                 WHERE YEAR(a.date) = " . $anoAtendimento . ";";
-       
+
         $profissionais = Yii::app()->db->createCommand($query)->queryAll();
 
-        foreach ($profissionais as $profissional) 
-        {
+        foreach ($profissionais as $profissional) {
             $profissionalType = new ProfissionalTType;
             $profissionalType->setCpfProfissional($profissional['cpfProfissional']);
             $profissionalType->setEspecialidade($profissional['especialidade']);
@@ -356,16 +332,15 @@ class SagresConsult
     public function getMatriculaType($id)
     {
         $matriculasList = [];
-    
+
         $query = "SELECT se.enrollment_id AS numero, se.create_date AS data_matricula, 
                          se.date_cancellation_enrollment AS data_cancelamento 
                   FROM student_enrollment se 
-                  WHERE se.classroom_fk  =  " . $id .";";
-    
+                  WHERE se.classroom_fk  =  " . $id . ";";
+
         $matriculas = Yii::app()->db->createCommand($query)->queryAll();
-    
-        foreach($matriculas as $matricula)
-        {
+
+        foreach ($matriculas as $matricula) {
             $matriculaType = new MatriculaTType;
             $matriculaType->setNumero($matricula['numero']);
             $matriculaType->setDataMatricula(new DateTime($matricula['data_matricula']));
@@ -375,12 +350,12 @@ class SagresConsult
             $matriculaType->setAluno($this->getStudent($matricula['numero']));
             $matriculasList[] = $matriculaType;
         }
-    
+
         return $matriculasList;
     }
-    
 
-    public function returnNumberFaults($matricula){
+    public function returnNumberFaults($matricula)
+    {
         $query = "select cf.faults from schedule t
                     left join classroom c on c.id = t.classroom_fk
                     left join student_enrollment se on se.classroom_fk = t.classroom_fk
@@ -412,26 +387,31 @@ class SagresConsult
             $handler->registerSubscribingHandler(new XmlSchemaDateHandler()); // XMLSchema date handling
             // $handler->registerSubscribingHandler(new YourhandlerHere());
         });
-    
+
         $serializer = $serializerBuilder->build();
-     
+
         return $serializer->serialize($sagresEduObject, 'xml'); // serialize the Object and return SagresEdu XML
-           
+
     }
 
-
-    
     public function actionExportSagresXML($xml)
     {
+    
         $fileName = "ExportSagres.xml";
         $fileDir = "./app/export/SagresEdu/" . $fileName;
-        $file = fopen($fileDir, 'w');
-        $linha = preg_replace("/<!\[CDATA\[(.*?)\]\]>/s", "\\1", $xml);
-        fwrite($file,$linha); 
-        fclose($file);
-        readfile($fileDir);
-    }
 
+        // Limpa o conteúdo dentro de CDATA
+        $linha =  $this->transformXML(preg_replace("/<!\[CDATA\[(.*?)\]\]>/s", "\\1", $xml));
+
+        // Escreve o conteúdo no arquivo
+        $result = file_put_contents($fileDir, $linha);
+
+        if ($result !== false) {
+            return file_get_contents($fileDir);
+        } else {
+            return "Ocorreu um erro ao exportar o arquivo XML.";
+        }
+    }
 
     public function validatorSagresEduExportXML($object)
     {
@@ -440,11 +420,80 @@ class SagresConsult
         foreach (glob('C:\Users\JoseNatan\Documents\Developer\br.tag\app\modules\sagres\controllers\metadata\sagresEduMetadata') as $file) {
             $builder->addYamlMapping($file);
         }
-        $validator =  $builder->getValidator();
+        $validator = $builder->getValidator();
 
         // validate $object
         return $validator->validate($object, null, ['xsd_rules']);
     }
 
-}
+    public function convertTurn($turn)
+    {
+        $turnos = array(
+            'M' => '1',
+            'V' => '2',
+            'N' => '3',
+            'I' => '4',
+        );
+    
+        return isset($turnos[$turn]) ? $turnos[$turn] : 0;
+    }
 
+    function transformXML($xml) {
+        $xml = str_replace('<result>', '<edu:educacao xmlns:edu="http://www.tce.se.gov.br/sagres2023/xml/sagresEdu">', $xml);
+        $xml = str_replace('<escola>', '<edu:escola>', $xml);
+        $xml = str_replace('<id_escola>', '<edu:id_escola>', $xml);
+        $xml = str_replace('<turma>', '<edu:turma>', $xml); 
+        $xml = str_replace('<diretor>', '<edu:diretor>', $xml);
+        $xml = str_replace('<cpf_diretor>', '<edu:cpfDiretor>', $xml);
+        $xml = str_replace('</cpf_diretor>', '</edu:cpfDiretor>', $xml);
+        $xml = str_replace('<nr_ato>', '<edu:nrAto>', $xml);
+        $xml = str_replace('</nr_ato>', '</edu:nrAto>', $xml);
+        $xml = str_replace('</diretor>', '</edu:diretor>', $xml);
+        $xml = str_replace('</id_escola>', '</edu:id_escola>', $xml);
+        $xml = str_replace('</turma>', '</edu:turma>', $xml); 
+        $xml = str_replace('</escola>', '</edu:escola>', $xml);
+        $xml = str_replace('</result>', '</edu:educacao>', $xml);
+        
+        $xml = str_replace('<periodo>', '<edu:periodo>', $xml);
+        $xml = str_replace('</periodo>', '</edu:periodo>', $xml);
+        $xml = str_replace('<descricao>', '<edu:descricao>', $xml);
+        $xml = str_replace('</descricao>', '</edu:descricao>', $xml);
+        $xml = str_replace('<turno>', '<edu:turno>', $xml);
+        $xml = str_replace('</turno>', '</edu:turno>', $xml);
+        $xml = str_replace('<serie>', '<edu:serie>', $xml);
+        $xml = str_replace('</serie>', '</edu:serie>', $xml);
+        $xml = str_replace('<descricao>', '<edu:descricao>', $xml);
+        $xml = str_replace('</descricao>', '</edu:descricao>', $xml);
+        $xml = str_replace('<modalidade>', '<edu:modalidade>', $xml);
+        $xml = str_replace('</modalidade>', '</edu:modalidade>', $xml);
+        $xml = str_replace('<matricula>', '<edu:matricula>', $xml);
+        $xml = str_replace('</matricula>', '</edu:matricula>', $xml);
+        $xml = str_replace('<horario>', '<edu:horario>', $xml);
+        $xml = str_replace('</horario>', '</edu:horario>', $xml);
+        $xml = str_replace('<final_turma>', '<edu:final_turma>', $xml);
+        $xml = str_replace('</final_turma>', '</edu:final_turma>', $xml);
+
+        $xml = str_replace('<profissional>', '<edu:profissional>', $xml);
+        $xml = str_replace('</profissional>', '</edu:profissional>', $xml);
+        $xml = str_replace('<cpf_profissional>', '<edu:cpf_profissional>', $xml);
+        $xml = str_replace('</cpf_profissional>', '</edu:cpf_profissional>', $xml);
+        $xml = str_replace('<especialidade>', '<edu:especialidade>', $xml);
+        $xml = str_replace('</especialidade>', '</edu:especialidade>', $xml);
+        $xml = str_replace('<fundeb>', '<edu:fundeb>', $xml);
+        $xml = str_replace('</fundeb>', '</edu:fundeb>', $xml);
+        $xml = str_replace('<atendimento>', '<edu:atendimento>', $xml);
+        $xml = str_replace('</atendimento>', '</edu:atendimento>', $xml);
+        $xml = str_replace('<data>', '<edu:data>', $xml);
+        $xml = str_replace('</data>', '</edu:data>', $xml);
+        $xml = str_replace('<local>', '<edu:local>', $xml);
+        $xml = str_replace('</local>', '</edu:local>', $xml);
+        $xml = str_replace('<cardapio>', '<edu:cardapio>', $xml);
+        $xml = str_replace('</cardapio>', '</edu:cardapio>', $xml);
+        $xml = str_replace('<descricao_merenda>', '<edu:descricao_merenda>', $xml);
+        $xml = str_replace('</descricao_merenda>', '</edu:descricao_merenda>', $xml);
+        $xml = str_replace('<ajustado>', '<edu:ajustado>', $xml);
+        $xml = str_replace('</ajustado>', '</edu:ajustado>', $xml);
+
+        return $xml;
+    }
+}
