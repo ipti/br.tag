@@ -10,7 +10,8 @@ use JMS\Serializer\SerializerBuilder;
 use Yii as yii;
 use Datetime;
 
-class SagresConsult {
+class SagresConsult 
+{
 
     static public function actionExport()
     {
@@ -59,29 +60,46 @@ class SagresConsult {
      * Summary of TurmaTType
      * @return TurmaTType[]
      */
-    public function getTurmaType($inep_id, $year) {
+    public function getTurmaType($inep_id, $year) 
+    {
         $turmaList = [];
     
-        $query = "SELECT c.school_inep_fk, c.id, c.name, c.turn, se.enrollment_id  
-                    FROM classroom c
-                    JOIN student_enrollment se ON se.classroom_fk = c.id 
-                    WHERE c.school_inep_fk = ". $inep_id . " and c.school_year = ". $year . ";";
+        $query = "SELECT 
+                    c.school_inep_fk, 
+                    c.id, 
+                    c.name, 
+                    c.turn, 
+                    se.enrollment_id  
+                FROM classroom c
+                JOIN student_enrollment se ON se.classroom_fk = c.id 
+                WHERE c.school_inep_fk = ". $inep_id . " and c.school_year = ". $year . ";";
 
         $turmas = Yii::app()->db->createCommand($query)->queryAll();
 
-        foreach ($turmas as $turma) {
+        $turnos = array(
+            'M' => '1',
+            'V' => '2',
+            'N' => '3',
+            'I' => '4',
+        );
+
+        foreach ($turmas as $turma) 
+        {
             $turmaType = new TurmaTType;
             $turmaType->setPeriodo('0');
             $turmaType->setDescricao($turma["name"]);
-
-            if ($turma['turn'] == 'M')      
-                $turmaType->setTurno('1');
-            else if($turma['turn'] == 'V')
-                $turmaType->setTurno('2');
-            else if($turma['turn'] == 'N')
-                $turmaType->setTurno('3');
-            else if($turma['turn'] == 'I')
-                $turmaType->setTurno('4');
+     
+            switch ($turma['turn']) 
+            {
+                case 'M': $turmaType->setTurno($turnos['M']); break;
+                case 'V': $turmaType->setTurno($turnos['V']); break;
+                case 'N': $turmaType->setTurno($turnos['N']); break;
+                case 'I': $turmaType->setTurno($turnos['I']); break;
+                default:
+                    // Código para lidar com valores inválidos
+                    $turmaType->setTurno(0);
+                    break;
+            }
 
             $turmaType->setSerie($this->getSerieType($turma['id']));
             //$turmaType->setMatricula($this->getMatriculaType($turma['id']));
@@ -103,7 +121,9 @@ class SagresConsult {
     {
         $serieList = [];
     
-        $query = "SELECT c.name as descricao, c.modality as modalidade 
+        $query = "SELECT 
+                    c.name as descricao, 
+                    c.modality as modalidade 
                 FROM classroom c 
                 where c.id = " . $id_turma . ";"; 
     
@@ -128,8 +148,12 @@ class SagresConsult {
     {
         $horarioList = [];
         
-        $query = "SELECT s.week_day AS diaSemana, (c.final_hour - c.initial_hour) AS duracao, 
-                       c.initial_hour AS hora_inicio, ed.name AS disciplina, idaa.cpf AS cpfProfessor  
+        $query = "SELECT 
+                    s.week_day AS diaSemana, 
+                    (c.final_hour - c.initial_hour) AS duracao, 
+                    c.initial_hour AS hora_inicio, 
+                    ed.name AS disciplina, 
+                    idaa.cpf AS cpfProfessor  
                 FROM classroom c      
                     join school_identification si ON si.inep_id = c.school_inep_fk 
                     join instructor_documents_and_address idaa ON idaa.school_inep_id_fk = si.inep_id 
@@ -140,7 +164,8 @@ class SagresConsult {
         $horarios = Yii::app()->db->createCommand($query)->queryAll();
 
 
-        foreach ($horarios as $horario) {
+        foreach ($horarios as $horario) 
+        {
             $horario_t = new HorarioTType;
             $horario_t->setDiaSemana($horario['diaSemana']);
             $horario_t->setDuracao($horario['duracao']);
@@ -162,26 +187,40 @@ class SagresConsult {
     {
         $attendanceList = [];
     
-        $query = "SELECT date, local FROM attendance WHERE professional_fk = " .$professional_id.";"; 
+        $query = "SELECT 
+                    date, 
+                    local 
+                FROM attendance 
+                WHERE professional_fk = " .$professional_id.";"; 
         $attendances = Yii::app()->db->createCommand($query)->queryAll();
     
-        foreach($attendances as $attendance){
-            $attendance_t = new AtendimentoTType;
-            $attendance_t->setData(new DateTime($attendance['date']));
-            $attendance_t->setLocal($attendance['local']);
-            $attendanceList[] = $attendance_t;
+        foreach($attendances as $attendance)
+        {
+            $attendanceType = new AtendimentoTType;
+            $attendanceType->setData(new DateTime($attendance['date']));
+            $attendanceType->setLocal($attendance['local']);
+            $attendanceList[] = $attendanceType;
         }
     
         return $attendanceList;
     }
     
 
-    public function setPrestacaocontas(): PrestacaoContasTType
+    public function getPrestacaocontas(): PrestacaoContasTType
     {
         $provisionAccountsType = new PrestacaoContasTType;
 
-        $query = "SELECT pa.id, pa.codigounidgestora, pa.nomeunidgestora, pa.cpfcontador, pa.cpfgestor, pa.anoreferencia, 
-                       pa.mesreferencia, pa.versaoxml, pa.diainicprescontas, pa.diafinaprescontas
+        $query = "SELECT 
+                    pa.id, 
+                    pa.codigounidgestora, 
+                    pa.nomeunidgestora, 
+                    pa.cpfcontador, 
+                    pa.cpfgestor, 
+                    pa.anoreferencia, 
+                    pa.mesreferencia, 
+                    pa.versaoxml, 
+                    pa.diainicprescontas, 
+                    pa.diafinaprescontas
                 FROM provision_accounts pa";
 
         $financialReporting = Yii::app()->db->createCommand($query)->queryAll();
@@ -203,8 +242,12 @@ class SagresConsult {
     {
         $studentType = new AlunoTType;
     
-        $query = "SELECT si2.responsable_cpf AS cpfAluno, si2.birthday AS data_nascimento, 
-                       si2.name AS nome, si2.deficiency AS pcd, si2.sex AS sexo 
+        $query = "SELECT 
+                    si2.responsable_cpf AS cpfAluno, 
+                    si2.birthday AS data_nascimento, 
+                    si2.name AS nome, 
+                    si2.deficiency AS pcd, 
+                    si2.sex AS sexo 
                 FROM student_enrollment se 
                     JOIN school_identification si ON si.inep_id = se.school_inep_id_fk 
                     JOIN student_identification si2 ON si.inep_id = si2.school_inep_id_fk
@@ -229,10 +272,15 @@ class SagresConsult {
      * Summary of CardapioTType
      * @return CardapioTType[] 
      */
-    public function getCardapioType($id_escola, $year){
+    public function getCardapioType($id_escola, $year)
+    {
         $cardapioList = [];
     
-        $query = "SELECT lm.date AS data, cr.turn AS turno, li.description AS descricaoMerenda, lm.adjusted AS ajustado 
+        $query = "SELECT 
+                    lm.date AS data, 
+                    cr.turn AS turno, 
+                    li.description AS descricaoMerenda, 
+                    lm.adjusted AS ajustado 
                 FROM classroom cr 
                     JOIN school_identification si ON si.inep_id = cr.school_inep_fk 
                     JOIN lunch_menu lm ON lm.school_fk = si.inep_id 
@@ -245,7 +293,8 @@ class SagresConsult {
     
         $cardapios = Yii::app()->db->createCommand($query)->queryAll();  
     
-        foreach ($cardapios as $cardapio) {
+        foreach ($cardapios as $cardapio) 
+        {
             $cardapioType = new CardapioTType;
             $cardapioType->setData(new DateTime($cardapio['data']));
             $cardapioType->setTurno($cardapio['turno']);
@@ -285,7 +334,8 @@ class SagresConsult {
        
         $profissionais = Yii::app()->db->createCommand($query)->queryAll();
 
-        foreach ($profissionais as $profissional) {
+        foreach ($profissionais as $profissional) 
+        {
             $profissionalType = new ProfissionalTType;
             $profissionalType->setCpfProfissional($profissional['cpfProfissional']);
             $profissionalType->setEspecialidade($profissional['especialidade']);
@@ -314,7 +364,8 @@ class SagresConsult {
     
         $matriculas = Yii::app()->db->createCommand($query)->queryAll();
     
-        foreach($matriculas as $matricula){
+        foreach($matriculas as $matricula)
+        {
             $matriculaType = new MatriculaTType;
             $matriculaType->setNumero($matricula['numero']);
             $matriculaType->setDataMatricula(new DateTime($matricula['data_matricula']));
@@ -351,7 +402,8 @@ class SagresConsult {
         return intval(($numeroFaltas == null) ? '0' : $numeroFaltas);
     }
 
-    public function generatesSagresEduXML($sagresEduObject){
+    public function generatesSagresEduXML($sagresEduObject)
+    {
         $serializerBuilder = SerializerBuilder::create();
         $serializerBuilder->addMetadataDir('app/modules/sagres/soap/metadata/sagresEduMetadata', 'DataSagresEdu');
         $serializerBuilder->configureHandlers(function (HandlerRegistryInterface $handler) use ($serializerBuilder) {
@@ -362,7 +414,6 @@ class SagresConsult {
         });
     
         $serializer = $serializerBuilder->build();
-    
      
         return $serializer->serialize($sagresEduObject, 'xml'); // serialize the Object and return SagresEdu XML
            
@@ -370,18 +421,20 @@ class SagresConsult {
 
 
     
-    public function actionExportSagresXML($xml){
+    public function actionExportSagresXML($xml)
+    {
         $fileName = "ExportSagres.xml";
         $fileDir = "./app/export/SagresEdu/" . $fileName;
         $file = fopen($fileDir, 'w');
-        $linha = preg_replace("/" . preg_quote('<![CDATA[') . "(.*?)" . preg_quote(']]>') . "/mis", "\\1", $xml);;
+        $linha = preg_replace("/<!\[CDATA\[(.*?)\]\]>/s", "\\1", $xml);
         fwrite($file,$linha); 
         fclose($file);
         readfile($fileDir);
     }
 
 
-    public function validatorSagresEduExportXML($object){
+    public function validatorSagresEduExportXML($object)
+    {
         // get the validator
         $builder = Validation::createValidatorBuilder();
         foreach (glob('C:\Users\JoseNatan\Documents\Developer\br.tag\app\modules\sagres\controllers\metadata\sagresEduMetadata') as $file) {
