@@ -30,7 +30,7 @@ import * as Yup from "yup";
 import styleBase from "../../styles";
 import styles from "./styles";
 import { useState } from "react";
-import { getIdEvent, getIdSchool } from "../../services/auth";
+import { getIdEvent, getIdSchool, getIdStage } from "../../services/auth";
 
 const useStyles = makeStyles(styles);
 
@@ -115,7 +115,7 @@ const StepThree = props => {
   const initialValues = {
     school_identification: getIdSchool(),
     event_pre_registration: getIdEvent(),
-    edcenso_stage_vs_modality: 14,
+    edcenso_stage_vs_modality: getIdStage(),
     name: props?.student?.name ?? '',
     birthday: props?.student?.birthday ?? '',
     color_race: props?.student?.color_race ?? '',

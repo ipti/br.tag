@@ -1,7 +1,7 @@
 import React from "react";
 
 // Router
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 // Material UI
 import Grid from "@material-ui/core/Grid";
@@ -9,7 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Alert from '@material-ui/lab/Alert';
 
 // Components
-import { BoxBig, BoxDiscriptionClassroom } from "../../components/Boxes";
+import { BoxBig, BoxDiscriptionClassroom, BoxRegistration } from "../../components/Boxes";
 import { TitleWithLine } from "../../components/Titles";
 import List from "../../components/List";
 
@@ -19,16 +19,24 @@ import SchoolIcon from "../../assets/images/house-icon.png";
 
 // Styles
 import styles from "./styles";
+import { useFetchRequestRegistrations } from "../../query/school";
 
 const useStyles = makeStyles(styles);
 
-const Home = ({ data })  => {
+const Home = ({ school }) => {
   const classes = useStyles();
   let history = useHistory();
+  const { id } = useParams()
 
   const handleLink = link => {
     history.push(link);
   };
+
+  const { data } = useFetchRequestRegistrations({id: id});
+
+  if(!data) return null
+
+  console.log(school)
 
   const dependence = {
     "1": "Federal",
@@ -39,41 +47,26 @@ const Home = ({ data })  => {
 
 
   const classrooms = data
-    ? data.classroom.map((classroom, index) => (
-        <Grid
-          className={classes.cursor}
-          onClick={() => handleLink("/turmas/" + classroom.id)}
-          key={index}
-          item
-          md={4}
-          sm={4}
-          xs={12}
-        >
-          <BoxBig
-            title={classroom.name}
-            subtitle="Turma"
-            addCursor={true}
-            textRight=""
-          >
-            <BoxDiscriptionClassroom
-              title="Preenchidas"
-              registrationConfirmed={`${classroom.registrationConfirmed}`}
-            />
-            <BoxDiscriptionClassroom
-              title="Restante"
-              registrationRemaining={`${classroom.registrationRemaining}`}
-            />
-          </BoxBig>
-        </Grid>
-      ))
+    ? data.data.map((registration, index) => (
+     
+      <BoxRegistration
+     //   link={`${baseLink}/${registration?.id}`}
+        key={index}
+        name={registration?.name}
+        sex={registration?.sex}
+        student_fk={registration?.student_fk}
+        md={4}
+        sm={4}
+        unavailable={registration?.unavailable}
+      />
+    ))
     : [];
 
-    const school = data
 
   return (
     <>
       <Grid container direction="row">
-        {school  && <TitleWithLine title={school.name} />}
+        {school && <TitleWithLine title={school.name} />}
       </Grid>
       <Grid container direction="row" spacing={3}>
         <Grid item md={3}>
@@ -102,12 +95,12 @@ const Home = ({ data })  => {
               <p className={classes.label}>Gestor</p>
               {school.manager_name ?
                 <span title={school?.manager_name} className={classes.truncate}>
-                {school?.manager_name}
-              </span> : <span>
-                Não especificado
-              </span>
+                  {school?.manager_name}
+                </span> : <span>
+                  Não especificado
+                </span>
               }
-              
+
             </div>
           </div>
         </Grid>
@@ -130,33 +123,33 @@ const Home = ({ data })  => {
           <Grid item md={10}>
             <div className={`${classes.floatLeft} ${classes.boxAddress}`}>
               <p className={classes.label}>Endereço</p>
-              <span title={school?.address}  className={classes.truncate}>
-              { school?.address }
+              <span title={school?.address} className={classes.truncate}>
+                {school?.address}
               </span>
             </div>
           </Grid>
         </Grid>
         <Grid item md={2}>
           <p className={classes.label}>Cep</p>
-          <span title={school?.cep}  className={classes.truncate}>
-          { school?.cep }
+          <span title={school?.cep} className={classes.truncate}>
+            {school?.cep}
           </span>
         </Grid>
         <Grid item md={4}>
           <p className={classes.label}>Cidade</p>
-          <span title={school?.city}  className={classes.truncate}>
-          { school?.edcenso_city.name }
+          <span title={school?.city} className={classes.truncate}>
+            {school?.edcenso_city.name}
           </span>
         </Grid>
       </Grid>
       <Grid className={classes.boxClassroom} container direction="row">
-        <TitleWithLine title="Turmas" />
+        <TitleWithLine title="Pré Matricula" />
       </Grid>
       <Grid container direction="row" spacing={5}>
-        <List items={classrooms} >
+        <List items={classrooms}>
           <Grid item xs={12} >
             <Alert variant="outlined" severity="warning">
-              Nenhuma turma cadastrada
+              Nenhuma Pré Matricula cadastrada
             </Alert>
           </Grid>
         </List>

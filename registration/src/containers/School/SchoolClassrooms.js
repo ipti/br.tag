@@ -66,7 +66,7 @@ const Home = props => {
         <Loading />
       ) : (
         <>
-          <SchoolClassroom data={data} />
+          <SchoolClassroom school={data} />
           {alert()}
         </>
       )}

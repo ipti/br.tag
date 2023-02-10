@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import Login from "../../screens/Login/Login";
 import api from "../../services/api";
 import { login } from "../../services/auth";
 import { useHistory } from "react-router-dom";
+import { QueryCache } from "react-query";
 
 const SignIn = () => {
   const [isValid, setValid] = useState(true);
   let history = useHistory();
+
+  // useEffect(() => {
+  //   QueryCache.clear()
+  // }, []);
+
   const onSubmit = values => {
     api.post("auth/login", values).then(function(response) {
       if (response && !("error" in response.data)) {

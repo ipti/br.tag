@@ -2,8 +2,10 @@ import React from "react";
 
 // Material UI
 import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
+import { createMuiTheme, makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
 
 import { Paginator } from "../../components/Paginator";
 import { BoxBig, BoxDiscriptionClassroom } from "../../components/Boxes";
@@ -11,8 +13,19 @@ import List from "../../components/List";
 
 // Styles
 import styles from "./styles";
+import styleBase from "../../styles";
+import { Link } from "react-router-dom";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: styleBase.colors.purple
+    }
+  }
+});
 
 const useStyles = makeStyles(theme => styles);
+
 
 const Classroom = ({ classrooms, pagination, handlePage, activePage }) => {
   const classes = useStyles();
@@ -48,7 +61,7 @@ const Classroom = ({ classrooms, pagination, handlePage, activePage }) => {
   };
 
   return (
-    <>
+    <div style={{position: "relative"}}>
       <Grid container direction="row">
         <Grid className={classes.boxTitlePagination} item xs={12}>
           <h1 className={`${classes.title} ${classes.floatLeft}`}>Turmas</h1>
@@ -70,7 +83,14 @@ const Classroom = ({ classrooms, pagination, handlePage, activePage }) => {
           </Grid>
         </List>
       </Grid>
-    </>
+      <Link to="/turmas/adicionar" className={`${classes.addStage}`}>
+        <ThemeProvider theme={theme}>
+          <Fab color="primary" aria-label="add">
+            <AddIcon />
+          </Fab>
+        </ThemeProvider>
+      </Link>
+    </div>
   );
 };
 

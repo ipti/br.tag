@@ -68,6 +68,11 @@ const useStyles = {
     height: 2,
     margin: "30px 0"
   },
+  addStage: {
+    position: "fixed",
+    right: 20,
+    bottom: 20
+  },
   boxButtons: {
     marginTop: 100
   },

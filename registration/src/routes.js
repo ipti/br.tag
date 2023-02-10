@@ -7,6 +7,7 @@ import MainLayout from "./components/Layouts/MainLayout";
 import NotFoundPage from "./components/Layouts/NotFoundPage";
 import CircularLoading from "./components/Loading/CircularLoading";
 import ReMatricula from "./containers/Registration/ReMatricula";
+import AddStage from "./containers/Classroom/AddStage";
 
 //const Home = lazy(() => import("./containers/Home"));
 const Schedule = lazy(() => import("./containers/Schedule/Schedule"));
@@ -66,6 +67,7 @@ const Routes = () => (
       <PrivateRoute exact path="/escolas/:id" component={SchoolClassrooms} />
       <PrivateRoute exact path="/turmas" component={Classroom} />
       <PrivateRoute exact path="/turmas/:id" component={ClassroomForm} />
+      <PrivateRoute exact path="/stage/add" component={AddStage} />
       <PrivateRoute
         exact
         path="/turmas/:id/matricula/:idRegistration"

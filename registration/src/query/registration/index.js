@@ -26,7 +26,7 @@ export const requestSchoolStages = async id => {
         .get("/school-pre-registration/" + id,
             {
                 params: {
-                    year: 2023
+                    year: 2014
                 }
             })
         .then(response => response.data)

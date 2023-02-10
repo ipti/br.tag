@@ -5,18 +5,14 @@ import Alert from "../../components/Alert/CustomizedSnackbars";
 import Loading from "../../components/Loading/CircularLoading";
 import { Controller } from "../../controller/Schedule/index";
 import { useFetchRequestSchools } from "../../query/Schedule";
+import Create from "../../screens/Classroom/AddStage";
 import { ScheduleForm } from "../../screens/Schedule";
 
-const Form = props => {
+const AddStage = props => {
   const [active, setActive] = useState(true);
-  const [loadData, setLoadData] = useState(true);
   const [loadingButtom, setLoadingButtom] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
   const [open, setOpen] = useState(false);
-  const [redirect, setRedirect] = useState(false);
   const { requestSaveEventPreMutation } = Controller()
-  let history = useHistory();
-
   const {data} = useFetchRequestSchools()
 
 
@@ -102,10 +98,10 @@ const Form = props => {
         <Loading />
       ) : (
         <>
-          <ScheduleForm
+          <Create
             initialValues={initialValues()}
              validationSchema={validationSchema}
-            schools={data}
+             schools={data}
              handleSubmit={handleSubmit}
             // handleChangeActive={handleChangeActive}
             // active={active}
@@ -120,4 +116,4 @@ const Form = props => {
 };
 
 
-export default Form;
+export default AddStage;

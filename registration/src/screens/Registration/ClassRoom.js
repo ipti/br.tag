@@ -30,11 +30,8 @@ const Classroom = props => {
 
     const { data } = useFetchRequestSchoolStages({id: getIdSchool()})
 
-
-    const initialValues = {
-        edcenso_stage_vs_modality: '',
-      };
-      
+    console.log(data)
+  
     const onButton = () => {
         props.nextStep('2')
     }
@@ -70,7 +67,7 @@ const Classroom = props => {
                             placeholder="Selecione a Turma"
                             options={data}
                             onChange={selectedOption => {
-                                idStage(selectedOption)
+                                idStage(selectedOption.id)
                             }}
                         getOptionValue={opt => opt.name}
                         getOptionLabel={opt => opt.name}
