@@ -301,6 +301,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
     <script src='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.min.js'></script>
     <script src='<?php echo Yii::app()->theme->baseUrl; ?>/js/purify.min.js'></script>
     <script src='<?php echo Yii::app()->baseUrl; ?>/js/layout/functions.js'></script>
+    <script src='<?php echo Yii::app()->baseUrl; ?>/js/datatables/init.js'></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/datatables.min.js"></script>
 </body>
 
