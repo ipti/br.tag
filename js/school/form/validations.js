@@ -254,6 +254,14 @@ $(".save-school-button").click(function () {
         error = true;
         message += "Campo <b>Dependencia de Administrativa</b> é obrigatório.<br>";
     }
+    if ($("#SchoolIdentification_act_of_acknowledgement").val() === "") {
+        error = true;
+        message += "Campo <b>Ato de reconhecimento</b> é obrigatório.<br>";
+    }
+    if ($("#SchoolIdentification_regulation").val() === "") {
+        error = true;
+        message += "Campo <b>Regulamentação</b> é obrigatório.<br>";
+    }
     if ($("#SchoolIdentification_edcenso_uf_fk").val() === "") {
         error = true;
         message += "Campo <b>Estado</b> é obrigatório.<br>";
