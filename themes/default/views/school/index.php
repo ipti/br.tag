@@ -37,10 +37,10 @@
                 <div class="widget-body">
                     <?php
                     $this->widget('zii.widgets.grid.CGridView', array(
-                        'dataProvider' => $filter->search(),
-                        'filter' => $filter,
-                        'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                        'enablePagination' => true,
+                        'enableSorting' => false,
+                        'dataProvider' => $dataProvider,
+                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'enablePagination' => false,
                         'columns' => array(
                             array(
                                 'name' => 'inep_id',
@@ -49,8 +49,27 @@
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("school/update", array("id"=>$data->inep_id)))',
-                            ),),
+                                'value' => '$data->name',
+                            ),
+                            array(
+                                'class' => 'CButtonColumn', 
+                                'template' => '{update}',
+                                'buttons' => array(
+                                    'update' => array(
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+                                    )
+                                )
+                            ),
+                            array(
+                                'class' => 'CButtonColumn', 
+                                'template' => '{delete}',
+                                'buttons' => array(
+                                    'delete' => array(
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                    )
+                                )
+                            ),
+                        ),
                     ));
                     ?>
                 </div>   

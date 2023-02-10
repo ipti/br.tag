@@ -71,9 +71,9 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
         <div class="widget-body">
             <?php
             $this->widget('zii.widgets.grid.CGridView', [
-                'id' => 'matrizgridview', 'dataProvider' => $filter->search(), 'filter' => $filter,
-                'itemsCssClass' => 'curricularmatrix-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                'enablePagination' => TRUE, 'columns' => [
+                'id' => 'matrizgridview', 'dataProvider' => $dataProvider,
+                'itemsCssClass' => 'js-tag-table curricularmatrix-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                'enablePagination' => false, 'columns' => [
                     [
                         'header' => Yii::t('curricularMatrixModule.index', 'Stage'),
                         'name' => 'stage_fk',

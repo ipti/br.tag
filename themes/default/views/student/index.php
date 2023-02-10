@@ -61,17 +61,15 @@
                 //<button type="submit" class="btn btn-icon btn-primary glyphicons circle_ok"><i>Ok</i></button>
                 //@done S1 - 05 - Tirar borda esquerda e direita do filtro por nome dos alunos
                 $this->widget('zii.widgets.grid.CGridView', array(
-                    'dataProvider' => $filter->search(),
-                    'enablePagination' => true,
-                    'filter' => $filter,
-                    'selectableRows' => 1,
-                    'selectionChanged' => 'function(id){ location.href = "' . $this->createUrl('update') . '/id/"+$.fn.yiiGridView.getSelection(id);}',
-                    'itemsCssClass' => 'student-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                    'dataProvider' => $dataProvider,
+                    'enablePagination' => false,
+                    'enableSorting' => false,
+                    'itemsCssClass' => 'js-tag-table student-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                         array(
                             'name' => 'name',
                             'type' => 'raw',
-                            'value' => 'CHtml::link($data->name,yii::app()->createUrl("student/update",array("id"=>$data->id)))',
+                            'value' => '$data->name',
                         ),
                         /*array(
                             'header' => '',
@@ -86,11 +84,30 @@
                         ),
                         array(
                             'name' => 'birthday',
-                            'filter' => false
+                            'filter' => false,
+                            'htmlOptions' => array('width' => '160px')
                         ),
                         array(
                             'name' => 'inep_id'
                         ),
+                        array(
+                            'class' => 'CButtonColumn', 
+                            'template' => '{update}',
+                            'buttons' => array(
+                                'update' => array(
+                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+                                )
+                            )
+                        ),
+                        array(
+                        'class' => 'CButtonColumn', 
+                        'template' => '{delete}',
+                        'buttons' => array(
+                            'delete' => array(
+                                'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                            )
+                        )
+                    ),
                     ),
                 ));
                 ?>
