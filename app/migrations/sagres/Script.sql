@@ -30,3 +30,19 @@ INSERT INTO attendance VALUES (1, curdate(), 'Itabaiana', 1);
 
 UPDATE student_identification
 SET birthday = STR_TO_DATE(birthday, '%Y-%m-%d');
+
+-- `io.escola.demo`.provision_accounts definition
+
+CREATE TABLE `provision_accounts` (
+  `id` int(11) NOT NULL,
+  `codigounidgestora` varchar(30) NOT NULL,
+  `nomeunidgestora` varchar(150) NOT NULL,
+  `cpfcontador` varchar(16) NOT NULL,
+  `cpfgestor` varchar(16) NOT NULL,
+  `anoreferencia` int(11) NOT NULL,
+  `mesreferencia` int(11) NOT NULL,
+  `versaoxml` int(11) NOT NULL,
+  `diainicprescontas` int(11) NOT NULL,
+  `diafinaprescontas` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
