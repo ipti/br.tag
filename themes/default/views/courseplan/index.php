@@ -1,5 +1,3 @@
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.2/r-2.4.0/datatables.min.css"/>
-<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.13.2/r-2.4.0/datatables.min.js"></script>
 <?php
 /* @var $this CoursePlanController */
 /* @var $dataProvider CActiveDataProvider */
