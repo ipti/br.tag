@@ -25,6 +25,19 @@ const requestScheculeOne = (id) => {
     });
 };
 
+const requestStagevsmodality = () => {
+  let path = "/edcenso-stage-vs-modality";
+  return api
+    .get(path)
+    .then(response => response.data)
+    .catch(err => {
+      throw err;
+    });
+};
+
+
+
+
 // Requests
 const requestSchecule = () => {
   let path = "/event-pre-registration";
@@ -68,3 +81,8 @@ export const useFetchRequestSchecule = () => {
 export const useFetchRequestScheculeOne = (id) => {
   return useQuery(["useRequestsScheculeOne", id], () => requestScheculeOne(id));
 };
+
+export const useFetchRequestStagevsmodality = () => {
+  return useQuery(["useRequestStagevsmodality"], () => requestStagevsmodality());
+};
+

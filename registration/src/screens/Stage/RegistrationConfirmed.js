@@ -19,7 +19,7 @@ import IconClassroom from "../../assets/images/classroom-icon.png";
 
 // Styles
 import styles from "./styles";
-import { useFetchRequestClassroom } from "../../query/classroom";
+import { useFetchRequestClassroom } from "../../query/stage";
 import { FormControl, FormLabel} from "@material-ui/core";
 
 const useStyles = makeStyles(styles);

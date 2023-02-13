@@ -54,8 +54,9 @@ const Create = props => {
     validationSchema,
     isEdit,
     loadingIcon,
-    schools
+    stages
   } = props;
+
 
 
   return (
@@ -69,7 +70,7 @@ const Create = props => {
           xs={12}
         >
           <h1 className={`${classes.title} ${classes.floatLeft}`}>
-            {`Adicionar turmas`}
+            {`Adicionar Ano Escolar`}
           </h1>
 
         </Grid>
@@ -77,12 +78,12 @@ const Create = props => {
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}
-        validationSchema={validationSchema}
+       // validationSchema={validationSchema}
         validateOnChange={false}
         enableReinitialize
       >
         {props => {
-
+          console.log(props)
           return (
             <Form>
               <MuiPickersUtilsProvider locale={brLocale} utils={DateFnsUtils}>
@@ -93,7 +94,42 @@ const Create = props => {
                     alignItems="center"
                     spacing={2}
                   >
-                    <Grid item md={3} sm={3}>
+                    <Grid item md={12} sm={12}>
+                      <TitleWithLine title="Vagas" />
+                    </Grid>
+                    <Grid item md={5} sm={5}>
+                      <FormControl
+                        component="fieldset"
+                        className={classes.formControl}
+                      >
+                        <FormLabel>Vagas</FormLabel>
+                        <TextField
+                          name="vacancy"
+                          value={props.values.vacancy}
+                          onChange={props.handleChange}
+                          id="outlined-size-small"
+                          variant="outlined"
+                          className={classes.textField}
+                        />
+                        <div className={classes.formFieldError}>
+                          {props.errors.vacancy}
+                        </div>
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item md={12} sm={12}>
+                  <Grid
+                    container
+                    direction="column"
+                    //alignItems="center"
+                    spacing={2}
+                  >
+
+                    <Grid item md={12} sm={12}>
+                      <TitleWithLine title="Ano" />
+                    </Grid>
+                    <Grid item md={5} sm={5}>
                       <FormControl
                         component="fieldset"
                         className={classes.formControl}
@@ -118,99 +154,29 @@ const Create = props => {
                 <Grid
                   className={classes.marginButtom}
                   container
-                  direction="row"
+                  direction="column"
                   spacing={2}
                 >
                   <Grid item md={12} sm={12}>
-                    <TitleWithLine title="Escolas" />
+                    <TitleWithLine title="Ano Escolar" />
                   </Grid>
-                  <Grid item md={12} sm={12}>
+                  <Grid item md={5} sm={5}>
                     <FormControl
                       component="fieldset"
                       className={classes.formControl}
                     >
-                      <div style={{width: "200px"}}> 
                       <Select
                         getOptionValue={opt => opt.name}
                         getOptionLabel={opt => opt.name}
                         onChange={selectedOption => {
-                          var schools = [];
-                          for (var i = 0; i < selectedOption.length; i++) {
-                            schools = [...schools, selectedOption[i].inep_id]
-                          }
-                          props.setFieldValue("school_identificationArray", schools)
+                          props.setFieldValue("edcenso_stage_vs_modality", selectedOption.id)
                         }}
-                        isMulti
                         styles={customStyles}
-                        name="school_identificationArray"
-                        options={schools}
+                        name="edcenso_stage_vs_modality"
+                        options={stages}
                         className="basic-multi-select"
                         classNamePrefix="select"
                       />
-                      </div>
-                      
-                    </FormControl>
-                  </Grid>
-                </Grid>
-                <Grid
-                  className={classes.marginButtom}
-                  container
-                  direction="row"
-                  spacing={2}
-                >
-                  <Grid item md={12} sm={12}>
-                    <TitleWithLine title="Novos Alunos" />
-                  </Grid>
-                  <Grid item md={4} sm={4}>
-                    <FormControl
-                      component="fieldset"
-                      className={classes.formControl}
-                    >
-                      <FormLabel>Data Início</FormLabel>
-                      <KeyboardDatePicker
-                        disableToolbar
-                        name="start_date"
-                        value={props.values.start_date}
-                        inputVariant="outlined"
-                        format="dd/MM/yyyy"
-                        margin="normal"
-                        onChange={value =>
-                          props.setFieldValue("start_date", value)
-                        }
-                        KeyboardButtonProps={{
-                          "aria-label": "Alterar data"
-                        }}
-                      />
-
-                      <div className={classes.formFieldError}>
-                        {props.errors.start_date}
-                      </div>
-                    </FormControl>
-                  </Grid>
-                  <Grid item md={4} sm={4}>
-                    <FormControl
-                      component="fieldset"
-                      className={classes.formControl}
-                    >
-                      <FormLabel>Data Fim</FormLabel>
-                      <KeyboardDatePicker
-                        disableToolbar
-                        name="end_date"
-                        value={props.values.end_date}
-                        inputVariant="outlined"
-                        format="dd/MM/yyyy"
-                        margin="normal"
-                        onChange={value =>
-                          props.setFieldValue("end_date", value)
-                        }
-                        KeyboardButtonProps={{
-                          "aria-label": "Alterar data"
-                        }}
-                      />
-
-                      <div className={classes.formFieldError}>
-                        {props.errors.end_date}
-                      </div>
                     </FormControl>
                   </Grid>
                 </Grid>
@@ -232,10 +198,10 @@ const Create = props => {
                   </Grid>
                 </Grid>
               </MuiPickersUtilsProvider>
-            </Form>
+            </Form >
           );
         }}
-      </Formik>
+      </Formik >
     </>
   );
 };

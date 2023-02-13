@@ -42,8 +42,8 @@ const Sidebar = () => {
       Icon: <IconSchool />
     },
     {
-      to: "/turmas",
-      name: "Turmas",
+      to: "/estagios",
+      name: "Estágio",
       exact: false,
       IconActive: <IconClassroomActive />,
       Icon: <IconClassroom />

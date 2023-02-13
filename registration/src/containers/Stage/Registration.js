@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { RegistrationConfirmed } from "../../screens/Classroom";
-import { connect } from "react-redux";
-import Loading from "../../components/Loading/CircularLoading";
+import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { useFetchRequestStudent } from "../../query/registration";
-import { useFetchRequestRegistration } from "../../query/classroom";
+import Loading from "../../components/Loading/CircularLoading";
 import { Controller } from "../../controller/classroom";
+import { useFetchRequestRegistration } from "../../query/stage";
+import { RegistrationConfirmed } from "../../screens/Stage";
 
 const Registration = props => {
   const [loadData, setLoadData] = useState(true);

@@ -21,7 +21,7 @@ import IconHouse from "../../assets/images/house-icon.png";
 import IconClassroom from "../../assets/images/classroom-icon.png";
 
 // Styles
-import styles from "../Classroom/styles";
+import styles from "../Stage/styles";
 import { useFetchRequestSchoolRegistration } from "../../query/registration";
 import { getIdSchool } from "../../services/auth";
 

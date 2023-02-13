@@ -61,6 +61,14 @@ export const requestEditPreIdentification = (data, id) => {
     });
 };
 
+export const requestCreateStage = (data) => {
+  return api
+    .post("/stages-vacancy-pre-registration", data)
+    .then(response => response.data)
+    .catch(err => {
+      throw err;
+    });
+};
 
 export const requestUpdateRegistration = (data, id) => {
   console.log(data)
@@ -89,8 +97,29 @@ export const requestUpdateClassroom = (data, id) => {
     });
 };
 
+const requestStagevsmodality = () => {
+  let path = "/stages-vacancy-pre-registration";
+  return api
+    .get(path, {
+      params: {
+        include:{
+          edcenso_stage_vs_modality: true,
+          student_pre_identification: true
+        }
+      }
+    })
+    .then(response => response.data)
+    .catch(err => {
+      throw err;
+    });
+};
+
 export const useFetchRequestClassrooms = () => {
   return useQuery(["useRequestClassrooms"], () => requestClassrooms());
+};
+
+export const useFetchRequestStagevsmodality = () => {
+  return useQuery(["useRequestStagevsmodality"], () => requestStagevsmodality());
 };
 
 export const useFetchRequestClassroom = ({ id }) => {

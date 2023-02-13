@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
-import { ClassroomForm } from "../../screens/Classroom";
 import { connect } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import Loading from "../../components/Loading/CircularLoading";
 import Alert from "../../components/Alert/CustomizedSnackbars";
-import { useFetchRequestClassroom } from "../../query/classroom";
+import { useFetchRequestClassroom } from "../../query/stage";
+import { StageForm } from "../../screens/Stage";
 
 const Form = props => {
   const [loadData, setLoadData] = useState(true);
@@ -16,30 +16,6 @@ const Form = props => {
 
   const {data} = useFetchRequestClassroom({id: id})
 
-  // useEffect(() => {
-  //   if (loadData) {
-  //     props.dispatch({
-  //       type: "FETCH_CLASSROOM",
-  //       data: { id: id }
-  //     });
-  //     setIsEdit(true);
-  //     setLoadData(false);
-  //   }
-
-  //   if (props?.openAlert) {
-  //     setTimeout(function() {
-  //       props.dispatch({ type: "CLOSE_ALERT_CLASSROOM" });
-  //     }, 6000);
-  //   }
-
-  //   if (props?.fetchClassroom?.status === "1" && props.isRedirectClassroom) {
-  //     history.push("/turmas");
-  //   }
-  // }, [history, isEdit, loadData, props, id]);
-
-  // const handleClose = () => {
-  //   props.dispatch({ type: "CLOSE_ALERT_CLASSROOM" });
-  // };
 
   const alert = () => {
     if (props?.openAlert) {
@@ -87,11 +63,6 @@ const Form = props => {
       .required("Campo obrigatório!")
   });
 
-  const initialValues = {
-    vacancies: props.classroom?.classroom?.data
-      ? props.classroom?.classroom?.data.vacancies
-      : ""
-  };
 
 
   return (
@@ -100,8 +71,8 @@ const Form = props => {
         <Loading />
       ) : (
         <>
-          <ClassroomForm
-            initialValues={initialValues}
+          <StageForm
+            //initialValues={initialValues}
             validationSchema={validationSchema}
             handleSubmit={handleSubmit}
             baseLink={`/turmas/${props.match.params.id}/matricula`}

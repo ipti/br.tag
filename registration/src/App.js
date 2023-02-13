@@ -1,6 +1,4 @@
 import React from "react";
-import Provider from "react-redux/es/components/Provider";
-import store from "./store";
 
 // Routes
 import Routes from "./routes";

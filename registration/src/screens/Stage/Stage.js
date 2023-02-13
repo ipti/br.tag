@@ -27,32 +27,32 @@ const theme = createMuiTheme({
 const useStyles = makeStyles(theme => styles);
 
 
-const Classroom = ({ classrooms, pagination, handlePage, activePage }) => {
+const Stage = ({ stages, pagination, handlePage, activePage }) => {
   const classes = useStyles();
+  console.log(stages)
 
-  console.log(classrooms)
+  if(!stages) return null
+
+  const stage = () => {
 
 
-  const classroom = () => {
-
-
-    return classrooms.map((classroom, index) => {
+    return stages.map((stage, index) => {
       return (
         <Grid key={index} item md={4} sm={4} xs={12}>
           <BoxBig
-            link={`turmas/${classroom.id}`}
-            title={classroom.name}
+            link={`turmas/${stage.id}`}
+            title={stage.edcenso_stage_vs_modality.name}
             subtitle="Turma"
             addCursor={true}
             textRight=""
           >
             <BoxDiscriptionClassroom
               title="Preenchidas"
-              registrationConfirmed={`${classroom.confirmed}`}
+              registrationConfirmed={`${stage.student_pre_identification.length}`}
             />
             <BoxDiscriptionClassroom
               title="Restante"
-              registrationRemaining={`${classroom.remaining}`}
+              registrationRemaining={`${stage.vacancy - stage.student_pre_identification.length}`}
             />
           </BoxBig>
         </Grid>
@@ -75,7 +75,7 @@ const Classroom = ({ classrooms, pagination, handlePage, activePage }) => {
         </Grid>
       </Grid>
       <Grid container direction="row" spacing={3}>
-        <List items={classroom()}>
+        <List items={stage()}>
           <Grid item xs={12}>
             <Alert variant="outlined" severity="warning">
               Nenhuma turma cadastrada
@@ -83,7 +83,7 @@ const Classroom = ({ classrooms, pagination, handlePage, activePage }) => {
           </Grid>
         </List>
       </Grid>
-      <Link to="/turmas/adicionar" className={`${classes.addStage}`}>
+      <Link to="/estagios/adicionar" className={`${classes.addStage}`}>
         <ThemeProvider theme={theme}>
           <Fab color="primary" aria-label="add">
             <AddIcon />
@@ -94,4 +94,4 @@ const Classroom = ({ classrooms, pagination, handlePage, activePage }) => {
   );
 };
 
-export default Classroom;
+export default Stage;
