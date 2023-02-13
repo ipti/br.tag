@@ -16,7 +16,8 @@ class DefaultController extends Controller
 			$model->attributes = $_POST['ProvisionAccounts'];
 
 			if ($model->save()) {
-				$this->redirect(array('view', 'codigounidgestora' => $model->codigounidgestora));
+				Yii::app()->user->setFlash('success', Yii::t('default', 'Unidade cadastrada com sucesso!'));
+				$this->redirect(array('index', 'codigounidgestora' => $model->codigounidgestora));
 			}
 		}
 
