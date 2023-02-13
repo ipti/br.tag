@@ -1,94 +1,129 @@
 <?php
-
 class AdminController extends Controller
 {
-    public $layout = 'fullmenu';
+	public $layout = 'fullmenu';
+	public function accessRules()
+	{
+		return [
+			[
+				'allow',
+				'actions' => [
+					'CreateUser', 'index', 'conflicts', 'import', 'export', 'clearDB', 
+                    'disableUser', 'activeUser', 'activeDisableUser', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
+					'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'
+				], 'users' => ['@'],
+			],
+		];
+	}
+	/**
+	 * Show the Index Page.
+	 */
+	public function actionIndex()
+	{
+		$this->render('index');
+	}
+	public function actionCreateUser()
+	{
+		$model = new Users;
 
-    public function accessRules()
-    {
-        return [
-            [
-                'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['CreateUser', 'index', 'conflicts'], 'users' => ['*'],
-            ], [
-                'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => [
-                    'import', 'export', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
-                    'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'
-                ], 'users' => ['@'],
-            ],
-        ];
-    }
+		if (isset($_POST['Users'], $_POST['Confirm'])) {
+			$model->attributes = $_POST['Users'];
+			if ($model->validate()) {
+				$password = md5($_POST['Users']['password']);
+				$confirm = md5($_POST['Confirm']);
+				if ($password == $confirm) {
+					$model->password = $password;
+					// form inputs are valid, do something here
+					if ($model->save()) {
+						$save = TRUE;
+						foreach ($_POST['schools'] as $school) {
+							$userSchool = new UsersSchool;
+							$userSchool->user_fk = $model->id;
+							$userSchool->school_fk = $school;
+							$save = $save && $userSchool->validate() && $userSchool->save();
+						}
+						if ($save) {
+							$auth = Yii::app()->authManager;
+							$auth->assign($_POST['Role'], $model->id);
+							Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
+							$this->redirect(['index']);
+						}
+					}
+				} else {
+					$model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
+				}
+			}
+		}
+		$this->render('createUser', ['model' => $model]);
+	}
 
-    /**
-     * Show the Index Page.
-     */
-    public function actionIndex()
-    {
-        $this->render('index');
-    }
+	public function actionActiveDisableUser()
+	{
+		$filter = new Users('search');
+		if (isset($_GET['Users'])) {
+			$filter->attributes = $_GET['Users'];
+		}
+		$criteria = new CDbCriteria;
+		$criteria->condition = "username != 'admin'";
+		$dataProvider = new CActiveDataProvider('Users', array(
+			'criteria' => $criteria,
+			'pagination' => array(
+				'pageSize' => 12,
+			)
+		));
+		$this->render('activeDisableUser', ['dataProvider' => $dataProvider, 'filter' => $filter]);
+	}
 
-    public function actionCreateUser()
-    {
-        $model = new Users;
+	public function actionDisableUser($id)
+	{
+		$model = Users::model()->findByPk($id);
 
-        if (isset($_POST['Users'], $_POST['Confirm'])) {
-            $model->attributes = $_POST['Users'];
-            if ($model->validate()) {
-                $password = md5($_POST['Users']['password']);
-                $confirm = md5($_POST['Confirm']);
-                if ($password == $confirm) {
-                    $model->password = $password;
-                    // form inputs are valid, do something here
-                    if ($model->save()) {
-                        $save = TRUE;
-                        foreach ($_POST['schools'] as $school) {
-                            $userSchool = new UsersSchool;
-                            $userSchool->user_fk = $model->id;
-                            $userSchool->school_fk = $school;
-                            $save = $save && $userSchool->validate() && $userSchool->save();
-                        }
-                        if ($save) {
-                            $auth = Yii::app()->authManager;
-                            $auth->assign($_POST['Role'], $model->id);
-                            Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
-                            $this->redirect(['index']);
-                        }
-                    }
-                } else {
-                    $model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
-                }
-            }
-        }
-        $this->render('createUser', ['model' => $model]);
-    }
+		$model->active = 0;
 
-    public function actionEditPassword($id)
-    {
-        $model = Users::model()->findByPk($id);
+		if ($model->save()) {
+			Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário desativado com sucesso!'));
+			$this->redirect(['index']);
+		}
+	}
 
-        if (isset($_POST['Users'], $_POST['Confirm'])) {
-            $password = md5($_POST['Users']['password']);
-            $confirm = md5($_POST['Confirm']);
-            if ($password == $confirm) {
-                $model->password = $password;
-                if ($model->save()) {
-                    Yii::app()->user->setFlash('success', Yii::t('default', 'Senha alterada com sucesso!'));
-                    $this->redirect(['index']);
-                }
-            } else {
-                $model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
-            }
-        }
-        $this->render('editPassword', ['model' => $model]);
-    }
+	public function actionActiveUser($id)
+	{
+		$model = Users::model()->findByPk($id);
+
+		$model->active = 1;
+
+		if ($model->save()) {
+			Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário ativado com sucesso!'));
+			$this->redirect(['index']);
+		}
+	}
+
+	public function actionEditPassword($id)
+	{
+		$model = Users::model()->findByPk($id);
+
+		if (isset($_POST['Users'], $_POST['Confirm'])) {
+			$password = md5($_POST['Users']['password']);
+			$confirm = md5($_POST['Confirm']);
+			if ($password == $confirm) {
+				$model->password = $password;
+				if ($model->save()) {
+					Yii::app()->user->setFlash('success', Yii::t('default', 'Senha alterada com sucesso!'));
+					$this->redirect(['index']);
+				}
+			} else {
+				$model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
+			}
+		}
+		$this->render('editPassword', ['model' => $model]);
+	}
 
 
-    public function actionClearDB()
-    {
-        //delete from users_school;
-        //delete from users;
-        // delete from auth_assignment;
+	public function actionClearDB()
+	{
+		//delete from users_school;
+		//delete from users;
+		// delete from auth_assignment;
 
         $command = "
 			SET FOREIGN_KEY_CHECKS=0;
@@ -472,5 +507,3 @@ class AdminController extends Controller
         $this->render('changelog');
     }
 }
-
-?>

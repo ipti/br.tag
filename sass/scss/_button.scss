@@ -1,38 +1,43 @@
 @import '_tokens.scss';
 @import '_functions.scss';
 
-
 .t-button {
-    // padding: $spaceXXSmall;
-    padding: 0.3em 1em 0.3em 1em;
+    padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
     font-size: $FontSizeTextSmall;
-    background-color: $colorsBaseProductNormal;
-    color:$colorsBaseWhiteNormal;
-    border-radius: 4px;
+    border-radius: $borderRadiusLarge;
     text-decoration: none;
-
+    display: flex;
+    justify-content: space-between;
 
     @include device(tablet) {
-        // padding: $spaceNormal $spaceMedium;
-        padding: 0.2em 1em 0.2em 1em;
+        padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
         font-size: $FontSizeTextNormal;
     }
     @include device(desktop) {
-        padding: 0.3em 1em 0.3em 1em;
-        // padding: $spaceNormal $spaceXXXLarge;
+        padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
     }
 
     &:hover, &--active {
         text-decoration: none;
-        color:$colorsBaseWhiteNormal;
-        background-color: $colorsBaseProductNormalActive;
-    }
-
-    &.t-logout{
-        background-color: $colorsBaseInkLighterActive;
-        &:hover{
-            background-color: $colorsBaseInkLight;
-        }
     }
 }
 
+.t-button-primary {
+    @extend .t-button;
+    background-color: $colorsBaseProductNormal;
+    color:$colorsBaseWhiteNormal;
+
+    &:hover, &--active {
+        color:$colorsBaseWhiteNormal;
+        background-color: $colorsBaseProductNormalActive;
+    }
+}
+.t-button-secondary {
+    @extend .t-button;
+    background-color: $colorsBaseInkLighterActive;
+    color:$colorsBaseWhiteNormal;
+    &:hover, &--active {
+        color:$colorsBaseWhiteNormal;
+        background-color: $colorsBaseInkLight;
+    }
+}

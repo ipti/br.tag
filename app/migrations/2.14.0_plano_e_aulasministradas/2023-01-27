@@ -1,0 +1,88 @@
+ALTER TABLE `course_plan`
+DROP `user_fk`;
+
+ALTER TABLE `course_class_has_class_resource`
+DROP FOREIGN KEY `fk_course_class_has_class_resource_2`;
+
+ALTER TABLE `course_class_has_class_resource`
+DROP INDEX `fk_course_class_resource_2_idx`;
+
+ALTER TABLE `class_has_content`
+DROP FOREIGN KEY `fk_class_has_content_2`;
+
+ALTER TABLE `class_has_content`
+DROP INDEX `fk_class_has_content_2_idx`;
+
+DROP TABLE `class_resource`;
+
+CREATE TABLE `course_class_resources` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` varchar(100) NOT NULL
+);
+
+ALTER TABLE `course_class_has_class_resource`
+CHANGE `class_resource_fk` `course_class_resource_fk` int(11) NOT NULL AFTER `course_class_fk`;
+
+delete from course_plan;
+
+ALTER TABLE `course_class_has_class_resource`
+ADD FOREIGN KEY (`course_class_resource_fk`) REFERENCES `course_class_resources` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE TABLE `course_class_types` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` varchar(100) NOT NULL
+);
+
+CREATE TABLE `course_class_has_class_type` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `course_class_fk` int NOT NULL,
+  `course_class_type_fk` int NOT NULL
+);
+
+ALTER TABLE `course_class_has_class_type`
+ADD FOREIGN KEY (`course_class_fk`) REFERENCES `course_class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `course_class_has_class_type`
+ADD FOREIGN KEY (`course_class_type_fk`) REFERENCES `course_class_types` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE TABLE `course_class_competences` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` varchar(500) NOT NULL
+);
+
+CREATE TABLE `course_class_has_class_competence` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `course_class_fk` int NOT NULL,
+  `course_class_competence_fk` int NOT NULL
+);
+
+ALTER TABLE `course_class_has_class_competence`
+ADD FOREIGN KEY (`course_class_fk`) REFERENCES `course_class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `course_class_has_class_competence`
+ADD FOREIGN KEY (`course_class_competence_fk`) REFERENCES `course_class_competences` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `course_class_competences`
+ADD `edcenso_discipline_fk` int NOT NULL,
+ADD `edcenso_stage_vs_modality_fk` int NOT NULL AFTER `edcenso_discipline_fk`;
+
+ALTER TABLE `course_class_competences`
+ADD FOREIGN KEY (`edcenso_discipline_fk`) REFERENCES `edcenso_discipline` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `course_class_competences`
+ADD FOREIGN KEY (`edcenso_stage_vs_modality_fk`) REFERENCES `edcenso_stage_vs_modality` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `course_class_competences`
+CHANGE `name` `description` varchar(500) NOT NULL AFTER `id`,
+ADD `code` varchar(20) NOT NULL AFTER `description`;
+
+DROP TABLE `class_objective`;
+
+ALTER TABLE `class_has_content`
+CHANGE `content_fk` `course_class_fk` int NOT NULL AFTER `schedule_fk`,
+RENAME TO `class_contents`;
+
+delete from class_contents;
+
+ALTER TABLE `class_contents`
+ADD FOREIGN KEY (`course_class_fk`) REFERENCES `course_class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

@@ -93,8 +93,8 @@ function getTimesheet(data) {
             $(".loading-alert").removeClass("display-hide").html("Para exibir o quadro de horário, É necessário disponibilizar um <b>calendário</b> contemplando a etapa da turma selecionada e com os eventos de início e fim de ano escolar.");
             $(".schedule-info").addClass("display-hide");
             $(".table-container").hide();
-        } else if (data.error === "frequencyFilled") {
-            $(".loading-alert").removeClass("display-hide").html("Não se pode mais gerar um novo quadro de horário, visto que já existe preenchimento de frequência.");
+        } else if (data.error === "frequencyOrClassContentFilled") {
+            $(".loading-alert").removeClass("display-hide").html("Não se pode mais gerar um novo quadro de horário, visto que já existe preenchimento de frequência ou aula ministrada.");
             $("#turn").show();
         }
     } else {
@@ -123,6 +123,8 @@ function getTimesheet(data) {
 
                     var frequencyUnavailableDay = !hardUnavailableDay && data.frequencyUnavailableLastDay !== undefined
                         && (month < Number(data.frequencyUnavailableLastDay.month) || (month === Number(data.frequencyUnavailableLastDay.month) && day <= Number(data.frequencyUnavailableLastDay.day)));
+                    var classContentUnavailableDay = !hardUnavailableDay && data.classContentUnavailableLastDay !== undefined
+                        && (month < Number(data.classContentUnavailableLastDay.month) || (month === Number(data.classContentUnavailableLastDay.month) && day <= Number(data.classContentUnavailableLastDay.day)));
 
                     if (data.schedules[month] !== undefined && data.schedules[month][schedule] !== undefined && data.schedules[month][schedule][day] !== undefined) {
                         if (turn === "") {
@@ -143,7 +145,7 @@ function getTimesheet(data) {
                         //         info.instructorInfo.countConflicts +
                         //         " conflitos neste horário.' class='fa fa-exclamation-triangle conflict-icon darkgoldenrod'></i>";
                         html += "" +
-                            "<td class='" + (hardUnavailableDay ? "hard-unavailable" : "") + (frequencyUnavailableDay ? " frequency-unavailable" : (softUnavailableDay ? "soft-unavailable" : "")) + "' day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "' " + (frequencyUnavailableDay ? 'data-toggle="tooltip" data-placement="bottom" data-original-title="Não se pode mais editar esse horário, visto que já existe preenchimento de frequência até o dia ' + (pad(data.frequencyUnavailableLastDay.day, 2) + "/" + pad(data.frequencyUnavailableLastDay.month, 2)) + '."' : "") + ">" +
+                            "<td class='" + (hardUnavailableDay ? "hard-unavailable" : "") + (frequencyUnavailableDay || classContentUnavailableDay ? " frequency-or-classcontent-unavailable" : (softUnavailableDay ? "soft-unavailable" : "")) + "' day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "' " + (frequencyUnavailableDay || classContentUnavailableDay ? 'data-toggle="tooltip" data-placement="bottom" data-original-title="Não se pode mais editar esse horário, visto que já existe preenchimento de frequência ou aula ministrada neste ou após esse dia."' : "") + ">" +
                             "<div schedule='" + data.schedules[month][schedule][day].id + "' discipline_id='" + data.schedules[month][schedule][day].disciplineId + "'class='schedule-block'>" +
                             "<p class='discipline-name' title='" + data.schedules[month][schedule][day].disciplineName + "'>" + discipline + "</p>" +
                             // "<p class='instructor-name' instructor_id='" + info.instructorInfo.id + "' title='" + info.instructorInfo.name + "'>" +
@@ -153,7 +155,7 @@ function getTimesheet(data) {
                             "</div>" +
                             "</td>";
                     } else {
-                        html += "<td class='" + (hardUnavailableDay ? "hard-unavailable" : "") + (frequencyUnavailableDay ? " frequency-unavailable" : (softUnavailableDay ? "soft-unavailable" : "")) + "' day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "' " + (frequencyUnavailableDay ? 'data-toggle="tooltip" data-placement="bottom" data-original-title="Não se pode mais editar esse horário, visto que já existe preenchimento de frequência até o dia ' + (pad(data.frequencyUnavailableLastDay.day, 2) + "/" + pad(data.frequencyUnavailableLastDay.month, 2)) + '."' : "") + "></td>";
+                        html += "<td class='" + (hardUnavailableDay ? "hard-unavailable" : "") + (frequencyUnavailableDay || classContentUnavailableDay ? " frequency-or-classcontent-unavailable" : (softUnavailableDay ? "soft-unavailable" : "")) + "' day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "' " + (frequencyUnavailableDay || classContentUnavailableDay ? 'data-toggle="tooltip" data-placement="bottom" data-original-title="Não se pode mais editar esse horário, visto que já existe preenchimento de frequência ou aula ministrada neste ou após esse dia."' : "") + "></td>";
                     }
 
                     if (weekDayCount === 6) {
@@ -259,10 +261,10 @@ $(document).on("click", ".tables-timesheet td", function () {
                 };
                 swapSchedule(firstSchedule, secondSchedule);
             }
-        } else if (!$(this).hasClass("hard-unavailable") && !$(this).hasClass("frequency-unavailable")) {
+        } else if (!$(this).hasClass("hard-unavailable") && !$(this).hasClass("frequency-or-classcontent-unavailable")) {
             //Primeira seleção
             $(this).addClass("schedule-selected");
-            $(this).closest(".tables-timesheet").find("td[week=" + $(this).attr("week") + "]:not(.hard-unavailable):not(.frequency-unavailable)").not(this).addClass("schedule-available");
+            $(this).closest(".tables-timesheet").find("td[week=" + $(this).attr("week") + "]:not(.hard-unavailable):not(.frequency-or-classcontent-unavailable)").not(this).addClass("schedule-available");
             if ($(this).find(".schedule-block").length) {
                 $(this).append("<i class='schedule-remove fa fa-remove'></i>");
             } else {

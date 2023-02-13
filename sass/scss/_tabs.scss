@@ -80,13 +80,11 @@
                 
 
                 @include device(tablet) {
-                    margin: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
                     padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
                     
             
                 }
                 @include device(desktop) {
-                    margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
                     padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
                     display: inline-block;
                     
