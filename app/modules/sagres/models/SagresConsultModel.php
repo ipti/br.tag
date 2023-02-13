@@ -12,20 +12,17 @@ use Datetime;
 
 class SagresConsultModel
 {
-
-    static public function actionExport()
+    static public function actionExport($inep_id, $yearSagresConsult)
     {
-        $yearSagresConsult = 2022;
-
         $sagres = new SagresConsultModel;
-        $sagresEduXML = $sagres->generatesSagresEduXML($sagres->getEducacaoData($yearSagresConsult));
+        $sagresEduXML = $sagres->generatesSagresEduXML($sagres->getEducacaoData($inep_id, $yearSagresConsult));
         $sagres->actionExportSagresXML($sagresEduXML);
     }
 
-    public function getEducacaoData($year): EducacaoTType
+    public function getEducacaoData($inep_id, $year): EducacaoTType
     {
         $education = new EducacaoTType;
-        $education->setEscola($this->getAllSchools($year));
+        $education->setEscola($this->getAllSchools($inep_id, $year));
         $education->setProfissional($this->getProfessionalData($year));
 
         return $education;
@@ -35,11 +32,11 @@ class SagresConsultModel
      * Summary of EscolaTType
      * @return EscolaTType[] 
      */
-    public function getAllSchools($year)
+    public function getAllSchools($inep_id, $year)
     {
         $schoolList = [];
 
-        $query = "SELECT si.inep_id FROM school_identification si";
+        $query = "SELECT inep_id FROM school_identification WHERE  inep_id = " . $inep_id . ";";
         $schools = Yii::app()->db->createCommand($query)->queryAll();
 
         foreach ($schools as $school) {

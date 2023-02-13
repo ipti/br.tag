@@ -34,7 +34,7 @@ SET birthday = STR_TO_DATE(birthday, '%Y-%m-%d');
 -- `io.escola.demo`.provision_accounts definition
 
 CREATE TABLE `provision_accounts` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `codigounidgestora` varchar(30) NOT NULL,
   `nomeunidgestora` varchar(150) NOT NULL,
   `cpfcontador` varchar(16) NOT NULL,
@@ -44,5 +44,4 @@ CREATE TABLE `provision_accounts` (
   `versaoxml` int(11) NOT NULL,
   `diainicprescontas` int(11) NOT NULL,
   `diafinaprescontas` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
