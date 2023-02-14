@@ -35,6 +35,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/responsive.min.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.css?v=1.2" rel="stylesheet" type="text/css" />
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template2.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo Yii::app()->baseUrl; ?>/sass/css/main.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/glyphicons.min.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/select2.css" rel="stylesheet" />
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/print.css" media="print" rel="stylesheet" type="text/css" />
@@ -100,7 +101,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
                 <li id="menu-logout">
                     <!-- Menu Toggle Button  -->
 
-                    <a class="logout" href="<?php echo yii::app()->createUrl('site/logout') ?>">
+                    <a class="t-button t-button-secondary" href="<?php echo yii::app()->createUrl('site/logout') ?>">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.svg" />
                         <span>Sair</span>
                     </a>
@@ -112,7 +113,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
         <!-- Sidebar menu & content wrapper -->
         <div id="wrapper">
             <!-- Sidebar menu -->
-            <div id="menu" class="hidden-print fullmenu-sidebar" >
+            <div id="menu" class="hidden-print fullmenu-sidebar hidden-menu" >
                 <div class="colorful-bar">
                     <span id="span-color-blue"></span>
                     <span id="span-color-red"></span>

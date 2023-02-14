@@ -82,7 +82,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <?php echo $form->textField($modelInstructorIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
                                     <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
-                                          data-original-title="<?php echo Yii::t('help', 'Instructor Full Social Name'); ?>"><i></i></span>
+                                          data-original-title="<?php echo Yii::t('help', 'Instructor Full Social Name'); ?>"><i></i></span>-->
 
                                     <?php echo $form->error($modelInstructorIdentification, 'name'); ?>
                                 </div>

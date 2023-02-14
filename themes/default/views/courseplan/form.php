@@ -22,6 +22,7 @@ $form = $this->beginWidget('CActiveForm', array(
     'id' => 'course-plan-form',
     'enableAjaxValidation' => false,
 ));
+$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 
 <?php echo $form->errorSummary($coursePlan); ?>

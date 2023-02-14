@@ -1,0 +1,43 @@
+@import '_tokens.scss';
+@import '_functions.scss';
+
+.t-button {
+    padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
+    font-size: $FontSizeTextSmall;
+    border-radius: $borderRadiusLarge;
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+
+    @include device(tablet) {
+        padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
+        font-size: $FontSizeTextNormal;
+    }
+    @include device(desktop) {
+        padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
+    }
+
+    &:hover, &--active {
+        text-decoration: none;
+    }
+}
+
+.t-button-primary {
+    @extend .t-button;
+    background-color: $colorsBaseProductNormal;
+    color:$colorsBaseWhiteNormal;
+
+    &:hover, &--active {
+        color:$colorsBaseWhiteNormal;
+        background-color: $colorsBaseProductNormalActive;
+    }
+}
+.t-button-secondary {
+    @extend .t-button;
+    background-color: $colorsBaseInkLighterActive;
+    color:$colorsBaseWhiteNormal;
+    &:hover, &--active {
+        color:$colorsBaseWhiteNormal;
+        background-color: $colorsBaseInkLight;
+    }
+}

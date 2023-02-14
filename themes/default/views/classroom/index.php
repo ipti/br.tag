@@ -9,6 +9,8 @@
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
     $cs->registerCssFile($themeUrl . '/css/template2.css');
+    $cs->registerCssFile(Yii::app()->request->baseUrl . '/sass/css/main.css');
+    
     ?>
 
     <div class="row-fluid hide-responsive">

@@ -4,9 +4,9 @@ $(document).ready(function () {
     var simple = getUrlVars()['simple'];
     if (simple == '1') {
         $("#tab-student-documents").hide();
-        $(".control-group").hide();
-        $(".required").parent().show();
-        $("#StudentEnrollment_classroom_fk").closest(".control-group").show();
+        $(".js-hide-not-required").hide();
+        //$(".required").parent().show();
+        $("#StudentEnrollment_classroom_fk").closest(".js-hide-not-required").show();
     }
     $(".tab-student").show();
     $(".tab-content").show();

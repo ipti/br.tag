@@ -55,9 +55,3 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Users'));
         </div>
     </div>
 </div>
-
-<style>
-    #yw0_c3 {
-        display: none;
-    }
-</style>

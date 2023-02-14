@@ -398,3 +398,6 @@
     width: 160px !important;
 
 }
+.control-group {
+    margin-left: 32px;
+}

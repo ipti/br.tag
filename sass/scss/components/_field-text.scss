@@ -1,0 +1,16 @@
+@import '../_tokens.scss';
+@import '../_functions.scss';
+
+.t-field-text {
+    margin-bottom: $DimensionLarge;
+    &__label{
+        display: flex;
+        align-items: center;
+        &--required {
+            font-weight: bold;
+        }
+    }
+    &__input, input[type="text"] {
+        width: 100%;
+    }
+}

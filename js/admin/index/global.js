@@ -59,3 +59,14 @@ $(document).on("click", ".collapse-icon", function() {
         $(this).closest(".conflict-container").find(".conflict-values").hide();
     }
 });
+
+$(document).ready( function () {
+    $("#yw0_c3").css('display', 'none');
+    $(".filters :nth-child(4)").css('display', 'none');
+})
+
+$(document).ajaxComplete(function(){
+    $("#yw0_c3").css('display', 'none');
+    $(".filters :nth-child(4)").css('display', 'none');
+});
+
