@@ -252,28 +252,6 @@
 /* Line Height */
 /*Font Weight*/
 /* mixin */
-.t-cards { border-radius: 5px; margin: 2em 2em 2em 2em; padding: 2em 2em 2em 2em; background: #9d4b4b; position: relative; text-align: center; display: block; border: 1px none #e5e5e5; }
-
-@media (min-width: 768px) { .t-cards { margin: 1em 5em 0em 0em; padding: 1em 0em 1em 0em; } }
-
-@media (min-width: 1536px) { .t-cards { margin: 1em 5em 0em 0em; padding: 1em 0em 1em 0em; } }
+.t-cards { border-radius: 5px; padding: 1em; background: #fafafe; margin-bottom: 5px; }
 
 .t-cards a { text-decoration: none; }
-
-.t-cards .t-cards-link .t-cards-icon { margin: 2em 0em 2em -3em; padding: 0em 1em 0em 0em; }
-
-@media (min-width: 768px) { .t-cards .t-cards-link .t-cards-icon { margin: 0em 1.75px 0em 0em; padding: 0em 0em 0em 0em; } }
-
-@media (min-width: 1536px) { .t-cards .t-cards-link .t-cards-icon { margin: 0em 1.75px 0em 0em; padding: 0em 0em 0em 0em; } }
-
-.t-cards .t-cards-link .t-cards-title { margin: 0em 9em 0em 0em; padding: 0em 0em 0em 0em; font-weight: 700; color: #18204e; }
-
-@media (min-width: 768px) { .t-cards .t-cards-link .t-cards-title { margin: 0em 13em 0em 0em; padding: 1em 2em 0em 0em; } }
-
-@media (min-width: 1536px) { .t-cards .t-cards-link .t-cards-title { margin: 0em 13em 0em 0em; padding: 1em 2em 0em 0em; } }
-
-.t-cards .t-cards-link .t-cards-subtitle { margin: 0em 0em 0em 2em; padding: 0em 0em 0em 0em; font-weight: 400; color: #5F738C; }
-
-@media (min-width: 768px) { .t-cards .t-cards-link .t-cards-subtitle { margin: 0em 0em 0em 0em; padding: 0em 0em 0em 0em; } }
-
-@media (min-width: 1536px) { .t-cards .t-cards-link .t-cards-subtitle { margin: 0em 0em 0em 0em; padding: 0em 0em 0em 0em; } }
