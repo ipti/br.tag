@@ -13,7 +13,7 @@ function changeTab(index){
     if(index == 0){
         $('.prev').hide();
         $('.next').show();
-        $('.last').hide();
+        window.location.search.includes("update") ? $('.last').show() : $('.last').hide();
     }else if(index == size){
         $('.prev').show();
     	$('.next').hide();
@@ -21,7 +21,7 @@ function changeTab(index){
     }else{
         $('.prev').show();
         $('.next').show();
-        $('.last').hide();
+        window.location.search.includes("update") ? $('.last').show() : $('.last').hide();
     }
     
 	newTab = tabs[index];
