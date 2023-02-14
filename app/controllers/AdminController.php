@@ -5,7 +5,7 @@
 			return [
 				[
 					'allow', // allow authenticated user to perform 'create' and 'update' actions
-					'actions' => ['CreateUser', 'index', 'conflicts'], 'users' => ['*'],
+					'actions' => ['CreateUser', 'ManageUsers', 'index', 'conflicts'], 'users' => ['*'],
 				], [
 					'allow', // allow authenticated user to perform 'create' and 'update' actions
 					'actions' => [
@@ -445,6 +445,59 @@
 			fclose($file);
 			unlink($fileName);
 		}
+	}
+
+	public function actionManageUsers() {
+		$filter = new Users('search');
+        $filter->unsetAttributes();
+        if (isset($_GET['Users'])) {
+            $filter->attributes = $_GET['Users'];
+        }
+		$criteria = new CDbCriteria;
+		$criteria->condition = "username != 'admin'";
+		$dataProvider = new CActiveDataProvider('Users', array(
+			'criteria' => $criteria,
+			'pagination' => array(
+				'pageSize' => 12,
+			)
+		));
+        $this->render('manageUsers', array(
+            'dataProvider' => $dataProvider,
+            'filter' => $filter,
+        ));
+	}
+
+	public function actionUpdate($id) {
+		$model = Users::model()->findByPk($id);
+		$userSchool = UsersSchool::model()->findByAttributes(array('user_fk' => $model->id));
+		if (isset($_POST['Users'], $_POST['Confirm'])) {
+			$model->attributes = $_POST['Users'];
+			if ($model->validate()) {
+				$password = md5($_POST['Users']['password']);
+				$confirm = md5($_POST['Confirm']);
+				if ($password == $confirm) {
+					$model->password = $password;
+					if ($model->save()) {
+						$save = TRUE;
+						foreach ($_POST['schools'] as $school) {
+							$userSchool->user_fk = $model->id;
+							$userSchool->school_fk = $school;
+							$save = $save && $userSchool->validate() && $userSchool->save();
+						}
+						if ($save) {
+							$auth = Yii::app()->authManager;
+							$auth->assign($_POST['Role'], $model->id);
+							Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário alterado com sucesso!'));
+							$this->redirect(['index']);
+						}
+					}
+				} else {
+					$model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
+				}
+			}
+		}
+
+		$this->render('_form', ['model' => $model, 'userSchool' => $userSchool]);
 	}
 }
 

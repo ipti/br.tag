@@ -15,6 +15,7 @@
     $baseUrl = Yii::app()->baseUrl;
     $cs = Yii::app()->getClientScript();
     $cs->registerScriptFile($baseUrl . '/js/admin/form/validations.js', CClientScript::POS_END);
+    $cs->registerScriptFile($baseUrl . '/js/admin/form/_initialization.js', CClientScript::POS_END);
 
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'users-createUser-form',
