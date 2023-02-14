@@ -1,15 +1,12 @@
-import React from "react";
+import { FormControl, FormLabel } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import { ButtonPurple } from "../../components/Buttons";
-import homeImg from "../../assets/images/illustration-home.png";
-import styles from "./styles";
+import React, { useContext, useState } from "react";
 import AsyncSelect from "react-select/async";
-import { idEvent, idSchool } from "../../services/auth";
-import { useState } from "react";
-import { FormControl, FormLabel } from "@material-ui/core";
-import { now } from "moment";
-
+import homeImg from "../../assets/images/illustration-home.png";
+import { ButtonPurple } from "../../components/Buttons";
+import RegistrationContext from '../../containers/Registration/context';
+import styles from "./styles";
 const useStyles = makeStyles(styles);
 
 const customStyles = {
@@ -28,7 +25,7 @@ const Start = props => {
   const classes = useStyles();
   const [startDate, setStartDate] = useState()
   const [endDate, setEndDate] = useState()
-
+  const { setIdSchool, setIdEvent } = useContext(RegistrationContext);
   const datenow = Date.now();
   const date = new Date(datenow)
 
@@ -41,17 +38,18 @@ const Start = props => {
     }
   };
 
-  
 
-  
+
+
 
   const onButton = () => {
-    if(startDate <= date.getTime() && date.getTime() <= endDate){
+    if (startDate <= date.getTime() && date.getTime() <= endDate) {
       props.setIsActive(true)
       props.nextStep('1')
-  } else {
-    props.setIsActive(false)
-  }
+    } else {
+      props.setIsActive(false)
+      props.nextStep('1')
+    }
 
   }
   return (
@@ -86,9 +84,10 @@ const Start = props => {
               defaultOptions
               placeholder="Digite o nome da escola"
               onChange={selectedOption => {
-                idSchool(selectedOption.inep_id);
-                idEvent(selectedOption.event_pre_registration[0].id)
-                if(selectedOption.event_pre_registration[0]){
+                setIdSchool(selectedOption.inep_id);
+                console.log(selectedOption.event_pre_registration[0].id)
+                setIdEvent(selectedOption.event_pre_registration[0].id)
+                if (selectedOption.event_pre_registration[0]) {
                   setStartDate(new Date(selectedOption.event_pre_registration[0].start_date).getTime())
                   setEndDate(new Date(selectedOption.event_pre_registration[0].end_date).getTime())
                 } else {

@@ -4,18 +4,19 @@ import { connect } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import Loading from "../../components/Loading/CircularLoading";
 import Alert from "../../components/Alert/CustomizedSnackbars";
-import { useFetchRequestClassroom } from "../../query/stage";
+import { useFetchRequestClassroom, useFetchRequestStagevsmodalityOne } from "../../query/stage";
 import { StageForm } from "../../screens/Stage";
 
 const Form = props => {
   const [loadData, setLoadData] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
   const [loadingButtom, setLoadingButtom] = useState(false);
-  let history = useHistory();
+ // let history = useHistory();
   const { id } = useParams()
 
-  const {data} = useFetchRequestClassroom({id: id})
+  const {data} = useFetchRequestStagevsmodalityOne({id: id})
 
+  
 
   const alert = () => {
     if (props?.openAlert) {
@@ -49,11 +50,7 @@ const Form = props => {
 
   const handleSubmit = values => {
     setLoadingButtom(true);
-    props.dispatch({
-      type: "FETCH_UPDATE_CLASSROOM",
-      data: values,
-      id: props.match.params.id
-    });
+   
     setLoadData(true);
   };
 
@@ -67,7 +64,7 @@ const Form = props => {
 
   return (
     <>
-      {props?.loading && !loadingButtom ? (
+      {!data ? (
         <Loading />
       ) : (
         <>

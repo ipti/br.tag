@@ -1,12 +1,12 @@
 import { FormControl, FormLabel } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
+import React, { useContext } from "react";
 import Select from "react-select";
 import homeImg from "../../assets/images/illustration-home.png";
 import { ButtonPurple } from "../../components/Buttons";
 import { useFetchRequestSchoolStages } from "../../query/registration";
-import { getIdSchool, idStage } from "../../services/auth";
+import RegistrationContext from '../../containers/Registration/context';
 import styles from "./styles";
 
 const useStyles = makeStyles(styles);
@@ -27,8 +27,9 @@ const Classroom = props => {
     const classes = useStyles();
 
     const date = Date(Date.now());
+    const { idSchool, setIdStage, setIdStagevsmodality } = useContext(RegistrationContext);
 
-    const { data } = useFetchRequestSchoolStages({id: getIdSchool()})
+    const { data } = useFetchRequestSchoolStages({id: idSchool});
 
     console.log(data)
   
@@ -67,10 +68,11 @@ const Classroom = props => {
                             placeholder="Selecione a Turma"
                             options={data}
                             onChange={selectedOption => {
-                                idStage(selectedOption.id)
+                                setIdStagevsmodality(selectedOption.edcenso_stage_vs_modality.id)
+                                setIdStage(selectedOption.edcenso_stage_vs_modality.stage)
                             }}
-                        getOptionValue={opt => opt.name}
-                        getOptionLabel={opt => opt.name}
+                        getOptionValue={opt => opt.edcenso_stage_vs_modality.name}
+                        getOptionLabel={opt => opt.edcenso_stage_vs_modality.name}
                         />
                     </FormControl>
                 </Grid>

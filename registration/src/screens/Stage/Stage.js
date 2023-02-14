@@ -29,18 +29,17 @@ const useStyles = makeStyles(theme => styles);
 
 const Stage = ({ stages, pagination, handlePage, activePage }) => {
   const classes = useStyles();
+
+  if(!stages) return null;
+
   console.log(stages)
 
-  if(!stages) return null
-
   const stage = () => {
-
-
     return stages.map((stage, index) => {
       return (
         <Grid key={index} item md={4} sm={4} xs={12}>
           <BoxBig
-            link={`turmas/${stage.id}`}
+            link={`estagio/${stage.id}`}
             title={stage.edcenso_stage_vs_modality.name}
             subtitle="Turma"
             addCursor={true}

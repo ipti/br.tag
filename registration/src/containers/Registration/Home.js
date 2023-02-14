@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import RegistrationContext from "./context";
+
 // Redux
 
 // Components
@@ -15,8 +17,10 @@ import { useFetchRequestSchoolList } from "../../query/registration";
 
 const Home = props => {
   const [loadDataStudent, setLoadDataStudent] = useState(false);
-  const [loadDataSchool, setLoadDataSchool] = useState(true);
-  const [loadPeriod, setLoadPeriod] = useState(true);
+  const [idSchool, setIdSchool] = useState('');
+  const [idStage, setIdStage] = useState('');
+  const [idStagevsmodality, setIdStagevsmodality] = useState('');
+  const [idEvent, setIdEvent] = useState('');
   const [open, setOpen] = useState(false);
   const [number, setNumber] = useState("");
   const [step, setStep] = useState(0);
@@ -24,7 +28,7 @@ const Home = props => {
   const { requestSaveRegistrationMutation } = Controller()
   const [isActive, setIsActive] = useState(true);
 
-console.log(isActive)
+  console.log(isActive)
   // useEffect(() => {
   //   setOpen(false);
 
@@ -60,8 +64,8 @@ console.log(isActive)
 
 
   const { data } = useFetchRequestSchoolList();
-  
-  const onSubmit = () => {
+
+  const onSubmit = data => {
     if (dataValues?.birthday) {
       dataValues.birthday = dataValues.birthday
         .split("/")
@@ -69,6 +73,7 @@ console.log(isActive)
         .join("-");
     }
 
+    console.log(dataValues)
     const parseBool = value =>
       ['true', 'false'].includes(value) ? value === true : null
 
@@ -83,7 +88,7 @@ console.log(isActive)
         father_name: dataValues.father_name === "" ? null : dataValues.father_name,
         mother_name: dataValues.mother_name === "" ? null : dataValues.mother_name,
         event_pre_registration: parseInt(dataValues.event_pre_registration),
-        edcenso_stage_vs_modality: parseInt(dataValues.edcenso_stage_vs_modality)
+        stages_vacancy_pre_registration: parseInt(dataValues.stages_vacancy_pre_registration)
       }
     )
   };
@@ -92,6 +97,7 @@ console.log(isActive)
 
     console.log(values)
     let data = Object.assign(dataValues, values);
+    console.log(data)
     if (
       step === 1 &&
       props?.period &&
@@ -161,28 +167,33 @@ console.log(isActive)
     //   step === 6 ||
     //   props.loading;
     return (
-      <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        style={{ minWidth: "100%" }}
+      <RegistrationContext.Provider
+        value={{ idEvent, setIdEvent, idSchool, setIdSchool, idStage, setIdStage, idStagevsmodality, setIdStagevsmodality }}
       >
-        <Grid item lg={4} md={5} xs={10}>
-          {isActive ? (
-            <Wizard
-              schools={data}
-              next={next}
-              step={step}
-              handleStudent={handleStudent}
-              loadingButtom={props.loading}
-              setIsActive={setIsActive}
-              handleSubmit={onSubmit}
-            />
-          ) : (
-            <Wait />
-          )}
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          style={{ minWidth: "100%" }}
+        >
+          <Grid item lg={4} md={5} xs={10}>
+            {true ? (
+              <Wizard
+                schools={data}
+                next={next}
+                step={step}
+                handleStudent={handleStudent}
+                loadingButtom={props.loading}
+                setIsActive={setIsActive}
+                handleSubmit={onSubmit}
+              />
+            ) : (
+              <Wait />
+            )}
+          </Grid>
         </Grid>
-      </Grid>
+      </RegistrationContext.Provider>
+
     );
   };
 

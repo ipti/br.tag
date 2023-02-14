@@ -1,19 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import RegistrationContext from '../../containers/Registration/context';
 
 // Material UI
 import {
-  Grid,
-  FormLabel,
-  FormControl,
-  Select,
-  RadioGroup,
-  Radio,
-  FormControlLabel,
-  MenuItem,
-  FormHelperText,
-  TextField,
-  FormGroup,
-  Checkbox
+  Checkbox, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, Grid, MenuItem, Radio, RadioGroup, Select, TextField
 } from "@material-ui/core";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -22,15 +12,14 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { ButtonPurple } from "../../components/Buttons";
 
 // Third party
+import { Form, Formik } from "formik";
 import MaskedInput from "react-text-mask";
-import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
 // Styles
+import { useState } from "react";
 import styleBase from "../../styles";
 import styles from "./styles";
-import { useState } from "react";
-import { getIdEvent, getIdSchool, getIdStage } from "../../services/auth";
 
 const useStyles = makeStyles(styles);
 
@@ -112,10 +101,13 @@ const StepThree = props => {
     deficiency: Yup.boolean().required("Campo obrigatório!"),
   });
 
+  const { idSchool, idStage, idStagevsmodality, idEvent } = useContext(RegistrationContext);
+  console.log(idStage)
   const initialValues = {
-    school_identification: getIdSchool(),
-    event_pre_registration: getIdEvent(),
-    edcenso_stage_vs_modality: getIdStage(),
+    school_identification: idSchool,
+    event_pre_registration: idEvent,
+    edcenso_stage_vs_modality: idStagevsmodality,
+    stages_vacancy_pre_registration: idStage,
     name: props?.student?.name ?? '',
     birthday: props?.student?.birthday ?? '',
     color_race: props?.student?.color_race ?? '',

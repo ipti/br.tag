@@ -71,7 +71,6 @@ export const requestCreateStage = (data) => {
 };
 
 export const requestUpdateRegistration = (data, id) => {
-  console.log(data)
   if (data.student_identification) {
     return api
       .post("/student-pre-identifyregistered/registration/" + id, data)
@@ -114,12 +113,33 @@ const requestStagevsmodality = () => {
     });
 };
 
+const requestStagevsmodalityOne = id => {
+  let path = "/stages-vacancy-pre-registration/" + id;
+  return api
+    .get(path, {
+      params: {
+        include:{
+          edcenso_stage_vs_modality: true,
+          student_pre_identification: true
+        }
+      }
+    })
+    .then(response => response.data)
+    .catch(err => {
+      throw err;
+    });
+};
+
 export const useFetchRequestClassrooms = () => {
   return useQuery(["useRequestClassrooms"], () => requestClassrooms());
 };
 
 export const useFetchRequestStagevsmodality = () => {
-  return useQuery(["useRequestStagevsmodality"], () => requestStagevsmodality());
+  return useQuery("useRequestStagevsmodality", () => requestStagevsmodality());
+};
+
+export const useFetchRequestStagevsmodalityOne = ({id}) => {
+  return useQuery(["useRequestStagevsmodalityOne", id], () => requestStagevsmodalityOne(id));
 };
 
 export const useFetchRequestClassroom = ({ id }) => {

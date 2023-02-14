@@ -83,6 +83,6 @@ export const useFetchRequestScheculeOne = (id) => {
 };
 
 export const useFetchRequestStagevsmodality = () => {
-  return useQuery(["useRequestStagevsmodality"], () => requestStagevsmodality());
+  return useQuery(["useRequestStagevsmodalitys"], () => requestStagevsmodality());
 };
 

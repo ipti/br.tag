@@ -5,10 +5,9 @@ import { useFetchRequestStagevsmodality } from "../../query/stage";
 import { Stage } from "../../screens/Stage";
 
 const Home = props => {
-  const { data } = useFetchRequestStagevsmodality();
+  const { data, isLoading } = useFetchRequestStagevsmodality();
 
-  if(!data) return null
-  const stages = data ?? []
+  const stages = data;
 
   const alert = () => {
     if (props?.openAlert) {
@@ -39,7 +38,7 @@ const Home = props => {
 
   return (
     <>
-      {props.loading ? (
+      {isLoading ? (
         <Loading />
       ) : (
         <>
