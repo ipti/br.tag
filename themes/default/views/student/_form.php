@@ -132,8 +132,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php
                                     echo $form->DropDownList($modelStudentIdentification, 'color_race', array(
                                         null => "Selecione a cor/raça",
-                                    echo $form->DropDownList($modelStudentIdentification, 'color_race', array(
-                                        null => "Selecione a cor/raça",
                                         "0" => "Não declarada",
                                         "1" => "Branca",
                                         "2" => "Preta",
@@ -184,11 +182,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php
                                     echo $form->dropDownList($modelStudentIdentification, 'filiation_1_scholarity', array(
                                         0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
-                                    echo $form->dropDownList($modelStudentIdentification, 'filiation_1_scholarity', array(
-                                        0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
                                         3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
-                                        6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'
-                                    ), array('class' => 'select-search-off js-disabled-finputs js-finput-clear t-field-select__input', 'style'=>'width: 100%'));
+                                        6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'), array('class' => 'select-search-off js-disabled-finputs js-finput-clear t-field-select__input', 'style'=>'width: 100%'));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_1_scholarity'); ?>
                             </div>
@@ -219,8 +214,6 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-select js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_scholarity', array('class' => 'control-label t-field-select__label')); ?>
                                     <?php
-                                    echo $form->dropDownList($modelStudentIdentification, 'filiation_2_scholarity', array(
-                                        0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
                                     echo $form->dropDownList($modelStudentIdentification, 'filiation_2_scholarity', array(
                                         0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
                                         3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
@@ -342,8 +335,6 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-select js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'responsable_scholarity', array('class' => 'control-label t-field-select__label')); ?>
                                     <?php
-                                    echo $form->dropDownList($modelStudentIdentification, 'responsable_scholarity', array(
-                                        0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
                                     echo $form->dropDownList($modelStudentIdentification, 'responsable_scholarity', array(
                                         0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
                                         3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
@@ -889,8 +880,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php
                                     echo $form->textField($modelStudentDocumentsAndAddress, 'cep', array(
                                         'size' => 8,
-                                    echo $form->textField($modelStudentDocumentsAndAddress, 'cep', array(
-                                        'size' => 8,
                                         'maxlength' => 9
                                     ));
                                     ?>
@@ -978,12 +967,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                             ':school' => Yii::app()->user->school,
                                         ]
                                     );
-                                        ]
-                                    );
-
-                                    echo $form->dropDownList(
-                                        $modelEnrollment,
-                                        'classroom_fk',
                                     echo $form->dropDownList(
                                         $modelEnrollment,
                                         'classroom_fk',
@@ -1200,7 +1183,6 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-
                     <div class="row-fluid">
                         <div class="span11">
                             <?php
@@ -1330,11 +1312,6 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                 </div>
             </div>
-
-        </div>
-        <?php $this->endWidget(); ?>
-    </div>
-</div>
 
         </div>
         <?php $this->endWidget(); ?>
