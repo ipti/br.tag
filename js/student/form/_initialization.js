@@ -1,4 +1,4 @@
-
+window.location.search.includes("update") ? $('.last').css('display', 'block') : $('.last').css('display', 'none');
 
 $(document).ready(function () {
     var simple = getUrlVars()['simple'];

@@ -6,6 +6,7 @@
 
 
 
+
 $('.tab-school li a').click(function () {
     var classActive = $('li[class="active"]');
     var divActive = $('div .active');
@@ -21,25 +22,25 @@ $('.tab-school li a').click(function () {
             tab = li1;
             $('.prev').hide();
             $('.next').show();
-            $('.last').hide();
+            window.location.search.includes("update") ? $('.last').show() : $('.last').hide();
             break;
         case li2:
             tab = li2;
             $('.prev').show();
             $('.next').show();
-            $('.last').hide();
+            window.location.search.includes("update") ? $('.last').show() : $('.last').hide();
             break;
         case li3:
             tab = li3;
             $('.prev').show();
             $('.next').show();
-            $('.last').hide();
+            window.location.search.includes("update") ? $('.last').show() : $('.last').hide();
             break;
         case li4:
             tab = li4;
             $('.prev').show();
             $('.next').show();
-            $('.last').hide();
+            window.location.search.includes("update") ? $('.last').show() : $('.last').hide();
             break;
         case li5:
             tab = li5;
