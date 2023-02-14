@@ -255,8 +255,17 @@ class StudentController extends Controller
                             $modelEnrollment->student_fk = $modelStudentIdentification->id;
                             $modelEnrollment->student_inep_id = $modelStudentIdentification->inep_id;
                             $saved = false;
-                            if ($modelEnrollment->validate()) {
+
+
+                            $hasDuplicate = $modelEnrollment->alreadyExists();
+
+                            if ($modelEnrollment->validate() && !$hasDuplicate) {
                                 $saved = $modelEnrollment->save();
+                            }
+
+                            if($hasDuplicate){
+                                Yii::app()->user->setFlash('error', Yii::t('default', 'Aluno já está matriculado nessa turma.'));
+                                // Yii::app()->user->setFlash('success', Yii::t('default', "adasdsasd"));
                             }
 
                             //$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
