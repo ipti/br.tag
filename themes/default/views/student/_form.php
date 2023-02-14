@@ -92,7 +92,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <!-- Tab Student Identify -->
                 <div class="tab-pane active" id="student-identify">
                     <div class="row">
-                        <div class="column">
+                        <div class="column grow-2">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
@@ -279,7 +279,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 
                         </div>
-                        <div class="column">
+                        <div class="column grow-2 off-set-start">
                            <!--  <div class="separator"></div> -->
                             <div class="t-field-text js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'nis', array('class' => 'control-label t-field-text__label')); ?>
@@ -485,6 +485,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
                 <!-- Tab Student Documents -->

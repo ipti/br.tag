@@ -14,7 +14,27 @@
 .column {
     margin-left: $spaceXLarge/2;
     margin-right: $spaceXLarge/2;
+    width: 100%;
+
+    @for $i from 1 through 12 {
+        .off-set-#{$i} {
+        }
+    }
+
+
 }
+
+
+
+/* .grow-1{
+    flex-grow: 1;
+}
+.grow-2{
+    flex-grow: 2;
+}
+.grow-4{
+    flex-grow: 4;
+} */
 
 [class^="col-"].clearfix {
     margin-left: 0;

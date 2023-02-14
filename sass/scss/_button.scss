@@ -9,16 +9,16 @@
     display: flex;
     justify-content: space-between;
 
+    &:hover, &--active {
+        text-decoration: none;
+    }
+
     @include device(tablet) {
         padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
         font-size: $FontSizeTextNormal;
     }
     @include device(desktop) {
         padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
-    }
-
-    &:hover, &--active {
-        text-decoration: none;
     }
 }
 

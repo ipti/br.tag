@@ -2,32 +2,22 @@
 @import '_functions.scss';
 
 .t-cards {
-    border-radius: 5px;
+    border-radius: $borderRadiusLarge;
     padding: $spaceMedium;
     background: $colorsBaseProductLighter;
     margin-bottom: 5px;
 
 
     a {
+        display: flex;
+        align-items: center;
         text-decoration: none;
-    }
-
-
-    .t-cards-link {
-
-
-        .t-cards-icon {
-          
-        }
-
         .t-cards-title {
-           
+            color: $colorsBaseProductDarkActive;
+            font-size: $FontSizeHeadingTitle1;
+            font-family: 'Inter';
+            font-weight: 700;
         }
-
-        .t-cards-subtitle {
-            
-        }
-
     }
 
 
