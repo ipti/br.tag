@@ -52,7 +52,7 @@ $form = $this->beginWidget('CActiveForm', array(
         echo $form->errorSummary($modelStudentDocumentsAndAddress);
         ?>
         <div class="alert alert-error student-error no-show"></div>
-        <div class="t-tabs">
+        <div class="t-tabs js-tab-control">
             <ul class="t-tabs__contents">
                 <li id="tab-student-identify" class="t-tabs__itens active">
                     <a class="t-tabs__link" href="#student-identify" data-toggle="tab">
@@ -83,10 +83,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <div>
             <div class="tab-content" style="display:none">
                 <!-- Tab content Botão de próximo -->
-                <!-- Tab content Botão de próximo -->
                 <div id="buttons-student" class="">
-                    <a data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display: none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
-                    <a data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?>
                     <a data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display: none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
                     <a data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?>
                         <i></i></a>
@@ -105,7 +102,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'civil_name', array('class' => 'control-label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'civil_name', array('size' => 60, 'maxlength' => 100, 'class'=> 't-field-text__input')); ?>
-                                <?php echo $form->error($modelStudentIdentification, 'name'); ?>    
+                                <?php echo $form->error($modelStudentIdentification, 'civil_name'); ?>    
                             </div>
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'name', array('class' => 'control-label t-field-text__label--required')); ?>
@@ -493,9 +490,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <!-- Tab Student Documents -->
                 <div class="tab-pane" id="student-documents">
                     <div class="row-fluid" style="padding: 0 0 0px 0;">
-                    <div class="row-fluid" style="padding: 0 0 0px 0;">
                         <div class="span12">
-                            <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                             <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                                 <div class="widget-body in" style="height: auto;">
                                     <div>
@@ -550,12 +545,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div class="row-fluid">
-                        <div class=" span6">
-                            <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-                                <div>
-                                    <h5 class="titulos">
-                                        Certidão Civil
-                                    </h5>
+                        <div class="span6">
                             <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                                 <div>
                                     <h5 class="titulos">
@@ -563,16 +553,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </h5>
                                 </div>
                                 <div class="row-fluid">
-                                <div class="row-fluid">
                                     <div class="control-group">
                                         <div class="controls">
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification', array('class' => 'control-label')); ?>
-                                        </div>
-                                        <div class="controls">
-                                            <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'civil_certification', array(null => "Selecione o modelo", "1" => "Modelo Antigo", "2" => "Modelo Novo"), array("class" => "select-search-off control-input nationality-sensitive br", "disabled" => "disabled")); ?>
                                             <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'civil_certification', array(null => "Selecione o modelo", "1" => "Modelo Antigo", "2" => "Modelo Novo"), array("class" => "select-search-off control-input nationality-sensitive br", "disabled" => "disabled")); ?>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification'); ?>
                                         </div>
@@ -930,7 +915,6 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group  js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_city_fk', array('class' => 'control-label')); ?>
                                     <?php
-                                    echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma cidade", "class" => "select-search-on control-input"));
                                     echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma cidade", "class" => "select-search-on control-input"));
                                     ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_city_fk'); ?>
