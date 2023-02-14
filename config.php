@@ -1,15 +1,16 @@
 <?php
-defined('YII_DEBUG') or define('YII_DEBUG', true);
-define("TAG_VERSION", '2.14.1'.'('.Yii::getVersion().')');
+defined('YII_DEBUG') or define('YII_DEBUG', false);
+define("TAG_VERSION", '2.13.0'.'('.Yii::getVersion().')');
 define("BOARD_MSG", '
 		
 		<div class="alert alert-success">
 		
 		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>14/11/2022: TAG Versão 2.14.1:</strong>
+		<strong>20/06/2022: TAG Versão 2.12.4:</strong>
 		<br>
         <ul>
-            <li>Adicionado "Nome social" no formulário de cadastro de professor</li>
+            <li>Correção de Bugs</li>
+            <li>Adaptação de Campos Para o EducaCenso 2022 (Exportação) - v.5</li>
         </ul>
 		<strong>08/03/2022 - 18/06/2022: TAG Versões Anteriores:</strong>
 		<br>
