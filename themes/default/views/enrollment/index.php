@@ -29,10 +29,10 @@
                 <?php
                 
                 $this->widget('zii.widgets.grid.CGridView', array(
-                    'dataProvider' => $model->search(),
-                    'enablePagination' => true,
-                    'filter'=>$model,
-                    'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                    'dataProvider' => $dataProvider,
+                    'enablePagination' => false,
+                    'enableSorting' => false,
+                    'itemsCssClass' => 'js-tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                             array(
                                 'name' => 'enrollment_id',

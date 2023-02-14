@@ -378,6 +378,7 @@ class StudentController extends Controller
      */
     public function actionIndex($sid = null, $mer_id = null)
     {
+        $query = StudentIdentification::model()->findAll();
         $filter = new StudentIdentification('search');
         $filter->unsetAttributes();  // clear any default values
         if (isset($_GET['StudentIdentification'])) {
@@ -391,7 +392,7 @@ class StudentController extends Controller
                     'condition' => 'school_inep_id_fk=' . $school,
                 ),
                 'pagination' => array(
-                    'pageSize' => 12,
+                    'pageSize' => count($query),
                 )));
         $buttons = "";
         if ($sid != null) {

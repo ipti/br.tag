@@ -14,6 +14,9 @@ $form = $this->beginWidget('CActiveForm', array(
     'id' => 'school-configuration-form',
     'enableAjaxValidation' => false
 ));
+$themeUrl = Yii::app()->theme->baseUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerCssFile($themeUrl . '/css/template2.css');
 ?>
 
 <div class="row-fluid">
@@ -33,13 +36,13 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="widget-head">
             <ul class="tab-sorcerer">
                 <li id="tab-time" class="active">
-                    <a class="glyphicons vcard" href="#time" data-toggle="tab">
-                        <i></i> <?php echo Yii::t('wizardModule.labels', 'Schedule') ?>
+                    <a href="#time" data-toggle="tab">
+                       <?php echo Yii::t('wizardModule.labels', 'Schedule') ?>
                     </a>
                 </li>
                 <li id="tab-exams">
-                    <a class="glyphicons vcard" href="#exams" data-toggle="tab">
-                        <i></i> <?php echo Yii::t('wizardModule.labels', 'Exam dates') ?>
+                    <a href="#exams" data-toggle="tab">
+                        <?php echo Yii::t('wizardModule.labels', 'Exam dates') ?>
                     </a>
                 </li>
             </ul>

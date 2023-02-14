@@ -83,7 +83,10 @@ $form = $this->beginWidget('CActiveForm', array(
         <div>
             <div class="tab-content" style="display:none">
                 <!-- Tab content Botão de próximo -->
+                <!-- Tab content Botão de próximo -->
                 <div id="buttons-student" class="">
+                    <a data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display: none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+                    <a data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?>
                     <a data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display: none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
                     <a data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?>
                         <i></i></a>
@@ -127,6 +130,8 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-select">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'color_race', array('class' => 'control-label t-field-select__label--required')); ?>
                                     <?php
+                                    echo $form->DropDownList($modelStudentIdentification, 'color_race', array(
+                                        null => "Selecione a cor/raça",
                                     echo $form->DropDownList($modelStudentIdentification, 'color_race', array(
                                         null => "Selecione a cor/raça",
                                         "0" => "Não declarada",
@@ -179,6 +184,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php
                                     echo $form->dropDownList($modelStudentIdentification, 'filiation_1_scholarity', array(
                                         0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
+                                    echo $form->dropDownList($modelStudentIdentification, 'filiation_1_scholarity', array(
+                                        0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
                                         3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
                                         6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'
                                     ), array('class' => 'select-search-off js-disabled-finputs js-finput-clear t-field-select__input', 'style'=>'width: 100%'));
@@ -212,6 +219,8 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-select js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_scholarity', array('class' => 'control-label t-field-select__label')); ?>
                                     <?php
+                                    echo $form->dropDownList($modelStudentIdentification, 'filiation_2_scholarity', array(
+                                        0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
                                     echo $form->dropDownList($modelStudentIdentification, 'filiation_2_scholarity', array(
                                         0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
                                         3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
@@ -288,6 +297,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <span id="nisMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
                                         <img id="errorNisIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>">
                                     </span>
+                                    <span id="nisMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                        <img id="errorNisIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>">
+                                    </span>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'nis'); ?>
                             </div>
                             <div class="t-field-text js-hide-not-required">
@@ -321,12 +333,17 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-text js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'responsable_cpf', array('class' => 'control-label')); ?>
                                     <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 14)); ?>
+                                    <!-- <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                        <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>">
+                                    </span> -->
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_cpf'); ?>
                             </div>
 
                             <div class="t-field-select js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'responsable_scholarity', array('class' => 'control-label t-field-select__label')); ?>
                                     <?php
+                                    echo $form->dropDownList($modelStudentIdentification, 'responsable_scholarity', array(
+                                        0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
                                     echo $form->dropDownList($modelStudentIdentification, 'responsable_scholarity', array(
                                         0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
                                         3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
@@ -448,6 +465,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_braille_test', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <!-- problema aqui -->
+                                    <!-- problema aqui -->
                                     <label class="checkbox">
                                         <?php echo StudentIdentification::model()->attributeLabels()['resource_proof_language']; ?>
                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_proof_language', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -484,7 +502,9 @@ $form = $this->beginWidget('CActiveForm', array(
                 <!-- Tab Student Documents -->
                 <div class="tab-pane" id="student-documents">
                     <div class="row-fluid" style="padding: 0 0 0px 0;">
+                    <div class="row-fluid" style="padding: 0 0 0px 0;">
                         <div class="span12">
+                            <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                             <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                                 <div class="widget-body in" style="height: auto;">
                                     <div>
@@ -545,13 +565,23 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <h5 class="titulos">
                                         Certidão Civil
                                     </h5>
+                            <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
+                                <div>
+                                    <h5 class="titulos">
+                                        Certidão Civil
+                                    </h5>
                                 </div>
+                                <div class="row-fluid">
                                 <div class="row-fluid">
                                     <div class="control-group">
                                         <div class="controls">
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
+                                            <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification', array('class' => 'control-label')); ?>
+                                        </div>
+                                        <div class="controls">
+                                            <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'civil_certification', array(null => "Selecione o modelo", "1" => "Modelo Antigo", "2" => "Modelo Novo"), array("class" => "select-search-off control-input nationality-sensitive br", "disabled" => "disabled")); ?>
                                             <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'civil_certification', array(null => "Selecione o modelo", "1" => "Modelo Antigo", "2" => "Modelo Novo"), array("class" => "select-search-off control-input nationality-sensitive br", "disabled" => "disabled")); ?>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification'); ?>
                                         </div>
@@ -859,6 +889,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php
                                     echo $form->textField($modelStudentDocumentsAndAddress, 'cep', array(
                                         'size' => 8,
+                                    echo $form->textField($modelStudentDocumentsAndAddress, 'cep', array(
+                                        'size' => 8,
                                         'maxlength' => 9
                                     ));
                                     ?>
@@ -910,6 +942,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_city_fk', array('class' => 'control-label')); ?>
                                     <?php
                                     echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma cidade", "class" => "select-search-on control-input"));
+                                    echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma cidade", "class" => "select-search-on control-input"));
                                     ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_city_fk'); ?>
                             </div>
@@ -945,7 +978,12 @@ $form = $this->beginWidget('CActiveForm', array(
                                             ':school' => Yii::app()->user->school,
                                         ]
                                     );
+                                        ]
+                                    );
 
+                                    echo $form->dropDownList(
+                                        $modelEnrollment,
+                                        'classroom_fk',
                                     echo $form->dropDownList(
                                         $modelEnrollment,
                                         'classroom_fk',
@@ -1292,6 +1330,11 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                 </div>
             </div>
+
+        </div>
+        <?php $this->endWidget(); ?>
+    </div>
+</div>
 
         </div>
         <?php $this->endWidget(); ?>

@@ -26,14 +26,15 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                 <div class="widget-body">
                     <?php $this->widget('zii.widgets.grid.CGridView', array(
                         'dataProvider' => $dataProvider,
-                        'enablePagination' => true,
-                        'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'enablePagination' => false,
+                        'enableSorting' => false,
+                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'columns' => array(
                             array(
                                 'header' => Yii::t('default', 'Name'),
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("courseplan/update",array("id"=>$data->id)))',
+                                'value' => '$data->name',
                                 'htmlOptions' => array('width' => '25%')
                             ),
                             array(
