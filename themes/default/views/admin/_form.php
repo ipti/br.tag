@@ -101,13 +101,19 @@ $form = $this->beginWidget('CActiveForm', array(
                                     foreach ($roles as $key => $value) {
                                         $roles[$key] = Yii::t('default',$value);
                                     }
-                                    echo CHtml::dropDownList('Role','', $roles ,array('class'=>'select-search-off')); ?>
+                                    echo CHtml::dropDownList('Role',$actual_role, $roles ,array('class'=>'select-search-off')); ?>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <?php echo CHtml::label( Yii::t('default','Schools'), 'schools', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo CHtml::dropDownList('schools','',CHtml::listData(SchoolIdentification::model()->findAll('situation=1 order by name'), 'inep_id', 'name'),array('multiple'=>'multiple', 'class'=>'select-search-on')); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo CHtml::label( Yii::t('default','Active'), 'active', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo CHtml::activeCheckbox($model,'active') ?>
                                 </div>
                             </div>
                         </div>

@@ -113,4 +113,21 @@ class Users extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function getRole() 
+	{
+
+        $role = Yii::app()->db->createCommand()
+
+		->select('itemname')
+
+		->from('auth_assignment')
+
+		->where('userid=:id', array(':id'=>$this->id))
+
+		->queryScalar();
+
+
+		return $role;
+	}
 }

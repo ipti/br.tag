@@ -5,11 +5,11 @@
 			return [
 				[
 					'allow', // allow authenticated user to perform 'create' and 'update' actions
-					'actions' => ['CreateUser', 'ManageUsers', 'index', 'conflicts'], 'users' => ['*'],
+					'actions' => ['CreateUser', 'index', 'conflicts'], 'users' => ['*'],
 				], [
 					'allow', // allow authenticated user to perform 'create' and 'update' actions
 					'actions' => [
-						'import', 'export', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
+						'import', 'export', 'update', 'manageUsers', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
 						'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'
 					], 'users' => ['@'],
 				],
@@ -469,7 +469,8 @@
 
 	public function actionUpdate($id) {
 		$model = Users::model()->findByPk($id);
-		$userSchool = UsersSchool::model()->findByAttributes(array('user_fk' => $model->id));
+		$actual_role = $model->getRole();
+
 		if (isset($_POST['Users'], $_POST['Confirm'])) {
 			$model->attributes = $_POST['Users'];
 			if ($model->validate()) {
@@ -480,12 +481,14 @@
 					if ($model->save()) {
 						$save = TRUE;
 						foreach ($_POST['schools'] as $school) {
+							$userSchool = UsersSchool::model()->findByAttributes(array('user_fk' => $model->id));
 							$userSchool->user_fk = $model->id;
 							$userSchool->school_fk = $school;
 							$save = $save && $userSchool->validate() && $userSchool->save();
 						}
 						if ($save) {
 							$auth = Yii::app()->authManager;
+							$auth->revoke($_POST['Role'], $model->id);
 							$auth->assign($_POST['Role'], $model->id);
 							Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário alterado com sucesso!'));
 							$this->redirect(['index']);
@@ -497,8 +500,6 @@
 			}
 		}
 
-		$this->render('_form', ['model' => $model, 'userSchool' => $userSchool]);
+		$this->render('_form', ['model' => $model, 'actual_role' => $actual_role]);
 	}
 }
-
-?>
