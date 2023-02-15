@@ -38,6 +38,6 @@ class DefaultController extends Controller
 	{
 		$sagres = new SagresConsultModel;
         $sagresEduXML = $sagres->generatesSagresEduXML($sagres->getEducacaoData($inep_id, $yearSagresConsult));
-        $sagres->actionExportSagresXML($sagresEduXML);
+        print_r($sagres->actionExportSagresXML($sagresEduXML));
 	}
 }
