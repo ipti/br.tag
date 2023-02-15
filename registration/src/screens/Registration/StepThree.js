@@ -101,13 +101,8 @@ const StepThree = props => {
     deficiency: Yup.boolean().required("Campo obrigatório!"),
   });
 
-  const { idSchool, idStage, idStagevsmodality, idEvent } = useContext(RegistrationContext);
-  console.log(idStage)
+ 
   const initialValues = {
-    school_identification: idSchool,
-    event_pre_registration: idEvent,
-    edcenso_stage_vs_modality: idStagevsmodality,
-    stages_vacancy_pre_registration: idStage,
     name: props?.student?.name ?? '',
     birthday: props?.student?.birthday ?? '',
     color_race: props?.student?.color_race ?? '',

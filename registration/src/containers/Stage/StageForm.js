@@ -16,7 +16,7 @@ const Form = props => {
 
   const {data} = useFetchRequestStagevsmodalityOne({id: id})
 
-  
+  console.log(data)
 
   const alert = () => {
     if (props?.openAlert) {

@@ -17,6 +17,7 @@ import { useFetchRequestSchoolList } from "../../query/registration";
 
 const Home = props => {
   const [loadDataStudent, setLoadDataStudent] = useState(false);
+  const [load, setLoad] = useState(true)
   const [idSchool, setIdSchool] = useState('');
   const [idStage, setIdStage] = useState('');
   const [idStagevsmodality, setIdStagevsmodality] = useState('');
@@ -28,7 +29,7 @@ const Home = props => {
   const { requestSaveRegistrationMutation } = Controller()
   const [isActive, setIsActive] = useState(true);
 
-  console.log(isActive)
+  // console.log(isActive)
   // useEffect(() => {
   //   setOpen(false);
 
@@ -65,7 +66,9 @@ const Home = props => {
 
   const { data } = useFetchRequestSchoolList();
 
-  const onSubmit = data => {
+  const onSubmit = () => {
+
+
     if (dataValues?.birthday) {
       dataValues.birthday = dataValues.birthday
         .split("/")
@@ -73,62 +76,53 @@ const Home = props => {
         .join("-");
     }
 
-    console.log(dataValues)
+    // console.log(dataValues)
     const parseBool = value =>
       ['true', 'false'].includes(value) ? value === true : null
+    if (load && dataValues.cep) {
+      requestSaveRegistrationMutation.mutate(
+        {
+          ...dataValues, sex: parseInt(dataValues.sex),
+          zone: parseInt(dataValues.zone),
+          deficiency: parseBool(dataValues.deficiency),
+          cpf: dataValues.cpf.replace(/\D/g, ''),
+          responsable_cpf: dataValues.responsable_cpf.replace(/\D/g, ''),
+          responsable_telephone: dataValues.responsable_telephone.replace(/\D/g, ''),
+          father_name: dataValues.father_name === "" ? null : dataValues.father_name,
+          mother_name: dataValues.mother_name === "" ? null : dataValues.mother_name,
+          event_pre_registration: parseInt(dataValues.event_pre_registration),
+          stages_vacancy_pre_registration: parseInt(dataValues.stages_vacancy_pre_registration)
+        }
+      )
+      setLoad(false)
+    }
 
-    requestSaveRegistrationMutation.mutate(
-      {
-        ...dataValues, sex: parseInt(dataValues.sex),
-        zone: parseInt(dataValues.zone),
-        deficiency: parseBool(dataValues.deficiency),
-        cpf: dataValues.cpf.replace(/\D/g, ''),
-        responsable_cpf: dataValues.responsable_cpf.replace(/\D/g, ''),
-        responsable_telephone: dataValues.responsable_telephone.replace(/\D/g, ''),
-        father_name: dataValues.father_name === "" ? null : dataValues.father_name,
-        mother_name: dataValues.mother_name === "" ? null : dataValues.mother_name,
-        event_pre_registration: parseInt(dataValues.event_pre_registration),
-        stages_vacancy_pre_registration: parseInt(dataValues.stages_vacancy_pre_registration)
-      }
-    )
   };
 
   const next = (step, values) => {
 
     console.log(values)
-    let data = Object.assign(dataValues, values);
-    console.log(data)
-    if (
-      step === 1 &&
-      props?.period &&
-      !props.period?.data?.internal &&
-      props.period?.data?.newStudent &&
-      !props?.student?.status
-    ) {
-      setStep(3);
-    } else if (
-      step === 1 &&
-      props?.period &&
-      props.period?.data?.internal &&
-      !props.period?.data?.newStudent
-    ) {
-      setStep(2);
-    } else {
-      if (step > 1) {
-        setDataValues(data);
-      }
 
-      if (step === 3 && values && values.numRegistration !== "") {
-        getDataStudent(values.numRegistration);
-      } else {
-        if (step === 7) {
-          onSubmit();
-          setStep(step)
-        } else {
-          setStep(step);
-        }
-      }
+    let data = Object.assign(dataValues, values);
+
+    console.log(data)
+    setDataValues(data);
+    setStep(step)
+
+    if (step === 7 && dataValues.cep) {
+      onSubmit();
     }
+
+    // if (step === 3 && values && values.numRegistration !== "") {
+    //   getDataStudent(values.numRegistration);
+    // } else {
+    //   if (step === 7) {
+    //     onSubmit();
+    //     setStep(step)
+    //   } else {
+    //     setStep(step);
+    //   }
+    // }
   };
 
   const getDataStudent = number => {

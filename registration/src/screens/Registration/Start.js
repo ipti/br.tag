@@ -25,11 +25,10 @@ const Start = props => {
   const classes = useStyles();
   const [startDate, setStartDate] = useState()
   const [endDate, setEndDate] = useState()
-  const { setIdSchool, setIdEvent } = useContext(RegistrationContext);
+  const { setIdSchool, setIdEvent, idSchool, idEvent } = useContext(RegistrationContext);
   const datenow = Date.now();
   const date = new Date(datenow)
 
-  console.log(props)
 
   const searchSchools = (inputValue, callback) => {
     if (inputValue.trim().length >= 3) {
@@ -45,10 +44,10 @@ const Start = props => {
   const onButton = () => {
     if (startDate <= date.getTime() && date.getTime() <= endDate) {
       props.setIsActive(true)
-      props.nextStep('1')
+      props.next('1', {school_identification: idSchool, event_pre_registration: idEvent})
     } else {
       props.setIsActive(false)
-      props.nextStep('1')
+      props.next('1', {school_identification: idSchool, event_pre_registration: idEvent})
     }
 
   }
@@ -85,7 +84,6 @@ const Start = props => {
               placeholder="Digite o nome da escola"
               onChange={selectedOption => {
                 setIdSchool(selectedOption.inep_id);
-                console.log(selectedOption.event_pre_registration[0].id)
                 setIdEvent(selectedOption.event_pre_registration[0].id)
                 if (selectedOption.event_pre_registration[0]) {
                   setStartDate(new Date(selectedOption.event_pre_registration[0].start_date).getTime())

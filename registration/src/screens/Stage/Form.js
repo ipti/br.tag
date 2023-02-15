@@ -61,7 +61,7 @@ const Create = props => {
   return (
     <>
       <Grid container direction="row">
-        <TitleWithLine title={data && data.name} />
+        <TitleWithLine title={data && data.edcenso_stage_vs_modality.name} />
       </Grid>
       <Formik
         initialValues={initialValues}
@@ -81,23 +81,23 @@ const Create = props => {
               >
 
                 <BoxVacancies
-                  quantity={data && data.remaining}
+                  quantity={data && (data.vacancy - data.student_pre_identification.length)}
                   title="Restante"
                   md={2}
                   sm={4}
                   xs={12}
                 />
-                <BoxVacancies
+                {/* <BoxVacancies
                   background="purple"
                   quantity={data && data.requested}
                   title="Realizadas"
                   md={2}
                   sm={4}
                   xs={12}
-                />
+                /> */}
                 <BoxVacancies
                   background="pink"
-                  quantity={data && data.confirmed}
+                  quantity={data && data.student_pre_identification.length}
                   title="Confirmadas"
                   md={2}
                   sm={4}

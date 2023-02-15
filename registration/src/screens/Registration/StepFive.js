@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+
+import RegistrationContext from '../../containers/Registration/context';
 
 //Material-UI
 import {
@@ -56,8 +58,6 @@ const StepFive = props => {
   const [citys, setCitys] = useState([])
   const [loadStates, setLoadStates] = useState(true)
 
-console.log(props)
-
   const validationSchema = Yup.object().shape({
     cep: Yup.string().required("Campo obrigatório!"),
     address: Yup.string().required("Campo obrigatório!"),
@@ -83,7 +83,6 @@ console.log(props)
       />
     );
   };
-
 
   // useEffect(()=>{
   //   props.dispatch({type: "GET_ADDRESS", data: '49043130'})
@@ -156,13 +155,12 @@ console.log(props)
     <>
       <Formik
         initialValues={initialValues}
-        onSubmit={values => props.next('7', values)}
+        onSubmit={values => props.next(7, values)}
         validationSchema={validationSchema}
         validateOnChange={false}
         enableReinitialize
       >
         {({ errors, values, touched, handleChange, handleSubmit, setFieldValue }) => {
-          console.log(values)
           const errorList = {
             cep: touched.cep && errors.cep,
             address: touched.address && errors.address,

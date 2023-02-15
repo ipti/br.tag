@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
+
+import RegistrationContext from '../../containers/Registration/context';
 
 // Material UI
 import {
@@ -64,6 +66,8 @@ const StepFour = props => {
     responsable_cpf: Yup.string().required("Campo obrigatório!"),
     responsable_telephone: Yup.string().required("Campo obrigatório!")
   });
+
+  const { values } = useContext(RegistrationContext);
 
   const initialValues = {
     mother_name: props?.student?.mother_name ??  '',

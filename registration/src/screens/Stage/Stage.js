@@ -63,7 +63,7 @@ const Stage = ({ stages, pagination, handlePage, activePage }) => {
     <div style={{position: "relative"}}>
       <Grid container direction="row">
         <Grid className={classes.boxTitlePagination} item xs={12}>
-          <h1 className={`${classes.title} ${classes.floatLeft}`}>Turmas</h1>
+          <h1 className={`${classes.title} ${classes.floatLeft}`}>Ano Escolar</h1>
           <div className={`${classes.floatRight}`}>
             <Paginator
               pagination={pagination}

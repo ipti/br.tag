@@ -43,7 +43,7 @@ const Sidebar = () => {
     },
     {
       to: "/estagios",
-      name: "Estágio",
+      name: "Ano Escolar",
       exact: false,
       IconActive: <IconClassroomActive />,
       Icon: <IconClassroom />

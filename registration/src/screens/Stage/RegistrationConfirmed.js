@@ -54,7 +54,7 @@ const Home = props => {
 
   if (!data) return null;
 
-
+  console.log(student)
 
   const nullableField = "-------------";
 
