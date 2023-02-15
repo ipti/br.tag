@@ -33,7 +33,7 @@
 		</div>
 
 		<div class="span3">
-		<a href="<?php echo Yii::app()->createUrl('sagres/default/export', array('inep_id' => Yii::app()->user->school)) ?>" class="widget-stats">
+		<a href="?r=sagres/default/export" class="widget-stats">
 				<span class="glyphicons file_export"><i></i></span>
 				<span class="txt">Exportar sagres</span>
 				<div class="clearfix"></div>
@@ -41,7 +41,7 @@
 		</div>
 
 		<div class="span3">
-			<a href="?r=sagres/default/update&id=2" class="widget-stats">
+			<a href="<?php echo Yii::app()->createUrl('sagres/default/update', array('id' => 1)) ?>" href="?r=sagres/default/update&id=2" class="widget-stats">
 				<div><i class="fa fa-edit fa-4x"></i></div>
 				<span class="txt">Editar Unidade</span>
 				<div class="clearfix"></div>

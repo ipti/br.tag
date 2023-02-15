@@ -54,10 +54,11 @@ class DefaultController extends Controller
 		);
 	}
 
-	public function actionExport($inep_id, $yearSagresConsult)
+	public function actionExport()
 	{
 		$sagres = new SagresConsultModel;
-        $sagresEduXML = $sagres->generatesSagresEduXML($sagres->getEducacaoData($inep_id, $yearSagresConsult));
+		$year = date('Y'); //Data atual
+        $sagresEduXML = $sagres->generatesSagresEduXML($sagres->getEducacaoData($year));
         print_r($sagres->actionExportSagresXML($sagresEduXML));
 	}
 }

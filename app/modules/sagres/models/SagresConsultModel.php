@@ -12,17 +12,10 @@ use Datetime;
 
 class SagresConsultModel
 {
-    static public function actionExport($inep_id, $yearSagresConsult)
-    {
-        $sagres = new SagresConsultModel;
-        $sagresEduXML = $sagres->generatesSagresEduXML($sagres->getEducacaoData($inep_id, $yearSagresConsult));
-        $sagres->actionExportSagresXML($sagresEduXML);
-    }
-
-    public function getEducacaoData($inep_id, $year): EducacaoTType
+    public function getEducacaoData($year): EducacaoTType
     {
         $education = new EducacaoTType;
-        $education->setEscola($this->getAllSchools($inep_id, $year));
+        $education->setEscola($this->getAllSchools($year));
         $education->setProfissional($this->getProfessionalData($year));
 
         return $education;
@@ -32,17 +25,16 @@ class SagresConsultModel
      * Summary of EscolaTType
      * @return EscolaTType[] 
      */
-    public function getAllSchools($inep_id, $year)
+    public function getAllSchools($year)
     {
         $schoolList = [];
 
-        $query = "SELECT inep_id FROM school_identification WHERE  inep_id = " . $inep_id . ";";
+        $query = "SELECT inep_id FROM school_identification;";
         $schools = Yii::app()->db->createCommand($query)->queryAll();
 
         foreach ($schools as $school) {
             $schoolType = new EscolaTType;
             $schoolType->setIdEscola($school['inep_id']);
-
             $schoolType->setTurma($this->getTurmaType($school['inep_id'], $year));
             $schoolType->setDiretor($this->getDiretorType($school['inep_id']));
             $schoolType->setCardapio($this->getCardapioType($school['inep_id'], $year));
