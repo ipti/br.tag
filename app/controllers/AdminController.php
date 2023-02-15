@@ -470,7 +470,7 @@
 	public function actionUpdate($id) {
 		$model = Users::model()->findByPk($id);
 		$actual_role = $model->getRole();
-
+		$userSchools = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
 		if (isset($_POST['Users'], $_POST['Confirm'])) {
 			$model->attributes = $_POST['Users'];
 			if ($model->validate()) {
@@ -499,6 +499,15 @@
 				}
 			}
 		}
+
+		$result = [];
+		$i = 0;
+		foreach($userSchools as $school => $school_fk) {
+			array_push($result, $school_fk);
+			$i++;
+		}
+		
+		var_dump($result);
 
 		$this->render('_form', ['model' => $model, 'actual_role' => $actual_role]);
 	}
