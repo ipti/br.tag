@@ -29,7 +29,7 @@
 		</div>
 
 		<div class="span3">
-			<a href="?r=sagres/default/update" class="widget-stats">
+			<a href="?r=sagres/default/update&id=2" class="widget-stats">
 				<div><i class="fa fa-edit fa-4x"></i></div>
 				<span class="txt">Editar Unidade</span>
 				<div class="clearfix"></div>
