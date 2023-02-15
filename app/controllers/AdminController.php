@@ -481,10 +481,13 @@
 					if ($model->save()) {
 						$save = TRUE;
 						foreach ($_POST['schools'] as $school) {
-							$userSchool = UsersSchool::model()->findByAttributes(array('user_fk' => $model->id));
-							$userSchool->user_fk = $model->id;
-							$userSchool->school_fk = $school;
-							$save = $save && $userSchool->validate() && $userSchool->save();
+							$userSchool = UsersSchool::model()->findByAttributes(array('school_fk' => $school, 'user_fk' => $model->id));
+							if( $userSchool == null) {
+								$userSchool = new UsersSchool;
+								$userSchool->user_fk = $model->id;
+								$userSchool->school_fk = $school;
+								$save = $save && $userSchool->validate() && $userSchool->save();
+							}
 						}
 						if ($save) {
 							$auth = Yii::app()->authManager;
@@ -499,16 +502,14 @@
 				}
 			}
 		}
-
+		
 		$result = [];
 		$i = 0;
-		foreach($userSchools as $school => $school_fk) {
-			array_push($result, $school_fk);
+        foreach ($userSchools as $scholl){
+            $result[$i] = $scholl->school_fk;
 			$i++;
-		}
-		
-		var_dump($result);
+        }
 
-		$this->render('_form', ['model' => $model, 'actual_role' => $actual_role]);
+		$this->render('_form', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result]);
 	}
 }
