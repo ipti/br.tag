@@ -36,33 +36,28 @@ $this->breadcrumbs = array(
             <div class="tab-content">
                 <div class="tab-pane active" id="student">
                     <div class="row">	
-                        <div class="column off-set"> 
-                            <div class="row-fluid">
+                        <div class="column"> 
                                 <div class="t-cards">
                                     <a href="<?php echo yii::app()->createUrl('wizard/Configuration/school')?>" class="t-cards-link">
-                                        <div class="t-cards-icon"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/escola.svg" /></div>
-                                        <div class="t-cards-title">Escola</div>
+                                        <div class="t-cards-title"><img class="t-cards-icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/escola.svg" />Escola</div>
+                                        <div class="t-cards-text">Como funciona a página inicial do tag?</div>
                                     </a>
                                 </div>
                                 <div class="t-cards">
                                     <a href="<?php echo yii::app()->createUrl('wizard/Configuration/classroom')?>" class="t-cards-link">
-                                        <span class="t-cards-icon"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/turma.svg" /></span>
-                                        <span class="t-cards-title">Turmas</span>
+                                        <div class="t-cards-title"><img class="t-cards-icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/turma.svg" />Turmas</div>
+                                        <div class="t-cards-text">Como funciona a página inicial do tag?</div>
                                     </a>
                                 </div>
                                 <div class="t-cards">
                                     <a href="<?php echo yii::app()->createUrl('wizard/Configuration/student')?>" class="t-cards-link">
-                                        <span class="t-cards-icon"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/aluno.svg" /></span>
-                                        <span class="t-cards-title">Aluno</span>
+                                        <div class="t-cards-title"><img  class="t-cards-icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/aluno.svg" />Aluno</div>
+                                        <div class="t-cards-text">Como funciona a página inicial do tag?</div>
                                     </a>
                                 </div>
-                                <div class="span3">
-                                </div>
-                            </div>
+                            
                         </div>
                         <!-- <div class="column"></div> -->
-                        <div class=" span6">
-                        </div>
                     </div>
                 </div>
             </div>

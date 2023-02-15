@@ -14,7 +14,7 @@
 /* Space */
 /* Font size */
 /* Grid */
-/* Dimension */
+/* Size */
 /* Border Radius */
 /* Border width */
 /* Opacity */
@@ -24,7 +24,31 @@
 
 @media (min-width: 640px) { .row { flex-direction: row; } }
 
-.column { margin-left: 1em; margin-right: 1em; width: 100%; }
+.column { margin-left: 1em; margin-right: 1em; }
+
+.column.off-set-1 { margin-left: "8.33333%"; }
+
+.column.off-set-2 { margin-left: "16.66667%"; }
+
+.column.off-set-3 { margin-left: "25%"; }
+
+.column.off-set-4 { margin-left: "33.33333%"; }
+
+.column.off-set-5 { margin-left: "41.66667%"; }
+
+.column.off-set-6 { margin-left: "50%"; }
+
+.column.off-set-7 { margin-left: "58.33333%"; }
+
+.column.off-set-8 { margin-left: "66.66667%"; }
+
+.column.off-set-9 { margin-left: "75%"; }
+
+.column.off-set-10 { margin-left: "83.33333%"; }
+
+.column.off-set-11 { margin-left: "91.66667%"; }
+
+.column.off-set-12 { margin-left: "100%"; }
 
 /* .grow-1{
     flex-grow: 1;
@@ -49,7 +73,7 @@
 /* Space */
 /* Font size */
 /* Grid */
-/* Dimension */
+/* Size */
 /* Border Radius */
 /* Border width */
 /* Opacity */
@@ -67,7 +91,7 @@
 /* Space */
 /* Font size */
 /* Grid */
-/* Dimension */
+/* Size */
 /* Border Radius */
 /* Border width */
 /* Opacity */
@@ -102,7 +126,7 @@
 /* Space */
 /* Font size */
 /* Grid */
-/* Dimension */
+/* Size */
 /* Border Radius */
 /* Border width */
 /* Opacity */
@@ -129,7 +153,7 @@
 /* Space */
 /* Font size */
 /* Grid */
-/* Dimension */
+/* Size */
 /* Border Radius */
 /* Border width */
 /* Opacity */
@@ -156,7 +180,7 @@
 /* Space */
 /* Font size */
 /* Grid */
-/* Dimension */
+/* Size */
 /* Border Radius */
 /* Border width */
 /* Opacity */
@@ -181,7 +205,7 @@
 /* Space */
 /* Font size */
 /* Grid */
-/* Dimension */
+/* Size */
 /* Border Radius */
 /* Border width */
 /* Opacity */
@@ -207,7 +231,7 @@
 /* Space */
 /* Font size */
 /* Grid */
-/* Dimension */
+/* Size */
 /* Border Radius */
 /* Border width */
 /* Opacity */
@@ -254,15 +278,19 @@
 /* Space */
 /* Font size */
 /* Grid */
-/* Dimension */
+/* Size */
 /* Border Radius */
 /* Border width */
 /* Opacity */
 /* Line Height */
 /*Font Weight*/
 /* mixin */
-.t-cards { border-radius: 6px; padding: 1em; background: #fafafe; margin-bottom: 5px; }
+.t-cards { border-radius: 6px; padding: 20px; background: #fafafe; margin-bottom: 16px; }
 
-.t-cards a { display: flex; align-items: center; text-decoration: none; }
+.t-cards a .t-cards-title { display: flex; align-items: center; color: #18204e; font-size: 16px; font-family: 'Inter'; font-weight: 700; }
 
-.t-cards a .t-cards-title { color: #18204e; font-size: 24px; font-family: 'Inter'; font-weight: 700; }
+.t-cards a .t-cards-title img { margin-right: 8px; }
+
+.t-cards a .t-cards-text { color: #465567; margin-left: 40px; }
+
+.t-cards a:hover { text-decoration: none; }

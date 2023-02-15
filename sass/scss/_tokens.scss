@@ -94,18 +94,21 @@ $layout-2xl: calc(40px - 2.5rem);
 $layout-3xl: calc(48px - 3rem);
 $layout-4xl: calc(64px - 4rem);
 
-/* Dimension */
-$DimensionLarge: 24px;
-$DimensionMedium: 16px;
-$DimensionSmall: 12px;
-$DimensionXLarge: 32px;
-$DimensionXSmall: 8px;
-$DimensionXXLarge: 40px;
-$DimensionXXXLarge: 52px;
-$DimensionXXXSmall: 4px;
-$DimensionXXXXSmall: 2px;
-$DimensionNormal: 14px;
-$DimensionXXSmall: 6px;
+/* Size */
+
+$SizeLarge: 24px;
+$SizeMedium: 16px;
+$SizeSmall: 12px;
+$SizeXLarge: 32px;
+$SizeXSmall: 8px;
+$SizeXXLarge: 40px;
+$SizeXXXLarge: 52px;
+$SizeXXXSmall: 4px;
+$SizeXXXXSmall: 2px;
+$SizeNormal: 14px;
+$SizeXXSmall: 6px;
+$size200: 20px;
+
 
 /* Border Radius */
 $borderRadiusSmall: 2px;

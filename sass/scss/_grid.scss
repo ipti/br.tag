@@ -14,10 +14,11 @@
 .column {
     margin-left: $spaceXLarge/2;
     margin-right: $spaceXLarge/2;
-    width: 100%;
+   
 
     @for $i from 1 through 12 {
-        .off-set-#{$i} {
+        &.off-set-#{$i} {
+            margin-left: $i / 12 * 100 +"%";
         }
     }
 

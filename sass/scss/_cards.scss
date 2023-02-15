@@ -3,20 +3,30 @@
 
 .t-cards {
     border-radius: $borderRadiusLarge;
-    padding: $spaceMedium;
+    padding: $size200;
     background: $colorsBaseProductLighter;
-    margin-bottom: 5px;
+    margin-bottom: $SizeMedium;
 
 
     a {
-        display: flex;
-        align-items: center;
-        text-decoration: none;
         .t-cards-title {
+            display: flex;
+            align-items: center;
             color: $colorsBaseProductDarkActive;
-            font-size: $FontSizeHeadingTitle1;
+            font-size: $FontSizeHeadingTitle2;
             font-family: 'Inter';
             font-weight: 700;
+
+            img {
+                margin-right: $SizeXSmall;
+            }
+        }
+        .t-cards-text {
+            color: $colorsBaseInkLightActive;
+            margin-left: $SizeXXLarge;
+        }
+        &:hover {
+            text-decoration: none;
         }
     }
 
