@@ -33,7 +33,7 @@
 		</div>
 
 		<div class="span3">
-			<a href="/?r=sagres/default/export&inep_id=28022122&yearSagresConsult=2022" class="widget-stats">
+		<a href="<?php echo Yii::app()->createUrl('sagres/default/export', array('inep_id' => Yii::app()->user->school)) ?>" class="widget-stats">
 				<span class="glyphicons file_export"><i></i></span>
 				<span class="txt">Exportar sagres</span>
 				<div class="clearfix"></div>
@@ -68,12 +68,12 @@
 	}
 
 	$(document).ready(function () {
-		var url = "/?r=sagres/default/export&inep_id=28022122&yearSagresConsult=2022";
+		var url = "/?r=sagres/default/export&inep_id=28022122";
 		var filename = 'ExportSagres.xml';
 
 		$('a[href="' + url + '"]').click(function (event) {
 			event.preventDefault();
-			downloadFile('/?r=sagres/default/export&inep_id=28022122&yearSagresConsult=2022', filename);
+			downloadFile('/?r=sagres/default/export&inep_id=2802212', filename);
 		});
 	});
 
