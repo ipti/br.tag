@@ -1,4 +1,3 @@
-
 <div id="mainPage" class="main" style="margin-top:40px; padding: 10px">
 	<?php
 	$this->setPageTitle('TAG - ' . Yii::t('default', 'Sagres'));
@@ -10,7 +9,20 @@
 	<div class="separator"></div>
 	<div class="separator"></div>
 	<div class="separator"></div>
-
+	<div class="row-fluid" style="padding-top: 15px;padding-bottom: 20px;">
+		<div class="span3">
+			<div>
+				<h5>Data Inicial</h5>
+				<input style="border-color: #e5e5e5;" type="date" name="data_inicio" placeholder="DD/MM/AAAA">
+			</div>
+		</div>
+		<div class="span3">
+			<div>
+				<h5>Data Final</h5>
+				<input style="border-color: #e5e5e5;" type="date" name="Data_final" placeholder="DD/MM/AAAA">
+			</div>
+		</div>
+	</div>
 	<div class="row-fluid">
 		<div class="span3">
 			<a href="?r=sagres/default/create" class="widget-stats">
