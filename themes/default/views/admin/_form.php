@@ -136,6 +136,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     }
                                     echo CHtml::dropDownList('Role',$actual_role, $roles ,array('class'=>'select-search-off')); ?>
                                 </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo CHtml::label( Yii::t('default','Active'), 'active', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo CHtml::dropDownList('schools',$userSchools,CHtml::listData(SchoolIdentification::model()->findAll('situation=1 order by name'), 'inep_id', 'name'),array('multiple'=>'multiple', 'class'=>'select-search-on')); ?>
                                 </div>

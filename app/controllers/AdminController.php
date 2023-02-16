@@ -1,5 +1,4 @@
 <?php
-
     class AdminController extends Controller
     {
         public $layout = 'fullmenu';
@@ -474,36 +473,35 @@
                     fpassthru($file);
                     fclose($file);
                     unlink($fileName);
+					//$this->loadMaster($loads);
+				}
+				
+			}
+			Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
+			$this->redirect(['index']);
+		} catch (Exception $e) {
+			//echo 
+			//var_dump($e);exit;
+			$loads = $this->prepareExport();
+			$datajson = serialize($loads);
+			ini_set('memory_limit', '288M');
+			$fileName = "./app/export/" . Yii::app()->user->school . ".json";
+			$file = fopen($fileName, "w");
+			fwrite($file, $datajson);
+			fclose($file);
+			header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
+			header("Content-Type: application/force-download");
+			header("Content-Length: " . filesize($fileName));
+			header("Connection: close");
+			$file = fopen($fileName, "r");
+			fpassthru($file);
+			fclose($file);
+			unlink($fileName);
+		}
+	}
 
-                    //$this->loadMaster($loads);
-                }
-            }
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
-            $this->redirect(['index']);
-        } catch (Exception $e) {
-            //echo
-            //var_dump($e);exit;
-            $loads = $this->prepareExport();
-            $datajson = serialize($loads);
-            ini_set('memory_limit', '288M');
-            $fileName = "./app/export/" . Yii::app()->user->school . ".json";
-            $file = fopen($fileName, "w");
-            fwrite($file, $datajson);
-            fclose($file);
-            header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
-            header("Content-Type: application/force-download");
-            header("Content-Length: " . filesize($fileName));
-            header("Connection: close");
-            $file = fopen($fileName, "r");
-            fpassthru($file);
-            fclose($file);
-            unlink($fileName);
-        }
-    }
-
-    public function actionManageUsers()
-    {
-        $filter = new Users('search');
+	public function actionManageUsers() {
+		$filter = new Users('search');
         $filter->unsetAttributes();
         if (isset($_GET['Users'])) {
             $filter->attributes = $_GET['Users'];
@@ -516,6 +514,7 @@
                 'pageSize' => 12,
             )
         ));
+
         $this->render('manageUsers', array(
             'dataProvider' => $dataProvider,
             'filter' => $filter,
@@ -569,69 +568,6 @@
         $this->render('_form', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result]);
     }
 
-    public function actionExportMaster()
-    {
-        try {
-            ini_set('max_execution_time', 0);
-            ini_set('memory_limit', '-1');
-            set_time_limit(0);
-            ignore_user_abort();
-            Yii::app()->db2;
-            $sql = "SELECT DISTINCT `TABLE_SCHEMA` FROM `information_schema`.`TABLES` WHERE TABLE_SCHEMA LIKE 'io.escola.%';";
-            $dbs = Yii::app()->db2->createCommand($sql)->queryAll();
-            $loads = array();
-            $priority['TABLE_SCHEMA'] = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();
-            array_unshift($dbs, $priority);
-            foreach ($dbs as $db) {
-                //if($db['TABLE_SCHEMA'] != 'io.escola.demo' && $db['TABLE_SCHEMA'] != 'io.escola.geminiano'){
-                if ($db['TABLE_SCHEMA'] == 'io.escola.geminiano') {
-                    $dbname = $db['TABLE_SCHEMA'];
-                    echo $dbname;
-                    Yii::app()->db->setActive(false);
-                    Yii::app()->db->connectionString = "mysql:host=ipti.org.br;dbname=$dbname";
-                    Yii::app()->db->setActive(true);
-
-                    $loads = $this->prepareExport();
-                    $datajson = serialize($loads);
-                    ini_set('memory_limit', '288M');
-                    $fileName = "./app/export/" . $dbname . ".json";
-                    $file = fopen($fileName, "w");
-                    fwrite($file, $datajson);
-                    fclose($file);
-                    header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
-                    header("Content-Type: application/force-download");
-                    header("Content-Length: " . filesize($fileName));
-                    header("Connection: close");
-                    $file = fopen($fileName, "r");
-                    fpassthru($file);
-                    fclose($file);
-                    unlink($fileName);
-
-                    //$this->loadMaster($loads);
-                }
-            }
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
-            $this->redirect(['index']);
-        } catch (Exception $e) {
-            //echo
-            //var_dump($e);exit;
-            $loads = $this->prepareExport();
-            $datajson = serialize($loads);
-            ini_set('memory_limit', '288M');
-            $fileName = "./app/export/" . Yii::app()->user->school . ".json";
-            $file = fopen($fileName, "w");
-            fwrite($file, $datajson);
-            fclose($file);
-            header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
-            header("Content-Type: application/force-download");
-            header("Content-Length: " . filesize($fileName));
-            header("Connection: close");
-            $file = fopen($fileName, "r");
-            fpassthru($file);
-            fclose($file);
-            unlink($fileName);
-        }
-    }
 
     public function actionChangelog()
     {

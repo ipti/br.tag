@@ -44,6 +44,10 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="alert alert-success">
             <?php echo Yii::app()->user->getFlash('success') ?>
         </div>
+        <?php elseif (Yii::app()->user->hasFlash('error')): ?>
+        <div class="alert alert-error">
+            <?php echo Yii::app()->user->getFlash('error') ?>
+        </div>
     <?php endif ?>
     <div class="widget widget-tabs border-bottom-none">
         <?php
