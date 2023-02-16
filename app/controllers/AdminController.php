@@ -50,8 +50,6 @@
 					} else {
 						$model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
 					}
-				}else {
-					$model->addError('name', '');
 				}
 			}
 			$this->render('createUser', ['model' => $model]);
