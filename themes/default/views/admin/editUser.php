@@ -13,7 +13,8 @@
     echo $this->renderPartial('_form', array(
         'model' => $model,
         'title' => $title,
-        'actual_role' => $actual_role
+        'actual_role' => $actual_role,
+        'userSchools' => $userSchools
     ));
     ?>
 </div>
