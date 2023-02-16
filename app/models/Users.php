@@ -70,7 +70,7 @@ class Users extends CActiveRecord
 			'name' => Yii::t('default', 'Name'),
 			'username' => Yii::t('default', 'Username'),
 			'password' => Yii::t('default', 'Password'),
-			'active' => 'Active',
+			'active' => Yii::t('default', 'Active'),
 		);
 	}
 
