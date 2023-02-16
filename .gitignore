@@ -1,6 +1,6 @@
 /app/runtime/
 /app/backup/
-/assets/
+/assets/**
 .idea/
 instance.php
 .vscode/launch.json
@@ -9,5 +9,5 @@ config.php
 instance.php
 db
 dump.sql
-docker-compose.yml
 vendor
+docker/

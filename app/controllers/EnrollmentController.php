@@ -200,6 +200,7 @@ class EnrollmentController extends Controller
      */
     public function actionIndex()
     {
+        $query = StudentEnrollment::model()->findAll();
         $model = new StudentEnrollment('search');
         $model->unsetAttributes();  // clear any default values
         if (isset($_GET['StudentEnrollment'])) {
@@ -213,7 +214,7 @@ class EnrollmentController extends Controller
         $dataProvider = new CActiveDataProvider('StudentEnrollment', array(
             'criteria' => $criteria,
             'pagination' => array(
-                'pageSize' => 12,
+                'pageSize' => count($query),
             ),
         ));
 
@@ -570,40 +571,25 @@ class EnrollmentController extends Controller
 
             $return["students"] = [];
             error_reporting(0);
-            $disciplines = Yii::app()->db->createCommand(
-                "select * from ((select c.`id` as 'classroom_id', d.id as 'discipline_id', d.`name` as 'discipline_name', ii.users_fk as 'userId'
-
-                        from `edcenso_discipline` as `d`
-                        JOIN `instructor_teaching_data` `t` ON 
-                                (`t`.`discipline_1_fk` = `d`.`id` 
-                                || `t`.`discipline_2_fk` = `d`.`id` 
-                                || `t`.`discipline_3_fk` = `d`.`id`
-                                || `t`.`discipline_4_fk` = `d`.`id`
-                                || `t`.`discipline_5_fk` = `d`.`id`
-                                || `t`.`discipline_6_fk` = `d`.`id`
-                                || `t`.`discipline_7_fk` = `d`.`id`
-                                || `t`.`discipline_8_fk` = `d`.`id`
-                                || `t`.`discipline_9_fk` = `d`.`id`
-                                || `t`.`discipline_10_fk` = `d`.`id`
-                                || `t`.`discipline_11_fk` = `d`.`id`
-                                || `t`.`discipline_12_fk` = `d`.`id`
-                                || `t`.`discipline_13_fk` = `d`.`id`)
-                        join `classroom` as `c` on (c.id = t.classroom_id_fk)
-                        left join instructor_identification ii on t.instructor_fk = ii.id 
-                    ) union (
-                        select c.`id` as 'classroom_id', d.id as 'discipline_id', d.`name` as 'discipline_name', null
-                        from `classroom` as `c`
-                                join `class_board` as `cb` on (c.id = cb.classroom_fk)
-                                join `edcenso_discipline` as `d` on (d.id = cb.discipline_fk)
-                    )) as classroom_disciplines
-                    where classroom_id = :cid")->bindParam(":cid", $cid)->queryAll();
-
+            if ($return["isInstructor"]) {
+                $disciplines = Yii::app()->db->createCommand(
+                    "select ed.id as 'discipline_id', ed.`name` as 'discipline_name', ii.users_fk as 'userId'
+                    from teaching_matrixes tm
+                    join instructor_teaching_data it on tm.teaching_data_fk = it.id
+                    join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
+                    join edcenso_discipline ed on ed.id = cm.discipline_fk
+                    join instructor_identification ii on ii.id = it.instructor_fk
+                    where it.classroom_id_fk = :cid")->bindParam(":cid", $cid)->queryAll();
+            } else {
+                $disciplines = Yii::app()->db->createCommand(
+                    "select ed.id as 'discipline_id', ed.name as 'discipline_name' from curricular_matrix cm join edcenso_discipline ed on ed.id = cm.discipline_fk where stage_fk = :stage_fk and school_year = :year")->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
+            }
 
             error_reporting(0);
 
             foreach ($enrollments as $enrollment) {
                 $studentName = $enrollment->studentFk->name;
-                //@WTF - studentFk relacionamento - Esse bug valia 50quentinha
+
                 $studentEnrId = $enrollment->id;
 
                 $return["students"][$studentName] = [];

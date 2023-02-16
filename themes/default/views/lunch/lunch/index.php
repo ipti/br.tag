@@ -6,9 +6,11 @@
 
 $this->pageTitle = Yii::app()->name . ' - ' . Yii::t('lunchModule.lunch', 'Menu');
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
+$themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::POS_END);
+$cs->registerCssFile($themeUrl . '/css/template2.css');  
 ?>
 
 <div class="row-fluid">
@@ -18,11 +20,11 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
         </h3>
 
         <div style="width:250px" class="buttons pull-right">
-            <a data-toggle="modal" href="<?= yii::app()->createUrl("/lunch/lunch/create")?>" class="btn btn-primary ">
-                <i class="fa fa-plus-circle"></i> <?= Yii::t('lunchModule.lunch', 'New Menu'); ?>
+            <a data-toggle="modal" href="<?= yii::app()->createUrl("/lunch/lunch/create")?>" class="tag-button medium-button">
+                <?= Yii::t('lunchModule.lunch', 'New Menu'); ?>
             </a>
-			<a data-toggle="modal" href="<?= yii::app()->createUrl("/lunch/stock")?>" class="btn btn-primary ">
-                <i class="fa"></i> <?= Yii::t('lunchModule.lunch', 'Stock'); ?>
+			<a data-toggle="modal" href="<?= yii::app()->createUrl("/lunch/stock")?>" class="tag-button medium-button">
+                <?= Yii::t('lunchModule.lunch', 'Stock'); ?>
             </a>
         </div>
     </div>

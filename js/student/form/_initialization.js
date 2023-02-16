@@ -1,12 +1,12 @@
-
+window.location.search.includes("update") ? $('.last').css('display', 'block') : $('.last').css('display', 'none');
 
 $(document).ready(function () {
     var simple = getUrlVars()['simple'];
     if (simple == '1') {
         $("#tab-student-documents").hide();
-        $(".control-group").hide();
-        $(".required").parent().show();
-        $("#StudentEnrollment_classroom_fk").closest(".control-group").show();
+        $(".js-hide-not-required").hide();
+        //$(".required").parent().show();
+        $("#StudentEnrollment_classroom_fk").closest(".js-hide-not-required").show();
     }
     $(".tab-student").show();
     $(".tab-content").show();
@@ -51,6 +51,17 @@ function getUrlVars() {
         vars[key] = value;
     });
     return vars;
+}
+
+function displayRecords() {
+    if($("#registrosSimilares").css("display") == "none") {
+        $("#registrosSimilares").css('display', 'block');
+        $("#similarMessage").attr('data-original-title', 'Cadastro(s) similar(es) encontrado(s), verifique com atenção os dados. Clique para ocultar registros');
+    }
+    else {
+        $("#registrosSimilares").css('display', 'none')
+        $("#similarMessage").attr('data-original-title', 'Cadastro(s) similar(es) encontrado(s), verifique com atenção os dados. Clique para exibir registros');
+    }
 }
 
 $(document).on("change", ".resources-container input[type=checkbox]", function () {

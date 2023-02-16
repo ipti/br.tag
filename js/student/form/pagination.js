@@ -5,7 +5,9 @@ if (simple == '1') {
     var tabs = ['tab-student-identify', 'tab-student-documents', 'tab-student-address', 'tab-student-enrollment'];
 }
 function changeTab(index){
-	var activeTab = $('li[class="active"]');
+    /* console.log(index)
+    index = 1 */
+	var activeTab = $('.js-tab-control li.active');
 	var activePane = $('div .active');
 	
 	var size = tabs.length -1;
@@ -13,7 +15,7 @@ function changeTab(index){
     if(index == 0){
         $('.prev').hide();
         $('.next').show();
-        $('.last').hide();
+        window.location.search.includes("update") ? $('.last').show() : $('.last').hide();
     }else if(index == size){
         $('.prev').show();
     	$('.next').hide();
@@ -21,7 +23,7 @@ function changeTab(index){
     }else{
         $('.prev').show();
         $('.next').show();
-        $('.last').hide();
+        window.location.search.includes("update") ? $('.last').show() : $('.last').hide();
     }
     
 	newTab = tabs[index];
@@ -38,13 +40,14 @@ function changeTab(index){
 }
 
 function change2nextTab(){
-	var activeTab = $('ul.tab-student li[class="active"]');
+	var activeTab = $('.js-tab-control li.active');
     var tab = tabs.indexOf(activeTab.attr("id"));
+    console.log(tab)
 	changeTab(tab+1);
 }
 
 function change2prevTab(){
-	var activeTab = $('li[class="active"]');
+	var activeTab = $('.js-tab-control li.active');
     var tab = tabs.indexOf(activeTab.attr("id"));
 	changeTab(tab-1);
 }

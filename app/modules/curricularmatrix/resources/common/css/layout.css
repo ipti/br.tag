@@ -63,3 +63,7 @@ form{
 .display-hide {
     display: none !important;
 }
+
+.alert-container {
+    display: none;
+}

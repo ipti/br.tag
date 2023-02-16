@@ -1,0 +1,19 @@
+/* mixin */
+
+@mixin device($device) {
+    @if $device == mobile {
+        @media (min-width: 640px) {
+            @content;
+        }
+    }
+    @else if $device == tablet {
+        @media (min-width: 768px) {
+            @content;
+        }
+    }
+    @else if $device == desktop {
+        @media (min-width: 1536px) {
+            @content;
+        }
+    }
+}

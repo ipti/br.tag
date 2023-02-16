@@ -19,6 +19,7 @@ return array(
         'application.components.*',
         'application.modules.wizard.models.*',
         'application.modules.calendar.models.*',
+        'application.modules.curricularmatrix.models.*',
         'application.modules.quiz.models.*',
     ),
     'modules' => array(
@@ -129,11 +130,11 @@ return array(
                     'levels' => 'error, warning',
                 ),
                 // uncomment the following to show log messages on web pages
-                /*
-                  array(
+                
+                  /* array(
                   'class'=>'CWebLogRoute',
-                  ),
-                 */
+                  ), */
+                
             ),
         ),
     ),

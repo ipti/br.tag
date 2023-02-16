@@ -1,6 +1,9 @@
 <?php
 
 return array(
+    // Ano
+    'Year' => 'Ano',
+
     //Meses
     'January' => 'Janeiro',
     'February' => 'Fevereiro',
@@ -410,6 +413,11 @@ return array(
     'Turn' => 'Turno',
     'Add Discipline/Teacher' => 'Adicionar Professor/Disciplina',
     'Writing' => 'Redação',
+    'Listen, Speak, Thought and Imagination' => 'Escuta, Fala, Pensamento e Imaginação',
+    'Space, Time, Quantity, Relations and Transformations' => 'Espaço, Tempo, Quantidade, Relações e Transformações',
+    'Body, Gesture and Movement' => 'Corpo, Gesto e Movimento',
+    'Traces, Sounds, Colors and Shapes' => 'Traços, Sons, Cores e Formas',
+    'The I, the Other and the We' => 'O Eu, O Outro e o Nós',
     'Pedagogical Mediation Type' => 'Tipo de Mediação Didático-Pedagógica',
     'New Discipline' => 'Nova Disciplina',
     'Classroom Days' => 'Dias de Aula',
@@ -572,6 +580,8 @@ return array(
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',
     
+
+    
     //InstructorIdentification
     'Nis' => 'Nº de Identificação Social (NIS)',
     'Birthday Date' => 'Data de Nascimento',
@@ -583,6 +593,8 @@ return array(
     'Nationality' => 'Nacionalidade',
     'Edcenso Nation Fk' => 'País de origem',
     'Full name' => 'Nome completo',
+    'Social Name' => 'Nome Social',
+    'Civil Name' => 'Nome Civil',
     'Full mothers name' => 'Nome completo da mãe',
     'Full fathers name' => 'Nome completo do pai',
     'Deficiency' => 'Deficiência',
@@ -731,6 +743,7 @@ return array(
     'Human Resources' => 'Recursos Humanos',
     'Feed' => 'Alimentação',
     'Educational Data' => 'Dados Educacionais',
+    'Address and Contact' => 'Endereço e contato',
     'Documents' => 'Documentos',
     'Address' => 'Endereço',
     'Documents and Address' => 'Documentos e Endereço',

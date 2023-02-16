@@ -6,20 +6,25 @@
     $this->menu = array(
         array('label' => Yii::t('default', 'Create a new Classroom'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new Classroom')),
     );
+    $themeUrl = Yii::app()->theme->baseUrl;
+    $cs = Yii::app()->getClientScript();
+    $cs->registerCssFile($themeUrl . '/css/template2.css');
+    $cs->registerCssFile(Yii::app()->request->baseUrl . '/sass/css/main.css');
+    
     ?>
 
     <div class="row-fluid hide-responsive">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Classrooms') ?></h3>  
             <div class="buttons span9">
-                <a href="<?php echo Yii::app()->createUrl('classroom/create') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar turma</a>
-                <a href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" class="btn btn-primary btn-icon glyphicons circle_plus" target="_blank"><i></i>Relatório Alunos/Turma</a>
-                <a href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" class="btn btn-primary btn-icon glyphicons circle_plus" target="_blank"><i></i>Relatório Professores/Turma</a>
+                <a href="<?php echo Yii::app()->createUrl('classroom/create') ?>" class="tag-button medium-button"> Adicionar turma</a>
+                <a href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" class="tag-button medium-button" target="_blank">Relatório Alunos/Turma</a>
+                <a href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" class="tag-button medium-button" target="_blank">Relatório Professores/Turma</a>
             </div>
         </div>
     </div>
     
-    <div class="innerLR">
+    <div class="tag-inner">
         <div class="btn-group pull-right responsive-menu">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                 Menu
@@ -42,15 +47,15 @@
                 <div class="widget-body">
                     <?php
                     $this->widget('zii.widgets.grid.CGridView', array(
-                        'dataProvider' => $filter->search(),
-                        'enablePagination' => true,
-                        'filter' => $filter,
-                        'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'dataProvider' => $dataProvider,
+                        'enablePagination' => false,
+                        'enableSorting' => false,
+                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-vertical-center checkboxs',
                         'columns' => array(
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("classroom/update",array("id"=>$data->id)))',
+                                'value' => '$data->name',
                                 'htmlOptions' => array('width' => '400px')
                             ),
                             array(
@@ -65,8 +70,24 @@
                                 'htmlOptions' => array('width' => '200px'),
                                 'filter' => false
                             ),
-                            array('class' => 'CButtonColumn', 'template' => '{update}'),
-                            array('class' => 'CButtonColumn', 'template' => '{delete}'),
+                            array(
+                                'class' => 'CButtonColumn', 
+                                'template' => '{update}',
+                                'buttons' => array(
+                                    'update' => array(
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+                                    )
+                                )
+                            ),
+                            array(
+                            'class' => 'CButtonColumn', 
+                            'template' => '{delete}',
+                            'buttons' => array(
+                                    'delete' => array(
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                    )
+                                )
+                            ),
                         ),
                     ));
                     ?>

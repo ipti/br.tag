@@ -162,40 +162,42 @@ class TimesheetController extends Controller
             }
             $response["calendarEvents"] = $calendarEventsArray;
 
-            $curricularMatrix = TimesheetCurricularMatrix::model()->findAll("stage_fk = :stage", [
-                ":stage" => $classroom->edcenso_stage_vs_modality_fk
+            $curricularMatrixes = TimesheetCurricularMatrix::model()->findAll("stage_fk = :stage and school_year = :year", [
+                ":stage" => $classroom->edcenso_stage_vs_modality_fk, ":year" => Yii::app()->user->year
             ]);
-            $response["disciplines"] = [];
-            foreach ($curricularMatrix as $cm) {
-                array_push($response["disciplines"], ["disciplineId" => $cm->discipline_fk, "disciplineName" => $cm->disciplineFk->name, "workloadUsed" => 0, "workloadTotal" => $cm->workload]);
-            }
-            $hasMatrix = $curricularMatrix != null;
+            if (count($curricularMatrixes) !== 0) {
+                $response["disciplines"] = [];
+                foreach ($curricularMatrixes as $cm) {
+                    $instructorName = Yii::app()->db->createCommand("
+                    select ii.name from teaching_matrixes tm
+                    join instructor_teaching_data itd on itd.id = tm.teaching_data_fk 
+                    join instructor_identification ii on itd.instructor_fk = ii.id
+                    where itd.classroom_id_fk = :cid and tm.curricular_matrix_fk = :cmid")->bindParam(":cmid", $cm->id)->bindParam(":cid", $classroomId)->queryRow();
+                    array_push($response["disciplines"], ["disciplineId" => $cm->discipline_fk, "disciplineName" => $cm->disciplineFk->name, "workloadUsed" => 0, "workloadTotal" => $cm->workload, "instructorName" => $instructorName["name"]]);
+                }
 
-            if ($classroomId != "") {
-                /** @var Schedule[] $schedules */
-                $schedules = Schedule::model()->findAll("classroom_fk = :classroom", [":classroom" => $classroomId]);
-                if (count($schedules) == 0) {
-                    if ($hasMatrix) {
-                        $response["valid"] = TRUE;
+                if ($classroomId != "") {
+                    /** @var Schedule[] $schedules */
+                    $schedules = Schedule::model()->findAll("classroom_fk = :classroom", [":classroom" => $classroomId]);
+                    if (count($schedules) == 0) {
                         $response["hardUnavailableDays"] = $this->getUnavailableDays($classroomId, false, "hard");
                         $response["softUnavailableDays"] = $this->getUnavailableDays($classroomId, false, "soft");
                         $response["schedules"] = [];
                     } else {
-                        $response["valid"] = FALSE;
-                        $response["error"] = "curricularMatrix";
-                    }
-                } else {
-                    $response["valid"] = TRUE;
-                    $response["hardUnavailableDays"] = $this->getUnavailableDays($classroomId, false, "hard");
-                    $response["softUnavailableDays"] = $this->getUnavailableDays($classroomId, false, "soft");
+                        $response["hardUnavailableDays"] = $this->getUnavailableDays($classroomId, false, "hard");
+                        $response["softUnavailableDays"] = $this->getUnavailableDays($classroomId, false, "soft");
 
-                    $lastClassFaultDay = Yii::app()->db->createCommand("select s.* from class_faults as cf join schedule as s on cf.schedule_fk = s.id where s.classroom_fk = :id order by month DESC, day DESC limit 1")->bindParam(":id", $classroomId)->queryRow();
-                    if ($lastClassFaultDay != false) {
-                        $response["frequencyUnavailableLastDay"] = ["month" => $lastClassFaultDay["month"], "day" => $lastClassFaultDay["day"]];
-                    }
+                        $lastClassFaultDay = Yii::app()->db->createCommand("select s.* from class_faults as cf join schedule as s on cf.schedule_fk = s.id where s.classroom_fk = :id order by month DESC, day DESC limit 1")->bindParam(":id", $classroomId)->queryRow();
+                        if ($lastClassFaultDay != false) {
+                            $response["frequencyUnavailableLastDay"] = ["month" => $lastClassFaultDay["month"], "day" => $lastClassFaultDay["day"]];
+                        }
+                        $lastClassContentDay = Yii::app()->db->createCommand("select s.* from class_contents as cc join schedule as s on cc.schedule_fk = s.id where s.classroom_fk = :id order by month DESC, day DESC limit 1")->bindParam(":id", $classroomId)->queryRow();
+                        if ($lastClassContentDay != false) {
+                            $response["classContentUnavailableLastDay"] = ["month" => $lastClassContentDay["month"], "day" => $lastClassContentDay["day"]];
+                        }
 
-                    $response["schedules"] = [];
-                    foreach ($schedules as $schedule) {
+                        $response["schedules"] = [];
+                        foreach ($schedules as $schedule) {
 //                    if (!isset($response["schedules"][$schedule->month])) {
 //                        $response["schedules"][$schedule->month] = [];
 //                    }
@@ -211,31 +213,35 @@ class TimesheetController extends Controller
 //                            "countConflicts" => $countConflicts
 //                        ];
 //                    } else {
-                        $instructorInfo = [
-                            "id" => null,
-                            "name" => "Sem Instrutor",
-                            "unavailable" => false,
-                            "countConflicts" => 0
-                        ];
+                            $instructorInfo = [
+                                "id" => null,
+                                "name" => "Sem Instrutor",
+                                "unavailable" => false,
+                                "countConflicts" => 0
+                            ];
 //                    }
 
-                        if (!$schedule->unavailable) {
-                            $cmKey = array_search($schedule["discipline_fk"], array_column($response["disciplines"], 'disciplineId'));
-                            $response["disciplines"][$cmKey]["workloadUsed"]++;
-                        }
+                            if (!$schedule->unavailable) {
+                                $cmKey = array_search($schedule["discipline_fk"], array_column($response["disciplines"], 'disciplineId'));
+                                $response["disciplines"][$cmKey]["workloadUsed"]++;
+                            }
 
-                        $response["schedules"][$schedule->month][$schedule->schedule][$schedule->day] = [
-                            "id" => $schedule->id,
-                            "instructorId" => $schedule->instructor_fk,
-                            "instructorInfo" => $instructorInfo,
-                            "disciplineId" => $schedule->discipline_fk,
-                            "disciplineName" => $schedule->disciplineFk->name,
-                            "turn" => $schedule->turn
-                        ];
+                            $response["schedules"][$schedule->month][$schedule->schedule][$schedule->day] = [
+                                "id" => $schedule->id,
+                                "instructorId" => $schedule->instructor_fk,
+                                "instructorInfo" => $instructorInfo,
+                                "disciplineId" => $schedule->discipline_fk,
+                                "disciplineName" => $schedule->disciplineFk->name,
+                                "turn" => $schedule->turn
+                            ];
+                        }
                     }
+                    $response["valid"] = TRUE;
+                } else {
+                    $response["valid"] = NULL;
                 }
             } else {
-                $response["valid"] = NULL;
+                $response = ["valid" => FALSE, "error" => "curricularMatrix"];
             }
         } else {
             $response = ["valid" => FALSE, "error" => "calendar"];
@@ -258,9 +264,17 @@ class TimesheetController extends Controller
         $criteria->condition = "schedule.classroom_fk = :classroom_fk";
         $criteria->params = ["classroom_fk" => $classroomId];
         $hasFrequency = ClassFaults::model()->exists($criteria);
-        if (!$hasFrequency) {
-            $curricularMatrix = TimesheetCurricularMatrix::model()->findAll("stage_fk = :stage", [
-                ":stage" => $classroom->edcenso_stage_vs_modality_fk
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = "cc";
+        $criteria->join = "join schedule on schedule.id = cc.schedule_fk";
+        $criteria->condition = "schedule.classroom_fk = :classroom_fk";
+        $criteria->params = ["classroom_fk" => $classroomId];
+        $hasClassContent = ClassContents::model()->exists($criteria);
+
+        if (!$hasFrequency && !$hasClassContent) {
+            $curricularMatrix = TimesheetCurricularMatrix::model()->findAll("stage_fk = :stage and school_year = :year", [
+                ":stage" => $classroom->edcenso_stage_vs_modality_fk, ":year" => Yii::app()->user->year
             ]);
             if ($curricularMatrix != null) {
                 Schedule::model()->deleteAll("classroom_fk = :classroom", [":classroom" => $classroomId]);
@@ -457,7 +471,7 @@ class TimesheetController extends Controller
             }
             $this->actionGetTimesheet($classroomId);
         } else {
-            echo json_encode(["valid" => false, "error" => "frequencyFilled"]);
+            echo json_encode(["valid" => false, "error" => "frequencyOrClassContentFilled"]);
         }
     }
 
@@ -560,11 +574,12 @@ class TimesheetController extends Controller
             " edcenso_discipline.id as disciplineId, " .
             " edcenso_discipline.name as disciplineName, " .
             " (select count(schedule.id) from schedule where classroom_fk = " . $_POST["classroomId"] . " and schedule.unavailable = 0 and schedule.discipline_fk = disciplineId) as workloadUsed, " .
-            " curricular_matrix.workload as workloadTotal " .
+            " curricular_matrix.workload as workloadTotal, " .
+            " (select ii.name from teaching_matrixes tm join instructor_teaching_data itd on itd.id = tm.teaching_data_fk join instructor_identification ii on itd.instructor_fk = ii.id where itd.classroom_id_fk = " . $_POST["classroomId"] . " and tm.curricular_matrix_fk = curricular_matrix.id) as instructorName " .
             " from curricular_matrix " .
             " join edcenso_discipline on edcenso_discipline.id = curricular_matrix.discipline_fk " .
-            " where curricular_matrix.stage_fk = :stage")
-            ->bindParam(":stage", $classroom->edcenso_stage_vs_modality_fk)->queryAll();
+            " where curricular_matrix.stage_fk = :stage and curricular_matrix.school_year = :year")
+            ->bindParam(":stage", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
         echo json_encode(["valid" => true, "changes" => $changes, "disciplines" => $workloads]);
     }
 

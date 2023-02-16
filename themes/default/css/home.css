@@ -1,3 +1,6 @@
+.board-msg {
+    display: none;
+}
 
 .text-right {
     text-align: right !important;
@@ -130,17 +133,17 @@ form {
 }
 
 .eggs .widget-head {
-    background: #496cad !important;
+    background: #3F45EA !important;
 }
 
 .eggs .widget > .widget-head .heading {
     text-shadow: none !important;
     color: white !important;
-    border-color: #496cad !important;
+    border-color: #3F45EA !important;
 }
 
 .calendar-header {
-    background: #496cad !important;
+    background: #3F45EA !important;
 }
 
 .eggs .widget.widget-gray > .widget-head .heading.glyphicons i:before {
@@ -214,14 +217,14 @@ form {
 }
 
 .logs {
-    padding: 0px !important;
+    padding: 0px 0px 24px 0px !important;
     max-height: 405px;
     overflow-y: auto;
 }
 
 .load-more {
     margin: 10px 10px 10px 0;
-    background: #496cad !important;
+    background: #3F45EA !important;
     padding: 10px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -249,7 +252,7 @@ form {
     margin-top: 10px;
 }
 
-.cockadoodledoo {
+.home-container {
     margin-top: 10px;
 }
 
@@ -316,7 +319,7 @@ form {
 }
 
 #Classroom_week_days {
-    margin-left: 144px;
+    margin-left: 43px;
 }
 
 .schedule-info {

@@ -25,7 +25,14 @@ $(document).ready(function () {
     if ($(".log").length >= $(".eggs").find(".widget").attr("total")) {
         $(".load-more").hide();
     }
-    
+
+    if ($(".board-msg").attr("version") !== getCookie('tag_version')) {
+        $(".board-msg").show();
+    }
+
+    // loadLineChart(new Date().getFullYear());
+    // loadCylinderChart(new Date().getFullYear());
+    // loadPieChart(new Date().getFullYear());
 });
 
 function loadPieChart(year) {
@@ -37,11 +44,11 @@ function loadPieChart(year) {
         },
         success: function (data) {
             data = $.parseJSON(data);
-            var chart = AmCharts.makeChart( "pieChart", {
+            var chart = AmCharts.makeChart("pieChart", {
                 "language": "pt",
                 "type": "pie",
                 "theme": "light",
-                "dataProvider": [ {
+                "dataProvider": [{
                     "country": "Matriculados",
                     "value": data.enrollments
                 }, {
@@ -57,18 +64,18 @@ function loadPieChart(year) {
                 "export": {
                     "enabled": true
                 }
-            } );
-            $( '.pie-chart-input' ).off().on( 'input change', function() {
-                var property = jQuery( this ).data( 'property' );
+            });
+            $('.pie-chart-input').off().on('input change', function () {
+                var property = jQuery(this).data('property');
                 var target = chart;
-                var value = Number( this.value );
+                var value = Number(this.value);
                 chart.startDuration = 0;
 
-                if ( property == 'innerRadius' ) {
+                if (property == 'innerRadius') {
                     value += "%";
                 }
 
-                target[ property ] = value;
+                target[property] = value;
                 chart.validateNow();
             });
         }
@@ -242,4 +249,15 @@ function loadLineChart(year) {
             }
         }
     });
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
 }

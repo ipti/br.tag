@@ -5,14 +5,17 @@
     $this->menu = array(
         array('label' => Yii::t('default', 'Create a new InstructorIdentification'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new InstructorIdentification')),
     );
+    $themeUrl = Yii::app()->theme->baseUrl;
+    $cs = Yii::app()->getClientScript();
+    $cs->registerCssFile($themeUrl . '/css/template2.css');
     ?>
 
     <div class="row-fluid box-instructor">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Instructor Identifications') ?></h3>
             <div class="buttons span7 hide-responsive">
-                <a href="<?php echo Yii::app()->createUrl('instructor/updateEmails')?>" class="btn btn-primary btn-icon glyphicons envelope"><i></i> Atualizar e-mails</a>
-                <a href="<?php echo Yii::app()->createUrl('instructor/create')?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar professor</a>
+                <a href="<?php echo Yii::app()->createUrl('instructor/updateEmails')?>" class="tag-button medium-button">Atualizar e-mails</a>
+                <a href="<?php echo Yii::app()->createUrl('instructor/create')?>" class="tag-button medium-button">Adicionar professor</a>
             </div>
         </div>
         <div class="btn-group pull-right mt-30 responsive-menu dropdown-margin">
@@ -27,7 +30,7 @@
         </div>
     </div> 
 
-    <div class="innerLR">
+    <div class="tag-inner">
         <?php if (Yii::app()->user->hasFlash('success')): ?>
             <div class="alert alert-success">
                 <?php echo Yii::app()->user->getFlash('success') ?>
@@ -38,15 +41,15 @@
             <div class="widget-body">
                 <?php
                 $this->widget('zii.widgets.grid.CGridView', array(
-                    'dataProvider' => $filter->search(),
-                    'enablePagination' => true,
-                    'filter' => $filter,
-                    'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                    'dataProvider' => $dataProvider,
+                    'enablePagination' => false,
+                    'enableSorting' => false,
+                    'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                         array(
                             'name' => 'name',
                             'type' => 'raw',
-                            'value' => 'CHtml::link($data->name,Yii::app()->createUrl("instructor/update",array("id"=>$data->id)))',
+                            'value' => '$data->name',
                             'htmlOptions' => array('width'=> '400px')
                         ),
                         array(
@@ -58,6 +61,24 @@
                         array(
                             'name' => 'birthday_date',
                             'filter' => false
+                        ),
+                        array(
+                            'class' => 'CButtonColumn', 
+                            'template' => '{update}',
+                            'buttons' => array(
+                                'update' => array(
+                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+                                )
+                            )
+                        ),
+                        array(
+                            'class' => 'CButtonColumn', 
+                            'template' => '{delete}',
+                            'buttons' => array(
+                                'delete' => array(
+                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                )
+                            )
                         ),
                         ),
                 ));

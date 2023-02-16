@@ -48,7 +48,7 @@ function initChart(data){
             },
             grow: {	active: false}
         },
-        colors: [ "#496cad ", "#F08080"],
+        colors: [ "#3F45EA ", "#F08080"],
         legend:{show:true},
         grid: {
             hoverable: true,

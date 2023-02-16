@@ -30,17 +30,6 @@ class CoursePlan extends CActiveRecord
 	{
 		return 'course_plan';
 	}
-        
-        
-        public function behaviors() {
-            return [
-                'afterSave'=>[
-                    'class'=>'application.behaviors.CAfterSaveBehavior',
-                    'schoolInepId' => Yii::app()->user->school,
-                ],
-            ];
-        }
-        
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -54,10 +43,11 @@ class CoursePlan extends CActiveRecord
 			array('modality_fk, discipline_fk, users_fk', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>100),
 			array('school_inep_fk', 'length', 'max'=>8),
+			array('fkid', 'length', 'max'=>40),
 			array('creation_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, school_inep_fk, modality_fk, discipline_fk, users_fk, creation_date', 'safe', 'on'=>'search'),
+			array('id, name, school_inep_fk, modality_fk, discipline_fk, users_fk, creation_date, fkid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -71,7 +61,7 @@ class CoursePlan extends CActiveRecord
 		return array(
 			'classroomHasCoursePlans' => array(self::HAS_MANY, 'ClassroomHasCoursePlan', 'course_plan_fk'),
 			'courseClasses' => array(self::HAS_MANY, 'CourseClass', 'course_plan_fk'),
-            'usersFk' => array(self::BELONGS_TO, 'Users', 'users_fk'),
+			'usersFk' => array(self::BELONGS_TO, 'Users', 'users_fk'),
 			'schoolInepFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_fk'),
 			'modalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'modality_fk'),
 			'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
@@ -89,8 +79,9 @@ class CoursePlan extends CActiveRecord
 			'school_inep_fk' => 'School Inep Fk',
 			'modality_fk' => 'Modality Fk',
 			'discipline_fk' => 'Discipline Fk',
-            'users_fk' => 'Users Fk',
+			'users_fk' => 'Users Fk',
 			'creation_date' => 'Creation Date',
+			'fkid' => 'Fkid',
 		);
 	}
 
@@ -117,8 +108,9 @@ class CoursePlan extends CActiveRecord
 		$criteria->compare('school_inep_fk',$this->school_inep_fk,true);
 		$criteria->compare('modality_fk',$this->modality_fk);
 		$criteria->compare('discipline_fk',$this->discipline_fk);
-        $criteria->compare('users_fk',$this->users_fk);
+		$criteria->compare('users_fk',$this->users_fk);
 		$criteria->compare('creation_date',$this->creation_date,true);
+		$criteria->compare('fkid',$this->fkid,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

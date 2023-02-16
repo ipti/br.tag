@@ -8,6 +8,7 @@
  * @property integer $schedule_fk
  * @property integer $student_fk
  * @property string $fkid
+ * @property string $justification
  *
  * The followings are the available model relations:
  * @property Schedule $scheduleFk
@@ -52,6 +53,7 @@ class ClassFaults extends CActiveRecord
 		return array(
 			array('schedule_fk, student_fk', 'required'),
 			array('schedule_fk, student_fk', 'numerical', 'integerOnly'=>true),
+            array('justification', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, schedule_fk, student_fk', 'safe', 'on'=>'search'),
@@ -80,6 +82,7 @@ class ClassFaults extends CActiveRecord
 			'id' => Yii::t('default', 'ID'),
 			'schedule_fk' => Yii::t('default', 'Schedule Fk'),
 			'student_fk' => Yii::t('default', 'Student Fk'),
+            'justification' => Yii::t('default', "Justification")
 		);
 	}
 
