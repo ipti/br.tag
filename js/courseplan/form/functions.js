@@ -83,10 +83,10 @@ function removeCoursePlanRow(element) {
 }
 
 function format(d) {
-    var $div = $('<div id="course-class[' + d.class + ']" class="course-class"></div>');
-    var $column1 = $('<div   class="course-class-column1"></div>');
+    var $div = $('<div id="course-class[' + d.class + ']" class="course-class row"></div>');
+    var $column1 = $('<div   class="course-class-column1 column"></div>');
     var $id = $('<input type="hidden" name="course-class[' + d.class + '][id]" value="' + d.courseClassId + '">');
-    var $objective = $('<div class="control-group"></div>');
+    var $objective = $('<div class="control-group objective-input"></div>');
     var $objectiveLabel = $('<div><label class="" for="course-class[' + d.class + '][objective]">Objetivo *</label></span>');
     var $objectiveInput = $('<textarea class="course-class-objective" id="objective-' + d.class + '" name="course-class[' + d.class + '][objective]">' + d.objective + '</textarea>');
 
@@ -98,13 +98,13 @@ function format(d) {
     var $typeLabel = $('<label class="" for="course-class[' + d.class + '][type][]">Tipo(s)</label>');
     var $typeInput = $('<select class="type-select" name="course-class[' + d.class + '][type][]" multiple>' + $(".js-all-types")[0].innerHTML + '</select>');
 
-    var $column2 = $('<div class="course-class-column2"></div>');
+    var $column2 = $('<div class="course-class-column2 column"></div>');
     var $resource = $('<div class="control-group"></div>');
     var $resourceLabel = $('<label class="" for="resource">Recurso(s)</label>');
     var $resourceInput = $('<div class="resource-input"></div>');
     var $resourceValue = $('<select class="resource-select" name="resource"><option value=""></option>' + $(".js-all-resources")[0].innerHTML + '</select>');
     var $resourceAmount = $('<input class="resource-amount" style="width:35px; height: 22px;margin-left: 5px;" type="number" name="amount" step="1" min="1" value="1" max="999">');
-    var $resourceAdd = $('<button class="btn btn-success btn-small fa fa-plus-square add-resource" style="height: 28px;margin-left: 10px;" ><i></i></button>');
+    var $resourceAdd = $('<button class="btn btn-success btn-small fa fa-plus-square add-resource" style="height: 28px;margin-top:10px;" ><i></i></button>');
 
     var $resources = $('<div class="resources"></div>');
     if (d.competences !== null) {

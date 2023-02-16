@@ -8575,6 +8575,11 @@ input[type="text"] {
     padding: 10px 150px;
     min-height: 250px
 }
+.course-class.row {
+    display: flex;
+    padding: 0;
+    min-width: none;
+}
 
 .course-class-column1 {
     width: 60% !important;
@@ -8585,6 +8590,13 @@ input[type="text"] {
     width: 39% !important;
     display: inline-block;
     vertical-align: top;
+}
+.form-horizontal .control-group.objective-input, .form-horizontal .control-group.courseplan-type-container {
+    margin: 0;
+}
+
+.form-horizontal .control-group.courseplan-type-container .type-select {
+    width: 500px;
 }
 
 .course-class-objective {
