@@ -72,6 +72,13 @@
                         <div class="clearfix"></div>
                     </a>
                 </div>
+                <div class="span3">
+                    <a href="<?php echo Yii::app()->createUrl('admin/manageUsers') ?>" class="widget-stats">
+                        <span class="glyphicons edit"><i></i></span>
+                        <span class="txt">Gerenciar Usuários</span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

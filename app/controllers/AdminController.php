@@ -9,7 +9,7 @@
 				], [
 					'allow', // allow authenticated user to perform 'create' and 'update' actions
 					'actions' => [
-						'import', 'export', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
+						'import', 'export', 'update', 'manageUsers', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
 						'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'
 					], 'users' => ['@'],
 				],
@@ -446,6 +446,70 @@
 			unlink($fileName);
 		}
 	}
-}
 
-?>
+	public function actionManageUsers() {
+		$filter = new Users('search');
+        $filter->unsetAttributes();
+        if (isset($_GET['Users'])) {
+            $filter->attributes = $_GET['Users'];
+        }
+		$criteria = new CDbCriteria;
+		$criteria->condition = "username != 'admin'";
+		$dataProvider = new CActiveDataProvider('Users', array(
+			'criteria' => $criteria,
+			'pagination' => array(
+				'pageSize' => 12,
+			)
+		));
+        $this->render('manageUsers', array(
+            'dataProvider' => $dataProvider,
+            'filter' => $filter,
+        ));
+	}
+
+	public function actionUpdate($id) {
+		$model = Users::model()->findByPk($id);
+		$actual_role = $model->getRole();
+		$userSchools = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
+		if (isset($_POST['Users'], $_POST['Confirm'])) {
+			$model->attributes = $_POST['Users'];
+			if ($model->validate()) {
+				$password = md5($_POST['Users']['password']);
+				$confirm = md5($_POST['Confirm']);
+				if ($password == $confirm) {
+					$model->password = $password;
+					if ($model->save()) {
+						$save = TRUE;
+						foreach ($_POST['schools'] as $school) {
+							$userSchool = UsersSchool::model()->findByAttributes(array('school_fk' => $school, 'user_fk' => $model->id));
+							if( $userSchool == null) {
+								$userSchool = new UsersSchool;
+								$userSchool->user_fk = $model->id;
+								$userSchool->school_fk = $school;
+								$save = $save && $userSchool->validate() && $userSchool->save();
+							}
+						}
+						if ($save) {
+							$auth = Yii::app()->authManager;
+							$auth->revoke($_POST['Role'], $model->id);
+							$auth->assign($_POST['Role'], $model->id);
+							Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário alterado com sucesso!'));
+							$this->redirect(['index']);
+						}
+					}
+				} else {
+					$model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
+				}
+			}
+		}
+		
+		$result = [];
+		$i = 0;
+        foreach ($userSchools as $scholl){
+            $result[$i] = $scholl->school_fk;
+			$i++;
+        }
+
+		$this->render('_form', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result]);
+	}
+}
