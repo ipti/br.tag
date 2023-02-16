@@ -1,12 +1,10 @@
-var simple = getUrlVars()['simple'];
-if (simple == '1') {
-    var tabs = ['tab-student-identify', 'tab-student-address', 'tab-student-enrollment'];
-}else{
-    var tabs = ['tab-student-identify', 'tab-student-documents', 'tab-student-address', 'tab-student-enrollment'];
-}
+const tabs = ["tab-create-plan", "tab-class"];
+
 function changeTab(index){
+
 	var activeTab = $('.js-tab-control li.active');
 	var activePane = $('div .active');
+    console.log(activePane)
 	
 	var size = tabs.length -1;
     
@@ -43,13 +41,11 @@ function change2nextTab(){
     var tab = tabs.indexOf(activeTab.attr("id"));
 	changeTab(tab+1);
 }
-
 function change2prevTab(){
 	var activeTab = $('.js-tab-control li.active');
     var tab = tabs.indexOf(activeTab.attr("id"));
 	changeTab(tab-1);
 }
-
 function change2clickedTab(clicked){
 	var clickedTab = clicked.attr('id');
     var tab = tabs.indexOf(clickedTab);

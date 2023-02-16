@@ -12,10 +12,12 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/courseplan/form/_initialization.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/courseplan/form/functions.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/courseplan/form/validations.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/courseplan/form/pagination.js', CClientScript::POS_END);
 $cs->registerScriptFile($themeUrl . '/js/jquery/jquery.dataTables.min.js', CClientScript::POS_END);
 $cs->registerCssFile($themeUrl . '/css/jquery.dataTables.min.css');
 $cs->registerCssFile($themeUrl . '/css/dataTables.fontAwesome.css');
 $cs->registerCssFile($themeUrl . '/css/template2.css');
+$cs->registerCssFile($baseUrl. 'sass/css/main.css');
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));
 $form = $this->beginWidget('CActiveForm', array(
@@ -31,9 +33,15 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Create Plan'); ?></h3>
             <div class="buttons span9">
+                <a 
+                data-toggle="tab" class='btn btn-icon btn-secundary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?>
+                </a>
+                <a
+                data-toggle="tab" class='btn btn-icon btn-primary next'><?php echo Yii::t('default', 'Next') ?>
+                </a>
                 <a id="save"
-                   class='btn btn-icon btn-primary glyphicons circle_ok hidden-print'><?php echo Yii::t('default', 'Save') ?>
-                    <i></i></a>
+                   class='btn btn-icon btn-primary last' style="display:none;"><?php echo Yii::t('default', 'Save') ?>
+                </a>
             </div>
         </div>
     </div>
@@ -49,108 +57,111 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <?php echo Yii::app()->user->getFlash('error') ?>
             </div>
         <?php endif ?>
-        <div class="widget widget-tabs border-bottom-none">
+        <div class="widget border-bottom-none">
 
-            <div class="widget-head  hidden-print">
-                <ul class="tab-courseplan">
-                    <li id="tab-courseplan" class="active"><a href="#"
-                                                              data-toggle="tab"><?php echo Yii::t('default', 'Course Plan') ?></a>
+            <div class="t-tabs js-tab-control">
+                <ul class="t-tabs__contents tab-courseplan">
+                    <li id="tab-create-plan" class="t-tabs__itens active">
+                        <a class="t-tabs__link" href="#create-plan" data-toggle="tab"><?php echo Yii::t('default', 'Create Plan') ?></a>
+                    </li>
+                    <li id="tab-class" class="t-tabs__itens">
+                        <a class="t-tabs__link" href="#class" data-toggle="tab"><?php echo Yii::t('default', 'Class') ?></a>
                     </li>
                 </ul>
             </div>
-
             <div class="widget-body form-horizontal">
                 <input type="hidden" class="js-course-plan-id" value="<?= $coursePlan->id ?>">
                 <div class="tab-content">
-                    <div class="tab-pane active" id="courseplan">
-                        <div class="row-fluid">
-                            <div class=" span4">
-                                <div class="control-group">
-                                    <div class="controls">
-                                        <?php echo CHtml::label(yii::t('default', 'Stage') . "*", 'modality_fk', array('class' => 'control-label required')); ?>
-                                    </div>
-                                    <div class="controls">
-                                        <?php
-                                        echo $form->dropDownList($coursePlan, 'modality_fk', CHtml::listData($stages, 'id', 'name'), array(
-                                            'key' => 'id',
-                                            'class' => 'select-search-on control-input',
-                                            'prompt' => 'Selecione o estágio...',
+                    <div class="tab-pane active" id="create-plan">
+                            <div class="row-fluid">
+                                <div class=" span4">
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <?php echo CHtml::label(yii::t('default', 'Stage') . "*", 'modality_fk', array('class' => 'control-label required')); ?>
+                                        </div>
+                                        <div class="controls">
+                                            <?php
+                                            echo $form->dropDownList($coursePlan, 'modality_fk', CHtml::listData($stages, 'id', 'name'), array(
+                                                'key' => 'id',
+                                                'class' => 'select-search-on control-input',
+                                                'prompt' => 'Selecione o estágio...',
 
-                                        ));
-                                        ?>
-                                        <i class="js-course-plan-loading-disciplines fa fa-spin fa-spinner"></i>
+                                            ));
+                                            ?>
+                                            <i class="js-course-plan-loading-disciplines fa fa-spin fa-spinner"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" span4 disciplines-container">
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <?php echo CHtml::label(yii::t('default', 'Discipline') . "*", 'discipline_fk', array('class' => 'control-label required')); ?>
+                                        </div>
+                                        <div class="controls coursePlan-input"><?php
+                                            echo $form->dropDownList($coursePlan, 'discipline_fk', array(), array(
+                                                'key' => 'id',
+                                                'class' => 'select-search-on control-input',
+                                                'initVal' => $coursePlan->discipline_fk,
+                                                'prompt' => 'Selecione a disciplina...',
+                                            ));
+                                            ?>
+                                            <i class="js-course-plan-loading-competences fa fa-spin fa-spinner"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class=" span4 disciplines-container">
-                                <div class="control-group">
-                                    <div class="controls">
-                                        <?php echo CHtml::label(yii::t('default', 'Discipline') . "*", 'discipline_fk', array('class' => 'control-label required')); ?>
-                                    </div>
-                                    <div class="controls coursePlan-input"><?php
-                                        echo $form->dropDownList($coursePlan, 'discipline_fk', array(), array(
-                                            'key' => 'id',
-                                            'class' => 'select-search-on control-input',
-                                            'initVal' => $coursePlan->discipline_fk,
-                                            'prompt' => 'Selecione a disciplina...',
-                                        ));
-                                        ?>
-                                        <i class="js-course-plan-loading-competences fa fa-spin fa-spinner"></i>
+                            <div class="row-fluid">
+                                <div class=" span12">
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <?php echo CHtml::label(yii::t('default', 'Name') . "*", 'name', array(
+                                                'class' => 'control-label required',
+
+                                            )); ?>
+                                        </div>
+                                        <div class="controls">
+                                            <?php
+                                            echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'style' => 'width: 960px'));
+                                            ?>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row-fluid">
-                            <div class=" span12">
-                                <div class="control-group">
-                                    <div class="controls">
-                                        <?php echo CHtml::label(yii::t('default', 'Name') . "*", 'name', array(
-                                            'class' => 'control-label required',
-
-                                        )); ?>
-                                    </div>
-                                    <div class="controls">
-                                        <?php
-                                        echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'style' => 'width: 960px'));
-                                        ?>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
+                    </div>
+                    <div class="tab-pane" id="class">
                         <table id="course-classes" class="display" cellspacing="0" width="100%">
                             <thead>
-                            <tr>
-                                <th style="width: 10px;"></th>
-                                <th class="span1"><?= Yii::t('default', 'Class'); ?></th>
-                                <th></th>
-                                <th class="span12"><?= Yii::t('default', 'Objective'); ?></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
+                                <tr>
+                                    <th style="width: 10px;"></th>
+                                    <th class="span1"><?= Yii::t('default', 'Class'); ?></th>
+                                    <th></th>
+                                    <th class="span12"><?= Yii::t('default', 'Objective'); ?></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
                             </thead>
                             <tbody>
                             </tbody>
                             <tfoot>
-                            <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th style="width: 20px;">
-                                    <a style="width: 53px;" href="#new-course-class" id="new-course-class"
-                                       class="btn btn-success btn-small">
-                                        <i style="margin-right: 6px;"
-                                           class="fa fa-plus-square"></i><?= Yii::t('default', 'New'); ?>
-                                    </a>
-                                </th>
-                            </tr>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th style="width: 20px;">
+                                        <a style="width: 53px;" href="#new-course-class" id="new-course-class"
+                                        class="btn btn-success btn-small">
+                                            <i style="margin-right: 6px;"
+                                            class="fa fa-plus-square"></i><?= Yii::t('default', 'New'); ?>
+                                        </a>
+                                    </th>
+                                </tr>
                             </tfoot>
                         </table>
                         <div class="js-all-types no-show">
@@ -170,7 +181,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                         <option value="<?= $competenceData["id"] ?>"><?= $competenceData["code"] . "|" . $competenceData["description"] . "|" . $competence["stageName"] ?></option>
                                     <?php endforeach; ?>
                                 </optgroup>
-
                             <?php endforeach; ?>
                         </div>
                     </div>
