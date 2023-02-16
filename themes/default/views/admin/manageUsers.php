@@ -20,10 +20,10 @@
                 <div class="widget-body">
                     <?php
                     $this->widget('zii.widgets.grid.CGridView', array(
-                        'dataProvider' => $filter->search(),
-                        'enablePagination' => true,
-                        'filter' => $filter,
-                        'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'dataProvider' => $dataProvider,
+                        'enablePagination' => false,
+                        'enableSorting' => false,
+                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'columns' => array(
                             array(
                                 'name' => 'name',
