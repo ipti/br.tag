@@ -1,5 +1,6 @@
 import { useQuery } from "react-query";
 import api from "../../services/api";
+import { getIdSchool } from "../../services/auth";
 
 // Requests
 const requestClassrooms = () => {
@@ -100,11 +101,13 @@ const requestStagevsmodality = () => {
   let path = "/stages-vacancy-pre-registration";
   return api
     .get(path, {
+
       params: {
-        include:{
+        include: {
           edcenso_stage_vs_modality: true,
           student_pre_identification: true
-        }
+        },
+        school_inep_id_fk: getIdSchool()
       }
     })
     .then(response => response.data)
@@ -118,7 +121,7 @@ const requestStagevsmodalityOne = id => {
   return api
     .get(path, {
       params: {
-        include:{
+        include: {
           edcenso_stage_vs_modality: true,
           student_pre_identification: true
         }
@@ -138,7 +141,7 @@ export const useFetchRequestStagevsmodality = () => {
   return useQuery("useRequestStagevsmodality", () => requestStagevsmodality());
 };
 
-export const useFetchRequestStagevsmodalityOne = ({id}) => {
+export const useFetchRequestStagevsmodalityOne = ({ id }) => {
   return useQuery(["useRequestStagevsmodalityOne", id], () => requestStagevsmodalityOne(id));
 };
 

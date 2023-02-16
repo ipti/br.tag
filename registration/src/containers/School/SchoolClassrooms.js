@@ -12,8 +12,6 @@ const Home = props => {
 
   const { data } = useFetchRequestSchool({id: id})
 
-  console.log(data)
-
   // useEffect(() => {
   //   console.log("alÔ")
   //   if (loadData && id) {

@@ -1,4 +1,7 @@
 import React from "react";
+
+import AsyncSelect from "react-select/async";
+
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Menu from "@material-ui/core/Menu";
@@ -8,7 +11,25 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import styleBase from "../../styles";
-import { isAuthenticated } from "../../services/auth";
+import { idSchool, isAuthenticated } from "../../services/auth";
+import { FormControl, FormLabel, Grid } from "@material-ui/core";
+import { useFetchRequestSchoolList } from "../../query/registration";
+import Select from "react-select";
+
+const customStyles = {
+  control: base => ({
+    ...base,
+    height: "40px",
+    minHeight: "40px",
+    color: "black",
+    fontFamily: "Roboto, Helvetica, Arial, sans-serif"
+  }),
+  menu: base => ({
+    ...base,
+    color: "black",
+    fontFamily: "Roboto, Helvetica, Arial, sans-serif"
+  })
+};
 
 
 const useStyles = makeStyles({
@@ -60,40 +81,72 @@ const Header = () => {
     history.push("/login");
   };
 
+  const { data } = useFetchRequestSchoolList();
+
+
+  const searchSchools = (inputValue, callback) => {
+    if (inputValue.trim().length >= 3) {
+      const buscaLowerCase = inputValue.toLowerCase();
+      callback(data.filter(school => school.name.toLowerCase().includes(buscaLowerCase)));
+    }
+  };
+
   return (
     <AppBar classes={{ root: classes.root }} position="static">
       <Toolbar className={classes.tooBar} disableGutters>
         <h2 className={classes.title}>Matrícula</h2>
-        {isAuthenticated() && (
-          <>
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              className={classes.accountButton}
-            >
-              <AccountCircle />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "left"
+        <>
+          <Grid item xs={3}>
+            <Select
+              styles={customStyles}
+              className="basic-single"
+              classNamePrefix="select"
+              placeholder="Selecione a Escola"
+              options={data}
+              onChange={selectedOption => {
+                idSchool(selectedOption.inep_id);
+                window.location.reload()
               }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left"
-              }}
-              open={open}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleLogout}>Sair</MenuItem>
-            </Menu>
-          </>
-        )}
+
+              getOptionValue={opt => opt.inep_id}
+              getOptionLabel={opt => opt.inep_id + " - " + opt.name}
+
+            />
+          </Grid>
+
+          {isAuthenticated() && (
+            <>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                className={classes.accountButton}
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "left"
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left"
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleLogout}>Sair</MenuItem>
+              </Menu>
+            </>
+          )}
+        </>
+
+
       </Toolbar>
     </AppBar>
   );

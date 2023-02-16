@@ -264,7 +264,9 @@ const Home = props => {
             src={IconClassroom}
             alt="Icone de Turma"
           />
-          <FormControl
+          <p className={classes.label}>Turma</p>
+        
+          {/* <FormControl
             component="fieldset"
             className={classes.formControl}
           >
@@ -283,7 +285,7 @@ const Home = props => {
               // getOptionValue={opt => opt.classroom}
               // getOptionLabel={opt => opt.name}
             />
-          </FormControl>
+          </FormControl> */}
         </Grid>
         <Grid item md={3}>
           <p className={classes.label}>Modalidade</p>
@@ -294,7 +296,7 @@ const Home = props => {
           Manhã
         </Grid>
       </Grid>
-      <Grid
+      {/* <Grid
         className={classes.boxButtons}
         container
         direction="row"
@@ -322,7 +324,7 @@ const Home = props => {
             <Loading />
           </Grid>
         )}
-      </Grid>
+      </Grid> */}
     </>
   );
 };

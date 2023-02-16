@@ -36,18 +36,18 @@ const Login = props => {
             ao Matrícula Online
           </Grid>
         </Grid>
-        <Grid container direction="row">
+        {/* <Grid container direction="row">
           <Grid item md={2} sm={2}></Grid>
           <Grid item md={7} sm={7}>
-            Efetue o login ao lado para acessar sua conta, caso não possua
-            realize seu cadastro
+            Efetue a matricula 
+
           </Grid>
-        </Grid>
+        </Grid> */}
         <Grid className={classes.boxRegister} container direction="row">
           <Grid item md={2} sm={2}></Grid>
           <Grid item md={9}>
             <Link className={classes.linkRegister} to="/matricula">
-              CADASTRE-SE
+              Iniciar Matrícula
             </Link>
           </Grid>
         </Grid>

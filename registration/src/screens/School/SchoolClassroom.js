@@ -19,7 +19,7 @@ import SchoolIcon from "../../assets/images/house-icon.png";
 
 // Styles
 import styles from "./styles";
-import { useFetchRequestRegistrations } from "../../query/school";
+import { useFetchRequestRegistrations, useFetchRequestStagevsmodalitySchool } from "../../query/school";
 
 const useStyles = makeStyles(styles);
 
@@ -32,7 +32,7 @@ const Home = ({ school }) => {
     history.push(link);
   };
 
-  const { data } = useFetchRequestRegistrations({id: id});
+  const { data } = useFetchRequestStagevsmodalitySchool({id: id});
 
   if(!data) return null
 
@@ -47,18 +47,27 @@ const Home = ({ school }) => {
 
 
   const classrooms = data
-    ? data.data.map((registration, index) => (
+    ? data.map((stage, index) => (
      
-      <BoxRegistration
-     //   link={`${baseLink}/${registration?.id}`}
-        key={index}
-        name={registration?.name}
-        sex={registration?.sex}
-        student_fk={registration?.student_fk}
-        md={4}
-        sm={4}
-        unavailable={registration?.unavailable}
-      />
+      
+      <Grid key={index} item md={4} sm={4} xs={12}>
+      <BoxBig
+        link={`estagio/${stage.id}`}
+        title={stage.edcenso_stage_vs_modality.name}
+        subtitle="Turma"
+        addCursor={true}
+        textRight=""
+      >
+        <BoxDiscriptionClassroom
+          title="Preenchidas"
+          registrationConfirmed={`${stage.student_pre_identification.length}`}
+        />
+        <BoxDiscriptionClassroom
+          title="Restante"
+          registrationRemaining={`${stage.vacancy - stage.student_pre_identification.length}`}
+        />
+      </BoxBig>
+    </Grid>
     ))
     : [];
 
@@ -143,7 +152,7 @@ const Home = ({ school }) => {
         </Grid>
       </Grid>
       <Grid className={classes.boxClassroom} container direction="row">
-        <TitleWithLine title="Pré Matricula" />
+        <TitleWithLine title="Ano Escolares" />
       </Grid>
       <Grid container direction="row" spacing={5}>
         <List items={classrooms}>

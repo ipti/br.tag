@@ -1,17 +1,14 @@
 import React, { useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Loading from "../../components/Loading/CircularLoading";
 import { Controller } from "../../controller/classroom";
 import { useFetchRequestRegistration } from "../../query/stage";
 import { RegistrationConfirmed } from "../../screens/Stage";
 
 const Registration = props => {
-  const [loadData, setLoadData] = useState(true);
-  const [loadClasroom, setLoadClassRoom] = useState(true);
   const [loadingButtom, setLoadingButtom] = useState(false);
 
    const {requestUpdateRegistrationMutation, requestUpdatePreIdentificationMutation} = Controller();
-  let history = useHistory();
 
   const { id, idRegistration } = useParams()
 

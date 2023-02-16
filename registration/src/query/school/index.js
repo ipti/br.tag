@@ -38,6 +38,25 @@ const requestSchools = () => {
       });
   };
 
+  const requestStagevsmodality = id => {
+    let path = "/stages-vacancy-pre-registration";
+    return api
+      .get(path, {
+  
+        params: {
+          include: {
+            edcenso_stage_vs_modality: true,
+            student_pre_identification: true
+          },
+          school_inep_id_fk: id
+        }
+      })
+      .then(response => response.data)
+      .catch(err => {
+        throw err;
+      });
+  };
+
   
   export const useFetchRequestSchools = () => {
     return useQuery(["useRequestsSchools"], () => requestSchools());
@@ -49,4 +68,8 @@ const requestSchools = () => {
 
   export const useFetchRequestRegistrations = () => {
     return useQuery(["useRequestRegistrations"], () => requestRegistrations());
+  };
+
+  export const useFetchRequestStagevsmodalitySchool = ({id}) => {
+    return useQuery(["useRequestStagevsmodalitySchool"], () => requestStagevsmodality(id));
   };

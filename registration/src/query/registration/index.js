@@ -21,12 +21,12 @@ const requestStudent = async id => {
 
 
 // request stages classroom 
-export const requestSchoolStages = async id => {
+export const requestSchoolStages = async (id, year) => {
   return await api
         .get("/school-pre-registration/" + id,
             {
                 params: {
-                    year: 2023
+                    year: year
                 }
             })
         .then(response => response.data)
@@ -95,6 +95,6 @@ const requestSchoolList = async () => {
   };
   
 
-  export const useFetchRequestSchoolStages = ({ id }) => {
-    return useQuery(["useRequestSchoolStages", id], () => requestSchoolStages(id));
+  export const useFetchRequestSchoolStages = ({ id, year }) => {
+    return useQuery(["useRequestSchoolStages", id, year], () => requestSchoolStages(id, year));
   };

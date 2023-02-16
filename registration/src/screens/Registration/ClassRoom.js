@@ -27,9 +27,9 @@ const Classroom = props => {
     const classes = useStyles();
 
     const date = Date(Date.now());
-    const { idSchool, setIdStage, setIdStagevsmodality, idStage, idStagevsmodality } = useContext(RegistrationContext);
+    const { idSchool, setIdStage, setIdStagevsmodality, idStage, idStagevsmodality, year} = useContext(RegistrationContext);
 
-    const { data } = useFetchRequestSchoolStages({ id: idSchool });
+    const { data } = useFetchRequestSchoolStages({ id: idSchool, year: year });
 
     
 

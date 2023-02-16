@@ -19,6 +19,7 @@ const Home = props => {
   const [loadDataStudent, setLoadDataStudent] = useState(false);
   const [load, setLoad] = useState(true)
   const [idSchool, setIdSchool] = useState('');
+  const [year, setYear] = useState('');
   const [idStage, setIdStage] = useState('');
   const [idStagevsmodality, setIdStagevsmodality] = useState('');
   const [idEvent, setIdEvent] = useState('');
@@ -162,7 +163,7 @@ const Home = props => {
     //   props.loading;
     return (
       <RegistrationContext.Provider
-        value={{ idEvent, setIdEvent, idSchool, setIdSchool, idStage, setIdStage, idStagevsmodality, setIdStagevsmodality }}
+        value={{ idEvent, setIdEvent, idSchool, setIdSchool, idStage, setIdStage, idStagevsmodality, setIdStagevsmodality, year, setYear }}
       >
         <Grid
           container
@@ -171,7 +172,7 @@ const Home = props => {
           style={{ minWidth: "100%" }}
         >
           <Grid item lg={4} md={5} xs={10}>
-            {true ? (
+            {isActive ? (
               <Wizard
                 schools={data}
                 next={next}

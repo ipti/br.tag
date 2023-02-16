@@ -2,6 +2,7 @@ import { FormControl, FormLabel } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useContext, useState } from "react";
+import ReactSelect from "react-select";
 import AsyncSelect from "react-select/async";
 import homeImg from "../../assets/images/illustration-home.png";
 import { ButtonPurple } from "../../components/Buttons";
@@ -25,7 +26,7 @@ const Start = props => {
   const classes = useStyles();
   const [startDate, setStartDate] = useState()
   const [endDate, setEndDate] = useState()
-  const { setIdSchool, setIdEvent, idSchool, idEvent } = useContext(RegistrationContext);
+  const { setIdSchool, setIdEvent, idSchool, idEvent, year, setYear } = useContext(RegistrationContext);
   const datenow = Date.now();
   const date = new Date(datenow)
 
@@ -37,17 +38,14 @@ const Start = props => {
     }
   };
 
-
-
-
-
   const onButton = () => {
-    if (startDate <= date.getTime() && date.getTime() <= endDate) {
+    if (startDate <= date.getTime() && date.getTime() <= endDate && idEvent !== '') {
       props.setIsActive(true)
-      props.next('1', {school_identification: idSchool, event_pre_registration: idEvent})
+      props.next('1', { school_identification: idSchool, event_pre_registration: idEvent })
     } else {
       props.setIsActive(false)
-      props.next('1', {school_identification: idSchool, event_pre_registration: idEvent})
+      console.log('opppp');
+      // props.next('1', {school_identification: idSchool, event_pre_registration: idEvent})
     }
 
   }
@@ -84,10 +82,13 @@ const Start = props => {
               placeholder="Digite o nome da escola"
               onChange={selectedOption => {
                 setIdSchool(selectedOption.inep_id);
-                setIdEvent(selectedOption.event_pre_registration[0].id)
-                if (selectedOption.event_pre_registration[0]) {
-                  setStartDate(new Date(selectedOption.event_pre_registration[0].start_date).getTime())
-                  setEndDate(new Date(selectedOption.event_pre_registration[0].end_date).getTime())
+
+                const last_event = selectedOption.event_pre_registration.length - 1;
+                if (selectedOption.event_pre_registration[last_event]) {
+                  setIdEvent(selectedOption.event_pre_registration[last_event].id)
+                  setStartDate(new Date(selectedOption.event_pre_registration[last_event].start_date).getTime())
+                  setEndDate(new Date(selectedOption.event_pre_registration[last_event].end_date).getTime())
+                  setYear(new Date(selectedOption.event_pre_registration[last_event].end_date).getFullYear())
                 } else {
                   props.setIsActive(false)
                 }
@@ -106,6 +107,7 @@ const Start = props => {
             />
           </FormControl>
         </Grid>
+
       </Grid>
       <Grid
         className={`${classes.marginTop}`}
