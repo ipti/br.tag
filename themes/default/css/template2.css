@@ -21,14 +21,6 @@
 /* 
     butões
 */
-.t-buttons-container {
-    padding-right: 10px;
-    margin-top: 0px;
-}
-
-.middle-button {
-  margin: 0 16px; 
-}
 .tag-button, .tag-button:hover {
     background-color: #3F45EA;
     text-decoration: none;
@@ -147,9 +139,12 @@
 .grid-view .filters input {
     width: 413px !important;
     border: 1px solid #ccc;
-    margin-top: 10px;
-    margin-left: 12px;
+    margin: 0px 0px 2px 12px;
 }
+.student-table.tag-table thead tr.filters input, .curricularmatrix-table.tag-table thead tr.filters input{
+    width: 260px !important;
+}
+
 /* 
     paginação
 */
@@ -246,10 +241,7 @@
 #teachingdata-dialog-form .select2-container .select2-choice {
     width: 361px;
 }
-#add-content-form  input[type="text"], #add-resource-form input[type="text"], #add-type-form input[type="text"] {
-    width:206px;
-}
-/* 
+/*
     home-page
 */
 .home-page-table-header {
@@ -345,12 +337,12 @@
     .fullmenu-toggle-button {
         display: flex;
     }
-   /*  .fullmenu-sidebar{
+    .fullmenu-sidebar {
         transition: left 500ms;
-    } */
+    }
     .hidden-menu {
         left: -190px;
-        
+        transition: left 500ms;
     }
     .voltar-tobnav {
         display:  none;
@@ -398,8 +390,14 @@
     width: 150px;
     margin-right: 10px;
 }
-.t-input-container__input { width: 328px; }
 
-.control-group{
-    margin-left: 34px;
+.select2-container.select-search-on.control-input.frequency-input, .select2-container.select-search-on.control-input.classContents-input {
+    width: 170px !important;
+}
+.select2-container.select-search-on.control-input.frequency-input .select2-choice, .select2-container.select-search-on.control-input.classContents-input .select2-choice{
+    width: 160px !important;
+
+}
+.control-group {
+    margin-left: 32px;
 }

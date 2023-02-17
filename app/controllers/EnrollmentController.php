@@ -200,6 +200,7 @@ class EnrollmentController extends Controller
      */
     public function actionIndex()
     {
+        $query = StudentEnrollment::model()->findAll();
         $model = new StudentEnrollment('search');
         $model->unsetAttributes();  // clear any default values
         if (isset($_GET['StudentEnrollment'])) {
@@ -213,7 +214,7 @@ class EnrollmentController extends Controller
         $dataProvider = new CActiveDataProvider('StudentEnrollment', array(
             'criteria' => $criteria,
             'pagination' => array(
-                'pageSize' => 12,
+                'pageSize' => count($query),
             ),
         ));
 

@@ -143,7 +143,8 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
     foreach ($report as $key=>$r){
         if($key <= 20){
             $r20 .= "<tr>". "<td style='text-align: center;'>" . ($key + 1) . "</td>"
-                . "<td>" . $r['name'] . "</td>"
+                . "<td style='text-align: center;'>" . $r['inep_id'] . "</td>"
+                . "<td style='text-align: center;'>" . $r['name'] . "</td>"
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
@@ -159,7 +160,8 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                 . "</tr>";
         }else if($key >20 && $key <40){
             $r40 .= "<tr>". "<td style='text-align: center;'>" . ($key + 1) . "</td>"
-                . "<td>" . $r['name'] . "</td>"
+                . "<td style='text-align: center;'>" . $r['inep_id'] . "</td>"
+                . "<td style='text-align: center;'>" . $r['name'] . "</td>"
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
@@ -175,7 +177,8 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                 . "</tr>";
         }else if($key >=40 && $key <60){
             $r40 .= "<tr>". "<td style='text-align: center;'>" . ($key + 1) . "</td>"
-                . "<td>" . $r['name'] . "</td>"
+                . "<td style='text-align: center;'>" . $r['inep_id'] . "</td>"
+                . "<td style='text-align: center;'>" . $r['name'] . "</td>"
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
@@ -191,7 +194,8 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                 . "</tr>";
         }else{
             $r60 .= "<tr>"."<td style='text-align: center;'>" . ($key + 1) . "</td>"
-                . "<td>" . $r['name'] . "</td>"
+                . "<td style='text-align: center;'>" . $r['inep_id'] . "</td>"
+                . "<td style='text-align: center;'>" . $r['name'] . "</td>"
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
@@ -209,7 +213,8 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
     }
     for ($i = 1; $i <= 5; $i++) {
         $rF .= "<tr>"."<td style='text-align: center;'>______</td>"
-            . "<td></td>"
+            . "<td style='text-align: center;'></td>"
+            . "<td style='text-align: center;'></td>"
             . "<td style='text-align: center;'></td>"
             . "<td style='text-align: center;'></td>"
             . "<td style='text-align: center;'></td>"
@@ -228,7 +233,8 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
     <table class="table table-bordered table-striped" style="font-size: 11px;">
         <tr>
             <th rowspan="2" style="text-align: center;">Nº</th>
-            <th rowspan="2">ALUNO</th>
+            <th rowspan="2" style="text-align: center;">ID INEP</th>
+            <th rowspan="2" style="text-align: center;">ALUNO</th>
             <th colspan="2" style="text-align: center;">GÊNERO</th>
             <th rowspan="2" style="text-align: center;">DATA DE NASCIMENTO</th>
             <th rowspan="2" style="text-align: center;">NATURALIDADE</th>
@@ -255,7 +261,8 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
         <table class="table table-bordered table-striped" style="font-size: 11px;">
             <tr>
                 <th rowspan="2" style="text-align: center;">Nº</th>
-                <th rowspan="2">ALUNO</th>
+                <th rowspan="2" style="text-align: center;">ID INEP</th>
+                <th rowspan="2" style="text-align: center;">ALUNO</th>
                 <th colspan="2" style="text-align: center;">GÊNERO</th>
                 <th rowspan="2" style="text-align: center;">DATA DE NASCIMENTO</th>
                 <th rowspan="2" style="text-align: center;">NATURALIDADE</th>

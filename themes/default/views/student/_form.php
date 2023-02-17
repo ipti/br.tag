@@ -52,7 +52,7 @@ $form = $this->beginWidget('CActiveForm', array(
         echo $form->errorSummary($modelStudentDocumentsAndAddress);
         ?>
         <div class="alert alert-error student-error no-show"></div>
-        <div class="t-tabs">
+        <div class="t-tabs js-tab-control">
             <ul class="t-tabs__contents">
                 <li id="tab-student-identify" class="t-tabs__itens active">
                     <a class="t-tabs__link" href="#student-identify" data-toggle="tab">
@@ -100,12 +100,19 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <!-- name student -->
                             <div class="t-field-text">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'name', array('class' => 'control-label t-field-text__label--required')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input')); ?>
-                                    <?php echo $form->error($modelStudentIdentification, 'name'); ?>
+                                <?php echo $form->labelEx($modelStudentIdentification, 'civil_name', array('class' => 'control-label')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'civil_name', array('size' => 60, 'maxlength' => 100, 'class'=> 't-field-text__input')); ?>
+                                <?php echo $form->error($modelStudentIdentification, 'civil_name'); ?>    
                             </div>
-
-
+                            <div class="t-field-text">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'name', array('class' => 'control-label t-field-text__label--required')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100, 'class'=> 't-field-text__input')); ?>
+                                <span id="similarMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                    <img id="warningNameIcon" onclick="displayRecords()" style="display: none;" src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>" alt="icone aviso">
+                                    <img id="errorNameIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                </span>
+                                <?php echo $form->error($modelStudentIdentification, 'name'); ?>
+                            </div>
                             <div class="t-field-text">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'birthday', array('class' => 'control-label  t-field-text__label--required')); ?>
                                     <?php echo $form->textField($modelStudentIdentification, 'birthday', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
@@ -173,8 +180,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     echo $form->dropDownList($modelStudentIdentification, 'filiation_1_scholarity', array(
                                         0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
                                         3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
-                                        6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'
-                                    ), array('class' => 'select-search-off js-disabled-finputs js-finput-clear t-field-select__input', 'style'=>'width: 100%'));
+                                        6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'), array('class' => 'select-search-off js-disabled-finputs js-finput-clear t-field-select__input', 'style'=>'width: 100%'));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation_1_scholarity'); ?>
                             </div>
@@ -274,10 +280,16 @@ $form = $this->beginWidget('CActiveForm', array(
 
                         </div>
                         <div class="column">
-                            <div class="separator"></div>
+                           <!--  <div class="separator"></div> -->
                             <div class="t-field-text js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'nis', array('class' => 'control-label t-field-text__label')); ?>
-                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'nis', array('size' => 11, 'maxlength' => 11, 'class'=>'t-field-text__input')); ?>
+                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'nis', array('size' => 11, 'maxlength' => 11)); ?>
+                                    <span id="nisMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                        <img id="errorNisIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                    </span>
+                                    <span id="nisMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                        <img id="errorNisIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                    </span>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'nis'); ?>
                             </div>
                             <div class="t-field-text js-hide-not-required">
@@ -309,8 +321,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_rg'); ?>
                             </div>
                             <div class="t-field-text js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'responsable_cpf', array('class' => 'control-label t-field-text__label')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 14, 'class'=>'t-field-text__input')); ?>
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'responsable_cpf', array('class' => 'control-label')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 14)); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_cpf'); ?>
                             </div>
 
@@ -438,6 +450,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_braille_test', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <!-- problema aqui -->
+                                    <!-- problema aqui -->
                                     <label class="checkbox">
                                         <?php echo StudentIdentification::model()->attributeLabels()['resource_proof_language']; ?>
                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_proof_language', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -529,7 +542,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div class="row-fluid">
-                        <div class=" span6">
+                        <div class="span6">
                             <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                                 <div>
                                     <h5 class="titulos">
@@ -561,6 +574,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                         </div>
                                         <div class="controls">
                                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_term_number', array('size' => 8, 'maxlength' => 8, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
+                                            <span id="termMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                                <img id="errorTermIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                            </span>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_term_number'); ?>
                                         </div>
                                     </div>
@@ -656,6 +672,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                         </div>
                                         <div class="controls">
                                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array("disabled" => "disabled", "class" => "nationality-sensitive br span6")); ?>
+                                            <span id="registerMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                                <img id="registerIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                            </span>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number'); ?>
                                         </div>
                                     </div>
@@ -717,10 +736,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                         </div>
                                         <div class="controls">
                                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
-                                            <!-- <span
-                                                    class="btn-action single glyphicons circle_question_mark"
-                                                    data-toggle="tooltip" data-placement="top"
-                                                    data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span> -->
+                                            <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                                <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg'?>" alt="icone erro">
+                                            </span>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'cpf'); ?>
                                         </div>
                                     </div>
@@ -930,7 +948,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                             ':school' => Yii::app()->user->school,
                                         ]
                                     );
-
                                     echo $form->dropDownList(
                                         $modelEnrollment,
                                         'classroom_fk',
@@ -1147,7 +1164,6 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-
                     <div class="row-fluid">
                         <div class="span11">
                             <?php

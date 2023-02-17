@@ -1,5 +1,5 @@
- var div = $("<div></div>");
-        $("body").append(div); 
+var div = $("<div></div>");
+$("body").append(div); 
 
 $(document).ready(function(){
     $(".fullmenu-toggle-button").click(function(){

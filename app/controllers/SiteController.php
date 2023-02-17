@@ -16,7 +16,7 @@ class SiteController extends Controller
         return [
             [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['changeschool', 'loadMoreLogs'], 'users' => ['@'],
+                'actions' => ['changeschool', 'changeyear', 'loadMoreLogs'], 'users' => ['@'],
             ],
         ];
     }
@@ -134,6 +134,16 @@ class SiteController extends Controller
         }
 
         $this->redirect(Yii::app()->homeUrl);
+    }
+
+    public function actionChangeYear()
+    {
+        if(isset($_POST['years']) && !empty($_POST['years'])) {
+            Yii::app()->user->year = $_POST['years'];
+        }
+
+        echo '<script>history.go(-1);</script>';
+        exit;
     }
 
     private function loadLogsHtml($limit, $date = NULL)

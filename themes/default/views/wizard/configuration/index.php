@@ -40,7 +40,7 @@ $this->breadcrumbs = array(
                             <div class="row-fluid">
                                 <div class="t-cards">
                                     <a href="<?php echo yii::app()->createUrl('wizard/Configuration/school')?>" class="t-cards-link">
-                                        <span class="t-cards-icon"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/escola.svg" /></span>
+                                        <span class="t-cards-icon"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/escola.svg" alt="icone de escola" /></span>
                                         <span class="t-cards-title">Escola</span>
                                         <span class="t-cards-subtitle">Como funciona a página inicial do tag?</span>
                                         <div class="clearfix"></div>
@@ -48,7 +48,7 @@ $this->breadcrumbs = array(
                                 </div>
                                 <div class="t-cards">
                                     <a href="<?php echo yii::app()->createUrl('wizard/Configuration/classroom')?>" class="t-cards-link">
-                                        <span class="t-cards-icon"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/turma.svg" /></span>
+                                        <span class="t-cards-icon"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/turma.svg" alt="icone de turmas"/></span>
                                         <span class="t-cards-title">Turmas</span>
                                         <span class="t-cards-subtitle">Como funciona a página inicial do tag?</span>
                                         <div class="clearfix"></div>
@@ -56,7 +56,7 @@ $this->breadcrumbs = array(
                                 </div>
                                 <div class="t-cards">
                                     <a href="<?php echo yii::app()->createUrl('wizard/Configuration/student')?>" class="t-cards-link">
-                                        <span class="t-cards-icon"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/aluno.svg" /></span>
+                                        <span class="t-cards-icon"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/aluno.svg" alt="icone de aluno"/></span>
                                         <span class="t-cards-title">Aluno</span>
                                         <span class="t-cards-subtitle">Como funciona a página inicial do tag?</span>
                                         <div class="clearfix"></div>

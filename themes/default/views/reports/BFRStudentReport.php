@@ -28,6 +28,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 <table class="table table-bordered table-striped" style="font-size: 11px">
     <tr>
         <th rowspan="" style="text-align: center;">Nº</th>
+        <th rowspan="" style="text-align: center;">ID INEP</th>
         <th rowspan="">ALUNO</th>
         <th rowspan="" style="text-align: center;">TURMA</th>
         <th rowspan="" style="text-align: center;">DATA DE NASCIMENTO</th>
@@ -43,6 +44,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     foreach ($report as $key=>$r){
         $rows .= "<tr>"
             . "<td style='text-align: center;'>" . ($key + 1) . "</td>"
+            . "<td>" . $r['inep_id'] . "</td>"
             . "<td>" . $r['name'] . "</td>"
             . "<td>" . $r['turma'] . "</td>"
             . "<td style='text-align: center;'>" . $r['birthday'] . "</td>";

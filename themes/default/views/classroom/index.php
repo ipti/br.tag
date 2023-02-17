@@ -16,11 +16,10 @@
     <div class="row-fluid hide-responsive">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Classrooms') ?></h3>  
-            <div class="t-buttons-container buttons span9">
-                
-                <a href="<?php echo Yii::app()->createUrl('classroom/create') ?>" class="t-button"> Adicionar turma</a>
-                <a href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" class="t-button middle-button" target="_blank">Relatório Alunos/Turma</a>
-                <a href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" class="t-button" target="_blank">Relatório Professores/Turma</a>
+            <div class="buttons span9">
+                <a href="<?php echo Yii::app()->createUrl('classroom/create') ?>" class="tag-button medium-button"> Adicionar turma</a>
+                <a href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" class="tag-button medium-button" target="_blank">Relatório Alunos/Turma</a>
+                <a href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" class="tag-button medium-button" target="_blank">Relatório Professores/Turma</a>
             </div>
         </div>
     </div>
@@ -48,15 +47,15 @@
                 <div class="widget-body">
                     <?php
                     $this->widget('zii.widgets.grid.CGridView', array(
-                        'dataProvider' => $filter->search(),
-                        'enablePagination' => true,
-                        'filter' => $filter,
-                        'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-vertical-center checkboxs',
+                        'dataProvider' => $dataProvider,
+                        'enablePagination' => false,
+                        'enableSorting' => false,
+                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-vertical-center checkboxs',
                         'columns' => array(
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("classroom/update",array("id"=>$data->id)))',
+                                'value' => '$data->name',
                                 'htmlOptions' => array('width' => '400px')
                             ),
                             array(
@@ -76,7 +75,7 @@
                                 'template' => '{update}',
                                 'buttons' => array(
                                     'update' => array(
-                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/edit.png',
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
                                     )
                                 )
                             ),
@@ -84,11 +83,11 @@
                             'class' => 'CButtonColumn', 
                             'template' => '{delete}',
                             'buttons' => array(
-                                'delete' => array(
-                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/cancelar.png',
+                                    'delete' => array(
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                    )
                                 )
-                            )
-                        ),
+                            ),
                         ),
                     ));
                     ?>

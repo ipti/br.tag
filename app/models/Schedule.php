@@ -15,10 +15,11 @@
  * @property integer $schedule
  * @property integer $turn
  * @property integer $unavailable
+ * @property string $fkid
  *
  * The followings are the available model relations:
+ * @property ClassContents[] $classContents
  * @property ClassFaults[] $classFaults
- * @property ClassHasContent[] $classHasContents
  * @property Classroom $classroomFk
  * @property EdcensoDiscipline $disciplineFk
  * @property InstructorIdentification $instructorFk
@@ -43,9 +44,10 @@ class Schedule extends CActiveRecord
 		return array(
 			array('discipline_fk, classroom_fk, day, month, week, week_day, unavailable', 'required'),
 			array('instructor_fk, discipline_fk, classroom_fk, day, month, week, week_day, schedule, turn, unavailable', 'numerical', 'integerOnly'=>true),
+			array('fkid', 'length', 'max'=>40),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, instructor_fk, discipline_fk, classroom_fk, day, month, week, week_day, schedule, turn, unavailable', 'safe', 'on'=>'search'),
+			array('id, instructor_fk, discipline_fk, classroom_fk, day, month, week, week_day, schedule, turn, unavailable, fkid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,8 +59,8 @@ class Schedule extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'classContents' => array(self::HAS_MANY, 'ClassContents', 'schedule_fk'),
 			'classFaults' => array(self::HAS_MANY, 'ClassFaults', 'schedule_fk'),
-			'classHasContents' => array(self::HAS_MANY, 'ClassHasContent', 'schedule_fk'),
 			'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
 			'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
 			'instructorFk' => array(self::BELONGS_TO, 'InstructorIdentification', 'instructor_fk'),
@@ -82,6 +84,7 @@ class Schedule extends CActiveRecord
 			'schedule' => 'Schedule',
 			'turn' => 'Turn',
 			'unavailable' => 'Unavailable',
+			'fkid' => 'Fkid',
 		);
 	}
 
@@ -114,6 +117,7 @@ class Schedule extends CActiveRecord
 		$criteria->compare('schedule',$this->schedule);
 		$criteria->compare('turn',$this->turn);
 		$criteria->compare('unavailable',$this->unavailable);
+		$criteria->compare('fkid',$this->fkid,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
