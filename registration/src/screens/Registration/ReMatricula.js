@@ -3,27 +3,23 @@ import React, { useState } from "react";
 // Material UI
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import { FormControl, FormLabel } from "@material-ui/core";
 
-import Select from "react-select";
-import AsyncSelect from "react-select/async";
 
 // Components
-import { TitleWithLine } from "../../components/Titles";
 import { BoxStatus } from "../../components/Boxes";
-import { ButtonPurple, ButtonLinePurple } from "../../components/Buttons";
+import { ButtonPurple } from "../../components/Buttons";
 import Loading from "../../components/Loading/CircularLoadingButtomActions";
+import { TitleWithLine } from "../../components/Titles";
 
 // Assets
+import IconHouse from "../../assets/images/house-icon.png";
 import IconMale from "../../assets/images/male-icon.png";
 import IconStudent from "../../assets/images/student-male-icon.png";
-import IconHouse from "../../assets/images/house-icon.png";
-import IconClassroom from "../../assets/images/classroom-icon.png";
 
 // Styles
-import styles from "../Stage/styles";
 import { useFetchRequestSchoolRegistration } from "../../query/registration";
 import { getIdSchool } from "../../services/auth";
+import styles from "../Stage/styles";
 
 const useStyles = makeStyles(styles);
 const customStyles = {
@@ -90,7 +86,7 @@ const Home = props => {
     sex: student?.sex,
     school_identification: schoolInepFk,
     classroom: inputValueClassroom,
-    calendar_event: data.calendar_event.find(e => e.id === 1).id
+   // calendar_event: data.calendar_event.find(e => e.id === 1).id
   }
 
 

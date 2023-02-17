@@ -34,7 +34,8 @@ const requestRegistration = id => {
       params: {
         include: {
           edcenso_city: true,
-          edcenso_uf: true
+          edcenso_uf: true,
+          edcenso_stage_vs_modality: true
         }
       }
     })

@@ -54,8 +54,6 @@ const Home = props => {
 
   if (!data) return null;
 
-  console.log(student)
-
   const nullableField = "-------------";
 
   const studentName = student?.name;
@@ -130,8 +128,7 @@ const Home = props => {
     student_pre_identification_status: 2,
     year: 2024
   }
-
-
+  console.log(student)
 
   return (
     <>
@@ -265,7 +262,7 @@ const Home = props => {
             alt="Icone de Turma"
           />
           <p className={classes.label}>Turma</p>
-        
+            {student?.edcenso_stage_vs_modality.name}
           {/* <FormControl
             component="fieldset"
             className={classes.formControl}
@@ -287,14 +284,14 @@ const Home = props => {
             />
           </FormControl> */}
         </Grid>
-        <Grid item md={3}>
+        {/* <Grid item md={3}>
           <p className={classes.label}>Modalidade</p>
           {modality}
         </Grid>
         <Grid item md={4}>
           <p className={classes.label}>Turno</p>
           Manhã
-        </Grid>
+        </Grid> */}
       </Grid>
       {/* <Grid
         className={classes.boxButtons}

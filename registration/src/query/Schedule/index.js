@@ -1,5 +1,6 @@
 import { useQuery } from "react-query";
 import api from "../../services/api";
+import { getIdSchool } from "../../services/auth";
 
 
 
@@ -45,6 +46,7 @@ const requestSchecule = () => {
   return api
     .get(path, {
       params: {
+        school_inep_id_fk: getIdSchool(),
         include: {
           school_identification: true,
         }

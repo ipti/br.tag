@@ -1,20 +1,19 @@
 import React from "react";
 
-import AsyncSelect from "react-select/async";
 
+import { Grid } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import IconButton from "@material-ui/core/IconButton";
+import { makeStyles } from "@material-ui/core/styles";
+import Toolbar from "@material-ui/core/Toolbar";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { useHistory } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import styleBase from "../../styles";
-import { idSchool, isAuthenticated } from "../../services/auth";
-import { FormControl, FormLabel, Grid } from "@material-ui/core";
-import { useFetchRequestSchoolList } from "../../query/registration";
 import Select from "react-select";
+import { useFetchRequestSchoolList } from "../../query/registration";
+import { getIdSchool, idSchool, isAuthenticated } from "../../services/auth";
+import styleBase from "../../styles";
 
 const customStyles = {
   control: base => ({
@@ -84,12 +83,9 @@ const Header = () => {
   const { data } = useFetchRequestSchoolList();
 
 
-  const searchSchools = (inputValue, callback) => {
-    if (inputValue.trim().length >= 3) {
-      const buscaLowerCase = inputValue.toLowerCase();
-      callback(data.filter(school => school.name.toLowerCase().includes(buscaLowerCase)));
-    }
-  };
+  if(!data) return null
+  const schoolSelection = data.find(x => x.inep_id === getIdSchool())
+  console.log(schoolSelection)
 
   return (
     <AppBar classes={{ root: classes.root }} position="static">
@@ -100,17 +96,15 @@ const Header = () => {
             <Select
               styles={customStyles}
               className="basic-single"
-              classNamePrefix="select"
               placeholder="Selecione a Escola"
               options={data}
               onChange={selectedOption => {
                 idSchool(selectedOption.inep_id);
                 window.location.reload()
               }}
-
+              defaultValue={schoolSelection}
               getOptionValue={opt => opt.inep_id}
               getOptionLabel={opt => opt.inep_id + " - " + opt.name}
-
             />
           </Grid>
 

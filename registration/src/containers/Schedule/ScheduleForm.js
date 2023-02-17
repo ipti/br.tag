@@ -6,6 +6,7 @@ import Loading from "../../components/Loading/CircularLoading";
 import { Controller } from "../../controller/Schedule/index";
 import { useFetchRequestSchools } from "../../query/Schedule";
 import { ScheduleForm } from "../../screens/Schedule";
+import { getIdSchool } from "../../services/auth";
 
 const Form = props => {
   const [active, setActive] = useState(true);
@@ -60,7 +61,7 @@ const Form = props => {
     let data = {
       start_date: values.start_date,
       end_date: values.end_date,
-      school_identificationArray: values.school_identificationArray,
+      school_identificationArray: [getIdSchool()],
       year: parseInt(values.year),
     };
     requestSaveEventPreMutation.mutate(data)

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import Login from "../../screens/Login/Login";
 import api from "../../services/api";
-import { login } from "../../services/auth";
+import { idSchool, login } from "../../services/auth";
 import { useHistory } from "react-router-dom";
 import { QueryCache } from "react-query";
 
@@ -15,8 +15,12 @@ const SignIn = () => {
   // }, []);
 
   const onSubmit = values => {
-    api.post("auth/login", values).then(function(response) {
+    api.post("auth/login", values).then(function (response) {
       if (response && !("error" in response.data)) {
+        console.log(response)
+        if (response.data.user.schools[0]) {
+          idSchool(response.data.user.schools[0].inep_id)
+        }
         login(response.data.access_token);
         history.push("/");
       } else {

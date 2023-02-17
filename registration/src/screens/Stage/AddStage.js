@@ -109,6 +109,7 @@ const Create = props => {
                           onChange={props.handleChange}
                           id="outlined-size-small"
                           variant="outlined"
+                          required
                           className={classes.textField}
                         />
                         <div className={classes.formFieldError}>
@@ -141,6 +142,7 @@ const Create = props => {
                           onChange={props.handleChange}
                           id="outlined-size-small"
                           variant="outlined"
+                          required
                           className={classes.textField}
                         />
 

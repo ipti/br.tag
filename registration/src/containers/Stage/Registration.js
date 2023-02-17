@@ -6,7 +6,6 @@ import { useFetchRequestRegistration } from "../../query/stage";
 import { RegistrationConfirmed } from "../../screens/Stage";
 
 const Registration = props => {
-  const [loadingButtom, setLoadingButtom] = useState(false);
 
    const {requestUpdateRegistrationMutation, requestUpdatePreIdentificationMutation} = Controller();
 
@@ -41,8 +40,6 @@ const Registration = props => {
   // }, [history, loadData, props, id,loadClasroom, idRegistration]);
 
   const handleSubmit = value => {
-    setLoadingButtom(true);
-
     requestUpdateRegistrationMutation.mutate({data: value, id: idRegistration})
     // props.dispatch({
     //   type: "FETCH_UPDATE_REGISTRATION",
@@ -57,7 +54,7 @@ const Registration = props => {
 
   return (
     <>
-      {props.loading && !loadingButtom ? (
+      {!data ? (
         <Loading />
       ) : (
         <>

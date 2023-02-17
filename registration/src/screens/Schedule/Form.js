@@ -122,43 +122,6 @@ const Create = props => {
                   spacing={2}
                 >
                   <Grid item md={12} sm={12}>
-                    <TitleWithLine title="Escolas" />
-                  </Grid>
-                  <Grid item md={12} sm={12}>
-                    <FormControl
-                      component="fieldset"
-                      className={classes.formControl}
-                    >
-                      <div style={{width: "200px"}}> 
-                      <Select
-                        getOptionValue={opt => opt.name}
-                        getOptionLabel={opt => opt.name}
-                        onChange={selectedOption => {
-                          var schools = [];
-                          for (var i = 0; i < selectedOption.length; i++) {
-                            schools = [...schools, selectedOption[i].inep_id]
-                          }
-                          props.setFieldValue("school_identificationArray", schools)
-                        }}
-                        isMulti
-                        styles={customStyles}
-                        name="school_identificationArray"
-                        options={schools}
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                      />
-                      </div>
-                      
-                    </FormControl>
-                  </Grid>
-                </Grid>
-                <Grid
-                  className={classes.marginButtom}
-                  container
-                  direction="row"
-                  spacing={2}
-                >
-                  <Grid item md={12} sm={12}>
                     <TitleWithLine title="Novos Alunos" />
                   </Grid>
                   <Grid item md={4} sm={4}>

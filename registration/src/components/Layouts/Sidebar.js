@@ -34,13 +34,13 @@ const Sidebar = () => {
       IconActive: <IconScheduleActive />,
       Icon: <IconSchedule />
     },
-    {
-      to: "/escolas",
-      name: "Escolas",
-      exact: false,
-      IconActive: <IconSchoolActive />,
-      Icon: <IconSchool />
-    },
+    // {
+    //   to: "/escolas",
+    //   name: "Escolas",
+    //   exact: false,
+    //   IconActive: <IconSchoolActive />,
+    //   Icon: <IconSchool />
+    // },
     {
       to: "/estagios",
       name: "Ano Escolar",

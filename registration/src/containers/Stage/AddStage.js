@@ -6,6 +6,7 @@ import { Controller } from "../../controller/classroom";
 import { requestCreateStage } from "../../query/stage";
 import { useFetchRequestStagevsmodality } from "../../query/Schedule";
 import Create from "../../screens/Stage/AddStage";
+import { getIdSchool } from "../../services/auth";
 
 const AddStage = props => {
   const [active, setActive] = useState(true);
@@ -56,7 +57,7 @@ const AddStage = props => {
     let data = {
       edcenso_stage_vs_modality: parseInt(values.edcenso_stage_vs_modality),
       vacancy: parseInt(values.vacancy),
-      school_identification: "28022041",
+      school_identification: getIdSchool(),
       year: parseInt(values.year),
     };
     requestCreateStageMutation.mutate(data)
