@@ -13,15 +13,18 @@
 		<div class="span3">
 			<div>
 				<h5>Data Inicial</h5>
-				<input style="border-color: #e5e5e5;" type="date" name="data_inicio" placeholder="DD/MM/AAAA">
+				<input id="data-inicio" style="border-color: #e5e5e5;" type="date" name="data_inicio"
+					placeholder="DD/MM/AAAA">
 			</div>
 		</div>
 		<div class="span3">
 			<div>
 				<h5>Data Final</h5>
-				<input style="border-color: #e5e5e5;" type="date" name="Data_final" placeholder="DD/MM/AAAA">
+				<input id="data-final" style="border-color: #e5e5e5;" type="date" name="Data_final"
+					placeholder="DD/MM/AAAA">
 			</div>
 		</div>
+
 	</div>
 	<div class="row-fluid">
 		<div class="span3">
@@ -33,15 +36,17 @@
 		</div>
 
 		<div class="span3">
-		<a href="?r=sagres/default/export" class="widget-stats">
+			<a href="?r=sagres/default/export" id="exportLink" class="widget-stats">
 				<span class="glyphicons file_export"><i></i></span>
 				<span class="txt">Exportar sagres</span>
 				<div class="clearfix"></div>
 			</a>
 		</div>
 
+
 		<div class="span3">
-			<a href="<?php echo Yii::app()->createUrl('sagres/default/update', array('id' => 1)) ?>" href="?r=sagres/default/update&id=2" class="widget-stats">
+			<a href="<?php echo Yii::app()->createUrl('sagres/default/update', array('id' => 1)) ?>"
+				href="?r=sagres/default/update&id=2" class="widget-stats">
 				<div><i class="fa fa-edit fa-4x"></i></div>
 				<span class="txt">Editar Unidade</span>
 				<div class="clearfix"></div>
@@ -51,6 +56,32 @@
 </div>
 
 <script>
+	// Selecione os elementos de input de data
+	const dataInicioInput = document.querySelector('input[name="data_inicio"]');
+	const dataFinalInput = document.querySelector('input[name="Data_final"]');
+
+	// Adicione um ouvinte de eventos para o evento de clique no link
+	document.getElementById('exportLink').addEventListener('click', function (e) {
+		// Previna o comportamento padrão do link
+		e.preventDefault();
+
+		// Obtenha o valor das datas de início e fim
+		const dataInicio = dataInicioInput.value;
+		const dataFinal = dataFinalInput.value;
+
+		// Obtenha o ano de início
+		const data = new Date(dataInicio);
+		const yearInicio = data.getFullYear();
+
+		// Atualize o atributo "href" com as datas selecionadas
+		const exportLink = document.getElementById('exportLink');
+		const newHref = `?r=sagres/default/export&year=${yearInicio}&data_inicio=${dataInicio}&data_final=${dataFinal}`;
+		exportLink.setAttribute('href', newHref);
+
+		// Chame a função downloadFile para gerar e baixar o arquivo
+		downloadFile(newHref, 'ExportSagres.xml');
+	});
+
 	function downloadFile(url, filename) {
 		$.get(url, function (data) {
 			var blob = new Blob([data], { type: 'application/xml' });
@@ -63,18 +94,8 @@
 			URL.revokeObjectURL(url);
 		})
 			.fail(function () {
-				alert('Não foi possível fazer o download do arquivo.');
+				alert('Você deve preencher as datas primeiro');
 			});
 	}
-
-	$(document).ready(function () {
-		var url = "/?r=sagres/default/export&inep_id=28022122";
-		var filename = 'ExportSagres.xml';
-
-		$('a[href="' + url + '"]').click(function (event) {
-			event.preventDefault();
-			downloadFile('/?r=sagres/default/export&inep_id=2802212', filename);
-		});
-	});
 
 </script>
