@@ -132,7 +132,7 @@ h6 span {
     font-weight: 400;
     padding: 0 5px;
 }
-/* pode ser aqui */
+
 
 h1 span,
 h2 span,
@@ -4674,7 +4674,6 @@ legend {
 }
 
 input[type="text"],
-/*aqui*/
 input[type="password"],
 select,
 textarea {
@@ -5180,7 +5179,7 @@ tr:last-child
 .google-visualization-table-table tbody:first-child tr:first-child td {
     border-top: 0;
 }
-
+/* aqui */
 @media only screen and (max-width: 979px) {
     .table-responsive.swipe-horizontal {
         border-collapse: collapse;
@@ -5189,6 +5188,15 @@ tr:last-child
         position: relative;
         width: 100%;
         border-left: 1px solid #dddddd;
+    }
+
+    .fadedlogo{
+        width: 90%; 
+        margin: 0px 0px 0px 0px; 
+        padding: 0px 0px 0px 0px;
+        position: absolute;  
+        bottom: 318px; 
+        left:154px;
     }
 
     .table-responsive.swipe-horizontal th,
@@ -7874,6 +7882,16 @@ div.glyphicons.glyphicon-primary i:before {
 }
 
 @media (max-width: 979px) and (min-width: 768px) {
+    
+    .fadedlogo{
+        width: 90%; 
+        margin: 0px 0px 0px 0px; 
+        padding: 0px 0px 0px 0px;
+        position: absolute;  
+        bottom: 318px; 
+        left:154px;
+    }
+    
     .widget-stats {
         padding: 36px 0;
     }
@@ -8418,13 +8436,21 @@ li.tlypageguide-active.tlypageguide_bottom:after {
 
 .iptilogo {
     padding: 16px 75px;
-    width: 110px;
+    /* width: 110px; */
     position: absolute;
     bottom: 0;
-    right: 0;
+    /* right: 0; */
     font-size: 10px;
     line-height: 14px;
-    text-align: right;
+    text-align: center;
+}
+.fadedlogo{
+    width: 42%; 
+    margin: 0px 0px 0px 0px; 
+    padding: 0px 0px 0px 0px;
+    position: absolute;  
+    bottom: 309px; 
+    left:1078px;
 }
 
 .deleteTeachingData {
@@ -9066,6 +9092,16 @@ input[type="text"] {
     #frequency-container {
         margin-top: 45px;
     }
+
+    .fadedlogo{
+        width: 90%; 
+        margin: 0px 0px 0px 0px; 
+        padding: 0px 0px 0px 0px;
+        position: absolute;  
+        bottom: 318px; 
+        left:154px;
+    }
+
 }
 
 @media (max-width: 480px) {
@@ -9074,6 +9110,15 @@ input[type="text"] {
         width: 100%;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+    }
+
+    .fadedlogo{
+        width: 90%; 
+        margin: 0px 0px 0px 0px; 
+        padding: 0px 0px 0px 0px;
+        position: absolute;  
+        bottom: 318px; 
+        left:154px;
     }
 
     #menu .slim-scroll > ul > li.hide-responsive,
