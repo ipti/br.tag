@@ -29,7 +29,7 @@ class SagresConsultModel
     {
         $schoolList = [];
 
-        $query = "SELECT inep_id FROM school_identification;";
+        $query = "SELECT inep_id FROM school_identification";
         $schools = Yii::app()->db->createCommand($query)->queryAll();
 
         foreach ($schools as $school) {
@@ -71,8 +71,8 @@ class SagresConsultModel
             $turmaType->setDescricao($turma["name"]);        
             $turmaType->setTurno($this->convertTurn($turma['turn']));
             $turmaType->setSerie($this->getSerieType($turma['id']));
-            //$turmaType->setMatricula($this->getMatriculaType($turma['id']));
-            //$turmaType->setHorario($this->setHorario($turma['id']));   
+            $turmaType->setMatricula($this->getMatriculaType($turma['id']));
+            $turmaType->setHorario($this->setHorario($turma['id']));   
             $turmaType->setFinalTurma('0');
 
             $turmaList[] = $turmaType;
