@@ -12,11 +12,11 @@ use Datetime;
 
 class SagresConsultModel
 {
-    public function getEducacaoData($year): EducacaoTType
+    public function getEducacaoData($year, $data_inicio, $data_final): EducacaoTType
     {
         $education = new EducacaoTType;
-        $education->setEscola($this->getAllSchools($year));
-        $education->setProfissional($this->getProfessionalData($year));
+        $education->setEscola($this->getAllSchools($year, $data_inicio, $data_final));
+        $education->setProfissional($this->getProfessionalData($year, $data_inicio, $data_final));
 
         return $education;
     }
@@ -25,7 +25,7 @@ class SagresConsultModel
      * Summary of EscolaTType
      * @return EscolaTType[] 
      */
-    public function getAllSchools($year)
+    public function getAllSchools($year, $data_inicio, $data_final)
     {
         $schoolList = [];
 
@@ -35,9 +35,9 @@ class SagresConsultModel
         foreach ($schools as $school) {
             $schoolType = new EscolaTType;
             $schoolType->setIdEscola($school['inep_id']);
-            $schoolType->setTurma($this->getTurmaType($school['inep_id'], $year));
+            $schoolType->setTurma($this->getTurmaType($school['inep_id'], $year, $data_inicio, $data_final));
             $schoolType->setDiretor($this->getDiretorType($school['inep_id']));
-            $schoolType->setCardapio($this->getCardapioType($school['inep_id'], $year));
+            $schoolType->setCardapio($this->getCardapioType($school['inep_id'], $year, $data_inicio, $data_final));
 
             $schoolList[] = $schoolType;
         }
@@ -49,7 +49,7 @@ class SagresConsultModel
      * Summary of TurmaTType
      * @return TurmaTType[]
      */
-    public function getTurmaType($inep_id, $year)
+    public function getTurmaType($inep_id, $year, $data_inicio, $data_final)
     {
         $turmaList = [];
 
@@ -61,7 +61,9 @@ class SagresConsultModel
                     se.enrollment_id  
                 FROM classroom c
                 JOIN student_enrollment se ON se.classroom_fk = c.id 
-                WHERE c.school_inep_fk = " . $inep_id . " and c.school_year = " . $year . ";";
+                WHERE c.school_inep_fk = " . $inep_id . 
+                                        " and c.school_year = " . $year . 
+                                        " and c.create_date = " . $data_inicio . ";";
 
         $turmas = Yii::app()->db->createCommand($query)->queryAll();
 
@@ -239,7 +241,7 @@ class SagresConsultModel
      * Summary of CardapioTType
      * @return CardapioTType[] 
      */
-    public function getCardapioType($id_escola, $year)
+    public function getCardapioType($id_escola, $year, $data_inicio, $data_final)
     {
         $cardapioList = [];
 
@@ -289,15 +291,16 @@ class SagresConsultModel
         return $diretorType;
     }
 
-    public function getProfessionalData($anoAtendimento)
+    public function getProfessionalData($anoAtendimento, $data_inicio, $data_final)
     {
         $profissionaisList = [];
 
         $query = "SELECT id_professional, cpf_professional AS cpfProfissional, specialty AS especialidade, inep_id_fk AS idEscola, fundeb 
                 FROM professional p
                 JOIN attendance a ON p.id_professional = a.professional_fk 
-                WHERE YEAR(a.date) = " . $anoAtendimento . ";";
+                WHERE YEAR(a.date) = " . $anoAtendimento . " and a.date  BETWEEN '" . $data_inicio . "' and '" . $data_final ."';";
 
+        print_r($query);
         $profissionais = Yii::app()->db->createCommand($query)->queryAll();
 
         foreach ($profissionais as $profissional) {
