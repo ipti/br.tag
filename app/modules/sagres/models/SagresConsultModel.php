@@ -63,7 +63,7 @@ class SagresConsultModel
                 JOIN student_enrollment se ON se.classroom_fk = c.id 
                 WHERE c.school_inep_fk = " . $inep_id . 
                                         " and c.school_year = " . $year . 
-                                        " and c.create_date = " . $data_inicio . ";";
+                                        " and Date(c.create_date) BETWEEN '" . $data_inicio . "' and '" . $data_final ."';";
 
         $turmas = Yii::app()->db->createCommand($query)->queryAll();
 
@@ -236,7 +236,6 @@ class SagresConsultModel
     }
 
 
-    //Class CardapioTType
     /**
      * Summary of CardapioTType
      * @return CardapioTType[] 
@@ -258,7 +257,7 @@ class SagresConsultModel
                     JOIN lunch_meal_portion lmp ON lmp.meal_fk = lme.id 
                     JOIN lunch_portion lp ON lp.id = lmp.portion_fk 
                     JOIN lunch_item li ON li.id = lp.item_fk
-                WHERE si.inep_id = " . $id_escola . " and cr.school_year = " . $year . ";";
+                WHERE si.inep_id = " . $id_escola . " and cr.school_year = " . $year . " and lm.date  BETWEEN '" . $data_inicio . "' and '" . $data_final ."';";
 
         $cardapios = Yii::app()->db->createCommand($query)->queryAll();
 
@@ -291,6 +290,11 @@ class SagresConsultModel
         return $diretorType;
     }
 
+   
+    /**
+     * Summary of ProfissionalTType
+     * @return ProfissionalTType[] 
+     */
     public function getProfessionalData($anoAtendimento, $data_inicio, $data_final)
     {
         $profissionaisList = [];
@@ -300,7 +304,6 @@ class SagresConsultModel
                 JOIN attendance a ON p.id_professional = a.professional_fk 
                 WHERE YEAR(a.date) = " . $anoAtendimento . " and a.date  BETWEEN '" . $data_inicio . "' and '" . $data_final ."';";
 
-        print_r($query);
         $profissionais = Yii::app()->db->createCommand($query)->queryAll();
 
         foreach ($profissionais as $profissional) {
@@ -371,6 +374,7 @@ class SagresConsultModel
 
     public function generatesSagresEduXML($sagresEduObject)
     {
+        print_r($this->validatorSagresEduExportXML($sagresEduObject));
         $serializerBuilder = SerializerBuilder::create();
         $serializerBuilder->addMetadataDir('app/modules/sagres/soap/metadata/sagresEduMetadata', 'DataSagresEdu');
         $serializerBuilder->configureHandlers(function (HandlerRegistryInterface $handler) use ($serializerBuilder) {
@@ -384,11 +388,10 @@ class SagresConsultModel
 
         return $serializer->serialize($sagresEduObject, 'xml'); // serialize the Object and return SagresEdu XML
 
-    }
-
+    }   
+    
     public function actionExportSagresXML($xml)
     {
-    
         $fileName = "ExportSagres.xml";
         $fileDir = "./app/export/SagresEdu/" . $fileName;
 
@@ -409,7 +412,7 @@ class SagresConsultModel
     {
         // get the validator
         $builder = Validation::createValidatorBuilder();
-        foreach (glob('C:\Users\JoseNatan\Documents\Developer\br.tag\app\modules\sagres\controllers\metadata\sagresEduMetadata') as $file) {
+        foreach (glob('C:\Users\JoseNatan\Documents\Developer\br.tag\app\modules\sagres\soap\metadata\sagresEduMetadata') as $file) {
             $builder->addYamlMapping($file);
         }
         $validator = $builder->getValidator();
