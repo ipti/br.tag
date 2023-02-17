@@ -71,7 +71,8 @@
 
 		// Obtenha o ano de início
 		const data = new Date(dataInicio);
-		const yearInicio = data.getFullYear();
+		data.setUTCHours(0, 0, 0, 0); // Define as horas, minutos, segundos e milissegundos como zero
+		const yearInicio = data.getUTCFullYear();
 
 		// Atualize o atributo "href" com as datas selecionadas
 		const exportLink = document.getElementById('exportLink');
@@ -94,7 +95,7 @@
 			URL.revokeObjectURL(url);
 		})
 			.fail(function () {
-				alert('Você deve preencher as datas primeiro');
+				alert('Erro ao realizar o download do arquivo');
 			});
 	}
 
