@@ -43,7 +43,6 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="tag-inner">
     <div class="widget widget-tabs border-bottom-none">
-
         <div class="widget-head">
             <ul class="tab-classroom">
                 <li id="tab-classroom" class="active">

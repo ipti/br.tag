@@ -521,56 +521,50 @@
         ));
     }
 
-    public function actionUpdate($id)
-    {
-        $model = Users::model()->findByPk($id);
-        $actual_role = $model->getRole();
-        $userSchools = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
-        if (isset($_POST['Users'], $_POST['Confirm'])) {
-            $model->attributes = $_POST['Users'];
-            if ($model->validate()) {
-                $password = md5($_POST['Users']['password']);
-                $confirm = md5($_POST['Confirm']);
-                if ($password == $confirm) {
-                    $model->password = $password;
-                    if ($model->save()) {
-                        $save = true;
-                        foreach ($_POST['schools'] as $school) {
-                            $userSchool = UsersSchool::model()->findByAttributes(array('school_fk' => $school, 'user_fk' => $model->id));
-                            if ($userSchool == null) {
-                                $userSchool = new UsersSchool();
-                                $userSchool->user_fk = $model->id;
-                                $userSchool->school_fk = $school;
-                                $save = $save && $userSchool->validate() && $userSchool->save();
-                            }
-                        }
-                        if ($save) {
-                            $auth = Yii::app()->authManager;
-                            $auth->revoke($_POST['Role'], $model->id);
-                            $auth->assign($_POST['Role'], $model->id);
-                            Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário alterado com sucesso!'));
-                            $this->redirect(['index']);
-                        }
-                    }
-                } else {
-                    $model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
-                }
-            }
-        }
-
-        $result = [];
-        $i = 0;
-        foreach ($userSchools as $scholl) {
+	public function actionUpdate($id) {
+		$model = Users::model()->findByPk($id);
+		$actual_role = $model->getRole();
+		$userSchools = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
+		if (isset($_POST['Users'], $_POST['Confirm'])) {
+			$model->attributes = $_POST['Users'];
+			if ($model->validate()) {
+				$password = md5($_POST['Users']['password']);
+				$confirm = md5($_POST['Confirm']);
+				if ($password == $confirm) {
+					$model->password = $password;
+					if ($model->save()) {
+						$save = TRUE;
+						foreach ($userSchools as $school) {
+							UsersSchool::model()->deleteAll(array("condition"=>"school_fk='$school->school_fk'"));
+						}
+						foreach ($_POST['schools'] as $school) {
+							$userSchool = new UsersSchool;
+							$userSchool->user_fk = $model->id;
+							$userSchool->school_fk = $school;
+							$save = $save && $userSchool->validate() && $userSchool->save();
+							
+						}
+						if ($save) {
+							$auth = Yii::app()->authManager;
+							$auth->revoke($actual_role, $model->id);
+							$auth->assign($_POST['Role'], $model->id);
+							Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário alterado com sucesso!'));
+							$this->redirect(['index']);
+						}
+					}
+				} else {
+					$model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
+				}
+			}
+		}
+		
+		$result = [];
+		$i = 0;
+        foreach ($userSchools as $scholl){
             $result[$i] = $scholl->school_fk;
-            $i++;
+			$i++;
         }
 
-        $this->render('editUser', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result]);
-    }
-
-
-    public function actionChangelog()
-    {
-        $this->render('changelog');
-    }
+		$this->render('editUser', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result]);
+	}
 }
