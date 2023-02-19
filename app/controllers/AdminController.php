@@ -1,22 +1,22 @@
 <?php
-    class AdminController extends Controller
+class AdminController extends Controller
+{
+    public $layout = 'fullmenu';
+    public function accessRules()
     {
-        public $layout = 'fullmenu';
-        public function accessRules()
-        {
-            return [
-                [
-                    'allow', // allow authenticated user to perform 'create' and 'update' actions
-                    'actions' => ['CreateUser', 'index', 'conflicts'], 'users' => ['*'],
-                ], [
-                    'allow', // allow authenticated user to perform 'create' and 'update' actions
-                    'actions' => [
-                        'import', 'export', 'update', 'manageUsers', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
-                        'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'
-                    ], 'users' => ['@'],
-                ],
-            ];
-        }
+        return [
+            [
+                'allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['CreateUser', 'index', 'conflicts'], 'users' => ['*'],
+            ], [
+                'allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => [
+                    'import', 'export', 'update', 'manageUsers', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
+                    'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'
+                ], 'users' => ['@'],
+            ],
+        ];
+    }
 
     /**
      * Show the Index Page.
@@ -177,16 +177,16 @@
         $auth = Yii::app()->authManager;
         $auth->assign('admin', 1);
 
-//        //Criar usuário de teste, remover depois.
-//        /*         * ************************************************************************************************ */
-//        /**/$command = "INSERT INTO `users`VALUES"
-//                /**/ . "(2, 'Paulo Roberto', 'paulones', 'e10adc3949ba59abbe56e057f20f883e', 1);"
-//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (1, '28025911', 2);"
-//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (2, '28025970', 2);"
-//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (3, '28025989', 2);"
-//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (4, '28026012', 2);";
-//        /**/Yii::app()->db->createCommand($command)->query();
-//        /*         * ************************************************************************************************ */
+        //        //Criar usuário de teste, remover depois.
+        //        /*         * ************************************************************************************************ */
+        //        /**/$command = "INSERT INTO `users`VALUES"
+        //                /**/ . "(2, 'Paulo Roberto', 'paulones', 'e10adc3949ba59abbe56e057f20f883e', 1);"
+        //                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (1, '28025911', 2);"
+        //                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (2, '28025970', 2);"
+        //                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (3, '28025989', 2);"
+        //                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (4, '28026012', 2);";
+        //        /**/Yii::app()->db->createCommand($command)->query();
+        //        /*         * ************************************************************************************************ */
     }
 
     public function mres($value)
@@ -473,35 +473,35 @@
                     fpassthru($file);
                     fclose($file);
                     unlink($fileName);
-					//$this->loadMaster($loads);
-				}
-				
-			}
-			Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
-			$this->redirect(['index']);
-		} catch (Exception $e) {
-			//echo 
-			//var_dump($e);exit;
-			$loads = $this->prepareExport();
-			$datajson = serialize($loads);
-			ini_set('memory_limit', '288M');
-			$fileName = "./app/export/" . Yii::app()->user->school . ".json";
-			$file = fopen($fileName, "w");
-			fwrite($file, $datajson);
-			fclose($file);
-			header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
-			header("Content-Type: application/force-download");
-			header("Content-Length: " . filesize($fileName));
-			header("Connection: close");
-			$file = fopen($fileName, "r");
-			fpassthru($file);
-			fclose($file);
-			unlink($fileName);
-		}
-	}
+                    //$this->loadMaster($loads);
+                }
+            }
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
+            $this->redirect(['index']);
+        } catch (Exception $e) {
+            //echo 
+            //var_dump($e);exit;
+            $loads = $this->prepareExport();
+            $datajson = serialize($loads);
+            ini_set('memory_limit', '288M');
+            $fileName = "./app/export/" . Yii::app()->user->school . ".json";
+            $file = fopen($fileName, "w");
+            fwrite($file, $datajson);
+            fclose($file);
+            header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
+            header("Content-Type: application/force-download");
+            header("Content-Length: " . filesize($fileName));
+            header("Connection: close");
+            $file = fopen($fileName, "r");
+            fpassthru($file);
+            fclose($file);
+            unlink($fileName);
+        }
+    }
 
-	public function actionManageUsers() {
-		$filter = new Users('search');
+    public function actionManageUsers()
+    {
+        $filter = new Users('search');
         $filter->unsetAttributes();
         if (isset($_GET['Users'])) {
             $filter->attributes = $_GET['Users'];
@@ -521,50 +521,45 @@
         ));
     }
 
-	public function actionUpdate($id) {
-		$model = Users::model()->findByPk($id);
-		$actual_role = $model->getRole();
-		$userSchools = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
-		if (isset($_POST['Users'], $_POST['Confirm'])) {
-			$model->attributes = $_POST['Users'];
-			if ($model->validate()) {
-				$password = md5($_POST['Users']['password']);
-				$confirm = md5($_POST['Confirm']);
-				if ($password == $confirm) {
-					$model->password = $password;
-					if ($model->save()) {
-						$save = TRUE;
-						foreach ($userSchools as $school) {
-							UsersSchool::model()->deleteAll(array("condition"=>"school_fk='$school->school_fk'"));
-						}
-						foreach ($_POST['schools'] as $school) {
-							$userSchool = new UsersSchool;
-							$userSchool->user_fk = $model->id;
-							$userSchool->school_fk = $school;
-							$save = $save && $userSchool->validate() && $userSchool->save();
-							
-						}
-						if ($save) {
-							$auth = Yii::app()->authManager;
-							$auth->revoke($actual_role, $model->id);
-							$auth->assign($_POST['Role'], $model->id);
-							Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário alterado com sucesso!'));
-							$this->redirect(['index']);
-						}
-					}
-				} else {
-					$model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
-				}
-			}
-		}
-		
-		$result = [];
-		$i = 0;
-        foreach ($userSchools as $scholl){
-            $result[$i] = $scholl->school_fk;
-			$i++;
+    public function actionUpdate($id)
+    {
+        $model = Users::model()->findByPk($id);
+        $actual_role = $model->getRole();
+        $userSchools = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
+        if (isset($_POST['Users'])) {
+            $model->attributes = $_POST['Users'];
+            if ($model->validate()) {
+                $password = md5($_POST['Users']['password']);
+                $model->password = $password;
+                if ($model->save()) {
+                    $save = TRUE;
+                    foreach ($userSchools as $school) {
+                        UsersSchool::model()->deleteAll(array("condition" => "school_fk='$school->school_fk'"));
+                    }
+                    foreach ($_POST['schools'] as $school) {
+                        $userSchool = new UsersSchool;
+                        $userSchool->user_fk = $model->id;
+                        $userSchool->school_fk = $school;
+                        $save = $save && $userSchool->validate() && $userSchool->save();
+                    }
+                    if ($save) {
+                        $auth = Yii::app()->authManager;
+                        $auth->revoke($actual_role, $model->id);
+                        $auth->assign($_POST['Role'], $model->id);
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário alterado com sucesso!'));
+                        $this->redirect(['index']);
+                    }
+                }
+            }
         }
 
-		$this->render('editUser', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result]);
-	}
+        $result = [];
+        $i = 0;
+        foreach ($userSchools as $scholl) {
+            $result[$i] = $scholl->school_fk;
+            $i++;
+        }
+
+        $this->render('editUser', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result]);
+    }
 }
