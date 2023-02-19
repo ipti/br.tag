@@ -98,9 +98,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group">
-                                <?php echo CHtml::label( Yii::t('default','Active'), 'active', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo CHtml::activeCheckbox($model,'active') ?>
+                                    <?php echo CHtml::label( Yii::t('default','Active'), 'active', array('class' => 'control-label', 'id' => 'active-label')); ?>
                                 </div>
                             </div>
                         </div>
@@ -144,3 +144,21 @@ $form = $this->beginWidget('CActiveForm', array(
 <script>
     var form = '#Users_';
 </script>
+
+<style>
+.form-horizontal .control-group:last-child {
+    margin-bottom: 20px !important;
+}
+
+.control-group:last-child {
+    margin-left: 32px !important;
+}
+
+#active-label {
+    width: 40px !important;
+}
+
+input[type="checkbox"] {
+    height: 30px !important;
+}
+</style>
