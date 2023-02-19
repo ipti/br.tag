@@ -565,7 +565,7 @@
             $i++;
         }
 
-        $this->render('_form', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result]);
+        $this->render('editUser', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result]);
     }
 
 

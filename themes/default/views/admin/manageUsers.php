@@ -42,8 +42,13 @@
                                 'value' => '$data->active ? Sim : Não'
                             ),
                             array(
-                                'class' => 'CButtonColumn',
+                                'class' => 'CButtonColumn', 
                                 'template' => '{update}',
+                                'buttons' => array(
+                                    'update' => array(
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+                                    )
+                                )
                             ),
                         ),
                     ));
