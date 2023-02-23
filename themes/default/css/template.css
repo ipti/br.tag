@@ -51,6 +51,9 @@
  *
  * Designed and built exclusively for sale @Envato Marketplaces.
 */
+
+
+
 .changelog-link {
     color: white;
     text-decoration: underline;
@@ -689,22 +692,7 @@ body > .container-fluid.documentation {
     display: none;
 }
 
-@media (max-width: 992px) { 
-    #menu {
-        z-index: 99;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    }
-    .navbar.main {
-        width: 100% !important;
-    }
-    #content {
-        margin: 0 0 20px 0px;
-    }
-    #logo-menu{
-        margin-left: 10px;
-    }
 
- }
 
 #menu .profile {
     display: block;
@@ -5129,117 +5117,8 @@ tr:last-child
 .google-visualization-table-table tbody:first-child tr:first-child td {
     border-top: 0;
 }
-/* aqui */
-@media only screen and (max-width: 979px) {
-    .table-responsive.swipe-horizontal {
-        border-collapse: collapse;
-        border-spacing: 0;
-        display: block;
-        position: relative;
-        width: 100%;
-        border-left: 1px solid #dddddd;
-    }
 
-    .fadedlogo{
-        width: 90%; 
-        margin: 0px 0px 0px 0px; 
-        padding: 0px 0px 0px 0px;
-        position: absolute;  
-        bottom: 318px; 
-        left:154px;
-    }
 
-    .table-responsive.swipe-horizontal th,
-    .table-responsive.swipe-horizontal td {
-        display: block;
-        margin: 0;
-        vertical-align: top;
-    }
-
-    .table-responsive.swipe-horizontal th {
-        text-align: right;
-        border-bottom: 0;
-        border-left: 0;
-    }
-
-    .table-responsive.swipe-horizontal td {
-        min-height: 1.25em;
-        text-align: left;
-        border-left: 0;
-        border-right: 0;
-        border-bottom: 0;
-        border-top: 0;
-    }
-
-    .table-responsive.swipe-horizontal thead {
-        display: block;
-        float: left;
-    }
-
-    .table-responsive.swipe-horizontal thead tr {
-        display: block;
-    }
-
-    .table-responsive.swipe-horizontal tbody {
-        display: block;
-        width: auto;
-        position: relative;
-        overflow-x: auto;
-        white-space: nowrap;
-        word-spacing: 0;
-        letter-spacing: 0;
-        font-size: 0;
-    }
-
-    .table-responsive.swipe-horizontal tbody tr {
-        display: inline-block;
-        vertical-align: top;
-        border-left: 1px solid #e5e5e5;
-    }
-
-    .table-responsive.block table,
-    .table-responsive.block thead,
-    .table-responsive.block tbody,
-    .table-responsive.block th,
-    .table-responsive.block td,
-    .table-responsive.block tr {
-        display: block;
-    }
-
-    .table-responsive.block thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
-    }
-
-    .table-responsive.block tr {
-        border: 1px solid #e5e5e5;
-    }
-
-    .table-responsive.block td {
-        border: 0;
-        border-bottom: 1px solid #e5e5e5;
-        position: relative;
-        padding-left: 50%;
-        white-space: normal;
-        text-align: left;
-    }
-
-    .table-responsive.block td:before {
-        position: absolute;
-        vertical-align: middle;
-        left: 6px;
-        width: 45%;
-        padding-right: 10px;
-        white-space: nowrap;
-        text-align: right;
-        font-weight: 700;
-    }
-
-    .table-responsive.block td:before {
-        content: attr(data-title);
-    }
-}
 
 .table-invoice td {
     border: 0;
@@ -6270,21 +6149,6 @@ i:before {
     color: #0088cc;
 }
 
-@media (max-width: 480px) {
-    .bwizard-steps li:after,
-    .bwizard-steps li:before {
-        border: 0;
-    }
-
-    .bwizard-steps li,
-    .bwizard-steps li.active,
-    .bwizard-steps li:first-child,
-    .bwizard-steps li:last-child {
-        margin-right: 0;
-        padding: 0;
-        background-color: transparent;
-    }
-}
 
 body.login {
     background-color: #FAFAFE;
@@ -7431,14 +7295,232 @@ div.glyphicons.glyphicon-primary i:before {
     display: none;
 }
 
-@media (max-width: 979px) {
-    body > .container-fluid.fixed {
-        width: auto;
-        border: 0;
+
+
+@media (max-width: 480px) {
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+
+
+    #menu .slim-scroll > ul > li.hide-responsive,
+    #menu > ul > li.hide-responsive {
+        display: none !important;
+    }
+
+    .hide-responsive {
+        display: none !important;
+    }
+
+    #content {
         margin: 0;
     }
-}
 
+    #box-menu {
+        margin-top: 44px !important;
+    }
+
+    .buttons button {
+        margin-top: -60px;
+    }
+
+    .buttons .print {
+        margin-top: -62px !important;
+    }
+
+    .box-links-previous-next {
+        margin-top: 20px;
+        display: block;
+    }
+
+    .show,
+    .responsive-menu,
+    #buttons-student,
+    .hide-box {
+        display: block;
+    }
+
+    .breadcrumb {
+        height: 52px !important;
+    }
+
+    .responsive-menu .dropdown-menu li {
+        margin-bottom: 5px;
+        border-bottom: solid 1px gray;
+    }
+
+    .responsive-menu .dropdown-menu li:last-child {
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+
+    #widget-StudentsList,
+    .columnone {
+        margin-top: 50px !important;
+    }
+
+    .dropdown-toggle,
+    .responsive-menu .btn-group > .btn:hover,
+    .btn-group > .btn:focus,
+    .btn-group > .btn:active,
+    .btn-group > .btn.active,
+    .btn-group.open .btn.dropdown-toggle {
+        background-color: #3F45EA;
+        color: #fff;
+    }
+
+    .innerLR .responsive-menu {
+        margin-right: 15px;
+    }
+
+    #classroom-form .responsive-menu {
+        margin-right: 0;
+    }
+
+    .dropdown-margin {
+        margin-top: 57px;
+        margin-right: 10px;
+    }
+
+    #buttons-student {
+        margin-top: 10px;
+    }
+
+    #received .span3:first-child label:first-child {
+        margin-top: 64px !important;
+    }
+
+    #button-add-school {
+        margin-top: 8px;
+        margin-right: 10px;
+    }
+
+    #button-menu {
+        left: 85% !important;
+    }
+
+    .box-instructor > .dropdown-margin {
+        margin-top: 66px !important;
+    }
+
+    .container-instructor > .innerLR {
+        padding-top: 10px !important;
+    }
+
+    #LoginForm_year {
+        min-width: 100px;
+    }
+
+    .navbar.main .appbrand {
+        width: 130px;
+    }
+
+    .username {
+        float: left;
+    }
+    h1,
+    h2,
+    h3 {
+        line-height: 30px;
+        font-size: 18pt;
+    }
+
+    h3.glyphicons i:before,
+    h2.glyphicons i:before {
+        font-size: 24px;
+        top: 3px;
+        left: 5px;
+    }
+
+    .heading-buttons .buttons {
+        margin-top: 10px;
+        float: none;
+        padding: 0 10px;
+        text-align: center;
+    }
+
+    .heading-buttons .buttons .btn {
+        margin: 0;
+        float: none;
+    }
+
+    .separator {
+        padding: 0;
+        margin: 10px 0;
+    }
+
+    .table-condensed th,
+    .table-condensed td {
+        padding: 4px 5px;
+    }
+
+    p.glyphicons {
+        padding: 5px 0 10px 55px;
+    }
+
+    p.glyphicons i:before {
+        color: #d67170;
+        font-size: 35pt;
+        top: 0;
+    }
+
+    p.glyphicons.right {
+        padding: 0 55px 0 0;
+    }
+
+    .form-horizontal .control-label {
+        float: none;
+        width: auto;
+        padding-top: 0;
+        text-align: left;
+    }
+
+    .form-horizontal .controls {
+        margin-left: 0;
+    }
+
+    .bwizard-steps li:after,
+    .bwizard-steps li:before {
+        border: 0;
+    }
+
+    .bwizard-steps li,
+    .bwizard-steps li.active,
+    .bwizard-steps li:first-child,
+    .bwizard-steps li:last-child {
+        margin-right: 0;
+        padding: 0;
+        background-color: transparent;
+    }
+}
+@media (max-width: 320px) {
+    /* media 320 */
+    .nav-tabs > li,
+    .nav-tabs > li > a,
+    .nav-tabs > li > a:hover {
+        display: block;
+        float: none;
+        margin: 0 0 -1px;
+        border-color: #e04545;
+    }
+
+    .nav-tabs > li:hover {
+        border-color: #e04545;
+    }
+
+    .nav-tabs > li,
+    .nav-tabs > li > a {
+        border-color: #e0d5c6;
+        background: #f5eadb;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+    }
+}
 @media (max-width: 767px) {
     body {
         padding: 0;
@@ -7743,105 +7825,28 @@ div.glyphicons.glyphicon-primary i:before {
         line-height: normal !important;
     }
 }
-
-@media (max-width: 480px) {
-    h1,
-    h2,
-    h3 {
-        line-height: 30px;
-        font-size: 18pt;
+@media (max-width: 992px) { 
+    #menu {
+        z-index: 99;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+    .navbar.main {
+        width: 100% !important;
+    }
+    #content {
+        margin: 0 0 20px 0px;
+    }
+    #logo-menu{
+        margin-left: 10px;
     }
 
-    h3.glyphicons i:before,
-    h2.glyphicons i:before {
-        font-size: 24px;
-        top: 3px;
-        left: 5px;
-    }
-
-    .heading-buttons .buttons {
-        margin-top: 10px;
-        float: none;
-        padding: 0 10px;
-        text-align: center;
-    }
-
-    .heading-buttons .buttons .btn {
-        margin: 0;
-        float: none;
-    }
-
-    .separator {
-        padding: 0;
-        margin: 10px 0;
-    }
-
-    .table-condensed th,
-    .table-condensed td {
-        padding: 4px 5px;
-    }
-
-    p.glyphicons {
-        padding: 5px 0 10px 55px;
-    }
-
-    p.glyphicons i:before {
-        color: #d67170;
-        font-size: 35pt;
-        top: 0;
-    }
-
-    p.glyphicons.right {
-        padding: 0 55px 0 0;
-    }
-
-    .form-horizontal .control-label {
-        float: none;
-        width: auto;
-        padding-top: 0;
-        text-align: left;
-    }
-
-    .form-horizontal .controls {
-        margin-left: 0;
+ }
+@media (max-width: 768px) {
+    #frequency-container {
+        margin-top: 45px;
     }
 }
-
-@media (max-width: 320px) {
-    .nav-tabs > li,
-    .nav-tabs > li > a,
-    .nav-tabs > li > a:hover {
-        display: block;
-        float: none;
-        margin: 0 0 -1px;
-        border-color: #e04545;
-    }
-
-    .nav-tabs > li:hover {
-        border-color: #e04545;
-    }
-
-    .nav-tabs > li,
-    .nav-tabs > li > a {
-        border-color: #e0d5c6;
-        background: #f5eadb;
-        -webkit-border-radius: 0;
-        -moz-border-radius: 0;
-        border-radius: 0;
-    }
-}
-
 @media (max-width: 979px) and (min-width: 768px) {
-    
-    .fadedlogo{
-        width: 90%; 
-        margin: 0px 0px 0px 0px; 
-        padding: 0px 0px 0px 0px;
-        position: absolute;  
-        bottom: 318px; 
-        left:154px;
-    }
-    
     .widget-stats {
         padding: 36px 0;
     }
@@ -7875,7 +7880,134 @@ div.glyphicons.glyphicon-primary i:before {
         left: 0;
         top: 3px;
     }
+    body > .container-fluid.fixed {
+        width: auto;
+        border: 0;
+        margin: 0;
+    }
 }
+/* @media (max-width: 979px) {
+    body > .container-fluid.fixed {
+        width: auto;
+        border: 0;
+        margin: 0;
+    }
+} */
+/* @media (min-width: 979px) {
+    .fadedlogo{
+        width: 56%;
+        margin: 0px 0px 0px 0px;
+        padding: 0px 0px 0px 0px;
+        position: absolute;
+        bottom: 199px;
+        left: 968px;
+    }
+} */
+@media only screen and (max-width: 979px) {
+
+    .table-responsive.swipe-horizontal {
+        border-collapse: collapse;
+        border-spacing: 0;
+        display: block;
+        position: relative;
+        width: 100%;
+        border-left: 1px solid #dddddd;
+    }
+
+    .table-responsive.swipe-horizontal th,
+    .table-responsive.swipe-horizontal td {
+        display: block;
+        margin: 0;
+        vertical-align: top;
+    }
+
+    .table-responsive.swipe-horizontal th {
+        text-align: right;
+        border-bottom: 0;
+        border-left: 0;
+    }
+
+    .table-responsive.swipe-horizontal td {
+        min-height: 1.25em;
+        text-align: left;
+        border-left: 0;
+        border-right: 0;
+        border-bottom: 0;
+        border-top: 0;
+    }
+
+    .table-responsive.swipe-horizontal thead {
+        display: block;
+        float: left;
+    }
+
+    .table-responsive.swipe-horizontal thead tr {
+        display: block;
+    }
+
+    .table-responsive.swipe-horizontal tbody {
+        display: block;
+        width: auto;
+        position: relative;
+        overflow-x: auto;
+        white-space: nowrap;
+        word-spacing: 0;
+        letter-spacing: 0;
+        font-size: 0;
+    }
+
+    .table-responsive.swipe-horizontal tbody tr {
+        display: inline-block;
+        vertical-align: top;
+        border-left: 1px solid #e5e5e5;
+    }
+
+    .table-responsive.block table,
+    .table-responsive.block thead,
+    .table-responsive.block tbody,
+    .table-responsive.block th,
+    .table-responsive.block td,
+    .table-responsive.block tr {
+        display: block;
+    }
+
+    .table-responsive.block thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .table-responsive.block tr {
+        border: 1px solid #e5e5e5;
+    }
+
+    .table-responsive.block td {
+        border: 0;
+        border-bottom: 1px solid #e5e5e5;
+        position: relative;
+        padding-left: 50%;
+        white-space: normal;
+        text-align: left;
+    }
+
+    .table-responsive.block td:before {
+        position: absolute;
+        vertical-align: middle;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: right;
+        font-weight: 700;
+    }
+
+    .table-responsive.block td:before {
+        content: attr(data-title);
+    }
+}
+
+
+
 
 #themer {
     display: block;
@@ -8380,14 +8512,6 @@ li.tlypageguide-active.tlypageguide_bottom:after {
     font-size: 10px;
     line-height: 14px;
     text-align: center;
-}
-.fadedlogo{
-    width: 42%; 
-    margin: 0px 0px 0px 0px; 
-    padding: 0px 0px 0px 0px;
-    position: absolute;  
-    bottom: 309px; 
-    left:1078px;
 }
 
 .deleteTeachingData {
@@ -9138,152 +9262,27 @@ tbody .details-control:hover {
     width: 100% !important;
 }
 
-@media (max-width: 768px) {
-    #frequency-container {
-        margin-top: 45px;
-    }
-
-    .fadedlogo{
-        width: 90%; 
-        margin: 0px 0px 0px 0px; 
-        padding: 0px 0px 0px 0px;
-        position: absolute;  
-        bottom: 318px; 
-        left:154px;
-    }
-
+.fadedlogo {
+    width: 100%;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    position: absolute;
+    top: -30vw;
+    right: -30vw;
 }
 
-@media (max-width: 480px) {
-    .table-responsive {
-        display: block;
-        width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
+@media (max-width: 767px) and (min-width: 478px) {
     .fadedlogo{
-        width: 90%; 
-        margin: 0px 0px 0px 0px; 
-        padding: 0px 0px 0px 0px;
-        position: absolute;  
-        bottom: 318px; 
-        left:154px;
-    }
+        width: 50%;
+        top: -15vw;
+        right: -15vw;
+    } 
+}
 
-    #menu .slim-scroll > ul > li.hide-responsive,
-    #menu > ul > li.hide-responsive {
-        display: none !important;
-    }
-
-    .hide-responsive {
-        display: none !important;
-    }
-
-    #content {
-        margin: 0;
-    }
-
-    #box-menu {
-        margin-top: 44px !important;
-    }
-
-    .buttons button {
-        margin-top: -60px;
-    }
-
-    .buttons .print {
-        margin-top: -62px !important;
-    }
-
-    .box-links-previous-next {
-        margin-top: 20px;
-        display: block;
-    }
-
-    .show,
-    .responsive-menu,
-    #buttons-student,
-    .hide-box {
-        display: block;
-    }
-
-    .breadcrumb {
-        height: 52px !important;
-    }
-
-    .responsive-menu .dropdown-menu li {
-        margin-bottom: 5px;
-        border-bottom: solid 1px gray;
-    }
-
-    .responsive-menu .dropdown-menu li:last-child {
-        margin-bottom: 0;
-        border-bottom: none;
-    }
-
-    #widget-StudentsList,
-    .columnone {
-        margin-top: 50px !important;
-    }
-
-    .dropdown-toggle,
-    .responsive-menu .btn-group > .btn:hover,
-    .btn-group > .btn:focus,
-    .btn-group > .btn:active,
-    .btn-group > .btn.active,
-    .btn-group.open .btn.dropdown-toggle {
-        background-color: #3F45EA;
-        color: #fff;
-    }
-
-    .innerLR .responsive-menu {
-        margin-right: 15px;
-    }
-
-    #classroom-form .responsive-menu {
-        margin-right: 0;
-    }
-
-    .dropdown-margin {
-        margin-top: 57px;
-        margin-right: 10px;
-    }
-
-    #buttons-student {
-        margin-top: 10px;
-    }
-
-    #received .span3:first-child label:first-child {
-        margin-top: 64px !important;
-    }
-
-    #button-add-school {
-        margin-top: 8px;
-        margin-right: 10px;
-    }
-
-    #button-menu {
-        left: 85% !important;
-    }
-
-    .box-instructor > .dropdown-margin {
-        margin-top: 66px !important;
-    }
-
-    .container-instructor > .innerLR {
-        padding-top: 10px !important;
-    }
-
-    #LoginForm_year {
-        min-width: 100px;
-    }
-
-    .navbar.main .appbrand {
-        width: 130px;
-    }
-
-    .username {
-        float: left;
-    }
+@media (min-width: 768px) {
+    .fadedlogo{
+        width: 40%;
+        top: -10vw;
+        right: -10vw;
+    } 
 }
