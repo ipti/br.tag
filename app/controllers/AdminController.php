@@ -562,4 +562,9 @@ class AdminController extends Controller
 
         $this->render('editUser', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result]);
     }
+
+    public function actionChangelog()
+    {
+        $this->render('changelog');
+    }
 }
