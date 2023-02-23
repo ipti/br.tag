@@ -54,7 +54,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <div class="widget-head  hidden-print">
                 <ul class="tab-courseplan">
                     <li id="tab-courseplan" class="active"><a href="#"
-                                                              data-toggle="tab"><?php echo Yii::t('default', 'Course Plan') ?></a>
+                        data-toggle="tab"><?php echo Yii::t('default', 'Course Plan') ?></a>
                     </li>
                 </ul>
             </div>
@@ -111,7 +111,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                     </div>
                                     <div class="controls">
                                         <?php
-                                        echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'style' => 'width: 960px'));
+                                        echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'style' => 'width: 100%; max-width:845px;'));
                                         ?>
                                     </div>
 

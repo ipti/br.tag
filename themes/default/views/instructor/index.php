@@ -49,8 +49,8 @@
                         array(
                             'name' => 'name',
                             'type' => 'raw',
-                            'value' => '$data->name',
-                            'htmlOptions' => array('width'=> '400px')
+                            'value' => 'CHtml::link($data->name,Yii::app()->createUrl("instructor/update",array("id"=>$data->id)))',
+                            'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
                         ),
                         array(
                             'name' => 'documents',

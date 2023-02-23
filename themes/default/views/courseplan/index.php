@@ -34,8 +34,8 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                                 'header' => Yii::t('default', 'Name'),
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => '$data->name',
-                                'htmlOptions' => array('width' => '25%')
+                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("courseplan/update",array("id"=>$data->id)))',
+                                'htmlOptions' => array('width' => '25%', 'class' => 'link-update-grid-view')
                             ),
                             array(
                                 'header' => Yii::t('default', 'Stage'),

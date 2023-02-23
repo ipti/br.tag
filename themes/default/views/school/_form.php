@@ -30,8 +30,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <!-- style="line-height: 190px;" -->
         <div class="tag-buttons-container buttons">
             <a data-toggle="tab" class='hide-responsive tag-button-light small-button prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
-            <a data-toggle="tab" class='tag-button small-button next'><?php echo Yii::t('default', 'Next') ?>
-            </a>
+            <?= $modelSchoolIdentification->isNewRecord ? "<a data-toggle='tab' class='tag-button small-button next'>".Yii::t('default', 'Next')."</a>" : ''?>
             <button class="tag-button small-button last save-school-button" type="button">
                 <?= $modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
             </button>

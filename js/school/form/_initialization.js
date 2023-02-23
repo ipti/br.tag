@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+window.location.search.includes("update") ? $('.last').css('display', 'block') : $('.last').css('display', 'none');
+
 $('.heading-buttons').css('width', $('#content').width());
 $(document).ready(function() {
     $(window).load(function() {
