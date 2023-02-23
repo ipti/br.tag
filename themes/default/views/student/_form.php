@@ -931,7 +931,9 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <!-- Tab Student Enrollment -->
                 <div class="tab-pane" id="student-enrollment">
-                    <a href="#" class="tag-button medium-button" id="new-enrollment-button">Adicionar Matrícula</a>
+                    <div class="control-group">
+                        <a href="#" class="tag-button medium-button" id="new-enrollment-button">Adicionar Matrícula</a>
+                    </div>
                     <div class="row-fluid" id="new-enrollment-form" style="display: none;">
                         <div class="span5">
                             <div class="control-group">
