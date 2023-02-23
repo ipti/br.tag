@@ -78,11 +78,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     . "<td>" . $cargos[2] . "</td>"
                     . "<td>" . $cargos[3] . "</td>"
                     . "</tr>";
-                    
-                    
-                    $ordem++;
-                }
                 echo $html;
+
+
+                $ordem++;
+            }
         }
 
         ?>
