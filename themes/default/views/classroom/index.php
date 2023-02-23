@@ -56,7 +56,7 @@
                                 'name' => 'name',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->name,Yii::app()->createUrl("classroom/update",array("id"=>$data->id)))',
-                                'htmlOptions' => array('width' => '400px')
+                                'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
                             ),
                             array(
                                 'name' => 'edcensoStageVsModalityFk',

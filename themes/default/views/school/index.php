@@ -50,6 +50,7 @@
                                 'name' => 'name',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->name,Yii::app()->createUrl("school/update",array("id"=>$data->inep_id)))',
+                                'htmlOptions' => array('class' => 'link-update-grid-view'),
                             ),
                             array(
                                 'class' => 'CButtonColumn', 
