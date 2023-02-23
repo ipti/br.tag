@@ -52,7 +52,7 @@ function change2clickedTab(clicked){
 	changeTab(tab);
 }
 
-$('.tab-student li a').click(function() {
+$('.tab-courseplan li a').click(function() {
     var clickedTab = $(this).parent();
     change2clickedTab(clickedTab);
 });

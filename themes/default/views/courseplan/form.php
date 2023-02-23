@@ -59,10 +59,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <?php endif ?>
         <div class="widget border-bottom-none">
 
-            <div class="widget-head  hidden-print">
-                <ul class="tab-courseplan">
-                    <li id="tab-courseplan" class="active"><a href="#"
-                                                              data-toggle="tab"><?php echo Yii::t('default', 'Course Plan') ?></a>
+            <div class="t-tabs js-tab-control">
+                <ul class="t-tabs__contents tab-courseplan">
+                    <li id="tab-create-plan" class="t-tabs__itens active">
+                        <a class="t-tabs__link" href="#create-plan" data-toggle="tab"><?php echo Yii::t('default', 'Create Plan') ?></a>
+                    </li>
+                    <li id="tab-class" class="t-tabs__itens">
+                        <a class="t-tabs__link" href="#class" data-toggle="tab"><?php echo Yii::t('default', 'Class') ?></a>
                     </li>
                 </ul>
             </div>
@@ -70,13 +73,33 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <input type="hidden" class="js-course-plan-id" value="<?= $coursePlan->id ?>">
                 <div class="tab-content">
                     <div class="tab-pane active" id="create-plan">
-                            <div class="row-fluid">
-                                <div class=" span4">
-                                    <div class="control-group">
-                                        <div class="controls">
-                                            <?php echo CHtml::label(yii::t('default', 'Stage') . "*", 'modality_fk', array('class' => 'control-label required')); ?>
+                    <div class="row">
+                                <div class="column">
+                                    <div>
+                                            <?php echo CHtml::label(yii::t('default', 'Name') . "*", 'name', array(
+                                                'class' => 'control-label required',
+
+                                            )); ?>
+                                            <?php
+                                            echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500,));
+                                            ?>
+                                    </div>
+                                    <div>
+                                            <?php echo CHtml::label(yii::t('default', 'Discipline') . "*", 'discipline_fk', array('class' => 'control-label required')); ?>
+                                        <div class="coursePlan-input"><?php
+                                            echo $form->dropDownList($coursePlan, 'discipline_fk', array(), array(
+                                                'key' => 'id',
+                                                'class' => 'select-search-on control-input',
+                                                'initVal' => $coursePlan->discipline_fk,
+                                                'prompt' => 'Selecione a disciplina...',
+                                            ));
+                                            ?>
+                                            <i class="js-course-plan-loading-competences fa fa-spin fa-spinner"></i>
                                         </div>
-                                        <div class="controls">
+                                    </div>
+                                    <div>
+                                            <?php echo CHtml::label(yii::t('default', 'Stage') . "*", 'modality_fk', array('class' => 'control-label required')); ?>
+                                        <div>
                                             <?php
                                             echo $form->dropDownList($coursePlan, 'modality_fk', CHtml::listData($stages, 'id', 'name'), array(
                                                 'key' => 'id',
@@ -89,42 +112,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                         </div>
                                     </div>
                                 </div>
-                                <div class=" span4 disciplines-container">
-                                    <div class="control-group">
-                                        <div class="controls">
-                                            <?php echo CHtml::label(yii::t('default', 'Discipline') . "*", 'discipline_fk', array('class' => 'control-label required')); ?>
-                                        </div>
-                                        <div class="controls coursePlan-input"><?php
-                                            echo $form->dropDownList($coursePlan, 'discipline_fk', array(), array(
-                                                'key' => 'id',
-                                                'class' => 'select-search-on control-input',
-                                                'initVal' => $coursePlan->discipline_fk,
-                                                'prompt' => 'Selecione a disciplina...',
-                                            ));
-                                            ?>
-                                            <i class="js-course-plan-loading-competences fa fa-spin fa-spinner"></i>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="row-fluid">
-                                <div class=" span12">
-                                    <div class="control-group">
-                                        <div class="controls">
-                                            <?php echo CHtml::label(yii::t('default', 'Name') . "*", 'name', array(
-                                                'class' => 'control-label required',
-
-                                        )); ?>
-                                    </div>
-                                    <div class="controls">
-                                        <?php
-                                        echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'style' => 'width: 960px'));
-                                        ?>
-                                    </div>
-
-                                    </div>
-                                </div>
-                            </div>
+                           
                     </div>
                     <div class="tab-pane" id="class">
                         <table id="course-classes" class="display" cellspacing="0" width="100%">
