@@ -29,7 +29,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <!-- Wrapper -->
 <div id="login">
     <!-- <img src="<?php  echo Yii::app()->theme->baseUrl; ?>/img/tag-title.png" style="padding: 20px 20px;position: absolute;top: 0;right: 0;" /> -->
-    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/fadedlogo.svg" class="fadedlogo"/>
+    <img alt ="logo negativa"src="<?php echo Yii::app()->theme->baseUrl; ?>/img/fadedlogo.svg" class="fadedlogo"/>
     <img src="<?php  echo Yii::app()->theme->baseUrl; ?>/img/tag-title.png" style="padding: 20px 20px;position: absolute;top: 0;left: 0;" />
     <div class="form-signin">
                     <form method="post" action="index.html?lang=en&amp;layout_type=fluid&amp;menu_position=menu-left&amp;style=style-light">
