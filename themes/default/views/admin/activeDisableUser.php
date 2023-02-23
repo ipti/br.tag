@@ -30,7 +30,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Users'));
                     array(
                         'name' => 'name',
                         'type' => 'raw',
-                        'value' => '$data->name',
+                        'value' => 'CHtml::link($data->name,Yii::app()->createUrl("admin/update",array("id"=>$data->id)))',
                     ),
                     array(
                         'name' => 'username',

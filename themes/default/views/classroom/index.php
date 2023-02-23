@@ -55,7 +55,7 @@
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => '$data->name',
+                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("classroom/update",array("id"=>$data->id)))',
                                 'htmlOptions' => array('width' => '400px')
                             ),
                             array(

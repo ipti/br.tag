@@ -49,7 +49,7 @@
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => '$data->name',
+                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("school/update",array("id"=>$data->inep_id)))',
                             ),
                             array(
                                 'class' => 'CButtonColumn', 
