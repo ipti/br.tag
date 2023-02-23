@@ -702,8 +702,10 @@ body > .container-fluid.documentation {
     }
     #logo-menu{
         margin-left: 10px;
+    } 
+    .link-update-grid-view a{
+        pointer-events: none;
     }
-
  }
 
 #menu .profile {

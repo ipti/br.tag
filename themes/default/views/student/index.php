@@ -69,7 +69,8 @@
                         array(
                             'name' => 'name',
                             'type' => 'raw',
-                            'value' => '$data->name',
+                            'value' => 'CHtml::link($data->name,Yii::app()->createUrl("student/update",array("id"=>$data->id)))',
+                            'htmlOptions' => array('class' => 'link-update-grid-view'),
                         ),
                         /*array(
                             'header' => '',
