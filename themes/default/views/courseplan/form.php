@@ -59,13 +59,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <?php endif ?>
         <div class="widget border-bottom-none">
 
-            <div class="t-tabs js-tab-control">
-                <ul class="t-tabs__contents tab-courseplan">
-                    <li id="tab-create-plan" class="t-tabs__itens active">
-                        <a class="t-tabs__link" href="#create-plan" data-toggle="tab"><?php echo Yii::t('default', 'Create Plan') ?></a>
-                    </li>
-                    <li id="tab-class" class="t-tabs__itens">
-                        <a class="t-tabs__link" href="#class" data-toggle="tab"><?php echo Yii::t('default', 'Class') ?></a>
+            <div class="widget-head  hidden-print">
+                <ul class="tab-courseplan">
+                    <li id="tab-courseplan" class="active"><a href="#"
+                                                              data-toggle="tab"><?php echo Yii::t('default', 'Course Plan') ?></a>
                     </li>
                 </ul>
             </div>
@@ -117,13 +114,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                             <?php echo CHtml::label(yii::t('default', 'Name') . "*", 'name', array(
                                                 'class' => 'control-label required',
 
-                                            )); ?>
-                                        </div>
-                                        <div class="controls">
-                                            <?php
-                                            echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'style' => 'width: 960px'));
-                                            ?>
-                                        </div>
+                                        )); ?>
+                                    </div>
+                                    <div class="controls">
+                                        <?php
+                                        echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'style' => 'width: 960px'));
+                                        ?>
+                                    </div>
 
                                     </div>
                                 </div>
