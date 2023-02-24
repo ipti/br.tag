@@ -4,70 +4,30 @@
 .t-cards {
     border-radius: 5px;
     margin: 2em 2em 2em 2em;
-    padding: 2em 2em 2em 2em;
-    background: rgb(157, 75, 75);
-    // background: $colorsBaseProductLighter;
+    padding: 2em 3em 2em 2em;
+    // background: rgb(157, 75, 75);
+    background: $colorsBaseProductLighter;
     position: relative;
     text-align: center;
     display: block;
     border: 1px none #e5e5e5;
-
-    @include device(tablet) {
-        margin: 1em 5em 0em 0em;
-        padding: 1em 0em 1em 0em;
-
-    }
-
-    @include device(desktop) {
-        margin: 1em 5em 0em 0em;
-        padding: 1em 0em 1em 0em;
-    }
-
-
+    
     a {
         text-decoration: none;
     }
-
-
     .t-cards-link {
-
-
         .t-cards-icon {
             margin: 2em 0em 2em -3em;
             padding: 0em 1em 0em 0em;
 
-            @include device(tablet) {
-                margin: 0em 1.75px 0em 0em;
-                padding: 0em 0em 0em 0em;
 
-            }
-
-            @include device(desktop) {
-                margin: 0em 1.75px 0em 0em;
-                padding: 0em 0em 0em 0em;
-
-            }
         }
-
         .t-cards-title {
             margin: 0em 9em 0em 0em;
             padding: 0em 0em 0em 0em;
             font-weight: $fontWeightBold;
             color: $colorsBaseProductDarkActive;
-
-            @include device(tablet) {
-                margin: 0em 13em 0em 0em;
-                padding: 1em 2em 0em 0em;
-
-            }
-
-            @include device(desktop) {
-                margin: 0em 13em 0em 0em;
-                padding: 1em 2em 0em 0em;
-
-            }
         }
-
         .t-cards-subtitle {
             margin: 0em 0em 0em 2em;
             padding: 0em 0em 0em 0em;
@@ -89,6 +49,5 @@
 
     }
 
-
-
 }
+
