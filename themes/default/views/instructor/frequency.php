@@ -6,17 +6,15 @@
     $baseUrl = Yii::app()->baseUrl;
 	$themeUrl = Yii::app()->theme->baseUrl;
 	$cs = Yii::app()->getClientScript();
-	$cs->registerScriptFile($baseUrl . '/js/instructor/form/frequency.js', CClientScript::POS_END);
+	$cs->registerScriptFile($baseUrl . '/js/instructor/frequency.js', CClientScript::POS_END);
 	$cs->registerCssFile($themeUrl . '/css/template2.css');
 	$this->setPageTitle('TAG - ' . Yii::t('default', 'Instructor frequency'));
 
-?>
-
-$form = $this->beginWidget('CActiveForm', array(
-    'id' => 'classes-form',
-    'enableAjaxValidation' => false,
-    'action' => CHtml::normalizeUrl(array('classes/saveFrequency')),
-));
+    $form = $this->beginWidget('CActiveForm', array(
+        'id' => 'classes-form',
+        'enableAjaxValidation' => false,
+        'action' => CHtml::normalizeUrl(array('classes/saveFrequency')),
+    ));
 ?>
 
 <div class="row-fluid">
@@ -129,7 +127,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
     <div class="alert-incomplete-data alert alert-warning display-hide"></div>
     <div id="frequency-container" class="table-responsive"></div>
-    
+    <?php $this->endWidget(); ?>
 </div>
 
 <div class="modal fade" id="save-justification-modal" tabindex="-1" role="dialog" aria-labelledby="Save Justification">
