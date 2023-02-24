@@ -42,14 +42,18 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Users'));
                     array(
                         'class'=>'CLinkColumn',
                         'cssClassExpression' => '$data->active? show : hide',
+                        'labelExpression'=>'teste',
                         'urlExpression'=>'Yii::app()->createUrl("admin/disableUser",array("id"=>$data->id))',
-                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/unpublished_FILL0_wght600_GRAD200_opsz48.svg'
+                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/unpublished_FILL0_wght600_GRAD200_opsz48.svg',
+                        'htmlOptions' => array('style' => 'text-align: center', 'title' => 'Desativar Usuário'),
                     ),
                     array(
                         'class'=>'CLinkColumn',
                         'cssClassExpression' => '$data->active? hide : show',
+                        'labelExpression'=>'teste',
                         'urlExpression'=>'Yii::app()->createUrl("admin/activeUser",array("id"=>$data->id))',
-                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/check_circle_FILL0_wght600_GRAD200_opsz48.svg'
+                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/check_circle_FILL0_wght600_GRAD200_opsz48.svg',
+                        'htmlOptions' => array('style' => 'text-align: center', 'title' => 'Ativar Usuário'),
                     ),
                 ),
             ));
