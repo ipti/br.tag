@@ -42,7 +42,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Users'));
                     array(
                         'class'=>'CLinkColumn',
                         'cssClassExpression' => '$data->active? show : hide',
-                        'labelExpression'=>'teste',
                         'urlExpression'=>'Yii::app()->createUrl("admin/disableUser",array("id"=>$data->id))',
                         'imageUrl' => Yii::app()->theme->baseUrl.'/img/disableUser.svg',
                         'htmlOptions' => array('style' => 'text-align: center', 'title' => 'Desativar Usuário'),
@@ -50,7 +49,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Users'));
                     array(
                         'class'=>'CLinkColumn',
                         'cssClassExpression' => '$data->active? hide : show',
-                        'labelExpression'=>'teste',
                         'urlExpression'=>'Yii::app()->createUrl("admin/activeUser",array("id"=>$data->id))',
                         'imageUrl' => Yii::app()->theme->baseUrl.'/img/activeUser.svg',
                         'htmlOptions' => array('style' => 'text-align: center', 'title' => 'Ativar Usuário'),
