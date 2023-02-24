@@ -67,11 +67,11 @@ $baseUrl = Yii::app()->theme->baseUrl;
                         Voltar
                     </a>
                     <div class="fullmenu-toggle-button">
+                        <!-- <div></div>
                         <div></div>
-                        <div></div>
-                        <div></div>
+                        <div></div> -->
                     </div>
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/emblema-escola.svg" />
+                    <img class="emblema" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/emblema-escola.svg" />
                     <div class="infos-topnav">
                         <div id="change-school">
                             <form class="school" id2="school" action="<?php echo yii::app()->createUrl('site/changeschool') ?>" method="Post">

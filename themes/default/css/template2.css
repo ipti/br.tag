@@ -398,6 +398,15 @@
     width: 160px !important;
 
 }
-.control-group {
+.control-group.aluno {
     margin-left: 32px;
+}
+.emblema{
+    margin:0px 0px 0px 10px;
+}
+.selecao_dias{
+    margin: 0px 0px 0px -25px
+}
+.selecao_dias-checkbox{
+    text-align: center
 }
