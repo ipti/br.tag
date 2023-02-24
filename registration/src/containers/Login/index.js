@@ -17,7 +17,6 @@ const SignIn = () => {
   const onSubmit = values => {
     api.post("auth/login", values).then(function (response) {
       if (response && !("error" in response.data)) {
-        console.log(response)
         if (response.data.user.schools[0]) {
           idSchool(response.data.user.schools[0].inep_id)
         }
@@ -26,6 +25,9 @@ const SignIn = () => {
       } else {
         setValid(false);
       }
+    }).catch(err => {
+      console.log("opaaa")
+      setValid(false);
     });
   };
 

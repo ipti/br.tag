@@ -1,0 +1,20 @@
+services:
+  tag:
+    container_name: pre-registration
+    build: .
+    restart: always
+    volumes:
+      - .:/app
+    ports:
+      - 80:80
+    expose:
+      - 80
+    networks:
+      - pre-registration-v3-network
+    environment:
+      HOST_DB_TAG: 'mysql'
+      USER_DB_TAG: 'root'
+      PWD_DB_TAG: 'root'
+    
+networks:
+  pre-registration-v3-network:

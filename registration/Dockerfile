@@ -11,6 +11,13 @@ COPY --from=build-deps /usr/src/app/build /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
+# FROM node:8.11.3 as dev
+# WORKDIR /usr/src/app
+# COPY package.json ./
+# RUN npm install
+# COPY . ./
+# RUN npm start 
+
 
 
 #FROM node:8.11.3
