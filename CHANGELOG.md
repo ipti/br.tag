@@ -1,5 +1,13 @@
 # Atualizações
 
+## [Versão 3.2.2]
+**Melhorias**
+- Implementação de tabelas dinâmicas com novos recursos de paginação, pesquisa, ordenação e responsividade
+
+## [Versão 3.1.2]
+**Melhorias**
+- Agora os campos de ato de reconhecimento e regulamentação do cadastro de escolas são obrigatórios
+
 ## [Versão 3.1.1]
 **Melhorias**
 - Alterar valores de anos anteriores com o mesmo login sem precisar acessar o ano

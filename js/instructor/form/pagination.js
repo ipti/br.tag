@@ -11,13 +11,13 @@ $('.tab-instructor li a').click(function() {
             tab = li1;
             $('.prev').hide();
             $('.next').show();
-            $('.last').hide();
+            window.location.search.includes("update") ? $('.last').show() : $('.last').hide();
             break;
         case li2 :
             tab = li2;
             $('.prev').show();
             $('.next').show();
-            $('.last').hide();
+            window.location.search.includes("update") ? $('.last').show() : $('.last').hide();
             break;
         case li3 :
             tab = li3;
@@ -85,7 +85,7 @@ $('.prev').click(function() {
             break;
         case li3 :
             previous = li2;
-            $('.last').hide();
+            window.location.search.includes("update") ? $('.last').show() : $('.last').hide();
             $('.next').show();
             break;
     }

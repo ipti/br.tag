@@ -363,6 +363,7 @@ preenchidos";
      */
     public function actionIndex()
     {
+        $query = InstructorIdentification::model()->findAll();
         $filter = new InstructorIdentification('search');
         $filter->unsetAttributes();  // clear any default values
         if (isset($_GET['InstructorIdentification'])) {
@@ -374,7 +375,7 @@ preenchidos";
             'criteria' => [
                 'order' => 'name ASC',
             ], 'pagination' => [
-                'pageSize' => 20,
+                'pageSize' => count($query),
             ]
         ]);
         $this->render('index', [

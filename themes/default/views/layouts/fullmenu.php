@@ -35,6 +35,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/responsive.min.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.css?v=1.2" rel="stylesheet" type="text/css" />
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template2.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo Yii::app()->baseUrl; ?>/sass/css/main.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/glyphicons.min.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/select2.css" rel="stylesheet" />
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/print.css" media="print" rel="stylesheet" type="text/css" />
@@ -44,6 +45,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
     <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/jquery-ui-1.9.2.custom.min.css' />
     <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/font-awesome.min.css' />
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/home.css?v=1.0" />
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/datatables.min.css"/>
 </head>
 
 <body>
@@ -99,7 +101,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
                 <li id="menu-logout">
                     <!-- Menu Toggle Button  -->
 
-                    <a class="logout" href="<?php echo yii::app()->createUrl('site/logout') ?>">
+                    <a class="t-button t-button-secondary" href="<?php echo yii::app()->createUrl('site/logout') ?>">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.svg" />
                         <span>Sair</span>
                     </a>
@@ -111,7 +113,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
         <!-- Sidebar menu & content wrapper -->
         <div id="wrapper">
             <!-- Sidebar menu -->
-            <div id="menu" class="hidden-print fullmenu-sidebar" >
+            <div id="menu" class="hidden-print fullmenu-sidebar hidden-menu" >
                 <div class="colorful-bar">
                     <span id="span-color-blue"></span>
                     <span id="span-color-red"></span>
@@ -300,6 +302,8 @@ $baseUrl = Yii::app()->theme->baseUrl;
     <script src='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.min.js'></script>
     <script src='<?php echo Yii::app()->theme->baseUrl; ?>/js/purify.min.js'></script>
     <script src='<?php echo Yii::app()->baseUrl; ?>/js/layout/functions.js'></script>
+    <script src='<?php echo Yii::app()->baseUrl; ?>/js/datatables/init.js'></script>
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/datatables.min.js"></script>
 </body>
 
 </html>

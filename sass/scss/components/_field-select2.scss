@@ -1,0 +1,24 @@
+@import '../_tokens.scss';
+@import '../_functions.scss';
+
+
+.t-field-select {
+    width: 100%;
+    margin-bottom: $DimensionLarge;
+    &__label{
+        &--required {
+            font-weight: bold;
+        }
+    }
+    &__input {
+        &.select2-container{
+            width: 100%;
+            .select2-choice {
+                width: 100%;
+            }
+        }
+        
+    }
+
+    
+}

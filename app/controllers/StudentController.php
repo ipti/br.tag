@@ -306,8 +306,17 @@ class StudentController extends Controller
                             $modelEnrollment->student_fk = $modelStudentIdentification->id;
                             $modelEnrollment->student_inep_id = $modelStudentIdentification->inep_id;
                             $saved = false;
-                            if ($modelEnrollment->validate()) {
+
+
+                            $hasDuplicate = $modelEnrollment->alreadyExists();
+
+                            if ($modelEnrollment->validate() && !$hasDuplicate) {
                                 $saved = $modelEnrollment->save();
+                            }
+
+                            if($hasDuplicate){
+                                Yii::app()->user->setFlash('error', Yii::t('default', 'Aluno já está matriculado nessa turma.'));
+                                // Yii::app()->user->setFlash('success', Yii::t('default', "adasdsasd"));
                             }
 
                             //$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
@@ -378,6 +387,7 @@ class StudentController extends Controller
      */
     public function actionIndex($sid = null, $mer_id = null)
     {
+        $query = StudentIdentification::model()->findAll();
         $filter = new StudentIdentification('search');
         $filter->unsetAttributes();  // clear any default values
         if (isset($_GET['StudentIdentification'])) {
@@ -391,7 +401,7 @@ class StudentController extends Controller
                     'condition' => 'school_inep_id_fk=' . $school,
                 ),
                 'pagination' => array(
-                    'pageSize' => 12,
+                    'pageSize' => count($query),
                 )));
         $buttons = "";
         if ($sid != null) {
@@ -451,6 +461,9 @@ class StudentController extends Controller
         } else if ($model == $this->STUDENT_DOCUMENTS_AND_ADDRESS) {
             $student_inep_id = StudentIdentification::model()->findByPk($id)->inep_id;
             $return = StudentDocumentsAndAddress::model()->findByAttributes(array('id' => $id));
+            if($return === null){
+                $return = new StudentDocumentsAndAddress;
+            }
             //mudança agora só busca pelo pk, não mais pelo inep_id
             /*$return = ($student_inep_id === 'null' || empty($student_inep_id))
                     ? StudentDocumentsAndAddress::model()->findByPk($id)

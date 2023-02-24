@@ -736,6 +736,7 @@ return array(
     'Password' => 'Senha',
     'Confirm Password' => 'Confirmar Senha',
     'Username' => 'Usuário',
+    'Active' => 'Ativo',
     'Month' => 'Mês',
     
     //Abas
@@ -804,6 +805,7 @@ return array(
     'Update StudentIdentification' => 'Atualizar Aluno',
     'Update SchoolIdentification' => 'Atualizar Escola',
     'Update InstructorIdentification' => 'Atualizar Professor',
+    'Update User' => 'Atualizar Usuário',
     
     //Erros
     'already enrolled in this classroom.' =>'já matriculado na turma.',

@@ -1,0 +1,16 @@
+@import '_tokens.scss';
+@import '_functions.scss';
+
+
+.hide-mobile {
+    @include device(mobile) {
+        display: none;
+    }
+}
+
+.hide-desktop {
+    display: block;
+    @include device(mobile) {
+        display: none;
+    }
+}
