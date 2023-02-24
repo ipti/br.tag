@@ -1263,7 +1263,6 @@ body > .container-fluid.documentation {
 .navbar.main .topnav > li {
     position: relative;
     float: left;
-    line-height: 32px;
     display: flex;
     align-items: center;
     padding: 0 3px;
