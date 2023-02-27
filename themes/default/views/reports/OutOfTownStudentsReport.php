@@ -30,12 +30,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         <th rowspan="" style="text-align: center;">Nº</th>
         <th rowspan="" style="text-align: center;">ID INEP</th>
         <th rowspan="">ALUNO</th>
-        <th rowspan="" style="text-align: center;">ENDEREÇO</th>
-        <th rowspan="" style="text-align: center;">CIDADE</th>
-        <th rowspan="" style="text-align: center;">CIDADE ESCOLA</th>
-        <th rowspan="" style="text-align: center;">TURMA</th>
-        <th rowspan="" style="text-align: center;">ESCOLA</th>
         <th rowspan="" style="text-align: center;">DATA DE NASCIMENTO</th>
+        <th rowspan="" style="text-align: center;">ENDEREÇO</th>
+        <th rowspan="" style="text-align: center;">ESCOLA</th>
+        <th rowspan="" style="text-align: center;">CIDADE DO ESTUDANTE</th>
+        <th rowspan="" style="text-align: center;">CIDADE DA ESCOLA</th>
     </tr>
     <?php
     $rows = "";
@@ -44,12 +43,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             . "<td style='text-align: center;'>" . ($key + 1) . "</td>"
             . "<td>" . $r['inep_id'] . "</td>"
             . "<td>" . $r['name'] . "</td>"
+            . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
             . "<td>" . $r['address'] . "</td>"
-            . "<td>" . $r['city_student'] . "</td>"
-            . "<td>" . $r['city_school'] . "</td>"
-            . "<td>" . $r['classroom'] . "</td>"
             . "<td>" . $r['school'] . "</td>"
-            . "<td style='text-align: center;'>" . $r['birthday'] . "</td>";
+            . "<td>" . $r['city_student'] . "</td>"
+            . "<td>" . $r['city_school'] . "</td>";
         $rows .= "</tr>";
     }
     echo $rows;

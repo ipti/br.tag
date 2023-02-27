@@ -876,9 +876,9 @@ class ReportsController extends Controller
 
     public function actionOutOfTownStudentsReport()
     {
-        $sql = "SELECT su.name, su.inep_id, su.birthday, std.address, 
+        $sql = "SELECT DISTINCT su.name, su.inep_id, su.birthday, std.address, 
                 edcstd.name AS city_student, edcsch.name AS city_school, 
-                cl.name AS classroom, si.name AS school
+                si.name AS school
                 FROM student_documents_and_address std
                 JOIN edcenso_city edcstd ON(std.edcenso_city_fk = edcstd.id)
                 JOIN student_enrollment se ON(std.id = se.student_fk)
