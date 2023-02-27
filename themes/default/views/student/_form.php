@@ -94,13 +94,20 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <!-- Tab Student Identify -->
                 <div class="tab-pane active" id="student-identify">
+                    <div>
+                        <h5 class="titulos">
+                            Dados Básicos
+                        </h5>
+                    </div>
                     <div class="row">
                         <div class="column">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
                                 </div>
+
                             </div>
+                            
                             <!-- name student -->
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'civil_name', array('class' => 'control-label')); ?>
