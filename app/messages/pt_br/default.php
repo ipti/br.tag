@@ -585,6 +585,7 @@ return array(
     //InstructorIdentification
     'Nis' => 'Nº de Identificação Social (NIS)',
     'Birthday Date' => 'Data de Nascimento',
+    'Instructor Fk' => 'Professor',
     'Sex' => 'Sexo',
     'Color Race' => 'Cor / Raça',
     'Filiation' => 'Filiação',

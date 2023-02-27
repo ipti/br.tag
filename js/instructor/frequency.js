@@ -1,14 +1,14 @@
 $("#classesSearch").on("click", function () {
-    if ($("#classroom").val() !== "" && $("#month").val() !== "" && (!$("#disciplines").is(":visible") || $("#disciplines").val() !== "")) {
-        $(".alert-required-fields, .alert-incomplete-data").hide();
-        var fundamentalMaior = Number($("#classroom option:selected").attr("fundamentalmaior"));
+    if ($("#classroom").val() !== "" && $("#month").val() !== "") {
+        // $(".alert-required-fields, .alert-incomplete-data").hide();
+        console.log($("#classroom").val())
+        console.log($("#month").val())
         jQuery.ajax({
             type: "POST",
-            url: "?r=classes/getFrequency",
+            url: "?r=instructor/getFrequency",
             cache: false,
             data: {
-                classroom: $("#classroom").val(),
-                fundamentalMaior: fundamentalMaior,
+                classroom: 420,
                 discipline: $("#disciplines").val(),
                 month: $("#month").val(),
             },
@@ -19,27 +19,28 @@ $("#classesSearch").on("click", function () {
             },
             success: function (response) {
                 var data = JSON.parse(response);
+                console.log(data);
                 if (data.valid) {
                     var html = "";
                     html += "" +
                         "<table class='table-frequency table table-bordered table-striped table-hover'>" +
                         "<thead>" +
-                        "<tr><th class='table-title' colspan='" + (Object.keys(data.students[0].schedules).length + 1) + "'>" + (fundamentalMaior ? $('#disciplines').select2('data').text : "Todas as Disciplinas") + "</th></tr>";
+                        "<tr><th class='table-title' colspan='" + (Object.keys(data.instructors[0].schedules).length + 1) + "'>" + ($('#disciplines').select2('data').text) + "</th></tr>";
                     var daynameRow = "";
                     var dayRow = "";
                     var scheduleRow = "";
                     var checkboxRow = "";
-                    $.each(data.students[0].schedules, function () {
+                    $.each(data.instructors[0].schedules, function () {
                         dayRow += "<th>" + (pad(this.day, 2) + "/" + pad($("#month").val(), 2)) + "</th>";
                         daynameRow += "<th>" + this.week_day + "</th>";
-                        scheduleRow += fundamentalMaior ? "<th>" + this.schedule + "º Horário</th>" : "";
-                        checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!this.available ? "disabled" : "") + " classroomId='" + $("#classroom").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "' fundamentalMaior='" + fundamentalMaior + "'></th>";
+                        scheduleRow += "<th>" + this.schedule + "º Horário</th>";
+                        checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!this.available ? "disabled" : "") + " classroomId='" + $("#classroom").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "></th>";
                     });
-                    html += "<tr class='day-row'><th></th>" + dayRow + "</tr><tr class='dayname-row'><th></th>" + daynameRow + "</tr>" + (fundamentalMaior ? "<tr class='schedule-row'><th></th>" + scheduleRow + "</tr>" : "") + "<tr class='checkbox-row'><th></th>" + checkboxRow + "</tr>";
+                    html += "<tr class='day-row'><th></th>" + dayRow + "</tr><tr class='dayname-row'><th></th>" + daynameRow + "</tr>" + ("<tr class='schedule-row'><th></th>" + scheduleRow + "</tr>") + "<tr class='checkbox-row'><th></th>" + checkboxRow + "</tr>";
                     html += "</thead><tbody>";
-                    $.each(data.students, function (indexStudent, student) {
-                        html += "<tr><td class='student-name'>" + student.studentName + "</td>";
-                        $.each(student.schedules, function (indexSchedule, schedule) {
+                    $.each(data.instructors, function (indexinstructor, instructor) {
+                        html += "<tr><td class='instructor-name'>" + instructor.instructorName + "</td>";
+                        $.each(instructor.schedules, function (indexSchedule, schedule) {
                             var justificationContainer = "";
                             if (schedule.fault) {
                                 if (schedule.justification !== null) {
@@ -48,7 +49,7 @@ $("#classesSearch").on("click", function () {
                                     justificationContainer += "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>";
                                 }
                             }
-                            html += "<td class='frequency-checkbox-student frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!schedule.available ? "disabled" : "") + " " + (schedule.fault ? "checked" : "") + " classroomId='" + $("#classroom").val() + "' studentId='" + student.studentId + "' day='" + schedule.day + "' month='" + $("#month").val() + "' schedule='" + schedule.schedule + "' fundamentalMaior='" + fundamentalMaior + "'>" + justificationContainer + "</td>";
+                            html += "<td class='frequency-checkbox-instructor frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!schedule.available ? "disabled" : "") + " " + (schedule.fault ? "checked" : "") + " classroomId='" + $("#classroom").val() + "' instructorId='" + instructor.instructorId + "' day='" + schedule.day + "' month='" + $("#month").val() + "' schedule='" + schedule.schedule + "'>" + justificationContainer + "</td>";
                         });
                         html += "</tr>";
                     });
@@ -56,7 +57,7 @@ $("#classesSearch").on("click", function () {
                     $("#frequency-container").html(html).show();
                     $(".frequency-checkbox-general").each(function () {
                         var day = $(this).find(".frequency-checkbox").attr("day");
-                        $(this).find(".frequency-checkbox").prop("checked", $(".frequency-checkbox-student .frequency-checkbox[day=" + day + "]:checked").length === $(".frequency-checkbox-student .frequency-checkbox[day=" + day + "]").length);
+                        $(this).find(".frequency-checkbox").prop("checked", $(".frequency-checkbox-instructor .frequency-checkbox[day=" + day + "]:checked").length === $(".frequency-checkbox-instructor .frequency-checkbox[day=" + day + "]").length);
 
                     });
                     $('[data-toggle="tooltip"]').tooltip({container: "body"});
@@ -122,7 +123,7 @@ $(document).on("change", ".frequency-checkbox", function () {
             day: $(this).attr("day"),
             month: $(this).attr("month"),
             schedule: $(this).attr("schedule"),
-            studentId: $(this).attr("studentId"),
+            instructorId: $(this).attr("instructorId"),
             fault: $(this).is(":checked") ? 1 : 0,
             fundamentalMaior: $(this).attr("fundamentalMaior")
         },
@@ -132,7 +133,7 @@ $(document).on("change", ".frequency-checkbox", function () {
             $("#classroom, #month, #disciplines, #classesSearch").attr("disabled", "disabled");
         },
         complete: function (response) {
-            if ($(checkbox).attr("studentId") === undefined) {
+            if ($(checkbox).attr("instructorId") === undefined) {
                 $(".table-frequency tbody .frequency-checkbox[day=" + $(checkbox).attr("day") + "][schedule=" + $(checkbox).attr("schedule") + "]").prop("checked", $(checkbox).is(":checked"));
                 if ($(checkbox).is(":checked")) {
                     $(".table-frequency tbody .frequency-checkbox[day=" + $(checkbox).attr("day") + "][schedule=" + $(checkbox).attr("schedule") + "]").each(function () {
@@ -161,7 +162,7 @@ $(document).on("change", ".frequency-checkbox", function () {
 $(document).on("click", ".frequency-justification-icon", function () {
     var checkbox = $(this).parent().find(".frequency-checkbox");
     $("#justification-classroomid").val(checkbox.attr("classroomid"));
-    $("#justification-studentid").val(checkbox.attr("studentid"));
+    $("#justification-instructorid").val(checkbox.attr("instructorid"));
     $("#justification-day").val(checkbox.attr("day"));
     $("#justification-month").val(checkbox.attr("month"));
     $("#justification-schedule").val(checkbox.attr("schedule"));
@@ -181,7 +182,7 @@ $(document).on("click", ".btn-save-justification", function () {
         cache: false,
         data: {
             classroomId: $("#justification-classroomid").val(),
-            studentId: $("#justification-studentid").val(),
+            instructorId: $("#justification-instructorid").val(),
             day: $("#justification-day").val(),
             month: $("#justification-month").val(),
             schedule: $("#justification-schedule").val(),
@@ -194,7 +195,7 @@ $(document).on("click", ".btn-save-justification", function () {
             $("#save-justification-modal").find(".centered-loading-gif").show();
         },
         success: function (data) {
-            var justification = $(".table-frequency tbody .frequency-checkbox[studentid=" + $("#justification-studentid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "]").parent().find(".frequency-justification-icon");
+            var justification = $(".table-frequency tbody .frequency-checkbox[instructorid=" + $("#justification-instructorid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "]").parent().find(".frequency-justification-icon");
             if ($(".justification-text").val() == "") {
                 justification.html("<i class='fa fa-file-o'></i><i class='fa fa-file'></i>");
                 justification.attr("data-original-title", "").tooltip('hide');

@@ -41,7 +41,7 @@ class InstructorController extends Controller
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
                     'index', 'view', 'create', 'update', 'updateEmails', 'frequency', 'saveEmails', 'getCity', 'getCityByCep',
-                    'getInstitutions', 'getCourses', 'delete'
+                    'getInstitutions', 'getCourses', 'delete', 'getFrequency'
                 ], 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -582,7 +582,62 @@ preenchidos";
             'order' => 'name',
         ]);
 
-        $this->render('frequency', ['instructors' => $instructors]);
+        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            $criteria = new CDbCriteria;
+            $criteria->alias = "c";
+            $criteria->join = ""
+                . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
+                . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
+            $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
+            $criteria->order = "name";
+            $criteria->params = array(':school_year' => Yii::app()->user->year, ':school_inep_fk' => Yii::app()->user->school, ':users_fk' => Yii::app()->user->loginInfos->id);
+
+            $classrooms = Classroom::model()->findAll($criteria);
+        } else {
+            $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
+        }
+
+        $this->render('frequency', ['instructors' => $instructors, 'classrooms' => $classrooms]);
+    }
+
+    public function actionGetFrequency()
+    {
+        $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"]]);
+        
+        $criteria = new CDbCriteria();
+        $criteria->with = array('instructorFk');
+        $criteria->together = true;
+        $criteria->order = 'name';
+        $enrollments = InstructorTeachingData::model()->findAllByAttributes(array('classroom_id_fk' => $_POST["classroom"]), $criteria);
+        if ($schedules != null) {
+            if ($enrollments != null) {
+                $instructors = [];
+                $dayName = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+                foreach ($enrollments as $enrollment) {
+                    $array["instructorId"] = $enrollment->instructor_fk;
+                    $array["instructorName"] = $enrollment->instructor_fk->name;
+                    $array["schedules"] = [];
+                    foreach ($schedules as $schedule) {
+                        $classFault = InstructorFaults::model()->find("schedule_fk = :schedule_fk and instructor_fk = :instructor_fk", ["schedule_fk" => $schedule->id, "instructor_fk" => $enrollment->instructor_fk]);
+                        $available = date("Y-m-d") >= Yii::app()->user->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
+                        array_push($array["schedules"], [
+                            "available" => $available,
+                            "day" => $schedule->day,
+                            "week_day" => $dayName[$schedule->week_day],
+                            "schedule" => $schedule->schedule,
+                            "fault" => $classFault != null,
+                            "justification" => $classFault->justification
+                        ]);
+                    }
+                    array_push($instructors, $array);
+                }
+                echo json_encode(["valid" => true, "instructors" => $instructors]);
+            } else {
+                echo json_encode(["valid" => false, "error" => "Cadastre professores nesta turma para trazer o quadro de frequência."]);
+            }
+        } else {
+            echo json_encode(["valid" => false, "error" => "No quadro de horário da turma, não existe dia letivo no mês selecionado para esta disciplina."]);
+        }
     }
 
 }
