@@ -1,6 +1,6 @@
 <?php
 $baseUrl = Yii::app()->theme->baseUrl;
-
+header('Cache-Control: no-cache, must-revalidate'); 
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>
