@@ -60,7 +60,7 @@ $("#classesSearch").on("click", function () {
                         $(this).find(".frequency-checkbox").prop("checked", $(".frequency-checkbox-instructor .frequency-checkbox[day=" + day + "]:checked").length === $(".frequency-checkbox-instructor .frequency-checkbox[day=" + day + "]").length);
 
                     });
-                    $('[data-toggle="tooltip"]').tooltip({container: "body"});
+                    $('[data-toggle="tooltip"]').tooltip({ container: "body" });
                 } else {
                     $("#frequency-container").hide();
                     $(".alert-incomplete-data").html(data.error).show();
@@ -84,29 +84,51 @@ $(document).on("click", ".frequency-checkbox-container", function (e) {
     }
 });
 
-$("#classroom").on("change", function () {
+$("#instructor").on("change", function () {
+    $("#classroom").val("").trigger("change.select2");
+    if ($(this).val() !== "") {
+        $.ajax({
+            type: "POST",
+            url: "?r=instructor/getFrequencyClassroom",
+            cache: false,
+            data: {
+                instructor: $("#instructor").val(),
+            },
+            success: function (response) {
+                if (response === "") {
+                    $("#classrooms").html("<option value='-1'></option>").trigger("change.select2").show();
+                } else {
+                    $("#classrooms").html(decodeHtml(response)).trigger("change.select2").show();
+                }
+                $(".classroom-container").show();
+            },
+        });
+    } else {
+        $(".classroom-container").hide();
+    }
+});
+
+$("#classrooms").on("change", function () {
     $("#disciplines").val("").trigger("change.select2");
     if ($(this).val() !== "") {
-        if ($("#classroom > option:selected").attr("fundamentalMaior") === "1") {
-            $.ajax({
-                type: "POST",
-                url: "?r=classes/getDisciplines",
-                cache: false,
-                data: {
-                    classroom: $("#classroom").val(),
-                },
-                success: function (response) {
-                    if (response === "") {
-                        $("#disciplines").html("<option value='-1'></option>").trigger("change.select2").show();
-                    } else {
-                        $("#disciplines").html(decodeHtml(response)).trigger("change.select2").show();
-                    }
-                    $(".disciplines-container").show();
-                },
-            });
-        } else {
-            $(".disciplines-container").hide();
-        }
+        $.ajax({
+            type: "POST",
+            url: "?r=instructor/getFrequencyDisciplines",
+            cache: false,
+            data: {
+                instructor: $("#instructor").val(),
+                classroom: $("#classroom").val(),
+            },
+            success: function (response) {
+                console.log(response)
+                if (response === "") {
+                    $("#disciplines").html("<option value='-1'></option>").trigger("change.select2").show();
+                } else {
+                    $("#disciplines").html(decodeHtml(response)).trigger("change.select2").show();
+                }
+                $(".disciplines-container").show();
+            },
+        });
     } else {
         $(".disciplines-container").hide();
     }
@@ -201,7 +223,7 @@ $(document).on("click", ".btn-save-justification", function () {
                 justification.attr("data-original-title", "").tooltip('hide');
             } else {
                 justification.html("<i class='fa fa-file-text-o'></i><i class='fa fa-file-text'></i>");
-                justification.attr("data-original-title", $(".justification-text").val()).tooltip({container: "body"});
+                justification.attr("data-original-title", $(".justification-text").val()).tooltip({ container: "body" });
             }
             $("#save-justification-modal").modal("hide");
         },

@@ -73,16 +73,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         Os Campos com * são obrigatórios.
     </div>
     <div class="filter-bar margin-bottom-none">
-        <div>
-            <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required' ,'style' => 'width: 64px;' )); ?>
-          
-            <select class="select-search-on control-input frequency-input" id="classroom">
-                <option>Selecione a turma</option>
-                <?php foreach ($classrooms as $classroom) : ?>
-                    <option value="<?= $classroom->id ?>" fundamentalMaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
 
         <div>
             <?php echo CHtml::label(yii::t('default', 'Instructor') . " *", 'instructor', array('class' => 'control-label required' ,'style' => 'width: 80px;' )); ?>
@@ -93,6 +83,29 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <option value="<?= $instructor->id ?>"><?= $instructor->name ?></option>
                 <?php endforeach; ?>
             </select>
+        </div>
+        
+        <!-- turmas -->
+        <div class="classroom-container" style="display: none">
+            <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required' ,'style' => 'width: 64px;' )); ?>
+          
+            <?php
+            echo CHtml::dropDownList('classrooms', '', array(), array(
+                'key' => 'id',
+                'class' => 'select-search-on control-input frequency-input',
+            ));
+            ?>
+        </div>
+
+        <!-- disciplina -->
+        <div class="disciplines-container" style="display: none">
+            <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required','style' => 'width: 88px;')); ?>
+            <?php
+            echo CHtml::dropDownList('disciplines', '', array(), array(
+                'key' => 'id',
+                'class' => 'select-search-on control-input frequency-input',
+            ));
+            ?>
         </div>
 
         <div>
@@ -119,16 +132,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             ));
             ?>
         </div>
-            <!-- diciplina -->
-        <!-- <div class="disciplines-container">
-            <?php //echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required','style' => 'width: 88px;')); ?>
-            <?php
-            // echo CHtml::dropDownList('disciplines', '', array(), array(
-            //     'key' => 'id',
-            //     'class' => 'select-search-on control-input frequency-input',
-            // ));
-            ?>
-        </div> -->
         <div>
             <a id="classesSearch" class='tag-button small-button'><i class="fa-search fa icon-button-tag" style="margin-top:5px"></i><?php echo Yii::t('default', 'Search') ?>
             </a>

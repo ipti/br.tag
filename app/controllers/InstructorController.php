@@ -41,7 +41,7 @@ class InstructorController extends Controller
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
                     'index', 'view', 'create', 'update', 'updateEmails', 'frequency', 'saveEmails', 'getCity', 'getCityByCep',
-                    'getInstitutions', 'getCourses', 'delete', 'getFrequency'
+                    'getInstitutions', 'getCourses', 'delete', 'getFrequency', 'getFrequencyDisciplines', 'getFrequencyClassroom'
                 ], 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -637,6 +637,31 @@ preenchidos";
             }
         } else {
             echo json_encode(["valid" => false, "error" => "No quadro de horário da turma, não existe dia letivo no mês selecionado para esta disciplina."]);
+        }
+    }
+
+    public function actionGetFrequencyClassroom () 
+    {
+        $sql = "SELECT c.id, c.name FROM classroom c 
+                JOIN instructor_teaching_data itd ON(c.id = itd.classroom_id_fk)
+                WHERE itd.instructor_fk =". $_POST["instructor"] .";";
+
+        $classrooms = Yii::app()->db->createCommand($sql)->queryAll();
+        foreach ($classrooms as $classroom) {
+            echo "<option value=".$classroom['id'].">".$classroom['name']."</option>";
+        }
+    }
+
+    public function actionGetFrequencyDisciplines()
+    {
+        $sql = "SELECT ed.name, ed.id FROM instructor_disciplines id
+                JOIN curricular_matrix cm ON(id.discipline_fk = id.discipline_fk AND id.stage_vs_modality_fk = id.stage_vs_modality_fk)
+                JOIN classroom c ON(cm.stage_fk = c.edcenso_stage_vs_modality_fk)
+                JOIN edcenso_discipline ed ON(ed.id = id.discipline_fk)
+                WHERE c.id =".$_POST["classroom"]." AND id.instructor_fk =".$_POST["instructor"].";";
+        $disciplines = Yii::app()->db->createCommand($sql)->queryAll();
+        foreach ($disciplines as $discipline) {
+            echo "<option value=".$discipline['id'].">".$discipline['name']."</option>";
         }
     }
 
