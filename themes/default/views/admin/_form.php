@@ -73,7 +73,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($model, 'username'); ?>
                                 </div>
                             </div>
-                            
+                            <?php if($model->isNewRecord) { ?>
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'password', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -90,6 +90,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Confirm Password'); ?>"><i></i></span>
                                 </div>
                             </div>
+                            <?php }?>
+                            
                         </div>
                         
                         <div class=" span5">

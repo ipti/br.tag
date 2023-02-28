@@ -471,35 +471,28 @@
 		$model = Users::model()->findByPk($id);
 		$actual_role = $model->getRole();
 		$userSchools = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
-		if (isset($_POST['Users'], $_POST['Confirm'])) {
+		if (isset($_POST['Users'])) {
 			$model->attributes = $_POST['Users'];
 			if ($model->validate()) {
-				$password = md5($_POST['Users']['password']);
-				$confirm = md5($_POST['Confirm']);
-				if ($password == $confirm) {
-					$model->password = $password;
-					if ($model->save()) {
-						$save = TRUE;
-						foreach ($userSchools as $school) {
-							UsersSchool::model()->deleteAll(array("condition"=>"school_fk='$school->school_fk'"));
-						}
-						foreach ($_POST['schools'] as $school) {
-							$userSchool = new UsersSchool;
-							$userSchool->user_fk = $model->id;
-							$userSchool->school_fk = $school;
-							$save = $save && $userSchool->validate() && $userSchool->save();
-							
-						}
-						if ($save) {
-							$auth = Yii::app()->authManager;
-							$auth->revoke($actual_role, $model->id);
-							$auth->assign($_POST['Role'], $model->id);
-							Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário alterado com sucesso!'));
-							$this->redirect(['index']);
-						}
+				if ($model->save()) {
+					$save = TRUE;
+					foreach ($userSchools as $school) {
+						UsersSchool::model()->deleteAll(array("condition"=>"school_fk='$school->school_fk'"));
 					}
-				} else {
-					$model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
+					foreach ($_POST['schools'] as $school) {
+						$userSchool = new UsersSchool;
+						$userSchool->user_fk = $model->id;
+						$userSchool->school_fk = $school;
+						$save = $save && $userSchool->validate() && $userSchool->save();
+						
+					}
+					if ($save) {
+						$auth = Yii::app()->authManager;
+						$auth->revoke($actual_role, $model->id);
+						$auth->assign($_POST['Role'], $model->id);
+						Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário alterado com sucesso!'));
+						$this->redirect(['index']);
+					}
 				}
 			}
 		}
