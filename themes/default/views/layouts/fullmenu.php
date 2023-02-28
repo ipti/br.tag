@@ -101,7 +101,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
                 <li id="menu-logout">
                     <!-- Menu Toggle Button  -->
 
-                    <a class="t-button t-button-secondary" href="<?php echo yii::app()->createUrl('site/logout') ?>">
+                    <a class="t-button-tertiary" href="<?php echo yii::app()->createUrl('site/logout') ?>">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.svg" />
                         <span>Sair</span>
                     </a>
