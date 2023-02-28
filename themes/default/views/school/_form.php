@@ -11,7 +11,7 @@ $cs->registerScriptFile($baseUrl . '/js/school/form/functions.js', CClientScript
 $cs->registerScriptFile($baseUrl . '/js/school/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/school/form/pagination.js', CClientScript::POS_END);
 $cs->registerCssFile($themeUrl . '/css/template2.css');
-$cs->registerCssFile($baseUrl. 'sass/css/main.css');
+$cs->registerCssFile($baseUrl . 'sass/css/main.css');
 
 
 $form = $this->beginWidget('CActiveForm', array(
@@ -30,7 +30,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <!-- style="line-height: 190px;" -->
         <div class="tag-buttons-container buttons">
             <a data-toggle="tab" class='hide-responsive tag-button-light small-button prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
-            <?= $modelSchoolIdentification->isNewRecord ? "<a data-toggle='tab' class='tag-button small-button next'>".Yii::t('default', 'Next')."</a>" : ''?>
+            <?= $modelSchoolIdentification->isNewRecord ? "<a data-toggle='tab' class='tag-button small-button next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
             <button class="tag-button small-button last save-school-button" type="button">
                 <?= $modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
             </button>
@@ -45,7 +45,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <?php echo $form->errorSummary($modelSchoolStructure); ?>
         <div class="alert alert-error school-error no-show"></div>
         <div class="t-tabs">
-            <ul class="t-tabs__contents" >
+            <ul class="t-tabs__contents">
                 <li id="tab-school-indentify" class="active t-tabs__itens"><a class="t-tabs__link" href="#school-indentify" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Identification') ?>
@@ -54,7 +54,8 @@ $form = $this->beginWidget('CActiveForm', array(
                     <a class="t-tabs__link" href="#school-addressContact" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Address and Contact') ?>
-                    </a></li>
+                    </a>
+                </li>
                 <li id="tab-school-structure" class="t-tabs__itens"><a class="t-tabs__link" href="#school-structure" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Structure') ?>
@@ -68,8 +69,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <?php echo Yii::t('default', 'Educational Data') ?>
                     </a></li>
                 <?php if (!$modelSchoolIdentification->isNewRecord) : ?>
-                    <li id="tab-school-reports" class="hide-responsive">
-                        <a class="glyphicons book" href="#school-reports" data-toggle="tab">
+                    <li id="tab-school-reports" class="t-tabs__itens"><a class="t-tabs__link" href="#school-reports" data-toggle="tab">
                             <!-- <i></i> -->
                             <?php echo Yii::t('default', 'Relatórios') ?>
                         </a>
@@ -95,7 +95,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <h5 class="titulos">Dados Básicos</h5>
                     </div>
                     <div class="row-fluid">
-                        <div class=" span6">
+                        <div class=" span5">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'name', array('class' => 'control-label')); ?>
@@ -145,7 +145,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                         </div>
-                        <div class="span6">
+                        <div class="span7">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'inep_id', array('class' => 'control-label')); ?>
@@ -201,7 +201,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <h5 class="titulos">Dados do Gestor</h3>
                     </div>
                     <div class="row-fluid">
-                        <div class=" span6">
+                        <div class=" span5">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'manager_name', array('class' => 'control-label')); ?>
@@ -233,7 +233,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-                        <div class="span6">
+                        <div class="span7">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'manager_cpf', array('class' => 'control-label')); ?>
@@ -314,7 +314,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <h5 class="titulos">Outras informações</h3>
                     </div>
                     <div class="row-fluid">
-                        <div class=" span6">
+                        <div class=" span5">
                             <div class="control-group hide-responsive">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'private_school_organization_civil_society', array('class' => 'control-label')); ?>
@@ -352,7 +352,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <h5 class="titulos">Endereço</h3>
                     </div>
                     <div class="row-fluid">
-                        <div class="span6">
+                        <div class="span5">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'cep', array('class' => 'control-label')); ?>
@@ -461,7 +461,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                         </div>
-                        <div class="span6">
+                        <div class="span7">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'address', array('class' => 'control-label')); ?>
@@ -543,10 +543,10 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos">Contrato</h3>
+                        <h5 class="titulos">Contato</h3>
                     </div>
                     <div class="row-fluid">
-                        <div class="span6">
+                        <div class="span5">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'ddd', array('class' => 'control-label')); ?>
@@ -568,7 +568,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-                        <div class="span6">
+                        <div class="span7">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'phone_number', array('class' => 'control-label')); ?>
@@ -598,7 +598,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <h5 class="titulos">Estrutura Física</h3>
                     </div>
                     <div class="row-fluid">
-                        <div class=" span6">
+                        <div class=" span5">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolStructure, 'classroom_count', array('class' => 'control-label required')); ?>
@@ -620,7 +620,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                         </div>
-                        <div class="span6">
+                        <div class="span7">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolStructure, 'used_classroom_count', array('class' => 'control-label')); ?>
@@ -655,7 +655,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <h5 class="titulos">Funcionários</h3>
                     </div>
                     <div class="row-fluid">
-                        <div class="span6">
+                        <div class="span5">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolStructure, 'employees_count', array('class' => 'control-label')); ?>
@@ -727,7 +727,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-                        <div class=" span6">
+                        <div class=" span7">
                             <div class="control-group hide-responsive">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolStructure, 'workers_librarian', array('class' => 'control-label')); ?>
@@ -802,7 +802,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-                    <div >
+                    <div>
                         <h5 class="titulos required">Local de Funcionamento</h3>
                     </div>
                     <div class="row-fluid">
@@ -855,7 +855,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelSchoolStructure, 'shared_building_with_school'); ?>
                                 </div>
                             </div>
-                        
+
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolStructure, 'shared_school_inep_id_1', array('class' => 'control-label')); ?>
