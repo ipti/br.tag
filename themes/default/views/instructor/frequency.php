@@ -13,13 +13,13 @@
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'classes-form',
         'enableAjaxValidation' => false,
-        'action' => CHtml::normalizeUrl(array('classes/saveFrequency')),
+        'action' => CHtml::normalizeUrl(array('instructor/saveFrequency')),
     ));
 ?>
 
 <div class="row-fluid">
     <div class="span12" style="height: 115px;">
-        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Frequency'); ?></h3>
+        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Instructor frequency'); ?></h3>
         <span class="subtitle"> Marcar apenas faltas.</span>
         <div class="buttons span9">
             <!--            <a id="print" class='btn btn-icon glyphicons print hidden-print'>-->

@@ -41,7 +41,8 @@ class InstructorController extends Controller
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
                     'index', 'view', 'create', 'update', 'updateEmails', 'frequency', 'saveEmails', 'getCity', 'getCityByCep',
-                    'getInstitutions', 'getCourses', 'delete', 'getFrequency', 'getFrequencyDisciplines', 'getFrequencyClassroom'
+                    'getInstitutions', 'getCourses', 'delete', 'getFrequency', 'getFrequencyDisciplines', 'getFrequencyClassroom',
+                    'saveFrequency'
                 ], 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -608,25 +609,26 @@ preenchidos";
         $criteria->with = array('instructorFk');
         $criteria->together = true;
         $criteria->order = 'name';
-        $enrollments = InstructorTeachingData::model()->findAllByAttributes(array('classroom_id_fk' => $_POST["classroom"]), $criteria);
+        $enrollments = InstructorTeachingData::model()->findAllByAttributes(array('classroom_id_fk' => $_POST["classroom"], 'instructor_fk' => $_POST["instructor"]), $criteria);
         if ($schedules != null) {
             if ($enrollments != null) {
                 $instructors = [];
                 $dayName = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
                 foreach ($enrollments as $enrollment) {
                     $array["instructorId"] = $enrollment->instructor_fk;
-                    $array["instructorName"] = $enrollment->instructor_fk->name;
+                    $array["instructorName"] = $enrollment->instructorFk->name;
                     $array["schedules"] = [];
                     foreach ($schedules as $schedule) {
-                        $classFault = InstructorFaults::model()->find("schedule_fk = :schedule_fk and instructor_fk = :instructor_fk", ["schedule_fk" => $schedule->id, "instructor_fk" => $enrollment->instructor_fk]);
+                        $instructorFault = InstructorFaults::model()->find("schedule_fk = :schedule_fk and instructor_fk = :instructor_fk", ["schedule_fk" => $schedule->id, "instructor_fk" => $enrollment->instructor_fk]);
                         $available = date("Y-m-d") >= Yii::app()->user->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
                         array_push($array["schedules"], [
                             "available" => $available,
                             "day" => $schedule->day,
                             "week_day" => $dayName[$schedule->week_day],
                             "schedule" => $schedule->schedule,
-                            "fault" => $classFault != null,
-                            "justification" => $classFault->justification
+                            "idSchedule" => $schedule->id,
+                            "fault" => $instructorFault != null,
+                            "justification" => $instructorFault->justification
                         ]);
                     }
                     array_push($instructors, $array);
@@ -654,14 +656,27 @@ preenchidos";
 
     public function actionGetFrequencyDisciplines()
     {
-        $sql = "SELECT ed.name, ed.id FROM instructor_disciplines id
-                JOIN curricular_matrix cm ON(id.discipline_fk = id.discipline_fk AND id.stage_vs_modality_fk = id.stage_vs_modality_fk)
-                JOIN classroom c ON(cm.stage_fk = c.edcenso_stage_vs_modality_fk)
-                JOIN edcenso_discipline ed ON(ed.id = id.discipline_fk)
-                WHERE c.id =".$_POST["classroom"]." AND id.instructor_fk =".$_POST["instructor"].";";
+        $sql = "SELECT DISTINCT ed.id, ed.name FROM instructor_disciplines id
+                JOIN edcenso_discipline ed ON(id.discipline_fk = ed.id)
+                JOIN classroom c ON(c.id = ".$_POST["classroom"].")
+                WHERE id.instructor_fk = ".$_POST["instructor"].";";
         $disciplines = Yii::app()->db->createCommand($sql)->queryAll();
         foreach ($disciplines as $discipline) {
             echo "<option value=".$discipline['id'].">".$discipline['name']."</option>";
+        }
+    }
+
+    public function actionsaveFrequency()
+    {
+        if ($_POST["instructorId"] != null) {
+            if ($_POST["fault"] == "1") {
+                $instructorFault = new InstructorFaults();
+                $instructorFault->instructor_fk = $_POST["instructorId"];
+                $instructorFault->schedule_fk = $_POST["schedule"];
+                $instructorFault->save();
+            } else {
+                InstructorFaults::model()->deleteAll("schedule_fk = :schedule_fk and instructor_fk = :instructor_fk", ["schedule_fk" => $_POST["schedule"], "instructor_fk" => $_POST["instructorId"]]);
+            }
         }
     }
 

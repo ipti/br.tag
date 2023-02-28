@@ -1,14 +1,13 @@
 $("#classesSearch").on("click", function () {
     if ($("#classroom").val() !== "" && $("#month").val() !== "") {
-        // $(".alert-required-fields, .alert-incomplete-data").hide();
-        console.log($("#classroom").val())
-        console.log($("#month").val())
+        $(".alert-required-fields, .alert-incomplete-data").hide();
         jQuery.ajax({
             type: "POST",
             url: "?r=instructor/getFrequency",
             cache: false,
             data: {
-                classroom: 420,
+                instructor: 221,
+                classroom: 429,
                 discipline: $("#disciplines").val(),
                 month: $("#month").val(),
             },
@@ -19,7 +18,6 @@ $("#classesSearch").on("click", function () {
             },
             success: function (response) {
                 var data = JSON.parse(response);
-                console.log(data);
                 if (data.valid) {
                     var html = "";
                     html += "" +
@@ -34,9 +32,9 @@ $("#classesSearch").on("click", function () {
                         dayRow += "<th>" + (pad(this.day, 2) + "/" + pad($("#month").val(), 2)) + "</th>";
                         daynameRow += "<th>" + this.week_day + "</th>";
                         scheduleRow += "<th>" + this.schedule + "º Horário</th>";
-                        checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!this.available ? "disabled" : "") + " classroomId='" + $("#classroom").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "></th>";
+                        checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!this.available ? "disabled" : "") + " classroomId='" + $("#classrooms").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "></th>";
                     });
-                    html += "<tr class='day-row'><th></th>" + dayRow + "</tr><tr class='dayname-row'><th></th>" + daynameRow + "</tr>" + ("<tr class='schedule-row'><th></th>" + scheduleRow + "</tr>") + "<tr class='checkbox-row'><th></th>" + checkboxRow + "</tr>";
+                    html += "<tr class='day-row'><th></th>" + dayRow + "</tr><tr class='dayname-row'><th></th>" + daynameRow + "</tr>" + ("<tr class='schedule-row'><th></th>" + scheduleRow + "</tr>");
                     html += "</thead><tbody>";
                     $.each(data.instructors, function (indexinstructor, instructor) {
                         html += "<tr><td class='instructor-name'>" + instructor.instructorName + "</td>";
@@ -49,7 +47,7 @@ $("#classesSearch").on("click", function () {
                                     justificationContainer += "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>";
                                 }
                             }
-                            html += "<td class='frequency-checkbox-instructor frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!schedule.available ? "disabled" : "") + " " + (schedule.fault ? "checked" : "") + " classroomId='" + $("#classroom").val() + "' instructorId='" + instructor.instructorId + "' day='" + schedule.day + "' month='" + $("#month").val() + "' schedule='" + schedule.schedule + "'>" + justificationContainer + "</td>";
+                            html += "<td class='frequency-checkbox-instructor frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!schedule.available ? "disabled" : "") + " " + (schedule.fault ? "checked" : "") + " classroomId='" + $("#classrooms").val() + "' instructorId='" + instructor.instructorId + "' day='" + schedule.day + "' month='" + $("#month").val() + "' schedule='" + schedule.idSchedule + "'>" + justificationContainer + "</td>";
                         });
                         html += "</tr>";
                     });
@@ -117,10 +115,9 @@ $("#classrooms").on("change", function () {
             cache: false,
             data: {
                 instructor: $("#instructor").val(),
-                classroom: $("#classroom").val(),
+                classroom: $("#classrooms").val(),
             },
             success: function (response) {
-                console.log(response)
                 if (response === "") {
                     $("#disciplines").html("<option value='-1'></option>").trigger("change.select2").show();
                 } else {
@@ -138,16 +135,15 @@ $(document).on("change", ".frequency-checkbox", function () {
     var checkbox = this;
     $.ajax({
         type: "POST",
-        url: "?r=classes/saveFrequency",
+        url: "?r=instructor/saveFrequency",
         cache: false,
         data: {
-            classroomId: $(this).attr("classroomId"),
+            classroomId: 429,
             day: $(this).attr("day"),
             month: $(this).attr("month"),
             schedule: $(this).attr("schedule"),
-            instructorId: $(this).attr("instructorId"),
+            instructorId: 221,
             fault: $(this).is(":checked") ? 1 : 0,
-            fundamentalMaior: $(this).attr("fundamentalMaior")
         },
         beforeSend: function () {
             $(".loading-frequency").css("display", "inline-block");
@@ -181,62 +177,62 @@ $(document).on("change", ".frequency-checkbox", function () {
     });
 });
 
-$(document).on("click", ".frequency-justification-icon", function () {
-    var checkbox = $(this).parent().find(".frequency-checkbox");
-    $("#justification-classroomid").val(checkbox.attr("classroomid"));
-    $("#justification-instructorid").val(checkbox.attr("instructorid"));
-    $("#justification-day").val(checkbox.attr("day"));
-    $("#justification-month").val(checkbox.attr("month"));
-    $("#justification-schedule").val(checkbox.attr("schedule"));
-    $("#justification-fundamentalmaior").val(checkbox.attr("fundamentalmaior"));
-    $(".justification-text").val($(this).attr("data-original-title"));
-    $("#save-justification-modal").modal("show");
-});
+// $(document).on("click", ".frequency-justification-icon", function () {
+//     var checkbox = $(this).parent().find(".frequency-checkbox");
+//     $("#justification-classroomid").val(checkbox.attr("classroomid"));
+//     $("#justification-instructorid").val(checkbox.attr("instructorid"));
+//     $("#justification-day").val(checkbox.attr("day"));
+//     $("#justification-month").val(checkbox.attr("month"));
+//     $("#justification-schedule").val(checkbox.attr("schedule"));
+//     $("#justification-fundamentalmaior").val(checkbox.attr("fundamentalmaior"));
+//     $(".justification-text").val($(this).attr("data-original-title"));
+//     $("#save-justification-modal").modal("show");
+// });
 
-$("#save-justification-modal").on('shown', function () {
-    $(".justification-text").focus();
-});
+// $("#save-justification-modal").on('shown', function () {
+//     $(".justification-text").focus();
+// });
 
-$(document).on("click", ".btn-save-justification", function () {
-    $.ajax({
-        type: "POST",
-        url: "?r=classes/saveJustification",
-        cache: false,
-        data: {
-            classroomId: $("#justification-classroomid").val(),
-            instructorId: $("#justification-instructorid").val(),
-            day: $("#justification-day").val(),
-            month: $("#justification-month").val(),
-            schedule: $("#justification-schedule").val(),
-            fundamentalMaior: $("#justification-fundamentalmaior").val(),
-            justification: $(".justification-text").val()
-        },
-        beforeSend: function () {
-            $("#save-justification-modal").find(".modal-body").css("opacity", 0.3).css("pointer-events", "none");
-            $("#save-justification-modal").find("button").attr("disabled", "disabled");
-            $("#save-justification-modal").find(".centered-loading-gif").show();
-        },
-        success: function (data) {
-            var justification = $(".table-frequency tbody .frequency-checkbox[instructorid=" + $("#justification-instructorid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "]").parent().find(".frequency-justification-icon");
-            if ($(".justification-text").val() == "") {
-                justification.html("<i class='fa fa-file-o'></i><i class='fa fa-file'></i>");
-                justification.attr("data-original-title", "").tooltip('hide');
-            } else {
-                justification.html("<i class='fa fa-file-text-o'></i><i class='fa fa-file-text'></i>");
-                justification.attr("data-original-title", $(".justification-text").val()).tooltip({ container: "body" });
-            }
-            $("#save-justification-modal").modal("hide");
-        },
-        complete: function (response) {
-            $("#save-justification-modal").find(".modal-body").css("opacity", 1).css("pointer-events", "auto");
-            $("#save-justification-modal").find("button").removeAttr("disabled");
-            $("#save-justification-modal").find(".centered-loading-gif").hide();
-        },
-    });
-});
+// $(document).on("click", ".btn-save-justification", function () {
+//     $.ajax({
+//         type: "POST",
+//         url: "?r=classes/saveJustification",
+//         cache: false,
+//         data: {
+//             classroomId: $("#justification-classroomid").val(),
+//             instructorId: $("#justification-instructorid").val(),
+//             day: $("#justification-day").val(),
+//             month: $("#justification-month").val(),
+//             schedule: $("#justification-schedule").val(),
+//             fundamentalMaior: $("#justification-fundamentalmaior").val(),
+//             justification: $(".justification-text").val()
+//         },
+//         beforeSend: function () {
+//             $("#save-justification-modal").find(".modal-body").css("opacity", 0.3).css("pointer-events", "none");
+//             $("#save-justification-modal").find("button").attr("disabled", "disabled");
+//             $("#save-justification-modal").find(".centered-loading-gif").show();
+//         },
+//         success: function (data) {
+//             var justification = $(".table-frequency tbody .frequency-checkbox[instructorid=" + $("#justification-instructorid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "]").parent().find(".frequency-justification-icon");
+//             if ($(".justification-text").val() == "") {
+//                 justification.html("<i class='fa fa-file-o'></i><i class='fa fa-file'></i>");
+//                 justification.attr("data-original-title", "").tooltip('hide');
+//             } else {
+//                 justification.html("<i class='fa fa-file-text-o'></i><i class='fa fa-file-text'></i>");
+//                 justification.attr("data-original-title", $(".justification-text").val()).tooltip({ container: "body" });
+//             }
+//             $("#save-justification-modal").modal("hide");
+//         },
+//         complete: function (response) {
+//             $("#save-justification-modal").find(".modal-body").css("opacity", 1).css("pointer-events", "auto");
+//             $("#save-justification-modal").find("button").removeAttr("disabled");
+//             $("#save-justification-modal").find(".centered-loading-gif").hide();
+//         },
+//     });
+// });
 
-$(document).on("keyup", ".justification-text", function (e) {
-    if (e.keyCode == 13) {
-        $(".btn-save-justification").trigger("click");
-    }
-});
+// $(document).on("keyup", ".justification-text", function (e) {
+//     if (e.keyCode == 13) {
+//         $(".btn-save-justification").trigger("click");
+//     }
+// });
