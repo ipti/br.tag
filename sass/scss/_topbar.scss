@@ -25,6 +25,7 @@
                 cursor: pointer;
                 color: $colorsBaseProductLogo;
                 padding: $SizeSmall;
+                padding-left: $spaceEmpty;
                 border-right: solid $borderWidthCard $colorsBaseProductLight;
                 font-family: 'Inter' sans-serif;
                 font-size: $FontSizeHeadingTitle4;
@@ -41,6 +42,7 @@
                 width: $SizeLarge;
                 height: $size200;
                 padding: $SizeSmall;
+                padding-left: $spaceEmpty;
                 border-right: solid $borderWidthCard $colorsBaseProductLight; 
                 margin-right: $SizeMedium;
                 @include device(tablet) {
@@ -52,6 +54,14 @@
                 width: 100%;
                 height: $SizeXXXSmall;
                 background-color: $colorsBaseProductNormalActive;
+            }
+            .tag-topbar__username {
+                display: inline-block;
+                font-size: $FontSizeTextNormal;
+                margin-left: $SizeXSmall;
+                border-top: $borderWidthInput solid $colorsBaseProductLight;
+                width: 90%;
+                color: $colorsBaseInkLighterHover;
             }
         }
     }

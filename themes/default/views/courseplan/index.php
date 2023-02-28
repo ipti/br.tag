@@ -12,16 +12,16 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
     <div class="row-fluid">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Course Plan') ?></h3>
-            <div class="buttons">
+            <div class="t-buttons-container">
                 <a href="<?php echo Yii::app()->createUrl('courseplan/create') ?>"
-                   class="tag-button medium-button"><?= Yii::t('default', 'Create Plan'); ?> </a>
+                   class="t-button-primary"><?= Yii::t('default', 'Create Plan'); ?> </a>
             </div>
         </div>
     </div>
 
     <div class="tag-inner">
         <div class="columnone" style="padding-right: 1em">
-            <div class="widget">
+            <div class="widget clearmargin">
                 <div class="alert courseplan-alert <?= Yii::app()->user->hasFlash('success') ? "alert-success" : "no-show" ?>"><?php echo Yii::app()->user->getFlash('success') ?></div>
                 <div class="widget-body">
                     <?php $this->widget('zii.widgets.grid.CGridView', array(

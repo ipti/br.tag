@@ -19,11 +19,11 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
             &nbsp;<span><?= Yii::t('lunchModule.lunch', 'Make a nutritious menu to manage the school lunch.'); ?></span>
         </h3>
 
-        <div style="width:250px" class="buttons pull-right">
-            <a data-toggle="modal" href="<?= yii::app()->createUrl("/lunch/lunch/create")?>" class="tag-button medium-button">
+        <div class="t-buttons-container">
+            <a data-toggle="modal" href="<?= yii::app()->createUrl("/lunch/lunch/create")?>" class="t-button-primary">
                 <?= Yii::t('lunchModule.lunch', 'New Menu'); ?>
             </a>
-			<a data-toggle="modal" href="<?= yii::app()->createUrl("/lunch/stock")?>" class="tag-button medium-button">
+			<a data-toggle="modal" href="<?= yii::app()->createUrl("/lunch/stock")?>" class="t-button-primary">
                 <?= Yii::t('lunchModule.lunch', 'Stock'); ?>
             </a>
         </div>
@@ -31,11 +31,11 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
 </div>
 
 
-<div class="innerLR home">
+<div class="tag-inner home">
     <div class="row-fluid">
         <div class="span12">
             <?php if (count($this->school->menus()) > 0): ?>
-                <table class="dynamicTable tableTools table table-striped table-condensed table-white dataTable">
+                <table class="dynamicTable tableTools table table-striped table-condensed table-white dataTable lunch-table">
                     <thead>
                     <tr>
                         <th><?= yii::t('lunchModule.labels', 'Menu') ?></th>

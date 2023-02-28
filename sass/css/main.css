@@ -65,7 +65,7 @@
 /* Line Height */
 /*Font Weight*/
 /* mixin */
-.t-buttons-container { position: fixed; top: 52px; z-index: 3; display: flex; gap: 5px; margin-right: 12px; }
+.t-buttons-container { margin-top: 118px; display: flex; }
 
 .t-button, .t-button-primary, .t-button-secondary, .t-button-tertiary { padding: 0.375em 1em 0.375em 1em; font-size: 12px; border-radius: 6px; text-decoration: none; display: flex; justify-content: space-between; margin-left: 1em; }
 
@@ -284,12 +284,14 @@
 
 .tag-topbar .tag-topbar__content .tag-topbar__item { display: flex; }
 
-.tag-topbar .tag-topbar__content .tag-topbar__item .tag-topbar__voltar { display: none; text-decoration: none; cursor: pointer; color: #16205b; padding: 12px; border-right: solid 1px #eaeaf8; font-family: 'Inter' sans-serif; font-size: 14px; font-weight: bold; margin-right: 16px; }
+.tag-topbar .tag-topbar__content .tag-topbar__item .tag-topbar__voltar { display: none; text-decoration: none; cursor: pointer; color: #16205b; padding: 12px; padding-left: 0em; border-right: solid 1px #eaeaf8; font-family: 'Inter' sans-serif; font-size: 14px; font-weight: bold; margin-right: 16px; }
 
 @media (min-width: 768px) { .tag-topbar .tag-topbar__content .tag-topbar__item .tag-topbar__voltar { display: block; } }
 
-.tag-topbar .tag-topbar__content .tag-topbar__item .tag-topbar__toggle { display: flex; flex-direction: column; justify-content: space-between; width: 24px; height: 20px; padding: 12px; border-right: solid 1px #eaeaf8; margin-right: 16px; }
+.tag-topbar .tag-topbar__content .tag-topbar__item .tag-topbar__toggle { display: flex; flex-direction: column; justify-content: space-between; width: 24px; height: 20px; padding: 12px; padding-left: 0em; border-right: solid 1px #eaeaf8; margin-right: 16px; }
 
 @media (min-width: 768px) { .tag-topbar .tag-topbar__content .tag-topbar__item .tag-topbar__toggle { display: none; } }
 
 .tag-topbar .tag-topbar__content .tag-topbar__item .tag-topbar__toggle div { border-radius: 12px; width: 100%; height: 4px; background-color: #272B96; }
+
+.tag-topbar .tag-topbar__content .tag-topbar__item .tag-topbar__username { display: inline-block; font-size: 14px; margin-left: 8px; border-top: 1px solid #eaeaf8; width: 90%; color: #a6b6c8; }

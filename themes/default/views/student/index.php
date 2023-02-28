@@ -13,11 +13,11 @@
     <div class="row-fluid">
         <div class="span12 hide-responsive">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Student Identifications') ?></h3>  
-            <div class="buttons span7">
+            <div class="t-buttons-container">
                 <!--<a href="<?= CHtml::normalizeUrl(array('student/create'))?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos PNE</a>-->
-                <a href="<?= CHtml::normalizeUrl(array('wizard/configuration/student'))?>" class="tag-button medium-button">Matrícula em Grupo</a>
-                <a href="<?= CHtml::normalizeUrl(array('student/create'))?>" class="tag-button medium-button"><?= Yii::t('default', 'Add') ?></a>
-                <a href="<?= CHtml::normalizeUrl(array('student/create', 'simple' => 1))?>" class="tag-button medium-button"> <?= Yii::t('default', 'Add (Fast)') ?></a>
+                <a href="<?= CHtml::normalizeUrl(array('wizard/configuration/student'))?>" class="t-button-primary">Matrícula em Grupo</a>
+                <a href="<?= CHtml::normalizeUrl(array('student/create'))?>" class="t-button-primary"><?= Yii::t('default', 'Add') ?></a>
+                <a href="<?= CHtml::normalizeUrl(array('student/create', 'simple' => 1))?>" class="t-button-primary"> <?= Yii::t('default', 'Add (Fast)') ?></a>
             </div>
 
         </div>
@@ -55,7 +55,7 @@
             ?>
             <br/>
         <?php endif ?>
-        <div class="widget">
+        <div class="widget clearmargin">
             <div class="widget-body">
                 <?php
                 //<button type="submit" class="btn btn-icon btn-primary glyphicons circle_ok"><i>Ok</i></button>

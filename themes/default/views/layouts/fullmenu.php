@@ -73,7 +73,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
                     </div>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/emblema-escola.svg" />
                     <div>
-                        <div id="change-school">
+                        <div>
                             <form class="school" id2="school" action="<?php echo yii::app()->createUrl('site/changeschool') ?>" method="Post">
                                 <?php
                                 if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
@@ -94,7 +94,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
                                 ?>
                             </form>
                         </div>
-                        <div class="username"><?= Yii::app()->user->loginInfos->username ?></div>
+                        <div class="tag-topbar__username"><?= Yii::app()->user->loginInfos->username ?></div>
                     </div>
                 </li>
 

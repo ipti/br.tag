@@ -2,12 +2,8 @@
 @import '_functions.scss';
 
 .t-buttons-container {
-    position: fixed;
-    top: $SizeXXXLarge;
-    z-index: 3;
+    margin-top: $sizeHeader;
     display: flex;
-    gap: 5px;
-    margin-right: $SizeSmall;
 }
 
 .t-button {
