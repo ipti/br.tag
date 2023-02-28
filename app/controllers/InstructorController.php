@@ -42,7 +42,7 @@ class InstructorController extends Controller
                 'actions' => [
                     'index', 'view', 'create', 'update', 'updateEmails', 'frequency', 'saveEmails', 'getCity', 'getCityByCep',
                     'getInstitutions', 'getCourses', 'delete', 'getFrequency', 'getFrequencyDisciplines', 'getFrequencyClassroom',
-                    'saveFrequency'
+                    'saveFrequency', 'saveJustification'
                 ], 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -666,7 +666,7 @@ preenchidos";
         }
     }
 
-    public function actionsaveFrequency()
+    public function actionSaveFrequency()
     {
         if ($_POST["instructorId"] != null) {
             if ($_POST["fault"] == "1") {
@@ -678,6 +678,14 @@ preenchidos";
                 InstructorFaults::model()->deleteAll("schedule_fk = :schedule_fk and instructor_fk = :instructor_fk", ["schedule_fk" => $_POST["schedule"], "instructor_fk" => $_POST["instructorId"]]);
             }
         }
+    }
+
+    public function actionSaveJustification()
+    {
+        $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and id = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "schedule" => $_POST["schedule"]]);
+        $instructorFault = InstructorFaults::model()->find("schedule_fk = :schedule_fk and instructor_fk = :instructor_fk", ["schedule_fk" => $schedule->id, "instructor_fk" => $_POST["instructorId"]]);
+        $instructorFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
+        $instructorFault->save();
     }
 
 }

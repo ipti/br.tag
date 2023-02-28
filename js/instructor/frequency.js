@@ -6,8 +6,8 @@ $("#classesSearch").on("click", function () {
             url: "?r=instructor/getFrequency",
             cache: false,
             data: {
-                instructor: 221,
-                classroom: 429,
+                instructor: $("#instructor").val(),
+                classroom: $("#classrooms").val(),
                 discipline: $("#disciplines").val(),
                 month: $("#month").val(),
             },
@@ -138,11 +138,11 @@ $(document).on("change", ".frequency-checkbox", function () {
         url: "?r=instructor/saveFrequency",
         cache: false,
         data: {
-            classroomId: 429,
+            classroomId: $("#classrooms").val(),
             day: $(this).attr("day"),
             month: $(this).attr("month"),
             schedule: $(this).attr("schedule"),
-            instructorId: 221,
+            instructorId: $("#instructor").val(),
             fault: $(this).is(":checked") ? 1 : 0,
         },
         beforeSend: function () {
@@ -177,62 +177,60 @@ $(document).on("change", ".frequency-checkbox", function () {
     });
 });
 
-// $(document).on("click", ".frequency-justification-icon", function () {
-//     var checkbox = $(this).parent().find(".frequency-checkbox");
-//     $("#justification-classroomid").val(checkbox.attr("classroomid"));
-//     $("#justification-instructorid").val(checkbox.attr("instructorid"));
-//     $("#justification-day").val(checkbox.attr("day"));
-//     $("#justification-month").val(checkbox.attr("month"));
-//     $("#justification-schedule").val(checkbox.attr("schedule"));
-//     $("#justification-fundamentalmaior").val(checkbox.attr("fundamentalmaior"));
-//     $(".justification-text").val($(this).attr("data-original-title"));
-//     $("#save-justification-modal").modal("show");
-// });
+$(document).on("click", ".frequency-justification-icon", function () {
+    var checkbox = $(this).parent().find(".frequency-checkbox");
+    $("#justification-classroomid").val(checkbox.attr("classroomid"));
+    $("#justification-instructorid").val(checkbox.attr("instructorid"));
+    $("#justification-day").val(checkbox.attr("day"));
+    $("#justification-month").val(checkbox.attr("month"));
+    $("#justification-schedule").val(checkbox.attr("schedule"));
+    $(".justification-text").val($(this).attr("data-original-title"));
+    $("#save-justification-modal").modal("show");
+});
 
-// $("#save-justification-modal").on('shown', function () {
-//     $(".justification-text").focus();
-// });
+$("#save-justification-modal").on('shown', function () {
+    $(".justification-text").focus();
+});
 
-// $(document).on("click", ".btn-save-justification", function () {
-//     $.ajax({
-//         type: "POST",
-//         url: "?r=classes/saveJustification",
-//         cache: false,
-//         data: {
-//             classroomId: $("#justification-classroomid").val(),
-//             instructorId: $("#justification-instructorid").val(),
-//             day: $("#justification-day").val(),
-//             month: $("#justification-month").val(),
-//             schedule: $("#justification-schedule").val(),
-//             fundamentalMaior: $("#justification-fundamentalmaior").val(),
-//             justification: $(".justification-text").val()
-//         },
-//         beforeSend: function () {
-//             $("#save-justification-modal").find(".modal-body").css("opacity", 0.3).css("pointer-events", "none");
-//             $("#save-justification-modal").find("button").attr("disabled", "disabled");
-//             $("#save-justification-modal").find(".centered-loading-gif").show();
-//         },
-//         success: function (data) {
-//             var justification = $(".table-frequency tbody .frequency-checkbox[instructorid=" + $("#justification-instructorid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "]").parent().find(".frequency-justification-icon");
-//             if ($(".justification-text").val() == "") {
-//                 justification.html("<i class='fa fa-file-o'></i><i class='fa fa-file'></i>");
-//                 justification.attr("data-original-title", "").tooltip('hide');
-//             } else {
-//                 justification.html("<i class='fa fa-file-text-o'></i><i class='fa fa-file-text'></i>");
-//                 justification.attr("data-original-title", $(".justification-text").val()).tooltip({ container: "body" });
-//             }
-//             $("#save-justification-modal").modal("hide");
-//         },
-//         complete: function (response) {
-//             $("#save-justification-modal").find(".modal-body").css("opacity", 1).css("pointer-events", "auto");
-//             $("#save-justification-modal").find("button").removeAttr("disabled");
-//             $("#save-justification-modal").find(".centered-loading-gif").hide();
-//         },
-//     });
-// });
+$(document).on("click", ".btn-save-justification", function () {
+    $.ajax({
+        type: "POST",
+        url: "?r=instructor/saveJustification",
+        cache: false,
+        data: {
+            classroomId: $("#justification-classroomid").val(),
+            instructorId: $("#justification-instructorid").val(),
+            day: $("#justification-day").val(),
+            month: $("#justification-month").val(),
+            schedule: $("#justification-schedule").val(),
+            justification: $(".justification-text").val()
+        },
+        beforeSend: function () {
+            $("#save-justification-modal").find(".modal-body").css("opacity", 0.3).css("pointer-events", "none");
+            $("#save-justification-modal").find("button").attr("disabled", "disabled");
+            $("#save-justification-modal").find(".centered-loading-gif").show();
+        },
+        success: function (data) {
+            var justification = $(".table-frequency tbody .frequency-checkbox[instructorid=" + $("#justification-instructorid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "]").parent().find(".frequency-justification-icon");
+            if ($(".justification-text").val() == "") {
+                justification.html("<i class='fa fa-file-o'></i><i class='fa fa-file'></i>");
+                justification.attr("data-original-title", "").tooltip('hide');
+            } else {
+                justification.html("<i class='fa fa-file-text-o'></i><i class='fa fa-file-text'></i>");
+                justification.attr("data-original-title", $(".justification-text").val()).tooltip({ container: "body" });
+            }
+            $("#save-justification-modal").modal("hide");
+        },
+        complete: function (response) {
+            $("#save-justification-modal").find(".modal-body").css("opacity", 1).css("pointer-events", "auto");
+            $("#save-justification-modal").find("button").removeAttr("disabled");
+            $("#save-justification-modal").find(".centered-loading-gif").hide();
+        },
+    });
+});
 
-// $(document).on("keyup", ".justification-text", function (e) {
-//     if (e.keyCode == 13) {
-//         $(".btn-save-justification").trigger("click");
-//     }
-// });
+$(document).on("keyup", ".justification-text", function (e) {
+    if (e.keyCode == 13) {
+        $(".btn-save-justification").trigger("click");
+    }
+});
