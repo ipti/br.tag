@@ -473,26 +473,24 @@
 		$userSchools = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
 		if (isset($_POST['Users'])) {
 			$model->attributes = $_POST['Users'];
-			if ($model->validate()) {
-				if ($model->save()) {
-					$save = TRUE;
-					foreach ($userSchools as $school) {
-						UsersSchool::model()->deleteAll(array("condition"=>"school_fk='$school->school_fk'"));
-					}
-					foreach ($_POST['schools'] as $school) {
-						$userSchool = new UsersSchool;
-						$userSchool->user_fk = $model->id;
-						$userSchool->school_fk = $school;
-						$save = $save && $userSchool->validate() && $userSchool->save();
-						
-					}
-					if ($save) {
-						$auth = Yii::app()->authManager;
-						$auth->revoke($actual_role, $model->id);
-						$auth->assign($_POST['Role'], $model->id);
-						Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário alterado com sucesso!'));
-						$this->redirect(['index']);
-					}
+			if ($model->validate() && $model->save()) {
+				$save = TRUE;
+				foreach ($userSchools as $school) {
+					UsersSchool::model()->deleteAll(array("condition"=>"school_fk='$school->school_fk'"));
+				}
+				foreach ($_POST['schools'] as $school) {
+					$userSchool = new UsersSchool;
+					$userSchool->user_fk = $model->id;
+					$userSchool->school_fk = $school;
+					$save = $save && $userSchool->validate() && $userSchool->save();
+					
+				}
+				if ($save) {
+					$auth = Yii::app()->authManager;
+					$auth->revoke($actual_role, $model->id);
+					$auth->assign($_POST['Role'], $model->id);
+					Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário alterado com sucesso!'));
+					$this->redirect(['index']);
 				}
 			}
 		}
