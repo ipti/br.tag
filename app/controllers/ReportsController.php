@@ -20,7 +20,8 @@ class ReportsController extends Controller
                     'EnrollmentComparativeAnalysisReport', 'SchoolProfessionalNumberByClassroomReport',
                     'ComplementarActivityAssistantByClassroomReport', 'EducationalAssistantPerClassroomReport',
                     'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
-                    'StudentInstructorNumbersRelationReport', 'StudentPendingDocument', 'BFRStudentReport', 'ElectronicDiary'),
+                    'StudentInstructorNumbersRelationReport', 'StudentPendingDocument', 
+                    'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -871,6 +872,29 @@ class ReportsController extends Controller
             $result["students"] = $students;
         }
         echo json_encode($result);
+    }
+
+    public function actionOutOfTownStudentsReport()
+    {
+        $sql = "SELECT DISTINCT su.name, su.inep_id, su.birthday, std.address, 
+                edcstd.name AS city_student, edcsch.name AS city_school, 
+                si.name AS school
+                FROM student_documents_and_address std
+                JOIN edcenso_city edcstd ON(std.edcenso_city_fk = edcstd.id)
+                JOIN student_enrollment se ON(std.id = se.student_fk)
+                JOIN classroom cl ON(se.classroom_fk = cl.id)
+                JOIN school_identification si ON (si.inep_id = cl.school_inep_fk)
+                JOIN edcenso_city edcsch ON(si.edcenso_city_fk = edcsch.id)
+                JOIN student_identification su ON(su.id= std.id)
+                WHERE si.`inep_id` =".Yii::app()->user->school." AND (se.status = 1 OR se.status IS NULL)
+                AND (si.edcenso_city_fk != std.edcenso_city_fk) 
+                AND (cl.school_year =".Yii::app()->user->year.") 
+                ORDER BY NAME;";
+
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+        $this->render('OutOfTownStudentsReport', array(
+            'report' => $result,
+        ));
     }
 
 }
