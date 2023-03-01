@@ -108,8 +108,6 @@ $("#instructor").on("change", function () {
 
 $("#classrooms").on("change", function () {
     $("#disciplines").val("").trigger("change.select2");
-    console.log($("#instructor").val())
-    console.log($("#classrooms").val())
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
