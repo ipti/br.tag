@@ -649,6 +649,7 @@ preenchidos";
                 WHERE itd.instructor_fk =". $_POST["instructor"] .";";
 
         $classrooms = Yii::app()->db->createCommand($sql)->queryAll();
+        echo "<option>".Yii::t('default', 'Select Classrom')."</option>";
         foreach ($classrooms as $classroom) {
             echo "<option value=".$classroom['id'].">".$classroom['name']."</option>";
         }
@@ -656,11 +657,13 @@ preenchidos";
 
     public function actionGetFrequencyDisciplines()
     {
-        $sql = "SELECT DISTINCT ed.id, ed.name FROM instructor_disciplines id
-                JOIN edcenso_discipline ed ON(id.discipline_fk = ed.id)
-                JOIN classroom c ON(c.id = ".$_POST["classroom"].")
-                WHERE id.instructor_fk = ".$_POST["instructor"].";";
+        $sql = "SELECT ed.id, ed.name  FROM classroom c
+                JOIN instructor_teaching_data itd ON(c.id = itd.classroom_id_fk)
+                JOIN instructor_disciplines id ON(id.stage_vs_modality_fk = c.edcenso_stage_vs_modality_fk)
+                JOIN edcenso_discipline ed ON(ed.id = id.stage_vs_modality_fk)
+                WHERE itd.instructor_fk = ".$_POST["instructor"]." AND c.id = ".$_POST["classroom"].";";
         $disciplines = Yii::app()->db->createCommand($sql)->queryAll();
+        echo "<option>".Yii::t('default', 'Select Discipline')."</option>";
         foreach ($disciplines as $discipline) {
             echo "<option value=".$discipline['id'].">".$discipline['name']."</option>";
         }

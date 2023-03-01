@@ -776,6 +776,7 @@ return array(
     
     //Selects de Dorpdowns
     'Select School' => 'Selecione a escola',
+    'Select Discipline' => 'Selecione uma disciplina',
     
     //Titulos
     'School Identifications' => 'Escolas',
