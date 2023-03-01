@@ -4,8 +4,15 @@
 .t-buttons-container {
     margin-top: $sizeHeader;
     display: flex;
+    
 }
-
+.t-buttons-container-form{
+    @extend .t-buttons-container;
+    position: fixed;
+    z-index: 2;
+    width: auto;
+    float: right;  
+  }
 .t-button {
     padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
     font-size: $FontSizeTextSmall;

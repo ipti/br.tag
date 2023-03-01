@@ -65,7 +65,9 @@
 /* Line Height */
 /*Font Weight*/
 /* mixin */
-.t-buttons-container { margin-top: 118px; display: flex; }
+.t-buttons-container, .t-buttons-container-form { margin-top: 118px; display: flex; }
+
+.t-buttons-container-form { position: fixed; z-index: 2; width: auto; float: right; }
 
 .t-button, .t-button-primary, .t-button-secondary, .t-button-tertiary { padding: 0.375em 1em 0.375em 1em; font-size: 12px; border-radius: 6px; text-decoration: none; display: flex; justify-content: space-between; margin-left: 1em; }
 

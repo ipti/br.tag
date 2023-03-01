@@ -32,7 +32,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <div class="row-fluid hidden-print">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Create Plan'); ?></h3>
-            <div class="t-buttons-container">
+            <div class="t-buttons-container-form">
                 <a 
                 data-toggle="tab" class='t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?>
                 </a>

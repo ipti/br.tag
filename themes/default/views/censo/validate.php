@@ -47,7 +47,7 @@
         <?php } ?>
         <div style="display: flex;">
             <a href="<?= CHtml::normalizeUrl(array('censo/export')) ?>"
-               class="t-button-primary"> <?= Yii::t('default', 'Export Now') ?>
+               class="t-button-primary" style="margin:0;"> <?= Yii::t('default', 'Export Now') ?>
             </a>
         </div>
         <!-- Widget Heading END -->
