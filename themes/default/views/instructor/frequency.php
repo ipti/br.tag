@@ -21,46 +21,8 @@
     <div class="span12" style="height: 115px;">
         <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Instructor frequency'); ?></h3>
         <span class="subtitle"> Marcar apenas faltas.</span>
-        <div class="buttons span9">
-            <!--            <a id="print" class='btn btn-icon glyphicons print hidden-print'>-->
-            <?php //echo Yii::t('default', 'Print') 
-            ?><!--<i></i></a>-->
-            <!--            <a href="-->
-            <?php //echo Yii::app()->createUrl('reports/bfreport') 
-            ?><!--" class='btn btn-icon glyphicons print hidden-print'>Bolsa Familia<i></i></a>-->
-            <!-- <a id="save" class='btn btn-icon btn-primary glyphicons circle_ok hidden-print'><?php echo Yii::t('default', 'Save') ?><i></i></a> -->
-        </div>
     </div>
 </div>
-
-<?php
-$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-?>
-<table class="table table-bordered table-striped visible-print">
-    <tr>
-        <th>Escola:</th>
-        <td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>
-    <tr>
-    <tr>
-        <th>Estado:</th>
-        <td colspan="2"><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
-        <th>Municipio:</th>
-        <td colspan="2"><?php echo $school->edcensoCityFk->name ?></td>
-        <th>Endereço:</th>
-        <td colspan="2"><?php echo $school->address ?></td>
-    <tr>
-    <tr>
-        <th>Localização:</th>
-        <td colspan="2"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
-        <th>Dependência Administrativa:</th>
-        <td colspan="4"><?php
-                        $ad = $school->administrative_dependence;
-                        echo ($ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
-                                    "PRIVADA")));
-                        ?></td>
-    <tr>
-</table>
-<br>
 
 <div class="tag-inner">
 
