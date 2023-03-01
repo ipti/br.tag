@@ -1,6 +1,6 @@
 <?php
 defined('YII_DEBUG') or define('YII_DEBUG', false);
-define("TAG_VERSION", '2.13.0'.'('.Yii::getVersion().')');
+define("TAG_VERSION", '2.13.1'.'('.Yii::getVersion().')');
 define("BOARD_MSG", '
 		
 		<div class="alert alert-success">

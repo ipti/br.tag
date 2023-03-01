@@ -1,5 +1,8 @@
 # Change Log
 
+## [Versão 2.13.1]
+- O módulo de atualizar usuário agora não solicita mais a senha, visto que já existe um módulo de modificar senha.
+
 ## [Próximas Versões]
 - Melhorar o relatório de análise comparativa de matrículas.
 - Habilitar action de Update automático ao efetuar login em nova versão.
