@@ -25,7 +25,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo $title; ?></h3>
         <div class="tag-buttons-container buttons">
-            <button class="t-button-primary  small-button last pull-right save-classroom" type="button">
+            <button class="t-button-primary  last pull-right save-classroom" type="button">
                 <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
             </button>
         </div>
@@ -369,7 +369,10 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class=" span12">
                             <!-- adicionar diciplina -->
-                            <a href="#" class="t-button-primary   add hidden-print" id="newDiscipline"><i></i><?php echo Yii::t('default', 'Add Discipline/Teacher') ?></a>
+                            <div class="row">
+                                <a href="#" class="t-button-primary   add hidden-print" id="newDiscipline"><i></i><?php echo Yii::t('default', 'Add Discipline/Teacher') ?></a>
+                            </div>
+                           
                             <div class="separator"></div>
                             <?php
                             $teachingDataList = "<div>"
@@ -442,7 +445,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <div class="tab-pane" id="students">
                     <div class="row-fluid">
-                        <div class='hide-responsive' style="margin-bottom:20px">
+                        <div class='row hide-responsive' style="margin-bottom:20px">
                             <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetransport', array('id' => $modelClassroom->id)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Atualizar transporte') ?>
                             </a>
                             <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetotal', array('id' => $modelClassroom->id)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Atualização em Lote') ?>
@@ -548,7 +551,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         'class' => 'span5',
                                         'empty' => '**CANCELAR MATRICULAS**'
                                     ));
-                                    echo '<input value="Mover/Cancelar" type="submit" class="t-button-primary  small-button" style="margin-left:10px"><i></i></input></td></tr>';
+                                    echo '<input value="Mover/Cancelar" type="submit" class="t-button-primary " style="margin-left:10px"><i></i></input></td></tr>';
                                     ?>
                                 </tfooter>
                             </table>

@@ -1,4 +1,4 @@
-.tag-table {
+.tag-table {    
     td {
         background: $colorsBaseWhiteNormal;
         padding: $spaceMedium;
@@ -28,6 +28,13 @@
     }
 
     tbody {
+
+        --dt-row-selected: $colorsBaseProductLightActive;
+        --dt-row-selected-text: var(--dt-row-selected)
+        --dt-row-selected-link: var(--dt-row-selected)
+        .selected {
+            background-color: $colorsBaseProductLightActive;
+        }
         tr {
             border-bottom: 2.5px solid white;
         }
@@ -48,6 +55,37 @@
     }
 
 }
+
+
+.grid-view {
+    .summary {
+        display: none;
+    }
+
+    .dataTables_filter {
+        margin: 10px;
+
+        input[type="search"] {
+            margin-bottom: 0;
+        }
+    }
+
+    .paginate_button {
+        box-sizing: border-box;
+        display: inline-block;
+        min-width: 1.5em;
+        padding: .5em 1em;
+        margin-left: 2px;
+        text-align: center;
+        text-decoration: none !important;
+        cursor: pointer;
+        color: inherit !important;
+        border: 1px solid transparent;
+        border-radius: 2px;
+        background: transparent;
+    }
+}
+
 
 .dt-body-nowrap {
     white-space: nowrap;

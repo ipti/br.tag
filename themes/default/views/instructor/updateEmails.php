@@ -21,7 +21,7 @@
 	<div class="span12">
 		<h3 class="heading-mosaic"><?= yii::t('default', 'Update Instructor e-mails') ?></h3>
 		<div class="tag-buttons-container buttons">
-			<?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('id' => 'save-emails', 'class' => 't-button-primary  small-button last', 'type' => 'button')); ?>
+			<?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('id' => 'save-emails', 'class' => 't-button-primary  last', 'type' => 'button')); ?>
 		</div>
 	</div>
 </div>

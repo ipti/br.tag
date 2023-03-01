@@ -71,7 +71,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <div class="alert-required-fields no-show alert alert-error">
         Os Campos com * são obrigatórios.
     </div>
-    <div class="filter-bar margin-bottom-none">
+    <div class="row filter-bar margin-bottom-none">
         <div>
             <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required' ,'style' => 'width: 64px;' )); ?>
           
@@ -117,11 +117,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             ));
             ?>
         </div>
-        <div>
-            <a id="classesSearch" class='t-button-primary  small-button'><i class="fa-search fa icon-button-tag" style="margin-top:5px"></i><?php echo Yii::t('default', 'Search') ?>
+        <div class="row">
+            <a id="classesSearch" class='t-button-primary'><i class="fa-search fa icon-button-tag"></i><?php echo Yii::t('default', 'Search') ?>
             </a>
         </div>
-        <i class="loading-frequency fa fa-spin fa-spinner" style="margin-top: 15px;"></i>
+        <i class="loading-frequency fa fa-spin fa-spinner"></i>
     </div>
 
     <div class="alert-incomplete-data alert alert-warning display-hide"></div>

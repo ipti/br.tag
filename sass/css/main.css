@@ -99,7 +99,9 @@
   text-decoration: none;
   display: flex;
   justify-content: space-between;
+  align-self: center;
   margin-left: 1em;
+  cursor: pointer;
 }
 
 @media (min-width: 768px) {
@@ -117,52 +119,61 @@
   }
 }
 
-/* line 26, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+/* line 28, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
 .t-button:link, .t-button-primary:link, .t-button-secondary:link, .t-button-tertiary:link, .t-button:focus, .t-button-primary:focus, .t-button-secondary:focus, .t-button-tertiary:focus, .t-button:hover, .t-button-primary:hover, .t-button-secondary:hover, .t-button-tertiary:hover, .t-button--active, .t-button:active, .t-button-primary:active, .t-button-secondary:active, .t-button-tertiary:active {
   text-decoration: none !important;
 }
 
-/* line 30, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+/* line 32, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
 .t-button img, .t-button-primary img, .t-button-secondary img, .t-button-tertiary img {
   margin-right: 6px;
 }
 
-/* line 35, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+/* line 36, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+.t-button i, .t-button-primary i, .t-button-secondary i, .t-button-tertiary i {
+  align-self: center;
+  margin-right: 6px;
+  opacity: 0.5;
+}
+
+/* line 43, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
 .t-button-primary {
   background-color: #3f45ea;
   color: #FFFFFF;
+  cursor: pointer;
+  align-self: center;
 }
 
-/* line 40, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+/* line 50, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
 .t-button-primary:hover, .t-button-primary--active {
   color: #FFFFFF;
   background-color: #272B96;
 }
 
-/* line 45, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+/* line 55, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
 .t-button-primary:link, .t-button-primary:focus, .t-button-primary:hover, .t-button-primary--active, .t-button-primary:active {
   color: #FFFFFF;
 }
 
-/* line 49, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+/* line 59, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
 .t-button-secondary {
   background-color: #f5f7f9;
   color: #252A31;
 }
 
-/* line 53, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+/* line 63, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
 .t-button-secondary:hover, .t-button-secondary--active {
   color: #252A31;
   background-color: #e5eaef;
 }
 
-/* line 58, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+/* line 68, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
 .t-button-tertiary {
   background-color: #94a8be;
   color: #FFFFFF;
 }
 
-/* line 62, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+/* line 72, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
 .t-button-tertiary:hover, .t-button-tertiary--active {
   color: #FFFFFF;
   background-color: #5F738C;
@@ -483,29 +494,66 @@
   border-radius: 0 3px 3px 0;
 }
 
-/* line 31, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
-.tag-table tbody tr {
-  border-bottom: 2.5px solid white;
+/* line 30, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+.tag-table tbody {
+  --dt-row-selected: $colorsBaseProductLightActive;
+  --dt-row-selected-text: var(--dt-row-selected)
+        --dt-row-selected-link: var(--dt-row-selected)
+        .selected {
+            background-color: $colorsBaseProductLightActive;
+        }
+        tr {
+            border-bottom: 2.5px solid white;
+        }
+
+        td {
+            font-family: 'Inter', sans-serif;
+            font-size: $FontSizeTextNormal;
+            padding: 4px 4px 4px 12px;
+
+            &:first-child {
+                border-radius: $borderRadiusLeft;
+            }
+
+            &:last-child {
+                border-radius: $borderRadiusRight;
+            }
+        }
+    ;
 }
 
-/* line 35, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
-.tag-table tbody td {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  padding: 4px 4px 4px 12px;
+/* line 61, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+.grid-view .summary {
+  display: none;
 }
 
-/* line 40, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
-.tag-table tbody td:first-child {
-  border-radius: 3px 0 0 3px;
+/* line 65, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+.grid-view .dataTables_filter {
+  margin: 10px;
 }
 
-/* line 44, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
-.tag-table tbody td:last-child {
-  border-radius: 0 3px 3px 0;
+/* line 68, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+.grid-view .dataTables_filter input[type="search"] {
+  margin-bottom: 0;
 }
 
-/* line 52, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+/* line 73, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+.grid-view .paginate_button {
+  box-sizing: border-box;
+  display: inline-block;
+  min-width: 1.5em;
+  padding: .5em 1em;
+  margin-left: 2px;
+  text-align: center;
+  text-decoration: none !important;
+  cursor: pointer;
+  color: inherit !important;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: transparent;
+}
+
+/* line 90, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
 .dt-body-nowrap {
   white-space: nowrap;
 }
@@ -676,6 +724,23 @@
   border-top: 1px solid #eaeaf8;
   width: 90%;
   color: #a6b6c8;
+}
+
+/* line 2, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.align-items-center {
+  display: flex;
+  align-items: center;
+}
+
+/* line 1, ../../../Projetos/br.tag/br.tag/sass/scss/_filter_bar.scss */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
+  height: auto;
+  margin-bottom: 20px;
+  padding: 0 10px;
 }
 
 /*# sourceMappingURL=main.css.map */
