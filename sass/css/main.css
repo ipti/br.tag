@@ -473,39 +473,39 @@
   line-height: normal;
 }
 
-/* line 18, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+/* line 19, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
 .tag-table thead tr th:first-child {
   border-radius: 3px 0 0 3px;
 }
 
-/* line 22, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+/* line 23, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
 .tag-table thead tr th:last-child {
   border-radius: 0 3px 3px 0;
 }
 
-/* line 30, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+/* line 31, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
 .tag-table tbody tr {
   border-bottom: 2.5px solid white;
 }
 
-/* line 34, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+/* line 35, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
 .tag-table tbody td {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   padding: 4px 4px 4px 12px;
 }
 
-/* line 39, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+/* line 40, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
 .tag-table tbody td:first-child {
-  border-radius: 4px 0 0 4px;
+  border-radius: 3px 0 0 3px;
 }
 
-/* line 43, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+/* line 44, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
 .tag-table tbody td:last-child {
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 3px 3px 0;
 }
 
-/* line 51, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+/* line 52, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
 .dt-body-nowrap {
   white-space: nowrap;
 }

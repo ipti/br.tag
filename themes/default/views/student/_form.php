@@ -31,8 +31,8 @@ $form = $this->beginWidget('CActiveForm', array(
         <h3 class="heading-mosaic"><?php echo $title; ?></h3>
         <div class="tag-buttons-container buttons hide-responsive">
             <a data-toggle="tab" class='hide-responsive tag-button-light small-button prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
-            <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='tag-button small-button next'>".Yii::t('default', 'Next')."</a>" : ''?>
-            <button class="tag-button small-button last  save-student" type="button">
+            <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  small-button next'>".Yii::t('default', 'Next')."</a>" : ''?>
+            <button class="t-button-primary  small-button last  save-student" type="button">
                 <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
             </button>
         </div>
@@ -932,7 +932,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <!-- Tab Student Enrollment -->
                 <div class="tab-pane" id="student-enrollment">
                     <div class="control-group">
-                        <a href="#" class="tag-button medium-button" id="new-enrollment-button">Adicionar Matrícula</a>
+                        <a href="#" class="t-button-primary  " id="new-enrollment-button">Adicionar Matrícula</a>
                     </div>
                     <div class="row-fluid" id="new-enrollment-form" style="display: none;">
                         <div class="span5">

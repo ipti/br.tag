@@ -15,15 +15,16 @@
             background-color: $colorsBaseProductDarkActive;
             padding: $spaceMedium;
             line-height: normal;
+
             &:first-child {
                 border-radius: $borderRadiusNormal 0 0 $borderRadiusNormal;
             }
 
-            &:last-child  {
-                 border-radius: 0 $borderRadiusNormal $borderRadiusNormal 0;
+            &:last-child {
+                border-radius: 0 $borderRadiusNormal $borderRadiusNormal 0;
             }
         }
-    
+
     }
 
     tbody {
@@ -37,11 +38,11 @@
             padding: 4px 4px 4px 12px;
 
             &:first-child {
-                border-radius: 4px 0 0 4px;
+                border-radius: $borderRadiusNormal 0 0 $borderRadiusNormal;
             }
 
             &:last-child {
-                border-radius: 0 4px 4px 0;
+                border-radius: 0 $borderRadiusNormal $borderRadiusNormal 0;
             }
         }
     }

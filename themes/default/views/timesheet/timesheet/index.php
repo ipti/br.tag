@@ -55,7 +55,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
             <?= CHtml::dropDownList('classroom_fk', "", CHtml::listData(Classroom::model()->findAll("school_inep_fk = :school_inep_fk and school_year = :school_year order by name", ["school_inep_fk" => Yii::app()->user->school, "school_year" => Yii::app()->user->year]), 'id', 'name'), ["prompt" => yii::t("timesheetModule.timesheet", "Select a Classroom"), "class" => "select-search-on control-input classroom-id"]); ?>
         </div>
         <div class="schedule-info display-hide">
-            <button class="tag-button small-button wide-button  btn-generate-timesheet">
+            <button class="t-button-primary  small-button wide-button  btn-generate-timesheet">
                 <i></i><?= yii::t('timesheetModule.timesheet', "Generate automatic timesheet") ?>
             </button>
         </div>
@@ -210,7 +210,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                 <button type="button" class="tag-button-light small-button" data-dismiss="modal">
                     <?= yii::t("timesheetModule.instructors", "Cancel") ?>
                 </button>
-                <button type="button" class="tag-button small-button" id="add-instructors-disciplines-button">
+                <button type="button" class="t-button-primary  small-button" id="add-instructors-disciplines-button">
                     <?= yii::t("timesheetModule.instructors", "Add") ?>
                 </button>
             </div>

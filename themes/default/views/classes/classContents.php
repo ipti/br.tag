@@ -27,7 +27,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.png"/>
                     <?php echo Yii::t('default', 'Print') ?>
                 </a>
-                <a id="save" class='tag-button medium-button'><?php echo Yii::t('default', 'Save') ?></a>
+                <a id="save" class='t-button-primary  '><?php echo Yii::t('default', 'Save') ?></a>
             </div>
         </div>
     </div>
@@ -124,7 +124,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 ?>
             </div>
             <div class="pull-right">
-                <a id="classesSearch" class='tag-button small-button' style="margin: 0px;"><i
+                <a id="classesSearch" class='t-button-primary  small-button' style="margin: 0px;"><i
                             class="fa-search fa icon-button-tag"
                             style="margin-top:5px"></i><?php echo Yii::t('default', 'Search') ?>
                 </a>

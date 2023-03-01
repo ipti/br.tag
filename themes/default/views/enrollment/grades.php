@@ -28,7 +28,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Grades'); ?></h3>
             <div class="buttons span9">
                 <button id="save"
-                   class='tag-button small-button hidden-print no-show'><?php echo Yii::t('default', 'Save') ?>
+                   class='t-button-primary  small-button hidden-print no-show'><?php echo Yii::t('default', 'Save') ?>
                 </button>
             </div>
         </div>

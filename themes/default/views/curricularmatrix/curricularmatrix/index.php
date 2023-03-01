@@ -55,7 +55,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                 <?= CHtml::label("&nbsp;", 'credits', ['class' => "control-label"]) ?>
                 <div class="form-group ">
                     <?= CHtml::button(Yii::t('curricularMatrixModule.index', 'Add'), [
-                        "id" => "add-matrix", "class" => "tag-button small-button"
+                        "id" => "add-matrix", "class" => "t-button-primary  small-button"
                     ]) ?>
                 </div>
             </div>
@@ -138,7 +138,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                 <div class="modal-footer modal-container-buttons ">
                     <button type="button" class="tag-button-light small-button"
                             data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="tag-button small-button"
+                    <button type="button" class="t-button-primary  small-button"
                             data-dismiss="modal">Confirmar</button>
                 </div>
             </form>

@@ -26,7 +26,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
         </h3>
 
         <div class="tag-buttons-container buttons">
-            <?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('class' => 'tag-button small-button last', 'type' => 'submit')); ?></div>
+            <?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('class' => 't-button-primary  small-button last', 'type' => 'submit')); ?></div>
     </div>
 </div>
 <div class="innerLR">

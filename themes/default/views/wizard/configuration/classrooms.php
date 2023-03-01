@@ -24,7 +24,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
             <?php echo $title; ?>
         </h3>
         <div class="tag-buttons-container buttons">
-            <?php echo CHtml::htmlButton('' . Yii::t('default', 'Copy'), array('class' => 'tag-button small-button last ', 'type' => 'submit')); ?>
+            <?php echo CHtml::htmlButton('' . Yii::t('default', 'Copy'), array('class' => 't-button-primary  small-button last ', 'type' => 'submit')); ?>
         </div>
     </div>
 </div>
