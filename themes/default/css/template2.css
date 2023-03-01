@@ -421,4 +421,6 @@
 .table-primary tbody tr.even:hover td {
     background: #d5dded;
 }
-
+input[type="checkbox"] {
+    margin: 0px 9px 0px; 
+}
