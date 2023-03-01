@@ -8900,7 +8900,8 @@ li.active a {
     }
 
     #button-menu {
-        left: 85% !important;
+       /*  left: 85% !important; */
+       z-index: 2;
     }
 
     .box-instructor > .dropdown-margin {
