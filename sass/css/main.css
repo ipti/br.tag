@@ -245,6 +245,26 @@
 
 @media (min-width: 1536px) { .t-tabs .t-tabs__contents .t-tabs__itens .t-tabs__link { padding: 0.375em 1em 0.375em 1em; display: inline-block; } }
 
+.tag-table td { background: #FFFFFF; padding: 1em; }
+
+.tag-table td a { color: #272B96; }
+
+.tag-table thead tr th { font-weight: 500; color: #FFFFFF; background-color: #18204e; padding: 1em; line-height: normal; }
+
+.tag-table thead tr th:first-child { border-radius: 3px 0 0 3px; }
+
+.tag-table thead tr th:last-child { border-radius: 0 3px 3px 0; }
+
+.tag-table tbody tr { border-bottom: 2.5px solid white; }
+
+.tag-table tbody td { font-family: 'Inter', sans-serif; font-size: 14px; padding: 4px 4px 4px 12px; }
+
+.tag-table tbody td:first-child { border-radius: 4px 0 0 4px; }
+
+.tag-table tbody td:last-child { border-radius: 0 4px 4px 0; }
+
+.dt-body-nowrap { white-space: nowrap; }
+
 /* Color */
 /* Product */
 /* Ink */

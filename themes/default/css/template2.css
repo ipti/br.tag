@@ -84,65 +84,15 @@
 /* 
     listagens
 */
-.tag-table td {
-   background: #EAEDFC;
-}
-.tag-table tr td:first-child {
-    border-radius: 4px 0 0 4px;
-}
-.tag-table tr td:last-child {
-    border-radius: 0 4px 4px 0;
-}
-.tag-table.table-striped tbody>tr:nth-child(odd)>td {
-    background-color: #ECECEC;
-}
 
-.tag-table td a{
-    color: #222C64;
-}
-
-.tag-table thead {
-    border-bottom: 2.5px solid white;
-}
-
-.tag-table thead:first-child tr:first-child th {
-    font-weight: 500;
-    color: #ffffff;
-    background-color: #222C64;
-    padding: 0px 16px;
-    margin-bottom: 4px;
-    height: 36px;
-    line-height: 36px;
-    
-}
-.tag-table thead:first-child tr:first-child th:first-child {
-    border-radius: 4px 0 0 4px;
-}
-.tag-table thead:first-child tr:first-child th:last-child  {
-    border-radius: 0 4px 4px 0;
-}
-.tag-table thead:first-child tr:first-child  {
-    border-bottom: 2.5px solid white;
-}
-.tag-table tbody tr {
-    border-bottom: 2.5px solid white;
-}
-
-.tag-table input[type="text"] {
-    height: 30px;
-}
-.tag-table tbody td{
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    padding: 4px 4px 4px 12px;
-}
 .grid-view .filters input {
-    width: 413px !important;
+    /* width: 413px; */
     border: 1px solid #ccc;
     margin: 0px 0px 2px 12px;
 }
+
 .student-table.tag-table thead tr.filters input, .curricularmatrix-table.tag-table thead tr.filters input{
-    width: 260px !important;
+    width: 260px;
 }
 
 /* 

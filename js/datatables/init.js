@@ -3,7 +3,11 @@ $(document).ready(function () {
         $.getScript('themes/default/js/datatablesptbr.js', function () {
             $(".js-tag-table").dataTable({
                 language: getLanguagePtbr(),
-                responsive: true
+                responsive: true,
+                select: {
+                    items: 'cell'
+                },
+                "bLengthChange": false,
             });
         });
     }

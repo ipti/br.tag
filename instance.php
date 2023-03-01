@@ -281,6 +281,9 @@ switch ($domain) {
         $db = 'io.escola.demo';
         break;
 }
+
+$db = 'br.ong.tag.rj.buzios';
+
 define("GLOGALGROUP",$_GLOBALGROUP);
 define("FORMS",serialize($_FORMS));
 define("DBNAME",$db);
