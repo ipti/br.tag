@@ -85,6 +85,7 @@
     listagens
 */
 .tag-table td {
+   /* background: #eaeaf8; */
    background: #EAEDFC;
 }
 .tag-table tr td:first-child {
@@ -93,8 +94,9 @@
 .tag-table tr td:last-child {
     border-radius: 0 4px 4px 0;
 }
+
 .tag-table.table-striped tbody>tr:nth-child(odd)>td {
-    background-color: #ECECEC;
+    background-color: #eaeaf8;
 }
 
 .tag-table td a{
@@ -276,10 +278,12 @@
     border-radius: 100%;
 }
 .home-page-table-item.gray {
-    background-color: #ECECEC;
+    /* background-color: #ECECEC; */
+    background-color: #eaeaf8;
 }
 .home-page-table-item.blue {
-    background-color: #EAEDFC;
+    background-color: #eaeaf8;
+    /* background-color: #EAEDFC; */
 }
 .home-page-table-button.load-more {
     font-family: 'Inter', sans-serif;
@@ -398,6 +402,23 @@
     width: 160px !important;
 
 }
-.control-group {
+.control-group.aluno {
     margin-left: 32px;
 }
+.emblema{
+    margin:0px 0px 0px 10px;
+}
+.selecao_dias{
+    margin: 0px 0px 0px -25px
+}
+.selecao_dias-checkbox{
+    text-align: center
+}
+
+
+
+.table-primary tbody tr.odd:hover td,
+.table-primary tbody tr.even:hover td {
+    background: #d5dded;
+}
+
