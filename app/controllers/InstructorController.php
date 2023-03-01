@@ -644,11 +644,12 @@ preenchidos";
 
     public function actionGetFrequencyClassroom () 
     {
-        $sql = "SELECT c.id, c.name FROM classroom c 
+        $instructor = $_POST["instructor"];
+        $classrooms = Yii::app()->db->createCommand("SELECT c.id, c.name FROM classroom c 
                 JOIN instructor_teaching_data itd ON(c.id = itd.classroom_id_fk)
-                WHERE itd.instructor_fk =". $_POST["instructor"] .";";
-
-        $classrooms = Yii::app()->db->createCommand($sql)->queryAll();
+                WHERE itd.instructor_fk = :instructor")
+                ->bindParam(":instructor", $instructor)
+                ->queryAll();
         echo "<option>".Yii::t('default', 'Select Classrom')."</option>";
         foreach ($classrooms as $classroom) {
             echo "<option value=".$classroom['id'].">".$classroom['name']."</option>";
@@ -657,12 +658,16 @@ preenchidos";
 
     public function actionGetFrequencyDisciplines()
     {
-        $sql = "SELECT ed.id, ed.name  FROM classroom c
+        $instructor = $_POST["instructor"];
+        $classroom = $_POST["classroom"];
+        $disciplines = Yii::app()->db->createCommand("SELECT ed.id, ed.name  FROM classroom c
                 JOIN instructor_teaching_data itd ON(c.id = itd.classroom_id_fk)
                 JOIN instructor_disciplines id ON(id.stage_vs_modality_fk = c.edcenso_stage_vs_modality_fk)
                 JOIN edcenso_discipline ed ON(ed.id = id.stage_vs_modality_fk)
-                WHERE itd.instructor_fk = ".$_POST["instructor"]." AND c.id = ".$_POST["classroom"].";";
-        $disciplines = Yii::app()->db->createCommand($sql)->queryAll();
+                WHERE itd.instructor_fk = :instructor AND c.id = :classroom")
+                ->bindParam(":instructor", $instructor)
+                ->bindParam(":classroom", $classroom)
+                ->queryAll();
         echo "<option>".Yii::t('default', 'Select Discipline')."</option>";
         foreach ($disciplines as $discipline) {
             echo "<option value=".$discipline['id'].">".$discipline['name']."</option>";
