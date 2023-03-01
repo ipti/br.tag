@@ -17,11 +17,11 @@
             line-height: normal;
 
             &:first-child {
-                border-radius: $borderRadiusNormal 0 0 $borderRadiusNormal;
+                border-radius: $borderRadiusLeft;
             }
 
             &:last-child {
-                border-radius: 0 $borderRadiusNormal $borderRadiusNormal 0;
+                border-radius: $borderRadiusRight;
             }
         }
 
@@ -38,11 +38,11 @@
             padding: 4px 4px 4px 12px;
 
             &:first-child {
-                border-radius: $borderRadiusNormal 0 0 $borderRadiusNormal;
+                border-radius: $borderRadiusLeft;
             }
 
             &:last-child {
-                border-radius: 0 $borderRadiusNormal $borderRadiusNormal 0;
+                border-radius: $borderRadiusRight;
             }
         }
     }

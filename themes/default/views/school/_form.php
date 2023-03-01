@@ -2,6 +2,7 @@
 
 /**
  * @var $form CActiveForm
+ * @var $modelSchoolIdentification SchoolIdentification
  */
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
