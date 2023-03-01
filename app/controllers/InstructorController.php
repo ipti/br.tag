@@ -644,7 +644,7 @@ preenchidos";
 
     public function actionGetFrequencyClassroom () 
     {
-        $instructor = $_POST["instructor"];
+        $instructor = htmlspecialchars($_POST["instructor"]);
         $classrooms = Yii::app()->db->createCommand("SELECT c.id, c.name FROM classroom c 
                 JOIN instructor_teaching_data itd ON(c.id = itd.classroom_id_fk)
                 WHERE itd.instructor_fk = :instructor")
@@ -658,8 +658,8 @@ preenchidos";
 
     public function actionGetFrequencyDisciplines()
     {
-        $instructor = $_POST["instructor"];
-        $classroom = $_POST["classroom"];
+        $instructor = htmlspecialchars($_POST["instructor"]);
+        $classroom = htmlspecialchars($_POST["classroom"]);
         $disciplines = Yii::app()->db->createCommand("SELECT ed.id, ed.name  FROM classroom c
                 JOIN instructor_teaching_data itd ON(c.id = itd.classroom_id_fk)
                 JOIN instructor_disciplines id ON(id.stage_vs_modality_fk = c.edcenso_stage_vs_modality_fk)
