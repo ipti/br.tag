@@ -660,10 +660,12 @@ preenchidos";
     {
         $instructor = htmlspecialchars($_POST["instructor"]);
         $classroom = htmlspecialchars($_POST["classroom"]);
-        $disciplines = Yii::app()->db->createCommand("SELECT ed.id, ed.name  FROM classroom c
+        $disciplines = Yii::app()->db->createCommand(
+                "SELECT ed.id, ed.name FROM classroom c
                 JOIN instructor_teaching_data itd ON(c.id = itd.classroom_id_fk)
-                JOIN instructor_disciplines id ON(id.stage_vs_modality_fk = c.edcenso_stage_vs_modality_fk)
-                JOIN edcenso_discipline ed ON(ed.id = id.stage_vs_modality_fk)
+                JOIN teaching_matrixes tm ON(itd.id = tm.teaching_data_fk)
+                JOIN curricular_matrix cm ON(tm.curricular_matrix_fk = cm.id)
+                JOIN edcenso_discipline ed ON(ed.id = cm.discipline_fk)
                 WHERE itd.instructor_fk = :instructor AND c.id = :classroom")
                 ->bindParam(":instructor", $instructor)
                 ->bindParam(":classroom", $classroom)
