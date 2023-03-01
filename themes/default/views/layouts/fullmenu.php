@@ -67,11 +67,11 @@ $baseUrl = Yii::app()->theme->baseUrl;
                         Voltar
                     </a>
                     <div class="fullmenu-toggle-button">
+                        <!-- <div></div>
                         <div></div>
-                        <div></div>
-                        <div></div>
+                        <div></div> -->
                     </div>
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/emblema-escola.svg" />
+                    <img class="emblema" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/emblema-escola.svg" />
                     <div class="infos-topnav">
                         <div id="change-school">
                             <form class="school" id2="school" action="<?php echo yii::app()->createUrl('site/changeschool') ?>" method="Post">
@@ -101,7 +101,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
                 <li id="menu-logout">
                     <!-- Menu Toggle Button  -->
 
-                    <a class="t-button t-button-secondary" href="<?php echo yii::app()->createUrl('site/logout') ?>">
+                    <a class="t-button-tertiary" href="<?php echo yii::app()->createUrl('site/logout') ?>">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.svg" />
                         <span>Sair</span>
                     </a>
@@ -127,8 +127,8 @@ $baseUrl = Yii::app()->theme->baseUrl;
                         <div></div>
                     </div>
                     <img class="tag-logo" style="width:85px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_navbar.svg" />
-                    <a href="#" class="appbrand pull-left" data-toggle="modal" data-target="#change-year" target="_blank" style="margin-top: 11px;">
-                        <span style="font-weight: bold; color: #5F738C; font-size: 13pt;" id="schoolyear"><?php echo Yii::app()->user->year; ?></span>
+                    <a href="#" class="appbrand pull-left" data-toggle="modal" data-target="#change-year" target="_blank" style="margin-top: 11px; border: 0.1rem solid #94A8BE; border-radius: 30px; padding: 0 4px 0 4px">
+                        <span style="font-weight: bold; color: #5F738C; font-size: 11pt;" id="schoolyear"><?php echo Yii::app()->user->year; ?></span>
                     </a>
                 </div>
                 <div class="slim-scroll" data-scroll-height="800px">

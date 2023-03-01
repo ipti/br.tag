@@ -912,7 +912,7 @@ body > .container-fluid.documentation {
 #menu .slim-scroll > ul > li a:hover,
 #menu > ul > li a:hover,
 #menu > ul > li:hover {
-    background: #ccc;
+    background: #E5EAEF;
 }
 
 #menu .slim-scroll > ul > li.active,
@@ -923,7 +923,7 @@ body > .container-fluid.documentation {
 
 #menu .slim-scroll > ul > li.active > a,
 #menu > ul > li.active > a {
-    background: #ccc;
+    background: #EAEAF8;
 }
 
 #menu .slim-scroll > ul > li.glyphicons a,
@@ -1263,7 +1263,6 @@ body > .container-fluid.documentation {
 .navbar.main .topnav > li {
     position: relative;
     float: left;
-    line-height: 32px;
     display: flex;
     align-items: center;
     padding: 0 3px;
