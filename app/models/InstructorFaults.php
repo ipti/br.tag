@@ -6,13 +6,12 @@
  * The followings are the available columns in table 'class_faults':
  * @property integer $id
  * @property integer $schedule_fk
- * @property integer $student_fk
- * @property string $fkid
+ * @property integer $instructor_fk
  * @property string $justification
  *
  * The followings are the available model relations:
  * @property Schedule $scheduleFk
- * @property InstructorTeachingData $studentFk
+ * @property InstructorIdentification $instructor_fk
  */
 class InstructorFaults extends CActiveRecord
 {
