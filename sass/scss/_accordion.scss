@@ -1,12 +1,18 @@
-table.dataTable .t-accordion  {
-    &__header > tr > th {
-        border: none;
+.t-accordion  {
+    border: none;
+    &__header {
+        .t-accordion__head {
+            border: none;
+        }
     }
-    &__footer > tr > th {
-        border: none;
+
+    &__body > tr.odd > td {
+       // background-color: $colorsBaseProductLighter;
+       // box-shadow: none !important;
+        padding: $SizeXSmall $SizeSmall;
     }
-    &__body > tr > td.odd , &__body:hover > tr > td {
-        background-color: $colorsBaseProductLighter;
+    &__body > tr:hover > *  {
         box-shadow: none !important;
     }
 }
+

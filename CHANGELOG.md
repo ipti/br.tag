@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.3.2]
+**Melhorias**
+- botões alterados e formulário de criação de plano de aula mudado  
 ## [Versão 3.2.2]
 **Melhorias**
 - Implementação de tabelas dinâmicas com novos recursos de paginação, pesquisa, ordenação e responsividade

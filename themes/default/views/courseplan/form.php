@@ -13,11 +13,11 @@ $cs->registerScriptFile($baseUrl . '/js/courseplan/form/_initialization.js', CCl
 $cs->registerScriptFile($baseUrl . '/js/courseplan/form/functions.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/courseplan/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/courseplan/form/pagination.js', CClientScript::POS_END);
-$cs->registerScriptFile($themeUrl . '/js/jquery/jquery.dataTables.min.js', CClientScript::POS_END);
-$cs->registerCssFile($themeUrl . '/css/jquery.dataTables.min.css');
-$cs->registerCssFile($themeUrl . '/css/dataTables.fontAwesome.css');
+// $cs->registerScriptFile($themeUrl . '/js/jquery/jquery.dataTables.min.js', CClientScript::POS_END);
+// $cs->registerCssFile($themeUrl . '/css/jquery.dataTables.min.css');
+// $cs->registerCssFile($themeUrl . '/css/dataTables.fontAwesome.css');
 $cs->registerCssFile($themeUrl . '/css/template2.css');
-$cs->registerCssFile($baseUrl. 'sass/css/main.css');
+// $cs->registerCssFile($baseUrl. 'sass/css/main.css');
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));
 $form = $this->beginWidget('CActiveForm', array(
@@ -115,41 +115,30 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             </div>
                            
                     </div>
-                    <div class="tab-pane" id="class">
-                        <table id="course-classes" class="t-accordion display" cellspacing="0" width="100%">
+                    <div class="tab-pane row" id="class">
+                        <table id="course-classes" class="t-accordion column display" cellspacing="0" width="100%">
                             <thead class="t-accordion__header">
                                 <tr>
-                                    <th style="width: 10px;"></th>
-                                    <th class="span1"><?= Yii::t('default', 'Class'); ?></th>
-                                    <th></th>
-                                    <th class="span12"><?= Yii::t('default', 'Objective'); ?></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
+                                    <th class="t-accordion__head" style="width: 10px;"></th>
+                                    <th class="t-accordion__head span1"><?= Yii::t('default', 'Class'); ?></th>
+                                    <th class="t-accordion__head"></th>
+                                    <th class="t-accordion__head span12"><?= Yii::t('default', 'Objective'); ?></th>
+                                    <th class="t-accordion__head"></th>
+                                    <th class="t-accordion__head"></th>
+                                    <th class="t-accordion__head"></th>
+                                    <th class="t-accordion__head"></th>
                                 </tr>
                             </thead>
                             <tbody class="t-accordion__body">
                             </tbody>
-                            <tfoot class="t-accordion__footer">
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th style="display:flex;">
-                                        <a href="#new-course-class" id="new-course-class"
-                                        class="t-button-primary">
-                                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/buttonIcon/start.svg">
-                                            <?= Yii::t('default', 'New'); ?>
-                                        </a>
-                                    </th>
-                                </tr>
-                            </tfoot>
                         </table>
+                        <div class="row">
+                            <a href="#new-course-class" id="new-course-class"
+                               class="t-button-primary">
+                               <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/buttonIcon/start.svg">
+                               <?= Yii::t('default', 'New'); ?>
+                            </a>
+                        </div>
                         <div class="js-all-types no-show">
                             <?php foreach ($types as $type) : ?>
                                 <option value="<?= $type->id ?>"><?= $type->name ?></option>

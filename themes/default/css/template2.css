@@ -356,3 +356,8 @@ table.dataTable.lunch-table {
 .widget .widget-body{
     padding: 0px;
 }
+
+
+table.dataTable.no-footer {
+    border-bottom: none !important;
+}
