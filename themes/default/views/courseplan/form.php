@@ -135,7 +135,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <div class="row">
                             <a href="#new-course-class" id="new-course-class"
                                class="t-button-primary">
-                               <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/buttonIcon/start.svg">
+                               <img alt="Novo plano de aula" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/buttonIcon/start.svg">
                                <?= Yii::t('default', 'New'); ?>
                             </a>
                         </div>

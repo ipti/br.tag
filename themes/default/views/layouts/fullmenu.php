@@ -70,7 +70,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
                         <div></div>
                         <div></div> -->
                     </div>
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/emblema-escola.svg" />
+                    <img alt="emblema da escola" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/emblema-escola.svg" />
                     <div>
                         <div>
                             <form class="school" id2="school" action="<?php echo yii::app()->createUrl('site/changeschool') ?>" method="Post">

@@ -40,9 +40,9 @@
         }
 
         td {
-            font-family: 'Inter', sans-serif;
+            font-family: $FontFamilyTextNormal;
             font-size: $FontSizeTextNormal;
-            padding: 4px 4px 4px 12px;
+            padding: 4px;
 
             &:first-child {
                 border-radius: $borderRadiusLeft;

@@ -289,11 +289,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                         </div>
                         <div class="column">
-                            <div class="control-group ">
-                                <div class="controls">
-                                    <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
-                                </div>
-                            </div>
+                            <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
                             <!--  <div class="separator"></div> -->
                             <div class="t-field-text js-hide-not-required">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'nis', array('class' => 'control-label t-field-text__label')); ?>
@@ -947,11 +943,8 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                     <div class="row" id="new-enrollment-form" style="display: none;">
                         <div class="column">
-                            <div class="control-group">
-                                <div class="controls">
-                                    <?php echo $form->hiddenField($modelEnrollment, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
-                                </div>
-                            </div>
+                            <?php echo $form->hiddenField($modelEnrollment, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
+                            
                             <!-- turma -->
                             <div class="t-field-select t-input">
                                     <?php echo $form->labelEx($modelEnrollment, 'classroom_fk', array('class' => 'control-label  t-input__label--required')); ?>
@@ -1195,14 +1188,14 @@ $form = $this->beginWidget('CActiveForm', array(
                             <h3>
                                 <?php echo yii::t("default", "Enrollments"); ?>
                             </h3>
-                            <table class="tag-table table-bordered table-striped">
+                            <table class="tag-table table-bordered table-striped" aria-describedby="tabela de matriculas">
                                 <thead>
                                     <tr>
-                                        <td style="text-align: center !important;">Escola</td>
-                                        <td style="text-align: center">Atualizar Ficha de Matrícula</td>
-                                        <td style="text-align: center">Ano</td>
-                                        <td style="text-align: center">Formulários</td>
-                                        <td style="text-align: center; width: 15%;">Cancelar Matrícula</td>
+                                        <th style="text-align: center !important;">Escola</th>
+                                        <th style="text-align: center">Atualizar Ficha de Matrícula</th>
+                                        <th style="text-align: center">Ano</th>
+                                        <th style="text-align: center">Formulários</th>
+                                        <th style="text-align: center; width: 15%;">Cancelar Matrícula</th>
                                     </tr>
                                 </thead>
                                 <tbody>
