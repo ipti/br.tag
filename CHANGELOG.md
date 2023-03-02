@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.2.3]
+- Os botões do ativar/desativar usuário agora têm texto flutuante para indicar qual ação os botões de ação fazem e a largura da coluna foi modificada
+
 ## [Versão 3.2.2]
 **Melhorias**
 - Implementação de tabelas dinâmicas com novos recursos de paginação, pesquisa, ordenação e responsividade
