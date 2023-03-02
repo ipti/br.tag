@@ -65,9 +65,9 @@
 /* Line Height */
 /*Font Weight*/
 /* mixin */
-.t-buttons-container, .t-buttons-container-form { margin-top: 118px; display: flex; }
+.t-buttons-container { margin-top: 118px; display: flex; }
 
-.t-buttons-container-form { position: fixed; z-index: 2; width: auto; float: right; }
+.t-buttons-container-form { align-items: center; }
 
 .t-button, .t-button-primary, .t-button-secondary, .t-button-tertiary { padding: 0.375em 1em 0.375em 1em; font-size: 12px; border-radius: 6px; text-decoration: none; display: flex; justify-content: space-between; margin-left: 1em; }
 
@@ -219,9 +219,9 @@
 /* mixin */
 .t-tabs { display: flex; list-style: none; margin: 0em 0em 0em 0em; padding: 0em 0em 0em 0em; overflow-x: scroll; overflow-y: hidden; }
 
-@media (min-width: 768px) { .t-tabs { padding: 0.75em 1em 0.75em 1em; margin: 0em 1em 0em 0em; display: inline-block; overflow-x: hidden; } }
+@media (min-width: 768px) { .t-tabs { padding: 0.75em 1em 0.75em 1em; margin: 0em 1em 0em 0em; /*  display: inline-block; */ overflow-x: hidden; } }
 
-@media (min-width: 1536px) { .t-tabs { padding: 0.375em 1em 0.375em 1em; margin: 0em 1em 0em 0em; display: inline-block; overflow-x: hidden; } }
+@media (min-width: 1536px) { .t-tabs { padding: 0.375em 1em 0.375em 1em; margin: 0em 1em 0em 0em; /*  display: inline-block; */ overflow-x: hidden; } }
 
 .t-tabs .t-tabs__contents { display: flex; list-style: none; margin: 0em 1em 0em 0em; padding: 0em 0em 0em 0em; }
 
@@ -317,3 +317,9 @@
 .tag-topbar .tag-topbar__content .tag-topbar__item .tag-topbar__toggle div { border-radius: 12px; width: 100%; height: 4px; background-color: #272B96; }
 
 .tag-topbar .tag-topbar__content .tag-topbar__item .tag-topbar__username { display: inline-block; font-size: 14px; margin-left: 8px; border-top: 1px solid #eaeaf8; width: 90%; color: #a6b6c8; }
+
+table.dataTable .t-accordion__header > tr > th { border: none; }
+
+table.dataTable .t-accordion__footer > tr > th { border: none; }
+
+table.dataTable .t-accordion__body > tr > td.odd, table.dataTable .t-accordion__body:hover > tr > td { background-color: #fafafe; box-shadow: none !important; }

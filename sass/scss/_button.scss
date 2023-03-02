@@ -7,11 +7,7 @@
     
 }
 .t-buttons-container-form{
-    @extend .t-buttons-container;
-    position: fixed;
-    z-index: 2;
-    width: auto;
-    float: right;  
+    align-items: center; 
   }
 .t-button {
     padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;

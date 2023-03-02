@@ -15,13 +15,13 @@
     
         padding: $spaceSmall $spaceMedium $spaceSmall $spaceMedium;
         margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
-        display: inline-block;
+       /*  display: inline-block; */
         overflow-x: hidden;
     }
     @include device(desktop) {
         padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
         margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
-        display: inline-block;
+       /*  display: inline-block; */
         overflow-x: hidden;
     }
 

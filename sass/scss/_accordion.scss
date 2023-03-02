@@ -1,0 +1,12 @@
+table.dataTable .t-accordion  {
+    &__header > tr > th {
+        border: none;
+    }
+    &__footer > tr > th {
+        border: none;
+    }
+    &__body > tr > td.odd , &__body:hover > tr > td {
+        background-color: $colorsBaseProductLighter;
+        box-shadow: none !important;
+    }
+}

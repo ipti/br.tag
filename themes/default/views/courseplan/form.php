@@ -32,17 +32,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <div class="row-fluid hidden-print">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Create Plan'); ?></h3>
-            <div class="t-buttons-container-form">
-                <a 
-                data-toggle="tab" class='t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?>
-                </a>
-                <a
-                data-toggle="tab" class='t-button-primary next'><?php echo Yii::t('default', 'Next') ?>
-                </a>
-                <a id="save"
-                   class='t-button-primary last' style="display:none;"><?php echo Yii::t('default', 'Save') ?>
-                </a>
-            </div>
         </div>
     </div>
     <div class="tag-inner">
@@ -68,6 +57,17 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <a class="t-tabs__link" href="#class" data-toggle="tab"><?php echo Yii::t('default', 'Class') ?></a>
                     </li>
                 </ul>
+                <div   class="row t-buttons-container-form">
+                    <a 
+                    data-toggle="tab" class='t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?>
+                    </a>
+                    <a
+                    data-toggle="tab" class='t-button-primary next'><?php echo Yii::t('default', 'Next') ?>
+                    </a>
+                    <a id="save"
+                    class='t-button-primary last' style="display:none;"><?php echo Yii::t('default', 'Save') ?>
+                    </a>
+                </div>
             </div>
             <div class="widget-body form-horizontal">
                 <input type="hidden" class="js-course-plan-id" value="<?= $coursePlan->id ?>">
@@ -116,8 +116,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                            
                     </div>
                     <div class="tab-pane" id="class">
-                        <table id="course-classes" class="display" cellspacing="0" width="100%">
-                            <thead>
+                        <table id="course-classes" class="t-accordion display" cellspacing="0" width="100%">
+                            <thead class="t-accordion__header">
                                 <tr>
                                     <th style="width: 10px;"></th>
                                     <th class="span1"><?= Yii::t('default', 'Class'); ?></th>
@@ -129,9 +129,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="t-accordion__body">
                             </tbody>
-                            <tfoot>
+                            <tfoot class="t-accordion__footer">
                                 <tr>
                                     <th></th>
                                     <th></th>
@@ -140,11 +140,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                     <th></th>
                                     <th></th>
                                     <th></th>
-                                    <th style="width: 20px;">
-                                        <a style="width: 53px;" href="#new-course-class" id="new-course-class"
-                                        class="btn btn-success btn-small">
-                                            <i style="margin-right: 6px;"
-                                            class="fa fa-plus-square"></i><?= Yii::t('default', 'New'); ?>
+                                    <th style="display:flex;">
+                                        <a href="#new-course-class" id="new-course-class"
+                                        class="t-button-primary">
+                                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/buttonIcon/start.svg">
+                                            <?= Yii::t('default', 'New'); ?>
                                         </a>
                                     </th>
                                 </tr>
