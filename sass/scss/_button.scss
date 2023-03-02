@@ -14,7 +14,7 @@
     display: flex;
     justify-content: space-between;
     align-self: center;
-    margin-left: $spaceMedium;
+    margin-right: $spaceMedium;
     cursor: pointer;
 
     @include device(tablet) {

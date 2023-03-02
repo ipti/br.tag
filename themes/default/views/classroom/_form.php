@@ -1,7 +1,9 @@
 <?php
 
 /**
- * @var $form CActiveForm
+ * 
+ * @var CActiveForm $this CActiveForm
+ * @var Classroom $modelClassroom Classroom
  */
 
 $baseUrl = Yii::app()->baseUrl;

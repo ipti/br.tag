@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @var $form CActiveForm
+ * @var CActiveForm $this CActiveForm
  * @var $modelSchoolIdentification SchoolIdentification
  */
 $baseUrl = Yii::app()->baseUrl;
@@ -46,30 +46,30 @@ $form = $this->beginWidget('CActiveForm', array(
         <?php echo $form->errorSummary($modelSchoolStructure); ?>
         <div class="alert alert-error school-error no-show"></div>
         <div class="t-tabs">
-            <ul class="t-tabs__contents" >
-                <li id="tab-school-indentify" class="active t-tabs__itens"><a class="t-tabs__link" href="#school-indentify" data-toggle="tab">
+            <ul class="t-tabs__list" >
+                <li id="tab-school-indentify" class="active t-tabs__item"><a class="t-tabs__link" href="#school-indentify" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Identification') ?>
                     </a></li>
-                <li id="tab-school-addressContact" class="t-tabs__itens">
+                <li id="tab-school-addressContact" class="t-tabs__item">
                     <a class="t-tabs__link" href="#school-addressContact" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Address and Contact') ?>
                     </a></li>
-                <li id="tab-school-structure" class="t-tabs__itens"><a class="t-tabs__link" href="#school-structure" data-toggle="tab">
+                <li id="tab-school-structure" class="t-tabs__item"><a class="t-tabs__link" href="#school-structure" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Structure') ?>
                     </a></li>
-                <li id="tab-school-equipment" class="t-tabs__itens"><a class="t-tabs__link" href="#school-equipment" data-toggle="tab">
+                <li id="tab-school-equipment" class="t-tabs__item"><a class="t-tabs__link" href="#school-equipment" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Equipments') ?>
                     </a></li>
-                <li id="tab-school-education" class="t-tabs__itens"><a class="t-tabs__link" href="#school-education" data-toggle="tab">
+                <li id="tab-school-education" class="t-tabs__item"><a class="t-tabs__link" href="#school-education" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Educational Data') ?>
                     </a></li>
                 <?php if (!$modelSchoolIdentification->isNewRecord) : ?>
-                    <li id="tab-school-reports" class="t-tabs__itens hide-responsive">
+                    <li id="tab-school-reports" class="t-tabs__item hide-responsive">
                         <a class="t-tabs__link" href="#school-reports" data-toggle="tab">
                             <!-- <i></i> -->
                             <?php echo Yii::t('default', 'Relatórios') ?>

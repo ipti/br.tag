@@ -77,6 +77,7 @@
     display: flex;
     justify-content: space-between;
     top: 67px;;
+    padding-left: 10px;
 }
 /* 
     listagens
@@ -115,11 +116,11 @@
     margin-left: 5px;
     padding: 0 5px;
 }
-.tag-inner {
+/* .tag-inner {
     padding: 0px 10px 0;
     position: relative;
     margin-bottom: 30px;
-}
+} */
 .tag-inner .widget {
     border-radius: 4px;
 }
@@ -350,4 +351,8 @@
 }
 table.dataTable.lunch-table {
     margin-top: 30px ;
+}
+
+.widget .widget-body{
+    padding: 0px;
 }
