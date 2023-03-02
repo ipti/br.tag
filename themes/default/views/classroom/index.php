@@ -50,7 +50,8 @@
                         'dataProvider' => $dataProvider,
                         'enablePagination' => false,
                         'enableSorting' => false,
-                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed 
+                        table-striped table-hover table-primary table-vertical-center checkboxs',
                         'columns' => array(
                             array(
                                 'name' => 'name',

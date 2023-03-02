@@ -2,7 +2,7 @@ const action = window.location.search;
 $(document).ready(function () {
     if ($(".js-tag-table").length) {
         $.getScript('themes/default/js/datatablesptbr.js', function () {
-            var indexActionButtons;
+            let indexActionButtons;
             if(action.includes("school") 
             || action.includes("activeDisableUser")) {
                 indexActionButtons = 2;
