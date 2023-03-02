@@ -50,7 +50,7 @@
                         'dataProvider' => $dataProvider,
                         'enablePagination' => false,
                         'enableSorting' => false,
-                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-vertical-center checkboxs',
+                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'columns' => array(
                             array(
                                 'name' => 'name',
@@ -72,21 +72,17 @@
                             ),
                             array(
                                 'class' => 'CButtonColumn', 
-                                'template' => '{update}',
+                                'template' => '{update}{delete}',
                                 'buttons' => array(
                                     'update' => array(
                                         'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
-                                    )
-                                )
-                            ),
-                            array(
-                            'class' => 'CButtonColumn', 
-                            'template' => '{delete}',
-                            'buttons' => array(
+                                    ),
                                     'delete' => array(
                                         'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
                                     )
-                                )
+                                ),
+                                'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
+                                'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
                             ),
                         ),
                     ));

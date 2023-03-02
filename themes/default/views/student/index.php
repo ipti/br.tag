@@ -93,22 +93,18 @@
                         ),
                         array(
                             'class' => 'CButtonColumn', 
-                            'template' => '{update}',
+                            'template' => '{update}{delete}',
                             'buttons' => array(
                                 'update' => array(
                                     'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+                                ),
+                                'delete' => array(
+                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
                                 )
-                            )
+                            ),
+                            'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
+                            'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
                         ),
-                        array(
-                        'class' => 'CButtonColumn', 
-                        'template' => '{delete}',
-                        'buttons' => array(
-                            'delete' => array(
-                                'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
-                            )
-                        )
-                    ),
                     ),
                 ));
                 ?>
