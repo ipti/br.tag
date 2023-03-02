@@ -849,11 +849,12 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="control-group hide-responsive">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'shared_building_with_school', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'shared_building_with_school', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'shared_building_with_school'); ?>
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'shared_building_with_school', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['shared_building_with_school']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'shared_building_with_school', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'shared_building_with_school'); ?>
+                                    </label>
                                 </div>
                             </div>
 
@@ -1176,22 +1177,22 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="span7">
                             <div class="control-group hide-responsive">
                                 <div class="controls">
-                                <label class="checkbox">
-                                    <!-- <?php echo $form->labelEx($modelSchoolStructure, 'space_schoolenviroment', array('class' => 'control-label')); ?> -->
-                                    <?php echo SchoolStructure::model()->attributeLabels()['space_schoolenviroment']; ?>
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'space_schoolenviroment', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'space_schoolenviroment'); ?>
-                                </label>
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'space_schoolenviroment', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['space_schoolenviroment']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'space_schoolenviroment', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'space_schoolenviroment'); ?>
+                                    </label>
                                 </div>
                             </div>
                             <div class="control-group hide-responsive">
                                 <div class="controls">
-                                <label class="checkbox">
-                                    <!-- <?php echo $form->labelEx($modelSchoolStructure, 'community_integration', array('class' => 'control-label')); ?> -->
-                                    <?php echo SchoolStructure::model()->attributeLabels()['community_integration']; ?>
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'community_integration', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'community_integration'); ?>
-                                </label>
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'community_integration', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['community_integration']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'community_integration', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'community_integration'); ?>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -1643,11 +1644,12 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="separator"></div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'bandwidth', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'bandwidth', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'bandwidth'); ?>
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'bandwidth', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['bandwidth']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'bandwidth', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'bandwidth'); ?>
+                                    </label>
                                 </div>
                             </div>
 
@@ -1750,11 +1752,12 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'basic_education_cycle_organized', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'basic_education_cycle_organized', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'basic_education_cycle_organized'); ?>
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'basic_education_cycle_organized', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['basic_education_cycle_organized']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'basic_education_cycle_organized', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'basic_education_cycle_organized'); ?>
+                                    </label>
                                 </div>
                             </div>
 
@@ -1801,11 +1804,12 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'native_education', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'native_education', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'native_education'); ?>
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'native_education', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['native_education']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'native_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'native_education'); ?>
+                                    </label>
                                 </div>
                             </div>
 
@@ -1864,31 +1868,34 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'brazil_literate', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'brazil_literate', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'brazil_literate'); ?>
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'open_weekend', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'open_weekend', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'open_weekend'); ?>
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'brazil_literate', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['brazil_literate']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'brazil_literate', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'brazil_literate'); ?>
+                                    </label>
                                 </div>
                             </div>
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'pedagogical_formation_by_alternance', array('class' => 'control-label')); ?>
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'open_weekend', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['open_weekend']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'open_weekend', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'open_weekend'); ?>
+                                    </label>
                                 </div>
+                            </div>
+
+                            <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'pedagogical_formation_by_alternance', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'pedagogical_formation_by_alternance'); ?>
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'pedagogical_formation_by_alternance', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['pedagogical_formation_by_alternance']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'pedagogical_formation_by_alternance', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'pedagogical_formation_by_alternance'); ?>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -2004,7 +2011,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>

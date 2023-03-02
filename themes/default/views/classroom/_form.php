@@ -173,12 +173,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div id="none">
                                     <?php echo CHtml::activeHiddenField($modelClassroom, 'mais_educacao_participator', array('disabled' => 'disabled')) ?>
                                 </div>
-                                <div class="controls">
-                                    <?php echo $form->labelEx($modelClassroom, 'mais_educacao_participator', array('class' => 'control-label')); ?>
-                                </div>
                                 <div class="controls" id="some">
+                                    <label class="checkbox">
                                     <?php echo $form->checkBox($modelClassroom, 'mais_educacao_participator'); ?>
                                     <?php echo $form->error($modelClassroom, 'mais_educacao_participator'); ?>
+                                    <?php echo $form->labelEx($modelClassroom, 'mais_educacao_participator', array('class' => 'control-label')); ?>
+                                    
+                                    </label>
                                 </div>
                             </div>
                             <div class="control-group" id="complementary_activity">

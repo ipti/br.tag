@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.2.3]
+- Correções nos formulários de escola e turma
+
 ## [Versão 3.2.2]
 **Melhorias**
 - Implementação de tabelas dinâmicas com novos recursos de paginação, pesquisa, ordenação e responsividade

@@ -105,7 +105,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
                                 </div>
-
                             </div>
                             
                             <!-- name student -->
