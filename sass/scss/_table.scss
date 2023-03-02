@@ -1,4 +1,4 @@
-.tag-table {
+.tag-table {    
     td {
         background: $colorsBaseWhiteNormal;
         padding: $spaceMedium;
@@ -15,18 +15,26 @@
             background-color: $colorsBaseProductDarkActive;
             padding: $spaceMedium;
             line-height: normal;
+
             &:first-child {
-                border-radius: $borderRadiusNormal 0 0 $borderRadiusNormal;
+                border-radius: $borderRadiusLeft;
             }
 
-            &:last-child  {
-                 border-radius: 0 $borderRadiusNormal $borderRadiusNormal 0;
+            &:last-child {
+                border-radius: $borderRadiusRight;
             }
         }
-    
+
     }
 
     tbody {
+
+        --dt-row-selected: $colorsBaseProductLightActive;
+        --dt-row-selected-text: var(--dt-row-selected)
+        --dt-row-selected-link: var(--dt-row-selected)
+        .selected {
+            background-color: $colorsBaseProductLightActive;
+        }
         tr {
             border-bottom: 2.5px solid white;
         }
@@ -37,16 +45,48 @@
             padding: 4px 4px 4px 12px;
 
             &:first-child {
-                border-radius: 4px 0 0 4px;
+                border-radius: $borderRadiusLeft;
             }
 
             &:last-child {
-                border-radius: 0 4px 4px 0;
+                border-radius: $borderRadiusRight;
             }
         }
     }
 
 }
+
+
+.grid-view {
+    .summary {
+        display: none;
+    }
+
+    .dataTables_filter {
+        margin: 10px;
+
+        input[type="search"] {
+            margin-bottom: 0;
+            margin-left: $spaceMedium;
+        }
+    }
+
+    .paginate_button {
+        box-sizing: border-box;
+        display: inline-block;
+        min-width: 1.5em;
+        padding: .5em 1em;
+        margin-left: 2px;
+        text-align: center;
+        text-decoration: none !important;
+        cursor: pointer;
+        color: inherit !important;
+        border: 1px solid transparent;
+        border-radius: 2px;
+        background: transparent;
+    }
+}
+
 
 .dt-body-nowrap {
     white-space: nowrap;

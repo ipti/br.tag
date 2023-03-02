@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "typography.css",
+	"sources": [
+		"../scss/typography.scss"
+	],
+	"sourcesContent": [
+		"h1 {\r\n\r\n}\r\n\r\nh2 {\r\n\r\n}"
+	],
+	"names": [],
+	"mappings": ""
+}

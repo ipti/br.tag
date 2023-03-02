@@ -16,7 +16,9 @@
     text-decoration: none;
     display: flex;
     justify-content: space-between;
-    margin-left: $spaceMedium;
+    align-self: center;
+    margin-right: $spaceMedium;
+    cursor: pointer;
 
     @include device(tablet) {
         padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
@@ -33,12 +35,20 @@
     img {
         margin-right: $SizeXXSmall;
     }
+
+    i {
+        align-self: center;
+        margin-right: $SizeXXSmall;
+        opacity: 0.5;
+    }
 }
 
 .t-button-primary {
     @extend .t-button;
     background-color: $colorsBaseProductNormal;
     color:$colorsBaseWhiteNormal;
+    cursor: pointer;
+    align-self: center;
 
     &:hover, &--active {
         color:$colorsBaseWhiteNormal;

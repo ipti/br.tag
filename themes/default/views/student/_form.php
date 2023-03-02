@@ -1,9 +1,11 @@
 <?php
 
 /**
- * @var $this StudentController
+ * @var StudentController $this StudentController
  * @var $form CActiveForm
  * @var $cs CClientScript
+ * @var StudentIdentification $modelStudentIdentification StudentIdentification
+ * @var StudentDocumentsAndAddress $modelStudentDocumentsAndAddress StudentDocumentsAndAddress
  *
  */
 /* @var $modelStudentIdentification /app/models/StudentIdentification */
@@ -31,8 +33,8 @@ $form = $this->beginWidget('CActiveForm', array(
         <h3 class="heading-mosaic"><?php echo $title; ?></h3>
         <div class="tag-buttons-container buttons hide-responsive">
             <a data-toggle="tab" class='hide-responsive tag-button-light small-button prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
-            <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='tag-button small-button next'>".Yii::t('default', 'Next')."</a>" : ''?>
-            <button class="tag-button small-button last  save-student" type="button">
+            <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>".Yii::t('default', 'Next')."</a>" : ''?>
+            <button class="t-button-primary  last  save-student" type="button">
                 <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
             </button>
         </div>
@@ -56,26 +58,26 @@ $form = $this->beginWidget('CActiveForm', array(
         ?>
         <div class="alert alert-error student-error no-show"></div>
         <div class="t-tabs js-tab-control">
-            <ul class="t-tabs__contents">
-                <li id="tab-student-identify" class="t-tabs__itens active">
+            <ul class="tab-student t-tabs__list">
+                <li id="tab-student-identify" class="t-tabs__item active">
                     <a class="t-tabs__link" href="#student-identify" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Identification') ?>
                     </a>
                 </li>
-                <li id="tab-student-documents" class="t-tabs__itens ">
+                <li id="tab-student-documents" class="t-tabs__item ">
                     <a class="t-tabs__link" href="#student-documents" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Documents') ?>
                     </a>
                 </li>
-                <li id="tab-student-address" class="t-tabs__itens ">
+                <li id="tab-student-address" class="t-tabs__item ">
                     <a class="t-tabs__link" href="#student-address" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Address') ?>
                     </a>
                 </li>
-                <li id="tab-student-enrollment" class="t-tabs__itens ">
+                <li id="tab-student-enrollment" class="t-tabs__item ">
                     <a class="t-tabs__link" href="#student-enrollment" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Enrollment') ?>
@@ -96,11 +98,9 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="tab-pane active" id="student-identify">
                     <div class="row">
                         <div class="column">
-                            <div class="control-group">
-                                <div class="controls">
-                                    <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
-                                </div>
-                            </div>
+                            
+                            <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
+                            
                             <!-- name student -->
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'civil_name', array('class' => 'control-label')); ?>
@@ -491,7 +491,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="tab-pane" id="student-documents">
                     <div class="row-fluid" style="padding: 0 0 0px 0;">
                         <div class="span12">
-                            <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
+                            <div class="widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                                 <div class="widget-body in" style="height: auto;">
                                     <div>
                                         <h5 class="titulos">Documentos Entregues
@@ -544,8 +544,8 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-                    <div class="row-fluid">
-                        <div class="span6">
+                    <div class="row">
+                        <div class="column">
                             <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                                 <div>
                                     <h5 class="titulos">
@@ -702,7 +702,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-                        <div class=" span6">
+                        <div class="column">
                             <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                                 <div>
                                     <h5 class="titulos">
@@ -853,14 +853,14 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <!-- Tab Student Address -->
                 <div class="tab-pane" id="student-address">
-                    <div class="row-fluid">
-                        <div class=" span6">
-                            <div class="control-group t-input">
+                    <div class="row">
+                        <div class="column">
+                            <div class="t-field-select">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'residence_zone', array('class' => 'control-label  t-input__label--required')); ?>
                                     <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'residence_zone', array(null => "Selecione uma zona", "1" => "URBANA", "2" => "RURAL"), array('class' => 'select-search-off control-input t-input__text')); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'residence_zone'); ?>
                             </div>
-                            <div class="control-group  js-hide-not-required">
+                            <div class="t-field-text js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cep', array('class' => 'control-label')); ?>
                                     <?php
                                     echo $form->textField($modelStudentDocumentsAndAddress, 'cep', array(
@@ -871,32 +871,32 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'cep'); ?>
                             </div>
 
-                            <div class="control-group  js-hide-not-required">
+                            <div class="t-field-text js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'address', array('class' => 'control-label')); ?>
                                     <?php echo $form->textField($modelStudentDocumentsAndAddress, 'address', array('size' => 60, 'maxlength' => 100)); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'address'); ?>
                             </div>
 
-                            <div class="control-group  js-hide-not-required">
+                            <div class="t-field-text js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'number', array('class' => 'control-label')); ?>
                                     <?php echo $form->textField($modelStudentDocumentsAndAddress, 'number', array('size' => 10, 'maxlength' => 10)); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'number'); ?>
                             </div>
 
-                            <div class="control-group  js-hide-not-required">
+                            <div class="t-field-text js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'complement', array('class' => 'control-label')); ?>
                                     <?php echo $form->textField($modelStudentDocumentsAndAddress, 'complement', array('size' => 20, 'maxlength' => 20)); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'complement'); ?>
                             </div>
 
-                            <div class="control-group  js-hide-not-required">
+                            <div class="t-field-text js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'neighborhood', array('class' => 'control-label')); ?>
                                     <?php echo $form->textField($modelStudentDocumentsAndAddress, 'neighborhood', array('size' => 50, 'maxlength' => 50)); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'neighborhood'); ?>
                             </div>
                         </div>
-                        <div class=" span6">
-                            <div class="control-group  js-hide-not-required">
+                        <div class="column">
+                            <div class="t-field-select js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', array('class' => 'control-label')); ?>
                                     <?php
                                     echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
@@ -912,7 +912,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_uf_fk'); ?>
                             </div>
 
-                            <div class="control-group  js-hide-not-required">
+                            <div class="t-field-select js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_city_fk', array('class' => 'control-label')); ?>
                                     <?php
                                     echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma cidade", "class" => "select-search-on control-input"));
@@ -920,7 +920,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_city_fk'); ?>
                             </div>
 
-                            <div class="control-group  js-hide-not-required">
+                            <div class="t-field-select  js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'diff_location', array('class' => 'control-label')); ?>
                                     <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 7 => 'Não reside em área de localização diferenciada', 3 => 'Área onde se localiza comunidade remanescente de quilombos', 2 => 'Terra indígena', 1 => 'Área de assentamento'), array("class" => "select-search-on control-input")); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'diff_location'); ?>
@@ -931,18 +931,18 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <!-- Tab Student Enrollment -->
                 <div class="tab-pane" id="student-enrollment">
-                    <div class="control-group">
-                        <a href="#" class="tag-button medium-button" id="new-enrollment-button">Adicionar Matrícula</a>
+                    <div class="row">
+                        <a href="#" class="t-button-primary  " id="new-enrollment-button">Adicionar Matrícula</a>
                     </div>
-                    <div class="row-fluid" id="new-enrollment-form" style="display: none;">
-                        <div class="span5">
+                    <div class="row" id="new-enrollment-form" style="display: none;">
+                        <div class="column">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->hiddenField($modelEnrollment, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
                                 </div>
                             </div>
                             <!-- turma -->
-                            <div class="control-group t-input">
+                            <div class="t-field-select t-input">
                                     <?php echo $form->labelEx($modelEnrollment, 'classroom_fk', array('class' => 'control-label  t-input__label--required')); ?>
                                     <?php
                                     $stage = $modelStudentIdentification->getCurrentStageVsModality();
@@ -968,12 +968,12 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <!-- turma unificada -->
                             <div id="multiclass">
-                                <div class="control-group js-hide-not-required">
+                                <div class="t-field-select js-hide-not-required">
                                         <?php echo $form->labelEx($modelEnrollment, 'unified_class', array('class' => 'control-label')); ?>
                                         <?php echo $form->DropDownList($modelEnrollment, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA"), array('class' => 'select-search-off control-input')); ?>
                                         <?php echo $form->error($modelEnrollment, 'unified_class'); ?>
                                 </div>
-                                <div class="control-group js-hide-not-required">
+                                <div class="t-field-select js-hide-not-required">
                                         <?php echo CHtml::label("Etapa", 'Stage', array('class' => 'control-label')); ?>
                                         <?php
                                         echo CHtml::dropDownList("Stage", null, array(
@@ -997,29 +997,29 @@ $form = $this->beginWidget('CActiveForm', array(
                                         ));
                                         ?>
                                 </div>
-                                <div class="control-group js-hide-not-required">
+                                <div class="t-field-select js-hide-not-required">
                                         <?php echo $form->labelEx($modelEnrollment, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
                                         <?php echo $form->dropDownList($modelEnrollment, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa", 'class' => 'select-search-on control-input')); ?>
                                         <?php echo $form->error($modelEnrollment, 'edcenso_stage_vs_modality_fk'); ?>
                                 </div>
                             </div>
 
-                            <div class="control-group js-hide-not-required">
+                            <div class="t-field-select js-hide-not-required">
                                     <?php echo $form->labelEx($modelEnrollment, 'admission_type', array('class' => 'control-label')); ?>
                                     <?php echo $form->DropDownList($modelEnrollment, 'admission_type', array("1" => "Rematrícula", "2" => "Transferência interna", "3" => "Transferência externa"), array("prompt" => "Selecione", 'class' => 'select-search-off control-input')); ?>
                                     <?php echo $form->error($modelEnrollment, 'admission_type'); ?>
                             </div>
-                            <div class="control-group js-hide-not-required">
+                            <div class="t-field-select js-hide-not-required">
                                     <?php echo $form->labelEx($modelEnrollment, 'status', array('class' => 'control-label')); ?>
                                     <?php echo $form->DropDownList($modelEnrollment, 'status', array("1" => "Matriculado", "2" => "Transferido", "3" => "Cancelado", "4" => "Evadido"), array('options' => array('1' => array('selected' => true)), "prompt" => "Selecione", 'class' => 'select-search-off control-input')); ?>
                                     <?php echo $form->error($modelEnrollment, 'status'); ?>
                             </div>
-                            <div class="control-group js-hide-not-required">
+                            <div class="t-field-select js-hide-not-required">
                                     <?php echo $form->labelEx($modelEnrollment, 'another_scholarization_place', array('class' => 'control-label')); ?>
                                     <?php echo $form->DropDownList($modelEnrollment, 'another_scholarization_place', array("1" => "Não recebe", "2" => "Em hospital", "3" => "Em domicílio"), array('class' => 'select-search-on control-input')); ?>
                                     <?php echo $form->error($modelEnrollment, 'another_scholarization_place'); ?>
                             </div>
-                            <div class="control-group js-hide-not-required">
+                            <div class="t-field-select js-hide-not-required">
                                     <?php echo $form->labelEx($modelEnrollment, 'current_stage_situation', array('class' => 'control-label')); ?>
                                     <?php echo $form->DropDownList(
                                         $modelEnrollment,
@@ -1034,7 +1034,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     ); ?>
                                     <?php echo $form->error($modelEnrollment, 'current_stage_situation'); ?>
                             </div>
-                            <div class="control-group js-hide-not-required">
+                            <div class="t-field-select js-hide-not-required">
                                     <?php echo $form->labelEx($modelEnrollment, 'previous_stage_situation', array('class' => 'control-label')); ?>
                                     <?php echo $form->DropDownList(
                                         $modelEnrollment,
@@ -1053,7 +1053,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelEnrollment, 'previous_stage_situation'); ?>
                             </div>
                         </div>
-                        <div class="span6">
+                        <div class="column">
                             <div class="separator"></div>
                             <div class="control-group js-hide-not-required">
                                     <?php echo $form->labelEx($modelEnrollment, 'school_admission_date', array('class' => 'control-label')); ?>
@@ -1064,7 +1064,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->labelEx($modelEnrollment, 'public_transport', array('class' => 'control-label t-input__label--required')); ?>
                                     <?php echo $form->checkBox($modelEnrollment, 'public_transport', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-input__text')); ?>
                             </div>
-                            <div class="control-group t-input" id="transport_responsable">
+                            <div class="t-field-select t-input" id="transport_responsable">
                                     <?php echo $form->labelEx($modelEnrollment, 'transport_responsable_government', array('class' => 'control-label t-input__label--required')); ?>
                                     <?php echo $form->dropDownList($modelEnrollment, 'transport_responsable_government', array(null => "Selecione o poder público do transporte", "1" => "Estadual", "2" => "Municipal"), array('class' => 'select-search-off control-input')); ?>
                                     <?php echo $form->error($modelEnrollment, 'transport_responsable_government'); ?>
@@ -1171,131 +1171,125 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div class="row-fluid">
-                        <div class="span11">
-                            <?php
-                            $error = $modelEnrollment->getErrors('enrollment_id');
-                            if (count($error) > 0) {
+                        <?php
+                        $error = $modelEnrollment->getErrors('enrollment_id');
+                        if (count($error) > 0) {
 
-                            ?>
-                                <div class="alert alert-error">
-                                    <?php echo $error[0]; ?>
-                                </div>
-                            <?php } ?>
-                            <div id="enrollment" class="widget widget-scroll margin-bottom-none table-responsive">
-                                <div>
-                                    <h4 class="titulos">
-                                        <?php echo yii::t("default", "Enrollments"); ?>
-                                    </h4>
-                                </div>
-                                <div class="widget-body in" style="height: auto;">
-                                    <table class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <td style="text-align: center !important;">Escola</td>
-                                                <td style="text-align: center">Atualizar Ficha de Matrícula</td>
-                                                <td style="text-align: center">Ano</td>
-                                                <td style="text-align: center">Formulários</td>
-                                                <td style="text-align: center; width: 15%;">Cancelar Matrícula</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                        ?>
+                            <div class="alert alert-error">
+                                <?php echo $error[0]; ?>
+                            </div>
+                        <?php } ?>
+                        <div id="enrollment" class="widget widget-scroll margin-bottom-none table-responsive">
+                            <h3>
+                                <?php echo yii::t("default", "Enrollments"); ?>
+                            </h3>
+                            <table class="tag-table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <td style="text-align: center !important;">Escola</td>
+                                        <td style="text-align: center">Atualizar Ficha de Matrícula</td>
+                                        <td style="text-align: center">Ano</td>
+                                        <td style="text-align: center">Formulários</td>
+                                        <td style="text-align: center; width: 15%;">Cancelar Matrícula</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    foreach ($modelStudentIdentification->studentEnrollments as $me) {
+                                    ?>
+                                        <tr>
+                                            <td><?php echo $me->schoolInepIdFk->name ?></td>
+                                            <td style="text-align: center">
+                                                <?php if ($me->classroomFk->school_year >= date('Y')) { ?>
+                                                    <a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)); ?>'>
+                                                        <i class="fa fa-pencil" style="color:#3F45EA; padding-right: 1%"></i>
+                                                        <?php echo $me->classroomFk->name ?>
+
+                                                    </a>
+                                                <?php } else { ?>
+                                                    <p title="Não é possível atualizar a Matrícula do ano anterior">
+                                                        <?php echo $me->classroomFk->name ?><br />
+                                                        (<?php echo @$me->edcensoStageVsModalityFk->name ?>)
+                                                    </p>
+                                                <?php } ?>
+                                            </td>
+                                            <td style="text-align: center"><?php echo $me->classroomFk->school_year ?></td>
                                             <?php
-                                            foreach ($modelStudentIdentification->studentEnrollments as $me) {
+                                            $type;
+                                            if (@isset($me->classroomFk->edcensoStageVsModalityFk->stage)) {
+                                                switch ($me->classroomFk->edcensoStageVsModalityFk->stage) {
+                                                        // FALTA O CASO DE NECESSIDADES ESPECIAIS - ANALISAR COMO PODE SER TRATADO
+
+                                                        //educação infantil
+                                                    case 1:
+                                                        $type = 0;
+                                                        break;
+                                                        //ensino fundamental
+                                                    case 2:
+                                                        $type = 1;
+                                                        //ensino fundamental
+                                                    case 3:
+                                                        $type = 1;
+                                                        break;
+                                                        //ensino médio
+                                                    case 4:
+                                                        $type = 1;
+                                                        break;
+                                                        //educação profissional
+                                                    case 5:
+                                                        $type = 1;
+                                                        break;
+                                                        //educação de jovens e adultos
+                                                    case 6:
+                                                        $type = 3;
+                                                        break;
+                                                        //ensino fundamental OU multietapa
+                                                    case 7:
+                                                        $type = 1;
+                                                        break;
+                                                    case null:
+                                                        $type = 1;
+                                                        break;
+                                                }
+                                            }
                                             ?>
-                                                <tr>
-                                                    <td><?php echo $me->schoolInepIdFk->name ?></td>
-                                                    <td style="text-align: center">
-                                                        <?php if ($me->classroomFk->school_year >= date('Y')) { ?>
-                                                            <a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)); ?>'>
-                                                                <i class="fa fa-pencil" style="color:#3F45EA; padding-right: 1%"></i>
-                                                                <?php echo $me->classroomFk->name ?>
-
-                                                            </a>
-                                                        <?php } else { ?>
-                                                            <p title="Não é possível atualizar a Matrícula do ano anterior">
-                                                                <?php echo $me->classroomFk->name ?><br />
-                                                                (<?php echo @$me->edcensoStageVsModalityFk->name ?>)
-                                                            </p>
-                                                        <?php } ?>
-                                                    </td>
-                                                    <td style="text-align: center"><?php echo $me->classroomFk->school_year ?></td>
+                                            <td>
+                                                <ul>
                                                     <?php
-                                                    $type;
-                                                    if (@isset($me->classroomFk->edcensoStageVsModalityFk->stage)) {
-                                                        switch ($me->classroomFk->edcensoStageVsModalityFk->stage) {
-                                                                // FALTA O CASO DE NECESSIDADES ESPECIAIS - ANALISAR COMO PODE SER TRATADO
-
-                                                                //educação infantil
-                                                            case 1:
-                                                                $type = 0;
-                                                                break;
-                                                                //ensino fundamental
-                                                            case 2:
-                                                                $type = 1;
-                                                                //ensino fundamental
-                                                            case 3:
-                                                                $type = 1;
-                                                                break;
-                                                                //ensino médio
-                                                            case 4:
-                                                                $type = 1;
-                                                                break;
-                                                                //educação profissional
-                                                            case 5:
-                                                                $type = 1;
-                                                                break;
-                                                                //educação de jovens e adultos
-                                                            case 6:
-                                                                $type = 3;
-                                                                break;
-                                                                //ensino fundamental OU multietapa
-                                                            case 7:
-                                                                $type = 1;
-                                                                break;
-                                                            case null:
-                                                                $type = 1;
-                                                                break;
+                                                    $forms = unserialize(FORMS);
+                                                    foreach ($forms as $form) {
+                                                        $link = Yii::app()->createUrl('forms/' . $form['action'], array('type' => $type, 'enrollment_id' => $me->id));
+                                                        echo "<li><a target='_blank' href=" . $link . ">" . $form['name'] . "</a></li>";
+                                                    }
+                                                    if ($me->classroomFk->school_year == date('Y')) {
+                                                        $date = date('Y-m-d');
+                                                        $quizs = Quiz::model()->findAll('status=1 AND init_date <=:init_date AND final_date >=:final_date', [':init_date' => $date, ':final_date' => $date]);
+                                                        if (count($quizs) > 0) {
+                                                            foreach ($quizs as $quiz) {
+                                                                $link = Yii::app()->createUrl('quiz/default/answer', array('quizId' => $quiz->id, 'studentId' => $me->studentFk->id));
+                                                                echo "<li><a target='_blank' href=" . $link . ">" . $quiz->name . "</a></li>";
+                                                            }
                                                         }
                                                     }
                                                     ?>
-                                                    <td>
-                                                        <ul>
-                                                            <?php
-                                                            $forms = unserialize(FORMS);
-                                                            foreach ($forms as $form) {
-                                                                $link = Yii::app()->createUrl('forms/' . $form['action'], array('type' => $type, 'enrollment_id' => $me->id));
-                                                                echo "<li><a target='_blank' href=" . $link . ">" . $form['name'] . "</a></li>";
-                                                            }
-                                                            if ($me->classroomFk->school_year == date('Y')) {
-                                                                $date = date('Y-m-d');
-                                                                $quizs = Quiz::model()->findAll('status=1 AND init_date <=:init_date AND final_date >=:final_date', [':init_date' => $date, ':final_date' => $date]);
-                                                                if (count($quizs) > 0) {
-                                                                    foreach ($quizs as $quiz) {
-                                                                        $link = Yii::app()->createUrl('quiz/default/answer', array('quizId' => $quiz->id, 'studentId' => $me->studentFk->id));
-                                                                        echo "<li><a target='_blank' href=" . $link . ">" . $quiz->name . "</a></li>";
-                                                                    }
-                                                                }
-                                                            }
-                                                            ?>
-                                                            <li><a href='<?php echo @Yii::app()->createUrl('forms/EnrollmentGradesReport', array('enrollment_id' => $me->id)) ?>' target="_blank">Rendimento Escolar Por Atividades</a></li>
-                                                    </td>
-                                                    <td style="text-align: center">
-                                                        <?php if ($me->classroomFk->school_year >= date('Y')) { ?>
-                                                            <a href='<?php echo @Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'><i class="fa fa-trash-o"></i></a>
-                                                        <?php } else { ?>
-                                                            <i class="fa fa-minus" title="Não é possível cancelar a Matrícula do ano anterior"></i>
-                                                        <?php } ?>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            <?php
-                                            }
-                                            ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                                                    <li><a href='<?php echo @Yii::app()->createUrl('forms/EnrollmentGradesReport', array('enrollment_id' => $me->id)) ?>' target="_blank">Rendimento Escolar Por Atividades</a></li>
+                                            </td>
+                                            <td style="text-align: center">
+                                                <?php if ($me->classroomFk->school_year >= date('Y')) { ?>
+                                                    <a href='<?php echo @Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'><i class="fa fa-trash-o"></i></a>
+                                                <?php } else { ?>
+                                                    <i class="fa fa-minus" title="Não é possível cancelar a Matrícula do ano anterior"></i>
+                                                <?php } ?>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                    </div>
                     </div>
                 </div>
             </div>

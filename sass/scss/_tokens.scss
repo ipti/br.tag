@@ -118,6 +118,8 @@ $borderRadiusNormal: 3px;
 $borderRadiusLarge: 6px; 
 $borderRadiusCircle: 50%;
 $borderRadiusBadge: 12px;
+$borderRadiusLeft: $borderRadiusNormal 0 0 $borderRadiusNormal;
+$borderRadiusRight:  0 $borderRadiusNormal $borderRadiusNormal 0;
 
 /* Border width */
 $borderWidthCard: 1px;

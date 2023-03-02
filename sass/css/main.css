@@ -1,5 +1,28 @@
+/* Color */
+/* Product */
+/* Ink */
+/* Text */
+/* Alert1 */
+/* Cloud */
+/* White */
+/* Alert2 */
+/* Alert3 */
+/* Space */
+/* Font size */
+/* Grid */
+/* Size */
+/* Border Radius */
+/* Border width */
+/* Opacity */
+/* Line Height */
+/*Font Weight*/
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
 *, body, html { font-family: 'inter', sans-serif; }
+
+/* line 6, ../../../Projetos/br.tag/br.tag/sass/scss/_base.scss */
+.main {
+  padding: 1.5em;
+}
 
 /* mixin */
 /* Color */
@@ -28,24 +51,6 @@
 
 .column.clearfix { margin-left: 0; margin-right: 0; }
 
-/* Color */
-/* Product */
-/* Ink */
-/* Text */
-/* Alert1 */
-/* Cloud */
-/* White */
-/* Alert2 */
-/* Alert3 */
-/* Space */
-/* Font size */
-/* Grid */
-/* Size */
-/* Border Radius */
-/* Border width */
-/* Opacity */
-/* Line Height */
-/*Font Weight*/
 /* Color */
 /* Product */
 /* Ink */
