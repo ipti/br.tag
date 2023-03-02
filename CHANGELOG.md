@@ -1,7 +1,7 @@
 # Atualizações
 
 ## [Versão 3.3.5]
-- Agora as linhas das tabelas não podem ser selecionadas
+- As linhas da tabela não podem mais ser selecionadas. Os filtros foram removidos dos botões de ação que agora estão agrupados em uma única coluna.
 
 ## [Versão 3.3.4]
 - Agora os acentos são corrigidos no censo escolar
