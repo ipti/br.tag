@@ -264,8 +264,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                         *</label>
                                 </div>
                                 <div class="uniformjs" id="Classroom_week_days">
-                                    <table>
-                                        <tr>
+                                    <table class="selecao_dias">
+                                        <tr class="selecao_dias-checkbox">
                                             <td>S</td>
                                             <td>T</td>
                                             <td>Q</td>
@@ -518,7 +518,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         $i = 1;
                                         foreach ($enrollments as $enr) { ?>
                                             <tr>
-                                                <td align ="center"><input value="<?= $enr->id ?>" name="enrollments[]" type='checkbox' /></td>
+                                                <td text-align ="center"><input value="<?= $enr->id ?>" name="enrollments[]" type='checkbox' /></td>
                                                 <td width="30"><?= $i ?></td>
                                                 <td>
                                                     <a href="<?= Yii::app()->createUrl('student/update', array('id' => $enr->studentFk->id)) ?>"> <?= $enr->studentFk->name ?></a>
