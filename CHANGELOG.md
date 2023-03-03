@@ -14,7 +14,7 @@
 - Justificativa de falta para o professor
 
 ## [Versão 3.2.3]
-- Os botões do ativar/desativar usuário agora têm texto flutuante para indicar qual ação os botões de ação fazem e a largura da coluna foi modificada
+- Correções nos formulários de escola e turma
 
 ## [Versão 3.2.2]
 **Melhorias**
