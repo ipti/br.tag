@@ -11,7 +11,7 @@ $cs->registerScriptFile($baseUrl . '/js/school/form/functions.js', CClientScript
 $cs->registerScriptFile($baseUrl . '/js/school/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/school/form/pagination.js', CClientScript::POS_END);
 $cs->registerCssFile($themeUrl . '/css/template2.css');
-$cs->registerCssFile($baseUrl. 'sass/css/main.css');
+$cs->registerCssFile($baseUrl . 'sass/css/main.css');
 
 
 $form = $this->beginWidget('CActiveForm', array(
@@ -30,7 +30,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <!-- style="line-height: 190px;" -->
         <div class="tag-buttons-container buttons">
             <a data-toggle="tab" class='hide-responsive tag-button-light small-button prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
-            <?= $modelSchoolIdentification->isNewRecord ? "<a data-toggle='tab' class='tag-button small-button next'>".Yii::t('default', 'Next')."</a>" : ''?>
+            <?= $modelSchoolIdentification->isNewRecord ? "<a data-toggle='tab' class='tag-button small-button next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
             <button class="tag-button small-button last save-school-button" type="button">
                 <?= $modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
             </button>
@@ -45,7 +45,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <?php echo $form->errorSummary($modelSchoolStructure); ?>
         <div class="alert alert-error school-error no-show"></div>
         <div class="t-tabs">
-            <ul class="t-tabs__contents" >
+            <ul class="t-tabs__contents">
                 <li id="tab-school-indentify" class="active t-tabs__itens"><a class="t-tabs__link" href="#school-indentify" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Identification') ?>
@@ -54,7 +54,8 @@ $form = $this->beginWidget('CActiveForm', array(
                     <a class="t-tabs__link" href="#school-addressContact" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Address and Contact') ?>
-                    </a></li>
+                    </a>
+                </li>
                 <li id="tab-school-structure" class="t-tabs__itens"><a class="t-tabs__link" href="#school-structure" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Structure') ?>
@@ -68,8 +69,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <?php echo Yii::t('default', 'Educational Data') ?>
                     </a></li>
                 <?php if (!$modelSchoolIdentification->isNewRecord) : ?>
-                    <li id="tab-school-reports" class="hide-responsive">
-                        <a class="glyphicons book" href="#school-reports" data-toggle="tab">
+                    <li id="tab-school-reports" class="t-tabs__itens"><a class="t-tabs__link" href="#school-reports" data-toggle="tab">
                             <!-- <i></i> -->
                             <?php echo Yii::t('default', 'Relatórios') ?>
                         </a>
@@ -95,7 +95,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <h5 class="titulos">Dados Básicos</h5>
                     </div>
                     <div class="row-fluid">
-                        <div class=" span6">
+                        <div class=" span5">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'name', array('class' => 'control-label')); ?>
@@ -145,7 +145,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                         </div>
-                        <div class="span6">
+                        <div class="span7">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'inep_id', array('class' => 'control-label')); ?>
@@ -201,7 +201,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <h5 class="titulos">Dados do Gestor</h3>
                     </div>
                     <div class="row-fluid">
-                        <div class=" span6">
+                        <div class=" span5">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'manager_name', array('class' => 'control-label')); ?>
@@ -233,7 +233,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-                        <div class="span6">
+                        <div class="span7">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'manager_cpf', array('class' => 'control-label')); ?>
@@ -314,7 +314,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <h5 class="titulos">Outras informações</h3>
                     </div>
                     <div class="row-fluid">
-                        <div class=" span6">
+                        <div class=" span5">
                             <div class="control-group hide-responsive">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'private_school_organization_civil_society', array('class' => 'control-label')); ?>
@@ -352,7 +352,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <h5 class="titulos">Endereço</h3>
                     </div>
                     <div class="row-fluid">
-                        <div class="span6">
+                        <div class="span5">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'cep', array('class' => 'control-label')); ?>
@@ -461,7 +461,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                         </div>
-                        <div class="span6">
+                        <div class="span7">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'address', array('class' => 'control-label')); ?>
@@ -543,10 +543,10 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos">Contrato</h3>
+                        <h5 class="titulos">Contato</h3>
                     </div>
                     <div class="row-fluid">
-                        <div class="span6">
+                        <div class="span5">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'ddd', array('class' => 'control-label')); ?>
@@ -568,7 +568,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-                        <div class="span6">
+                        <div class="span7">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'phone_number', array('class' => 'control-label')); ?>
@@ -598,7 +598,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <h5 class="titulos">Estrutura Física</h3>
                     </div>
                     <div class="row-fluid">
-                        <div class=" span6">
+                        <div class=" span5">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolStructure, 'classroom_count', array('class' => 'control-label required')); ?>
@@ -618,9 +618,18 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelSchoolStructure, 'dependencies_climate_roomspublic'); ?>
                                 </div>
                             </div>
+                            <div class="control-group">
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_acessibility_roomspublic', array('class' => 'control-label')); ?>
+                                </div>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelSchoolStructure, 'dependencies_acessibility_roomspublic'); ?>
+                                    <?php echo $form->error($modelSchoolStructure, 'dependencies_acessibility_roomspublic'); ?>
+                                </div>
+                            </div>
 
                         </div>
-                        <div class="span6">
+                        <div class="span7">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolStructure, 'used_classroom_count', array('class' => 'control-label')); ?>
@@ -640,22 +649,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelSchoolStructure, 'dependencies_outside_roomspublic'); ?>
                                 </div>
                             </div>
-                            <div class="control-group">
-                                <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_acessibility_roomspublic', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
-                                    <?php echo $form->textField($modelSchoolStructure, 'dependencies_acessibility_roomspublic'); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'dependencies_acessibility_roomspublic'); ?>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div>
                         <h5 class="titulos">Funcionários</h3>
                     </div>
                     <div class="row-fluid">
-                        <div class="span6">
+                        <div class="span5">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolStructure, 'employees_count', array('class' => 'control-label')); ?>
@@ -727,7 +727,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-                        <div class=" span6">
+                        <div class=" span7">
                             <div class="control-group hide-responsive">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolStructure, 'workers_librarian', array('class' => 'control-label')); ?>
@@ -802,11 +802,11 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-                    <div >
+                    <div>
                         <h5 class="titulos required">Local de Funcionamento</h3>
                     </div>
                     <div class="row-fluid">
-                        <div class=" span6 hide-responsive">
+                        <div class=" span5 hide-responsive">
                             <div class="control-group">
                                 <div class="controls" id="SchoolStructure_operation_location">
                                     <label class="checkbox">
@@ -835,8 +835,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </label>
                                 </div>
                             </div>
-                        </div>
-                        <div class=" span6 hide-responsive">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolStructure, 'building_occupation_situation', array('class' => 'control-label')); ?>
@@ -846,16 +844,20 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelSchoolStructure, 'building_occupation_situation'); ?>
                                 </div>
                             </div>
+                        </div>
+                        <div class=" span7 hide-responsive">
+
                             <div class="control-group hide-responsive">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'shared_building_with_school', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'shared_building_with_school', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'shared_building_with_school'); ?>
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'shared_building_with_school', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['shared_building_with_school']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'shared_building_with_school', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'shared_building_with_school'); ?>
+                                    </label>
                                 </div>
                             </div>
-                        
+
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolStructure, 'shared_school_inep_id_1', array('class' => 'control-label')); ?>
@@ -871,7 +873,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <h5 class="titulos required">Dependencias</h3>
                     </div>
                     <div class="row-fluid  hide-responsive dependencies-container">
-                        <div class=" span6">
+                        <div class=" span5">
                             <div class="control-group hide-responsive">
                                 <div class="controls">
                                     <label class="checkbox">
@@ -949,7 +951,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-                        <div class=" span6  hide-responsive">
+                        <div class=" span7  hide-responsive">
                             <div class="control-group hide-responsive">
                                 <div class="controls">
                                     <label class="checkbox">
@@ -1028,11 +1030,11 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <h5 class="titulos required">Suprimento de água</h5>
-                    </div>
                     <div class="row-fluid  hide-responsive">
-                        <div class="span6">
+                        <div class="span5">
+                            <div>
+                                <h5 class="titulos required">Suprimento de água</h5>
+                            </div>
                             <div class="control-group hide-responsive water-supply-container">
                                 <div class="controls">
                                     <label class="checkbox">
@@ -1057,8 +1059,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </label>
                                 </div>
                             </div>
-                        </div>
-                        <div class="span6">
                             <div class="control-group">
                                 <div class="controls">
                                     <label class="control-label"><?php echo Yii::t('default', 'Potable Water'); ?></label>
@@ -1070,10 +1070,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </label>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="span7">
+                            <div>
+                                <h5 class="titulos required">Suprimento de alimento</h5>
+                            </div>
                             <div class="control-group">
-                                <div class="controls">
+                                <!-- <div class="controls">
                                     <label class="control-label"><?php echo Yii::t('default', 'Food Supply'); ?></label>
-                                </div>
+                                </div> -->
                                 <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['supply_food']; ?>
@@ -1096,7 +1102,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <h5 class="titulos required">Suprimento de Energia</h5>
                     </div>
                     <div class="row-fluid">
-                        <div class="span6">
+                        <div class="span5">
                             <div class="control-group hide-responsive energy-supply-container">
                                 <div class="controls">
                                     <label class="checkbox">
@@ -1118,31 +1124,76 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Acessability -->
+                        <div class="span7">
+                            <div class="control-group">
+                                <div class="controls">
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'ppp_updated', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['ppp_updated']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'ppp_updated', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'ppp_updated'); ?>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="control-group hide-responsive">
+                                <div class="controls">
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'website', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['website']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'website', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'website'); ?>
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Acessability -->
+                        </div>
                     </div>
                     <div>
                         <h5 class="titulos required">Esgoto</h5>
                     </div>
                     <div class="row-fluid">
-                        <div class="control-group hide-responsive sewage-container">
-                            <div class="controls">
-                                <label class="checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['sewage_public']; ?>
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'sewage_public', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                </label>
-                                <label class="checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['sewage_fossa']; ?>
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'sewage_fossa', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                </label>
-                                <label class="checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['sewage_fossa_common']; ?>
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'sewage_fossa_common', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                </label>
-                                <label class="checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['sewage_inexistent']; ?>
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'sewage_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                </label>
+                        <div class="span5">
+                            <div class="control-group hide-responsive sewage-container">
+                                <div class="controls">
+                                    <label class="checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['sewage_public']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'sewage_public', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['sewage_fossa']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'sewage_fossa', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['sewage_fossa_common']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'sewage_fossa_common', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['sewage_inexistent']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'sewage_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="control-group hide-responsive">
+                                <div class="controls">
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'space_schoolenviroment', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['space_schoolenviroment']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'space_schoolenviroment', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'space_schoolenviroment'); ?>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="control-group hide-responsive">
+                                <div class="controls">
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'community_integration', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['community_integration']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'community_integration', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'community_integration'); ?>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1150,7 +1201,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <h5 class="titulos required">Destino do Lixo</h5>
                     </div>
                     <div class="row-fluid">
-                        <div class="span6">
+                        <div class="span5">
                             <div class="control-group hide-responsive garbage_destination_container">
                                 <div class="controls">
                                     <label class="checkbox">
@@ -1175,16 +1226,15 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </label>
                                 </div>
                             </div>
-
-
-
                         </div>
+                        <!-- <div class="span7">
+                            </div> -->
                     </div>
                     <div>
                         <h5 class="titulos required">Tratamento do Lixo</h5>
                     </div>
                     <div class="row-fluid">
-                        <div class="span6">
+                        <div class="span5">
                             <div class="control-group hide-responsive garbage-treatment-container">
                                 <div class="controls">
                                     <label class="checkbox">
@@ -1206,12 +1256,14 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
+                        <!-- <div class="span7">
+                            </div> -->
                     </div>
                     <div>
                         <h5 class="titulos required">Acessibilidade</h3>
                     </div>
                     <div class="row-fluid">
-                        <div class="span6 accessbility-container">
+                        <div class="span5 accessbility-container">
                             <div class="control-group">
                                 <div class="controls">
                                     <label class="checkbox">
@@ -1253,12 +1305,14 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
+                        <!-- <div class="span7">
+                            </div> -->
                     </div>
                     <div>
                         <h5 class="titulos required">Órgãos em Funcionamento na Escola</h5>
                     </div>
                     <div class="row-fluid">
-                        <div class="span6">
+                        <div class="span5">
                             <div class="control-group hide-responsive board-organ-container">
                                 <div class="controls">
                                     <label class="checkbox">
@@ -1288,9 +1342,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
+                        <!-- <div class="span7">
+                            </div> -->
                     </div>
-                    <div class="row-fluid">
-                        <div class="span6">
+                    <!-- <div class="row-fluid">
+                        <div class="span5">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolStructure, 'ppp_updated', array('class' => 'control-label')); ?>
@@ -1310,7 +1366,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-                        <div class="span6">
+                        <div class="span7">
                             <div class="control-group hide-responsive">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolStructure, 'space_schoolenviroment', array('class' => 'control-label')); ?>
@@ -1330,14 +1386,14 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="tab-pane" id="school-equipment">
                     <div>
                         <h5 class="titulos">Eletrônicos</h3>
                     </div>
                     <div class="row-fluid">
-                        <div class=" span6">
+                        <div class=" span5">
                             <div class="control-group hide-responsive">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolStructure, 'equipments_dvd', array('class' => 'control-label')); ?>
@@ -1408,7 +1464,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelSchoolStructure, 'equipments_qtd_tabletstudent'); ?>
                                 </div>
                             </div>
-                            <div class=" span6">
+                            <div class=" span12">
                                 <div class="control-group hide-responsive equipments-container">
                                     <div class="controls">
                                         <label class="control-label required"><?php echo Yii::t('default', 'Existing equipment at the school for technical and administrative use'); ?>
@@ -1506,7 +1562,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-                        <div class=" span6">
+                        <div class=" span7">
                             <div class="control-group hide-responsive">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolStructure, 'equipments_vcr', array('class' => 'control-label')); ?>
@@ -1584,15 +1640,16 @@ $form = $this->beginWidget('CActiveForm', array(
 
 
                         </div>
-                        <div class=" span6">
+                        <div class=" span7">
                             <div class="separator"></div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'bandwidth', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'bandwidth', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'bandwidth'); ?>
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'bandwidth', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['bandwidth']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'bandwidth', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'bandwidth'); ?>
+                                    </label>
                                 </div>
                             </div>
 
@@ -1695,11 +1752,12 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'basic_education_cycle_organized', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'basic_education_cycle_organized', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'basic_education_cycle_organized'); ?>
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'basic_education_cycle_organized', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['basic_education_cycle_organized']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'basic_education_cycle_organized', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'basic_education_cycle_organized'); ?>
+                                    </label>
                                 </div>
                             </div>
 
@@ -1746,11 +1804,12 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'native_education', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'native_education', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'native_education'); ?>
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'native_education', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['native_education']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'native_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'native_education'); ?>
+                                    </label>
                                 </div>
                             </div>
 
@@ -1809,31 +1868,34 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'brazil_literate', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'brazil_literate', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'brazil_literate'); ?>
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'open_weekend', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'open_weekend', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'open_weekend'); ?>
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'brazil_literate', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['brazil_literate']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'brazil_literate', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'brazil_literate'); ?>
+                                    </label>
                                 </div>
                             </div>
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'pedagogical_formation_by_alternance', array('class' => 'control-label')); ?>
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'open_weekend', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['open_weekend']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'open_weekend', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'open_weekend'); ?>
+                                    </label>
                                 </div>
+                            </div>
+
+                            <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'pedagogical_formation_by_alternance', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'pedagogical_formation_by_alternance'); ?>
+                                    <label class="checkbox">
+                                        <!-- <?php echo $form->labelEx($modelSchoolStructure, 'pedagogical_formation_by_alternance', array('class' => 'control-label')); ?> -->
+                                        <?php echo SchoolStructure::model()->attributeLabels()['pedagogical_formation_by_alternance']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'pedagogical_formation_by_alternance', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo $form->error($modelSchoolStructure, 'pedagogical_formation_by_alternance'); ?>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -1949,7 +2011,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
