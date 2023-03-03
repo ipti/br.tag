@@ -15,12 +15,12 @@ class ProvisionAccounts extends CActiveRecord
     public function rules()
     {
         return array(
-            array('codigounidgestora, nomeunidgestora, cpfcontador, cpfgestor, anoreferencia, mesreferencia, versaoxml, diainicprescontas, diafinaprescontas', 'required'),
-            array('anoreferencia, mesreferencia, versaoxml, diainicprescontas, diafinaprescontas', 'numerical', 'integerOnly' => true),
-            array('codigounidgestora', 'length', 'max' => 30),
-            array('nomeunidgestora', 'length', 'max' => 150),
-            array('cpfcontador, cpfgestor', 'length', 'max' => 16),
-            array('codigounidgestora, nomeunidgestora, cpfcontador, cpfgestor, anoreferencia, mesreferencia, versaoxml, diainicprescontas, diafinaprescontas', 'safe', 'on' => 'search'),
+            array('codigoUnidGestora, nomeUnidGestora, cpfResponsavel, cpfGestor, anoReferencia, mesReferencia, versaoxml, diaInicPresContas, diaFinaPresContas', 'required'),
+            array('anoReferencia, mesReferencia, versaoxml, diaInicPresContas, diaFinaPresContas', 'numerical', 'integerOnly' => true),
+            array('codigoUnidGestora', 'length', 'max' => 30),
+            array('nomeUnidGestora', 'length', 'max' => 150),
+            array('cpfResponsavel, cpfGestor', 'length', 'max' => 16),
+            array('codigoUnidGestora, nomeUnidGestora, cpfResponsavel, cpfGestor, anoReferencia, mesReferencia, versaoxml, diaInicPresContas, diaFinaPresContas', 'safe', 'on' => 'search'),
         );
     }
 
@@ -33,15 +33,15 @@ class ProvisionAccounts extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'codigounidgestora' => 'Codigo Unidade Gestora',
-            'nomeunidgestora' => 'Nome Unidade Gestora',
-            'cpfcontador' => 'CPF Contador',
-            'cpfgestor' => 'CPF Gestor',
-            'anoreferencia' => 'Ano Referencia',
-            'mesreferencia' => 'Mes Referencia',
-            'versaoxml' => 'Versao XML',
-            'diainicprescontas' => 'Inicio Apresentacao de Contas',
-            'diafinaprescontas' => 'Fim Apresentacao de Contas',
+            'codigoUnidGestora' => 'Codigo da Unidade Gestora',
+            'nomeUnidGestora' => 'Nome da Unidade Gestora',
+            'cpfResponsavel' => 'CPF do Responsável',
+            'cpfGestor' => 'CPF do Gestor',
+            'anoReferencia' => 'Ano de Referencia',
+            'mesReferencia' => 'Mes de Referencia',
+            'versaoxml' => 'Versao do XML',
+            'diaInicPresContas' => 'Inicio Apresentacao de Contas',
+            'diaFinaPresContas' => 'Fim Apresentacao de Contas',
         );
     }
 
@@ -49,15 +49,15 @@ class ProvisionAccounts extends CActiveRecord
     {
         $criteria = new CDbCriteria;
 
-        $criteria->compare('codigounidgestora', $this->codigounidgestora, true);
-        $criteria->compare('nomeunidgestora', $this->nomeunidgestora, true);
-        $criteria->compare('cpfcontador', $this->cpfcontador, true);
-        $criteria->compare('cpfgestor', $this->cpfgestor, true);
-        $criteria->compare('anoreferencia', $this->anoreferencia);
-        $criteria->compare('mesreferencia', $this->mesreferencia);
+        $criteria->compare('codigoUnidGestora', $this->codigoUnidGestora, true);
+        $criteria->compare('nomeUnidGestora', $this->nomeUnidGestora, true);
+        $criteria->compare('cpfResponsavel', $this->cpfResponsavel, true);
+        $criteria->compare('cpfGestor', $this->cpfGestor, true);
+        $criteria->compare('anoReferencia', $this->anoReferencia);
+        $criteria->compare('mesReferencia', $this->mesReferencia);
         $criteria->compare('versaoxml', $this->versaoxml);
-        $criteria->compare('diainicprescontas', $this->diainicprescontas);
-        $criteria->compare('diafinaprescontas', $this->diafinaprescontas);
+        $criteria->compare('diaInicPresContas', $this->diaInicPresContas);
+        $criteria->compare('diaFinaPresContas', $this->diaFinaPresContas);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

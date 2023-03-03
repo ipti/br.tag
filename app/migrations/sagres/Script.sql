@@ -35,13 +35,13 @@ SET birthday = STR_TO_DATE(birthday, '%Y-%m-%d');
 
 CREATE TABLE `provision_accounts` (
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `codigounidgestora` varchar(30) NOT NULL,
-  `nomeunidgestora` varchar(150) NOT NULL,
-  `cpfcontador` varchar(16) NOT NULL,
-  `cpfgestor` varchar(16) NOT NULL,
-  `anoreferencia` int(11) NOT NULL,
-  `mesreferencia` int(11) NOT NULL,
+  `codigoUnidGestora` varchar(30) NOT NULL,
+  `nomeUnidGestora` varchar(150) NOT NULL,
+  `cpfResponsavel` varchar(16) NOT NULL,
+  `cpfGestor` varchar(16) NOT NULL,
+  `anoReferencia` int(11) NOT NULL,
+  `mesReferencia` int(11) NOT NULL,
   `versaoxml` int(11) NOT NULL,
-  `diainicprescontas` int(11) NOT NULL,
-  `diafinaprescontas` int(11) NOT NULL,
+  `diaInicPresContas` int(11) NOT NULL,
+  `diaFinaPresContas` int(11) NOT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

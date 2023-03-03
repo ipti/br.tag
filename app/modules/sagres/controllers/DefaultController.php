@@ -17,7 +17,7 @@ class DefaultController extends Controller
 
 			if ($model->save()) {
 				Yii::app()->user->setFlash('success', Yii::t('default', 'Unidade cadastrada com sucesso!'));
-				$this->redirect(array('index', 'codigounidgestora' => $model->codigounidgestora));
+				$this->redirect(array('index', 'codigoUnidGestora' => $model->codigoUnidGestora));
 			}
 		}
 
@@ -42,7 +42,7 @@ class DefaultController extends Controller
 
 			if ($model->save()) {
 				Yii::app()->user->setFlash('success', Yii::t('default', 'Unidade atualizada com sucesso!'));
-				$this->redirect(array('index', 'codigounidgestora' => $model->codigounidgestora));
+				$this->redirect(array('index', 'codigoUnidGestora' => $model->codigoUnidGestora));
 			}
 		}
 

@@ -23,42 +23,42 @@
 
                 <div class="control-group">
                     <div class="controls">
-                        <?php echo $form->labelEx($model, 'codigounidgestora'); ?>
+                        <?php echo $form->labelEx($model, 'codigoUnidGestora'); ?>
                     </div>
                     <div class="controls">
-                        <?php echo $form->textField($model, 'codigounidgestora', array('size' => 30, 'maxlength' => 30)); ?>
-                        <?php echo $form->error($model, 'codigounidgestora'); ?>
+                        <?php echo $form->textField($model, 'codigoUnidGestora', array('size' => 30, 'maxlength' => 30)); ?>
+                        <?php echo $form->error($model, 'codigoUnidGestora'); ?>
                     </div>
                 </div>
 
                 <div class="row">
-                    <?php echo $form->labelEx($model, 'nomeunidgestora'); ?>
-                    <?php echo $form->textField($model, 'nomeunidgestora', array('size' => 150, 'maxlength' => 150)); ?>
-                    <?php echo $form->error($model, 'nomeunidgestora'); ?>
+                    <?php echo $form->labelEx($model, 'nomeUnidGestora'); ?>
+                    <?php echo $form->textField($model, 'nomeUnidGestora', array('size' => 150, 'maxlength' => 150)); ?>
+                    <?php echo $form->error($model, 'nomeUnidGestora'); ?>
                 </div>
 
                 <div class="row">
-                    <?php echo $form->labelEx($model, 'cpfcontador'); ?>
-                    <?php echo $form->textField($model, 'cpfcontador', array('size' => 16, 'maxlength' => 16)); ?>
-                    <?php echo $form->error($model, 'cpfcontador'); ?>
+                    <?php echo $form->labelEx($model, 'cpfResponsavel'); ?>
+                    <?php echo $form->textField($model, 'cpfResponsavel', array('size' => 16, 'maxlength' => 16)); ?>
+                    <?php echo $form->error($model, 'cpfResponsavel'); ?>
                 </div>
 
                 <div class="row">
-                    <?php echo $form->labelEx($model, 'cpfgestor'); ?>
-                    <?php echo $form->textField($model, 'cpfgestor', array('size' => 16, 'maxlength' => 16)); ?>
-                    <?php echo $form->error($model, 'cpfgestor'); ?>
+                    <?php echo $form->labelEx($model, 'cpfGestor'); ?>
+                    <?php echo $form->textField($model, 'cpfGestor', array('size' => 16, 'maxlength' => 16)); ?>
+                    <?php echo $form->error($model, 'cpfGestor'); ?>
                 </div>
 
                 <div class="row">
-                    <?php echo $form->labelEx($model, 'anoreferencia'); ?>
-                    <?php echo $form->textField($model, 'anoreferencia'); ?>
-                    <?php echo $form->error($model, 'anoreferencia'); ?>
+                    <?php echo $form->labelEx($model, 'anoReferencia'); ?>
+                    <?php echo $form->textField($model, 'anoReferencia'); ?>
+                    <?php echo $form->error($model, 'anoReferencia'); ?>
                 </div>
 
                 <div class="row">
-                    <?php echo $form->labelEx($model, 'mesreferencia'); ?>
-                    <?php echo $form->textField($model, 'mesreferencia'); ?>
-                    <?php echo $form->error($model, 'mesreferencia'); ?>
+                    <?php echo $form->labelEx($model, 'mesReferencia'); ?>
+                    <?php echo $form->textField($model, 'mesReferencia'); ?>
+                    <?php echo $form->error($model, 'mesReferencia'); ?>
                 </div>
 
                 <div class="row">
@@ -68,15 +68,15 @@
                 </div>
 
                 <div class="row">
-                    <?php echo $form->labelEx($model, 'diainicprescontas'); ?>
-                    <?php echo $form->textField($model, 'diainicprescontas'); ?>
-                    <?php echo $form->error($model, 'diainicprescontas'); ?>
+                    <?php echo $form->labelEx($model, 'diaInicPresContas'); ?>
+                    <?php echo $form->textField($model, 'diaInicPresContas'); ?>
+                    <?php echo $form->error($model, 'diaInicPresContas'); ?>
                 </div>
 
                 <div class="row">
-                    <?php echo $form->labelEx($model, 'diafinaprescontas'); ?>
-                    <?php echo $form->textField($model, 'diafinaprescontas'); ?>
-                    <?php echo $form->error($model, 'diafinaprescontas'); ?>
+                    <?php echo $form->labelEx($model, 'diaFinaPresContas'); ?>
+                    <?php echo $form->textField($model, 'diaFinaPresContas'); ?>
+                    <?php echo $form->error($model, 'diaFinaPresContas'); ?>
                 </div>
 
                 <div class="row buttons">

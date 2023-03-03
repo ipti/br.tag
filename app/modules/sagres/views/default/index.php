@@ -80,7 +80,7 @@
 		exportLink.setAttribute('href', newHref);
 
 		// Chame a função downloadFile para gerar e baixar o arquivo
-		downloadFile(newHref, 'ExportSagres.xml');
+		downloadFile(newHref, 'Educacao.xml');
 	});
 
 	function downloadFile(url, filename) {

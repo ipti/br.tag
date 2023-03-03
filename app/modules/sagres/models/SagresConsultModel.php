@@ -15,10 +15,43 @@ class SagresConsultModel
     public function getEducacaoData($year, $data_inicio, $data_final): EducacaoTType
     {
         $education = new EducacaoTType;
+        $education->setPrestacaoContas($this->getUnidadeGestora(1));
         $education->setEscola($this->getAllSchools($year, $data_inicio, $data_final));
         $education->setProfissional($this->getProfessionalData($year, $data_inicio, $data_final));
 
         return $education;
+    }
+
+
+    public function getUnidadeGestora($id_unidadeGestora): CabecalhoTType
+    {
+        $query = "SELECT id,
+                        codigoUnidGestora,
+                        nomeUnidGestora,
+                        cpfResponsavel,
+                        cpfGestor,
+                        anoReferencia,
+                        mesReferencia,
+                        versaoxml,
+                        diaInicPresContas,
+                        diaFinaPresContas
+                FROM provision_accounts WHERE id = 1;";
+
+        $unidadeGestora = Yii::app()->db->createCommand($query)->queryRow();
+
+        $cabecalhoType = new CabecalhoTType;
+        $cabecalhoType->setCodigoUnidGestora($unidadeGestora['codigoUnidGestora']);
+        $cabecalhoType->setNomeUnidGestora($unidadeGestora['nomeUnidGestora']);
+        $cabecalhoType->setCpfResponsavel($unidadeGestora['cpfResponsavel']);
+        $cabecalhoType->setCpfGestor($unidadeGestora['cpfGestor']);
+        $cabecalhoType->setAnoReferencia($unidadeGestora['anoReferencia']);
+        $cabecalhoType->setMesReferencia($unidadeGestora['mesReferencia']);
+        $cabecalhoType->setVersaoXml($unidadeGestora['versaoxml']);
+        $cabecalhoType->setDiaFinaPresContas($unidadeGestora['diaInicPresContas']);
+        $cabecalhoType->setDiaFinaPresContas($unidadeGestora['diaFinaPresContas']);
+
+        return $cabecalhoType;
+
     }
 
     /**
@@ -172,39 +205,6 @@ class SagresConsultModel
         }
 
         return $attendanceList;
-    }
-
-
-    public function getPrestacaocontas(): PrestacaoContasTType
-    {
-        $provisionAccountsType = new PrestacaoContasTType;
-
-        $query = "SELECT 
-                    pa.id, 
-                    pa.codigounidgestora, 
-                    pa.nomeunidgestora, 
-                    pa.cpfcontador, 
-                    pa.cpfgestor, 
-                    pa.anoreferencia, 
-                    pa.mesreferencia, 
-                    pa.versaoxml, 
-                    pa.diainicprescontas, 
-                    pa.diafinaprescontas
-                FROM provision_accounts pa";
-
-        $financialReporting = Yii::app()->db->createCommand($query)->queryAll();
-
-        $provisionAccountsType->setCodigoUnidGestora($financialReporting['codigounidgestora']);
-        $provisionAccountsType->setNomeUnidGestora($financialReporting['nomeunidgestora']);
-        $provisionAccountsType->setCpfContador($financialReporting['cpfcontador']);
-        $provisionAccountsType->setCpfGestor($financialReporting['cpfgestor']);
-        $provisionAccountsType->setAnoReferencia($financialReporting['anoreferencia']);
-        $provisionAccountsType->setMesReferencia($financialReporting['mesreferencia']);
-        $provisionAccountsType->setVersaoXml($financialReporting['versaoxml']);
-        $provisionAccountsType->setDiaInicPresContas($financialReporting['diainicprescontas']);
-        $provisionAccountsType->setDiaFinaPresContas($financialReporting['diafinaprescontas']);
-
-        return $provisionAccountsType;
     }
 
     public function getStudent($id_matricula): AlunoTType
@@ -374,7 +374,6 @@ class SagresConsultModel
 
     public function generatesSagresEduXML($sagresEduObject)
     {
-        print_r($this->validatorSagresEduExportXML($sagresEduObject));
         $serializerBuilder = SerializerBuilder::create();
         $serializerBuilder->addMetadataDir('app/modules/sagres/soap/metadata/sagresEduMetadata', 'DataSagresEdu');
         $serializerBuilder->configureHandlers(function (HandlerRegistryInterface $handler) use ($serializerBuilder) {
@@ -392,7 +391,7 @@ class SagresConsultModel
     
     public function actionExportSagresXML($xml)
     {
-        $fileName = "ExportSagres.xml";
+        $fileName = "Educacao.xml";
         $fileDir = "./app/export/SagresEdu/" . $fileName;
 
         // Limpa o conteúdo dentro de CDATA

@@ -20,14 +20,14 @@ $matricula_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/Matricula
 $profissional_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/ProfissionalTType.php';
 $cardapio_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/CardapioTType.php';
 $diretor_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/DiretorTType.php';
-$cabecalho_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/CabecalhoTType.php';
+$cabecalho_t=dirname(__FILE__).'app/modules/sagres/soap/src/sagresEdu/CabecalhoTType.php';
 $prestacao_contas_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/PrestacaoContasTType.php';
 
 
 require_once($sagres);
 require_once($aluno_t);
 require_once($atendimento_t);
-//require_once($cabecalho_t);
+require_once($cabecalho_t);
 require_once($cardapio_t);
 require_once($diretor_t);
 require_once($educacao_t);
