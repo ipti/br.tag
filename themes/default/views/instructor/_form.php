@@ -30,8 +30,8 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
         <span class="subtitle"><?php echo Yii::t('default', 'Fields with * are required.') ?>
             <div class="tag-buttons-container buttons hide-responsive">
                 <a data-toggle="tab" class='tag-button-light small-button prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
-                <?= $modelInstructorIdentification->isNewRecord ? "<a data-toggle='tab' class='tag-button small-button next'>".Yii::t('default', 'Next')."</a>" : ''?>
-                <button class="tag-button small-button last pull-right save-instructor" type="button">
+                <?= $modelInstructorIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>".Yii::t('default', 'Next')."</a>" : ''?>
+                <button class="t-button-primary  last pull-right save-instructor" type="button">
                     <?= $modelInstructorIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
                 </button>
             </div>

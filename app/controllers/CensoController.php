@@ -1427,6 +1427,12 @@ class CensoController extends Controller
     public function fixName($name)
     {
         $name = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($name));
+        $name = str_replace(array('Á','À','Ã','Â','Ä'), 'A', $name); // substitui acentos em "A"
+        $name = str_replace(array('É','È','Ê','Ë'), 'E', $name); // substitui acentos em "E"
+        $name = str_replace(array('Í','Ì','Î','Ï'), 'I', $name); // substitui acentos em "I"
+        $name = str_replace(array('Ó','Ò','Õ','Ô','Ö'), 'O', $name); // substitui acentos em "O"
+        $name = str_replace(array('Ú','Ù','Û','Ü'), 'U', $name); // substitui acentos em "U"
+        $name = str_replace(array('Ç'), 'C', $name); // substitui "Ç" por "C"
         return $name;
     }
 

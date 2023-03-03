@@ -1,6 +1,9 @@
 <?php
-/* @var $this ReportsController */
-/* @var $report mixed */
+
+/**
+* @var ReportsController $this ReportsController 
+* @var $report mixed 
+*/
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/StudentsFileReport/_initialization.js', CClientScript::POS_END);
@@ -504,7 +507,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         }
 
         .blue-background {
-          -webkit-print-color-adjust: exact;
+          --webkit-print-color-adjust: exact;
           background-color: #C6D9F1 !important;
         }
 

@@ -16,10 +16,10 @@
     <div class="row-fluid hide-responsive">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Classrooms') ?></h3>  
-            <div class="buttons span9">
-                <a href="<?php echo Yii::app()->createUrl('classroom/create') ?>" class="tag-button medium-button"> Adicionar turma</a>
-                <a href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" class="tag-button medium-button" target="_blank">Relatório Alunos/Turma</a>
-                <a href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" class="tag-button medium-button" target="_blank">Relatório Professores/Turma</a>
+            <div class="t-buttons-container">
+                <a href="<?php echo Yii::app()->createUrl('classroom/create') ?>" class="t-button-primary"> Adicionar turma</a>
+                <a href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" class="t-button-primary" target="_blank">Relatório Alunos/Turma</a>
+                <a href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" class="t-button-primary" target="_blank">Relatório Professores/Turma</a>
             </div>
         </div>
     </div>
@@ -43,14 +43,15 @@
                 </div>
                 <br/>
             <?php endif ?>
-            <div class="widget">  
+            <div class="widget clearmargin">  
                 <div class="widget-body">
                     <?php
                     $this->widget('zii.widgets.grid.CGridView', array(
                         'dataProvider' => $dataProvider,
                         'enablePagination' => false,
                         'enableSorting' => false,
-                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-vertical-center checkboxs',
+                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed
+                        table-striped table-hover table-primary table-vertical-center checkboxs',
                         'columns' => array(
                             array(
                                 'name' => 'name',
@@ -72,21 +73,17 @@
                             ),
                             array(
                                 'class' => 'CButtonColumn', 
-                                'template' => '{update}',
+                                'template' => '{update}{delete}',
                                 'buttons' => array(
                                     'update' => array(
                                         'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
-                                    )
-                                )
-                            ),
-                            array(
-                            'class' => 'CButtonColumn', 
-                            'template' => '{delete}',
-                            'buttons' => array(
+                                    ),
                                     'delete' => array(
                                         'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
                                     )
-                                )
+                                ),
+                                'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
+                                'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
                             ),
                         ),
                     ));

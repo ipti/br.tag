@@ -45,9 +45,9 @@
                 <?php echo Yii::app()->user->getFlash('success') ?>
             </div>
         <?php } ?>
-        <div>
+        <div style="display: flex;">
             <a href="<?= CHtml::normalizeUrl(array('censo/export')) ?>"
-               class="tag-button medium-button"> <?= Yii::t('default', 'Export Now') ?>
+               class="t-button-primary" style="margin:0;"> <?= Yii::t('default', 'Export Now') ?>
             </a>
         </div>
         <!-- Widget Heading END -->

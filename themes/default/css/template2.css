@@ -67,10 +67,7 @@
 .small-button.wide-button {
     width: auto;
 }
-.icon-button-tag {
-    margin: 5px;
-    opacity: 0.5;
-}
+
 .tag-button.next {
     float: none;
 }
@@ -80,6 +77,7 @@
     display: flex;
     justify-content: space-between;
     top: 67px;;
+    padding-left: 10px;
 }
 /* 
     listagens
@@ -99,52 +97,14 @@
     background-color: #eaeaf8;
 }
 
-.tag-table td a{
-    color: #222C64;
-}
-
-.tag-table thead {
-    border-bottom: 2.5px solid white;
-}
-
-.tag-table thead:first-child tr:first-child th {
-    font-weight: 500;
-    color: #ffffff;
-    background-color: #222C64;
-    padding: 0px 16px;
-    margin-bottom: 4px;
-    height: 36px;
-    line-height: 36px;
-    
-}
-.tag-table thead:first-child tr:first-child th:first-child {
-    border-radius: 4px 0 0 4px;
-}
-.tag-table thead:first-child tr:first-child th:last-child  {
-    border-radius: 0 4px 4px 0;
-}
-.tag-table thead:first-child tr:first-child  {
-    border-bottom: 2.5px solid white;
-}
-.tag-table tbody tr {
-    border-bottom: 2.5px solid white;
-}
-
-.tag-table input[type="text"] {
-    height: 30px;
-}
-.tag-table tbody td{
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    padding: 4px 4px 4px 12px;
-}
 .grid-view .filters input {
-    width: 413px !important;
+    /* width: 413px; */
     border: 1px solid #ccc;
     margin: 0px 0px 2px 12px;
 }
+
 .student-table.tag-table thead tr.filters input, .curricularmatrix-table.tag-table thead tr.filters input{
-    width: 260px !important;
+    width: 260px;
 }
 
 /* 
@@ -170,11 +130,11 @@
     margin-left: 5px;
     padding: 0 5px;
 }
-.tag-inner {
+/* .tag-inner {
     padding: 0px 10px 0;
     position: relative;
     margin-bottom: 30px;
-}
+} */
 .tag-inner .widget {
     border-radius: 4px;
 }
@@ -405,6 +365,18 @@
 .control-group.aluno {
     margin-left: 32px;
 }
+table.dataTable.lunch-table {
+    margin-top: 30px ;
+}
+
+.widget .widget-body{
+    padding: 0px;
+}
+
+
+table.dataTable.no-footer {
+    border-bottom: none !important;
+}
 .emblema{
     margin:0px 0px 0px 10px;
 }
@@ -421,4 +393,6 @@
 .table-primary tbody tr.even:hover td {
     background: #d5dded;
 }
-
+input[type="checkbox"] {
+    margin: 0px 9px 0px; 
+}
