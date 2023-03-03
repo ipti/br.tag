@@ -473,25 +473,43 @@
 		$userSchools = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
 		if (isset($_POST['Users'])) {
 			$model->attributes = $_POST['Users'];
-			if ($model->validate() && $model->save()) {
-				$save = TRUE;
-				foreach ($userSchools as $school) {
-					UsersSchool::model()->deleteAll(array("condition"=>"school_fk='$school->school_fk'"));
+			if( $_POST['pass_update'] != "" || $_POST['confirm_pass_update'] != "" ) {
+				$password = md5($_POST['pass_update']);
+				$confirm = md5($_POST['confirm_pass_update']);
+				$model->password = $password;
+				$password == $confirm ? $confirmed = true : $confirmed = false;
+			} else {
+				$password = $_POST['Users']['password'];
+				$model->password = $password;
+				$confirmed = true;
+			}
+			if ($model->validate()) {
+				if($confirmed) {
+					if($model->save()) {
+						$save = TRUE;
+						foreach ($userSchools as $school) {
+							UsersSchool::model()->deleteAll(array("condition"=>"school_fk='$school->school_fk'"));
+						}
+						foreach ($_POST['schools'] as $school) {
+							$userSchool = new UsersSchool;
+							$userSchool->user_fk = $model->id;
+							$userSchool->school_fk = $school;
+							$save = $save && $userSchool->validate() && $userSchool->save();
+							
+						}
+						if ($save) {
+							$auth = Yii::app()->authManager;
+							$auth->revoke($actual_role, $model->id);
+							$auth->assign($_POST['Role'], $model->id);
+							Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário alterado com sucesso!'));
+							$this->redirect(['index']);
+						}
+					}
+				}else {
+					$model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
 				}
-				foreach ($_POST['schools'] as $school) {
-					$userSchool = new UsersSchool;
-					$userSchool->user_fk = $model->id;
-					$userSchool->school_fk = $school;
-					$save = $save && $userSchool->validate() && $userSchool->save();
-					
-				}
-				if ($save) {
-					$auth = Yii::app()->authManager;
-					$auth->revoke($actual_role, $model->id);
-					$auth->assign($_POST['Role'], $model->id);
-					Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário alterado com sucesso!'));
-					$this->redirect(['index']);
-				}
+			}else {
+				var_dump("erroooo!");
 			}
 		}
 		

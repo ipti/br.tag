@@ -90,6 +90,29 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Confirm Password'); ?>"><i></i></span>
                                 </div>
                             </div>
+                            <?php }else {?>
+                            <div class="control-group hide">
+                                <div class="controls">
+                                    <?php echo $form->passwordField($model,'password',array('size'=>32,'maxlength'=>32)); ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                            <?php echo CHtml::label(Yii::t('default', 'Password'), 'Password', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo CHtml::passwordField('pass_update','',array('size'=>32,'maxlength'=>32, 'id' => 'pass_update')); ?>
+                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Min length')."6"; ?>"><i></i></span>
+                                    <?php echo $form->error($model, 'password'); ?>
+                                </div>
+                            </div>
+                            
+                            <div class="control-group">
+                                <?php echo CHtml::label(Yii::t('default', 'Confirm'), 'Confirm', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo CHtml::passwordField('confirm_pass_update','',array('size'=>32,'maxlength'=>32, 'id' => 'confirm_pass_update')); ?>
+                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Confirm Password'); ?>"><i></i></span>
+                                </div>
+                            </div>
                             <?php }?>
                             
                         </div>
