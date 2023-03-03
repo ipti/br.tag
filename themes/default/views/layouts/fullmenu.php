@@ -35,7 +35,6 @@ $baseUrl = Yii::app()->theme->baseUrl;
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/responsive.min.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.css?v=1.2" rel="stylesheet" type="text/css" />
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template2.css" rel="stylesheet" type="text/css" />
-    <link href="<?php echo Yii::app()->baseUrl; ?>/sass/css/main.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/glyphicons.min.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/select2.css" rel="stylesheet" />
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/print.css" media="print" rel="stylesheet" type="text/css" />
@@ -46,6 +45,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
     <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/font-awesome.min.css' />
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/home.css?v=1.0" />
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/datatables.min.css"/>
+    <link href="<?php echo Yii::app()->baseUrl; ?>/sass/css/main.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -53,27 +53,26 @@ $baseUrl = Yii::app()->theme->baseUrl;
     <div class="container-fluid fluid menu-left">
 
         <!-- Top navbar -->
-        <div class="navbar main hidden-print">
+        <div class="tag-topbar hidden-print">
 
             <!-- Brand -->
             <!-- <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 8px 0 0 0;height: 27px;" /><span id="schoolyear"><?php echo Yii::app()->user->year; ?></span></a> -->
 
 
             <!-- Top Menu Right -->
-            <ul class="topnav pull-right">
-                <li>
-                    <a onclick="history.go(-1);" class="voltar-tobnav">
+            <ul class="tag-topbar__content">
+                <li class="tag-topbar__item ">
+                    <a onclick="history.go(-1);" class="tag-topbar__voltar">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/voltar_icon.png" />
                         Voltar
                     </a>
-                    <div class="fullmenu-toggle-button">
-                        <!-- <div></div>
+                    <div class="tag-topbar__toggle">
                         <div></div>
                         <div></div> -->
                     </div>
-                    <img class="emblema" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/emblema-escola.svg" />
-                    <div class="infos-topnav">
-                        <div id="change-school">
+                    <img alt="emblema da escola" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/emblema-escola.svg" />
+                    <div>
+                        <div>
                             <form class="school" id2="school" action="<?php echo yii::app()->createUrl('site/changeschool') ?>" method="Post">
                                 <?php
                                 if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
@@ -94,7 +93,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
                                 ?>
                             </form>
                         </div>
-                        <div class="username"><?= Yii::app()->user->loginInfos->username ?></div>
+                        <div class="tag-topbar__username"><?= Yii::app()->user->loginInfos->username ?></div>
                     </div>
                 </li>
 

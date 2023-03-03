@@ -20,6 +20,10 @@ $(document).ready(function () {
             $(".js-tag-table").dataTable({
                 language: getLanguagePtbr(),
                 responsive: true,
+                select: {
+                    items: 'cell'
+                },
+                "bLengthChange": false,
                 columnDefs: [{
                     orderable: false, targets: [indexActionButtons] 
                 }],

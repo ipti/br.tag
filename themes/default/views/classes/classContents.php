@@ -27,7 +27,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.png"/>
                     <?php echo Yii::t('default', 'Print') ?>
                 </a>
-                <a id="save" class='tag-button medium-button'><?php echo Yii::t('default', 'Save') ?></a>
+                <a id="save" class='t-button-primary  '><?php echo Yii::t('default', 'Save') ?></a>
             </div>
         </div>
     </div>
@@ -73,8 +73,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <div class="alert-required-fields no-show alert alert-error">
         Os campos com * são obrigatórios.
     </div>
-    <div class="filter-bar">
-        <div>
+    <div class="row align-items-center filter-bar">
+        
             <div>
                 <div class="controls">
                     <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required', 'style' => 'width: 53px;')); ?>
@@ -124,13 +124,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 ?>
             </div>
             <div class="pull-right">
-                <a id="classesSearch" class='tag-button small-button' style="margin: 0px;"><i
+                <a id="classesSearch" class='t-button-primary '><i
                             class="fa-search fa icon-button-tag"
-                            style="margin-top:5px"></i><?php echo Yii::t('default', 'Search') ?>
+                            ></i><?php echo Yii::t('default', 'Search') ?>
                 </a>
             </div>
             <i class="loading-class-contents fa fa-spin fa-spinner"></i>
-        </div>
+        
     </div>
     <div class="clear"></div>
     <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">

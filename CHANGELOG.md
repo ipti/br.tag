@@ -1,5 +1,9 @@
 # Atualizações
 
+## [Versão 3.5.4]
+**Melhorias**
+- botões alterados e formulário de criação de plano de aula mudado  
+
 ## [Versão 3.3.5]
 - As linhas da tabela não podem mais ser selecionadas. Os filtros foram removidos dos botões de ação que agora estão agrupados em uma única coluna.
 

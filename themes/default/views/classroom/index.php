@@ -16,10 +16,10 @@
     <div class="row-fluid hide-responsive">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Classrooms') ?></h3>  
-            <div class="buttons span9">
-                <a href="<?php echo Yii::app()->createUrl('classroom/create') ?>" class="tag-button medium-button"> Adicionar turma</a>
-                <a href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" class="tag-button medium-button" target="_blank">Relatório Alunos/Turma</a>
-                <a href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" class="tag-button medium-button" target="_blank">Relatório Professores/Turma</a>
+            <div class="t-buttons-container">
+                <a href="<?php echo Yii::app()->createUrl('classroom/create') ?>" class="t-button-primary"> Adicionar turma</a>
+                <a href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" class="t-button-primary" target="_blank">Relatório Alunos/Turma</a>
+                <a href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" class="t-button-primary" target="_blank">Relatório Professores/Turma</a>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
                 </div>
                 <br/>
             <?php endif ?>
-            <div class="widget">  
+            <div class="widget clearmargin">  
                 <div class="widget-body">
                     <?php
                     $this->widget('zii.widgets.grid.CGridView', array(
