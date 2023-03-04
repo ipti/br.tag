@@ -11,13 +11,13 @@
     ?>
 
     <div class="row-fluid">
-        <div class="span12 hide-responsive">
-            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Student Identifications') ?></h3>  
+        <div class="span12">
+            <h1><?php echo Yii::t('default', 'Student Identifications') ?></h1>  
             <div class="t-buttons-container">
                 <!--<a href="<?= CHtml::normalizeUrl(array('student/create'))?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos PNE</a>-->
-                <a href="<?= CHtml::normalizeUrl(array('wizard/configuration/student'))?>" class="t-button-primary">Matrícula em Grupo</a>
                 <a href="<?= CHtml::normalizeUrl(array('student/create'))?>" class="t-button-primary"><?= Yii::t('default', 'Add') ?></a>
                 <a href="<?= CHtml::normalizeUrl(array('student/create', 'simple' => 1))?>" class="t-button-primary"> <?= Yii::t('default', 'Add (Fast)') ?></a>
+                <a href="<?= CHtml::normalizeUrl(array('wizard/configuration/student'))?>" class="t-button-primary">Matrícula em Grupo</a>
             </div>
 
         </div>

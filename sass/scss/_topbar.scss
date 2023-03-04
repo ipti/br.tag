@@ -63,6 +63,17 @@
                 width: 90%;
                 color: $colorsBaseInkLighterHover;
             }
+            
+            
+            .tag-topbar__school_logo {
+                width: $SizeMedium * 2;
+                height: $SizeMedium * 2;
+                border-radius: $borderRadiusCircle;
+                margin-right: $SizeXSmall;
+                border: 2px solid $colorsBaseProductLogo;
+                padding: $spaceXXSmall;
+            }
+// 11048660
         }
     }
 }

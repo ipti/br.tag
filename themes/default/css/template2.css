@@ -7,16 +7,13 @@
     flex-wrap: wrap;
    
 }
-.innerLR .tag-row {
+/* .innerLR .tag-row {
     display: flex;
     justify-content: space-between;
-}
+} */
 .modal-container-buttons {
     display: flex;
     justify-content: end;
-}
-.reuse {
-    margin-left: 10px;
 }
 /* 
     butões
@@ -153,10 +150,6 @@
     border-radius: 4px;
     width: 426px;
     padding: 0;
-}
-
-.select-search-on ul.select2-choices .select2-search-field input {
-    padding: 0px 5px;
 }
 
 .school-schedules input[type="time"],

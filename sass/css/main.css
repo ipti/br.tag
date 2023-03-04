@@ -18,12 +18,14 @@
 /*Font Weight*/
 /* Font Family */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
-/* line 2, ../../../Projetos/br.tag/br.tag/sass/scss/_base.scss */
-*, body, html {
+/* line 3, ../../../Projetos/br.tag/br.tag/sass/scss/_base.scss */
+*,
+body,
+html {
   font-family: 'inter', sans-serif;
 }
 
-/* line 6, ../../../Projetos/br.tag/br.tag/sass/scss/_base.scss */
+/* line 9, ../../../Projetos/br.tag/br.tag/sass/scss/_base.scss */
 .main {
   padding: 1.5em;
 }
@@ -96,101 +98,117 @@
 /* mixin */
 /* line 4, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
 .t-buttons-container {
-  margin-top: 118px;
-  display: flex;
+  display: inline-block;
+  width: 100%;
 }
 
-/* line 9, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+@media (min-width: 768px) {
+  /* line 4, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+  .t-buttons-container {
+    padding: 0.25em 0 0.25em 0;
+    font-size: 14px;
+    display: flex;
+  }
+}
+
+/* line 15, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
 .t-buttons-container-form {
   align-items: center;
 }
 
-/* line 12, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
-.t-button, .t-button-primary, .t-button-secondary, .t-button-tertiary {
-  padding: 0.375em 1em 0.375em 1em;
+/* line 19, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+.t-button, .t-button-primary, .t-button-submit, .t-button-secondary, .t-button-tertiary {
+  padding: 0.875em;
+  margin: 0.5em 0;
   font-size: 12px;
   border-radius: 6px;
   text-decoration: none;
   display: flex;
   justify-content: space-between;
   align-self: center;
+  justify-content: center;
   margin-right: 1em;
   cursor: pointer;
 }
 
 @media (min-width: 768px) {
-  /* line 12, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
-  .t-button, .t-button-primary, .t-button-secondary, .t-button-tertiary {
+  /* line 19, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+  .t-button, .t-button-primary, .t-button-submit, .t-button-secondary, .t-button-tertiary {
     padding: 0.25em 1em 0.25em 1em;
     font-size: 14px;
   }
 }
 
 @media (min-width: 1536px) {
-  /* line 12, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
-  .t-button, .t-button-primary, .t-button-secondary, .t-button-tertiary {
+  /* line 19, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+  .t-button, .t-button-primary, .t-button-submit, .t-button-secondary, .t-button-tertiary {
     padding: 0.375em 1em 0.375em 1em;
   }
 }
 
-/* line 31, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
-.t-button:link, .t-button-primary:link, .t-button-secondary:link, .t-button-tertiary:link, .t-button:focus, .t-button-primary:focus, .t-button-secondary:focus, .t-button-tertiary:focus, .t-button:hover, .t-button-primary:hover, .t-button-secondary:hover, .t-button-tertiary:hover, .t-button--active, .t-button:active, .t-button-primary:active, .t-button-secondary:active, .t-button-tertiary:active {
+/* line 40, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+.t-button:link, .t-button-primary:link, .t-button-submit:link, .t-button-secondary:link, .t-button-tertiary:link, .t-button:focus, .t-button-primary:focus, .t-button-submit:focus, .t-button-secondary:focus, .t-button-tertiary:focus, .t-button:hover, .t-button-primary:hover, .t-button-submit:hover, .t-button-secondary:hover, .t-button-tertiary:hover, .t-button--active, .t-button:active, .t-button-primary:active, .t-button-submit:active, .t-button-secondary:active, .t-button-tertiary:active {
   text-decoration: none !important;
 }
 
-/* line 35, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
-.t-button img, .t-button-primary img, .t-button-secondary img, .t-button-tertiary img {
+/* line 44, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+.t-button img, .t-button-primary img, .t-button-submit img, .t-button-secondary img, .t-button-tertiary img {
   margin-right: 6px;
 }
 
-/* line 39, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
-.t-button i, .t-button-primary i, .t-button-secondary i, .t-button-tertiary i {
+/* line 48, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+.t-button i, .t-button-primary i, .t-button-submit i, .t-button-secondary i, .t-button-tertiary i {
   align-self: center;
   margin-right: 6px;
   opacity: 0.5;
 }
 
-/* line 46, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
-.t-button-primary {
+/* line 55, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+.t-button-primary, .t-button-submit {
   background-color: #3f45ea;
   color: #FFFFFF;
   cursor: pointer;
   align-self: center;
 }
 
-/* line 53, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
-.t-button-primary:hover, .t-button-primary--active {
+/* line 62, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+.t-button-primary:hover, .t-button-submit:hover, .t-button-primary--active {
   color: #FFFFFF;
   background-color: #272B96;
 }
 
-/* line 58, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
-.t-button-primary:link, .t-button-primary:focus, .t-button-primary:hover, .t-button-primary--active, .t-button-primary:active {
+/* line 67, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+.t-button-primary:link, .t-button-submit:link, .t-button-primary:focus, .t-button-submit:focus, .t-button-primary:hover, .t-button-submit:hover, .t-button-primary--active, .t-button-primary:active, .t-button-submit:active {
   color: #FFFFFF;
 }
 
-/* line 62, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+/* line 72, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
 .t-button-secondary {
   background-color: #f5f7f9;
   color: #252A31;
 }
 
-/* line 66, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+/* line 76, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
 .t-button-secondary:hover, .t-button-secondary--active {
   color: #252A31;
   background-color: #e5eaef;
 }
 
-/* line 71, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+/* line 82, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
 .t-button-tertiary {
   background-color: #94a8be;
   color: #FFFFFF;
 }
 
-/* line 75, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+/* line 86, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
 .t-button-tertiary:hover, .t-button-tertiary--active {
   color: #FFFFFF;
   background-color: #5F738C;
+}
+
+/* line 92, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
+.t-button-submit {
+  margin: 14px 0;
 }
 
 /* Color */
@@ -230,9 +248,10 @@
 }
 
 /* line 13, ../../../Projetos/br.tag/br.tag/sass/scss/components/_field-text.scss */
-.t-field-text__input, .t-field-text input[type="text"] {
+.t-field-text__input, .t-field-text input[type="text"], .t-field-text input[type="number"] {
   width: 100%;
   margin-bottom: 0px;
+  padding: 0em 0.75em;
 }
 
 /* Color */
@@ -271,7 +290,7 @@
   width: 100%;
 }
 
-/* line 16, ../../../Projetos/br.tag/br.tag/sass/scss/components/_field-select2.scss */
+/* line 17, ../../../Projetos/br.tag/br.tag/sass/scss/components/_field-select2.scss */
 .t-field-select__input.select2-container .select2-choice {
   width: 100%;
 }
@@ -349,6 +368,49 @@
   margin: 0 2px 0;
 }
 
+/* Color */
+/* Product */
+/* Ink */
+/* Text */
+/* Alert1 */
+/* Cloud */
+/* White */
+/* Alert2 */
+/* Alert3 */
+/* Space */
+/* Font size */
+/* Grid */
+/* Size */
+/* Border Radius */
+/* Border width */
+/* Opacity */
+/* Line Height */
+/*Font Weight*/
+/* Font Family */
+/* mixin */
+/* line 4, ../../../Projetos/br.tag/br.tag/sass/scss/components/_field-number.scss */
+.t-field-number {
+  margin-bottom: 14px;
+}
+
+/* line 6, ../../../Projetos/br.tag/br.tag/sass/scss/components/_field-number.scss */
+.t-field-number__label {
+  display: flex;
+  align-items: center;
+}
+
+/* line 9, ../../../Projetos/br.tag/br.tag/sass/scss/components/_field-number.scss */
+.t-field-number__label--required {
+  font-weight: bold;
+}
+
+/* line 13, ../../../Projetos/br.tag/br.tag/sass/scss/components/_field-number.scss */
+.t-field-number__input, .t-field-number input[type="number"] {
+  width: 100%;
+  margin-bottom: 0px;
+  padding: 0.75em;
+}
+
 /* mixin */
 /* Color */
 /* Product */
@@ -378,6 +440,10 @@
   padding: 0em 0em 0em 0em;
   overflow-x: scroll;
   overflow-y: hidden;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 @media (min-width: 768px) {
@@ -400,7 +466,7 @@
   }
 }
 
-/* line 28, ../../../Projetos/br.tag/br.tag/sass/scss/_tabs.scss */
+/* line 30, ../../../Projetos/br.tag/br.tag/sass/scss/_tabs.scss */
 .t-tabs .t-tabs__list {
   display: flex;
   list-style: none;
@@ -408,7 +474,7 @@
   margin: 0em;
 }
 
-/* line 34, ../../../Projetos/br.tag/br.tag/sass/scss/_tabs.scss */
+/* line 36, ../../../Projetos/br.tag/br.tag/sass/scss/_tabs.scss */
 .t-tabs .t-tabs__list .t-tabs__item {
   display: inline-flex;
   padding: 0em 0em 0em 0em;
@@ -417,38 +483,44 @@
   text-align: center;
 }
 
-/* line 41, ../../../Projetos/br.tag/br.tag/sass/scss/_tabs.scss */
+/* line 43, ../../../Projetos/br.tag/br.tag/sass/scss/_tabs.scss */
 .t-tabs .t-tabs__list .t-tabs__item.active {
   border-bottom: #18204e solid 0.15em;
   font-weight: 700;
   text-decoration: none;
 }
 
-/* line 47, ../../../Projetos/br.tag/br.tag/sass/scss/_tabs.scss */
+/* line 49, ../../../Projetos/br.tag/br.tag/sass/scss/_tabs.scss */
 .t-tabs .t-tabs__list .t-tabs__item a {
   text-decoration: none;
 }
 
-/* line 51, ../../../Projetos/br.tag/br.tag/sass/scss/_tabs.scss */
+/* line 53, ../../../Projetos/br.tag/br.tag/sass/scss/_tabs.scss */
 .t-tabs .t-tabs__list .t-tabs__item .t-tabs__link {
   font-size: 14px;
   height: auto;
   color: #52647a;
+  padding: 0.875em;
 }
 
 @media (min-width: 768px) {
-  /* line 51, ../../../Projetos/br.tag/br.tag/sass/scss/_tabs.scss */
+  /* line 53, ../../../Projetos/br.tag/br.tag/sass/scss/_tabs.scss */
   .t-tabs .t-tabs__list .t-tabs__item .t-tabs__link {
     padding: 0.25em 1em 0.25em 1em;
   }
 }
 
 @media (min-width: 1536px) {
-  /* line 51, ../../../Projetos/br.tag/br.tag/sass/scss/_tabs.scss */
+  /* line 53, ../../../Projetos/br.tag/br.tag/sass/scss/_tabs.scss */
   .t-tabs .t-tabs__list .t-tabs__item .t-tabs__link {
     padding: 0.375em 1em 0.375em 1em;
     display: inline-block;
   }
+}
+
+/* line 76, ../../../Projetos/br.tag/br.tag/sass/scss/_tabs.scss */
+.t-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 /* line 2, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
@@ -509,23 +581,28 @@
     ;
 }
 
-/* line 61, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+/* line 60, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+.grid-view {
+  padding-top: 0.875em;
+}
+
+/* line 62, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
 .grid-view .summary {
   display: none;
 }
 
-/* line 65, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+/* line 66, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
 .grid-view .dataTables_filter {
   margin: 10px;
 }
 
-/* line 68, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+/* line 69, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
 .grid-view .dataTables_filter input[type="search"] {
   margin-bottom: 0;
   margin-left: 1em;
 }
 
-/* line 74, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+/* line 75, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
 .grid-view .paginate_button {
   box-sizing: border-box;
   display: inline-block;
@@ -541,7 +618,7 @@
   background: transparent;
 }
 
-/* line 91, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
+/* line 92, ../../../Projetos/br.tag/br.tag/sass/scss/_table.scss */
 .dt-body-nowrap {
   white-space: nowrap;
 }
@@ -715,6 +792,16 @@
   color: #a6b6c8;
 }
 
+/* line 68, ../../../Projetos/br.tag/br.tag/sass/scss/_topbar.scss */
+.tag-topbar .tag-topbar__content .tag-topbar__item .tag-topbar__school_logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+  border: 2px solid #16205b;
+  padding: 0.375em;
+}
+
 /* line 1, ../../../Projetos/br.tag/br.tag/sass/scss/_accordion.scss */
 .t-accordion {
   border: none;
@@ -736,9 +823,59 @@
 }
 
 /* line 2, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
-.align-items-center {
+.align-items__center {
   display: flex;
   align-items: center;
+}
+
+/* line 7, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.align-items__baseline {
+  display: flex;
+  align-items: baseline;
+}
+
+/* line 12, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.align-items__stretch {
+  display: flex;
+  align-items: stretch;
+}
+
+/* line 17, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.align-items__end {
+  display: flex;
+  align-items: end;
+}
+
+/* line 24, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.justify-content__center {
+  display: flex;
+  justify-content: center;
+}
+
+/* line 29, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.justify-content__space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* line 36, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.clear-margin__left {
+  margin-left: 0;
+}
+
+/* line 40, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.clear-margin__right {
+  margin-right: 0;
+}
+
+/* line 46, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.hide {
+  display: none;
+}
+
+/* line 47, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.show {
+  display: block;
 }
 
 /* line 1, ../../../Projetos/br.tag/br.tag/sass/scss/_filter_bar.scss */
@@ -755,22 +892,36 @@
 /* line 1, ../../../Projetos/br.tag/br.tag/sass/scss/_typography.scss */
 h1 {
   font-size: 24px;
+  font-weight: 700;
+  line-height: 36px;
+  color: #252A31;
+  padding: 0.875em 0em;
 }
 
-/* line 5, ../../../Projetos/br.tag/br.tag/sass/scss/_typography.scss */
+/* line 9, ../../../Projetos/br.tag/br.tag/sass/scss/_typography.scss */
 h2 {
   font-size: 16px;
 }
 
-/* line 9, ../../../Projetos/br.tag/br.tag/sass/scss/_typography.scss */
+/* line 13, ../../../Projetos/br.tag/br.tag/sass/scss/_typography.scss */
 h3 {
   color: #94a8be;
   font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
 }
 
-/* line 14, ../../../Projetos/br.tag/br.tag/sass/scss/_typography.scss */
+/* line 20, ../../../Projetos/br.tag/br.tag/sass/scss/_typography.scss */
 h4 {
   font-size: 14px;
+  font-weight: 700;
+}
+
+/* line 25, ../../../Projetos/br.tag/br.tag/sass/scss/_typography.scss */
+h5, .subheading {
+  font-size: 14px;
+  color: #94a8be;
+  font-weight: 400;
 }
 
 /*# sourceMappingURL=main.css.map */

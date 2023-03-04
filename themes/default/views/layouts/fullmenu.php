@@ -1,5 +1,11 @@
 <?php
+
 $baseUrl = Yii::app()->theme->baseUrl;
+
+$school_logo = $baseUrl."/img/emblema-escola.svg";
+$url_school_logo ='/?r=school/displayLogo&id='.Yii::app()->user->school;
+
+
 
 ?>
 <!DOCTYPE html>
@@ -49,6 +55,8 @@ $baseUrl = Yii::app()->theme->baseUrl;
 </head>
 
 <body>
+
+    
     <!-- Main Container Fluid -->
     <div class="container-fluid fluid menu-left">
 
@@ -70,7 +78,10 @@ $baseUrl = Yii::app()->theme->baseUrl;
                         <div></div>
                         <div></div> -->
                     </div>
-                    <img alt="emblema da escola" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/emblema-escola.svg" />
+                    
+                    <img  id="alt-logo" src="<?php echo $school_logo ?>" class="tag-topbar__school_logo show" />
+                    <img  class="tag-topbar__school_logo hidden" src="<?php echo $url_school_logo ?>" alt="emblema da escola" onload="document.getElementById('alt-logo').classList.replace('show', 'hidden'); this.classList.replace('hidden', 'show')"/>
+
                     <div>
                         <div>
                             <form class="school" id2="school" action="<?php echo yii::app()->createUrl('site/changeschool') ?>" method="Post">
@@ -83,11 +94,17 @@ $baseUrl = Yii::app()->theme->baseUrl;
                                         array('empty' => 'Selecione a escola', 'class' => 'select-school', 'id2' => 'school', 'options' => array(Yii::app()->user->school => array('selected' => true)))
                                     );
                                 } else {
+                                    
                                     echo CHtml::activeDropDownList(
                                         UsersSchool::model(),
                                         'school_fk',
                                         Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'),
-                                        array('empty' => 'Selecione a escola', 'class' => 'select-school', 'id2' => 'school', 'options' => array(Yii::app()->user->school => array('selected' => true)))
+                                        [   
+                                            'empty' => 'Selecione a escola',
+                                            'class' => 'select-school',
+                                            'id2' => 'school', 
+                                            'options' => [Yii::app()->user->school => array('selected' => true)]
+                                        ]
                                     );
                                 }
                                 ?>
@@ -234,11 +251,6 @@ $baseUrl = Yii::app()->theme->baseUrl;
 
             <!-- Content -->
             <div id="content">
-                <!--  <ul class="breadcrumb hidden-print">
-                <li class="breadcrumb-prev">
-                    <a onclick="history.go(-1);" class="glyphicons circle_arrow_left"><i></i>Voltar</a>
-                </li>
-            </ul> -->
                 <?php echo $content; ?>
             </div>
             <!-- // Content END -->

@@ -16,7 +16,7 @@
 
 <div class="row-fluid hidden-print">
     <div class="span12">
-        <h3 class="heading-mosaic">Importação inicial</h3> 
+        <h1>Importação inicial</h1> 
     </div>
 </div>
 

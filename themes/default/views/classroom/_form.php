@@ -25,7 +25,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="row-fluid hidden-print">
     <div class="span12">
-        <h3 class="heading-mosaic"><?php echo $title; ?></h3>
+        <h1><?php echo $title; ?></h1>
         <div class="tag-buttons-container buttons">
             <button class="t-button-primary  last pull-right save-classroom" type="button">
                 <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
@@ -71,7 +71,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <!-- Tab content -->
                 <div class="tab-pane active" id="classroom">
                     <div>
-                        <h5 class="titulos">Dados Básicos</h3>
+                        <h3>Dados Básicos</h3>
                     </div>
                     <div class="row-fluid">
 

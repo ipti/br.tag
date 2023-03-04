@@ -21,9 +21,9 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
 
 <div class="row-fluid">
     <div class="span12">
-        <h3 class="heading-mosaic"><?php echo $title; ?>
+        <h1><?php echo $title; ?>
             <span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span>
-        </h3>
+        </h1>
 
         <div class="tag-buttons-container buttons">
             <?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('class' => 't-button-primary  last', 'type' => 'submit')); ?></div>
