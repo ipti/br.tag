@@ -822,62 +822,6 @@ html {
   box-shadow: none !important;
 }
 
-/* line 2, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
-.align-items__center {
-  display: flex;
-  align-items: center;
-}
-
-/* line 7, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
-.align-items__baseline {
-  display: flex;
-  align-items: baseline;
-}
-
-/* line 12, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
-.align-items__stretch {
-  display: flex;
-  align-items: stretch;
-}
-
-/* line 17, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
-.align-items__end {
-  display: flex;
-  align-items: end;
-}
-
-/* line 24, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
-.justify-content__center {
-  display: flex;
-  justify-content: center;
-}
-
-/* line 29, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
-.justify-content__space-between {
-  display: flex;
-  justify-content: space-between;
-}
-
-/* line 36, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
-.clear-margin__left {
-  margin-left: 0;
-}
-
-/* line 40, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
-.clear-margin__right {
-  margin-right: 0;
-}
-
-/* line 46, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
-.hide {
-  display: none;
-}
-
-/* line 47, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
-.show {
-  display: block;
-}
-
 /* line 1, ../../../Projetos/br.tag/br.tag/sass/scss/_filter_bar.scss */
 .filter-bar {
   display: flex;
@@ -922,6 +866,287 @@ h5, .subheading {
   font-size: 14px;
   color: #94a8be;
   font-weight: 400;
+}
+
+/* line 1, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu {
+  margin: 0;
+  padding: 8px;
+}
+
+/* line 5, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.5em;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* line 15, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-item__icon {
+  filter: invert(42%) sepia(30%) saturate(380%) hue-rotate(173deg) brightness(98%) contrast(88%);
+}
+
+/* line 19, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-item__link {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 400;
+  color: #272B96;
+  align-items: center;
+}
+
+/* line 29, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-item__link:link, .t-menu-item__link:focus, .t-menu-item__link:hover, .t-menu-item__link--active, .t-menu-item__link:active {
+  text-decoration: none !important;
+}
+
+/* line 38, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-item__text {
+  color: #5F738C;
+}
+
+/* line 42, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-item:hover {
+  background: #eaeaf8;
+}
+
+/* line 46, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-item.active {
+  background: #ccd0ee;
+}
+
+/* line 48, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-item.active::before {
+  content: "";
+  position: absolute;
+  width: 4px;
+  left: -8px;
+  height: 35px;
+  background: #222C64;
+  border-radius: 0 4px 4px 0;
+}
+
+/* line 57, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-item.active .t-menu-item__icon {
+  filter: saturate(1);
+}
+
+/* line 60, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-item.active .t-menu-item__text {
+  color: #272B96;
+}
+
+/* line 66, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 0.5em;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* line 76, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-group__icon {
+  filter: invert(42%) sepia(30%) saturate(380%) hue-rotate(173deg) brightness(98%) contrast(88%);
+}
+
+/* line 80, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-group__link {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 400;
+  color: #272B96;
+  align-items: center;
+}
+
+/* line 90, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-group__link:link, .t-menu-group__link:focus, .t-menu-group__link:hover, .t-menu-group__link--active, .t-menu-group__link:active {
+  text-decoration: none !important;
+}
+
+/* line 99, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-group__text {
+  color: #5F738C;
+}
+
+/* line 102, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-group ul {
+  margin: 0;
+}
+
+/* line 106, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-group:not(.active) .fa-chevron-down {
+  display: none;
+}
+
+/* line 111, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-group.active .fa-chevron-right {
+  display: none;
+}
+
+/* line 114, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-group.active .collapse {
+  overflow: visible;
+}
+
+/* line 118, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-group.active .t-menu-group__icon {
+  filter: saturate(1);
+}
+
+/* line 121, ../../../Projetos/br.tag/br.tag/sass/scss/_menu.scss */
+.t-menu-group.active .t-menu-group__text {
+  color: #272B96;
+}
+
+/* line 1, ../../../Projetos/br.tag/br.tag/sass/scss/_drawer.scss */
+.t-drawer {
+  width: 200px;
+  float: left;
+  position: fixed;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 2;
+  top: 0px;
+  background: #fafafe;
+  z-index: 99;
+}
+
+/* line 13, ../../../Projetos/br.tag/br.tag/sass/scss/_drawer.scss */
+.t-drawer-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-left: 0.875em;
+  margin-top: 23px;
+  margin-bottom: 65px;
+}
+
+/* line 22, ../../../Projetos/br.tag/br.tag/sass/scss/_drawer.scss */
+.t-drawer--mobile-hidden {
+  left: -200px;
+  transition: left 500ms;
+}
+
+@media (min-width: 768px) {
+  /* line 28, ../../../Projetos/br.tag/br.tag/sass/scss/_drawer.scss */
+  .t-drawer--mobile-hidden {
+    left: 0;
+  }
+}
+
+/* line 1, ../../../Projetos/br.tag/br.tag/sass/scss/_badge.scss */
+.t-badge {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  border: 0.1rem solid #94A8BE;
+  border-radius: 12px;
+  padding: 0 4px 0 4px;
+  background-color: #eff2f5;
+}
+
+/* line 10, ../../../Projetos/br.tag/br.tag/sass/scss/_badge.scss */
+.t-badge__icon {
+  color: #52647a;
+  font-size: 8px;
+}
+
+/* line 14, ../../../Projetos/br.tag/br.tag/sass/scss/_badge.scss */
+.t-badge__label {
+  color: #52647a;
+  font-weight: 500;
+}
+
+/* line 23, ../../../Projetos/br.tag/br.tag/sass/scss/_badge.scss */
+.t-badge-info {
+  background-color: #E8F4FD;
+  color: #005aa3;
+}
+
+/* line 27, ../../../Projetos/br.tag/br.tag/sass/scss/_badge.scss */
+.t-badge-success {
+  background-color: #EBF4EC;
+  color: #2B7336;
+}
+
+/* line 31, ../../../Projetos/br.tag/br.tag/sass/scss/_badge.scss */
+.t-badge-warning {
+  background-color: #fdf0e3;
+  color: #a25100;
+}
+
+/* line 36, ../../../Projetos/br.tag/br.tag/sass/scss/_badge.scss */
+.t-badge:link, .t-badge:focus, .t-badge:hover, .t-badge--active, .t-badge:active {
+  text-decoration: none !important;
+}
+
+/* line 2, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.align-items--center {
+  display: flex;
+  align-items: center;
+}
+
+/* line 7, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.align-items--baseline {
+  display: flex;
+  align-items: baseline;
+}
+
+/* line 12, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.align-items--stretch {
+  display: flex;
+  align-items: stretch;
+}
+
+/* line 17, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.align-items--end {
+  display: flex;
+  align-items: end;
+}
+
+/* line 24, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.justify-content--center {
+  display: flex;
+  justify-content: center;
+}
+
+/* line 29, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.justify-content--space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* line 36, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.clear-margin--left {
+  margin-left: 0;
+}
+
+/* line 40, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.clear-margin--right {
+  margin-right: 0;
+}
+
+/* line 46, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.hide {
+  display: none;
+}
+
+/* line 47, ../../../Projetos/br.tag/br.tag/sass/scss/_helpers.scss */
+.show {
+  display: block;
 }
 
 /*# sourceMappingURL=main.css.map */

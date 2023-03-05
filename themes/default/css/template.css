@@ -1634,6 +1634,7 @@ li.highlight.profile
 .hasSubmenu.active .fa-chevron-right {
     display: none;
 }
+
 .hasSubmenu:not(.active) .fa-chevron-down {
     display: none;
 }
@@ -8646,10 +8647,6 @@ input[type="text"] {
 
 .grid-view tbody:hover {
     cursor: pointer;
-}
-
- li.active a img {
-    filter: saturate(1) !important;
 }
 
 #box-menu li.active a {

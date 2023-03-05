@@ -1,0 +1,34 @@
+.t-drawer {
+    width: 200px;
+    float: left;
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 2;
+    top: 0px;
+    background: $colorsBaseProductLighter;
+    z-index: 99;
+
+    &-header {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-left: $spaceNormal;
+        margin-top: 23px;
+        margin-bottom: 65px;
+    }
+
+    &--mobile-hidden {
+        left: -200px;
+        transition: left 500ms;
+    }
+
+    @include device(tablet) {
+        &--mobile-hidden {
+            left: 0;
+            // transition: left 500ms;
+        }
+    }
+
+}

@@ -22,8 +22,8 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
 </div>
 <div class="column">
     <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)): ?>
-        <div class="row align-items__end justify-content__space-between">
-            <div class="column clear-margin__left">
+        <div class="row align-items--end justify-content--space-between">
+            <div class="column clear-margin--left">
                 <div class="t-field-select">
                     <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Stage'), 'stages', ['class' => "control-label"]) ?>
                     <?= CHtml::dropDownList("stages", [], CHtml::listData(EdcensoStageVsModality::model()->findAll(), "id", "name"), [

@@ -1,0 +1,126 @@
+.t-menu {
+    margin: 0;
+    padding: $SizeXSmall;
+
+    &-item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: $SizeXSmall;
+        padding: $spaceXSmall;
+        border-radius: $borderRadiusLarge;
+        cursor: pointer;
+        
+
+        &__icon {
+            filter: invert(42%) sepia(30%) saturate(380%) hue-rotate(173deg) brightness(98%) contrast(88%);
+        }
+
+        &__link {
+            display: flex;
+            gap: $SizeXSmall;
+            width: 100%;
+            font-size: $FontSizeTextNormal;
+            font-weight: $fontWeightHeadingDisplaySubtitle;
+            color: $colorsBaseProductNormalActive;
+            align-items: center;
+            
+
+            &:link,
+            &:focus,
+            &:hover,
+            &--active,
+            &:active {
+                text-decoration: none !important;
+            }
+        }
+
+        &__text{
+            color: $colorsBaseInkLight
+        }
+        
+        &:hover{
+            background: $colorsBaseProductLight;
+        }
+
+        &.active {
+            background: $colorsBaseProductLightActive;
+            &::before {
+                content: "";
+                position: absolute;
+                width: 4px;
+                left: $SizeXSmall * -1;
+                height: 35px;
+                background: #222C64;
+                border-radius: 0 4px 4px 0;
+            }
+            .t-menu-item__icon {
+                filter: saturate(1);
+            }
+            .t-menu-item__text{
+                color: $colorsBaseProductNormalActive;
+            }
+        }
+    }
+
+    &-group {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: $SizeXSmall;
+        padding: $spaceXSmall;
+        border-radius: $borderRadiusLarge;
+        cursor: pointer;
+        
+        &__icon {
+            filter: invert(42%) sepia(30%) saturate(380%) hue-rotate(173deg) brightness(98%) contrast(88%);
+        }
+
+        &__link {
+            display: flex;
+            gap: $SizeXSmall;
+            width: 100%;
+            font-size: $FontSizeTextNormal;
+            font-weight: $fontWeightHeadingDisplaySubtitle;
+            color: $colorsBaseProductNormalActive;
+            align-items: center;
+            
+
+            &:link,
+            &:focus,
+            &:hover,
+            &--active,
+            &:active {
+                text-decoration: none !important;
+            }
+        }
+
+        &__text{
+            color: $colorsBaseInkLight;
+        }
+        ul {
+            margin: 0;
+        }
+
+        &:not(.active) .fa-chevron-down {
+            display: none;
+        }
+
+        &.active {
+            .fa-chevron-right {
+                display: none;
+            }
+            .collapse{
+                overflow: visible;
+            }
+
+            .t-menu-group__icon {
+                filter: saturate(1);
+            }
+            .t-menu-group__text{
+                color: $colorsBaseProductNormalActive;
+            }
+        }
+    }
+}
