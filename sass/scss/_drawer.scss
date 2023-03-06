@@ -19,6 +19,29 @@
         margin-bottom: 65px;
     }
 
+    &-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: $SizeLarge;
+        height: $SizeLarge;
+        padding: $SizeSmall;
+        padding-left: $spaceEmpty;
+        border-right: solid $borderWidthCard $colorsBaseProductLight;
+        margin-right: $SizeMedium;
+
+        @include device(tablet) {
+            display: none;
+        }
+
+        div {
+            border-radius: $borderRadiusBadge;
+            width: 100%;
+            height: $SizeXXXSmall;
+            background-color: $colorsBaseProductNormalActive;
+        }
+    }
+
     &--mobile-hidden {
         left: -200px;
         transition: left 500ms;
@@ -31,4 +54,15 @@
         }
     }
 
+}
+
+.sidebar-cover {
+    display: block;
+    background-color: #00000062;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 3;
 }

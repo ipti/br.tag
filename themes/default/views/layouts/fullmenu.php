@@ -130,7 +130,7 @@ $schoolurl = yii::app()->createUrl('school');
                     <span id="span-color-yellow"></span>
                 </div>
             <div class="t-drawer-header align-items--end logo-container">
-                    <div style="margin-right:10px;" class="fullmenu-toggle-button js-toggle-drawer">
+                    <div style="margin-right:10px;" class="t-drawer-toggle js-toggle-drawer">
                         <div></div>
                         <div></div>
                         <div></div>

@@ -718,7 +718,7 @@ html {
 }
 
 /* line 13, ../../../Projetos/br.tag/br.tag/sass/scss/_topbar.scss */
-.tag-topbar .tag-topbar__content {
+.tag-topbar__content {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -728,12 +728,12 @@ html {
 }
 
 /* line 20, ../../../Projetos/br.tag/br.tag/sass/scss/_topbar.scss */
-.tag-topbar .tag-topbar__content .tag-topbar__item {
+.tag-topbar__content .tag-topbar__item {
   display: flex;
 }
 
 /* line 22, ../../../Projetos/br.tag/br.tag/sass/scss/_topbar.scss */
-.tag-topbar .tag-topbar__content .tag-topbar__item .tag-topbar__voltar {
+.tag-topbar__content .tag-topbar__item .tag-topbar__voltar {
   display: none;
   text-decoration: none;
   cursor: pointer;
@@ -749,18 +749,18 @@ html {
 
 @media (min-width: 768px) {
   /* line 22, ../../../Projetos/br.tag/br.tag/sass/scss/_topbar.scss */
-  .tag-topbar .tag-topbar__content .tag-topbar__item .tag-topbar__voltar {
+  .tag-topbar__content .tag-topbar__item .tag-topbar__voltar {
     display: block;
   }
 }
 
 /* line 38, ../../../Projetos/br.tag/br.tag/sass/scss/_topbar.scss */
-.tag-topbar .tag-topbar__content .tag-topbar__item .tag-topbar__toggle {
+.tag-topbar__content .tag-topbar__item .tag-topbar__toggle {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 24px;
-  height: 20px;
+  height: 24px;
   padding: 12px;
   padding-left: 0em;
   border-right: solid 1px #eaeaf8;
@@ -769,13 +769,13 @@ html {
 
 @media (min-width: 768px) {
   /* line 38, ../../../Projetos/br.tag/br.tag/sass/scss/_topbar.scss */
-  .tag-topbar .tag-topbar__content .tag-topbar__item .tag-topbar__toggle {
+  .tag-topbar__content .tag-topbar__item .tag-topbar__toggle {
     display: none;
   }
 }
 
 /* line 52, ../../../Projetos/br.tag/br.tag/sass/scss/_topbar.scss */
-.tag-topbar .tag-topbar__content .tag-topbar__item .tag-topbar__toggle div {
+.tag-topbar__content .tag-topbar__item .tag-topbar__toggle div {
   border-radius: 12px;
   width: 100%;
   height: 4px;
@@ -783,7 +783,7 @@ html {
 }
 
 /* line 58, ../../../Projetos/br.tag/br.tag/sass/scss/_topbar.scss */
-.tag-topbar .tag-topbar__content .tag-topbar__item .tag-topbar__username {
+.tag-topbar__content .tag-topbar__item .tag-topbar__username {
   display: inline-block;
   font-size: 14px;
   margin-left: 8px;
@@ -793,7 +793,7 @@ html {
 }
 
 /* line 68, ../../../Projetos/br.tag/br.tag/sass/scss/_topbar.scss */
-.tag-topbar .tag-topbar__content .tag-topbar__item .tag-topbar__school_logo {
+.tag-topbar__content .tag-topbar__item .tag-topbar__school_logo {
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -1035,16 +1035,56 @@ h5, .subheading {
 }
 
 /* line 22, ../../../Projetos/br.tag/br.tag/sass/scss/_drawer.scss */
+.t-drawer-toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 24px;
+  padding: 12px;
+  padding-left: 0em;
+  border-right: solid 1px #eaeaf8;
+  margin-right: 16px;
+}
+
+@media (min-width: 768px) {
+  /* line 22, ../../../Projetos/br.tag/br.tag/sass/scss/_drawer.scss */
+  .t-drawer-toggle {
+    display: none;
+  }
+}
+
+/* line 37, ../../../Projetos/br.tag/br.tag/sass/scss/_drawer.scss */
+.t-drawer-toggle div {
+  border-radius: 12px;
+  width: 100%;
+  height: 4px;
+  background-color: #272B96;
+}
+
+/* line 45, ../../../Projetos/br.tag/br.tag/sass/scss/_drawer.scss */
 .t-drawer--mobile-hidden {
   left: -200px;
   transition: left 500ms;
 }
 
 @media (min-width: 768px) {
-  /* line 28, ../../../Projetos/br.tag/br.tag/sass/scss/_drawer.scss */
+  /* line 51, ../../../Projetos/br.tag/br.tag/sass/scss/_drawer.scss */
   .t-drawer--mobile-hidden {
     left: 0;
   }
+}
+
+/* line 59, ../../../Projetos/br.tag/br.tag/sass/scss/_drawer.scss */
+.sidebar-cover {
+  display: block;
+  background-color: #00000062;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 3;
 }
 
 /* line 1, ../../../Projetos/br.tag/br.tag/sass/scss/_badge.scss */
