@@ -26,16 +26,14 @@ $form = $this->beginWidget('CActiveForm', array(
 ));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
-
-<?php echo $form->errorSummary($coursePlan); ?>
-
+<div class="main">
+    <?php echo $form->errorSummary($coursePlan); ?>
     <div class="row-fluid hidden-print">
         <div class="span12">
-            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Create Plan'); ?></h3>
+            <h1><?php echo Yii::t('default', 'Create Plan'); ?></h1>
         </div>
     </div>
     <div class="tag-inner">
-
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">
                 <?php echo Yii::app()->user->getFlash('success') ?>
@@ -163,4 +161,5 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
         </div>
     </div>
-<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>
+</div>

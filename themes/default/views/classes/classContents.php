@@ -1,6 +1,9 @@
 <?php
-/* @var $this ClassesController */
-/* @var $dataProvider CActiveDataProvider */
+/**  
+ * @var ClassesController $this ClassesController
+ * @var CActiveDataProvider $dataProvider CActiveDataProvider
+ *
+ */
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
@@ -17,11 +20,14 @@ $form = $this->beginWidget('CActiveForm', array(
     'action' => CHtml::normalizeUrl(array('classes/saveClassContents')),
 ));
 
+$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+
 ?>
 
+<div class="main">
     <div class="row-fluid hidden-print">
         <div class="span12">
-            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Class Contents'); ?></h3>
+            <h1><?php echo Yii::t('default', 'Class Contents'); ?></h1>
             <div class="buttons span9">
                 <a id="print" class='tag-button-light  medium-button'>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.png"/>
@@ -31,9 +37,6 @@ $form = $this->beginWidget('CActiveForm', array(
             </div>
         </div>
     </div>
-<?php
-$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-?>
     <table class="table table-bordered table-striped visible-print">
         <tr>
             <th>Escola:</th>
@@ -59,21 +62,18 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <tr>
     </table>
     <br>
-
-    <div class="innerLR">
-
-<?php if (Yii::app()->user->hasFlash('success')) : ?>
+    <?php if (Yii::app()->user->hasFlash('success')) : ?>
     <div class="alert alert-success">
         <?php echo Yii::app()->user->getFlash('success') ?>
     </div>
-<?php endif ?>
+    <?php endif ?>
     <div class="alert-save no-show alert alert-success">
         Aulas ministradas atualizadas com sucesso!
     </div>
     <div class="alert-required-fields no-show alert alert-error">
         Os campos com * são obrigatórios.
     </div>
-    <div class="row align-items-center filter-bar">
+    <div class="row align-items--center filter-bar">
         
             <div>
                 <div class="controls">
@@ -129,7 +129,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             ></i><?php echo Yii::t('default', 'Search') ?>
                 </a>
             </div>
-            <i class="loading-class-contents fa fa-spin fa-spinner"></i>
+            <i class="loading-class-contents fa fa-spin fa-spinner" style="display: none"></i>
         
     </div>
     <div class="clear"></div>
@@ -147,4 +147,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </tbody>
         </table>
     </div>
-<?php $this->endWidget(); ?>
+</div>
+
+    <?php $this->endWidget(); ?>

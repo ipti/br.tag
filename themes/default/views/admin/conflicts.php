@@ -15,7 +15,7 @@
 
 	<div class="row-fluid">
 		<div class="span12">
-			<h3 class="heading-mosaic"><?php echo Yii::t('default', 'Conflicts'); ?></h3>
+			<h1><?php echo Yii::t('default', 'Conflicts'); ?></h1>
 		</div>
 	</div>
 

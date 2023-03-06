@@ -12,61 +12,54 @@ $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.2');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/curricularmatrix.js?v=1.1', CClientScript::POS_END);
 $cs->registerScript("vars", "var addMatrix = '" . $this->createUrl("addMatrix") . "';", CClientScript::POS_HEAD);
 $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricular Matrix'));
-$cs->registerCssFile($themeUrl . '/css/template2.css');
+// $cs->registerCssFile($themeUrl . '/css/template2.css');
 ?>
-
+<div class="main">
 <div class="row-fluid">
     <div class="span12">
-        <h3 class="heading-mosaic"><?= yii::t('curricularMatrixModule.index', 'Curricular Matrix') ?></h3>
+        <h1><?= yii::t('curricularMatrixModule.index', 'Curricular Matrix') ?></h1>
     </div>
 </div>
-<div class="innerLR">
+<div class="column">
     <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)): ?>
-        <div class="tag-row">
-            <div class="">
-                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Stage'), 'stages', ['class' => "control-label"]) ?>
-                <div class="form-group ">
+        <div class="row align-items--end justify-content--space-between">
+            <div class="column clear-margin--left">
+                <div class="t-field-select">
+                    <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Stage'), 'stages', ['class' => "control-label"]) ?>
                     <?= CHtml::dropDownList("stages", [], CHtml::listData(EdcensoStageVsModality::model()->findAll(), "id", "name"), [
-                        "multiple" => "multiple", "class" => "select-search-on control-input span12"
+                        "multiple" => "multiple", "class" => "t-field-select__input select-search-on control-input"
                     ]) ?>
                 </div>
             </div>
-            <div class="">
-                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Disciplines'), 'disciplines', ['class' => "control-label"]) ?>
-                <div class="form-group ">
+            <div class="column">
+                <div class="t-field-select">
+                    <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Disciplines'), 'disciplines', ['class' => "control-label"]) ?>
                     <?= CHtml::dropDownList("disciplines", [], CHtml::listData(EdcensoDiscipline::model()->findAll(), "id", "name"), [
-                        "multiple" => "multiple", "class" => "select-search-on control-input span12"
+                        "multiple" => "multiple", "class" => "t-field-select__input select-search-on control-input"
                     ]) ?>
                 </div>
             </div>
-            <div class="">
-                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Workload'), 'workload', ['class' => "control-label"]) ?>
-                <div class="form-group ">
-                    <?= CHtml::numberField("workload", "0", ["min" => "0", "max" => "9999", "class" => "small-input"]) ?>
+            <div class="column">
+                <div class="t-field-number">
+                    <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Workload'), 'workload', ['class' => "t-field-number__label control-label"]) ?>
+                    <?= CHtml::numberField("workload", "0", ["min" => "0", "max" => "9999", "class" => "t-field-number__input"]) ?>
                 </div>
             </div>
-            <div class="">
-                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Credits'), 'credits', ['class' => "control-label"]) ?>
-                <div class="form-group ">
-                    <?= CHtml::numberField("credits", "0", ["min" => "0", "max" => "99", "class" => "small-input"]) ?>
+            <div class="column">
+                <div class="t-field-number">
+                    <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Credits'), 'credits', ['class' => "t-field-number__label control-label"]) ?>
+                    <?= CHtml::numberField("credits", "0", ["min" => "0", "max" => "99", "class" => "t-field-text__input"]) ?>
                 </div>
             </div>
-            <div class="">
-                <?= CHtml::label("&nbsp;", 'credits', ['class' => "control-label"]) ?>
-                <div class="form-group ">
-                    <?= CHtml::button(Yii::t('curricularMatrixModule.index', 'Add'), [
-                        "id" => "add-matrix", "class" => "t-button-primary "
-                    ]) ?>
-                </div>
+            <div class="column">
+                <?= CHtml::button(Yii::t('curricularMatrixModule.index', 'Add'), [
+                    "id" => "add-matrix", "class" => "t-button-submit"
+                ]) ?>
             </div>
         </div>
         <hr>
     <?php endif ?>
-    <div class="row-fluid alert-container">
-        <div class="span12">
-            <div class="alert"></div>
-        </div>
-    </div>
+                    
     <div class="widget">
         <div class="widget-body">
             <?php
@@ -117,7 +110,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
         <a class="matrix-reuse"  href="javascript:;"><?php echo 'Reaproveitamento da Matriz Curricular de ' . (Yii::app()->user->year - 1) ?></a>
     </div>
 </div>
-
+</div>
 <div class="modal fade" id="matrix-reuse-modal" tabindex="-1" role="dialog"
      aria-labelledby="Reaproveitamento de Matriz Curricular">
     <div class="modal-dialog" role="document">

@@ -7,12 +7,18 @@
 @import 'components/field-select2.scss';
 @import 'components/field-tarea.scss';
 @import 'components/field-checkbox';
+@import 'components/field-number';
 @import '_functions.scss';
 @import '_tabs.scss';
 @import '_cards.scss';
 @import '_table.scss';
 @import '_topbar.scss';
 @import '_accordion.scss';
-@import '_helpers.scss';
 @import '_filter_bar.scss';
 @import '_typography.scss';
+@import '_menu.scss';
+@import '_drawer';
+@import '_badge';    
+
+// place imports before that
+@import '_helpers.scss';

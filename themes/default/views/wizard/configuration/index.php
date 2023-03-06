@@ -20,9 +20,9 @@ $this->breadcrumbs = array(
 
 <div class="row-fluid">
     <div class="span12">
-        <h3 class="heading-mosaic">
+        <h1>
             <?php echo Yii::t('default', 'Configurarion'); ?>
-        </h3>
+        </h1>
     </div>
 </div>
 <div class="innerLR">

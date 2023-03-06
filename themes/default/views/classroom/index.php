@@ -13,9 +13,9 @@
     
     ?>
 
-    <div class="row-fluid hide-responsive">
+    <div class="row-fluid">
         <div class="span12">
-            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Classrooms') ?></h3>  
+            <h1><?php echo Yii::t('default', 'Classrooms') ?></h1>  
             <div class="t-buttons-container">
                 <a href="<?php echo Yii::app()->createUrl('classroom/create') ?>" class="t-button-primary"> Adicionar turma</a>
                 <a href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" class="t-button-primary" target="_blank">Relatório Alunos/Turma</a>
@@ -36,7 +36,7 @@
                 <li><a href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" class=""><i></i>Relatório Professores/Turma</a></li>
             </ul>
         </div>
-        <div class="columnone" style="padding-right: 1em">
+        <div class="columnone">
             <?php if (Yii::app()->user->hasFlash('success')): ?>
                 <div class="alert alert-success">
                     <?php echo Yii::app()->user->getFlash('success') ?>

@@ -1,7 +1,7 @@
 @import '../_tokens.scss';
 @import '../_functions.scss';
 
-.t-field-text {
+.t-field-number {
     margin-bottom: $SizeNormal;
     &__label{
         display: flex;
@@ -10,9 +10,9 @@
             font-weight: bold;
         }
     }
-    &__input, input[type="text"], input[type="number"] {
+    &__input, input[type="number"] {
         width: 100%;
         margin-bottom: 0px;
-        padding: $spaceEmpty $spaceSmall;
+        padding: $spaceSmall;
     }
 }

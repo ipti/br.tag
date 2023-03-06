@@ -1,6 +1,6 @@
 <div class="row-fluid">
     <div class="span12">
-        <h3 class="heading-mosaic"><?= yii::t('lunchModule.index','Lunch')?></h3>
+        <h1><?= yii::t('lunchModule.index','Lunch')?></h1>
     </div>
 </div>
 <div class="innerLR home">
