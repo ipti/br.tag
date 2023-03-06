@@ -1,6 +1,14 @@
 @import '_tokens.scss';
 @import '_functions.scss';
 
+.t-buttons-container {
+    margin-top: $sizeHeader;
+    display: flex;
+    
+}
+.t-buttons-container-form{
+    align-items: center; 
+  }
 .t-button {
     padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
     font-size: $FontSizeTextSmall;
@@ -12,6 +20,9 @@
     &:hover, &--active {
         text-decoration: none;
     }
+    align-self: center;
+    margin-right: $spaceMedium;
+    cursor: pointer;
 
     @include device(tablet) {
         padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
@@ -20,19 +31,48 @@
     @include device(desktop) {
         padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
     }
+
+    &:link, &:focus, &:hover, &--active, &:active {
+        text-decoration: none !important;
+    }
+
+    img {
+        margin-right: $SizeXXSmall;
+    }
+
+    i {
+        align-self: center;
+        margin-right: $SizeXXSmall;
+        opacity: 0.5;
+    }
 }
 
 .t-button-primary {
     @extend .t-button;
     background-color: $colorsBaseProductNormal;
     color:$colorsBaseWhiteNormal;
+    cursor: pointer;
+    align-self: center;
 
     &:hover, &--active {
         color:$colorsBaseWhiteNormal;
         background-color: $colorsBaseProductNormalActive;
     }
+    
+    &:link, &:focus, &:hover, &--active, &:active {
+        color: $colorsBaseWhiteNormal;
+    }
 }
 .t-button-secondary {
+    @extend .t-button;
+    background-color: $colorsBaseCloudLight;
+    color:$colorsBaseInkNormal;
+    &:hover, &--active {
+        color:$colorsBaseInkNormal;
+        background-color: $colorsBaseCloudLightHover;
+    }
+}
+.t-button-tertiary {
     @extend .t-button;
     background-color: $colorsBaseInkLighterActive;
     color:$colorsBaseWhiteNormal;

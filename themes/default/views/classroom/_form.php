@@ -1,7 +1,9 @@
 <?php
 
 /**
- * @var $form CActiveForm
+ * 
+ * @var CActiveForm $this CActiveForm
+ * @var Classroom $modelClassroom Classroom
  */
 
 $baseUrl = Yii::app()->baseUrl;
@@ -25,7 +27,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo $title; ?></h3>
         <div class="tag-buttons-container buttons">
-            <button class="tag-button small-button last pull-right save-classroom" type="button">
+            <button class="t-button-primary  last pull-right save-classroom" type="button">
                 <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
             </button>
         </div>
@@ -173,12 +175,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div id="none">
                                     <?php echo CHtml::activeHiddenField($modelClassroom, 'mais_educacao_participator', array('disabled' => 'disabled')) ?>
                                 </div>
-                                <div class="controls">
-                                    <?php echo $form->labelEx($modelClassroom, 'mais_educacao_participator', array('class' => 'control-label')); ?>
-                                </div>
                                 <div class="controls" id="some">
+                                    <label class="checkbox">
                                     <?php echo $form->checkBox($modelClassroom, 'mais_educacao_participator'); ?>
                                     <?php echo $form->error($modelClassroom, 'mais_educacao_participator'); ?>
+                                    <?php echo $form->labelEx($modelClassroom, 'mais_educacao_participator', array('class' => 'control-label')); ?>
+                                    
+                                    </label>
                                 </div>
                             </div>
                             <div class="control-group" id="complementary_activity">
@@ -262,8 +265,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                         *</label>
                                 </div>
                                 <div class="uniformjs" id="Classroom_week_days">
-                                    <table>
-                                        <tr>
+                                    <table class="selecao_dias">
+                                        <tr class="selecao_dias-checkbox">
                                             <td>S</td>
                                             <td>T</td>
                                             <td>Q</td>
@@ -369,7 +372,10 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class=" span12">
                             <!-- adicionar diciplina -->
-                            <a href="#" class="tag-button medium-button add hidden-print" id="newDiscipline"><i></i><?php echo Yii::t('default', 'Add Discipline/Teacher') ?></a>
+                            <div class="row">
+                                <a href="#" class="t-button-primary   add hidden-print" id="newDiscipline"><i></i><?php echo Yii::t('default', 'Add Discipline/Teacher') ?></a>
+                            </div>
+                           
                             <div class="separator"></div>
                             <?php
                             $teachingDataList = "<div>"
@@ -442,18 +448,18 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <div class="tab-pane" id="students">
                     <div class="row-fluid">
-                        <div class='hide-responsive' style="margin-bottom:20px">
-                            <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetransport', array('id' => $modelClassroom->id)) ?>" target="blank" class="tag-button medium-button hidden-print"><?php echo Yii::t('default', 'Atualizar transporte') ?>
+                        <div class='row hide-responsive' style="margin-bottom:20px">
+                            <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetransport', array('id' => $modelClassroom->id)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Atualizar transporte') ?>
                             </a>
-                            <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetotal', array('id' => $modelClassroom->id)) ?>" target="blank" class="tag-button medium-button hidden-print"><?php echo Yii::t('default', 'Atualização em Lote') ?>
+                            <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetotal', array('id' => $modelClassroom->id)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Atualização em Lote') ?>
                             </a>
-                            <a href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('id' => $modelClassroom->id)) ?>" target="blank" class="tag-button medium-button hidden-print"><?php echo Yii::t('default', 'Relatório de Matrícula') ?>
+                            <a href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('id' => $modelClassroom->id)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Relatório de Matrícula') ?>
                             </a>
-                            <a href="<?php echo Yii::app()->createUrl('reports/studentperclassroom', array('id' => $modelClassroom->id)) ?>" target="blank" class="tag-button medium-button hidden-print"><?php echo Yii::t('default', 'Lista de Alunos') ?>
+                            <a href="<?php echo Yii::app()->createUrl('reports/studentperclassroom', array('id' => $modelClassroom->id)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Lista de Alunos') ?>
                             </a>
-                            <a href="<?php echo Yii::app()->createUrl('forms/StudentsFileForm', array('classroom_id' => $modelClassroom->id, 'type' => 1)) ?>" target="blank" class="tag-button medium-button hidden-print"><?php echo Yii::t('default', 'Fichas de Matrícula') ?>
+                            <a href="<?php echo Yii::app()->createUrl('forms/StudentsFileForm', array('classroom_id' => $modelClassroom->id, 'type' => 1)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Fichas de Matrícula') ?>
                             </a>
-                            <a href="<?php echo Yii::app()->createUrl('forms/AtaSchoolPerformance', array('id' => $modelClassroom->id)) ?>" target="blank" class="tag-button medium-button hidden-print"><?php echo Yii::t('default', 'Ata de Notas') ?>
+                            <a href="<?php echo Yii::app()->createUrl('forms/AtaSchoolPerformance', array('id' => $modelClassroom->id)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Ata de Notas') ?>
                             </a>
                         </div>
 
@@ -513,7 +519,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         $i = 1;
                                         foreach ($enrollments as $enr) { ?>
                                             <tr>
-                                                <td align ="center"><input value="<?= $enr->id ?>" name="enrollments[]" type='checkbox' /></td>
+                                                <td text-align ="center"><input value="<?= $enr->id ?>" name="enrollments[]" type='checkbox' /></td>
                                                 <td width="30"><?= $i ?></td>
                                                 <td>
                                                     <a href="<?= Yii::app()->createUrl('student/update', array('id' => $enr->studentFk->id)) ?>"> <?= $enr->studentFk->name ?></a>
@@ -548,7 +554,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         'class' => 'span5',
                                         'empty' => '**CANCELAR MATRICULAS**'
                                     ));
-                                    echo '<input value="Mover/Cancelar" type="submit" class="tag-button small-button" style="margin-left:10px"><i></i></input></td></tr>';
+                                    echo '<input value="Mover/Cancelar" type="submit" class="t-button-primary " style="margin-left:10px"><i></i></input></td></tr>';
                                     ?>
                                 </tfooter>
                             </table>

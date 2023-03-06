@@ -1,0 +1,1 @@
+$('#Users_password').attr('value', '');

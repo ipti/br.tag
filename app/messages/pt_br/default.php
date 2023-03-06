@@ -585,6 +585,7 @@ return array(
     //InstructorIdentification
     'Nis' => 'Nº de Identificação Social (NIS)',
     'Birthday Date' => 'Data de Nascimento',
+    'Instructor Fk' => 'Professor',
     'Sex' => 'Sexo',
     'Color Race' => 'Cor / Raça',
     'Filiation' => 'Filiação',
@@ -691,6 +692,9 @@ return array(
 
     //Instructor email update
     'Update Instructor e-mails' => "Atualizar e-mail dos professores",
+
+    //Instructor frequency
+    'Instructor frequency' => "Frequência do professor",
     
     //Classboards
     'Insert class' => 'Inserir aula',
@@ -733,6 +737,7 @@ return array(
     'Password' => 'Senha',
     'Confirm Password' => 'Confirmar Senha',
     'Username' => 'Usuário',
+    'Active' => 'Ativo',
     'Month' => 'Mês',
     
     //Abas
@@ -771,6 +776,7 @@ return array(
     
     //Selects de Dorpdowns
     'Select School' => 'Selecione a escola',
+    'Select Discipline' => 'Selecione uma disciplina',
     
     //Titulos
     'School Identifications' => 'Escolas',
@@ -780,6 +786,7 @@ return array(
     'Student Identifications' => 'Alunos',
     'Instructor Identifications' => 'Professores',
     'Reports' => 'Relatórios',
+    'Out Of Town Students' => 'Alunos fora da cidade',
     
     //Relatórios
     'Result Board' => 'Quadro de Rendimento',
@@ -801,6 +808,7 @@ return array(
     'Update StudentIdentification' => 'Atualizar Aluno',
     'Update SchoolIdentification' => 'Atualizar Escola',
     'Update InstructorIdentification' => 'Atualizar Professor',
+    'Update User' => 'Atualizar Usuário',
     
     //Erros
     'already enrolled in this classroom.' =>'já matriculado na turma.',

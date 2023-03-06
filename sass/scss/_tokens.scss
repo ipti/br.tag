@@ -94,6 +94,7 @@ $layout-2xl: calc(40px - 2.5rem);
 $layout-3xl: calc(48px - 3rem);
 $layout-4xl: calc(64px - 4rem);
 
+
 /* Size */
 
 $SizeLarge: 24px;
@@ -108,6 +109,7 @@ $SizeXXXXSmall: 2px;
 $SizeNormal: 14px;
 $SizeXXSmall: 6px;
 $size200: 20px;
+$sizeHeader: 118px;
 
 
 /* Border Radius */
@@ -116,6 +118,8 @@ $borderRadiusNormal: 3px;
 $borderRadiusLarge: 6px; 
 $borderRadiusCircle: 50%;
 $borderRadiusBadge: 12px;
+$borderRadiusLeft: $borderRadiusNormal 0 0 $borderRadiusNormal;
+$borderRadiusRight:  0 $borderRadiusNormal $borderRadiusNormal 0;
 
 /* Border width */
 $borderWidthCard: 1px;
@@ -148,3 +152,6 @@ $fontWeightHeadingDisplaySubtitle: 400;
 $fontWeightSemiRegular: 400;
 $fontWeightRegular: 500;
 $fontWeightSemiBold: 600;
+
+/* Font Family */
+$FontFamilyTextNormal: "Inter", sans-serif;

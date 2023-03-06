@@ -14,8 +14,8 @@
     <div class="row-fluid">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'School Identifications') ?></h3>  
-            <div class="buttons  hide-responsive">
-                <a href="<?php echo Yii::app()->createUrl('school/create') ?>" class="tag-button medium-button"> Adicionar escola</a>
+            <div class="t-buttons-container">
+                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('school/create') ?>" class="t-button-primary  "> Adicionar escola</a>
             </div>
         </div>
     </div>
@@ -33,7 +33,7 @@
                 </div>
                 <br/>
             <?php endif ?>
-            <div class="widget">
+            <div class="widget clearmargin">
                 <div class="widget-body">
                     <?php
                     $this->widget('zii.widgets.grid.CGridView', array(
@@ -49,25 +49,22 @@
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => '$data->name',
+                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("school/update",array("id"=>$data->inep_id)))',
+                                'htmlOptions' => array('class' => 'link-update-grid-view'),
                             ),
                             array(
                                 'class' => 'CButtonColumn', 
-                                'template' => '{update}',
+                                'template' => '{update}{delete}',
                                 'buttons' => array(
                                     'update' => array(
                                         'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
-                                    )
-                                )
-                            ),
-                            array(
-                                'class' => 'CButtonColumn', 
-                                'template' => '{delete}',
-                                'buttons' => array(
+                                    ),
                                     'delete' => array(
                                         'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
                                     )
-                                )
+                                ),
+                                'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
+                                'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
                             ),
                         ),
                     ));

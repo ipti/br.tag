@@ -12,32 +12,12 @@
 }
 
 .column {
+    flex-basis: 0;
     margin-left: $spaceXLarge/2;
     margin-right: $spaceXLarge/2;
-   
-
-    @for $i from 1 through 12 {
-        &.off-set-#{$i} {
-            margin-left: $i / 12 * 100 +"%";
-        }
-    }
-
-
 }
 
-
-
-/* .grow-1{
-    flex-grow: 1;
-}
-.grow-2{
-    flex-grow: 2;
-}
-.grow-4{
-    flex-grow: 4;
-} */
-
-[class^="col-"].clearfix {
+.column.clearfix {
     margin-left: 0;
     margin-right: 0;
 }

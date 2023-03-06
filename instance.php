@@ -281,6 +281,7 @@ switch ($domain) {
         $db = 'io.escola.demo';
         break;
 }
+
 define("GLOGALGROUP",$_GLOBALGROUP);
 define("FORMS",serialize($_FORMS));
 define("DBNAME",$db);

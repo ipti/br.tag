@@ -10,12 +10,14 @@
     $cs->registerCssFile($themeUrl . '/css/template2.css');
     ?>
 
+
     <div class="row-fluid box-instructor">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Instructor Identifications') ?></h3>
-            <div class="buttons span7 hide-responsive">
-                <a href="<?php echo Yii::app()->createUrl('instructor/updateEmails')?>" class="tag-button medium-button">Atualizar e-mails</a>
-                <a href="<?php echo Yii::app()->createUrl('instructor/create')?>" class="tag-button medium-button">Adicionar professor</a>
+            <div class="t-buttons-container">
+                <a href="<?php echo Yii::app()->createUrl('instructor/frequency')?>" class="t-button-primary">Frequência</a>
+                <a href="<?php echo Yii::app()->createUrl('instructor/updateEmails')?>" class="t-button-primary">Atualizar e-mails</a>
+                <a href="<?php echo Yii::app()->createUrl('instructor/create')?>" class="t-button-primary">Adicionar professor</a>
             </div>
         </div>
         <div class="btn-group pull-right mt-30 responsive-menu dropdown-margin">
@@ -24,11 +26,12 @@
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
+                <li><a href="<?php echo Yii::app()->createUrl('instructor/frequency')?>" class="t-button-primary">Frequência</a></li>
                 <li><a href="<?php echo Yii::app()->createUrl('instructor/updateEmails')?>"><i></i> Atualizar e-mails</a></li>
                 <li><a href="<?php echo Yii::app()->createUrl('instructor/create')?>"><i></i> Adicionar professor</a></li>
             </ul>
         </div>
-    </div> 
+    </div>  
 
     <div class="tag-inner">
         <?php if (Yii::app()->user->hasFlash('success')): ?>
@@ -37,7 +40,7 @@
             </div>
             <br/>
         <?php endif ?>
-        <div class="widget">
+        <div class="widget clearmargin">
             <div class="widget-body">
                 <?php
                 $this->widget('zii.widgets.grid.CGridView', array(
@@ -49,8 +52,8 @@
                         array(
                             'name' => 'name',
                             'type' => 'raw',
-                            'value' => '$data->name',
-                            'htmlOptions' => array('width'=> '400px')
+                            'value' => 'CHtml::link($data->name,Yii::app()->createUrl("instructor/update",array("id"=>$data->id)))',
+                            'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
                         ),
                         array(
                             'name' => 'documents',
@@ -64,23 +67,19 @@
                         ),
                         array(
                             'class' => 'CButtonColumn', 
-                            'template' => '{update}',
+                            'template' => '{update}{delete}',
                             'buttons' => array(
                                 'update' => array(
                                     'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
-                                )
-                            )
-                        ),
-                        array(
-                            'class' => 'CButtonColumn', 
-                            'template' => '{delete}',
-                            'buttons' => array(
+                                ),
                                 'delete' => array(
                                     'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
                                 )
-                            )
+                            ),
+                            'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
+                            'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
                         ),
-                        ),
+                    ),
                 ));
                 ?>
             </div>

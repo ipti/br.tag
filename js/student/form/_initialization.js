@@ -1,6 +1,16 @@
-
+window.location.search.includes("update") ? $('.last').css('display', 'block') : $('.last').css('display', 'none');
 
 $(document).ready(function () {
+    $("#new-enrollment-button").click(function() {
+        if($("#new-enrollment-form").css('display') == 'none') {
+            $("#new-enrollment-form").show();
+            $("#new-enrollment-button").text("Cancelar Matrícula");
+        }else {
+            $("#new-enrollment-form").hide();
+            $("#new-enrollment-button").text("Adicionar Matrícula");
+        }
+        
+    });
     var simple = getUrlVars()['simple'];
     if (simple == '1') {
         $("#tab-student-documents").hide();

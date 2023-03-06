@@ -71,7 +71,7 @@ $model = new StudentEnrollment();
                         <div class="span1">
                             <div class="tag-buttons-container buttons">
                                 <div class="control-group">
-                                    <?php echo CHtml::htmlButton( Yii::t('default', 'Save'), array('class' => 'tag-button small-button last', 'type' => 'submit')); ?>
+                                    <?php echo CHtml::htmlButton( Yii::t('default', 'Save'), array('class' => 't-button-primary  last', 'type' => 'submit')); ?>
                                 </div>
                             </div>
                         </div>

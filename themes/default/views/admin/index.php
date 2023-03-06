@@ -74,6 +74,12 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                     </a>
                 </div>
                 <div class="span2">
+                    <a href="<?php echo Yii::app()->createUrl('admin/manageUsers') ?>" class="widget-stats">
+                        <span class="glyphicons edit"><i></i></span>
+                        <span class="txt">Gerenciar Usuários</span>
+                    </a>
+                </div>
+                <div class="span2">
                     <a href="<?php echo Yii::app()->createUrl('admin/activeDisableUser') ?>" class="widget-stats">
                         <span class="glyphicons remove"><i></i></span>
                         <span class="txt">Ativar/Desativar usuário</span>
