@@ -65,12 +65,13 @@ html {
 
 /* line 14, ../../../Projetos/br.tag/br.tag/sass/scss/_grid.scss */
 .column {
+  flex: 1;
   flex-basis: 0;
   margin-left: 1em;
   margin-right: 1em;
 }
 
-/* line 20, ../../../Projetos/br.tag/br.tag/sass/scss/_grid.scss */
+/* line 21, ../../../Projetos/br.tag/br.tag/sass/scss/_grid.scss */
 .column.clearfix {
   margin-left: 0;
   margin-right: 0;
@@ -184,7 +185,7 @@ html {
 
 /* line 72, ../../../Projetos/br.tag/br.tag/sass/scss/_button.scss */
 .t-button-secondary {
-  background-color: #f5f7f9;
+  background-color: #eff2f5;
   color: #252A31;
 }
 
