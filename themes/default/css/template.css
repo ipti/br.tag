@@ -9186,6 +9186,7 @@ tbody .details-control:hover {
 }
 
 .frequency-checkbox-container {
+    vertical-align: middle !important;
     cursor: pointer;
     text-align: center !important;
     position: relative;
@@ -9228,10 +9229,10 @@ tbody .details-control:hover {
 }
 
 .frequency-justification-icon {
-    position: absolute;
-    margin-left: 5px;
+    /* position: absolute; */
+    /* margin-left: 5px; */
     top: 5px;
-    font-size: 16px !important;
+    /* font-size: 16px !important; */
     color: #333;
 }
 
