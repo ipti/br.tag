@@ -47,7 +47,7 @@ class SagresConsultModel
         $cabecalhoType->setAnoReferencia($unidadeGestora['anoReferencia']);
         $cabecalhoType->setMesReferencia($unidadeGestora['mesReferencia']);
         $cabecalhoType->setVersaoXml($unidadeGestora['versaoxml']);
-        $cabecalhoType->setDiaFinaPresContas($unidadeGestora['diaInicPresContas']);
+        $cabecalhoType->setDiaInicPresContas($unidadeGestora['diaInicPresContas']);
         $cabecalhoType->setDiaFinaPresContas($unidadeGestora['diaFinaPresContas']);
 
         return $cabecalhoType;
@@ -434,8 +434,30 @@ class SagresConsultModel
 
     function transformXML($xml) {
         $xml = str_replace('<result>', '<edu:educacao xmlns:edu="http://www.tce.se.gov.br/sagres2023/xml/sagresEdu">', $xml);
+        $xml = str_replace('<prestacao_contas>', '<edu:PrestacaoContas>', $xml);
+
+        $xml = str_replace('<codigo_unid_gestora>', '<edu:codigoUnidGestora>', $xml);
+        $xml = str_replace('<nome_unid_gestora>', '<edu:nomeUnidGestora>', $xml);
+        $xml = str_replace('<cpf_responsavel>', '<edu:cpfResponsavel>', $xml);
+        $xml = str_replace('<cpf_gestor>', '<edu:cpfGestor>', $xml);
+        $xml = str_replace('<ano_referencia>', '<edu:anoReferencia>', $xml);
+        $xml = str_replace('<mes_referencia>', '<edu:mesReferencia>', $xml);
+        $xml = str_replace('<versao_xml>', '<edu:versaoXml>', $xml);
+        $xml = str_replace('<dia_inic_pres_contas>', '<edu:diaInicPresContas>', $xml);
+        $xml = str_replace('<dia_fina_pres_contas>', '<edu:diaFinaPresContas>', $xml);
+
+        $xml = str_replace('</codigo_unid_gestora>', '</edu:codigoUnidGestora>', $xml);
+        $xml = str_replace('</nome_unid_gestora>', '</edu:nomeUnidGestora>', $xml);
+        $xml = str_replace('</cpf_responsavel>', '</edu:cpfResponsavel>', $xml);
+        $xml = str_replace('</cpf_gestor>', '</edu:cpfGestor>', $xml);
+        $xml = str_replace('</ano_referencia>', '</edu:anoReferencia>', $xml);
+        $xml = str_replace('</mes_referencia>', '</edu:mesReferencia>', $xml);
+        $xml = str_replace('</versao_xml>', '</edu:versaoXml>', $xml);
+        $xml = str_replace('</dia_inic_pres_contas>', '</edu:diaInicPresContas>', $xml);
+        $xml = str_replace('</dia_fina_pres_contas>', '</edu:diaFinaPresContas>', $xml);
+
         $xml = str_replace('<escola>', '<edu:escola>', $xml);
-        $xml = str_replace('<id_escola>', '<edu:id_escola>', $xml);
+        $xml = str_replace('<id_escola>', '<edu:idEscola>', $xml);
         $xml = str_replace('<turma>', '<edu:turma>', $xml); 
         $xml = str_replace('<diretor>', '<edu:diretor>', $xml);
         $xml = str_replace('<cpf_diretor>', '<edu:cpfDiretor>', $xml);
@@ -443,7 +465,7 @@ class SagresConsultModel
         $xml = str_replace('<nr_ato>', '<edu:nrAto>', $xml);
         $xml = str_replace('</nr_ato>', '</edu:nrAto>', $xml);
         $xml = str_replace('</diretor>', '</edu:diretor>', $xml);
-        $xml = str_replace('</id_escola>', '</edu:id_escola>', $xml);
+        $xml = str_replace('</id_escola>', '</edu:idEscola>', $xml);
         $xml = str_replace('</turma>', '</edu:turma>', $xml); 
         $xml = str_replace('</escola>', '</edu:escola>', $xml);
         $xml = str_replace('</result>', '</edu:educacao>', $xml);
@@ -487,6 +509,7 @@ class SagresConsultModel
         $xml = str_replace('</descricao_merenda>', '</edu:descricao_merenda>', $xml);
         $xml = str_replace('<ajustado>', '<edu:ajustado>', $xml);
         $xml = str_replace('</ajustado>', '</edu:ajustado>', $xml);
+        $xml = str_replace('</prestacao_contas>', '</edu:PrestacaoContas>', $xml);
 
         return $xml;
     }

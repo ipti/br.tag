@@ -20,7 +20,7 @@ $matricula_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/Matricula
 $profissional_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/ProfissionalTType.php';
 $cardapio_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/CardapioTType.php';
 $diretor_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/DiretorTType.php';
-$cabecalho_t=dirname(__FILE__).'app/modules/sagres/soap/src/sagresEdu/CabecalhoTType.php';
+$cabecalho_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/CabecalhoTType.php';
 $prestacao_contas_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/PrestacaoContasTType.php';
 
 
