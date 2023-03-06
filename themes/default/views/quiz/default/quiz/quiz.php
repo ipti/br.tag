@@ -8,7 +8,7 @@
 
     <div class="row-fluid">
         <div class="span12">
-            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Quiz') ?></h3>  
+            <h1><?php echo Yii::t('default', 'Quiz') ?></h1>  
             <div class="buttons">
                 <a href="<?php echo Yii::app()->createUrl('quiz/default/createQuiz') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Novo Questionário</a>
             </div>

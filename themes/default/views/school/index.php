@@ -13,7 +13,7 @@
 
     <div class="row-fluid">
         <div class="span12">
-            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'School Identifications') ?></h3>  
+            <h1><?php echo Yii::t('default', 'School Identifications') ?></h1>  
             <div class="t-buttons-container">
                 <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('school/create') ?>" class="t-button-primary  "> Adicionar escola</a>
             </div>

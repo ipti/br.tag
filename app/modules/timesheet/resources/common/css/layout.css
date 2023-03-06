@@ -220,14 +220,6 @@ table.table-timesheet td {
     overflow-x: auto;
 }
 
-.innerLR .loading-timesheet {
-    display: none;
-    font-size: 20px;
-    vertical-align: middle;
-    margin-top: 7px;
-    margin-left: 5px;
-}
-
 #generateAnotherTimesheet .modal-body {
     text-align: justify;
 }

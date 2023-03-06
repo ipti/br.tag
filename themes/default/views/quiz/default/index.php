@@ -17,7 +17,7 @@ $this->breadcrumbs = array(
 
 <div class="row-fluid">
     <div class="span12">
-        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Quiz'); ?></h3>  
+        <h1><?php echo Yii::t('default', 'Quiz'); ?></h1>  
     </div>
 </div>
 

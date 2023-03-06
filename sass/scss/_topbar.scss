@@ -10,7 +10,7 @@
     @include device(tablet) {
         width: calc(100% - 190px);
     }
-    .tag-topbar__content {
+    &__content {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -40,7 +40,7 @@
                 flex-direction: column;
                 justify-content: space-between;
                 width: $SizeLarge;
-                height: $size200;
+                height: $SizeLarge;
                 padding: $SizeSmall;
                 padding-left: $spaceEmpty;
                 border-right: solid $borderWidthCard $colorsBaseProductLight; 
@@ -63,6 +63,17 @@
                 width: 90%;
                 color: $colorsBaseInkLighterHover;
             }
+            
+            
+            .tag-topbar__school_logo {
+                width: $SizeMedium * 2;
+                height: $SizeMedium * 2;
+                border-radius: $borderRadiusCircle;
+                margin-right: $SizeXSmall;
+                border: 2px solid $colorsBaseProductLogo;
+                padding: $spaceXXSmall;
+            }
+// 11048660
         }
     }
 }

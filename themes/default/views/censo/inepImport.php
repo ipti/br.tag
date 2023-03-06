@@ -16,7 +16,7 @@
 
     <div class="row-fluid hidden-print">
         <div class="span12">
-            <h3 class="heading-mosaic">Importação de INEP ID</h3>
+            <h1>Importação de INEP ID</h1>
         </div>
     </div>
 

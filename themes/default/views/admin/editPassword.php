@@ -29,7 +29,7 @@
 
     <div class="row-fluid">
         <div class="span12">
-            <h3 class="heading-mosaic"><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h3>
+            <h1><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h1>
             <div class="buttons">
                 <div class="buttons">
                     <div class="buttons">

@@ -23,7 +23,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="row-fluid">
     <div class="span12" style="height: 63px;">
-        <h3 class="heading-mosaic"><?php echo $title; ?></h3>
+        <h1><?php echo $title; ?></h1>
         <span class="subtitle">
             <?php echo Yii::t('default', 'Fields with * are required.') ?>
         </span>
@@ -47,7 +47,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="alert alert-error school-error no-show"></div>
         <div class="t-tabs">
             <ul class="t-tabs__list" >
-                <li id="tab-school-indentify" class="active t-tabs__item"><a class="t-tabs__link" href="#school-indentify" data-toggle
+                <li id="tab-school-indentify" class="active t-tabs__item"><a class="t-tabs__link" href="#school-indentify" data-toggle="tab">
                         <!-- <i></i> -->
                         <?php echo Yii::t('default', 'Identification') ?>
                     </a></li>
@@ -94,7 +94,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <!-- Tab content -->
                 <div class="tab-pane active" id="school-indentify">
                     <div>
-                        <h5 class="titulos">Dados Básicos</h5>
+                        <h3>Dados Básicos</h3>
                     </div>
                     <div class="row-fluid">
                         <div class=" span5">
@@ -200,7 +200,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos">Dados do Gestor</h3>
+                        <h3>Dados do Gestor</h3>
                     </div>
                     <div class="row-fluid">
                         <div class=" span5">
@@ -267,7 +267,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos required">Órgãos que a escola está vinculada</h3>
+                        <h3 class="titulos required">Órgãos que a escola está vinculada</h3>
                     </div>
                     <div class="row-fluid">
                         <div class="control-group">
@@ -292,7 +292,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos required">Esfera do Órgão regulador</h3>
+                        <h3 class="titulos required">Esfera do Órgão regulador</h3>
                     </div>
                     <div class="row-fluid">
                         <div class="control-group">
@@ -313,7 +313,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos">Outras informações</h3>
+                        <h3>Outras informações</h3>
                     </div>
                     <div class="row-fluid">
                         <div class=" span5">
@@ -351,7 +351,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <div class="tab-pane" id="school-addressContact">
                     <div>
-                        <h5 class="titulos">Endereço</h3>
+                        <h3>Endereço</h3>
                     </div>
                     <div class="row-fluid">
                         <div class="span5">
@@ -545,7 +545,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos">Contato</h3>
+                        <h3>Contato</h3>
                     </div>
                     <div class="row-fluid">
                         <div class="span5">
@@ -597,7 +597,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <div class="tab-pane" id="school-structure">
                     <div>
-                        <h5 class="titulos">Estrutura Física</h3>
+                        <h3>Estrutura Física</h3>
                     </div>
                     <div class="row-fluid">
                         <div class=" span5">
@@ -654,7 +654,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos">Funcionários</h3>
+                        <h3>Funcionários</h3>
                     </div>
                     <div class="row-fluid">
                         <div class="span5">
@@ -805,7 +805,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos required">Local de Funcionamento</h3>
+                        <h3 class="titulos required">Local de Funcionamento</h3>
                     </div>
                     <div class="row-fluid">
                         <div class=" span5 hide-responsive">
@@ -872,7 +872,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos required">Dependencias</h3>
+                        <h3 class="titulos required">Dependencias</h3>
                     </div>
                     <div class="row-fluid  hide-responsive dependencies-container">
                         <div class=" span5">
@@ -1035,7 +1035,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid  hide-responsive">
                         <div class="span5">
                             <div>
-                                <h5 class="titulos required">Suprimento de água</h5>
+                                <h3 class="titulos required">Suprimento de água</h3>
                             </div>
                             <div class="control-group hide-responsive water-supply-container">
                                 <div class="controls">
@@ -1076,7 +1076,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                         <div class="span7">
                             <div>
-                                <h5 class="titulos required">Suprimento de alimento</h5>
+                                <h3 class="titulos required">Suprimento de alimento</h3>
                             </div>
                             <div class="control-group">
                                 <!-- <div class="controls">
@@ -1101,7 +1101,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos required">Suprimento de Energia</h5>
+                        <h3 class="titulos required">Suprimento de Energia</h3>
                     </div>
                     <div class="row-fluid">
                         <div class="span5">
@@ -1151,7 +1151,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos required">Esgoto</h5>
+                        <h3 class="titulos required">Esgoto</h3>
                     </div>
                     <div class="row-fluid">
                         <div class="span5">
@@ -1200,7 +1200,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos required">Destino do Lixo</h5>
+                        <h3 class="titulos required">Destino do Lixo</h3>
                     </div>
                     <div class="row-fluid">
                         <div class="span5">
@@ -1233,7 +1233,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div> -->
                     </div>
                     <div>
-                        <h5 class="titulos required">Tratamento do Lixo</h5>
+                        <h3 class="titulos required">Tratamento do Lixo</h3>
                     </div>
                     <div class="row-fluid">
                         <div class="span5">
@@ -1262,7 +1262,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div> -->
                     </div>
                     <div>
-                        <h5 class="titulos required">Acessibilidade</h3>
+                        <h3 class="titulos required">Acessibilidade</h3>
                     </div>
                     <div class="row-fluid">
                         <div class="span5 accessbility-container">
@@ -1311,7 +1311,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div> -->
                     </div>
                     <div>
-                        <h5 class="titulos required">Órgãos em Funcionamento na Escola</h5>
+                        <h3 class="titulos required">Órgãos em Funcionamento na Escola</h3>
                     </div>
                     <div class="row-fluid">
                         <div class="span5">
@@ -1392,7 +1392,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <div class="tab-pane" id="school-equipment">
                     <div>
-                        <h5 class="titulos">Eletrônicos</h3>
+                        <h3>Eletrônicos</h3>
                     </div>
                     <div class="row-fluid">
                         <div class=" span5">
@@ -1728,7 +1728,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <div class="tab-pane" id="school-education">
                     <div>
-                        <h5 class="titulos">Eletrônicos</h3>
+                        <h3>Eletrônicos</h3>
                     </div>
                     <div class="row-fluid">
                         <div class=" span5">

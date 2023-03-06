@@ -9,6 +9,8 @@
     padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
     overflow-x: scroll;
     overflow-y: hidden;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
     
 
     @include device(tablet) {
@@ -52,6 +54,7 @@
                 font-size: $FontSizeTextNormal;
                 height: auto;
                 color: $colorsBaseInkLightHover;
+                padding: $spaceNormal;
                 
 
                 @include device(tablet) {
@@ -68,5 +71,9 @@
 
            
         }
+    }
+
+    &::-webkit-scrollbar {
+        display: none;
     }
 }

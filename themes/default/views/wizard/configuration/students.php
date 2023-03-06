@@ -27,9 +27,9 @@ $model = new StudentEnrollment();
 
 <div class="row-fluid">
     <div class="span12">
-        <h3 class="heading-mosaic">
+        <h1>
             <?php echo $title; ?>
-        </h3>
+        </h1>
 
     </div>
 </div>

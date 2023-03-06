@@ -23,7 +23,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="row-fluid">
     <div class="span12" style="height: 70px;">
-        <h3 class="heading-mosaic"><?php echo $title; ?></h3>
+        <h1><?php echo $title; ?></h1>
         <span class="subtitle"> <?php echo Yii::t('default', 'Fields with * are required.') ?>
             <div class="buttons">
                 <div class="buttons">
@@ -61,7 +61,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class="span6">
                             <div>
-                                <h5 class="titulos">Dados Básicos</h5>
+                                <h3>Dados Básicos</h3>
                             </div>
                             <div class="control-group">
                                 <div class="controls">
@@ -108,7 +108,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class=" span6">
                             <div>
-                                <h5 class="titulos">Dados de login</h5>
+                                <h3>Dados de login</h3>
                             </div>
                             <div class="control-group">
                                 <div class="controls">

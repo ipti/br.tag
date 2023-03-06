@@ -11,7 +11,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
 <div id="mainPage" class="main">
     <div class="row-fluid">
         <div class="span12">
-            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Course Plan') ?></h3>
+            <h1><?php echo Yii::t('default', 'Course Plan') ?></h1>
             <div class="t-buttons-container">
                 <a href="<?php echo Yii::app()->createUrl('courseplan/create') ?>"
                    class="t-button-primary"><?= Yii::t('default', 'Create Plan'); ?> </a>

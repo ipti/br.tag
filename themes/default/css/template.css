@@ -528,7 +528,6 @@ body > .container-fluid.documentation {
 
 #content h3.heading-mosaic {
     font-size: 16pt;
-    padding-left: 16px;
     font-weight: bold;
 }
 
@@ -1635,6 +1634,7 @@ li.highlight.profile
 .hasSubmenu.active .fa-chevron-right {
     display: none;
 }
+
 .hasSubmenu:not(.active) .fa-chevron-down {
     display: none;
 }
@@ -1848,7 +1848,7 @@ li.highlight.profile
 
 .widget {
     background: #fff;
-    margin: 55px auto 10px;
+    margin: 0 auto 10px;
     position: relative;
     /* border: 1px solid #e5e5e5; */
 }
@@ -3432,7 +3432,7 @@ h2.glyphicons.cogwheels i:before {
     height: 30px;
     margin: 0;
     display: inline-block;
-    margin-left: 35px;
+    /* margin-left: 35px; */
 }
 
 .widget.widget-tabs > .widget-head ul li {
@@ -8597,7 +8597,7 @@ tr.filters td {
 /*width: 42%;*/
 /*}*/
 .titulos{
-    margin-left:23px;
+    /* margin-left:23px; */
     color: rgba(169, 173, 196, 1);
 }
 .titulos.required::after{
@@ -8647,10 +8647,6 @@ input[type="text"] {
 
 .grid-view tbody:hover {
     cursor: pointer;
-}
-
- li.active a img {
-    filter: saturate(1) !important;
 }
 
 #box-menu li.active a {
@@ -9218,12 +9214,10 @@ tbody .details-control:hover {
     width: 100%;
 }
 
-.innerLR .loading-frequency, .innerLR .loading-class-contents {
+.loading-frequency, .loading-class-contents, .loading-timesheet {
     display: none;
     font-size: 20px;
     vertical-align: middle;
-    margin-top: 7px;
-    margin-left: 10px;
 }
 .tag-inner .loading-frequency, .tag-inner .loading-class-contents {
     display: none;

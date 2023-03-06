@@ -1,5 +1,6 @@
 $("#classesSearch").on("click", function () {
-    if ($("#classroom").val() !== "" && $("#month").val() !== "") {
+    if ($("#classrooms").val() !== "" && $("#month").val() !== "" 
+        && $("#instructor").val() !== "" && $("#disciplines").val() !== "") {
         $(".alert-required-fields, .alert-incomplete-data").hide();
         jQuery.ajax({
             type: "POST",

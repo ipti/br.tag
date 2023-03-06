@@ -2,21 +2,30 @@
 @import '_functions.scss';
 
 .t-buttons-container {
-    margin-top: $sizeHeader;
-    display: flex;
+    display: inline-block;  
+    width: 100%;    
     
+    @include device(tablet) {
+        padding: $spaceXXXSmall 0 $spaceXXXSmall 0;
+        font-size: $FontSizeTextNormal;
+        display: flex;
+    }
 }
+
 .t-buttons-container-form{
     align-items: center; 
   }
-.t-button {
-    padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
+
+.t-button {    
+    padding: $spaceNormal;
+    margin: $spaceXSmall 0;
     font-size: $FontSizeTextSmall;
     border-radius: $borderRadiusLarge;
     text-decoration: none;
     display: flex;
     justify-content: space-between;
     align-self: center;
+    justify-content: center;
     margin-right: $spaceMedium;
     cursor: pointer;
 
@@ -59,6 +68,7 @@
         color: $colorsBaseWhiteNormal;
     }
 }
+
 .t-button-secondary {
     @extend .t-button;
     background-color: $colorsBaseCloudLight;
@@ -68,6 +78,7 @@
         background-color: $colorsBaseCloudLightHover;
     }
 }
+
 .t-button-tertiary {
     @extend .t-button;
     background-color: $colorsBaseInkLighterActive;
@@ -76,4 +87,9 @@
         color:$colorsBaseWhiteNormal;
         background-color: $colorsBaseInkLight;
     }
+}
+
+.t-button-submit {
+    @extend .t-button-primary;
+    margin: $SizeNormal 0;
 }

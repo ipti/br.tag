@@ -30,7 +30,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="row-fluid">
     <div class="span12">
-        <h3 class="heading-mosaic"><?php echo $title; ?></h3>
+        <h1><?php echo $title; ?></h1>
         <div class="tag-buttons-container buttons hide-responsive">
             <a data-toggle="tab" class='hide-responsive tag-button-light small-button prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
             <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>".Yii::t('default', 'Next')."</a>" : ''?>
@@ -97,9 +97,9 @@ $form = $this->beginWidget('CActiveForm', array(
                 <!-- Tab Student Identify -->
                 <div class="tab-pane active" id="student-identify">
                     <div>
-                        <h5 class="titulos">
+                        <h3>
                             Dados Básicos
-                        </h5>
+                        </h3>
                     </div>
                     <div class="row">
                         <div class="column">
@@ -500,10 +500,10 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="span12">
                             <div class="widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                                 <div class="widget-body in" style="height: auto;">
-                                    <div>
-                                        <h5 class="titulos">Documentos Entregues
+                                    <div class="column">
+                                        <h3>Documentos Entregues
                                             <!-- <i style="font-size: 0.8em;">(Marcar os documentos que foram entregues).</i> -->
-                                        </h5>
+                                        </h3>
                                     </div>
                                     <div class="control-group" id="received" style="margin-left:34px;">
                                         <div class="controls">
@@ -555,9 +555,9 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                             <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                                 <div>
-                                    <h5 class="titulos">
+                                    <h3>
                                         Certidão Civil
-                                    </h5>
+                                    </h3>
                                 </div>
                                 <div class="row-fluid">
                                     <div class="control-group aluno">
@@ -692,9 +692,9 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="widget-scroll margin-bottom-none row-fluid" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                                 <div>
-                                    <h5 class="titulos">
+                                    <h3>
                                         Justificativa da falta de documentação
-                                    </h5>
+                                    </h3>
                                 </div>
                                 <div class="row-fluid" style="height: auto;">
                                     <div class="control-group aluno">
@@ -712,9 +712,9 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                             <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                                 <div>
-                                    <h5 class="titulos">
+                                    <h3>
                                         Cartão Nacional de Saúde
-                                    </h5>
+                                    </h3>
                                 </div>
                                 <div class="row-fluid" style="height: auto;">
                                     <div class="control-group aluno">
@@ -735,9 +735,9 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class=" widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                                 <div>
-                                    <h5 class="titulos">
+                                    <h3>
                                         Cadastro de Pessoa Física
-                                    </h5>
+                                    </h3>
                                 </div>
                                 <div class="row-fluid" style="height: auto;">
                                     <div class="control-group aluno">
@@ -757,9 +757,9 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class=" widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                                 <div>
-                                    <h5 class="titulos">
+                                    <h3>
                                         Registro Geral
-                                    </h5>
+                                    </h3>
                                 </div>
                                 <div class="row-fluid" style="height: auto;">
 
@@ -819,9 +819,9 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class=" widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                                 <div>
-                                    <h5 class="titulos">
+                                    <h3>
                                         Justiça
-                                    </h5>
+                                    </h3>
                                 </div>
                                 <div class="row-fluid" style="height: auto;">
                                     <div class="control-group aluno">
@@ -838,9 +838,9 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class=" widget-scroll margin-bottom-none hide-responsive" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                                 <div>
-                                    <h5 class="titulos">
+                                    <h3>
                                         Passaporte
-                                    </h5>
+                                    </h3>
                                 </div>
                                 <div class="row-fluid" style="height: auto;">
                                     <div class="control-group aluno">
