@@ -3,7 +3,7 @@
 
 .t-cards {
     border-radius: $borderRadiusLarge;
-    padding: $size200;
+    padding: $SizeLarge;
     background: $colorsBaseProductLighter;
     margin-bottom: $SizeMedium;
     margin-right: $SizeMedium;
@@ -24,13 +24,10 @@
         }
         .t-cards-text {
             color: $colorsBaseInkLightActive;
-            margin-left: $SizeXXLarge;
+            margin-left: $SizeXLarge;
         }
         &:hover {
             text-decoration: none;
         }
     }
-
-
-
 }
