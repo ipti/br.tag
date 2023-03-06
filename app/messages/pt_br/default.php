@@ -585,6 +585,7 @@ return array(
     //InstructorIdentification
     'Nis' => 'Nº de Identificação Social (NIS)',
     'Birthday Date' => 'Data de Nascimento',
+    'Instructor Fk' => 'Professor',
     'Sex' => 'Sexo',
     'Color Race' => 'Cor / Raça',
     'Filiation' => 'Filiação',
@@ -691,6 +692,9 @@ return array(
 
     //Instructor email update
     'Update Instructor e-mails' => "Atualizar e-mail dos professores",
+
+    //Instructor frequency
+    'Instructor frequency' => "Frequência do professor",
     
     //Classboards
     'Insert class' => 'Inserir aula',
@@ -772,6 +776,7 @@ return array(
     
     //Selects de Dorpdowns
     'Select School' => 'Selecione a escola',
+    'Select Discipline' => 'Selecione uma disciplina',
     
     //Titulos
     'School Identifications' => 'Escolas',
