@@ -1,0 +1,18 @@
+@import '../_tokens.scss';
+@import '../_functions.scss';
+
+.t-field-number {
+    margin-bottom: $SizeNormal;
+    &__label{
+        display: flex;
+        align-items: center;
+        &--required {
+            font-weight: bold;
+        }
+    }
+    &__input, input[type="number"] {
+        width: 100%;
+        margin-bottom: 0px;
+        padding: $spaceSmall;
+    }
+}

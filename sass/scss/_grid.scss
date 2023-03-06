@@ -12,11 +12,12 @@
 }
 
 .column {
+    flex-basis: 0;
     margin-left: $spaceXLarge/2;
     margin-right: $spaceXLarge/2;
 }
 
-[class^="col-"].clearfix {
+.column.clearfix {
     margin-left: 0;
     margin-right: 0;
 }

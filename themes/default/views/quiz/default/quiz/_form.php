@@ -21,7 +21,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="row-fluid  hidden-print">
     <div class="span12">
-        <h3 class="heading-mosaic"><?php echo $title; ?></h3>  
+        <h1><?php echo $title; ?></h1>  
         <div class="buttons">
             <?php echo CHtml::htmlButton('<i></i>' . ($quiz->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'save_button', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
             ?>

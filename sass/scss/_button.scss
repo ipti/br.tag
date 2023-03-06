@@ -1,13 +1,33 @@
 @import '_tokens.scss';
 @import '_functions.scss';
 
-.t-button {
-    padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
+.t-buttons-container {
+    display: inline-block;  
+    width: 100%;    
+    
+    @include device(tablet) {
+        padding: $spaceXXXSmall 0 $spaceXXXSmall 0;
+        font-size: $FontSizeTextNormal;
+        display: flex;
+    }
+}
+
+.t-buttons-container-form{
+    align-items: center; 
+  }
+
+.t-button {    
+    padding: $spaceNormal;
+    margin: $spaceXSmall 0;
     font-size: $FontSizeTextSmall;
     border-radius: $borderRadiusLarge;
     text-decoration: none;
     display: flex;
     justify-content: space-between;
+    align-self: center;
+    justify-content: center;
+    margin-right: $spaceMedium;
+    cursor: pointer;
 
     @include device(tablet) {
         padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
@@ -17,8 +37,18 @@
         padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
     }
 
-    &:hover, &--active {
-        text-decoration: none;
+    &:link, &:focus, &:hover, &--active, &:active {
+        text-decoration: none !important;
+    }
+
+    img {
+        margin-right: $SizeXXSmall;
+    }
+
+    i {
+        align-self: center;
+        margin-right: $SizeXXSmall;
+        opacity: 0.5;
     }
 }
 
@@ -26,13 +56,30 @@
     @extend .t-button;
     background-color: $colorsBaseProductNormal;
     color:$colorsBaseWhiteNormal;
+    cursor: pointer;
+    align-self: center;
 
     &:hover, &--active {
         color:$colorsBaseWhiteNormal;
         background-color: $colorsBaseProductNormalActive;
     }
+    
+    &:link, &:focus, &:hover, &--active, &:active {
+        color: $colorsBaseWhiteNormal;
+    }
 }
+
 .t-button-secondary {
+    @extend .t-button;
+    background-color: $colorsBaseCloudLight;
+    color:$colorsBaseInkNormal;
+    &:hover, &--active {
+        color:$colorsBaseInkNormal;
+        background-color: $colorsBaseCloudLightHover;
+    }
+}
+
+.t-button-tertiary {
     @extend .t-button;
     background-color: $colorsBaseInkLighterActive;
     color:$colorsBaseWhiteNormal;
@@ -40,4 +87,9 @@
         color:$colorsBaseWhiteNormal;
         background-color: $colorsBaseInkLight;
     }
+}
+
+.t-button-submit {
+    @extend .t-button-primary;
+    margin: $SizeNormal 0;
 }

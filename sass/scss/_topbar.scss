@@ -1,0 +1,79 @@
+.tag-topbar {
+    padding: $SizeSmall;
+    box-sizing: border-box;
+    list-style: none;
+    width: 100%;
+    position: fixed;
+    right: $spaceEmpty;
+    z-index: 2;
+    background-color: $colorsBaseWhiteNormal;
+    @include device(tablet) {
+        width: calc(100% - 190px);
+    }
+    &__content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        list-style: none;
+        margin: $spaceEmpty;
+        width: 100%;
+        .tag-topbar__item {
+            display: flex;
+            .tag-topbar__voltar {
+                display: none;
+                text-decoration: none;
+                cursor: pointer;
+                color: $colorsBaseProductLogo;
+                padding: $SizeSmall;
+                padding-left: $spaceEmpty;
+                border-right: solid $borderWidthCard $colorsBaseProductLight;
+                font-family: 'Inter' sans-serif;
+                font-size: $FontSizeHeadingTitle4;
+                font-weight: bold;
+                margin-right: $SizeMedium;
+                @include device(tablet) {
+                   display: block;
+                }
+            }
+            .tag-topbar__toggle {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                width: $SizeLarge;
+                height: $SizeLarge;
+                padding: $SizeSmall;
+                padding-left: $spaceEmpty;
+                border-right: solid $borderWidthCard $colorsBaseProductLight; 
+                margin-right: $SizeMedium;
+                @include device(tablet) {
+                    display: none;
+                 }
+            }
+            .tag-topbar__toggle div {
+                border-radius: $borderRadiusBadge;
+                width: 100%;
+                height: $SizeXXXSmall;
+                background-color: $colorsBaseProductNormalActive;
+            }
+            .tag-topbar__username {
+                display: inline-block;
+                font-size: $FontSizeTextNormal;
+                margin-left: $SizeXSmall;
+                border-top: $borderWidthInput solid $colorsBaseProductLight;
+                width: 90%;
+                color: $colorsBaseInkLighterHover;
+            }
+            
+            
+            .tag-topbar__school_logo {
+                width: $SizeMedium * 2;
+                height: $SizeMedium * 2;
+                border-radius: $borderRadiusCircle;
+                margin-right: $SizeXSmall;
+                border: 2px solid $colorsBaseProductLogo;
+                padding: $spaceXXSmall;
+            }
+// 11048660
+        }
+    }
+}

@@ -2,7 +2,7 @@
 
 <div class="row-fluid  hidden-print">
     <div class="span12">
-        <h3 class="heading-mosaic"><?= $quiz->name?></h3>  
+        <h1><?= $quiz->name?></h1>  
         <div class="buttons">
             <?php echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Save'), array('id' => 'save_answer_button', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
             ?>

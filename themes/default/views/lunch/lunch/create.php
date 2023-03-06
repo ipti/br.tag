@@ -5,9 +5,9 @@ $title = Yii::t('lunchModule.lunch', 'New Menu');
 
 <div class="row-fluid hidden-print">
     <div class="span12">
-        <h3 class="heading-mosaic"><?= Yii::t('lunchModule.lunch', 'New Menu'); ?>
+        <h1><?= Yii::t('lunchModule.lunch', 'New Menu'); ?>
             &nbsp;<span><?= Yii::t('lunchModule.lunch', 'Fill the form and add the portions to the meal.'); ?></span>
-        </h3>
+        </h1>
         <div class="buttons pull-right span4">
         </div>
     </div>

@@ -239,10 +239,6 @@ form {
     overflow-y: auto;
 }
 
-.load-more:hover {
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-}
-
 #lineChart {
     width: 100%;
     height: 500px;
@@ -319,7 +315,7 @@ form {
 }
 
 #Classroom_week_days {
-    margin-left: 43px;
+    margin-left: 35px;
 }
 
 .schedule-info {

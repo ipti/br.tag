@@ -35,6 +35,7 @@ class Users extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, username, password', 'required'),
+			array('name, username', 'unique', 'className' => 'Users'),
 			array('active', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>150),
 			array('username', 'length', 'max'=>32),
@@ -70,7 +71,7 @@ class Users extends CActiveRecord
 			'name' => Yii::t('default', 'Name'),
 			'username' => Yii::t('default', 'Username'),
 			'password' => Yii::t('default', 'Password'),
-			'active' => 'Active',
+			'active' => Yii::t('default', 'Active'),
 		);
 	}
 

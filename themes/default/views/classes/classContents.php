@@ -1,6 +1,9 @@
 <?php
-/* @var $this ClassesController */
-/* @var $dataProvider CActiveDataProvider */
+/**  
+ * @var ClassesController $this ClassesController
+ * @var CActiveDataProvider $dataProvider CActiveDataProvider
+ *
+ */
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
@@ -17,23 +20,23 @@ $form = $this->beginWidget('CActiveForm', array(
     'action' => CHtml::normalizeUrl(array('classes/saveClassContents')),
 ));
 
+$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+
 ?>
 
+<div class="main">
     <div class="row-fluid hidden-print">
         <div class="span12">
-            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Class Contents'); ?></h3>
+            <h1><?php echo Yii::t('default', 'Class Contents'); ?></h1>
             <div class="buttons span9">
                 <a id="print" class='tag-button-light  medium-button'>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.png"/>
                     <?php echo Yii::t('default', 'Print') ?>
                 </a>
-                <a id="save" class='tag-button medium-button'><?php echo Yii::t('default', 'Save') ?></a>
+                <a id="save" class='t-button-primary  '><?php echo Yii::t('default', 'Save') ?></a>
             </div>
         </div>
     </div>
-<?php
-$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-?>
     <table class="table table-bordered table-striped visible-print">
         <tr>
             <th>Escola:</th>
@@ -59,22 +62,19 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <tr>
     </table>
     <br>
-
-    <div class="innerLR">
-
-<?php if (Yii::app()->user->hasFlash('success')) : ?>
+    <?php if (Yii::app()->user->hasFlash('success')) : ?>
     <div class="alert alert-success">
         <?php echo Yii::app()->user->getFlash('success') ?>
     </div>
-<?php endif ?>
+    <?php endif ?>
     <div class="alert-save no-show alert alert-success">
         Aulas ministradas atualizadas com sucesso!
     </div>
     <div class="alert-required-fields no-show alert alert-error">
         Os campos com * são obrigatórios.
     </div>
-    <div class="filter-bar">
-        <div>
+    <div class="row align-items--center filter-bar">
+        
             <div>
                 <div class="controls">
                     <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required', 'style' => 'width: 53px;')); ?>
@@ -124,13 +124,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 ?>
             </div>
             <div class="pull-right">
-                <a id="classesSearch" class='tag-button small-button' style="margin: 0px;"><i
+                <a id="classesSearch" class='t-button-primary '><i
                             class="fa-search fa icon-button-tag"
-                            style="margin-top:5px"></i><?php echo Yii::t('default', 'Search') ?>
+                            ></i><?php echo Yii::t('default', 'Search') ?>
                 </a>
             </div>
-            <i class="loading-class-contents fa fa-spin fa-spinner"></i>
-        </div>
+            <i class="loading-class-contents fa fa-spin fa-spinner" style="display: none"></i>
+        
     </div>
     <div class="clear"></div>
     <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
@@ -147,4 +147,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </tbody>
         </table>
     </div>
-<?php $this->endWidget(); ?>
+</div>
+
+    <?php $this->endWidget(); ?>

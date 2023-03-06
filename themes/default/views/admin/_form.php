@@ -8,9 +8,11 @@
 <?php
 
 $baseUrl = Yii::app()->baseUrl;
+$themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/admin/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/admin/form/_initialization.js', CClientScript::POS_END);
+$cs->registerCssFile($themeUrl . '/css/template2.css');
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'users-createUser-form',
@@ -21,7 +23,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="row-fluid">
     <div class="span12" style="height: 70px;">
-        <h3 class="heading-mosaic"><?php echo $title; ?></h3>
+        <h1><?php echo $title; ?></h1>
         <span class="subtitle"> <?php echo Yii::t('default', 'Fields with * are required.') ?>
             <div class="buttons">
                 <div class="buttons">
@@ -41,7 +43,6 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="tag-inner">
     <div class="widget widget-tabs border-bottom-none">
-
         <div class="widget-head">
             <ul class="tab-classroom">
                 <li id="tab-classroom" class="active">
@@ -60,7 +61,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class="span6">
                             <div>
-                                <h5 class="titulos">Dados Básicos</h5>
+                                <h3>Dados Básicos</h3>
                             </div>
                             <div class="control-group">
                                 <div class="controls">
@@ -93,7 +94,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo CHtml::label(Yii::t('default', 'Schools'), 'schools', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo CHtml::dropDownList('schools', '', CHtml::listData(SchoolIdentification::model()->findAll('situation=1 order by name'), 'inep_id', 'name'), array('multiple' => 'multiple', 'class' => 'select-search-on control-input')); ?>
+                                    <?php echo CHtml::dropDownList('schools',$userSchools,CHtml::listData(SchoolIdentification::model()->findAll('situation=1 order by name'), 'inep_id', 'name'),array('multiple'=>'multiple', 'class'=>'select-search-on')); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="controls">
+                                    <?php echo CHtml::activeCheckbox($model,'active') ?>
+                                    <?php echo CHtml::label( Yii::t('default','Active'), 'active', array('class' => 'control-label', 'id' => 'active-label')); ?>
                                 </div>
                             </div>
                         </div>
@@ -101,9 +108,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class=" span6">
                             <div>
-                                <h5 class="titulos">Dados de login
-
-                                </h5>
+                                <h3>Dados de login</h3>
                             </div>
                             <div class="control-group">
                                 <div class="controls">
@@ -125,30 +130,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Min length') . "6"; ?>"><i></i></span> -->
                                     <?php echo $form->error($model, 'password'); ?>
                                 </div>
-                            </div>
-
-                            <div class="control-group">
-                                <div class="controls">
-                                    <?php 
-                                    $roles = CHtml::listData(AuthItem::model()->findAll('type=2 and name <> "instructor" order by name'), 'name','name');
-                                    foreach ($roles as $key => $value) {
-                                        $roles[$key] = Yii::t('default',$value);
-                                    }
-                                    echo CHtml::dropDownList('Role',$actual_role, $roles ,array('class'=>'select-search-off')); ?>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <?php echo CHtml::label( Yii::t('default','Active'), 'active', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo CHtml::dropDownList('schools',$userSchools,CHtml::listData(SchoolIdentification::model()->findAll('situation=1 order by name'), 'inep_id', 'name'),array('multiple'=>'multiple', 'class'=>'select-search-on')); ?>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <?php echo CHtml::label( Yii::t('default','Active'), 'active', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo CHtml::activeCheckbox($model,'active') ?>
-                                </div>
-                            </div>
+                            </div> 
                         </div>
                     </div>
                 </div>
@@ -162,3 +144,21 @@ $form = $this->beginWidget('CActiveForm', array(
 <script>
     var form = '#Users_';
 </script>
+
+<style>
+.form-horizontal .control-group:last-child {
+    margin-bottom: 20px !important;
+}
+
+.control-group:last-child {
+    margin-left: 32px !important;
+}
+
+#active-label {
+    width: 40px !important;
+}
+
+input[type="checkbox"] {
+    height: 30px !important;
+}
+</style>

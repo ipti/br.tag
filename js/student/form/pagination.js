@@ -5,8 +5,6 @@ if (simple == '1') {
     var tabs = ['tab-student-identify', 'tab-student-documents', 'tab-student-address', 'tab-student-enrollment'];
 }
 function changeTab(index){
-    /* console.log(index)
-    index = 1 */
 	var activeTab = $('.js-tab-control li.active');
 	var activePane = $('div .active');
 	
@@ -32,6 +30,7 @@ function changeTab(index){
     activePane.removeClass("active");
     
     newPane = newTab.substring(4).toString();
+    console.log(newPane)
     
     $('#' + newTab).addClass("active");
     $('#' + newPane).addClass("active");
@@ -42,7 +41,6 @@ function changeTab(index){
 function change2nextTab(){
 	var activeTab = $('.js-tab-control li.active');
     var tab = tabs.indexOf(activeTab.attr("id"));
-    console.log(tab)
 	changeTab(tab+1);
 }
 
@@ -58,7 +56,7 @@ function change2clickedTab(clicked){
 	changeTab(tab);
 }
 
-$('.tab-student li a').click(function() {
+$('.js-tab-control li a').click(function() {
     var clickedTab = $(this).parent();
     change2clickedTab(clickedTab);
 });

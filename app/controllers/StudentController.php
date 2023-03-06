@@ -461,6 +461,9 @@ class StudentController extends Controller
         } else if ($model == $this->STUDENT_DOCUMENTS_AND_ADDRESS) {
             $student_inep_id = StudentIdentification::model()->findByPk($id)->inep_id;
             $return = StudentDocumentsAndAddress::model()->findByAttributes(array('id' => $id));
+            if($return === null){
+                $return = new StudentDocumentsAndAddress;
+            }
             //mudança agora só busca pelo pk, não mais pelo inep_id
             /*$return = ($student_inep_id === 'null' || empty($student_inep_id))
                     ? StudentDocumentsAndAddress::model()->findByPk($id)

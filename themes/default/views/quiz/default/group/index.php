@@ -8,7 +8,7 @@
 
     <div class="row-fluid">
         <div class="span12">
-            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Group') ?></h3>  
+            <h1><?php echo Yii::t('default', 'Group') ?></h1>  
             <div class="buttons">
                 <a href="<?php echo Yii::app()->createUrl('quiz/default/createGroup') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> <?= Yii::t('default', 'New Group') ?> </a>
             </div>

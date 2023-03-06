@@ -1,17 +1,13 @@
-var div = $("<div></div>");
-$("body").append(div); 
-
 $(document).ready(function(){
-    $(".fullmenu-toggle-button").click(function(){
-        $("#menu").toggleClass("hidden-menu");
-        div.toggleClass("sidebar-cover")
+    $(".js-toggle-drawer, .menu-cover").click(function(){
+        $(".js-drawer").toggleClass("t-drawer--mobile-hidden");
+        $(".menu-cover").toggleClass("sidebar-cover")
     });
-    $(".sidebar-cover").click(function(){
-        $("#menu").toggleClass("hidden-menu");
-        div.toggleClass("sidebar-cover")
+
+
+    $("#menu-electronic-diary-trigger").click(function(){
+        $("#menu-electronic-diary").toggleClass("active");
     });
-    $("#box-menu").click(function(){
-        $("#menu").toggleClass("hidden-menu");
-        div.toggleClass("sidebar-cover")
-    });
+
+
 });

@@ -19,7 +19,7 @@ $form = $this->beginWidget('CActiveForm', array(
 ));
 ?>
 
-<body class="login">
+<body class="login" style="overflow-x: hidden;">
     <div class="colorful-bar">
         <span id="span-color-blue"></span>
         <span id="span-color-red"></span>
@@ -28,6 +28,8 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
 <!-- Wrapper -->
 <div id="login">
+    <!-- <img src="<?php  echo Yii::app()->theme->baseUrl; ?>/img/tag-title.png" style="padding: 20px 20px;position: absolute;top: 0;right: 0;" /> -->
+    <img alt ="logo negativa"src="<?php echo Yii::app()->theme->baseUrl; ?>/img/fadedlogo.svg" class="fadedlogo"/>
     <img src="<?php  echo Yii::app()->theme->baseUrl; ?>/img/tag-title.png" style="padding: 20px 20px;position: absolute;top: 0;left: 0;" />
     <div class="form-signin">
                     <form method="post" action="index.html?lang=en&amp;layout_type=fluid&amp;menu_position=menu-left&amp;style=style-light">
@@ -80,7 +82,7 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
     <span class="iptilogo">TAG v.<?php echo TAG_VERSION ?><br>Yii v.<?php echo YII_VERSION ?><br>
         Uma tecnologia desenvolvida pelo</span>
-    <img src="<?php  echo Yii::app()->theme->baseUrl; ?>/img/logo_ipti.png" style="padding: 20px 20px;height: 60px;position: absolute;bottom: 0;right: 0;" />
+    <!-- <img src="<?php  echo Yii::app()->theme->baseUrl; ?>/img/logo_ipti.png" style="padding: 20px 20px;height: 60px;position: absolute;bottom: 0;right: 0;" /> -->
 
 </div>
 </body>
