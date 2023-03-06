@@ -9,16 +9,16 @@ xsd2php:
     'http://www.tce.se.gov.br/sagres2023/xml/genericos': 'Genericos'
 
   destinations_php:
-    'TabInternas': C:\Users\natha\OneDrive\Documents\br.tag\app\soap\src\tabInternasClass
-    'SagresEdu': C:\Users\Nathan\Documents\ipti\br.tag\app\modules\sagres\soap\src\sagresEdu
-    'Genericos': C:\Users\Nathan\Documents\ipti\br.tag\app\modules\sagres\soap\src\genericosClass
+    'TabInternas': C:\Users\JoseNatan\Documents\Developer\br.tag\app\modules\sagres\soap\src\tabInternasClass
+    'SagresEdu': C:\Users\JoseNatan\Documents\Developer\br.tag\app\modules\sagres\soap\src\sagresEdu
+    'Genericos': C:\Users\JoseNatan\Documents\Developer\br.tag\app\modules\sagres\soap\src\genericosClass
 
 #    'TestNs\MyApp': soap\src  #  on Windows
 
   destinations_jms:
-    'TabInternas': C:\Users\natha\OneDrive\Documents\br.tag\app\soap\metadata\tabInternasMetadata
-    'SagresEdu': C:\Users\Nathan\Documents\ipti\br.tag\app\modules\sagres\soap\metadata\sagresEduMetadata
-    'Genericos': C:\Users\Nathan\Documents\ipti\br.tag\app\modules\sagres\soap\metadata\genericosMetadata
+    'TabInternas': C:\Users\JoseNatan\Documents\Developer\br.tag\app\modules\sagres\soap\metadata\tabInternasMetadata
+    'SagresEdu': C:\Users\JoseNatan\Documents\Developer\br.tag\app\modules\sagres\soap\metadata\sagresEduMetadata
+    'Genericos': C:\Users\JoseNatan\Documents\Developer\br.tag\app\modules\sagres\soap\metadata\genericosMetadata
 
 #    'TestNs\MyApp': soap\metadata  #  on Windows
  
