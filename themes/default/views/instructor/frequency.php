@@ -23,15 +23,6 @@
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Instructor frequency'); ?></h1>
             <h5> Marcar apenas faltas.</h5>
-            <div class="buttons span9">
-                <!--            <a id="print" class='btn btn-icon glyphicons print hidden-print'>-->
-                <?php //echo Yii::t('default', 'Print') 
-                ?><!--<i></i></a>-->
-                <!--            <a href="-->
-                <?php //echo Yii::app()->createUrl('reports/bfreport') 
-                ?><!--" class='btn btn-icon glyphicons print hidden-print'>Bolsa Familia<i></i></a>-->
-                <!-- <a id="save" class='btn btn-icon btn-primary glyphicons circle_ok hidden-print'><?php echo Yii::t('default', 'Save') ?><i></i></a> -->
-            </div>
         </div>
     </div>
     <br>
