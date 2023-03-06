@@ -1,0 +1,17 @@
+@import '../_tokens.scss';
+@import '../_functions.scss';
+
+.t-field-checkbox {
+    margin-bottom: $DimensionLarge;
+    &__label{
+        &--required {
+            font-weight: bold;
+        }
+    }
+    &__input, input[type="checkbox"] {
+        background: $colorsBaseWhiteNormal;
+        height: 20px;
+        width: 20px;
+        margin: 0 $DimensionXXXXSmall 0;
+    }
+}

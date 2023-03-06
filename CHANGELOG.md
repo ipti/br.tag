@@ -1,5 +1,24 @@
 # Atualizações
 
+## [Versão 3.2.2]
+**Melhorias**
+- Implementação de tabelas dinâmicas com novos recursos de paginação, pesquisa, ordenação e responsividade
+
+## [Versão 3.1.2]
+**Melhorias**
+- Agora os campos de ato de reconhecimento e regulamentação do cadastro de escolas são obrigatórios
+
+## [Versão 3.1.1]
+**Melhorias**
+- Alterar valores de anos anteriores com o mesmo login sem precisar acessar o ano
+
+## [Versão 3.0.1]
+**Melhorias**
+- Pesquisa de aluno por inep_id
+- Alteração do botão de próximo para salvar na edição de aluno
+- Inep_id dos alunos nos relatórios
+- Opção de ativar/desativar usuários
+- Bloqueio de duplicidade de alunos (CPF - Certidão - Nome)
 
 ## [Versão 3.0.0]
 **Melhorias**

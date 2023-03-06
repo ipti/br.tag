@@ -1,0 +1,147 @@
+/* Color */
+    /* Product */
+    $colorsBaseProductLightActive: #ccd0ee;
+    $colorsBaseProductlightHover: #e2e5f2;
+    $colorsBaseProductLight: #eaeaf8;
+    $colorsBaseProductLighter: #fafafe;
+    $colorsBaseProductNormal: #3f45ea;
+    $colorsBaseProductNormalHover: #2e33b7;
+    $colorsBaseProductNormalActive: #272B96;
+    $colorsBaseProductDark: #26298d;
+    $colorsBaseProductDarkHover: #1c1f7f;
+    $colorsBaseProductDarkActive: #18204e;
+    $colorsBaseProductLogo: #16205b;
+    /* Ink */
+    $colorsBaseInkNormalActive: #0b0c0f;
+    $colorsBaseInkNormalHover: #181b20;
+    $colorsBaseInkNormal: #252A31;
+    $colorsBaseInkLightActive: #465567;
+    $colorsBaseInkLightHover: #52647a;
+    $colorsBaseInkLight: #5F738C;
+    $colorsBaseInkLighterActive: #94a8be;
+    $colorsBaseInkLighterHover: #a6b6c8;
+    $colorsBaseInkLighter: #bac7d5;
+    /* Text */
+    $colorsTextPrimary: #252A31;
+    $colorsTextSecondary: #5F738C;
+    $colorsTextError: #D21C1C;
+    $colorsTextInfo: #0172CB;
+    $colorsTextSuccess: #28a138;
+    $colorsTextWarning: #e98305;
+    /* Alert1 */
+    $colorsAlertInfoIcon: #0172CB;
+    $colorsAlertInfoText: #005aa3;
+    $colorsAlertInfoBackground: #E8F4FD;
+    $colorsAlertInfoBorder: #d0e9fb;
+    /* Cloud */
+    $colorsBaseCloudDark: #e8edf1;
+    $colorsBaseCloudNormalActive: #cad4de;
+    $colorsBaseCloudNormalHover: #dce3e9;
+    $colorsBaseCloudNormal: #eff2f5;
+    $colorsBaseCloudLightActive: #d6dee6;
+    $colorsBaseCloudLightHover: #e5eaef;
+    $colorsBaseCloudLight: #f5f7f9;
+    /* White */
+    $colorsBaseWhiteNormalActive: #e7ecf1;
+    $colorsBaseWhiteNormalHover:#f1f4f7;
+    $colorsBaseWhiteNormal: #FFFFFF;
+    /* Alert2 */
+    $colorsAlertSuccessIcon: #28a138;
+    $colorsAlertSuccessText: #2B7336;
+    $colorsAlertSuccessBackground: #EBF4EC;
+    $colorsAlertSuccessBorder: #d7ead9;
+    /* Alert3 */
+    $colorsAlertWarningIcon: #e98305;
+    $colorsAlertWarningText: #a25100;
+    $colorsAlertWarningBackground: #fdf0e3;
+    $colorsAlertWarningBorder: #fae2c7;
+
+
+/* Space */    
+$spaceLarge: 1.5em;
+$spaceMedium: 1em;
+$spaceSmall: 0.75em;
+$spaceXLarge: 2em;
+$spaceXSmall: 0.5em;
+$spaceXXLarge: 2.5em;
+$spaceXXXLarge: 3.25em;
+$spaceXXXSmall: 0.25em;
+$spaceXXXXSmall: 0.12em;
+$spaceNormal: 0.875em;
+$spaceXXSmall: 0.375em;
+$spaceEmpty: 0.0em;
+
+
+
+/* Font size */
+$FontSizeHeadingTitle1: 24px;
+$FontSizeHeadingTitle2: 16px;
+$FontSizeHeadingTitle3: 16px;  
+$FontSizeHeadingTitle4: 14px;
+$FontSizeFormLabel: 16px;
+$FontSizeTextNormal: 14px;
+$FontSizeTextSmall: 12px;
+$FontSizeButtonSmall: 14px;
+
+/* Grid */
+$layout-2xs: calc(4px - 0.25rem);
+$layout-xs: calc(8px - 0.5rem);
+$layout-sm: calc(12px - 0.75rem);
+$layout-md: calc(16px - 1rem);
+$layout-lg: calc(24px - 1.5rem);
+$layout-xl: calc(32px - 2rem);
+$layout-2xl: calc(40px - 2.5rem);
+$layout-3xl: calc(48px - 3rem);
+$layout-4xl: calc(64px - 4rem);
+
+/* Dimension */
+$DimensionLarge: 24px;
+$DimensionMedium: 16px;
+$DimensionSmall: 12px;
+$DimensionXLarge: 32px;
+$DimensionXSmall: 8px;
+$DimensionXXLarge: 40px;
+$DimensionXXXLarge: 52px;
+$DimensionXXXSmall: 4px;
+$DimensionXXXXSmall: 2px;
+$DimensionNormal: 14px;
+$DimensionXXSmall: 6px;
+
+/* Border Radius */
+$borderRadiusSmall: 2px;
+$borderRadiusNormal: 3px;
+$borderRadiusLarge: 6px; 
+$borderRadiusCircle: 50%;
+$borderRadiusBadge: 12px;
+
+/* Border width */
+$borderWidthCard: 1px;
+$borderWidthInput: 1px;
+$borderWidthInputFocus: 2px;
+
+
+/* Opacity */
+$opacityButtonDisabled: 0.3;
+$opacityCheckboxDisabled: 0.5;
+$opacityOverlay: 0.8;
+$opacityRadioButtonDisabled: 0.5;
+
+/* Line Height */
+$lineHeightHeading: 1.2;
+$lineHeightHeadingDisplay: 44px;
+$lineHeightHeadingDisplaySubtitle: 28px;
+$lineHeightHeadingTitle1: 36px;
+$lineHeightHeadingTitle2: 28px;
+$lineHeightHeadingTitle3: 24px;
+$lineHeightText: 1.4px;
+$lineHeightTextSmall: 16px;
+$lineHeightTextNormal: 20px;
+$lineHeightTextLarge: 24px;
+
+/*Font Weight*/
+$fontWeightBold: 700;
+$fontWeightHeadingDisplay: 700;
+$fontWeightHeadingDisplaySubtitle: 400;
+$fontWeightSemiRegular: 400;
+$fontWeightRegular: 500;
+$fontWeightSemiBold: 600;

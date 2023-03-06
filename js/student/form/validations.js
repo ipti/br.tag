@@ -1,12 +1,41 @@
 $(formIdentification + 'name').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
-    var ret = validateNamePerson(($(id).val()));
-    if (!ret[0] && ($(id).val() != '')) {
-        addError(id, ret[1]);
-    } else {
-        removeError(id);
-    }
+    var id_error_icon = $("#errorNameIcon");
+    var id_warn_icon = $("#warningNameIcon");
+    var id_caixa = $("#similarMessage");
+    $(id_warn_icon).css('cursor', 'auto');
+    removeWarning(id, id_caixa, id_warn_icon);
+    removeError(id, id_caixa, id_error_icon);
+    validateNamePerson(($(id).val()), function (ret) {
+        if (!ret[0] && ($(id).val() != '')) {
+            removeWarning(id, id_caixa, id_warn_icon)
+            if(ret[2] != null) {
+                warningMessage(id, ret[2]);
+                $(id_warn_icon).css('cursor', 'pointer');
+                addWarning(id, ret[1], id_caixa, id_warn_icon);
+            }else {
+                addError(id);
+                $(id_error_icon).css('display', 'inline-block');
+                $(id_caixa).attr('data-original-title', ret[1]);
+            }
+        } else {
+            removeError(id, id_caixa, id_error_icon);
+            if(ret[0] && ($(id).val() != '') && ret[1] != null) {
+                if(ret[2] != null) {
+                    warningMessage(id, ret[2]);
+                    $(id_warn_icon).css('cursor', 'pointer');
+                    addWarning(id, ret[1], id_caixa, id_warn_icon);
+                }else {
+                    addError(id);
+                    $(id_error_icon).css('display', 'inline-block');
+                    $(id_caixa).attr('data-original-title', ret[1]);
+                }
+            }else {
+                removeWarning(id, id_caixa, id_warn_icon);
+            }
+        }
+    });
 });
 
 $(formIdentification + 'nis').focusout(function () {
@@ -45,12 +74,34 @@ $(formIdentification + 'responsable_telephone').focusout(function () {
 $(formIdentification + 'responsable_cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
 $(formIdentification + 'responsable_cpf').focusout(function () {
     var id = '#' + $(this).attr("id");
-    if (!validateCpf($(id).cleanVal())) {
-        //$(id).attr('value', '');
-        addError(id, "Informe um CPF válido. Deve possuir apenas números.");
-    } else {
-        removeError(id);
-    }
+    removeError(id);
+    validateCpf($(id).cleanVal(), function (ret) {
+        if (!ret[0] && ($(id).val() != '')) {
+            addError(id, "Informe um CPF válido. Deve possuir apenas números.");
+        } else {
+            removeError(id);
+        }
+    });
+});
+
+$(formDocumentsAndAddress + 'civil_certification_term_number').focusout(function () {
+    var id = '#' + $(this).attr("id");
+    var id_caixa = $("#termMessage");
+    var id_icon = $("#errorTermIcon");
+    removeError(id);
+    $(id_icon).css('display', 'none');
+    $(id_caixa).attr('data-original-title', '');
+    validateCivilCertificationTermNumber($(id).val(), function (ret) {
+        if (!ret[0] && ($(id).val() != '')) {
+            addError(id);
+            $(id_icon).css('display', 'inline-block');
+            $(id_caixa).attr('data-original-title', ret[1]);
+        } else {
+            removeError(id);
+            $(id_icon).css('display', 'none');
+            $(id_caixa).attr('data-original-title', '');
+        }
+    });
 });
 
 $(formIdentification + 'filiation_1_cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
@@ -102,38 +153,16 @@ $(formIdentification + 'birthday').focusout(function () {
 
 $(formIdentification + 'filiation').change(function () {
     var simple = getUrlVars()['simple'];
-    $(formIdentification + 'filiation_1').attr("disabled", "disabled");
-    $(formIdentification + 'filiation_1_rg').attr("disabled", "disabled");
-    $(formIdentification + 'filiation_1_cpf').attr("disabled", "disabled");
-    $(formIdentification + 'filiation_1_scholarity').attr("disabled", "disabled");
-    $(formIdentification + 'filiation_1_job').attr("disabled", "disabled");
-    $(formIdentification + 'filiation_2').attr("disabled", "disabled");
-    $(formIdentification + 'filiation_2_rg').attr("disabled", "disabled");
-    $(formIdentification + 'filiation_2_cpf').attr("disabled", "disabled");
-    $(formIdentification + 'filiation_2_scholarity').attr("disabled", "disabled");
-    $(formIdentification + 'filiation_2_job').attr("disabled", "disabled");
+    $('.js-disabled-finputs').attr("disabled", "disabled");
     if ($(formIdentification + 'filiation').val() == 1) {
-        $(formIdentification + 'filiation_1').removeAttr("disabled").closest(".control-group").show();
-        $(formIdentification + 'filiation_1_rg').removeAttr("disabled");
-        $(formIdentification + 'filiation_1_cpf').removeAttr("disabled");
-        $(formIdentification + 'filiation_1_scholarity').removeAttr("disabled");
-        $(formIdentification + 'filiation_1_job').removeAttr("disabled");
-        $(formIdentification + 'filiation_2').removeAttr("disabled").closest(".control-group").show();
-        $(formIdentification + 'filiation_2_rg').removeAttr("disabled");
-        $(formIdentification + 'filiation_2_cpf').removeAttr("disabled");
-        $(formIdentification + 'filiation_2_scholarity').removeAttr("disabled");
-        $(formIdentification + 'filiation_2_job').removeAttr("disabled");
+        $('.js-disabled-finputs').removeAttr("disabled");
+        $(formIdentification + 'filiation_1').closest(".js-visibility-fname").show();
+        $(formIdentification + 'filiation_2').closest(".js-visibility-fname").show();
     } else {
-        $(formIdentification + 'filiation_1').val("").closest(".control-group").css("display", simple === "1" ? "none" : "block");
-        $(formIdentification + 'filiation_1_rg').val("");
-        $(formIdentification + 'filiation_1_cpf').val("");
-        $(formIdentification + 'filiation_1_scholarity').val("");
-        $(formIdentification + 'filiation_1_job').val("");
-        $(formIdentification + 'filiation_2').val("").closest(".control-group").css("display", simple === "1" ? "none" : "block");
-        $(formIdentification + 'filiation_2_rg').val("");
-        $(formIdentification + 'filiation_2_cpf').val("");
-        $(formIdentification + 'filiation_2_scholarity').val("");
-        $(formIdentification + 'filiation_2_job').val("");
+        $('.js-finput-clear').val("")
+        $(formIdentification + 'filiation_1').closest(".js-visibility-fname").css("display", simple === "1" ? "none" : "block");
+        $(formIdentification + 'filiation_2').closest(".js-visibility-fname").css("display", simple === "1" ? "none" : "block");
+
     }
 });
 $(formIdentification + 'filiation').trigger('change');
@@ -141,39 +170,43 @@ $(formIdentification + 'filiation').trigger('change');
 $(formIdentification + 'filiation_1').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
-    var ret = validateNamePerson(($(id).val()));
-    if (!ret[0]) {
-        $(id).attr('value', '');
-        addError(id, ret[1]);
-    } else {
-        removeError(id);
-        if ($(formIdentification + 'filiation_1').val() !== "" && $(formIdentification + 'filiation_2').val() !== ""
-            && $(formIdentification + 'filiation_1').val() === $(formIdentification + 'filiation_2').val()) {
-            $(formIdentification + 'filiation_1').attr('value', '');
-            addError(id, "O campo não deve ser igual à outra filiação.");
+    removeError(id);
+    validateNamePerson(($(id).val()), function (ret) {
+        if (!ret[0]) {
+            $(id).attr('value', '');
+            addError(id, ret[1]);
         } else {
             removeError(id);
-        }
-    }
-});
+            if ($(formIdentification + 'filiation_1').val() !== "" && $(formIdentification + 'filiation_2').val() !== ""
+                && $(formIdentification + 'filiation_1').val() === $(formIdentification + 'filiation_2').val()) {
+                $(formIdentification + 'filiation_1').attr('value', '');
+                addError(id, "O campo não deve ser igual à outra filiação.");
+            } else {
+                removeError(id);
+            }
+        } 
+    });
+}); 
 
 $(formIdentification + 'filiation_2').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
-    var ret = validateNamePerson(($(id).val()));
-    if (!ret[0]) {
-        $(id).attr('value', '');
-        addError(id, ret[1]);
-    } else {
-        removeError(id);
-        if ($(formIdentification + 'filiation_1').val() !== "" && $(formIdentification + 'filiation_2').val() !== ""
-            && $(formIdentification + 'filiation_1').val() === $(formIdentification + 'filiation_2').val()) {
-            $(formIdentification + 'filiation_2').attr('value', '');
-            addError(id, "O campo não deve ser igual à outra filiação.");
+    removeError(id);
+    validateNamePerson(($(id).val()), function (ret) {
+        if (!ret[0]) {
+            $(id).attr('value', '');
+            addError(id, ret[1]);
         } else {
             removeError(id);
-        }
-    }
+            if ($(formIdentification + 'filiation_1').val() !== "" && $(formIdentification + 'filiation_2').val() !== ""
+                && $(formIdentification + 'filiation_1').val() === $(formIdentification + 'filiation_2').val()) {
+                $(formIdentification + 'filiation_2').attr('value', '');
+                addError(id, "O campo não deve ser igual à outra filiação.");
+            } else {
+                removeError(id);
+            }
+        } 
+    });
 });
 
 $(formIdentification + 'nationality').change(function () {
@@ -182,28 +215,29 @@ $(formIdentification + 'nationality').change(function () {
     var nobr = nationality + ".no-br";
     var simple = getUrlVars()['simple'];
     $(nationality).attr("disabled", "disabled");
+    console.log($(this).val())
     if ($(this).val() == 3) {
         $(nobr).removeAttr("disabled");
         $(formIdentification + 'edcenso_nation_fk').val(null).trigger('change').select2('readonly', false);
         $(formIdentification + 'edcenso_uf_fk').val("").trigger("change.select2");
         $(formIdentification + 'edcenso_city_fk').val("").trigger("change.select2");
-        $(formIdentification + 'edcenso_uf_fk').closest(".control-group").css("display", simple === "1" ? "none" : "block").find(".control-label").removeClass("required").html("Estado");
-        $(formIdentification + 'edcenso_city_fk').closest(".control-group").css("display", simple === "1" ? "none" : "block").find(".control-label").removeClass("required").html("Cidade");
+        $(formIdentification + 'edcenso_uf_fk').closest(".js-change-required").css("display", simple === "1" ? "none" : "block").find("label").removeClass("required").html("Estado");
+        $(formIdentification + 'edcenso_city_fk').closest(".js-change-required").css("display", simple === "1" ? "none" : "block").find("label").removeClass("required").html("Cidade");
     } else if ($(this).val() == "") {
         $(formIdentification + 'edcenso_nation_fk').val(null).trigger('change').attr("disabled", "disabled");
         $(nationality).attr("disabled", "disabled");
-        $(formIdentification + 'edcenso_uf_fk').val("").trigger("change.select2").closest(".control-group").css("display", simple == "1" ? "none" : "block").find(".control-label").removeClass("required").html("Estado");
-        $(formIdentification + 'edcenso_city_fk').val("").trigger("change.select2").closest(".control-group").css("display", simple == "1" ? "none" : "block").find(".control-label").removeClass("required").html("Cidade");
+        $(formIdentification + 'edcenso_uf_fk').val("").trigger("change.select2").closest(".js-change-required").css("display", simple == "1" ? "none" : "block").find("label").removeClass("required").html("Estado");
+        $(formIdentification + 'edcenso_city_fk').val("").trigger("change.select2").closest(".js-change-required").css("display", simple == "1" ? "none" : "block").find("label").removeClass("required").html("Cidade");
     } else {
         $(formIdentification + 'edcenso_nation_fk').val(76).trigger('change').removeAttr("disabled").select2('readonly', true);
         $(br).removeAttr("disabled");
         $(formDocumentsAndAddress + 'civil_certification').trigger("change");
         if ($(this).val() == "1") {
-            $(formIdentification + 'edcenso_uf_fk').removeAttr("disabled").closest(".control-group").show().find(".control-label").addClass("required").html("Estado *");
-            $(formIdentification + 'edcenso_city_fk').removeAttr("disabled").closest(".control-group").show().find(".control-label").addClass("required").html("Cidade *");
+            $(formIdentification + 'edcenso_uf_fk').removeAttr("disabled").closest(".js-change-required").show().find("label").addClass("required").html("Estado *");
+            $(formIdentification + 'edcenso_city_fk').removeAttr("disabled").closest(".js-change-required").show().find("label").addClass("required").html("Cidade *");
         } else {
-            $(formIdentification + 'edcenso_uf_fk').val("").trigger("change.select2").attr("disabled", "disabled").closest(".control-group").css("display", simple == "1" ? "none" : "block").find(".control-label").removeClass("required").html("Estado");
-            $(formIdentification + 'edcenso_city_fk').val("").trigger("change.select2").attr("disabled", "disabled").closest(".control-group").css("display", simple == "1" ? "none" : "block").find(".control-label").removeClass("required").html("Cidade");
+            $(formIdentification + 'edcenso_uf_fk').val("").trigger("change.select2").attr("disabled", "disabled").closest(".js-change-required").css("display", simple == "1" ? "none" : "block").find("label").removeClass("required").html("Estado");
+            $(formIdentification + 'edcenso_city_fk').val("").trigger("change.select2").attr("disabled", "disabled").closest(".js-change-required").css("display", simple == "1" ? "none" : "block").find("label").removeClass("required").html("Cidade");
         }
     }
 });
@@ -409,13 +443,13 @@ $(document).on("change", ".linked-deficiency", function (evt, indirect) {
 $(deficiency).change(function () {
     if ($(this).is(":checked")) {
         $(allDeficiency).removeAttr('disabled');
-        $("#StudentIdentification_deficiencies").parent(".control-group").show().find(".control-label").addClass("required");
+        $("#StudentIdentification_deficiencies").parent(".js-change-required").show().find("label").addClass("required");
         $("#StudentIdentification_deficiency_type_blindness").trigger("change", [true]);
         $(".resources-container").show();
     } else {
         $(allDeficiency).attr('disabled', "disabled").removeAttr('checked');
-        $("#StudentIdentification_deficiencies").parent(".control-group").hide();
-        $("#StudentIdentification_resource_aid_lector").closest(".control-group").hide();
+        $("#StudentIdentification_deficiencies").parent(".js-visibility-deficiencies").hide();
+        $("#StudentIdentification_resource_aid_lector").closest(".js-visibility-dresource").hide();
         $(".resources-container").hide();
         $(".resources-container input[type=checkbox]").prop("checked", false);
     }
@@ -474,16 +508,26 @@ $(formDocumentsAndAddress + 'neighborhood').focusout(function () {
         removeError(id);
     }
 });
-
+// MARCAÇÃO
 $(formDocumentsAndAddress + 'cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
 $(formDocumentsAndAddress + 'cpf').focusout(function () {
     var id = '#' + $(this).attr("id");
-    if (!validateCpf($(id).cleanVal())) {
-        //$(id).attr('value', '');
-        addError(id, "Informe um CPF válido. Deve possuir apenas números.");
-    } else {
-        removeError(id);
-    }
+    var id_caixa = $("#cpfMessage");
+    var id_icon = $("#errorCPFIcon");
+    removeError(id);
+    $(id_icon).css('display', 'none');
+    $(id_caixa).attr('data-original-title', '');
+    validateCpf($(id).cleanVal(), function (ret) {
+        if (!ret[0] && ($(id).val() != '')) {
+            addError(id);
+            $(id_icon).css('display', 'inline-block');
+            $(id_caixa).attr('data-original-title', ret[1]);
+        } else {
+            removeError(id);
+            $(id_icon).css('display', 'none');
+            $(id_caixa).attr('data-original-title', '');
+        }
+    });
 });
 
 $(formDocumentsAndAddress + 'cep').mask("00000-000", {placeholder: "_____-___"});
@@ -514,24 +558,48 @@ $(formDocumentsAndAddress + 'civil_register_enrollment_number').removeAttr("maxl
         X: {pattern: /[xX0-9]/}
     }
 });
+
+// marcacao
 $(formDocumentsAndAddress + 'civil_register_enrollment_number').focusout(function () {
+    var id = '#' + $(this).attr("id");
+    var id_caixa = $("#registerMessage");
+    var id_icon = $("#registerIcon");
     checkCivilRegisterEnrollmentNumberValidity($(formDocumentsAndAddress + 'civil_register_enrollment_number'));
+    validateCivilRegisterEnrollmentNumber($(id).val(), function (ret) {
+        if (!ret[0] && ($(id).val() != '')) {
+            addError(id);
+            $(id_icon).css('display', 'inline-block');
+            $(id_caixa).attr('data-original-title', ret[1]);
+        } else {
+            removeError(id);
+            $(id_icon).css('display', 'none');
+            $(id_caixa).attr('data-original-title', '');
+        }
+    });
 });
 
 function checkCivilRegisterEnrollmentNumberValidity(element) {
     $(element).val($(element).val().toUpperCase());
     var id = '#' + $(element).attr("id");
+    var id_caixa = $("#registerMessage");
+    var id_icon = $("#registerIcon");
     var value = $(element).cleanVal();
     var valid = true;
     if (value !== "") {
         if (value.length < 32) {
-            addError(id, "O campo, quando preenchido, deve ter 32 caracteres.");
+            var msg = "O campo, quando preenchido, deve ter 32 caracteres.";
+            addError(id);
+            $(id_icon).css('display', 'inline-block');
+            $(id_caixa).attr('data-original-title', msg);
             valid = false;
         }
         if (valid) {
             var year = value.substring(10, 14);
             if (year > new Date().getFullYear()) {
-                addError(id, "O ano de registro da certidão nova (dígitos de 11 a 14) não pode ser posterior ao ano corrente.");
+                var msg = "O ano de registro da certidão nova (dígitos de 11 a 14) não pode ser posterior ao ano corrente.";
+                addError(id);
+                $(id_icon).css('display', 'inline-block');
+                $(id_caixa).attr('data-original-title', msg);
                 valid = false;
             }
         }
@@ -540,7 +608,10 @@ function checkCivilRegisterEnrollmentNumberValidity(element) {
             if (birthday !== "" && birthday.length === 8) {
                 var birthdayYear = birthday.substring(4, 8);
                 if (year < birthdayYear) {
-                    addError(id, "O ano de registro da certidão nova (dígitos de 11 a 14) não pode ser anterior ao ano de nascimento.");
+                    var msg = "O ano de registro da certidão nova (dígitos de 11 a 14) não pode ser anterior ao ano de nascimento.";
+                    addError(id);
+                    $(id_icon).css('display', 'inline-block');
+                    $(id_caixa).attr('data-original-title', msg);
                     valid = false;
                 }
             }
@@ -548,6 +619,8 @@ function checkCivilRegisterEnrollmentNumberValidity(element) {
     }
     if (valid) {
         removeError(id);
+        $(id_icon).css('display', 'none');
+        $(id_caixa).attr('data-original-title', '');
     }
     return valid;
 }
@@ -636,6 +709,27 @@ $(".vaccine-checkbox").trigger("change");
 $(".save-student").click(function () {
     var error = false;
     var message = "";
+
+    if($("#errorNameIcon").css('display') == 'inline-block') {
+        error = true;
+        message += "Corrija o campo <b>Nome</b>.<br>";
+    }
+
+    if($("#errorCPFIcon").css('display') == 'inline-block') {
+        error = true;
+        message += "Corrija o campo <b>Nº do CPF</b>.<br>";
+    }
+
+    if($("#errorTermIcon").css('display') == 'inline-block') {
+        error = true;
+        message += "Corrija o campo <b>Nº do Termo</b>.<br>";
+    }
+
+    if($("#registerIcon").css('display') == 'inline-block') {
+        error = true;
+        message += "Corrija o campo <b>Nº da matrícula (Registro Civil - Certidão Nova)</b>.<br>";
+    }
+
     if ($("#StudentIdentification_name").val() === "") {
         error = true;
         message += "Campo <b>Nome</b> é obrigatório.<br>";

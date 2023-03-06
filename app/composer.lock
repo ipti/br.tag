@@ -7,6 +7,7 @@
     "content-hash": "baae89cc7d96296a193ed2efcb84d1ef",
     "packages": [
         {
+<<<<<<< HEAD
             "name": "doctrine/annotations",
             "version": "2.0.0",
             "source": {
@@ -823,6 +824,19 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/yiisoft/yii/zipball/8f9404aee8ffe8c869caad733a1ce1170cdc6ad4",
                 "reference": "8f9404aee8ffe8c869caad733a1ce1170cdc6ad4",
+=======
+            "name": "yiisoft/yii",
+            "version": "1.1.26",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii.git",
+                "reference": "bda32f68713d4501d3fe9571e09e4b2fa06c53b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii/zipball/bda32f68713d4501d3fe9571e09e4b2fa06c53b7",
+                "reference": "bda32f68713d4501d3fe9571e09e4b2fa06c53b7",
+>>>>>>> origin/dev
                 "shasum": ""
             },
             "require": {
@@ -930,6 +944,7 @@
                 "framework",
                 "yii"
             ],
+<<<<<<< HEAD
             "support": {
                 "forum": "https://www.yiiframework.com/forum/",
                 "irc": "irc://irc.freenode.net/yii",
@@ -2493,6 +2508,9 @@
                 }
             ],
             "time": "2023-01-01T08:32:19+00:00"
+=======
+            "time": "2022-09-30T11:46:30+00:00"
+>>>>>>> origin/dev
         }
     ],
     "aliases": [],
@@ -2503,6 +2521,5 @@
     "platform": {
         "php": ">=5.1.0"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": []
 }

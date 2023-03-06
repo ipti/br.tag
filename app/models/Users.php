@@ -91,12 +91,11 @@ class Users extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-
+		$criteria->condition = "username != 'admin'";
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('username',$this->username,true);
 		$criteria->compare('password',$this->password,true);
-		$criteria->compare('active',$this->active);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -112,5 +111,22 @@ class Users extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public function getRole() 
+	{
+
+        $role = Yii::app()->db->createCommand()
+
+		->select('itemname')
+
+		->from('auth_assignment')
+
+		->where('userid=:id', array(':id'=>$this->id))
+
+		->queryScalar();
+
+
+		return $role;
 	}
 }

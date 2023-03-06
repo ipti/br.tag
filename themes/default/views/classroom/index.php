@@ -9,6 +9,8 @@
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
     $cs->registerCssFile($themeUrl . '/css/template2.css');
+    $cs->registerCssFile(Yii::app()->request->baseUrl . '/sass/css/main.css');
+    
     ?>
 
     <div class="row-fluid hide-responsive">
@@ -45,15 +47,15 @@
                 <div class="widget-body">
                     <?php
                     $this->widget('zii.widgets.grid.CGridView', array(
-                        'dataProvider' => $filter->search(),
-                        'enablePagination' => true,
-                        'filter' => $filter,
-                        'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-vertical-center checkboxs',
+                        'dataProvider' => $dataProvider,
+                        'enablePagination' => false,
+                        'enableSorting' => false,
+                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-vertical-center checkboxs',
                         'columns' => array(
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("classroom/update",array("id"=>$data->id)))',
+                                'value' => '$data->name',
                                 'htmlOptions' => array('width' => '400px')
                             ),
                             array(
@@ -73,7 +75,7 @@
                                 'template' => '{update}',
                                 'buttons' => array(
                                     'update' => array(
-                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/edit',
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
                                     )
                                 )
                             ),
@@ -81,11 +83,11 @@
                             'class' => 'CButtonColumn', 
                             'template' => '{delete}',
                             'buttons' => array(
-                                'delete' => array(
-                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/cancelar',
+                                    'delete' => array(
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                    )
                                 )
-                            )
-                        ),
+                            ),
                         ),
                     ));
                     ?>

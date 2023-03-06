@@ -30,8 +30,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
         <span class="subtitle"><?php echo Yii::t('default', 'Fields with * are required.') ?>
             <div class="tag-buttons-container buttons hide-responsive">
                 <a data-toggle="tab" class='tag-button-light small-button prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
-                <a data-toggle="tab" class='tag-button small-button next'><?php echo Yii::t('default', 'Next') ?>
-                </a>
+                <?= $modelInstructorIdentification->isNewRecord ? "<a data-toggle='tab' class='tag-button small-button next'>".Yii::t('default', 'Next')."</a>" : ''?>
                 <button class="tag-button small-button last pull-right save-instructor" type="button">
                     <?= $modelInstructorIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
                 </button>
@@ -82,8 +81,20 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <?php echo $form->textField($modelInstructorIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
                                     <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
-                                          data-original-title="<?php echo Yii::t('help', 'Full Name'); ?>"><i></i></span> -->
+                                          data-original-title="<?php echo Yii::t('help', 'Instructor Full Social Name'); ?>"><i></i></span>-->
+
                                     <?php echo $form->error($modelInstructorIdentification, 'name'); ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelInstructorIdentification, 'civil_name', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelInstructorIdentification, 'civil_name', array('size' => 60, 'maxlength' => 100)); ?>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Instructor Full Civil Name'); ?>"><i></i></span>
+                                    <?php echo $form->error($modelInstructorIdentification, 'civil_name'); ?>
                                 </div>
                             </div>
 

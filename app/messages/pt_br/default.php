@@ -1,6 +1,9 @@
 <?php
 
 return array(
+    // Ano
+    'Year' => 'Ano',
+
     //Meses
     'January' => 'Janeiro',
     'February' => 'Fevereiro',
@@ -577,6 +580,8 @@ return array(
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',
     
+
+    
     //InstructorIdentification
     'Nis' => 'Nº de Identificação Social (NIS)',
     'Birthday Date' => 'Data de Nascimento',
@@ -588,6 +593,8 @@ return array(
     'Nationality' => 'Nacionalidade',
     'Edcenso Nation Fk' => 'País de origem',
     'Full name' => 'Nome completo',
+    'Social Name' => 'Nome Social',
+    'Civil Name' => 'Nome Civil',
     'Full mothers name' => 'Nome completo da mãe',
     'Full fathers name' => 'Nome completo do pai',
     'Deficiency' => 'Deficiência',
@@ -726,6 +733,7 @@ return array(
     'Password' => 'Senha',
     'Confirm Password' => 'Confirmar Senha',
     'Username' => 'Usuário',
+    'Active' => 'Ativo',
     'Month' => 'Mês',
     
     //Abas
@@ -794,6 +802,7 @@ return array(
     'Update StudentIdentification' => 'Atualizar Aluno',
     'Update SchoolIdentification' => 'Atualizar Escola',
     'Update InstructorIdentification' => 'Atualizar Professor',
+    'Update User' => 'Atualizar Usuário',
     
     //Erros
     'already enrolled in this classroom.' =>'já matriculado na turma.',

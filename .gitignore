@@ -10,3 +10,4 @@ instance.php
 db
 dump.sql
 vendor
+docker/

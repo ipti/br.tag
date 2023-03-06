@@ -159,13 +159,14 @@ $(formIdentification + 'manager_cpf').focusout(function () {
 $(formIdentification + 'manager_name').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
-    var ret = validateNamePerson(($(id).val()));
-    if (!ret[0]) {
-        $(id).attr('value', '');
-        addError(id, ret[1]);
-    } else {
-        removeError(id);
-    }
+    validateNamePerson(($(id).val()), function (ret) {
+        if (!ret[0]) {
+            $(id).attr('value', '');
+            addError(id, ret[1]);
+        } else {
+            removeError(id);
+        } 
+    });
 });
 
 $(formIdentification + 'manager_email').focusout(function () {
@@ -252,6 +253,14 @@ $(".save-school-button").click(function () {
     if ($("#SchoolIdentification_administrative_dependence").val() === "") {
         error = true;
         message += "Campo <b>Dependencia de Administrativa</b> é obrigatório.<br>";
+    }
+    if ($("#SchoolIdentification_act_of_acknowledgement").val() === "") {
+        error = true;
+        message += "Campo <b>Ato de reconhecimento</b> é obrigatório.<br>";
+    }
+    if ($("#SchoolIdentification_regulation").val() === "") {
+        error = true;
+        message += "Campo <b>Regulamentação</b> é obrigatório.<br>";
     }
     if ($("#SchoolIdentification_edcenso_uf_fk").val() === "") {
         error = true;

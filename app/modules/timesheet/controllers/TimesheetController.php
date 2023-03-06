@@ -191,6 +191,10 @@ class TimesheetController extends Controller
                         if ($lastClassFaultDay != false) {
                             $response["frequencyUnavailableLastDay"] = ["month" => $lastClassFaultDay["month"], "day" => $lastClassFaultDay["day"]];
                         }
+                        $lastClassContentDay = Yii::app()->db->createCommand("select s.* from class_contents as cc join schedule as s on cc.schedule_fk = s.id where s.classroom_fk = :id order by month DESC, day DESC limit 1")->bindParam(":id", $classroomId)->queryRow();
+                        if ($lastClassContentDay != false) {
+                            $response["classContentUnavailableLastDay"] = ["month" => $lastClassContentDay["month"], "day" => $lastClassContentDay["day"]];
+                        }
 
                         $response["schedules"] = [];
                         foreach ($schedules as $schedule) {
@@ -260,7 +264,15 @@ class TimesheetController extends Controller
         $criteria->condition = "schedule.classroom_fk = :classroom_fk";
         $criteria->params = ["classroom_fk" => $classroomId];
         $hasFrequency = ClassFaults::model()->exists($criteria);
-        if (!$hasFrequency) {
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = "cc";
+        $criteria->join = "join schedule on schedule.id = cc.schedule_fk";
+        $criteria->condition = "schedule.classroom_fk = :classroom_fk";
+        $criteria->params = ["classroom_fk" => $classroomId];
+        $hasClassContent = ClassContents::model()->exists($criteria);
+
+        if (!$hasFrequency && !$hasClassContent) {
             $curricularMatrix = TimesheetCurricularMatrix::model()->findAll("stage_fk = :stage and school_year = :year", [
                 ":stage" => $classroom->edcenso_stage_vs_modality_fk, ":year" => Yii::app()->user->year
             ]);
@@ -459,7 +471,7 @@ class TimesheetController extends Controller
             }
             $this->actionGetTimesheet($classroomId);
         } else {
-            echo json_encode(["valid" => false, "error" => "frequencyFilled"]);
+            echo json_encode(["valid" => false, "error" => "frequencyOrClassContentFilled"]);
         }
     }
 
