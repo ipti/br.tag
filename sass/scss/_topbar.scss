@@ -10,7 +10,7 @@
     @include device(tablet) {
         width: calc(100% - 190px);
     }
-    .tag-topbar__content {
+    &__content {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -40,7 +40,7 @@
                 flex-direction: column;
                 justify-content: space-between;
                 width: $SizeLarge;
-                height: $size200;
+                height: $SizeLarge;
                 padding: $SizeSmall;
                 padding-left: $spaceEmpty;
                 border-right: solid $borderWidthCard $colorsBaseProductLight; 

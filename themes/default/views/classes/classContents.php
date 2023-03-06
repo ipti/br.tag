@@ -73,7 +73,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <div class="alert-required-fields no-show alert alert-error">
         Os campos com * são obrigatórios.
     </div>
-    <div class="row align-items__center filter-bar">
+    <div class="row align-items--center filter-bar">
         
             <div>
                 <div class="controls">

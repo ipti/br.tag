@@ -1,43 +1,43 @@
 .align-items {
-    &__center {
+    &--center {
         display: flex;
         align-items: center
     }
 
-    &__baseline {
+    &--baseline {
         display: flex;
         align-items: baseline;
     }
 
-    &__stretch {
+    &--stretch {
         display: flex;
         align-items: stretch;
     }
 
-    &__end {
+    &--end {
         display: flex;
         align-items: end;
     }
 }
 
 .justify-content {
-    &__center {
+    &--center {
         display: flex;
         justify-content: center;
     }
 
-    &__space-between {
+    &--space-between {
         display: flex;
         justify-content: space-between;
     }
 }
 
 .clear-margin {
-    &__left {
+    &--left {
         margin-left: 0;
     }
 
-    &__right {
+    &--right {
         margin-right: 0;
     }
 }
