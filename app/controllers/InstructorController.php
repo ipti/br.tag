@@ -650,7 +650,7 @@ preenchidos";
                 WHERE itd.instructor_fk = :instructor")
                 ->bindParam(":instructor", $instructor)
                 ->queryAll();
-        echo "<option>".Yii::t('default', 'Select Classrom')."</option>";
+        echo "<option value>".Yii::t('default', 'Select Classrom')."</option>";
         foreach ($classrooms as $classroom) {
             echo "<option value=".$classroom['id'].">".$classroom['name']."</option>";
         }
@@ -670,7 +670,7 @@ preenchidos";
                 ->bindParam(":instructor", $instructor)
                 ->bindParam(":classroom", $classroom)
                 ->queryAll();
-        echo "<option>".Yii::t('default', 'Select Discipline')."</option>";
+        echo "<option value>".Yii::t('default', 'Select Discipline')."</option>";
         foreach ($disciplines as $discipline) {
             echo "<option value=".$discipline['id'].">".$discipline['name']."</option>";
         }
