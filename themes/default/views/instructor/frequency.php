@@ -96,7 +96,9 @@
                 ?>
             </div>
             <div class="row">
-                    <a id="classesSearch" class='t-button-primary'><i class="fa-search fa icon-button-tag"></i><?php echo Yii::t('default', 'Search') ?>
+                    <a id="classesSearch" class='t-button-primary'>
+			    <i class="fa-search fa icon-button-tag"></i>
+			    <?php echo Yii::t('default', 'Search') ?>
                     </a>
                 </div>
                 <i class="loading-frequency fa fa-spin fa-spinner"></i>
