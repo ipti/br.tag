@@ -71,7 +71,7 @@
 
 .t-button-secondary {
     @extend .t-button;
-    background-color: $colorsBaseCloudLight;
+    background-color: $colorsBaseCloudNormal;
     color:$colorsBaseInkNormal;
     &:hover, &--active {
         color:$colorsBaseInkNormal;
