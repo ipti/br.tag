@@ -13,7 +13,7 @@
  * The followings are the available model relations:
  * @property ClassContents[] $classContents
  * @property CoursePlan $coursePlanFk
- * @property CourseClassHasClassCompetence[] $courseClassHasClassCompetences
+ * @property CourseClassHasClassAbility[] $courseClassHasClassAbilities
  * @property CourseClassHasClassResource[] $courseClassHasClassResources
  * @property CourseClassHasClassType[] $courseClassHasClassTypes
  */
@@ -54,7 +54,7 @@ class CourseClass extends CActiveRecord
 		return array(
 			'classContents' => array(self::HAS_MANY, 'ClassContents', 'course_class_fk'),
 			'coursePlanFk' => array(self::BELONGS_TO, 'CoursePlan', 'course_plan_fk'),
-			'courseClassHasClassCompetences' => array(self::HAS_MANY, 'CourseClassHasClassCompetence', 'course_class_fk'),
+			'courseClassHasClassAbilities' => array(self::HAS_MANY, 'CourseClassHasClassAbility', 'course_class_fk'),
 			'courseClassHasClassResources' => array(self::HAS_MANY, 'CourseClassHasClassResource', 'course_class_fk'),
 			'courseClassHasClassTypes' => array(self::HAS_MANY, 'CourseClassHasClassType', 'course_class_fk'),
 		);

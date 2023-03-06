@@ -86,6 +86,7 @@ $("#save").on('click', function () {
     $(".day-row").each(function () {
         classContents.push({
             day: $(this).attr("day"),
+            diary: $(this).find(".classroom-diary-of-the-day").val(),
             contents: $(this).find("select.course-classes-select").val()
         });
     });
@@ -119,3 +120,25 @@ $("#save").on('click', function () {
 
 $('.heading-buttons').css('width', $('#content').width());
 
+$(document).on("click", ".classroom-diary-button", function () {
+    $(".classroom-diary-day").val($(this).closest("tr").attr("day"));
+    $(".classroom-diary").val($(this).parent().find(".classroom-diary-of-the-day").val());
+    $("#classroomdiary").modal("show");
+});
+
+$(document).on("click", ".add-classroom-diary", function() {
+    var tr = $("#class-contents tbody").find("tr[day=" + $(".classroom-diary-day").val() + "]");
+    tr.find(".classroom-diary-of-the-day").val($(".classroom-diary").val());
+    if ($(".classroom-diary").val() !== "") {
+        tr.find(".classroom-diary-button").removeClass("fa-file-o").addClass("fa-file-text-o");
+    } else {
+        tr.find(".classroom-diary-button").removeClass("fa-file-text-o").addClass("fa-file-o");
+    }
+});
+
+$(".classroom-diary").keypress(function(event) {
+    if (event.which === 13) {
+        event.preventDefault();
+        this.value = this.value + "\n";
+    }
+});

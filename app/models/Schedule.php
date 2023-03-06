@@ -15,6 +15,7 @@
  * @property integer $schedule
  * @property integer $turn
  * @property integer $unavailable
+ * @property string $diary
  * @property string $fkid
  *
  * The followings are the available model relations:
@@ -45,9 +46,10 @@ class Schedule extends CActiveRecord
 			array('discipline_fk, classroom_fk, day, month, week, week_day, unavailable', 'required'),
 			array('instructor_fk, discipline_fk, classroom_fk, day, month, week, week_day, schedule, turn, unavailable', 'numerical', 'integerOnly'=>true),
 			array('fkid', 'length', 'max'=>40),
+			array('diary', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, instructor_fk, discipline_fk, classroom_fk, day, month, week, week_day, schedule, turn, unavailable, fkid', 'safe', 'on'=>'search'),
+			array('id, instructor_fk, discipline_fk, classroom_fk, day, month, week, week_day, schedule, turn, unavailable, diary, fkid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -84,6 +86,7 @@ class Schedule extends CActiveRecord
 			'schedule' => 'Schedule',
 			'turn' => 'Turn',
 			'unavailable' => 'Unavailable',
+			'diary' => 'Diary',
 			'fkid' => 'Fkid',
 		);
 	}
@@ -117,6 +120,7 @@ class Schedule extends CActiveRecord
 		$criteria->compare('schedule',$this->schedule);
 		$criteria->compare('turn',$this->turn);
 		$criteria->compare('unavailable',$this->unavailable);
+		$criteria->compare('diary',$this->diary,true);
 		$criteria->compare('fkid',$this->fkid,true);
 
 		return new CActiveDataProvider($this, array(

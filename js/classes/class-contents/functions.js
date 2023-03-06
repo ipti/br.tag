@@ -11,6 +11,8 @@ function createTable(data) {
     $.each(data.classContents, function (day, classContent) {
         var head = '<th class="center vmiddle contents-day">' + ((day < 10) ? '0' : '') + day + '</th>';
         var body = '<td>'
+            + '<input type="hidden" class="classroom-diary-of-the-day" value="' + classContent.diary + '">'
+            + '<i class="fa fa-file-' + (classContent.diary !== "" ? "text-" : "") + 'o classroom-diary-button ' + (!classContent.available ? "disabled" : "") + '" data-toggle="tooltip" title="Diário"></i>'
             + '<select id="day[' + day + ']" name="day[' + day + '][]" class="course-classes-select vmiddle" ' + (!classContent.available ? "disabled" : "") + ' multiple="yes">'
             + options
             + '</select>'
@@ -30,7 +32,7 @@ function createTable(data) {
         }
     });
     $('select.course-classes-select').select2({
-        width: "100%",
+        width: "calc(100% - 40px)",
         formatSelection: function (state) {
             var textArray = state.text.split("|");
             return 'Plano de Aula "' + textArray[0] + '": Aula ' + textArray[1];
@@ -44,6 +46,7 @@ function createTable(data) {
             }
         },
     });
+    $('[data-toggle="tooltip"]').tooltip({container: "body"});
     $('#widget-class-contents').show();
     $('#class-contents').show();
 }

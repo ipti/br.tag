@@ -33,7 +33,7 @@ function initDatatable() {
                 "className": 'dt-justify objective-title',
                 "data": "objective"
             },
-            {"data": "competences", "visible": false},
+            {"data": "abilities", "visible": false},
             {"data": "resources", "visible": false},
             {"data": "types", "visible": false},
             {
@@ -57,10 +57,11 @@ function initDatatable() {
 }
 
 function addCoursePlanRow() {
-    var lastTr = $('#course-classes tbody tr[role=row]').last();
+    var lastTr = $('#course-classes tbody tr.dt-hasChild').last();
     var index = 0;
     if (lastTr.length > 0) {
-        index = table.row($('#course-classes tbody tr[role=row]').last()).index() + 1;
+        var row = table.row(lastTr);
+        index = row.data().class;
     }
 
     $(".details-control .fa-minus-circle").click();
@@ -69,7 +70,7 @@ function addCoursePlanRow() {
         "class": index + 1,
         "courseClassId": "",
         "objective": "",
-        "competences": null,
+        "abilities": null,
         "resources": null,
         "types": null,
         "deleteButton": '<a href="#" class="btn btn-danger btn-small remove-course-class"><i class="fa fa-times"></i></a>'
@@ -83,16 +84,17 @@ function removeCoursePlanRow(element) {
 }
 
 function format(d) {
-    var $div = $('<div id="course-class[' + d.class + ']" class="course-class row"></div>');
+    var $div = $('<div id="course-class[' + d.class + ']" class="course-class course-class-' + d.class + ' row"></div>');
     var $column1 = $('<div   class="course-class-column1 column"></div>');
     var $id = $('<input type="hidden" name="course-class[' + d.class + '][id]" value="' + d.courseClassId + '">');
     var $objective = $('<div class="control-group objective-input"></div>');
     var $objectiveLabel = $('<div><label class="" for="course-class[' + d.class + '][objective]">Objetivo *</label></span>');
     var $objectiveInput = $('<textarea class="course-class-objective" id="objective-' + d.class + '" name="course-class[' + d.class + '][objective]">' + d.objective + '</textarea>');
 
-    var $competence = $('<div class="control-group courseplan-competence-container"></div>');
-    var $competenceLabel = $('<label class="" for="course-class[' + d.class + '][competence][]">Habilidade(s)</label>');
-    var $competenceInput = $('<select class="competence-select" name="course-class[' + d.class + '][competence][]" multiple>' + $(".js-all-competences")[0].innerHTML + '</select>');
+    var $ability = $('<div class="control-group courseplan-ability-container"></div>');
+    var $abilityLabel = $('<label class="" for="course-class[' + d.class + '][ability][]">Habilidade(s)</label>');
+    var $abilityButton = $('<button class="btn btn-success add-abilities" style="height: 28px;" ><i class="fa fa-plus-square"></i> Adicionar</button>');
+    var $abilitiesContainer = $('<div class="courseplan-abilities-selected">');
 
     var $type = $('<div class="control-group courseplan-type-container"></div>');
     var $typeLabel = $('<label class="" for="course-class[' + d.class + '][type][]">Tipo(s)</label>');
@@ -107,8 +109,11 @@ function format(d) {
     var $resourceAdd = $('<button class="btn btn-success btn-small fa fa-plus-square add-resource" style="height: 28px;margin-top:10px;" ><i></i></button>');
 
     var $resources = $('<div class="resources"></div>');
-    if (d.competences !== null) {
-        $competenceInput.val(d.competences);
+    if (d.abilities !== null) {
+        $.each(d.abilities, function (i, v) {
+            var div = '<div class="ability-panel-option"><input type="hidden" class="ability-panel-option-id" value="' + v.id + '"><i class="fa fa-check-square"></i><span>(<b>' + v.code + '</b>) ' + v.description + '</span></div>';
+            $abilitiesContainer.append(div);
+        });
     }
     if (d.types !== null) {
         $typeInput.val(d.types);
@@ -131,8 +136,9 @@ function format(d) {
     }
     $objective.append($objectiveLabel);
     $objective.append($objectiveInput);
-    $competence.append($competenceLabel);
-    $competence.append($competenceInput);
+    $ability.append($abilityLabel);
+    $ability.append($abilityButton);
+    $ability.append($abilitiesContainer);
     $resourceInput.append($resourceValue);
     $resourceInput.append($resourceAmount);
     $resourceInput.append($resourceAdd);
@@ -142,7 +148,7 @@ function format(d) {
     $type.append($typeLabel);
     $type.append($typeInput);
     $column1.append($objective);
-    $column1.append($competence);
+    $column1.append($ability);
     $column2.append($type);
     $column2.append($resource);
     $div.append($id);
@@ -191,4 +197,23 @@ function removeResource(button) {
         $(this).children(".resource-value").attr("name", "course-class[" + classe + "][resource][" + index + "][value]");
         $(this).children(".resource-amount").attr("name", "course-class[" + classe + "][resource][" + index + "][amount]");
     });
+}
+
+function buildAbilityStructureSelect(data) {
+    var div = '<div class="control-group ability-structure-container"><label>' + data.selectTitle + '</label><select class="ability-structure-select"><option value="">Selecione...</option>';
+    $.each(data.options, function () {
+        div += '<option value="' + this.id + '">' + this.description + '</option>';
+    });
+    div += "</select><i class='loading-next-structure fa fa-spin fa-spinner'></i></div>";
+    return div;
+}
+
+function buildAbilityStructurePanel(data) {
+    var panel = '<div><label>' + data.selectTitle + '</label>';
+    $.each(data.options, function () {
+        var selected = $(".abilities-selected").find(".ability-panel-option-id[value=" + this.id + "]").length ? "selected" : "";
+        panel += '<div class="ability-panel-option ' + selected + '"><input type="hidden" class="ability-panel-option-id" value="' + this.id + '"><i class="fa fa-plus-square"></i><span>(<b>' + this.code + '</b>) ' + this.description + '</span></div>';
+    });
+    panel += "</div>";
+    return panel;
 }

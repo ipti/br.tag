@@ -8681,13 +8681,39 @@ input[type="text"] {
     vertical-align: middle !important;
 }
 
+.classroom-diary-button {
+    padding: 8px;
+    font-size: 18px !important;
+    width: 14px;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.classroom-diary-button:hover {
+    color: #3F45EA;
+}
+
+.classroom-diary-button.disabled {
+    pointer-events: none;
+    color: #ccc;
+}
+
+.classroom-diary {
+    width: 510px;
+    max-width: 510px;
+    min-width: 510px;
+    height: 385px;
+    min-height: 385px;
+}
+
 .select2-container.course-classes-select {
     margin-bottom: 0;
     opacity: 100;
     -webkit-appearance: none;
 }
 
-.course-classes-optgroup, .competence-optgroup {
+.course-classes-optgroup {
     text-decoration: underline;
 }
 
@@ -8727,7 +8753,7 @@ input[type="text"] {
     width: 120px;
 }
 
-#course-plan-form .js-course-plan-loading-disciplines, #course-plan-form .js-course-plan-loading-competences {
+#course-plan-form .js-course-plan-loading-disciplines, #course-plan-form .js-course-plan-loading-abilities {
     display: none;
     font-size: 20px;
     vertical-align: middle;
@@ -8773,17 +8799,70 @@ input[type="text"] {
     width: 700px;
 }
 
-.competence-code, .competence-description {
-    font-size: 12px;
-}
-
-.courseplan-competence-container {
-    width: 700px;
+.courseplan-ability-container {
+    width: 720px;
     display: inline-block;
 }
 
-.competence-select {
-    width: 718px;
+.courseplan-abilities-selected {
+    margin-top: 10px;
+}
+
+.abilities-parents .loading-next-structure {
+    display: none;
+    margin-left: 10px;
+    font-size: 23px !important;
+    vertical-align: middle;
+}
+
+.ability-panel-option {
+    background-color: #f9f9f9;
+    padding: 5px 10px;
+    text-align: justify;
+    border-radius: 5px;
+    border: 1px solid darkgray;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.courseplan-abilities-selected .ability-panel-option {
+    cursor: auto;
+}
+
+.abilities-selected {
+    display: none;
+}
+
+.ability-panel-option.selected {
+    opacity: 0.4;
+}
+
+.ability-panel-option:hover {
+    background-color: #eee;
+}
+
+.ability-panel-option i {
+    vertical-align: middle;
+    width: 25px;
+    font-size: 18px;
+}
+
+.abilities-panel .ability-panel-option i {
+    color: #609450;
+}
+
+.abilities-selected .ability-panel-option i {
+    color: darkred;
+}
+
+.courseplan-abilities-selected .ability-panel-option i {
+    color: #3F45EA;
+}
+
+.ability-panel-option span {
+    display: inline-block;
+    width: calc(100% - 30px);
+    vertical-align: middle;
 }
 
 .courseplan-type-container {

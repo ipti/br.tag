@@ -7,7 +7,6 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/classes/class-contents/_initialization.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classes/class-contents/functions.js?v=1.0', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/dialogs.js', CClientScript::POS_END);
 $cs->registerCssFile($themeUrl . '/css/template2.css');
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));
 
@@ -19,54 +18,54 @@ $form = $this->beginWidget('CActiveForm', array(
 
 ?>
 
-    <div class="row-fluid hidden-print">
-        <div class="span12">
-            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Class Contents'); ?></h3>
-            <div class="buttons span9">
-                <a id="print" class='tag-button-light  medium-button'>
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.png"/>
-                    <?php echo Yii::t('default', 'Print') ?>
-                </a>
-                <a id="save" class='tag-button medium-button'><?php echo Yii::t('default', 'Save') ?></a>
-            </div>
+<div class="row-fluid hidden-print">
+    <div class="span12">
+        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Class Contents'); ?></h3>
+        <div class="buttons span9">
+            <a id="print" class='tag-button-light  medium-button'>
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.png"/>
+                <?php echo Yii::t('default', 'Print') ?>
+            </a>
+            <a id="save" class='tag-button medium-button'><?php echo Yii::t('default', 'Save') ?></a>
         </div>
     </div>
+</div>
 <?php
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
-    <table class="table table-bordered table-striped visible-print">
-        <tr>
-            <th>Escola:</th>
-            <td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>
-        <tr>
-        <tr>
-            <th>Estado:</th>
-            <td colspan="2"><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
-            <th>Municipio:</th>
-            <td colspan="2"><?php echo $school->edcensoCityFk->name ?></td>
-            <th>Endereço:</th>
-            <td colspan="2"><?php echo $school->address ?></td>
-        <tr>
-        <tr>
-            <th>Localização:</th>
-            <td colspan="2"><?php echo($school->location == 1 ? "URBANA" : "RURAL") ?></td>
-            <th>Dependência Administrativa:</th>
-            <td colspan="4"><?php
-                $ad = $school->administrative_dependence;
-                echo($ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
-                    "PRIVADA")));
-                ?></td>
-        <tr>
-    </table>
-    <br>
+<table class="table table-bordered table-striped visible-print">
+    <tr>
+        <th>Escola:</th>
+        <td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>
+    <tr>
+    <tr>
+        <th>Estado:</th>
+        <td colspan="2"><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
+        <th>Municipio:</th>
+        <td colspan="2"><?php echo $school->edcensoCityFk->name ?></td>
+        <th>Endereço:</th>
+        <td colspan="2"><?php echo $school->address ?></td>
+    <tr>
+    <tr>
+        <th>Localização:</th>
+        <td colspan="2"><?php echo($school->location == 1 ? "URBANA" : "RURAL") ?></td>
+        <th>Dependência Administrativa:</th>
+        <td colspan="4"><?php
+            $ad = $school->administrative_dependence;
+            echo($ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
+                "PRIVADA")));
+            ?></td>
+    <tr>
+</table>
+<br>
 
-    <div class="innerLR">
+<div class="innerLR">
 
-<?php if (Yii::app()->user->hasFlash('success')) : ?>
-    <div class="alert alert-success">
-        <?php echo Yii::app()->user->getFlash('success') ?>
-    </div>
-<?php endif ?>
+    <?php if (Yii::app()->user->hasFlash('success')) : ?>
+        <div class="alert alert-success">
+            <?php echo Yii::app()->user->getFlash('success') ?>
+        </div>
+    <?php endif ?>
     <div class="alert-save no-show alert alert-success">
         Aulas ministradas atualizadas com sucesso!
     </div>
@@ -80,12 +79,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required', 'style' => 'width: 53px;')); ?>
                 </div>
                 <div class="controls">
-                <select class="select-search-on control-input classContents-input" id="classroom" name="classroom">
-                    <option>Selecione a turma</option>
-                    <?php foreach ($classrooms as $classroom) : ?>
-                        <option value="<?= $classroom->id ?>" fundamentalmaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
-                    <?php endforeach; ?>
-                </select>
+                    <select class="select-search-on control-input classContents-input" id="classroom" name="classroom">
+                        <option>Selecione a turma</option>
+                        <?php foreach ($classrooms as $classroom) : ?>
+                            <option value="<?= $classroom->id ?>"
+                                    fundamentalmaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
 
 
@@ -115,7 +115,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
             </div>
             <div class="disciplines-container">
-                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required' ,'style' => 'width: 85px;')); ?>
+                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required', 'style' => 'width: 85px;')); ?>
                 <?php
                 echo CHtml::dropDownList('disciplines', '', array(), array(
                     'key' => 'id',
@@ -147,4 +147,30 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </tbody>
         </table>
     </div>
-<?php $this->endWidget(); ?>
+    <div class="modal fade" id="classroomdiary" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"
+                        id="myModalLabel">Diário de Aula</h4>
+                </div>
+                <form method="post">
+                    <input type="hidden" class="classroom-diary-day">
+                    <div class="modal-body">
+                        <textarea class="classroom-diary"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">Cancelar
+                        </button>
+                        <button type="button" class="btn btn-primary add-classroom-diary"
+                                data-dismiss="modal">Salvar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <?php $this->endWidget(); ?>

@@ -1,0 +1,21 @@
+ALTER TABLE `course_class_competences`
+RENAME TO ``course_class_abilities`;
+
+ALTER TABLE `course_class_has_class_competence`
+CHANGE `course_class_competence_fk` `course_class_ability_fk` int(11) NOT NULL AFTER `course_class_fk`,
+RENAME TO `course_class_has_class_ability`;
+
+ALTER TABLE `course_class_abilities`
+ADD `parent_fk` int(11) NULL;
+
+ALTER TABLE `course_class_abilities`
+ADD FOREIGN KEY (`parent_fk`) REFERENCES `course_class_abilities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `course_class_abilities`
+ADD `type` varchar(50) COLLATE 'latin1_swedish_ci' NOT NULL AFTER `code`;
+
+ALTER TABLE `course_class_abilities`
+CHANGE `code` `code` varchar(20) COLLATE 'latin1_swedish_ci' NULL AFTER `description`;
+
+ALTER TABLE `schedule`
+ADD `diary` text NULL AFTER `unavailable`;

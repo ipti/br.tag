@@ -88,6 +88,7 @@ class ClassesController extends Controller
         if (!empty($schedules)) {
             foreach ($schedules as $schedule) {
                 $classContents[$schedule->day]["available"] = date("Y-m-d") >= Yii::app()->user->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
+                $classContents[$schedule->day]["diary"] = $schedule->diary !== null ? $schedule->diary : "";
                 foreach ($schedule->classContents as $classContent) {
                     if (!isset($classContents[$schedule->day]["contents"])) {
                         $classContents[$schedule->day]["contents"] = [];
@@ -173,6 +174,8 @@ class ClassesController extends Controller
         foreach ($_POST["classContents"] as $classContent) {
             foreach ($schedules as $schedule) {
                 if ($schedule->day == $classContent["day"]) {
+                    $schedule->diary = $classContent["diary"] === "" ? null : $classContent["diary"];
+                    $schedule->save();
                     ClassContents::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
                     foreach ($classContent["contents"] as $content) {
                         $classHasContent = new ClassContents();

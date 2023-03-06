@@ -17,7 +17,7 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
     if (!row.child.isShown()) {
         row.child(format(row.data())).show();
         tr.next().find('select.type-select, select.resource-select').select2();
-        tr.next().find('select.competence-select').select2({
+        tr.next().find('select.ability-select').select2({
             formatSelection: function (state) {
                 var textArray = state.text.split("|");
                 return textArray[0];
@@ -25,9 +25,9 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
             formatResult: function (data) {
                 var textArray = data.text.split("|");
                 if (textArray.length === 1) {
-                    return "<div class='competence-optgroup'><b>" + textArray[0] + "</b></div>";
+                    return "<div class='ability-optgroup'><b>" + textArray[0] + "</b></div>";
                 } else {
-                    return "<div><b class='competence-code'>(" + textArray[0] + ")</b> <span class='competence-description'>" + textArray[1] + "</span></div>";
+                    return "<div><b class='ability-code'>(" + textArray[0] + ")</b> <span class='ability-description'>" + textArray[1] + "</span></div>";
                 }
             },
             escapeMarkup: function (m) {
@@ -102,38 +102,71 @@ $(document).on("change", "#CoursePlan_modality_fk", function (evt, loadingData) 
 $("#CoursePlan_modality_fk").trigger("change", [true]);
 
 $(document).on("change", "#CoursePlan_discipline_fk", function () {
-    $.ajax({
-        type: "POST",
-        url: "?r=courseplan/getCompetences",
-        cache: false,
-        data: {
-            discipline: $("#CoursePlan_discipline_fk").val()
-        },
-        beforeSend: function () {
-            $(".js-course-plan-loading-competences").css("display", "inline-block");
-            $(".competence-select").attr("disabled", "disabled");
-        },
-        success: function (data) {
-            data = JSON.parse(data);
-            var options = "";
-            $.each(data, function (i, competence) {
-                options += "<optgroup label='" + competence.stageName + "'>";
-                $.each(competence.data, function() {
-                    options += "<option value='" + this.id + "'>" + this.code + "|" + this.description + "|" + competence.stageName + "</option>";
-                });
-                options += "</optgroup>";
-            });
-            $(".js-all-competences").html(options);
-            $("select.competence-select").each(function () {
-                var selectedValue = $(this).val();
-                $(this).html($(".js-all-competences")[0].innerHTML);
-                $(this).val(selectedValue !== null ? selectedValue : []).trigger("change.select2");
-            });
-            $(".js-course-plan-loading-competences").hide();
-            $(".competence-select").removeAttr("disabled");
-        },
-    });
+    $(".abilities-parents, .abilities-panel").html("");
+    if ($(this).val() !== "") {
+        $.ajax({
+            type: "POST",
+            url: "?r=courseplan/getAbilitiesInitialStructure",
+            cache: false,
+            data: {
+                discipline: $("#CoursePlan_discipline_fk").val()
+            },
+            beforeSend: function () {
+                $(".js-course-plan-loading-abilities").css("display", "inline-block");
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (Object.keys(data.options).length) {
+                    $(".alert-ability-structure").hide();
+                    if (data.options[0].code === null) {
+                        $(".abilities-parents").html(buildAbilityStructureSelect(data));
+                        $(".abilities-parents select").select2();
+                    } else {
+                        $(".abilities-panel").html(buildAbilityStructurePanel(data));
+                    }
+
+                } else {
+                    $(".alert-ability-structure").text("Não foram cadastradas habilidades para essa disciplina.").show();
+                }
+                $(".js-course-plan-loading-abilities").hide();
+            },
+        });
+    } else {
+        $(".alert-ability-structure").text("Para adicionar habilidades, é preciso primeiro escolher a etapa e a disciplina do plano.").show();
+    }
 });
+
+$(document).on("change", ".ability-structure-select", function () {
+    var container = $(this).closest(".ability-structure-container");
+    container.nextAll().remove();
+    $(".abilities-panel").children().remove();
+
+    var selectedValue = $(this).val();
+    if ($(this).val() !== "") {
+        $.ajax({
+            type: "POST",
+            url: "?r=courseplan/getAbilitiesNextStructure",
+            cache: false,
+            data: {
+                id: selectedValue
+            },
+            beforeSend: function () {
+                container.find(".loading-next-structure").css("display", "inline-block");
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.options[0].code === null) {
+                    $(".abilities-parents").append(buildAbilityStructureSelect(data));
+                    container.next().find("select").select2();
+                } else {
+                    $(".abilities-panel").html(buildAbilityStructurePanel(data));
+                }
+                container.find(".loading-next-structure").hide();
+            },
+        });
+    }
+});
+
 
 $(document).on("click", ".add-resource", function (evt) {
     evt.preventDefault();
@@ -144,6 +177,59 @@ $(document).on("click", ".add-resource", function (evt) {
 
 $(document).on("click", ".remove-resource", function () {
     removeResource(this);
+});
+
+$(document).on("click", ".add-abilities", function (e) {
+    e.preventDefault();
+    var tr = $(this).closest("tr").prev();
+    var row = table.row(tr);
+    $(".course-class-index").val(row.data().class);
+
+    $(".abilities-selected").find(".ability-panel-option").remove();
+    $(".abilities-panel").find(".ability-panel-option").removeClass("selected");
+    var options = $(this).closest(".courseplan-ability-container").find(".courseplan-abilities-selected").find(".ability-panel-option");
+    if (options.length) {
+        var selected = options.clone().appendTo(".abilities-selected");
+        selected.find("i").removeClass("fa-check-square").addClass("fa-minus-square");
+        options.each(function() {
+            var optionIdInPanel = $(".abilities-panel").find(".ability-panel-option-id[value=" + $(this).find(".ability-panel-option-id").val() + "]");
+            if (optionIdInPanel.length) {
+                optionIdInPanel.closest(".ability-panel-option").addClass("selected");
+            }
+        });
+        $(".abilities-selected").show();
+    } else {
+        $(".abilities-selected").hide();
+    }
+
+    $("#selectAbilities").modal("show");
+});
+
+$(document).on("click", ".ability-panel-option", function() {
+    if ($(this).closest(".abilities-panel").length) {
+        if (!$(this).hasClass("selected")) {
+            var selected = $(this).clone().appendTo(".abilities-selected");
+            selected.find("i").removeClass("fa-plus-square").addClass("fa-minus-square");
+            $(this).addClass("selected");
+            $(".abilities-selected").show();
+        }
+    } else if ($(this).closest(".abilities-selected").length) {
+        var deletedOptionId = $(this).find(".ability-panel-option-id").val();
+        $(this).remove();
+        $(".abilities-panel").find(".ability-panel-option-id[value=" + deletedOptionId + "]").closest(".ability-panel-option").removeClass("selected");
+        if (!$(".abilities-selected").find(".ability-panel-option").length) {
+            $(".abilities-selected").hide();
+        }
+    }
+});
+
+$(document).on("click", ".add-selected-abilities", function() {
+    var div = $(".course-class-" + $(".course-class-index").val());
+    div.find(".courseplan-abilities-selected").html($(".abilities-selected").find(".ability-panel-option").clone());
+    div.find(".courseplan-abilities-selected").find(".ability-panel-option i").removeClass("fa-minus-square").addClass("fa-check-square");
+    div.find(".ability-panel-option-id").each(function(index) {
+        $(this).attr("name", "course-class[" + $(".course-class-index").val() + "][ability][" + index + "]");
+    })
 });
 
 $("#print").on('click', function () {
