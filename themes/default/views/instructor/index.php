@@ -10,10 +10,12 @@
     $cs->registerCssFile($themeUrl . '/css/template2.css');
     ?>
 
+
     <div class="row-fluid box-instructor">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Instructor Identifications') ?></h3>
             <div class="t-buttons-container">
+                <a href="<?php echo Yii::app()->createUrl('instructor/frequency')?>" class="t-button-primary">Frequência</a>
                 <a href="<?php echo Yii::app()->createUrl('instructor/updateEmails')?>" class="t-button-primary">Atualizar e-mails</a>
                 <a href="<?php echo Yii::app()->createUrl('instructor/create')?>" class="t-button-primary">Adicionar professor</a>
             </div>
@@ -24,11 +26,12 @@
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
+                <li><a href="<?php echo Yii::app()->createUrl('instructor/frequency')?>" class="t-button-primary">Frequência</a></li>
                 <li><a href="<?php echo Yii::app()->createUrl('instructor/updateEmails')?>"><i></i> Atualizar e-mails</a></li>
                 <li><a href="<?php echo Yii::app()->createUrl('instructor/create')?>"><i></i> Adicionar professor</a></li>
             </ul>
         </div>
-    </div> 
+    </div>  
 
     <div class="tag-inner">
         <?php if (Yii::app()->user->hasFlash('success')): ?>
