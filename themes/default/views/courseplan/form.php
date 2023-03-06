@@ -120,9 +120,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             <thead class="t-accordion__header">
                                 <tr>
                                     <th class="t-accordion__head" style="width: 10px;"></th>
-                                    <th class="t-accordion__head span1"><?= Yii::t('default', 'Class'); ?></th>
+                                    <th class="t-accordion__head span1"><?= Yii::t('default', 'Class'); ?>fasdfasdf</th>
                                     <th class="t-accordion__head"></th>
-                                    <th class="t-accordion__head span12"><?= Yii::t('default', 'Objective'); ?></th>
+                                    <th class="t-accordion__head span12"><?= Yii::t('default', 'Objective'); ?>adsadsa</th>
                                     <th class="t-accordion__head"></th>
                                     <th class="t-accordion__head"></th>
                                     <th class="t-accordion__head"></th>

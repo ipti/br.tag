@@ -5,6 +5,9 @@
             border: none;
         }
     }
+    &__container-icon:hover {
+        background-color: $colorsBaseProductLighter !important;
+    }
     &__icon {
         transition: all 200ms;
         &.closed{

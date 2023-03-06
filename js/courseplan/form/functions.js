@@ -17,7 +17,7 @@ function initDatatable() {
         info: false,
         "columns": [
             {
-                "className": 'details-control dt-center',
+                "className": 'details-control dt-center t-accordion__container-icon',
                 "orderable": false,
                 "data": null,
                 "defaultContent": '<img class="t-accordion__icon" src="themes/default/img/Glyph.svg" />',
