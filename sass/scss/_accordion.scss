@@ -5,13 +5,24 @@
             border: none;
         }
     }
-
-    &__body > tr.odd > td {
-       // background-color: $colorsBaseProductLighter;
-       // box-shadow: none !important;
-        padding: $SizeXSmall $SizeSmall;
+    &__icon {
+        transition: all 200ms;
+        &.closed{
+            transform: rotate(90deg);
+            transition: all 200ms;
+        }
+        
     }
-    &__body > tr:hover > *  {
+    &__body > .odd {
+        background-color: $colorsBaseProductLighter;   
+    }
+    &__body > .odd > *, &__body > .even > *  {
+        font-size: $FontSizeHeadingTitle4;
+        background-color: $colorsBaseProductLighter;
+        box-shadow: none !important;
+        padding: $SizeNormal $SizeLarge;
+    } 
+    &__body > .odd:hover > *, &__body > .even:hover > * {
         box-shadow: none !important;
     }
 }

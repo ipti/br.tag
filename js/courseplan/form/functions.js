@@ -20,7 +20,7 @@ function initDatatable() {
                 "className": 'details-control dt-center',
                 "orderable": false,
                 "data": null,
-                "defaultContent": '<i class="fa fa-plus-circle"></i>',
+                "defaultContent": '<img class="t-accordion__icon" src="themes/default/img/Glyph.svg" />',
                 "width": "1px"
             },
             {
