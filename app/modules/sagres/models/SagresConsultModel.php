@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Validation;
 use JMS\Serializer\SerializerBuilder;
 use Yii as yii;
 use Datetime;
+use ZipArchive;
 
 class SagresConsultModel
 {
@@ -94,20 +95,20 @@ class SagresConsultModel
                     se.enrollment_id  
                 FROM classroom c
                 JOIN student_enrollment se ON se.classroom_fk = c.id 
-                WHERE c.school_inep_fk = " . $inep_id . 
-                                        " and c.school_year = " . $year . 
-                                        " and Date(c.create_date) BETWEEN '" . $data_inicio . "' and '" . $data_final ."';";
+                WHERE c.school_inep_fk = " . $inep_id .
+            " and c.school_year = " . $year .
+            " and Date(c.create_date) BETWEEN '" . $data_inicio . "' and '" . $data_final . "';";
 
         $turmas = Yii::app()->db->createCommand($query)->queryAll();
 
         foreach ($turmas as $turma) {
             $turmaType = new TurmaTType;
             $turmaType->setPeriodo('0');
-            $turmaType->setDescricao($turma["name"]);        
+            $turmaType->setDescricao($turma["name"]);
             $turmaType->setTurno($this->convertTurn($turma['turn']));
             $turmaType->setSerie($this->getSerieType($turma['id']));
             $turmaType->setMatricula($this->getMatriculaType($turma['id']));
-            $turmaType->setHorario($this->setHorario($turma['id']));   
+            $turmaType->setHorario($this->setHorario($turma['id']));
             $turmaType->setFinalTurma('0');
 
             $turmaList[] = $turmaType;
@@ -257,7 +258,7 @@ class SagresConsultModel
                     JOIN lunch_meal_portion lmp ON lmp.meal_fk = lme.id 
                     JOIN lunch_portion lp ON lp.id = lmp.portion_fk 
                     JOIN lunch_item li ON li.id = lp.item_fk
-                WHERE si.inep_id = " . $id_escola . " and cr.school_year = " . $year . " and lm.date  BETWEEN '" . $data_inicio . "' and '" . $data_final ."';";
+                WHERE si.inep_id = " . $id_escola . " and cr.school_year = " . $year . " and lm.date  BETWEEN '" . $data_inicio . "' and '" . $data_final . "';";
 
         $cardapios = Yii::app()->db->createCommand($query)->queryAll();
 
@@ -290,7 +291,7 @@ class SagresConsultModel
         return $diretorType;
     }
 
-   
+
     /**
      * Summary of ProfissionalTType
      * @return ProfissionalTType[] 
@@ -302,7 +303,7 @@ class SagresConsultModel
         $query = "SELECT id_professional, cpf_professional AS cpfProfissional, specialty AS especialidade, inep_id_fk AS idEscola, fundeb 
                 FROM professional p
                 JOIN attendance a ON p.id_professional = a.professional_fk 
-                WHERE YEAR(a.date) = " . $anoAtendimento . " and a.date  BETWEEN '" . $data_inicio . "' and '" . $data_final ."';";
+                WHERE YEAR(a.date) = " . $anoAtendimento . " and a.date  BETWEEN '" . $data_inicio . "' and '" . $data_final . "';";
 
         $profissionais = Yii::app()->db->createCommand($query)->queryAll();
 
@@ -387,15 +388,16 @@ class SagresConsultModel
 
         return $serializer->serialize($sagresEduObject, 'xml'); // serialize the Object and return SagresEdu XML
 
-    }   
-    
+    }
+
     public function actionExportSagresXML($xml)
     {
         $fileName = "Educacao.xml";
         $fileDir = "./app/export/SagresEdu/" . $fileName;
 
         // Limpa o conteúdo dentro de CDATA
-        $linha =  $this->transformXML(preg_replace("/<!\[CDATA\[(.*?)\]\]>/s", "\\1", $xml));
+        $linha = $this->transformXML(preg_replace("/<!\[CDATA\[(.*?)\]\]>/s", "\\1", $xml));
+
 
         // Escreve o conteúdo no arquivo
         $result = file_put_contents($fileDir, $linha);
@@ -406,6 +408,26 @@ class SagresConsultModel
             return "Ocorreu um erro ao exportar o arquivo XML.";
         }
     }
+
+
+    /* public function fileXmlToZIP($fileXML)
+    {
+
+        $zip = new ZipArchive();
+        $filename = "./Educacao.zip";
+
+        if ($zip->open($filename, ZipArchive::CREATE) !== TRUE) {
+            exit("cannot open <$filename>\n");
+        }
+
+        $zip->addFromString($fileXML . time(), "#1 This is a test string added as testfilephp.txt.\n");
+        $zip->addFromString("testfilephp2.txt" . time(), "#2 This is a test string added as testfilephp2.txt.\n");
+        $zip->addFile($thisdir . "/too.php", "/testfromfile.php");
+        echo "numfiles: " . $zip->numFiles . "\n";
+        echo "status:" . $zip->status . "\n";
+        $zip->close();
+
+    } */
 
     public function validatorSagresEduExportXML($object)
     {
@@ -428,11 +450,12 @@ class SagresConsultModel
             'N' => '3',
             'I' => '4',
         );
-    
+
         return isset($turnos[$turn]) ? $turnos[$turn] : 0;
     }
 
-    function transformXML($xml) {
+    function transformXML($xml)
+    {
         $xml = str_replace('<result>', '<edu:educacao xmlns:edu="http://www.tce.se.gov.br/sagres2023/xml/sagresEdu">', $xml);
         $xml = str_replace('<prestacao_contas>', '<edu:PrestacaoContas>', $xml);
 
@@ -458,7 +481,7 @@ class SagresConsultModel
 
         $xml = str_replace('<escola>', '<edu:escola>', $xml);
         $xml = str_replace('<id_escola>', '<edu:idEscola>', $xml);
-        $xml = str_replace('<turma>', '<edu:turma>', $xml); 
+        $xml = str_replace('<turma>', '<edu:turma>', $xml);
         $xml = str_replace('<diretor>', '<edu:diretor>', $xml);
         $xml = str_replace('<cpf_diretor>', '<edu:cpfDiretor>', $xml);
         $xml = str_replace('</cpf_diretor>', '</edu:cpfDiretor>', $xml);
@@ -466,10 +489,10 @@ class SagresConsultModel
         $xml = str_replace('</nr_ato>', '</edu:nrAto>', $xml);
         $xml = str_replace('</diretor>', '</edu:diretor>', $xml);
         $xml = str_replace('</id_escola>', '</edu:idEscola>', $xml);
-        $xml = str_replace('</turma>', '</edu:turma>', $xml); 
+        $xml = str_replace('</turma>', '</edu:turma>', $xml);
         $xml = str_replace('</escola>', '</edu:escola>', $xml);
         $xml = str_replace('</result>', '</edu:educacao>', $xml);
-        
+
         $xml = str_replace('<periodo>', '<edu:periodo>', $xml);
         $xml = str_replace('</periodo>', '</edu:periodo>', $xml);
         $xml = str_replace('<descricao>', '<edu:descricao>', $xml);
