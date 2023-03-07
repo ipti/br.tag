@@ -10,7 +10,7 @@
         padding: $spaceXSmall;
         border-radius: $borderRadiusLarge;
         cursor: pointer;
-        
+        background: $colorsBaseProductLighter;        
 
         &__icon {
             filter: invert(42%) sepia(30%) saturate(380%) hue-rotate(173deg) brightness(98%) contrast(88%);

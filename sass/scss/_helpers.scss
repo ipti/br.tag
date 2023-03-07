@@ -26,6 +26,11 @@
         justify-content: center;
     }
 
+    &--start {
+        display: flex;
+        justify-content: start;
+    }
+
     &--space-between {
         display: flex;
         justify-content: space-between;

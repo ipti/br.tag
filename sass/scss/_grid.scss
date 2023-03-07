@@ -11,14 +11,24 @@
     }
 }
 
+.mobile-row {
+    display: flex;
+    flex-direction: row;
+}
+
 .column {
     flex: 1;
     flex-basis: 0;
     margin-left: $spaceXLarge/2;
     margin-right: $spaceXLarge/2;
+    
+    &.clearfix {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    &.no-grow {
+        flex-grow: 0;
+    }
 }
 
-.column.clearfix {
-    margin-left: 0;
-    margin-right: 0;
-}
