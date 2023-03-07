@@ -59,7 +59,7 @@ $this->breadcrumbs=array(
                             'name' => 'name',
                             'header' => 'Nome',
                             'type' => 'raw',
-                            'value' => 'CHtml::link($data->name,Yii::app()->createUrl("professional/update",array("id"=>$data->id)))',
+                            'value' => 'CHtml::link($data->name,Yii::app()->createUrl("professional/default/update",array("id"=>$data->id)))',
                             'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
                         ),
                         array(
