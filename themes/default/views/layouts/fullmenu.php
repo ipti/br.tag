@@ -143,11 +143,6 @@ if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginIn
                         <i class="t-badge__icon fa fa-chevron-down"></i>
                     </a>
                 </div>
-                <div class="">
-                    <!-- <form class="school" id2="school" action="<?php echo yii::app()->createUrl('site/changeschool') ?>" method="Post">
-                        <?php echo $select_school; ?>
-                    </form>                         -->
-                </div>
                 <div class="slim-scroll" data-scroll-height="800px">
                     <ul class="t-menu">
                         <li class="t-menu-item <?=strpos($_SERVER['REQUEST_URI'], "?r=site") || $_SERVER['REQUEST_URI'] == "/" ? 'active' : '' ?> hide-responsive">
