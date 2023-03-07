@@ -8699,12 +8699,28 @@ input[type="text"] {
     color: #ccc;
 }
 
-.classroom-diary {
+.js-classroom-diary {
     width: 510px;
     max-width: 510px;
     min-width: 510px;
-    height: 385px;
-    min-height: 385px;
+    height: 200px;
+    min-height: 200px;
+    max-height: 200px;
+}
+
+#js-classroomdiary .modal-body {
+    height: 500px !important;
+    max-height: 500px !important;
+}
+
+.student-classroom-diary {
+    width: 480px;
+    max-width: 480px;
+    min-width: 480px;
+    height: 100px;
+    min-height: 100px;
+    max-height: 100px;
+
 }
 
 .select2-container.course-classes-select {
@@ -8808,7 +8824,7 @@ input[type="text"] {
     margin-top: 10px;
 }
 
-.abilities-parents .loading-next-structure {
+.js-abilities-parents .loading-next-structure {
     display: none;
     margin-left: 10px;
     font-size: 23px !important;
@@ -8829,7 +8845,7 @@ input[type="text"] {
     cursor: auto;
 }
 
-.abilities-selected {
+.js-abilities-selected {
     display: none;
 }
 
@@ -8847,11 +8863,11 @@ input[type="text"] {
     font-size: 18px;
 }
 
-.abilities-panel .ability-panel-option i {
+.js-abilities-panel .ability-panel-option i {
     color: #609450;
 }
 
-.abilities-selected .ability-panel-option i {
+.js-abilities-selected .ability-panel-option i {
     color: darkred;
 }
 

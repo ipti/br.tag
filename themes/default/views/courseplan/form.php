@@ -167,8 +167,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </div>
     </div>
 </div>
-<div class="modal fade" id="selectAbilities" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="js-selectAbilities" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -179,14 +179,14 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <form method="post">
                 <input type="hidden" class="course-class-index">
                 <div class="modal-body">
-                    <div class="alert alert-error alert-ability-structure">Para adicionar habilidades, é preciso primeiro escolher a etapa e a disciplina do plano.</div>
-                    <div class="abilities-parents">
+                    <div class="alert alert-error js-alert-ability-structure">Para adicionar habilidades, é preciso primeiro escolher a etapa e a disciplina do plano.</div>
+                    <div class="js-abilities-parents">
 
                     </div>
-                    <div class="abilities-panel">
+                    <div class="js-abilities-panel">
 
                     </div>
-                    <div class="abilities-selected">
+                    <div class="js-abilities-selected">
                         <label>SELECIONADAS</label>
                     </div>
                 </div>
@@ -194,7 +194,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal">Cancelar
                     </button>
-                    <button type="button" class="btn btn-primary add-selected-abilities"
+                    <button type="button" class="btn btn-primary js-add-selected-abilities"
                             data-dismiss="modal">Adicionar
                     </button>
                 </div>

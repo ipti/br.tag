@@ -86,9 +86,28 @@ class ClassesController extends Controller
             $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"]]);
         }
         if (!empty($schedules)) {
+            $students = Yii::app()->db->createCommand(
+                "select si.id, si.name from student_enrollment se 
+                        join student_identification si on si.id = se.student_fk
+                        where classroom_fk = :classroom_fk
+                        order by si.name")
+                ->bindParam(":classroom_fk", $_POST["classroom"])->queryAll();
             foreach ($schedules as $schedule) {
                 $classContents[$schedule->day]["available"] = date("Y-m-d") >= Yii::app()->user->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
                 $classContents[$schedule->day]["diary"] = $schedule->diary !== null ? $schedule->diary : "";
+                $classContents[$schedule->day]["students"] = [];
+                foreach($students as $student) {
+                    $studentArray["id"] = $student["id"];
+                    $studentArray["name"] = $student["name"];
+                    $studentArray["diary"] = "";
+                    foreach ($schedule->classDiaries as $classDiary) {
+                        if ($classDiary->student_fk == $student["id"]) {
+                            $studentArray["diary"] = $classDiary->diary;
+                        }
+                    }
+                    array_push($classContents[$schedule->day]["students"], $studentArray);
+                }
+
                 foreach ($schedule->classContents as $classContent) {
                     if (!isset($classContents[$schedule->day]["contents"])) {
                         $classContents[$schedule->day]["contents"] = [];
@@ -176,6 +195,20 @@ class ClassesController extends Controller
                 if ($schedule->day == $classContent["day"]) {
                     $schedule->diary = $classContent["diary"] === "" ? null : $classContent["diary"];
                     $schedule->save();
+                    foreach($classContent["students"] as $student) {
+                        if ($student["diary"] != "") {
+                            $classDiary = ClassDiaries::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", [":schedule_fk" => $schedule->id, ":student_fk" => $student["id"]]);
+                            if ($classDiary == null) {
+                                $classDiary = new ClassDiaries();
+                                $classDiary->schedule_fk = $schedule->id;
+                                $classDiary->student_fk = $student["id"];
+                            }
+                            $classDiary->diary = $student["diary"] === "" ? null : $student["diary"];
+                            $classDiary->save();
+                        } else {
+                            ClassDiaries::model()->deleteAll("schedule_fk = :schedule_fk and student_fk = :student_fk", [":schedule_fk" => $schedule->id, ":student_fk" => $student["id"]]);
+                        }
+                    }
                     ClassContents::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
                     foreach ($classContent["contents"] as $content) {
                         $classHasContent = new ClassContents();

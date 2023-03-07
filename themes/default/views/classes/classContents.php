@@ -147,7 +147,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </tbody>
         </table>
     </div>
-    <div class="modal fade" id="classroomdiary" tabindex="-1" role="dialog">
+    <div class="modal fade" id="js-classroomdiary" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -159,13 +159,17 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <form method="post">
                     <input type="hidden" class="classroom-diary-day">
                     <div class="modal-body">
-                        <textarea class="classroom-diary"></textarea>
+                        <label>Diário de Aula Geral</label>
+                        <textarea class="js-classroom-diary"></textarea>
+                        <label>Diário de Aula por Aluno</label>
+                        <div class="alert alert-error classroom-diary-no-students no-show">Não há alunos matriculados na turma.</div>
+                        <div class="accordion accordion-students" id="accordion-students"></div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default"
                                 data-dismiss="modal">Cancelar
                         </button>
-                        <button type="button" class="btn btn-primary add-classroom-diary"
+                        <button type="button" class="btn btn-primary js-add-classroom-diary"
                                 data-dismiss="modal">Salvar
                         </button>
                     </div>

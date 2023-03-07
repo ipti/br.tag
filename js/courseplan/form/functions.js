@@ -111,7 +111,7 @@ function format(d) {
     var $resources = $('<div class="resources"></div>');
     if (d.abilities !== null) {
         $.each(d.abilities, function (i, v) {
-            var div = '<div class="ability-panel-option"><input type="hidden" class="ability-panel-option-id" value="' + v.id + '"><i class="fa fa-check-square"></i><span>(<b>' + v.code + '</b>) ' + v.description + '</span></div>';
+            var div = '<div class="ability-panel-option"><input type="hidden" class="ability-panel-option-id" value="' + v.id + '" name="course-class[' + d.class + '][ability][' + i + ']"><i class="fa fa-check-square"></i><span>(<b>' + v.code + '</b>) ' + v.description + '</span></div>';
             $abilitiesContainer.append(div);
         });
     }
@@ -211,7 +211,7 @@ function buildAbilityStructureSelect(data) {
 function buildAbilityStructurePanel(data) {
     var panel = '<div><label>' + data.selectTitle + '</label>';
     $.each(data.options, function () {
-        var selected = $(".abilities-selected").find(".ability-panel-option-id[value=" + this.id + "]").length ? "selected" : "";
+        var selected = $(".js-abilities-selected").find(".ability-panel-option-id[value=" + this.id + "]").length ? "selected" : "";
         panel += '<div class="ability-panel-option ' + selected + '"><input type="hidden" class="ability-panel-option-id" value="' + this.id + '"><i class="fa fa-plus-square"></i><span>(<b>' + this.code + '</b>) ' + this.description + '</span></div>';
     });
     panel += "</div>";

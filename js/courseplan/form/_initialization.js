@@ -102,7 +102,7 @@ $(document).on("change", "#CoursePlan_modality_fk", function (evt, loadingData) 
 $("#CoursePlan_modality_fk").trigger("change", [true]);
 
 $(document).on("change", "#CoursePlan_discipline_fk", function () {
-    $(".abilities-parents, .abilities-panel").html("");
+    $(".js-abilities-parents, .js-abilities-panel").html("");
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
@@ -117,29 +117,29 @@ $(document).on("change", "#CoursePlan_discipline_fk", function () {
             success: function (data) {
                 data = JSON.parse(data);
                 if (Object.keys(data.options).length) {
-                    $(".alert-ability-structure").hide();
+                    $(".js-alert-ability-structure").hide();
                     if (data.options[0].code === null) {
-                        $(".abilities-parents").html(buildAbilityStructureSelect(data));
-                        $(".abilities-parents select").select2();
+                        $(".js-abilities-parents").html(buildAbilityStructureSelect(data));
+                        $(".js-abilities-parents select").select2();
                     } else {
-                        $(".abilities-panel").html(buildAbilityStructurePanel(data));
+                        $(".js-abilities-panel").html(buildAbilityStructurePanel(data));
                     }
 
                 } else {
-                    $(".alert-ability-structure").text("Não foram cadastradas habilidades para essa disciplina.").show();
+                    $(".js-alert-ability-structure").text("Não foram cadastradas habilidades para essa disciplina.").show();
                 }
                 $(".js-course-plan-loading-abilities").hide();
             },
         });
     } else {
-        $(".alert-ability-structure").text("Para adicionar habilidades, é preciso primeiro escolher a etapa e a disciplina do plano.").show();
+        $(".js-alert-ability-structure").text("Para adicionar habilidades, é preciso primeiro escolher a etapa e a disciplina do plano.").show();
     }
 });
 
 $(document).on("change", ".ability-structure-select", function () {
     var container = $(this).closest(".ability-structure-container");
     container.nextAll().remove();
-    $(".abilities-panel").children().remove();
+    $(".js-abilities-panel").children().remove();
 
     var selectedValue = $(this).val();
     if ($(this).val() !== "") {
@@ -156,10 +156,10 @@ $(document).on("change", ".ability-structure-select", function () {
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.options[0].code === null) {
-                    $(".abilities-parents").append(buildAbilityStructureSelect(data));
+                    $(".js-abilities-parents").append(buildAbilityStructureSelect(data));
                     container.next().find("select").select2();
                 } else {
-                    $(".abilities-panel").html(buildAbilityStructurePanel(data));
+                    $(".js-abilities-panel").html(buildAbilityStructurePanel(data));
                 }
                 container.find(".loading-next-structure").hide();
             },
@@ -185,47 +185,47 @@ $(document).on("click", ".add-abilities", function (e) {
     var row = table.row(tr);
     $(".course-class-index").val(row.data().class);
 
-    $(".abilities-selected").find(".ability-panel-option").remove();
-    $(".abilities-panel").find(".ability-panel-option").removeClass("selected");
+    $(".js-abilities-selected").find(".ability-panel-option").remove();
+    $(".js-abilities-panel").find(".ability-panel-option").removeClass("selected");
     var options = $(this).closest(".courseplan-ability-container").find(".courseplan-abilities-selected").find(".ability-panel-option");
     if (options.length) {
-        var selected = options.clone().appendTo(".abilities-selected");
+        var selected = options.clone().appendTo(".js-abilities-selected");
         selected.find("i").removeClass("fa-check-square").addClass("fa-minus-square");
         options.each(function() {
-            var optionIdInPanel = $(".abilities-panel").find(".ability-panel-option-id[value=" + $(this).find(".ability-panel-option-id").val() + "]");
+            var optionIdInPanel = $(".js-abilities-panel").find(".ability-panel-option-id[value=" + $(this).find(".ability-panel-option-id").val() + "]");
             if (optionIdInPanel.length) {
                 optionIdInPanel.closest(".ability-panel-option").addClass("selected");
             }
         });
-        $(".abilities-selected").show();
+        $(".js-abilities-selected").show();
     } else {
-        $(".abilities-selected").hide();
+        $(".js-abilities-selected").hide();
     }
 
-    $("#selectAbilities").modal("show");
+    $("#js-selectAbilities").modal("show");
 });
 
 $(document).on("click", ".ability-panel-option", function() {
-    if ($(this).closest(".abilities-panel").length) {
+    if ($(this).closest(".js-abilities-panel").length) {
         if (!$(this).hasClass("selected")) {
-            var selected = $(this).clone().appendTo(".abilities-selected");
+            var selected = $(this).clone().appendTo(".js-abilities-selected");
             selected.find("i").removeClass("fa-plus-square").addClass("fa-minus-square");
             $(this).addClass("selected");
-            $(".abilities-selected").show();
+            $(".js-abilities-selected").show();
         }
-    } else if ($(this).closest(".abilities-selected").length) {
+    } else if ($(this).closest(".js-abilities-selected").length) {
         var deletedOptionId = $(this).find(".ability-panel-option-id").val();
         $(this).remove();
-        $(".abilities-panel").find(".ability-panel-option-id[value=" + deletedOptionId + "]").closest(".ability-panel-option").removeClass("selected");
-        if (!$(".abilities-selected").find(".ability-panel-option").length) {
-            $(".abilities-selected").hide();
+        $(".js-abilities-panel").find(".ability-panel-option-id[value=" + deletedOptionId + "]").closest(".ability-panel-option").removeClass("selected");
+        if (!$(".js-abilities-selected").find(".ability-panel-option").length) {
+            $(".js-abilities-selected").hide();
         }
     }
 });
 
-$(document).on("click", ".add-selected-abilities", function() {
+$(document).on("click", ".js-add-selected-abilities", function() {
     var div = $(".course-class-" + $(".course-class-index").val());
-    div.find(".courseplan-abilities-selected").html($(".abilities-selected").find(".ability-panel-option").clone());
+    div.find(".courseplan-abilities-selected").html($(".js-abilities-selected").find(".ability-panel-option").clone());
     div.find(".courseplan-abilities-selected").find(".ability-panel-option i").removeClass("fa-minus-square").addClass("fa-check-square");
     div.find(".ability-panel-option-id").each(function(index) {
         $(this).attr("name", "course-class[" + $(".course-class-index").val() + "][ability][" + index + "]");

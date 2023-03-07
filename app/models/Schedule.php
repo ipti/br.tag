@@ -20,6 +20,7 @@
  *
  * The followings are the available model relations:
  * @property ClassContents[] $classContents
+ * @property ClassDiaries[] $classDiaries
  * @property ClassFaults[] $classFaults
  * @property Classroom $classroomFk
  * @property EdcensoDiscipline $disciplineFk
@@ -62,6 +63,7 @@ class Schedule extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'classContents' => array(self::HAS_MANY, 'ClassContents', 'schedule_fk'),
+			'classDiaries' => array(self::HAS_MANY, 'ClassDiaries', 'schedule_fk'),
 			'classFaults' => array(self::HAS_MANY, 'ClassFaults', 'schedule_fk'),
 			'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
 			'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
