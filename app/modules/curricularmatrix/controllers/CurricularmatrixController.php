@@ -60,6 +60,7 @@ class CurricularmatrixController extends Controller
                         ":stage" => $stage, ":discipline" => $discipline
                     ]);
                     $logSituation = "U";
+                    
                     if ($matrix == NULL) {
                         $matrix = new CurricularMatrix();
                         $matrix->setAttributes([
@@ -70,14 +71,22 @@ class CurricularmatrixController extends Controller
                     $matrix->setAttributes([
                         "workload" => $workload, "credits" => $credits,
                     ]);
+                    
                     $stageName = EdcensoStageVsModality::model()->find("id = :stage", [":stage" => $stage])->name;
                     $disciplineName = EdcensoDiscipline::model()->find("id = :discipline", [":discipline" => $discipline])->name;
-                    Log::model()->saveAction("curricular_matrix", $stage . "|" . $discipline, $logSituation, $stageName . "|" . $disciplineName);
-                    $matrix->save();
+                    
+                    if ($matrix->save()) {
+                        Log::model()->saveAction("curricular_matrix", $stage . "|" . $discipline, $logSituation, $stageName . "|" . $disciplineName);
+                    }
                 }
 
             }
+            
+            echo json_encode(["valid" => true, "message" => "Matriz inserida com sucesso!"]);
+        } else {
+            echo json_encode(["valid" => false, "message" => "Preencha os campos de etapa, disciplinas, carga horária e horas semanais."]);
         }
+
     }
 
 
