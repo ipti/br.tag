@@ -811,7 +811,7 @@ return array(
     'Update SchoolIdentification' => 'Atualizar Escola',
     'Update InstructorIdentification' => 'Atualizar Professor',
     'Update User' => 'Atualizar Usuário',
-    'Update Professional' => 'Atualizar Professional',
+    'Update Professional' => 'Atualizar Profissional',
     
     //Erros
     'already enrolled in this classroom.' =>'já matriculado na turma.',
