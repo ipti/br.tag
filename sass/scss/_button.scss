@@ -17,12 +17,13 @@
   }
 
 .t-button {    
+    display: flex;
+    flex: 1;
     padding: $spaceNormal;
     margin: $spaceXSmall 0;
     font-size: $FontSizeTextSmall;
     border-radius: $borderRadiusLarge;
     text-decoration: none;
-    display: flex;
     justify-content: space-between;
     align-self: center;
     justify-content: center;
@@ -30,6 +31,7 @@
     cursor: pointer;
 
     @include device(tablet) {
+        flex: 0 auto;
         padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
         font-size: $FontSizeTextNormal;
     }

@@ -18,8 +18,10 @@
             <h1><?php echo Yii::t('default', 'Classrooms') ?></h1>  
             <div class="t-buttons-container">
                 <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('classroom/create') ?>"> Adicionar turma</a>
-                <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" target="_blank">Relatório Alunos/Turma</a>
-                <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" target="_blank">Relatório Professores/Turma</a>
+                <div class="mobile-row">
+                    <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" target="_blank">Relatório Alunos/Turma</a>
+                    <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" target="_blank">Relatório Professores/Turma</a>
+                </div>
             </div>
         </div>
     </div>
@@ -36,7 +38,7 @@
                 <li><a href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" class=""><i></i>Relatório Professores/Turma</a></li>
             </ul>
         </div>
-        <div class="columnone">
+        <div class="">
             <?php if (Yii::app()->user->hasFlash('success')): ?>
                 <div class="alert alert-success">
                     <?php echo Yii::app()->user->getFlash('success') ?>

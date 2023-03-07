@@ -6,6 +6,29 @@ $school_logo = $baseUrl."/img/emblema-escola.svg";
 $url_school_logo ='/?r=school/displayLogo&id='.Yii::app()->user->school;
 $schoolurl = yii::app()->createUrl('school');
 
+$select_school = '';
+
+if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
+    $select_school = CHtml::activeDropDownList(
+        SchoolIdentification::model(),
+        'inep_id',
+        Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'),
+        array('empty' => 'Selecione a escola', 'class' => 'select-school', 'id2' => 'school', 'options' => array(Yii::app()->user->school => array('selected' => true)))
+    );
+} else {
+    $select_school = CHtml::activeDropDownList(
+        UsersSchool::model(),
+        'school_fk',
+        Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'),
+        [
+            'empty' => 'Selecione a escola',
+            'class' => 'select-school',
+            'id2' => 'school',
+            'options' => [Yii::app()->user->school => array('selected' => true)]
+        ]
+    );
+}
+
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>
@@ -57,59 +80,43 @@ $schoolurl = yii::app()->createUrl('school');
     <!-- Main Container Fluid -->
     <div class="container-fluid fluid menu-left">
         <!-- Top navbar -->
-        <div class="tag-topbar hidden-print">
+        <div class="tag-topbar hidden-print ">
 
             <!-- Brand -->
             <!-- <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 8px 0 0 0;height: 27px;" /><span id="schoolyear"><?php echo Yii::app()->user->year; ?></span></a> -->
 
             <!-- Top Menu Right -->
             <ul class="tag-topbar__content">
-                <li class="tag-topbar__item ">
+                <li class="tag-topbar__item">
                     <a onclick="history.go(-1);" class="tag-topbar__voltar">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/voltar_icon.png" />
                         Voltar
                     </a>
+                </li>
+                <li class="tag-topbar__item ">
                     <div class="tag-topbar__toggle js-toggle-drawer">
                         <div></div>
                         <div></div>
                         <div></div>
                     </div>
-                    
-                    <img  id="alt-logo" src="<?php echo $school_logo ?>" class="tag-topbar__school_logo show" />
-                    <img  class="tag-topbar__school_logo hidden" src="<?php echo $url_school_logo ?>" alt="emblema da escola" onload="document.getElementById('alt-logo').classList.replace('show', 'hidden'); this.classList.replace('hidden', 'show')"/>
-
-                    <div>
+                </li>
+                
+                <li class="tag-topbar__item">
+                    <div class="mobile-row justify-content--start">
                         <div>
-                            <form class="school" id2="school" action="<?php echo yii::app()->createUrl('site/changeschool') ?>" method="Post">
-                                <?php
-                                if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
-                                    echo CHtml::activeDropDownList(
-                                        SchoolIdentification::model(),
-                                        'inep_id',
-                                        Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'),
-                                        array('empty' => 'Selecione a escola', 'class' => 'select-school', 'id2' => 'school', 'options' => array(Yii::app()->user->school => array('selected' => true)))
-                                    );
-                                } else {
-                                    echo CHtml::activeDropDownList(
-                                        UsersSchool::model(),
-                                        'school_fk',
-                                        Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'),
-                                        [
-                                            'empty' => 'Selecione a escola',
-                                            'class' => 'select-school',
-                                            'id2' => 'school',
-                                            'options' => [Yii::app()->user->school => array('selected' => true)]
-                                        ]
-                                    );
-                                }
-?>
-                            </form>
+                            <img  id="alt-logo" src="<?php echo $school_logo ?>" class="tag-topbar__school_logo show" />
+                            <img  class="tag-topbar__school_logo hidden" src="<?php echo $url_school_logo ?>" alt="emblema da escola" onload="document.getElementById('alt-logo').classList.replace('show', 'hidden'); this.classList.replace('hidden', 'show')"/>
                         </div>
-                        <div class="tag-topbar__username"><?= Yii::app()->user->loginInfos->username ?></div>
+                        <div class="column">
+                            <form class="school" id2="school" action="<?php echo yii::app()->createUrl('site/changeschool') ?>" method="Post">
+                                <?php echo $select_school; ?>
+                            </form>
+                            <div class="tag-topbar__username"><?= Yii::app()->user->loginInfos->username ?></div>
+                        </div>
+                    
                     </div>
                 </li>
-
-                <li id="menu-logout">
+                <li id="menu-logout" class="hide-responsive" style="margin-left: auto">
                     <a class="t-button-tertiary" href="<?php echo yii::app()->createUrl('site/logout') ?>">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.svg" />
                         <span>Sair</span>
@@ -129,12 +136,7 @@ $schoolurl = yii::app()->createUrl('school');
                     <span id="span-color-green"></span>
                     <span id="span-color-yellow"></span>
                 </div>
-            <div class="t-drawer-header align-items--end logo-container">
-                    <div style="margin-right:10px;" class="t-drawer-toggle js-toggle-drawer">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
+                <div class="t-drawer-header column align-items--end logo-container">
                     <img class="tag-logo" style="width:85px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_navbar.svg" />
                     <a href="#" class="t-badge pull-left" data-toggle="modal" data-target="#change-year" target="_blank">
                         <span class="t-badge__label" id="schoolyear"><?php echo Yii::app()->user->year; ?></span>
@@ -156,7 +158,7 @@ $schoolurl = yii::app()->createUrl('school');
                         if (count(Yii::app()->user->usersSchools) == 1) {
                             $schoolurl = yii::app()->createUrl('school/update', array('id' => yii::app()->user->school));
                         }
-                        ?>
+                            ?>
                             <a class="t-menu-item__link" href="<?php echo $schoolurl ?>">
                                 <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/escola.svg" />
                                 <span class="t-menu-item__text">Escola</span>
@@ -200,20 +202,20 @@ $schoolurl = yii::app()->createUrl('school');
                         </li>
                         <?php endif ?>
                         <li id="menu-electronic-diary" class="t-menu-group <?=
-                                                                        strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ||
-                                                                            strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ||
-                                                                            strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ||
-                                                                            strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades")
-                                                                            ? 'active' : '' ?>"><i class="submenu-icon fa fa-chevron-right"></i><i class="submenu-icon fa fa-chevron-down"></i>
+                                                                            strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ||
+                                                                                strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ||
+                                                                                strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ||
+                                                                                strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades")
+                                                                                ? 'active' : '' ?>"><i class="submenu-icon fa fa-chevron-right"></i><i class="submenu-icon fa fa-chevron-down"></i>
                                 <a id="menu-electronic-diary-trigger" data-toggle="collapse" class="t-menu-group__link" href="#submenu-electronic-diary">
                                     <img class="t-menu-group__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/diario_eletronico.svg" />
                                     <span class="t-menu-group__text">Diário Eletrônico</span>
                                 </a>
                                 <ul class="collapse <?=
-                                                strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ||
-                                                    strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ||
-                                                    strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ||
-                                                    strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades") ? 'in' : '' ?>" id="submenu-electronic-diary">
+                                                    strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ||
+                                                        strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ||
+                                                        strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ||
+                                                        strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades") ? 'in' : '' ?>" id="submenu-electronic-diary">
                                     
                                     <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ? 'active' : '' ?>">
                                         <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('courseplan') ?>">
@@ -250,9 +252,9 @@ $schoolurl = yii::app()->createUrl('school');
                         <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)) : ?>
                             <!--<li id="menu-quiz"-->
                             <!--class="--><?php //= strpos($_SERVER['REQUEST_URI'], "?r=quiz") ? 'active' : ''
-                                        ?><!-- hide-responsive">-->
+                                            ?><!-- hide-responsive">-->
                             <!--<a class="glyphicons list" href="--><?php //echo yii::app()->createUrl('quiz')
-                                                                ?><!-- "><i></i><span class="t-menu-item__text">Questionário</span></a>-->
+                                                                    ?><!-- "><i></i><span class="t-menu-item__text">Questionário</span></a>-->
                             <!--</li>-->
                             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=lunch") ? 'active' : '' ?> hide-responsive">
                                 <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('lunch/lunch') ?> ">
@@ -316,7 +318,7 @@ $schoolurl = yii::app()->createUrl('school');
                                 <div class=controls>
                                     <select name="years" id="years" placeholder="Selecione o ano">
                                         <?php
-                                    $years = range(date('Y'), 2014);
+                                        $years = range(date('Y'), 2014);
 for ($i = 0; $i < count($years); $i++) {
     if ($years[$i] == Yii::app()->user->year) {
         echo "<option value=" . $years[$i] . " selected>" . $years[$i] . "</option>";
