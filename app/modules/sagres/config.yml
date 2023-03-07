@@ -1,0 +1,39 @@
+# config.yml
+# Linux Users: PHP Namespaces use back slash \ rather than a forward slash /
+# So for destinations_php, the namespace would be TestNs\MyApp
+
+xsd2php:
+  namespaces:
+    'http://www.tce.se.gov.br/sagres2023/xml/tabelasInternas': 'TabInternas'
+    'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu': 'SagresEdu'
+    'http://www.tce.se.gov.br/sagres2023/xml/genericos': 'Genericos'
+
+  destinations_php:
+    'TabInternas': C:\Users\JoseNatan\Documents\Developer\br.tag\app\modules\sagres\soap\src\tabInternasClass
+    'SagresEdu': C:\Users\JoseNatan\Documents\Developer\br.tag\app\modules\sagres\soap\src\sagresEdu
+    'Genericos': C:\Users\JoseNatan\Documents\Developer\br.tag\app\modules\sagres\soap\src\genericosClass
+
+#    'TestNs\MyApp': soap\src  #  on Windows
+
+  destinations_jms:
+    'TabInternas': C:\Users\JoseNatan\Documents\Developer\br.tag\app\modules\sagres\soap\metadata\tabInternasMetadata
+    'SagresEdu': C:\Users\JoseNatan\Documents\Developer\br.tag\app\modules\sagres\soap\metadata\sagresEduMetadata
+    'Genericos': C:\Users\JoseNatan\Documents\Developer\br.tag\app\modules\sagres\soap\metadata\genericosMetadata
+
+#    'TestNs\MyApp': soap\metadata  #  on Windows
+ 
+#  Uncomment this section if you want to have also symfony/validator metadata to be generated from XSD    
+#  destinations_validation:
+#    'TestNs\MyApp': soap/validation
+#    'TestNs\MyApp': soap\validation  #  on Windows
+    
+#  aliases: # optional
+#    'http://www.example.org/test/':
+#      MyCustomXSDType:  'MyCustomMappedPHPType'
+  naming_strategy: short # optional and default
+  path_generator: psr4 # optional and default
+#  known_locations: # optional
+#  known_namespace_locations: # optional
+#    "urn:veloconnect:catalog-1.1": xsd/catalog-1.1.xsd
+  configs_jms:  #optional
+    xml_cdata: false # Disables CDATA
