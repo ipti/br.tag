@@ -19,8 +19,8 @@ function createTable(data) {
                     accordionHtml +=
                         '<div class="accordion-group" studentid="' + this.id + '">' +
                         '<div class="accordion-heading">' +
-                        '<div class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-students" href="#collapse-' + this.id + '"' +
-                        '<i class="fa fa-plus-square"></i><a class="accordion-title">' + this.name + '</a>' +
+                        '<div class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-students" href="#collapse-' + this.id + '">' +
+                        '<a class="accordion-title"><i class="fa fa-file-o"></i> ' + this.name + '</a>' +
                         '</div></div>' +
                         '<div id="collapse-' + this.id + '" class="accordion-body collapse">' +
                         '<div class="accordion-inner">' +

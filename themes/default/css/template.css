@@ -8713,6 +8713,10 @@ input[type="text"] {
     max-height: 500px !important;
 }
 
+.accordion-students .accordion-title i {
+    margin-right: 5px;
+}
+
 .student-classroom-diary {
     width: 480px;
     max-width: 480px;
