@@ -6,10 +6,11 @@
  */
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
+
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.2');
-$cs->registerScriptFile($baseScriptUrl . '/common/js/curricularmatrix.js?v=1.1', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/common/js/curricularmatrix.js', CClientScript::POS_END);
 $cs->registerScript("vars", "var addMatrix = '" . $this->createUrl("addMatrix") . "';", CClientScript::POS_HEAD);
 $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricular Matrix'));
 // $cs->registerCssFile($themeUrl . '/css/template2.css');
@@ -22,7 +23,8 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
 </div>
 <div class="column">
     <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)): ?>
-        <div class="row align-items--end justify-content--space-between">
+        <form onsubmit="return false">
+            <div class="row align-items--end justify-content--space-between">
             <div class="column clear-margin--left">
                 <div class="t-field-select">
                     <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Stage'), 'stages', ['class' => "control-label"]) ?>
@@ -57,6 +59,7 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                 ]) ?>
             </div>
         </div>
+        </form>
         <hr>
     <?php endif ?>
                     

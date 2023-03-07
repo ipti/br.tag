@@ -9,14 +9,16 @@
     top: 0px;
     background: $colorsBaseProductLighter;
     z-index: 99;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 
     &-header {
         display: flex;
         align-items: center;
-        width: 100%;
+        width: auto;
         margin-left: $spaceNormal;
-        margin-top: 23px;
-        margin-bottom: 65px;
+        margin-top: $SizeLarge;
+        margin-bottom: $SizeLarge;
     }
 
     &-toggle {
@@ -47,13 +49,17 @@
         transition: left 500ms;
     }
 
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
     @include device(tablet) {
         &--mobile-hidden {
             left: 0;
             // transition: left 500ms;
         }
     }
-
+    
 }
 
 .sidebar-cover {
