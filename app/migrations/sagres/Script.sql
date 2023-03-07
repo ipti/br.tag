@@ -20,7 +20,7 @@ ALTER TABLE attendance ADD CONSTRAINT fk_professional_attendance FOREIGN KEY (pr
 ALTER TABLE professional CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE professional ADD CONSTRAINT fk_schoolidentificationProfessional FOREIGN KEY (inep_id_fk) REFERENCES school_identification(inep_id);
 
-ALTER TABLE `student_enrollment` ADD `date_cancellation_enrollment` DATE NULL DEFAULT NULL AFTER `status`;
+-- ALTER TABLE `student_enrollment` ADD `date_cancellation_enrollment` DATE NULL DEFAULT NULL AFTER `status`;
 ALTER TABLE `school_identification` ADD `number_ato` VARCHAR(30) NOT NULL AFTER `final_date`;
 ALTER TABLE `lunch_menu` ADD `adjusted` TINYINT NOT NULL AFTER date;
 
@@ -28,8 +28,8 @@ ALTER TABLE `lunch_menu` ADD `adjusted` TINYINT NOT NULL AFTER date;
 INSERT INTO professional VALUES (1,'71685776035','Médico','28022041', 1);
 INSERT INTO attendance VALUES (1, curdate(), 'Itabaiana', 1);
 
-UPDATE student_identification
-SET birthday = STR_TO_DATE(birthday, '%Y-%m-%d');
+-- UPDATE student_identification
+-- SET birthday = STR_TO_DATE(birthday, '%Y-%m-%d');
 
 -- `io.escola.demo`.provision_accounts definition
 
