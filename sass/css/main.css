@@ -389,7 +389,7 @@
 
 .t-accordion__header .t-accordion__head { border: none; }
 
-.t-accordion__container-icon:hover { background-color: #fafafe !important; }
+.t-accordion__container-icon:hover { background-color: inherit !important; }
 
 .t-accordion__icon { transition: all 200ms; }
 

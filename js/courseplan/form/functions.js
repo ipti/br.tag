@@ -15,14 +15,14 @@ function initDatatable() {
         lengthMenu: false,
         filter: false,
         info: false,
+        
         "columns": [
-            {
-                "className": 'details-control dt-center t-accordion__container-icon',
-                "orderable": false,
-                "data": null,
-                "defaultContent": '<img class="t-accordion__icon" src="themes/default/img/Glyph.svg" />',
-                "width": "1px"
-            },
+            // {
+            //     "className": ' dt-center',
+            //     "orderable": false,
+            //     "data": "deleteButton",
+            //     "width": "1px"
+            // },
             {
                 "className": 'dt-center',
                 "data": "class",
@@ -37,9 +37,9 @@ function initDatatable() {
             {"data": "resources", "visible": false},
             {"data": "types", "visible": false},
             {
-                "className": 'dt-center',
+                "className": 'dt-center details-control t-accordion__container-icon',
                 "orderable": false,
-                "data": "deleteButton",
+                "defaultContent": '<img class="t-accordion__icon" src="themes/default/img/Glyph.svg" />',
                 "width": "1px"
             }
         ],
@@ -64,6 +64,8 @@ function addCoursePlanRow() {
     }
 
     $(".details-control .fa-minus-circle").click();
+
+    index = $('#course-classes .dt-hasChild').length;
 
     table.row.add({
         "class": index + 1,
