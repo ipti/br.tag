@@ -27,17 +27,9 @@ class DefaultController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('index','create','update', 'delete'),
 				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -46,32 +38,21 @@ class DefaultController extends Controller
 	}
 
 	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
-
-	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
 	public function actionCreate()
 	{
-		$model=new Professional;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$model = new Professional;
 
 		if(isset($_POST['Professional']))
 		{
 			$model->attributes=$_POST['Professional'];
+			$model->inep_id_fk = Yii::app()->user->school;
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_professional));
+				Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional cadastrado com sucesso!'));
+				$this->redirect(array('index','id'=>$model->id));
 		}
 
 		$this->render('create',array(
@@ -86,7 +67,7 @@ class DefaultController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
+		$model = Professional::model()->findByPk($id);
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -95,7 +76,8 @@ class DefaultController extends Controller
 		{
 			$model->attributes=$_POST['Professional'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_professional));
+				Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional atualizado com sucesso!'));
+				$this->redirect(array('index','id'=>$model->id));
 		}
 
 		$this->render('update',array(
@@ -110,11 +92,12 @@ class DefaultController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		$professional = Professional::model()->findByPk($id);;
 
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		if($professional->delete()) {
+			Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional excluído com sucesso!'));
+            $this->redirect(array('index'));
+		}
 	}
 
 	/**
@@ -126,48 +109,5 @@ class DefaultController extends Controller
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
-	}
-
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new Professional('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Professional']))
-			$model->attributes=$_GET['Professional'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Returns the data model based on the primary key given in the GET variable.
-	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param integer $id the ID of the model to be loaded
-	 * @return Professional the loaded model
-	 * @throws CHttpException
-	 */
-	public function loadModel($id)
-	{
-		$model=Professional::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
-		return $model;
-	}
-
-	/**
-	 * Performs the AJAX validation.
-	 * @param Professional $model the model to be validated
-	 */
-	protected function performAjaxValidation($model)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='professional-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
 	}
 }

@@ -6,53 +6,97 @@
 
 <div class="form">
 
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'professional-form',
-	// Please note: When you enable ajax validation, make sure the corresponding
-	// controller action is handling ajax validation correctly.
-	// There is a call to performAjaxValidation() commented in generated controller code.
-	// See class documentation of CActiveForm for details on this.
-	'enableAjaxValidation'=>false,
-)); ?>
+	<?php
+	$baseUrl = Yii::app()->baseUrl;
+	$themeUrl = Yii::app()->theme->baseUrl;
+	$cs = Yii::app()->getClientScript();
+	$cs->registerScriptFile($baseUrl . '/js/professional/form/pagination.js', CClientScript::POS_END);
+	$cs->registerCssFile($themeUrl . '/css/template2.css');
+	$cs->registerScript("VARS", "
+    var GET_INSTITUTIONS = '" . $this->createUrl('instructor/getInstitutions') . "';
+", CClientScript::POS_BEGIN);
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
-	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'id_professional'); ?>
-		<?php echo $form->textField($model,'id_professional'); ?>
-		<?php echo $form->error($model,'id_professional'); ?>
+	$form = $this->beginWidget('CActiveForm', array(
+		'id' => 'professional-form',
+		// Please note: When you enable ajax validation, make sure the corresponding
+		// controller action is handling ajax validation correctly.
+		// There is a call to performAjaxValidation() commented in generated controller code.
+		// See class documentation of CActiveForm for details on this.
+		'enableAjaxValidation' => false,
+	));
+	?>
+	<div class="row-fluid hidden-print">
+		<div class="span12">
+			<h1><?php echo $title; ?></h1>
+			<div class="tag-buttons-container buttons">
+				<button class="t-button-primary pull-right save-professional" type="submit">
+					<?= $model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+				</button>
+			</div>
+		</div>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'cpf_professional'); ?>
-		<?php echo $form->textField($model,'cpf_professional',array('size'=>14,'maxlength'=>14)); ?>
-		<?php echo $form->error($model,'cpf_professional'); ?>
+	<div class="tag-inner">
+		<?php if (Yii::app()->user->hasFlash('success') && (!$model->isNewRecord)) : ?>
+			<div class="alert alert-success">
+				<?php echo Yii::app()->user->getFlash('success') ?>
+			</div>
+		<?php endif ?>
+		<div class="widget widget-tabs border-bottom-none">
+			<?php echo $form->errorSummary($model); ?>
+			<div class="alert alert-error classroom-error no-show"></div>
+			<div class="widget-body form-horizontal">
+				<div class="tab-content">
+					<div class="tab-pane active" id="professional-identify">
+						<div>
+							<h3>Dados Básicos</h3>
+						</div>
+						<div class="row-fluid">
+							<div class="span6">
+								<div class="separator">
+									<div class="control-group">
+										<div class="controls">
+											<?php echo $form->labelEx($model, 'name', array('class' => 'control-label')); ?>
+										</div>
+										<div class="controls">
+											<?php echo $form->textField($model, 'name', array('size' => 60, 'maxlength' => 100)); ?>
+											<?php echo $form->error($model, 'name'); ?>
+										</div>
+									</div>
+									<div class="control-group">
+										<div class="controls">
+											<?php echo $form->labelEx($model, 'cpf', array('class' => 'control-label')); ?>
+										</div>
+										<div class="controls">
+											<?php echo $form->textField($model, 'cpf', array('size' => 60, 'maxlength' => 100)); ?>
+											<?php echo $form->error($model, 'cpf'); ?>
+										</div>
+									</div>
+									<div class="control-group">
+										<div class="controls">
+											<?php echo $form->labelEx($model, 'speciality', array('class' => 'control-label')); ?>
+										</div>
+										<div class="controls">
+											<?php echo $form->textField($model, 'speciality', array('size' => 60, 'maxlength' => 100)); ?>
+											<?php echo $form->error($model, 'speciality'); ?>
+										</div>
+									</div>
+									<div class="control-group">
+										<div class="controls">
+											<?php echo $form->labelEx($model, 'fundeb', array('class' => 'control-label')); ?>
+										</div>
+										<div class="controls">
+											<?php echo $form->textField($model, 'fundeb', array('size' => 60, 'maxlength' => 100)); ?>
+											<?php echo $form->error($model, 'fundeb'); ?>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'specialty'); ?>
-		<?php echo $form->textField($model,'specialty',array('size'=>60,'maxlength'=>100)); ?>
-		<?php echo $form->error($model,'specialty'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'inep_id_fk'); ?>
-		<?php echo $form->textField($model,'inep_id_fk',array('size'=>8,'maxlength'=>8)); ?>
-		<?php echo $form->error($model,'inep_id_fk'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'fundeb'); ?>
-		<?php echo $form->textField($model,'fundeb'); ?>
-		<?php echo $form->error($model,'fundeb'); ?>
-	</div>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
-	</div>
-
-<?php $this->endWidget(); ?>
-
-</div><!-- form -->
+	<?php $this->endWidget(); ?>

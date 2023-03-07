@@ -62,16 +62,15 @@ class ProfessionalController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Professional;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$model = new Professional;
 
 		if(isset($_POST['Professional']))
 		{
 			$model->attributes=$_POST['Professional'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_professional));
+				$this->redirect(array('index','id'=>$model->id));
+				Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional cadastrado com sucesso!'));
 		}
 
 		$this->render('create',array(

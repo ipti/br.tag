@@ -48,6 +48,15 @@
 				<div class="clearfix"></div>
 			</a>
 		</div>
+
+		<div class="column">
+			<a href="<?php echo Yii::app()->createUrl('professional') ?>"
+				class="widget-stats">
+				<div><i class="fa fa-edit fa-4x"></i></div>
+				<span class="txt">Profissionais</span>
+				<div class="clearfix"></div>
+			</a>
+		</div>
 	</div>
 </div>
 

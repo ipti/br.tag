@@ -7,12 +7,16 @@ $this->breadcrumbs=array(
 	'Create',
 );
 
-$this->menu=array(
-	array('label'=>'List Professional', 'url'=>array('index')),
-	array('label'=>'Manage Professional', 'url'=>array('admin')),
-);
 ?>
 
-<h1>Create Professional</h1>
-
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<div id="mainPage" class="main">
+    <?php
+    $this->setPageTitle('TAG - ' . Yii::t('default','Add New Professional'));
+    $title = Yii::t('default', 'Add New Professional');
+    ?>
+    <?php
+    echo $this->renderPartial('_form', array(
+        'model' => $model,
+        'title' => $title));
+    ?> 
+</div>

@@ -25,7 +25,7 @@ $this->breadcrumbs=array(
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Professional Identifications') ?></h1>
             <div class="t-buttons-container">
-                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('professional/create')?>">Adicionar profissional</a>
+                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('professional/default/create')?>">Adicionar profissional</a>
             </div>
         </div>
         <div class="btn-group pull-right mt-30 responsive-menu dropdown-margin">
@@ -34,7 +34,7 @@ $this->breadcrumbs=array(
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="<?php echo Yii::app()->createUrl('professional/create')?>"><i></i> Adicionar profissional</a></li>
+                <li><a href="<?php echo Yii::app()->createUrl('professional/default/create')?>"><i></i> Adicionar profissional</a></li>
             </ul>
         </div>
     </div>  
@@ -57,6 +57,7 @@ $this->breadcrumbs=array(
                     'columns' => array(
                         array(
                             'name' => 'name',
+                            'header' => 'Nome',
                             'type' => 'raw',
                             'value' => 'CHtml::link($data->name,Yii::app()->createUrl("professional/update",array("id"=>$data->id)))',
                             'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
@@ -69,6 +70,7 @@ $this->breadcrumbs=array(
                         ),
                         array(
                             'name' => 'speciality',
+                            'header' => 'Especialidade',
                             'value' => '$data->speciality',
                         ),
                         array(

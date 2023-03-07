@@ -4,9 +4,10 @@
  * This is the model class for table "professional".
  *
  * The followings are the available columns in table 'professional':
- * @property integer $id_professional
- * @property string $cpf_professional
- * @property string $specialty
+ * @property integer $id
+ * @property string $name
+ * @property string $cpf
+ * @property string $speciality
  * @property string $inep_id_fk
  * @property integer $fundeb
  */
@@ -28,14 +29,15 @@ class Professional extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_professional, cpf_professional, specialty, inep_id_fk, fundeb', 'required'),
-			array('id_professional, fundeb', 'numerical', 'integerOnly'=>true),
-			array('cpf_professional', 'length', 'max'=>14),
-			array('specialty', 'length', 'max'=>100),
+			array('name, cpf, speciality, fundeb', 'required'),
+			array('id, fundeb', 'numerical', 'integerOnly'=>true),
+			array('cpf', 'length', 'max'=>14),
+			array('speciality', 'length', 'max'=>100),
 			array('inep_id_fk', 'length', 'max'=>8),
+			array('name', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_professional, cpf_professional, specialty, inep_id_fk, fundeb', 'safe', 'on'=>'search'),
+			array('id, name,cpf, speciality, inep_id_fk, fundeb', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,10 +58,11 @@ class Professional extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_professional' => 'Id Professional',
-			'cpf_professional' => 'Cpf Professional',
-			'specialty' => 'Specialty',
-			'inep_id_fk' => 'Inep Id Fk',
+			'id' => 'id',
+			'name' => 'Nome',
+			'cpf' => 'CPF',
+			'speciality' => 'Especialidade',
+			'inep_id_fk' => 'ID Inep',
 			'fundeb' => 'Fundeb',
 		);
 	}
@@ -82,8 +85,8 @@ class Professional extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id_professional',$this->id_professional);
-		$criteria->compare('cpf_professional',$this->cpf_professional,true);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('cpf',$this->cpf,true);
 		$criteria->compare('specialty',$this->specialty,true);
 		$criteria->compare('inep_id_fk',$this->inep_id_fk,true);
 		$criteria->compare('fundeb',$this->fundeb);
