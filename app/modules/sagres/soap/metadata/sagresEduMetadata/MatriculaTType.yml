@@ -1,0 +1,68 @@
+SagresEdu\MatriculaTType:
+    properties:
+        numero:
+            expose: true
+            access_type: public_method
+            serialized_name: numero
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+            accessor:
+                getter: getNumero
+                setter: setNumero
+            type: string
+        dataMatricula:
+            expose: true
+            access_type: public_method
+            serialized_name: data_matricula
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+            accessor:
+                getter: getDataMatricula
+                setter: setDataMatricula
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        dataCancelamento:
+            expose: true
+            access_type: public_method
+            serialized_name: data_cancelamento
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+            accessor:
+                getter: getDataCancelamento
+                setter: setDataCancelamento
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        numeroFaltas:
+            expose: true
+            access_type: public_method
+            serialized_name: numero_faltas
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+            accessor:
+                getter: getNumeroFaltas
+                setter: setNumeroFaltas
+            type: int
+        aprovado:
+            expose: true
+            access_type: public_method
+            serialized_name: aprovado
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+            accessor:
+                getter: getAprovado
+                setter: setAprovado
+            type: bool
+        aluno:
+            expose: true
+            access_type: public_method
+            serialized_name: aluno
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+            accessor:
+                getter: getAluno
+                setter: setAluno
+            type: SagresEdu\AlunoTType

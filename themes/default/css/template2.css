@@ -403,3 +403,7 @@ table.dataTable.no-footer {
 input[type="checkbox"] {
     margin: 0px 9px 0px;
 }
+
+input[type="checkbox"]:checked {
+    margin: 0px 9px 0px 0px;
+}

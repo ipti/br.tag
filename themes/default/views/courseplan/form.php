@@ -72,7 +72,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <div class="tab-content">
                     <div class="tab-pane active" id="create-plan">
                     <div class="row">
-                                <div class="column">
+                                <div class="column no-grow">
                                     <div>
                                             <?php echo CHtml::label(yii::t('default', 'Name') . "*", 'name', array(
                                                 'class' => 'control-label required',

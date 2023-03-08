@@ -1,0 +1,35 @@
+Genericos\NaConvenioTType:
+    properties:
+        tipoConvenio:
+            expose: true
+            access_type: public_method
+            serialized_name: tipoConvenio
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
+            accessor:
+                getter: getTipoConvenio
+                setter: setTipoConvenio
+            type: string
+        nrConvenio:
+            expose: true
+            access_type: public_method
+            serialized_name: nrConvenio
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
+            accessor:
+                getter: getNrConvenio
+                setter: setNrConvenio
+            type: int
+        anoConvenio:
+            expose: true
+            access_type: public_method
+            serialized_name: anoConvenio
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
+            accessor:
+                getter: getAnoConvenio
+                setter: setAnoConvenio
+            type: string

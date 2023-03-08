@@ -1,5 +1,6 @@
 <div id="mainPage" class="main" style="margin-top:40px; padding: 10px">
     <?php
+    
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Censo'));
     $title = Yii::t('default', 'Create a new User');
     $contextDesc = Yii::t('default', 'Available actions that may be taken on User.');

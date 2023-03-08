@@ -1,0 +1,24 @@
+Genericos\NumeroLeiAltePpaTType:
+    properties:
+        numero:
+            expose: true
+            access_type: public_method
+            serialized_name: numero
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
+            accessor:
+                getter: getNumero
+                setter: setNumero
+            type: string
+        ano:
+            expose: true
+            access_type: public_method
+            serialized_name: ano
+            xml_element:
+                cdata: false
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
+            accessor:
+                getter: getAno
+                setter: setAno
+            type: string

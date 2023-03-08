@@ -52,6 +52,7 @@ class CurricularmatrixController extends Controller
         $disciplines = $_POST['disciplines'];
         $workload = $_POST['workload'];
         $credits = $_POST['credits'];
+        // var_dump($stages, $disciplines, $workload, $credits);
         if ($stages !== "" && $disciplines !== "" && $workload !== "" && $credits !== "") {
             foreach ($stages as $stage) {
                 foreach ($disciplines as $discipline) {
@@ -71,8 +72,12 @@ class CurricularmatrixController extends Controller
                     ]);
                     $stageName = EdcensoStageVsModality::model()->find("id = :stage", [":stage" => $stage])->name;
                     $disciplineName = EdcensoDiscipline::model()->find("id = :discipline", [":discipline" => $discipline])->name;
-                    Log::model()->saveAction("curricular_matrix", $stage . "|" . $discipline, $logSituation, $stageName . "|" . $disciplineName);
-                    $matrix->save();
+                    
+                    $result = $matrix->save();
+
+                    if($result){
+                        Log::model()->saveAction("curricular_matrix", $stage . "|" . $discipline, $logSituation, $stageName . "|" . $disciplineName);
+                    }                    
                 }
             }
             echo json_encode(["valid" => true, "message" => "Matriz inserida com sucesso!"]);
@@ -111,7 +116,7 @@ class CurricularmatrixController extends Controller
         $dataProvider =
             new CActiveDataProvider('CurricularMatrix', [
                 'pagination' => [
-                    'pageSize' => 20,
+                    'pageSize' => 50000,
                 ]
             ]);
 

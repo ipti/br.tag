@@ -50,6 +50,11 @@
 
 .column.clearfix { margin-left: 0; margin-right: 0; }
 
+/* line 30, ../../../Projetos/br.tag/br.tag/sass/scss/_grid.scss */
+.column.no-grow {
+  flex-grow: 0;
+}
+
 /* Color */
 /* Product */
 /* Ink */
