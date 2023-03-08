@@ -1,16 +1,16 @@
 CREATE TABLE `attendance` (
-     `id` INT NOT NULL PRIMARY KEY,
+     `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
      `date` DATE NOT NULL,
-     `local` varchar(100) NOT NULL,
+     `local` VARCHAR(100) NOT NULL,
      `professional_fk` INT NOT NULL
 );
 
 CREATE TABLE `professional` (
      `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-     `name` varchar(200) not null,
-     `cpf` varchar(14) not null,
-     `speciality` varchar(100) not null,
-     `inep_id_fk` varchar(8) not null,
+     `name` VARCHAR(200) NOT NULL,
+     `cpf` VARCHAR(14) NOT NULL,
+     `speciality` VARCHAR(100) NOT NULL,
+     `inep_id_fk` VARCHAR(8) NOT NULL,
      `fundeb` BOOLEAN NOT NULL
 );
 
@@ -23,10 +23,10 @@ ALTER TABLE professional ADD CONSTRAINT fk_schoolidentificationProfessional FORE
 
 -- ALTER TABLE `student_enrollment` ADD `date_cancellation_enrollment` DATE NULL DEFAULT NULL AFTER `status`;
 -- ALTER TABLE `school_identification` ADD `number_ato` VARCHAR(30) NOT NULL AFTER `final_date`;
-ALTER TABLE `lunch_menu` ADD `adjusted` TINYINT NOT NULL AFTER date;
+-- ALTER TABLE `lunch_menu` ADD `adjusted` TINYINT NOT NULL AFTER date;
 
 
-INSERT INTO professional VALUES (1,'71685776035','Médico','28022041', 1);
+INSERT INTO professional VALUES (1, 'JOAO DA SILVA', '71685776035', 'Médico', '28022041', 1);
 INSERT INTO attendance VALUES (1, curdate(), 'Itabaiana', 1);
 
 -- UPDATE student_identification
@@ -36,13 +36,13 @@ INSERT INTO attendance VALUES (1, curdate(), 'Itabaiana', 1);
 
 CREATE TABLE `provision_accounts` (
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `codigoUnidGestora` varchar(30) NOT NULL,
-  `nomeUnidGestora` varchar(150) NOT NULL,
-  `cpfResponsavel` varchar(16) NOT NULL,
-  `cpfGestor` varchar(16) NOT NULL,
-  `anoReferencia` int(11) NOT NULL,
-  `mesReferencia` int(11) NOT NULL,
-  `versaoxml` int(11) NOT NULL,
-  `diaInicPresContas` int(11) NOT NULL,
-  `diaFinaPresContas` int(11) NOT NULL
+  `cod_unidade_gestora` VARCHAR(30) NOT NULL,
+  `name_unidade_gestora` VARCHAR(150) NOT NULL,
+  `cpf_responsavel` VARCHAR(16) NOT NULL,
+  `cpf_gestor` VARCHAR(16) NOT NULL,
+  `ano_referencia` int(11) NOT NULL,
+  `mes_referencia` int(11) NOT NULL,
+  `versao_xml` int(11) NOT NULL,
+  `dia_inicio_prest_contas` int(11) NOT NULL,
+  `dia_final_prest_contas` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
