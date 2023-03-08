@@ -42,7 +42,8 @@ return array(
         'timesheet',
         'curricularmatrix',
         'quiz',
-        'sagres'
+        'sagres',
+        'professional'
     ),
     // application components
     'components' => array(

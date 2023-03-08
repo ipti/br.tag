@@ -1,33 +1,31 @@
-<div id="mainPage" class="main" style="margin-top:40px; padding: 10px">
-	<?php
+<?php
 	$this->setPageTitle('TAG - ' . Yii::t('default', 'Sagres'));
-	?>
-	<div class="span12">
-		<h3>Sagres Edu</h3>
-		</span>
+?>
+
+<div id="mainPage" class="main">
+	<div class="row">
+		<div class="column">
+			<h1>Sagres Edu</h1>
+		</div>
 	</div>
-	<div class="separator"></div>
-	<div class="separator"></div>
-	<div class="separator"></div>
-	<div class="row-fluid" style="padding-top: 15px;padding-bottom: 20px;">
-		<div class="span3">
+	<div class="row">
+		<div class="column no-grow">
 			<div>
 				<h5>Data Inicial</h5>
 				<input id="data-inicio" style="border-color: #e5e5e5;" type="date" name="data_inicio"
 					placeholder="DD/MM/AAAA">
 			</div>
 		</div>
-		<div class="span3">
+		<div class="column no-grow">
 			<div>
 				<h5>Data Final</h5>
 				<input id="data-final" style="border-color: #e5e5e5;" type="date" name="Data_final"
 					placeholder="DD/MM/AAAA">
 			</div>
 		</div>
-
 	</div>
-	<div class="row-fluid">
-		<div class="span3">
+	<div class="row">
+		<div class="column">
 			<a href="?r=sagres/default/create" class="widget-stats">
 				<div><i class="fa fa-building-o fa-4x"></i></div>
 				<span class="txt">Cadastrar Unidade</span>
@@ -35,20 +33,27 @@
 			</a>
 		</div>
 
-		<div class="span3">
+		<div class="column">
 			<a href="?r=sagres/default/export" id="exportLink" class="widget-stats">
 				<span class="glyphicons file_export"><i></i></span>
 				<span class="txt">Exportar sagres</span>
 				<div class="clearfix"></div>
 			</a>
 		</div>
-
-
-		<div class="span3">
+		<div class="column">
 			<a href="<?php echo Yii::app()->createUrl('sagres/default/update', array('id' => 1)) ?>"
 				href="?r=sagres/default/update&id=2" class="widget-stats">
 				<div><i class="fa fa-edit fa-4x"></i></div>
 				<span class="txt">Editar Unidade</span>
+				<div class="clearfix"></div>
+			</a>
+		</div>
+
+		<div class="column">
+			<a href="<?php echo Yii::app()->createUrl('professional') ?>"
+				class="widget-stats">
+				<span class="glyphicons user"><i></i></span>
+				<span class="txt">Profissionais</span>
 				<div class="clearfix"></div>
 			</a>
 		</div>
