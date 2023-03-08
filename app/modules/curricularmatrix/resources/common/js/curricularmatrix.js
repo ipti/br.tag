@@ -1,7 +1,8 @@
 /**
  * Created by IPTIPC100 on 28/04/2016.
  */
-$(document).on("click", "#add-matrix", function () {
+$(document).on("click", "#add-matrix", function (e) {
+    e.preventDefault();
     var stages = $("#stages").val();
     var disciplines = $("#disciplines").val();
     var workload = $("#workload").val();
@@ -22,7 +23,8 @@ $(document).on("click", "#add-matrix", function () {
         data = JSON.parse(data);
         if (data.valid) {
             $(".alert").text(data.message).addClass("alert-success").removeClass("alert-error");
-            $.fn.yiiGridView.update("matrizgridview");
+            // $.fn.yiiGridView.update("matrizgridview");
+            window.location.reload();
         } else {
             $(".alert").text(data.message).addClass("alert-error").removeClass("alert-success");
         }

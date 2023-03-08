@@ -12,7 +12,7 @@
     }
     &__content {
         display: flex;
-        justify-content: space-between;
+        justify-content: start;
         align-items: center;
         list-style: none;
         margin: $spaceEmpty;
@@ -73,7 +73,6 @@
                 border: 2px solid $colorsBaseProductLogo;
                 padding: $spaceXXSmall;
             }
-// 11048660
         }
     }
 }

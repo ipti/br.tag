@@ -15,9 +15,11 @@
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Instructor Identifications') ?></h1>
             <div class="t-buttons-container">
-                <a href="<?php echo Yii::app()->createUrl('instructor/create')?>" class="t-button-primary">Adicionar professor</a>
-                <a href="<?php echo Yii::app()->createUrl('instructor/frequency')?>" class="t-button-primary">Frequência</a>
-                <a href="<?php echo Yii::app()->createUrl('instructor/updateEmails')?>" class="t-button-primary">Atualizar e-mails</a>
+                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('instructor/create')?>">Adicionar professor</a>
+                <div class="mobile-row">
+                    <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('instructor/frequency')?>">Frequência</a>
+                    <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('instructor/updateEmails')?>">Atualizar e-mails</a>
+                </div>
             </div>
         </div>
         <div class="btn-group pull-right mt-30 responsive-menu dropdown-margin">
