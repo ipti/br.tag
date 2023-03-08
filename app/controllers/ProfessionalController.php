@@ -105,7 +105,15 @@ class DefaultController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Professional');
+		$query = Professional::model()->findAll();
+		$dataProvider = new CActiveDataProvider('Professional', [
+            'criteria' => [
+                'order' => 'name ASC',
+				'condition' => "inep_id_fk = ".Yii::app()->user->school,
+            ], 'pagination' => [
+                'pageSize' => count($query),
+            ]
+        ]);
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
