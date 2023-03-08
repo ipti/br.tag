@@ -5,6 +5,7 @@ namespace SagresEdu;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
+use SimpleXMLElement;
 use Symfony\Component\Validator\Validation;
 use JMS\Serializer\SerializerBuilder;
 use Yii as yii;
@@ -36,7 +37,7 @@ class SagresConsultModel
                         versaoxml,
                         diaInicPresContas,
                         diaFinaPresContas
-                FROM provision_accounts WHERE id = 1;";
+                FROM provision_accounts WHERE codigoUnidGestora =" . $id_unidadeGestora . ";";
 
         $unidadeGestora = Yii::app()->db->createCommand($query)->queryRow();
 
@@ -398,7 +399,6 @@ class SagresConsultModel
         // Limpa o conteúdo dentro de CDATA
         $linha = $this->transformXML(preg_replace("/<!\[CDATA\[(.*?)\]\]>/s", "\\1", $xml));
 
-
         // Escreve o conteúdo no arquivo
         $result = file_put_contents($fileDir, $linha);
 
@@ -410,24 +410,6 @@ class SagresConsultModel
     }
 
 
-    /* public function fileXmlToZIP($fileXML)
-    {
-
-        $zip = new ZipArchive();
-        $filename = "./Educacao.zip";
-
-        if ($zip->open($filename, ZipArchive::CREATE) !== TRUE) {
-            exit("cannot open <$filename>\n");
-        }
-
-        $zip->addFromString($fileXML . time(), "#1 This is a test string added as testfilephp.txt.\n");
-        $zip->addFromString("testfilephp2.txt" . time(), "#2 This is a test string added as testfilephp2.txt.\n");
-        $zip->addFile($thisdir . "/too.php", "/testfromfile.php");
-        echo "numfiles: " . $zip->numFiles . "\n";
-        echo "status:" . $zip->status . "\n";
-        $zip->close();
-
-    } */
 
     public function validatorSagresEduExportXML($object)
     {

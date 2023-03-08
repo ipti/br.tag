@@ -128,7 +128,7 @@
                                 <?= chtml::label("Justificativa", "title", array('class' => 'control-label')); ?>
                                 <div class="form-control">
                                     <input type="hidden" id="justification-classroomid">
-                                    <input type="hidden" id="justification-studentid">
+                                    <input type="hidden" id="justification-instructorid">
                                     <input type="hidden" id="justification-day">
                                     <input type="hidden" id="justification-month">
                                     <input type="hidden" id="justification-schedule">

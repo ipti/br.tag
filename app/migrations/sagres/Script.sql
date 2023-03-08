@@ -43,5 +43,5 @@ CREATE TABLE `provision_accounts` (
   `mesReferencia` int(11) NOT NULL,
   `versaoxml` int(11) NOT NULL,
   `diaInicPresContas` int(11) NOT NULL,
-  `diaFinaPresContas` int(11) NOT NULL,
+  `diaFinaPresContas` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

@@ -154,10 +154,9 @@ if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginIn
                         <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)) : ?>
                         <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=school") ? 'active' : '' ?>">
                             <?php
-
-                        if (count(Yii::app()->user->usersSchools) == 1) {
-                            $schoolurl = yii::app()->createUrl('school/update', array('id' => yii::app()->user->school));
-                        }
+                                if (count(Yii::app()->user->usersSchools) == 1) {
+                                    $schoolurl = yii::app()->createUrl('school/update', array('id' => yii::app()->user->school));
+                                }
                             ?>
                             <a class="t-menu-item__link" href="<?php echo $schoolurl ?>">
                                 <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/escola.svg" />
@@ -268,8 +267,11 @@ if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginIn
                                     <span class="t-menu-item__text">Educacenso</span>
                                 </a>
                             </li>
-                            <li id="menu-sagres" class="<?= strpos($_SERVER['REQUEST_URI'], "?r=sagres") ? 'active' : '' ?>">
-                                <a class="sidebar-item-tag" href="<?php echo yii::app()->createUrl('sagres') ?> "><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/educacenso.svg" /><span>Sagres</span></a>
+                            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=sagres") ? 'active' : '' ?>">
+                                <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('sagres') ?> ">
+                                    <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/educacenso.svg" />
+                                    <span class="t-menu-item__text">Sagres</span>
+                                </a>
                             </li>
                         <?php endif ?>
                         <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
