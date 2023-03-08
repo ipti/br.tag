@@ -16,7 +16,8 @@ $this->breadcrumbs=array(
     ?>
     <?php
     echo $this->renderPartial('_form', array(
-        'model' => $model,
-        'title' => $title));
+        'modelProfessional' => $modelProfessional,
+        'title' => $title
+    ));
     ?> 
 </div>
