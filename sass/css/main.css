@@ -269,17 +269,25 @@
 
 .t-tabs .t-tabs__list { display: flex; list-style: none; padding: 0em; margin: 0em; }
 
-.t-tabs .t-tabs__list .t-tabs__item { display: inline-flex; padding: 0em 0em 0em 0em; margin: 0em 1em 0em 0em; border-bottom: #eaeaf8 solid 0.15em; text-align: center; }
+.t-tabs .t-tabs__list .t-tabs__item { display: inline-flex; padding: 0em 0em 0em 0em; margin: 0em 1em 0em 0em; text-align: center; }
 
-.t-tabs .t-tabs__list .t-tabs__item.active { border-bottom: #18204e solid 0.15em; font-weight: 700; text-decoration: none; }
+.t-tabs .t-tabs__list .t-tabs__item.active { font-weight: 700; text-decoration: none; }
+
+.t-tabs .t-tabs__list .t-tabs__item.active .t-tabs__link { display: flex; align-items: center; color: #2e33b7; }
+
+.t-tabs .t-tabs__list .t-tabs__item.active .t-tabs__link .t-tabs__numeration { display: flex; justify-content: center; align-items: center; margin-right: 8px; width: 24px; height: 24px; border-radius: 100%; background-color: #2e33b7; color: #FFFFFF; }
 
 .t-tabs .t-tabs__list .t-tabs__item a { text-decoration: none; }
 
-.t-tabs .t-tabs__list .t-tabs__item .t-tabs__link { font-size: 14px; height: auto; color: #52647a; padding: 0.875em; }
+.t-tabs .t-tabs__list .t-tabs__item .t-tabs__link { font-size: 14px; height: auto; color: #52647a; padding: 0.875em; display: flex; align-items: center; }
 
 @media (min-width: 768px) { .t-tabs .t-tabs__list .t-tabs__item .t-tabs__link { padding: 0.25em 1em 0.25em 1em; } }
 
-@media (min-width: 1536px) { .t-tabs .t-tabs__list .t-tabs__item .t-tabs__link { padding: 0.375em 1em 0.375em 1em; display: inline-block; } }
+@media (min-width: 1536px) { .t-tabs .t-tabs__list .t-tabs__item .t-tabs__link { padding: 0.375em 1em 0.375em 1em; } }
+
+.t-tabs .t-tabs__list .t-tabs__item .t-tabs__link .t-tabs__numeration { display: flex; justify-content: center; align-items: center; margin-right: 8px; width: 24px; height: 24px; border-radius: 100%; background-color: #d6dee6; color: #5F738C; }
+
+@media (min-width: 768px) { .t-tabs .t-tabs__list { display: block; } }
 
 .t-tabs::-webkit-scrollbar { display: none; }
 

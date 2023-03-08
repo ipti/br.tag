@@ -48,25 +48,35 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="t-tabs">
             <ul class="t-tabs__list" >
                 <li id="tab-school-indentify" class="active t-tabs__item"><a class="t-tabs__link" href="#school-indentify" data-toggle="tab">
-                        <!-- <i></i> -->
+                       <span  class="t-tabs__numeration">1</span>
                         <?php echo Yii::t('default', 'Identification') ?>
-                    </a></li>
+                    </a>
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                </li>
                 <li id="tab-school-addressContact" class="t-tabs__item">
                     <a class="t-tabs__link" href="#school-addressContact" data-toggle="tab">
-                        <!-- <i></i> -->
+                        <span class="t-tabs__numeration">2</span>
                         <?php echo Yii::t('default', 'Address and Contact') ?>
+                       
                     </a>
-                </li>
+                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                </li> 
+               
                 <li id="tab-school-structure" class="t-tabs__item"><a class="t-tabs__link" href="#school-structure" data-toggle="tab">
-                        <!-- <i></i> -->
-                        <?php echo Yii::t('default', 'Structure') ?>
-                    </a></li>
+                        <span class="t-tabs__numeration">3</span>
+                        <?php echo Yii::t('default', 'Structure') ?> 
+                        
+                    </a>
+                   <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                </li>
                 <li id="tab-school-equipment" class="t-tabs__item"><a class="t-tabs__link" href="#school-equipment" data-toggle="tab">
-                        <!-- <i></i> -->
+                        <span class="t-tabs__numeration">4</span>
                         <?php echo Yii::t('default', 'Equipments') ?>
-                    </a></li>
+                    </a>
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                </li>
                 <li id="tab-school-education" class="t-tabs__item"><a class="t-tabs__link" href="#school-education" data-toggle="tab">
-                        <!-- <i></i> -->
+                        <span class="t-tabs__numeration">5</span>
                         <?php echo Yii::t('default', 'Educational Data') ?>
                     </a></li>
                 <?php if (!$modelSchoolIdentification->isNewRecord) : ?>
