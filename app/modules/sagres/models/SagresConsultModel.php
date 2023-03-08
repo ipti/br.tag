@@ -37,7 +37,7 @@ class SagresConsultModel
                         versaoxml,
                         diaInicPresContas,
                         diaFinaPresContas
-                FROM provision_accounts WHERE codigoUnidGestora =" . $id_unidadeGestora . ";";
+                FROM provision_accounts WHERE id = 1;";
 
         $unidadeGestora = Yii::app()->db->createCommand($query)->queryRow();
 
@@ -461,7 +461,6 @@ class SagresConsultModel
         $xml = str_replace('</dia_inic_pres_contas>', '</edu:diaInicPresContas>', $xml);
         $xml = str_replace('</dia_fina_pres_contas>', '</edu:diaFinaPresContas>', $xml);
 
-        $xml = str_replace('<escola>', '<edu:escola>', $xml);
         $xml = str_replace('<id_escola>', '<edu:idEscola>', $xml);
         $xml = str_replace('<turma>', '<edu:turma>', $xml);
         $xml = str_replace('<diretor>', '<edu:diretor>', $xml);
@@ -472,7 +471,6 @@ class SagresConsultModel
         $xml = str_replace('</diretor>', '</edu:diretor>', $xml);
         $xml = str_replace('</id_escola>', '</edu:idEscola>', $xml);
         $xml = str_replace('</turma>', '</edu:turma>', $xml);
-        $xml = str_replace('</escola>', '</edu:escola>', $xml);
         $xml = str_replace('</result>', '</edu:educacao>', $xml);
 
         $xml = str_replace('<periodo>', '<edu:periodo>', $xml);
@@ -508,8 +506,6 @@ class SagresConsultModel
         $xml = str_replace('</data>', '</edu:data>', $xml);
         $xml = str_replace('<local>', '<edu:local>', $xml);
         $xml = str_replace('</local>', '</edu:local>', $xml);
-        $xml = str_replace('<cardapio>', '<edu:cardapio>', $xml);
-        $xml = str_replace('</cardapio>', '</edu:cardapio>', $xml);
         $xml = str_replace('<descricao_merenda>', '<edu:descricao_merenda>', $xml);
         $xml = str_replace('</descricao_merenda>', '</edu:descricao_merenda>', $xml);
         $xml = str_replace('<ajustado>', '<edu:ajustado>', $xml);

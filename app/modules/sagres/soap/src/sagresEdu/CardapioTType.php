@@ -2,6 +2,8 @@
 
 namespace SagresEdu;
 
+use JMS\Serializer\Annotation\Type;
+
 /**
  * Class representing CardapioTType
  *
@@ -13,6 +15,7 @@ class CardapioTType
 
     /**
      * @var \DateTime $data
+     * @Type("DateTime<'Y-m-d'>")
      */
     private $data = null;
 
@@ -35,7 +38,9 @@ class CardapioTType
      * Gets as data
      *
      * @return \DateTime
+     * 
      */
+     
     public function getData()
     {
         return $this->data;

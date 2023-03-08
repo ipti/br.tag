@@ -2,6 +2,10 @@
 
 namespace SagresEdu;
 
+
+use JMS\Serializer\Annotation\XmlList;
+use JMS\Serializer\Annotation\XmlElement;
+
 /**
  * Class representing EducacaoTType
  *
@@ -18,6 +22,8 @@ class EducacaoTType
 
     /**
      * @var \SagresEdu\EscolaTType[] $escola
+     * @XmlList(inline = true, entry = "edu:escola")
+     * @XmlElement(cdata=false, namespace="http://www.tce.se.gov.br/sagres2023/xml/sagresEdu")
      */
     private $escola = [
         

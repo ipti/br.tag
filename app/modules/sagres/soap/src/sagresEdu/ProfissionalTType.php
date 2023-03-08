@@ -2,6 +2,8 @@
 
 namespace SagresEdu;
 
+use JMS\Serializer\Annotation\XmlList;
+
 /**
  * Class representing ProfissionalTType
  *
@@ -33,6 +35,7 @@ class ProfissionalTType
 
     /**
      * @var \SagresEdu\AtendimentoTType[] $atendimento
+     * @XmlList(inline = true, entry = "edu:atendimento")
      */
     private $atendimento = [
         

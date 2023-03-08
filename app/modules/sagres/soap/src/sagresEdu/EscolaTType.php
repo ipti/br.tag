@@ -2,6 +2,8 @@
 
 namespace SagresEdu;
 
+use JMS\Serializer\Annotation\XmlList;
+
 /**
  * Class representing EscolaTType
  *
@@ -30,6 +32,7 @@ class EscolaTType
 
     /**
      * @var \SagresEdu\CardapioTType[] $cardapio
+     * @XmlList(inline = true, entry = "edu:cardapio")
      */
     private $cardapio = [
         
