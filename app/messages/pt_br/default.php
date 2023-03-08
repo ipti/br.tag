@@ -787,6 +787,7 @@ return array(
     'Instructor Identifications' => 'Professores',
     'Reports' => 'Relatórios',
     'Out Of Town Students' => 'Alunos fora da cidade',
+    'Professional Identifications' => 'Profissionais',
     
     //Relatórios
     'Result Board' => 'Quadro de Rendimento',
@@ -794,6 +795,7 @@ return array(
     //Novo
     'Add New Teacher' => 'Adicionar Professor',
     'Add New Student' => 'Adicionar Aluno',
+    'Add New Professional' => 'Adicionar Profissional',
     
     'Create a new StudentEnrollment' => 'Matricular Aluno',
     'Create a new SchoolIdentification' => 'Adicionar Escola',
@@ -809,6 +811,7 @@ return array(
     'Update SchoolIdentification' => 'Atualizar Escola',
     'Update InstructorIdentification' => 'Atualizar Professor',
     'Update User' => 'Atualizar Usuário',
+    'Update Professional' => 'Atualizar Profissional',
     
     //Erros
     'already enrolled in this classroom.' =>'já matriculado na turma.',
