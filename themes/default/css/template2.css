@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
 
+
 /* 
     ajustes na responsividade
 */
@@ -407,3 +408,12 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked {
     margin: 0px 9px 0px 0px;
 }
+
+@font-face {
+    font-family: 'icone-tag';
+    src: url('/themes/default/fonts/icone-tag.ttf');
+  }
+
+  .icones{
+    font-family: "icone-tag";
+  }
