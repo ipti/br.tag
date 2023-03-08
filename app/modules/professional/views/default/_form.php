@@ -83,10 +83,10 @@
 									</div>
 									<div class="control-group">
 										<div class="controls">
-											<?php echo $form->labelEx($model, 'fundeb', array('class' => 'control-label')); ?>
+											<?php echo $form->labelEx($model, 'fundeb', array('class' => 'control-label', 'style' => 'width: 70px;')); ?>
+											<?php echo $form->checkBox($model, 'fundeb', array('value' => 1, 'uncheckValue' => 0));?>
 										</div>
 										<div class="controls">
-											<?php echo $form->textField($model, 'fundeb', array('size' => 60, 'maxlength' => 100)); ?>
 											<?php echo $form->error($model, 'fundeb'); ?>
 										</div>
 									</div>
