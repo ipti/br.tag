@@ -415,5 +415,5 @@ input[type="checkbox"]:checked {
   }
 
   .icones{
-    font-family: "icone-tag";
+    font-family: "icone-tag", sans-serif;
   }
