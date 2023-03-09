@@ -3,6 +3,7 @@
 namespace SagresEdu;
 
 use JMS\Serializer\Annotation\XmlList;
+use JMS\Serializer\Annotation\SerializedName;
 
 /**
  * Class representing EscolaTType
@@ -15,11 +16,13 @@ class EscolaTType
 
     /**
      * @var int $idEscola
+     * @SerializedName("edu:idEscola")
      */
     private $idEscola = null;
 
     /**
      * @var \SagresEdu\TurmaTType[] $turma
+     * @XmlList(inline = true, entry = "edu:turma")
      */
     private $turma = [
         
@@ -27,6 +30,7 @@ class EscolaTType
 
     /**
      * @var \SagresEdu\DiretorTType $diretor
+     * @SerializedName("edu:diretor")
      */
     private $diretor = null;
 

@@ -4,7 +4,7 @@ namespace SagresEdu;
 
 
 use JMS\Serializer\Annotation\XmlList;
-use JMS\Serializer\Annotation\XmlElement;
+use JMS\Serializer\Annotation\SerializedName;
 
 /**
  * Class representing EducacaoTType
@@ -17,23 +17,24 @@ class EducacaoTType
 
     /**
      * @var \SagresEdu\CabecalhoTType $prestacaoContas
+     * @SerializedName("edu:prestacaoContas")
      */
     private $prestacaoContas = null;
 
     /**
      * @var \SagresEdu\EscolaTType[] $escola
      * @XmlList(inline = true, entry = "edu:escola")
-     * @XmlElement(cdata=false, namespace="http://www.tce.se.gov.br/sagres2023/xml/sagresEdu")
      */
     private $escola = [
-        
+
     ];
 
     /**
      * @var \SagresEdu\ProfissionalTType[] $profissional
+     * @XmlList(inline = true, entry = "edu:profissional")
      */
     private $profissional = [
-        
+
     ];
 
     /**
@@ -172,4 +173,3 @@ class EducacaoTType
 
 
 }
-

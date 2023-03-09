@@ -1,6 +1,7 @@
 <?php
 
 namespace SagresEdu;
+use JMS\Serializer\Annotation\SerializedName;
 
 /**
  * Class representing CabecalhoTType
@@ -13,46 +14,55 @@ class CabecalhoTType
 
     /**
      * @var string $codigoUnidGestora
+     * @SerializedName("edu:codigoUnidGestora")
      */
     private $codigoUnidGestora = null;
 
     /**
      * @var string $nomeUnidGestora
+     * @SerializedName("edu:nomeUnidGestora")
      */
     private $nomeUnidGestora = null;
 
     /**
      * @var string $cpfResponsavel
+     * @SerializedName("edu:cpfResponsavel")
      */
     private $cpfResponsavel = null;
 
     /**
      * @var string $cpfGestor
+     * @SerializedName("edu:cpfGestor")
      */
     private $cpfGestor = null;
 
     /**
      * @var int $anoReferencia
+     * @SerializedName("edu:anoReferencia")
      */
     private $anoReferencia = null;
 
     /**
      * @var int $mesReferencia
+     * @SerializedName("edu:mesReferencia")
      */
     private $mesReferencia = null;
 
     /**
      * @var int $versaoXml
+     * @SerializedName("edu:versaoXml")
      */
     private $versaoXml = null;
 
     /**
      * @var int $diaInicPresContas
+     * @SerializedName("edu:diaInicPresContas")
      */
     private $diaInicPresContas = null;
 
     /**
      * @var int $diaFinaPresContas
+     * @SerializedName("edu:diaFinaPresContas")
      */
     private $diaFinaPresContas = null;
 

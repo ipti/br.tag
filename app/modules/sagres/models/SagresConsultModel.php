@@ -439,79 +439,7 @@ class SagresConsultModel
     function transformXML($xml)
     {
         $xml = str_replace('<result>', '<edu:educacao xmlns:edu="http://www.tce.se.gov.br/sagres2023/xml/sagresEdu">', $xml);
-        $xml = str_replace('<prestacao_contas>', '<edu:PrestacaoContas>', $xml);
-
-        $xml = str_replace('<codigo_unid_gestora>', '<edu:codigoUnidGestora>', $xml);
-        $xml = str_replace('<nome_unid_gestora>', '<edu:nomeUnidGestora>', $xml);
-        $xml = str_replace('<cpf_responsavel>', '<edu:cpfResponsavel>', $xml);
-        $xml = str_replace('<cpf_gestor>', '<edu:cpfGestor>', $xml);
-        $xml = str_replace('<ano_referencia>', '<edu:anoReferencia>', $xml);
-        $xml = str_replace('<mes_referencia>', '<edu:mesReferencia>', $xml);
-        $xml = str_replace('<versao_xml>', '<edu:versaoXml>', $xml);
-        $xml = str_replace('<dia_inic_pres_contas>', '<edu:diaInicPresContas>', $xml);
-        $xml = str_replace('<dia_fina_pres_contas>', '<edu:diaFinaPresContas>', $xml);
-
-        $xml = str_replace('</codigo_unid_gestora>', '</edu:codigoUnidGestora>', $xml);
-        $xml = str_replace('</nome_unid_gestora>', '</edu:nomeUnidGestora>', $xml);
-        $xml = str_replace('</cpf_responsavel>', '</edu:cpfResponsavel>', $xml);
-        $xml = str_replace('</cpf_gestor>', '</edu:cpfGestor>', $xml);
-        $xml = str_replace('</ano_referencia>', '</edu:anoReferencia>', $xml);
-        $xml = str_replace('</mes_referencia>', '</edu:mesReferencia>', $xml);
-        $xml = str_replace('</versao_xml>', '</edu:versaoXml>', $xml);
-        $xml = str_replace('</dia_inic_pres_contas>', '</edu:diaInicPresContas>', $xml);
-        $xml = str_replace('</dia_fina_pres_contas>', '</edu:diaFinaPresContas>', $xml);
-
-        $xml = str_replace('<id_escola>', '<edu:idEscola>', $xml);
-        $xml = str_replace('<turma>', '<edu:turma>', $xml);
-        $xml = str_replace('<diretor>', '<edu:diretor>', $xml);
-        $xml = str_replace('<cpf_diretor>', '<edu:cpfDiretor>', $xml);
-        $xml = str_replace('</cpf_diretor>', '</edu:cpfDiretor>', $xml);
-        $xml = str_replace('<nr_ato>', '<edu:nrAto>', $xml);
-        $xml = str_replace('</nr_ato>', '</edu:nrAto>', $xml);
-        $xml = str_replace('</diretor>', '</edu:diretor>', $xml);
-        $xml = str_replace('</id_escola>', '</edu:idEscola>', $xml);
-        $xml = str_replace('</turma>', '</edu:turma>', $xml);
         $xml = str_replace('</result>', '</edu:educacao>', $xml);
-
-        $xml = str_replace('<periodo>', '<edu:periodo>', $xml);
-        $xml = str_replace('</periodo>', '</edu:periodo>', $xml);
-        $xml = str_replace('<descricao>', '<edu:descricao>', $xml);
-        $xml = str_replace('</descricao>', '</edu:descricao>', $xml);
-        $xml = str_replace('<turno>', '<edu:turno>', $xml);
-        $xml = str_replace('</turno>', '</edu:turno>', $xml);
-        $xml = str_replace('<serie>', '<edu:serie>', $xml);
-        $xml = str_replace('</serie>', '</edu:serie>', $xml);
-        $xml = str_replace('<descricao>', '<edu:descricao>', $xml);
-        $xml = str_replace('</descricao>', '</edu:descricao>', $xml);
-        $xml = str_replace('<modalidade>', '<edu:modalidade>', $xml);
-        $xml = str_replace('</modalidade>', '</edu:modalidade>', $xml);
-        $xml = str_replace('<matricula>', '<edu:matricula>', $xml);
-        $xml = str_replace('</matricula>', '</edu:matricula>', $xml);
-        $xml = str_replace('<horario>', '<edu:horario>', $xml);
-        $xml = str_replace('</horario>', '</edu:horario>', $xml);
-        $xml = str_replace('<final_turma>', '<edu:final_turma>', $xml);
-        $xml = str_replace('</final_turma>', '</edu:final_turma>', $xml);
-
-        $xml = str_replace('<profissional>', '<edu:profissional>', $xml);
-        $xml = str_replace('</profissional>', '</edu:profissional>', $xml);
-        $xml = str_replace('<cpf_profissional>', '<edu:cpf_profissional>', $xml);
-        $xml = str_replace('</cpf_profissional>', '</edu:cpf_profissional>', $xml);
-        $xml = str_replace('<especialidade>', '<edu:especialidade>', $xml);
-        $xml = str_replace('</especialidade>', '</edu:especialidade>', $xml);
-        $xml = str_replace('<fundeb>', '<edu:fundeb>', $xml);
-        $xml = str_replace('</fundeb>', '</edu:fundeb>', $xml);
-        $xml = str_replace('<atendimento>', '<edu:atendimento>', $xml);
-        $xml = str_replace('</atendimento>', '</edu:atendimento>', $xml);
-        $xml = str_replace('<data>', '<edu:data>', $xml);
-        $xml = str_replace('</data>', '</edu:data>', $xml);
-        $xml = str_replace('<local>', '<edu:local>', $xml);
-        $xml = str_replace('</local>', '</edu:local>', $xml);
-        $xml = str_replace('<descricao_merenda>', '<edu:descricao_merenda>', $xml);
-        $xml = str_replace('</descricao_merenda>', '</edu:descricao_merenda>', $xml);
-        $xml = str_replace('<ajustado>', '<edu:ajustado>', $xml);
-        $xml = str_replace('</ajustado>', '</edu:ajustado>', $xml);
-        $xml = str_replace('</prestacao_contas>', '</edu:PrestacaoContas>', $xml);
-
         return $xml;
     }
 }
