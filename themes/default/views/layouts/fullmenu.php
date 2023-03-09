@@ -75,7 +75,6 @@ if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginIn
     <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/fonts/icone-tag.tff' />
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/home.css?v=1.0" />
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/datatables.min.css"/>
-    <link href="<?php echo Yii::app()->baseUrl; ?>/sass/css/main.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>    

@@ -41,7 +41,6 @@ function changeTab(index){
 function change2nextTab(){
 	var activeTab = $('.js-tab-control li.active');
     var tab = tabs.indexOf(activeTab.attr("id"));
-    console.log(tab)
 	changeTab(tab+1);
 }
 
