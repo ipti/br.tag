@@ -1,6 +1,14 @@
 const action = window.location.search;
 $(document).ready(function () {
+    if($(".js-tag-table").has(".empty").length > 0){
+        return;
+    }
     if ($(".js-tag-table").length) {
+        const isMobile = window.innerWidth <= 768;
+        const numColumns = $(".js-tag-table th").length;
+        const columnsIndex = new Array(numColumns-1).fill(1).map( (_, i) => i+1);
+
+        
         $.getScript('themes/default/js/datatablesptbr.js', function () {
             let indexActionButtons;
             if(action.includes("school") 
@@ -20,9 +28,11 @@ $(document).ready(function () {
             $(".js-tag-table").dataTable({
                 language: getLanguagePtbr(),
                 responsive: true,
-                columnDefs: [{
-                    orderable: false, targets: [indexActionButtons] 
-                }],
+                select: {
+                    items: 'cell'
+                },
+                "bLengthChange": false,
+                columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
             });
 
         });

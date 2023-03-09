@@ -10,7 +10,7 @@
     
     <div class="row-fluid">
     <div class="span12">
-        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Student Enrollments') ?></h3>  
+        <h1><?php echo Yii::t('default', 'Student Enrollments') ?></h1>  
         <div class="buttons">
                 <a href="?r=enrollment/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Nova matrícula</a>
         </div>

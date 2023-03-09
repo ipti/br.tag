@@ -2,23 +2,36 @@
 @import '_functions.scss';
 
 .t-buttons-container {
-    position: fixed;
-    right: 0;
-    top: 74px;
-    z-index: 3;
-    display: flex;
-    gap: 5px;
-    margin-right: $DimensionSmall;
-}
-    .t-button {
-        padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
-        font-size: $FontSizeTextSmall;
-        border-radius: $borderRadiusLarge;
-        text-decoration: none;
+    display: inline-block;  
+    width: 100%;    
+    
+    @include device(tablet) {
+        padding: $spaceXXXSmall 0 $spaceXXXSmall 0;
+        font-size: $FontSizeTextNormal;
         display: flex;
-        justify-content: space-between;
+    }
+}
+
+.t-buttons-container-form{
+    align-items: center; 
+  }
+
+.t-button {    
+    display: flex;
+    flex: 1;
+    padding: $spaceNormal;
+    margin: $spaceXSmall 0;
+    font-size: $FontSizeTextSmall;
+    border-radius: $borderRadiusLarge;
+    text-decoration: none;
+    justify-content: space-between;
+    align-self: center;
+    justify-content: center;
+    margin-right: $spaceMedium;
+    cursor: pointer;
 
     @include device(tablet) {
+        flex: 0 auto;
         padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
         font-size: $FontSizeTextNormal;
     }
@@ -26,12 +39,18 @@
         padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
     }
 
-    &:hover, &--active {
-        text-decoration: none;
+    &:link, &:focus, &:hover, &--active, &:active {
+        text-decoration: none !important;
     }
 
     img {
-        margin-right: $DimensionXXSmall;
+        margin-right: $SizeXXSmall;
+    }
+
+    i {
+        align-self: center;
+        margin-right: $SizeXXSmall;
+        opacity: 0.5;
     }
 }
 
@@ -39,21 +58,29 @@
     @extend .t-button;
     background-color: $colorsBaseProductNormal;
     color:$colorsBaseWhiteNormal;
+    cursor: pointer;
+    align-self: center;
 
     &:hover, &--active {
         color:$colorsBaseWhiteNormal;
         background-color: $colorsBaseProductNormalActive;
     }
+    
+    &:link, &:focus, &:hover, &--active, &:active {
+        color: $colorsBaseWhiteNormal;
+    }
 }
+
 .t-button-secondary {
     @extend .t-button;
-    background-color: $colorsBaseCloudLight;
+    background-color: $colorsBaseCloudNormal;
     color:$colorsBaseInkNormal;
     &:hover, &--active {
         color:$colorsBaseInkNormal;
         background-color: $colorsBaseCloudLightHover;
     }
 }
+
 .t-button-tertiary {
     @extend .t-button;
     background-color: $colorsBaseInkLighterActive;
@@ -62,4 +89,9 @@
         color:$colorsBaseWhiteNormal;
         background-color: $colorsBaseInkLight;
     }
+}
+
+.t-button-submit {
+    @extend .t-button-primary;
+    margin: $SizeNormal 0;
 }

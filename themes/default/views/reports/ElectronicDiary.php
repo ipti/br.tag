@@ -17,7 +17,7 @@ $this->setPageTitle('TAG - Diário Eletrônico');
 
 <div class="row-fluid hidden-print">
     <div class="span12">
-        <h3 class="heading-mosaic">Diário Eletrônico</h3>
+        <h1>Diário Eletrônico</h1>
     </div>
 </div>
 

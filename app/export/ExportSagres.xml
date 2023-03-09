@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<edu:educacao xmlns:edu="http://www.tce.se.gov.br/sagres2022/xml/sagresEdu">
+    <edu:PrestacaoContas>
+      <edu:codigoUnidGestora>002307</edu:codigoUnidGestora>
+      <edu:nomeUnidGestora>PREFEITURA MUNICIPAL DE TELHA</edu:nomeUnidGestora>
+      <edu:cpfContador>11656778572</edu:cpfContador>
+      <edu:cpfGestor>79597912520</edu:cpfGestor>
+      <edu:anoReferencia>2022</edu:anoReferencia>
+      <edu:mesReferencia>1</edu:mesReferencia>
+      <edu:versaoXml>0</edu:versaoXml>
+      <edu:diaInicPresContas>01</edu:diaInicPresContas>
+      <edu:diaFinaPresContas>31</edu:diaFinaPresContas>
+    </edu:PrestacaoContas>
+    <edu:escola>
+      <edu:id_escola>28022041</edu:id_escola>
+      <edu:turma>
+        <periodo>0</periodo>
+        <descricao>PRE- ESCOLAR B</descricao>
+        <turno>T</turno>
+        <serie>
+          <descricao>PRE- ESCOLAR B</descricao>
+          <modalidade>1</modalidade>
+        </serie>
+        <matricula>
+          <numero>1189439</numero>
+          <data_matricula>2014-11-20</data_matricula>
+          <data_cancelamento>2023-02-03</data_cancelamento>
+          <numero_faltas>0</numero_faltas>
+          <aprovado>0</aprovado>
+          <aluno>
+            <cpf_aluno>06215212563</cpf_aluno>
+            <data_nascimento>2023-02-03</data_nascimento>
+            <nome>KAIO JUNIO CATULINA SANTOS</nome>
+            <pcd>0</pcd>
+            <sexo>1</sexo>
+          </aluno>
+        </matricula>
+        <horario>
+          <dia_semana>2</dia_semana>
+          <duracao>10</duracao>
+          <hora_inicio>2022-12-01</hora_inicio>
+          <disciplina>Química</disciplina>
+          <cpf_professor>37028499553</cpf_professor>
+        </horario>
+        <final_turma>0</final_turma>
+      </edu:turma>
+      <diretor>
+        <cpf_diretor>36166693591</cpf_diretor>
+        <nr_ato>Ato N5/2022</nr_ato>
+      </diretor>
+      <cardapio>
+        <data>2023-02-03</data>
+        <turno>4</turno>
+      </cardapio>
+    </edu:escola>
+    <atendimento>
+      <data>2023-02-03</data>
+      <local>Itabaiana</local>
+      <profissional>
+        <cpf_profissional>111111111111</cpf_profissional>
+        <especialidade>Médico</especialidade>
+        <id_escola>28022041</id_escola>
+        <fundeb>1</fundeb>
+      </profissional>
+    </atendimento>
+</edu:educacao>

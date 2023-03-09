@@ -20,7 +20,7 @@
     );
     ?>
     <div class="twoColumn">
-        <div class="columnone" style="padding-right: 1em">
+        <div class="columnone">
             <?php echo "<?php echo \$this->renderPartial('_form', array('model'=>\$model,'title'=>\$title)); ?>"; ?>
         </div>
         <div class="columntwo">

@@ -381,9 +381,17 @@ class SchoolController extends Controller
     public function actionDisplayLogo($id)
     {
         $model = $this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
-        $this->renderPartial('logo', array(
-            'model' => $model
-        ));
+        header('Content-Type: '.$model->logo_file_type);
+        if($model->logo_file_content != null){
+            print $model->logo_file_content;
+            return;
+        }
+        
+        $baseUrl = Yii::app()->getBaseUrl(true);
+        $themeUrl = Yii::app()->theme->baseUrl;
+        $school_logo = $baseUrl.$themeUrl."/img/emblema-escola.svg";
+        header('Content-Type: image/svg+xml');
+        print file_get_contents($school_logo);
     }
 
     public function actionReports($id)

@@ -1,15 +1,20 @@
 # Atualizações
 
-## [Versão 3.3.5]
-- As linhas da tabela não podem mais ser selecionadas. Os filtros foram removidos dos botões de ação que agora estão agrupados em uma única coluna.
-
-## [Versão 3.3.4]
-- Agora os acentos são corrigidos no censo escolar
-
-## [Versão 3.3.3]
+## [Versão 3.3.8]
 - Justificativa de falta para o professor
 
-## [Versão 3.2.3]
+## [Versão 3.2.7]
+**Melhorias**
+- botões alterados e formulário de criação de plano de aula mudado  
+
+## [Versão 3.2.6]
+- As linhas da tabela não podem mais ser selecionadas. Os filtros foram removidos dos botões de ação que agora estão agrupados em uma única coluna.
+
+## [Versão 3.2.5]
+- Agora os acentos são corrigidos no censo escolar
+
+## [Versão 3.2.4]
+- Correções nos formulários de escola e turma
 - Os botões do ativar/desativar usuário agora têm texto flutuante para indicar qual ação os botões de ação fazem e a largura da coluna foi modificada
 
 ## [Versão 3.2.2]

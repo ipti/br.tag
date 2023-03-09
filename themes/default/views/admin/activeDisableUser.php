@@ -16,7 +16,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Users'));
 ?>
     <div class="row-fluid hide-responsive" style="margin-bottom: 50px;">
         <div class="span12">
-            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Users') ?></h3> 
+            <h1><?php echo Yii::t('default', 'Users') ?></h1> 
         </div>
     </div>
     <div class="widget">

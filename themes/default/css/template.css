@@ -521,14 +521,13 @@ body > .container-fluid.documentation {
     margin: 0 0 10px;
     font-weight: 400;
     position: fixed;
-    top: 65px;
+    top: 70px;
     z-index: 2;
     width: 100%;
 }
 
 #content h3.heading-mosaic {
     font-size: 16pt;
-    padding-left: 49px;
     font-weight: bold;
 }
 
@@ -1635,6 +1634,7 @@ li.highlight.profile
 .hasSubmenu.active .fa-chevron-right {
     display: none;
 }
+
 .hasSubmenu:not(.active) .fa-chevron-down {
     display: none;
 }
@@ -1848,7 +1848,7 @@ li.highlight.profile
 
 .widget {
     background: #fff;
-    margin: 55px auto 10px;
+    margin: 0 auto 10px;
     position: relative;
     /* border: 1px solid #e5e5e5; */
 }
@@ -3432,7 +3432,7 @@ h2.glyphicons.cogwheels i:before {
     height: 30px;
     margin: 0;
     display: inline-block;
-    margin-left: 35px;
+    /* margin-left: 35px; */
 }
 
 .widget.widget-tabs > .widget-head ul li {
@@ -5451,7 +5451,7 @@ tr:last-child
 }
 
 .accordion {
-    margin: 0 0 10px;
+    margin: 30px 0 10px !important;
     position: relative;
 }
 
@@ -8597,7 +8597,7 @@ tr.filters td {
 /*width: 42%;*/
 /*}*/
 .titulos{
-    margin-left:23px;
+    /* margin-left:23px; */
     color: rgba(169, 173, 196, 1);
 }
 .titulos.required::after{
@@ -8647,10 +8647,6 @@ input[type="text"] {
 
 .grid-view tbody:hover {
     cursor: pointer;
-}
-
- li.active a img {
-    filter: saturate(1) !important;
 }
 
 #box-menu li.active a {
@@ -9289,6 +9285,7 @@ tbody .details-control:hover {
 }
 
 .frequency-checkbox-container {
+    vertical-align: middle !important;
     cursor: pointer;
     text-align: center !important;
     position: relative;
@@ -9317,12 +9314,10 @@ tbody .details-control:hover {
     width: 100%;
 }
 
-.innerLR .loading-frequency, .innerLR .loading-class-contents {
+.loading-frequency, .loading-class-contents, .loading-timesheet {
     display: none;
     font-size: 20px;
     vertical-align: middle;
-    margin-top: 7px;
-    margin-left: 10px;
 }
 .tag-inner .loading-frequency, .tag-inner .loading-class-contents {
     display: none;
@@ -9333,10 +9328,10 @@ tbody .details-control:hover {
 }
 
 .frequency-justification-icon {
-    position: absolute;
-    margin-left: 5px;
+    /* position: absolute; */
+    /* margin-left: 5px; */
     top: 5px;
-    font-size: 16px !important;
+    /* font-size: 16px !important; */
     color: #333;
 }
 
@@ -9414,4 +9409,7 @@ tbody .details-control:hover {
         top: -10vw;
         right: -10vw;
     } 
+}
+.clearmargin {
+    margin: 0;
 }

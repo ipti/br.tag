@@ -1,0 +1,29 @@
+h1 {
+    font-size: $FontSizeHeadingTitle1;
+    font-weight: $fontWeightBold;
+    line-height: $lineHeightHeadingTitle1;
+    color: $colorsBaseInkNormal;    
+    padding: $spaceNormal $spaceEmpty;
+}
+
+h2 {
+    font-size: $FontSizeHeadingTitle2;
+}
+
+h3 {
+    color: $colorsBaseInkLighterActive;
+    font-size: $FontSizeHeadingTitle3;
+    line-height: $lineHeightHeadingTitle3;
+    font-weight: $fontWeightBold;    
+}
+
+h4 {
+    font-size: $FontSizeHeadingTitle4;
+    font-weight: $fontWeightBold;
+}
+
+h5, .subheading {
+    font-size: $FontSizeHeadingTitle4;
+    color: $colorsBaseInkLighterActive;
+    font-weight: $fontWeightHeadingDisplaySubtitle;
+}

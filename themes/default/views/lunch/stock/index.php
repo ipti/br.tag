@@ -9,121 +9,124 @@ $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::POS_END);
 ?>
 
-<div class="row-fluid">
-    <div class="span12">
-        <h3 class="heading-mosaic"><?= Yii::t('lunchModule.stock', 'Stock'); ?>
-            &nbsp;<span><?= Yii::t('lunchModule.stock', 'Add or remove items from stock, have control of all transactions.'); ?></span>
-        </h3>
+<div class="main">
 
-        <div class="buttons pull-right">
-            <a data-toggle="modal" href="#addItem"
-               class="btn btn-primary "><i class="fa fa-plus-circle"></i> <?= Yii::t('lunchModule.stock', 'Add'); ?></a>
-            <a data-toggle="modal" href="#removeItem"
-               class="btn btn-danger"><i class="fa fa-minus-circle"></i> <?= Yii::t('lunchModule.stock', 'Remove'); ?>
-            </a>
+    <div class="row-fluid">
+        <div class="span12">
+            <h1><?= Yii::t('lunchModule.stock', 'Stock'); ?>
+                &nbsp;<span><?= Yii::t('lunchModule.stock', 'Add or remove items from stock, have control of all transactions.'); ?></span>
+            </h1>
+
+            <div class="buttons pull-right">
+                <a data-toggle="modal" href="#addItem"
+                class="btn btn-primary "><i class="fa fa-plus-circle"></i> <?= Yii::t('lunchModule.stock', 'Add'); ?></a>
+                <a data-toggle="modal" href="#removeItem"
+                class="btn btn-danger"><i class="fa fa-minus-circle"></i> <?= Yii::t('lunchModule.stock', 'Remove'); ?>
+                </a>
+            </div>
         </div>
     </div>
-</div>
 
 
-<div class="innerLR home">
-    <?php if (Yii::app()->user->hasFlash('success')): ?>
+    <div class="home">
+        <?php if (Yii::app()->user->hasFlash('success')): ?>
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="alert alert-success">
+                        <?php echo Yii::app()->user->getFlash('success') ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif ?>
+        <?php if (Yii::app()->user->hasFlash('error')): ?>
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="alert alert-error">
+                        <?php echo Yii::app()->user->getFlash('error') ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif ?>
         <div class="row-fluid">
-            <div class="span12">
-                <div class="alert alert-success">
-                    <?php echo Yii::app()->user->getFlash('success') ?>
+            <div class="widget widget-scroll margin-bottom-none">
+                <div class="widget-head"><h4 class="heading glyphicons notes">
+                        <i></i>Estoque</h4>
+                </div>
+                <div class="widget-body in" style="height: auto;">
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <table
+                                class="dynamicTable tableTools table table-striped table-bordered table-condensed table-white dataTable">
+                                <thead>
+                                <tr role="row">
+                                    <th class="span1">Código</th>
+                                    <th class="span3">Nome</th>
+                                    <th>Descrição</th>
+                                    <th class="span1">Quantidade</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tbody>
+                                <?php foreach ($this->school->itemsAmount() as $item): ?>
+                                    <tr>
+                                        <td><?= $item['id'] ?></td>
+                                        <td><?= $item['name'] ?></td>
+                                        <td><?= $item['description'] ?></td>
+                                        <td class="text-left"><?= $item['amount'] * $item['measure'] . " " . $item['unity'] ?></td>
+                                    </tr>
+                                <?php endforeach ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    <?php endif ?>
-    <?php if (Yii::app()->user->hasFlash('error')): ?>
+        <br>
+
         <div class="row-fluid">
             <div class="span12">
-                <div class="alert alert-error">
-                    <?php echo Yii::app()->user->getFlash('error') ?>
-                </div>
-            </div>
-        </div>
-    <?php endif ?>
-    <div class="row-fluid">
-        <div class="widget widget-scroll margin-bottom-none">
-            <div class="widget-head"><h4 class="heading glyphicons notes">
-                    <i></i>Estoque</h4>
-            </div>
-            <div class="widget-body in" style="height: auto;">
-                <div class="row-fluid">
-                    <div class="span12">
-                        <table
-                            class="dynamicTable tableTools table table-striped table-bordered table-condensed table-white dataTable">
+                <div class="widget widget-scroll margin-bottom-none">
+                    <div class="widget-head"><h4 class="heading glyphicons notes">
+                            <i></i>Movimentações</h4>
+                    </div>
+                    <div class="widget-body in" style="height: auto;">
+                        <table class="dynamicTable tableTools table table-striped table-condensed table-white dataTable">
                             <thead>
-                            <tr role="row">
-                                <th class="span1">Código</th>
-                                <th class="span3">Nome</th>
-                                <th>Descrição</th>
-                                <th class="span1">Quantidade</th>
+                            <tr>
+                                <th class="span1"></th>
+                                <th>Ação</th>
+                                <th class="span8">Motivo</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tbody>
-                            <?php foreach ($this->school->itemsAmount() as $item): ?>
+                            <?php foreach ($this->school->transactions() as $transaction) {
+                                $isSpent = !is_null($transaction['motivation']);
+                                $amount = ($isSpent ? (-1) : (1)) * $transaction['amount'] * $transaction['measure'] . $transaction['acronym'];
+                                $name = $transaction['name'];
+                                $date = date("d/m/Y, h:i ", strtotime($transaction['date']));
+                                $text = $amount . " de <strong>" . $name . "</strong> em " . $date;
+                                $motivation = $isSpent ? $transaction['motivation'] : " - ";
+                                ?>
                                 <tr>
-                                    <td><?= $item['id'] ?></td>
-                                    <td><?= $item['name'] ?></td>
-                                    <td><?= $item['description'] ?></td>
-                                    <td class="text-left"><?= $item['amount'] * $item['measure'] . " " . $item['unity'] ?></td>
+                                    <td class="center">
+                                        <span class="fa fa-<?= $isSpent ? "minus red" : "plus green" ?>"></span>
+                                    </td>
+                                    <td><?= $text; ?></td>
+                                    <td><span><?= $motivation; ?></span></td>
+
                                 </tr>
-                            <?php endforeach ?>
+                            <?php } ?>
                             </tbody>
+
                         </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <br>
 
-    <div class="row-fluid">
-        <div class="span12">
-            <div class="widget widget-scroll margin-bottom-none">
-                <div class="widget-head"><h4 class="heading glyphicons notes">
-                        <i></i>Movimentações</h4>
-                </div>
-                <div class="widget-body in" style="height: auto;">
-                    <table class="dynamicTable tableTools table table-striped table-condensed table-white dataTable">
-                        <thead>
-                        <tr>
-                            <th class="span1"></th>
-                            <th>Ação</th>
-                            <th class="span8">Motivo</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($this->school->transactions() as $transaction) {
-                            $isSpent = !is_null($transaction['motivation']);
-                            $amount = ($isSpent ? (-1) : (1)) * $transaction['amount'] * $transaction['measure'] . $transaction['acronym'];
-                            $name = $transaction['name'];
-                            $date = date("d/m/Y, h:i ", strtotime($transaction['date']));
-                            $text = $amount . " de <strong>" . $name . "</strong> em " . $date;
-                            $motivation = $isSpent ? $transaction['motivation'] : " - ";
-                            ?>
-                            <tr>
-                                <td class="center">
-                                    <span class="fa fa-<?= $isSpent ? "minus red" : "plus green" ?>"></span>
-                                </td>
-                                <td><?= $text; ?></td>
-                                <td><span><?= $motivation; ?></span></td>
-
-                            </tr>
-                        <?php } ?>
-                        </tbody>
-
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
-
 <div class="modal fade" id="addItem">
     <div class="modal-dialog">
         <div class="modal-content">

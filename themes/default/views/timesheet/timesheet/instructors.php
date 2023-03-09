@@ -35,7 +35,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.instructors', 'Instructor
 
 <div class="row-fluid">
     <div class="span12">
-        <h3 class="heading-mosaic"><?= yii::t('timesheetModule.instructors', 'Instructors') ?></h3>
+        <h1><?= yii::t('timesheetModule.instructors', 'Instructors') ?></h1>
 
         <div class="buttons span9">
             <button data-toggle="modal" data-target="#add-instructors-modal"

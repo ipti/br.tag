@@ -20,11 +20,11 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
 
 <div class="row-fluid">
     <div class="span12">
-        <h3 class="heading-mosaic">
+        <h1>
             <?php echo $title; ?>
-        </h3>
+        </h1>
         <div class="tag-buttons-container buttons">
-            <?php echo CHtml::htmlButton('' . Yii::t('default', 'Copy'), array('class' => 'tag-button small-button last ', 'type' => 'submit')); ?>
+            <?php echo CHtml::htmlButton('' . Yii::t('default', 'Copy'), array('class' => 't-button-primary  last ', 'type' => 'submit')); ?>
         </div>
     </div>
 </div>

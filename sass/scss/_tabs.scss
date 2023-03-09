@@ -9,64 +9,41 @@
     padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
     overflow-x: scroll;
     overflow-y: hidden;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
     
 
     @include device(tablet) {
     
         padding: $spaceSmall $spaceMedium $spaceSmall $spaceMedium;
         margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
-        display: inline-block;
+       /*  display: inline-block; */
         overflow-x: hidden;
     }
     @include device(desktop) {
-        padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
+        padding: $spaceXXSmall;
         margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
-        display: inline-block;
+       /*  display: inline-block; */
         overflow-x: hidden;
     }
 
-    .t-tabs__contents {
+    .t-tabs__list {
         display: flex;
         list-style: none;
-        margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
-        padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
-
+        padding: $spaceEmpty;
+        margin: $spaceEmpty ;
         
-
-        @include device(tablet) {
-            padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
-            margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
-    
-        }
-        @include device(desktop) {
-            margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
-            padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
-            display: inline-block;
-        }
-
-        .t-tabs__itens {
+        .t-tabs__item {
+            display: inline-flex;
             padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
             margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
             border-bottom: $colorsBaseProductLight solid 0.15em;
             text-align: center;
-            
+
             &.active {
                 border-bottom: $colorsBaseProductDarkActive solid 0.15em;
                 font-weight: $fontWeightBold;
                 text-decoration: none;
-                // o sublinhado n saiu
-
-            }
-
-            @include device(tablet) {
-                padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
-                margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
-        
-            }
-            @include device(desktop) {
-                padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
-                margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
-                display: inline-block;
             }
 
             a {
@@ -77,6 +54,7 @@
                 font-size: $FontSizeTextNormal;
                 height: auto;
                 color: $colorsBaseInkLightHover;
+                padding: $spaceNormal;
                 
 
                 @include device(tablet) {
@@ -93,5 +71,9 @@
 
            
         }
-    } 
+    }
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }

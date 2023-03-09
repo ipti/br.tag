@@ -1,6 +1,7 @@
 <?php
-/* @var $this TimesheetController
- * @var $cs CClientScript
+/** 
+ * @var TimesheetController $this TimesheetController
+ * @var CClientScript $cs CClientScript
  */
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
@@ -21,133 +22,136 @@ $cs->registerScript("vars",
 $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'));
 ?>
 
-<?php if (Yii::app()->user->hasFlash('success')): ?>
-    <div class="row-fluid">
-        <div class="span12">
-            <div class="alert alert-success">
-                <?php echo Yii::app()->user->getFlash('success') ?>
-            </div>
-        </div>
-    </div>
-<?php endif ?>
-<?php if (Yii::app()->user->hasFlash('error')): ?>
-    <div class="row-fluid">
-        <div class="span12">
-            <div class="alert alert-error">
-                <?php echo Yii::app()->user->getFlash('error') ?>
-            </div>
-        </div>
-    </div>
-<?php endif ?>
+<div class="main">
 
-<div class="row-fluid">
-    <div class="span12">
-        <h3 class="heading-mosaic"><?= yii::t('timesheetModule.timesheet', 'Timesheet') ?></h3>
-        <div class="buttons span9">
+
+    <?php if (Yii::app()->user->hasFlash('success')): ?>
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="alert alert-success">
+                    <?php echo Yii::app()->user->getFlash('success') ?>
+                </div>
+            </div>
+        </div>
+    <?php endif ?>
+    <?php if (Yii::app()->user->hasFlash('error')): ?>
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="alert alert-error">
+                    <?php echo Yii::app()->user->getFlash('error') ?>
+                </div>
+            </div>
+        </div>
+    <?php endif ?>
+
+    <div class="row-fluid">
+        <div class="span12">
+            <h1><?= yii::t('timesheetModule.timesheet', 'Timesheet') ?></h1>
+            <div class="buttons span9">
+            </div>
+        </div>
+    </div>
+
+    <div class="home">
+        <div class="filter-bar margin-bottom-none">
+            <div>
+                <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required small-label')); ?>
+                <?= CHtml::dropDownList('classroom_fk', "", CHtml::listData(Classroom::model()->findAll("school_inep_fk = :school_inep_fk and school_year = :school_year order by name", ["school_inep_fk" => Yii::app()->user->school, "school_year" => Yii::app()->user->year]), 'id', 'name'), ["prompt" => yii::t("timesheetModule.timesheet", "Select a Classroom"), "class" => "select-search-on control-input classroom-id"]); ?>
+            </div>
+            <div class="schedule-info display-hide">
+                <button class="t-button-primary  wide-button  btn-generate-timesheet">
+                    <i></i><?= yii::t('timesheetModule.timesheet', "Generate automatic timesheet") ?>
+                </button>
+            </div>
+            <i class="loading-timesheet fa fa-spin fa-spinner" style="display: none;"></i>
+        </div>
+        <hr/>
+        <div class="loading-alert alert alert-warning display-hide"></div>
+        <div class="row-fluid table-container">
+            <div class="span12">
+                <span id="turn"></span>
+                <div class="checkbox replicate-actions-container">
+                    <input type="checkbox" class="replicate-actions-checkbox replicate-actions" checked> Replicar alterações
+                    para todas as semanas
+                    subsequentes
+                </div>
+                <div class="workloads-container">
+                    <i class="fa fa-chevron-right workloads-activator"></i>
+                    <i class="fa fa-exclamation-triangle workloads-overflow"></i>
+                    <div class="workloads">
+                        <div class="workloads-title">Carga Horária</div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="tables-timesheet">
+                    <?php $lastMonthWeek = 1; ?>
+                    <?php for ($month = 1; $month <= 12; $month++): ?>
+                        <div class="table-responsive">
+                            <table month="<?= $month ?>" days-count="<?= $daysPerMonth[$month]["daysCount"] ?>"
+                                first-day-weekday="<?= $daysPerMonth[$month]["weekDayOfTheFirstDay"] ?>"
+                                class="table-timesheet table-month table table-bordered table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th class="table-title"
+                                        colspan="<?= $daysPerMonth[$month]["daysCount"] + 1 ?>"><?= yii::t('timesheetModule.index', $daysPerMonth[$month]["monthName"]) ?></th>
+                                </tr>
+                                <tr class="calendar-icons">
+                                    <th></th>
+                                    <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++): ?>
+                                        <th icon-month="<?= $month ?>" icon-day="<?= $day ?>"></th>
+                                    <?php endfor; ?>
+                                </tr>
+                                <tr class="dayname-row">
+                                    <th></th>
+                                    <?php $weekDayCount = $daysPerMonth[$month]["weekDayOfTheFirstDay"]; ?>
+                                    <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++): ?>
+                                        <th><?= $dayNameFirstLetter[$weekDayCount] ?></th>
+                                        <?php $weekDayCount = $weekDayCount == 6 ? 0 : ++$weekDayCount; ?>
+                                    <?php endfor; ?>
+                                </tr>
+                                <tr class="day-row">
+                                    <th class="schedule"><?= yii::t('timesheetModule.instructors', "Schedule"); ?></th>
+                                    <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++): ?>
+                                        <th><?= $day ?></th>
+                                    <?php endfor; ?>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php endfor; ?>
+                </div>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row-fluid table-container">
+            <div class="span12 img-polaroid">
+
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="calendar-subtitles-title">
+                            <h4>Legenda</h4>
+                        </div>
+                    </div>
+                </div>
+                <?php
+                $html = '';
+                foreach ($calendarTypes as $calendarType) {
+                    /**@var $type CalendarEventType */
+                    $html .= '<div class="span3 calendar-subtitles calendar-' . $calendarType->color . '">'
+                        . '<i class="fa ' . $calendarType->icon . '"></i>&nbsp;'
+                        . '<span>' . yii::t('timesheetModule.timesheet', $calendarType->name) . '</span>'
+                        . '</div>';
+
+
+                }
+                echo $html; ?>
+            </div>
         </div>
     </div>
 </div>
-
-<div class="innerLR home">
-    <div class="filter-bar margin-bottom-none">
-        <div>
-            <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required small-label')); ?>
-            <?= CHtml::dropDownList('classroom_fk', "", CHtml::listData(Classroom::model()->findAll("school_inep_fk = :school_inep_fk and school_year = :school_year order by name", ["school_inep_fk" => Yii::app()->user->school, "school_year" => Yii::app()->user->year]), 'id', 'name'), ["prompt" => yii::t("timesheetModule.timesheet", "Select a Classroom"), "class" => "select-search-on control-input classroom-id"]); ?>
-        </div>
-        <div class="schedule-info display-hide">
-            <button class="tag-button small-button wide-button  btn-generate-timesheet">
-                <i></i><?= yii::t('timesheetModule.timesheet', "Generate automatic timesheet") ?>
-            </button>
-        </div>
-        <i class="loading-timesheet fa fa-spin fa-spinner"></i>
-    </div>
-    <hr/>
-    <div class="loading-alert alert alert-warning display-hide"></div>
-    <div class="row-fluid table-container">
-        <div class="span12">
-            <span id="turn"></span>
-            <div class="checkbox replicate-actions-container">
-                <input type="checkbox" class="replicate-actions-checkbox replicate-actions" checked> Replicar alterações
-                para todas as semanas
-                subsequentes
-            </div>
-            <div class="workloads-container">
-                <i class="fa fa-chevron-right workloads-activator"></i>
-                <i class="fa fa-exclamation-triangle workloads-overflow"></i>
-                <div class="workloads">
-                    <div class="workloads-title">Carga Horária</div>
-                </div>
-            </div>
-            <div class="clear"></div>
-            <div class="tables-timesheet">
-                <?php $lastMonthWeek = 1; ?>
-                <?php for ($month = 1; $month <= 12; $month++): ?>
-                    <div class="table-responsive">
-                        <table month="<?= $month ?>" days-count="<?= $daysPerMonth[$month]["daysCount"] ?>"
-                               first-day-weekday="<?= $daysPerMonth[$month]["weekDayOfTheFirstDay"] ?>"
-                               class="table-timesheet table-month table table-bordered table-striped table-hover">
-                            <thead>
-                            <tr>
-                                <th class="table-title"
-                                    colspan="<?= $daysPerMonth[$month]["daysCount"] + 1 ?>"><?= yii::t('timesheetModule.index', $daysPerMonth[$month]["monthName"]) ?></th>
-                            </tr>
-                            <tr class="calendar-icons">
-                                <th></th>
-                                <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++): ?>
-                                    <th icon-month="<?= $month ?>" icon-day="<?= $day ?>"></th>
-                                <?php endfor; ?>
-                            </tr>
-                            <tr class="dayname-row">
-                                <th></th>
-                                <?php $weekDayCount = $daysPerMonth[$month]["weekDayOfTheFirstDay"]; ?>
-                                <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++): ?>
-                                    <th><?= $dayNameFirstLetter[$weekDayCount] ?></th>
-                                    <?php $weekDayCount = $weekDayCount == 6 ? 0 : ++$weekDayCount; ?>
-                                <?php endfor; ?>
-                            </tr>
-                            <tr class="day-row">
-                                <th class="schedule"><?= yii::t('timesheetModule.instructors', "Schedule"); ?></th>
-                                <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++): ?>
-                                    <th><?= $day ?></th>
-                                <?php endfor; ?>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                <?php endfor; ?>
-            </div>
-        </div>
-    </div>
-    <br/>
-
-    <div class="row-fluid table-container">
-        <div class="span12 img-polaroid">
-
-            <div class="row-fluid">
-                <div class="span12">
-                    <div class="calendar-subtitles-title">
-                        <h4>Legenda</h4>
-                    </div>
-                </div>
-            </div>
-            <?php
-            $html = '';
-            foreach ($calendarTypes as $calendarType) {
-                /**@var $type CalendarEventType */
-                $html .= '<div class="span3 calendar-subtitles calendar-' . $calendarType->color . '">'
-                    . '<i class="fa ' . $calendarType->icon . '"></i>&nbsp;'
-                    . '<span>' . yii::t('timesheetModule.timesheet', $calendarType->name) . '</span>'
-                    . '</div>';
-
-
-            }
-            echo $html; ?>
-        </div>
-    </div>
-</div>
-
 <!-- Modals -->
 
 <div class="modal fade" id="add-instructors-disciplines-modal" tabindex="-1" role="dialog"
@@ -210,14 +214,13 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                 <button type="button" class="tag-button-light small-button" data-dismiss="modal">
                     <?= yii::t("timesheetModule.instructors", "Cancel") ?>
                 </button>
-                <button type="button" class="tag-button small-button" id="add-instructors-disciplines-button">
+                <button type="button" class="t-button-primary " id="add-instructors-disciplines-button">
                     <?= yii::t("timesheetModule.instructors", "Add") ?>
                 </button>
             </div>
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="change-instructor-modal" tabindex="-1" role="dialog"
      aria-labelledby="<?= Yii::t("timesheetModule.timesheet", "Change Instructor") ?>">

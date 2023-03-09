@@ -1,5 +1,6 @@
 <div id="mainPage" class="main" style="margin-top:40px; padding: 10px">
     <?php
+    
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Censo'));
     $title = Yii::t('default', 'Create a new User');
     $contextDesc = Yii::t('default', 'Available actions that may be taken on User.');
@@ -45,9 +46,9 @@
                 <?php echo Yii::app()->user->getFlash('success') ?>
             </div>
         <?php } ?>
-        <div>
+        <div style="display: flex;">
             <a href="<?= CHtml::normalizeUrl(array('censo/export')) ?>"
-               class="tag-button medium-button"> <?= Yii::t('default', 'Export Now') ?>
+               class="t-button-primary" style="margin:0;"> <?= Yii::t('default', 'Export Now') ?>
             </a>
         </div>
         <!-- Widget Heading END -->

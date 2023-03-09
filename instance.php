@@ -8,9 +8,9 @@ $_FORMS[5] = array('name'=>'Formulário de Transferência','action'=>'TransferFo
 $_FORMS[6] = array('name'=>'Requerimento de Transferência','action'=>'TransferRequirement');
 $_FORMS[8] = array('name'=>'Declaração de Cursou','action'=>'StatementAttended');
 $_FORMS[8] = array('name'=>'Termo de Advertência','action'=>'WarningTerm');
-@$domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
+//@$domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
 $_GLOBALGROUP = 0;
-switch ($domain) {
+switch ('$domain') {
     case 'propria':
         $instance = 'PROPRIÁ';
         $db = 'io.escola.se.propria';
@@ -281,12 +281,15 @@ switch ($domain) {
         $db = 'io.escola.demo';
         break;
 }
+
 define("GLOGALGROUP",$_GLOBALGROUP);
 define("FORMS",serialize($_FORMS));
 define("DBNAME",$db);
+
 $HOST = getenv("HOST_DB_TAG");
 $USER = getenv("USER_DB_TAG");
 $PWD = getenv("PWD_DB_TAG");
+
 define ("DBCONFIG", serialize (array(
     'connectionString' => "mysql:host=$HOST;dbname=$db",
     'emulatePrepare' => true,

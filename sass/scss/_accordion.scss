@@ -1,0 +1,18 @@
+.t-accordion  {
+    border: none;
+    &__header {
+        .t-accordion__head {
+            border: none;
+        }
+    }
+
+    &__body > tr.odd > td {
+       // background-color: $colorsBaseProductLighter;
+       // box-shadow: none !important;
+        padding: $SizeXSmall $SizeSmall;
+    }
+    &__body > tr:hover > *  {
+        box-shadow: none !important;
+    }
+}
+

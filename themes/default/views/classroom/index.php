@@ -13,13 +13,15 @@
     
     ?>
 
-    <div class="row-fluid hide-responsive">
+    <div class="row-fluid">
         <div class="span12">
-            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Classrooms') ?></h3>  
-            <div class="buttons span9">
-                <a href="<?php echo Yii::app()->createUrl('classroom/create') ?>" class="tag-button medium-button"> Adicionar turma</a>
-                <a href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" class="tag-button medium-button" target="_blank">Relatório Alunos/Turma</a>
-                <a href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" class="tag-button medium-button" target="_blank">Relatório Professores/Turma</a>
+            <h1><?php echo Yii::t('default', 'Classrooms') ?></h1>  
+            <div class="t-buttons-container">
+                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('classroom/create') ?>"> Adicionar turma</a>
+                <div class="mobile-row">
+                    <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" target="_blank">Relatório Alunos/Turma</a>
+                    <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" target="_blank">Relatório Professores/Turma</a>
+                </div>
             </div>
         </div>
     </div>
@@ -36,14 +38,14 @@
                 <li><a href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" class=""><i></i>Relatório Professores/Turma</a></li>
             </ul>
         </div>
-        <div class="columnone" style="padding-right: 1em">
+        <div class="">
             <?php if (Yii::app()->user->hasFlash('success')): ?>
                 <div class="alert alert-success">
                     <?php echo Yii::app()->user->getFlash('success') ?>
                 </div>
                 <br/>
             <?php endif ?>
-            <div class="widget">  
+            <div class="widget clearmargin">  
                 <div class="widget-body">
                     <?php
                     $this->widget('zii.widgets.grid.CGridView', array(
