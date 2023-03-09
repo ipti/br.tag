@@ -95,3 +95,9 @@
     @extend .t-button-primary;
     margin: $SizeNormal 0;
 }
+
+.t-button-danger {
+    @extend .t-button;
+    color: $colorsBaseWhiteNormal;
+    background-color: $colorsTextError;
+}

@@ -25,7 +25,7 @@
         box-shadow: none !important;
         padding: $SizeNormal $SizeLarge;
     } 
-    &__body > .odd:hover > *, &__body > .even:hover > * {
+    &__body > .odd:hover > *, &__body > .even:hover > *, &__body > * > * {
         box-shadow: none !important;
     }
 }

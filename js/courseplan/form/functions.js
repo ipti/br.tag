@@ -86,29 +86,30 @@ function removeCoursePlanRow(element) {
 
 function format(d) {
     var $div = $('<div id="course-class[' + d.class + ']" class="course-class row"></div>');
-    var $column1 = $('<div   class="course-class-column1 column"></div>');
+    var $column1 = $('<div   class="column no-grow"></div>');
     var $id = $('<input type="hidden" name="course-class[' + d.class + '][id]" value="' + d.courseClassId + '">');
-    var $objective = $('<div class="control-group objective-input"></div>');
-    var $objectiveLabel = $('<div><label class="" for="course-class[' + d.class + '][objective]">Objetivo *</label></span>');
-    var $objectiveInput = $('<textarea class="course-class-objective" id="objective-' + d.class + '" name="course-class[' + d.class + '][objective]">' + d.objective + '</textarea>');
+    var $objective = $('<div class="t-field-tarea objective-input"></div>');
+    var $objectiveLabel = $('<div><label class="t-field-tarea__label" for="course-class[' + d.class + '][objective]">Objetivo *</label></span>');
+    var $objectiveInput = $('<textarea class="t-field-tarea__input course-class-objective" id="objective-' + d.class + '" name="course-class[' + d.class + '][objective]">' + d.objective + '</textarea>');
 
-    var $competence = $('<div class="control-group courseplan-competence-container"></div>');
-    var $competenceLabel = $('<label class="" for="course-class[' + d.class + '][competence][]">Habilidade(s)</label>');
-    var $competenceInput = $('<select class="competence-select" name="course-class[' + d.class + '][competence][]" multiple>' + $(".js-all-competences")[0].innerHTML + '</select>');
+    var $competence = $('<div class="t-field-select courseplan-competence-container"></div>');
+    var $competenceLabel = $('<label class="t-field-select__label" for="course-class[' + d.class + '][competence][]">Habilidade(s)</label>');
+    var $competenceInput = $('<select class="t-field-select__input competence-select" name="course-class[' + d.class + '][competence][]" multiple>' + $(".js-all-competences")[0].innerHTML + '</select>');
 
-    var $type = $('<div class="control-group courseplan-type-container"></div>');
-    var $typeLabel = $('<label class="" for="course-class[' + d.class + '][type][]">Tipo(s)</label>');
-    var $typeInput = $('<select class="type-select" name="course-class[' + d.class + '][type][]" multiple>' + $(".js-all-types")[0].innerHTML + '</select>');
+    var $type = $('<div class="t-field-select courseplan-type-container"></div>');
+    var $typeLabel = $('<label class="t-field-select__label" for="course-class[' + d.class + '][type][]">Tipo(s)</label>');
+    var $typeInput = $('<select class="t-field-select__input type-select" name="course-class[' + d.class + '][type][]" multiple>' + $(".js-all-types")[0].innerHTML + '</select>');
 
-    var $column2 = $('<div class="course-class-column2 column"></div>');
-    var $resource = $('<div class="control-group"></div>');
-    var $resourceLabel = $('<label class="" for="resource">Recurso(s)</label>');
-    var $resourceInput = $('<div class="resource-input"></div>');
+   /*  var $column2 = $('<div class="course-class-column2 column"></div>'); */
+    var $resource = $('<div class=" t-field-select control-group"></div>');
+    var $resourceLabel = $('<label class="t-field-select__label" for="resource">Recurso(s)</label>');
+    var $resourceInput = $('<div class="t-field-select__input resource-input"></div>');
     var $resourceValue = $('<select class="resource-select" name="resource"><option value=""></option>' + $(".js-all-resources")[0].innerHTML + '</select>');
     var $resourceAmount = $('<input class="resource-amount" style="width:35px; height: 22px;margin-left: 5px;" type="number" name="amount" step="1" min="1" value="1" max="999">');
     var $resourceAdd = $('<button class="btn btn-success btn-small fa fa-plus-square add-resource" style="height: 28px;margin-top:10px;" ><i></i></button>');
 
     var $resources = $('<div class="resources"></div>');
+    var $removeButton = $('<div class="row"><a class="t-button-danger">Excluir Turma</a></div>');
     if (d.competences !== null) {
         $competenceInput.val(d.competences);
     }
@@ -145,11 +146,13 @@ function format(d) {
     $type.append($typeInput);
     $column1.append($objective);
     $column1.append($competence);
-    $column2.append($type);
-    $column2.append($resource);
+    $column1.append($type);
+    $column1.append($resource); 
+    $column1.append($removeButton)
     $div.append($id);
     $div.append($column1);
-    $div.append($column2);
+    /* $div.append($column2); */
+   
 
     return $div;
 }
@@ -177,6 +180,7 @@ function addResource(button) {
             var label = $('<span><span class="resource-amount-text">' + resourceAmount + '</span>x - ' + resourceName + ' <span class="fa fa-times remove-resource"><i></i></span></span>');
             div.append(values);
             div.append(label);
+            div.append(removeButton);
             resources.append(div);
         }
     }
