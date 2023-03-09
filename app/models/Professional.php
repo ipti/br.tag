@@ -36,7 +36,7 @@ class Professional extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, cpf_professional, speciality_fk, inep_id_fk, fundeb, attendance_fk', 'required'),
+			array('name, cpf_professional, speciality_fk, inep_id_fk, fundeb', 'required'),
 			array('speciality_fk, fundeb, attendance_fk', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>200),
 			array('cpf_professional', 'length', 'max'=>14),

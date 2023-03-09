@@ -63,11 +63,6 @@ $this->breadcrumbs=array(
                             'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
                         ),
                         array(
-                            'name' => 'local',
-                            'header' => 'Local',
-                            'value' => '$data->attendanceFk->local',
-                        ),
-                        array(
                             'name' => 'cpf',
                             'header' => 'CPF',
                             'value' => '$data->cpf_professional',

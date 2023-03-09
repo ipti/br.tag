@@ -7,10 +7,11 @@
 <div class="form">
 
 	<?php
-	$baseUrl = Yii::app()->baseUrl;
+	$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 	$themeUrl = Yii::app()->theme->baseUrl;
-	$cs = Yii::app()->getClientScript();
-	$cs->registerCssFile($themeUrl . '/css/template2.css');
+    $cs = Yii::app()->getClientScript();
+    $cs->registerCssFile($themeUrl . '/css/template2.css');
+	$cs->registerScriptFile($baseScriptUrl . '/common/js/professional.js?v=1.1', CClientScript::POS_END);
 
 	$form = $this->beginWidget(
 		'CActiveForm',
@@ -41,7 +42,7 @@
 		<?php endif ?>
 		<div class="widget widget-tabs border-bottom-none">
 			<?php echo $form->errorSummary($modelProfessional); ?>
-			<div class="alert alert-error classroom-error no-show"></div>
+			<div class="alert alert-error professional-error no-show"></div>
 			<div class="widget-body form-horizontal">
 				<div class="tab-content">
 					<div class="tab-pane active" id="professional-identify">
@@ -97,10 +98,10 @@
 							<?php if(!$modelProfessional->isNewRecord) {?>
 							<div class="span6">
 								<div class="row">
-									<a href="#" class="t-button-primary  " id="new-attendance-button">Adicionar Atendimento</a>
+									<a href="#" class="t-button-primary new-attendance-button" id="new-attendance-button">Adicionar Atendimento</a>
 								</div>
 								<div class="attendance-container">
-									<div class="form-attendance">
+									<div class="form-attendance" style="display: none;">
 										<div>
 											<h3>Atendimento</h3>
 										</div>
