@@ -1,0 +1,40 @@
+ALTER TABLE `course_class_competences`
+RENAME TO ``course_class_abilities`;
+
+ALTER TABLE `course_class_has_class_competence`
+CHANGE `course_class_competence_fk` `course_class_ability_fk` int(11) NOT NULL AFTER `course_class_fk`,
+RENAME TO `course_class_has_class_ability`;
+
+ALTER TABLE `course_class_abilities`
+ADD `parent_fk` int(11) NULL;
+
+ALTER TABLE `course_class_abilities`
+ADD FOREIGN KEY (`parent_fk`) REFERENCES `course_class_abilities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `course_class_abilities`
+ADD `type` varchar(50) COLLATE 'latin1_swedish_ci' NOT NULL AFTER `code`;
+
+ALTER TABLE `course_class_abilities`
+CHANGE `code` `code` varchar(20) COLLATE 'latin1_swedish_ci' NULL AFTER `description`;
+
+ALTER TABLE `schedule`
+ADD `diary` text NULL AFTER `unavailable`;
+
+CREATE TABLE `class_diaries` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `schedule_fk` int NOT NULL,
+  `student_fk` int NOT NULL,
+  `diary` int NULL
+) ENGINE='InnoDB' COLLATE 'utf8_unicode_ci';
+
+ALTER TABLE `class_diaries`
+CHANGE `diary` `diary` text NULL AFTER `student_fk`;
+
+ALTER TABLE `class_diaries`
+ADD FOREIGN KEY (`schedule_fk`) REFERENCES `schedule` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `class_diaries`
+ADD FOREIGN KEY (`student_fk`) REFERENCES `student_identification` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `class_diaries`
+CHANGE `diary` `diary` text COLLATE 'utf8_unicode_ci' NOT NULL AFTER `student_fk`;

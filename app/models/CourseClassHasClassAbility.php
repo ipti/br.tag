@@ -1,24 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "professional".
+ * This is the model class for table "course_class_has_class_ability".
  *
- * The followings are the available columns in table 'professional':
+ * The followings are the available columns in table 'course_class_has_class_ability':
  * @property integer $id
- * @property string $name
- * @property string $cpf
- * @property string $speciality
- * @property string $inep_id_fk
- * @property integer $fundeb
+ * @property integer $course_class_fk
+ * @property integer $course_class_ability_fk
+ *
+ * The followings are the available model relations:
+ * @property CourseClass $courseClassFk
+ * @property CourseClassAbilities $courseClassAbilityFk
  */
-class Professional extends CActiveRecord
+class CourseClassHasClassAbility extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'professional';
+		return 'course_class_has_class_ability';
 	}
 
 	/**
@@ -29,16 +30,11 @@ class Professional extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, cpf, speciality, fundeb', 'required'),
-			array('name, cpf', 'unique', 'className' => 'Professional'),
-			array('id, fundeb', 'numerical', 'integerOnly'=>true),
-			array('cpf', 'length', 'max'=>14),
-			array('speciality', 'length', 'max'=>100),
-			array('inep_id_fk', 'length', 'max'=>8),
-			array('name', 'length', 'max'=>200),
+			array('course_class_fk, course_class_ability_fk', 'required'),
+			array('course_class_fk, course_class_ability_fk', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name,cpf, speciality, inep_id_fk, fundeb', 'safe', 'on'=>'search'),
+			array('id, course_class_fk, course_class_ability_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,6 +46,8 @@ class Professional extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'courseClassFk' => array(self::BELONGS_TO, 'CourseClass', 'course_class_fk'),
+			'courseClassAbilityFk' => array(self::BELONGS_TO, 'CourseClassAbilities', 'course_class_ability_fk'),
 		);
 	}
 
@@ -59,12 +57,9 @@ class Professional extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'id',
-			'name' => 'Nome',
-			'cpf' => 'CPF',
-			'speciality' => 'Especialidade',
-			'inep_id_fk' => 'ID Inep',
-			'fundeb' => 'Fundeb',
+			'id' => 'ID',
+			'course_class_fk' => 'Course Class Fk',
+			'course_class_ability_fk' => 'Course Class Ability Fk',
 		);
 	}
 
@@ -87,10 +82,8 @@ class Professional extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('cpf',$this->cpf,true);
-		$criteria->compare('specialty',$this->specialty,true);
-		$criteria->compare('inep_id_fk',$this->inep_id_fk,true);
-		$criteria->compare('fundeb',$this->fundeb);
+		$criteria->compare('course_class_fk',$this->course_class_fk);
+		$criteria->compare('course_class_ability_fk',$this->course_class_ability_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -101,7 +94,7 @@ class Professional extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Professional the static model class
+	 * @return CourseClassHasClassAbility the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

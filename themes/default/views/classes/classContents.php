@@ -10,7 +10,6 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/classes/class-contents/_initialization.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classes/class-contents/functions.js?v=1.0', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/dialogs.js', CClientScript::POS_END);
 $cs->registerCssFile($themeUrl . '/css/template2.css');
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));
 
@@ -23,9 +22,8 @@ $form = $this->beginWidget('CActiveForm', array(
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
 ?>
-
 <div class="main">
-    <div class="row-fluid hidden-print">
+<div class="row-fluid hidden-print">
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Class Contents'); ?></h1>
             <div class="buttons span9">
@@ -62,10 +60,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <tr>
     </table>
     <br>
+
+    <div class="innerLR">
+
     <?php if (Yii::app()->user->hasFlash('success')) : ?>
-    <div class="alert alert-success">
-        <?php echo Yii::app()->user->getFlash('success') ?>
-    </div>
+        <div class="alert alert-success">
+            <?php echo Yii::app()->user->getFlash('success') ?>
+        </div>
     <?php endif ?>
     <div class="alert-save no-show alert alert-success">
         Aulas ministradas atualizadas com sucesso!
@@ -80,12 +81,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required', 'style' => 'width: 53px;')); ?>
                 </div>
                 <div class="controls">
-                <select class="select-search-on control-input classContents-input" id="classroom" name="classroom">
-                    <option>Selecione a turma</option>
-                    <?php foreach ($classrooms as $classroom) : ?>
-                        <option value="<?= $classroom->id ?>" fundamentalmaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
-                    <?php endforeach; ?>
-                </select>
+                    <select class="select-search-on control-input classContents-input" id="classroom" name="classroom">
+                        <option>Selecione a turma</option>
+                        <?php foreach ($classrooms as $classroom) : ?>
+                            <option value="<?= $classroom->id ?>"
+                                    fundamentalmaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
 
 
@@ -115,7 +117,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
             </div>
             <div class="disciplines-container">
-                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required' ,'style' => 'width: 85px;')); ?>
+                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required', 'style' => 'width: 85px;')); ?>
                 <?php
                 echo CHtml::dropDownList('disciplines', '', array(), array(
                     'key' => 'id',
@@ -149,4 +151,34 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     </div>
 </div>
 
+        <div class="modal fade" id="js-classroomdiary" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"
+                        id="myModalLabel">Diário de Aula</h4>
+                </div>
+                <form method="post">
+                    <input type="hidden" class="classroom-diary-day">
+                    <div class="modal-body">
+                        <label>Diário de Aula Geral</label>
+                        <textarea class="js-classroom-diary"></textarea>
+                        <label>Diário de Aula por Aluno</label>
+                        <div class="alert alert-error classroom-diary-no-students no-show">Não há alunos matriculados na turma.</div>
+                        <div class="accordion accordion-students" id="accordion-students"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">Cancelar
+                        </button>
+                        <button type="button" class="btn btn-primary js-add-classroom-diary"
+                                data-dismiss="modal">Salvar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <?php $this->endWidget(); ?>
