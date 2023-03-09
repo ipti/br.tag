@@ -17,7 +17,7 @@ $cs->registerScriptFile($baseUrl . '/js/courseplan/form/pagination.js', CClientS
 // $cs->registerCssFile($themeUrl . '/css/jquery.dataTables.min.css');
 // $cs->registerCssFile($themeUrl . '/css/dataTables.fontAwesome.css');
 $cs->registerCssFile($themeUrl . '/css/template2.css');
-// $cs->registerCssFile($baseUrl. 'sass/css/main.css');
+
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));
 $form = $this->beginWidget('CActiveForm', array(
