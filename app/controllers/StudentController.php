@@ -135,7 +135,7 @@ class StudentController extends Controller
         $modelEnrollment = new StudentEnrollment;
 
         $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
-        $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => $id]]);
+        $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => null]]);
         if ($studentVaccinesSaves) {
             $studentVaccinesSaves = array_map(function ($item) {
                 return $item->vaccine_id;
@@ -238,6 +238,7 @@ class StudentController extends Controller
             $modelStudentIdentification->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
             $modelStudentDocumentsAndAddress->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
             //Atributos comuns entre as tabelas
+            $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
             $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
             $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
             date_default_timezone_set("America/Recife");
@@ -245,6 +246,7 @@ class StudentController extends Controller
 
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
                 if ($modelStudentIdentification->save()) {
+                    
                     if ($modelStudentDocumentsAndAddress->save()) {
                         $saved = true;
                         if (isset($_POST[$this->STUDENT_ENROLLMENT], $_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])
