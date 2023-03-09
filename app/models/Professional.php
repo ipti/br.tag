@@ -1,30 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "course_class".
+ * This is the model class for table "professional".
  *
- * The followings are the available columns in table 'course_class':
+ * The followings are the available columns in table 'professional':
  * @property integer $id
- * @property integer $order
- * @property string $objective
- * @property integer $course_plan_fk
- * @property string $fkid
- *
- * The followings are the available model relations:
- * @property ClassContents[] $classContents
- * @property CoursePlan $coursePlanFk
- * @property CourseClassHasClassAbility[] $courseClassHasClassAbilities
- * @property CourseClassHasClassResource[] $courseClassHasClassResources
- * @property CourseClassHasClassType[] $courseClassHasClassTypes
+ * @property string $name
+ * @property string $cpf
+ * @property string $speciality
+ * @property string $inep_id_fk
+ * @property integer $fundeb
  */
-class CourseClass extends CActiveRecord
+class Professional extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'course_class';
+		return 'professional';
 	}
 
 	/**
@@ -35,12 +29,16 @@ class CourseClass extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('order, objective, course_plan_fk', 'required'),
-			array('order, course_plan_fk', 'numerical', 'integerOnly'=>true),
-			array('fkid', 'length', 'max'=>40),
+			array('name, cpf, speciality, fundeb', 'required'),
+			array('name, cpf', 'unique', 'className' => 'Professional'),
+			array('id, fundeb', 'numerical', 'integerOnly'=>true),
+			array('cpf', 'length', 'max'=>14),
+			array('speciality', 'length', 'max'=>100),
+			array('inep_id_fk', 'length', 'max'=>8),
+			array('name', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, order, objective, course_plan_fk, fkid', 'safe', 'on'=>'search'),
+			array('id, name,cpf, speciality, inep_id_fk, fundeb', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,11 +50,6 @@ class CourseClass extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'classContents' => array(self::HAS_MANY, 'ClassContents', 'course_class_fk'),
-			'coursePlanFk' => array(self::BELONGS_TO, 'CoursePlan', 'course_plan_fk'),
-			'courseClassHasClassAbilities' => array(self::HAS_MANY, 'CourseClassHasClassAbility', 'course_class_fk'),
-			'courseClassHasClassResources' => array(self::HAS_MANY, 'CourseClassHasClassResource', 'course_class_fk'),
-			'courseClassHasClassTypes' => array(self::HAS_MANY, 'CourseClassHasClassType', 'course_class_fk'),
 		);
 	}
 
@@ -66,11 +59,12 @@ class CourseClass extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'order' => 'Order',
-			'objective' => 'Objective',
-			'course_plan_fk' => 'Course Plan Fk',
-			'fkid' => 'Fkid',
+			'id' => 'id',
+			'name' => 'Nome',
+			'cpf' => 'CPF',
+			'speciality' => 'Especialidade',
+			'inep_id_fk' => 'ID Inep',
+			'fundeb' => 'Fundeb',
 		);
 	}
 
@@ -93,10 +87,10 @@ class CourseClass extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('order',$this->order);
-		$criteria->compare('objective',$this->objective,true);
-		$criteria->compare('course_plan_fk',$this->course_plan_fk);
-		$criteria->compare('fkid',$this->fkid,true);
+		$criteria->compare('cpf',$this->cpf,true);
+		$criteria->compare('specialty',$this->specialty,true);
+		$criteria->compare('inep_id_fk',$this->inep_id_fk,true);
+		$criteria->compare('fundeb',$this->fundeb);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -107,7 +101,7 @@ class CourseClass extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return CourseClass the static model class
+	 * @return Professional the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

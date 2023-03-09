@@ -4,8 +4,7 @@ function changeTab(index){
 
 	var activeTab = $('.js-tab-control li.active');
 	var activePane = $('div .active');
-    console.log(activePane)
-	
+
 	var size = tabs.length -1;
     
     if(index == 0){
@@ -28,8 +27,7 @@ function changeTab(index){
     activePane.removeClass("active");
     
     newPane = newTab.substring(4).toString();
-    console.log(newPane)
-    
+
     $('#' + newTab).addClass("active");
     $('#' + newPane).addClass("active");
     

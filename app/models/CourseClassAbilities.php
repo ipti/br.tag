@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "course_class_competences".
+ * This is the model class for table "course_class_abilities".
  *
- * The followings are the available columns in table 'course_class_competences':
+ * The followings are the available columns in table 'course_class_abilities':
  * @property integer $id
  * @property string $description
  * @property string $code
@@ -13,16 +13,16 @@
  * The followings are the available model relations:
  * @property EdcensoDiscipline $edcensoDisciplineFk
  * @property EdcensoStageVsModality $edcensoStageVsModalityFk
- * @property CourseClassHasClassCompetence[] $courseClassHasClassCompetences
+ * @property CourseClassHasClassAbility[] $courseClassHasClassAbilities
  */
-class CourseClassCompetences extends CActiveRecord
+class CourseClassAbilities extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'course_class_competences';
+		return 'course_class_abilities';
 	}
 
 	/**
@@ -53,7 +53,7 @@ class CourseClassCompetences extends CActiveRecord
 		return array(
 			'edcensoDisciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'edcenso_discipline_fk'),
 			'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
-			'courseClassHasClassCompetences' => array(self::HAS_MANY, 'CourseClassHasClassCompetence', 'course_class_competence_fk'),
+			'courseClassHasClassAbilities' => array(self::HAS_MANY, 'CourseClassHasClassAbility', 'course_class_ability_fk'),
 		);
 	}
 
@@ -104,7 +104,7 @@ class CourseClassCompetences extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return CourseClassCompetences the static model class
+	 * @return CourseClassAbilities the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
