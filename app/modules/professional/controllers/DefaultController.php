@@ -67,7 +67,8 @@ class DefaultController extends Controller
 		}
 
 		$this->render('create',array(
-			'modelProfessional' => $modelProfessional
+			'modelProfessional' => $modelProfessional,
+			'modelAttendance' => $modelAttendance
 		));
 	}
 
@@ -78,8 +79,11 @@ class DefaultController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
+		$criteria = new CDbCriteria();
+		$criteria->condition = "professional_fk = ".$id;
 		$modelProfessional = Professional::model()->findByPk($id);
-		$modelAttendance = Attendance::model()->findByAttributes(array('professional_fk'=>$id));;
+		$modelAttendance = new Attendance;
+		$modelAttendances = Attendance::model()->findAll($criteria);
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -97,6 +101,7 @@ class DefaultController extends Controller
 
 		$this->render('update',array(
 			'modelProfessional' => $modelProfessional,
+			'modelAttendances' => $modelAttendances,
 			'modelAttendance' => $modelAttendance
 		));
 	}
