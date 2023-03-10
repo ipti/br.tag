@@ -715,6 +715,11 @@ $(".save-student").click(function () {
         message += "Corrija o campo <b>Nome</b>.<br>";
     }
 
+    if($("#StudentIdentification_responsable_cpf_error").length) {
+        error = true;
+        message += "Corrija o campo <b>CPF do Responsável</b>.<br>";
+    }
+
     if($("#errorCPFIcon").css('display') == 'inline-block') {
         error = true;
         message += "Corrija o campo <b>Nº do CPF</b>.<br>";
