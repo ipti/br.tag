@@ -26,9 +26,9 @@ CREATE TABLE `professional` (
 INSERT INTO professional VALUES (1, 'JOAO DA SILVA', '71685776035', '1001', '28022122', 1);
 INSERT INTO attendance VALUES (1, curdate(), 'Itabaiana', 1);
 
-ALTER TABLE `professional` ADD CONSTRAINT `professional_FK` FOREIGN KEY (`inep_id_fk`) REFERENCES `school_identification` (`inep_id`);
-ALTER TABLE `professional` ADD CONSTRAINT `professional_FK_1` FOREIGN KEY (`speciality_fk`) REFERENCES `edcenso_professional_education_course` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE `attendance` ADD CONSTRAINT `attendance_FK` FOREIGN KEY (`professional_fk`) REFERENCES `professional` (`id_professional`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `professional` ADD CONSTRAINT `professional_school_identification_fk` FOREIGN KEY (`inep_id_fk`) REFERENCES `school_identification` (`inep_id`);
+ALTER TABLE `professional` ADD CONSTRAINT `professional_edcenso_professional_education_course_fk` FOREIGN KEY (`speciality_fk`) REFERENCES `edcenso_professional_education_course` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `attendance` ADD CONSTRAINT `attendance_professional_fk` FOREIGN KEY (`professional_fk`) REFERENCES `professional` (`id_professional`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- ALTER TABLE `student_enrollment` ADD `date_cancellation_enrollment` DATE NULL DEFAULT NULL AFTER `status`;
 -- ALTER TABLE `school_identification` ADD `number_ato` VARCHAR(30) NOT NULL AFTER `final_date`;
