@@ -1,6 +1,9 @@
 # Atualizações
 
-## [Versão 3.3.8]
+## [Versão 3.4.7]
+- Relação de profissionais adicionado no módulo Sagres
+
+## [Versão 3.3.7]
 - Justificativa de falta para o professor
 
 ## [Versão 3.2.7]
