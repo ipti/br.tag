@@ -5,12 +5,10 @@ namespace SagresEdu;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
-use SimpleXMLElement;
 use Symfony\Component\Validator\Validation;
 use JMS\Serializer\SerializerBuilder;
 use Yii as yii;
 use Datetime;
-use ZipArchive;
 
 class SagresConsultModel
 {
@@ -109,7 +107,7 @@ class SagresConsultModel
             $turmaType->setTurno($this->convertTurn($turma['turn']));
             $turmaType->setSerie($this->getSerieType($turma['id']));
             $turmaType->setMatricula($this->getMatriculaType($turma['id']));
-            $turmaType->setHorario($this->setHorario($turma['id']));
+           /*  $turmaType->setHorario($this->setHorario($turma['id']));  */
             $turmaType->setFinalTurma('0');
 
             $turmaList[] = $turmaType;
