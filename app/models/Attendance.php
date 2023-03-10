@@ -4,13 +4,14 @@
  * This is the model class for table "attendance".
  *
  * The followings are the available columns in table 'attendance':
- * @property integer $id
+ * @property integer $id_attendance
  * @property string $date
  * @property string $local
  * @property integer $professional_fk
  *
  * The followings are the available model relations:
  * @property Professional $professionalFk
+ * @property Professional[] $professionals
  */
 class Attendance extends CActiveRecord
 {
@@ -35,7 +36,7 @@ class Attendance extends CActiveRecord
 			array('local', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, date, local, professional_fk', 'safe', 'on'=>'search'),
+			array('id_attendance, date, local, professional_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,6 +49,7 @@ class Attendance extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'professionalFk' => array(self::BELONGS_TO, 'Professional', 'professional_fk'),
+			'professionals' => array(self::HAS_MANY, 'Professional', 'attendance_fk'),
 		);
 	}
 
@@ -57,7 +59,7 @@ class Attendance extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
+			'id_attendance' => 'Id Attendance',
 			'date' => 'Data',
 			'local' => 'Local',
 			'professional_fk' => 'Professional Fk',
@@ -82,7 +84,7 @@ class Attendance extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
+		$criteria->compare('id_attendance',$this->id_attendance);
 		$criteria->compare('date',$this->date,true);
 		$criteria->compare('local',$this->local,true);
 		$criteria->compare('professional_fk',$this->professional_fk);

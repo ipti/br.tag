@@ -2,15 +2,16 @@
 
 class ProfessionalModule extends CWebModule
 {
-	public function init()
-	{
-		// this method is called when the module is being created
-		// you may place code here to customize the module or the application
+	public $baseScriptUrl;
+	public $baseUrl;
 
-		// import the module-level models and components
+	public function init() {
+		$this->baseUrl = Yii::app()->createUrl("professional");
+		$this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.professional.resources'));
+		//$this->layoutPath = yii::getPathOfAlias("professional.views.layouts");
+
 		$this->setImport(array(
-			'professional.models.*',
-			'professional.components.*',
+			'professional.models.*', 'professional.components.*',
 		));
 	}
 
