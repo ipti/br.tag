@@ -492,6 +492,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
                 <!-- Tab Student Documents -->
