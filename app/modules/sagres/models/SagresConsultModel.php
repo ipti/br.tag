@@ -299,9 +299,10 @@ class SagresConsultModel
     {
         $profissionaisList = [];
 
-        $query = "SELECT p.id, p.cpf AS cpfProfissional, speciality AS especialidade, inep_id_fk AS idEscola, fundeb 
+        $query = "SELECT p.id_professional AS id_professional, p.cpf_professional  AS cpfProfissional, epec.name  AS especialidade, p.inep_id_fk AS idEscola, fundeb 
                 FROM professional p
-                JOIN attendance a ON p.id = a.professional_fk 
+                JOIN edcenso_professional_education_course epec ON p.speciality_fk = epec.id
+                JOIN attendance a ON p.id_professional  = a.professional_fk  
                 WHERE YEAR(a.date) = " . $anoAtendimento . " and a.date  BETWEEN '" . $data_inicio . "' and '" . $data_final . "';";
 
         $profissionais = Yii::app()->db->createCommand($query)->queryAll();
@@ -314,7 +315,7 @@ class SagresConsultModel
             $profissionalType->setEspecialidade($profissional['especialidade']);
             $profissionalType->setIdEscola($profissional['idEscola']);
             $profissionalType->setFundeb($profissional['fundeb']);
-            $profissionalType->setAtendimento($this->geAttendance($profissional['id']));
+            $profissionalType->setAtendimento($this->geAttendance($profissional['id_professional']));
             $profissionaisList[] = $profissionalType;
         }
 
