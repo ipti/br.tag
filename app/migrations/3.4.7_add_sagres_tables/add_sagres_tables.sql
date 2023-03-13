@@ -32,7 +32,7 @@ ALTER TABLE `student_enrollment` ADD `date_cancellation_enrollment` DATE NULL DE
 ALTER TABLE `school_identification` ADD `number_ato` VARCHAR(30) NOT NULL AFTER `final_date`;
 ALTER TABLE `lunch_menu` ADD `adjusted` TINYINT NOT NULL AFTER date;
 
---  UPDATE student_identification SET birthday = STR_TO_DATE(birthday, '%Y-%m-%d');
+UPDATE student_identification SET birthday = DATE_FORMAT(STR_TO_DATE(birthday, '%d/%m/%Y'), '%Y-%m-%d');
 
 -- `io.escola.demo`.provision_accounts definition
 CREATE TABLE `provision_accounts` (
