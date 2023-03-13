@@ -21,3 +21,20 @@ function updateCep(data) {
     }, 500);
 
 }
+
+$("#InstructorIdentification_edcenso_uf_fk").on("change", function () {
+    $("#InstructorIdentification_edcenso_city_fk").empty();
+    $.ajax({
+        type: "POST",
+        url: "?r=instructor/getCity",
+        data: {
+            edcenso_uf_fk: $(this).val(),
+        },
+        success: function (response) {
+            console.log(JSON.parse(response));  
+            $.each(JSON.parse(response), function (id, name) {
+                $("#InstructorIdentification_edcenso_city_fk").append(name);
+            })
+        }
+    });
+});
