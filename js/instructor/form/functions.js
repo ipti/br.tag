@@ -31,9 +31,8 @@ $("#InstructorIdentification_edcenso_uf_fk").on("change", function () {
             edcenso_uf_fk: $(this).val(),
         },
         success: function (response) {
-            console.log(JSON.parse(response));  
-            $.each(JSON.parse(response), function (id, name) {
-                $("#InstructorIdentification_edcenso_city_fk").append(name);
+            $.each(JSON.parse(response), function (id, option) {
+                $("#InstructorIdentification_edcenso_city_fk").append(option);
             })
         }
     });
