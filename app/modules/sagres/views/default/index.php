@@ -1,5 +1,11 @@
 <?php
+use SagresEdu\SagresConsultModel;
 	$this->setPageTitle('TAG - ' . Yii::t('default', 'Sagres'));
+?>
+
+<?php
+  /* $export =  new SagresConsultModel;
+  print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 ?>
 
 <div id="mainPage" class="main">

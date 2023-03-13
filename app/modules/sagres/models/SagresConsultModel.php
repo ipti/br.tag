@@ -106,8 +106,8 @@ class SagresConsultModel
             $turmaType->setDescricao($turma["name"]);
             $turmaType->setTurno($this->convertTurn($turma['turn']));
             $turmaType->setSerie($this->getSerieType($turma['id']));
-            $turmaType->setMatricula($this->getMatriculaType($turma['id']));
-           /*  $turmaType->setHorario($this->setHorario($turma['id']));  */
+            //$turmaType->setMatricula($this->getMatriculaType($turma['id']));
+            $turmaType->setHorario($this->setHorario($turma['id']));  
             $turmaType->setFinalTurma('0');
 
             $turmaList[] = $turmaType;
@@ -152,7 +152,7 @@ class SagresConsultModel
     {
         $horarioList = [];
 
-        $query = "SELECT 
+        $query = "  SELECT DISTINCT 
                     s.week_day AS diaSemana, 
                     (c.final_hour - c.initial_hour) AS duracao, 
                     c.initial_hour AS hora_inicio, 
@@ -163,7 +163,8 @@ class SagresConsultModel
                     join instructor_documents_and_address idaa ON idaa.school_inep_id_fk = si.inep_id 
                     join schedule s ON s.classroom_fk = c.id 
                     join edcenso_discipline ed ON ed.id = s.discipline_fk
-                where ed.id = " . $id_turma . ";";
+                    WHERE idaa.cpf is not null and c.id = " . $id_turma . ";";
+        
 
         $horarios = Yii::app()->db->createCommand($query)->queryAll();
 
@@ -209,8 +210,6 @@ class SagresConsultModel
 
     public function getStudent($id_matricula): AlunoTType
     {
-        $studentType = new AlunoTType;
-
         $query = "SELECT 
                     si2.responsable_cpf AS cpfAluno, 
                     si2.birthday AS data_nascimento, 
@@ -220,12 +219,11 @@ class SagresConsultModel
                 FROM student_enrollment se 
                     JOIN school_identification si ON si.inep_id = se.school_inep_id_fk 
                     JOIN student_identification si2 ON si.inep_id = si2.school_inep_id_fk
-                WHERE se.enrollment_id = :id_matricula;";
+                WHERE se.enrollment_id = " . $id_matricula . ";";
 
-        $student = Yii::app()->db->createCommand($query)
-            ->bindValue(':id_matricula', $id_matricula)
-            ->queryRow();
+        $student = Yii::app()->db->createCommand($query)->queryRow();
 
+        $studentType = new AlunoTType;
         $studentType->setNome($student['nome']);
         $studentType->setDataNascimento(new DateTime($student['data_nascimento']));
         $studentType->setCpfAluno($student['cpfAluno']);
@@ -441,6 +439,9 @@ class SagresConsultModel
     {
         $xml = str_replace('<result>', '<edu:educacao xmlns:edu="http://www.tce.se.gov.br/sagres2023/xml/sagresEdu">', $xml);
         $xml = str_replace('</result>', '</edu:educacao>', $xml);
+        $xml = str_replace('<edu:prestacaoContas>', '<edu:PrestacaoContas>', $xml);
+        $xml = str_replace('</edu:prestacaoContas>', '</edu:PrestacaoContas>', $xml);
+
         return $xml;
     }
 }
