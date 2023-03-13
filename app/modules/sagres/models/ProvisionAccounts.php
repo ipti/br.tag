@@ -67,7 +67,7 @@ class ProvisionAccounts extends CActiveRecord
 			'cpf_responsavel' => 'CPF do Responsável',
 			'cpf_gestor' => 'CPF do Gestor',
 			'ano_referencia' => 'Ano de Referência',
-			'mes_referencia' => 'Mês Referência',
+			'mes_referencia' => 'Mês de Referência',
 			'versao_xml' => 'Versão XML',
 			'dia_inicio_prest_contas' => 'Dia de Início da Prestação de Contas',
 			'dia_final_prest_contas' => 'Dia de Fim da Prestação de Contas',
