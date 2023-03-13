@@ -33,15 +33,18 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
     <div class="widget widget-tabs border-bottom-none">
         <?php echo $form->errorSummary($model); ?>
 
-        <div class="widget-head">
-            <ul class="tab-sorcerer">
-                <li id="tab-time" class="active">
-                    <a href="#time" data-toggle="tab">
+        <div class="t-tabs">
+            <ul class="t-tabs__list ">
+                <li id="tab-time" class="active t-tabs__item">
+                    <a href="#time" data-toggle="tab" class="t-tabs__link">
+                        <span  class="t-tabs__numeration">1</span>
                        <?php echo Yii::t('wizardModule.labels', 'Schedule') ?>
                     </a>
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
-                <li id="tab-exams">
-                    <a href="#exams" data-toggle="tab">
+                <li id="tab-exams" class="t-tabs__item">
+                    <a href="#exams" data-toggle="tab" class="t-tabs__link">
+                    <span  class="t-tabs__numeration">2</span>
                         <?php echo Yii::t('wizardModule.labels', 'Exam dates') ?>
                     </a>
                 </li>

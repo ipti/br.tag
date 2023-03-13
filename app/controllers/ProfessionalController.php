@@ -44,19 +44,30 @@ class DefaultController extends Controller
 	public function actionCreate()
 	{
 
-		$model = new Professional;
+		$modelProfessional = new Professional;
+		$modelAttendance = new Attendance;
 
-		if(isset($_POST['Professional']))
+		if(isset($_POST['Professional']) && isset($_POST['Attendance']))
 		{
-			$model->attributes=$_POST['Professional'];
-			$model->inep_id_fk = Yii::app()->user->school;
-			if($model->save())
-				Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional cadastrado com sucesso!'));
-				$this->redirect(array('index','id'=>$model->id));
+			$school = SchoolIdentification::model()->findByAttributes(array('inep_id' => Yii::app()->user->school));
+			$city = EdCensoCity::model()->findByAttributes(array('id' => $school->edcenso_city_fk));
+			$modelProfessional->attributes=$_POST['Professional'];
+			$modelProfessional->inep_id_fk = Yii::app()->user->school;
+			$modelAttendance->attributes = $_POST['Attendance'];
+			$modelAttendance->local = $city->name;
+			if($modelProfessional->validate()) {
+				if($modelProfessional->save()) {
+					$modelAttendance->professional_fk = $modelProfessional->id;
+					if($modelAttendance->save()) {
+						Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional cadastrado com sucesso!'));
+						$this->redirect(array('index','id'=>$modelProfessional->id));
+					}
+				}
+			}
 		}
 
 		$this->render('create',array(
-			'model'=>$model,
+			'modelProfessional' => $modelProfessional
 		));
 	}
 
@@ -67,21 +78,26 @@ class DefaultController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model = Professional::model()->findByPk($id);
+		$modelProfessional = Professional::model()->findByPk($id);
+		$modelAttendance = Attendance::model()->findByAttributes(array('professional_fk'=>$id));;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Professional']))
+		if(isset($_POST['Professional']) && isset($_POST['Attendance']))
 		{
-			$model->attributes=$_POST['Professional'];
-			if($model->save())
+			$city = EdCensoCity::model()->findByAttributes(array('id' => $_POST['Attendance']['local']));
+			$modelProfessional->attributes = $_POST['Professional'];
+			$modelAttendance->attributes = $_POST['Attendance'];
+			$modelAttendance->local = $city->name;
+			if($modelProfessional->save() && $modelAttendance->save())
 				Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional atualizado com sucesso!'));
-				$this->redirect(array('index','id'=>$model->id));
+				$this->redirect(array('index','id'=>$modelProfessional->id));
 		}
 
 		$this->render('update',array(
-			'model'=>$model,
+			'modelProfessional' => $modelProfessional,
+			'modelAttendance' => $modelAttendance
 		));
 	}
 
@@ -92,9 +108,10 @@ class DefaultController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$professional = Professional::model()->findByPk($id);;
+		$professional = Professional::model()->findByPk($id);
+		$attendance = Attendance::model()->findByAttributes(array('professional_fk'=>$id));;
 
-		if($professional->delete()) {
+		if($professional->delete() && $attendance->delete()) {
 			Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional excluído com sucesso!'));
             $this->redirect(array('index'));
 		}

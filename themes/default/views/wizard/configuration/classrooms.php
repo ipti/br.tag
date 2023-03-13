@@ -34,11 +34,12 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
             <?php echo Yii::app()->user->getFlash('success') ?>
         </div>
     <?php endif ?>
-    <div class="widget widget-tabs border-bottom-none">
-        <div class="widget-head">
-            <ul class="tab-sorcerer">
-                <li id="tab-classroom" class="active">
-                    <a href="#classroom" data-toggle="tab"> 
+    <div>
+        <div class="t-tabs">
+            <ul class="t-tabs__list">
+                <li id="tab-classroom" class="active t-tabs__item">
+                    <a href="#classroom" data-toggle="tab" class="t-tabs__link"> 
+                    <span  class="t-tabs__numeration">1</span>
                         <?php echo Yii::t('default', 'Classroom') . ' ' . $lastYear ?>
                     </a>
                 </li>

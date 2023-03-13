@@ -275,7 +275,7 @@
 
 .t-tabs .t-tabs__list { display: flex; list-style: none; padding: 0em; margin: 0em; }
 
-.t-tabs .t-tabs__list .t-tabs__item { display: inline-flex; padding: 0em 0em 0em 0em; margin: 0em 1em 0em 0em; text-align: center; }
+.t-tabs .t-tabs__list .t-tabs__item { display: inline-flex; white-space: nowrap; padding: 0em 0em 0em 0em; margin: 0em 1em 0em 0em; text-align: center; }
 
 .t-tabs .t-tabs__list .t-tabs__item.active { font-weight: 700; text-decoration: none; }
 

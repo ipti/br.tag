@@ -61,25 +61,28 @@ $form = $this->beginWidget('CActiveForm', array(
             <ul class="tab-student t-tabs__list">
                 <li id="tab-student-identify" class="t-tabs__item active">
                     <a class="t-tabs__link" href="#student-identify" data-toggle="tab">
-                        <!-- <i></i> -->
+                        <span class="t-tabs__numeration">1</span>
                         <?php echo Yii::t('default', 'Identification') ?>
                     </a>
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
                 <li id="tab-student-documents" class="t-tabs__item ">
                     <a class="t-tabs__link" href="#student-documents" data-toggle="tab">
-                        <!-- <i></i> -->
+                    <span class="t-tabs__numeration">2</span>
                         <?php echo Yii::t('default', 'Documents') ?>
                     </a>
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
                 <li id="tab-student-address" class="t-tabs__item ">
                     <a class="t-tabs__link" href="#student-address" data-toggle="tab">
-                        <!-- <i></i> -->
+                    <span class="t-tabs__numeration js-change-number-2">3</span>
                         <?php echo Yii::t('default', 'Address') ?>
                     </a>
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
                 <li id="tab-student-enrollment" class="t-tabs__item ">
                     <a class="t-tabs__link" href="#student-enrollment" data-toggle="tab">
-                        <!-- <i></i> -->
+                        <span class="t-tabs__numeration js-change-number-3">4</span>
                         <?php echo Yii::t('default', 'Enrollment') ?>
                     </a>
                 </li>

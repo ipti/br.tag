@@ -78,13 +78,17 @@ $form = $this->beginWidget('CActiveForm', array(
                 <li id="tab-school-education" class="t-tabs__item"><a class="t-tabs__link" href="#school-education" data-toggle="tab">
                         <span class="t-tabs__numeration">5</span>
                         <?php echo Yii::t('default', 'Educational Data') ?>
-                    </a></li>
-                <?php if (!$modelSchoolIdentification->isNewRecord) : ?>
+                    </a>
+                </li>
+                <?php if (!$modelSchoolIdentification->isNewRecord) : ?> 
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                     <li id="tab-school-reports" class="t-tabs__item hide-responsive">
+               
                         <a class="t-tabs__link" href="#school-reports" data-toggle="tab">
-                            <!-- <i></i> -->
+                            <span class="t-tabs__numeration">6</span>
                             <?php echo Yii::t('default', 'Relatórios') ?>
                         </a>
+                       
                     </li>
                 <?php endif ?>
             </ul>
