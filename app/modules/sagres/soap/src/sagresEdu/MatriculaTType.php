@@ -2,6 +2,9 @@
 
 namespace SagresEdu;
 
+use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\SerializedName;
+
 /**
  * Class representing MatriculaTType
  *
@@ -13,31 +16,39 @@ class MatriculaTType
 
     /**
      * @var string $numero
+     * @SerializedName("edu:numero")
      */
     private $numero = null;
 
     /**
      * @var \DateTime $dataMatricula
+     * @type("DateTime<'Y-m-d'>")
+     * @SerializedName("edu:data_matricula")
      */
     private $dataMatricula = null;
 
     /**
      * @var \DateTime $dataCancelamento
+     * @type("DateTime<'Y-m-d'>")
+     * @SerializedName("edu:dataCancelamento")
      */
     private $dataCancelamento = null;
 
     /**
      * @var int $numeroFaltas
+     * @SerializedName("edu:numero_faltas")
      */
     private $numeroFaltas = null;
 
     /**
      * @var bool $aprovado
+     * @SerializedName("edu:aprovado")
      */
     private $aprovado = null;
 
     /**
      * @var \SagresEdu\AlunoTType $aluno
+     * @SerializedName("edu:aluno")
      */
     private $aluno = null;
 

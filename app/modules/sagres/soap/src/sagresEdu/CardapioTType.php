@@ -2,6 +2,9 @@
 
 namespace SagresEdu;
 
+use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\SerializedName;
+
 /**
  * Class representing CardapioTType
  *
@@ -13,21 +16,26 @@ class CardapioTType
 
     /**
      * @var \DateTime $data
+     * @Type("DateTime<'Y-m-d'>")
+     * @SerializedName("edu:data")
      */
     private $data = null;
 
     /**
      * @var int $turno
+     * @SerializedName("edu:turno")
      */
     private $turno = null;
 
     /**
      * @var string $descricaoMerenda
+     * @SerializedName("edu:descricao_merenda")
      */
     private $descricaoMerenda = null;
 
     /**
      * @var bool $ajustado
+     * @SerializedName("edu:ajustado")
      */
     private $ajustado = null;
 
@@ -35,7 +43,9 @@ class CardapioTType
      * Gets as data
      *
      * @return \DateTime
+     * 
      */
+     
     public function getData()
     {
         return $this->data;

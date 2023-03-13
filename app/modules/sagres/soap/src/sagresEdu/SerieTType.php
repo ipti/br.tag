@@ -2,6 +2,8 @@
 
 namespace SagresEdu;
 
+use JMS\Serializer\Annotation\SerializedName;
+
 /**
  * Class representing SerieTType
  *
@@ -13,11 +15,13 @@ class SerieTType
 
     /**
      * @var string $descricao
+     * @SerializedName("edu:descricao")
      */
     private $descricao = null;
 
     /**
      * @var int $modalidade
+     * @SerializedName("edu:modalidade")
      */
     private $modalidade = null;
 

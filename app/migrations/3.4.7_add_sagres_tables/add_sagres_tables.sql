@@ -1,16 +1,5 @@
--- `io.escola.demo`.attendance definition
-
-CREATE TABLE `attendance` (
-  `id_attendance` int(11) NOT NULL AUTO_INCREMENT,
-  `date` date NOT NULL,
-  `local` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `professional_fk` int(11) NOT NULL,
-  PRIMARY KEY (`id_attendance`),
-  KEY `attendance_FK` (`professional_fk`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- `io.escola.demo`.professional definition
-
 CREATE TABLE `professional` (
   `id_professional` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
@@ -23,8 +12,17 @@ CREATE TABLE `professional` (
   KEY `professional_FK_1` (`speciality_fk`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO professional VALUES (1, 'JOAO DA SILVA', '71685776035', '1001', '28022122', 1);
-INSERT INTO attendance VALUES (1, curdate(), 'Itabaiana', 1);
+
+-- `io.escola.demo`.attendance definition
+CREATE TABLE `attendance` (
+  `id_attendance` int(11) NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL,
+  `local` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `professional_fk` int(11) NOT NULL,
+  PRIMARY KEY (`id_attendance`),
+  KEY `attendance_FK` (`professional_fk`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 ALTER TABLE `professional` ADD CONSTRAINT `professional_school_identification_fk` FOREIGN KEY (`inep_id_fk`) REFERENCES `school_identification` (`inep_id`);
 ALTER TABLE `professional` ADD CONSTRAINT `professional_edcenso_professional_education_course_fk` FOREIGN KEY (`speciality_fk`) REFERENCES `edcenso_professional_education_course` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

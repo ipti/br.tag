@@ -2,66 +2,76 @@
 
 namespace SagresEdu;
 
+use JMS\Serializer\Annotation\SerializedName;
+
 /**
  * Class representing PrestacaoContasTType
  *
  * 
  * XSD Type: prestacaoContas_t
  */
-class PrestacaoContasTType {
-
-
+class PrestacaoContasTType
+{
     /**
-     * @var string $codigoUnidGestora
-     */
+    * @var string $codigoUnidGestora
+    * @SerializedName("edu:codigoUnidGestora")
+    */
     private $codigoUnidGestora = null;
 
     /**
      * @var string $nomeUnidGestora
+     * @SerializedName("edu:nomeUnidGestora")
      */
     private $nomeUnidGestora = null;
 
     /**
      * @var string $cpfContador
+     * @SerializedName("edu:cpfResponsavel")
      */
     private $cpfContador = null;
 
     /**
      * @var string $cpfGestor
+     * @SerializedName("edu:cpfGestor")
      */
     private $cpfGestor = null;
 
     /**
      * @var int $anoReferencia
+     * @SerializedName("edu:anoReferencia")
      */
     private $anoReferencia = null;
 
     /**
      * @var int $mesReferencia
+     * @SerializedName("edu:mesReferencia")
      */
     private $mesReferencia = null;
 
     /**
      * @var int $versaoXml
+     * @SerializedName("edu:versaoXml")
      */
     private $versaoXml = null;
 
     /**
      * @var int $diaInicPresContas
+     * @SerializedName("edu:diaInicPresContas")
      */
     private $diaInicPresContas = null;
 
     /**
      * @var int $diaFinaPresContas
+     * @SerializedName("edu:diaFinaPresContas")
      */
-    private $diaFinaPresContas = null;	
+    private $diaFinaPresContas = null;
 
 
     /**
      * Get $codigoUnidGestora
      *
      * @return  string
-     */ 
+     */
     public function getCodigoUnidGestora()
     {
         return $this->codigoUnidGestora;
@@ -73,7 +83,7 @@ class PrestacaoContasTType {
      * @param  string  $codigoUnidGestora  $codigoUnidGestora
      *
      * @return  self
-     */ 
+     */
     public function setCodigoUnidGestora($codigoUnidGestora)
     {
         $this->codigoUnidGestora = $codigoUnidGestora;
@@ -85,7 +95,7 @@ class PrestacaoContasTType {
      * Get $nomeUnidGestora
      *
      * @return  string
-     */ 
+     */
     public function getNomeUnidGestora()
     {
         return $this->nomeUnidGestora;
@@ -97,7 +107,7 @@ class PrestacaoContasTType {
      * @param  string  $nomeUnidGestora  $nomeUnidGestora
      *
      * @return  self
-     */ 
+     */
     public function setNomeUnidGestora($nomeUnidGestora)
     {
         $this->nomeUnidGestora = $nomeUnidGestora;
@@ -109,7 +119,7 @@ class PrestacaoContasTType {
      * Get $cpfContador
      *
      * @return  string
-     */ 
+     */
     public function getCpfContador()
     {
         return $this->cpfContador;
@@ -121,7 +131,7 @@ class PrestacaoContasTType {
      * @param  string  $cpfContador  $cpfContador
      *
      * @return  self
-     */ 
+     */
     public function setCpfContador($cpfContador)
     {
         $this->cpfContador = $cpfContador;
@@ -133,7 +143,7 @@ class PrestacaoContasTType {
      * Get $cpfGestor
      *
      * @return  string
-     */ 
+     */
     public function getCpfGestor()
     {
         return $this->cpfGestor;
@@ -145,7 +155,7 @@ class PrestacaoContasTType {
      * @param  string  $cpfGestor  $cpfGestor
      *
      * @return  self
-     */ 
+     */
     public function setCpfGestor($cpfGestor)
     {
         $this->cpfGestor = $cpfGestor;
@@ -157,7 +167,7 @@ class PrestacaoContasTType {
      * Get $anoReferencia
      *
      * @return  int
-     */ 
+     */
     public function getAnoReferencia()
     {
         return $this->anoReferencia;
@@ -169,7 +179,7 @@ class PrestacaoContasTType {
      * @param  int  $anoReferencia  $anoReferencia
      *
      * @return  self
-     */ 
+     */
     public function setAnoReferencia($anoReferencia)
     {
         $this->anoReferencia = $anoReferencia;
@@ -181,7 +191,7 @@ class PrestacaoContasTType {
      * Get $mesReferencia
      *
      * @return  int
-     */ 
+     */
     public function getMesReferencia()
     {
         return $this->mesReferencia;
@@ -193,7 +203,7 @@ class PrestacaoContasTType {
      * @param  int  $mesReferencia  $mesReferencia
      *
      * @return  self
-     */ 
+     */
     public function setMesReferencia($mesReferencia)
     {
         $this->mesReferencia = $mesReferencia;
@@ -205,7 +215,7 @@ class PrestacaoContasTType {
      * Get $versaoXml
      *
      * @return  int
-     */ 
+     */
     public function getVersaoXml()
     {
         return $this->versaoXml;
@@ -217,7 +227,7 @@ class PrestacaoContasTType {
      * @param  int  $versaoXml  $versaoXml
      *
      * @return  self
-     */ 
+     */
     public function setVersaoXml($versaoXml)
     {
         $this->versaoXml = $versaoXml;
@@ -229,7 +239,7 @@ class PrestacaoContasTType {
      * Get $diaInicPresContas
      *
      * @return  int
-     */ 
+     */
     public function getDiaInicPresContas()
     {
         return $this->diaInicPresContas;
@@ -241,7 +251,7 @@ class PrestacaoContasTType {
      * @param  int  $diaInicPresContas  $diaInicPresContas
      *
      * @return  self
-     */ 
+     */
     public function setDiaInicPresContas($diaInicPresContas)
     {
         $this->diaInicPresContas = $diaInicPresContas;
@@ -253,7 +263,7 @@ class PrestacaoContasTType {
      * Get $diaFinaPresContas
      *
      * @return  int
-     */ 
+     */
     public function getDiaFinaPresContas()
     {
         return $this->diaFinaPresContas;
@@ -265,7 +275,7 @@ class PrestacaoContasTType {
      * @param  int  $diaFinaPresContas  $diaFinaPresContas
      *
      * @return  self
-     */ 
+     */
     public function setDiaFinaPresContas($diaFinaPresContas)
     {
         $this->diaFinaPresContas = $diaFinaPresContas;
