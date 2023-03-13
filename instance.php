@@ -151,6 +151,10 @@ switch ($domain) {
         $instance = 'CAMPO DO BRITO';
         $db = 'io.escola.se.campodobrito';
         break;
+    case 'pocodantas':
+        $instance = 'POÇO DANTAS';
+        $db = 'br.ong.tag.paraiba.pocodantas';
+        break;
     case 'saomigueldoaleixo':
         $instance = 'SÃO MIGUEL DO ALEIXO';
         $db = 'io.escola.se.saomigueldoaleixo';
