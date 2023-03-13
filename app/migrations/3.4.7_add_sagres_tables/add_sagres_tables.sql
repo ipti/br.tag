@@ -36,16 +36,15 @@ ALTER TABLE `attendance` ADD CONSTRAINT `attendance_professional_fk` FOREIGN KEY
 -- SET birthday = STR_TO_DATE(birthday, '%Y-%m-%d');
 
 -- `io.escola.demo`.provision_accounts definition
-
 CREATE TABLE `provision_accounts` (
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `cod_unidade_gestora` VARCHAR(30) NOT NULL,
-  `name_unidade_gestora` VARCHAR(150) NOT NULL,
-  `cpf_responsavel` VARCHAR(16) NOT NULL,
-  `cpf_gestor` VARCHAR(16) NOT NULL,
-  `ano_referencia` int(11) NOT NULL,
-  `mes_referencia` int(11) NOT NULL,
-  `versao_xml` int(11) NOT NULL,
-  `dia_inicio_prest_contas` int(11) NOT NULL,
-  `dia_final_prest_contas` int(11) NOT NULL
+  `codigoUnidGestora` varchar(30) NOT NULL,
+  `nomeUnidGestora` varchar(150) NOT NULL,
+  `cpfResponsavel` varchar(16) NOT NULL,
+  `cpfGestor` varchar(16) NOT NULL,
+  `anoReferencia` int(11) NOT NULL,
+  `mesReferencia` int(11) NOT NULL,
+  `versaoxml` int(11) NOT NULL,
+  `diaInicPresContas` int(11) NOT NULL,
+  `diaFinaPresContas` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
