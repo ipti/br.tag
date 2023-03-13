@@ -1,68 +1,121 @@
 <?php
 
+/**
+ * This is the model class for table "provision_accounts".
+ *
+ * The followings are the available columns in table 'provision_accounts':
+ * @property integer $id
+ * @property string $cod_unidade_gestora
+ * @property string $name_unidade_gestora
+ * @property string $cpf_responsavel
+ * @property string $cpf_gestor
+ * @property integer $ano_referencia
+ * @property integer $mes_referencia
+ * @property integer $versao_xml
+ * @property integer $dia_inicio_prest_contas
+ * @property integer $dia_final_prest_contas
+ */
 class ProvisionAccounts extends CActiveRecord
 {
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
+	{
+		return 'provision_accounts';
+	}
 
-    public function tableName()
-    {
-        return 'provision_accounts';
-    }
+	/**
+	 * @return array validation rules for model attributes.
+	 */
+	public function rules()
+	{
+		// NOTE: you should only define rules for those attributes that
+		// will receive user inputs.
+		return array(
+			array('cod_unidade_gestora, name_unidade_gestora, cpf_responsavel, cpf_gestor, ano_referencia, mes_referencia, versao_xml, dia_inicio_prest_contas, dia_final_prest_contas', 'required'),
+			array('ano_referencia, mes_referencia, versao_xml, dia_inicio_prest_contas, dia_final_prest_contas', 'numerical', 'integerOnly'=>true),
+			array('cod_unidade_gestora', 'length', 'max'=>30),
+			array('name_unidade_gestora', 'length', 'max'=>150),
+			array('cpf_responsavel, cpf_gestor', 'length', 'max'=>16),
+			// The following rule is used by search().
+			// @todo Please remove those attributes that should not be searched.
+			array('id, cod_unidade_gestora, name_unidade_gestora, cpf_responsavel, cpf_gestor, ano_referencia, mes_referencia, versao_xml, dia_inicio_prest_contas, dia_final_prest_contas', 'safe', 'on'=>'search'),
+		);
+	}
 
-    public function rules()
-    {
-        return array(
-            array('codigoUnidGestora, nomeUnidGestora, cpfResponsavel, cpfGestor, anoReferencia, mesReferencia, versaoxml, diaInicPresContas, diaFinaPresContas', 'required'),
-            array('anoReferencia, mesReferencia, versaoxml, diaInicPresContas, diaFinaPresContas', 'numerical', 'integerOnly' => true),
-            array('codigoUnidGestora', 'length', 'max' => 30),
-            array('nomeUnidGestora', 'length', 'max' => 150),
-            array('cpfResponsavel, cpfGestor', 'length', 'max' => 16),
-            array('codigoUnidGestora, nomeUnidGestora, cpfResponsavel, cpfGestor, anoReferencia, mesReferencia, versaoxml, diaInicPresContas, diaFinaPresContas', 'safe', 'on' => 'search'),
-        );
-    }
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
+		return array(
+		);
+	}
 
-    public function relations()
-    {
-        return array(
-        );
-    }
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'id' => 'ID',
+			'cod_unidade_gestora' => 'Código da Unidade Gestora',
+			'name_unidade_gestora' => 'Nome da Unidade Gestora',
+			'cpf_responsavel' => 'CPF do Responsável',
+			'cpf_gestor' => 'CPF do Gestor',
+			'ano_referencia' => 'Ano de Referência',
+			'mes_referencia' => 'Mês Referência',
+			'versao_xml' => 'Versão XML',
+			'dia_inicio_prest_contas' => 'Dia de Início da Prestação de Contas',
+			'dia_final_prest_contas' => 'Dia de Fim da Prestação de Contas',
+		);
+	}
 
-    public function attributeLabels()
-    {
-        return array(
-            'codigoUnidGestora' => 'Codigo da Unidade Gestora',
-            'nomeUnidGestora' => 'Nome da Unidade Gestora',
-            'cpfResponsavel' => 'CPF do Responsável',
-            'cpfGestor' => 'CPF do Gestor',
-            'anoReferencia' => 'Ano de Referencia',
-            'mesReferencia' => 'Mes de Referencia',
-            'versaoxml' => 'Versao do XML',
-            'diaInicPresContas' => 'Inicio Apresentacao de Contas',
-            'diaFinaPresContas' => 'Fim Apresentacao de Contas',
-        );
-    }
+	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 *
+	 * Typical usecase:
+	 * - Initialize the model fields with values from filter form.
+	 * - Execute this method to get CActiveDataProvider instance which will filter
+	 * models according to data in model fields.
+	 * - Pass data provider to CGridView, CListView or any similar widget.
+	 *
+	 * @return CActiveDataProvider the data provider that can return the models
+	 * based on the search/filter conditions.
+	 */
+	public function search()
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
 
-    public function search()
-    {
-        $criteria = new CDbCriteria;
+		$criteria=new CDbCriteria;
 
-        $criteria->compare('codigoUnidGestora', $this->codigoUnidGestora, true);
-        $criteria->compare('nomeUnidGestora', $this->nomeUnidGestora, true);
-        $criteria->compare('cpfResponsavel', $this->cpfResponsavel, true);
-        $criteria->compare('cpfGestor', $this->cpfGestor, true);
-        $criteria->compare('anoReferencia', $this->anoReferencia);
-        $criteria->compare('mesReferencia', $this->mesReferencia);
-        $criteria->compare('versaoxml', $this->versaoxml);
-        $criteria->compare('diaInicPresContas', $this->diaInicPresContas);
-        $criteria->compare('diaFinaPresContas', $this->diaFinaPresContas);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('cod_unidade_gestora',$this->cod_unidade_gestora,true);
+		$criteria->compare('name_unidade_gestora',$this->name_unidade_gestora,true);
+		$criteria->compare('cpf_responsavel',$this->cpf_responsavel,true);
+		$criteria->compare('cpf_gestor',$this->cpf_gestor,true);
+		$criteria->compare('ano_referencia',$this->ano_referencia);
+		$criteria->compare('mes_referencia',$this->mes_referencia);
+		$criteria->compare('versao_xml',$this->versao_xml);
+		$criteria->compare('dia_inicio_prest_contas',$this->dia_inicio_prest_contas);
+		$criteria->compare('dia_final_prest_contas',$this->dia_final_prest_contas);
 
-        return new CActiveDataProvider($this, array(
-            'criteria' => $criteria,
-        )
-        );
-    }
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
 
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return ProvisionAccounts the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
 }

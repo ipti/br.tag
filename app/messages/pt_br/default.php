@@ -797,7 +797,7 @@ return array(
     'Add New Teacher' => 'Adicionar Professor',
     'Add New Student' => 'Adicionar Aluno',
     'Add New Professional' => 'Adicionar Profissional',
-    
+    'Add New Management Unit' => 'Adicionar Unidade Gestora',
     'Create a new StudentEnrollment' => 'Matricular Aluno',
     'Create a new SchoolIdentification' => 'Adicionar Escola',
     'Create a new Classroom' => 'Adicionar Turma',
