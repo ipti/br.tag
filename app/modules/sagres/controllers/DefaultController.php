@@ -11,6 +11,13 @@ class DefaultController extends Controller
 	public function actionCreate()
 	{
 
+		$model = ProvisionAccounts::model()->findByPk(1);
+
+		if ($model) {
+			Yii::app()->user->setFlash('error', Yii::t('default', 'Unidade gestora já está cadastrada!'));
+			$this->redirect(array('index', 'cod_unidade_gestora' => $model->cod_unidade_gestora));
+		}
+
 		$model = new ProvisionAccounts;
 
 		if (isset($_POST['ProvisionAccounts'])) {
@@ -34,7 +41,8 @@ class DefaultController extends Controller
 		$model = ProvisionAccounts::model()->findByPk($id);
 
 		if (!$model) {
-			throw new CHttpException(404, 'A unidade gestora solicitada não existe.');
+			Yii::app()->user->setFlash('error', Yii::t('default', 'Unidade gestora solicitada não existe!'));
+			$this->redirect(array('index'));
 		}
 
 		if (isset($_POST['ProvisionAccounts'])) {

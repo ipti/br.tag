@@ -36,7 +36,7 @@ CREATE TABLE `attendance` (
 -- `io.escola.demo`.provision_accounts definition
 
 CREATE TABLE `provision_accounts` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `cod_unidade_gestora` varchar(30) NOT NULL,
   `name_unidade_gestora` varchar(150) NOT NULL,
   `cpf_responsavel` int(11) NOT NULL,

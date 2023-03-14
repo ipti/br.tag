@@ -8,6 +8,11 @@
 			<h1>Sagres Edu</h1>
 		</div>
 	</div>
+	<?php if (Yii::app()->user->hasFlash('error')): ?>
+        <div class="alert alert-error">
+            <?php echo Yii::app()->user->getFlash('error') ?>
+        </div>
+    <?php endif ?>
 	<?php if (Yii::app()->user->hasFlash('success')): ?>
         <div class="alert alert-success">
             <?php echo Yii::app()->user->getFlash('success') ?>
