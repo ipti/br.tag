@@ -2,10 +2,24 @@
   "name": "ipti/tag",
   "require": {
     "php": ">=5.1.0",
+<<<<<<< HEAD
+<<<<<<< HEAD
+    "yiisoft/yii": "1.1.*",
+    "goetas-webservices/xsd2php-runtime": "^0.2.2"
+  },
+  "require-dev": {
+    "goetas-webservices/xsd2php": "^0.3"
+=======
+=======
+>>>>>>> 1bf9ee2faa688e421ebb5e0dd69d59d6cf7f424d
     "yiisoft/yii": "1.1.27",
     "goetas-webservices/xsd2php-runtime": "0.2.16"
   },
   "require-dev": {
     "goetas-webservices/xsd2php": "0.3.7"
+<<<<<<< HEAD
+>>>>>>> 0ad64f77324e28f49ff723427eccb3fc94250d97
+=======
+>>>>>>> 1bf9ee2faa688e421ebb5e0dd69d59d6cf7f424d
   }
 }

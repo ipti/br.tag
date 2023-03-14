@@ -2,6 +2,9 @@
 
 namespace SagresEdu;
 
+use JMS\Serializer\Annotation\XmlList;
+use JMS\Serializer\Annotation\SerializedName;
+
 /**
  * Class representing TurmaTType
  *
@@ -13,21 +16,25 @@ class TurmaTType
 
     /**
      * @var int $periodo
+     * @SerializedName("edu:periodo")
      */
     private $periodo = null;
 
     /**
      * @var string $descricao
+     * @SerializedName("edu:descricao")
      */
     private $descricao = null;
 
     /**
      * @var int $turno
+     * @SerializedName("edu:turno")
      */
     private $turno = null;
 
     /**
      * @var \SagresEdu\SerieTType[] $serie
+     * @XmlList(inline = true, entry = "edu:serie")
      */
     private $serie = [
         
@@ -35,6 +42,7 @@ class TurmaTType
 
     /**
      * @var \SagresEdu\MatriculaTType[] $matricula
+     * @XmlList(inline = true, entry = "edu:matricula")
      */
     private $matricula = [
         
@@ -42,6 +50,7 @@ class TurmaTType
 
     /**
      * @var \SagresEdu\HorarioTType[] $horario
+     * @XmlList(inline = true, entry = "edu:horario")
      */
     private $horario = [
         
@@ -49,6 +58,7 @@ class TurmaTType
 
     /**
      * @var bool $finalTurma
+     * @SerializedName("edu:finalTurma")
      */
     private $finalTurma = null;
 
