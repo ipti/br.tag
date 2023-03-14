@@ -7,7 +7,9 @@ $this->breadcrumbs=array(
 ?>
 <h1><?php echo $this->uniqueId . '/' . $this->action->id; ?></h1>
 
-<h2><?php echo $RA; ?></h2>
+<pre>
+	<?php var_dump($RA); ?>
+</pre>
 
 <p>
 This is the view content for action "<?php echo $this->action->id; ?>".

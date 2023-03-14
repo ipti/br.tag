@@ -282,6 +282,8 @@ switch ('$domain') {
         break;
 }
 
+$db = 'br.ong.tag.sp.ubatuba';
+
 define("GLOGALGROUP",$_GLOBALGROUP);
 define("FORMS",serialize($_FORMS));
 define("DBNAME",$db);

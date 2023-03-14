@@ -1,10 +1,10 @@
 <?php
 require 'vendor/autoload.php'; 
 
-class StudentSEDDataSource
+class ClassroomSEDDataSource
 {
 
-    public function getStudentRA($name, $birthday, $mothersName)
+    public function getClassroomRA($school_id, $year)
     {
         $client = new \GuzzleHttp\Client([
             // Base URI is used with relative requests
@@ -19,20 +19,19 @@ class StudentSEDDataSource
                 'Authorization' => 'Bearer YYlW35bvTjLdVc+j6ozpvBFHy/t8PLTGb4i6oeMwqgOOlO0XqSSbNKBGlVXzJbCMhkjugFNWg7KFwPGlUY0TZNgmi51SrVlPgj4vrKmiF6g0vvx5NYfLR0uVM5RpzKtZ2RpsAzdLpSHks7AdAv/bofUMpGDWHHe9MxjpDSWcLg39G1uVEUXtIaGFVEdQzvbJ+UWJ4fW4ZEkwxouk/NTYj48pCqI+ckRZTPP2uNmgpSW64ZniTC1TYKTGuMKQIThw0tJxsbWrfXK8AiUT8EHpff62udurJxfvdComB8hfVhDLbFbvm3WCZQLCNN86AKnc9+gM6wedWNIFu4EKkBV0ZQLF2DIHXkpFo7LSn8FGBhnZmVhwhI4TVlxyFSkrdg76eIZoaXEhBB5CG0tTOgeUxA=='
             ],
             'body' => json_encode([
-                "inNomeAluno" => $name,
-                "inNomeMae" => $mothersName,
-                "inDataNascimento" => $birthday
+                "inAnoLetivo" => $year,
+	            "inCodEscola" => $school_id
             ])
-        ]);
+        ]); 
         
         return $promise;
     }   
 
-    public function getAllStudentsRA($students){
+    public function getAllClassroomsRA($classrooms){
         
         $promises = [];
-        foreach (array_slice($students, 0, 5) as $key => $student) {
-            $promises[] = $this->getStudentRA($student->name, $student->birthday, $student->filiation_1);
+        foreach (array_slice($classrooms, 0, 5) as $key => $classroom) {
+            $promises[] = $this->getClassroomRA($classroom->name, $classroom->birthday, $classroom->filiation_1);
         }
         
         $data = GuzzleHttp\Promise\Utils::all($promises)->then(function (array $responses){
