@@ -7,10 +7,10 @@
  * @property integer $id
  * @property string $cod_unidade_gestora
  * @property string $name_unidade_gestora
- * @property integer $cpf_responsavel
- * @property integer $cpf_gestor
- * @property integer $ano_referencia
- * @property integer $mes_referencia
+ * @property string $cpf_responsavel
+ * @property string $cpf_gestor
+ * @property string $ano_referencia
+ * @property string $mes_referencia
  * @property string $versao_xml
  * @property string $dia_inicio_prest_contas
  * @property string $dia_final_prest_contas
@@ -34,9 +34,11 @@ class ProvisionAccounts extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('cod_unidade_gestora, name_unidade_gestora, cpf_responsavel, cpf_gestor, ano_referencia, mes_referencia, versao_xml, dia_inicio_prest_contas, dia_final_prest_contas', 'required'),
-			array('cpf_responsavel, cpf_gestor, ano_referencia, mes_referencia', 'numerical', 'integerOnly'=>true),
 			array('cod_unidade_gestora', 'length', 'max'=>30),
 			array('name_unidade_gestora', 'length', 'max'=>150),
+			array('cpf_responsavel, cpf_gestor', 'length', 'max'=>11),
+			array('ano_referencia', 'length', 'max'=>4),
+			array('mes_referencia', 'length', 'max'=>2),
 			array('versao_xml', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -66,11 +68,11 @@ class ProvisionAccounts extends CActiveRecord
 			'name_unidade_gestora' => 'Nome Unidade Gestora',
 			'cpf_responsavel' => 'CPF do Responsável',
 			'cpf_gestor' => 'CPF do Gestor',
-			'ano_referencia' => 'Ano Referência',
-			'mes_referencia' => 'Mês Referência',
+			'ano_referencia' => 'Ano de Referência',
+			'mes_referencia' => 'Mês de Referência',
 			'versao_xml' => 'Versão XML',
-			'dia_inicio_prest_contas' => 'Dia de Início da Prestação de Contas',
-			'dia_final_prest_contas' => 'Dia de Fim da Prestação de Contas',
+			'dia_inicio_prest_contas' => 'Dia Início de Prestação de Contas',
+			'dia_final_prest_contas' => 'Dia Final de Prestação de Contas',
 		);
 	}
 
@@ -95,10 +97,10 @@ class ProvisionAccounts extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('cod_unidade_gestora',$this->cod_unidade_gestora,true);
 		$criteria->compare('name_unidade_gestora',$this->name_unidade_gestora,true);
-		$criteria->compare('cpf_responsavel',$this->cpf_responsavel);
-		$criteria->compare('cpf_gestor',$this->cpf_gestor);
-		$criteria->compare('ano_referencia',$this->ano_referencia);
-		$criteria->compare('mes_referencia',$this->mes_referencia);
+		$criteria->compare('cpf_responsavel',$this->cpf_responsavel,true);
+		$criteria->compare('cpf_gestor',$this->cpf_gestor,true);
+		$criteria->compare('ano_referencia',$this->ano_referencia,true);
+		$criteria->compare('mes_referencia',$this->mes_referencia,true);
 		$criteria->compare('versao_xml',$this->versao_xml,true);
 		$criteria->compare('dia_inicio_prest_contas',$this->dia_inicio_prest_contas,true);
 		$criteria->compare('dia_final_prest_contas',$this->dia_final_prest_contas,true);
