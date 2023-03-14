@@ -3,7 +3,8 @@
   "require": {
     "php": ">=5.1.0",
     "yiisoft/yii": "1.1.27",
-    "goetas-webservices/xsd2php-runtime": "0.2.16"
+    "goetas-webservices/xsd2php-runtime": "0.2.16",
+    "guzzlehttp/guzzle": "^7.0"
   },
   "require-dev": {
     "goetas-webservices/xsd2php": "0.3.7"
