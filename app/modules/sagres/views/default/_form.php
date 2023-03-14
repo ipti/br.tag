@@ -73,7 +73,7 @@
                                             <?php echo $form->labelEx($model, 'cpf_responsavel', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($model, 'cpf_responsavel', array('size' => 14, 'maxlength' => 14)); ?>
+                                            <?php echo $form->textField($model, 'cpf_responsavel', array('size' => 14, 'maxlength' => 14, 'placeholder'=>'___.___.___-__')); ?>
                                             <?php echo $form->error($model, 'cpf_responsavel'); ?>
                                         </div>
                                     </div>
@@ -83,7 +83,7 @@
                                             <?php echo $form->labelEx($model, 'cpf_gestor', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($model, 'cpf_gestor', array('size' => 14, 'maxlength' => 14)); ?>
+                                            <?php echo $form->textField($model, 'cpf_gestor', array('size' => 14, 'maxlength' => 14,'placeholder'=>'___.___.___-__')); ?>
                                             <?php echo $form->error($model, 'cpf_gestor'); ?>
                                         </div>
                                     </div>
@@ -94,15 +94,15 @@
                                         </div>
                                         <div class="controls">
                                             <?php echo $form->DropDownList($model, 'mes_referencia', array(
-                                                '1' => 'Janeiro',
-                                                '2' => 'Fevereiro',
-                                                '3' => 'Março',
-                                                '4' => 'Abril',
-                                                '5' => 'Maio',
-                                                '6' => 'Junho',
-                                                '7' => 'Julho',
-                                                '8' => 'Agosto',
-                                                '9' => 'Setembro',
+                                                '01' => 'Janeiro',
+                                                '02' => 'Fevereiro',
+                                                '03' => 'Março',
+                                                '04' => 'Abril',
+                                                '05' => 'Maio',
+                                                '06' => 'Junho',
+                                                '07' => 'Julho',
+                                                '08' => 'Agosto',
+                                                '09' => 'Setembro',
                                                 '10' => 'Outubro',
                                                 '11' => 'Novembro',
                                                 '12' => 'Dezembro'
@@ -116,11 +116,12 @@
                                             <?php echo $form->labelEx($model, 'ano_referencia', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->DropDownList(
-                                                $model,
-                                                'ano_referencia',
-                                                array_reverse(range(2014, date('Y')))
-                                            ); ?>
+                                            <?php 
+                                            $anos = array();
+                                            for ($i = date('Y'); $i >= 2014; $i--) {
+                                                $anos[$i] = $i;
+                                            }
+                                            echo $form->DropDownList($model,'ano_referencia',$anos); ?>
                                             <?php echo $form->error($model, 'ano_referencia'); ?>
                                         </div>
                                     </div>

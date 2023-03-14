@@ -7,13 +7,13 @@
  * @property integer $id
  * @property string $cod_unidade_gestora
  * @property string $name_unidade_gestora
- * @property string $cpf_responsavel
- * @property string $cpf_gestor
+ * @property integer $cpf_responsavel
+ * @property integer $cpf_gestor
  * @property integer $ano_referencia
  * @property integer $mes_referencia
- * @property integer $versao_xml
- * @property integer $dia_inicio_prest_contas
- * @property integer $dia_final_prest_contas
+ * @property string $versao_xml
+ * @property string $dia_inicio_prest_contas
+ * @property string $dia_final_prest_contas
  */
 class ProvisionAccounts extends CActiveRecord
 {
@@ -34,10 +34,10 @@ class ProvisionAccounts extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('cod_unidade_gestora, name_unidade_gestora, cpf_responsavel, cpf_gestor, ano_referencia, mes_referencia, versao_xml, dia_inicio_prest_contas, dia_final_prest_contas', 'required'),
-			array('ano_referencia, mes_referencia, versao_xml, dia_inicio_prest_contas, dia_final_prest_contas', 'numerical', 'integerOnly'=>true),
+			array('cpf_responsavel, cpf_gestor, ano_referencia, mes_referencia', 'numerical', 'integerOnly'=>true),
 			array('cod_unidade_gestora', 'length', 'max'=>30),
 			array('name_unidade_gestora', 'length', 'max'=>150),
-			array('cpf_responsavel, cpf_gestor', 'length', 'max'=>16),
+			array('versao_xml', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, cod_unidade_gestora, name_unidade_gestora, cpf_responsavel, cpf_gestor, ano_referencia, mes_referencia, versao_xml, dia_inicio_prest_contas, dia_final_prest_contas', 'safe', 'on'=>'search'),
@@ -62,12 +62,12 @@ class ProvisionAccounts extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'cod_unidade_gestora' => 'Código da Unidade Gestora',
-			'name_unidade_gestora' => 'Nome da Unidade Gestora',
+			'cod_unidade_gestora' => 'Código Unidade Gestora',
+			'name_unidade_gestora' => 'Nome Unidade Gestora',
 			'cpf_responsavel' => 'CPF do Responsável',
 			'cpf_gestor' => 'CPF do Gestor',
-			'ano_referencia' => 'Ano de Referência',
-			'mes_referencia' => 'Mês de Referência',
+			'ano_referencia' => 'Ano Referência',
+			'mes_referencia' => 'Mês Referência',
 			'versao_xml' => 'Versão XML',
 			'dia_inicio_prest_contas' => 'Dia de Início da Prestação de Contas',
 			'dia_final_prest_contas' => 'Dia de Fim da Prestação de Contas',
@@ -95,13 +95,13 @@ class ProvisionAccounts extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('cod_unidade_gestora',$this->cod_unidade_gestora,true);
 		$criteria->compare('name_unidade_gestora',$this->name_unidade_gestora,true);
-		$criteria->compare('cpf_responsavel',$this->cpf_responsavel,true);
-		$criteria->compare('cpf_gestor',$this->cpf_gestor,true);
+		$criteria->compare('cpf_responsavel',$this->cpf_responsavel);
+		$criteria->compare('cpf_gestor',$this->cpf_gestor);
 		$criteria->compare('ano_referencia',$this->ano_referencia);
 		$criteria->compare('mes_referencia',$this->mes_referencia);
-		$criteria->compare('versao_xml',$this->versao_xml);
-		$criteria->compare('dia_inicio_prest_contas',$this->dia_inicio_prest_contas);
-		$criteria->compare('dia_final_prest_contas',$this->dia_final_prest_contas);
+		$criteria->compare('versao_xml',$this->versao_xml,true);
+		$criteria->compare('dia_inicio_prest_contas',$this->dia_inicio_prest_contas,true);
+		$criteria->compare('dia_final_prest_contas',$this->dia_final_prest_contas,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
