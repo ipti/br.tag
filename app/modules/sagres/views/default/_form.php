@@ -155,7 +155,7 @@
                                             <?php echo $form->labelEx($model, 'dia_final_prest_contas', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->dateField($model, 'dia_inicio_prest_contas', array('size' => 60, 'maxlength' => 100)); ?>
+                                            <?php echo $form->dateField($model, 'dia_final_prest_contas', array('size' => 60, 'maxlength' => 100)); ?>
                                             <?php echo $form->error($model, 'dia_final_prest_contas'); ?>
                                         </div>
                                     </div>

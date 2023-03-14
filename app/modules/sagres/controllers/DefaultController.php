@@ -10,14 +10,14 @@ class DefaultController extends Controller
 
 	public function actionCreate()
 	{
+
 		$model = new ProvisionAccounts;
 
 		if (isset($_POST['ProvisionAccounts'])) {
 			$model->attributes = $_POST['ProvisionAccounts'];
-
-			if ($model->save()) {
+			if ($model->validate() && $model->save()) {
 				Yii::app()->user->setFlash('success', Yii::t('default', 'Unidade cadastrada com sucesso!'));
-				$this->redirect(array('index', 'codigoUnidGestora' => $model->codigoUnidGestora));
+				$this->redirect(array('index', 'cod_unidade_gestora' => $model->cod_unidade_gestora));
 			}
 		}
 
@@ -40,9 +40,9 @@ class DefaultController extends Controller
 		if (isset($_POST['ProvisionAccounts'])) {
 			$model->attributes = $_POST['ProvisionAccounts'];
 
-			if ($model->save()) {
+			if ($model->validate() && $model->save()) {
 				Yii::app()->user->setFlash('success', Yii::t('default', 'Unidade atualizada com sucesso!'));
-				$this->redirect(array('index', 'codigoUnidGestora' => $model->codigoUnidGestora));
+				$this->redirect(array('index', 'cod_unidade_gestora' => $model->cod_unidade_gestora));
 			}
 		}
 
