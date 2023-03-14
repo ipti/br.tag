@@ -1,6 +1,10 @@
 <?php
 $baseUrl = Yii::app()->theme->baseUrl;
 
+if (Yii::app()->user->isGuest) {
+    $this->redirect(yii::app()->createUrl('site/login'));
+}
+
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>

@@ -11,3 +11,4 @@ db
 dump.sql
 docker-compose.yml
 vendor
+/docker/
