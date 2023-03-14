@@ -1,4 +1,3 @@
-
 -- `io.escola.demo`.professional definition
 
 CREATE TABLE `professional` (
@@ -14,7 +13,6 @@ CREATE TABLE `professional` (
   CONSTRAINT `professional_edcenso_professional_education_course_fk` FOREIGN KEY (`speciality_fk`) REFERENCES `edcenso_professional_education_course` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `professional_school_identification_fk` FOREIGN KEY (`inep_id_fk`) REFERENCES `school_identification` (`inep_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
 
 -- `io.escola.demo`.attendance definition
 
@@ -38,7 +36,7 @@ CREATE TABLE `attendance` (
 -- `io.escola.demo`.provision_accounts definition
 
 CREATE TABLE `provision_accounts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `cod_unidade_gestora` varchar(30) NOT NULL,
   `name_unidade_gestora` varchar(150) NOT NULL,
   `cpf_responsavel` int(11) NOT NULL,
