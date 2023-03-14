@@ -813,6 +813,7 @@ return array(
     'Update InstructorIdentification' => 'Atualizar Professor',
     'Update User' => 'Atualizar Usuário',
     'Update Professional' => 'Atualizar Profissional',
+    'Update Management Unit' => 'Atualizar Unidade Gestora',
     
     //Erros
     'already enrolled in this classroom.' =>'já matriculado na turma.',
