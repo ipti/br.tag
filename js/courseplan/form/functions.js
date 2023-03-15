@@ -89,7 +89,7 @@ function format(d) {
     var $id = $('<input type="hidden" name="course-class[' + d.class + '][id]" value="' + d.courseClassId + '">');
     var $objective = $('<div class="control-group objective-input"></div>');
     var $objectiveLabel = $('<div><label class="" for="course-class[' + d.class + '][objective]">Objetivo *</label></span>');
-    var $objectiveInput = $('<textarea class="course-class-objective" id="objective-' + d.class + '" name="course-class[' + d.class + '][objective]">' + d.objective + '</textarea>');
+    var $objectiveInput = $('<textarea class="course-class-objective" placeholder="Digite o Objetivo do Plano" id="objective-' + d.class + '" name="course-class[' + d.class + '][objective]">' + d.objective + '</textarea>');
 
     var $ability = $('<div class="control-group courseplan-ability-container"></div>');
     var $abilityLabel = $('<label class="" for="course-class[' + d.class + '][ability][]">Habilidade(s)</label>');
