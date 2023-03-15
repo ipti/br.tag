@@ -144,6 +144,11 @@ html {
   cursor: pointer;
 }
 
+/* line 29, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+.t-button:hover, .t-button-primary:hover, .t-button-submit:hover, .t-button-secondary:hover, .t-button-tertiary:hover, .t-button--active {
+  text-decoration: none;
+}
+
 @media (min-width: 768px) {
   /* line 19, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
   .t-button, .t-button-primary, .t-button-submit, .t-button-secondary, .t-button-tertiary {
@@ -160,24 +165,24 @@ html {
   }
 }
 
-/* line 42, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 46, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button:link, .t-button-primary:link, .t-button-submit:link, .t-button-secondary:link, .t-button-tertiary:link, .t-button:focus, .t-button-primary:focus, .t-button-submit:focus, .t-button-secondary:focus, .t-button-tertiary:focus, .t-button:hover, .t-button-primary:hover, .t-button-submit:hover, .t-button-secondary:hover, .t-button-tertiary:hover, .t-button--active, .t-button:active, .t-button-primary:active, .t-button-submit:active, .t-button-secondary:active, .t-button-tertiary:active {
   text-decoration: none !important;
 }
 
-/* line 46, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 50, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button img, .t-button-primary img, .t-button-submit img, .t-button-secondary img, .t-button-tertiary img {
   margin-right: 6px;
 }
 
-/* line 50, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 54, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button i, .t-button-primary i, .t-button-submit i, .t-button-secondary i, .t-button-tertiary i {
   align-self: center;
   margin-right: 6px;
   opacity: 0.5;
 }
 
-/* line 57, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 61, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-primary, .t-button-submit {
   background-color: #3f45ea;
   color: #FFFFFF;
@@ -185,42 +190,42 @@ html {
   align-self: center;
 }
 
-/* line 64, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 68, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-primary:hover, .t-button-submit:hover, .t-button-primary--active {
   color: #FFFFFF;
   background-color: #272B96;
 }
 
-/* line 69, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 73, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-primary:link, .t-button-submit:link, .t-button-primary:focus, .t-button-submit:focus, .t-button-primary:hover, .t-button-submit:hover, .t-button-primary--active, .t-button-primary:active, .t-button-submit:active {
   color: #FFFFFF;
 }
 
-/* line 74, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 78, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-secondary {
   background-color: #eff2f5;
   color: #252A31;
 }
 
-/* line 78, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 82, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-secondary:hover, .t-button-secondary--active {
   color: #252A31;
   background-color: #e5eaef;
 }
 
-/* line 84, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 88, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-tertiary {
   background-color: #94a8be;
   color: #FFFFFF;
 }
 
-/* line 88, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 92, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-tertiary:hover, .t-button-tertiary--active {
   color: #FFFFFF;
   background-color: #5F738C;
 }
 
-/* line 94, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 98, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-submit {
   margin: 14px 0;
 }
@@ -497,19 +502,19 @@ html {
   text-align: center;
 }
 
-/* line 43, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
+/* line 44, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
 .t-tabs .t-tabs__list .t-tabs__item.active {
   border-bottom: #18204e solid 0.15em;
   font-weight: 700;
   text-decoration: none;
 }
 
-/* line 49, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
+/* line 50, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
 .t-tabs .t-tabs__list .t-tabs__item a {
   text-decoration: none;
 }
 
-/* line 53, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
+/* line 54, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
 .t-tabs .t-tabs__list .t-tabs__item .t-tabs__link {
   font-size: 14px;
   height: auto;
@@ -518,23 +523,78 @@ html {
 }
 
 @media (min-width: 768px) {
-  /* line 53, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
+  /* line 54, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
   .t-tabs .t-tabs__list .t-tabs__item .t-tabs__link {
     padding: 0.25em 1em 0.25em 1em;
   }
 }
 
 @media (min-width: 1536px) {
-  /* line 53, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
+  /* line 54, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
   .t-tabs .t-tabs__list .t-tabs__item .t-tabs__link {
     padding: 0.375em 1em 0.375em 1em;
     display: inline-block;
   }
 }
 
-/* line 76, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
+/* line 77, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
 .t-tabs::-webkit-scrollbar {
   display: none;
+}
+
+/* Color */
+/* Product */
+/* Ink */
+/* Text */
+/* Alert1 */
+/* Cloud */
+/* White */
+/* Alert2 */
+/* Alert3 */
+/* Space */
+/* Font size */
+/* Grid */
+/* Size */
+/* Border Radius */
+/* Border width */
+/* Opacity */
+/* Line Height */
+/*Font Weight*/
+/* Font Family */
+/* mixin */
+/* line 4, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
+.t-cards {
+  border-radius: 6px;
+  padding: 24px;
+  background: #fafafe;
+  margin-bottom: 16px;
+  margin-right: 16px;
+}
+
+/* line 13, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
+.t-cards a .t-cards-title {
+  display: flex;
+  align-items: center;
+  color: #18204e;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+}
+
+/* line 21, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
+.t-cards a .t-cards-title img {
+  margin-right: 8px;
+}
+
+/* line 25, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
+.t-cards a .t-cards-text {
+  color: #465567;
+  margin-left: 32px;
+}
+
+/* line 29, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
+.t-cards a:hover {
+  text-decoration: none;
 }
 
 /* line 2, ../../../../wamp64/www/br.tag/sass/scss/_table.scss */
@@ -635,81 +695,6 @@ html {
 /* line 92, ../../../../wamp64/www/br.tag/sass/scss/_table.scss */
 .dt-body-nowrap {
   white-space: nowrap;
-}
-
-/* Color */
-/* Product */
-/* Ink */
-/* Text */
-/* Alert1 */
-/* Cloud */
-/* White */
-/* Alert2 */
-/* Alert3 */
-/* Space */
-/* Font size */
-/* Grid */
-/* Size */
-/* Border Radius */
-/* Border width */
-/* Opacity */
-/* Line Height */
-/*Font Weight*/
-/* Font Family */
-/* mixin */
-/* line 4, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
-.t-cards {
-  border-radius: 5px;
-  margin: 2em 2em 2em 2em;
-  padding: 2em 3em 2em 2em;
-  background: #fafafe;
-  position: relative;
-  text-align: center;
-  display: block;
-  border: 1px none #e5e5e5;
-}
-
-/* line 15, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
-.t-cards a {
-  text-decoration: none;
-}
-
-/* line 19, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
-.t-cards .t-cards-link .t-cards-icon {
-  margin: 2em 0em 2em -3em;
-  padding: 0em 1em 0em 0em;
-}
-
-/* line 25, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
-.t-cards .t-cards-link .t-cards-title {
-  margin: 0em 9em 0em 0em;
-  padding: 0em 0em 0em 0em;
-  font-weight: 700;
-  color: #18204e;
-}
-
-/* line 31, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
-.t-cards .t-cards-link .t-cards-subtitle {
-  margin: 0em 0em 0em 2em;
-  padding: 0em 0em 0em 0em;
-  font-weight: 400;
-  color: #5F738C;
-}
-
-@media (min-width: 768px) {
-  /* line 31, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
-  .t-cards .t-cards-link .t-cards-subtitle {
-    margin: 0em 0em 0em 0em;
-    padding: 0em 0em 0em 0em;
-  }
-}
-
-@media (min-width: 1536px) {
-  /* line 31, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
-  .t-cards .t-cards-link .t-cards-subtitle {
-    margin: 0em 0em 0em 0em;
-    padding: 0em 0em 0em 0em;
-  }
 }
 
 /* line 1, ../../../../wamp64/www/br.tag/sass/scss/_topbar.scss */

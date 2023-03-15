@@ -789,6 +789,7 @@ return array(
     'Reports' => 'Relatórios',
     'Out Of Town Students' => 'Alunos fora da cidade',
     'Professional Identifications' => 'Profissionais',
+    'Configurarion' => 'Configurações',
     
     //Relatórios
     'Result Board' => 'Quadro de Rendimento',
