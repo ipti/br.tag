@@ -408,16 +408,16 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked {
     margin: 0px 9px 0px 9px;
 }
-.grades2 {
+.grades_inputs {
  width: 134px !important;
 }
-.grades3 {
+.grades_title_padding {
     padding: 0px 8px 0px 8px !important;
    }
-.table-striped.tabelaNotas tbody>tr:nth-child(odd)>td {
+.table-striped.table-grades tbody>tr:nth-child(odd)>td {
     background-color: #ffffff;
 }
-.tituloTabelaNotas{
+.title_table_notes{
     background-color: #E8EDF1;
     color: #5F738C;
 }
