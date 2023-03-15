@@ -3,6 +3,7 @@
 /**
  * @var $cs CClientScript
  */
+
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
