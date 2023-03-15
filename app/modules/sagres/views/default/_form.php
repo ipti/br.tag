@@ -52,7 +52,7 @@
                                             <?php echo $form->labelEx($model, 'cod_unidade_gestora', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($model, 'cod_unidade_gestora', array('size' => 30, 'maxlength' => 30)); ?>
+                                            <?php echo $form->textField($model, 'cod_unidade_gestora', array('size' => 30, 'maxlength' => 30, 'placeholder' => 'Digite o Código da Unidade Gestora')); ?>
                                             <?php echo $form->error($model, 'cod_unidade_gestora'); ?>
                                         </div>
                                     </div>
@@ -61,7 +61,7 @@
                                             <?php echo $form->labelEx($model, 'name_unidade_gestora', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($model, 'name_unidade_gestora', array('size' => 150, 'maxlength' => 150)); ?>
+                                            <?php echo $form->textField($model, 'name_unidade_gestora', array('size' => 150, 'maxlength' => 150, 'placeholder' => 'Digite o Nome da Unidade Gestora')); ?>
                                             <?php echo $form->error($model, 'name_unidade_gestora'); ?>
                                         </div>
                                     </div>
@@ -92,6 +92,7 @@
                                         </div>
                                         <div class="controls">
                                             <?php echo $form->DropDownList($model, 'mes_referencia', array(
+                                                null => 'Selecione o mês',
                                                 '01' => 'Janeiro',
                                                 '02' => 'Fevereiro',
                                                 '03' => 'Março',
@@ -119,7 +120,7 @@
                                             for ($i = date('Y'); $i >= 2014; $i--) {
                                                 $anos[$i] = $i;
                                             }
-                                            echo $form->DropDownList($model,'ano_referencia',$anos); ?>
+                                            echo $form->DropDownList($model,'ano_referencia',$anos, array('prompt' => 'Selecione o ano')); ?>
                                             <?php echo $form->error($model, 'ano_referencia'); ?>
                                         </div>
                                     </div>
@@ -130,6 +131,7 @@
                                         </div>
                                         <div class="controls">
                                             <?php echo $form->DropDownList($model, 'versao_xml', array(
+                                                null => 'Selecione a versão',
                                                 '1.0' => '1.0',
                                                 '1.1' => '1.1',
                                                 '1.2' => '1.2',
