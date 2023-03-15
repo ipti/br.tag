@@ -67,7 +67,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <?= CHTML::activeLabel($menuModel, 'name', ['class' => "control-label"]) ?>
                     <div class="form-group ">
                         <?php $name = 'name'; ?>
-                        <?= CHTML::textField(chtml::resolveName($menuModel, $name), $menuModel->name, ['class' => "span8 form-control"]) ?>
+                        <?= CHTML::textField(chtml::resolveName($menuModel, $name), $menuModel->name, ['class' => "span8 form-control", 'placeholder' => 'Digite o Nome do Cardápio']) ?>
                     </div>
                 </div>
             </div>

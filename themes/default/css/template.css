@@ -8997,7 +8997,7 @@ tbody .details-control:hover {
 
 .pageA4H {
     width: 1122px;
-    height: 810px;
+    height: 1122px;
     margin: 0 auto;
 }
 
@@ -9412,4 +9412,10 @@ tbody .details-control:hover {
 }
 .clearmargin {
     margin: 0;
+}
+.objective-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 42px;
 }

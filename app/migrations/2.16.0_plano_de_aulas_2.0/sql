@@ -1,5 +1,5 @@
 ALTER TABLE `course_class_competences`
-RENAME TO ``course_class_abilities`;
+RENAME TO `course_class_abilities`;
 
 ALTER TABLE `course_class_has_class_competence`
 CHANGE `course_class_competence_fk` `course_class_ability_fk` int(11) NOT NULL AFTER `course_class_fk`,

@@ -12,8 +12,8 @@
     }
 }
 
-.t-buttons-container-form{
-    align-items: center; 
+.t-buttons-container{
+    display: flex;
   }
 
 .t-button {    
@@ -98,4 +98,13 @@
 .t-button-submit {
     @extend .t-button-primary;
     margin: $SizeNormal 0;
+}
+
+.t-button-danger {
+    @extend .t-button;
+    color: $colorsBaseWhiteNormal;
+    background-color: $colorsTextError;
+    &:hover {
+        color: $colorsBaseWhiteNormal;
+    }
 }
