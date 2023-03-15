@@ -1,6 +1,6 @@
 
 $('.tab-instructor li a').click(function() {
-    var classActive = $('ul.tab-instructor li[class="active"]');
+    var classActive = $('ul.tab-instructor li.active');
     var divActive = $('div.active');
     var li1 = 'tab-instructor-identify';
     var li2 = 'tab-instructor-address';
@@ -37,7 +37,7 @@ $('.tab-instructor li a').click(function() {
 });
 
 $('.next').click(function() {
-    var classActive = $('ul.tab-instructor li[class="active"]');
+    var classActive = $('ul.tab-instructor li.active');
     var divActive = $('div.active');
     var li1 = 'tab-instructor-identify';
     var li2 = 'tab-instructor-address';
@@ -69,7 +69,7 @@ $('.next').click(function() {
 });
 
 $('.prev').click(function() {
-    var classActive = $('ul.tab-instructor li[class="active"]');
+    var classActive = $('ul.tab-instructor li.active');
     var divActive = $('div.active');
     var li1 = 'tab-instructor-identify';
     var li2 = 'tab-instructor-address';

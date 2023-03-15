@@ -44,24 +44,29 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <?php echo $form->errorSummary($modelClassroom); ?>
         <div class="alert alert-error classroom-error no-show"></div>
-        <div class="widget-head  hidden-print">
-            <ul class="tab-classroom">
-                <li id="tab-classroom" class="active"><a class="glyphicons adress_book" href="#classroom" data-toggle="tab">
-                        <!-- <i></i> -->
-                        <?php echo Yii::t('default', 'Classroom') ?>
-                    </a></li>
-                <li id="tab-instructors"><a class="glyphicons nameplate" href="#instructors" data-toggle="tab">
-                        <!-- <i></i> -->
-                        <?php echo Yii::t('default', 'Instructors') ?>
-                    </a>
-                </li>
-                <li id="tab-students">
-                    <a class="glyphicons parents" href="#students" data-toggle="tab">
-                        <!-- <i></i> -->
-                        <?php echo Yii::t('default', 'Students') ?>
-                    </a>
-                </li>
-            </ul>
+            <div class="t-tabs">
+                <ul class="tab-classroom t-tabs__list">
+                    <li id="tab-classroom" class="active t-tabs__item">
+                        <a class="t-tabs__link" href="#classroom" data-toggle="tab">
+                            <span  class="t-tabs__numeration">1</span>
+                            <?php echo Yii::t('default', 'Classroom') ?>
+                        </a>
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                    </li>
+                    <li id="tab-instructors" class="t-tabs__item">
+                        <a class="t-tabs__link" href="#instructors" data-toggle="tab">
+                            <span  class="t-tabs__numeration">2</span>
+                            <?php echo Yii::t('default', 'Instructors') ?>
+                        </a>
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                    </li>
+                    <li id="tab-students" class="t-tabs__item">
+                        <a class="t-tabs__link" href="#students" data-toggle="tab">
+                        <span  class="t-tabs__numeration">3</span>
+                            <?php echo Yii::t('default', 'Students') ?>
+                        </a>
+                    </li>
+                </ul>
         </div>
 
         <div class="widget-body form-horizontal">

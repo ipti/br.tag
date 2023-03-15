@@ -14,6 +14,18 @@ use SagresEdu\SagresConsultModel;
 			<h1>Sagres Edu</h1>
 		</div>
 	</div>
+	<div class="alert alert-error alert-error-export" style="display: none;"></div>
+	<?php if (Yii::app()->user->hasFlash('error')): ?>
+        <div class="alert alert-error">
+            <?php echo Yii::app()->user->getFlash('error') ?>
+        </div>
+    <?php endif ?>
+	<?php if (Yii::app()->user->hasFlash('success')): ?>
+        <div class="alert alert-success">
+            <?php echo Yii::app()->user->getFlash('success') ?>
+        </div>
+        <br/>
+    <?php endif ?>
 	<div class="row">
 		<div class="column no-grow">
 			<div>
@@ -73,12 +85,20 @@ use SagresEdu\SagresConsultModel;
 
 	// Adicione um ouvinte de eventos para o evento de clique no link
 	document.getElementById('exportLink').addEventListener('click', function (e) {
+		$(".alert-error-export").hide();
+		$(".alert-error-export").empty();
 		// Previna o comportamento padrão do link
 		e.preventDefault();
 
 		// Obtenha o valor das datas de início e fim
 		const dataInicio = dataInicioInput.value;
 		const dataFinal = dataFinalInput.value;
+
+		if(dataInicio == '' || dataFinal == '') {
+			$(".alert-error-export").append('Preencha os campos de data inicial e data final');
+			$(".alert-error-export").show();
+			return;
+		}
 
 		// Obtenha o ano de início
 		const data = new Date(dataInicio);
@@ -95,6 +115,8 @@ use SagresEdu\SagresConsultModel;
 	});
 
 	function downloadFile(url, filename) {
+		$(".alert-error-export").hide();
+		$(".alert-error-export").empty();
 		$.get(url, function (data) {
 			var blob = new Blob([data], { type: 'application/xml' });
 			var url = URL.createObjectURL(blob);
@@ -106,7 +128,8 @@ use SagresEdu\SagresConsultModel;
 			URL.revokeObjectURL(url);
 		})
 			.fail(function () {
-				alert('Erro ao realizar o download do arquivo');
+				$(".alert-error-export").append('Erro ao realizar o download do arquivo');
+				$(".alert-error-export").show();
 			});
 	}
 

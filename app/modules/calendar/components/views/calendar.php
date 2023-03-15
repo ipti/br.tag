@@ -268,7 +268,7 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                     <div class="span12">
                         <?= chtml::label(yii::t("calendarModule.labels", "Title Required"), "title", array('class' => 'control-label required')); ?>
                         <div class="form-control">
-                            <input type="text" class="create-calendar-title span12">
+                            <input type="text" class="create-calendar-title span12" placeholder="Digite o Título do Calendário">
                         </div>
                     </div>
                 </div>
@@ -344,7 +344,7 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                         <?= chtml::label(yii::t("calendarModule.labels", "Title Required"), "copy", array('class' => 'control-label required')); ?>
                         <div class="form-control">
                             <?= $form->hiddenField($editCalendar, "id") ?>
-                            <?= $form->textField($editCalendar, "title", ['class' => 'span12']) ?>
+                            <?= $form->textField($editCalendar, "title", ['class' => 'span12', 'placeholder' => 'Digite o Título do Calendário']) ?>
                         </div>
                     </div>
                 </div>

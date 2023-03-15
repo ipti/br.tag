@@ -307,7 +307,7 @@ return array(
     'Nutritionist' => 'Nº de Nutricionistas',
     'Psychologist' => 'Nº de Psicólogos',
     'Cooker' => 'Nº de Cozinheiros / Merendeiras',
-    'Suport Professional' => 'Nº de Profissionais de Apoio Pedogógico',
+    'Suport Professional' => 'Nº de Profissionais de Apoio Pedagógico',
     'School Secretary' => 'Nº de Secretário(a)s',
     'Security Gaurds' => 'Nº de Seguranças',
     'Monitors' => 'Nº de Monitores',
@@ -797,7 +797,7 @@ return array(
     'Add New Teacher' => 'Adicionar Professor',
     'Add New Student' => 'Adicionar Aluno',
     'Add New Professional' => 'Adicionar Profissional',
-    
+    'Add New Management Unit' => 'Adicionar Unidade Gestora',
     'Create a new StudentEnrollment' => 'Matricular Aluno',
     'Create a new SchoolIdentification' => 'Adicionar Escola',
     'Create a new Classroom' => 'Adicionar Turma',
@@ -813,6 +813,7 @@ return array(
     'Update InstructorIdentification' => 'Atualizar Professor',
     'Update User' => 'Atualizar Usuário',
     'Update Professional' => 'Atualizar Profissional',
+    'Update Management Unit' => 'Atualizar Unidade Gestora',
     
     //Erros
     'already enrolled in this classroom.' =>'já matriculado na turma.',

@@ -11,7 +11,7 @@ $(document).ready(function () {
 $('#course-classes tbody').on('click', 'td.details-control', function () {
 
     var tr = $(this).closest('tr');
-    var i = $(this).children('i').first();
+    var i = $(this).children('img').first();
     var row = table.row(tr);
 
     if (!row.child.isShown()) {
@@ -41,11 +41,9 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
 
 
     if (!tr.next().is(":visible")) {
-        i.removeClass('fa-minus-circle');
-        i.addClass('fa-plus-circle');
+        i.removeClass('closed');
     } else {
-        i.removeClass('fa-plus-circle');
-        i.addClass('fa-minus-circle');
+        i.addClass('closed');
     }
 });
 
@@ -60,10 +58,7 @@ $(document).on("click", ".remove-course-class", function () {
 });
 
 $(document).on("keyup", ".course-class-objective", function () {
-    var objective = $(this).val();
-    if (objective.length > 110) {
-        objective = objective.substring(0, 107) + "..."
-    }
+     var objective = $(this).val();
     $(this).parents("tr").prev().children(".dt-justify").html(objective);
 });
 
