@@ -90,10 +90,8 @@ class SagresConsultModel
                     c.school_inep_fk, 
                     c.id, 
                     c.name, 
-                    c.turn, 
-                    se.enrollment_id  
+                    c.turn
                 FROM classroom c
-                JOIN student_enrollment se ON se.classroom_fk = c.id 
                 WHERE c.school_inep_fk = " . $inep_id .
             " and c.school_year = " . $year .
             " and Date(c.create_date) BETWEEN '" . $data_inicio . "' and '" . $data_final . "';";
@@ -106,7 +104,7 @@ class SagresConsultModel
             $turmaType->setDescricao($turma["name"]);
             $turmaType->setTurno($this->convertTurn($turma['turn']));
             $turmaType->setSerie($this->getSerieType($turma['id']));
-            //$turmaType->setMatricula($this->getMatriculaType($turma['id']));
+            $turmaType->setMatricula($this->getMatriculaType($turma['id']));
             $turmaType->setHorario($this->setHorario($turma['id']));  
             $turmaType->setFinalTurma('0');
 
@@ -208,7 +206,7 @@ class SagresConsultModel
         return $attendanceList;
     }
 
-    public function getStudent($id_matricula): AlunoTType
+    public function getStudent($student_fk): AlunoTType
     {
         $query = "SELECT 
                     si2.responsable_cpf AS cpfAluno, 
@@ -216,17 +214,17 @@ class SagresConsultModel
                     si2.name AS nome, 
                     si2.deficiency AS pcd, 
                     si2.sex AS sexo 
-                FROM student_enrollment se 
-                    JOIN school_identification si ON si.inep_id = se.school_inep_id_fk 
-                    JOIN student_identification si2 ON si.inep_id = si2.school_inep_id_fk
-                WHERE se.enrollment_id = " . $id_matricula . ";";
+                    FROM student_identification si2 
+                WHERE si2.id = " . $student_fk . ";";
 
         $student = Yii::app()->db->createCommand($query)->queryRow();
 
         $studentType = new AlunoTType;
         $studentType->setNome($student['nome']);
         $studentType->setDataNascimento(new DateTime($student['data_nascimento']));
+       
         $studentType->setCpfAluno($student['cpfAluno']);
+        
         $studentType->setPcd($student['pcd']);
         $studentType->setSexo($student['sexo']);
 
@@ -329,21 +327,24 @@ class SagresConsultModel
     {
         $matriculasList = [];
 
-        $query = "SELECT se.enrollment_id AS numero, se.create_date AS data_matricula, 
-                         se.date_cancellation_enrollment AS data_cancelamento 
+        $query = "SELECT se.student_fk,
+                    se.create_date AS data_matricula, 
+                    se.date_cancellation_enrollment AS data_cancelamento  
                   FROM student_enrollment se 
                   WHERE se.classroom_fk  =  " . $id . ";";
+        
 
         $matriculas = Yii::app()->db->createCommand($query)->queryAll();
 
         foreach ($matriculas as $matricula) {
             $matriculaType = new MatriculaTType;
-            $matriculaType->setNumero($matricula['numero']);
+            //$matriculaType->setNumero($matricula['numero']);
             $matriculaType->setDataMatricula(new DateTime($matricula['data_matricula']));
             $matriculaType->setDataCancelamento(new DateTime($matricula['data_cancelamento']));
-            $matriculaType->setNumeroFaltas($this->returnNumberFaults($matricula['numero']));
+            //$matriculaType->setNumeroFaltas($this->returnNumberFaults($matricula['numero']));
             $matriculaType->setAprovado('0');
-            $matriculaType->setAluno($this->getStudent($matricula['numero']));
+            
+            $matriculaType->setAluno($this->getStudent($matricula['student_fk']));
             $matriculasList[] = $matriculaType;
         }
 
