@@ -306,7 +306,9 @@ if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginIn
         <div class="clearfix"></div>
         <!-- // Sidebar menu & content wrapper END -->
     </div>
+    
     <div class="menu-cover"></div>
+
     <div class="modal fade" id="change-year" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
