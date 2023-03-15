@@ -401,9 +401,22 @@ table.dataTable.no-footer {
 }
 
 input[type="checkbox"] {
-    margin: 0px 9px 0px;
+    margin: 0px 9px 0px 9px;
 }
 
 input[type="checkbox"]:checked {
-    margin: 0px 9px 0px 0px;
+    margin: 0px 9px 0px 9px;
+}
+.grades2 {
+ width: 134px !important;
+}
+.grades3 {
+    padding: 0px 8px 0px 8px !important;
+   }
+.table-striped.tabelaNotas tbody>tr:nth-child(odd)>td {
+    background-color: #ffffff;
+}
+.tituloTabelaNotas{
+    background-color: #E8EDF1;
+    color: #5F738C;
 }
