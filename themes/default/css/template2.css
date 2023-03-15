@@ -405,9 +405,9 @@ input[type="checkbox"] {
     margin: 0px 9px 0px;
 }
 
-input[type="checkbox"]:checked {
+/* input[type="checkbox"]:checked {
     margin: 0px 9px 0px 0px;
-}
+} */
 
 @font-face {
     font-family: 'icone-tag';
@@ -417,3 +417,7 @@ input[type="checkbox"]:checked {
   .icones{
     font-family: "icone-tag", sans-serif;
   }
+
+.t-button-primary {
+    border: none;
+}

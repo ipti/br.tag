@@ -296,36 +296,21 @@ function validateCpf(cpf, handler){
                 handler(ret);
                 return;
             }
-            var a = [];
-            var b = new Number;
-            var c = 11;
-            
-            for (var i=0; i<11; i++){
-                a[i] = cpf.charAt(i);
-                if (i < 9) 
-                    b += (a[i] * --c);
+            var soma = 0;
+            for (var i = 0; i < 9; i++) {
+                soma += parseInt(cpf.charAt(i)) * (10 - i);
             }
-            var x = b % 11;
-            
-            if (x < 2) { 
-                a[9] = 0 
-            } else { 
-                a[9] = 11-x 
-            }
-            b = 0;
-            c = 11;
-            for (var y=0; y<10; y++) {
-                b += (a[y] * c--);
-            }
-            
-            x = b % 11;
-            if (x < 2){ 
-                a[10] = 0; 
-            } else { 
-                a[10] = 11-x; 
-            }
+            var resto = soma % 11;
+            var digito1 = resto < 2 ? 0 : 11 - resto;
 
-            if(!( (cpf.charAt(9) == a[9]) && (cpf.charAt(10) == a[10]) )) {
+            soma = 0;
+            for (var i = 0; i < 10; i++) {
+                soma += parseInt(cpf.charAt(i)) * (11 - i);
+            }
+            resto = soma % 11;
+            var digito2 = resto < 2 ? 0 : 11 - resto;
+
+            if (digito1 !== parseInt(cpf.charAt(9)) || digito2 !== parseInt(cpf.charAt(10))) {
                 ret[0] = false;
                 ret[1] = "Informe um CPF válido. Deve possuir apenas números.";
                 handler(ret);
