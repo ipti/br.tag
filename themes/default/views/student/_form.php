@@ -1061,18 +1061,30 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                             <div class="separator"></div>
                             <div class="control-group js-hide-not-required">
-                                <?php echo $form->labelEx($modelEnrollment, 'school_admission_date', array('class' => 'control-label')); ?>
-                                <?php echo $form->textField($modelEnrollment, 'school_admission_date', array('size' => 10, 'maxlength' => 10)); ?>
-                                <?php echo $form->error($modelEnrollment, 'school_admission_date'); ?>
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelEnrollment, 'school_admission_date', array('class' => 'control-label')); ?>
+                                </div>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelEnrollment, 'school_admission_date', array('size' => 10, 'maxlength' => 10)); ?>
+                                    <?php echo $form->error($modelEnrollment, 'school_admission_date'); ?>
+                                </div>
                             </div>
                             <div class="control-group t-input">
-                                <?php echo $form->labelEx($modelEnrollment, 'public_transport', array('class' => 'control-label t-input__label--required')); ?>
-                                <?php echo $form->checkBox($modelEnrollment, 'public_transport', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-input__text')); ?>
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelEnrollment, 'public_transport', array('class' => 'control-label t-input__label--required')); ?>
+                                    <label class="checkbox">
+                                        <?php echo $form->checkBox($modelEnrollment, 'public_transport', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-input__text')); ?>
+                                    </label>
+                                </div>
                             </div>
                             <div class="t-field-select t-input" id="transport_responsable">
+                                <div class="controls">
                                     <?php echo $form->labelEx($modelEnrollment, 'transport_responsable_government', array('class' => 'control-label t-input__label--required')); ?>
+                                </div>
+                                <div class="controls">
                                     <?php echo $form->dropDownList($modelEnrollment, 'transport_responsable_government', array(null => "Selecione o poder público do transporte", "1" => "Estadual", "2" => "Municipal"), array('class' => 'select-search-off control-input')); ?>
                                     <?php echo $form->error($modelEnrollment, 'transport_responsable_government'); ?>
+                                </div>
                             </div>
                             <div class="control-group hide-responsive" id="transport_type">
                                 <div class="controls">
