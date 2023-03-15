@@ -307,7 +307,7 @@ return array(
     'Nutritionist' => 'Nº de Nutricionistas',
     'Psychologist' => 'Nº de Psicólogos',
     'Cooker' => 'Nº de Cozinheiros / Merendeiras',
-    'Suport Professional' => 'Nº de Profissionais de Apoio Pedogógico',
+    'Suport Professional' => 'Nº de Profissionais de Apoio Pedagógico',
     'School Secretary' => 'Nº de Secretário(a)s',
     'Security Gaurds' => 'Nº de Seguranças',
     'Monitors' => 'Nº de Monitores',
