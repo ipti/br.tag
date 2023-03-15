@@ -32,7 +32,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="span12">
         <h1><?php echo $title; ?></h1>
         <div class="tag-buttons-container buttons hide-responsive">
-            <a data-toggle="tab" class='hide-responsive tag-button-light small-button prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+            <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
             <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>".Yii::t('default', 'Next')."</a>" : ''?>
             <button class="t-button-primary  last  save-student" type="button">
                 <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
@@ -105,7 +105,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </h3>
                     </div>
                     <div class="row">
-                        <div class="column">
+                        <div class="column no-grow">
                             
                             <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
                             
@@ -291,7 +291,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 
                         </div>
-                        <div class="column">
+                        <div class="column no-grow">
                             <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
                             <!--  <div class="separator"></div> -->
                             <div class="t-field-text js-hide-not-required">
@@ -865,7 +865,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <!-- Tab Student Address -->
                 <div class="tab-pane" id="student-address">
                     <div class="row">
-                        <div class="column">
+                        <div class="column no-grow">
                             <div class="t-field-select">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'residence_zone', array('class' => 'control-label  t-input__label--required')); ?>
                                     <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'residence_zone', array(null => "Selecione uma zona", "1" => "URBANA", "2" => "RURAL"), array('class' => 'select-search-off control-input t-input__text')); ?>
@@ -906,7 +906,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'neighborhood'); ?>
                             </div>
                         </div>
-                        <div class="column">
+                        <div class="column no-grow">
                             <div class="t-field-select js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', array('class' => 'control-label')); ?>
                                     <?php

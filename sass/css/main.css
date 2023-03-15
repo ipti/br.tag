@@ -82,6 +82,8 @@
 
 .t-button, .t-button-primary, .t-button-submit, .t-button-secondary, .t-button-tertiary, .t-button-danger { display: flex; flex: 1; padding: 0.875em; margin: 0.5em 0; font-size: 12px; border-radius: 6px; text-decoration: none; justify-content: space-between; align-self: center; justify-content: center; margin-right: 1em; cursor: pointer; }
 
+.t-button:hover, .t-button-primary:hover, .t-button-submit:hover, .t-button-secondary:hover, .t-button-tertiary:hover, .t-button-danger:hover, .t-button--active { text-decoration: none; }
+
 @media (min-width: 768px) { .t-button, .t-button-primary, .t-button-submit, .t-button-secondary, .t-button-tertiary, .t-button-danger { flex: 0 auto; padding: 0.25em 1em 0.25em 1em; font-size: 14px; } }
 
 @media (min-width: 1536px) { .t-button, .t-button-primary, .t-button-submit, .t-button-secondary, .t-button-tertiary, .t-button-danger { padding: 0.375em 1em 0.375em 1em; } }
@@ -110,6 +112,8 @@
 
 .t-button-danger { color: #FFFFFF; background-color: #D21C1C; }
 
+.t-button-danger:hover { color: #FFFFFF; }
+
 /* Color */
 /* Product */
 /* Ink */
@@ -136,7 +140,7 @@
 
 .t-field-text__label--required { font-weight: bold; }
 
-.t-field-text__input, .t-field-text input[type="text"], .t-field-text input[type="number"] { width: 100%; margin-bottom: 0px; padding: 0em 0.75em; }
+.t-field-text__input, .t-field-text input[type="text"], .t-field-text input[type="number"] { width: 100%; margin-bottom: 0px; /* padding: $spaceEmpty $spaceSmall; */ }
 
 /* Color */
 /* Product */
@@ -297,6 +301,36 @@
 
 .t-tabs::-webkit-scrollbar { display: none; }
 
+/* Color */
+/* Product */
+/* Ink */
+/* Text */
+/* Alert1 */
+/* Cloud */
+/* White */
+/* Alert2 */
+/* Alert3 */
+/* Space */
+/* Font size */
+/* Grid */
+/* Size */
+/* Border Radius */
+/* Border width */
+/* Opacity */
+/* Line Height */
+/*Font Weight*/
+/* Font Family */
+/* mixin */
+.t-cards { border-radius: 6px; padding: 24px; background: #fafafe; margin-bottom: 16px; margin-right: 16px; }
+
+.t-cards a .t-cards-title { display: flex; align-items: center; color: #18204e; font-size: 16px; font-family: 'Inter', sans-serif; font-weight: 700; }
+
+.t-cards a .t-cards-title img { margin-right: 8px; }
+
+.t-cards a .t-cards-text { color: #465567; margin-left: 32px; }
+
+.t-cards a:hover { text-decoration: none; }
+
 .tag-table td { background: #FFFFFF; padding: 1em; }
 
 .tag-table td a { color: #272B96; }
@@ -342,40 +376,6 @@
 .grid-view .paginate_button { box-sizing: border-box; display: inline-block; min-width: 1.5em; padding: .5em 1em; margin-left: 2px; text-align: center; text-decoration: none !important; cursor: pointer; color: inherit !important; border: 1px solid transparent; border-radius: 2px; background: transparent; }
 
 .dt-body-nowrap { white-space: nowrap; }
-
-/* Color */
-/* Product */
-/* Ink */
-/* Text */
-/* Alert1 */
-/* Cloud */
-/* White */
-/* Alert2 */
-/* Alert3 */
-/* Space */
-/* Font size */
-/* Grid */
-/* Size */
-/* Border Radius */
-/* Border width */
-/* Opacity */
-/* Line Height */
-/*Font Weight*/
-/* Font Family */
-/* mixin */
-.t-cards { border-radius: 5px; margin: 2em 2em 2em 2em; padding: 2em 3em 2em 2em; background: #fafafe; position: relative; text-align: center; display: block; border: 1px none #e5e5e5; }
-
-.t-cards a { text-decoration: none; }
-
-.t-cards .t-cards-link .t-cards-icon { margin: 2em 0em 2em -3em; padding: 0em 1em 0em 0em; }
-
-.t-cards .t-cards-link .t-cards-title { margin: 0em 9em 0em 0em; padding: 0em 0em 0em 0em; font-weight: 700; color: #18204e; }
-
-.t-cards .t-cards-link .t-cards-subtitle { margin: 0em 0em 0em 2em; padding: 0em 0em 0em 0em; font-weight: 400; color: #5F738C; }
-
-@media (min-width: 768px) { .t-cards .t-cards-link .t-cards-subtitle { margin: 0em 0em 0em 0em; padding: 0em 0em 0em 0em; } }
-
-@media (min-width: 1536px) { .t-cards .t-cards-link .t-cards-subtitle { margin: 0em 0em 0em 0em; padding: 0em 0em 0em 0em; } }
 
 .tag-topbar { padding: 12px; box-sizing: border-box; list-style: none; width: 100%; position: fixed; right: 0em; z-index: 2; background-color: #FFFFFF; }
 

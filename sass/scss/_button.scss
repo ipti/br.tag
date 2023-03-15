@@ -104,4 +104,7 @@
     @extend .t-button;
     color: $colorsBaseWhiteNormal;
     background-color: $colorsTextError;
+    &:hover {
+        color: $colorsBaseWhiteNormal;
+    }
 }

@@ -18,7 +18,7 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($themeUrl . '/css/template2.css');
 ?>
-
+<div class ="main">
 <div class="row-fluid">
     <div class="span12">
         <h1><?php echo $title; ?>
@@ -202,5 +202,6 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
             <?php $this->endWidget(); ?>
         </div>
     </div>
+</div>
 </div>
 <!-- form -->

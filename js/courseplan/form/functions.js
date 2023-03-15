@@ -107,7 +107,7 @@ function format(d) {
     var $resourceInput = $('<div class="t-field-select__input resource-input"></div>');
     var $resourceValue = $('<select class="resource-select" name="resource"><option value=""></option>' + $(".js-all-resources")[0].innerHTML + '</select>');
     var $resourceAmount = $('<input class="resource-amount" style="width:35px; height: 22px;margin-left: 5px;" type="number" name="amount" step="1" min="1" value="1" max="999">');
-    var $resourceAdd = $('<button class="btn btn-success btn-small fa fa-plus-square add-resource" style="height: 28px;margin-top:10px;" ><i></i></button>');
+    var $resourceAdd = $('<button class="btn btn-success btn-small fa fa-plus-square add-resource" style="height: 28px;margin-left:10px;" ><i></i></button>');
     var $removeButton = $('<div class="t-buttons-container"><a class="t-button-danger" onClick="removeCoursePlanRow(this)">Excluir Plano</a></div>')
     var $resources = $('<div class="resources"></div>');
     if (d.abilities !== null) {
