@@ -17,21 +17,22 @@ function initDatatable() {
         info: false,
         
         "columns": [
-            // {
-            //     "className": ' dt-center',
-            //     "orderable": false,
-            //     "data": "deleteButton",
-            //     "width": "1px"
-            // },
+            {
+                "className": ' dt-center',
+                "orderable": false,
+                "data": "deleteButton",
+                "width": "1px"
+            },
             {
                 "className": 'dt-center',
                 "data": "class",
-                "width": "1px"
+                "width": "33%"
             },
             {"data": "courseClassId", "visible": false},
             {
                 "className": 'dt-justify objective-title',
-                "data": "objective"
+                "data": "objective",
+                "width": "33%"
             },
             {"data": "abilities", "visible": false},
             {"data": "resources", "visible": false},
@@ -40,7 +41,7 @@ function initDatatable() {
                 "className": 'dt-center details-control t-accordion__container-icon',
                 "orderable": false,
                 "defaultContent": '<img class="t-accordion__icon" src="themes/default/img/Glyph.svg" />',
-                "width": "1px"
+                "width": "33%"
             }
         ],
         language: {
@@ -67,7 +68,6 @@ function addCoursePlanRow() {
     $(".details-control .fa-minus-circle").click();
 
     index = $('#course-classes .dt-hasChild').length;
-
     table.row.add({
         "class": index + 1,
         "courseClassId": "",
@@ -75,19 +75,19 @@ function addCoursePlanRow() {
         "abilities": null,
         "resources": null,
         "types": null,
-        "deleteButton": '<a href="#" class="btn btn-danger btn-small remove-course-class"><i class="fa fa-times"></i></a>'
+        "deleteButton": null
     }).draw();
     $("#course-classes tbody .details-control").last().click();
 }
 
 function removeCoursePlanRow(element) {
-    var tr = $(element).parent().parent();
+    var tr = $(element).closest( "tr" ).prev()
     table.row(tr).remove().draw();
 }
 
 function format(d) {
     var $div = $('<div id="course-class[' + d.class + ']" class="course-class course-class-' + d.class + ' row"></div>');
-    var $column1 = $('<div   class="course-class-column1 column"></div>');
+    var $column1 = $('<div   class="column no-grow"></div>');
     var $id = $('<input type="hidden" name="course-class[' + d.class + '][id]" value="' + d.courseClassId + '">');
     var $objective = $('<div class="t-field-tarea objective-input"></div>');
     var $objectiveLabel = $('<div><label class="t-field-tarea__label" for="course-class[' + d.class + '][objective]">Objetivo *</label></span>');
@@ -102,14 +102,13 @@ function format(d) {
     var $typeLabel = $('<label class="t-field-select__label" for="course-class[' + d.class + '][type][]">Tipo(s)</label>');
     var $typeInput = $('<select class="t-field-select__input type-select" name="course-class[' + d.class + '][type][]" multiple>' + $(".js-all-types")[0].innerHTML + '</select>');
 
-    var $column2 = $('<div class="course-class-column2 column"></div>');
     var $resource = $('<div class=" t-field-select control-group"></div>');
     var $resourceLabel = $('<label class="t-field-select__label" for="resource">Recurso(s)</label>');
     var $resourceInput = $('<div class="t-field-select__input resource-input"></div>');
     var $resourceValue = $('<select class="resource-select" name="resource"><option value=""></option>' + $(".js-all-resources")[0].innerHTML + '</select>');
     var $resourceAmount = $('<input class="resource-amount" style="width:35px; height: 22px;margin-left: 5px;" type="number" name="amount" step="1" min="1" value="1" max="999">');
     var $resourceAdd = $('<button class="btn btn-success btn-small fa fa-plus-square add-resource" style="height: 28px;margin-top:10px;" ><i></i></button>');
-
+    var $removeButton = $('<div class="t-buttons-container"><a class="t-button-danger" onClick="removeCoursePlanRow(this)">Excluir Plano</a></div>')
     var $resources = $('<div class="resources"></div>');
     if (d.abilities !== null) {
         $.each(d.abilities, function (i, v) {
@@ -151,11 +150,12 @@ function format(d) {
     $type.append($typeInput);
     $column1.append($objective);
     $column1.append($ability);
-    $column2.append($type);
-    $column2.append($resource);
+    $column1.append($type);
+    $column1.append($resource);
+    $column1.append($removeButton);
     $div.append($id);
     $div.append($column1);
-    $div.append($column2);
+    
    
 
     return $div;
@@ -184,7 +184,6 @@ function addResource(button) {
             var label = $('<span><span class="resource-amount-text">' + resourceAmount + '</span>x - ' + resourceName + ' <span class="fa fa-times remove-resource"><i></i></span></span>');
             div.append(values);
             div.append(label);
-            div.append(removeButton);
             resources.append(div);
         }
     }

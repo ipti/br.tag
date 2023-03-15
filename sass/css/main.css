@@ -78,7 +78,7 @@
 
 @media (min-width: 768px) { .t-buttons-container { padding: 0.25em 0 0.25em 0; font-size: 14px; display: flex; } }
 
-.t-buttons-container-form { align-items: center; }
+.t-buttons-container { display: flex; }
 
 .t-button, .t-button-primary, .t-button-submit, .t-button-secondary, .t-button-tertiary, .t-button-danger { display: flex; flex: 1; padding: 0.875em; margin: 0.5em 0; font-size: 12px; border-radius: 6px; text-decoration: none; justify-content: space-between; align-self: center; justify-content: center; margin-right: 1em; cursor: pointer; }
 
@@ -403,7 +403,7 @@
 
 .t-accordion__header .t-accordion__head { border: none; }
 
-.t-accordion__container-icon:hover { background-color: inherit !important; }
+.t-accordion__container-icon:hover { background-color: #fafafe !important; user-select: none; }
 
 .t-accordion__icon { transition: all 200ms; }
 

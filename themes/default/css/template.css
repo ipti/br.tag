@@ -9413,3 +9413,9 @@ tbody .details-control:hover {
 .clearmargin {
     margin: 0;
 }
+.objective-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 42px;
+}

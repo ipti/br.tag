@@ -58,10 +58,7 @@ $(document).on("click", ".remove-course-class", function () {
 });
 
 $(document).on("keyup", ".course-class-objective", function () {
-    var objective = $(this).val();
-    if (objective.length > 110) {
-        objective = objective.substring(0, 107) + "..."
-    }
+     var objective = $(this).val();
     $(this).parents("tr").prev().children(".dt-justify").html(objective);
 });
 

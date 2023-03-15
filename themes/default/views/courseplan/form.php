@@ -60,7 +60,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             <?php echo Yii::t('default', 'Class') ?></a>
                     </li>
                 </ul>
-                <div   class="row t-buttons-container-form">
+                <div   class="row">
                     <a 
                     data-toggle="tab" class='t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?>
                     </a>
@@ -129,10 +129,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                 <th class="t-accordion__head"></th>
                                 <th class="t-accordion__head"></th>
                                 <th class="t-accordion__head"></th>
-                                <!-- <th class="t-accordion__head"></th> -->
+                                <th class="t-accordion__head" style="background-color: initial !important;"></th>
                             </tr>
                         </thead>
-                        <tbody class="t-accordion__body">
+                        <tbody class="t-accordion__body js-change-idRows">
                         </tbody>
                     </table>
                     

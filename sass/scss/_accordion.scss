@@ -6,7 +6,8 @@
         }
     }
     &__container-icon:hover {
-        background-color: inherit !important;
+        background-color: $colorsBaseProductLighter !important;
+        user-select: none;
     }
     &__icon {
         transition: all 200ms;
