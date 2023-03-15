@@ -422,11 +422,17 @@ input[type="checkbox"]:checked {
     color: #5F738C;
 }
 
+
 @font-face {
     font-family: 'icone-tag';
     src: url('/themes/default/fonts/icone-tag.ttf');
-  }
+}
 
-  .icones{
-    font-family: "icone-tag", sans-serif;
-  }
+.icones{
+  font-family: "icone-tag", sans-serif;
+}
+
+.t-button-primary {
+    border: none;
+}
+
