@@ -617,7 +617,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_date', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_date', array('size' => 10, 'maxlength' => 10, "disabled" => "disabled", "class" => "nationality-sensitive br", 'placeholder' => 'Digite a Data de Emissão da Certidão')); ?>
+                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_date', array('size' => 10, 'maxlength' => 10, "disabled" => "disabled", "class" => "nationality-sensitive br", 'placeholder' => 'Digite a Data de Emissão da Certidão (Dia/Mês/Ano)')); ?>
                                             <!-- <span
                                                     class="btn-action single glyphicons circle_question_mark"
                                                     data-toggle="tooltip" data-placement="top"
@@ -890,7 +890,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="t-field-text js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'number', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'number', array('size' => 10, 'maxlength' => 10, 'placeholder' => 'Digite o Nº')); ?>
+                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'number', array('size' => 10, 'maxlength' => 10, 'placeholder' => 'Digite o Número')); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'number'); ?>
                             </div>
 
