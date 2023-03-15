@@ -84,7 +84,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
                                 )); ?>
                                 <?php
-                                echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500,));
+                                echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'placeholder' => 'Digite o Nome do Plano'));
                                 ?>
                             </div>
                             <div>
