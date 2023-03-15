@@ -1,0 +1,33 @@
+<?php
+
+Yii::import('application.modules.sedsp.datasources.sed.*');
+Yii::import('application.modules.sedsp.datasources.tag.*');
+Yii::import('application.modules.sedsp.models.*');
+Yii::import('application.modules.sedsp.mappers.*');
+
+/**
+ * @property StudentTAGDataSource $studentTAGDataSource
+ * @property StudentSEDDataSource $studentSEDDataSource
+ */
+class AddStudentToSED
+{
+    private  $studentTAGDataSource;
+    private  $studentSEDDataSource;
+
+    function __construct($studentTAGDataSource = null, $studentSEDDataSource = null) {
+        $this->studentTAGDataSource = $studentTAGDataSource ?? new StudentTAGDataSource();
+        $this->studentSEDDataSource = $studentSEDDataSource ?? new StudentSEDDataSource();
+    }
+    public function exec($tag_student_id)
+    {
+        $student = $this->studentTAGDataSource->getStudent($tag_student_id);
+        $student_sed = StudentMapper::parseToSEDAlunoFicha($student, $student->documentsFk);
+        echo "<pre>";
+            var_dump(json_encode($student->documentsFk));
+        echo "</pre>";
+        $response = $this->studentSEDDataSource->addStudent($student_sed);
+
+        //Acessando os dados do aluno
+        return $response->getBody()->getContents();
+    }
+}

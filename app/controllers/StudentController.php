@@ -202,8 +202,11 @@ class StudentController extends Controller
             $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
             date_default_timezone_set("America/Recife");
             $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
+            
+            // $modelStudentIdentification->civil_name = $modelStudentIdentification->name;
 
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
+                
                 if ($modelStudentIdentification->save()) {
                     $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
 

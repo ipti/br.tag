@@ -1,22 +1,20 @@
 <?php
 require 'vendor/autoload.php'; 
 
+
+
 class StudentSEDDataSource
 {
 
-    public function getStudentRA($name, $birthday, $mothersName)
-    {
-        $client = new \GuzzleHttp\Client([
-            // Base URI is used with relative requests
-            'base_uri' => 'https://homologacaointegracaosed.educacao.sp.gov.br',
-            // You can set any number of default request options.
-            'timeout'  => 2.0,
-        ]);
+    private $client;
 
-        $promise = $client->requestAsync('GET', '/ncaapi/api/Aluno/ConsultaRA', [
+    public function getStudentRA($name, $birthday, $mothersName)
+    {  
+
+        $promise = $this->client->requestAsync('GET', '/ncaapi/api/Aluno/ConsultaRA', [
             'headers' => [
                 'content-type' => 'application/json',
-                'Authorization' => 'Bearer YYlW35bvTjLdVc+j6ozpvBFHy/t8PLTGb4i6oeMwqgOOlO0XqSSbNKBGlVXzJbCMhkjugFNWg7KFwPGlUY0TZNgmi51SrVlPgj4vrKmiF6g0vvx5NYfLR0uVM5RpzKtZ2RpsAzdLpSHks7AdAv/bofUMpGDWHHe9MxjpDSWcLg39G1uVEUXtIaGFVEdQzvbJ+UWJ4fW4ZEkwxouk/NTYj48pCqI+ckRZTPP2uNmgpSW64ZniTC1TYKTGuMKQIThw0tJxsbWrfXK8AiUT8EHpff62udurJxfvdComB8hfVhDLbFbvm3WCZQLCNN86AKnc9+gM6wedWNIFu4EKkBV0ZQLF2DIHXkpFo7LSn8FGBhnZmVhwhI4TVlxyFSkrdg76eIZoaXEhBB5CG0tTOgeUxA=='
+                'Authorization' => 'Bearer '. Yii::app()->user->getState("SED_TOKEN")
             ],
             'body' => json_encode([
                 "inNomeAluno" => $name,
@@ -27,6 +25,18 @@ class StudentSEDDataSource
         
         return $promise;
     }   
+
+    public function addStudent($student_sed){
+        $promise = $this->client->request('POST', '/ncaapi/api/Aluno/FichaAluno', [
+            'headers' => [
+                'content-type' => 'application/json',
+                'Authorization' => 'Bearer '. Yii::app()->user->getState("SED_TOKEN")
+            ],
+            'body' => json_encode($student_sed)
+        ]);
+        
+        return $promise;
+    }
 
     public function getAllStudentsRA($students){
         
@@ -44,6 +54,17 @@ class StudentSEDDataSource
         })->wait(true);
 
         return $data;
+    }
+
+    /**
+     */
+    public function __construct() {
+        $this->client = new \GuzzleHttp\Client([
+            // Base URI is used with relative requests
+            'base_uri' => 'https://homologacaointegracaosed.educacao.sp.gov.br',
+            // You can set any number of default request options.
+            'timeout'  => 2.0,
+        ]);
     }
 }
 

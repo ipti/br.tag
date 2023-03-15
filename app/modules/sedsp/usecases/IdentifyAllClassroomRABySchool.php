@@ -22,8 +22,7 @@ class IdentifyAllClassroomRABySchool
         $school_id_text = strval($school_id);
         $school_id_sed = substr($school_id_text, 2);
         $response = $this->studentClassroomSEDDataSource->getRelationClassrooms($school_id_sed, $year);
-
-        //Acessando os dados do aluno
-        return $response->getBody()->getContents();
+        $escolaTurmas  = new EscolaTurmas($response);
+        return $escolaTurmas;
     }
 }

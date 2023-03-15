@@ -108,11 +108,6 @@ $form = $this->beginWidget('CActiveForm', array(
                             
                             <!-- name student -->
                             <div class="t-field-text">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'civil_name', array('class' => 'control-label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'civil_name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input')); ?>
-                                <?php echo $form->error($modelStudentIdentification, 'civil_name'); ?>
-                            </div>
-                            <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'name', array('class' => 'control-label t-field-text__label--required')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input')); ?>
                                 <span id="similarMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
