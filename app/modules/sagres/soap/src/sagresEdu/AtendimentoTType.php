@@ -2,6 +2,8 @@
 
 namespace SagresEdu;
 
+use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\SerializedName;
 /**
  * Class representing AtendimentoTType
  *
@@ -13,11 +15,14 @@ class AtendimentoTType
 
     /**
      * @var \DateTime $data
+     * @Type("DateTime<'Y-m-d'>")
+     * @SerializedName("edu:data")
      */
     private $data = null;
 
     /**
      * @var string $local
+     * @SerializedName("edu:local")
      */
     private $local = null;
 
