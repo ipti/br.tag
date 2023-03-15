@@ -417,3 +417,7 @@ input[type="checkbox"]:checked {
   .icones{
     font-family: "icone-tag", sans-serif;
   }
+
+.t-button-primary {
+    border: none;
+}
