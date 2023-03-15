@@ -235,14 +235,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelInstructorIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array("order" => "name")), 'id', 'name'), array(
                                         'prompt' => 'Selecione um estado',
-                                        'class' => 'select-search-on control-input',
-                                        // olhar aqui
-                                        'ajax' => array(
-                                            'type' => 'POST',
-                                            'url' => CController::createUrl('Instructor/getcity'),
-                                            'update' => '#InstructorIdentification_edcenso_city_fk',
-                                            'data' => array('edcenso_uf_fk' => 'js:this.value'),
-                                        ),
+                                        'class' => 'select-search-on control-input'
                                     )); ?>
                                     <?php echo $form->error($modelInstructorIdentification, 'edcenso_uf_fk'); ?>
                                 </div>
