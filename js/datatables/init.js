@@ -22,7 +22,8 @@ $(document).ready(function () {
             }
             if(action.includes("student") 
             || action.includes("curricularmatrix") 
-            || action.includes("courseplan")) {
+            || action.includes("courseplan")
+            || action.includes("professional")) {
                 indexActionButtons = 4;
             }
             $(".js-tag-table").dataTable({

@@ -2,52 +2,32 @@
 @import '_functions.scss';
 
 .t-cards {
-    border-radius: 5px;
-    margin: 2em 2em 2em 2em;
-    padding: 2em 3em 2em 2em;
-    // background: rgb(157, 75, 75);
+    border-radius: $borderRadiusLarge;
+    padding: $SizeLarge;
     background: $colorsBaseProductLighter;
-    position: relative;
-    text-align: center;
-    display: block;
-    border: 1px none #e5e5e5;
-    
+    margin-bottom: $SizeMedium;
+    margin-right: $SizeMedium;
+
+
     a {
-        text-decoration: none;
-    }
-    .t-cards-link {
-        .t-cards-icon {
-            margin: 2em 0em 2em -3em;
-            padding: 0em 1em 0em 0em;
-
-
-        }
         .t-cards-title {
-            margin: 0em 9em 0em 0em;
-            padding: 0em 0em 0em 0em;
-            font-weight: $fontWeightBold;
+            display: flex;
+            align-items: center;
             color: $colorsBaseProductDarkActive;
-        }
-        .t-cards-subtitle {
-            margin: 0em 0em 0em 2em;
-            padding: 0em 0em 0em 0em;
-            font-weight: $fontWeightSemiRegular;
-            color: $colorsBaseInkLight;
+            font-size: $FontSizeHeadingTitle2;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
 
-            @include device(tablet) {
-                margin: 0em 0em 0em 0em;
-                padding: 0em 0em 0em 0em;
-
-            }
-
-            @include device(desktop) {
-                margin: 0em 0em 0em 0em;
-                padding: 0em 0em 0em 0em;
-
+            img {
+                margin-right: $SizeXSmall;
             }
         }
-
+        .t-cards-text {
+            color: $colorsBaseInkLightActive;
+            margin-left: $SizeXLarge;
+        }
+        &:hover {
+            text-decoration: none;
+        }
     }
-
 }
-

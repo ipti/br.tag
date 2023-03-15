@@ -25,6 +25,10 @@
     border-radius: $borderRadiusLarge;
     text-decoration: none;
     justify-content: space-between;
+
+    &:hover, &--active {
+        text-decoration: none;
+    }
     align-self: center;
     justify-content: center;
     margin-right: $spaceMedium;

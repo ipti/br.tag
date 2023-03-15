@@ -1,26 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "attendance".
+ * This is the model class for table "course_class_has_class_ability".
  *
- * The followings are the available columns in table 'attendance':
- * @property integer $id_attendance
- * @property string $date
- * @property string $local
- * @property integer $professional_fk
+ * The followings are the available columns in table 'course_class_has_class_ability':
+ * @property integer $id
+ * @property integer $course_class_fk
+ * @property integer $course_class_ability_fk
  *
  * The followings are the available model relations:
- * @property Professional $professionalFk
- * @property Professional[] $professionals
+ * @property CourseClass $courseClassFk
+ * @property CourseClassAbilities $courseClassAbilityFk
  */
-class Attendance extends CActiveRecord
+class CourseClassHasClassAbility extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'attendance';
+		return 'course_class_has_class_ability';
 	}
 
 	/**
@@ -31,12 +30,11 @@ class Attendance extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('date, local, professional_fk', 'required'),
-			array('professional_fk', 'numerical', 'integerOnly'=>true),
-			array('local', 'length', 'max'=>100),
+			array('course_class_fk, course_class_ability_fk', 'required'),
+			array('course_class_fk, course_class_ability_fk', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_attendance, date, local, professional_fk', 'safe', 'on'=>'search'),
+			array('id, course_class_fk, course_class_ability_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,8 +46,8 @@ class Attendance extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'professionalFk' => array(self::BELONGS_TO, 'Professional', 'professional_fk'),
-			'professionals' => array(self::HAS_MANY, 'Professional', 'attendance_fk'),
+			'courseClassFk' => array(self::BELONGS_TO, 'CourseClass', 'course_class_fk'),
+			'courseClassAbilityFk' => array(self::BELONGS_TO, 'CourseClassAbilities', 'course_class_ability_fk'),
 		);
 	}
 
@@ -59,10 +57,9 @@ class Attendance extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_attendance' => 'Id Attendance',
-			'date' => 'Data',
-			'local' => 'Local',
-			'professional_fk' => 'Professional Fk',
+			'id' => 'ID',
+			'course_class_fk' => 'Course Class Fk',
+			'course_class_ability_fk' => 'Course Class Ability Fk',
 		);
 	}
 
@@ -84,10 +81,9 @@ class Attendance extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id_attendance',$this->id_attendance);
-		$criteria->compare('date',$this->date,true);
-		$criteria->compare('local',$this->local,true);
-		$criteria->compare('professional_fk',$this->professional_fk);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('course_class_fk',$this->course_class_fk);
+		$criteria->compare('course_class_ability_fk',$this->course_class_ability_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -98,7 +94,7 @@ class Attendance extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Attendance the static model class
+	 * @return CourseClassHasClassAbility the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

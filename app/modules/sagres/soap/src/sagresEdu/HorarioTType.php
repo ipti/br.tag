@@ -2,6 +2,9 @@
 
 namespace SagresEdu;
 
+use JMS\Serializer\Annotation\XmlList;
+use JMS\Serializer\Annotation\SerializedName;
+
 /**
  * Class representing HorarioTType
  *
@@ -13,26 +16,31 @@ class HorarioTType
 
     /**
      * @var int $diaSemana
+     * @SerializedName("edu:dia_semana")
      */
     private $diaSemana = null;
 
     /**
      * @var int $duracao
+     * @SerializedName("edu:duracao")
      */
     private $duracao = null;
 
     /**
      * @var \DateTime $horaInicio
+     * @SerializedName("edu:horaInicio")
      */
     private $horaInicio = null;
 
     /**
      * @var string $disciplina
+     * @SerializedName("edu:disciplina")
      */
     private $disciplina = null;
 
     /**
      * @var string[] $cpfProfessor
+     * @XmlList(inline = true, entry = "edu:cpfProfessor")
      */
     private $cpfProfessor = [
         

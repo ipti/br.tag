@@ -1,6 +1,7 @@
 <?php
 
 namespace SagresEdu;
+use JMS\Serializer\Annotation\SerializedName;
 
 /**
  * Class representing DiretorTType
@@ -13,11 +14,13 @@ class DiretorTType
 
     /**
      * @var string $cpfDiretor
+     * @SerializedName("edu:cpfDiretor")
      */
     private $cpfDiretor = null;
 
     /**
      * @var string $nrAto
+     * @SerializedName("edu:nrAto")
      */
     private $nrAto = null;
 
