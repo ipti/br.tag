@@ -26,29 +26,29 @@ class SagresConsultModel
     public function getUnidadeGestora($id_unidadeGestora): CabecalhoTType
     {
         $query = "SELECT id,
-                        cod_unidade_gestora,
-                        name_unidade_gestora,
-                        cpf_responsavel,
-                        cpf_gestor,
-                        ano_referencia,
-                        mes_referencia,
-                        versao_xml,
-                        dia_inicio_prest_contas,
-                        dia_final_prest_contas
+                        codigoUnidGestora,
+                        nomeUnidGestora,
+                        cpfResponsavel,
+                        cpfGestor,
+                        anoReferencia,
+                        mesReferencia,
+                        versaoxml,
+                        diaInicPresContas,
+                        diaFinaPresContas
                 FROM provision_accounts WHERE id = 1;";
 
         $unidadeGestora = Yii::app()->db->createCommand($query)->queryRow();
 
         $cabecalhoType = new CabecalhoTType;
-        $cabecalhoType->setCodigoUnidGestora($unidadeGestora['cod_unidade_gestora']);
-        $cabecalhoType->setNomeUnidGestora($unidadeGestora['name_unidade_gestora']);
-        $cabecalhoType->setCpfResponsavel($unidadeGestora['cpf_responsavel']);
-        $cabecalhoType->setCpfGestor($unidadeGestora['cpf_gestor']);
-        $cabecalhoType->setAnoReferencia($unidadeGestora['ano_referencia']);
-        $cabecalhoType->setMesReferencia($unidadeGestora['mes_referencia']);
-        $cabecalhoType->setVersaoXml($unidadeGestora['versao_xml']);
-        $cabecalhoType->setDiaInicPresContas($unidadeGestora['dia_inicio_prest_contas']);
-        $cabecalhoType->setDiaFinaPresContas($unidadeGestora['dia_final_prest_contas']);
+        $cabecalhoType->setCodigoUnidGestora($unidadeGestora['codigoUnidGestora']);
+        $cabecalhoType->setNomeUnidGestora($unidadeGestora['nomeUnidGestora']);
+        $cabecalhoType->setCpfResponsavel($unidadeGestora['cpfResponsavel']);
+        $cabecalhoType->setCpfGestor($unidadeGestora['cpfGestor']);
+        $cabecalhoType->setAnoReferencia($unidadeGestora['anoReferencia']);
+        $cabecalhoType->setMesReferencia($unidadeGestora['mesReferencia']);
+        $cabecalhoType->setVersaoXml($unidadeGestora['versaoxml']);
+        $cabecalhoType->setDiaInicPresContas($unidadeGestora['diaInicPresContas']);
+        $cabecalhoType->setDiaFinaPresContas($unidadeGestora['diaFinaPresContas']);
 
         return $cabecalhoType;
 
