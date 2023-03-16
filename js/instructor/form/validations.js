@@ -295,15 +295,13 @@ var formDocumentsAndAddress = '#InstructorDocumentsAndAddress_';
 
 $(formDocumentsAndAddress + 'cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
 $(formDocumentsAndAddress + 'cpf').on('change', function () {
-    var id = '#' + $(this).attr("id");
-    removeError(id);
-    validateCpf($(id).cleanVal(), function (ret) {
-        if (!ret[0] && ($(id).val() != '')) {
-            addError(id, "Informe um CPF válido. Deve possuir apenas números.");
-        } else {
-            removeError(id);
-        }
-    });
+    const id = '#' + $(this).attr("id");
+    const validationState = validateCpf($(id).cleanVal());
+    if (!validationState.valid) {
+        addError(id, "Informe um CPF válido. Deve possuir apenas números.");
+    } else {
+        removeError(id);
+    }
 });
 
 $(formDocumentsAndAddress + 'cep').focusout(function () {
