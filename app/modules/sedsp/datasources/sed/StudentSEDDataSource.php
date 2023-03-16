@@ -34,16 +34,14 @@ class StudentSEDDataSource
             $promises[] = $this->getStudentRA($student->name, $student->birthday, $student->filiation_1);
         }
 
-        $data = [];
+        $data = []; 
 
-        
-
-        GuzzleHttp\Promise\Utils::all(function() use ($promises)->then(function (array $responses) {
-            foreach ($responses as $response) {
-                 $data[] = json_decode($response->getBody(), true);
-                 // Do something with the profile.
-            }
-        }))->wait();
+        // GuzzleHttp\Promise\Utils::all(function() use ($promises)->then(function (array $responses) {
+        //     foreach ($responses as $response) {
+        //          $data[] = json_decode($response->getBody(), true);
+        //          // Do something with the profile.
+        //     }
+        // }))->wait();
 
         return $data;
     }
