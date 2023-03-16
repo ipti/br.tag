@@ -64,7 +64,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
         <div class="students widget-head span3">
             <ul></ul>
         </div>
-        <div class="grades widget-body span9">
+        <div class="grades widget-body span3">
             <div class="tab-content"></div>
         </div>
     </div>

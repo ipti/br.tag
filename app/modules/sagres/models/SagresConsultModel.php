@@ -26,29 +26,29 @@ class SagresConsultModel
     public function getUnidadeGestora($id_unidadeGestora): CabecalhoTType
     {
         $query = "SELECT id,
-                        codigoUnidGestora,
-                        nomeUnidGestora,
-                        cpfResponsavel,
-                        cpfGestor,
-                        anoReferencia,
-                        mesReferencia,
-                        versaoxml,
-                        diaInicPresContas,
-                        diaFinaPresContas
+                        cod_unidade_gestora,
+                        name_unidade_gestora,
+                        cpf_responsavel,
+                        cpf_gestor,
+                        ano_referencia,
+                        mes_referencia,
+                        versao_xml,
+                        dia_inicio_prest_contas,
+                        dia_final_prest_contas
                 FROM provision_accounts WHERE id = 1;";
 
         $unidadeGestora = Yii::app()->db->createCommand($query)->queryRow();
 
         $cabecalhoType = new CabecalhoTType;
-        $cabecalhoType->setCodigoUnidGestora($unidadeGestora['codigoUnidGestora']);
-        $cabecalhoType->setNomeUnidGestora($unidadeGestora['nomeUnidGestora']);
-        $cabecalhoType->setCpfResponsavel($unidadeGestora['cpfResponsavel']);
-        $cabecalhoType->setCpfGestor($unidadeGestora['cpfGestor']);
-        $cabecalhoType->setAnoReferencia($unidadeGestora['anoReferencia']);
-        $cabecalhoType->setMesReferencia($unidadeGestora['mesReferencia']);
-        $cabecalhoType->setVersaoXml($unidadeGestora['versaoxml']);
-        $cabecalhoType->setDiaInicPresContas($unidadeGestora['diaInicPresContas']);
-        $cabecalhoType->setDiaFinaPresContas($unidadeGestora['diaFinaPresContas']);
+        $cabecalhoType->setCodigoUnidGestora($unidadeGestora['cod_unidade_gestora']);
+        $cabecalhoType->setNomeUnidGestora($unidadeGestora['name_unidade_gestora']);
+        $cabecalhoType->setCpfResponsavel($unidadeGestora['cpf_responsavel']);
+        $cabecalhoType->setCpfGestor($unidadeGestora['cpf_gestor']);
+        $cabecalhoType->setAnoReferencia($unidadeGestora['ano_referencia']);
+        $cabecalhoType->setMesReferencia($unidadeGestora['mes_referencia']);
+        $cabecalhoType->setVersaoXml($unidadeGestora['versao_xml']);
+        $cabecalhoType->setDiaInicPresContas($unidadeGestora['dia_inicio_prest_contas']);
+        $cabecalhoType->setDiaFinaPresContas($unidadeGestora['dia_final_prest_contas']);
 
         return $cabecalhoType;
 
@@ -90,10 +90,8 @@ class SagresConsultModel
                     c.school_inep_fk, 
                     c.id, 
                     c.name, 
-                    c.turn, 
-                    se.enrollment_id  
+                    c.turn
                 FROM classroom c
-                JOIN student_enrollment se ON se.classroom_fk = c.id 
                 WHERE c.school_inep_fk = " . $inep_id .
             " and c.school_year = " . $year .
             " and Date(c.create_date) BETWEEN '" . $data_inicio . "' and '" . $data_final . "';";
@@ -107,7 +105,7 @@ class SagresConsultModel
             $turmaType->setTurno($this->convertTurn($turma['turn']));
             $turmaType->setSerie($this->getSerieType($turma['id']));
             $turmaType->setMatricula($this->getMatriculaType($turma['id']));
-           /*  $turmaType->setHorario($this->setHorario($turma['id']));  */
+            $turmaType->setHorario($this->setHorario($turma['id']));  
             $turmaType->setFinalTurma('0');
 
             $turmaList[] = $turmaType;
@@ -152,7 +150,7 @@ class SagresConsultModel
     {
         $horarioList = [];
 
-        $query = "SELECT 
+        $query = "  SELECT DISTINCT 
                     s.week_day AS diaSemana, 
                     (c.final_hour - c.initial_hour) AS duracao, 
                     c.initial_hour AS hora_inicio, 
@@ -163,7 +161,8 @@ class SagresConsultModel
                     join instructor_documents_and_address idaa ON idaa.school_inep_id_fk = si.inep_id 
                     join schedule s ON s.classroom_fk = c.id 
                     join edcenso_discipline ed ON ed.id = s.discipline_fk
-                where ed.id = " . $id_turma . ";";
+                    WHERE idaa.cpf is not null and c.id = " . $id_turma . ";";
+        
 
         $horarios = Yii::app()->db->createCommand($query)->queryAll();
 
@@ -207,28 +206,25 @@ class SagresConsultModel
         return $attendanceList;
     }
 
-    public function getStudent($id_matricula): AlunoTType
+    public function getStudent($student_fk): AlunoTType
     {
-        $studentType = new AlunoTType;
-
         $query = "SELECT 
                     si2.responsable_cpf AS cpfAluno, 
                     si2.birthday AS data_nascimento, 
                     si2.name AS nome, 
                     si2.deficiency AS pcd, 
                     si2.sex AS sexo 
-                FROM student_enrollment se 
-                    JOIN school_identification si ON si.inep_id = se.school_inep_id_fk 
-                    JOIN student_identification si2 ON si.inep_id = si2.school_inep_id_fk
-                WHERE se.enrollment_id = :id_matricula;";
+                    FROM student_identification si2 
+                WHERE si2.id = " . $student_fk . ";";
 
-        $student = Yii::app()->db->createCommand($query)
-            ->bindValue(':id_matricula', $id_matricula)
-            ->queryRow();
+        $student = Yii::app()->db->createCommand($query)->queryRow();
 
+        $studentType = new AlunoTType;
         $studentType->setNome($student['nome']);
         $studentType->setDataNascimento(new DateTime($student['data_nascimento']));
+       
         $studentType->setCpfAluno($student['cpfAluno']);
+        
         $studentType->setPcd($student['pcd']);
         $studentType->setSexo($student['sexo']);
 
@@ -299,12 +295,15 @@ class SagresConsultModel
     {
         $profissionaisList = [];
 
-        $query = "SELECT id_professional, cpf_professional AS cpfProfissional, specialty AS especialidade, inep_id_fk AS idEscola, fundeb 
+        $query = "SELECT p.id_professional AS id_professional, p.cpf_professional  AS cpfProfissional, epec.name  AS especialidade, p.inep_id_fk AS idEscola, fundeb 
                 FROM professional p
-                JOIN attendance a ON p.id_professional = a.professional_fk 
+                JOIN edcenso_professional_education_course epec ON p.speciality_fk = epec.id
+                JOIN attendance a ON p.id_professional  = a.professional_fk  
                 WHERE YEAR(a.date) = " . $anoAtendimento . " and a.date  BETWEEN '" . $data_inicio . "' and '" . $data_final . "';";
 
         $profissionais = Yii::app()->db->createCommand($query)->queryAll();
+
+        // var_dump($profissionais);
 
         foreach ($profissionais as $profissional) {
             $profissionalType = new ProfissionalTType;
@@ -328,21 +327,24 @@ class SagresConsultModel
     {
         $matriculasList = [];
 
-        $query = "SELECT se.enrollment_id AS numero, se.create_date AS data_matricula, 
-                         se.date_cancellation_enrollment AS data_cancelamento 
+        $query = "SELECT se.student_fk,
+                    se.create_date AS data_matricula, 
+                    se.date_cancellation_enrollment AS data_cancelamento  
                   FROM student_enrollment se 
                   WHERE se.classroom_fk  =  " . $id . ";";
+        
 
         $matriculas = Yii::app()->db->createCommand($query)->queryAll();
 
         foreach ($matriculas as $matricula) {
             $matriculaType = new MatriculaTType;
-            $matriculaType->setNumero($matricula['numero']);
+            //$matriculaType->setNumero($matricula['numero']);
             $matriculaType->setDataMatricula(new DateTime($matricula['data_matricula']));
             $matriculaType->setDataCancelamento(new DateTime($matricula['data_cancelamento']));
-            $matriculaType->setNumeroFaltas($this->returnNumberFaults($matricula['numero']));
+            //$matriculaType->setNumeroFaltas($this->returnNumberFaults($matricula['numero']));
             $matriculaType->setAprovado('0');
-            $matriculaType->setAluno($this->getStudent($matricula['numero']));
+            
+            $matriculaType->setAluno($this->getStudent($matricula['student_fk']));
             $matriculasList[] = $matriculaType;
         }
 
@@ -438,6 +440,9 @@ class SagresConsultModel
     {
         $xml = str_replace('<result>', '<edu:educacao xmlns:edu="http://www.tce.se.gov.br/sagres2023/xml/sagresEdu">', $xml);
         $xml = str_replace('</result>', '</edu:educacao>', $xml);
+        $xml = str_replace('<edu:prestacaoContas>', '<edu:PrestacaoContas>', $xml);
+        $xml = str_replace('</edu:prestacaoContas>', '</edu:PrestacaoContas>', $xml);
+
         return $xml;
     }
 }

@@ -30,13 +30,172 @@ class CourseplanController extends Controller
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('create', 'update', 'index', 'delete',
-                    'getDisciplines', 'save', 'getCourseClasses', 'getCompetences'),
+                    'getDisciplines', 'save', 'getCourseClasses', 'getAbilitiesInitialStructure', 'getAbilitiesNextStructure'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
                 'users' => array('*'),
             ),
         );
+    }
+
+    /**
+     * Creates a new model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     */
+    public function actionCreate()
+    {
+        if (isset($_POST['CoursePlan'])) {
+            $this->actionSave();
+        } else {
+
+            $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
+            $types = CourseClassTypes::model()->findAll(array('order'=>'name'));
+
+            $this->render('form', array(
+                'coursePlan' => new CoursePlan(),
+                'stages' => $this->getStages(),
+                'resources' => $resources,
+                'types' => $types,
+            ));
+        }
+    }
+
+    /**
+     * Updates a particular model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id the ID of the model to be updated
+     */
+    public function actionUpdate($id)
+    {
+        if (isset($_POST['CoursePlan'])) {
+            $this->actionSave($id);
+        } else {
+            $coursePlan = $this->loadModel($id);
+
+            $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
+            $types = CourseClassTypes::model()->findAll(array('order'=>'name'));
+
+            $this->render('form', array(
+                'coursePlan' => $coursePlan,
+                'stages' => $this->getStages(),
+                'resources' => $resources,
+                'types' => $types,
+            ));
+        }
+    }
+
+    private function getStages()
+    {
+        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            $stages = Yii::app()->db->createCommand(
+                "select esvm.id, esvm.name from edcenso_stage_vs_modality esvm 
+                join curricular_matrix cm on cm.stage_fk = esvm.id 
+                join teaching_matrixes tm on tm.curricular_matrix_fk = cm.id
+                join instructor_teaching_data itd on itd.id = tm.teaching_data_fk  
+                join instructor_identification ii on ii.id = itd.instructor_fk
+                where ii.users_fk = :userid and school_year = :year order by esvm.name"
+            )->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":year", Yii::app()->user->year)->queryAll();
+        } else {
+            $stages = Yii::app()->db->createCommand("select esvm.id, esvm.name from edcenso_stage_vs_modality esvm join curricular_matrix cm on cm.stage_fk = esvm.id where school_year = :year order by esvm.name")->bindParam(":year", Yii::app()->user->year)->queryAll();
+        }
+        return $stages;
+    }
+
+    public function actionGetCourseClasses()
+    {
+        $coursePlan = CoursePlan::model()->findByPk($_POST["coursePlanId"]);
+        $courseClasses = [];
+        foreach ($coursePlan->courseClasses as $courseClass) {
+            $order = $courseClass->order - 1;
+            $courseClasses[$order] = [];
+            $courseClasses[$order]["class"] = $courseClass->order;
+            $courseClasses[$order]['courseClassId'] = $courseClass->id;
+            $courseClasses[$order]['objective'] = $courseClass->objective;
+            $courseClasses[$order]['types'] = [];
+            $courseClasses[$order]['resources'] = [];
+            $courseClasses[$order]['abilities'] = [];
+            foreach ($courseClass->courseClassHasClassResources as $courseClassHasClassResource) {
+                $resource["id"] = $courseClassHasClassResource->id;
+                $resource["value"] = $courseClassHasClassResource->course_class_resource_fk;
+                $resource["description"] = $courseClassHasClassResource->courseClassResourceFk->name;
+                $resource["amount"] = $courseClassHasClassResource->amount;
+                array_push($courseClasses[$order]['resources'], $resource);
+            }
+            foreach ($courseClass->courseClassHasClassTypes as $courseClassHasClassType) {
+                array_push($courseClasses[$order]['types'], $courseClassHasClassType->course_class_type_fk);
+            }
+            foreach ($courseClass->courseClassHasClassAbilities as $courseClassHasClassAbility) {
+                $ability["id"] = $courseClassHasClassAbility->courseClassAbilityFk->id;
+                $ability["code"] = $courseClassHasClassAbility->courseClassAbilityFk->code;
+                $ability["description"] = $courseClassHasClassAbility->courseClassAbilityFk->description;
+                array_push($courseClasses[$order]['abilities'], $ability);
+            }
+            $courseClasses[$order]["deleteButton"] = empty($courseClass->classContents)
+                ? '<a href="#" class="btn btn-danger btn-small remove-course-class"><i class="fa fa-times"></i></a>'
+                : '<a href="#" class="btn btn-danger btn-small remove-course-class unavailable" data-toggle="tooltip" data-placement="left" data-original-title="Aula já ministrada em alguma turma. Não é possível removê-la do plano de aula."><i class="fa fa-times"></i></a>';
+        }
+        echo json_encode(["data" => $courseClasses]);
+    }
+
+    public function actionGetDisciplines()
+    {
+        $result = [];
+        $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
+        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            $disciplines = Yii::app()->db->createCommand(
+                "select ed.id from teaching_matrixes tm 
+                join instructor_teaching_data itd on itd.id = tm.teaching_data_fk 
+                join instructor_identification ii on ii.id = itd.instructor_fk
+                join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
+                join edcenso_discipline ed on ed.id = cm.discipline_fk
+                where ii.users_fk = :userid and cm.stage_fk = :stage_fk and school_year = :year order by ed.name")
+                ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":stage_fk", $_POST["stage"])->bindParam(":year", Yii::app()->user->year)->queryAll();
+            foreach ($disciplines as $discipline) {
+                array_push($result, ["id" => $discipline['id'], "name" => CHtml::encode($disciplinesLabels[$discipline['id']])]);
+            }
+        } else {
+            $disciplines = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name")->bindParam(":stage_fk", $_POST["stage"])->bindParam(":year", Yii::app()->user->year)->queryAll();
+            foreach ($disciplines as $i => $discipline) {
+                if (isset($discipline['discipline_fk'])) {
+                    array_push($result, ["id" => $discipline['discipline_fk'], "name" => CHtml::encode($disciplinesLabels[$discipline['discipline_fk']])]);
+                }
+            }
+        }
+        echo json_encode($result);
+    }
+
+    public function actionGetAbilitiesInitialStructure()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias = "cca";
+        $criteria->join = "join edcenso_stage_vs_modality esvm on esvm.id = cca.edcenso_stage_vs_modality_fk";
+        if ($_POST["discipline"] !== "") {
+            $criteria->condition = "cca.edcenso_discipline_fk = :discipline and parent_fk is null";
+            $criteria->params = ["discipline" => $_POST["discipline"]];
+            $abilities = CourseClassAbilities::model()->findAll($criteria);
+        }
+        $result["options"] = [];
+        foreach($abilities as $i => $ability) {
+            if ($i == 0) {
+                $result["selectTitle"] = $ability["type"];
+            }
+            array_push($result["options"], ["id" => $ability->id, "code" => $ability->code, "description" => $ability->description]);
+        }
+        echo json_encode($result);
+    }
+
+    public function actionGetAbilitiesNextStructure()
+    {
+        $abilities = CourseClassAbilities::model()->findAll("parent_fk = :parent_fk", ["parent_fk" => $_POST["id"]]);
+        $result["options"] = [];
+        foreach($abilities as $i => $ability) {
+            if ($i == 0) {
+                $result["selectTitle"] = $ability["type"];
+            }
+            array_push($result["options"], ["id" => $ability->id, "code" => $ability->code, "description" => $ability->description]);
+        }
+        echo json_encode($result);
     }
 
     /**
@@ -69,14 +228,14 @@ class CourseplanController extends Controller
             $courseClass->save();
             array_push($courseClassIds, $courseClass->id);
 
-            CourseClassHasClassCompetence::model()->deleteAll("course_class_fk = :course_class_fk and course_class_competence_fk not in ( '" . implode("', '", $cc['competence']) . "' )", [":course_class_fk" => $courseClass->id]);
-            foreach ($cc["competence"] as $competenceId) {
-                $courseClassHasClassCompetence = CourseClassHasClassCompetence::model()->find("course_class_fk = :course_class_fk and course_class_competence_fk = :course_class_competence_fk", ["course_class_fk" => $courseClass->id, "course_class_competence_fk" => $competenceId]);
-                if ($courseClassHasClassCompetence == null) {
-                    $courseClassHasClassCompetence = new CourseClassHasClassCompetence();
-                    $courseClassHasClassCompetence->course_class_fk = $courseClass->id;
-                    $courseClassHasClassCompetence->course_class_competence_fk = $competenceId;
-                    $courseClassHasClassCompetence->save();
+            CourseClassHasClassAbility::model()->deleteAll("course_class_fk = :course_class_fk and course_class_ability_fk not in ( '" . implode("', '", $cc['ability']) . "' )", [":course_class_fk" => $courseClass->id]);
+            foreach ($cc["ability"] as $abilityId) {
+                $courseClassHasClassAbility = CourseClassHasClassAbility::model()->find("course_class_fk = :course_class_fk and course_class_ability_fk = :course_class_ability_fk", ["course_class_fk" => $courseClass->id, "course_class_ability_fk" => $abilityId]);
+                if ($courseClassHasClassAbility == null) {
+                    $courseClassHasClassAbility = new CourseClassHasClassAbility();
+                    $courseClassHasClassAbility->course_class_fk = $courseClass->id;
+                    $courseClassHasClassAbility->course_class_ability_fk = $abilityId;
+                    $courseClassHasClassAbility->save();
                 }
             }
 
@@ -117,175 +276,6 @@ class CourseplanController extends Controller
         Log::model()->saveAction("courseplan", $id, $logSituation, $coursePlan->name);
         Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com sucesso!'));
         $this->redirect(array('index'));
-    }
-
-    /**
-     * Creates a new model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     */
-    public function actionCreate()
-    {
-        if (isset($_POST['CoursePlan'])) {
-            $this->actionSave();
-        } else {
-
-            $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
-            $types = CourseClassTypes::model()->findAll(array('order'=>'name'));
-
-            $criteria = new CDbCriteria();
-            $criteria->alias = "ccc";
-            $criteria->join = "join edcenso_stage_vs_modality esvm on esvm.id = ccc.edcenso_stage_vs_modality_fk";
-            $criteria->order = "esvm.name, ccc.code";
-            $competences = CourseClassCompetences::model()->findAll($criteria);
-            $competenceArray = $this->buildCompetenceArray($competences);
-
-            $this->render('form', array(
-                'coursePlan' => new CoursePlan(),
-                'stages' => $this->getStages(),
-                'resources' => $resources,
-                'types' => $types,
-                'competences' => $competenceArray
-            ));
-        }
-    }
-
-    /**
-     * Updates a particular model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
-     */
-    public function actionUpdate($id)
-    {
-        if (isset($_POST['CoursePlan'])) {
-            $this->actionSave($id);
-        } else {
-            $coursePlan = $this->loadModel($id);
-
-            $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
-            $types = CourseClassTypes::model()->findAll(array('order'=>'name'));
-
-            $criteria = new CDbCriteria();
-            $criteria->alias = "ccc";
-            $criteria->join = "join edcenso_stage_vs_modality esvm on esvm.id = ccc.edcenso_stage_vs_modality_fk";
-            $criteria->order = "esvm.name, ccc.code";
-            $competences = CourseClassCompetences::model()->findAll($criteria);
-            $competenceArray = $this->buildCompetenceArray($competences);
-
-            $this->render('form', array(
-                'coursePlan' => $coursePlan,
-                'stages' => $this->getStages(),
-                'resources' => $resources,
-                'types' => $types,
-                'competences' => $competenceArray
-            ));
-        }
-    }
-
-    private function getStages()
-    {
-        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-            $stages = Yii::app()->db->createCommand(
-                "select esvm.id, esvm.name from edcenso_stage_vs_modality esvm 
-                join curricular_matrix cm on cm.stage_fk = esvm.id 
-                join teaching_matrixes tm on tm.curricular_matrix_fk = cm.id
-                join instructor_teaching_data itd on itd.id = tm.teaching_data_fk  
-                join instructor_identification ii on ii.id = itd.instructor_fk
-                where ii.users_fk = :userid and school_year = :year order by esvm.name"
-            )->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":year", Yii::app()->user->year)->queryAll();
-        } else {
-            $stages = Yii::app()->db->createCommand("select esvm.id, esvm.name from edcenso_stage_vs_modality esvm join curricular_matrix cm on cm.stage_fk = esvm.id where school_year = :year order by esvm.name")->bindParam(":year", Yii::app()->user->year)->queryAll();
-        }
-        return $stages;
-    }
-
-    public function actionGetCourseClasses()
-    {
-        $coursePlan = CoursePlan::model()->findByPk($_POST["coursePlanId"]);
-        $courseClasses = [];
-        foreach ($coursePlan->courseClasses as $courseClass) {
-            $order = $courseClass->order - 1;
-            $courseClasses[$order] = [];
-            $courseClasses[$order]["class"] = $courseClass->order;
-            $courseClasses[$order]['courseClassId'] = $courseClass->id;
-            $courseClasses[$order]['objective'] = $courseClass->objective;
-            $courseClasses[$order]['types'] = [];
-            $courseClasses[$order]['resources'] = [];
-            $courseClasses[$order]['competences'] = [];
-            foreach ($courseClass->courseClassHasClassResources as $courseClassHasClassResource) {
-                $resource["id"] = $courseClassHasClassResource->id;
-                $resource["value"] = $courseClassHasClassResource->course_class_resource_fk;
-                $resource["description"] = $courseClassHasClassResource->courseClassResourceFk->name;
-                $resource["amount"] = $courseClassHasClassResource->amount;
-                array_push($courseClasses[$order]['resources'], $resource);
-            }
-            foreach ($courseClass->courseClassHasClassTypes as $courseClassHasClassType) {
-                array_push($courseClasses[$order]['types'], $courseClassHasClassType->course_class_type_fk);
-            }
-            foreach ($courseClass->courseClassHasClassCompetences as $courseClassHasClassCompetence) {
-                array_push($courseClasses[$order]['competences'], $courseClassHasClassCompetence->course_class_competence_fk);
-            }
-            $courseClasses[$order]["deleteButton"] = empty($courseClass->classContents)
-                ? '<a href="#" class="btn btn-danger btn-small remove-course-class"><i class="fa fa-times"></i></a>'
-                : '<a href="#" class="btn btn-danger btn-small remove-course-class unavailable" data-toggle="tooltip" data-placement="left" data-original-title="Aula já ministrada em alguma turma. Não é possível removê-la do plano de aula."><i class="fa fa-times"></i></a>';
-        }
-        echo json_encode(["data" => $courseClasses]);
-    }
-
-    public function actionGetDisciplines()
-    {
-        $result = [];
-        $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
-        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-            $disciplines = Yii::app()->db->createCommand(
-                "select ed.id from teaching_matrixes tm 
-                join instructor_teaching_data itd on itd.id = tm.teaching_data_fk 
-                join instructor_identification ii on ii.id = itd.instructor_fk
-                join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
-                join edcenso_discipline ed on ed.id = cm.discipline_fk
-                where ii.users_fk = :userid and cm.stage_fk = :stage_fk and school_year = :year order by ed.name")
-                ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":stage_fk", $_POST["stage"])->bindParam(":year", Yii::app()->user->year)->queryAll();
-            foreach ($disciplines as $discipline) {
-                array_push($result, ["id" => $discipline['id'], "name" => CHtml::encode($disciplinesLabels[$discipline['id']])]);
-            }
-        } else {
-            $disciplines = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name")->bindParam(":stage_fk", $_POST["stage"])->bindParam(":year", Yii::app()->user->year)->queryAll();
-            foreach ($disciplines as $i => $discipline) {
-                if (isset($discipline['discipline_fk'])) {
-                    array_push($result, ["id" => $discipline['discipline_fk'], "name" => CHtml::encode($disciplinesLabels[$discipline['discipline_fk']])]);
-                }
-            }
-        }
-        echo json_encode($result);
-    }
-
-    public function actionGetCompetences()
-    {
-        $criteria = new CDbCriteria();
-        $criteria->alias = "ccc";
-        $criteria->join = "join edcenso_stage_vs_modality esvm on esvm.id = ccc.edcenso_stage_vs_modality_fk";
-        $criteria->order = "esvm.name, ccc.code";
-        if ($_POST["discipline"] !== "") {
-            $criteria->condition = "ccc.edcenso_discipline_fk = :discipline";
-            $criteria->params = ["discipline" => $_POST["discipline"]];
-            $competences = CourseClassCompetences::model()->findAll($criteria);
-        } else {
-            $competences = CourseClassCompetences::model()->findAll();
-        }
-        $result = $this->buildCompetenceArray($competences);
-        echo json_encode($result);
-    }
-
-    private function buildCompetenceArray($competences) {
-        $competenceArray = [];
-        foreach($competences as $competence) {
-            if (!isset($competenceArray[$competence->edcenso_stage_vs_modality_fk])) {
-                $competenceArray[$competence->edcenso_stage_vs_modality_fk]["data"] = [];
-            }
-            $competenceArray[$competence->edcenso_stage_vs_modality_fk]["stageName"] = $competence->edcensoStageVsModalityFk->name;
-            $competenceData = $competence->attributes;
-            array_push($competenceArray[$competence->edcenso_stage_vs_modality_fk]["data"], $competenceData);
-        }
-        return $competenceArray;
     }
 
     /**

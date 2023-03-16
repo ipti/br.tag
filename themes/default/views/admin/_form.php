@@ -146,14 +146,6 @@ $form = $this->beginWidget('CActiveForm', array(
 </script>
 
 <style>
-.form-horizontal .control-group:last-child {
-    margin-bottom: 20px !important;
-}
-
-.control-group:last-child {
-    margin-left: 32px !important;
-}
-
 #active-label {
     width: 40px !important;
 }

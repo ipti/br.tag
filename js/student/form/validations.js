@@ -75,13 +75,12 @@ $(formIdentification + 'responsable_cpf').mask("000.000.000-00", {placeholder: "
 $(formIdentification + 'responsable_cpf').focusout(function () {
     var id = '#' + $(this).attr("id");
     removeError(id);
-    validateCpf($(id).cleanVal(), function (ret) {
-        if (!ret[0] && ($(id).val() != '')) {
-            addError(id, "Informe um CPF válido. Deve possuir apenas números.");
-        } else {
-            removeError(id);
-        }
-    });
+    const validationState = validateCpf($(id).cleanVal());
+    if (!validationState.valid) {
+        addError(id, "Informe um CPF válido. Deve possuir apenas números.");
+    } else {
+        removeError(id);
+    }
 });
 
 $(formDocumentsAndAddress + 'civil_certification_term_number').focusout(function () {
@@ -107,8 +106,8 @@ $(formDocumentsAndAddress + 'civil_certification_term_number').focusout(function
 $(formIdentification + 'filiation_1_cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
 $(formIdentification + 'filiation_1_cpf').focusout(function () {
     var id = '#' + $(this).attr("id");
-    if (!validateCpf($(id).cleanVal())) {
-        //$(id).attr('value', '');
+    const validationState = validateCpf($(id).cleanVal());
+    if (!validationState.valid) {
         addError(id, "Informe um CPF válido. Deve possuir apenas números.");
     } else {
         removeError(id);
@@ -118,8 +117,8 @@ $(formIdentification + 'filiation_1_cpf').focusout(function () {
 $(formIdentification + 'filiation_2_cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
 $(formIdentification + 'filiation_2_cpf').focusout(function () {
     var id = '#' + $(this).attr("id");
-    if (!validateCpf($(id).cleanVal())) {
-        //$(id).attr('value', '');
+    const validationState = validateCpf($(id).cleanVal());
+    if (!validationState.valid) {
         addError(id, "Informe um CPF válido. Deve possuir apenas números.");
     } else {
         removeError(id);
@@ -517,7 +516,15 @@ $(formDocumentsAndAddress + 'cpf').focusout(function () {
     removeError(id);
     $(id_icon).css('display', 'none');
     $(id_caixa).attr('data-original-title', '');
-    validateCpf($(id).cleanVal(), function (ret) {
+    
+    const validationState = validateCpf($(id).cleanVal());
+    if (!validationState.valid) {
+        addError(id, "Informe um CPF válido. Deve possuir apenas números.");
+    } else {
+        removeError(id);
+    }
+    
+    existsStudentWithCPF($(id).cleanVal(), function (ret) {
         if (!ret[0] && ($(id).val() != '')) {
             addError(id);
             $(id_icon).css('display', 'inline-block');
@@ -713,6 +720,11 @@ $(".save-student").click(function () {
     if($("#errorNameIcon").css('display') == 'inline-block') {
         error = true;
         message += "Corrija o campo <b>Nome</b>.<br>";
+    }
+
+    if($("#StudentIdentification_responsable_cpf_error").length) {
+        error = true;
+        message += "Corrija o campo <b>CPF do Responsável</b>.<br>";
     }
 
     if($("#errorCPFIcon").css('display') == 'inline-block') {

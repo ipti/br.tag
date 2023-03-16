@@ -1,28 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "course_class_competences".
+ * This is the model class for table "attendance".
  *
- * The followings are the available columns in table 'course_class_competences':
- * @property integer $id
- * @property string $description
- * @property string $code
- * @property integer $edcenso_discipline_fk
- * @property integer $edcenso_stage_vs_modality_fk
+ * The followings are the available columns in table 'attendance':
+ * @property integer $id_attendance
+ * @property string $date
+ * @property string $local
+ * @property integer $professional_fk
  *
  * The followings are the available model relations:
- * @property EdcensoDiscipline $edcensoDisciplineFk
- * @property EdcensoStageVsModality $edcensoStageVsModalityFk
- * @property CourseClassHasClassCompetence[] $courseClassHasClassCompetences
+ * @property Professional $professionalFk
+ * @property Professional[] $professionals
  */
-class CourseClassCompetences extends CActiveRecord
+class Attendance extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'course_class_competences';
+		return 'attendance';
 	}
 
 	/**
@@ -33,13 +31,12 @@ class CourseClassCompetences extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('description, code, edcenso_discipline_fk, edcenso_stage_vs_modality_fk', 'required'),
-			array('edcenso_discipline_fk, edcenso_stage_vs_modality_fk', 'numerical', 'integerOnly'=>true),
-			array('description', 'length', 'max'=>500),
-			array('code', 'length', 'max'=>20),
+			array('date, local, professional_fk', 'required'),
+			array('professional_fk', 'numerical', 'integerOnly'=>true),
+			array('local', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, description, code, edcenso_discipline_fk, edcenso_stage_vs_modality_fk', 'safe', 'on'=>'search'),
+			array('id_attendance, date, local, professional_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,9 +48,8 @@ class CourseClassCompetences extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'edcensoDisciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'edcenso_discipline_fk'),
-			'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
-			'courseClassHasClassCompetences' => array(self::HAS_MANY, 'CourseClassHasClassCompetence', 'course_class_competence_fk'),
+			'professionalFk' => array(self::BELONGS_TO, 'Professional', 'professional_fk'),
+			'professionals' => array(self::HAS_MANY, 'Professional', 'attendance_fk'),
 		);
 	}
 
@@ -63,11 +59,10 @@ class CourseClassCompetences extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'description' => 'Description',
-			'code' => 'Code',
-			'edcenso_discipline_fk' => 'Edcenso Discipline Fk',
-			'edcenso_stage_vs_modality_fk' => 'Edcenso Stage Vs Modality Fk',
+			'id_attendance' => 'Id Attendance',
+			'date' => 'Data',
+			'local' => 'Local',
+			'professional_fk' => 'Professional Fk',
 		);
 	}
 
@@ -89,11 +84,10 @@ class CourseClassCompetences extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('code',$this->code,true);
-		$criteria->compare('edcenso_discipline_fk',$this->edcenso_discipline_fk);
-		$criteria->compare('edcenso_stage_vs_modality_fk',$this->edcenso_stage_vs_modality_fk);
+		$criteria->compare('id_attendance',$this->id_attendance);
+		$criteria->compare('date',$this->date,true);
+		$criteria->compare('local',$this->local,true);
+		$criteria->compare('professional_fk',$this->professional_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -104,7 +98,7 @@ class CourseClassCompetences extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return CourseClassCompetences the static model class
+	 * @return Attendance the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

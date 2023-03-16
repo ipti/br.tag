@@ -44,19 +44,22 @@ class DefaultController extends Controller
 	public function actionCreate()
 	{
 
-		$model = new Professional;
+		$modelProfessional = new Professional;
 
 		if(isset($_POST['Professional']))
 		{
-			$model->attributes=$_POST['Professional'];
-			$model->inep_id_fk = Yii::app()->user->school;
-			if($model->save())
-				Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional cadastrado com sucesso!'));
-				$this->redirect(array('index','id'=>$model->id));
+			$modelProfessional->attributes=$_POST['Professional'];
+			$modelProfessional->inep_id_fk = Yii::app()->user->school;
+			if($modelProfessional->validate()) {
+				if($modelProfessional->save()) {
+					Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional cadastrado com sucesso!'));
+					$this->redirect(array('index'));
+				}
+			}
 		}
 
 		$this->render('create',array(
-			'model'=>$model,
+			'modelProfessional' => $modelProfessional,
 		));
 	}
 
@@ -67,21 +70,32 @@ class DefaultController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model = Professional::model()->findByPk($id);
+		$criteria = new CDbCriteria();
+		$criteria->condition = "professional_fk = ".$id;
+		$modelProfessional = Professional::model()->findByPk($id);
+		$modelAttendance = new Attendance;
+		$modelAttendances = Attendance::model()->findAll($criteria);
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		if(isset($_POST['Attendance'])) {
+			$modelAttendance->attributes = $_POST['Attendance'];
+			$modelAttendance->professional_fk = $modelProfessional->id_professional;
+			if($modelAttendance->validate()) {
+				$modelAttendance->save();
+			}
+		}
 
 		if(isset($_POST['Professional']))
 		{
-			$model->attributes=$_POST['Professional'];
-			if($model->save())
+			$modelProfessional->attributes = $_POST['Professional'];
+			if($modelProfessional->save() && $modelAttendance->save())
 				Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional atualizado com sucesso!'));
-				$this->redirect(array('index','id'=>$model->id));
+				$this->redirect(array('index'));
 		}
 
 		$this->render('update',array(
-			'model'=>$model,
+			'modelProfessional' => $modelProfessional,
+			'modelAttendances' => $modelAttendances,
+			'modelAttendance' => $modelAttendance
 		));
 	}
 
@@ -92,7 +106,12 @@ class DefaultController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$professional = Professional::model()->findByPk($id);;
+		$professional = Professional::model()->findByPk($id);
+		$attendance = Attendance::model()->findAllByAttributes(array('professional_fk'=>$id));
+
+		foreach($attendance as $att) {
+			$att->delete();
+		}
 
 		if($professional->delete()) {
 			Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional excluído com sucesso!'));
@@ -105,7 +124,15 @@ class DefaultController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Professional');
+		$query = Professional::model()->findAll();
+		$dataProvider = new CActiveDataProvider('Professional', [
+            'criteria' => [
+                'order' => 'name ASC',
+				'condition' => "inep_id_fk = ".Yii::app()->user->school,
+            ], 'pagination' => [
+                'pageSize' => count($query),
+            ]
+        ]);
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));

@@ -1,6 +1,7 @@
 {
     "require": {
-        "symfony/validator": "^5.4",
+        "guzzlehttp/guzzle": "^6.0",
+        "symfony/validator": "^4.0",
         "jms/serializer": "^3.21",
         "goetas-webservices/xsd2php-runtime":"^0.2.2"
     },

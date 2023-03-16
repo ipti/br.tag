@@ -295,11 +295,9 @@ var formDocumentsAndAddress = '#InstructorDocumentsAndAddress_';
 
 $(formDocumentsAndAddress + 'cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
 $(formDocumentsAndAddress + 'cpf').on('change', function () {
-    var id = '#' + $(this).attr("id");
-
-
-    if (!validateCpf($(id).cleanVal())) {
-        $(id).attr('value', '');
+    const id = '#' + $(this).attr("id");
+    const validationState = validateCpf($(id).cleanVal());
+    if (!validationState.valid) {
         addError(id, "Informe um CPF válido. Deve possuir apenas números.");
     } else {
         removeError(id);
@@ -698,6 +696,12 @@ $(".save-instructor").click(function () {
         error = true;
         message += "Campo <b>Escolaridade</b> é obrigatório.<br>";
     }
+
+    if($("#InstructorDocumentsAndAddress_cpf_error").length) {
+        error = true;
+        message += "Corrija o campo <b>Nº do CPF</b>.<br>";
+    }
+
     if ($("#InstructorDocumentsAndAddress_cep").val() !== "") {
         if ($("#InstructorDocumentsAndAddress_address").val() === "") {
             error = true;
