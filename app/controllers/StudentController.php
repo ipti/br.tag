@@ -149,7 +149,7 @@ class StudentController extends Controller
     public function actionCompareStudentCpf($student_cpf) {
         $data = StudentDocumentsAndAddress::model()->find('cpf=:cpf', array(':cpf' => $student_cpf));
         $result = [];
-        $result[$data->student_fk] = $data->id;
+        $result[$data->id] = $data->id;
 
         echo json_encode($result);
     }

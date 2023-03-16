@@ -1,7 +1,5 @@
 <?php
 // change the following paths if necessary
-//$yii=dirname(__FILE__).'/framework/yii.php';
-//$yii=dirname(__FILE__).'/../framework/yii.php';
 $yii=dirname(__FILE__).'/app/vendor/autoload.php';
 
 $instance=dirname(__FILE__).'/instance.php';

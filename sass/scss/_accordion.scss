@@ -5,13 +5,28 @@
             border: none;
         }
     }
-
-    &__body > tr.odd > td {
-       // background-color: $colorsBaseProductLighter;
-       // box-shadow: none !important;
-        padding: $SizeXSmall $SizeSmall;
+    &__container-icon:hover {
+        background-color: $colorsBaseProductLighter !important;
+        user-select: none;
     }
-    &__body > tr:hover > *  {
+    &__icon {
+        transition: all 200ms;
+        &.closed{
+            transform: rotate(90deg);
+            transition: all 200ms;
+        }
+        
+    }
+    &__body > .odd {
+        background-color: $colorsBaseProductLighter;   
+    }
+    &__body > .odd > *, &__body > .even > *  {
+        font-size: $FontSizeHeadingTitle4;
+        background-color: $colorsBaseProductLighter;
+        box-shadow: none !important;
+        padding: $SizeNormal $SizeLarge;
+    } 
+    &__body > .odd:hover > *, &__body > .even:hover > *, &__body > * > * {
         box-shadow: none !important;
     }
 }
