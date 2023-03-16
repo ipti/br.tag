@@ -99,13 +99,18 @@
     background: #EAEDFC;
 }
 
-.tag-table tr td:first-child {
+table.dataTable {
+    border-collapse: initial !important;
+    border-spacing: 0 5px !important;
+}
+
+/* .tag-table tr td:first-child {
     border-radius: 4px 0 0 4px;
 }
 
 .tag-table tr td:last-child {
     border-radius: 0 4px 4px 0;
-}
+} */
 
 .tag-table.table-striped tbody>tr:nth-child(odd)>td {
     background-color: #eaeaf8;
