@@ -373,7 +373,7 @@
 
 .grid-view .dataTables_filter input[type="search"] { margin-bottom: 0; margin-left: 1em; }
 
-.grid-view .paginate_button { box-sizing: border-box; display: inline-block; min-width: 1.5em; padding: .5em 1em; margin-left: 2px; text-align: center; text-decoration: none !important; cursor: pointer; color: inherit !important; border: 1px solid transparent; border-radius: 2px; background: transparent; }
+.grid-view .paginate_button { box-sizing: border-box; display: inline-block; min-width: 1.5em; padding: .5em 1em; margin-left: 2px; text-align: center; text-decoration: none !important; cursor: pointer; border: 1px solid transparent; border-radius: 2px; background: transparent; }
 
 .dt-body-nowrap { white-space: nowrap; }
 

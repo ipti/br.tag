@@ -9,8 +9,8 @@ function getLanguagePtbr() {
         "zeroRecords": "Nenhum registro encontrado",
         "search": "Pesquisar",
         "paginate": {
-            "next": "Próximo",
-            "previous": "Anterior",
+            "next": "",
+            "previous": "",
             "first": "Primeiro",
             "last": "Último"
         },
