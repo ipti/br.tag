@@ -2,11 +2,9 @@
 
 namespace SagresEdu;
 
-use CLogger;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Validator\Validation;
 use JMS\Serializer\SerializerBuilder;
 use Yii as yii;
@@ -127,7 +125,7 @@ class SagresConsultModel
      * Summary of SerieTType
      * @return SerieTType[] 
      */
-    public function getSerieType($id_turma)
+    public function getSerieType($classId)
     {
         $serieList = [];
 
@@ -135,7 +133,7 @@ class SagresConsultModel
                     c.name as descricao, 
                     c.modality as modalidade 
                 FROM classroom c 
-                where c.id = " . $id_turma . ";";
+                where c.id = " . $classId . ";";
 
         $series = Yii::app()->db->createCommand($query)->queryAll();
 
@@ -154,22 +152,16 @@ class SagresConsultModel
      * Summary of SerieTType
      * @return HorarioTType[] 
      */
-    public function setHorario($id_turma)
+    public function setHorario($classId)
     {
         $horarioList = [];
 
         $query = "  SELECT DISTINCT 
-                    s.week_day AS diaSemana, 
                     (c.final_hour - c.initial_hour) AS duracao, 
-                    c.initial_hour AS hora_inicio, 
-                    ed.name AS disciplina, 
-                    idaa.cpf AS cpfProfessor  
+                    c.initial_hour AS hora_inicio
                 FROM classroom c      
-                    join school_identification si ON si.inep_id = c.school_inep_fk 
-                    join instructor_documents_and_address idaa ON idaa.school_inep_id_fk = si.inep_id 
-                    join schedule s ON s.classroom_fk = c.id 
-                    join edcenso_discipline ed ON ed.id = s.discipline_fk
-                    WHERE idaa.cpf is not null and c.id = " . $id_turma . ";";
+                    
+                    WHERE c.id = " . $classId . ";";
 
 
         $horarios = Yii::app()->db->createCommand($query)->queryAll();
@@ -179,7 +171,7 @@ class SagresConsultModel
             $horario_t = new HorarioTType;
             $horario_t->setDiaSemana($horario['diaSemana'])
                 ->setDuracao($horario['duracao'])
-                ->setHoraInicio(new DateTime())
+                ->setHoraInicio(new DateTime($horario['diaSemana']))
                 ->setDisciplina($horario['disciplina'])
                 ->setCpfProfessor(empty($horario['cpfProfessor']));
 
@@ -193,7 +185,7 @@ class SagresConsultModel
      * Summary of EscolaTType
      * @return AtendimentoTType[] 
      */
-    public function geAttendance($professional_id)
+    public function geAttendance($professionalId)
     {
         $attendanceList = [];
 
@@ -201,7 +193,7 @@ class SagresConsultModel
                     date, 
                     local 
                 FROM attendance 
-                WHERE professional_fk = " . $professional_id . ";";
+                WHERE professional_fk = " . $professionalId . ";";
         $attendances = Yii::app()->db->createCommand($query)->queryAll();
 
         foreach ($attendances as $attendance) {
@@ -214,7 +206,7 @@ class SagresConsultModel
         return $attendanceList;
     }
 
-    public function getStudent($student_fk): AlunoTType
+    public function getStudent($studentFk): AlunoTType
     {
         $query = "SELECT 
                     si2.responsable_cpf AS cpfAluno, 
@@ -223,7 +215,7 @@ class SagresConsultModel
                     si2.deficiency AS pcd, 
                     si2.sex AS sexo 
                     FROM student_identification si2 
-                WHERE si2.id = " . $student_fk . ";";
+                WHERE si2.id = " . $studentFk . ";";
 
         $student = Yii::app()->db->createCommand($query)->queryRow();
 
@@ -338,13 +330,22 @@ class SagresConsultModel
     {
         $enrollmentList = [];
 
-        $query = "SELECT se.student_fk,
+        $query = "SELECT se.enrollment_id AS numero, se.student_fk,
                     se.create_date AS data_matricula, 
-                    se.date_cancellation_enrollment AS data_cancelamento  
+                    se.date_cancellation_enrollment AS data_cancelamento,
+                    se.previous_stage_situation AS situation
                   FROM student_enrollment se 
-                  WHERE se.classroom_fk  =  " . $id . ";";
+                  WHERE se.classroom_fk  =  :id;";
 
-        $enrollments = Yii::app()->db->createCommand($query)->queryAll();
+   
+
+        $command = Yii::app()->db->createCommand($query);
+        $command->bindValues([
+            ':id' => $id
+        ])
+        ->queryAll();
+
+        $enrollments = $command->queryAll();
 
         foreach ($enrollments as $enrollment) {
             $enrollmentType = new MatriculaTType;
@@ -352,13 +353,26 @@ class SagresConsultModel
                 ->setDataMatricula(new DateTime($enrollment['data_matricula']))
                 ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
                 ->setNumeroFaltas((int) $this->returnNumberFaults($enrollment['student_fk'], $reference_year))
-                ->setAprovado(false)
+                ->setAprovado($this->getStudentSituation($enrollment['situation']))
                 ->setAluno($this->getStudent($enrollment['student_fk']));
 
             $enrollmentList[] = $enrollmentType;
         }
 
         return $enrollmentList;
+    }
+
+    public function getStudentSituation($situation)
+    {
+        /* "0" => "Não frequentou",
+           "1" => "Reprovado",
+           "2" => "Afastado por transferência",
+           "3" => "Afastado por abandono",
+           "4" => "Matrícula final em Educação Infantil",
+           "5" => "Promovido" 
+        */
+        if($situation == 1)
+            return false;
     }
 
     public function returnNumberFaults($studentId, $referenceYear)
