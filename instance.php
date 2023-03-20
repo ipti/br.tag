@@ -183,6 +183,10 @@ switch ($domain) {
         $instance = 'INDIAROBA';
         $db = 'io.escola.se.indiaroba';
         break;
+    case 'generalmaynard':
+        $instance = 'General Maynard';
+        $db = 'br.ong.tag.se.generalmaynard';
+        break;
     case 'geminiano':
         $_GLOBALGROUP = 1;
         $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
