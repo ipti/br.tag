@@ -31,7 +31,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <!-- style="line-height: 190px;" -->
         <div class="tag-buttons-container buttons">
             <a data-toggle="tab" class='hide-responsive tag-button-light small-button prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
-            <?= $modelSchoolIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>".Yii::t('default', 'Next')."</a>" : ''?>
+            <?= $modelSchoolIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
             <button class="t-button-primary  last save-school-button" type="button">
                 <?= $modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
             </button>
@@ -46,9 +46,9 @@ $form = $this->beginWidget('CActiveForm', array(
         <?php echo $form->errorSummary($modelSchoolStructure); ?>
         <div class="alert alert-error school-error no-show"></div>
         <div class="t-tabs">
-            <ul class="t-tabs__list" >
+            <ul class="t-tabs__list">
                 <li id="tab-school-indentify" class="active t-tabs__item"><a class="t-tabs__link" href="#school-indentify" data-toggle="tab">
-                       <span  class="t-tabs__numeration">1</span>
+                        <span class="t-tabs__numeration">1</span>
                         <?php echo Yii::t('default', 'Identification') ?>
                     </a>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
@@ -57,17 +57,17 @@ $form = $this->beginWidget('CActiveForm', array(
                     <a class="t-tabs__link" href="#school-addressContact" data-toggle="tab">
                         <span class="t-tabs__numeration">2</span>
                         <?php echo Yii::t('default', 'Address and Contact') ?>
-                       
+
                     </a>
-                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
-                </li> 
-               
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                </li>
+
                 <li id="tab-school-structure" class="t-tabs__item"><a class="t-tabs__link" href="#school-structure" data-toggle="tab">
                         <span class="t-tabs__numeration">3</span>
-                        <?php echo Yii::t('default', 'Structure') ?> 
-                        
+                        <?php echo Yii::t('default', 'Structure') ?>
+
                     </a>
-                   <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
                 <li id="tab-school-equipment" class="t-tabs__item"><a class="t-tabs__link" href="#school-equipment" data-toggle="tab">
                         <span class="t-tabs__numeration">4</span>
@@ -80,15 +80,15 @@ $form = $this->beginWidget('CActiveForm', array(
                         <?php echo Yii::t('default', 'Educational Data') ?>
                     </a>
                 </li>
-                <?php if (!$modelSchoolIdentification->isNewRecord) : ?> 
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                <?php if (!$modelSchoolIdentification->isNewRecord) : ?>
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                     <li id="tab-school-reports" class="t-tabs__item hide-responsive">
-               
+
                         <a class="t-tabs__link" href="#school-reports" data-toggle="tab">
                             <span class="t-tabs__numeration">6</span>
                             <?php echo Yii::t('default', 'Relatórios') ?>
                         </a>
-                       
+
                     </li>
                 <?php endif ?>
             </ul>
@@ -2032,18 +2032,46 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                 </div>
                 <div class="tab-pane" id="school-reports">
-                    <div><a target="_blank" href="<?= @Yii::app()->createUrl('school/reportsMonthlyTransaction', array('id' => $modelSchoolIdentification->inep_id, 'type' => 1)); ?>">Movimentação
-                            Mensal Anos Iniciais</a></div>
-                    <div><a target="_blank" href="<?= @Yii::app()->createUrl('school/reportsMonthlyTransaction', array('id' => $modelSchoolIdentification->inep_id, 'type' => 2)); ?>">Movimentação
-                            Mensal Anos Finais</a></div>
-                    <div><a target="_blank" href="<?= @Yii::app()->createUrl('school/reportsMonthlyTransaction', array('id' => $modelSchoolIdentification->inep_id, 'type' => 3)); ?>">Movimentação
-                            Mensal Educação Infantil</a></div>
-                    <div><a target="_blank" href="<?= @Yii::app()->createUrl('school/reports', array('id' => $modelSchoolIdentification->inep_id)); ?>">Resumo
-                            Mensal de Frequência</a></div>
-                    <div><a target="_blank" href="<?= @Yii::app()->createUrl('school/record', array('id' => $modelSchoolIdentification->inep_id, 'type' => 1)); ?>">Histórico
-                            Ensino Regular</a></div>
-                    <div><a target="_blank" href="<?= @Yii::app()->createUrl('school/record', array('id' => $modelSchoolIdentification->inep_id, 'type' => 2)); ?>">Histórico
-                            Ensino EJA</a></div>
+                    <container>
+                        <row class="reports">
+                            <div class="reports_cards">
+                                <a class="t-button-secondary" target="_blank" href="<?= @Yii::app()->createUrl('school/reportsMonthlyTransaction', array('id' => $modelSchoolIdentification->inep_id, 'type' => 1)); ?>">
+                                    <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.svg" class="img_cards" />
+                                    Movimentação Mensal Anos Iniciais
+                                </a>
+                            </div>
+                            <div class="reports_cards">
+                                <a class="t-button-secondary" target="_blank" href="<?= @Yii::app()->createUrl('school/reportsMonthlyTransaction', array('id' => $modelSchoolIdentification->inep_id, 'type' => 2)); ?>">
+                                    <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.svg" class="img_cards" />
+                                    Movimentação Mensal Anos Finais
+                                </a>
+                            </div>
+                            <div class="reports_cards">
+                                <a class="t-button-secondary" target="_blank" href="<?= @Yii::app()->createUrl('school/reportsMonthlyTransaction', array('id' => $modelSchoolIdentification->inep_id, 'type' => 3)); ?>">
+                                    <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.svg" class="img_cards" />
+                                    Movimentação Mensal Educação Infantil
+                                </a>
+                            </div>
+                            <div class="reports_cards">
+                                <a class="t-button-secondary" target="_blank" href="<?= @Yii::app()->createUrl('school/reports', array('id' => $modelSchoolIdentification->inep_id)); ?>">
+                                    <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.svg" class="img_cards" />
+                                    Resumo Mensal de Frequência
+                                </a>
+                            </div>
+                            <div class="reports_cards">
+                                <a class="t-button-secondary" target="_blank" href="<?= @Yii::app()->createUrl('school/record', array('id' => $modelSchoolIdentification->inep_id, 'type' => 1)); ?>">
+                                    <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.svg" class="img_cards" />
+                                    Histórico Ensino Regular
+                                </a>
+                            </div>
+                            <div class="reports_cards">
+                                <a class="t-button-secondary" target="_blank" href="<?= @Yii::app()->createUrl('school/record', array('id' => $modelSchoolIdentification->inep_id, 'type' => 2)); ?>">
+                                    <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.svg" class="img_cards" />
+                                    Histórico Ensino EJA
+                                </a>
+                            </div>
+                        </row>
+                    </container>
                 </div>
             </div>
 

@@ -421,3 +421,10 @@ input[type="checkbox"] {
 .t-button-primary {
     border: none;
 }
+
+li[discipline]:hover {
+    background-color: lightblue!important;
+}
+li[instructor]:hover {
+    background-color: lightblue!important;
+}

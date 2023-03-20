@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "reports.css",
+	"sources": [
+		"../scss/reports.scss"
+	],
+	"sourcesContent": [
+		".reports{\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    .reports_cards{\r\n        margin: 0px 0px 0px 0px;\r\n        padding: 0px 0px 0px 0px;\r\n        display: flex;\r\n        white-space: nowrap;\r\n\r\n        .img_cards{\r\n            margin: 0px 15px 0px 0px; \r\n        }\r\n    }\r\n}\r\n    \r\n\r\n"
+	],
+	"names": [],
+	"mappings": ";AAAA,AAAA,QAAQ,CAAA;EACJ,OAAO,EAAE,IAAI;EACb,SAAS,EAAE,IAAI;CAWlB;;;AAbD,AAGI,QAHI,CAGJ,cAAc,CAAA;EACV,MAAM,EAAE,eAAe;EACvB,OAAO,EAAE,eAAe;EACxB,OAAO,EAAE,IAAI;EACb,WAAW,EAAE,MAAM;CAKtB;;;AAZL,AASQ,QATA,CAGJ,cAAc,CAMV,UAAU,CAAA;EACN,MAAM,EAAE,gBAAgB;CAC3B"
+}
