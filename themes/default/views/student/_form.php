@@ -484,19 +484,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->checkBox($modelStudentIdentification, 'resource_none', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                             </div>
-                            <div class="hide-responsive  js-hide-not-required" id="vaccine">
-                                <div>
-                                    <label class="control-label"><?php echo Yii::t('default', 'Vaccine'); ?></label>
-                                </div>
-                                <div class="vaccines-container">
-                                    <?php foreach ($vaccines as $vaccine) : ?>
-                                        <label class="checkbox">
-                                            <?= $vaccine->name; ?>
-                                            <?php echo CHtml::activeCheckBox($vaccine, "vaccine_id[]", array('checked' => in_array($vaccine->id, $studentVaccinesSaves), 'value' => $vaccine->id, 'uncheckValue' => null, 'class' => 'vaccine-checkbox', 'code' => $vaccine->code)); ?>
-                                        </label>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
                         </div>
 
                     </div>
@@ -1321,11 +1308,11 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="span12">
                             <div class="widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                                 <div class="widget-body in" style="height: auto;">
-                                    <div class="column">
-                                        <h3>Restrições</h3>
-                                    </div>
                                     <div class="control-group" id="received" style="margin-left:34px;">
                                         <div class="controls">
+                                            <div>
+                                                <label class="control-label"><?php echo Yii::t('default', 'Restrictions'); ?></label>
+                                            </div>
                                             <div class="span3">
                                                 <label class="checkbox">
                                                     <?php echo StudentRestrictions::model()->attributeLabels()['celiac']; ?>
@@ -1373,6 +1360,19 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     <?php echo StudentRestrictions::model()->attributeLabels()['obesity']; ?>
                                                     <?php echo $form->checkBox($modelStudentRestrictions, 'obesity', array('value' => 1, 'uncheckValue' => 0)); ?>
                                                 </label>
+                                            </div>
+                                        </div>
+                                        <div class="controls">
+                                            <div>
+                                                <label class="control-label"><?php echo Yii::t('default', 'Vaccine'); ?></label>
+                                            </div>
+                                            <div class="vaccines-container">
+                                                <?php foreach ($vaccines as $vaccine) : ?>
+                                                    <label class="checkbox">
+                                                        <?= $vaccine->name; ?>
+                                                        <?php echo CHtml::activeCheckBox($vaccine, "vaccine_id[]", array('checked' => in_array($vaccine->id, $studentVaccinesSaves), 'value' => $vaccine->id, 'uncheckValue' => null, 'class' => 'vaccine-checkbox', 'code' => $vaccine->code)); ?>
+                                                    </label>
+                                                <?php endforeach; ?>
                                             </div>
                                         </div>
                                     </div>
