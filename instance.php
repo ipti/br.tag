@@ -191,8 +191,6 @@ switch ($domain) {
         $instance = 'UIRÁUNA';
         $db = 'br.ong.tag.se.uirauna';
         break;
-
-
     case 'geminiano':
         $_GLOBALGROUP = 1;
         $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
