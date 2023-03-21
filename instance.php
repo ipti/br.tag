@@ -155,6 +155,10 @@ switch ($domain) {
         $instance = 'POÇO DANTAS';
         $db = 'br.ong.tag.paraiba.pocodantas';
         break;
+    case 'uirauna':
+        $instance = 'UIRÁUNA';
+        $db = 'br.ong.tag.paraiba.uirauna';
+        break;
     case 'saomigueldoaleixo':
         $instance = 'SÃO MIGUEL DO ALEIXO';
         $db = 'io.escola.se.saomigueldoaleixo';
@@ -186,10 +190,6 @@ switch ($domain) {
     case 'generalmaynard':
         $instance = 'GENERAL MAYANARD';
         $db = 'br.ong.tag.se.generalmaynard';
-        break;
-    case 'uirauna':
-        $instance = 'UIRÁUNA';
-        $db = 'br.ong.tag.se.uirauna';
         break;
     case 'geminiano':
         $_GLOBALGROUP = 1;
