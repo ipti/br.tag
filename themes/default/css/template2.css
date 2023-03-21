@@ -421,3 +421,12 @@ input[type="checkbox"] {
 .t-button-primary {
     border: none;
 }
+
+.checkbox {
+    pointer-events: none;
+  }
+  
+  .checkbox > input[type="checkbox"] {
+    pointer-events: auto;
+  }
+  
