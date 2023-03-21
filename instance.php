@@ -273,7 +273,7 @@ switch ($domain) {
         break;
     case 'sandbox':
         $instance = 'BUZIOS';
-        $db = 'br.ong.tag.rj.buzios';
+        $db = 'buzios.tag.ong.br';
         break;
     case 'ubatuba':
         $instance = 'UBATUBA';
