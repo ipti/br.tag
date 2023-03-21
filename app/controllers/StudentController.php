@@ -18,6 +18,7 @@ class StudentController extends Controller
     private $STUDENT_IDENTIFICATION = 'StudentIdentification';
     private $STUDENT_DOCUMENTS_AND_ADDRESS = 'StudentDocumentsAndAddress';
     private $STUDENT_ENROLLMENT = 'StudentEnrollment';
+    private $STUDENT_RESTRICTIONS = 'StudentRestrictions';
 
     /**
      * @return array action filters
@@ -166,6 +167,7 @@ class StudentController extends Controller
         $modelStudentIdentification->deficiency = 0;
         $modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress;
         $modelEnrollment = new StudentEnrollment;
+        $modelStudentRestrictions = new StudentRestrictions;
 
         $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
         $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => $modelStudentIdentification->id]]);
@@ -177,9 +179,11 @@ class StudentController extends Controller
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model
-        if (isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])) {
+        if (isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])
+           && isset($_POST[$this->STUDENT_RESTRICTIONS])) {
             $modelStudentIdentification->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
             $modelStudentDocumentsAndAddress->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
+            $modelStudentRestrictions->attributes = $_POST[$this->STUDENT_RESTRICTIONS];
 
             // Validação CPF->Certidão->Nome
             if($modelStudentIdentification->responsable_cpf != null) {
@@ -255,6 +259,7 @@ class StudentController extends Controller
         $this->render('create', array(
             'modelStudentIdentification' => $modelStudentIdentification,
             'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
+            'modelStudentRestrictions' => $modelStudentRestrictions,
             'modelEnrollment' => $modelEnrollment,
             'vaccines' => $vaccines,
             'studentVaccinesSaves' => $studentVaccinesSaves
@@ -271,6 +276,7 @@ class StudentController extends Controller
     {
         $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
         $modelStudentDocumentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
+        $modelStudentRestrictions = $this->loadModel($id, $this->STUDENT_RESTRICTIONS);
 
         $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
         $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => $id]]);
@@ -288,6 +294,7 @@ class StudentController extends Controller
         if (isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])) {
             $modelStudentIdentification->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
             $modelStudentDocumentsAndAddress->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
+            $modelStudentRestrictions->attributes = $_POST[$this->STUDENT_RESTRICTIONS];
             //Atributos comuns entre as tabelas
             $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
             $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
@@ -351,6 +358,7 @@ class StudentController extends Controller
         $this->render('update', array(
             'modelStudentIdentification' => $modelStudentIdentification,
             'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
+            'modelStudentRestrictions' => $modelStudentRestrictions,
             'modelEnrollment' => $modelEnrollment,
             'vaccines' => $vaccines,
             'studentVaccinesSaves' => $studentVaccinesSaves

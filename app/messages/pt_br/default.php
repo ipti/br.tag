@@ -537,6 +537,7 @@ return array(
     'Classroom Inep' => 'Inep da turma',
     'Classroom Fk' => 'Turma',
     'Enrollment' => 'Matrícula',
+    'Health' => 'Saúde',
     'New Enrollment' => 'Nova Matrícula',
     'Enrollments' => 'Matrículas',
     'Students Enrollments'=>'Alunos Matriculados',
