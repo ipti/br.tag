@@ -1,0 +1,44 @@
+CREATE TABLE `grate_unities` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `edcenso_stage_vs_modality_fk` int NOT NULL,
+  `nome` int NOT NULL,
+  `calculation` varchar(3) NOT NULL
+) ENGINE='InnoDB' COLLATE 'utf8_unicode_ci';
+
+ALTER TABLE `grate_unities`
+DROP `calculation`;
+
+ALTER TABLE `grate_unities`
+ADD `grade_calculation_fk` int NOT NULL;
+
+ALTER TABLE `grate_unities`
+RENAME TO `grade_unities`;
+
+CREATE TABLE `grade_calculation` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` varchar(50) NOT NULL,
+  `formula` varchar(50) NOT NULL
+) ENGINE='InnoDB';
+
+ALTER TABLE `grade_unities`
+CHANGE `nome` `name` varchar(50) NOT NULL AFTER `edcenso_stage_vs_modality_fk`;
+
+ALTER TABLE `grade_unities`
+ADD FOREIGN KEY (`grade_calculation_fk`) REFERENCES `grade_calculation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE TABLE `grade_unity_modalities` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` varchar(50) NOT NULL
+) ENGINE='InnoDB' COLLATE 'utf8_unicode_ci';
+
+ALTER TABLE `grade_unity_modalities`
+ADD `grade_unity_fk` int NOT NULL;
+
+ALTER TABLE `grade_unities`
+RENAME TO `grade_unity`;
+
+ALTER TABLE `grade_unity_modalities`
+RENAME TO `grade_unity_modality`;
+
+ALTER TABLE `grade_unity_modality`
+ADD FOREIGN KEY (`grade_unity_fk`) REFERENCES `grade_unity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
