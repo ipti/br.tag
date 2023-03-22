@@ -75,8 +75,10 @@ class SagresConsultModel
                 ->setTurma($this->getTurmaType($school['inep_id'], $reference_year, $dateStart, $dateEnd))
                 ->setDiretor($this->getDiretorType($school['inep_id']))
                 ->setCardapio($this->getCardapioType($school['inep_id'], $reference_year, $dateStart, $dateEnd));
-
-            $schoolList[] = $schoolType;
+            
+            if(!empty($schoolType->getTurma()))
+                $schoolList[] = $schoolType;
+                
         }
 
         return $schoolList;
@@ -165,10 +167,7 @@ class SagresConsultModel
                 JOIN edcenso_discipline ed ON ed.id = c2.discipline_fk     
                 WHERE c.id = " . $classId . ";";
 
-
         $horarios = Yii::app()->db->createCommand($query)->queryAll();
-        var_dump($horarios);
-
 
         foreach ($horarios as $horario) {
             $horario_t = new HorarioTType;
