@@ -21,7 +21,7 @@ class ReportsController extends Controller
                     'ComplementarActivityAssistantByClassroomReport', 'EducationalAssistantPerClassroomReport',
                     'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
                     'StudentInstructorNumbersRelationReport', 'StudentPendingDocument', 
-                    'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport'),
+                    'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -898,6 +898,17 @@ class ReportsController extends Controller
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
         $this->render('OutOfTownStudentsReport', array(
+            'report' => $result,
+        ));
+    }
+
+    public function actionStudentSpecialFood()
+    {
+        $sql = "";
+
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $this->render('StudentSpecialFood', array(
             'report' => $result,
         ));
     }

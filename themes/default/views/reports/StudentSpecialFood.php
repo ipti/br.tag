@@ -40,10 +40,9 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
                     $received_responsable_rg =  '';};
                 if($r['received_responsable_cpf'] == 0){ $received_responsable_cpf =  '<i class="fa fa-close" style="color: black"></i>';}else{
                     $received_responsable_cpf =  '';};
-//                             var_dump($r);
                 $rows .= "<tr>"
                     . "<td style='text-align: center;'>" . ($key + 1) . "</td>"
-                    . "<td>" . $r['nome_aluno'] . "</td>"
+                    . "<td>" . $r['name'] . "</td>"
                     . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
                     .       "<td style='text-align: center;'>Doenças Pulmonares, Asma, Pneumotórax, Tuberculose</td>
                             <td style='text-align: center;'>Doenças do Coração</td>
