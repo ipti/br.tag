@@ -210,9 +210,10 @@ class StudentController extends Controller
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
                 if ($modelStudentIdentification->save()) {
                     $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
+                    $modelStudentRestrictions->student_fk = $modelStudentIdentification->id;
 
                     if ($modelStudentDocumentsAndAddress->validate()) {
-                        if ($modelStudentDocumentsAndAddress->save()) {
+                        if ($modelStudentDocumentsAndAddress->save() && $modelStudentRestrictions->save()) {
                             $saved = true;
                             if (isset($_POST[$this->STUDENT_ENROLLMENT], $_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])
                                 && !empty($_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])) {
@@ -276,7 +277,7 @@ class StudentController extends Controller
     {
         $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
         $modelStudentDocumentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
-        $modelStudentRestrictions = $this->loadModel($id, $this->STUDENT_RESTRICTIONS);
+        $modelStudentRestrictions = StudentRestrictions::model()->findByAttributes(array('student_fk'=>$id));
 
         $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
         $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => $id]]);
@@ -291,7 +292,8 @@ class StudentController extends Controller
         // $this->performAjaxValidation($modelStudentIdentification);
         //$modelEnrollment = NULL;
 
-        if (isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])) {
+        if (isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])
+            && isset($_POST[$this->STUDENT_RESTRICTIONS])) {
             $modelStudentIdentification->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
             $modelStudentDocumentsAndAddress->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
             $modelStudentRestrictions->attributes = $_POST[$this->STUDENT_RESTRICTIONS];
@@ -303,7 +305,7 @@ class StudentController extends Controller
 
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
                 if ($modelStudentIdentification->save()) {
-                    if ($modelStudentDocumentsAndAddress->save()) {
+                    if ($modelStudentDocumentsAndAddress->save() && $modelStudentRestrictions->save()) {
                         $saved = true;
                         if (isset($_POST[$this->STUDENT_ENROLLMENT], $_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])
                             && !empty($_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])) {
@@ -354,7 +356,6 @@ class StudentController extends Controller
                 }
             }
         }
-        //$modelEnrollment = $modelEnrollment[0];
         $this->render('update', array(
             'modelStudentIdentification' => $modelStudentIdentification,
             'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
