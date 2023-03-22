@@ -171,7 +171,7 @@ class SagresConsultModel
             $horario_t = new HorarioTType;
             $horario_t->setDiaSemana($horario['diaSemana'])
                 ->setDuracao($horario['duracao'])
-                ->setHoraInicio(new DateTime(sprintf('%02d:00:00', $horario['hora_inicio'])))
+                ->setHoraInicio($this->getDateTimeFromInitialHour($horario['hora_inicio']))
                 ->setDisciplina($horario['disciplina'])
                 ->setCpfProfessor(empty($horario['cpfProfessor']));
 
@@ -180,6 +180,11 @@ class SagresConsultModel
 
         return $horarioList;
     }
+
+    function getDateTimeFromInitialHour($initialHour) {
+        $timeFormatted = date('H:i:s', strtotime($initialHour . ':00:00'));
+        return new DateTime($timeFormatted);
+    }  
 
     /**
      * Summary of EscolaTType
