@@ -20,38 +20,54 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
         <table class="table table-bordered table-striped" style="font-size: 11px">
             <tr>
                 <th rowspan="" style="text-align: center;">Nº</th>
+                <th rowspan="" style="text-align: center;">ID INEP</th>
                 <th rowspan="">ALUNO</th>
                 <th rowspan="" style="text-align: center;">DATA DE NASCIMENTO</th>
-                <th colspan="8" style="text-align: center;">Cardápios Especiais</th>
+                <th colspan="8" style="text-align: center;"> Restrições </th>
             </tr>
             <?php
             $rows = "";
             foreach ($report as $key=>$r){
                 //validacoes
-                if($r['received_cc'] == 0){ $received_cc =  '<i class="fa fa-close" style="color: black"></i>';}else{
-                    $received_cc =  '';};
-                if($r['received_address'] == 0){ $received_address =  '<i class="fa fa-close" style="color: black"></i>';}else{
-                    $received_address =  '';};
-                if($r['received_photo'] == 0){ $received_photo =  '<i class="fa fa-close" style="color: black"></i>';}else{
-                    $received_photo =  '';};
-                if($r['received_nis'] == 0){ $received_nis =  '<i class="fa fa-close" style="color: black"></i>';}else{
-                    $received_nis =  '';};
-                if($r['received_responsable_rg'] == 0){ $received_responsable_rg =  '<i class="fa fa-close" style="color: black"></i>';}else{
-                    $received_responsable_rg =  '';};
-                if($r['received_responsable_cpf'] == 0){ $received_responsable_cpf =  '<i class="fa fa-close" style="color: black"></i>';}else{
-                    $received_responsable_cpf =  '';};
+                if($r['celiac'] == 1){ $celiac =  '<i class="fa fa-close" style="color: black"></i>';}else{
+                    $celiac =  '';};
+                if($r['diabetes'] == 1){ $diabetes =  '<i class="fa fa-close" style="color: black"></i>';}else{
+                    $diabetes =  '';};
+                if($r['hypertension'] == 1){ $hypertension =  '<i class="fa fa-close" style="color: black"></i>';}else{
+                    $hypertension =  '';};
+                if($r['iron_deficiency_anemia'] == 1){ $iron_deficiency_anemia =  '<i class="fa fa-close" style="color: black"></i>';}else{
+                    $iron_deficiency_anemia =  '';};
+                if($r['sickle_cell_anemia'] == 1){ $sickle_cell_anemia =  '<i class="fa fa-close" style="color: black"></i>';}else{
+                    $sickle_cell_anemia =  '';};
+                if($r['lactose_intolerance'] == 1){ $lactose_intolerance =  '<i class="fa fa-close" style="color: black"></i>';}else{
+                    $lactose_intolerance =  '';};
+                if($r['malnutrition'] == 1){ $malnutrition =  '<i class="fa fa-close" style="color: black"></i>';}else{
+                    $malnutrition =  '';};
+                if($r['obesity'] == 1){ $obesity =  '<i class="fa fa-close" style="color: black"></i>';}else{
+                    $obesity =  '';};
                 $rows .= "<tr>"
                     . "<td style='text-align: center;'>" . ($key + 1) . "</td>"
-                    . "<td>" . $r['name'] . "</td>"
+                    . "<td style='text-align: center;'>" . $r['inep_id'] . "</td>"
+                    . "<td>" . $r['nome_aluno'] . "</td>"
                     . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
-                    .       "<td style='text-align: center;'>Doenças Pulmonares, Asma, Pneumotórax, Tuberculose</td>
-                            <td style='text-align: center;'>Doenças do Coração</td>
-                            <td style='text-align: center;'>Diabetes</td>
-                            <tr>
-                            <th colspan='3'>
-                            <td style='text-align: center;'>".$received_cc."</td>
-                            <td style='text-align: center;'>".$received_address."</td>
-                            <td style='text-align: center;'>".$received_photo."</td>
+                    . "<td style='text-align: center;'>Doença celíaca</td>
+                        <td style='text-align: center;'>Diabetes</td>
+                        <td style='text-align: center;'>Hipertensão</td>
+                        <td style='text-align: center;'>Anemia ferropriva</td>
+                        <td style='text-align: center;'>Anemia falciforme</td>
+                        <td style='text-align: center;'>Intolerância à lactose</td>
+                        <td style='text-align: center;'>Desnutrição</td>
+                        <td style='text-align: center;'>Obesidade</td>
+                        <tr>
+                        <th colspan='4'>
+                                <td style='text-align: center;'>".$celiac."</td>
+                                <td style='text-align: center;'>".$diabetes."</td>
+                                <td style='text-align: center;'>".$hypertension."</td>
+                                <td style='text-align: center;'>".$iron_deficiency_anemia."</td>
+                                <td style='text-align: center;'>".$sickle_cell_anemia."</td>
+                                <td style='text-align: center;'>".$lactose_intolerance."</td>
+                                <td style='text-align: center;'>".$malnutrition."</td>
+                                <td style='text-align: center;'>".$obesity."</td>
                             </th>
                             </tr>";
                 $rows .= "</tr>";

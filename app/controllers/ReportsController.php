@@ -904,7 +904,8 @@ class ReportsController extends Controller
 
     public function actionStudentSpecialFood()
     {
-        $sql = "";
+        $sql = "SELECT si.inep_id , si.name as nome_aluno, si.birthday, sr.* FROM student_identification si
+        JOIN student_restrictions sr ON(sr.student_fk = si.id)";
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
 
