@@ -1,26 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "grade".
+ * This is the model class for table "grade_unity_modality".
  *
- * The followings are the available columns in table 'grade':
+ * The followings are the available columns in table 'grade_unity_modality':
  * @property integer $id
- * @property double $grade
- * @property integer $enrollment_fk
- * @property integer $grade_unity_modality_fk
+ * @property string $name
+ * @property integer $grade_unity_fk
  *
  * The followings are the available model relations:
- * @property StudentEnrollment $enrollmentFk
- * @property GradeUnityModality $gradeUnityModalityFk
+ * @property Grade[] $grades
+ * @property GradeUnity $gradeUnityFk
  */
-class Grade extends CActiveRecord
+class GradeUnityModality extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'grade';
+		return 'grade_unity_modality';
 	}
 
 	/**
@@ -31,12 +30,12 @@ class Grade extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('grade, enrollment_fk, grade_unity_modality_fk', 'required'),
-			array('enrollment_fk, grade_unity_modality_fk', 'numerical', 'integerOnly'=>true),
-			array('grade', 'numerical'),
+			array('name, grade_unity_fk', 'required'),
+			array('grade_unity_fk', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, grade, enrollment_fk, grade_unity_modality_fk', 'safe', 'on'=>'search'),
+			array('id, name, grade_unity_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,8 +47,8 @@ class Grade extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'enrollmentFk' => array(self::BELONGS_TO, 'StudentEnrollment', 'enrollment_fk'),
-			'gradeUnityModalityFk' => array(self::BELONGS_TO, 'GradeUnityModality', 'grade_unity_modality_fk'),
+			'grades' => array(self::HAS_MANY, 'Grade', 'grade_unity_modality_fk'),
+			'gradeUnityFk' => array(self::BELONGS_TO, 'GradeUnity', 'grade_unity_fk'),
 		);
 	}
 
@@ -60,9 +59,8 @@ class Grade extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'grade' => 'Grade',
-			'enrollment_fk' => 'Enrollment Fk',
-			'grade_unity_modality_fk' => 'Grade Unity Modality Fk',
+			'name' => 'Name',
+			'grade_unity_fk' => 'Grade Unity Fk',
 		);
 	}
 
@@ -85,9 +83,8 @@ class Grade extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('grade',$this->grade);
-		$criteria->compare('enrollment_fk',$this->enrollment_fk);
-		$criteria->compare('grade_unity_modality_fk',$this->grade_unity_modality_fk);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('grade_unity_fk',$this->grade_unity_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -98,7 +95,7 @@ class Grade extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Grade the static model class
+	 * @return GradeUnityModality the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

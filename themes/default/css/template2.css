@@ -421,3 +421,19 @@ input[type="checkbox"] {
 .t-button-primary {
     border: none;
 }
+
+#new-unity {
+    display: none;
+}
+
+.main .js-grades-structure-loading {
+    display: none;
+    vertical-align: middle;
+    font-size: 18px;
+    margin-top: 1px;
+}
+
+.grades-structure-container {
+    margin-top: 40px;
+    display: none;
+}

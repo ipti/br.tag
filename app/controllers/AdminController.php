@@ -1,7 +1,9 @@
 <?php
+
 class AdminController extends Controller
 {
     public $layout = 'fullmenu';
+
     public function accessRules()
     {
         return [
@@ -12,7 +14,7 @@ class AdminController extends Controller
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
                     'import', 'export', 'update', 'manageUsers', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
-                    'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'
+                    'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster', 'gradesStructure', 'getDisciplines'
                 ], 'users' => ['@'],
             ],
         ];
@@ -25,6 +27,7 @@ class AdminController extends Controller
     {
         $this->render('index');
     }
+
     public function actionCreateUser()
     {
         $model = new Users();
@@ -58,6 +61,36 @@ class AdminController extends Controller
             }
         }
         $this->render('createUser', ['model' => $model]);
+    }
+
+    public function actionGradesStructure()
+    {
+        $stages = Yii::app()->db->createCommand("select esvm.id, esvm.name from edcenso_stage_vs_modality esvm join curricular_matrix cm on cm.stage_fk = esvm.id where school_year = :year order by esvm.name")->bindParam(":year", Yii::app()->user->year)->queryAll();
+        $gradeUnity = new GradeUnity();
+        $this->render('gradesStructure', [
+            "gradeUnity" => $gradeUnity,
+            "stages" => $stages
+        ]);
+    }
+
+    public function actionGetDisciplines()
+    {
+        $result = [];
+        $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
+        $disciplines = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name")->bindParam(":stage_fk", $_POST["stage"])->bindParam(":year", Yii::app()->user->year)->queryAll();
+        foreach ($disciplines as $i => $discipline) {
+            if (isset($discipline['discipline_fk'])) {
+                array_push($result, ["id" => $discipline['discipline_fk'], "name" => CHtml::encode($disciplinesLabels[$discipline['discipline_fk']])]);
+            }
+        }
+        echo json_encode($result);
+    }
+
+    public function actionGetUnities()
+    {
+        $result = [];
+
+        echo json_encode($result);
     }
 
     public function actionActiveDisableUser()
