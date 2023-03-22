@@ -10,6 +10,7 @@ CREATE TABLE `student_restrictions` (
   `lactose_intolerance` tinyint(1) NOT NULL,
   `malnutrition` tinyint(1) NOT NULL,
   `obesity` tinyint(1) NOT NULL,
+  `others` varchar(200) NULL;
   KEY `student_food_restrictions_FK` (`student_fk`),
   CONSTRAINT `student_food_restrictions_FK` FOREIGN KEY (`student_fk`) REFERENCES `student_identification` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
