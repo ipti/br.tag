@@ -158,9 +158,12 @@ class SagresConsultModel
 
         $query = "SELECT DISTINCT 
                     (c.final_hour - c.initial_hour) AS duracao, 
-                    c.initial_hour AS hora_inicio
-                FROM classroom c      
-                    WHERE c.id = " . $classId . ";";
+                    c.initial_hour AS hora_inicio,
+                    ed.name AS disciplina
+                FROM classroom c  
+                JOIN class c2 on c2.classroom_fk = c.id 
+                JOIN edcenso_discipline ed ON ed.id = c2.discipline_fk     
+                WHERE c.id = " . $classId . ";";
 
 
         $horarios = Yii::app()->db->createCommand($query)->queryAll();
