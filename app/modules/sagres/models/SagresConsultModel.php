@@ -156,22 +156,22 @@ class SagresConsultModel
     {
         $horarioList = [];
 
-        $query = "  SELECT DISTINCT 
+        $query = "SELECT DISTINCT 
                     (c.final_hour - c.initial_hour) AS duracao, 
                     c.initial_hour AS hora_inicio
                 FROM classroom c      
-                    
                     WHERE c.id = " . $classId . ";";
 
 
         $horarios = Yii::app()->db->createCommand($query)->queryAll();
+        var_dump($horarios);
 
 
         foreach ($horarios as $horario) {
             $horario_t = new HorarioTType;
             $horario_t->setDiaSemana($horario['diaSemana'])
                 ->setDuracao($horario['duracao'])
-                ->setHoraInicio(new DateTime($horario['diaSemana']))
+                ->setHoraInicio(new DateTime(sprintf('%02d:00:00', $horario['hora_inicio'])))
                 ->setDisciplina($horario['disciplina'])
                 ->setCpfProfessor(empty($horario['cpfProfessor']));
 
