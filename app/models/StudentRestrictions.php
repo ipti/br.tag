@@ -13,6 +13,7 @@
  * @property integer $lactose_intolerance
  * @property integer $malnutrition
  * @property integer $obesity
+ * @property string $others
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
@@ -37,9 +38,10 @@ class StudentRestrictions extends CActiveRecord
 		return array(
 			array('student_fk, celiac, diabetes, hypertension, iron_deficiency_anemia, sickle_cell_anemia, lactose_intolerance, malnutrition, obesity', 'required'),
 			array('student_fk, celiac, diabetes, hypertension, iron_deficiency_anemia, sickle_cell_anemia, lactose_intolerance, malnutrition, obesity', 'numerical', 'integerOnly'=>true),
+			array('others', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('student_fk, celiac, diabetes, hypertension, iron_deficiency_anemia, sickle_cell_anemia, lactose_intolerance, malnutrition, obesity', 'safe', 'on'=>'search'),
+			array('student_fk, celiac, diabetes, hypertension, iron_deficiency_anemia, sickle_cell_anemia, lactose_intolerance, malnutrition, obesity, others', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,6 +72,7 @@ class StudentRestrictions extends CActiveRecord
 			'lactose_intolerance' => 'Intolerância à lactose',
 			'malnutrition' => 'Desnutrição',
 			'obesity' => 'Obesidade',
+			'others' => 'Outros'
 		);
 	}
 
@@ -100,6 +103,7 @@ class StudentRestrictions extends CActiveRecord
 		$criteria->compare('lactose_intolerance',$this->lactose_intolerance);
 		$criteria->compare('malnutrition',$this->malnutrition);
 		$criteria->compare('obesity',$this->obesity);
+		$criteria->compare('others',$this->others,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

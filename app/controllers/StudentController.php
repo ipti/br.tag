@@ -278,7 +278,6 @@ class StudentController extends Controller
         $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
         $modelStudentDocumentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
         $modelStudentRestrictions = StudentRestrictions::model()->findByAttributes(array('student_fk'=>$id));
-
         $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
         $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => $id]]);
         if ($studentVaccinesSaves) {

@@ -1313,54 +1313,65 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <div>
                                                 <label class="control-label"><?php echo Yii::t('default', 'Restrictions'); ?></label>
                                             </div>
-                                            <div class="span3">
-                                                <label class="checkbox">
-                                                    <?php echo StudentRestrictions::model()->attributeLabels()['celiac']; ?>
-                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'celiac', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                </label>
+
+                                            <label class="checkbox">
+                                                <?php echo StudentRestrictions::model()->attributeLabels()['celiac']; ?>
+                                                <?php echo $form->checkBox($modelStudentRestrictions, 'celiac', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label>
+
+
+                                            <label class="checkbox">
+                                                <?php echo StudentRestrictions::model()->attributeLabels()['diabetes']; ?>
+                                                <?php echo $form->checkBox($modelStudentRestrictions, 'diabetes', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label>
+
+
+                                            <label class="checkbox">
+                                                <?php echo StudentRestrictions::model()->attributeLabels()['hypertension']; ?>
+                                                <?php echo $form->checkBox($modelStudentRestrictions, 'hypertension', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label>
+
+
+                                            <label class="checkbox">
+                                                <?php echo StudentRestrictions::model()->attributeLabels()['iron_deficiency_anemia']; ?>
+                                                <?php echo $form->checkBox($modelStudentRestrictions, 'iron_deficiency_anemia', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label>
+
+
+                                            <label class="checkbox">
+                                                <?php echo StudentRestrictions::model()->attributeLabels()['sickle_cell_anemia']; ?>
+                                                <?php echo $form->checkBox($modelStudentRestrictions, 'sickle_cell_anemia', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label>
+
+
+                                            <label class="checkbox">
+                                                <?php echo StudentRestrictions::model()->attributeLabels()['lactose_intolerance']; ?>
+                                                <?php echo $form->checkBox($modelStudentRestrictions, 'lactose_intolerance', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label>
+
+
+                                            <label class="checkbox">
+                                                <?php echo StudentRestrictions::model()->attributeLabels()['malnutrition']; ?>
+                                                <?php echo $form->checkBox($modelStudentRestrictions, 'malnutrition', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label>
+
+
+                                            <label class="checkbox">
+                                                <?php echo StudentRestrictions::model()->attributeLabels()['obesity']; ?>
+                                                <?php echo $form->checkBox($modelStudentRestrictions, 'obesity', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label>
+
+                                            <label class="checkbox">
+                                                <?php echo StudentRestrictions::model()->attributeLabels()['others']; ?>
+                                                <?php echo $modelStudentRestrictions->others != null ?
+                                                "<input type='checkbox' id='others-check' checked>" :
+                                                "<input type='checkbox' id='others-check'>"?>
+                                            </label>
+
+                                            <div class="row others-text-box" style="display: none;">
+                                                <?php echo $form->textArea($modelStudentRestrictions,'others',array('rows'=>6, 'cols'=>50)); ?>
                                             </div>
-                                            <div class="span3">
-                                                <label class="checkbox">
-                                                    <?php echo StudentRestrictions::model()->attributeLabels()['diabetes']; ?>
-                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'diabetes', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                </label>
-                                            </div>
-                                            <div class="span3">
-                                                <label class="checkbox">
-                                                    <?php echo StudentRestrictions::model()->attributeLabels()['hypertension']; ?>
-                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'hypertension', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                </label>
-                                            </div>
-                                            <div class="span3">
-                                                <label class="checkbox">
-                                                    <?php echo StudentRestrictions::model()->attributeLabels()['iron_deficiency_anemia']; ?>
-                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'iron_deficiency_anemia', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                </label>
-                                            </div>
-                                            <div class="span3">
-                                                <label class="checkbox">
-                                                    <?php echo StudentRestrictions::model()->attributeLabels()['sickle_cell_anemia']; ?>
-                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'sickle_cell_anemia', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                </label>
-                                            </div>
-                                            <div class="span3">
-                                                <label class="checkbox">
-                                                    <?php echo StudentRestrictions::model()->attributeLabels()['lactose_intolerance']; ?>
-                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'lactose_intolerance', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                </label>
-                                            </div>
-                                            <div class="span3">
-                                                <label class="checkbox">
-                                                    <?php echo StudentRestrictions::model()->attributeLabels()['malnutrition']; ?>
-                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'malnutrition', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                </label>
-                                            </div>
-                                            <div class="span3">
-                                                <label class="checkbox">
-                                                    <?php echo StudentRestrictions::model()->attributeLabels()['obesity']; ?>
-                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'obesity', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                </label>
-                                            </div>
+
                                         </div>
                                         <div class="controls">
                                             <div>
