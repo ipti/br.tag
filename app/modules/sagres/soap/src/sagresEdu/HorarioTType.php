@@ -2,6 +2,7 @@
 
 namespace SagresEdu;
 
+use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\XmlList;
 use JMS\Serializer\Annotation\SerializedName;
 
@@ -28,6 +29,7 @@ class HorarioTType
 
     /**
      * @var \DateTime $horaInicio
+     * @Type("DateTime<'H:i:s'>")
      * @SerializedName("edu:horaInicio")
      */
     private $horaInicio = null;
