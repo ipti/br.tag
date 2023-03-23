@@ -99,13 +99,18 @@
     background: #EAEDFC;
 }
 
-.tag-table tr td:first-child {
+table.dataTable {
+    border-collapse: initial !important;
+    border-spacing: 0 5px !important;
+}
+
+/* .tag-table tr td:first-child {
     border-radius: 4px 0 0 4px;
 }
 
 .tag-table tr td:last-child {
     border-radius: 0 4px 4px 0;
-}
+} */
 
 .tag-table.table-striped tbody>tr:nth-child(odd)>td {
     background-color: #eaeaf8;
@@ -412,12 +417,56 @@ input[type="checkbox"] {
 @font-face {
     font-family: 'icone-tag';
     src: url('/themes/default/fonts/icone-tag.ttf');
-  }
+}
 
-  .icones{
+.icones {
     font-family: "icone-tag", sans-serif;
-  }
+}
 
 .t-button-primary {
     border: none;
+}
+
+.grid-view .dataTables_paginate {
+    display: flex !important;
+}
+
+.grid-view .dataTables_paginate .previous {
+    background-image: url('../img/chevron-left.svg') !important;
+    background-repeat: no-repeat !important;
+    background-position-y: center !important;
+    outline: none !important;
+}
+
+.grid-view .dataTables_paginate .next {
+    background-image: url('../img/chevron-right.svg') !important;
+    background-repeat: no-repeat !important;
+    background-position-y: center !important;
+    outline: none !important;
+}
+
+.grid-view .dataTables_paginate span .paginate_button {
+    height: 24px !important;
+    width: 24px !important;
+    border-radius: 50% !important;
+    padding: 10px !important;
+    margin: 5px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    border: none;
+}
+
+.grid-view .dataTables_paginate span .paginate_button {
+    background-color: transparent;
+    color: #252A31;
+}
+
+.grid-view .current {
+    background-color: #3F45EA !important;
+    color: #fff !important;
+}
+
+.grid-view .dataTables_paginate span {
+    display: flex !important;
 }
