@@ -173,8 +173,8 @@ class InstructorIdentification extends AltActiveRecord {
         //$criteria->with = array('documents');
 
         $criteria->compare('register_type', $this->register_type, true);        
-//        $school = Yii::app()->user->school;
-//        $criteria->compare('school_inep_id_fk', $school);
+       $school = Yii::app()->user->school;
+       $criteria->compare('school_inep_id_fk', $school);
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
@@ -209,9 +209,7 @@ class InstructorIdentification extends AltActiveRecord {
                             'name' => CSort::SORT_ASC
                         ),
                     ),
-                    'pagination' => array(
-                        'pageSize' => 20,
-                    ),
+                    'pagination' => false
                 ));
     }
 
