@@ -2,13 +2,13 @@
     display: flex;
     flex-wrap: wrap;
     .reports_cards{
-        margin: 0px 0px 0px 0px;
-        padding: 0px 0px 0px 0px;
+        margin: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
+        padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
         display: flex;
         white-space: nowrap;
 
         .img_cards{
-            margin: 0px 15px 0px 0px; 
+            margin: $spaceEmpty $spaceSmall $spaceEmpty $spaceEmpty; 
         }
     }
 }

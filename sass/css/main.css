@@ -305,7 +305,7 @@ html {
 /* Font Family */
 /* mixin */
 /* line 5, ../../../../wamp64/www/br.tag/sass/scss/components/_field-select2.scss */
-.t-field-select {
+.t-field-select, .t-multiselect {
   width: 100%;
   margin-bottom: 14px;
 }
@@ -383,19 +383,36 @@ html {
 /* line 4, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
 .t-field-checkbox {
   margin-bottom: 24px;
+  display: flex;
 }
 
-/* line 7, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
+/* line 9, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
+.t-field-checkbox__label {
+  margin: 0px 0px 0px 0px;
+}
+
+/* line 11, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
 .t-field-checkbox__label--required {
   font-weight: bold;
 }
 
-/* line 11, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
-.t-field-checkbox__input, .t-field-checkbox input[type="checkbox"] {
+/* line 16, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
+.t-field-checkbox__input,
+.t-field-checkbox input[type="checkbox"] {
   background: #FFFFFF;
   height: 20px;
   width: 20px;
-  margin: 0 2px 0;
+  margin: 0 14px 0 0;
+}
+
+/* line 25, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
+.t-field-checkbox-group {
+  margin-bottom: 24px;
+}
+
+/* line 28, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
+.t-field-checkbox-group .t-field-checkbox {
+  margin-bottom: 0;
 }
 
 /* Color */
@@ -439,6 +456,70 @@ html {
   width: 100%;
   margin-bottom: 0px;
   padding: 0.75em;
+}
+
+/* Color */
+/* Product */
+/* Ink */
+/* Text */
+/* Alert1 */
+/* Cloud */
+/* White */
+/* Alert2 */
+/* Alert3 */
+/* Space */
+/* Font size */
+/* Grid */
+/* Size */
+/* Border Radius */
+/* Border width */
+/* Opacity */
+/* Line Height */
+/*Font Weight*/
+/* Font Family */
+/* mixin */
+/* line 5, ../../../../wamp64/www/br.tag/sass/scss/components/_field-select2.scss */
+.t-field-select, .t-multiselect {
+  width: 100%;
+  margin-bottom: 14px;
+}
+
+/* line 9, ../../../../wamp64/www/br.tag/sass/scss/components/_field-select2.scss */
+.t-field-select__label--required {
+  font-weight: bold;
+}
+
+/* line 14, ../../../../wamp64/www/br.tag/sass/scss/components/_field-select2.scss */
+.t-field-select__input.select2-container {
+  width: 100%;
+}
+
+/* line 17, ../../../../wamp64/www/br.tag/sass/scss/components/_field-select2.scss */
+.t-field-select__input.select2-container .select2-choice {
+  width: 100%;
+}
+
+/* line 5, ../../../../wamp64/www/br.tag/sass/scss/components/_field-multiselect.scss */
+.t-multiselect .select2-search-choice {
+  background-color: #B4DBF8 !important;
+  border: none !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: #004680;
+  padding: 0.375em 0.5em !important;
+  background-image: none !important;
+}
+
+/* line 13, ../../../../wamp64/www/br.tag/sass/scss/components/_field-multiselect.scss */
+.t-multiselect .select2-search-choice div {
+  margin-left: 24px;
+}
+
+/* line 16, ../../../../wamp64/www/br.tag/sass/scss/components/_field-multiselect.scss */
+.t-multiselect .select2-search-choice .select2-search-choice-close {
+  background-image: url("../../../themes/default/img/botao-cancelar-multiselect.svg") !important;
+  width: 14px !important;
+  height: 14px !important;
 }
 
 /* mixin */
@@ -508,8 +589,8 @@ html {
 .t-tabs .t-tabs__list .t-tabs__item {
   display: inline-flex;
   white-space: nowrap;
-  padding: 0em 0em 0em 0em;
-  margin: 0em 1em 0em 0em;
+  padding: 0em;
+  margin: 0em;
   text-align: center;
 }
 
@@ -581,14 +662,7 @@ html {
   color: #5F738C;
 }
 
-@media (min-width: 768px) {
-  /* line 30, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
-  .t-tabs .t-tabs__list {
-    display: block;
-  }
-}
-
-/* line 106, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
+/* line 102, ../../../../wamp64/www/br.tag/sass/scss/_tabs.scss */
 .t-tabs::-webkit-scrollbar {
   display: none;
 }
@@ -1197,8 +1271,8 @@ h5, .subheading {
 
 /* line 23, ../../../../wamp64/www/br.tag/sass/scss/_badge.scss */
 .t-badge-info {
-  background-color: #E8F4FD;
-  color: #005aa3;
+  background-color: #B4DBF8;
+  color: #004680;
 }
 
 /* line 27, ../../../../wamp64/www/br.tag/sass/scss/_badge.scss */
@@ -1226,15 +1300,15 @@ h5, .subheading {
 
 /* line 4, ../../../../wamp64/www/br.tag/sass/scss/reports.scss */
 .reports .reports_cards {
-  margin: 0px 0px 0px 0px;
-  padding: 0px 0px 0px 0px;
+  margin: 0em 0em 0em 0em;
+  padding: 0em 0em 0em 0em;
   display: flex;
   white-space: nowrap;
 }
 
 /* line 10, ../../../../wamp64/www/br.tag/sass/scss/reports.scss */
 .reports .reports_cards .img_cards {
-  margin: 0px 15px 0px 0px;
+  margin: 0em 0.75em 0em 0em;
 }
 
 /* line 2, ../../../../wamp64/www/br.tag/sass/scss/_helpers.scss */

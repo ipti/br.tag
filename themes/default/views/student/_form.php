@@ -33,7 +33,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <h1><?php echo $title; ?></h1>
         <div class="tag-buttons-container buttons hide-responsive">
             <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
-            <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>".Yii::t('default', 'Next')."</a>" : ''?>
+            <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
             <button class="t-button-primary  last  save-student" type="button">
                 <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
             </button>
@@ -68,14 +68,14 @@ $form = $this->beginWidget('CActiveForm', array(
                 </li>
                 <li id="tab-student-documents" class="t-tabs__item ">
                     <a class="t-tabs__link" href="#student-documents" data-toggle="tab">
-                    <span class="t-tabs__numeration">2</span>
+                        <span class="t-tabs__numeration">2</span>
                         <?php echo Yii::t('default', 'Documents') ?>
                     </a>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
                 <li id="tab-student-address" class="t-tabs__item ">
                     <a class="t-tabs__link" href="#student-address" data-toggle="tab">
-                    <span class="t-tabs__numeration js-change-number-2">3</span>
+                        <span class="t-tabs__numeration js-change-number-2">3</span>
                         <?php echo Yii::t('default', 'Address') ?>
                     </a>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
@@ -106,9 +106,9 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                     <div class="row">
                         <div class="column no-grow">
-                            
+
                             <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
-                            
+
                             <!-- name student -->
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'civil_name', array('class' => 'control-label')); ?>
@@ -315,7 +315,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-select js-hide-not-required">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable', array('class' => 'control-label t-field-select__label')); ?>
                                 <?php
-                                echo $form->dropDownList($modelStudentIdentification, 'responsable', array(null => "Selecione o responsável",0 => 'Pai', 1 => 'Mãe', 2 => 'Outro',), array('class' => 'select-search-off control-input t-field-select__input', 'style' => 'width: 100%'));
+                                echo $form->dropDownList($modelStudentIdentification, 'responsable', array(null => "Selecione o responsável", 0 => 'Pai', 1 => 'Mãe', 2 => 'Outro',), array('class' => 'select-search-off control-input t-field-select__input', 'style' => 'width: 100%'));
                                 ?>
                                 <?php echo $form->error($modelStudentIdentification, 'responsable'); ?>
                             </div>
@@ -361,8 +361,8 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="t-field-checkbox js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'bf_participator', array('class' => 'control-label t-field-checkbox__label')); ?>
                                 <?php echo $form->checkBox($modelStudentIdentification, 'bf_participator', array('class' => 't-field-checkbox__input')); ?>
+                                <?php echo $form->labelEx($modelStudentIdentification, 'bf_participator', array('class' => 'control-label t-field-checkbox__label')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'bf_participator'); ?>
                             </div>
 
@@ -374,14 +374,14 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="t-field-checkbox">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'send_year', array('class' => 'control-label t-field-checkbox__label--required')); ?>
                                 <?php echo $form->checkBox($modelStudentIdentification, 'send_year', array('value' => date('Y') + 1, 'uncheckValue' => (date('Y')), 'class' => 't-field-checkbox__input')); ?>
+                                <?php echo $form->labelEx($modelStudentIdentification, 'send_year', array('class' => 'control-label t-field-checkbox__label--required')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'send_year'); ?>
                             </div>
 
                             <div class="t-field-checkbox">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'deficiency', array('class' => 'control-label t-field-checkbox__label--required')); ?>
                                 <?php echo $form->checkBox($modelStudentIdentification, 'deficiency', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
+                                <?php echo $form->labelEx($modelStudentIdentification, 'deficiency', array('class' => 'control-label t-field-checkbox__label--required')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'deficiency'); ?>
                             </div>
 
@@ -498,7 +498,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
                 <!-- Tab Student Documents -->
@@ -870,74 +870,74 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column no-grow">
                             <div class="t-field-select">
-                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'residence_zone', array('class' => 'control-label  t-input__label--required')); ?>
-                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'residence_zone', array(null => "Selecione uma zona", "1" => "URBANA", "2" => "RURAL"), array('class' => 'select-search-off control-input t-input__text')); ?>
-                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'residence_zone'); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'residence_zone', array('class' => 'control-label  t-input__label--required')); ?>
+                                <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'residence_zone', array(null => "Selecione uma zona", "1" => "URBANA", "2" => "RURAL"), array('class' => 'select-search-off control-input t-input__text')); ?>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'residence_zone'); ?>
                             </div>
                             <div class="t-field-text js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cep', array('class' => 'control-label')); ?>
-                                    <?php
-                                    echo $form->textField($modelStudentDocumentsAndAddress, 'cep', array(
-                                        'size' => 8,
-                                        'maxlength' => 9
-                                    ));
-                                    ?>
-                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'cep'); ?>
-                            </div>
-
-                            <div class="t-field-text js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'address', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'address', array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Endereço')); ?>
-                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'address'); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cep', array('class' => 'control-label')); ?>
+                                <?php
+                                echo $form->textField($modelStudentDocumentsAndAddress, 'cep', array(
+                                    'size' => 8,
+                                    'maxlength' => 9
+                                ));
+                                ?>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'cep'); ?>
                             </div>
 
                             <div class="t-field-text js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'number', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'number', array('size' => 10, 'maxlength' => 10, 'placeholder' => 'Digite o Número')); ?>
-                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'number'); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'address', array('class' => 'control-label')); ?>
+                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'address', array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Endereço')); ?>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'address'); ?>
                             </div>
 
                             <div class="t-field-text js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'complement', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'complement', array('size' => 20, 'maxlength' => 20, 'placeholder' => 'Digite o Complemento')); ?>
-                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'complement'); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'number', array('class' => 'control-label')); ?>
+                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'number', array('size' => 10, 'maxlength' => 10, 'placeholder' => 'Digite o Número')); ?>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'number'); ?>
                             </div>
 
                             <div class="t-field-text js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'neighborhood', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'neighborhood', array('size' => 50, 'maxlength' => 50, 'placeholder' => 'Digite o Bairro ou Povoado')); ?>
-                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'neighborhood'); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'complement', array('class' => 'control-label')); ?>
+                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'complement', array('size' => 20, 'maxlength' => 20, 'placeholder' => 'Digite o Complemento')); ?>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'complement'); ?>
+                            </div>
+
+                            <div class="t-field-text js-hide-not-required">
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'neighborhood', array('class' => 'control-label')); ?>
+                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'neighborhood', array('size' => 50, 'maxlength' => 50, 'placeholder' => 'Digite o Bairro ou Povoado')); ?>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'neighborhood'); ?>
                             </div>
                         </div>
                         <div class="column no-grow">
                             <div class="t-field-select js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', array('class' => 'control-label')); ?>
-                                    <?php
-                                    echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
-                                        'ajax' => array(
-                                            'type' => 'POST',
-                                            'url' => CController::createUrl('student/getcities', array('rt' => 2)),
-                                            'update' => '#StudentDocumentsAndAddress_edcenso_city_fk'
-                                        ),
-                                        "prompt" => "Selecione um estado",
-                                        "class" => "select-search-on control-input"
-                                    ));
-                                    ?>
-                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_uf_fk'); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', array('class' => 'control-label')); ?>
+                                <?php
+                                echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
+                                    'ajax' => array(
+                                        'type' => 'POST',
+                                        'url' => CController::createUrl('student/getcities', array('rt' => 2)),
+                                        'update' => '#StudentDocumentsAndAddress_edcenso_city_fk'
+                                    ),
+                                    "prompt" => "Selecione um estado",
+                                    "class" => "select-search-on control-input"
+                                ));
+                                ?>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_uf_fk'); ?>
                             </div>
 
                             <div class="t-field-select js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_city_fk', array('class' => 'control-label')); ?>
-                                    <?php
-                                    echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma cidade", "class" => "select-search-on control-input"));
-                                    ?>
-                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_city_fk'); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_city_fk', array('class' => 'control-label')); ?>
+                                <?php
+                                echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma cidade", "class" => "select-search-on control-input"));
+                                ?>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_city_fk'); ?>
                             </div>
 
                             <div class="t-field-select  js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'diff_location', array('class' => 'control-label')); ?>
-                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 7 => 'Não reside em área de localização diferenciada', 3 => 'Área onde se localiza comunidade remanescente de quilombos', 2 => 'Terra indígena', 1 => 'Área de assentamento'), array("class" => "select-search-on control-input")); ?>
-                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'diff_location'); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'diff_location', array('class' => 'control-label')); ?>
+                                <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 7 => 'Não reside em área de localização diferenciada', 3 => 'Área onde se localiza comunidade remanescente de quilombos', 2 => 'Terra indígena', 1 => 'Área de assentamento'), array("class" => "select-search-on control-input")); ?>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'diff_location'); ?>
                             </div>
                         </div>
                     </div>
@@ -951,57 +951,57 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row" id="new-enrollment-form" style="display: none;">
                         <div class="column">
                             <?php echo $form->hiddenField($modelEnrollment, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
-                            
+
                             <!-- turma -->
                             <div class="t-field-select t-input">
-                                    <?php echo $form->labelEx($modelEnrollment, 'classroom_fk', array('class' => 'control-label  t-input__label--required')); ?>
-                                    <?php
-                                    $stage = $modelStudentIdentification->getCurrentStageVsModality();
-                                    $stages = implode(",", EdcensoStageVsModality::getNextStages($stage));
-                                    $classrooms = Classroom::model()->findAll(
-                                        "school_year = :year AND school_inep_fk = :school order by name",
-                                        [
-                                            ':year' => Yii::app()->user->year,
-                                            ':school' => Yii::app()->user->school,
-                                        ]
-                                    );
-                                    echo $form->dropDownList(
-                                        $modelEnrollment,
-                                        'classroom_fk',
-                                        CHtml::listData(
-                                            $classrooms,
-                                            'id',
-                                            'name'
-                                        ),
-                                        array("prompt" => "Selecione uma Turma", 'class' => 'select-search-off control-input  t-input__text')
-                                    ); ?>
-                                    <?php echo $form->error($modelEnrollment, 'classroom_fk'); ?>
+                                <?php echo $form->labelEx($modelEnrollment, 'classroom_fk', array('class' => 'control-label  t-input__label--required')); ?>
+                                <?php
+                                $stage = $modelStudentIdentification->getCurrentStageVsModality();
+                                $stages = implode(",", EdcensoStageVsModality::getNextStages($stage));
+                                $classrooms = Classroom::model()->findAll(
+                                    "school_year = :year AND school_inep_fk = :school order by name",
+                                    [
+                                        ':year' => Yii::app()->user->year,
+                                        ':school' => Yii::app()->user->school,
+                                    ]
+                                );
+                                echo $form->dropDownList(
+                                    $modelEnrollment,
+                                    'classroom_fk',
+                                    CHtml::listData(
+                                        $classrooms,
+                                        'id',
+                                        'name'
+                                    ),
+                                    array("prompt" => "Selecione uma Turma", 'class' => 'select-search-off control-input  t-input__text')
+                                ); ?>
+                                <?php echo $form->error($modelEnrollment, 'classroom_fk'); ?>
                             </div>
                             <!-- turma unificada -->
                             <div id="multiclass">
                                 <div class="t-field-select js-hide-not-required">
-                                        <?php echo $form->labelEx($modelEnrollment, 'unified_class', array('class' => 'control-label')); ?>
-                                        <?php echo $form->DropDownList($modelEnrollment, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA"), array('class' => 'select-search-off control-input')); ?>
-                                        <?php echo $form->error($modelEnrollment, 'unified_class'); ?>
+                                    <?php echo $form->labelEx($modelEnrollment, 'unified_class', array('class' => 'control-label')); ?>
+                                    <?php echo $form->DropDownList($modelEnrollment, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA"), array('class' => 'select-search-off control-input')); ?>
+                                    <?php echo $form->error($modelEnrollment, 'unified_class'); ?>
                                 </div>
                                 <div class="t-field-select js-hide-not-required">
-                                        <?php echo CHtml::label("Etapa", 'Stage', array('class' => 'control-label')); ?>
-                                        <?php
-                                        echo CHtml::dropDownList("Stage", null, array(
-                                            "0" => "Selecione a Modalidade",
-                                            "1" => "Infantil",
-                                            "2" => "Fundamental Menor",
-                                            "3" => "Fundamental Maior",
-                                            "4" => "Médio",
-                                            "5" => "Profissional",
-                                            "6" => "EJA",
-                                            "7" => "Outros",
-                                        ), array(
-                                            'class' => 'select-search-off control-input',
-                                            'ajax' => array(
-                                                'type' => 'POST',
-                                                'url' => CController::createUrl('enrollment/getmodalities'),
-                                                'success' => 'function(data){
+                                    <?php echo CHtml::label("Etapa", 'Stage', array('class' => 'control-label')); ?>
+                                    <?php
+                                    echo CHtml::dropDownList("Stage", null, array(
+                                        "0" => "Selecione a Modalidade",
+                                        "1" => "Infantil",
+                                        "2" => "Fundamental Menor",
+                                        "3" => "Fundamental Maior",
+                                        "4" => "Médio",
+                                        "5" => "Profissional",
+                                        "6" => "EJA",
+                                        "7" => "Outros",
+                                    ), array(
+                                        'class' => 'select-search-off control-input',
+                                        'ajax' => array(
+                                            'type' => 'POST',
+                                            'url' => CController::createUrl('enrollment/getmodalities'),
+                                            'success' => 'function(data){
                                                 $("#StudentEnrollment_edcenso_stage_vs_modality_fk").html(decodeHtml(data));
                                             }'
                                         ),
@@ -1075,13 +1075,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelEnrollment, 'school_admission_date'); ?>
                                 </div>
                             </div>
-                            <div class="control-group t-input">
-                                <div class="controls">
-                                    <?php echo $form->labelEx($modelEnrollment, 'public_transport', array('class' => 'control-label t-input__label--required')); ?>
-                                    <label class="checkbox">
-                                        <?php echo $form->checkBox($modelEnrollment, 'public_transport', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-input__text')); ?>
-                                    </label>
-                                </div>
+                            <div class="t-field-checkbox js-hide-not-required">
+                                <?php echo $form->checkBox($modelEnrollment, 'public_transport', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
+                                <?php echo $form->labelEx($modelEnrollment, 'public_transport', array('class' => 'control-label t-field-checkbox__label--required')); ?>
                             </div>
                             <div class="t-field-select t-input" id="transport_responsable">
                                 <div class="controls">
@@ -1312,7 +1308,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     ?>
                                 </tbody>
                             </table>
-                    </div>
+                        </div>
                     </div>
                 </div>
             </div>
