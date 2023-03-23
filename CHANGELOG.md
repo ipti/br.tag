@@ -1,5 +1,9 @@
 # Atualizações
 
+## [Versão 3.9.13]
+- Relatório de Cardápios Especiais
+- Aba Saúde adicionada no formulário de aluno
+
 ## [Versão 3.8.13]
 - Correções nos formulários do módulo Sagres.
 - Correção da validação do CPF.
