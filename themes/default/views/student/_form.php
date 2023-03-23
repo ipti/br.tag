@@ -930,6 +930,99 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
 
                 </div>
+
+                <div class="tab-pane" id="student-health">
+                    <div class="row-fluid" style="padding: 0 0 0px 0;">
+                        <div class="span12">
+                            <div class="widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
+                                <div class="widget-body in" style="height: auto;">
+                                    <div class="control-group" id="received" style="margin-left:34px;">
+                                        <div class="controls">
+                                            <div>
+                                                <label class="control-label"><?php echo Yii::t('default', 'Restrictions'); ?></label>
+                                            </div>
+
+                                            <label class="checkbox">
+                                                <?php echo StudentRestrictions::model()->attributeLabels()['celiac']; ?>
+                                                <?php echo $form->checkBox($modelStudentRestrictions, 'celiac', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label>
+
+
+                                            <label class="checkbox">
+                                                <?php echo StudentRestrictions::model()->attributeLabels()['diabetes']; ?>
+                                                <?php echo $form->checkBox($modelStudentRestrictions, 'diabetes', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label>
+
+
+                                            <label class="checkbox">
+                                                <?php echo StudentRestrictions::model()->attributeLabels()['hypertension']; ?>
+                                                <?php echo $form->checkBox($modelStudentRestrictions, 'hypertension', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label>
+
+
+                                            <label class="checkbox">
+                                                <?php echo StudentRestrictions::model()->attributeLabels()['iron_deficiency_anemia']; ?>
+                                                <?php echo $form->checkBox($modelStudentRestrictions, 'iron_deficiency_anemia', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label>
+
+
+                                            <label class="checkbox">
+                                                <?php echo StudentRestrictions::model()->attributeLabels()['sickle_cell_anemia']; ?>
+                                                <?php echo $form->checkBox($modelStudentRestrictions, 'sickle_cell_anemia', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label>
+
+
+                                            <label class="checkbox">
+                                                <?php echo StudentRestrictions::model()->attributeLabels()['lactose_intolerance']; ?>
+                                                <?php echo $form->checkBox($modelStudentRestrictions, 'lactose_intolerance', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label>
+
+
+                                            <label class="checkbox">
+                                                <?php echo StudentRestrictions::model()->attributeLabels()['malnutrition']; ?>
+                                                <?php echo $form->checkBox($modelStudentRestrictions, 'malnutrition', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label>
+
+
+                                            <label class="checkbox">
+                                                <?php echo StudentRestrictions::model()->attributeLabels()['obesity']; ?>
+                                                <?php echo $form->checkBox($modelStudentRestrictions, 'obesity', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label>
+
+                                            <label class="checkbox">
+                                                <?php echo StudentRestrictions::model()->attributeLabels()['others']; ?>
+                                                <?php echo $modelStudentRestrictions->others != null ?
+                                                "<input type='checkbox' id='others-check' checked>" :
+                                                "<input type='checkbox' id='others-check'>"?>
+                                            </label>
+
+                                            <div class="row others-text-box" style="display: none;">
+                                                <?php echo $form->textArea($modelStudentRestrictions,'others',array('rows'=>6, 'cols'=>50)); ?>
+                                            </div>
+
+                                        </div>
+                                        <div class="controls">
+                                            <div>
+                                                <label class="control-label"><?php echo Yii::t('default', 'Vaccine'); ?></label>
+                                            </div>
+                                            <div class="vaccines-container">
+                                                <?php foreach ($vaccines as $vaccine) : ?>
+                                                    <label class="checkbox">
+                                                        <?= $vaccine->name; ?>
+                                                        <?php echo CHtml::activeCheckBox($vaccine, "vaccine_id[]", array('checked' => in_array($vaccine->id, $studentVaccinesSaves), 'value' => $vaccine->id, 'uncheckValue' => null, 'class' => 'vaccine-checkbox', 'code' => $vaccine->code)); ?>
+                                                    </label>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <?php $this->endWidget(); ?>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Tab Student Enrollment -->
                 <div class="tab-pane" id="student-enrollment">
                     <div class="row">
@@ -1303,98 +1396,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                 </div>
 
-                <div class="tab-pane" id="student-health">
-                    <div class="row-fluid" style="padding: 0 0 0px 0;">
-                        <div class="span12">
-                            <div class="widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-                                <div class="widget-body in" style="height: auto;">
-                                    <div class="control-group" id="received" style="margin-left:34px;">
-                                        <div class="controls">
-                                            <div>
-                                                <label class="control-label"><?php echo Yii::t('default', 'Restrictions'); ?></label>
-                                            </div>
-
-                                            <label class="checkbox">
-                                                <?php echo StudentRestrictions::model()->attributeLabels()['celiac']; ?>
-                                                <?php echo $form->checkBox($modelStudentRestrictions, 'celiac', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                            </label>
-
-
-                                            <label class="checkbox">
-                                                <?php echo StudentRestrictions::model()->attributeLabels()['diabetes']; ?>
-                                                <?php echo $form->checkBox($modelStudentRestrictions, 'diabetes', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                            </label>
-
-
-                                            <label class="checkbox">
-                                                <?php echo StudentRestrictions::model()->attributeLabels()['hypertension']; ?>
-                                                <?php echo $form->checkBox($modelStudentRestrictions, 'hypertension', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                            </label>
-
-
-                                            <label class="checkbox">
-                                                <?php echo StudentRestrictions::model()->attributeLabels()['iron_deficiency_anemia']; ?>
-                                                <?php echo $form->checkBox($modelStudentRestrictions, 'iron_deficiency_anemia', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                            </label>
-
-
-                                            <label class="checkbox">
-                                                <?php echo StudentRestrictions::model()->attributeLabels()['sickle_cell_anemia']; ?>
-                                                <?php echo $form->checkBox($modelStudentRestrictions, 'sickle_cell_anemia', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                            </label>
-
-
-                                            <label class="checkbox">
-                                                <?php echo StudentRestrictions::model()->attributeLabels()['lactose_intolerance']; ?>
-                                                <?php echo $form->checkBox($modelStudentRestrictions, 'lactose_intolerance', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                            </label>
-
-
-                                            <label class="checkbox">
-                                                <?php echo StudentRestrictions::model()->attributeLabels()['malnutrition']; ?>
-                                                <?php echo $form->checkBox($modelStudentRestrictions, 'malnutrition', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                            </label>
-
-
-                                            <label class="checkbox">
-                                                <?php echo StudentRestrictions::model()->attributeLabels()['obesity']; ?>
-                                                <?php echo $form->checkBox($modelStudentRestrictions, 'obesity', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                            </label>
-
-                                            <label class="checkbox">
-                                                <?php echo StudentRestrictions::model()->attributeLabels()['others']; ?>
-                                                <?php echo $modelStudentRestrictions->others != null ?
-                                                "<input type='checkbox' id='others-check' checked>" :
-                                                "<input type='checkbox' id='others-check'>"?>
-                                            </label>
-
-                                            <div class="row others-text-box" style="display: none;">
-                                                <?php echo $form->textArea($modelStudentRestrictions,'others',array('rows'=>6, 'cols'=>50)); ?>
-                                            </div>
-
-                                        </div>
-                                        <div class="controls">
-                                            <div>
-                                                <label class="control-label"><?php echo Yii::t('default', 'Vaccine'); ?></label>
-                                            </div>
-                                            <div class="vaccines-container">
-                                                <?php foreach ($vaccines as $vaccine) : ?>
-                                                    <label class="checkbox">
-                                                        <?= $vaccine->name; ?>
-                                                        <?php echo CHtml::activeCheckBox($vaccine, "vaccine_id[]", array('checked' => in_array($vaccine->id, $studentVaccinesSaves), 'value' => $vaccine->id, 'uncheckValue' => null, 'class' => 'vaccine-checkbox', 'code' => $vaccine->code)); ?>
-                                                    </label>
-                                                <?php endforeach; ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <?php $this->endWidget(); ?>
-                        </div>
-                    </div>
-                </div>
-
+               
                 <?php
                 if (isset($_GET['censo']) && isset($_GET['id'])) {
                     $this->widget('application.widgets.AlertCensoWidget', array('prefix' => 'student', 'dataId' => $_GET['id']));

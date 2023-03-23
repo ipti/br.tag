@@ -268,7 +268,7 @@ class StudentController extends Controller
     }
 
 
-    /**
+    /** 
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
@@ -277,7 +277,9 @@ class StudentController extends Controller
     {
         $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
         $modelStudentDocumentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
-        $modelStudentRestrictions = StudentRestrictions::model()->findByAttributes(array('student_fk'=>$id));
+
+        $modelStudentRestrictions = $this->loadModel($id, $this->STUDENT_RESTRICTIONS);
+
         $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
         $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => $id]]);
         if ($studentVaccinesSaves) {
@@ -304,6 +306,7 @@ class StudentController extends Controller
 
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
                 if ($modelStudentIdentification->save()) {
+                    $modelStudentRestrictions->student_fk = $modelStudentIdentification->id;
                     if ($modelStudentDocumentsAndAddress->save() && $modelStudentRestrictions->save()) {
                         $saved = true;
                         if (isset($_POST[$this->STUDENT_ENROLLMENT], $_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])
@@ -479,6 +482,11 @@ class StudentController extends Controller
         } else if ($model == $this->STUDENT_ENROLLMENT) {
             $return = StudentEnrollment::model()->findAllByAttributes(array('student_fk' => $id));
             array_push($return, new StudentEnrollment);
+        } else if ($model == $this->STUDENT_RESTRICTIONS){
+            $return = StudentRestrictions::model()->findByAttributes(array('student_fk' => $id));
+            if($return === null) {
+                $return = new StudentRestrictions;
+            }
         }
         if ($return === null) {
             //throw new CHttpException(404, 'The requested page does not exist.');

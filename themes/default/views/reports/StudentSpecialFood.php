@@ -23,7 +23,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
                 <th rowspan="" style="text-align: center;">ID INEP</th>
                 <th rowspan="">ALUNO</th>
                 <th rowspan="" style="text-align: center;">DATA DE NASCIMENTO</th>
-                <th colspan="8" style="text-align: center;"> Restrições </th>
+                <th colspan="9" style="text-align: center;"> Restrições </th>
             </tr>
             <?php
             $rows = "";
@@ -45,6 +45,11 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
                     $malnutrition =  '';};
                 if($r['obesity'] == 1){ $obesity =  '<i class="fa fa-close" style="color: black"></i>';}else{
                     $obesity =  '';};
+                if($r['others'] != null && $r['others'] != "") {
+                    $others = $r['others'];
+                }else {
+                    $others = "Não possui";
+                }
                 $rows .= "<tr>"
                     . "<td style='text-align: center;'>" . ($key + 1) . "</td>"
                     . "<td style='text-align: center;'>" . $r['inep_id'] . "</td>"
@@ -58,6 +63,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
                         <td style='text-align: center;'>Intolerância à lactose</td>
                         <td style='text-align: center;'>Desnutrição</td>
                         <td style='text-align: center;'>Obesidade</td>
+                        <td style='text-align: center;'>Outros</td>
                         <tr>
                         <th colspan='4'>
                                 <td style='text-align: center;'>".$celiac."</td>
@@ -68,6 +74,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
                                 <td style='text-align: center;'>".$lactose_intolerance."</td>
                                 <td style='text-align: center;'>".$malnutrition."</td>
                                 <td style='text-align: center;'>".$obesity."</td>
+                                <td style='text-align: center;'>".$others."</td>
                             </th>
                             </tr>";
                 $rows .= "</tr>";
