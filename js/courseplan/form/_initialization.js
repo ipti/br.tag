@@ -51,8 +51,8 @@ $(document).on("click", "#new-course-class", function () {
     addCoursePlanRow();
 });
 
-$(document).on("click", ".remove-course-class", function () {
-    if (!$(this).hasClass("unavailable")) {
+$(document).on("click", ".js-remove-course-class", function () {
+    if (!$(this).hasClass("js-unavailable")) {
         removeCoursePlanRow(this);
     }
 });
