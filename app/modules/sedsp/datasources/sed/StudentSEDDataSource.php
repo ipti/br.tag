@@ -1,21 +1,25 @@
 <?php
 require 'vendor/autoload.php'; 
 
+Yii::import('application.modules.sedsp.models.*');
 
-
-class StudentSEDDataSource
+/**
+ * Summary of StudentSEDDataSource
+ */
+class StudentSEDDataSource extends SedDataSource
 {
 
-    private $client;
-
+    /**
+     * Summary of getStudentRA
+     * @param string $name
+     * @param string $birthday
+     * @param string $mothersName
+     * @return DadosAluno
+     */
     public function getStudentRA($name, $birthday, $mothersName)
     {  
 
-        $promise = $this->client->requestAsync('GET', '/ncaapi/api/Aluno/ConsultaRA', [
-            'headers' => [
-                'content-type' => 'application/json',
-                'Authorization' => 'Bearer '. Yii::app()->user->getState("SED_TOKEN")
-            ],
+        $content = $response = $this->client->request('GET', '/ncaapi/api/Aluno/ConsultaRA', [
             'body' => json_encode([
                 "inNomeAluno" => $name,
                 "inNomeMae" => $mothersName,
@@ -23,18 +27,16 @@ class StudentSEDDataSource
             ])
         ]);
         
-        return $promise;
+        $content = $response->getBody()->getContents();
+        $aluno_sed = new DadosAluno($content);
+
+        return $aluno_sed;
     }   
 
     public function addStudent($student_sed){
         $promise = $this->client->request('POST', '/ncaapi/api/Aluno/FichaAluno', [
-            'headers' => [
-                'content-type' => 'application/json',
-                'Authorization' => 'Bearer '. Yii::app()->user->getState("SED_TOKEN")
-            ],
             'body' => json_encode($student_sed)
         ]);
-        
         return $promise;
     }
 
@@ -54,17 +56,6 @@ class StudentSEDDataSource
         })->wait(true);
 
         return $data;
-    }
-
-    /**
-     */
-    public function __construct() {
-        $this->client = new \GuzzleHttp\Client([
-            // Base URI is used with relative requests
-            'base_uri' => 'https://homologacaointegracaosed.educacao.sp.gov.br',
-            // You can set any number of default request options.
-            'timeout'  => 2.0,
-        ]);
     }
 }
 

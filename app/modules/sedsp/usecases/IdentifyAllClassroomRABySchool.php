@@ -19,10 +19,22 @@ class IdentifyAllClassroomRABySchool
     }
     public function exec($school_id, $year)
     {   
-        $school_id_text = strval($school_id);
-        $school_id_sed = substr($school_id_text, 2);
+        $school_id_sed = $this->adaptSchoolID($school_id);
         $response = $this->studentClassroomSEDDataSource->getRelationClassrooms($school_id_sed, $year);
         $escolaTurmas  = new EscolaTurmas($response);
         return $escolaTurmas;
+    }
+
+
+    /**
+     * Adapt School inep Id to SED API. This method remove the first
+     * two characters from inepId
+     * @param string $school_id
+     * @return string
+     */
+    private function adaptSchoolID($school_id){
+        $school_id_text = strval($school_id);
+        $school_id_sed = substr($school_id_text, 2); 
+        return $school_id_sed;
     }
 }

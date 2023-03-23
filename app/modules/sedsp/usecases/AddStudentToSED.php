@@ -22,9 +22,6 @@ class AddStudentToSED
     {
         $student = $this->studentTAGDataSource->getStudent($tag_student_id);
         $student_sed = StudentMapper::parseToSEDAlunoFicha($student, $student->documentsFk);
-        echo "<pre>";
-            var_dump(json_encode($student->documentsFk));
-        echo "</pre>";
         $response = $this->studentSEDDataSource->addStudent($student_sed);
 
         //Acessando os dados do aluno

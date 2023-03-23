@@ -8,11 +8,16 @@ Yii::import('application.modules.sedsp.models.*');
  * @property StudentTAGDataSource $studentTAGDataSource
  * @property StudentSEDDataSource $studentSEDDataSource
  */
-class IdentifyStudentRACode
+class IdentifyClassroomRACode
 {
     private  $studentTAGDataSource;
-    private  $studentSEDDataSource;
+    private   $studentSEDDataSource;
 
+    /**
+     * Summary of __construct
+     * @param StudentTAGDataSource $studentTAGDataSource
+     * @param StudentSEDDataSource $studentSEDDataSource
+     */
     function __construct($studentTAGDataSource = null, $studentSEDDataSource = null) {
         $this->studentTAGDataSource = $studentTAGDataSource ?? new StudentTAGDataSource();
         $this->studentSEDDataSource = $studentSEDDataSource ?? new StudentSEDDataSource();

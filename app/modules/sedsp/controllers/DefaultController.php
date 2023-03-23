@@ -6,16 +6,16 @@ class DefaultController extends Controller
 {
 	public function actionIndex($id)
 	{
-		$usecase = new IdentifyStudentRACode();
-		$RA = $usecase->exec($id);
-		$this->render('index', ['RA' => $RA]);
+		$identify_student_ra_usecase = new IdentifyStudentRACode();
+		$dados_aluno = $identify_student_ra_usecase->exec($id);
+		$this->render('index', ['RA' => $dados_aluno]);
 	}
 
 	public function actionLogin()
 	{
 		$usecase = new LoginUseCase();
-		$RA = $usecase->exec("SME701", "zyd780mhz1s5");
-		$this->render('index', ['RA' => $RA]);
+		$token = $usecase->exec("SME701", "zyd780mhz1s5");
+		$this->render('index', ['token' => $token]);
 	}
 
 	public function actionSyncSchoolClassrooms()
