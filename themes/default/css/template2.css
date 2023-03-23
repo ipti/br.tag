@@ -427,6 +427,15 @@ input[type="checkbox"] {
     border: none;
 }
 
+.checkbox {
+    pointer-events: none;
+  }
+  
+  .checkbox > input[type="checkbox"] {
+    pointer-events: auto;
+  }
+  
+
 .grid-view .dataTables_paginate {
     display: flex !important;
 }
@@ -470,3 +479,4 @@ input[type="checkbox"] {
 .grid-view .dataTables_paginate span {
     display: flex !important;
 }
+
