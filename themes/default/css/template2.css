@@ -422,7 +422,7 @@ input[type="checkbox"] {
     border: none;
 }
 
-#new-unity {
+.main .grades-buttons, .js-new-unity, .formulas {
     display: none;
 }
 
@@ -433,7 +433,67 @@ input[type="checkbox"] {
     margin-top: 1px;
 }
 
-.grades-structure-container {
+.js-grades-structure-container {
     margin-top: 40px;
     display: none;
+    width: 50%;
+}
+
+.js-grades-structure-container .unity-name {
+    width: calc(100% - 125px);
+}
+
+.js-grades-structure-container .modality-name {
+    width: calc(100% - 122px);
+}
+
+.js-grades-structure-container .formula-select, .js-grades-structure-container .type-select {
+    width: calc(100% - 107px);
+}
+
+.js-grades-structure-container .select2-choice {
+    width: calc(100% - 10px) !important;
+}
+
+.js-grades-structure-container .unity label {
+    width: 105px;
+}
+
+.js-grades-structure-container .unity-children {
+    margin: 20px 0 0 105px;
+}
+
+.js-grades-structure-container .unity {
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.js-grades-structure-container .unity-type {
+    margin-bottom: 5px;
+}
+
+.js-grades-structure-container .calculation {
+    margin-bottom: 20px;
+}
+
+.js-grades-structure-container .modality {
+    margin-top: 5px;
+    position: relative;
+}
+
+.js-grades-structure-container .js-new-modality {
+    margin-top: 15px;
+}
+
+.js-grades-structure-container .remove-unity, .js-grades-structure-container .remove-modality {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: darkred;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.js-grades-structure-container .remove-unity:hover, .js-grades-structure-container .remove-modality:hover {
+    color: #333;
 }

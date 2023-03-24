@@ -74,6 +74,9 @@ VALUES ('Soma', '');
 INSERT INTO `grade_calculation` (`name`, `formula`)
 VALUES ('Média', '');
 
+INSERT INTO `grade_calculation` (`name`, `formula`)
+VALUES ('Substituição de Menor Nota', '');
+
 ALTER TABLE `grade`
 ADD `grade_unity_modality_fk` int NOT NULL;
 
@@ -97,3 +100,6 @@ DROP FOREIGN KEY `grade_ibfk_1`;
 
 ALTER TABLE `grade`
 DROP `curricular_matrix_fk`;
+
+ALTER TABLE `grade_unity`
+ADD `type` varchar(1) COLLATE 'utf8_unicode_ci' NOT NULL AFTER `name`;

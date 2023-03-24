@@ -66,10 +66,12 @@ class AdminController extends Controller
     public function actionGradesStructure()
     {
         $stages = Yii::app()->db->createCommand("select esvm.id, esvm.name from edcenso_stage_vs_modality esvm join curricular_matrix cm on cm.stage_fk = esvm.id where school_year = :year order by esvm.name")->bindParam(":year", Yii::app()->user->year)->queryAll();
+        $formulas = GradeCalculation::model()->findAll();
         $gradeUnity = new GradeUnity();
         $this->render('gradesStructure', [
             "gradeUnity" => $gradeUnity,
-            "stages" => $stages
+            "stages" => $stages,
+            "formulas" => $formulas
         ]);
     }
 
@@ -89,8 +91,13 @@ class AdminController extends Controller
     public function actionGetUnities()
     {
         $result = [];
-
+        $result["unities"] = [];
         echo json_encode($result);
+    }
+
+    public function actionSaveUnities()
+    {
+
     }
 
     public function actionActiveDisableUser()

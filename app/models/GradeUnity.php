@@ -8,6 +8,7 @@
  * @property integer $edcenso_stage_vs_modality_fk
  * @property integer $edcenso_discipline_fk
  * @property string $name
+ * @property string $type
  * @property integer $grade_calculation_fk
  *
  * The followings are the available model relations:
@@ -34,12 +35,13 @@ class GradeUnity extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('edcenso_stage_vs_modality_fk, edcenso_discipline_fk, name, grade_calculation_fk', 'required'),
+			array('edcenso_stage_vs_modality_fk, edcenso_discipline_fk, name, type, grade_calculation_fk', 'required'),
 			array('edcenso_stage_vs_modality_fk, edcenso_discipline_fk, grade_calculation_fk', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>50),
+			array('type', 'length', 'max'=>1),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, name, grade_calculation_fk', 'safe', 'on'=>'search'),
+			array('id, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, name, type, grade_calculation_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -68,6 +70,7 @@ class GradeUnity extends CActiveRecord
 			'edcenso_stage_vs_modality_fk' => 'Edcenso Stage Vs Modality Fk',
 			'edcenso_discipline_fk' => 'Edcenso Discipline Fk',
 			'name' => 'Name',
+			'type' => 'Type',
 			'grade_calculation_fk' => 'Grade Calculation Fk',
 		);
 	}
@@ -94,6 +97,7 @@ class GradeUnity extends CActiveRecord
 		$criteria->compare('edcenso_stage_vs_modality_fk',$this->edcenso_stage_vs_modality_fk);
 		$criteria->compare('edcenso_discipline_fk',$this->edcenso_discipline_fk);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('type',$this->type,true);
 		$criteria->compare('grade_calculation_fk',$this->grade_calculation_fk);
 
 		return new CActiveDataProvider($this, array(
