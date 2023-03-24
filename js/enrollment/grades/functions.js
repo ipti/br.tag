@@ -221,6 +221,8 @@ function addStudentGrades(data, id, discipline_id, discipline, fields) {
         tbody += '<td class="center"><input id="" name="avgfq[' + id + '][' + discipline_id + '][' + j + ']" '
             + 'class="grades_inputs  ' + name_of_class + ' " ' + popover + '  type="text" step="1" min="0" max="365" value="' + discipline[avgfq[j]] + '"  /></td>"';
     }
+    
+    tbody += '<td class="center"><input name="avgfq[' + id + '][' + discipline_id + '][4]"'
         + 'class="frequency-percentage grades_inputs" type="text" step="0.1" min="0" max="100.0" value="' + discipline[avgfq[4]] + '" /></td>"';
     tbody += "</tr>";
     $('#tab' + id).find(".grade-table .row-grades").append(tbody);
