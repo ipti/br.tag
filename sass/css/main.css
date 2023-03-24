@@ -386,11 +386,6 @@ html {
   display: flex;
 }
 
-/* line 9, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
-.t-field-checkbox__label {
-  margin: 0px 0px 0px 0px;
-}
-
 /* line 11, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
 .t-field-checkbox__label--required {
   font-weight: bold;
