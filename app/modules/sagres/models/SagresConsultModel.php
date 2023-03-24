@@ -2,6 +2,7 @@
 
 namespace SagresEdu;
 
+use GoetasWebservices\XML\XSDReader\Schema\Attribute\Group;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
@@ -84,12 +85,20 @@ class SagresConsultModel
                 ->setCardapio($this->getCardapioType($school['inep_id'], $reference_year, $dateStart, $dateEnd));
 
             if (!empty($schoolType->getTurma())) {
+                //Tem turma no periodo 
+
                 if (!empty($schoolType->getCardapio())) {
+                    //E TEM CARDAPIO
                     $schoolList[] = $schoolType;
                 } else {
-                    
-                }         
+                    //NAO TEM CARDAPIO NO PERIODO
+                    $schoolType->setCardapio($this->getCardapioEscola($school['inep_id'], $reference_year));
+                    if (!empty($schoolType->getCardapio()))
+                        $schoolList[] = $schoolType;
+                }
             } else {
+                //Não tem turma no perido mas tem cardapio
+
                 if (!empty($schoolType->getCardapio())) {
                     $schoolList[] = $schoolType;
                 }
@@ -138,7 +147,7 @@ class SagresConsultModel
                 ->setSerie($this->getSerieType($classId))
                 ->setMatricula($this->getMatriculaType($classId, $reference_year))
                 ->setHorario($this->setHorario($classId))
-                ->setFinalTurma('0');
+                ->setFinalTurma(false);
 
             $classList[] = $classType;
         }
@@ -183,22 +192,19 @@ class SagresConsultModel
 
         $query = "SELECT DISTINCT 
                     (c.final_hour - c.initial_hour) AS duracao, 
-                    c.initial_hour AS hora_inicio,
-                    ed.name AS disciplina
-                FROM classroom c  
-                JOIN class c2 on c2.classroom_fk = c.id 
-                JOIN edcenso_discipline ed ON ed.id = c2.discipline_fk     
+                    c.initial_hour AS hora_inicio
+                FROM classroom c      
                 WHERE c.id = " . $classId . ";";
 
         $horarios = Yii::app()->db->createCommand($query)->queryAll();
 
         foreach ($horarios as $horario) {
             $horario_t = new HorarioTType;
-            $horario_t->setDiaSemana($horario['diaSemana'])
+            $horario_t->setDiaSemana(1)
                 ->setDuracao($horario['duracao'])
                 ->setHoraInicio($this->getDateTimeFromInitialHour($horario['hora_inicio']))
-                ->setDisciplina($horario['disciplina'])
-                ->setCpfProfessor(empty($horario['cpfProfessor']));
+                ->setDisciplina('LIBRAS')
+                ->setCpfProfessor(['68322517777']);
 
             $horarioList[] = $horario_t;
         }
@@ -281,7 +287,45 @@ class SagresConsultModel
                 JOIN lunch_meal_portion lmp ON lmp.meal_fk = lme.id 
                 JOIN lunch_portion lp ON lp.id = lmp.portion_fk 
                 JOIN lunch_item li ON li.id = lp.item_fk
-            WHERE si.inep_id = " . $id_escola . ". and YEAR(lm.date) = " . $year ." and lm.date BETWEEN '" . $data_inicio . "' and '" . $data_final . "'";
+            WHERE si.inep_id = " . $id_escola . ". and YEAR(lm.date) = " . $year . " and lm.date BETWEEN '" . $data_inicio . "' and '" . $data_final . "'";
+
+        $cardapios = Yii::app()->db->createCommand($query)->queryAll();
+
+        foreach ($cardapios as $cardapio) {
+            $cardapioType = new CardapioTType;
+            $cardapioType->setData(new DateTime($cardapio['data']))
+                ->setTurno($this->convertTurn($cardapio['turno']))
+                ->setDescricaoMerenda($cardapio['descricaoMerenda'])
+                ->setAjustado($cardapio['ajustado']);
+
+            $cardapioList[] = $cardapioType;
+        }
+
+        return $cardapioList;
+    }
+
+
+    public function getCardapioEscola($id_escola, $year)
+    {
+        $cardapioList = [];
+
+
+        $query = "SELECT 
+                lm.date AS data, 
+                cr.turn AS turno, 
+                li.description AS descricaoMerenda, 
+                lm.adjusted AS ajustado 
+            FROM classroom cr 
+                JOIN school_identification si ON si.inep_id = cr.school_inep_fk 
+                JOIN lunch_menu lm ON lm.school_fk = si.inep_id 
+                JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk 
+                JOIN lunch_meal lme ON lme.id = lmm.meal_fk 
+                JOIN lunch_meal_portion lmp ON lmp.meal_fk = lme.id 
+                JOIN lunch_portion lp ON lp.id = lmp.portion_fk 
+                JOIN lunch_item li ON li.id = lp.item_fk
+            WHERE si.inep_id = " . $id_escola . ". and YEAR(lm.date) = " . $year . "
+            GROUP BY lm.date DESC
+            LIMIT 1";
 
         $cardapios = Yii::app()->db->createCommand($query)->queryAll();
 
@@ -381,7 +425,7 @@ class SagresConsultModel
 
         foreach ($enrollments as $enrollment) {
             $enrollmentType = new MatriculaTType;
-            $enrollmentType->setNumero($enrollment['numero'])
+            $enrollmentType->setNumero('12345678')
                 ->setDataMatricula(new DateTime($enrollment['data_matricula']))
                 ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
                 ->setNumeroFaltas((int) $this->returnNumberFaults($enrollment['student_fk'], $reference_year))
@@ -480,10 +524,10 @@ class SagresConsultModel
     public function convertTurn($turn)
     {
         $turnos = array(
-            'M' => '1',
-            'V' => '2',
-            'N' => '3',
-            'I' => '4',
+            'M' => 1,
+            'V' => 2,
+            'N' => 3,
+            'I' => 4,
         );
 
         return isset($turnos[$turn]) ? $turnos[$turn] : 0;

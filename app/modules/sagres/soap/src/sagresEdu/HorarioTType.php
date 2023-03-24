@@ -30,7 +30,7 @@ class HorarioTType
     /**
      * @var \DateTime $horaInicio
      * @Type("DateTime<'H:i:s'>")
-     * @SerializedName("edu:horaInicio")
+     * @SerializedName("edu:hora_inicio")
      */
     private $horaInicio = null;
 
@@ -41,12 +41,11 @@ class HorarioTType
     private $disciplina = null;
 
     /**
-     * @var string[] $cpfProfessor
+     * @var [] $cpfProfessor
      * @XmlList(inline = true, entry = "edu:cpfProfessor")
+     * @SerializedName("edu:cpfProfessor")
      */
-    private $cpfProfessor = [
-        
-    ];
+    private $cpfProfessor = [];
 
     /**
      * Gets as diaSemana
@@ -183,10 +182,10 @@ class HorarioTType
     /**
      * Sets a new cpfProfessor
      *
-     * @param string $cpfProfessor
+     * @param $cpfProfessor
      * @return self
      */
-    public function setCpfProfessor($cpfProfessor)
+    public function setCpfProfessor(array $cpfProfessor)
     {
         $this->cpfProfessor = $cpfProfessor;
         return $this;
