@@ -12,6 +12,13 @@ use Datetime;
 
 class SagresConsultModel
 {
+    private $dbCommand;
+
+    public function __construct()
+    {
+        $this->dbCommand = Yii::app()->db->createCommand();
+    }
+
     public function getEducacaoData($reference_year, $dateStart, $dateEnd): EducacaoTType
     {
         $education = new EducacaoTType;
@@ -75,10 +82,18 @@ class SagresConsultModel
                 ->setTurma($this->getTurmaType($school['inep_id'], $reference_year, $dateStart, $dateEnd))
                 ->setDiretor($this->getDiretorType($school['inep_id']))
                 ->setCardapio($this->getCardapioType($school['inep_id'], $reference_year, $dateStart, $dateEnd));
-            
-            if(!empty($schoolType->getTurma()))
-                $schoolList[] = $schoolType;
-                
+
+            if (!empty($schoolType->getTurma())) {
+                if (!empty($schoolType->getCardapio())) {
+                    $schoolList[] = $schoolType;
+                } else {
+                    
+                }         
+            } else {
+                if (!empty($schoolType->getCardapio())) {
+                    $schoolList[] = $schoolType;
+                }
+            }
         }
 
         return $schoolList;
@@ -93,16 +108,25 @@ class SagresConsultModel
         $classList = [];
 
         $query = "SELECT 
-                    c.school_inep_fk, 
-                    c.id, 
-                    c.name, 
-                    c.turn
-                FROM classroom c
-                WHERE c.school_inep_fk = " . $inep_id .
-            " and c.school_year = " . $reference_year .
-            " and Date(c.create_date) BETWEEN '" . $data_inicio . "' and '" . $data_final . "';";
+                c.school_inep_fk, 
+                c.id, 
+                c.name, 
+                c.turn
+            FROM classroom c
+            WHERE c.school_inep_fk = :inep_id
+                AND c.school_year = :reference_year
+                AND Date(c.create_date) BETWEEN :data_inicio AND :data_final";
 
-        $turmas = Yii::app()->db->createCommand($query)->queryAll();
+        $params = [
+            ':inep_id' => $inep_id,
+            ':reference_year' => $reference_year,
+            ':data_inicio' => $data_inicio,
+            ':data_final' => $data_final,
+        ];
+
+        $turmas = $this->dbCommand->setText($query)
+            ->bindValues($params)
+            ->queryAll();
 
         foreach ($turmas as $turma) {
             $classType = new TurmaTType;
@@ -121,7 +145,6 @@ class SagresConsultModel
 
         return $classList;
     }
-
 
     /**
      * Summary of SerieTType
@@ -183,10 +206,11 @@ class SagresConsultModel
         return $horarioList;
     }
 
-    function getDateTimeFromInitialHour($initialHour) {
+    function getDateTimeFromInitialHour($initialHour)
+    {
         $timeFormatted = date('H:i:s', strtotime($initialHour . ':00:00'));
         return new DateTime($timeFormatted);
-    }  
+    }
 
     /**
      * Summary of EscolaTType
@@ -243,20 +267,21 @@ class SagresConsultModel
     {
         $cardapioList = [];
 
+
         $query = "SELECT 
-                    lm.date AS data, 
-                    cr.turn AS turno, 
-                    li.description AS descricaoMerenda, 
-                    lm.adjusted AS ajustado 
-                FROM classroom cr 
-                    JOIN school_identification si ON si.inep_id = cr.school_inep_fk 
-                    JOIN lunch_menu lm ON lm.school_fk = si.inep_id 
-                    JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk 
-                    JOIN lunch_meal lme ON lme.id = lmm.meal_fk 
-                    JOIN lunch_meal_portion lmp ON lmp.meal_fk = lme.id 
-                    JOIN lunch_portion lp ON lp.id = lmp.portion_fk 
-                    JOIN lunch_item li ON li.id = lp.item_fk
-                WHERE si.inep_id = " . $id_escola . " and cr.school_year = " . $year . " and lm.date  BETWEEN '" . $data_inicio . "' and '" . $data_final . "';";
+                lm.date AS data, 
+                cr.turn AS turno, 
+                li.description AS descricaoMerenda, 
+                lm.adjusted AS ajustado 
+            FROM classroom cr 
+                JOIN school_identification si ON si.inep_id = cr.school_inep_fk 
+                JOIN lunch_menu lm ON lm.school_fk = si.inep_id 
+                JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk 
+                JOIN lunch_meal lme ON lme.id = lmm.meal_fk 
+                JOIN lunch_meal_portion lmp ON lmp.meal_fk = lme.id 
+                JOIN lunch_portion lp ON lp.id = lmp.portion_fk 
+                JOIN lunch_item li ON li.id = lp.item_fk
+            WHERE si.inep_id = " . $id_escola . ". and YEAR(lm.date) = " . $year ." and lm.date BETWEEN '" . $data_inicio . "' and '" . $data_final . "'";
 
         $cardapios = Yii::app()->db->createCommand($query)->queryAll();
 
@@ -344,13 +369,13 @@ class SagresConsultModel
                   FROM student_enrollment se 
                   WHERE se.classroom_fk  =  :id;";
 
-   
+
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
             ':id' => $id
         ])
-        ->queryAll();
+            ->queryAll();
 
         $enrollments = $command->queryAll();
 
@@ -372,13 +397,13 @@ class SagresConsultModel
     public function getStudentSituation($situation)
     {
         /* "0" => "Não frequentou",
-           "1" => "Reprovado",
-           "2" => "Afastado por transferência",
-           "3" => "Afastado por abandono",
-           "4" => "Matrícula final em Educação Infantil",
-           "5" => "Promovido" 
+        "1" => "Reprovado",
+        "2" => "Afastado por transferência",
+        "3" => "Afastado por abandono",
+        "4" => "Matrícula final em Educação Infantil",
+        "5" => "Promovido" 
         */
-        if($situation == 1)
+        if ($situation == 1)
             return false;
     }
 
