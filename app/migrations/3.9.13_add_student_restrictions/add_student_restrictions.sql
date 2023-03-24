@@ -17,4 +17,6 @@ CREATE TABLE `student_restrictions` (
   CONSTRAINT `student_food_restrictions_FK` FOREIGN KEY (`student_fk`) REFERENCES `student_identification` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
-ALTER TABLE `io.escola.demo`.student_identification DROP COLUMN food_restrictions;
+INSERT INTO student_restrictions (student_fk, others)
+SELECT id, food_restrictions
+FROM student_identification;
