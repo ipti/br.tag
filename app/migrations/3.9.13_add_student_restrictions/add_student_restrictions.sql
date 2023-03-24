@@ -20,3 +20,7 @@ CREATE TABLE `student_restrictions` (
 INSERT INTO student_restrictions (student_fk, others)
 SELECT id, food_restrictions
 FROM student_identification;
+
+UPDATE student_restrictions
+SET others = ''
+WHERE others = 'NAO' OR others = 'NENHUMA';
