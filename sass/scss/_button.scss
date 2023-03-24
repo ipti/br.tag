@@ -118,8 +118,17 @@
     @extend .t-button;
     color: $colorsBaseWhiteNormal;
     background-color: $colorsTextError;
-
+    &--disabled {
+        background-color: $colorsBaseCloudNormal;
+        color: $colorsBaseInkLighterActive;
+        cursor: not-allowed !important;
+    }
+ 
     &:hover {
         color: $colorsBaseWhiteNormal;
+    }
+       
+    &--disabled:hover {
+        color: $colorsBaseInkLighterActive;
     }
 }

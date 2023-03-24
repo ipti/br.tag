@@ -85,6 +85,13 @@ $form = $this->beginWidget('CActiveForm', array(
                         <span class="t-tabs__numeration js-change-number-3">4</span>
                         <?php echo Yii::t('default', 'Enrollment') ?>
                     </a>
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                </li>
+                <li id="tab-student-health" class="t-tabs__item ">
+                    <a class="t-tabs__link" href="#student-health" data-toggle="tab">
+                        <span class="t-tabs__numeration js-change-number-4">5</span>
+                        <?php echo Yii::t('default', 'Health') ?>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -366,13 +373,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($modelStudentIdentification, 'bf_participator'); ?>
                             </div>
 
-
-                            <div class="t-field-tarea js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'food_restrictions', array('class' => 'control-label t-field-tarea__label')); ?>
-                                <?php echo $form->textArea($modelStudentIdentification, 'food_restrictions', array('class' => 't-field-tarea__input', 'placeholder' => 'Digite aqui, se houver, restrições alimentares')); ?>
-                                <?php echo $form->error($modelStudentIdentification, 'food_restrictions'); ?>
-                            </div>
-
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelStudentIdentification, 'send_year', array('value' => date('Y') + 1, 'uncheckValue' => (date('Y')), 'class' => 't-field-checkbox__input')); ?>
                                 <?php echo $form->labelEx($modelStudentIdentification, 'send_year', array('class' => 'control-label t-field-checkbox__label--required')); ?>
@@ -483,19 +483,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo StudentIdentification::model()->attributeLabels()['resource_none']; ?>
                                     <?php echo $form->checkBox($modelStudentIdentification, 'resource_none', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
-                            </div>
-                            <div class="hide-responsive  js-hide-not-required" id="vaccine">
-                                <div>
-                                    <label class="control-label"><?php echo Yii::t('default', 'Vaccine'); ?></label>
-                                </div>
-                                <div class="vaccines-container">
-                                    <?php foreach ($vaccines as $vaccine) : ?>
-                                        <label class="checkbox">
-                                            <?= $vaccine->name; ?>
-                                            <?php echo CHtml::activeCheckBox($vaccine, "vaccine_id[]", array('checked' => in_array($vaccine->id, $studentVaccinesSaves), 'value' => $vaccine->id, 'uncheckValue' => null, 'class' => 'vaccine-checkbox', 'code' => $vaccine->code)); ?>
-                                        </label>
-                                    <?php endforeach; ?>
-                                </div>
                             </div>
                         </div>
 
@@ -943,6 +930,105 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
 
                 </div>
+
+                <div class="tab-pane" id="student-health">
+                    <div class="row-fluid" style="padding: 0 0 0px 0;">
+                        <div class="span12">
+                            <div class="widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
+                                <div class="widget-body in" style="height: auto;">
+                                    <div class="control-group row" id="received" style="margin-left:34px;">
+                                        <div class="controls">
+                                            <div class="column no-grow">
+                                                <h3><?php echo Yii::t('default', 'Restrictions'); ?>
+                                                    <!-- <i style="font-size: 0.8em;">(Marcar os documentos que foram entregues).</i> -->
+                                                </h3>
+                                            </div>
+                                            <div class="column no-grow">
+                                                <label class="checkbox">
+                                                    <?php echo StudentRestrictions::model()->attributeLabels()['celiac']; ?>
+                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'celiac', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                </label>
+
+
+                                                <label class="checkbox">
+                                                    <?php echo StudentRestrictions::model()->attributeLabels()['diabetes']; ?>
+                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'diabetes', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                </label>
+
+
+                                                <label class="checkbox">
+                                                    <?php echo StudentRestrictions::model()->attributeLabels()['hypertension']; ?>
+                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'hypertension', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                </label>
+
+
+                                                <label class="checkbox">
+                                                    <?php echo StudentRestrictions::model()->attributeLabels()['iron_deficiency_anemia']; ?>
+                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'iron_deficiency_anemia', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                </label>
+
+
+                                                <label class="checkbox">
+                                                    <?php echo StudentRestrictions::model()->attributeLabels()['sickle_cell_anemia']; ?>
+                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'sickle_cell_anemia', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                </label>
+
+
+                                                <label class="checkbox">
+                                                    <?php echo StudentRestrictions::model()->attributeLabels()['lactose_intolerance']; ?>
+                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'lactose_intolerance', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                </label>
+
+
+                                                <label class="checkbox">
+                                                    <?php echo StudentRestrictions::model()->attributeLabels()['malnutrition']; ?>
+                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'malnutrition', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                </label>
+
+
+                                                <label class="checkbox">
+                                                    <?php echo StudentRestrictions::model()->attributeLabels()['obesity']; ?>
+                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'obesity', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                </label>
+
+                                                <label class="checkbox">
+                                                    <?php echo StudentRestrictions::model()->attributeLabels()['others']; ?>
+                                                    <?php echo $modelStudentRestrictions->others != null ?
+                                                    "<input type='checkbox' id='others-check' checked>" :
+                                                    "<input type='checkbox' id='others-check'>"?>
+                                                </label>
+
+                                                <div class="row others-text-box" style="display: none;">
+                                                    <?php echo $form->textArea($modelStudentRestrictions,'others',array('rows'=>6, 'cols'=>50)); ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="controls">
+                                            <div class="column no-grow">
+                                                <h3><?php echo Yii::t('default', 'Vaccine'); ?>
+                                                    <!-- <i style="font-size: 0.8em;">(Marcar os documentos que foram entregues).</i> -->
+                                                </h3>
+                                            </div>
+                                            <div class="column no-grow">
+                                                <div class="vaccines-container">
+                                                    <?php foreach ($vaccines as $vaccine) : ?>
+                                                        <label class="checkbox">
+                                                            <?= $vaccine->name; ?>
+                                                            <?php echo CHtml::activeCheckBox($vaccine, "vaccine_id[]", array('checked' => in_array($vaccine->id, $studentVaccinesSaves), 'value' => $vaccine->id, 'uncheckValue' => null, 'class' => 'vaccine-checkbox', 'code' => $vaccine->code)); ?>
+                                                        </label>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <?php $this->endWidget(); ?>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Tab Student Enrollment -->
                 <div class="tab-pane" id="student-enrollment">
                     <div class="row">
@@ -1311,24 +1397,18 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
-        <?php $this->endWidget(); ?>
-    </div>
-</div>
-</div>
+               
+                <?php
+                if (isset($_GET['censo']) && isset($_GET['id'])) {
+                    $this->widget('application.widgets.AlertCensoWidget', array('prefix' => 'student', 'dataId' => $_GET['id']));
+                }
+                ?>
 
-<?php
-if (isset($_GET['censo']) && isset($_GET['id'])) {
-    $this->widget('application.widgets.AlertCensoWidget', array('prefix' => 'student', 'dataId' => $_GET['id']));
-}
-?>
-
-<script type="text/javascript">
-    var formIdentification = '#StudentIdentification_';
-    var formDocumentsAndAddress = '#StudentDocumentsAndAddress_';
-    var formEnrollment = '#StudentEnrollment_';
-    var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>';
-    var filled = -1;
-</script>
+                <script type="text/javascript">
+                    var formIdentification = '#StudentIdentification_';
+                    var formDocumentsAndAddress = '#StudentDocumentsAndAddress_';
+                    var formEnrollment = '#StudentEnrollment_';
+                    var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>';
+                    var filled = -1;
+                </script>

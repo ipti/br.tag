@@ -1,13 +1,14 @@
 var simple = getUrlVars()['simple'];
 if (simple == '1') {
-    var tabs = ['tab-student-identify', 'tab-student-address', 'tab-student-enrollment'];
+    var tabs = ['tab-student-identify', 'tab-student-address', 'tab-student-enrollment', 'tab-student-health'];
     changeTabNumber();
 }else{
-    var tabs = ['tab-student-identify', 'tab-student-documents', 'tab-student-address', 'tab-student-enrollment'];
+    var tabs = ['tab-student-identify', 'tab-student-documents', 'tab-student-address', 'tab-student-enrollment', 'tab-student-health'];
 }
 function changeTabNumber(){
     $('.js-change-number-2').html("2");
     $('.js-change-number-3').html("3");
+    $('.js-change-number-4').html("4");
 }
 function changeTab(index){
 	var activeTab = $('.js-tab-control li.active');

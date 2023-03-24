@@ -295,15 +295,12 @@ class SchoolController extends Controller
      */
     public function actionIndex()
     {
-        $query = SchoolIdentification::model()->findAll();
         $filter = new SchoolIdentification('search');
         $filter->unsetAttributes();  // clear any default values
         if (isset($_GET['SchoolIdentification'])) {
             $filter->attributes = $_GET['SchoolIdentification'];
         }
-        $dataProvider = new CActiveDataProvider($this->SCHOOL_IDENTIFICATION, array('pagination' => array(
-            'pageSize' => count($query),
-        )));
+        $dataProvider = new CActiveDataProvider($this->SCHOOL_IDENTIFICATION, array('pagination' => false));
         $this->render('index', array(
             'dataProvider' => $dataProvider,
             'filter' => $filter
