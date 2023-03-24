@@ -444,14 +444,24 @@ input[type="checkbox"] {
     background-image: url('../img/chevron-left.svg') !important;
     background-repeat: no-repeat !important;
     background-position-y: center !important;
-    outline: none !important;
 }
 
 .grid-view .dataTables_paginate .next {
     background-image: url('../img/chevron-right.svg') !important;
     background-repeat: no-repeat !important;
     background-position-y: center !important;
-    outline: none !important;
+}
+
+.grid-view .dataTables_paginate .previous:active {
+    box-shadow: none !important;
+}
+
+.grid-view .dataTables_paginate .next:active {
+    box-shadow: none !important;
+}
+
+.grid-view .dataTables_paginate a {
+    border: 1px solid white !important;
 }
 
 .grid-view .dataTables_paginate span .paginate_button {
@@ -463,13 +473,16 @@ input[type="checkbox"] {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    border: none;
-}
-
-.grid-view .dataTables_paginate span .paginate_button {
     background-color: transparent;
     color: #252A31;
 }
+
+.grid-view .dataTables_paginate span .paginate_button:hover:not(.current) {
+    background: #F5F7F9 !important;
+    color: #252A31 !important;
+}
+
+
 
 .grid-view .current {
     background-color: #3F45EA !important;
