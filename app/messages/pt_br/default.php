@@ -38,7 +38,7 @@ return array(
     'cannot  be blank' => 'não pode ser vazio.',
     'No matches found' => 'nenhuma referência encontrada',
     'Incorrect username or password.'=>'Usuário ou senha incorretos',
-    'cannot be blank'=>'não pode ficar em branco',
+    'cannot be blank'=> 'não pode ficar em branco',
     
     //Campos das tabelas
 

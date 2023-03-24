@@ -11,10 +11,16 @@ CREATE TABLE `student_restrictions` (
   `lactose_intolerance` tinyint(1) NOT NULL DEFAULT '0',
   `malnutrition` tinyint(1) NOT NULL DEFAULT '0',
   `obesity` tinyint(1) NOT NULL DEFAULT '0',
-  `others` varchar(200) DEFAULT NULL,
+  `others` varchar(200) NOT NULL DEFAULT "",
   PRIMARY KEY (`id`),
   KEY `student_food_restrictions_FK` (`student_fk`),
   CONSTRAINT `student_food_restrictions_FK` FOREIGN KEY (`student_fk`) REFERENCES `student_identification` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
-ALTER TABLE `io.escola.demo`.student_identification DROP COLUMN food_restrictions;
+INSERT INTO student_restrictions (student_fk, others)
+SELECT id, food_restrictions
+FROM student_identification;
+
+UPDATE student_restrictions
+SET others = ''
+WHERE others = 'NAO' OR others = 'NENHUMA';
