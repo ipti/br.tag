@@ -448,6 +448,12 @@ input[type="checkbox"]:checked {
     border: none;
 }
 
+li[discipline]:hover {
+    background-color: lightblue!important;
+}
+li[instructor]:hover {
+    background-color: lightblue!important;
+}
 
 .checkbox {
     pointer-events: none;

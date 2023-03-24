@@ -368,20 +368,20 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="t-field-checkbox js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'bf_participator', array('class' => 'control-label t-field-checkbox__label')); ?>
                                 <?php echo $form->checkBox($modelStudentIdentification, 'bf_participator', array('class' => 't-field-checkbox__input')); ?>
+                                <?php echo $form->labelEx($modelStudentIdentification, 'bf_participator', array('class' => 'control-label t-field-checkbox__label')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'bf_participator'); ?>
                             </div>
 
                             <div class="t-field-checkbox">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'send_year', array('class' => 'control-label t-field-checkbox__label--required')); ?>
                                 <?php echo $form->checkBox($modelStudentIdentification, 'send_year', array('value' => date('Y') + 1, 'uncheckValue' => (date('Y')), 'class' => 't-field-checkbox__input')); ?>
+                                <?php echo $form->labelEx($modelStudentIdentification, 'send_year', array('class' => 'control-label t-field-checkbox__label--required')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'send_year'); ?>
                             </div>
 
                             <div class="t-field-checkbox">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'deficiency', array('class' => 'control-label t-field-checkbox__label--required')); ?>
                                 <?php echo $form->checkBox($modelStudentIdentification, 'deficiency', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
+                                <?php echo $form->labelEx($modelStudentIdentification, 'deficiency', array('class' => 'control-label t-field-checkbox__label--required')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'deficiency'); ?>
                             </div>
 
@@ -1161,13 +1161,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelEnrollment, 'school_admission_date'); ?>
                                 </div>
                             </div>
-                            <div class="control-group t-input">
-                                <div class="controls">
-                                    <?php echo $form->labelEx($modelEnrollment, 'public_transport', array('class' => 'control-label t-input__label--required')); ?>
-                                    <label class="checkbox">
-                                        <?php echo $form->checkBox($modelEnrollment, 'public_transport', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-input__text')); ?>
-                                    </label>
-                                </div>
+                            <div class="t-field-checkbox js-hide-not-required">
+                                <?php echo $form->checkBox($modelEnrollment, 'public_transport', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
+                                <?php echo $form->labelEx($modelEnrollment, 'public_transport', array('class' => 'control-label t-field-checkbox__label--required')); ?>
                             </div>
                             <div class="t-field-select t-input" id="transport_responsable">
                                 <div class="controls">
