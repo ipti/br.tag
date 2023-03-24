@@ -235,11 +235,22 @@ html {
   background-color: #D21C1C;
 }
 
-.t-button-danger--disabled { background-color: #eff2f5; color: #94a8be; cursor: not-allowed !important; }
+/* line 121, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+.t-button-danger--disabled {
+  background-color: #eff2f5;
+  color: #94a8be;
+  cursor: not-allowed !important;
+}
 
-.t-button-danger:hover { color: #FFFFFF; }
+/* line 127, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+.t-button-danger:hover {
+  color: #FFFFFF;
+}
 
-.t-button-danger--disabled:hover { color: #94a8be; }
+/* line 131, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+.t-button-danger--disabled:hover {
+  color: #94a8be;
+}
 
 /* Color */
 /* Product */
