@@ -43,7 +43,8 @@ return array(
         'curricularmatrix',
         'quiz',
         'sagres',
-        'professional'
+        'professional',
+        'sedsp',
     ),
     // application components
     'components' => array(

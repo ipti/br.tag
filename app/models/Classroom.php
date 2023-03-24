@@ -273,9 +273,7 @@ class Classroom extends AltActiveRecord
                     'name' => CSort::SORT_ASC,
                 ),
             ),
-            'pagination' => array(
-                'pageSize' => 50,
-            ),
+            'pagination' => false
         ));
     }
 

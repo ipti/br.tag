@@ -49,13 +49,18 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <div class="t-tabs js-tab-control">
                 <ul class="t-tabs__list tab-courseplan">
                     <li id="tab-create-plan" class="t-tabs__item active">
-                        <a class="t-tabs__link" href="#create-plan" data-toggle="tab"><?php echo Yii::t('default', 'Create Plan') ?></a>
+                        <a class="t-tabs__link" href="#create-plan" data-toggle="tab">
+                            <span  class="t-tabs__numeration">1</span>
+                            <?php echo Yii::t('default', 'Create Plan') ?></a>
+                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                     </li>
                     <li id="tab-class" class="t-tabs__item">
-                        <a class="t-tabs__link" href="#class" data-toggle="tab"><?php echo Yii::t('default', 'Class') ?></a>
+                        <a class="t-tabs__link" href="#class" data-toggle="tab">
+                            <span  class="t-tabs__numeration">2</span>
+                            <?php echo Yii::t('default', 'Class') ?></a>
                     </li>
                 </ul>
-                <div   class="row t-buttons-container-form">
+                <div   class="row">
                     <a 
                     data-toggle="tab" class='t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?>
                     </a>
@@ -124,10 +129,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                 <th class="t-accordion__head"></th>
                                 <th class="t-accordion__head"></th>
                                 <th class="t-accordion__head"></th>
-                                <th class="t-accordion__head"></th>
+                                <th class="t-accordion__head" style="background-color: initial !important;"></th>
                             </tr>
                         </thead>
-                        <tbody class="t-accordion__body">
+                        <tbody class="t-accordion__body js-change-idRows">
                         </tbody>
                     </table>
                     

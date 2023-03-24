@@ -1,5 +1,21 @@
 # Atualizações
 
+## [Versão 3.9.13]
+- Relatório de Cardápios Especiais
+- Aba Saúde adicionada no formulário de aluno
+
+## [Versão 3.8.13]
+- Correções nos formulários do módulo Sagres.
+- Correção da validação do CPF.
+- Agora o CPF do responsável é obrigatório.
+- No formulário de professores agora as cidades aparecem corretamente.
+- Ícone do Sagres adicionado na sidebar.
+- Correção visual no formulário de transferência.
+- Correção visual nos botões.
+- Nos formulários agora aparecem textos nas caixas vazias indicando o que deve ser inserido.
+- Nos formulários o visual das seções foram alteradas.
+- Correção de bugs e visual no formulário de plano de aula.
+
 ## [Versão 3.4.7]
 - Módulo Sagres adicionado
 

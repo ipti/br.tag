@@ -107,20 +107,9 @@ class CurricularmatrixController extends Controller
 
     private function getDataProviderAndFilter()
     {
-        $filter = new CurricularMatrix('search');
-        $filter->unsetAttributes();
-        if (isset($_GET['CurricularMatrix'])) {
-            $filter->attributes = $_GET['CurricularMatrix'];
-        }
+        $dataProvider = CurricularMatrix::model()->search();
 
-        $dataProvider =
-            new CActiveDataProvider('CurricularMatrix', [
-                'pagination' => [
-                    'pageSize' => 50000,
-                ]
-            ]);
-
-        return ['dataProvider' => $dataProvider, 'filter' => $filter];
+        return ['dataProvider' => $dataProvider];
 
     }
 

@@ -24,7 +24,7 @@ $year = (Yii::app()->user->year);
 
 $model = new StudentEnrollment();
 ?>
-
+<div class="main">
     <div class="row-fluid">
         <div class="span12">
             <h1>
@@ -86,6 +86,7 @@ $model = new StudentEnrollment();
                 <?php $this->endWidget(); ?>
             </div>
         </div>
+    </div>
     </div>
 <script type="text/javascript">
     $(document).ready(function() {
