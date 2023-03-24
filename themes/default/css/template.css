@@ -691,23 +691,6 @@ body > .container-fluid.documentation {
     display: none;
 }
 
-@media (max-width: 992px) { 
-    #menu {
-        z-index: 99;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    }
-    .navbar.main {
-        width: 100% !important;
-    }
-    #content {
-        margin: 0 0 20px 0px;
-    }
-    #logo-menu{
-        margin-left: 10px;
-    }
-
- }
-
 #menu .profile {
     display: block;
     height: 73px;

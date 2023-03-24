@@ -137,14 +137,13 @@ html {
   font-size: 12px;
   border-radius: 6px;
   text-decoration: none;
-  justify-content: space-between;
   align-self: center;
   justify-content: center;
   margin-right: 1em;
   cursor: pointer;
 }
 
-/* line 29, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 32, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button:hover, .t-button-primary:hover, .t-button-submit:hover, .t-button-secondary:hover, .t-button-tertiary:hover, .t-button-danger:hover, .t-button--active {
   text-decoration: none;
 }
@@ -165,24 +164,24 @@ html {
   }
 }
 
-/* line 46, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 47, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button:link, .t-button-primary:link, .t-button-submit:link, .t-button-secondary:link, .t-button-tertiary:link, .t-button-danger:link, .t-button:focus, .t-button-primary:focus, .t-button-submit:focus, .t-button-secondary:focus, .t-button-tertiary:focus, .t-button-danger:focus, .t-button:hover, .t-button-primary:hover, .t-button-submit:hover, .t-button-secondary:hover, .t-button-tertiary:hover, .t-button-danger:hover, .t-button--active, .t-button:active, .t-button-primary:active, .t-button-submit:active, .t-button-secondary:active, .t-button-tertiary:active, .t-button-danger:active {
   text-decoration: none !important;
 }
 
-/* line 50, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 55, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button img, .t-button-primary img, .t-button-submit img, .t-button-secondary img, .t-button-tertiary img, .t-button-danger img {
   margin-right: 6px;
 }
 
-/* line 54, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 59, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button i, .t-button-primary i, .t-button-submit i, .t-button-secondary i, .t-button-tertiary i, .t-button-danger i {
   align-self: center;
   margin-right: 6px;
   opacity: 0.5;
 }
 
-/* line 61, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 66, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-primary, .t-button-submit {
   background-color: #3f45ea;
   color: #FFFFFF;
@@ -190,53 +189,53 @@ html {
   align-self: center;
 }
 
-/* line 68, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 73, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-primary:hover, .t-button-submit:hover, .t-button-primary--active {
   color: #FFFFFF;
   background-color: #272B96;
 }
 
-/* line 73, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 79, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-primary:link, .t-button-submit:link, .t-button-primary:focus, .t-button-submit:focus, .t-button-primary:hover, .t-button-submit:hover, .t-button-primary--active, .t-button-primary:active, .t-button-submit:active {
   color: #FFFFFF;
 }
 
-/* line 78, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 88, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-secondary {
   background-color: #eff2f5;
   color: #252A31;
 }
 
-/* line 82, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 93, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-secondary:hover, .t-button-secondary--active {
   color: #252A31;
   background-color: #e5eaef;
 }
 
-/* line 88, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 100, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-tertiary {
   background-color: #94a8be;
   color: #FFFFFF;
 }
 
-/* line 92, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 105, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-tertiary:hover, .t-button-tertiary--active {
   color: #FFFFFF;
   background-color: #5F738C;
 }
 
-/* line 98, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 112, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-submit {
   margin: 14px 0;
 }
 
-/* line 103, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 117, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-danger {
   color: #FFFFFF;
   background-color: #D21C1C;
 }
 
-/* line 107, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+/* line 122, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-danger:hover {
   color: #FFFFFF;
 }
@@ -1163,7 +1162,6 @@ h5, .subheading {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  z-index: 2;
   top: 0px;
   background: #fafafe;
   z-index: 99;
@@ -1173,7 +1171,7 @@ h5, .subheading {
   /* Firefox */
 }
 
-/* line 15, ../../../../wamp64/www/br.tag/sass/scss/_drawer.scss */
+/* line 14, ../../../../wamp64/www/br.tag/sass/scss/_drawer.scss */
 .t-drawer-header {
   display: flex;
   align-items: center;
@@ -1183,7 +1181,7 @@ h5, .subheading {
   margin-bottom: 24px;
 }
 
-/* line 24, ../../../../wamp64/www/br.tag/sass/scss/_drawer.scss */
+/* line 23, ../../../../wamp64/www/br.tag/sass/scss/_drawer.scss */
 .t-drawer-toggle {
   display: flex;
   flex-direction: column;
@@ -1197,13 +1195,13 @@ h5, .subheading {
 }
 
 @media (min-width: 768px) {
-  /* line 24, ../../../../wamp64/www/br.tag/sass/scss/_drawer.scss */
+  /* line 23, ../../../../wamp64/www/br.tag/sass/scss/_drawer.scss */
   .t-drawer-toggle {
     display: none;
   }
 }
 
-/* line 39, ../../../../wamp64/www/br.tag/sass/scss/_drawer.scss */
+/* line 38, ../../../../wamp64/www/br.tag/sass/scss/_drawer.scss */
 .t-drawer-toggle div {
   border-radius: 12px;
   width: 100%;
@@ -1211,25 +1209,25 @@ h5, .subheading {
   background-color: #272B96;
 }
 
-/* line 47, ../../../../wamp64/www/br.tag/sass/scss/_drawer.scss */
+/* line 46, ../../../../wamp64/www/br.tag/sass/scss/_drawer.scss */
 .t-drawer--mobile-hidden {
   left: -200px;
   transition: left 500ms;
 }
 
-/* line 52, ../../../../wamp64/www/br.tag/sass/scss/_drawer.scss */
+/* line 51, ../../../../wamp64/www/br.tag/sass/scss/_drawer.scss */
 .t-drawer::-webkit-scrollbar {
   display: none;
 }
 
 @media (min-width: 768px) {
-  /* line 57, ../../../../wamp64/www/br.tag/sass/scss/_drawer.scss */
+  /* line 56, ../../../../wamp64/www/br.tag/sass/scss/_drawer.scss */
   .t-drawer--mobile-hidden {
     left: 0;
   }
 }
 
-/* line 65, ../../../../wamp64/www/br.tag/sass/scss/_drawer.scss */
+/* line 64, ../../../../wamp64/www/br.tag/sass/scss/_drawer.scss */
 .sidebar-cover {
   display: block;
   background-color: #00000062;
