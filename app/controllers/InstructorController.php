@@ -364,23 +364,11 @@ preenchidos";
      */
     public function actionIndex()
     {
-        $query = InstructorIdentification::model()->findAll();
-        $filter = new InstructorIdentification('search');
-        $filter->unsetAttributes();  // clear any default values
-        if (isset($_GET['InstructorIdentification'])) {
-            $_GET['InstructorIdentification']['name'] = $this->removeWhiteSpace($_GET['InstructorIdentification']['name']);
-            $filter->attributes = $_GET['InstructorIdentification'];
-        }
-        $school = Yii::app()->user->school;
-        $dataProvider = new CActiveDataProvider('InstructorIdentification', [
-            'criteria' => [
-                'order' => 'name ASC',
-            ], 'pagination' => [
-                'pageSize' => count($query),
-            ]
-        ]);
+        $dataProvider = InstructorIdentification::model()->search();
+        
+        
         $this->render('index', [
-            'dataProvider' => $dataProvider, 'filter' => $filter
+            'dataProvider' => $dataProvider
         ]);
     }
 
