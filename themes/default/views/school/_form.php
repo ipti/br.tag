@@ -79,9 +79,9 @@ $form = $this->beginWidget('CActiveForm', array(
                         <span class="t-tabs__numeration">5</span>
                         <?php echo Yii::t('default', 'Educational Data') ?>
                     </a>
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
                 <?php if (!$modelSchoolIdentification->isNewRecord) : ?>
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                     <li id="tab-school-reports" class="t-tabs__item hide-responsive">
 
                         <a class="t-tabs__link" href="#school-reports" data-toggle="tab">
