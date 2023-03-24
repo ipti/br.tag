@@ -37,12 +37,12 @@ function createTable(data) {
             $(".classroom-diary-no-students").show();
         }
 
-        var head = '<th class="center vmiddle contents-day">' + ((day < 10) ? '0' : '') + day + '</th>';
-        var body = '<td>'
+        var head = '<th class="center vmiddle contents-day ">' + ((day < 10) ? '0' : '') + day + '</th>';
+        var body = '<td class="t-multiselect">'
             + '<input type="hidden" class="classroom-diary-of-the-day" value="' + classContent.diary + '">'
             + studentInputs
             + '<i class="fa fa-book classroom-diary-button ' + (!classContent.available ? "disabled" : "") + '" data-toggle="tooltip" title="Diário"></i>'
-            + '<select id="day[' + day + ']" name="day[' + day + '][]" class="course-classes-select vmiddle" ' + (!classContent.available ? "disabled" : "") + ' multiple="yes">'
+            + '<select id="day[' + day + ']" name="day[' + day + '][]" class=" course-classes-select vmiddle" ' + (!classContent.available ? "disabled" : "") + ' multiple="yes">'
             + options
             + '</select>'
             + '</td>';
