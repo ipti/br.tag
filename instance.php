@@ -9,6 +9,7 @@ $_FORMS[6] = array('name'=>'Requerimento de Transferência','action'=>'TransferR
 $_FORMS[8] = array('name'=>'Declaração de Cursou','action'=>'StatementAttended');
 $_FORMS[8] = array('name'=>'Termo de Advertência','action'=>'WarningTerm');
 @$domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
+@$newdb = $_SERVER['HTTP_HOST'];
 $_GLOBALGROUP = 0;
 switch ($domain) {
     case 'propria':
@@ -299,7 +300,7 @@ switch ($domain) {
 }
 define("GLOGALGROUP",$_GLOBALGROUP);
 define("FORMS",serialize($_FORMS));
-define("DBNAME",$db);
+define("DBNAME",$newdb);
 $HOST = getenv("HOST_DB_TAG");
 $USER = getenv("USER_DB_TAG");
 $PWD = getenv("PWD_DB_TAG");
@@ -310,4 +311,4 @@ define ("DBCONFIG", serialize (array(
     'password' => $PWD,
     'charset' => 'utf8',
 )));
-define('INSTANCE',$instance);
+define('INSTANCE',$domain);
