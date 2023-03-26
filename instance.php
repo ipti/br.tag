@@ -9,6 +9,7 @@ $_FORMS[6] = array('name'=>'Requerimento de Transferência','action'=>'TransferR
 $_FORMS[8] = array('name'=>'Declaração de Cursou','action'=>'StatementAttended');
 $_FORMS[8] = array('name'=>'Termo de Advertência','action'=>'WarningTerm');
 $domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
+$domain2 = parse_url($_SERVER['HTTP_HOST'], PHP_URL_HOST);
 $newdb = $_SERVER['SERVER_NAME'];
 $_GLOBALGROUP = 0;
 switch ($domain) {
@@ -311,4 +312,4 @@ define ("DBCONFIG", serialize (array(
     'password' => $PWD,
     'charset' => 'utf8',
 )));
-define('INSTANCE',$domain);
+define('INSTANCE',$domain.'-'.$domain2);
