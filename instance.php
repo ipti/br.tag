@@ -8,8 +8,8 @@ $_FORMS[5] = array('name'=>'Formulário de Transferência','action'=>'TransferFo
 $_FORMS[6] = array('name'=>'Requerimento de Transferência','action'=>'TransferRequirement');
 $_FORMS[8] = array('name'=>'Declaração de Cursou','action'=>'StatementAttended');
 $_FORMS[8] = array('name'=>'Termo de Advertência','action'=>'WarningTerm');
-@$domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
-@$newdb = $_SERVER['HTTP_HOST'];
+$domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
+$newdb = $_SERVER['SERVER_NAME'];
 $_GLOBALGROUP = 0;
 switch ($domain) {
     case 'propria':
