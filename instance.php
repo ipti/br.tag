@@ -311,4 +311,4 @@ define ("DBCONFIG", serialize (array(
     'password' => $PWD,
     'charset' => 'utf8',
 )));
-define('INSTANCE',$domain.'-'.$newdb);
+define('INSTANCE',strtoupper($domain));
