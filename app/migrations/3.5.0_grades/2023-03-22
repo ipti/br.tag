@@ -74,9 +74,6 @@ VALUES ('Soma', '');
 INSERT INTO `grade_calculation` (`name`, `formula`)
 VALUES ('Média', '');
 
-INSERT INTO `grade_calculation` (`name`, `formula`)
-VALUES ('Substituição de Menor Nota', '');
-
 ALTER TABLE `grade`
 ADD `grade_unity_modality_fk` int NOT NULL;
 

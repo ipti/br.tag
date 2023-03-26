@@ -14,8 +14,10 @@ $(document).on("change", "#GradeUnity_edcenso_stage_vs_modality_fk", function (e
             },
             success: function (data) {
                 data = JSON.parse(data);
+                $(".stagemodalityname").text(data.stageName);
+                $(".stagename").text($("#GradeUnity_edcenso_stage_vs_modality_fk").select2('data').text);
                 var option = "<option value=''>Selecione a disciplina...</option>";
-                $.each(data, function () {
+                $.each(data["disciplines"], function () {
                     var selectedValue = loadingData !== undefined && $("#GradeUnity_edcenso_discipline_fk").attr("initval") !== "" && $("#GradeUnity_edcenso_discipline_fk").attr("initval") === this.id ? "selected" : "";
                     option += "<option value='" + this.id + "' " + selectedValue + ">" + this.name + "</option>";
                 });
@@ -49,7 +51,17 @@ $(document).on("change", "#GradeUnity_edcenso_discipline_fk", function () {
                 data = JSON.parse(data);
                 $(".js-grades-structure-container").children(".unity").remove();
                 if (Object.keys(data.unities).length) {
-
+                    $.each(data.unities, function () {
+                        $(".js-new-unity").trigger("click");
+                        var unity = $(".unity").last();
+                        unity.find(".unity-name").val(this.name);
+                        unity.find("select.type-select").val(this.type).trigger("change.select2");
+                        unity.find("select.formula-select").val(this.grade_calculation_fk).trigger("change.select2");
+                        $.each(this.modalities, function () {
+                            unity.find(".js-new-modality").trigger("click");
+                            unity.find(".modality").last().find(".modality-name").val(this.name);
+                        });
+                    });
                 }
                 $(".grades-buttons").css("display", "flex");
                 $(".js-grades-structure-container").show();
@@ -94,45 +106,82 @@ $(document).on("click", ".js-new-modality", function () {
     $(unityHtml).insertBefore($(this).parent());
 });
 
-$(document).on("click", ".remove-unity", function() {
+$(document).on("click", ".remove-unity", function () {
     $(this).closest(".unity").remove();
 });
 
-$(document).on("click", ".remove-modality", function() {
+$(document).on("click", ".remove-modality", function () {
     $(this).closest(".modality").remove();
 });
 
-$(document).on("click", ".save", function() {
+$(document).on("click", ".save", function () {
     var valid = checkValidInputs();
     if (valid) {
-        $.ajax({
-            type: "POST",
-            url: "?r=admin/saveUnities",
-            cache: false,
-            data: {
-
-            },
-            beforeSend: function () {
-
-            },
-            success: function (data) {
-                data = JSON.parse(data);
-
-            },
-        });
+        saveUnities(false);
     }
 });
 
-$(document).on("click", ".save-and-reply", function() {
+$(document).on("click", ".save-and-reply", function () {
     var valid = checkValidInputs();
+    if (valid) {
+        $("#js-saveandreply-modal").modal("show");
+        $(".reply-option[value=S]").prop("checked", true);
+    }
 });
+
+$(document).on("click", ".js-save-and-reply-button", function () {
+    saveUnities(true);
+});
+
+function saveUnities(reply) {
+    var unities = [];
+    $(".unity").each(function () {
+        var modalities = [];
+        $(this).find(".modality-name").each(function () {
+            modalities.push($(this).val());
+        });
+        unities.push({
+            name: $(this).find(".unity-name").val(),
+            type: $(this).find("select.type-select").val(),
+            formula: $(this).find("select.formula-select").val(),
+            modalities: modalities
+        })
+    });
+    $.ajax({
+        type: "POST",
+        url: "?r=admin/saveUnities",
+        cache: false,
+        data: {
+            stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),
+            discipline: $("#GradeUnity_edcenso_discipline_fk").val(),
+            unities: unities,
+            reply: reply ? $(".reply-option:checked").val() : ""
+        },
+        beforeSend: function () {
+            $(".buttons a, .js-grades-structure-container").css("opacity", "0.4").css("pointer-events", "none");
+            $("#GradeUnity_edcenso_stage_vs_modality_fk, #GradeUnity_edcenso_discipline_fk").attr("disabled", "disabled");
+            $(".save-unity-loading-gif").css("display", "inline-block");
+        },
+        success: function (data) {
+            data = JSON.parse(data);
+            if (data.valid) {
+                $(".alert-required-fields").addClass("alert-success").removeClass("alert-error").text("Estrutura de notas cadastrada com sucesso!").show();
+            } else {
+                $(".alert-required-fields").addClass("alert-error").removeClass("alert-success").text("Não se pode alterar a estrutura quando já existe nota cadastrada em alguma turma.").show();
+            }
+            $(".buttons a, .js-grades-structure-container").css("opacity", "1").css("pointer-events", "auto");
+            $("#GradeUnity_edcenso_stage_vs_modality_fk, #GradeUnity_edcenso_discipline_fk").removeAttr("disabled");
+            $(".save-unity-loading-gif").hide();
+        },
+    });
+}
 
 function checkValidInputs() {
     $(".alert-required-fields").hide();
     var valid = true;
     var message = "";
     if ($(".unity").length) {
-        $(".unity").each(function() {
+        $(".unity").each(function () {
             if ($(this).find(".unity-name, .modality-name").val() === "") {
                 valid = false;
                 message = "Campos com * são obrigatórios.";
@@ -149,7 +198,7 @@ function checkValidInputs() {
         message = "Não se pode cadastrar uma estrutura de notas sem unidade.";
     }
     if (!valid) {
-        $(".alert-required-fields").text(message).show();
+        $(".alert-required-fields").addClass("alert-error").removeClass("alert-success").text(message).show();
     }
     return valid;
 }

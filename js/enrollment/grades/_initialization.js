@@ -1,50 +1,113 @@
 $('#classroom').change(function () {
     if ($(this).val() !== "") {
         $.ajax({
-            type: 'POST',
-            url: getGradesUrl,
+            type: "POST",
+            url: "?r=enrollment/getDisciplines",
             cache: false,
-            data: {classroom: $("#classroom").val()},
-            beforeSend: function () {
-                $(".classroom, .no-disciplines-guide, .alert-no-disciplines, .alert-no-students, #save").hide();
+            data: {
+                classroom: $("#classroom").val(),
             },
-            success: function (data) {
-                data = jQuery.parseJSON(data);
-
-                if (data.isInstructor) {
-                    $(".alert-no-disciplines").html('Para exibir as disciplinas, algum administrador precisa adicioná-las na matriz curricular e lhe vincular a essa disciplina na turma.');
+            beforeSend: function () {
+                $(".js-grades-loading").css("display", "inline-block");
+                $("#discipline").attr("disabled", "disabled");
+            },
+            success: function (response) {
+                if (response === "") {
+                    $("#discipline").html("<option value='-1'></option>").trigger("change").show();
                 } else {
-                    $(".alert-no-disciplines").html('Para exibir as disciplinas, é preciso adicioná-las na matriz curricular.');
+                    $("#discipline").html(decodeHtml(response)).trigger("change").show();
                 }
-
-                generateGradesForm(data);
-                $('select.grade-dropdown').select2({
-                    allowClear: true,
-                    placeholder: "Selecione..."
-                });
+                $(".js-grades-loading").hide();
+                $("#discipline").removeAttr("disabled");
             },
         });
     } else {
-        $(".classroom, .no-disciplines-guide, .alert-no-disciplines, .alert-no-students, #save").hide();
+        $(".js-grades-container, .js-grades-alert, #save").hide();
     }
 });
 
-$("#save").on("click", function () {
-    $("#classes-form").submit();
+$('#discipline').change(function () {
+    if ($(this).val() !== "") {
+        $(".js-grades-alert").hide();
+        $.ajax({
+            type: "POST",
+            url: "?r=enrollment/getGrades",
+            cache: false,
+            data: {
+                classroom: $("#classroom").val(),
+                discipline: $("#discipline").val(),
+            },
+            beforeSend: function () {
+                $(".js-grades-loading").css("display", "inline-block");
+                $(".js-grades-container, #save").css("opacity", "0.4").css("pointer-events", "none");
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.valid) {
+                    var html = "<table class='grades-table table table-bordered table-striped'><thead><tr><th colspan='" + (Object.keys(data.modalityColumns).length + 1) + "' class='table-title'>Notas</th></tr><tr><th></th>";
+                    $.each(data.unityColumns, function () {
+                        html += "<th colspan='" + this.colspan + "'>" + this.name + "</th>";
+                    });
+                    html += "</tr><tr class='modality-row'><th></th>";
+                    $.each(data.modalityColumns, function () {
+                        html += "<th>" + this + "</th>";
+                    });
+                    html += "</tr></thead><tbody>";
+                    $.each(data.students, function () {
+                        html += "<tr><td class='grade-student-name'><input type='hidden' class='enrollment-id' value='" + this.enrollmentId + "'>" + $.trim(this.studentName) + "</td>";
+                        $.each(this.grades, function () {
+                            html += "<td class='grade-td'><input type='text' class='grade' modalityid='" + this.modalityId + "' value='" + this.value + "'></td>";
+                        });
+                        html += "</tr>";
+                    });
+                    html += "</tbody></table>";
+                    $(".js-grades-container").html(html);
+                } else {
+                    $(".js-grades-alert").addClass("alert-error").removeClass("alert-success").text(data.message).show();
+                }
+                $(".js-grades-loading").hide();
+                $(".js-grades-container, #save").css("opacity", "1").css("pointer-events", "auto").show();
+            },
+        });
+    } else {
+        $(".js-grades-container, .js-grades-alert, #save").hide();
+    }
 });
 
-$(document).on("keydown", function (e) {
-//   var up = 38;
-//   var down = 40;
-//   if(e.keyCode === up){
-//       $("li.active").prev().children("a[data-toggle]").click();
-//   } else if(e.keyCode === down){
-//       $("li.active").next().children("a[data-toggle]").click();
-//   }
-    if (e.keyCode === 13) {
-        e.preventDefault();
-        $("li.active").next().children("a[data-toggle]").click();
-    }
+$("#save").on("click", function (e) {
+    e.preventDefault();
+    var students = [];
+    $('.grades-table tbody tr').each(function () {
+        var grades = [];
+        $(this).find(".grade").each(function () {
+            grades.push({
+                modalityId: $(this).attr("modalityid"),
+                value: $(this).val()
+            });
+        });
+        students.push({
+            enrollmentId: $(this).find(".enrollment-id").val(),
+            grades: grades
+        });
+    });
+    $.ajax({
+        type: "POST",
+        url: "?r=enrollment/saveGrades",
+        cache: false,
+        data: {
+            students: students
+        },
+        beforeSend: function () {
+            $(".js-save-grades-loading-gif").css("display", "inline-block");
+            $(".js-grades-container, #save").css("opacity", "0.4").css("pointer-events", "none");
+        },
+        success: function (data) {
+            data = JSON.parse(data);
+            $(".js-grades-alert").removeClass("alert-error").addClass("alert-success").text("Notas registradas com sucesso!").show();
+            $(".js-save-grades-loading-gif").hide();
+            $(".js-grades-container, #save").css("opacity", "1").css("pointer-events", "auto").show();
+        },
+    });
 });
 
 $(document).on("keyup", "input.grade", function (e) {
@@ -62,100 +125,4 @@ $(document).on("keyup", "input.grade", function (e) {
         }
     }
     this.value = val;
-});
-
-$(document).on("keyup", "input.frequency-fields", function (e) {
-    var val = this.value;
-    if (!$.isNumeric(val)) {
-        e.preventDefault();
-        val = "";
-    } else {
-        grade = /^[0-9]+$/;
-        if (val.match(grade) === null) {
-            val = "";
-        }
-        if (val > 366) {
-
-            val = 366;
-        }
-    }
-    this.value = val;
-});
-
-
-$(document).on("keyup", "*[class^='dias-letivos']", function (e) {
-    var val = this.value;
-    if (!$.isNumeric(val)) {
-        e.preventDefault();
-        val = "";
-    } else {
-        grade = /^[0-9]+$/;
-        if (val.match(grade) === null) {
-            val = "";
-        }
-        if (val > 366) {
-
-            val = 366;
-        }
-    }
-    this.value = val;
-});
-
-
-$(document).on("keyup", "*[class^='school-days-group']", function (e) {
-    var val = this.value;
-    if (!$.isNumeric(val)) {
-        e.preventDefault();
-        val = "";
-    } else {
-        grade = /^[0-9]+$/;
-        if (val.match(grade) === null) {
-            val = "";
-        }
-        if (val > 366) {
-
-            val = 366;
-        }
-    }
-    this.value = val;
-});
-
-$(document).on("keyup", "*[class^='carga-horaria']", function (e) {
-    var val = this.value;
-    if (!$.isNumeric(val)) {
-        e.preventDefault();
-        val = "";
-    } else {
-        grade = /^[0-9]+$/;
-        if (val.match(grade) === null) {
-            val = "";
-        }
-        if (val > 8784) {
-
-            val = 8784;
-        }
-    }
-    this.value = val;
-});
-
-
-$(document).on("keyup", "input.frequency-percentage", function (e) {
-    var val = this.value;
-    if (!$.isNumeric(val)) {
-        e.preventDefault();
-        val = "";
-    } else {
-        grade = /^(100(\.0{0,2})?|(\d|[1-9]\d)(\.\d{0,2})?)$/;
-        if (val.match(grade) === null) {
-            val = "";
-        } else {
-            if (val > 100)
-                val = 100;
-        }
-    }
-    this.value = val;
-});
-
-$(document).on("click", ".no-disciplines-link", function () {
-    $(".alert-no-disciplines").toggle();
 });

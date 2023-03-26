@@ -64,7 +64,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                     <div class="span2">
                         <a href="<?php echo Yii::app()->createUrl('admin/gradesStructure') ?>" class="widget-stats">
                             <span class="glyphicons list"><i></i></span>
-                            <span class="txt">Estrutura de Notas</span>
+                            <span class="txt">Estrutura de Unidades e Avaliações</span>
                             <div class="clearfix"></div>
                         </a>
                     </div>

@@ -9,7 +9,6 @@ $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/enrollment/grades/_initialization.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/enrollment/grades/functions.js', CClientScript::POS_END);
 
 $script = "var getGradesUrl = '" . Yii::app()->createUrl('enrollment/getGrades') . "';";
 
@@ -46,27 +45,32 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
 
     <div class="filter-bar margin-bottom-none">
         <div>
-            <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'small-label control-label required')); ?>
+            <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'small-label control-label required', 'style' => 'width: 53px;')); ?>
             <?php
             echo CHtml::dropDownList('classroom', '', $classrooms, array(
                 'key' => 'id',
-                'class' => 'select-search-on control-input',
-                'prompt' => 'Selecione a turma',
+                'class' => 'select-search-on control-input classroom-input',
+                'prompt' => 'Selecione...',
                 ));
             ?>
         </div>
-        <div class="no-disciplines-guide">Algumas Disciplinas não aparecem na tabela? <span class="no-disciplines-link">Saiba mais</span>.</div>
+        <div>
+            <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'discipline', array('class' => 'control-label required', 'style' => 'width: 75px;')); ?>
+            <?php
+            echo CHtml::dropDownList('discipline', '', array(), array(
+                'key' => 'id',
+                'class' => 'select-search-on control-input discipline-input',
+                'prompt' => 'Selecione...',
+            ));
+            ?>
+        </div>
+        <i class="js-grades-loading fa fa-spin fa-spinner"></i>
     </div>
     <br>
-    <div class="alert-no-students alert alert-warning">Não há estudantes cadastrados na turma.</div>
-    <div class="alert-no-disciplines alert alert-warning"></div>
-    <div class="classroom widget widget-tabs widget-tabs-vertical row row-merge hide">
-        <div class="students widget-head span3">
-            <ul></ul>
-        </div>
-        <div class="grades widget-body span3">
-            <div class="tab-content"></div>
-        </div>
+    <div class="js-grades-alert alert"></div>
+    <div class="js-grades-container"></div>
+    <div class="js-save-grades-loading-gif">
+        <i class="fa fa-spin fa-spinner fa-3x"></i>
     </div>
 <?php $this->endWidget(); ?>
 

@@ -437,6 +437,7 @@ input[type="checkbox"] {
     margin-top: 40px;
     display: none;
     width: 50%;
+    position: relative;
 }
 
 .js-grades-structure-container .unity-name {
@@ -496,4 +497,17 @@ input[type="checkbox"] {
 
 .js-grades-structure-container .remove-unity:hover, .js-grades-structure-container .remove-modality:hover {
     color: #333;
+}
+
+.save-unity-loading-gif {
+    position: absolute;
+    left: calc(50% - 20px);
+    top: 50%;
+    width: 42px;
+    display: none;
+    z-index: 1;
+}
+
+.stagename, .stagemodalityname {
+    font-weight: bold;
 }
