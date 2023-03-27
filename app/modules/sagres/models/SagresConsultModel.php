@@ -2,10 +2,11 @@
 
 namespace SagresEdu;
 
-use GoetasWebservices\XML\XSDReader\Schema\Attribute\Group;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
+use JMS\Serializer\Expression\ExpressionEvaluator;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\Validator\Validation;
 use JMS\Serializer\SerializerBuilder;
 use Yii as yii;
@@ -257,11 +258,17 @@ class SagresConsultModel
         $student = Yii::app()->db->createCommand($query)->queryRow();
 
         $studentType = new AlunoTType;
-        return $studentType->setNome($student['nome'])
-            ->setDataNascimento(new DateTime($student['data_nascimento']))
-            ->setCpfAluno($student['cpfAluno'])
-            ->setPcd($student['pcd'])
+        $studentType->setNome($student['nome'])
+            ->setDataNascimento(new DateTime($student['data_nascimento']));
+
+        if(!empty($student['cpfAluno'])){
+            $studentType->setCpfAluno($student['cpfAluno']);
+        }
+            
+        $studentType->setPcd($student['pcd'])
             ->setSexo($student['sexo']);
+
+        return $studentType;
     }
 
 
@@ -474,6 +481,7 @@ class SagresConsultModel
     public function generatesSagresEduXML($sagresEduObject)
     {
         $serializerBuilder = SerializerBuilder::create();
+        $serializerBuilder->setExpressionEvaluator(new ExpressionEvaluator(new ExpressionLanguage()));
         $serializerBuilder->addMetadataDir('app/modules/sagres/soap/metadata/sagresEduMetadata', 'DataSagresEdu');
         $serializerBuilder->configureHandlers(function (HandlerRegistryInterface $handler) use ($serializerBuilder) {
             $serializerBuilder->addDefaultHandlers();
@@ -481,7 +489,6 @@ class SagresConsultModel
             $handler->registerSubscribingHandler(new XmlSchemaDateHandler()); // XMLSchema date handling
             // $handler->registerSubscribingHandler(new YourhandlerHere());
         });
-
         $serializer = $serializerBuilder->build();
 
         return $serializer->serialize($sagresEduObject, 'xml'); // serialize the Object and return SagresEdu XML
@@ -530,7 +537,7 @@ class SagresConsultModel
             'I' => 4,
         );
 
-        return isset($turnos[$turn]) ? $turnos[$turn] : 0;
+        return isset($turnos[$turn]) ? $turnos[$turn] : 1;
     }
 
     function transformXML($xml)
