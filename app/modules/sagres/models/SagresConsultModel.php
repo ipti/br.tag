@@ -19,13 +19,13 @@ class SagresConsultModel
         $this->dbCommand = Yii::app()->db->createCommand();
     }
 
-    public function getEducacaoData($reference_year, $dateStart, $dateEnd): EducacaoTType
+    public function getEducacaoData($referenceYear, $dateStart, $dateEnd): EducacaoTType
     {
         $education = new EducacaoTType;
 
         $education->setPrestacaoContas($this->getManagementUnit(1))
-            ->setEscola($this->getAllSchools($reference_year, $dateStart, $dateEnd))
-            ->setProfissional($this->getProfessionalData($reference_year, $dateStart, $dateEnd));
+            ->setEscola($this->getAllSchools($referenceYear, $dateStart, $dateEnd))
+            ->setProfissional($this->getProfessionalData($referenceYear, $dateStart, $dateEnd));
 
         return $education;
     }
@@ -69,7 +69,7 @@ class SagresConsultModel
      * Summary of EscolaTType
      * @return EscolaTType[] 
      */
-    public function getAllSchools($reference_year, $dateStart, $dateEnd)
+    public function getAllSchools($referenceYear, $dateStart, $dateEnd)
     {
         $schoolList = [];
 
@@ -79,9 +79,9 @@ class SagresConsultModel
         foreach ($schools as $school) {
             $schoolType = new EscolaTType;
             $schoolType->setIdEscola($school['inep_id'])
-                ->setTurma($this->getTurmaType($school['inep_id'], $reference_year, $dateStart, $dateEnd))
+                ->setTurma($this->getTurmaType($school['inep_id'], $referenceYear, $dateStart, $dateEnd))
                 ->setDiretor($this->getDiretorType($school['inep_id']))
-                ->setCardapio($this->getCardapioType($school['inep_id'], $reference_year, $dateStart, $dateEnd));
+                ->setCardapio($this->getCardapioType($school['inep_id'], $referenceYear, $dateStart, $dateEnd));
 
             if (!empty($schoolType->getTurma())) {
                 //Tem turma no periodo 
@@ -91,7 +91,7 @@ class SagresConsultModel
                     $schoolList[] = $schoolType;
                 } else {
                     //NAO TEM CARDAPIO NO PERIODO
-                    $schoolType->setCardapio($this->getCardapioEscola($school['inep_id'], $reference_year));
+                    $schoolType->setCardapio($this->getCardapioEscola($school['inep_id'], $referenceYear));
                     if (!empty($schoolType->getCardapio()))
                         $schoolList[] = $schoolType;
                 }
@@ -162,7 +162,7 @@ class SagresConsultModel
      */
     public function getSerieType($classId)
     {
-        $serieList = [];
+        $seriesList = [];
 
         $query = "SELECT 
                     c.name as descricao, 
@@ -176,10 +176,10 @@ class SagresConsultModel
             $serieType = new SerieTType;
             $serieType->setDescricao($serie['descricao'])
                 ->setModalidade($serie['modalidade']);
-            $serieList[] = $serieType;
+            $seriesList[] = $serieType;
         }
 
-        return $serieList;
+        return $seriesList;
     }
 
 
@@ -189,28 +189,28 @@ class SagresConsultModel
      */
     public function setHorario($classId)
     {
-        $horarioList = [];
+        $scheduleList = [];
 
         $query = "SELECT DISTINCT 
-                    (c.final_hour - c.initial_hour) AS duracao, 
-                    c.initial_hour AS hora_inicio
+                    (c.final_hour - c.initial_hour) AS duration, 
+                    c.initial_hour AS startTime
                 FROM classroom c      
                 WHERE c.id = " . $classId . ";";
 
-        $horarios = Yii::app()->db->createCommand($query)->queryAll();
+        $schedules = Yii::app()->db->createCommand($query)->queryAll();
 
-        foreach ($horarios as $horario) {
-            $horario_t = new HorarioTType;
-            $horario_t->setDiaSemana(1)
-                ->setDuracao($horario['duracao'])
-                ->setHoraInicio($this->getDateTimeFromInitialHour($horario['hora_inicio']))
+        foreach ($schedules as $schedule) {
+            $scheduleType = new HorarioTType;
+            $scheduleType->setDiaSemana(1)
+                ->setDuracao($schedule['duration'])
+                ->setHoraInicio($this->getDateTimeFromInitialHour($schedule['startTime']))
                 ->setDisciplina('LIBRAS')
                 ->setCpfProfessor(['68322517777']);
 
-            $horarioList[] = $horario_t;
+            $scheduleList[] = $scheduleType;
         }
 
-        return $horarioList;
+        return $scheduleList;
     }
 
     function getDateTimeFromInitialHour($initialHour)
