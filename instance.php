@@ -11,7 +11,7 @@ $_FORMS[8] = array('name'=>'Termo de Advertência','action'=>'WarningTerm');
 $domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
 $newdb = $domain.'.tag.ong.br';
 $_GLOBALGROUP = 0;
-switch ($domain) {
+/*switch ($domain) {
     case 'propria':
         $instance = 'PROPRIÁ';
         $db = 'io.escola.se.propria';
@@ -297,7 +297,7 @@ switch ($domain) {
         $instance = 'SERGIPE';
         $db = 'io.escola.demo';
         break;
-}
+}*/
 define("GLOGALGROUP",$_GLOBALGROUP);
 define("FORMS",serialize($_FORMS));
 define("DBNAME",$newdb);
