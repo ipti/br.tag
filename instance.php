@@ -10,7 +10,13 @@ $_FORMS[8] = array('name'=>'Declaração de Cursou','action'=>'StatementAttended
 $_FORMS[8] = array('name'=>'Termo de Advertência','action'=>'WarningTerm');
 $domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
 $newdb = $domain.'.tag.ong.br';
+
+if($domain == "localhost"){
+    $newdb = 'br-ong-tag-demo';
+}
+
 $_GLOBALGROUP = 0;
+
 /*switch ($domain) {
     case 'propria':
         $instance = 'PROPRIÁ';
@@ -298,6 +304,7 @@ $_GLOBALGROUP = 0;
         $db = 'io.escola.demo';
         break;
 }*/
+
 define("GLOGALGROUP",$_GLOBALGROUP);
 define("FORMS",serialize($_FORMS));
 define("DBNAME",$newdb);
