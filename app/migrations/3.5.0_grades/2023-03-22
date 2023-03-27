@@ -100,3 +100,9 @@ DROP `curricular_matrix_fk`;
 
 ALTER TABLE `grade_unity`
 ADD `type` varchar(1) COLLATE 'utf8_unicode_ci' NOT NULL AFTER `name`;
+
+ALTER TABLE `grade_unity_modality`
+ADD `type` varchar(2) COLLATE 'utf8_unicode_ci' NOT NULL AFTER `name`;
+
+ALTER TABLE `grade_unity`
+CHANGE `type` `type` varchar(2) COLLATE 'utf8_unicode_ci' NOT NULL AFTER `name`;

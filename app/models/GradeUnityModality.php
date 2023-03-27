@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'grade_unity_modality':
  * @property integer $id
  * @property string $name
+ * @property string $type
  * @property integer $grade_unity_fk
  *
  * The followings are the available model relations:
@@ -30,12 +31,13 @@ class GradeUnityModality extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, grade_unity_fk', 'required'),
+			array('name, type, grade_unity_fk', 'required'),
 			array('grade_unity_fk', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>50),
+			array('type', 'length', 'max'=>2),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, grade_unity_fk', 'safe', 'on'=>'search'),
+			array('id, name, type, grade_unity_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,6 +62,7 @@ class GradeUnityModality extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'name' => 'Name',
+			'type' => 'Type',
 			'grade_unity_fk' => 'Grade Unity Fk',
 		);
 	}
@@ -84,6 +87,7 @@ class GradeUnityModality extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('type',$this->type,true);
 		$criteria->compare('grade_unity_fk',$this->grade_unity_fk);
 
 		return new CActiveDataProvider($this, array(

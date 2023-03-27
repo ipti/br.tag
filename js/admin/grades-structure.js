@@ -58,8 +58,12 @@ $(document).on("change", "#GradeUnity_edcenso_discipline_fk", function () {
                         unity.find("select.type-select").val(this.type).trigger("change.select2");
                         unity.find("select.formula-select").val(this.grade_calculation_fk).trigger("change.select2");
                         $.each(this.modalities, function () {
-                            unity.find(".js-new-modality").trigger("click");
+                            unity.find(".js-new-modality").trigger("click", [true]);
                             unity.find(".modality").last().find(".modality-name").val(this.name);
+                            if (this.type === "R") {
+                                unity.find(".modality").last().find(".modality-name").attr("modalitytype", this.type).attr("disabled", "disabled");
+                                unity.find(".modality").last().find(".remove-modality").remove();
+                            }
                         });
                     });
                 }
@@ -82,8 +86,8 @@ $(document).on("click", ".js-new-unity", function () {
         "<i class='remove-unity fa fa-times-circle-o'></i>" +
         '<div class="unity-children">' +
         '<div class="unity-type form-group form-inline">' +
-        "<label class='control-label'>Tipo: <span class='red'>*</span></label>" +
-        "<select class='type-select select-search-on control-input'><option value='C'>Unidade</option><option value='R'>Recuperação</option></select>" +
+        "<label class='control-label'>Modelo: <span class='red'>*</span></label>" +
+        "<select class='type-select select-search-on control-input'><option value='U'>Unidade</option><option value='UR'>Unidade + Recuperação</option><option value='RF'>Recuperação Final</option></select>" +
         '</div>' +
         '<div class="calculation form-group form-inline">' +
         "<label class='control-label'>Fórmula: <span class='red'>*</span></label>" +
@@ -96,14 +100,29 @@ $(document).on("click", ".js-new-unity", function () {
     $(".unity").last().find(".type-select, .formula-select").select2();
 });
 
-$(document).on("click", ".js-new-modality", function () {
+$(document).on("change", ".type-select", function () {
+    var unity = $(this).closest(".unity");
+    if ($(this).val() === "UR") {
+        unity.find(".js-new-modality").trigger("click", [true]);
+        unity.find(".modality").last().find(".modality-name").attr("modalitytype", "R").val("Recuperação").attr("disabled", "disabled");
+        unity.find(".modality").last().find(".remove-modality").remove();
+    } else {
+        unity.find(".modality-name[modalitytype=R]").closest(".modality").remove();
+    }
+});
+
+$(document).on("click", ".js-new-modality", function (evt, indirectTrigger) {
     var unityHtml = "" +
         "<div class='modality form-group form-inline'>" +
         "<label class='control-label'>Modalidade: <span class='red'>*</span></label>" +
-        "<input type='text' class='modality-name form-control' placeholder='Prova, Avaliação, etc.'>" +
+        "<input type='text' class='modality-name form-control' modalitytype='C' placeholder='Prova, Avaliação, Trabalho, etc.'>" +
         "<i class='remove-modality fa fa-times-circle-o'></i>" +
         '</div>';
-    $(unityHtml).insertBefore($(this).parent());
+    $(unityHtml).insertBefore(
+        $(this).closest(".unity").find("select.type-select").val() !== "UR" || indirectTrigger
+            ? $(this).parent()
+            : $(this).closest(".unity").find(".modality").last()
+    );
 });
 
 $(document).on("click", ".remove-unity", function () {
@@ -138,7 +157,10 @@ function saveUnities(reply) {
     $(".unity").each(function () {
         var modalities = [];
         $(this).find(".modality-name").each(function () {
-            modalities.push($(this).val());
+            modalities.push({
+                name: $(this).val(),
+                type: $(this).attr("modalitytype")
+            });
         });
         unities.push({
             name: $(this).find(".unity-name").val(),
@@ -187,11 +209,20 @@ function checkValidInputs() {
                 message = "Campos com * são obrigatórios.";
                 return false;
             }
-            if (!$(this).find(".modality-name").length) {
-                valid = false;
-                message = "Não se pode cadastrar unidades sem modalidade.";
-                return false;
+            if ($("select.type-select").val() === "UR") {
+                if (!$(this).find(".modality-name[modalitytype=C]").length) {
+                    valid = false;
+                    message = 'Unidades do modelo "Unidade + Recuperação" requer duas ou mais modalidades.';
+                    return false;
+                }
+            } else {
+                if (!$(this).find(".modality-name").length) {
+                    valid = false;
+                    message = "Não se pode cadastrar unidades sem modalidade.";
+                    return false;
+                }
             }
+
         });
     } else {
         valid = false;

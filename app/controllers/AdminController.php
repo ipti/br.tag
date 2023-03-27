@@ -144,7 +144,8 @@ class AdminController extends Controller
                     $unity->save();
                     foreach ($u["modalities"] as $m) {
                         $modality = new GradeUnityModality();
-                        $modality->name = $m;
+                        $modality->name = $m["name"];
+                        $modality->type = $m["type"];
                         $modality->grade_unity_fk = $unity->id;
                         $modality->save();
                     }
@@ -198,7 +199,8 @@ class AdminController extends Controller
                         $unity->save();
                         foreach ($u["modalities"] as $m) {
                             $modality = new GradeUnityModality();
-                            $modality->name = $m;
+                            $modality->name = $m["name"];
+                            $modality->type = $m["type"];
                             $modality->grade_unity_fk = $unity->id;
                             $modality->save();
                         }

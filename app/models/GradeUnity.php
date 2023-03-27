@@ -38,7 +38,7 @@ class GradeUnity extends CActiveRecord
 			array('edcenso_stage_vs_modality_fk, edcenso_discipline_fk, name, type, grade_calculation_fk', 'required'),
 			array('edcenso_stage_vs_modality_fk, edcenso_discipline_fk, grade_calculation_fk', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>50),
-			array('type', 'length', 'max'=>1),
+			array('type', 'length', 'max'=>2),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, edcenso_stage_vs_modality_fk, edcenso_discipline_fk, name, type, grade_calculation_fk', 'safe', 'on'=>'search'),
