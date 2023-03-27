@@ -22,9 +22,9 @@ switch ($domain) {
         $instance = 'AFONSO DE MEDEIROS';
         $db = 'io.escola.se.propria.afonsomedeiros';
         break;
-    case 'sandbox2':
+    case 'santaluzia':
         $instance = 'SANTA LUZIA DO ITANHY';
-        $db = 'io.escola.se.santaluzia';
+        $db = 'santaluzia.tag.ong.br';
         break;
     case 'santaluzia3':
         $instance = 'SANTA LUZIA DO ITANHY - 3';
