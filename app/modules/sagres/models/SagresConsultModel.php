@@ -4,9 +4,7 @@ namespace SagresEdu;
 
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
-use JMS\Serializer\Expression\ExpressionEvaluator;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\Validator\Validation;
 use JMS\Serializer\SerializerBuilder;
 use Yii as yii;
@@ -35,16 +33,16 @@ class SagresConsultModel
 
     public function getManagementUnit($idManagementUnit): CabecalhoTType
     {
-        $query = "SELECT id,
-                        cod_unidade_gestora,
-                        name_unidade_gestora,
-                        cpf_responsavel,
-                        cpf_gestor,
-                        ano_referencia,
-                        mes_referencia,
-                        versao_xml,
-                        dia_inicio_prest_contas,
-                        dia_final_prest_contas
+        $query = "SELECT id AS managementUnitId,
+                        cod_unidade_gestora AS managementUnitCode,
+                        name_unidade_gestora AS managementUnitName,
+                        cpf_responsavel AS responsibleCpf,
+                        cpf_gestor AS managerCpf,
+                        ano_referencia AS referenceYear,
+                        mes_referencia AS referenceMonth,
+                        versao_xml AS xmlVersion,
+                        dia_inicio_prest_contas AS startDate,
+                        dia_final_prest_contas AS endDate
                 FROM provision_accounts WHERE id = :idManagementUnit;";
 
         $managementUnit = Yii::app()->db->createCommand($query)
@@ -53,15 +51,15 @@ class SagresConsultModel
 
         $headerType = new CabecalhoTType;
 
-        $headerType->setCodigoUnidGestora($managementUnit['cod_unidade_gestora'])
-            ->setNomeUnidGestora($managementUnit['name_unidade_gestora'])
-            ->setCpfResponsavel($managementUnit['cpf_responsavel'])
-            ->setCpfGestor($managementUnit['cpf_gestor'])
-            ->setAnoReferencia((int) $managementUnit['ano_referencia'])
-            ->setMesReferencia((int) $managementUnit['mes_referencia'])
-            ->setVersaoXml((int) $managementUnit['versao_xml'])
-            ->setDiaInicPresContas(date("d", strtotime($managementUnit['dia_inicio_prest_contas'])))
-            ->setDiaFinaPresContas(date("d", strtotime($managementUnit['dia_final_prest_contas'])));
+        $headerType->setCodigoUnidGestora($managementUnit['managementUnitCode'])
+            ->setNomeUnidGestora($managementUnit['managementUnitName'])
+            ->setCpfResponsavel($managementUnit['responsibleCpf'])
+            ->setCpfGestor($managementUnit['managerCpf'])
+            ->setAnoReferencia((int) $managementUnit['referenceYear'])
+            ->setMesReferencia((int) $managementUnit['referenceMonth'])
+            ->setVersaoXml((int) $managementUnit['xmlVersion'])
+            ->setDiaInicPresContas(date("d", strtotime($managementUnit['startDate'])))
+            ->setDiaFinaPresContas(date("d", strtotime($managementUnit['endDate'])));
 
         return $headerType;
     }
@@ -142,15 +140,17 @@ class SagresConsultModel
             $classType = new TurmaTType;
             $classId = $turma['id'];
 
-            $classType->setPeriodo('0')
-                ->setDescricao($turma["name"])
-                ->setTurno($this->convertTurn($turma['turn']))
-                ->setSerie($this->getSerieType($classId))
-                ->setMatricula($this->getMatriculaType($classId, $reference_year))
-                ->setHorario($this->setHorario($classId))
-                ->setFinalTurma(false);
+            if (!empty($this->getMatriculaType($classId, $reference_year))) {
+                $classType->setPeriodo('0')
+                    ->setDescricao($turma["name"])
+                    ->setTurno($this->convertTurn($turma['turn']))
+                    ->setSerie($this->getSerieType($classId))
+                    ->setMatricula($this->getMatriculaType($classId, $reference_year))
+                    ->setHorario($this->setHorario($classId))
+                    ->setFinalTurma(false);
 
-            $classList[] = $classType;
+                $classList[] = $classType;
+            }
         }
 
         return $classList;
@@ -261,10 +261,10 @@ class SagresConsultModel
         $studentType->setNome($student['nome'])
             ->setDataNascimento(new DateTime($student['data_nascimento']));
 
-        if(!empty($student['cpfAluno'])){
+        if (!empty($student['cpfAluno'])) {
             $studentType->setCpfAluno($student['cpfAluno']);
         }
-            
+
         $studentType->setPcd($student['pcd'])
             ->setSexo($student['sexo']);
 
@@ -278,8 +278,7 @@ class SagresConsultModel
      */
     public function getCardapioType($id_escola, $year, $data_inicio, $data_final)
     {
-        $cardapioList = [];
-
+        $menuList = [];
 
         $query = "SELECT 
                 lm.date AS data, 
@@ -296,27 +295,25 @@ class SagresConsultModel
                 JOIN lunch_item li ON li.id = lp.item_fk
             WHERE si.inep_id = " . $id_escola . ". and YEAR(lm.date) = " . $year . " and lm.date BETWEEN '" . $data_inicio . "' and '" . $data_final . "'";
 
-        $cardapios = Yii::app()->db->createCommand($query)->queryAll();
+        $menus = Yii::app()->db->createCommand($query)->queryAll();
 
-        foreach ($cardapios as $cardapio) {
-            $cardapioType = new CardapioTType;
-            $cardapioType->setData(new DateTime($cardapio['data']))
-                ->setTurno($this->convertTurn($cardapio['turno']))
-                ->setDescricaoMerenda($cardapio['descricaoMerenda'])
-                ->setAjustado($cardapio['ajustado']);
+        foreach ($menus as $menu) {
+            $menuType = new CardapioTType;
+            $menuType->setData(new DateTime($menu['data']))
+                ->setTurno($this->convertTurn($menu['turno']))
+                ->setDescricaoMerenda($menu['descricaoMerenda'])
+                ->setAjustado($menu['ajustado']);
 
-            $cardapioList[] = $cardapioType;
+            $menuList[] = $menuType;
         }
 
-        return $cardapioList;
+        return $menuList;
     }
 
 
     public function getCardapioEscola($id_escola, $year)
     {
         $cardapioList = [];
-
-
         $query = "SELECT 
                 lm.date AS data, 
                 cr.turn AS turno, 
@@ -413,14 +410,12 @@ class SagresConsultModel
     {
         $enrollmentList = [];
 
-        $query = "SELECT se.enrollment_id AS numero, se.student_fk,
+        $query = "SELECT se.id as numero, se.student_fk,
                     se.create_date AS data_matricula, 
                     se.date_cancellation_enrollment AS data_cancelamento,
                     se.previous_stage_situation AS situation
                   FROM student_enrollment se 
                   WHERE se.classroom_fk  =  :id;";
-
-
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
@@ -432,7 +427,7 @@ class SagresConsultModel
 
         foreach ($enrollments as $enrollment) {
             $enrollmentType = new MatriculaTType;
-            $enrollmentType->setNumero('12345678')
+            $enrollmentType->setNumero($enrollment['numero'])
                 ->setDataMatricula(new DateTime($enrollment['data_matricula']))
                 ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
                 ->setNumeroFaltas((int) $this->returnNumberFaults($enrollment['student_fk'], $reference_year))
@@ -470,8 +465,7 @@ class SagresConsultModel
             ->bindValues([
                 ':studentId' => $studentId,
                 ':referenceYear' => $referenceYear
-            ])
-            ->queryScalar();
+            ])->queryScalar();
 
         return $numberFaults ?? 0;
     }
@@ -481,7 +475,6 @@ class SagresConsultModel
     public function generatesSagresEduXML($sagresEduObject)
     {
         $serializerBuilder = SerializerBuilder::create();
-        $serializerBuilder->setExpressionEvaluator(new ExpressionEvaluator(new ExpressionLanguage()));
         $serializerBuilder->addMetadataDir('app/modules/sagres/soap/metadata/sagresEduMetadata', 'DataSagresEdu');
         $serializerBuilder->configureHandlers(function (HandlerRegistryInterface $handler) use ($serializerBuilder) {
             $serializerBuilder->addDefaultHandlers();
