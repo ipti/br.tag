@@ -1623,8 +1623,8 @@ li.highlight.profile
 }
 
 .filter-bar {
-    background: #fafafa;
-    border: 1px solid #e5e5e5;
+    /* background: #fafafa;
+    border: 1px solid #e5e5e5; */
     height: 44px;
     margin-bottom: 20px;
     padding: 0 10px;
