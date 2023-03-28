@@ -1,11 +1,12 @@
 <?php
 use SagresEdu\SagresConsultModel;
-	$this->setPageTitle('TAG - ' . Yii::t('default', 'Sagres'));
+
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Sagres'));
 ?>
 
 <?php
-  /* $export =  new SagresConsultModel;
-  print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
+/* $export =  new SagresConsultModel;
+print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 ?>
 
 <div id="mainPage" class="main">
@@ -16,16 +17,16 @@ use SagresEdu\SagresConsultModel;
 	</div>
 	<div class="alert alert-error alert-error-export" style="display: none;"></div>
 	<?php if (Yii::app()->user->hasFlash('error')): ?>
-        <div class="alert alert-error">
-            <?php echo Yii::app()->user->getFlash('error') ?>
-        </div>
-    <?php endif ?>
+		<div class="alert alert-error">
+			<?php echo Yii::app()->user->getFlash('error') ?>
+		</div>
+	<?php endif ?>
 	<?php if (Yii::app()->user->hasFlash('success')): ?>
-        <div class="alert alert-success">
-            <?php echo Yii::app()->user->getFlash('success') ?>
-        </div>
-        <br/>
-    <?php endif ?>
+		<div class="alert alert-success">
+			<?php echo Yii::app()->user->getFlash('success') ?>
+		</div>
+		<br />
+	<?php endif ?>
 	<div class="row">
 		<div class="column no-grow">
 			<div>
@@ -68,8 +69,7 @@ use SagresEdu\SagresConsultModel;
 		</div>
 
 		<div class="column">
-			<a href="<?php echo Yii::app()->createUrl('professional') ?>"
-				class="widget-stats">
+			<a href="<?php echo Yii::app()->createUrl('professional') ?>" class="widget-stats">
 				<span class="glyphicons user"><i></i></span>
 				<span class="txt">Profissionais</span>
 				<div class="clearfix"></div>
@@ -78,6 +78,7 @@ use SagresEdu\SagresConsultModel;
 	</div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
 <script>
 	// Selecione os elementos de input de data
 	const dataInicioInput = document.querySelector('input[name="data_inicio"]');
@@ -105,32 +106,36 @@ use SagresEdu\SagresConsultModel;
 		data.setUTCHours(0, 0, 0, 0); // Define as horas, minutos, segundos e milissegundos como zero
 		const yearInicio = data.getUTCFullYear();
 
-		// Atualize o atributo "href" com as datas selecionadas
-		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&year=${yearInicio}&data_inicio=${dataInicio}&data_final=${dataFinal}`;
-		exportLink.setAttribute('href', newHref);
-
 		// Chame a função downloadFile para gerar e baixar o arquivo
-		downloadFile(newHref, 'Educacao.xml');
+		const url = `?r=sagres/default/export&year=${yearInicio}&data_inicio=${dataInicio}&data_final=${dataFinal}`;
+		const filename = 'Educacao.xml';
+		downloadFile(url, filename);
 	});
 
 	function downloadFile(url, filename) {
 		$(".alert-error-export").hide();
 		$(".alert-error-export").empty();
 		$.get(url, function (data) {
-			var blob = new Blob([data], { type: 'application/xml' });
-			var url = URL.createObjectURL(blob);
-			var link = document.createElement('a');
-			link.href = url;
-			link.download = filename;
-			link.click();
-
-			URL.revokeObjectURL(url);
-		})
-			.fail(function () {
-				$(".alert-error-export").append('Erro ao realizar o download do arquivo');
+			const zip = new JSZip();
+			zip.file(filename, data);
+			zip.generateAsync({type:"blob"}).then(function(blob) {
+				var url = URL.createObjectURL(blob);
+				var link = document.createElement('a');
+				link.href = url;
+				link.download = 'Educacao.zip';
+				link.click();
+				URL.revokeObjectURL(url);
+			})
+			.catch(function(err) {
+				console.error(err);
+				$(".alert-error-export").append('Erro ao criar o arquivo zip');
 				$(".alert-error-export").show();
 			});
+		})
+		.fail(function () {
+			$(".alert-error-export").append('Erro ao realizar o download do arquivo');
+			$(".alert-error-export").show();
+		});
 	}
 
 </script>
