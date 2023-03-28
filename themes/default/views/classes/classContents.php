@@ -61,8 +61,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     </table>
     <br>
 
-    <div class="innerLR">
-
+    <!-- <div class="innerLR"> -->
+    <div>
     <?php if (Yii::app()->user->hasFlash('success')) : ?>
         <div class="alert alert-success">
             <?php echo Yii::app()->user->getFlash('success') ?>

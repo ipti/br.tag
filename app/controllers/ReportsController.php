@@ -905,7 +905,17 @@ class ReportsController extends Controller
     public function actionStudentSpecialFood()
     {
         $sql = "SELECT si.inep_id , si.name as nome_aluno, si.birthday, sr.* FROM student_identification si
-        JOIN student_restrictions sr ON(sr.student_fk = si.id)";
+        JOIN student_restrictions sr ON(sr.student_fk = si.id)
+        WHERE sr.celiac != 0 
+        OR sr.celiac != 0
+        OR sr.diabetes  != 0
+        OR sr.hypertension  != 0
+        OR sr.iron_deficiency_anemia != 0
+        OR sr.sickle_cell_anemia != 0
+        OR sr.lactose_intolerance != 0
+        OR sr.malnutrition != 0
+        OR sr.obesity != 0
+        OR sr.`others` != ''";
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
 

@@ -407,12 +407,33 @@ table.dataTable.no-footer {
 }
 
 input[type="checkbox"] {
-    margin: 0px 9px 0px;
+    margin: 0px 9px 0px 9px;
 }
 
-/* input[type="checkbox"]:checked {
-    margin: 0px 9px 0px 0px;
-} */
+input[type="checkbox"]:checked {
+    margin: 0px 9px 0px 9px;
+}
+.grades_inputs, .grades_inputs .select2-choice{
+ width: 134px !important;
+}
+
+.grades_inputs.select2-container {
+    width: 144px !important;
+}
+
+
+.grades_title_padding {
+    padding: 0px 8px 0px 8px !important;
+   }
+.title_table_notes{
+    background-color: #E8EDF1;
+    color: #5F738C;
+}
+.table-striped.table-grades tbody>tr:nth-child(odd)>td {
+    background-color: #ffffff;
+}
+
+
 
 @font-face {
     font-family: 'icone-tag';
@@ -425,6 +446,13 @@ input[type="checkbox"] {
 
 .t-button-primary {
     border: none;
+}
+
+li[discipline]:hover {
+    background-color: lightblue!important;
+}
+li[instructor]:hover {
+    background-color: lightblue!important;
 }
 
 .checkbox {

@@ -51,7 +51,7 @@
  * @property integer $resource_video_libras
  * @property integer $resource_none
  * @property integer $send_year
- * @property strign $last_change
+ * @property string $last_change
  * @property integer $responsable
  * @property string $responsable_name
  * @property string $responsable_rg

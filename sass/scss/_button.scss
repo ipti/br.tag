@@ -2,9 +2,9 @@
 @import '_functions.scss';
 
 .t-buttons-container {
-    display: inline-block;  
-    width: 100%;    
-    
+    display: inline-block;
+    width: 100%;
+
     @include device(tablet) {
         padding: $spaceXXXSmall 0 $spaceXXXSmall 0;
         font-size: $FontSizeTextNormal;
@@ -12,11 +12,11 @@
     }
 }
 
-.t-buttons-container{
+.t-buttons-container {
     display: flex;
-  }
+}
 
-.t-button {    
+.t-button {
     display: flex;
     flex: 1;
     padding: $spaceNormal;
@@ -24,26 +24,31 @@
     font-size: $FontSizeTextSmall;
     border-radius: $borderRadiusLarge;
     text-decoration: none;
-    justify-content: space-between;
-
-    &:hover, &--active {
-        text-decoration: none;
-    }
     align-self: center;
     justify-content: center;
     margin-right: $spaceMedium;
     cursor: pointer;
+
+    &:hover,
+    &--active {
+        text-decoration: none;
+    }
 
     @include device(tablet) {
         flex: 0 auto;
         padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
         font-size: $FontSizeTextNormal;
     }
+
     @include device(desktop) {
         padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
     }
 
-    &:link, &:focus, &:hover, &--active, &:active {
+    &:link,
+    &:focus,
+    &:hover,
+    &--active,
+    &:active {
         text-decoration: none !important;
     }
 
@@ -61,16 +66,21 @@
 .t-button-primary {
     @extend .t-button;
     background-color: $colorsBaseProductNormal;
-    color:$colorsBaseWhiteNormal;
+    color: $colorsBaseWhiteNormal;
     cursor: pointer;
     align-self: center;
 
-    &:hover, &--active {
-        color:$colorsBaseWhiteNormal;
+    &:hover,
+    &--active {
+        color: $colorsBaseWhiteNormal;
         background-color: $colorsBaseProductNormalActive;
     }
-    
-    &:link, &:focus, &:hover, &--active, &:active {
+
+    &:link,
+    &:focus,
+    &:hover,
+    &--active,
+    &:active {
         color: $colorsBaseWhiteNormal;
     }
 }
@@ -78,9 +88,11 @@
 .t-button-secondary {
     @extend .t-button;
     background-color: $colorsBaseCloudNormal;
-    color:$colorsBaseInkNormal;
-    &:hover, &--active {
-        color:$colorsBaseInkNormal;
+    color: $colorsBaseInkNormal;
+
+    &:hover,
+    &--active {
+        color: $colorsBaseInkNormal;
         background-color: $colorsBaseCloudLightHover;
     }
 }
@@ -88,9 +100,11 @@
 .t-button-tertiary {
     @extend .t-button;
     background-color: $colorsBaseInkLighterActive;
-    color:$colorsBaseWhiteNormal;
-    &:hover, &--active {
-        color:$colorsBaseWhiteNormal;
+    color: $colorsBaseWhiteNormal;
+
+    &:hover,
+    &--active {
+        color: $colorsBaseWhiteNormal;
         background-color: $colorsBaseInkLight;
     }
 }
