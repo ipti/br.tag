@@ -203,13 +203,13 @@ function checkValidInputs() {
     var valid = true;
     var message = "";
     if ($(".unity").length) {
-        $(".unity").each(function () {
+        $(".unity").each(function (index) {
             if ($(this).find(".unity-name, .modality-name").val() === "") {
                 valid = false;
                 message = "Campos com * são obrigatórios.";
                 return false;
             }
-            if ($("select.type-select").val() === "UR") {
+            if ($(this).find("select.type-select").val() === "UR") {
                 if (!$(this).find(".modality-name[modalitytype=C]").length) {
                     valid = false;
                     message = 'Unidades do modelo "Unidade com recuperação" requer duas ou mais modalidades.';
@@ -221,6 +221,16 @@ function checkValidInputs() {
                     message = "Não se pode cadastrar unidades sem modalidade.";
                     return false;
                 }
+            }
+            if ($(".unity").length === 1 && $(this).find("select.type-select").val() === "RF") {
+                valid = false;
+                message = "Não se pode cadastrar uma estrutura apenas com a unidade de recuperação final.";
+                return false;
+            }
+            if ($(this).find("select.type-select").val() === "RF" && index !== $(".unity").length - 1) {
+                valid = false;
+                message = "A unidade de recuperação final deve ser a última.";
+                return false;
             }
 
         });
