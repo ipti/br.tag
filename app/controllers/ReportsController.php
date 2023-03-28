@@ -20,7 +20,7 @@ class ReportsController extends Controller
                     'EnrollmentComparativeAnalysisReport', 'SchoolProfessionalNumberByClassroomReport',
                     'ComplementarActivityAssistantByClassroomReport', 'EducationalAssistantPerClassroomReport',
                     'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
-                    'StudentInstructorNumbersRelationReport', 'StudentPendingDocument', 
+                    'StudentInstructorNumbersRelationReport', 'StudentPendingDocument',
                     'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport'),
                 'users' => array('@'),
             ),
@@ -32,12 +32,12 @@ class ReportsController extends Controller
 
     public function beforeAction($action)
     {
-        if (Yii::app()->user->isGuest){
+        if (Yii::app()->user->isGuest) {
             $this->redirect(yii::app()->createUrl('site/login'));
         }
 
         $this->year = Yii::app()->user->year;
-        
+
         return true;
     }
 
@@ -819,14 +819,29 @@ class ReportsController extends Controller
         }
     }
 
+    public function actionGetEnrollments()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias = "se";
+        $criteria->join = "join student_identification si on si.id = se.student_fk";
+        $criteria->condition = "classroom_fk = :classroom_fk";
+        $criteria->params = array(':classroom_fk' => $_POST["classroom"]);
+        $criteria->order = "si.name";
+        $studentEnrollments = StudentEnrollment::model()->findAll($criteria);
+        echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione...'), true);
+        foreach ($studentEnrollments as $studentEnrollment) {
+            echo htmlspecialchars(CHtml::tag('option', array('value' => $studentEnrollment['id']), $studentEnrollment->studentFk->name, true));
+        }
+    }
+
     public function actionGenerateElectronicDiaryReport()
     {
-        $arr = explode('/', $_POST["initialDate"]);
-        $initialDate = $arr[2] . "-" . $arr[1] . "-" . $arr[0];
-        $arr = explode('/', $_POST["finalDate"]);
-        $finalDate = $arr[2] . "-" . $arr[1] . "-" . $arr[0];
         $result = [];
         if ($_POST["type"] === "frequency") {
+            $arr = explode('/', $_POST["initialDate"]);
+            $initialDate = $arr[2] . "-" . $arr[1] . "-" . $arr[0];
+            $arr = explode('/', $_POST["finalDate"]);
+            $finalDate = $arr[2] . "-" . $arr[1] . "-" . $arr[0];
             $students = [];
             if ($_POST["fundamentalMaior"] == "1") {
                 $schedules = Schedule::model()
@@ -875,8 +890,91 @@ class ReportsController extends Controller
             $col = array_column($students, "name");
             array_multisort($col, SORT_ASC, $students);
             $result["students"] = $students;
+        } else if ($_POST["type"] === "bulletin") {
+            $disciplines = Yii::app()->db->createCommand("
+              select ed.id, ed.name from curricular_matrix cm
+              join edcenso_discipline ed on ed.id = cm.discipline_fk
+              join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
+              join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id
+              where c.id = :classroom
+              order by ed.name
+            ")->bindParam(":classroom", $_POST["classroom"])->queryAll();
+            foreach ($disciplines as $discipline) {
+                $arr["disciplineName"] = $discipline["name"];
+                $arr["grades"] = [];
+
+
+                $criteria = new CDbCriteria();
+                $criteria->alias = "gu";
+                $criteria->join = "join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id";
+                $criteria->join .= " join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id";
+                $criteria->condition = "c.id = :classroom and gu.edcenso_discipline_fk = :edcenso_discipline_fk";
+                $criteria->params = array(":edcenso_discipline_fk" => $discipline["id"], ":classroom" => $_POST["classroom"]);
+                $gradeUnities = GradeUnity::model()->findAll($criteria);
+                $arr["unityNames"] = [];
+                foreach ($gradeUnities as $gradeUnity) {
+                    array_push($arr["unityNames"], $gradeUnity["name"]);
+                }
+
+                $criteria->select = "distinct gu.id, gu.*";
+                $criteria->join = "join grade_unity_modality gum on gum.grade_unity_fk = gu.id";
+                $criteria->join .= " join grade g on g.grade_unity_modality_fk = gum.id";
+                $criteria->condition = "gu.edcenso_discipline_fk = :edcenso_discipline_fk and enrollment_fk = :enrollment_fk";
+                $criteria->params = array(":edcenso_discipline_fk" => $discipline["id"], ":enrollment_fk" => $_POST["student"]);
+                $gradeUnities = GradeUnity::model()->findAll($criteria);
+                foreach ($gradeUnities as $gradeUnity) {
+                    if ($gradeUnity->type == "U" && $gradeUnity->gradeCalculationFk->name === "Soma") {
+                        array_push($arr["grades"], $this->getUnidadeAndSomaValue($gradeUnity));
+                    } else if ($gradeUnity->type == "U" && $gradeUnity->gradeCalculationFk->name === "Média") {
+                        array_push($arr["grades"], $this->getUnidadeAndMediaValue($gradeUnity));
+                    } else if ($gradeUnity->type == "UR" && $gradeUnity->gradeCalculationFk->name === "Soma") {
+
+                    } else if ($gradeUnity->type == "UR" && $gradeUnity->gradeCalculationFk->name === "Média") {
+
+                    } else if ($gradeUnity->type == "RF" && $gradeUnity->gradeCalculationFk->name === "Soma") {
+
+                    } else if ($gradeUnity->type == "RF" && $gradeUnity->gradeCalculationFk->name === "Média") {
+
+                    }
+                }
+                array_push($result, $arr);
+            }
         }
         echo json_encode($result);
+    }
+
+    private function getUnidadeAndSomaValue($gradeUnity)
+    {
+        $gradeResult = "";
+        $turnedEmptyToZero = false;
+        foreach ($gradeUnity->gradeUnityModalities as $gradeUnityModality) {
+            foreach ($gradeUnityModality->grades as $grade) {
+                if (!$turnedEmptyToZero) {
+                    $gradeResult = 0;
+                    $turnedEmptyToZero = true;
+                }
+                $gradeResult += $grade->grade;
+            }
+        }
+        return $gradeResult;
+    }
+
+    private function getUnidadeAndMediaValue($gradeUnity)
+    {
+        $gradeResult = "";
+        $turnedEmptyToZero = false;
+        $commonModalitiesCount = 0;
+        foreach ($gradeUnity->gradeUnityModalities as $gradeUnityModality) {
+            $commonModalitiesCount++;
+            foreach ($gradeUnityModality->grades as $grade) {
+                if (!$turnedEmptyToZero) {
+                    $gradeResult = 0;
+                    $turnedEmptyToZero = true;
+                }
+                $gradeResult += $grade->grade;
+            }
+        }
+        return $gradeResult / $commonModalitiesCount;
     }
 
     public function actionOutOfTownStudentsReport()
@@ -891,9 +989,9 @@ class ReportsController extends Controller
                 JOIN school_identification si ON (si.inep_id = cl.school_inep_fk)
                 JOIN edcenso_city edcsch ON(si.edcenso_city_fk = edcsch.id)
                 JOIN student_identification su ON(su.id= std.id)
-                WHERE si.`inep_id` =".Yii::app()->user->school." AND (se.status = 1 OR se.status IS NULL)
+                WHERE si.`inep_id` =" . Yii::app()->user->school . " AND (se.status = 1 OR se.status IS NULL)
                 AND (si.edcenso_city_fk != std.edcenso_city_fk) 
-                AND (cl.school_year =".Yii::app()->user->year.") 
+                AND (cl.school_year =" . Yii::app()->user->year . ") 
                 ORDER BY NAME;";
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();

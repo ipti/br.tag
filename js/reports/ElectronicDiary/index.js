@@ -66,6 +66,19 @@ $(".final-date").datepicker({
 
 $(document).on("change", "#report", function () {
     if ($(this).val() !== "") {
+        if ($("#report").val() === "frequency") {
+            $(".classroom-container, .date-container").show();
+            $(".students-container").hide();
+            if ($("#classroom").val() !== "" && $("#classroom > option:selected").attr("fundamentalMaior") === "1") {
+                $(".disciplines-container").show();
+            }
+        } else if ($("#report").val() === "bulletin") {
+            $(".classroom-container").show();
+            $(".date-container, .disciplines-container").hide();
+            if ($("#classroom").val() !== "") {
+                $(".students-container").show();
+            }
+        }
         $(".dependent-filters").show();
     } else {
         $(".dependent-filters").hide();
@@ -73,7 +86,7 @@ $(document).on("change", "#report", function () {
 });
 
 $("#classroom").on("change", function () {
-    $("#discipline").val("").trigger("change.select2");
+    $("#discipline, #student").val("").trigger("change.select2");
     if ($(this).val() !== "") {
         if ($("#classroom > option:selected").attr("fundamentalMaior") === "1") {
             $.ajax({
@@ -89,14 +102,35 @@ $("#classroom").on("change", function () {
                     } else {
                         $("#discipline").html(decodeHtml(response)).trigger("change.select2").show();
                     }
-                    $(".disciplines-container").show();
+                    if ($("#report").val() === "frequency") {
+                        $(".disciplines-container").show();
+                    }
                 },
             });
         } else {
             $(".disciplines-container").hide();
         }
+
+        $.ajax({
+            type: "POST",
+            url: "?r=reports/getEnrollments",
+            cache: false,
+            data: {
+                classroom: $("#classroom").val(),
+            },
+            success: function (response) {
+                if (response === "") {
+                    $("#student").html("<option value='-1'></option>").trigger("change.select2").show();
+                } else {
+                    $("#student").html(decodeHtml(response)).trigger("change.select2").show();
+                }
+                if ($("#report").val() === "bulletin") {
+                    $(".students-container").show();
+                }
+            },
+        });
     } else {
-        $(".disciplines-container").hide();
+        $(".disciplines-container, .students-container").hide();
     }
 });
 
@@ -107,6 +141,11 @@ $(document).on("click", "#loadreport", function () {
         case "frequency":
             var isFundamentalMaior = $("#classroom option:selected").attr("fundamentalmaior") === "1";
             if ($("#classroom").val() !== "" && (!isFundamentalMaior || $("#discipline").val() !== "") && correctIntervalDate) {
+                valid = true;
+            }
+            break;
+        case "bulletin":
+            if ($("#classroom").val() !== "" && $("#student").val() !== "") {
                 valid = true;
             }
             break;
@@ -130,11 +169,12 @@ function loadReport() {
             discipline: $("#discipline").val(),
             initialDate: $(".initial-date").val(),
             finalDate: $(".final-date").val(),
+            student: $("#student").val()
         },
         beforeSend: function () {
             $(".loading-report").css("display", "inline-block");
             $(".report-container").css("opacity", 0.3).css("pointer-events", "none");
-            $("#report, #classroom, #discipline, .initial-date, .final-date, #loadreport, .print-report").attr("disabled", "disabled");
+            $("#report, #classroom, #discipline, #student, .initial-date, .final-date, #loadreport, .print-report").attr("disabled", "disabled");
         },
         success: function (data) {
             data = JSON.parse(data);
@@ -162,12 +202,14 @@ function loadReport() {
                 html += "</tbody></table>";
                 $(".report-container").html(html);
                 $(".print-report").show();
+            } else if ($("#report").val() === "bulletin") {
+
             }
         },
         complete: function (response) {
             $(".loading-report").hide();
             $(".report-container").css("opacity", 1).css("pointer-events", "auto");
-            $("#report, #classroom, #discipline, .initial-date, .final-date, #loadreport, .print-report").removeAttr("disabled");
+            $("#report, #classroom, #discipline, #student, .initial-date, .final-date, #loadreport, .print-report").removeAttr("disabled");
         },
     });
 }

@@ -32,11 +32,12 @@ $this->setPageTitle('TAG - Diário Eletrônico');
             <select class="select-search-on electronic-diary-input" id="report">
                 <option value="">Selecione...</option>
                 <option value="frequency">Frequência</option>
+                <option value="bulletin">Boletim</option>
             </select>
         </div>
 
         <div class="dependent-filters">
-            <div>
+            <div class="classroom-container">
                 <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required electronic-diary-label')); ?>
                 <select class="select-search-on electronic-diary-input" id="classroom">
                     <option value="">Selecione...</option>
@@ -45,6 +46,15 @@ $this->setPageTitle('TAG - Diário Eletrônico');
                                 fundamentalMaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
                     <?php endforeach; ?>
                 </select>
+            </div>
+            <div class="students-container">
+                <?php echo CHtml::label("Aluno *", 'student', array('class' => 'control-label required electronic-diary-label')); ?>
+                <?php
+                echo CHtml::dropDownList('student', '', array(), array(
+                    'key' => 'id',
+                    'class' => 'select-search-on',
+                ));
+                ?>
             </div>
             <div class="disciplines-container">
                 <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'discipline', array('class' => 'control-label required electronic-diary-label')); ?>

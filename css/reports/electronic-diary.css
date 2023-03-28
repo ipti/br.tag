@@ -47,3 +47,7 @@
 .report-container {
     margin-top: 25px;
 }
+
+.disciplines-container, .students-container {
+    display: none;
+}

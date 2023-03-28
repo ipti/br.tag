@@ -87,7 +87,7 @@ $(document).on("click", ".js-new-unity", function () {
         '<div class="unity-children">' +
         '<div class="unity-type form-group form-inline">' +
         "<label class='control-label'>Modelo: <span class='red'>*</span></label>" +
-        "<select class='type-select select-search-on control-input'><option value='U'>Unidade</option><option value='UR'>Unidade + Recuperação</option><option value='RF'>Recuperação Final</option></select>" +
+        "<select class='type-select select-search-on control-input'><option value='U'>Unidade</option><option value='UR'>Unidade com recuperação</option><option value='RF'>Recuperação final</option></select>" +
         '</div>' +
         '<div class="calculation form-group form-inline">' +
         "<label class='control-label'>Fórmula: <span class='red'>*</span></label>" +
@@ -189,7 +189,7 @@ function saveUnities(reply) {
             if (data.valid) {
                 $(".alert-required-fields").addClass("alert-success").removeClass("alert-error").text("Estrutura de notas cadastrada com sucesso!").show();
             } else {
-                $(".alert-required-fields").addClass("alert-error").removeClass("alert-success").text("Não se pode alterar a estrutura quando já existe nota cadastrada em alguma turma.").show();
+                $(".alert-required-fields").addClass("alert-error").removeClass("alert-success").text("Não se pode alterar a estrutura quando já existe nota preechida em alguma turma desta etapa e disciplina.").show();
             }
             $(".buttons a, .js-grades-structure-container").css("opacity", "1").css("pointer-events", "auto");
             $("#GradeUnity_edcenso_stage_vs_modality_fk, #GradeUnity_edcenso_discipline_fk").removeAttr("disabled");
@@ -212,7 +212,7 @@ function checkValidInputs() {
             if ($("select.type-select").val() === "UR") {
                 if (!$(this).find(".modality-name[modalitytype=C]").length) {
                     valid = false;
-                    message = 'Unidades do modelo "Unidade + Recuperação" requer duas ou mais modalidades.';
+                    message = 'Unidades do modelo "Unidade com recuperação" requer duas ou mais modalidades.';
                     return false;
                 }
             } else {
