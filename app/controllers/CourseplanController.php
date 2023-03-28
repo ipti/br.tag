@@ -131,10 +131,8 @@ class CourseplanController extends Controller
                 $ability["description"] = $courseClassHasClassAbility->courseClassAbilityFk->description;
                 array_push($courseClasses[$order]['abilities'], $ability);
             }
-            $courseClasses[$order]["deleteButton"] = empty($courseClass->classContents)
-                ? '<a href="#" class="btn btn-danger btn-small remove-course-class"><i class="fa fa-times"></i></a>'
-                : '<a href="#" class="btn btn-danger btn-small remove-course-class unavailable" data-toggle="tooltip" data-placement="left" data-original-title="Aula já ministrada em alguma turma. Não é possível removê-la do plano de aula."><i class="fa fa-times"></i></a>';
-        }
+                $courseClasses[$order]["deleteButton"] = empty($courseClass->classContents) ? "" : "js-unavailable";
+            }
         echo json_encode(["data" => $courseClasses]);
     }
 

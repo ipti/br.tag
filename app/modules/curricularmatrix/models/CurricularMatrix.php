@@ -95,6 +95,7 @@
 
 			return new CActiveDataProvider($this, [
 				'criteria' => $criteria,
+				'pagination' => false
 			]);
 		}
 

@@ -38,6 +38,7 @@ return array(
     'cannot  be blank' => 'não pode ser vazio.',
     'No matches found' => 'nenhuma referência encontrada',
     'Incorrect username or password.'=>'Usuário ou senha incorretos',
+    'cannot be blank'=> 'não pode ficar em branco',
     
     //Campos das tabelas
 
@@ -460,6 +461,7 @@ return array(
     'Deficiency Type Gifted' => 'Altas habilidades / Superdotação',
     'Required Resources' => 'Recursos requeridos em avaliações do INEP (Prova Brasil, SAEB, outros)',
     'Vaccine' => 'Vacinas',
+    'Restrictions' => 'Restrições',
     'Resource Aid Lector' => 'Auxílio Ledor',
     'Resource Aid Transcription' => 'Auxílio transcrição',
     'Resource Interpreter Guide' => 'Guia-Intéprete',
@@ -537,6 +539,7 @@ return array(
     'Classroom Inep' => 'Inep da turma',
     'Classroom Fk' => 'Turma',
     'Enrollment' => 'Matrícula',
+    'Health' => 'Saúde',
     'New Enrollment' => 'Nova Matrícula',
     'Enrollments' => 'Matrículas',
     'Students Enrollments'=>'Alunos Matriculados',
