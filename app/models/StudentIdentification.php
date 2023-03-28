@@ -51,7 +51,7 @@
  * @property integer $resource_video_libras
  * @property integer $resource_none
  * @property integer $send_year
- * @property strign $last_change
+ * @property string $last_change
  * @property integer $responsable
  * @property string $responsable_name
  * @property string $responsable_rg
@@ -59,7 +59,6 @@
  * @property integer $responsable_scholarity
  * @property string $responsable_job
  * @property integer $bf_participator
- * @property string $food_restrictions
  * @property string $responsable_telephone
  * @property string $tag_id
  * @property integer $no_documents_desc
@@ -125,10 +124,10 @@ class StudentIdentification extends AltActiveRecord {
             array('responsable_rg, responsable_job, filiation_1_rg, filiation_2_rg, filiation_1_job, filiation_2_job', 'length', 'max'=>45),
             array('responsable_cpf, responsable_telephone, filiation_1_cpf, filiation_2_cpf', 'length', 'max'=>11),
             array('hash', 'length', 'max'=>40),
-            array('last_change, food_restrictions', 'safe'),
+            array('last_change', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, inep_id, id, name, civil_name, birthday, sex, color_race, filiation, id_email, scholarity, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_zoomed_test_18, resource_braille_test, resource_proof_language, resource_cd_audio, resource_video_libras, resource_none, send_year, last_change, responsable, responsable_name, responsable_rg, responsable_cpf, responsable_scholarity, responsable_job, bf_participator, food_restrictions, responsable_telephone, fkid, no_documents_desc', 'safe', 'on'=>'search'),
+            array('register_type, school_inep_id_fk, inep_id, id, name, civil_name, birthday, sex, color_race, filiation, id_email, scholarity, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_zoomed_test_18, resource_braille_test, resource_proof_language, resource_cd_audio, resource_video_libras, resource_none, send_year, last_change, responsable, responsable_name, responsable_rg, responsable_cpf, responsable_scholarity, responsable_job, bf_participator, responsable_telephone, fkid, no_documents_desc', 'safe', 'on'=>'search'),
         );
     }
 
@@ -209,7 +208,6 @@ class StudentIdentification extends AltActiveRecord {
             'responsable_scholarity' => Yii::t('default', 'Responsable`s Scholarity'),
             'responsable_job' => Yii::t('default', 'Responsable`s Job'),
             'bf_participator' => Yii::t('default', 'BF Participator'),
-            'food_restrictions' => Yii::t('default', 'Food Restrictions'),
             'filiation_1_rg' => Yii::t('default', 'Mother RG'),
             'filiation_1_cpf' => Yii::t('default', 'Mother CPF'),
             'filiation_1_scholarity' => Yii::t('default', 'Mother Scholarity'),

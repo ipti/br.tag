@@ -1,0 +1,24 @@
+@import './field-select2';
+
+.t-multiselect{
+    @extend .t-field-select;
+    .select2-search-choice {
+        background-color: $colorsAlertInfoBackground !important;
+        border: none !important;
+        font-size: $FontSizeTextNormal !important;
+        font-weight: $fontWeightRegular !important;
+        color: $colorsAlertInfoText;
+        padding: $spaceXXSmall $spaceXSmall !important;
+        background-image: none !important;
+        div{
+            margin-left: $SizeLarge;
+        }
+        .select2-search-choice-close{
+            background-image: url('../../../themes/default/img/botao-cancelar-multiselect.svg')!important;
+            width: $SizeNormal !important;
+            height: $SizeNormal !important;
+        }
+    }
+}
+// botao-cancelar-multiselect
+// select2-search-choice-close

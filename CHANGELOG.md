@@ -1,5 +1,9 @@
 # Atualizações
 
+## [Versão 3.9.13]
+- Relatório de Cardápios Especiais
+- Aba Saúde adicionada no formulário de aluno
+
 ## [Versão 3.8.13]
 - Correções nos formulários do módulo Sagres.
 - Correção da validação do CPF.
@@ -76,6 +80,16 @@
 
 **Bugs Corrigidos**
 - Relatório do Bolsa Família
+
+
+## [Versão 2.11.9]
+**Bugs Corrigidos:**
+- Redirecionamento automático quando sessão expira.
+- Correção na gestão de usuários que estavam removendo os vinculos
+
+## [Versão 2.11.7]
+**Melhorias:**
+- Adicionado módulo de gestão de usuários.
 
 ## [Versão 2.10.7]
 **Melhorias:**
