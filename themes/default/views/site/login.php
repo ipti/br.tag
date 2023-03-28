@@ -69,7 +69,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         echo $form->dropDownList($model, 'year', $years, array('class' => 'input-block-level select-search-off'));
                         // @done S1 - Alinhar o checkbox com os inputs
                         ?>
-                        <div class="uniformjs"><label class="checkbox text-input" ><input type="checkbox" style="margin: 0px 6px 20px 0"value="remember-me">Lembrar-me</label></div>
+                        <div class="uniformjs"><label class="checkbox text-input" ><input type="checkbox" style="margin: 0px 6px 20px 0"value="remember-me">Mantenha-me conectado</label></div>
                         <div class="row-fluid">
                             <div>
                                 <?php echo CHtml::submitButton('Entrar', array('class' => 'submit-button-login')); ?>
