@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.9.17]
+- Agora na tela de login o "Lembra-me" agora é "Mantenha-me conectado"
+
 ## [Versão 3.9.13]
 - Relatório de Cardápios Especiais
 - Aba Saúde adicionada no formulário de aluno
