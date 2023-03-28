@@ -17,13 +17,11 @@
     
         padding: $spaceSmall $spaceMedium $spaceSmall $spaceMedium;
         margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
-       /*  display: inline-block; */
         overflow-x: hidden;
     }
     @include device(desktop) {
         padding: $spaceXXSmall;
         margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
-       /*  display: inline-block; */
         overflow-x: hidden;
     }
 
@@ -96,10 +94,6 @@
             }
 
            
-        }
-        @include device(tablet) {
-            display: block;
-    
         }
     }
 
