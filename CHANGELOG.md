@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.9.16]
+- O Bug para algumas etapas de ensino no formulário de turmas foi corrigido
+
 ## [Versão 3.9.13]
 - Relatório de Cardápios Especiais
 - Aba Saúde adicionada no formulário de aluno
