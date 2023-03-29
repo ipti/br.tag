@@ -47,3 +47,6 @@ CREATE TABLE `provision_accounts` (
   `dia_final_prest_contas` date NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+ALTER TABLE instructor_identification ADD `cpf_instructor` VARCHAR(14) NOT NULL AFTER `name`;
