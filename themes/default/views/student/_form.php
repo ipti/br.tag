@@ -98,12 +98,6 @@ $form = $this->beginWidget('CActiveForm', array(
         <div>
             <div class="tab-content" style="display:none">
                 <!-- Tab content Botão de próximo -->
-                <div id="buttons-student" class="">
-                    <a data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display: none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
-                    <a data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?>
-                        <i></i></a>
-                    <?php echo CHtml::htmlButton('<i></i>' . ($modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('class' => 'pull-right btn btn-icon btn-primary last glyphicons circle_ok', 'style' => 'display:none', 'type' => 'submit')); ?>
-                </div>
                 <!-- Tab Student Identify -->
                 <div class="tab-pane active" id="student-identify">
                     <div>
@@ -389,7 +383,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="deficiencies-container js-change-required js-visibility-deficiencies">
                                 <label class="control-label"><?php echo Yii::t('default', 'Deficiency Type'); ?>
                                     *</label>
-                                <div id="StudentIdentification_deficiencies">
+                                <div id="StudentIdentification_deficiencies t-field-checkbox-group t-field-checkbox">
                                     <label class="checkbox">
                                         <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_blindness']; ?>
                                         <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
@@ -798,14 +792,11 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="span12">
                             <div class="widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
                                 <div class="widget-body in" style="height: auto;">
-                                    <div class="control-group row" id="received" style="margin-left:34px;">
-                                        <div class="controls">
-                                            <div class="column no-grow">
+                                    <div class="control-group row" id="received" style="margin-left:34px;">        
+                                            <div class="column">
                                                 <h3><?php echo Yii::t('default', 'Restrictions'); ?>
-                                                    <!-- <i style="font-size: 0.8em;">(Marcar os documentos que foram entregues).</i> -->
+                                            
                                                 </h3>
-                                            </div>
-                                            <div class="column no-grow">
                                                 <label class="checkbox">
                                                     <?php echo StudentRestrictions::model()->attributeLabels()['celiac']; ?>
                                                     <?php echo $form->checkBox($modelStudentRestrictions, 'celiac', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -864,14 +855,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     <?php echo $form->textArea($modelStudentRestrictions,'others',array('rows'=>6, 'cols'=>50)); ?>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="controls">
-                                            <div class="column no-grow">
+                                      
+                                               
+                                            <div class="column"> 
                                                 <h3><?php echo Yii::t('default', 'Vaccine'); ?>
-                                                    <!-- <i style="font-size: 0.8em;">(Marcar os documentos que foram entregues).</i> -->
                                                 </h3>
-                                            </div>
-                                            <div class="column no-grow">
                                                 <div class="vaccines-container">
                                                     <?php foreach ($vaccines as $vaccine) : ?>
                                                         <label class="checkbox">
@@ -881,7 +869,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     <?php endforeach; ?>
                                                 </div>
                                             </div>
-                                        </div>
                                     </div>
                                 </div>
 

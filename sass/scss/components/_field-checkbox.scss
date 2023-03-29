@@ -4,7 +4,7 @@
 .t-field-checkbox {
     margin-bottom: $SizeLarge;
     display: flex;
-
+    white-space: nowrap;
     &__label {
         &--required {
             font-weight: bold;
@@ -24,13 +24,6 @@
     margin-bottom: $SizeLarge;
 
     .t-field-checkbox {
-        margin-bottom: 0;
-    }
-}
-
-.t-field-checkbox-group {
-    margin-bottom: $SizeLarge;
-    .t-field-checkbox {
-        margin-bottom: 0;
+        margin-bottom: $SizeXXXSmall;
     }
 }
