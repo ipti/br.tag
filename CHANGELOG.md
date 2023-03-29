@@ -1,5 +1,9 @@
 # Atualizações
 
+## [Versão 3.9.20]
+- Agora as turmas sem alunos aparecem no relatório de alunos por turma
+- Bug no nome da turma no relatório de alunos por turma corrigido
+
 ## [Versão 3.9.13]
 - Relatório de Cardápios Especiais
 - Aba Saúde adicionada no formulário de aluno
