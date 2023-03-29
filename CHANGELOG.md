@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.9.18]
+- Estilo das caixas de filtros corrigidos
+
 ## [Versão 3.9.13]
 - Relatório de Cardápios Especiais
 - Aba Saúde adicionada no formulário de aluno
