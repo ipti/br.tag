@@ -214,7 +214,7 @@ function addStudentGrades(data, id, discipline_id, discipline, fields) {
         }
 
     }
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 2; i++) {
         var j = i + 2;
         var name_of_class = i == 0 ? "school-days-group" + discipline_id : "frequency-fields";
         var popover = i == 0 ? '  data-html = "true" data-container="body" data-toggle="popover" data-placement="right" data-content="<b> Compartilhado por toda a turma </b>"  ' : '';
