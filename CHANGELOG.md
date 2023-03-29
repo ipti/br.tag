@@ -1,5 +1,9 @@
 # Atualizações
 
+## [Versão 3.9.15]
+- Agora o campo nome social agora é Nome de Apresentação que pode ser usado ou não para nome social
+- Agora o campo de nome civil fica oculto e é exibido um checkbox com "Esse é um nome social?" relacionando com o campo "Nome de Apresentação"
+
 ## [Versão 3.9.13]
 - Relatório de Cardápios Especiais
 - Aba Saúde adicionada no formulário de aluno
