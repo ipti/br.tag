@@ -1628,6 +1628,19 @@ li.highlight.profile
     height: 44px;
     margin-bottom: 20px;
     padding: 0 10px;
+    align-items: flex-end !important;
+}
+
+.filter-bar > div {
+    display: grid;
+}
+
+.filter-bar .t-button-primary {
+    margin: 0 !important;
+}
+
+.filter-bar .no-disciplines-guide {
+    display: inline-block;
 }
 
 .filter-bar div {
