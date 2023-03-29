@@ -140,12 +140,12 @@ class SagresConsultModel
             $classType = new TurmaTType;
             $classId = $turma['id'];
 
-            if (!empty($this->getEnrollments($classId, $referenceYear))) {
+            if (!empty($this->getEnrollments($classId, $referenceYear, $dateStart, $dateEnd))) {
                 $classType->setPeriodo('0')
                     ->setDescricao($turma["name"])
                     ->setTurno($this->convertTurn($turma['turn']))
                     ->setSerie($this->getSeries($classId))
-                    ->setMatricula($this->getEnrollments($classId, $referenceYear))
+                    ->setMatricula($this->getEnrollments($classId, $referenceYear, $dateStart, $dateEnd))
                     ->setHorario($this->getSchedules($classId))
                     ->setFinalTurma(false);
 
@@ -423,7 +423,7 @@ class SagresConsultModel
      *
      * @return MatriculaTType[]
      */
-    public function getEnrollments($id, $reference_year)
+    public function getEnrollments($enrollmentId, $referenceYear, $dateStart, $dateEnd)
     {
         $enrollmentList = [];
 
@@ -432,13 +432,16 @@ class SagresConsultModel
                     se.date_cancellation_enrollment AS data_cancelamento,
                     se.previous_stage_situation AS situation
                   FROM student_enrollment se 
-                  WHERE se.classroom_fk  =  :id;";
+                  WHERE se.classroom_fk  =  :enrollmentId AND YEAR(se.create_date) = :referenceYear AND create_date BETWEEN :dateStart AND :dateEnd;";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
-            ':id' => $id
+            ':enrollmentId' => $enrollmentId,
+            ':referenceYear' => $referenceYear,
+            ':dateStart' => $dateStart,
+            ':dateEnd' => $dateEnd
         ])
-            ->queryAll();
+        ->queryAll();
 
         $enrollments = $command->queryAll();
 
@@ -447,7 +450,7 @@ class SagresConsultModel
             $enrollmentType->setNumero($enrollment['numero'])
                 ->setDataMatricula(new DateTime($enrollment['data_matricula']))
                 ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
-                ->setNumeroFaltas((int) $this->returnNumberFaults($enrollment['student_fk'], $reference_year))
+                ->setNumeroFaltas((int) $this->returnNumberFaults($enrollment['student_fk'], $referenceYear))
                 ->setAprovado($this->getStudentSituation($enrollment['situation']))
                 ->setAluno($this->getStudents($enrollment['student_fk']));
 
