@@ -1,5 +1,7 @@
 # Atualizações
 
+## [Versão 3.9.19]
+- Corrigida responsividade no formulário de alunos 
 ## [Versão 3.9.13]
 - Relatório de Cardápios Especiais
 - Aba Saúde adicionada no formulário de aluno
