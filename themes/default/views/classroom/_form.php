@@ -79,7 +79,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <h3>Dados Básicos</h3>
                     </div>
                     <div class="row">
-                        <div class="column no-grow">
+                        <div class="column">
                             <div class="t-field-text">
                                 <?php
                                 echo $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => Yii::app()->user->school));
@@ -113,7 +113,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($modelClassroom, 'diff_location'); ?>
                             </div>
                         </div>
-                        <div class="column no-grow">
+                        <div class="column">
                             <!-- Etapa de Ensino -->
                             <div class="t-field-select" id="stage_vs_modality">
                                 <?php echo $form->labelEx($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 't-field-select__label--required')); ?>
@@ -139,7 +139,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <h3>Horário de funcionamento</h3>
                     </div>
                     <div class="row">
-                        <div class="column no-grow">
+                        <div class="column">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelClassroom, 'initial_hour', array('class' => 't-field-text__label--required')); ?>
                                 <?php echo $form->hiddenField($modelClassroom, 'initial_hour', array('size' => 2, 'maxlength' => 2)); ?>
@@ -173,7 +173,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($modelClassroom, 'turn'); ?>
                             </div>
                         </div>
-                        <div class="column no-grow">
+                        <div class="column">
                             <!-- hora final -->
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($modelClassroom, 'final_hour', array('class' => 't-field-text__label--required', 'placeholder' => 'Somente números')); ?>
@@ -227,7 +227,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <h3>Atendimento</h3>
                     </div>
                     <div class="row">
-                        <div class="column no-grow">
+                        <div class="column">
                             <!-- tipo de atendimento -->
                             <div class="control-group hidden">
                                 <label for=""></label>
@@ -243,18 +243,24 @@ $form = $this->beginWidget('CActiveForm', array(
                             <!-- Tipo de Atendimento* -->
                             <div class="t-field-checkbox-group" id="aee2">
                                 <label class="t-field-checkbox__label--required"><?php echo Yii::t('default', 'Assistence Types'); ?>*</label>
-                                <label class="checkbox">
-                                    <?php echo Classroom::model()->attributeLabels()['schooling']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'schooling', array('value' => 1, 'uncheckValue' => 0, 'class' =>'t-field-checkbox__input')); ?>
-                                </label>
-                                <label class="checkbox">
-                                    <?php echo Classroom::model()->attributeLabels()['complementary_activity']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'complementary_activity', array('value' => 1, 'uncheckValue' => 0, 'class' =>'t-field-checkbox__input')); ?>
-                                </label>
-                                <label class="checkbox">
-                                    <?php echo Classroom::model()->attributeLabels()['aee']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'aee', array('value' => 1, 'uncheckValue' => 0, 'class' =>'t-field-checkbox__input')); ?>
-                                </label>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelClassroom, 'schooling', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input', 'id' => 'Escolarização')); ?>
+                                    <label for="Escolarização">
+                                        <?php echo Classroom::model()->attributeLabels()['schooling']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelClassroom, 'complementary_activity', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input', 'id' => 'Atividade Complementar')); ?>
+                                    <label for="Atividade Complementar">
+                                        <?php echo Classroom::model()->attributeLabels()['complementary_activity']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelClassroom, 'aee', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input', 'id' => 'Atendimento Educacional Especializado (AEE)')); ?>
+                                    <label for="Atendimento Educacional Especializado (AEE)">
+                                        <?php echo Classroom::model()->attributeLabels()['aee']; ?>
+                                    </label>
+                                </div>
                             </div>
                             <!-- Participante do programa Mais Educação -->
                             <div class="control-group" id="mais_educacao">
@@ -262,14 +268,14 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo CHtml::activeHiddenField($modelClassroom, 'mais_educacao_participator', array('disabled' => 'disabled')) ?>
                                 </div>
                                 <div class="t-field-checkbox" id="some">
-                                    <label class="checkbox t-field-checkbox__label">
-                                        <?php echo $form->checkBox($modelClassroom, 'mais_educacao_participator', array('class'=>'t-field-checkbox__input')); ?>
-                                        <?php echo $form->error($modelClassroom, 'mais_educacao_participator'); ?>
-                                        <?php echo $form->labelEx($modelClassroom, 'mais_educacao_participator', array('class' => 'control-label')); ?>
-
+                                    <?php echo $form->checkBox($modelClassroom, 'mais_educacao_participator', array('class' => 't-field-checkbox__input', 'id' =>'participante_educacao')); ?>
+                                    <?php echo $form->error($modelClassroom, 'mais_educacao_participator'); ?>
+                                    <label for="participante_educacao">
+                                        <?php echo $form->labelEx($modelClassroom, 'mais_educacao_participator', array('class' => 't-field-checkbox__label')); ?>
                                     </label>
                                 </div>
                             </div>
+                            <!-- atividade complementar -->
                             <div class="control-group" id="complementary_activity">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelClassroom, 'complementary_activity_type_1', array('class' => 'control-label required')); ?>
@@ -279,61 +285,78 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <!-- <?php echo $form->dropDownList($modelClassroom, 'complementary_activity_type_1', CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'), array('multiple' => true, 'class' => 'select-ComplementaryAT', 'key' => 'id')); ?> -->
 
                                     <?php echo $form->error($modelClassroom, 'complementary_activity_type_1'); ?>
-                                    <!-- atividade complementar -->
+                                    
                                 </div>
                             </div>
                         </div>
-                        <div class="column no-grow">
+                        <div class="column">
                             <!-- atividades do  atendimento  educacional  especializado -->
-                            <div class="control-group hide-responsive" id="aee2">
-                                <div class="controls">
-                                    <label class="control-label"><?php echo Yii::t('default', 'Aee'); ?></label>
-                                </div>
-                                <!-- <div class="uniformjs margin-left"> -->
-                                <div class="controls">
-                                    <label class="checkbox">
+                            <div class="t-field-checkbox-group" id="aee2">
+                                <label class="t-field-checkbox__label"><?php echo Yii::t('default', 'Aee'); ?></label>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_braille', array('value' => 1, 'uncheckValue' => 0, 'id' => 'Ensino do Sistema Braille')); ?>
+                                    <label class="t-field-checkbox" for="Ensino do Sistema Braille">
                                         <?php echo Classroom::model()->attributeLabels()['aee_braille']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_braille', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                    <label class="checkbox">
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_optical_nonoptical', array('value' => 1, 'uncheckValue' => 0, 'id' => 'Ensino do uso de recursos ópticos e não ópticos')); ?>
+                                    <label class="t-field-checkbox" for="Ensino do uso de recursos ópticos e não ópticos">
                                         <?php echo Classroom::model()->attributeLabels()['aee_optical_nonoptical']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_optical_nonoptical', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                    <label class="checkbox">
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_cognitive_functions', array('value' => 1, 'uncheckValue' => 0, 'id' => 'Estratégias para o desenvolvimento de processos mentais')); ?>
+                                    <label class="t-field-checkbox" for="Estratégias para o desenvolvimento de processos mentais">
                                         <?php echo Classroom::model()->attributeLabels()['aee_cognitive_functions']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_cognitive_functions', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                    <label class="checkbox">
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_mobility_techniques', array('value' => 1, 'uncheckValue' => 0, 'id' => 'Técnicas de orientação e mobilidade')); ?>
+                                    <label class="t-field-checkbox" for="Técnicas de orientação e mobilidade">
                                         <?php echo Classroom::model()->attributeLabels()['aee_mobility_techniques']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_mobility_techniques', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                    <label class="checkbox">
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_libras', array('value' => 1, 'uncheckValue' => 0, 'id' => 'Ensino da Língua Brasileira de Sinais (Libras)')); ?>
+                                    <label class="t-field-checkbox" for="Ensino da Língua Brasileira de Sinais (Libras)">
                                         <?php echo Classroom::model()->attributeLabels()['aee_libras']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                    <label class="checkbox">
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_caa', array('value' => 1, 'uncheckValue' => 0, 'id' => 'Ensino de uso da Comunicação Alternativa e Aumentativa - CAA')); ?>
+                                    <label class="t-field-checkbox" for="Ensino de uso da Comunicação Alternativa e Aumentativa - CAA">
                                         <?php echo Classroom::model()->attributeLabels()['aee_caa']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_caa', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                    <label class="checkbox">
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_curriculum_enrichment', array('value' => 1, 'uncheckValue' => 0, 'id' => 'Estratégias para o enriquecimento curricular')); ?>
+                                    <label class="t-field-checkbox" for="Estratégias para o enriquecimento curricular">
                                         <?php echo Classroom::model()->attributeLabels()['aee_curriculum_enrichment']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_curriculum_enrichment', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                    <label class="checkbox">
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_soroban', array('value' => 1, 'uncheckValue' => 0, 'id' => 'Ensino do uso do Soroban')); ?>
+                                    <label class="t-field-checkbox" for="Ensino do uso do Soroban">
                                         <?php echo Classroom::model()->attributeLabels()['aee_soroban']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_soroban', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                    <label class="checkbox">
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_accessible_teaching', array('value' => 1, 'uncheckValue' => 0, 'id' => 'Ensino da usabilidade e das funcionalidades da informática acessível')); ?>
+                                    <label class="t-field-checkbox" for="Ensino da usabilidade e das funcionalidades da informática acessível">
                                         <?php echo Classroom::model()->attributeLabels()['aee_accessible_teaching']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_accessible_teaching', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                    <label class="checkbox">
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_portuguese', array('value' => 1, 'uncheckValue' => 0, 'id' => 'Ensino da Língua Portuguesa na modalidade escrita')); ?>
+                                    <label class="t-field-checkbox" for="Ensino da Língua Portuguesa na modalidade escrita">
                                         <?php echo Classroom::model()->attributeLabels()['aee_portuguese']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_portuguese', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                    <label class="checkbox">
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_autonomous_life', array('value' => 1, 'uncheckValue' => 0, 'id' => 'Estratégias para autonomia no ambiente escolar')); ?>
+                                    <label class="t-field-checkbox" for="Estratégias para autonomia no ambiente escolar">
                                         <?php echo Classroom::model()->attributeLabels()['aee_autonomous_life']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_autonomous_life', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                 </div>
                             </div>
