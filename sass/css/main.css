@@ -381,30 +381,6 @@
 
 .tag-table thead tr th:last-child { border-radius: 0 3px 3px 0; }
 
-.tag-table tbody { --dt-row-selected: $colorsBaseProductLightActive; --dt-row-selected-text: var(--dt-row-selected)
-        --dt-row-selected-link: var(--dt-row-selected)
-        .selected {
-            background-color: $colorsBaseProductLightActive;
-        }
-        tr {
-            border-bottom: 2.5px solid white;
-        }
-
-        td {
-            font-family: $FontFamilyTextNormal;
-            font-size: $FontSizeTextNormal;
-            padding: 4px;
-
-            &:first-child {
-                border-radius: $borderRadiusLeft;
-            }
-
-            &:last-child {
-                border-radius: $borderRadiusRight;
-            }
-        }
-     }
-
 .grid-view { padding-top: 0.875em; }
 
 .grid-view .summary { display: none; }
@@ -585,3 +561,4 @@ h5, .subheading { font-size: 14px; color: #94a8be; font-weight: 400; }
 .hide { display: none; }
 
 .show { display: block; }
+

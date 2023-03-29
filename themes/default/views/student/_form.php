@@ -112,11 +112,6 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <!-- name student -->
                             <div class="t-field-text">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'civil_name', array('class' => 'control-label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'civil_name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome Civil')); ?>
-                                <?php echo $form->error($modelStudentIdentification, 'civil_name'); ?>
-                            </div>
-                            <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'name', array('class' => 'control-label t-field-text__label--required')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome Social')); ?>
                                 <span id="similarMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
@@ -124,6 +119,15 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <img id="errorNameIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
                                 </span>
                                 <?php echo $form->error($modelStudentIdentification, 'name'); ?>
+                            </div>
+                            <label class="checkbox show-student-civil-name-box">
+                                   Esse é um nome social?
+                                   <input type="checkbox" id="show-student-civil-name" <?php if ($modelStudentIdentification->civil_name != null) echo "checked"; ?>>
+                            </label>
+                            <div class="t-field-text student-civil-name" style="display: none;">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'civil_name', array('class' => 'control-label')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'civil_name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome Civil')); ?>
+                                <?php echo $form->error($modelStudentIdentification, 'civil_name'); ?>
                             </div>
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'birthday', array('class' => 'control-label  t-field-text__label--required')); ?>

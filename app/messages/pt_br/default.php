@@ -597,7 +597,7 @@ return array(
     'Nationality' => 'Nacionalidade',
     'Edcenso Nation Fk' => 'País de origem',
     'Full name' => 'Nome completo',
-    'Social Name' => 'Nome Social',
+    'Social Name' => 'Nome de Apresentação',
     'Civil Name' => 'Nome Civil',
     'Full mothers name' => 'Nome completo da mãe',
     'Full fathers name' => 'Nome completo do pai',
