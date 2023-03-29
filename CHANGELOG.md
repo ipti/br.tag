@@ -1,6 +1,9 @@
 # Atualizações
 
 
+## [Versão 3.9.19]
+- Corrigida responsividade no formulário de alunos 
+
 ## [Versão 3.9.18]
 - Estilo das caixas de filtros corrigidos
 

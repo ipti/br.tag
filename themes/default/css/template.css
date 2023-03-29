@@ -479,7 +479,7 @@ body > .container-fluid.documentation {
 #content {
     position: relative;
     overflow: visible;
-    margin: 0 0 20px 191px;
+    margin: 0 0 20px 0px;
     background: #fff;
     min-width: 320px;
     padding: 0 0 10px;
@@ -7847,9 +7847,6 @@ div.glyphicons.glyphicon-primary i:before {
     .navbar.main {
         width: 100% !important;
     }
-    #content {
-        margin: 0 0 20px 0px;
-    }
     #logo-menu{
         margin-left: 10px;
     }
@@ -7900,6 +7897,12 @@ div.glyphicons.glyphicon-primary i:before {
         margin: 0;
     }
 }
+@media (min-width: 768px) {
+    #content {
+        margin: 0 0 20px 191px;
+    }
+}
+
 /* @media (max-width: 979px) {
     body > .container-fluid.fixed {
         width: auto;
