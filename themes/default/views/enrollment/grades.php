@@ -55,7 +55,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                 ));
             ?>
         </div>
-        <div class="no-disciplines-guide">Algumas Disciplinas não aparecem na tabela? <span class="no-disciplines-link">Saiba mais</span>.</div>
+        <div class="no-disciplines-guide" style="display: none;">Algumas Disciplinas não aparecem na tabela? <span class="no-disciplines-link">Saiba mais</span>.</div>
     </div>
     <br>
     <div class="alert-no-students alert alert-warning">Não há estudantes cadastrados na turma.</div>
