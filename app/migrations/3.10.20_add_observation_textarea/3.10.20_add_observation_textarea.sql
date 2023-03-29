@@ -1,1 +1,1 @@
-ALTER TABLE `br-ong-tag-demo`.student_enrollment ADD observation varchar(200) NULL;
+ALTER TABLE student_enrollment ADD observation varchar(200) NULL;
