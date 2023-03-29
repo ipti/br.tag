@@ -45,7 +45,7 @@ $(document).on("change", "#GradeUnity_edcenso_stage_vs_modality_fk", function ()
     }
 });
 
-$(document).on("click", ".js-new-unity", function () {
+$(document).on("click", ".js-new-unity", function (evt) {
     var unityHtml = "" +
         "<div class='unity form-group form-inline'>" +
         "<label class='control-label'>Nome: <span class='red'>*</span></label>" +
@@ -79,6 +79,7 @@ $(document).on("change", ".type-select", function () {
 });
 
 $(document).on("click", ".js-new-modality", function (evt, indirectTrigger) {
+    evt.preventDefault();
     var unityHtml = "" +
         "<div class='modality form-group form-inline'>" +
         "<label class='control-label'>Modalidade: <span class='red'>*</span></label>" +
