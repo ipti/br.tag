@@ -1,0 +1,1 @@
+ALTER TABLE `br-ong-tag-demo`.student_enrollment ADD observation varchar(200) NULL;

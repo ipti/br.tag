@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.10.20]
+- Campo de observação adicionado no formulário de matrícula do aluno
+
 ## [Versão 3.9.13]
 - Relatório de Cardápios Especiais
 - Aba Saúde adicionada no formulário de aluno

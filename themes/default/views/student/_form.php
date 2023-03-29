@@ -1273,6 +1273,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </label>
                                 </div>
                             </div>
+
+                            <div class="control-group js-hide-not-required">
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelEnrollment, 'observation', array('class' => 'control-label')); ?>
+                                </div>
+                                <div class="controls">
+                                <?php echo $form->textArea($modelEnrollment,'observation',array('rows'=>6, 'cols'=>50)); ?>
+                                    <?php echo $form->error($modelEnrollment, 'observation'); ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row-fluid">
