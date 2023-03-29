@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.10.20]
+- Campo de observação adicionado no formulário de matrícula do aluno
+
 ## [Versão 3.9.20]
 - Agora as turmas sem alunos aparecem no relatório de alunos por turma
 - Bug no nome da turma no relatório de alunos por turma corrigido
