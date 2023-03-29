@@ -32,7 +32,7 @@ $this->setPageTitle('TAG - Diário Eletrônico');
             <select class="select-search-on electronic-diary-input" id="report">
                 <option value="">Selecione...</option>
                 <option value="frequency">Frequência</option>
-                <option value="bulletin">Boletim</option>
+                <option value="grades">Notas</option>
             </select>
         </div>
 

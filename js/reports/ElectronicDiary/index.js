@@ -72,7 +72,7 @@ $(document).on("change", "#report", function () {
             if ($("#classroom").val() !== "" && $("#classroom > option:selected").attr("fundamentalMaior") === "1") {
                 $(".disciplines-container").show();
             }
-        } else if ($("#report").val() === "bulletin") {
+        } else if ($("#report").val() === "grades") {
             $(".classroom-container").show();
             $(".date-container, .disciplines-container").hide();
             if ($("#classroom").val() !== "") {
@@ -124,7 +124,7 @@ $("#classroom").on("change", function () {
                 } else {
                     $("#student").html(decodeHtml(response)).trigger("change.select2").show();
                 }
-                if ($("#report").val() === "bulletin") {
+                if ($("#report").val() === "grades") {
                     $(".students-container").show();
                 }
             },
@@ -144,7 +144,7 @@ $(document).on("click", "#loadreport", function () {
                 valid = true;
             }
             break;
-        case "bulletin":
+        case "grades":
             if ($("#classroom").val() !== "" && $("#student").val() !== "") {
                 valid = true;
             }
@@ -184,7 +184,7 @@ function loadReport() {
                     "<table class='frequency-table table table-bordered table-striped table-hover'>" +
                     "<thead>" +
                     "<tr><th class='table-title' colspan='5'>Frequência</th></tr>" +
-                    "<tr><th class='table-subtitle' colspan='5'>"
+                    "<tr><th class='center' colspan='5'>"
                     + $('#classroom').select2('data').text + " - "
                     + ($("#classroom option:selected").attr("fundamentalmaior") === "1" ? $('#discipline').select2('data').text + " - " : "")
                     + $(".initial-date").val() + " a " + $(".final-date").val()
@@ -202,8 +202,36 @@ function loadReport() {
                 html += "</tbody></table>";
                 $(".report-container").html(html);
                 $(".print-report").show();
-            } else if ($("#report").val() === "bulletin") {
-
+            } else if ($("#report").val() === "grades") {
+                html += "" +
+                    "<table class='grades-table table table-bordered table-striped table-hover'>" +
+                    "<thead>";
+                var totalColSpan = 0;
+                var unityRow = "";
+                $.each(data.unityNames, function () {
+                    totalColSpan += this.colspan;
+                    unityRow += "<th class='center' colspan='" + this.colspan + "'>" + this.name + "</th>";
+                });
+                var subunityRow = "";
+                $.each(data.subunityNames, function () {
+                    subunityRow += "<th class='center'>" + this + "</th>"
+                });
+                html += "<tr><th class='table-title' colspan='" + (totalColSpan + 3) + "'>Notas</th></tr>";
+                html += "<tr><th class='center' colspan='" + (totalColSpan + 3) + "'>" + $('#student').select2('data').text + "</th></tr>";
+                html += "<tr><th class='center' colspan='" + (totalColSpan + 3) + "'>" + $('#classroom').select2('data').text + "</th></tr>";
+                html += "<tr><th></th>" + unityRow + "<th class='center' colspan='2'></th></tr>";
+                html += "<tr><th>Disciplina</th>" + subunityRow + "<th class='center'>Média Final</th><th class='center'>Situação</th></tr>";
+                html += "</thead><tbody>";
+                $.each(data.rows, function () {
+                    html += "<tr><td>" + this.disciplineName + "</td>";
+                    $.each(this.grades, function () {
+                        html += "<td class='center'>" + this.unityGrade + "</td>";
+                    });
+                    html += "<td class='center'>" + this.finalMedia + "</td><td class='center'>" + this.situation + "</td></tr>";
+                });
+                html += "</tbody></table>";
+                $(".report-container").html(html);
+                $(".print-report").show();
             }
         },
         complete: function (response) {
@@ -218,7 +246,7 @@ $(document).on("click", ".print-report", function () {
     var popup = window.open('', '', 'toolbar=no, menubar=no');
     popup.document.writeln('<!DOCTYPE html>');
     popup.document.writeln('<html moznomarginboxes mozdisallowselectionprint><head><title>Relatório</title>');
-    popup.document.writeln('<link rel="stylesheet" type="text/css" media="print" href="./css/reports/prints/print-reports.css?v=1.0">');
+    popup.document.writeln('<link rel="stylesheet" type="text/css" media="print" href="./css/reports/prints/print-reports.css?v=1.1">');
     popup.document.writeln('<div class="header">' + $(".report-header")[0].innerHTML + '</div>');
     popup.document.writeln('<h3>Diário Eletrônico</h3>');
     popup.document.writeln("<div class='body-container'>" + $(".report-container")[0].innerHTML + "</div>");

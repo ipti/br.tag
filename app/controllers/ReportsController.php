@@ -890,8 +890,8 @@ class ReportsController extends Controller
             $col = array_column($students, "name");
             array_multisort($col, SORT_ASC, $students);
             $result["students"] = $students;
-        } else if ($_POST["type"] === "bulletin") {
-            //Montar colunas das unidades
+        } else if ($_POST["type"] === "grades") {
+            //Montar colunas das unidades e subunidades
             $criteria = new CDbCriteria();
             $criteria->alias = "gu";
             $criteria->join = "join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id";
@@ -900,10 +900,32 @@ class ReportsController extends Controller
             $criteria->params = array(":classroom" => $_POST["classroom"]);
             $gradeUnitiesByClassroom = GradeUnity::model()->findAll($criteria);
             $result["unityNames"] = [];
+            $result["subunityNames"] = [];
             foreach ($gradeUnitiesByClassroom as $gradeUnity) {
                 array_push($result["unityNames"], ["name" => $gradeUnity["name"], "colspan" => $gradeUnity->type == "UR" ? 2 : 1]);
+                $commonModalitiesName = "";
+                $recoverModalityName = "";
+                $firstCommonModality = false;
+                foreach ($gradeUnity->gradeUnityModalities as $index => $gradeUnityModality) {
+                    if ($gradeUnityModality->type == "C") {
+                        if (!$firstCommonModality) {
+                            $commonModalitiesName .= $gradeUnityModality->name;
+                            $firstCommonModality = true;
+                        } else {
+                            $commonModalitiesName .= " + " . $gradeUnityModality->name;
+                        }
+                    } else {
+                        $recoverModalityName = $gradeUnityModality->name;
+                    }
+                }
+                array_push($result["subunityNames"], $commonModalitiesName);
+                if ($recoverModalityName !== "") {
+                    array_push($result["subunityNames"], $recoverModalityName);
+                }
             }
 
+            //Montar linhas das disciplinas e notas
+            $result["rows"] = [];
             $disciplines = Yii::app()->db->createCommand("
               select ed.id, ed.name from curricular_matrix cm
               join edcenso_discipline ed on ed.id = cm.discipline_fk
@@ -937,8 +959,9 @@ class ReportsController extends Controller
                 }
 
 
-                //Cálculo da média final
+                //Cálculo da média final e situação
                 $arr["finalMedia"] = "";
+                $arr["situation"] = "";
                 $sums = 0;
                 $sumsCount = 0;
                 $arr["semesterMedias"] = [];
@@ -979,7 +1002,7 @@ class ReportsController extends Controller
                             }
                             if ($rawUnitiesFilled == $rawUnitiesCount) {
                                 $finalMedia = array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]);
-                                $finalRecoverMedia = ((array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"])) + $grade["unityGrade"]) / 2;
+                                $finalRecoverMedia = ($finalMedia + $grade["unityGrade"]) / 2;
                                 $arr["finalMedia"] = $finalMedia > $finalRecoverMedia ? $finalMedia : $finalRecoverMedia;
                             }
                             break;
@@ -994,7 +1017,11 @@ class ReportsController extends Controller
                         $arr["finalMedia"] = array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]);
                     }
                 }
-                array_push($result, $arr);
+                if (!$hasRF || ($hasRF && $arr["grades"][count($arr["grades"]) - 1]["unityGrade"] !== "") || $arr["finalMedia"] >= 5) {
+                    $arr["situation"] = $arr["finalMedia"] >= 5 ? "AP" : "RE";
+                }
+
+                array_push($result["rows"], $arr);
             }
         }
         echo json_encode($result);
