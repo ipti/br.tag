@@ -7,6 +7,11 @@ $(document).ready(function () {
         $(".others-text-box").hide();
     }
 
+    if($("#show-student-civil-name").is(":checked")) {
+        $(".student-civil-name").show();
+        $(".show-student-civil-name-box").hide();
+    }
+
     $("#new-enrollment-button").click(function() {
         if($("#new-enrollment-form").css('display') == 'none') {
             $("#new-enrollment-form").show();
@@ -103,6 +108,13 @@ $(document).on("change", "#others-check", function () {
         $(".others-text-box").show();
     }else {
         $(".others-text-box").hide();
+    }
+});
+
+$(document).on("change", "#show-student-civil-name", function () {
+    if($(this).is(":checked")) {
+        $(".student-civil-name").show();
+        $(".show-student-civil-name-box").hide();
     }
 });
 
