@@ -28,8 +28,7 @@ $(document).on("change", "#GradeUnity_edcenso_stage_vs_modality_fk", function ()
                             unity.find(".js-new-modality").trigger("click", [true]);
                             unity.find(".modality").last().find(".modality-name").val(this.name);
                             if (this.type === "R") {
-                                unity.find(".modality").last().find(".modality-name").attr("modalitytype", this.type).attr("disabled", "disabled");
-                                unity.find(".modality").last().find(".remove-modality").remove();
+                                changeRecoverModality(unity);
                             }
                         });
                     });
@@ -71,12 +70,18 @@ $(document).on("change", ".type-select", function () {
     var unity = $(this).closest(".unity");
     if ($(this).val() === "UR") {
         unity.find(".js-new-modality").trigger("click", [true]);
-        unity.find(".modality").last().find(".modality-name").attr("modalitytype", "R").val("Recuperação").attr("disabled", "disabled");
-        unity.find(".modality").last().find(".remove-modality").remove();
+        changeRecoverModality(unity);
+
     } else {
         unity.find(".modality-name[modalitytype=R]").closest(".modality").remove();
     }
 });
+
+function changeRecoverModality(unity) {
+    unity.find(".modality").last().children("label").html("Recuperação: " + '<span class="red">*</span>');
+    unity.find(".modality").last().find(".modality-name").attr("modalitytype", "R");
+    unity.find(".modality").last().find(".remove-modality").remove();
+}
 
 $(document).on("click", ".js-new-modality", function (evt, indirectTrigger) {
     evt.preventDefault();
@@ -200,7 +205,6 @@ function checkValidInputs() {
                 message = "A unidade de recuperação final deve ser a última.";
                 return false;
             }
-
         });
     } else {
         valid = false;

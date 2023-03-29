@@ -96,6 +96,9 @@ $("#classroom").on("change", function () {
                 data: {
                     classroom: $("#classroom").val(),
                 },
+                beforeSend: function () {
+                    $("#discipline").attr("disabled", "disabled");
+                },
                 success: function (response) {
                     if (response === "") {
                         $("#discipline").html("<option value='-1'></option>").trigger("change.select2").show();
@@ -105,6 +108,7 @@ $("#classroom").on("change", function () {
                     if ($("#report").val() === "frequency") {
                         $(".disciplines-container").show();
                     }
+                    $("#discipline").removeAttr("disabled");
                 },
             });
         } else {
@@ -118,6 +122,9 @@ $("#classroom").on("change", function () {
             data: {
                 classroom: $("#classroom").val(),
             },
+            beforeSend: function () {
+                $("#student").attr("disabled", "disabled");
+            },
             success: function (response) {
                 if (response === "") {
                     $("#student").html("<option value='-1'></option>").trigger("change.select2").show();
@@ -127,6 +134,7 @@ $("#classroom").on("change", function () {
                 if ($("#report").val() === "grades") {
                     $(".students-container").show();
                 }
+                $("#student").removeAttr("disabled");
             },
         });
     } else {
@@ -173,8 +181,8 @@ function loadReport() {
         },
         beforeSend: function () {
             $(".loading-report").css("display", "inline-block");
-            $(".report-container").css("opacity", 0.3).css("pointer-events", "none");
-            $("#report, #classroom, #discipline, #student, .initial-date, .final-date, #loadreport, .print-report").attr("disabled", "disabled");
+            $(".report-container, #loadreport").css("opacity", 0.3).css("pointer-events", "none");
+            $("#report, #classroom, #discipline, #student, .initial-date, .final-date, .print-report").attr("disabled", "disabled");
         },
         success: function (data) {
             data = JSON.parse(data);
@@ -226,6 +234,9 @@ function loadReport() {
                     html += "<tr><td>" + this.disciplineName + "</td>";
                     $.each(this.grades, function () {
                         html += "<td class='center'>" + this.unityGrade + "</td>";
+                        if (this.gradeUnityType == "UR") {
+                            html += "<td class='center'>" + this.unityRecoverGrade + "</td>";
+                        }
                     });
                     html += "<td class='center'>" + this.finalMedia + "</td><td class='center'>" + this.situation + "</td></tr>";
                 });
@@ -236,8 +247,8 @@ function loadReport() {
         },
         complete: function (response) {
             $(".loading-report").hide();
-            $(".report-container").css("opacity", 1).css("pointer-events", "auto");
-            $("#report, #classroom, #discipline, #student, .initial-date, .final-date, #loadreport, .print-report").removeAttr("disabled");
+            $(".report-container, #loadreport").css("opacity", 1).css("pointer-events", "auto");
+            $("#report, #classroom, #discipline, #student, .initial-date, .final-date, .print-report").removeAttr("disabled");
         },
     });
 }

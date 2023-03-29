@@ -977,7 +977,7 @@ class ReportsController extends Controller
                             $sumsCount++;
                             break;
                         case "UR":
-                            if ($grade["unityGrade"] != "") {
+                            if ($grade["unityGrade"] != "" || $grade["unityRecoverGrade"] != "") {
                                 $sums += $grade["unityRecoverGrade"] > $grade["unityGrade"] ? $grade["unityRecoverGrade"] : $grade["unityGrade"];
                                 $rawUnitiesFilled++;
                             }
