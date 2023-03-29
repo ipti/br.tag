@@ -1,6 +1,10 @@
 # Atualizações
 
 
+## [Versão 3.9.18]
+- Estilo das caixas de filtros corrigidos
+
+
 ## [Versão 3.9.17]
 - Agora na tela de login o "Lembra-me" agora é "Mantenha-me conectado"
 
@@ -11,7 +15,6 @@
 ## [Versão 3.9.15]
 - Agora o campo nome social agora é Nome de Apresentação que pode ser usado ou não para nome social
 - Agora o campo de nome civil fica oculto e é exibido um checkbox com "Esse é um nome social?" relacionando com o campo "Nome de Apresentação"
-
 
 
 ## [Versão 3.9.13]
