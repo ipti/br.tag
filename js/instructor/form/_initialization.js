@@ -70,4 +70,17 @@ $("#InstructorIdentification_filiation").change(function () {
         $("#InstructorIdentification_filiation_2").val("").attr("disabled", "disabled");
     }
 });
+
+if($("#show-instructor-civil-name").is(":checked")) {
+    $(".instructor-civil-name").show();
+    $(".show-instructor-civil-name-box").hide();
+}
+
+$(document).on("change", "#show-instructor-civil-name", function () {
+    if($(this).is(":checked")) {
+        $(".instructor-civil-name").show();
+        $(".show-instructor-civil-name-box").hide();
+    }
+});
+
 $("#InstructorIdentification_filiation").trigger("change");

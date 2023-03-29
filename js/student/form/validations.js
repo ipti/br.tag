@@ -634,28 +634,20 @@ function checkCivilRegisterEnrollmentNumberValidity(element) {
 
 $(formDocumentsAndAddress + 'civil_certification').change(function () {
 
-    var oldDocuments = $(formDocumentsAndAddress + 'civil_certification_type'
-        + ', ' + formDocumentsAndAddress + 'civil_certification_term_number'
-        + ', ' + formDocumentsAndAddress + 'civil_certification_sheet'
-        + ', ' + formDocumentsAndAddress + 'civil_certification_book'
-        + ', ' + formDocumentsAndAddress + 'civil_certification_date'
-        + ', ' + formDocumentsAndAddress + 'notary_office_uf_fk'
-        + ', ' + formDocumentsAndAddress + 'notary_office_city_fk'
-        + ', ' + formDocumentsAndAddress + 'edcenso_notary_office_fk');
-
-    var newDocument = $(formDocumentsAndAddress + 'civil_register_enrollment_number');
-
+    var oldDocuments = $('.js-hidden-oldDocuments-fields');
+    var newDocument = $('.js-hidden-newDocument-field');
 
     if ($(this).val() == "") {
-        oldDocuments.attr("disabled", "disabled").parent().parent().hide();
-        newDocument.attr("disabled", "disabled").parent().parent().hide();
+        oldDocuments.attr("disabled", "disabled").hide();
+        newDocument.attr("disabled", "disabled").hide();
+
     } else {
-        oldDocuments.removeAttr("disabled").parent().parent().show();
-        newDocument.removeAttr("disabled").parent().parent().show();
-        if ($(this).val() == 2) {
-            oldDocuments.val("").attr("disabled", "disabled").parent().parent().hide();
+        oldDocuments.removeAttr("disabled").show();
+        newDocument.removeAttr("disabled").show();
+         if ($(this).val() == 2) {
+            oldDocuments.val("").attr("disabled", "disabled").hide();
         } else {
-            newDocument.attr("disabled", "disabled").parent().parent().hide();
+            newDocument.attr("disabled", "disabled").hide();
         }
     }
 });
