@@ -7,11 +7,13 @@
  * @property integer $id
  * @property double $grade
  * @property integer $enrollment_fk
+ * @property integer $discipline_fk
  * @property integer $grade_unity_modality_fk
  *
  * The followings are the available model relations:
  * @property StudentEnrollment $enrollmentFk
  * @property GradeUnityModality $gradeUnityModalityFk
+ * @property EdcensoDiscipline $disciplineFk
  */
 class Grade extends CActiveRecord
 {
@@ -31,12 +33,12 @@ class Grade extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('grade, enrollment_fk, grade_unity_modality_fk', 'required'),
-			array('enrollment_fk, grade_unity_modality_fk', 'numerical', 'integerOnly'=>true),
+			array('grade, enrollment_fk, discipline_fk, grade_unity_modality_fk', 'required'),
+			array('enrollment_fk, discipline_fk, grade_unity_modality_fk', 'numerical', 'integerOnly'=>true),
 			array('grade', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, grade, enrollment_fk, grade_unity_modality_fk', 'safe', 'on'=>'search'),
+			array('id, grade, enrollment_fk, discipline_fk, grade_unity_modality_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,6 +52,7 @@ class Grade extends CActiveRecord
 		return array(
 			'enrollmentFk' => array(self::BELONGS_TO, 'StudentEnrollment', 'enrollment_fk'),
 			'gradeUnityModalityFk' => array(self::BELONGS_TO, 'GradeUnityModality', 'grade_unity_modality_fk'),
+			'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
 		);
 	}
 
@@ -62,6 +65,7 @@ class Grade extends CActiveRecord
 			'id' => 'ID',
 			'grade' => 'Grade',
 			'enrollment_fk' => 'Enrollment Fk',
+			'discipline_fk' => 'Discipline Fk',
 			'grade_unity_modality_fk' => 'Grade Unity Modality Fk',
 		);
 	}
@@ -87,6 +91,7 @@ class Grade extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('grade',$this->grade);
 		$criteria->compare('enrollment_fk',$this->enrollment_fk);
+		$criteria->compare('discipline_fk',$this->discipline_fk);
 		$criteria->compare('grade_unity_modality_fk',$this->grade_unity_modality_fk);
 
 		return new CActiveDataProvider($this, array(

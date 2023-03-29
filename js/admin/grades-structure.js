@@ -1,38 +1,4 @@
-$(document).on("change", "#GradeUnity_edcenso_stage_vs_modality_fk", function (evt, loadingData) {
-    $("#GradeUnity_edcenso_discipline_fk").val("").trigger("change.select2");
-    if ($(this).val() !== "") {
-        $.ajax({
-            type: "POST",
-            url: "?r=admin/getDisciplines",
-            cache: false,
-            data: {
-                stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),
-            },
-            beforeSend: function () {
-                $(".js-grades-structure-loading").css("display", "inline-block");
-                $("#GradeUnity_edcenso_discipline_fk").attr("disabled", "disabled");
-            },
-            success: function (data) {
-                data = JSON.parse(data);
-                $(".stagemodalityname").text(data.stageName);
-                $(".stagename").text($("#GradeUnity_edcenso_stage_vs_modality_fk").select2('data').text);
-                var option = "<option value=''>Selecione a disciplina...</option>";
-                $.each(data["disciplines"], function () {
-                    var selectedValue = loadingData !== undefined && $("#GradeUnity_edcenso_discipline_fk").attr("initval") !== "" && $("#GradeUnity_edcenso_discipline_fk").attr("initval") === this.id ? "selected" : "";
-                    option += "<option value='" + this.id + "' " + selectedValue + ">" + this.name + "</option>";
-                });
-                $("#GradeUnity_edcenso_discipline_fk").html(option).trigger("change").show();
-                $(".js-grades-structure-loading").hide();
-                $("#GradeUnity_edcenso_discipline_fk").removeAttr("disabled");
-            },
-        });
-    } else {
-        $("#GradeUnity_edcenso_discipline_fk").html("<option value=''>Selecione a disciplina...</option>").trigger("change").show();
-    }
-});
-$("#GradeUnity_edcenso_stage_vs_modality_fk").trigger("change", [true]);
-
-$(document).on("change", "#GradeUnity_edcenso_discipline_fk", function () {
+$(document).on("change", "#GradeUnity_edcenso_stage_vs_modality_fk", function () {
     $(".alert-required-fields").hide();
     if ($(this).val() !== "") {
         $.ajax({
@@ -41,7 +7,6 @@ $(document).on("change", "#GradeUnity_edcenso_discipline_fk", function () {
             cache: false,
             data: {
                 stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),
-                discipline: $("#GradeUnity_edcenso_discipline_fk").val(),
             },
             beforeSend: function () {
                 $(".js-grades-structure-loading").css("display", "inline-block");
@@ -49,6 +14,8 @@ $(document).on("change", "#GradeUnity_edcenso_discipline_fk", function () {
             },
             success: function (data) {
                 data = JSON.parse(data);
+                $(".stagemodalityname").text(data.stageName);
+                $(".stagename").text($("#GradeUnity_edcenso_stage_vs_modality_fk").select2('data').text);
                 $(".js-grades-structure-container").children(".unity").remove();
                 if (Object.keys(data.unities).length) {
                     $.each(data.unities, function () {
@@ -87,7 +54,7 @@ $(document).on("click", ".js-new-unity", function () {
         '<div class="unity-children">' +
         '<div class="unity-type form-group form-inline">' +
         "<label class='control-label'>Modelo: <span class='red'>*</span></label>" +
-        "<select class='type-select select-search-on control-input'><option value='U'>Unidade</option><option value='UR'>Unidade com recuperação</option><option value='RF'>Recuperação final</option></select>" +
+        "<select class='type-select select-search-on control-input'><option value='U'>Unidade</option><option value='UR'>Unidade com recuperação</option><option value='RS'>Recuperação semestral</option><option value='RF'>Recuperação final</option></select>" +
         '</div>' +
         '<div class="calculation form-group form-inline">' +
         "<label class='control-label'>Fórmula: <span class='red'>*</span></label>" +
@@ -175,13 +142,12 @@ function saveUnities(reply) {
         cache: false,
         data: {
             stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),
-            discipline: $("#GradeUnity_edcenso_discipline_fk").val(),
             unities: unities,
             reply: reply ? $(".reply-option:checked").val() : ""
         },
         beforeSend: function () {
             $(".buttons a, .js-grades-structure-container").css("opacity", "0.4").css("pointer-events", "none");
-            $("#GradeUnity_edcenso_stage_vs_modality_fk, #GradeUnity_edcenso_discipline_fk").attr("disabled", "disabled");
+            $("#GradeUnity_edcenso_stage_vs_modality_fk").attr("disabled", "disabled");
             $(".save-unity-loading-gif").css("display", "inline-block");
         },
         success: function (data) {
@@ -191,8 +157,9 @@ function saveUnities(reply) {
             } else {
                 $(".alert-required-fields").addClass("alert-error").removeClass("alert-success").text("Não se pode alterar a estrutura quando já existe nota preechida em alguma turma desta etapa e disciplina.").show();
             }
+            $("html, body").animate({scrollTop: 0}, "fast");
             $(".buttons a, .js-grades-structure-container").css("opacity", "1").css("pointer-events", "auto");
-            $("#GradeUnity_edcenso_stage_vs_modality_fk, #GradeUnity_edcenso_discipline_fk").removeAttr("disabled");
+            $("#GradeUnity_edcenso_stage_vs_modality_fk").removeAttr("disabled");
             $(".save-unity-loading-gif").hide();
         },
     });
@@ -240,6 +207,7 @@ function checkValidInputs() {
     }
     if (!valid) {
         $(".alert-required-fields").addClass("alert-error").removeClass("alert-success").text(message).show();
+        $("html, body").animate({scrollTop: 0}, "fast");
     }
     return valid;
 }

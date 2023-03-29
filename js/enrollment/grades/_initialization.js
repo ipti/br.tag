@@ -95,6 +95,7 @@ $("#save").on("click", function (e) {
         url: "?r=enrollment/saveGrades",
         cache: false,
         data: {
+            discipline: $("#discipline").val(),
             students: students
         },
         beforeSend: function () {

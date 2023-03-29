@@ -53,18 +53,6 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                     ));
                     ?>
                 </div>
-                <div>
-                    <?php echo CHtml::label(yii::t('default', 'Discipline') . "*", 'discipline_fk', array('class' => 'control-label required', 'style' => 'width: 80px;')); ?>
-                    <div class="coursePlan-input"><?php
-                        echo $form->dropDownList($gradeUnity, 'edcenso_discipline_fk', array(), array(
-                            'key' => 'id',
-                            'class' => 'select-search-on control-input grades-structure-input',
-                            'initVal' => $gradeUnity->edcenso_discipline_fk,
-                            'prompt' => 'Selecione a disciplina...',
-                        ));
-                        ?>
-                    </div>
-                </div>
                 <i class="js-grades-structure-loading fa fa-spin fa-spinner"></i>
             </div>
         </div>
@@ -100,10 +88,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                                 <label><input type="radio" class="reply-option" name="reply-option" value="A"><span>Toda a Matriz Curricular.</span></label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" class="reply-option" name="reply-option" value="S"><span>Todas as etapas e disciplinas de <span class="stagemodalityname"></span>.</span></label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio" class="reply-option" name="reply-option" value="D"><span>Todas as disciplinas da etapa <span class="stagename"></span>.</label>
+                                <label><input type="radio" class="reply-option" name="reply-option" value="S"><span>Todas as etapas de <span class="stagemodalityname"></span>.</span></label>
                             </div>
                         </div>
                     </div>

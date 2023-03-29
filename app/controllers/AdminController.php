@@ -14,7 +14,7 @@ class AdminController extends Controller
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
                     'import', 'export', 'update', 'manageUsers', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
-                    'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster', 'gradesStructure', 'getDisciplines'
+                    'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster', 'gradesStructure'
                 ], 'users' => ['@'],
             ],
         ];
@@ -75,7 +75,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function actionGetDisciplines()
+    public function actionGetUnities()
     {
         $stage = EdcensoStageVsModality::model()->find("id = :id", [":id" => $_POST["stage"]])->stage;
         switch ($stage) {
@@ -96,21 +96,8 @@ class AdminController extends Controller
                 $result["stageName"] = "a modalidade selecionada";
                 break;
         }
-        $result["disciplines"] = [];
-        $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
-        $disciplines = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name")->bindParam(":stage_fk", $_POST["stage"])->bindParam(":year", Yii::app()->user->year)->queryAll();
-        foreach ($disciplines as $i => $discipline) {
-            if (isset($discipline['discipline_fk'])) {
-                array_push($result["disciplines"], ["id" => $discipline['discipline_fk'], "name" => CHtml::encode($disciplinesLabels[$discipline['discipline_fk']])]);
-            }
-        }
-        echo json_encode($result);
-    }
-
-    public function actionGetUnities()
-    {
         $result["unities"] = [];
-        $gradeUnities = GradeUnity::model()->findAll("edcenso_stage_vs_modality_fk = :stage and edcenso_discipline_fk = :discipline", [":stage" => $_POST["stage"], ":discipline" => $_POST["discipline"]]);
+        $gradeUnities = GradeUnity::model()->findAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $_POST["stage"]]);
         foreach ($gradeUnities as $gradeUnity) {
             $arr = $gradeUnity->attributes;
             $arr["modalities"] = [];
@@ -130,14 +117,13 @@ class AdminController extends Controller
                 select * from grade g 
                 join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
                 join grade_unity gu on gu.id = gum.grade_unity_fk
-                where edcenso_stage_vs_modality_fk = :stage and edcenso_discipline_fk = :discipline 
-            ")->bindParam(":stage", $_POST["stage"])->bindParam(":discipline", $_POST["discipline"])->queryAll();
+                where edcenso_stage_vs_modality_fk = :stage
+            ")->bindParam(":stage", $_POST["stage"])->queryAll();
             if ($grades == null) {
-                GradeUnity::model()->deleteAll("edcenso_stage_vs_modality_fk = :stage and edcenso_discipline_fk = :discipline", [":stage" => $_POST["stage"], ":discipline" => $_POST["discipline"]]);
+                GradeUnity::model()->deleteAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $_POST["stage"]]);
                 foreach ($_POST["unities"] as $u) {
                     $unity = new GradeUnity();
                     $unity->edcenso_stage_vs_modality_fk = $_POST["stage"];
-                    $unity->edcenso_discipline_fk = $_POST["discipline"];
                     $unity->name = $u["name"];
                     $unity->type = $u["type"];
                     $unity->grade_calculation_fk = $u["formula"];
@@ -164,13 +150,6 @@ class AdminController extends Controller
                     join edcenso_stage_vs_modality esvm on esvm.id = gu.edcenso_stage_vs_modality_fk
                     where esvm.stage = :stage
                 ")->bindParam(":stage", $stage)->queryAll();
-            } else {
-                $grades = Yii::app()->db->createCommand("
-                    select * from grade g
-                    join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
-                    join grade_unity gu on gu.id = gum.grade_unity_fk
-                    where edcenso_stage_vs_modality_fk = :stage
-                ")->bindParam(":stage", $_POST["stage"])->queryAll();
             }
             if ($grades == null) {
                 if ($_POST["reply"] == "A") {
@@ -181,18 +160,12 @@ class AdminController extends Controller
                     join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
                     where school_year = :year and esvm.stage = :stage
                   ")->bindParam(":year", Yii::app()->user->year)->bindParam(":stage", $stage)->queryAll();
-                } else {
-                    $curricularMatrixes = Yii::app()->db->createCommand("
-                    select * from curricular_matrix cm 
-                    where school_year = :year and cm.stage_fk = :stage
-                  ")->bindParam(":year", Yii::app()->user->year)->bindParam(":stage", $_POST["stage"])->queryAll();
                 }
                 foreach ($curricularMatrixes as $curricularMatrix) {
-                    GradeUnity::model()->deleteAll("edcenso_stage_vs_modality_fk = :stage and edcenso_discipline_fk = :discipline", [":stage" => $curricularMatrix["stage_fk"], ":discipline" => $curricularMatrix["discipline_fk"]]);
+                    GradeUnity::model()->deleteAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $curricularMatrix["stage_fk"]]);
                     foreach ($_POST["unities"] as $u) {
                         $unity = new GradeUnity();
                         $unity->edcenso_stage_vs_modality_fk = $curricularMatrix["stage_fk"];
-                        $unity->edcenso_discipline_fk = $curricularMatrix["discipline_fk"];
                         $unity->name = $u["name"];
                         $unity->type = $u["type"];
                         $unity->grade_calculation_fk = $u["formula"];

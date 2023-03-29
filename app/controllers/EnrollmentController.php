@@ -261,6 +261,7 @@ class EnrollmentController extends Controller
                     if ($gradeObject == null) {
                         $gradeObject = new Grade();
                         $gradeObject->enrollment_fk = $student["enrollmentId"];
+                        $gradeObject->discipline_fk = $_POST["discipline"];
                         $gradeObject->grade_unity_modality_fk = $grade["modalityId"];
                     }
                     $gradeObject->grade = $grade["value"];
@@ -287,8 +288,8 @@ class EnrollmentController extends Controller
             $criteria = new CDbCriteria;
             $criteria->alias = "gum";
             $criteria->join = "join grade_unity gu on gu.id = gum.grade_unity_fk";
-            $criteria->condition = "edcenso_stage_vs_modality_fk = :stage and edcenso_discipline_fk = :discipline";
-            $criteria->params = array(':stage' => $studentEnrollments[0]->classroomFk->edcenso_stage_vs_modality_fk, ":discipline" => $_POST["discipline"]);
+            $criteria->condition = "edcenso_stage_vs_modality_fk = :stage";
+            $criteria->params = array(':stage' => $studentEnrollments[0]->classroomFk->edcenso_stage_vs_modality_fk);
             $gradeModalities = GradeUnityModality::model()->findAll($criteria);
 
             if ($gradeModalities != null) {
@@ -319,7 +320,7 @@ class EnrollmentController extends Controller
                         $gradeValue = "";
                         $modalityId = $gradeModality->id;
                         foreach ($gradeModality->grades as $grade) {
-                            if ($grade->enrollment_fk == $studentEnrollment->id) {
+                            if ($grade->enrollment_fk == $studentEnrollment->id && $grade->discipline_fk == $_POST["discipline"]) {
                                 $gradeValue = $grade->grade;
                                 break;
                             }

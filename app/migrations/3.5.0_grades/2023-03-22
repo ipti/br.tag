@@ -106,3 +106,15 @@ ADD `type` varchar(2) COLLATE 'utf8_unicode_ci' NOT NULL AFTER `name`;
 
 ALTER TABLE `grade_unity`
 CHANGE `type` `type` varchar(2) COLLATE 'utf8_unicode_ci' NOT NULL AFTER `name`;
+
+ALTER TABLE `grade_unity`
+DROP FOREIGN KEY `grade_unity_ibfk_3`;
+
+ALTER TABLE `grade_unity`
+DROP `edcenso_discipline_fk`;
+
+ALTER TABLE `grade`
+ADD `discipline_fk` int(11) NOT NULL AFTER `enrollment_fk`;
+
+ALTER TABLE `grade`
+ADD FOREIGN KEY (`discipline_fk`) REFERENCES `edcenso_discipline` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
