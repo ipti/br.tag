@@ -176,6 +176,8 @@ function checkValidInputs() {
     var valid = true;
     var message = "";
     if ($(".unity").length) {
+        var rsCount = 0;
+        var rsIndexes = [];
         $(".unity").each(function (index) {
             if ($(this).find(".unity-name, .modality-name").val() === "") {
                 valid = false;
@@ -195,17 +197,34 @@ function checkValidInputs() {
                     return false;
                 }
             }
-            if ($(".unity").length === 1 && $(this).find("select.type-select").val() === "RF") {
+            if (index === 0 && ($(this).find("select.type-select").val() === "RF" || $(this).find("select.type-select").val() === "RS")) {
                 valid = false;
-                message = "Não se pode cadastrar uma estrutura apenas com a unidade de recuperação final.";
+                message = "Uma unidade de recuperação não pode ser a primeira.";
                 return false;
             }
             if ($(this).find("select.type-select").val() === "RF" && index !== $(".unity").length - 1) {
                 valid = false;
-                message = "A unidade de recuperação final deve ser a última.";
+                message = "A unidade de recuperação final, quando utilizada, deve haver apenas 01, sendo a última unidade.";
                 return false;
             }
+            if (rsCount === 2 && $(this).find("select.type-select").val() !== "RF") {
+                valid = false;
+                message = "Não pode haver unidades após a 2ª recuperação semestral.";
+                return false;
+            }
+            if ($(this).find("select.type-select").val() === "RS") {
+                rsCount++;
+                rsIndexes.push(index);
+            }
         });
+        if (rsIndexes.length && rsIndexes[1] - rsIndexes[0] === 1) {
+            valid = false;
+            message = "Não pode haver 02 recuperações semestrais seguidas.";
+        }
+        if (rsCount !== 0 && rsCount !== 2) {
+            valid = false;
+            message = "Quando utilizadas, devem haver 02 recuperações semestrais.";
+        }
     } else {
         valid = false;
         message = "Não se pode cadastrar uma estrutura de notas sem unidade.";

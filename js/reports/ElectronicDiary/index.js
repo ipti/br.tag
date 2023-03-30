@@ -72,7 +72,7 @@ $(document).on("change", "#report", function () {
             if ($("#classroom").val() !== "" && $("#classroom > option:selected").attr("fundamentalMaior") === "1") {
                 $(".disciplines-container").show();
             }
-        } else if ($("#report").val() === "grades") {
+        } else if ($("#report").val() === "gradesByStudent") {
             $(".classroom-container").show();
             $(".date-container, .disciplines-container").hide();
             if ($("#classroom").val() !== "") {
@@ -131,7 +131,7 @@ $("#classroom").on("change", function () {
                 } else {
                     $("#student").html(decodeHtml(response)).trigger("change.select2").show();
                 }
-                if ($("#report").val() === "grades") {
+                if ($("#report").val() === "gradesByStudent") {
                     $(".students-container").show();
                 }
                 $("#student").removeAttr("disabled");
@@ -152,7 +152,7 @@ $(document).on("click", "#loadreport", function () {
                 valid = true;
             }
             break;
-        case "grades":
+        case "gradesByStudent":
             if ($("#classroom").val() !== "" && $("#student").val() !== "") {
                 valid = true;
             }
@@ -210,9 +210,9 @@ function loadReport() {
                 html += "</tbody></table>";
                 $(".report-container").html(html);
                 $(".print-report").show();
-            } else if ($("#report").val() === "grades") {
+            } else if ($("#report").val() === "gradesByStudent") {
                 html += "" +
-                    "<table class='grades-table table table-bordered table-striped table-hover'>" +
+                    "<table class='grades-by-student-table table table-bordered table-striped table-hover'>" +
                     "<thead>";
                 var totalColSpan = 0;
                 var unityRow = "";
@@ -224,11 +224,11 @@ function loadReport() {
                 $.each(data.subunityNames, function () {
                     subunityRow += "<th class='center'>" + this + "</th>"
                 });
-                html += "<tr><th class='table-title' colspan='" + (totalColSpan + 3) + "'>Notas</th></tr>";
-                html += "<tr><th class='center' colspan='" + (totalColSpan + 3) + "'>" + $('#student').select2('data').text + "</th></tr>";
-                html += "<tr><th class='center' colspan='" + (totalColSpan + 3) + "'>" + $('#classroom').select2('data').text + "</th></tr>";
-                html += "<tr><th></th>" + unityRow + "<th class='center' colspan='2'></th></tr>";
-                html += "<tr><th>Disciplina</th>" + subunityRow + "<th class='center'>Média Final</th><th class='center'>Situação</th></tr>";
+                html += "<tr><th class='table-title' colspan='" + (totalColSpan + 2) + "'>Notas</th></tr>";
+                html += "<tr><th class='center' colspan='" + (totalColSpan + 2) + "'>" + $('#student').select2('data').text + "</th></tr>";
+                html += "<tr><th class='center' colspan='" + (totalColSpan + 2) + "'>" + $('#classroom').select2('data').text + "</th></tr>";
+                html += "<tr><th></th>" + unityRow + "<th class='center'></th></tr>";
+                html += "<tr><th>Disciplina</th>" + subunityRow + "<th class='center'>Média Final</th></tr>";
                 html += "</thead><tbody>";
                 $.each(data.rows, function () {
                     html += "<tr><td>" + this.disciplineName + "</td>";
@@ -238,7 +238,7 @@ function loadReport() {
                             html += "<td class='center'>" + this.unityRecoverGrade + "</td>";
                         }
                     });
-                    html += "<td class='center'>" + this.finalMedia + "</td><td class='center'>" + this.situation + "</td></tr>";
+                    html += "<td class='center'>" + this.finalMedia + "</td></tr>";
                 });
                 html += "</tbody></table>";
                 $(".report-container").html(html);

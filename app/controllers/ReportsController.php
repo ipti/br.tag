@@ -890,7 +890,7 @@ class ReportsController extends Controller
             $col = array_column($students, "name");
             array_multisort($col, SORT_ASC, $students);
             $result["students"] = $students;
-        } else if ($_POST["type"] === "grades") {
+        } else if ($_POST["type"] === "gradesByStudent") {
             //Montar colunas das unidades e subunidades
             $criteria = new CDbCriteria();
             $criteria->alias = "gu";
@@ -959,9 +959,8 @@ class ReportsController extends Controller
                 }
 
 
-                //Cálculo da média final e situação
+                //Cálculo da média final
                 $arr["finalMedia"] = "";
-                $arr["situation"] = "";
                 $sums = 0;
                 $sumsCount = 0;
                 $arr["semesterMedias"] = [];
@@ -1016,9 +1015,6 @@ class ReportsController extends Controller
                     if ($rawUnitiesFilled == $rawUnitiesCount) {
                         $arr["finalMedia"] = array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]);
                     }
-                }
-                if (!$hasRF || ($hasRF && $arr["grades"][count($arr["grades"]) - 1]["unityGrade"] !== "") || $arr["finalMedia"] >= 5) {
-                    $arr["situation"] = $arr["finalMedia"] >= 5 ? "AP" : "RE";
                 }
 
                 array_push($result["rows"], $arr);
