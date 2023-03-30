@@ -408,6 +408,14 @@ table.dataTable.no-footer {
     background: #d5dded;
 }
 
+input[type="checkbox"] {
+    margin: 0px 9px 0px 9px;
+}
+
+input[type="checkbox"]:checked {
+    margin: 0px 9px 0px 9px;
+}
+
 .grades_inputs, .grades_inputs .select2-choice{
  width: 134px !important;
 }
