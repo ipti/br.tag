@@ -268,14 +268,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo CHtml::activeHiddenField($modelClassroom, 'mais_educacao_participator', array('disabled' => 'disabled')) ?>
                                 </div>
                                 <div class="t-field-checkbox" id="some">
-                                    <?php echo $form->checkBox($modelClassroom, 'mais_educacao_participator', array('class' => 't-field-checkbox__input', 'id' =>'participante_educacao')); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'mais_educacao_participator', array('class' => 't-field-checkbox__input', 'id' => 'Classroom_mais_educacao_participator')); ?>
                                     <?php echo $form->error($modelClassroom, 'mais_educacao_participator'); ?>
-                                    <label for="participante_educacao">
+                                    <label for="participante">
                                         <?php echo $form->labelEx($modelClassroom, 'mais_educacao_participator', array('class' => 't-field-checkbox__label')); ?>
                                     </label>
                                 </div>
                             </div>
-                            <!-- atividade complementar -->
                             <div class="control-group" id="complementary_activity">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelClassroom, 'complementary_activity_type_1', array('class' => 'control-label required')); ?>
@@ -285,7 +284,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <!-- <?php echo $form->dropDownList($modelClassroom, 'complementary_activity_type_1', CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'), array('multiple' => true, 'class' => 'select-ComplementaryAT', 'key' => 'id')); ?> -->
 
                                     <?php echo $form->error($modelClassroom, 'complementary_activity_type_1'); ?>
-                                    
+                                    <!-- atividade complementar -->
                                 </div>
                             </div>
                         </div>
@@ -445,18 +444,54 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="tab-pane" id="students">
                     <div class="row-fluid">
                         <div class='row hide-responsive' style="margin-bottom:20px">
-                            <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetransport', array('id' => $modelClassroom->id)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Atualizar transporte') ?>
-                            </a>
-                            <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetotal', array('id' => $modelClassroom->id)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Atualização em Lote') ?>
-                            </a>
-                            <a href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('id' => $modelClassroom->id)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Relatório de Matrícula') ?>
-                            </a>
-                            <a href="<?php echo Yii::app()->createUrl('reports/studentperclassroom', array('id' => $modelClassroom->id)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Lista de Alunos') ?>
-                            </a>
-                            <a href="<?php echo Yii::app()->createUrl('forms/StudentsFileForm', array('classroom_id' => $modelClassroom->id, 'type' => 1)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Fichas de Matrícula') ?>
-                            </a>
-                            <a href="<?php echo Yii::app()->createUrl('forms/AtaSchoolPerformance', array('id' => $modelClassroom->id)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Ata de Notas') ?>
-                            </a>
+                            <div class="reports_cards">
+                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('classroom/batchupdatetransport', array('id' => $modelClassroom->id)); ?>">
+                                    <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.svg" class="img_cards" />
+                                    <?php echo Yii::t('default', 'Atualizar transporte') ?>
+                                </a>
+                            </div>
+                            <div class="reports_cards">
+                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?php echo Yii::app()->createUrl('classroom/batchupdatetotal', array('id' => $modelClassroom->id)) ?>">
+                                    <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.svg" class="img_cards" />
+                                    <?php echo Yii::t('default', 'Atualização em Lote') ?>
+                                </a>
+                            </div>
+                            <div class="reports_cards">
+                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('id' => $modelClassroom->id)) ?>">
+                                    <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.svg" class="img_cards" />
+                                    <?php echo Yii::t('default', 'Relatório de Matrícula') ?>
+                                </a>
+                            </div>
+                            <div class="reports_cards">
+                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?php echo Yii::app()->createUrl('reports/studentperclassroom', array('id' => $modelClassroom->id)) ?>">
+                                    <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.svg" class="img_cards" />
+                                    <?php echo Yii::t('default', 'Lista de Alunos') ?>
+                                </a>
+                            </div>
+                            <div class="reports_cards">
+                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?php echo Yii::app()->createUrl('forms/StudentsFileForm', array('classroom_id' => $modelClassroom->id, 'type' => 1)) ?>">
+                                    <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.svg" class="img_cards" />
+                                    <?php echo Yii::t('default', 'Fichas de Matrícula') ?>
+                                </a>
+                            </div>
+                            <div class="reports_cards">
+                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?php echo Yii::app()->createUrl('forms/AtaSchoolPerformance', array('id' => $modelClassroom->id)) ?>">
+                                    <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.svg" class="img_cards" />
+                                    <?php echo Yii::t('default', 'Ata de Notas') ?>
+                                </a>
+                            </div>
+                            <!-- <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetransport', array('id' => $modelClassroom->id)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Atualizar transporte') ?>
+                            </a> -->
+                            <!-- <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetotal', array('id' => $modelClassroom->id)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Atualização em Lote') ?>
+                            </a> -->
+                            <!-- <a href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('id' => $modelClassroom->id)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Relatório de Matrícula') ?>
+                            </a> -->
+                            <!-- <a href="<?php echo Yii::app()->createUrl('reports/studentperclassroom', array('id' => $modelClassroom->id)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Lista de Alunos') ?>
+                            </a> -->
+                            <!-- <a href="<?php echo Yii::app()->createUrl('forms/StudentsFileForm', array('classroom_id' => $modelClassroom->id, 'type' => 1)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Fichas de Matrícula') ?>
+                            </a> -->
+                            <!-- <a href="<?php echo Yii::app()->createUrl('forms/AtaSchoolPerformance', array('id' => $modelClassroom->id)) ?>" target="blank" class="t-button-primary   hidden-print"><?php echo Yii::t('default', 'Ata de Notas') ?>
+                            </a> -->
                         </div>
 
                         <div class="btn-group pull-right responsive-menu">
