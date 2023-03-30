@@ -21,6 +21,7 @@ function age($date){
 <div class="pageA4H">
     <?php $this->renderPartial('head'); ?>
     <h3><?php echo Yii::t('default', 'Student By Classroom'); ?></h3>
+    <h4 style="text-align: center;"><?php echo $classroom[0]['classroom_name']?></h4>
     <table class="table table-bordered table-striped">
         <tr>
             <th> <b>Aluno </b></th>
@@ -38,12 +39,7 @@ function age($date){
         </tr>
         <?php
         $oldClassroom = "";
-        foreach($classroom as $c){
-            if($c['classroom_id'] != $oldClassroom){ ?>
-                <tr>
-                    <td style="text-align: center; font-size: 14px; vertical-align: inherit;" colspan="7" align="center" valign="middle" height="30"> <b><?= $c['classroom_name'] ?></b></td>
-                </tr>
-        <?php } ?>
+        foreach($classroom as $c){?>
             <tr>
                 <td><?= $c['name'] ?></td>
                 <td><?= $c['rg_number'] ?></td>
