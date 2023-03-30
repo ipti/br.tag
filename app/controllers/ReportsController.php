@@ -1002,7 +1002,7 @@ class ReportsController extends Controller
                             if ($rawUnitiesFilled == $rawUnitiesCount) {
                                 $finalMedia = array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]);
                                 $finalRecoverMedia = ($finalMedia + $grade["unityGrade"]) / 2;
-                                $arr["finalMedia"] = $finalMedia > $finalRecoverMedia ? $finalMedia : $finalRecoverMedia;
+                                $arr["finalMedia"] = number_format($finalMedia > $finalRecoverMedia ? $finalMedia : $finalRecoverMedia, 2);
                             }
                             break;
                     }
@@ -1013,7 +1013,7 @@ class ReportsController extends Controller
                         array_push($arr["semesterMedias"], $media);
                     }
                     if ($rawUnitiesFilled == $rawUnitiesCount) {
-                        $arr["finalMedia"] = array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]);
+                        $arr["finalMedia"] = number_format(array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]), 2);
                     }
                 }
 
@@ -1027,11 +1027,13 @@ class ReportsController extends Controller
     {
         $unityGrade = "";
         $unityRecoverGrade = "";
-        $commonModalitiesCount = 0;
         $turnedEmptyToZero = false;
+        $weightsSum = 0;
+        $commonModalitiesCount = 0;
         foreach ($gradeUnity->gradeUnityModalities as $gradeUnityModality) {
             if ($gradeUnityModality->type == "C") {
                 $commonModalitiesCount++;
+                $weightsSum += $gradeUnityModality->weight;
             }
             foreach ($gradeUnityModality->grades as $grade) {
                 if ($gradeUnityModality->type == "C") {
@@ -1039,14 +1041,20 @@ class ReportsController extends Controller
                         $unityGrade = 0;
                         $turnedEmptyToZero = true;
                     }
-                    $unityGrade += $grade->grade;
+                    $unityGrade += $gradeUnity->gradeCalculationFk->name === "Peso"
+                        ? $grade->grade * $gradeUnityModality->weight
+                        : $grade->grade;
                 } else {
                     $unityRecoverGrade = (int)$grade->grade;
                 }
             }
         }
-        if ($unityGrade !== "" && $gradeUnity->gradeCalculationFk->name === "Média") {
-            $unityGrade = $unityGrade / $commonModalitiesCount;
+        if ($unityGrade !== "") {
+            if ($gradeUnity->gradeCalculationFk->name === "Média") {
+                $unityGrade = number_format($unityGrade / $commonModalitiesCount, 2);
+            } else if ($gradeUnity->gradeCalculationFk->name === "Peso") {
+                $unityGrade = number_format($unityGrade / $weightsSum, 2);
+            }
         }
         return $gradeUnity->type == "UR"
             ? ["unityId" => $gradeUnity->id, "unityGrade" => $unityGrade, "unityRecoverGrade" => $unityRecoverGrade, "gradeUnityType" => $gradeUnity->type]

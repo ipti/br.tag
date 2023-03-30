@@ -132,6 +132,7 @@ class AdminController extends Controller
                         $modality = new GradeUnityModality();
                         $modality->name = $m["name"];
                         $modality->type = $m["type"];
+                        $modality->weight = $m["weight"];
                         $modality->grade_unity_fk = $unity->id;
                         $modality->save();
                     }
@@ -174,6 +175,7 @@ class AdminController extends Controller
                             $modality = new GradeUnityModality();
                             $modality->name = $m["name"];
                             $modality->type = $m["type"];
+                            $modality->weight = $m["weight"];
                             $modality->grade_unity_fk = $unity->id;
                             $modality->save();
                         }

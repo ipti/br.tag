@@ -27,6 +27,7 @@ $(document).on("change", "#GradeUnity_edcenso_stage_vs_modality_fk", function ()
                         $.each(this.modalities, function () {
                             unity.find(".js-new-modality").trigger("click", [true]);
                             unity.find(".modality").last().find(".modality-name").val(this.name);
+                            unity.find(".modality").last().find(".weight").val(this.weight);
                             if (this.type === "R") {
                                 changeRecoverModality(unity);
                             }
@@ -168,10 +169,11 @@ function saveUnities(reply) {
     var unities = [];
     $(".unity").each(function () {
         var modalities = [];
-        $(this).find(".modality-name").each(function () {
+        $(this).find(".modality").each(function () {
             modalities.push({
-                name: $(this).val(),
-                type: $(this).attr("modalitytype")
+                name: $(this).find(".modality-name").val(),
+                type: $(this).find(".modality-name").attr("modalitytype"),
+                weight: $(this).find(".weight").length ? $(this).find(".weight").val() : null
             });
         });
         unities.push({
@@ -218,11 +220,23 @@ function checkValidInputs() {
         var rsCount = 0;
         var rsIndexes = [];
         $(".unity").each(function (index) {
-            if ($(this).find(".unity-name, .modality-name").val() === "") {
+            if ($(this).find(".unity-name").val() === "") {
                 valid = false;
-                message = "Campos com * são obrigatórios.";
+                message = "Preencha o nome das unidades.";
                 return false;
             }
+            $(this).find(".modality").each(function () {
+                if ($(this).find(".modality-name").val() === "") {
+                    valid = false;
+                    message = "Preencha o nome das modalidades.";
+                    return false;
+                }
+                if ($(this).find(".weight").val() === "") {
+                    valid = false;
+                    message = "Preencha o peso das modalidades.";
+                    return false;
+                }
+            });
             if ($(this).find("select.type-select").val() === "UR") {
                 if (!$(this).find(".modality-name[modalitytype=C]").length) {
                     valid = false;
