@@ -80,14 +80,12 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                     <div class="row">
                         <div class="column">
-                            <div class="t-field-text">
                                 <?php
                                 echo $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => Yii::app()->user->school));
                                 echo CHtml::hiddenField("teachingData", '', array('id' => 'teachingData'));
                                 echo CHtml::hiddenField("disciplines", '', array('id' => 'disciplines'));
                                 echo CHtml::hiddenField("events", '', array('id' => 'events'));
                                 ?>
-                            </div>
                             <!-- Nome -->
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelClassroom, 'name', array('class' => 't-field-text__label--required')); ?>
