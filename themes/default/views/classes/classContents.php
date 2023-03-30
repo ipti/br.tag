@@ -90,6 +90,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     </select>
                 </div>
 
+            </div>
+
+            <div>
 
                 <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 'control-label required', 'style' => 'width: 53px;')); ?>
 
@@ -116,7 +119,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 ?>
 
             </div>
-            <div class="disciplines-container">
+            <div class="disciplines-container" style="display: none;">
                 <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required', 'style' => 'width: 85px;')); ?>
                 <?php
                 echo CHtml::dropDownList('disciplines', '', array(), array(

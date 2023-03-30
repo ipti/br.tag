@@ -579,6 +579,7 @@ return array(
     'Aee Mobility Techniques' => 'Ensino de técnicas para orientação e mobilidade',
     'Aee Caa' => 'Ensino de uso da Comunicação Alternativa e Aumentativa (CAA)',
     'Aee Optical Nonoptical' => 'Ensino de uso de recursos ópticos e não ópticos',
+    'Observation' => 'Observação',
 
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',
@@ -597,7 +598,7 @@ return array(
     'Nationality' => 'Nacionalidade',
     'Edcenso Nation Fk' => 'País de origem',
     'Full name' => 'Nome completo',
-    'Social Name' => 'Nome Social',
+    'Social Name' => 'Nome de Apresentação',
     'Civil Name' => 'Nome Civil',
     'Full mothers name' => 'Nome completo da mãe',
     'Full fathers name' => 'Nome completo do pai',

@@ -309,6 +309,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
+                            <div class="control-group js-hide-not-required">
+                                <div class="controls">
+                                    <?php echo $form->labelEx($model, 'observation', array('class' => 'control-label')); ?>
+                                </div>
+                                <div class="controls">
+                                <?php echo $form->textArea($model,'observation',array('rows'=>6, 'cols'=>50)); ?>
+                                    <?php echo $form->error($model, 'observation'); ?>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <span style="clear:both;display:block"></span>
