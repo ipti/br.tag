@@ -96,7 +96,7 @@ $form = $this->beginWidget('CActiveForm', array(
             </ul>
         </div>
         <div>
-            <div class="tab-content" style="display:none">
+            <div class="tab-content form-content" style="display:none">
                 <!-- Tab content Botão de próximo -->
                 <!-- Tab Student Identify -->
                 <div class="tab-pane active" id="student-identify">

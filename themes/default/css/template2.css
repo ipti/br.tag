@@ -156,11 +156,11 @@ table.dataTable {
 .tag-inner {
     border-radius: 4px;  
 }
-.tab-content {
+.form-content {
       padding-right: 0;
 }
 @media (min-width: 768px) {
-    .tab-content {
+    .form-content {
     padding-right: 20% !important;
     }
 }

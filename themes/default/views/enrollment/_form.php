@@ -31,10 +31,9 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <?php echo $form->errorSummary($model); ?>
         <div class="alert alert-error enrollment-error no-show"></div>
-        <div class="widget-head">
-            <ul>
-                <li class="active"><a class="glyphicons edit" href="#enrollment"
-                                      data-toggle="tab"><i></i><?php echo Yii::t('default', 'Enrollment') ?></a></li>
+        <div class="t-tabs">
+            <ul class="t-tabs__list">
+                <li class="t-tabs__item active"><a href="#enrollment" data-toggle="tab"><?php echo Yii::t('default', 'Enrollment') ?></a></li>
             </ul>
         </div>
 
