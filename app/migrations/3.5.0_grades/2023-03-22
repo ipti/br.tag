@@ -118,3 +118,9 @@ ADD `discipline_fk` int(11) NOT NULL AFTER `enrollment_fk`;
 
 ALTER TABLE `grade`
 ADD FOREIGN KEY (`discipline_fk`) REFERENCES `edcenso_discipline` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+INSERT INTO `grade_calculation` (`name`, `formula`)
+VALUES ('Peso', '');
+
+ALTER TABLE `grade_unity_modality`
+ADD `weight` int NULL AFTER `type`;

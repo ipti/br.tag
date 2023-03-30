@@ -499,6 +499,11 @@ input[type="checkbox"] {
     color: #333;
 }
 
+.js-grades-structure-container .weight {
+    width: 78px;
+    margin-left: 5px;
+}
+
 .save-unity-loading-gif {
     position: absolute;
     left: calc(50% - 20px);

@@ -71,7 +71,6 @@ $(document).on("change", ".type-select", function () {
     if ($(this).val() === "UR") {
         unity.find(".js-new-modality").trigger("click", [true]);
         changeRecoverModality(unity);
-
     } else {
         unity.find(".modality-name[modalitytype=R]").closest(".modality").remove();
     }
@@ -79,18 +78,58 @@ $(document).on("change", ".type-select", function () {
 
 function changeRecoverModality(unity) {
     unity.find(".modality").last().children("label").html("Recuperação: " + '<span class="red">*</span>');
-    unity.find(".modality").last().find(".modality-name").attr("modalitytype", "R");
-    unity.find(".modality").last().find(".remove-modality").remove();
+    unity.find(".modality").last().find(".modality-name").attr("modalitytype", "R").css("width", "calc(100% - 122px)");
+    unity.find(".modality").last().find(".remove-modality, .weight").remove();
 }
+
+$(document).on("change", ".formula-select", function () {
+    var unity = $(this).closest(".unity");
+    if ($(this).select2('data').text === "Peso") {
+        unity.find(".modality-name[modalitytype=C]").css("width", "calc(100% - 222px)");
+        unity.find(".modality-name[modalitytype=C]").parent().append("<input type='text' class='weight form-control' placeholder='Peso'>");
+    } else {
+        unity.find(".weight").remove();
+        unity.find(".modality-name[modalitytype=C]").css("width", "calc(100% - 122px)");
+    }
+});
+
+$(document).on("keyup", ".weight", function (e) {
+    var val = this.value;
+    if (!$.isNumeric(val)) {
+        e.preventDefault();
+        val = "";
+    } else {
+        var weight = /[1-9]|10/;
+        if (val.match(weight) === null) {
+            val = "";
+        } else {
+            if (val > 10)
+                val = 10;
+        }
+    }
+    this.value = val;
+});
 
 $(document).on("click", ".js-new-modality", function (evt, indirectTrigger) {
     evt.preventDefault();
-    var unityHtml = "" +
-        "<div class='modality form-group form-inline'>" +
-        "<label class='control-label'>Modalidade: <span class='red'>*</span></label>" +
-        "<input type='text' class='modality-name form-control' modalitytype='C' placeholder='Prova, Avaliação, Trabalho, etc.'>" +
-        "<i class='remove-modality fa fa-times-circle-o'></i>" +
-        '</div>';
+    var unityHtml = "";
+    if ($(this).closest(".unity").find(".formula-select").select2('data').text === "Peso") {
+        unityHtml += "" +
+            "<div class='modality form-group form-inline'>" +
+            "<label class='control-label'>Modalidade: <span class='red'>*</span></label>" +
+            "<input type='text' class='modality-name form-control' modalitytype='C' placeholder='Prova, Avaliação, Trabalho, etc.' style='width: calc(100% - 222px);'>" +
+            "<input type='text' class='weight form-control' placeholder='Peso'>" +
+            "<i class='remove-modality fa fa-times-circle-o'></i>" +
+            '</div>';
+    } else {
+        unityHtml += "" +
+            "<div class='modality form-group form-inline'>" +
+            "<label class='control-label'>Modalidade: <span class='red'>*</span></label>" +
+            "<input type='text' class='modality-name form-control' modalitytype='C' placeholder='Prova, Avaliação, Trabalho, etc.'>" +
+            "<i class='remove-modality fa fa-times-circle-o'></i>" +
+            '</div>';
+    }
+
     $(unityHtml).insertBefore(
         $(this).closest(".unity").find("select.type-select").val() !== "UR" || indirectTrigger
             ? $(this).parent()
