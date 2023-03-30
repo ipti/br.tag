@@ -580,10 +580,8 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 </div>
                             </div>
                         </div>
-
                         <div class="span6">
-
-                            <div class="separator"></div>
+                            <!-- <div class="separator"></div> -->
                             <div class="innerLR" id="instructorVariableData">
                                 <div class="widget widget-tabs border-bottom-none">
                                     <div class="widget-head">
