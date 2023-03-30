@@ -465,7 +465,9 @@ input[type="checkbox"] {
 }
 
 .js-grades-structure-container .unity {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 1px dashed #ccc;
     position: relative;
 }
 
