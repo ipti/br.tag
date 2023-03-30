@@ -395,7 +395,6 @@ html {
 .t-field-checkbox {
   margin-bottom: 24px;
   display: flex;
-  margin: 0;
   white-space: nowrap;
   width: 100%;
 }
