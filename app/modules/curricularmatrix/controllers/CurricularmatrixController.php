@@ -60,6 +60,7 @@ class CurricularmatrixController extends Controller
                         ":stage" => $stage, ":discipline" => $discipline, ":year" => Yii::app()->user->year
                     ]);
                     $logSituation = "U";
+                    
                     if ($matrix == NULL) {
                         $matrix = new CurricularMatrix();
                         $matrix->setAttributes([
@@ -70,6 +71,7 @@ class CurricularmatrixController extends Controller
                     $matrix->setAttributes([
                         "workload" => $workload, "credits" => $credits,
                     ]);
+                    
                     $stageName = EdcensoStageVsModality::model()->find("id = :stage", [":stage" => $stage])->name;
                     $disciplineName = EdcensoDiscipline::model()->find("id = :discipline", [":discipline" => $discipline])->name;
                     
@@ -84,6 +86,7 @@ class CurricularmatrixController extends Controller
         } else {
             echo json_encode(["valid" => false, "message" => "Preencha os campos de etapa, disciplinas, carga horária e horas semanais."]);
         }
+
     }
 
     public function actionMatrixReuse()

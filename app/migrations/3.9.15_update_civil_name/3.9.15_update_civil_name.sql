@@ -1,0 +1,2 @@
+ALTER TABLE `br-ong-tag-demo`.student_identification MODIFY COLUMN civil_name varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL;
+ALTER TABLE `br-ong-tag-demo`.instructor_identification MODIFY COLUMN civil_name varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL;

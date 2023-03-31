@@ -153,14 +153,16 @@ table.dataTable {
     margin-left: 5px;
     padding: 0 5px;
 }
-
-/* .tag-inner {
-    padding: 0px 10px 0;
-    position: relative;
-    margin-bottom: 30px;
-} */
-.tag-inner .widget {
-    border-radius: 4px;
+.tag-inner {
+    border-radius: 4px;  
+}
+.tab-content {
+      padding-right: 0;
+}
+@media (min-width: 768px) {
+    .tab-content {
+    padding-right: 20% !important;
+    }
 }
 
 /* 
@@ -413,6 +415,7 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked {
     margin: 0px 9px 0px 9px;
 }
+
 .grades_inputs, .grades_inputs .select2-choice{
  width: 134px !important;
 }
