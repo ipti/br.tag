@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.10.23]
+- Agora as ações de deletar professores e estudantes funcionam corretamente
+
 ## [Versão 3.10.20]
 - Campo de observação adicionado no formulário de matrícula do aluno
 
