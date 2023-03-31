@@ -191,9 +191,29 @@ class SagresConsultModel
     {
         $scheduleList = [];
 
-        $query = "SELECT DISTINCT (c.final_hour - c.initial_hour) AS duration, c.initial_hour AS startTime 
-              FROM classroom c      
-              WHERE c.id = :classId";
+        $query = "SELECT itd.id AS IdDiscipline, (c.final_hour - c.initial_hour) AS duration, 
+                        c.initial_hour AS startTime,
+                        idaa.cpf AS cpfInstructor,
+                        discipline_1_fk, 
+                        discipline_2_fk, 
+                        discipline_3_fk, 
+                        discipline_4_fk,
+                        discipline_5_fk,
+                        discipline_6_fk,
+                        discipline_7_fk,
+                        discipline_8_fk,
+                        discipline_9_fk,
+                        discipline_10_fk,
+                        discipline_11_fk,
+                        discipline_12_fk,
+                        discipline_13_fk,
+                        discipline_14_fk,
+                        discipline_15_fk
+                FROM classroom c 
+                JOIN instructor_teaching_data itd ON itd.classroom_id_fk = c.id
+                JOIN school_identification si ON si.inep_id = itd.school_inep_id_fk 
+                JOIN instructor_documents_and_address idaa ON idaa.school_inep_id_fk = si.inep_id      
+                WHERE c.id = :classId";
 
         $params = [
             ':classId' => $classId
@@ -203,17 +223,24 @@ class SagresConsultModel
 
         foreach ($schedules as $schedule) {
             $scheduleType = new HorarioTType;
+
+            $queryDis = "SELECT name FROM edcenso_discipline WHERE id =" . $schedule['discipline_1_fk'] .";"; 
+            $name = Yii::app()->db->createCommand($queryDis)->queryRow();
+
+            $scheduleType->setDisciplina( $name);
+
             $scheduleType->setDiaSemana(1)
                 ->setDuracao($schedule['duration'])
                 ->setHoraInicio($this->getDateTimeFromInitialHour($schedule['startTime']))
-                ->setDisciplina('LIBRAS')
-                ->setCpfProfessor(['68322517777']);
+                ->setDisciplina($scheduleType->getDisciplina())
+                ->setCpfProfessor([$schedule['cpfInstructor']]);
 
             $scheduleList[] = $scheduleType;
         }
 
         return $scheduleList;
     }
+
 
 
     function getDateTimeFromInitialHour($initialHour)
