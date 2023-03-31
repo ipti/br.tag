@@ -513,7 +513,7 @@ preenchidos";
             if (isset($instructor->inep_id) && !empty($instructor->inep_id)) { // VEr possível correção !!!!
                 $return = InstructorTeachingData::model()->findAllByAttributes(['instructor_inep_id' => $instructor_inepid_id]);
             } else {
-                $return = InstructorTeachingData::model()->find->findAllByAttributes(['instructor_fk' => $instructor_inepid_id]);
+                $return = InstructorTeachingData::model()->findAllByAttributes(['instructor_fk' => $instructor_inepid_id]);
             }
         }
 
