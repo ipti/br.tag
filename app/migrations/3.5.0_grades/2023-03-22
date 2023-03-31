@@ -43,6 +43,10 @@ RENAME TO `grade_unity_modality`;
 ALTER TABLE `grade_unity_modality`
 ADD FOREIGN KEY (`grade_unity_fk`) REFERENCES `grade_unity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
+CREATE TABLE grade_old LIKE grade;
+
+INSERT INTO grade_old SELECT * FROM grade;
+
 ALTER TABLE `grade`
 DROP FOREIGN KEY `fk_grade_1`;
 
