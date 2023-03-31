@@ -7,6 +7,7 @@
  * @property string $register_type
  * @property string $school_inep_id_fk
  * @property string $inep_id
+ * @property string $gov_id
  * @property integer $id
  * @property string $name
  * @property string $birthday
@@ -306,7 +307,6 @@ class StudentIdentification extends AltActiveRecord {
 
         return parent::beforeSave();
     }
-
 
     public function getCurrentStageVsModality(){
         $sid = isset($this->id) ? $this->id : 0;

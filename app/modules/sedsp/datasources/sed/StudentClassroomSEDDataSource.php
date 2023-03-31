@@ -16,5 +16,3 @@ class StudentClassroomSEDDataSource extends SedDataSource
         return $promise->getBody()->getContents();
     }
 }
-
-?>

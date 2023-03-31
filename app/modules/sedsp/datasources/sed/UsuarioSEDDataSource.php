@@ -1,5 +1,5 @@
 <?php
-require 'vendor/autoload.php'; 
+require 'app/vendor/autoload.php';
 
 class UsuarioSEDDataSource extends SedDataSource
 {
@@ -14,5 +14,3 @@ class UsuarioSEDDataSource extends SedDataSource
         return $response->getBody()->getContents();
     }
 }
-
-?>

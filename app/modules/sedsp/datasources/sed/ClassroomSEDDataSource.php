@@ -38,5 +38,3 @@ class ClassroomSEDDataSource extends SedDataSource
         return $data;
     }
 }
-
-?>

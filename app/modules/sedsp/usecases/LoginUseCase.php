@@ -32,7 +32,10 @@ class LoginUseCase
     {
         $authJson = $this->UsuarioSEDDataSource->login($user, $password);
         $auth = new Autenticacao($authJson);
-        Yii::app()->user->setState("SED_TOKEN", $auth->getAutenticacao());
-        return Yii::app()->user->getState("SED_TOKEN");
+        $cookie = new CHttpCookie('SED_TOKEN',$auth->getAutenticacao());
+        $cookie->expire = time()+60*15;
+        Yii::app()->request->cookies['SED_TOKEN'] = $cookie;
+        //Yii::app()->user->setState("SED_TOKEN", $auth->getAutenticacao());
+        return Yii::app()->request->cookies['SED_TOKEN']->value;
     }
 }

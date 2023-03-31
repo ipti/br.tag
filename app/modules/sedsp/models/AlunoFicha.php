@@ -152,6 +152,3 @@ class AlunoFicha implements JsonSerializable
         return $vars;
     }
 }
-
-
-?>

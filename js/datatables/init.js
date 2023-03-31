@@ -31,7 +31,7 @@ $(document).ready(function () {
                 select: {
                     items: 'cell'
                 },
-                "bLengthChange": false,
+                "bLengthChange": true,
                 columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
             });
 

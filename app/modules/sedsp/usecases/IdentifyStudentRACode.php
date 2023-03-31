@@ -27,14 +27,12 @@ class IdentifyStudentRACode
     {
         // Get Student From TAG database
         $student_tag = $this->studentTAGDataSource->getStudent($tag_student_id);
-        
         $nome = $student_tag->name;
         $data_nascimento = $student_tag->birthday;
         $nome_mae = $student_tag->filiation_1;
 
         // Search Student on SED API 
         $aluno_sed = $this->studentSEDDataSource->getStudentRA($nome, $data_nascimento, $nome_mae);
-
         return $aluno_sed;
     }
 }

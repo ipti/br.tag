@@ -1,5 +1,5 @@
 <?php
-require 'vendor/autoload.php'; 
+require 'app/vendor/autoload.php';
 
 Yii::import('application.modules.sedsp.models.*');
 
@@ -17,21 +17,21 @@ class StudentSEDDataSource extends SedDataSource
      * @return DadosAluno
      */
     public function getStudentRA($name, $birthday, $mothersName)
-    {  
-
-        $content = $response = $this->client->request('GET', '/ncaapi/api/Aluno/ConsultaRA', [
-            'body' => json_encode([
-                "inNomeAluno" => $name,
-                "inNomeMae" => $mothersName,
-                "inDataNascimento" => $birthday
-            ])
-        ]);
-        
-        $content = $response->getBody()->getContents();
-        $aluno_sed = new DadosAluno($content);
-
-        return $aluno_sed;
-    }   
+    {
+        $body['inFiltrosNomes'] = array("inNomeAluno" => $name,
+        "inNomeMae" => $mothersName,
+        "outDataNascimento" => $birthday);
+        //var_dump(json_encode($body));exit;
+        try {
+            $response = $this->client->request('GET', '/ncaapi/api/Aluno/ListarAlunos', [
+                'body' => json_encode($body)
+            ]);
+            return new DadosAluno($response->getBody()->getContents());
+        }
+        catch (GuzzleHttp\Exception\ClientException $e) {
+            return new OutErro($e);
+        }
+    }
 
     public function addStudent($student_sed){
         $promise = $this->client->request('POST', '/ncaapi/api/Aluno/FichaAluno', [
@@ -58,5 +58,3 @@ class StudentSEDDataSource extends SedDataSource
         return $data;
     }
 }
-
-?>

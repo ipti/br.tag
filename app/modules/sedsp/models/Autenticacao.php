@@ -23,5 +23,3 @@ class Autenticacao {
     return $this->processoID;
   }
 }
-
-?>

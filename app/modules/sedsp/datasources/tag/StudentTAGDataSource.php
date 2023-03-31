@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 class StudentTAGDataSource
 {
     public function getStudent($id)
@@ -11,7 +10,9 @@ class StudentTAGDataSource
     {
         $student = StudentIdentification::model()->findAllByAttributes(["school_inep_id_fk" => $school_id]);
         return $student;
-    } 
+    }
+    public function getAllStudentWithoutRAbySchool($school_id)
+    {
+        return  StudentIdentification::model()->findAllByAttributes(["school_inep_id_fk" => $school_id],"gov_id IS NULL");
+    }
 }
-
-?>

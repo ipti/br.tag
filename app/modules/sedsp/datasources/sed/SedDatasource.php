@@ -1,5 +1,5 @@
-<?php 
-require 'vendor/autoload.php'; 
+<?php
+require 'app/vendor/autoload.php';
 
 use GuzzleHttp\Client;
 
@@ -12,13 +12,10 @@ abstract class SedDataSource {
             'base_uri' => 'https://homologacaointegracaosed.educacao.sp.gov.br',
             'headers' => [
                 'content-type' => 'application/json',
-                'Authorization' => 'Bearer '. Yii::app()->user->getState("SED_TOKEN")
+                'Authorization' => 'Bearer '. Yii::app()->request->cookies['SED_TOKEN']->value
             ], 
-            'timeout'  => 2.0,
+            'timeout'  => 10.0,
         ]);
     }
 
 }
-
-
-?>
