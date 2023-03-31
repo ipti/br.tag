@@ -1,5 +1,34 @@
 # Atualizações
 
+## [Versão 3.10.20]
+- Campo de observação adicionado no formulário de matrícula do aluno
+
+## [Versão 3.9.20]
+- Agora as turmas sem alunos aparecem no relatório de alunos por turma
+- Bug no nome da turma no relatório de alunos por turma corrigido
+
+## [Versão 3.9.19]
+- Corrigida responsividade no formulário de alunos 
+
+## [Versão 3.9.18]
+- Estilo das caixas de filtros corrigidos
+
+
+## [Versão 3.9.17]
+- Agora na tela de login o "Lembra-me" agora é "Mantenha-me conectado"
+
+
+## [Versão 3.9.16]
+- O Bug para algumas etapas de ensino no formulário de turmas foi corrigido
+
+## [Versão 3.9.15]
+- Agora o campo nome social agora é Nome de Apresentação que pode ser usado ou não para nome social
+- Agora o campo de nome civil fica oculto e é exibido um checkbox com "Esse é um nome social?" relacionando com o campo "Nome de Apresentação"
+
+## [Versão 3.9.13]
+- Relatório de Cardápios Especiais
+- Aba Saúde adicionada no formulário de aluno
+
 ## [Versão 3.8.13]
 - Correções nos formulários do módulo Sagres.
 - Correção da validação do CPF.
@@ -76,6 +105,16 @@
 
 **Bugs Corrigidos**
 - Relatório do Bolsa Família
+
+
+## [Versão 2.11.9]
+**Bugs Corrigidos:**
+- Redirecionamento automático quando sessão expira.
+- Correção na gestão de usuários que estavam removendo os vinculos
+
+## [Versão 2.11.7]
+**Melhorias:**
+- Adicionado módulo de gestão de usuários.
 
 ## [Versão 2.10.7]
 **Melhorias:**

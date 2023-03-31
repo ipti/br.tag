@@ -120,7 +120,8 @@ class Classroom extends AltActiveRecord
         return array(
             array('name, edcenso_stage_vs_modality_fk, modality, school_inep_fk, initial_hour, initial_minute, final_hour, final_minute, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, school_year, pedagogical_mediation_type', 'required'),
             array('pedagogical_mediation_type, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type, mais_educacao_participator, complementary_activity_type_1, complementary_activity_type_2, complementary_activity_type_3, complementary_activity_type_4, complementary_activity_type_5, complementary_activity_type_6, modality, edcenso_professional_education_course_fk, discipline_chemistry, discipline_physics, discipline_mathematics, discipline_biology, discipline_science, discipline_language_portuguese_literature, discipline_foreign_language_english, discipline_foreign_language_spanish, discipline_foreign_language_franch, discipline_foreign_language_other, discipline_arts, discipline_physical_education, discipline_history, discipline_geography, discipline_philosophy, discipline_social_study, discipline_sociology, discipline_informatics, discipline_professional_disciplines, discipline_special_education_and_inclusive_practices, discipline_sociocultural_diversity, discipline_libras, discipline_pedagogical, discipline_religious, discipline_native_language, discipline_others, school_year, calendar_fk, schooling, diff_location, course, complementary_activity, aee', 'numerical', 'integerOnly' => true),
-            array('register_type, initial_hour, initial_minute, final_hour, final_minute, edcenso_stage_vs_modality_fk', 'length', 'max' => 2),
+            array('register_type, initial_hour, initial_minute, final_hour, final_minute', 'length', 'max' => 2),
+            array('edcenso_stage_vs_modality_fk', 'length', 'max' => 6),
             array('school_inep_fk', 'length', 'max' => 8),
             array('inep_id', 'length', 'max' => 10),
             array('name', 'length', 'max' => 80),
@@ -273,9 +274,7 @@ class Classroom extends AltActiveRecord
                     'name' => CSort::SORT_ASC,
                 ),
             ),
-            'pagination' => array(
-                'pageSize' => 50,
-            ),
+            'pagination' => false
         ));
     }
 

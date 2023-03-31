@@ -29,6 +29,10 @@ if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginIn
     );
 }
 
+if (Yii::app()->user->isGuest) {
+    $this->redirect(yii::app()->createUrl('site/login'));
+}
+
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>

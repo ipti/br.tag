@@ -38,6 +38,7 @@ return array(
     'cannot  be blank' => 'não pode ser vazio.',
     'No matches found' => 'nenhuma referência encontrada',
     'Incorrect username or password.'=>'Usuário ou senha incorretos',
+    'cannot be blank'=> 'não pode ficar em branco',
     
     //Campos das tabelas
 
@@ -460,6 +461,7 @@ return array(
     'Deficiency Type Gifted' => 'Altas habilidades / Superdotação',
     'Required Resources' => 'Recursos requeridos em avaliações do INEP (Prova Brasil, SAEB, outros)',
     'Vaccine' => 'Vacinas',
+    'Restrictions' => 'Restrições',
     'Resource Aid Lector' => 'Auxílio Ledor',
     'Resource Aid Transcription' => 'Auxílio transcrição',
     'Resource Interpreter Guide' => 'Guia-Intéprete',
@@ -537,6 +539,7 @@ return array(
     'Classroom Inep' => 'Inep da turma',
     'Classroom Fk' => 'Turma',
     'Enrollment' => 'Matrícula',
+    'Health' => 'Saúde',
     'New Enrollment' => 'Nova Matrícula',
     'Enrollments' => 'Matrículas',
     'Students Enrollments'=>'Alunos Matriculados',
@@ -576,6 +579,7 @@ return array(
     'Aee Mobility Techniques' => 'Ensino de técnicas para orientação e mobilidade',
     'Aee Caa' => 'Ensino de uso da Comunicação Alternativa e Aumentativa (CAA)',
     'Aee Optical Nonoptical' => 'Ensino de uso de recursos ópticos e não ópticos',
+    'Observation' => 'Observação',
 
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',
@@ -594,7 +598,7 @@ return array(
     'Nationality' => 'Nacionalidade',
     'Edcenso Nation Fk' => 'País de origem',
     'Full name' => 'Nome completo',
-    'Social Name' => 'Nome Social',
+    'Social Name' => 'Nome de Apresentação',
     'Civil Name' => 'Nome Civil',
     'Full mothers name' => 'Nome completo da mãe',
     'Full fathers name' => 'Nome completo do pai',

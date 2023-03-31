@@ -100,8 +100,13 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <?php echo $form->error($modelInstructorIdentification, 'name'); ?>
                                 </div>
                             </div>
-
-                            <div class="control-group">
+                            <div class="controls">
+                                <label class="checkbox show-instructor-civil-name-box">
+                                    Esse é um nome social?
+                                    <input type="checkbox" id="show-instructor-civil-name" <?php if ($modelInstructorIdentification->civil_name != null) echo "checked"; ?>>
+                                </label>
+                            </div>
+                            <div class="control-group instructor-civil-name" style="display: none;">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorIdentification, 'civil_name', array('class' => 'control-label')); ?>
                                 </div>
@@ -580,10 +585,8 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 </div>
                             </div>
                         </div>
-
                         <div class="span6">
-
-                            <div class="separator"></div>
+                            <!-- <div class="separator"></div> -->
                             <div class="innerLR" id="instructorVariableData">
                                 <div class="widget widget-tabs border-bottom-none">
                                     <div class="widget-head">

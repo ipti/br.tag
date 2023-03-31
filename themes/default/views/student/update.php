@@ -15,6 +15,7 @@
             echo $this->renderPartial('_form', array(
                 'modelStudentIdentification' => $modelStudentIdentification,
                 'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
+                'modelStudentRestrictions' => $modelStudentRestrictions,
                 'modelEnrollment' => $modelEnrollment,
                 'vaccines' => $vaccines,
                 'studentVaccinesSaves' => $studentVaccinesSaves,

@@ -56,7 +56,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <i class="js-grades-structure-loading fa fa-spin fa-spinner"></i>
             </div>
         </div>
-        <div class="js-grades-structure-container">
+        <div class="grades-structure-container js-grades-structure-container">
             <div class="row">
                 <a href="#new-unity" id="new-unity" class="js-new-unity t-button-primary">
                     <img alt="Unidade" src="/themes/default/img/buttonIcon/start.svg">Unidade

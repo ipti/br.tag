@@ -65,6 +65,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
             ?>
         </div>
         <i class="js-grades-loading fa fa-spin fa-spinner"></i>
+        <div class="no-disciplines-guide" style="display: none;">Algumas Disciplinas não aparecem na tabela? <span class="no-disciplines-link">Saiba mais</span>.</div>
     </div>
     <br>
     <div class="js-grades-alert alert"></div>

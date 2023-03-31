@@ -1,6 +1,17 @@
 window.location.search.includes("update") ? $('.last').css('display', 'block') : $('.last').css('display', 'none');
 
 $(document).ready(function () {
+    if($("#others-check").is(":checked")) {
+        $(".others-text-box").show();
+    }else {
+        $(".others-text-box").hide();
+    }
+
+    if($("#show-student-civil-name").is(":checked")) {
+        $(".student-civil-name").show();
+        $(".show-student-civil-name-box").hide();
+    }
+
     $("#new-enrollment-button").click(function() {
         if($("#new-enrollment-form").css('display') == 'none') {
             $("#new-enrollment-form").show();
@@ -91,4 +102,20 @@ $(document).on("change", "#StudentEnrollment_public_transport", function () {
         $("#transport_responsable, #transport_type").hide();
     }
 });
+
+$(document).on("change", "#others-check", function () {
+    if($(this).is(":checked")) {
+        $(".others-text-box").show();
+    }else {
+        $(".others-text-box").hide();
+    }
+});
+
+$(document).on("change", "#show-student-civil-name", function () {
+    if($(this).is(":checked")) {
+        $(".student-civil-name").show();
+        $(".show-student-civil-name-box").hide();
+    }
+});
+
 $("#StudentEnrollment_public_transport").trigger("change");
