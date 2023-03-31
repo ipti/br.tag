@@ -523,4 +523,7 @@ li[instructor]:hover {
 .grid-view .dataTables_paginate span {
     display: flex !important;
 }
+.innerLR {
+    padding: 48px 10px 0;
 
+}

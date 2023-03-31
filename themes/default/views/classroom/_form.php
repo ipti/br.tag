@@ -87,10 +87,42 @@ $form = $this->beginWidget('CActiveForm', array(
                                 echo CHtml::hiddenField("events", '', array('id' => 'events'));
                                 ?>
                             <!-- Nome -->
-                            <div class="t-field-text">
-                                <?php echo $form->labelEx($modelClassroom, 'name', array('class' => 't-field-text__label--required')); ?>
-                                <?php echo $form->textField($modelClassroom, 'name', array('size' => 60, 'maxlength' => 80, 'class' => 't-field-text__input', 'placeholder' => ' Nome completo')); ?>
-                                <?php echo $form->error($modelClassroom, 'name'); ?>
+                            <div class="control-group">
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelClassroom, 'name', array('class' => 'control-label')); ?>
+                                </div>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelClassroom, 'name', array('size' => 60, 'maxlength' => 80, 'class' => 'control-input', 'placeholder' => ' Nome completo')); ?>
+                                    <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Classroom Name'); ?>"><i></i></span> -->
+                                    <?php echo $form->error($modelClassroom, 'name'); ?>
+                                </div>
+                            </div>
+                            <!-- Modalidade -->
+                            <div class="control-group" id="modality">
+                                    <?php echo $form->labelEx($modelClassroom, 'modality', array('class' => 'control-label')); ?>
+                                
+                                    <?php
+                                    echo $form->DropDownList($modelClassroom, 'modality', array(
+                                        '1' => 'Ensino Regular',
+                                        '2' => 'Educação Especial - Modalidade Substitutiva',
+                                        '3' => 'Educação de Jovens e Adultos (EJA)'
+                                    ), array('prompt' => 'Selecione a Modalidade', 'class' => 'select-search-off control-input'));
+                                    ?>
+                                    <?php echo $form->error($modelClassroom, 'modality'); ?>
+                                
+                            </div>
+                            <!-- Etapa de Ensino -->
+                            <div class="control-group" id="stage_vs_modality">
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
+                                </div>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o estágio vs modalidade', 'class' => 'select-search-on control-input')); ?>
+                                    <?php echo $form->error($modelClassroom, 'edcenso_stage_vs_modality_fk'); ?>
+                                    <i class="loading-disciplines fa fa-spin fa-spinner"></i>
+                                </div>
                             </div>
                             <!-- Tipo de Mediação Didático-Pedagógica -->
                             <div class="t-field-select">
