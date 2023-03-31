@@ -25,7 +25,7 @@ CREATE TABLE `attendance` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 ALTER TABLE `student_enrollment` ADD `date_cancellation_enrollment` DATE NULL DEFAULT NULL AFTER `status`;
-ALTER TABLE `school_identification` ADD `number_ato` VARCHAR(30) NOT NULL AFTER `final_date`;
+ALTER TABLE `school_identification` ADD `number_ato` VARCHAR(100) NOT NULL AFTER `final_date`;
 ALTER TABLE `lunch_menu` ADD `adjusted` TINYINT NOT NULL AFTER date;
 
 /* Modifica a coluna 'birthday' na tabela `student_identification`: altera o formato para 'Y-m-d'. 
