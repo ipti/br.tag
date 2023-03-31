@@ -220,11 +220,13 @@
 /*Font Weight*/
 /* Font Family */
 /* mixin */
-.t-field-checkbox { margin-bottom: 24px; display: flex; white-space: nowrap; }
+.t-field-checkbox { margin-bottom: 24px; display: flex; white-space: nowrap; width: 100%; }
+
+.t-field-checkbox__label { padding-top: 0 !important; }
 
 .t-field-checkbox__label--required { font-weight: bold; }
 
-.t-field-checkbox__input, .t-field-checkbox input[type="checkbox"] { background: #FFFFFF; height: 20px; width: 20px; margin: 0 14px 0 0; }
+.t-field-checkbox__input, .t-field-checkbox input[type="checkbox"] { background: #FFFFFF; height: 20px; width: 20px; margin: 0 14px 0 0 !important; }
 
 .t-field-checkbox-group { margin-bottom: 24px; }
 

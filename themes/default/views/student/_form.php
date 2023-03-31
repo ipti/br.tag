@@ -371,17 +371,17 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="t-field-checkbox">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'send_year', array('value' => date('Y') + 1, 'uncheckValue' => (date('Y')), 'class' => 't-field-checkbox__input')); ?>
+                                <?php echo $form->checkBox($modelStudentIdentification, 'send_year', array('value' => date('Y') + 1, 'uncheckValue' => (date('Y')), 'class' => 't-field-checkbox__input')); ?>
+                                <?php echo $form->labelEx($modelStudentIdentification, 'send_year', array('class' => 'control-label t-field-checkbox__label--required')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'send_year'); ?>
                                 <?php echo $form->labelEx($modelStudentIdentification, 'send_year', array('class' => 'control-label t-field-checkbox__label--required')); ?>
                               
                             </div>
 
                             <div class="t-field-checkbox">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'deficiency'); ?>
+                                <?php echo $form->checkBox($modelStudentIdentification, 'deficiency', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
                                 <?php echo $form->labelEx($modelStudentIdentification, 'deficiency', array('class' => 'control-label t-field-checkbox__label--required')); ?>
-                                
+                                <?php echo $form->error($modelStudentIdentification, 'deficiency'); ?>
                             </div>
 
                             <div class="deficiencies-container js-change-required js-visibility-deficiencies">
