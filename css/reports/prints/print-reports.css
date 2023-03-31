@@ -83,9 +83,10 @@ body {
     text-align: center;
 }
 
-.table-subtitle {
-    font-size: 12px;
-    text-align: center;
+.table-subtitle, .center {
+    font-size: 12px !important;
+    text-align: center !important;
+    white-space: pre !important;
 }
 
 .table > tbody > tr > td,

@@ -1,7 +1,9 @@
 <?php
+
 class AdminController extends Controller
 {
     public $layout = 'fullmenu';
+
     public function accessRules()
     {
         return [
@@ -12,7 +14,7 @@ class AdminController extends Controller
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
                     'import', 'export', 'update', 'manageUsers', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
-                    'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'
+                    'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster', 'gradesStructure'
                 ], 'users' => ['@'],
             ],
         ];
@@ -25,6 +27,7 @@ class AdminController extends Controller
     {
         $this->render('index');
     }
+
     public function actionCreateUser()
     {
         $model = new Users();
@@ -58,6 +61,130 @@ class AdminController extends Controller
             }
         }
         $this->render('createUser', ['model' => $model]);
+    }
+
+    public function actionGradesStructure()
+    {
+        $stages = Yii::app()->db->createCommand("select distinct esvm.id, esvm.name from edcenso_stage_vs_modality esvm join curricular_matrix cm on cm.stage_fk = esvm.id where school_year = :year order by esvm.name")->bindParam(":year", Yii::app()->user->year)->queryAll();
+        $formulas = GradeCalculation::model()->findAll();
+        $gradeUnity = new GradeUnity();
+        $this->render('gradesStructure', [
+            "gradeUnity" => $gradeUnity,
+            "stages" => $stages,
+            "formulas" => $formulas
+        ]);
+    }
+
+    public function actionGetUnities()
+    {
+        $stage = EdcensoStageVsModality::model()->find("id = :id", [":id" => $_POST["stage"]])->stage;
+        switch ($stage) {
+            case 1:
+                $result["stageName"] = "Educação Infantil";
+                break;
+            case 2:
+                $result["stageName"] = "Ensino Fundamental Menor (Anos Iniciais)";
+                break;
+            case 3:
+            case 7:
+                $result["stageName"] = "Ensino Fundamental Maior (Anos Finais)";
+                break;
+            case 6:
+                $result["stageName"] = "Educação de Jovens e Adultos (EJA)";
+                break;
+            default:
+                $result["stageName"] = "a modalidade selecionada";
+                break;
+        }
+        $result["unities"] = [];
+        $gradeUnities = GradeUnity::model()->findAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $_POST["stage"]]);
+        foreach ($gradeUnities as $gradeUnity) {
+            $arr = $gradeUnity->attributes;
+            $arr["modalities"] = [];
+            foreach ($gradeUnity->gradeUnityModalities as $gradeUnityModality) {
+                array_push($arr["modalities"], $gradeUnityModality->attributes);
+            }
+            array_push($result["unities"], $arr);
+        }
+        echo json_encode($result);
+    }
+
+    public function actionSaveUnities()
+    {
+        $valid = false;
+        if ($_POST["reply"] == "") {
+            $grades = Yii::app()->db->createCommand("
+                select * from grade g 
+                join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
+                join grade_unity gu on gu.id = gum.grade_unity_fk
+                where edcenso_stage_vs_modality_fk = :stage
+            ")->bindParam(":stage", $_POST["stage"])->queryAll();
+            if ($grades == null) {
+                GradeUnity::model()->deleteAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $_POST["stage"]]);
+                foreach ($_POST["unities"] as $u) {
+                    $unity = new GradeUnity();
+                    $unity->edcenso_stage_vs_modality_fk = $_POST["stage"];
+                    $unity->name = $u["name"];
+                    $unity->type = $u["type"];
+                    $unity->grade_calculation_fk = $u["formula"];
+                    $unity->save();
+                    foreach ($u["modalities"] as $m) {
+                        $modality = new GradeUnityModality();
+                        $modality->name = $m["name"];
+                        $modality->type = $m["type"];
+                        $modality->weight = $m["weight"];
+                        $modality->grade_unity_fk = $unity->id;
+                        $modality->save();
+                    }
+                }
+                $valid = true;
+            }
+        } else {
+            if ($_POST["reply"] == "A") {
+                $grades = Yii::app()->db->createCommand("select * from grade")->queryAll();
+            } else if ($_POST["reply"] == "S") {
+                $stage = EdcensoStageVsModality::model()->find("id = :id", [":id" => $_POST["stage"]])->stage;
+                $grades = Yii::app()->db->createCommand("
+                    select * from grade g
+                    join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
+                    join grade_unity gu on gu.id = gum.grade_unity_fk
+                    join edcenso_stage_vs_modality esvm on esvm.id = gu.edcenso_stage_vs_modality_fk
+                    where esvm.stage = :stage
+                ")->bindParam(":stage", $stage)->queryAll();
+            }
+            if ($grades == null) {
+                if ($_POST["reply"] == "A") {
+                    $curricularMatrixes = Yii::app()->db->createCommand("select * from curricular_matrix cm where school_year = :year")->bindParam(":year", Yii::app()->user->year)->queryAll();
+                } else if ($_POST["reply"] == "S") {
+                    $curricularMatrixes = Yii::app()->db->createCommand("
+                    select * from curricular_matrix cm 
+                    join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
+                    where school_year = :year and esvm.stage = :stage
+                  ")->bindParam(":year", Yii::app()->user->year)->bindParam(":stage", $stage)->queryAll();
+                }
+                foreach ($curricularMatrixes as $curricularMatrix) {
+                    GradeUnity::model()->deleteAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $curricularMatrix["stage_fk"]]);
+                    foreach ($_POST["unities"] as $u) {
+                        $unity = new GradeUnity();
+                        $unity->edcenso_stage_vs_modality_fk = $curricularMatrix["stage_fk"];
+                        $unity->name = $u["name"];
+                        $unity->type = $u["type"];
+                        $unity->grade_calculation_fk = $u["formula"];
+                        $unity->save();
+                        foreach ($u["modalities"] as $m) {
+                            $modality = new GradeUnityModality();
+                            $modality->name = $m["name"];
+                            $modality->type = $m["type"];
+                            $modality->weight = $m["weight"];
+                            $modality->grade_unity_fk = $unity->id;
+                            $modality->save();
+                        }
+                    }
+                }
+                $valid = true;
+            }
+        }
+        echo json_encode(["valid" => $valid]);
     }
 
     public function actionActiveDisableUser()
@@ -479,7 +606,7 @@ class AdminController extends Controller
             Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
             $this->redirect(['index']);
         } catch (Exception $e) {
-            //echo 
+            //echo
             //var_dump($e);exit;
             $loads = $this->prepareExport();
             $datajson = serialize($loads);
