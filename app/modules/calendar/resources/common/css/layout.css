@@ -257,3 +257,8 @@ form {
 .error-calendar-event {
     text-align: justify;
 }
+
+.confirm-save-event, .confirm-delete-event {
+    text-decoration: underline;
+    cursor: pointer;
+}

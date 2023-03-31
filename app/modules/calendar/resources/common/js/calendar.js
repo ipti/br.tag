@@ -115,13 +115,14 @@ $(document).on("click", ".remove-calendar-button", function () {
     });
 });
 
-$(document).on("click", ".remove-event-button", function () {
+$(document).on("click", ".remove-event-button", function (e, confirm = 0) {
     $.ajax({
         url: "?r=calendar/default/deleteEvent",
         type: "POST",
         data: {
             id: $("#CalendarEvent_id").val(),
-            calendarId: $("#CalendarEvent_calendar_fk").val()
+            calendarId: $("#CalendarEvent_calendar_fk").val(),
+            confirm: confirm
         },
         beforeSend: function () {
             $("#myChangeEvent .centered-loading-gif").show();
@@ -137,13 +138,17 @@ $(document).on("click", ".remove-event-button", function () {
             eventDays.find(".calendar-icon").remove();
             $("#myChangeEvent").modal("hide");
         } else {
-            $("#myChangeEvent").find(".alert").html(DOMPurify.sanitize(data.error)).show();
+            $("#myChangeEvent").find(".alert").addClass("alert-" + DOMPurify.sanitize(data.alert)).removeClass("alert-error").html(DOMPurify.sanitize(data.error)).show();
         }
     }).complete(function () {
         $("#myChangeEvent .centered-loading-gif").hide();
         $("#myChangeEvent .modal-body").css("opacity", 1).css("pointer-events", "auto");
         $("#myChangeEvent button").removeAttr("disabled");
     });
+});
+
+$(document).on("click", ".confirm-delete-event", function() {
+    $(".remove-event-button").trigger("click", [1]);
 });
 
 $(document).on("click", ".change-event", function () {
@@ -192,14 +197,14 @@ $(document).on("click", ".change-event", function () {
     }
 });
 
-$(document).on("click", ".save-event", function (e) {
+$(document).on("click", ".save-event", function (e, confirm = 0) {
     var form = $(this).closest("form");
     if (form.find("#CalendarEvent_name").val() === "" || form.find("#CalendarEvent_start_date").val() === "" || form.find("#CalendarEvent_end_date").val() === "" || form.find("#CalendarEvent_calendar_event_type_fk").val() === "") {
-        form.find(".alert").html("Campos com * são obrigatórios.").show();
+        form.find(".alert").addClass("alert-error").removeClass(".alert-primary").html("Campos com * são obrigatórios.").show();
     } else if (form.find("#CalendarEvent_end_date").val() < form.find("#CalendarEvent_start_date").val()) {
-        form.find(".alert").html("A Data de Encerramento não deve ser anterior à Data de Início.").show();
+        form.find(".alert").addClass("alert-error").removeClass(".alert-primary").html("A Data de Encerramento não deve ser anterior à Data de Início.").show();
     } else if (form.find("#CalendarEvent_start_date").val().split("-")[0] !== form.find(".selected-calendar-current-year").val() || form.find("#CalendarEvent_end_date").val().split("-")[0] !== form.find(".selected-calendar-current-year").val()) {
-        form.find(".alert").html("O intervalo de datas deve atender o ano do calendário.").show();
+        form.find(".alert").addClass("alert-error").removeClass(".alert-primary").html("O intervalo de datas deve atender o ano do calendário.").show();
     } else {
         form.find(".alert").hide();
         $.ajax({
@@ -212,7 +217,8 @@ $(document).on("click", ".save-event", function (e) {
                 startDate: $("#CalendarEvent_start_date").val(),
                 endDate: $("#CalendarEvent_end_date").val(),
                 eventTypeFk: $("#CalendarEvent_calendar_event_type_fk").val(),
-                copyable: $("#CalendarEvent_copyable").is(":checked")
+                copyable: $("#CalendarEvent_copyable").is(":checked"),
+                confirm: confirm
             },
             beforeSend: function () {
                 $("#myChangeEvent .centered-loading-gif").show();
@@ -243,7 +249,7 @@ $(document).on("click", ".save-event", function (e) {
                 });
                 $('[data-toggle="tooltip"]').tooltip({container: "body"});
             } else {
-                form.find(".alert").html(DOMPurify.sanitize(data.error)).show();
+                form.find(".alert").addClass("alert-" + DOMPurify.sanitize(data.alert)).removeClass("alert-error").html(DOMPurify.sanitize(data.error)).show();
             }
         }).complete(function () {
             $("#myChangeEvent .centered-loading-gif").hide();
@@ -251,6 +257,10 @@ $(document).on("click", ".save-event", function (e) {
             $("#myChangeEvent button").removeAttr("disabled");
         });
     }
+});
+
+$(document).on("click", ".confirm-save-event", function() {
+    $(".save-event").trigger("click", [1]);
 });
 
 $(document).on("click", ".show-stages", function (e) {
