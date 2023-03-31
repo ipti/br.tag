@@ -141,7 +141,7 @@ class SagresConsultModel
             $classId = $turma['id'];
 
             if (!empty($this->getEnrollments($classId, $referenceYear, $dateStart, $dateEnd))) {
-                $classType->setPeriodo('0')
+                $classType->setPeriodo(0) //0 - Anual
                     ->setDescricao($turma["name"])
                     ->setTurno($this->convertTurn($turma['turn']))
                     ->setSerie($this->getSeries($classId))
