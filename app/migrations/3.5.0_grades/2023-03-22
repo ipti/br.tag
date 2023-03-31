@@ -1,0 +1,130 @@
+CREATE TABLE `grate_unities` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `edcenso_stage_vs_modality_fk` int NOT NULL,
+  `nome` int NOT NULL,
+  `calculation` varchar(3) NOT NULL
+) ENGINE='InnoDB' COLLATE 'utf8_unicode_ci';
+
+ALTER TABLE `grate_unities`
+DROP `calculation`;
+
+ALTER TABLE `grate_unities`
+ADD `grade_calculation_fk` int NOT NULL;
+
+ALTER TABLE `grate_unities`
+RENAME TO `grade_unities`;
+
+CREATE TABLE `grade_calculation` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` varchar(50) NOT NULL,
+  `formula` varchar(50) NOT NULL
+) ENGINE='InnoDB';
+
+ALTER TABLE `grade_unities`
+CHANGE `nome` `name` varchar(50) NOT NULL AFTER `edcenso_stage_vs_modality_fk`;
+
+ALTER TABLE `grade_unities`
+ADD FOREIGN KEY (`grade_calculation_fk`) REFERENCES `grade_calculation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE TABLE `grade_unity_modalities` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` varchar(50) NOT NULL
+) ENGINE='InnoDB' COLLATE 'utf8_unicode_ci';
+
+ALTER TABLE `grade_unity_modalities`
+ADD `grade_unity_fk` int NOT NULL;
+
+ALTER TABLE `grade_unities`
+RENAME TO `grade_unity`;
+
+ALTER TABLE `grade_unity_modalities`
+RENAME TO `grade_unity_modality`;
+
+ALTER TABLE `grade_unity_modality`
+ADD FOREIGN KEY (`grade_unity_fk`) REFERENCES `grade_unity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE TABLE grade_old LIKE grade;
+
+INSERT INTO grade_old SELECT * FROM grade;
+
+ALTER TABLE `grade`
+DROP FOREIGN KEY `fk_grade_1`;
+
+ALTER TABLE `grade`
+ADD `grade` float NOT NULL AFTER `id`,
+DROP `grade1`,
+DROP `grade2`,
+DROP `grade3`,
+DROP `grade4`,
+DROP `recovery_grade1`,
+DROP `recovery_grade2`,
+DROP `recovery_grade3`,
+DROP `recovery_grade4`,
+DROP `recovery_final_grade`,
+DROP `discipline_fk`,
+DROP `fkid`;
+
+ALTER TABLE `grade`
+ADD `curricular_matrix_fk` int NOT NULL;
+
+truncate table grade;
+
+ALTER TABLE `grade`
+ADD FOREIGN KEY (`curricular_matrix_fk`) REFERENCES `curricular_matrix` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+INSERT INTO `grade_calculation` (`name`, `formula`)
+VALUES ('Soma', '');
+
+INSERT INTO `grade_calculation` (`name`, `formula`)
+VALUES ('Média', '');
+
+ALTER TABLE `grade`
+ADD `grade_unity_modality_fk` int NOT NULL;
+
+ALTER TABLE `grade`
+ADD FOREIGN KEY (`grade_unity_modality_fk`) REFERENCES `grade_unity_modality` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `grade_unity`
+ADD `discipline_fk` int(11) NOT NULL AFTER `edcenso_stage_vs_modality_fk`;
+
+ALTER TABLE `grade_unity`
+ADD FOREIGN KEY (`edcenso_stage_vs_modality_fk`) REFERENCES `edcenso_stage_vs_modality` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `grade_unity`
+ADD FOREIGN KEY (`discipline_fk`) REFERENCES `edcenso_discipline` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `grade_unity`
+CHANGE `discipline_fk` `edcenso_discipline_fk` int(11) NOT NULL AFTER `edcenso_stage_vs_modality_fk`;
+
+ALTER TABLE `grade`
+DROP FOREIGN KEY `grade_ibfk_1`;
+
+ALTER TABLE `grade`
+DROP `curricular_matrix_fk`;
+
+ALTER TABLE `grade_unity`
+ADD `type` varchar(1) COLLATE 'utf8_unicode_ci' NOT NULL AFTER `name`;
+
+ALTER TABLE `grade_unity_modality`
+ADD `type` varchar(2) COLLATE 'utf8_unicode_ci' NOT NULL AFTER `name`;
+
+ALTER TABLE `grade_unity`
+CHANGE `type` `type` varchar(2) COLLATE 'utf8_unicode_ci' NOT NULL AFTER `name`;
+
+ALTER TABLE `grade_unity`
+DROP FOREIGN KEY `grade_unity_ibfk_3`;
+
+ALTER TABLE `grade_unity`
+DROP `edcenso_discipline_fk`;
+
+ALTER TABLE `grade`
+ADD `discipline_fk` int(11) NOT NULL AFTER `enrollment_fk`;
+
+ALTER TABLE `grade`
+ADD FOREIGN KEY (`discipline_fk`) REFERENCES `edcenso_discipline` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+INSERT INTO `grade_calculation` (`name`, `formula`)
+VALUES ('Peso', '');
+
+ALTER TABLE `grade_unity_modality`
+ADD `weight` int NULL AFTER `type`;
