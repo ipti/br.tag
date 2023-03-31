@@ -1,7 +1,9 @@
 # Atualizações
 
+## [Versão 3.10.22]
+- Agora os relatórios de turmas funcionam corretamente
+
 ## [Versão 3.10.21]
-- Padronização dos campos da tela de matriz curricular
 
 ## [Versão 3.10.20]
 - Campo de observação adicionado no formulário de matrícula do aluno
