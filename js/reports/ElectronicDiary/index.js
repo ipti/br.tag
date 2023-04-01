@@ -143,7 +143,7 @@ $("#classroom").on("change", function () {
 });
 
 $(document).on("click", "#loadreport", function () {
-    $(".alert-required-fields").hide();
+    $(".alert-report").hide();
     var valid = false;
     switch ($("#report").val()) {
         case "frequency":
@@ -161,7 +161,7 @@ $(document).on("click", "#loadreport", function () {
     if (valid) {
         loadReport();
     } else {
-        $(".alert-required-fields").show();
+        $(".alert-report").text("Preencha os campos obrigatórios corretamente.").show();
     }
 });
 
@@ -211,38 +211,42 @@ function loadReport() {
                 $(".report-container").html(html);
                 $(".print-report").show();
             } else if ($("#report").val() === "gradesByStudent") {
-                html += "" +
-                    "<table class='grades-by-student-table table table-bordered table-striped table-hover'>" +
-                    "<thead>";
-                var totalColSpan = 0;
-                var unityRow = "";
-                $.each(data.unityNames, function () {
-                    totalColSpan += this.colspan;
-                    unityRow += "<th class='center' colspan='" + this.colspan + "'>" + this.name + "</th>";
-                });
-                var subunityRow = "";
-                $.each(data.subunityNames, function () {
-                    subunityRow += "<th class='center'>" + this + "</th>"
-                });
-                html += "<tr><th class='table-title' colspan='" + (totalColSpan + 2) + "'>Notas</th></tr>";
-                html += "<tr><th class='center' colspan='" + (totalColSpan + 2) + "'>" + $('#student').select2('data').text + "</th></tr>";
-                html += "<tr><th class='center' colspan='" + (totalColSpan + 2) + "'>" + $('#classroom').select2('data').text + "</th></tr>";
-                html += "<tr><th></th>" + unityRow + "<th class='center'></th></tr>";
-                html += "<tr><th>Disciplina</th>" + subunityRow + "<th class='center'>Média Final</th></tr>";
-                html += "</thead><tbody>";
-                $.each(data.rows, function () {
-                    html += "<tr><td>" + this.disciplineName + "</td>";
-                    $.each(this.grades, function () {
-                        html += "<td class='center'>" + this.unityGrade + "</td>";
-                        if (this.gradeUnityType == "UR") {
-                            html += "<td class='center'>" + this.unityRecoverGrade + "</td>";
-                        }
+                if (data.valid) {
+                    html += "" +
+                        "<table class='grades-by-student-table table table-bordered table-striped table-hover'>" +
+                        "<thead>";
+                    var totalColSpan = 0;
+                    var unityRow = "";
+                    $.each(data.unityNames, function () {
+                        totalColSpan += this.colspan;
+                        unityRow += "<th class='center' colspan='" + this.colspan + "'>" + this.name + "</th>";
                     });
-                    html += "<td class='center'>" + this.finalMedia + "</td></tr>";
-                });
-                html += "</tbody></table>";
-                $(".report-container").html(html);
-                $(".print-report").show();
+                    var subunityRow = "";
+                    $.each(data.subunityNames, function () {
+                        subunityRow += "<th class='center'>" + this + "</th>"
+                    });
+                    html += "<tr><th class='table-title' colspan='" + (totalColSpan + 2) + "'>Notas</th></tr>";
+                    html += "<tr><th class='center' colspan='" + (totalColSpan + 2) + "'>" + $('#student').select2('data').text + "</th></tr>";
+                    html += "<tr><th class='center' colspan='" + (totalColSpan + 2) + "'>" + $('#classroom').select2('data').text + "</th></tr>";
+                    html += "<tr><th></th>" + unityRow + "<th class='center'></th></tr>";
+                    html += "<tr><th>Disciplina</th>" + subunityRow + "<th class='center'>Média Final</th></tr>";
+                    html += "</thead><tbody>";
+                    $.each(data.rows, function () {
+                        html += "<tr><td>" + this.disciplineName + "</td>";
+                        $.each(this.grades, function () {
+                            html += "<td class='center'>" + this.unityGrade + "</td>";
+                            if (this.gradeUnityType == "UR") {
+                                html += "<td class='center'>" + this.unityRecoverGrade + "</td>";
+                            }
+                        });
+                        html += "<td class='center'>" + this.finalMedia + "</td></tr>";
+                    });
+                    html += "</tbody></table>";
+                    $(".report-container").html(html);
+                    $(".print-report").show();
+                } else {
+                    $(".alert-report").text("Ainda não foi construída uma estrutura de unidades e avaliações para esta turma.").show();
+                }
             }
         },
         complete: function (response) {

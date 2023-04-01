@@ -9,7 +9,7 @@
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/css/reports/electronic-diary.css');
-$cs->registerScriptFile($baseUrl . '/js/reports/ElectronicDiary/index.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/ElectronicDiary/index.js?v=1.0', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - Diário Eletrônico');
 
@@ -22,9 +22,7 @@ $this->setPageTitle('TAG - Diário Eletrônico');
 </div>
 
 <div class="innerLR">
-    <div class="alert-required-fields no-show alert alert-error hidden-print">
-        Preencha os campos obrigatórios corretamente.
-    </div>
+    <div class="alert-report no-show alert alert-error hidden-print"></div>
     <div class="filter-bar margin-bottom-none hidden-print" style="display:flex; width:100%;">
         <input type="hidden" class="school-year" value="<?= $schoolyear ?>">
         <div class="report-filter">

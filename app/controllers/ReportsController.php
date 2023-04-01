@@ -899,34 +899,35 @@ class ReportsController extends Controller
             $criteria->condition = "c.id = :classroom";
             $criteria->params = array(":classroom" => $_POST["classroom"]);
             $gradeUnitiesByClassroom = GradeUnity::model()->findAll($criteria);
-            $result["unityNames"] = [];
-            $result["subunityNames"] = [];
-            foreach ($gradeUnitiesByClassroom as $gradeUnity) {
-                array_push($result["unityNames"], ["name" => $gradeUnity["name"], "colspan" => $gradeUnity->type == "UR" ? 2 : 1]);
-                $commonModalitiesName = "";
-                $recoverModalityName = "";
-                $firstCommonModality = false;
-                foreach ($gradeUnity->gradeUnityModalities as $index => $gradeUnityModality) {
-                    if ($gradeUnityModality->type == "C") {
-                        if (!$firstCommonModality) {
-                            $commonModalitiesName .= $gradeUnityModality->name;
-                            $firstCommonModality = true;
+            if ($gradeUnitiesByClassroom !== null) {
+                $result["unityNames"] = [];
+                $result["subunityNames"] = [];
+                foreach ($gradeUnitiesByClassroom as $gradeUnity) {
+                    array_push($result["unityNames"], ["name" => $gradeUnity["name"], "colspan" => $gradeUnity->type == "UR" ? 2 : 1]);
+                    $commonModalitiesName = "";
+                    $recoverModalityName = "";
+                    $firstCommonModality = false;
+                    foreach ($gradeUnity->gradeUnityModalities as $index => $gradeUnityModality) {
+                        if ($gradeUnityModality->type == "C") {
+                            if (!$firstCommonModality) {
+                                $commonModalitiesName .= $gradeUnityModality->name;
+                                $firstCommonModality = true;
+                            } else {
+                                $commonModalitiesName .= " + " . $gradeUnityModality->name;
+                            }
                         } else {
-                            $commonModalitiesName .= " + " . $gradeUnityModality->name;
+                            $recoverModalityName = $gradeUnityModality->name;
                         }
-                    } else {
-                        $recoverModalityName = $gradeUnityModality->name;
+                    }
+                    array_push($result["subunityNames"], $commonModalitiesName);
+                    if ($recoverModalityName !== "") {
+                        array_push($result["subunityNames"], $recoverModalityName);
                     }
                 }
-                array_push($result["subunityNames"], $commonModalitiesName);
-                if ($recoverModalityName !== "") {
-                    array_push($result["subunityNames"], $recoverModalityName);
-                }
-            }
 
-            //Montar linhas das disciplinas e notas
-            $result["rows"] = [];
-            $disciplines = Yii::app()->db->createCommand("
+                //Montar linhas das disciplinas e notas
+                $result["rows"] = [];
+                $disciplines = Yii::app()->db->createCommand("
               select ed.id, ed.name from curricular_matrix cm
               join edcenso_discipline ed on ed.id = cm.discipline_fk
               join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
@@ -934,90 +935,94 @@ class ReportsController extends Controller
               where c.id = :classroom
               order by ed.name
             ")->bindParam(":classroom", $_POST["classroom"])->queryAll();
-            foreach ($disciplines as $discipline) {
-                $arr["grades"] = [];
-                $rawUnitiesCount = 0;
-                foreach ($gradeUnitiesByClassroom as $gradeUnity) {
-                    $rawUnitiesCount = $gradeUnity->type == "UR" || $gradeUnity->type == "U" ? $rawUnitiesCount + 1 : $rawUnitiesCount;
-                    array_push($arr["grades"], $gradeUnity->type == "UR"
-                        ? ["unityId" => $gradeUnity->id, "unityGrade" => "", "unityRecoverGrade" => "", "gradeUnityType" => $gradeUnity->type]
-                        : ["unityId" => $gradeUnity->id, "unityGrade" => "", "gradeUnityType" => $gradeUnity->type]);
-                }
-                $arr["disciplineName"] = $discipline["name"];
-
-                //Trazer notas das unidades
-                $criteria->select = "distinct gu.id, gu.*";
-                $criteria->join = "join grade_unity_modality gum on gum.grade_unity_fk = gu.id";
-                $criteria->join .= " join grade g on g.grade_unity_modality_fk = gum.id";
-                $criteria->condition = "g.discipline_fk = :discipline_fk and enrollment_fk = :enrollment_fk";
-                $criteria->params = array(":discipline_fk" => $discipline["id"], ":enrollment_fk" => $_POST["student"]);
-                $criteria->order = "gu.id";
-                $gradeUnitiesByDiscipline = GradeUnity::model()->findAll($criteria);
-                foreach ($gradeUnitiesByDiscipline as $gradeUnity) {
-                    $key = array_search($gradeUnity->id, array_column($arr["grades"], 'unityId'));
-                    $arr["grades"][$key] = $this->getUnidadeValues($gradeUnity);
-                }
-
-
-                //Cálculo da média final
-                $arr["finalMedia"] = "";
-                $sums = 0;
-                $sumsCount = 0;
-                $arr["semesterMedias"] = [];
-                $hasRF = false;
-                $rawUnitiesFilled = 0;
-                foreach ($arr["grades"] as $grade) {
-                    switch ($grade["gradeUnityType"]) {
-                        case "U":
-                            if ($grade["unityGrade"] != "") {
-                                $sums += $grade["unityGrade"];
-                                $rawUnitiesFilled++;
-                            }
-                            $sumsCount++;
-                            break;
-                        case "UR":
-                            if ($grade["unityGrade"] != "" || $grade["unityRecoverGrade"] != "") {
-                                $sums += $grade["unityRecoverGrade"] > $grade["unityGrade"] ? $grade["unityRecoverGrade"] : $grade["unityGrade"];
-                                $rawUnitiesFilled++;
-                            }
-                            $sumsCount++;
-                            break;
-                        case "RS":
-                            if ($sums > 0) {
-                                $semesterMedia = $sums / $sumsCount;
-                                $semesterRecoverMedia = ($semesterMedia + $grade["unityGrade"]) / 2;
-                                array_push($arr["semesterMedias"], $semesterMedia > $semesterRecoverMedia ? $semesterMedia : $semesterRecoverMedia);
-                            } else {
-                                array_push($arr["semesterMedias"], 0);
-                            }
-                            $sums = 0;
-                            $sumsCount = 0;
-                            break;
-                        case "RF":
-                            $hasRF = true;
-                            if ($sums > 0) {
-                                $media = $sums / $sumsCount;
-                                array_push($arr["semesterMedias"], $media);
-                            }
-                            if ($rawUnitiesFilled == $rawUnitiesCount) {
-                                $finalMedia = array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]);
-                                $finalRecoverMedia = ($finalMedia + $grade["unityGrade"]) / 2;
-                                $arr["finalMedia"] = number_format($finalMedia > $finalRecoverMedia ? $finalMedia : $finalRecoverMedia, 2);
-                            }
-                            break;
+                foreach ($disciplines as $discipline) {
+                    $arr["grades"] = [];
+                    $rawUnitiesCount = 0;
+                    foreach ($gradeUnitiesByClassroom as $gradeUnity) {
+                        $rawUnitiesCount = $gradeUnity->type == "UR" || $gradeUnity->type == "U" ? $rawUnitiesCount + 1 : $rawUnitiesCount;
+                        array_push($arr["grades"], $gradeUnity->type == "UR"
+                            ? ["unityId" => $gradeUnity->id, "unityGrade" => "", "unityRecoverGrade" => "", "gradeUnityType" => $gradeUnity->type]
+                            : ["unityId" => $gradeUnity->id, "unityGrade" => "", "gradeUnityType" => $gradeUnity->type]);
                     }
-                }
-                if (!$hasRF) {
-                    if ($sums > 0) {
-                        $media = $sums / $sumsCount;
-                        array_push($arr["semesterMedias"], $media);
-                    }
-                    if ($rawUnitiesFilled == $rawUnitiesCount) {
-                        $arr["finalMedia"] = number_format(array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]), 2);
-                    }
-                }
+                    $arr["disciplineName"] = $discipline["name"];
 
-                array_push($result["rows"], $arr);
+                    //Trazer notas das unidades
+                    $criteria->select = "distinct gu.id, gu.*";
+                    $criteria->join = "join grade_unity_modality gum on gum.grade_unity_fk = gu.id";
+                    $criteria->join .= " join grade g on g.grade_unity_modality_fk = gum.id";
+                    $criteria->condition = "g.discipline_fk = :discipline_fk and enrollment_fk = :enrollment_fk";
+                    $criteria->params = array(":discipline_fk" => $discipline["id"], ":enrollment_fk" => $_POST["student"]);
+                    $criteria->order = "gu.id";
+                    $gradeUnitiesByDiscipline = GradeUnity::model()->findAll($criteria);
+                    foreach ($gradeUnitiesByDiscipline as $gradeUnity) {
+                        $key = array_search($gradeUnity->id, array_column($arr["grades"], 'unityId'));
+                        $arr["grades"][$key] = $this->getUnidadeValues($gradeUnity);
+                    }
+
+
+                    //Cálculo da média final
+                    $arr["finalMedia"] = "";
+                    $sums = 0;
+                    $sumsCount = 0;
+                    $arr["semesterMedias"] = [];
+                    $hasRF = false;
+                    $rawUnitiesFilled = 0;
+                    foreach ($arr["grades"] as $grade) {
+                        switch ($grade["gradeUnityType"]) {
+                            case "U":
+                                if ($grade["unityGrade"] != "") {
+                                    $sums += $grade["unityGrade"];
+                                    $rawUnitiesFilled++;
+                                }
+                                $sumsCount++;
+                                break;
+                            case "UR":
+                                if ($grade["unityGrade"] != "" || $grade["unityRecoverGrade"] != "") {
+                                    $sums += $grade["unityRecoverGrade"] > $grade["unityGrade"] ? $grade["unityRecoverGrade"] : $grade["unityGrade"];
+                                    $rawUnitiesFilled++;
+                                }
+                                $sumsCount++;
+                                break;
+                            case "RS":
+                                if ($sums > 0) {
+                                    $semesterMedia = $sums / $sumsCount;
+                                    $semesterRecoverMedia = ($semesterMedia + $grade["unityGrade"]) / 2;
+                                    array_push($arr["semesterMedias"], $semesterMedia > $semesterRecoverMedia ? $semesterMedia : $semesterRecoverMedia);
+                                } else {
+                                    array_push($arr["semesterMedias"], 0);
+                                }
+                                $sums = 0;
+                                $sumsCount = 0;
+                                break;
+                            case "RF":
+                                $hasRF = true;
+                                if ($sums > 0) {
+                                    $media = $sums / $sumsCount;
+                                    array_push($arr["semesterMedias"], $media);
+                                }
+                                if ($rawUnitiesFilled == $rawUnitiesCount) {
+                                    $finalMedia = array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]);
+                                    $finalRecoverMedia = ($finalMedia + $grade["unityGrade"]) / 2;
+                                    $arr["finalMedia"] = number_format($finalMedia > $finalRecoverMedia ? $finalMedia : $finalRecoverMedia, 2);
+                                }
+                                break;
+                        }
+                    }
+                    if (!$hasRF) {
+                        if ($sums > 0) {
+                            $media = $sums / $sumsCount;
+                            array_push($arr["semesterMedias"], $media);
+                        }
+                        if ($rawUnitiesFilled == $rawUnitiesCount) {
+                            $arr["finalMedia"] = number_format(array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]), 2);
+                        }
+                    }
+
+                    array_push($result["rows"], $arr);
+                }
+                $result["valid"] = true;
+            } else {
+                $result["valid"] = false;
             }
         }
         echo json_encode($result);
