@@ -43,6 +43,11 @@ $(document).ready(function () {
                             return d;
                         }
                     },
+                    select: {
+                        items: 'cell'
+                    },
+                    "bLengthChange": false,
+                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
                     searching: true,
                 });
             } else {
