@@ -1,28 +1,27 @@
 <?php
 
 /**
- * This is the model class for table "grade".
+ * This is the model class for table "grade_unity_modality".
  *
- * The followings are the available columns in table 'grade':
+ * The followings are the available columns in table 'grade_unity_modality':
  * @property integer $id
- * @property double $grade
- * @property integer $enrollment_fk
- * @property integer $discipline_fk
- * @property integer $grade_unity_modality_fk
+ * @property string $name
+ * @property string $type
+ * @property integer $weight
+ * @property integer $grade_unity_fk
  *
  * The followings are the available model relations:
- * @property StudentEnrollment $enrollmentFk
- * @property GradeUnityModality $gradeUnityModalityFk
- * @property EdcensoDiscipline $disciplineFk
+ * @property Grade[] $grades
+ * @property GradeUnity $gradeUnityFk
  */
-class Grade extends CActiveRecord
+class GradeUnityModality extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'grade';
+		return 'grade_unity_modality';
 	}
 
 	/**
@@ -33,12 +32,13 @@ class Grade extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('grade, enrollment_fk, discipline_fk, grade_unity_modality_fk', 'required'),
-			array('enrollment_fk, discipline_fk, grade_unity_modality_fk', 'numerical', 'integerOnly'=>true),
-			array('grade', 'numerical'),
+			array('name, type, grade_unity_fk', 'required'),
+			array('weight, grade_unity_fk', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>50),
+			array('type', 'length', 'max'=>2),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, grade, enrollment_fk, discipline_fk, grade_unity_modality_fk', 'safe', 'on'=>'search'),
+			array('id, name, type, weight, grade_unity_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,9 +50,8 @@ class Grade extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'enrollmentFk' => array(self::BELONGS_TO, 'StudentEnrollment', 'enrollment_fk'),
-			'gradeUnityModalityFk' => array(self::BELONGS_TO, 'GradeUnityModality', 'grade_unity_modality_fk'),
-			'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
+			'grades' => array(self::HAS_MANY, 'Grade', 'grade_unity_modality_fk'),
+			'gradeUnityFk' => array(self::BELONGS_TO, 'GradeUnity', 'grade_unity_fk'),
 		);
 	}
 
@@ -63,10 +62,10 @@ class Grade extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'grade' => 'Grade',
-			'enrollment_fk' => 'Enrollment Fk',
-			'discipline_fk' => 'Discipline Fk',
-			'grade_unity_modality_fk' => 'Grade Unity Modality Fk',
+			'name' => 'Name',
+			'type' => 'Type',
+			'weight' => 'Weight',
+			'grade_unity_fk' => 'Grade Unity Fk',
 		);
 	}
 
@@ -89,10 +88,10 @@ class Grade extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('grade',$this->grade);
-		$criteria->compare('enrollment_fk',$this->enrollment_fk);
-		$criteria->compare('discipline_fk',$this->discipline_fk);
-		$criteria->compare('grade_unity_modality_fk',$this->grade_unity_modality_fk);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('type',$this->type,true);
+		$criteria->compare('weight',$this->weight);
+		$criteria->compare('grade_unity_fk',$this->grade_unity_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -103,7 +102,7 @@ class Grade extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Grade the static model class
+	 * @return GradeUnityModality the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

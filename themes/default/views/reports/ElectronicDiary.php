@@ -9,7 +9,7 @@
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/css/reports/electronic-diary.css');
-$cs->registerScriptFile($baseUrl . '/js/reports/ElectronicDiary/index.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/ElectronicDiary/index.js?v=1.0', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - Diário Eletrônico');
 
@@ -22,9 +22,7 @@ $this->setPageTitle('TAG - Diário Eletrônico');
 </div>
 
 <div class="innerLR">
-    <div class="alert-required-fields no-show alert alert-error hidden-print">
-        Preencha os campos obrigatórios corretamente.
-    </div>
+    <div class="alert-report no-show alert alert-error hidden-print"></div>
     <div class="filter-bar margin-bottom-none hidden-print" style="display:flex; width:100%;">
         <input type="hidden" class="school-year" value="<?= $schoolyear ?>">
         <div class="report-filter">
@@ -32,11 +30,12 @@ $this->setPageTitle('TAG - Diário Eletrônico');
             <select class="select-search-on electronic-diary-input" id="report">
                 <option value="">Selecione...</option>
                 <option value="frequency">Frequência</option>
+                <option value="gradesByStudent">Notas por Aluno</option>
             </select>
         </div>
 
         <div class="dependent-filters">
-            <div>
+            <div class="classroom-container">
                 <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required electronic-diary-label')); ?>
                 <select class="select-search-on electronic-diary-input" id="classroom">
                     <option value="">Selecione...</option>
@@ -45,6 +44,15 @@ $this->setPageTitle('TAG - Diário Eletrônico');
                                 fundamentalMaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
                     <?php endforeach; ?>
                 </select>
+            </div>
+            <div class="students-container">
+                <?php echo CHtml::label("Aluno *", 'student', array('class' => 'control-label required electronic-diary-label')); ?>
+                <?php
+                echo CHtml::dropDownList('student', '', array(), array(
+                    'key' => 'id',
+                    'class' => 'select-search-on',
+                ));
+                ?>
             </div>
             <div class="disciplines-container">
                 <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'discipline', array('class' => 'control-label required electronic-diary-label')); ?>
