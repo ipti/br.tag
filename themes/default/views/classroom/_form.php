@@ -71,7 +71,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <div class="widget-body form-horizontal">
 
-            <div class="tab-content">
+        <div class="tab-content form-content">
 
                 <!-- Tab content -->
                 <div class="tab-pane active" id="classroom">
