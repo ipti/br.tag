@@ -23,7 +23,7 @@ class SagresConsultModel
         $this->dbCommand = Yii::app()->db->createCommand();
     }
 
-    public function getEducacaoData($managementUnitId, $referenceYear, $dateStart, $dateEnd): EducacaoTType
+    public function getSagresEdu($managementUnitId, $referenceYear, $dateStart, $dateEnd): EducacaoTType
     {
         $education = new EducacaoTType;
 

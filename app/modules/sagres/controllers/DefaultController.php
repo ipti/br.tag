@@ -65,7 +65,7 @@ class DefaultController extends Controller
 	public function actionExport($managementUnitId, $year, $data_inicio, $data_final)
 	{
 		$sagres = new SagresConsultModel;
-        $sagresEduXML = $sagres->generatesSagresEduXML($sagres->getEducacaoData($managementUnitId, $year, $data_inicio, $data_final));
+        $sagresEduXML = $sagres->generatesSagresEduXML($sagres->getSagresEdu($managementUnitId, $year, $data_inicio, $data_final));
         print_r($sagres->actionExportSagresXML($sagresEduXML));
 	}
 }
