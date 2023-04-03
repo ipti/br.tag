@@ -68,8 +68,8 @@ class SagresConsultModel
             ->setAnoReferencia((int) $referenceYear)
             ->setMesReferencia((int) date("m", strtotime($dateEnd)))
             ->setVersaoXml((int) $managementUnit['xmlVersion'])
-            ->setDiaInicPresContas((int)date("d", strtotime($dateStart)))
-            ->setDiaFinaPresContas((int)date("d", strtotime($dateEnd)));
+            ->setDiaInicPresContas((int) date("d", strtotime($dateStart)))
+            ->setDiaFinaPresContas((int) date("d", strtotime($dateEnd)));
 
         return $headerType;
     }
@@ -94,21 +94,21 @@ class SagresConsultModel
                 ->setDiretor($this->getDirectorSchool($school['inep_id']))
                 ->setCardapio($this->getMenuList($school['inep_id'], $referenceYear, $dateStart, $dateEnd));
 
+            // Verifica se a escola tem turmas no período
             if (!empty($schoolType->getTurma())) {
-                //Tem turma no periodo 
-
+                // Verifica se a escola tem cardápio disponível no período
                 if (!empty($schoolType->getCardapio())) {
-                    //E TEM CARDAPIO
                     $schoolList[] = $schoolType;
                 } else {
-                    //NAO TEM CARDAPIO NO PERIODO
+                    // Busca o cardápio mais rescente para o período
                     $schoolType->setCardapio($this->getSchoolMenu($school['inep_id'], $referenceYear));
-                    if (!empty($schoolType->getCardapio()))
+                    // Verifica se o cardápio foi encontrado
+                    if (!empty($schoolType->getCardapio())) {
                         $schoolList[] = $schoolType;
+                    }
                 }
-            } else {
-                //Não tem turma no perido mas tem cardapio
-
+            } else { //Não tem turma no periodo mas tem cardapio   
+                // Adiciona a escola à lista de escolas
                 if (!empty($schoolType->getCardapio())) {
                     $schoolList[] = $schoolType;
                 }
@@ -185,7 +185,7 @@ class SagresConsultModel
                     classroom c
                 WHERE 
                     c.id = :id;";
-        
+
         $series = Yii::app()->db->createCommand($query)->bindValue(":id", $classId)->queryAll();
 
         foreach ($series as $serie) {
@@ -193,13 +193,12 @@ class SagresConsultModel
             $serieType
                 ->setDescricao($serie['serieDescription'])
                 ->setModalidade($serie['serieModality']);
-            
+
             $seriesList[] = $serieType;
         }
 
         return $seriesList;
     }
-
 
     /**
      * Summary of SerieTType
@@ -209,25 +208,12 @@ class SagresConsultModel
     {
         $scheduleList = [];
 
-        $query ="SELECT 
-                    s.day AS weekDay, 
-                    (c.final_hour - c.initial_hour) AS duration, 
-                    c.initial_hour AS startTime,       
-                    ed.name AS disciplineName,
-                    idaa.cpf AS cpfInstructor
-                FROM 
-                    instructor_documents_and_address idaa 
-                    JOIN school_identification si ON idaa.school_inep_id_fk = si.inep_id
-                    JOIN instructor_teaching_data itd ON si.inep_id = itd.school_inep_id_fk 
-                    JOIN classroom c ON itd.classroom_id_fk = c.id
-                    JOIN schedule s ON s.classroom_fk = c.id 
-                    JOIN edcenso_discipline ed on ed.id = s.discipline_fk 
-                WHERE 
-                    c.id = 5506";
-    
+        $query = "SELECT s.week_day AS weekDay, ed.name AS disciplineName from schedule s 
+        JOIN edcenso_discipline ed ON ed.id = s.discipline_fk 
+        WHERE s.classroom_fk = :classId";
 
         $params = [
-            ':classId' => $classId
+            ':classId' => 442
         ];
 
         $schedules = Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
@@ -280,8 +266,8 @@ class SagresConsultModel
             $attendanceType
                 ->setData(new DateTime($attendance['attendanceDate']))
                 ->setLocal($attendance['attendanceLocation']);
-            
-                $attendanceList[] = $attendanceType;
+
+            $attendanceList[] = $attendanceType;
         }
 
         return $attendanceList;
