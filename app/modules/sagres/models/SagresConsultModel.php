@@ -19,11 +19,12 @@ class SagresConsultModel
         $this->dbCommand = Yii::app()->db->createCommand();
     }
 
-    public function getEducacaoData($referenceYear, $dateStart, $dateEnd): EducacaoTType
+    public function getEducacaoData($managementUnitId, $referenceYear, $dateStart, $dateEnd): EducacaoTType
     {
         $education = new EducacaoTType;
 
-        $education->setPrestacaoContas($this->getManagementUnit(1))
+        $education
+            ->setPrestacaoContas($this->getManagementUnit($managementUnitId, $referenceYear, $dateStart, $dateEnd))
             ->setEscola($this->getSchools($referenceYear, $dateStart, $dateEnd))
             ->setProfissional($this->getProfessionals($referenceYear, $dateStart, $dateEnd));
 
@@ -31,19 +32,23 @@ class SagresConsultModel
     }
 
 
-    public function getManagementUnit($idManagementUnit): CabecalhoTType
+    public function getManagementUnit($idManagementUnit, $referenceYear, $dateStart, $dateEnd): CabecalhoTType
     {
-        $query = "SELECT id AS managementUnitId,
-                        cod_unidade_gestora AS managementUnitCode,
-                        name_unidade_gestora AS managementUnitName,
-                        cpf_responsavel AS responsibleCpf,
-                        cpf_gestor AS managerCpf,
-                        ano_referencia AS referenceYear,
-                        mes_referencia AS referenceMonth,
-                        versao_xml AS xmlVersion,
-                        dia_inicio_prest_contas AS startDate,
-                        dia_final_prest_contas AS endDate
-                FROM provision_accounts WHERE id = :idManagementUnit;";
+        $query = "SELECT 
+                    pa.id AS managementUnitId,
+                    pa.cod_unidade_gestora AS managementUnitCode,
+                    pa.name_unidade_gestora AS managementUnitName,
+                    pa.cpf_responsavel AS responsibleCpf,
+                    pa.cpf_gestor AS managerCpf,
+                    pa.ano_referencia AS referenceYear,
+                    pa.mes_referencia AS referenceMonth,
+                    pa.versao_xml AS xmlVersion,
+                    pa.dia_inicio_prest_contas AS startDate,
+                    pa.dia_final_prest_contas AS endDate
+                FROM 
+                    provision_accounts pa
+                WHERE 
+                    pa.id = :idManagementUnit;";
 
         $managementUnit = Yii::app()->db->createCommand($query)
             ->bindValue(':idManagementUnit', $idManagementUnit)
@@ -51,15 +56,16 @@ class SagresConsultModel
 
         $headerType = new CabecalhoTType;
 
-        $headerType->setCodigoUnidGestora($managementUnit['managementUnitCode'])
+        $headerType
+            ->setCodigoUnidGestora($managementUnit['managementUnitCode'])
             ->setNomeUnidGestora($managementUnit['managementUnitName'])
             ->setCpfResponsavel($managementUnit['responsibleCpf'])
             ->setCpfGestor($managementUnit['managerCpf'])
-            ->setAnoReferencia((int) $managementUnit['referenceYear'])
-            ->setMesReferencia((int) $managementUnit['referenceMonth'])
+            ->setAnoReferencia((int) $referenceYear)
+            ->setMesReferencia((int) date("m", strtotime($dateEnd)))
             ->setVersaoXml((int) $managementUnit['xmlVersion'])
-            ->setDiaInicPresContas(date("d", strtotime($managementUnit['startDate'])))
-            ->setDiaFinaPresContas(date("d", strtotime($managementUnit['endDate'])));
+            ->setDiaInicPresContas((int)date("d", strtotime($dateStart)))
+            ->setDiaFinaPresContas((int)date("d", strtotime($dateEnd)));
 
         return $headerType;
     }
@@ -78,7 +84,8 @@ class SagresConsultModel
 
         foreach ($schools as $school) {
             $schoolType = new EscolaTType;
-            $schoolType->setIdEscola($school['inep_id'])
+            $schoolType
+                ->setIdEscola($school['inep_id'])
                 ->setTurma($this->getClasses($school['inep_id'], $referenceYear, $dateStart, $dateEnd))
                 ->setDiretor($this->getDirectorSchool($school['inep_id']))
                 ->setCardapio($this->getMenuList($school['inep_id'], $referenceYear, $dateStart, $dateEnd));
@@ -116,17 +123,19 @@ class SagresConsultModel
         $classList = [];
 
         $query = "SELECT 
-                c.school_inep_fk, 
-                c.id, 
-                c.name, 
-                c.turn
-            FROM classroom c
-            WHERE c.school_inep_fk = :inepId
-                AND c.school_year = :referenceYear
-                AND Date(c.create_date) BETWEEN :dateStart AND :dateEnd";
+                    c.school_inep_fk AS schoolInepFk,
+                    c.id AS classroomId,
+                    c.name AS classroomName,
+                    c.turn AS classroomTurn
+                FROM 
+                    classroom c
+                WHERE 
+                    c.school_inep_fk = :schoolInepFk
+                    AND c.school_year = :referenceYear
+                    AND Date(c.create_date) BETWEEN :dateStart AND :dateEnd";
 
         $params = [
-            ':inepId' => $inepId,
+            ':schoolInepFk' => $inepId,
             ':referenceYear' => $referenceYear,
             ':dateStart' => $dateStart,
             ':dateEnd' => $dateEnd,
@@ -138,12 +147,13 @@ class SagresConsultModel
 
         foreach ($turmas as $turma) {
             $classType = new TurmaTType;
-            $classId = $turma['id'];
+            $classId = $turma['classroomId'];
 
             if (!empty($this->getEnrollments($classId, $referenceYear, $dateStart, $dateEnd))) {
-                $classType->setPeriodo(0) //0 - Anual
-                    ->setDescricao($turma["name"])
-                    ->setTurno($this->convertTurn($turma['turn']))
+                $classType
+                    ->setPeriodo(0) //0 - Anual
+                    ->setDescricao($turma["classroomName"])
+                    ->setTurno($this->convertTurn($turma['classroomTurn']))
                     ->setSerie($this->getSeries($classId))
                     ->setMatricula($this->getEnrollments($classId, $referenceYear, $dateStart, $dateEnd))
                     ->setHorario($this->getSchedules($classId))
@@ -165,17 +175,21 @@ class SagresConsultModel
         $seriesList = [];
 
         $query = "SELECT 
-                    c.name as descricao, 
-                    c.modality as modalidade 
-                FROM classroom c 
-                where c.id = " . $classId . ";";
-
-        $series = Yii::app()->db->createCommand($query)->queryAll();
+                    c.name AS serieDescription, 
+                    c.modality AS serieModality
+                FROM 
+                    classroom c
+                WHERE 
+                    c.id = :id;";
+        
+        $series = Yii::app()->db->createCommand($query)->bindValue(":id", $classId)->queryAll();
 
         foreach ($series as $serie) {
             $serieType = new SerieTType;
-            $serieType->setDescricao($serie['descricao'])
-                ->setModalidade($serie['modalidade']);
+            $serieType
+                ->setDescricao($serie['serieDescription'])
+                ->setModalidade($serie['serieModality']);
+            
             $seriesList[] = $serieType;
         }
 
@@ -191,29 +205,22 @@ class SagresConsultModel
     {
         $scheduleList = [];
 
-        $query = "SELECT itd.id AS IdDiscipline, (c.final_hour - c.initial_hour) AS duration, 
-                        c.initial_hour AS startTime,
-                        idaa.cpf AS cpfInstructor,
-                        discipline_1_fk, 
-                        discipline_2_fk, 
-                        discipline_3_fk, 
-                        discipline_4_fk,
-                        discipline_5_fk,
-                        discipline_6_fk,
-                        discipline_7_fk,
-                        discipline_8_fk,
-                        discipline_9_fk,
-                        discipline_10_fk,
-                        discipline_11_fk,
-                        discipline_12_fk,
-                        discipline_13_fk,
-                        discipline_14_fk,
-                        discipline_15_fk
-                FROM classroom c 
-                JOIN instructor_teaching_data itd ON itd.classroom_id_fk = c.id
-                JOIN school_identification si ON si.inep_id = itd.school_inep_id_fk 
-                JOIN instructor_documents_and_address idaa ON idaa.school_inep_id_fk = si.inep_id      
-                WHERE c.id = :classId";
+        $query ="SELECT 
+                    s.day AS weekDay, 
+                    (c.final_hour - c.initial_hour) AS duration, 
+                    c.initial_hour AS startTime,       
+                    ed.name AS disciplineName,
+                    idaa.cpf AS cpfInstructor
+                FROM 
+                    instructor_documents_and_address idaa 
+                    JOIN school_identification si ON idaa.school_inep_id_fk = si.inep_id
+                    JOIN instructor_teaching_data itd ON si.inep_id = itd.school_inep_id_fk 
+                    JOIN classroom c ON itd.classroom_id_fk = c.id
+                    JOIN schedule s ON s.classroom_fk = c.id 
+                    JOIN edcenso_discipline ed on ed.id = s.discipline_fk 
+                WHERE 
+                    c.id = 5506";
+    
 
         $params = [
             ':classId' => $classId
@@ -223,23 +230,20 @@ class SagresConsultModel
 
         foreach ($schedules as $schedule) {
             $scheduleType = new HorarioTType;
-
-            $queryDis = "SELECT name FROM edcenso_discipline WHERE id =" . $schedule['discipline_1_fk'] .";"; 
-            $name = Yii::app()->db->createCommand($queryDis)->queryRow();
-
-            $scheduleType->setDisciplina( $name);
-
-            $scheduleType->setDiaSemana(1)
+            $scheduleType
+                ->setDiaSemana($schedule['weekDay'])
                 ->setDuracao($schedule['duration'])
                 ->setHoraInicio($this->getDateTimeFromInitialHour($schedule['startTime']))
-                ->setDisciplina($scheduleType->getDisciplina())
+                ->setDisciplina($schedule['disciplineName'])
                 ->setCpfProfessor([$schedule['cpfInstructor']]);
 
             $scheduleList[] = $scheduleType;
         }
 
+
         return $scheduleList;
     }
+
 
 
 
@@ -257,18 +261,23 @@ class SagresConsultModel
     {
         $attendanceList = [];
 
-        $query = "SELECT 
-                    date, 
-                    local 
-                FROM attendance 
-                WHERE professional_fk = " . $professionalId . ";";
-        $attendances = Yii::app()->db->createCommand($query)->queryAll();
+        $query = "SELECT
+                    date AS attendanceDate,
+                    local AS attendanceLocation
+                FROM 
+                    attendance
+                WHERE 
+                    professional_fk = :professionalId;";
+
+        $attendances = Yii::app()->db->createCommand($query)->bindValue(":professionalId", $professionalId)->queryAll();
 
         foreach ($attendances as $attendance) {
             $attendanceType = new AtendimentoTType;
-            $attendanceType->setData(new DateTime($attendance['date']))
-                ->setLocal($attendance['local']);
-            $attendanceList[] = $attendanceType;
+            $attendanceType
+                ->setData(new DateTime($attendance['attendanceDate']))
+                ->setLocal($attendance['attendanceLocation']);
+            
+                $attendanceList[] = $attendanceType;
         }
 
         return $attendanceList;
@@ -282,20 +291,19 @@ class SagresConsultModel
                     si2.name AS name,
                     si2.deficiency AS deficiency,
                     si2.sex AS gender
-                FROM student_identification si2
-                WHERE si2.id = " . $studentFk . ";";
+                FROM 
+                    student_identification si2
+                WHERE 
+                    si2.id = :studentFk";
 
-        $student = Yii::app()->db->createCommand($query)->queryRow();
+        $student = Yii::app()->db->createCommand($query)->bindValue(':studentFk', $studentFk)->queryRow();
 
         $studentType = new AlunoTType;
-        $studentType->setNome($student['name'])
-            ->setDataNascimento(new DateTime($student['birthdate']));
-
-        if (!empty($student['cpfStudent'])) {
-            $studentType->setCpfAluno($student['cpfStudent']);
-        }
-
-        $studentType->setPcd($student['deficiency'])
+        $studentType
+            ->setNome($student['name'])
+            ->setDataNascimento(new DateTime($student['birthdate']))
+            ->setCpfAluno(!empty($student['cpfStudent']) ? $student['cpfStudent'] : null)
+            ->setPcd($student['deficiency'])
             ->setSexo($student['gender']);
 
         return $studentType;
@@ -336,7 +344,8 @@ class SagresConsultModel
 
         foreach ($menus as $menu) {
             $menuType = new CardapioTType;
-            $menuType->setData(new DateTime($menu['data']))
+            $menuType
+                ->setData(new DateTime($menu['data']))
                 ->setTurno($this->convertTurn($menu['turno']))
                 ->setDescricaoMerenda($menu['descricaoMerenda'])
                 ->setAjustado($menu['ajustado']);
@@ -372,7 +381,8 @@ class SagresConsultModel
 
         foreach ($cardapios as $cardapio) {
             $cardapioType = new CardapioTType;
-            $cardapioType->setData(new DateTime($cardapio['data']))
+            $cardapioType
+                ->setData(new DateTime($cardapio['data']))
                 ->setTurno($this->convertTurn($cardapio['turno']))
                 ->setDescricaoMerenda($cardapio['descricaoMerenda'])
                 ->setAjustado($cardapio['ajustado']);
@@ -389,15 +399,18 @@ class SagresConsultModel
         $query = "SELECT 
                     manager_cpf AS cpfDiretor, 
                     number_ato AS nrAto 
-                FROM school_identification 
-                WHERE inep_id = :idSchool;";
+                FROM 
+                    school_identification 
+                WHERE 
+                    inep_id = :idSchool;";
 
         $director = Yii::app()->db->createCommand($query)
             ->bindValue(':idSchool', $idSchool)
             ->queryRow();
 
         $directorType = new DiretorTType;
-        $directorType->setCpfDiretor($director['cpfDiretor'])
+        $directorType
+            ->setCpfDiretor($director['cpfDiretor'])
             ->setNrAto($director['nrAto']);
 
         return $directorType;
@@ -433,7 +446,8 @@ class SagresConsultModel
 
         foreach ($professionals as $professional) {
             $professionalType = new ProfissionalTType;
-            $professionalType->setCpfProfissional($professional['cpfProfissional'])
+            $professionalType
+                ->setCpfProfissional($professional['cpfProfissional'])
                 ->setEspecialidade($professional['especialidade'])
                 ->setIdEscola($professional['idEscola'])
                 ->setFundeb($professional['fundeb'])
@@ -467,14 +481,14 @@ class SagresConsultModel
             ':referenceYear' => $referenceYear,
             ':dateStart' => $dateStart,
             ':dateEnd' => $dateEnd
-        ])
-        ->queryAll();
+        ])->queryAll();
 
         $enrollments = $command->queryAll();
 
         foreach ($enrollments as $enrollment) {
             $enrollmentType = new MatriculaTType;
-            $enrollmentType->setNumero($enrollment['numero'])
+            $enrollmentType
+                ->setNumero($enrollment['numero'])
                 ->setDataMatricula(new DateTime($enrollment['data_matricula']))
                 ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
                 ->setNumeroFaltas((int) $this->returnNumberFaults($enrollment['student_fk'], $referenceYear))
