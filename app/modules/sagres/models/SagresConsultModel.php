@@ -2,13 +2,17 @@
 
 namespace SagresEdu;
 
-use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
-use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
-use JMS\Serializer\Handler\HandlerRegistryInterface;
-use Symfony\Component\Validator\Validation;
-use JMS\Serializer\SerializerBuilder;
-use Yii as yii;
 use Datetime;
+
+use JMS\Serializer\Handler\HandlerRegistryInterface;
+use JMS\Serializer\SerializerBuilder;
+
+use Symfony\Component\Validator\Validation;
+
+use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
+use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
+
+use Yii;
 
 class SagresConsultModel
 {
