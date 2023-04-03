@@ -67,6 +67,7 @@
                                 <th>Nome da Mãe</th>
                                 <th>Data de Nascimento</th>
                                 <th>ID INEP</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                     </table>

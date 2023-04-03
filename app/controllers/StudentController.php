@@ -97,7 +97,8 @@ class StudentController extends Controller
             0 => 'name',
             1 => 'filiation_1',
             2 => 'birthday',
-            3 => 'inep_id'
+            3 => 'inep_id',
+            4 => 'actions'
         );
 
         $students = StudentIdentification::model()->findAll();
@@ -155,6 +156,12 @@ class StudentController extends Controller
             $nestedData[] = $student->filiation_1;
             $nestedData[] = $student->birthday;
             $nestedData[] = $student->inep_id;
+            $nestedData[] = "<a style='cursor: pointer;' title='Editar'  href='/?r=student/update&id=".$student->id."'>
+                            <img src='" . Yii::app()->theme->baseUrl . '/img/editar.svg' . "' alt='Editar'></img>
+                            </a>&nbsp;"
+                            ."<a style='cursor: pointer;' title='Excluir' href='/?r=student/delete&id=".$student->id."'>
+                            <img src='" . Yii::app()->theme->baseUrl . '/img/deletar.svg' . "' alt='Excluir'></img>
+                            </a>";
             $data[] = $nestedData;
         }
 
