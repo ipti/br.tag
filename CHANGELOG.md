@@ -1,4 +1,7 @@
 # Atualizações
+## [Versão 3.12.26]
+- Adicionada uma coluna na listagem de alunos
+- Adicionada coluna de matrícula na listagem de alunos em turmas 
 ## [Versão 3.10.26]
 - Alterada a validação nos campos de nome para permitir acentuação
 ## [Versão 3.10.25]
