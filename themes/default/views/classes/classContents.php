@@ -154,34 +154,32 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     </div>
 </div>
 
-        <div class="modal fade" id="js-classroomdiary" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"
-                        id="myModalLabel">Diário de Aula</h4>
+    <div class="t-modal-container modal fade" id="js-classroomdiary" tabindex="-1" role="dialog">
+        <div class="t-modal-content" role="document">           
+                <div class="t-modal__header">
+                    <h2 id="myModalLabel">Diário de Aula</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/fechar.svg" alt="fechar" class="teste">
+                    </button>
                 </div>
                 <form method="post">
                     <input type="hidden" class="classroom-diary-day">
-                    <div class="modal-body">
+                    <div class="t-modal__body">
                         <label>Diário de Aula Geral</label>
                         <textarea class="js-classroom-diary"></textarea>
                         <label>Diário de Aula por Aluno</label>
                         <div class="alert alert-error classroom-diary-no-students no-show">Não há alunos matriculados na turma.</div>
                         <div class="accordion accordion-students" id="accordion-students"></div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default"
+                    <div class="t-modal__footer">
+                        <a type="button" class="t-button-secondary"
                                 data-dismiss="modal">Cancelar
-                        </button>
-                        <button type="button" class="btn btn-primary js-add-classroom-diary"
+                        </a>
+                        <a type="button" class="t-button-primary js-add-classroom-diary"
                                 data-dismiss="modal">Salvar
-                        </button>
+                        </a>
                     </div>
                 </form>
-            </div>
         </div>
     </div>
     <?php $this->endWidget(); ?>
