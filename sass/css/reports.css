@@ -17,4 +17,10 @@
 /* Line Height */
 /*Font Weight*/
 /* Font Family */
-.reports { display: flex; flex-wrap: wrap; }
+/* line 3, ../../../../wamp64/www/br.tag/sass/scss/reports.scss */
+.reports {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/*# sourceMappingURL=reports.css.map */
