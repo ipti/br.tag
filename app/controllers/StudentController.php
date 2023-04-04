@@ -380,12 +380,22 @@ class StudentController extends Controller
         $enrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
         $delete = true;
         foreach ($enrollment as $e) {
-            $delete = $delete && $e->delete();
+            if (isset($e->id) && $e->id > 0) {
+                $delete = $delete && $e->delete();
+            }
         }
 
-        if ($delete
-            && $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS)->delete()
-            && $this->loadModel($id, $this->STUDENT_IDENTIFICATION)->delete()) {
+        $documentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
+        if (isset($documentsAndAddress->id) && $documentsAndAddress->id > 0) {
+            $documentsAndAddress->delete();
+        }
+
+        $identification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
+        if (isset($identification->id) && $identification->id > 0) {
+            $identification->delete();
+        }
+
+        if ($delete) {
             Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno excluído com sucesso!'));
             $this->redirect(array('index'));
         } else {
@@ -393,8 +403,8 @@ class StudentController extends Controller
         }
     }
 
-
-    /**
+    
+        /**
      * Lists all models.
      */
     public function actionIndex($sid = null, $mer_id = null)

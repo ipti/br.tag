@@ -1,5 +1,14 @@
 # Atualizações
 
+## [Versão 3.10.23]
+- Agora as ações de deletar professores e estudantes funcionam corretamente
+
+## [Versão 3.10.22]
+- Agora os relatórios de turmas funcionam corretamente
+
+## [Versão 3.10.21]
+- Os campos de matriz curricular foram padronizados
+
 ## [Versão 3.10.20]
 - Campo de observação adicionado no formulário de matrícula do aluno
 

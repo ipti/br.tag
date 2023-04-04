@@ -36,7 +36,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                 </div>
                 <br />
             <?php endif ?>
-            <div class="span10">
+            <div class="span12">
                 <div class="row-fluid">
                     <!--<div class="span3">
                         <a href="<?php echo Yii::app()->createUrl('admin/ACL') ?>" class="widget-stats">
@@ -58,6 +58,13 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                         <a href="<?php echo Yii::app()->createUrl('admin/createUser') ?>" class="widget-stats">
                             <span class="glyphicons user"><i></i></span>
                             <span class="txt">Cadastrar usuário</span>
+                            <div class="clearfix"></div>
+                        </a>
+                    </div>
+                    <div class="span2">
+                        <a href="<?php echo Yii::app()->createUrl('admin/gradesStructure') ?>" class="widget-stats">
+                            <span class="glyphicons list"><i></i></span>
+                            <span class="txt">Estrutura de Unidades e Avaliações</span>
                             <div class="clearfix"></div>
                         </a>
                     </div>
@@ -87,6 +94,10 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                             <span class="txt">Ativar/Desativar usuário</span>
                         </a>
                     </div>
+                </div>
+            </div>
+            <div class="span12" style="margin: 10px 0 0 0;">
+                <div class="row-fluid">
                     <div class="span2">
                         <a href="<?php echo Yii::app()->createUrl('admin/changelog') ?>" class="widget-stats">
                             <span class="glyphicons settings"><i></i></span>

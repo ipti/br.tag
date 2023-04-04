@@ -96,7 +96,7 @@ $form = $this->beginWidget('CActiveForm', array(
             </ul>
         </div>
         <div>
-            <div class="tab-content" style="display:none">
+            <div class="tab-content form-content" style="display:none">
                 <!-- Tab content Botão de próximo -->
                 <!-- Tab Student Identify -->
                 <div class="tab-pane active" id="student-identify">
@@ -372,7 +372,6 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelStudentIdentification, 'send_year', array('value' => date('Y') + 1, 'uncheckValue' => (date('Y')), 'class' => 't-field-checkbox__input')); ?>
-                                <?php echo $form->labelEx($modelStudentIdentification, 'send_year', array('class' => 'control-label t-field-checkbox__label--required')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'send_year'); ?>
                                 <?php echo $form->labelEx($modelStudentIdentification, 'send_year', array('class' => 'control-label t-field-checkbox__label--required')); ?>
                               

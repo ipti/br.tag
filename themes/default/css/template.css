@@ -1639,10 +1639,6 @@ li.highlight.profile
     margin: 0 !important;
 }
 
-.filter-bar .no-disciplines-guide {
-    display: inline-block;
-}
-
 .filter-bar div {
     padding: 5px 0;
     line-height: 30px;

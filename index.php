@@ -19,7 +19,6 @@ $profissional_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/Profis
 $cardapio_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/CardapioTType.php';
 $diretor_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/DiretorTType.php';
 $cabecalho_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/CabecalhoTType.php';
-// $prestacao_contas_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/PrestacaoContasTType.php';
 
 
 require_once($sagres);
@@ -32,7 +31,6 @@ require_once($educacao_t);
 require_once($escola_t);
 require_once($horario_t);
 require_once($matricula_t);
-// require_once($prestacao_contas_t);
 require_once($profissional_t);
 require_once($serie_t);
 require_once($turma_t);

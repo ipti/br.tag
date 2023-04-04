@@ -32,7 +32,7 @@ class EnrollmentController extends Controller
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'view', 'create', 'update', "updatedependencies",
-                    'delete', 'getmodalities', 'grades', 'getGrades', 'saveGrades'),
+                    'delete', 'getmodalities', 'grades', 'getGrades', 'saveGrades', 'getDisciplines', 'calculateFinalMedia'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -252,478 +252,271 @@ class EnrollmentController extends Controller
         $this->render('grades', ['classrooms' => $classroom]);
     }
 
-    /**
-     *
-     * Sort enrollments by sutudent name
-     *
-     * @param StudentEnrollment[] $enrollments
-     * @return StudentEnrollment[]
-     */
-    private function sortEnrollments($enrollments)
+    public function actionGetDisciplines()
     {
-        $array = $enrollments;
-
-        for ($i = 0; $i < count($array); $i++) {
-            $menor = $i;
-            for ($j = $i + 1; $j < count($array); $j++) {
-                if ($array[$j]->studentFk->name < $array[$menor]->studentFk->name) {
-                    $menor = $j;
+        $classroom = Classroom::model()->findByPk($_POST["classroom"]);
+        $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
+        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            $disciplines = Yii::app()->db->createCommand(
+                "select ed.id from teaching_matrixes tm 
+                join instructor_teaching_data itd on itd.id = tm.teaching_data_fk 
+                join instructor_identification ii on ii.id = itd.instructor_fk
+                join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
+                join edcenso_discipline ed on ed.id = cm.discipline_fk
+                where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name")
+                ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $classroom->id)->queryAll();
+            foreach ($disciplines as $discipline) {
+                echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true));
+            }
+        } else {
+            echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione...'), true);
+            $classr = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name")->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
+            foreach ($classr as $i => $discipline) {
+                if (isset($discipline['discipline_fk'])) {
+                    echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['discipline_fk']), CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true));
                 }
             }
-            if ($menor != $i) {
-                $aux = $array[$i];
-                $array[$i] = $array[$menor];
-                $array[$menor] = $aux;
-            }
         }
-
-        return $array;
     }
 
-    /**
-     *
-     * Save grades
-     *
-     */
     public function actionSaveGrades()
     {
-
-        $portuguese = 6;
-        $history = 12;
-        $art = 10;
-
-        $math = 3;
-        $science = 5;
-        $religion = 26;
-
-        $writing = 10001;
-        $geography = 13;
-        $physical_education = 11;
-
-        $saved = true;
-
-        if (isset($_POST['exams'])) {
-            $exams = $_POST['exams'];
-
-            foreach ($exams as $enrollment_id => $field) {
-
-                $school_days = $field[0];
-                $workload = $field[1];
-                $absences = $field[2];
-
-                foreach ($absences as $exam_order => $number_of_absences) {
-                    $frequency_by_exam = FrequencyByExam::model()->findByAttributes([
-                        "enrollment_fk" => intval($enrollment_id),
-                        "exam" => intval($exam_order)
-                    ]);
-
-                    if (!isset($frequency_by_exam)) {
-                        $frequency_by_exam = new FrequencyByExam();
-                        $frequency_by_exam->enrollment_fk = intval($enrollment_id);
-                        $frequency_by_exam->exam = intval($exam_order);
-                        $frequency_by_exam->absences = (!isset($number_of_absences) || (isset($number_of_absences) && $number_of_absences == "")) ? null : intval($number_of_absences);
-                        $saved = $saved && $frequency_by_exam->save();
-                    } else {
-                        $frequency_by_exam->absences = (!isset($number_of_absences) || (isset($number_of_absences) && $number_of_absences == "")) ? null : intval($number_of_absences);;
-                        $saved = $saved && $frequency_by_exam->update();
+        $hasFinalMediaCalculated = false;
+        foreach ($_POST["students"] as $student) {
+            foreach ($student["grades"] as $grade) {
+                if ($grade["value"] != "") {
+                    $gradeObject = Grade::model()->find("enrollment_fk = :enrollment and grade_unity_modality_fk = :modality", [":enrollment" => $student["enrollmentId"], ":modality" => $grade["modalityId"]]);
+                    if ($gradeObject == null) {
+                        $gradeObject = new Grade();
+                        $gradeObject->enrollment_fk = $student["enrollmentId"];
+                        $gradeObject->discipline_fk = $_POST["discipline"];
+                        $gradeObject->grade_unity_modality_fk = $grade["modalityId"];
                     }
-                }
-
-            }
-
-            foreach ($workload as $exam_order => $hours) {
-                $work_by_exam = WorkByExam::model()->findByAttributes([
-                    "classroom_fk" => $_POST['classroom'],
-                    "exam" => intval($exam_order)
-                ]);
-
-                if (!isset($work_by_exam)) {
-                    $work_by_exam = new WorkByExam();
-                    $work_by_exam->classroom_fk = $_POST['classroom'];
-                    $work_by_exam->exam = intval($exam_order);
-                    $work_by_exam->school_days = (!isset($school_days[$exam_order]) || (isset($school_days[$exam_order]) && $school_days[$exam_order] == "")) ? null : intval($school_days[$exam_order]);
-                    $work_by_exam->workload = (!isset($hours) || (isset($hours) && $hours == "")) ? null : intval($hours);
-                    $saved = $saved && $work_by_exam->save();
+                    $gradeObject->grade = $grade["value"];
+                    $gradeObject->save();
                 } else {
-                    $work_by_exam->school_days = (!isset($hours) || (isset($hours) && $hours == "")) ? null : intval($hours);
-                    $work_by_exam->workload = (!isset($hours) || (isset($hours) && $hours == "")) ? null : intval($hours);
-                    $saved = $saved && $work_by_exam->update();
+                    Grade::model()->deleteAll("enrollment_fk = :enrollment and grade_unity_modality_fk = :modality", [":enrollment" => $student["enrollmentId"], ":modality" => $grade["modalityId"]]);
                 }
             }
-        }
-
-        if (isset($_POST['avgfq'])) {
-            $avgfq = $_POST['avgfq'];
-
-            $random_eid = 0;
-
-            foreach ($avgfq as $enrollment_id => $disciplines) {
-
-                $random_eid = $enrollment_id;
-
-                foreach ($disciplines as $id => $values) {
-
-                    $frequency_and_mean = FrequencyAndMeanByDiscipline::model()->findByAttributes([
-                        "enrollment_fk" => $enrollment_id,
-                        "discipline_fk" => $id
-                    ]);
-
-                    if (!isset($frequency_and_mean)) {
-                        @$frequency_and_mean = new FrequencyAndMeanByDiscipline();
-                        @$frequency_and_mean->enrollment_fk = $enrollment_id;
-                        @$frequency_and_mean->discipline_fk = $id;
-                        @$frequency_and_mean->annual_average = $values[0];
-                        @$frequency_and_mean->final_average = $values[1];
-                        @$frequency_and_mean->absences = $values[3];
-                        @$frequency_and_mean->frequency = $values[4];
-                        $saved = $saved && $frequency_and_mean->save();
-                    } else {
-                        @$frequency_and_mean->annual_average = $values[0];
-                        @$frequency_and_mean->final_average = $values[1];
-                        @$frequency_and_mean->absences = $values[3];
-                        @$frequency_and_mean->frequency = $values[4];
-                        $saved = $saved && $frequency_and_mean->update();
-                    }
-
-                    if ($id === $portuguese || $id === $history || $id === $art) {
-                        $discipline_alt = ($id === $portuguese ? $writing : ($id === $history ? $geography : ($id === $art ? $physical_education : "")));
-
-
-                        $avgfq_exist = Grade::model()->findByAttributes([
-                                "enrollment_fk" => $enrollment_id,
-                                "discipline_fk" => $discipline_alt]
-                        );
-                        if (!isset($avgfq_exist)) {
-                            $frequency_and_mean_alt = new FrequencyAndMeanByDiscipline();
-                            $frequency_and_mean_alt->attributes = $frequency_and_mean->attributes;
-                            $frequency_and_mean_alt->discipline_fk = $discipline_alt;
-                            $saved = $saved && $frequency_and_mean_alt->save();
-                        } else {
-                            $avgfq_exist->attributes = $frequency_and_mean->attributes;
-                            $avgfq_exist->discipline_fk = $discipline_alt;
-                            $saved = $saved && $avgfq_exist->update();
-                        }
-
-                    }
-                }
-
-
-            }
-
-
-            foreach (reset($avgfq) as $id => $values) {
-                $work_by_discipline = WorkByDiscipline::model()->findByAttributes([
-                    "classroom_fk" => $_POST['classroom'],
-                    "discipline_fk" => intval($id)
-                ]);
-
-                if (!isset($work_by_discipline)) {
-                    $work_by_discipline = new WorkByDiscipline();
-                    $work_by_discipline->classroom_fk = $_POST['classroom'];
-                    $work_by_discipline->discipline_fk = $id;
-                    $work_by_discipline->school_days = $values[2];
-                    $saved = $saved && $work_by_discipline->save();
-                } else {
-                    $work_by_discipline->school_days = $values[2];
-                    $saved = $saved && $work_by_discipline->update();
-                }
-
-                if ($id === $portuguese || $id === $history || $id === $art) {
-                    $discipline_alt = ($id === $portuguese ? $writing : ($id === $history ? $geography : ($id === $art ? $physical_education : "")));
-
-                    $work_by_discipline_exist = WorkByDiscipline::model()->findByAttributes([
-                            "classroom_fk" => $_POST['classroom'],
-                            "discipline_fk" => $discipline_alt]
-                    );
-                    if (!isset($work_by_discipline_exist)) {
-                        $work_by_discipline_alt = new WorkByDiscipline();
-                        $work_by_discipline_alt->attributes = $work_by_discipline->attributes;
-                        $work_by_discipline_alt->discipline_fk = $discipline_alt;
-                        $saved = $saved && $work_by_discipline_alt->save();
-                    } else {
-                        $work_by_discipline_exist->attributes = $frequency_and_mean->attributes;
-                        $work_by_discipline_exist->discipline_fk = $discipline_alt;
-                        $saved = $saved && $work_by_discipline_exist->update();
-                    }
-                }
-            }
-
-        }
-
-        if (isset($_POST['grade'])) {
-
-            $grades = $_POST['grade'];
-            $classroom = Classroom::model()->findByPk($_POST['classroom']);
-            $enrollments = $classroom->studentEnrollments;
-            $stage_id = $classroom->edcenso_stage_vs_modality_fk;
-            $edc_stage = EdcensoStageVsModality::model()->findByPk($stage_id);
-            $stage = $this->getStageIfMulti($edc_stage->id, $enrollments);
-
-            foreach ($grades as $eid => $disciplines) {
-                foreach ($disciplines as $id => $values) {
-                    $grade = Grade::model()->findByAttributes([
-                        "enrollment_fk" => $eid,
-                        "discipline_fk" => $id
-                    ]);
-                    foreach ($values as $i => $value) {
-                        if ($value !== "") {
-                            if ($value[strlen($value) - 1] == "." || $value[strlen($value) - 1] == ",") {
-                                $values[$i] .= 0;
-                            }
-                        }
-                    }
-
-                    $grade->grade1 = (!isset($values[0]) || (isset($values[0]) && $values[0] == "")) ? null : $values[0];
-                    $grade->grade2 = (!isset($values[1]) || (isset($values[1]) && $values[1] == "")) ? null : $values[1];
-                    $grade->grade3 = (!isset($values[2]) || (isset($values[2]) && $values[2] == "")) ? null : $values[2];
-                    $grade->grade4 = (!isset($values[3]) || (isset($values[3]) && $values[3] == "")) ? null : $values[3];
-                    $grade->recovery_grade1 = (!isset($values[4]) || (isset($values[4]) && $values[4] == "")) ? null : $values[4];
-                    $grade->recovery_grade2 = (!isset($values[5]) || (isset($values[5]) && $values[5] == "")) ? null : $values[5];
-                    $grade->recovery_grade3 = (!isset($values[6]) || (isset($values[6]) && $values[6] == "")) ? null : $values[6];
-                    $grade->recovery_grade4 = (!isset($values[7]) || (isset($values[7]) && $values[7] == "")) ? null : $values[7];
-                    $grade->recovery_final_grade = (!isset($values[8]) || (isset($values[8]) && $values[8] == "")) ? null : $values[8];
-                    $saved = $saved && $grade->save();
-                    if ($id === $portuguese || $id === $history || $id === $art) {
-                        $discipline2 = ($id === $portuguese ? $writing : ($id === $history ? $geography : ($id === $art ? $physical_education : "")));
-                        /*@WTF - Esse código nunca ia funcionar - Na hora do salvamento o código já é o da disciplina master pq buscar denovo???*/
-                        $grade_exist = Grade::model()->findByAttributes([
-                                "enrollment_fk" => $eid,
-                                "discipline_fk" => $discipline2]
-                        );
-                        if (!isset($grade_exist)) {
-                            $grade2 = new Grade();
-                            $grade2->attributes = $grade->attributes;
-                            $grade2->discipline_fk = $discipline2;
-                            $grade2->save();
-                        } else {
-                            $grade_exist->attributes = $grade->attributes;
-                            $grade_exist->discipline_fk = $discipline2;
-                            $grade_exist->update();
-                        }
-
-                    }
-                }
+            $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $student["enrollmentId"], "discipline_fk" => $_POST["discipline"]]);
+            if ($gradeResult != null) {
+                $hasFinalMediaCalculated = true;
             }
         }
-        if ($saved) {
-            Log::model()->saveAction("grade", $classroom->id, "U", $classroom->name);
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Grades saved successfully!'));
-        } else {
-            Yii::app()->user->setFlash('error', Yii::t('default', 'We have got an error saving grades!'));
+        if ($hasFinalMediaCalculated) {
+            $this->calculateFinalMedia();
         }
-        $this->redirect(array('grades'));
+        echo json_encode(["valid" => true]);
     }
 
-    /**
-     *
-     * Se for multiEtapa, pega a etapa do aluno.
-     *
-     * @param integer $stage
-     * @param StudentEnrollment[] $enrollments
-     * @return integer
-     */
-    private function getStageIfMulti($stage, $enrollments)
-    {
-        if ($stage == 22 || $stage == 23) {
-            $count = [];
-            foreach ($enrollments as $enrollment) {
-                if (isset($enrollment->edcenso_stage_vs_modality_fk)) {
-                    $id = $enrollment->edcenso_stage_vs_modality_fk;
-                    if (!isset($count[$id]))
-                        $count[$id] = 0;
-                    $count[$id]++;
-                }
-            }
-            $max = -1;
-            foreach ($count as $id => $c) {
-                if ($max == -1)
-                    $max = $id;
-                else if ($count[$max] < $count[$id])
-                    $max = $id;
-            }
-            $enrollment_stage = EdcensoStageVsModality::model()->findByPk($max);
-            $stage = $enrollment_stage->id;
-        }
-        return $stage;
-    }
-
-    /**
-     *
-     * Get grades by classroom
-     *
-     */
     public function actionGetGrades()
     {
-        if (isset($_POST['classroom']) && !empty($_POST['classroom'])) {
-            $return["isInstructor"] = Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id);
-            $cid = $_POST['classroom'];
+        $criteria = new CDbCriteria;
+        $criteria->alias = "se";
+        $criteria->join = "join student_identification si on si.id = se.student_fk";
+        $criteria->condition = "classroom_fk = :classroom_fk";
+        $criteria->params = array(':classroom_fk' => $_POST["classroom"]);
+        $criteria->order = "si.name";
+        $studentEnrollments = StudentEnrollment::model()->findAll($criteria);
 
-            $classroom = Classroom::model()->findByPk($cid);
-            $stage_id = $classroom->edcenso_stage_vs_modality_fk;
-            $edc_stage = EdcensoStageVsModality::model()->findByPk($stage_id);
-            $stage = $edc_stage->id;
+        if ($studentEnrollments != null) {
+            $criteria = new CDbCriteria;
+            $criteria->alias = "gum";
+            $criteria->join = "join grade_unity gu on gu.id = gum.grade_unity_fk";
+            $criteria->condition = "edcenso_stage_vs_modality_fk = :stage";
+            $criteria->params = array(':stage' => $studentEnrollments[0]->classroomFk->edcenso_stage_vs_modality_fk);
+            $gradeModalities = GradeUnityModality::model()->findAll($criteria);
 
-            $enrollments = $classroom->studentEnrollments;
-
-            $enrollments = $this->sortEnrollments($enrollments);
-
-            $stage = $this->getStageIfMulti($stage, $enrollments);
-
-            $return["students"] = [];
-            error_reporting(0);
-            if ($return["isInstructor"]) {
-                $disciplines = Yii::app()->db->createCommand(
-                    "select ed.id as 'discipline_id', ed.`name` as 'discipline_name', ii.users_fk as 'userId'
-                    from teaching_matrixes tm
-                    join instructor_teaching_data it on tm.teaching_data_fk = it.id
-                    join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
-                    join edcenso_discipline ed on ed.id = cm.discipline_fk
-                    join instructor_identification ii on ii.id = it.instructor_fk
-                    where it.classroom_id_fk = :cid")->bindParam(":cid", $cid)->queryAll();
-            } else {
-                $disciplines = Yii::app()->db->createCommand(
-                    "select ed.id as 'discipline_id', ed.name as 'discipline_name' from curricular_matrix cm join edcenso_discipline ed on ed.id = cm.discipline_fk where stage_fk = :stage_fk and school_year = :year")->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
-            }
-
-            error_reporting(0);
-
-            foreach ($enrollments as $enrollment) {
-                $studentName = $enrollment->studentFk->name;
-
-                $studentEnrId = $enrollment->id;
-
-                $return["students"][$studentName] = [];
-                $return["students"][$studentName]['enrollment_id'] = $studentEnrId;
-                $return["students"][$studentName]['disciplines'] = [];
-                $return["students"][$studentName]['frequencies'] = [];
-                $return["students"][$studentName]['school_days'] = [];
-                $return["students"][$studentName]['workload'] = [];
-
-
-                for ($i = 0; $i < 4; $i++) {
-                    $avgbyexam = FrequencyByExam::model()->findByAttributes([
-                        'exam' => $i,
-                        'enrollment_fk' => $studentEnrId
-                    ]);
-                    $absences = $avgbyexam->absences == null ? "" : $avgbyexam->absences;
-
-                    $return["students"][$studentName]['frequencies'][$i] = $absences;
-
-
-                    $sdbyexam = WorkByExam::model()->findByAttributes([
-                        'exam' => $i,
-                        'classroom_fk' => $_POST['classroom']
-                    ]);
-
-
-                    $sdays = $sdbyexam->school_days == null ? "" : $sdbyexam->school_days;
-                    $wload = $sdbyexam->workload == null ? "" : $sdbyexam->workload;
-
-                    $return["students"][$studentName]['school_days'][$i] = $sdays;
-                    $return["students"][$studentName]['workload'][$i] = $wload;
-
+            if ($gradeModalities != null) {
+                $unityName = $gradeModalities[0]->gradeUnityFk->name;
+                $unityColspan = 0;
+                $result["unityColumns"] = [];
+                $result["modalityColumns"] = [];
+                foreach ($gradeModalities as $index => $gradeModality) {
+                    array_push($result["modalityColumns"], $gradeModality->name);
+                    if ($unityName == $gradeModality->gradeUnityFk->name) {
+                        $unityColspan++;
+                    } else {
+                        array_push($result["unityColumns"], ["name" => $unityName, "colspan" => $unityColspan]);
+                        $unityName = $gradeModality->gradeUnityFk->name;
+                        $unityColspan = 1;
+                    }
+                    if ($index == count($gradeModalities) - 1) {
+                        array_push($result["unityColumns"], ["name" => $unityName, "colspan" => $unityColspan]);
+                    }
                 }
 
-
-                foreach ($disciplines as $discipline) {
-                    $d = $disciplineId = $discipline['discipline_id'];
-
-                    $portuguese = 6;
-                    $history = 12;
-                    $art = 10;
-
-                    $math = 3;
-                    $science = 5;
-                    $religion = 26;
-
-                    $writing = 10001;
-                    $geography = 13;
-                    $physical_education = 11;
-
-                    $disciplineName = "";
-
-                    if ($stage >= 14 && $stage <= 16) {
-                        if ($d != $writing || $d != $geography || $d != $physical_education) {
-                            if ($d == $portuguese) {
-                                $disciplineName = $discipline['discipline_name'] . " e Redação";
-                            } else if ($d == $history) {
-                                $disciplineName = $discipline['discipline_name'] . " e Geografia";
-                            } else if ($d == $art) {
-                                $disciplineName = $discipline['discipline_name'] . " e Educação Física";
-                            } else {
-                                $disciplineName = $discipline['discipline_name'];
+                $result["students"] = [];
+                foreach ($studentEnrollments as $studentEnrollment) {
+                    $arr["enrollmentId"] = $studentEnrollment->id;
+                    $arr["studentName"] = $studentEnrollment->studentFk->name;
+                    $arr["grades"] = [];
+                    foreach ($gradeModalities as $gradeModality) {
+                        $gradeValue = "";
+                        $modalityId = $gradeModality->id;
+                        foreach ($gradeModality->grades as $grade) {
+                            if ($grade->enrollment_fk == $studentEnrollment->id && $grade->discipline_fk == $_POST["discipline"]) {
+                                $gradeValue = $grade->grade;
+                                break;
                             }
                         }
-                    } else {
-                        $disciplineName = $discipline['discipline_name'];
+                        array_push($arr["grades"], ["value" => $gradeValue, "modalityId" => $modalityId]);
                     }
-
-
-                    if (!($stage >= 14 && $stage <= 16) || (($stage >= 14 && $stage <= 16) && ($d != $writing && $d != $geography && $d != $physical_education))) {
-
-                        $grades = Grade::model()->findByAttributes([
-                            'discipline_fk' => $disciplineId,
-                            'enrollment_fk' => $studentEnrId,
-                        ]);
-
-                        $frme = FrequencyAndMeanByDiscipline::model()->findByAttributes([
-                            'enrollment_fk' => $studentEnrId,
-                            'discipline_fk' => $disciplineId
-                        ]);
-
-                        $wbd = WorkByDiscipline::model()->findByAttributes([
-                            'classroom_fk' => $_POST['classroom'],
-                            'discipline_fk' => $disciplineId
-                        ]);
-
-                        if ($grades == null) {
-                            $grades = new Grade();
-                            $grades->discipline_fk = $disciplineId;
-                            $grades->enrollment_fk = $studentEnrId;
-                            $grades->save();
-                        }
-
-                        $n1 = $grades->grade1 == null ? "" : $grades->grade1;
-                        $n2 = $grades->grade2 == null ? "" : $grades->grade2;
-                        $n3 = $grades->grade3 == null ? "" : $grades->grade3;
-                        $n4 = $grades->grade4 == null ? "" : $grades->grade4;
-                        $r1 = $grades->recovery_grade1 == null ? "" : $grades->recovery_grade1;
-                        $r2 = $grades->recovery_grade2 == null ? "" : $grades->recovery_grade2;
-                        $r3 = $grades->recovery_grade3 == null ? "" : $grades->recovery_grade3;
-                        $r4 = $grades->recovery_grade4 == null ? "" : $grades->recovery_grade4;
-                        $rf = $grades->recovery_final_grade == null ? "" : $grades->recovery_final_grade;
-
-                        $annual_average = $frme->annual_average == null ? "" : $frme->annual_average;
-                        $final_average = $frme->final_average == null ? "" : $frme->final_average;
-                        $absences = $frme->absences == null ? "" : $frme->absences;
-                        $frequency = $frme->frequency == null ? "" : $frme->frequency;
-
-                        $school_days = $wbd->school_days == null ? "" : $wbd->school_days;
-
-                        $return["students"][$studentName]['disciplines'][$disciplineId] = [];
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['name'] = $disciplineName;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['isInstructorsDiscipline'] = $discipline["userId"] == Yii::app()->user->loginInfos->id;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['n1'] = $n1;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['n2'] = $n2;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['n3'] = $n3;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['n4'] = $n4;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['r1'] = $r1;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['r2'] = $r2;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['r3'] = $r3;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['r4'] = $r4;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['rf'] = $rf;
-
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['annual_average'] = $annual_average;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['final_average'] = $final_average;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['absences'] = $absences;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['frequency'] = $frequency;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['school_days'] = $school_days;
-                    }
+                    $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $_POST["discipline"]]);
+                    $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
+                    array_push($result["students"], $arr);
                 }
-                $return['isConcept'] = SchoolStagesConceptGrades::model()->find("school_fk = :school_fk and edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk", [":school_fk" => Yii::app()->user->school, ":edcenso_stage_vs_modality_fk" => $stage]) !== null;
+
+                $result["valid"] = true;
+            } else {
+                $result["valid"] = false;
+                $result["message"] = "Ainda não foi construída uma estrutura de unidades e avaliações para esta turma.";
             }
-            echo json_encode($return);
+        } else {
+            $result["valid"] = false;
+            $result["message"] = "Não há estudantes matriculados na turma.";
         }
+        echo json_encode($result);
+    }
+
+    public function actionCalculateFinalMedia()
+    {
+        $this->calculateFinalMedia();
+    }
+
+    private function calculateFinalMedia()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias = "gu";
+        $criteria->join = "join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id";
+        $criteria->join .= " join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id";
+        $criteria->condition = "c.id = :classroom";
+        $criteria->params = array(":classroom" => $_POST["classroom"]);
+        $gradeUnitiesByClassroom = GradeUnity::model()->findAll($criteria);
+
+        $studentEnrollments = StudentEnrollment::model()->findAll("classroom_fk = :classroom_fk", ["classroom_fk" => $_POST["classroom"]]);
+        foreach ($studentEnrollments as $studentEnrollment) {
+            $arr["grades"] = [];
+            foreach ($gradeUnitiesByClassroom as $gradeUnity) {
+                array_push($arr["grades"], $gradeUnity->type == "UR"
+                    ? ["unityId" => $gradeUnity->id, "unityGrade" => "", "unityRecoverGrade" => "", "gradeUnityType" => $gradeUnity->type]
+                    : ["unityId" => $gradeUnity->id, "unityGrade" => "", "gradeUnityType" => $gradeUnity->type]);
+            }
+
+            $criteria->select = "distinct gu.id, gu.*";
+            $criteria->join = "join grade_unity_modality gum on gum.grade_unity_fk = gu.id";
+            $criteria->join .= " join grade g on g.grade_unity_modality_fk = gum.id";
+            $criteria->condition = "g.discipline_fk = :discipline_fk and enrollment_fk = :enrollment_fk";
+            $criteria->params = array(":discipline_fk" => $_POST["discipline"], ":enrollment_fk" => $studentEnrollment->id);
+            $criteria->order = "gu.id";
+            $gradeUnitiesByDiscipline = GradeUnity::model()->findAll($criteria);
+            foreach ($gradeUnitiesByDiscipline as $gradeUnity) {
+                $key = array_search($gradeUnity->id, array_column($arr["grades"], 'unityId'));
+                $arr["grades"][$key] = $this->getUnidadeValues($gradeUnity);
+            }
+
+
+            //Cálculo da média final
+            $arr["finalMedia"] = "";
+            $sums = 0;
+            $sumsCount = 0;
+            $arr["semesterMedias"] = [];
+            $hasRF = false;
+            $rawUnitiesFilled = 0;
+            foreach ($arr["grades"] as $grade) {
+                switch ($grade["gradeUnityType"]) {
+                    case "U":
+                        if ($grade["unityGrade"] != "") {
+                            $sums += $grade["unityGrade"];
+                            $rawUnitiesFilled++;
+                        }
+                        $sumsCount++;
+                        break;
+                    case "UR":
+                        if ($grade["unityGrade"] != "" || $grade["unityRecoverGrade"] != "") {
+                            $sums += $grade["unityRecoverGrade"] > $grade["unityGrade"] ? $grade["unityRecoverGrade"] : $grade["unityGrade"];
+                            $rawUnitiesFilled++;
+                        }
+                        $sumsCount++;
+                        break;
+                    case "RS":
+                        if ($sums > 0) {
+                            $semesterMedia = $sums / $sumsCount;
+                            $semesterRecoverMedia = ($semesterMedia + $grade["unityGrade"]) / 2;
+                            array_push($arr["semesterMedias"], $semesterMedia > $semesterRecoverMedia ? $semesterMedia : $semesterRecoverMedia);
+                        } else {
+                            array_push($arr["semesterMedias"], 0);
+                        }
+                        $sums = 0;
+                        $sumsCount = 0;
+                        break;
+                    case "RF":
+                        $hasRF = true;
+                        if ($sums > 0) {
+                            $media = $sums / $sumsCount;
+                            array_push($arr["semesterMedias"], $media);
+                        }
+                        $finalMedia = array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]);
+                        $finalRecoverMedia = ($finalMedia + $grade["unityGrade"]) / 2;
+                        $finalMedia = number_format($finalMedia > $finalRecoverMedia ? $finalMedia : $finalRecoverMedia, 2);
+                        break;
+                }
+            }
+            if (!$hasRF) {
+                if ($sums > 0) {
+                    $media = $sums / $sumsCount;
+                    array_push($arr["semesterMedias"], $media);
+                }
+                $finalMedia = number_format(array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]), 2);
+            }
+
+            $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $_POST["discipline"]]);
+            if ($gradeResult == null) {
+                $gradeResult = new GradeResults();
+                $gradeResult->enrollment_fk = $studentEnrollment->id;
+                $gradeResult->discipline_fk = $_POST["discipline"];
+            }
+            $gradeResult->final_media = $finalMedia;
+            $gradeResult->save();
+        }
+    }
+
+    private function getUnidadeValues($gradeUnity)
+    {
+        $unityGrade = "";
+        $unityRecoverGrade = "";
+        $turnedEmptyToZero = false;
+        $weightsSum = 0;
+        $commonModalitiesCount = 0;
+        foreach ($gradeUnity->gradeUnityModalities as $gradeUnityModality) {
+            if ($gradeUnityModality->type == "C") {
+                $commonModalitiesCount++;
+                $weightsSum += $gradeUnityModality->weight;
+            }
+            foreach ($gradeUnityModality->grades as $grade) {
+                if ($gradeUnityModality->type == "C") {
+                    if (!$turnedEmptyToZero) {
+                        $unityGrade = 0;
+                        $turnedEmptyToZero = true;
+                    }
+                    $unityGrade += $gradeUnity->gradeCalculationFk->name === "Peso"
+                        ? $grade->grade * $gradeUnityModality->weight
+                        : $grade->grade;
+                } else {
+                    $unityRecoverGrade = (int)$grade->grade;
+                }
+            }
+        }
+        if ($unityGrade !== "") {
+            if ($gradeUnity->gradeCalculationFk->name === "Média") {
+                $unityGrade = number_format($unityGrade / $commonModalitiesCount, 2);
+            } else if ($gradeUnity->gradeCalculationFk->name === "Peso") {
+                $unityGrade = number_format($unityGrade / $weightsSum, 2);
+            }
+        }
+        return $gradeUnity->type == "UR"
+            ? ["unityId" => $gradeUnity->id, "unityGrade" => $unityGrade, "unityRecoverGrade" => $unityRecoverGrade, "gradeUnityType" => $gradeUnity->type]
+            : ["unityId" => $gradeUnity->id, "unityGrade" => $unityGrade, "gradeUnityType" => $gradeUnity->type];
     }
 
     /**
