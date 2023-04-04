@@ -443,6 +443,102 @@ table.dataTable.no-footer {
     border: none;
 }
 
+.main .grades-buttons, .js-new-unity, .formulas {
+    display: none;
+}
+
+.main .js-grades-structure-loading {
+    display: none;
+    vertical-align: middle;
+    font-size: 18px;
+    margin-top: 1px;
+}
+
+.grades-structure-container {
+    margin-top: 40px;
+    display: none;
+    width: 50%;
+    position: relative;
+}
+
+.grades-structure-container .unity-name {
+    width: calc(100% - 125px);
+}
+
+.grades-structure-container .modality-name {
+    width: calc(100% - 122px);
+}
+
+.grades-structure-container .formula-select, .grades-structure-container .type-select {
+    width: calc(100% - 107px);
+}
+
+.grades-structure-container .select2-choice {
+    width: calc(100% - 10px) !important;
+}
+
+.grades-structure-container .unity label {
+    width: 105px;
+}
+
+.grades-structure-container .unity-children {
+    margin: 20px 0 0 105px;
+}
+
+.grades-structure-container .unity {
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 1px dashed #ccc;
+    position: relative;
+}
+
+.grades-structure-container .unity-type {
+    margin-bottom: 5px;
+}
+
+.grades-structure-container .calculation {
+    margin-bottom: 20px;
+}
+
+.grades-structure-container .modality {
+    margin-top: 5px;
+    position: relative;
+}
+
+.grades-structure-container .js-new-modality {
+    margin-top: 15px;
+}
+
+.grades-structure-container .remove-unity, .grades-structure-container .remove-modality {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: darkred;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.grades-structure-container .remove-unity:hover, .grades-structure-container .remove-modality:hover {
+    color: #333;
+}
+
+.grades-structure-container .weight {
+    width: 78px;
+    margin-left: 5px;
+}
+
+.save-unity-loading-gif {
+    position: absolute;
+    left: calc(50% - 20px);
+    top: 50%;
+    width: 42px;
+    display: none;
+    z-index: 1;
+}
+
+.stagename, .stagemodalityname {
+    font-weight: bold;
+}
 li[discipline]:hover {
     background-color: lightblue!important;
 }
