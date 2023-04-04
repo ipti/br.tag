@@ -22,11 +22,11 @@ $('#classroom').change(function () {
             },
         });
     } else {
-        $(".js-grades-container, .js-grades-alert, #save").hide();
+        $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
     }
 });
 
-$('#discipline').change(function () {
+$('#discipline').change(function (e, triggerEvent) {
     if ($(this).val() !== "") {
         $(".js-grades-alert").hide();
         $.ajax({
@@ -39,43 +39,48 @@ $('#discipline').change(function () {
             },
             beforeSend: function () {
                 $(".js-grades-loading").css("display", "inline-block");
-                $(".js-grades-container, #save").css("opacity", "0.4").css("pointer-events", "none");
+                $(".js-grades-container, .grades-buttons").css("opacity", "0.4").css("pointer-events", "none");
             },
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.valid) {
-                    var html = "<table class='grades-table table table-bordered table-striped'><thead><tr><th colspan='" + (Object.keys(data.modalityColumns).length + 1) + "' class='table-title'>Notas</th></tr><tr><th></th>";
+                    var html = "<table class='grades-table table table-bordered table-striped'><thead><tr><th colspan='" + (Object.keys(data.modalityColumns).length + 2) + "' class='table-title'>Notas</th></tr><tr><th></th>";
                     $.each(data.unityColumns, function () {
                         html += "<th colspan='" + this.colspan + "'>" + this.name + "</th>";
                     });
-                    html += "</tr><tr class='modality-row'><th></th>";
+                    html += "<th></th></tr><tr class='modality-row'><th></th>";
                     $.each(data.modalityColumns, function () {
                         html += "<th>" + this + "</th>";
                     });
-                    html += "</tr></thead><tbody>";
+                    html += "<th>Média Final</th></tr></thead><tbody>";
                     $.each(data.students, function () {
                         html += "<tr><td class='grade-student-name'><input type='hidden' class='enrollment-id' value='" + this.enrollmentId + "'>" + $.trim(this.studentName) + "</td>";
                         $.each(this.grades, function () {
                             html += "<td class='grade-td'><input type='text' class='grade' modalityid='" + this.modalityId + "' value='" + this.value + "'></td>";
                         });
-                        html += "</tr>";
+                        html += "<td class='final-media'>" + this.finalMedia + "</td></tr>";
                     });
                     html += "</tbody></table>";
                     $(".js-grades-container").html(html);
+                    if (triggerEvent === "saveGrades") {
+                        $(".js-grades-alert").removeClass("alert-error").addClass("alert-success").text("Notas registradas com sucesso!").show();
+                    }
                 } else {
                     $(".js-grades-alert").addClass("alert-error").removeClass("alert-success").text(data.message).show();
                 }
                 $(".js-grades-loading").hide();
-                $(".js-grades-container, #save").css("opacity", "1").css("pointer-events", "auto").show();
+                $(".js-grades-container, .grades-buttons").css("opacity", "1").css("pointer-events", "auto").show();
             },
         });
     } else {
-        $(".js-grades-container, .js-grades-alert, #save").hide();
+        $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
     }
 });
 
 $("#save").on("click", function (e) {
     e.preventDefault();
+    $(".js-grades-alert").hide();
+
     var students = [];
     $('.grades-table tbody tr').each(function () {
         var grades = [];
@@ -90,23 +95,22 @@ $("#save").on("click", function (e) {
             grades: grades
         });
     });
+
     $.ajax({
         type: "POST",
         url: "?r=enrollment/saveGrades",
         cache: false,
         data: {
+            classroom: $("#classroom").val(),
             discipline: $("#discipline").val(),
             students: students
         },
         beforeSend: function () {
-            $(".js-save-grades-loading-gif").css("display", "inline-block");
-            $(".js-grades-container, #save").css("opacity", "0.4").css("pointer-events", "none");
+            $(".js-grades-loading").css("display", "inline-block");
+            $(".js-grades-container, .grades-buttons").css("opacity", "0.4").css("pointer-events", "none");
         },
         success: function (data) {
-            data = JSON.parse(data);
-            $(".js-grades-alert").removeClass("alert-error").addClass("alert-success").text("Notas registradas com sucesso!").show();
-            $(".js-save-grades-loading-gif").hide();
-            $(".js-grades-container, #save").css("opacity", "1").css("pointer-events", "auto").show();
+            $("#discipline").trigger("change", ["saveGrades"]);
         },
     });
 });
@@ -126,4 +130,25 @@ $(document).on("keyup", "input.grade", function (e) {
         }
     }
     this.value = val;
+});
+
+$(document).on("click", ".calculate-media", function (e) {
+    e.preventDefault();
+    $(".js-grades-alert").hide();
+    $.ajax({
+        type: "POST",
+        url: "?r=enrollment/calculateFinalMedia",
+        cache: false,
+        data: {
+            classroom: $("#classroom").val(),
+            discipline: $("#discipline").val(),
+        },
+        beforeSend: function () {
+            $(".js-grades-loading").css("display", "inline-block");
+            $(".js-grades-container, .grades-buttons").css("opacity", "0.4").css("pointer-events", "none");
+        },
+        success: function (data) {
+            $("#discipline").trigger("change");
+        },
+    });
 });
