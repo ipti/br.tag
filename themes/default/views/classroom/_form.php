@@ -239,7 +239,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <!-- Tipo de Atendimento* -->
-                            <div class="t-field-checkbox-group" id="aee2">
+                            <div class="t-field-checkbox-group js-assistance-types-container" id="aee2">
                                 <label class="t-field-checkbox__label--required"><?php echo Yii::t('default', 'Assistence Types'); ?>*</label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelClassroom, 'schooling', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input', 'id' => 'Escolarização')); ?>

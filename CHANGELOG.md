@@ -1,4 +1,6 @@
 # Atualizações
+## [Versão 3.10.25]
+- Verificação no formulário de criação de turmas nos checkbox em 'tipo de atendimento' consertada
 ## [Versão 3.10.24]
 - Corrigido erro no espaçamento dos checkboxs
 ## [Versão 3.10.23]
