@@ -7,11 +7,22 @@ class DefaultController extends Controller
 	public function actionIndex($id)
 	{
 
-        $school_id = Yii::app()->user->school;
-        $ucidentifymulti = new IdentifyMultipleStudentRACode();
-        $students = $ucidentifymulti->exec($school_id);
-        //@todo precisa ajustar para carregar os alunos das turmas do ano letivo atual e da escola atual
-        $this->render('index', ['students' => $students]);
+		$school_id = Yii::app()->user->school;
+		$ucidentifymulti = new IdentifyMultipleStudentRACode();
+		$students = $ucidentifymulti->exec($school_id);
+
+		$criteira = new CDbCriteria;
+
+		$criteira->condition = 'school_inep_id_fk=' . $school_id;
+		$criteira->condition = 'gov_id is null';
+
+		$dataProvider = new CActiveDataProvider('StudentIdentification', array(
+			'criteria' => $criteira,
+			'countCriteria' => $criteira,
+			'pagination' => array('PageSize' => 100),
+		));
+		//@todo precisa ajustar para carregar os alunos das turmas do ano letivo atual e da escola atual
+		$this->render('index', ['dataProvider' => $dataProvider]);
 	}
 
 	public function actionLogin()
@@ -36,23 +47,22 @@ class DefaultController extends Controller
 		$this->render('index', ['RA' => $RA]);
 	}
 
-    public function actionGenRA($id)
-    {
-        if(!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
-            $uclogin = new LoginUseCase();
-            $uclogin->exec("SME701", "zyd780mhz1s5");
-        }
-        $genRA = new GenRA();
-        $msg = $genRA->exec($id);
-        if(!$msg){
-            $msg = $genRA->exec($id,true);
-        }
-        echo $msg;
-    }
-	public function actionCreateRA($id){
-	    $createRA = new CreateRA();
-	    $createRA->exec($id);
-
-        //@todo
-    }
+	public function actionGenRA($id)
+	{
+		if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
+			$uclogin = new LoginUseCase();
+			$uclogin->exec("SME701", "zyd780mhz1s5");
+		}
+		$genRA = new GenRA();
+		$msg = $genRA->exec($id);
+		if (!$msg) {
+			$msg = $genRA->exec($id, true);
+		}
+		echo $msg;
+	}
+	public function actionCreateRA($id)
+	{
+		$createRA = new CreateRA();
+		$createRA->exec($id);
+	}
 }

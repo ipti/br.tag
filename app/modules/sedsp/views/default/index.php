@@ -7,32 +7,6 @@ $this->breadcrumbs=array(
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($themeUrl . '/css/template2.css');
-//$query = StudentIdentification::model()->findAllByAttributes(["school_inep_id_fk" => $school_id],"'gov_id' IS NULL");
-//$criteria->compare('school_inep_id_fk', "$school_id");
-$criteria = new CDbCriteria;
-//$criteria->addInCondition('gov_id', 'null');
-//$criteria->compare('gov_id','IS NULL');
-//$dataProvider = new CActiveDataProvider('StudentIdentification', array(
-//    'criteria' => $criteria
-//));
-
-$dataProvider=new CActiveDataProvider('StudentIdentification', array(
-    'criteria'=>array(
-        'condition'=>'gov_id is null',
-        'order'=>'name ASC'
-    ),
-    'countCriteria'=>array(
-        'condition'=>'gov_id is null',
-    ),
-    'pagination'=>array('PageSize'=>100),
-))
-
-
-
-?>
-
-<?php
-
 ?>
 
 <div class="main">
