@@ -152,7 +152,7 @@ class StudentController extends Controller
         $data = array();
         foreach ($students as $student) {
             $nestedData = array();
-            $nestedData[] = $student->name;
+            $nestedData[] = "<a href='/?r=student/update&id=".$student->id."' cursor: pointer;>".$student->name."</a>";
             $nestedData[] = $student->filiation_1;
             $nestedData[] = $student->birthday;
             $nestedData[] = $student->inep_id;
