@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.11.24]
+- Lentidão ao carregar muitos registros na tela de alunos corrigida
+
 ## [Versão 3.10.23]
 - Agora as ações de deletar professores e estudantes funcionam corretamente
 
