@@ -87,6 +87,7 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                         'name' => 'credits',
                         'htmlOptions' => ['width' => '150px']
                     ], [
+                        'header' => 'Ações',
                         'class' => 'CButtonColumn',
                         'template' => Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ? '{delete}' : '',
                         'afterDelete' => 'function(link, success, data){

@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.11.25]
+- Cabeçalho de Ações corrigido
+
 ## [Versão 3.11.24]
 - Correção de desempenho ao carregar muitos registros na tela de alunos corrigida
 

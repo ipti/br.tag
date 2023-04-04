@@ -42,6 +42,7 @@
                                 'value' => '$data->active ? Sim : Não'
                             ),
                             array(
+                                'header' => 'Ações',
                                 'class' => 'CButtonColumn', 
                                 'template' => '{update}',
                                 'buttons' => array(
