@@ -78,6 +78,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div>
                         <h3>Dados Básicos</h3>
                     </div>
+                    <!-- <span class="t-icon-trash"></span> -->
                     <div class="row">
                         <div class="column">
                             <?php
