@@ -20,7 +20,7 @@ class ReportsController extends Controller
                     'EnrollmentComparativeAnalysisReport', 'SchoolProfessionalNumberByClassroomReport',
                     'ComplementarActivityAssistantByClassroomReport', 'EducationalAssistantPerClassroomReport',
                     'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
-                    'StudentInstructorNumbersRelationReport', 'StudentPendingDocument', 
+                    'StudentInstructorNumbersRelationReport', 'StudentPendingDocument',
                     'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood'),
                 'users' => array('@'),
             ),
@@ -891,7 +891,7 @@ class ReportsController extends Controller
             array_multisort($col, SORT_ASC, $students);
             $result["students"] = $students;
         } else if ($_POST["type"] === "gradesByStudent") {
-            //Montar colunas das unidades e subunidades
+
             $criteria = new CDbCriteria();
             $criteria->alias = "gu";
             $criteria->join = "join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id";
@@ -959,64 +959,8 @@ class ReportsController extends Controller
                         $arr["grades"][$key] = $this->getUnidadeValues($gradeUnity);
                     }
 
-
-                    //Cálculo da média final
-                    $arr["finalMedia"] = "";
-                    $sums = 0;
-                    $sumsCount = 0;
-                    $arr["semesterMedias"] = [];
-                    $hasRF = false;
-                    $rawUnitiesFilled = 0;
-                    foreach ($arr["grades"] as $grade) {
-                        switch ($grade["gradeUnityType"]) {
-                            case "U":
-                                if ($grade["unityGrade"] != "") {
-                                    $sums += $grade["unityGrade"];
-                                    $rawUnitiesFilled++;
-                                }
-                                $sumsCount++;
-                                break;
-                            case "UR":
-                                if ($grade["unityGrade"] != "" || $grade["unityRecoverGrade"] != "") {
-                                    $sums += $grade["unityRecoverGrade"] > $grade["unityGrade"] ? $grade["unityRecoverGrade"] : $grade["unityGrade"];
-                                    $rawUnitiesFilled++;
-                                }
-                                $sumsCount++;
-                                break;
-                            case "RS":
-                                if ($sums > 0) {
-                                    $semesterMedia = $sums / $sumsCount;
-                                    $semesterRecoverMedia = ($semesterMedia + $grade["unityGrade"]) / 2;
-                                    array_push($arr["semesterMedias"], $semesterMedia > $semesterRecoverMedia ? $semesterMedia : $semesterRecoverMedia);
-                                } else {
-                                    array_push($arr["semesterMedias"], 0);
-                                }
-                                $sums = 0;
-                                $sumsCount = 0;
-                                break;
-                            case "RF":
-                                $hasRF = true;
-                                if ($sums > 0) {
-                                    $media = $sums / $sumsCount;
-                                    array_push($arr["semesterMedias"], $media);
-                                }
-                                if ($rawUnitiesFilled == $rawUnitiesCount) {
-                                    $finalMedia = array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]);
-                                    $finalRecoverMedia = ($finalMedia + $grade["unityGrade"]) / 2;
-                                    $arr["finalMedia"] = number_format($finalMedia > $finalRecoverMedia ? $finalMedia : $finalRecoverMedia, 2);
-                                }
-                                break;
-                        }
-                    }
-                    if (!$hasRF) {
-                        if ($sums > 0) {
-                            $media = $sums / $sumsCount;
-                            array_push($arr["semesterMedias"], $media);
-                        }
-                        if ($rawUnitiesFilled == $rawUnitiesCount) {
-                            $arr["finalMedia"] = number_format(array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]), 2);
-                        }
-                    }
+                    $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $_POST["student"], "discipline_fk" => $discipline["id"]]);
+                    $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
 
                     array_push($result["rows"], $arr);
                 }

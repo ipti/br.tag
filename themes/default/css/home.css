@@ -275,13 +275,8 @@ form {
     display: none;
 }
 
-.no-disciplines-guide, .disciplines-container {
+.disciplines-container {
     display: none;
-}
-
-.no-disciplines-link {
-    cursor: pointer;
-    text-decoration: underline;
 }
 
 .alert-no-disciplines, .alert-no-students {

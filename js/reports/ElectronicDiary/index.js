@@ -235,7 +235,7 @@ function loadReport() {
                         html += "<tr><td>" + this.disciplineName + "</td>";
                         $.each(this.grades, function () {
                             html += "<td class='center'>" + this.unityGrade + "</td>";
-                            if (this.gradeUnityType == "UR") {
+                            if (this.gradeUnityType === "UR") {
                                 html += "<td class='center'>" + this.unityRecoverGrade + "</td>";
                             }
                         });

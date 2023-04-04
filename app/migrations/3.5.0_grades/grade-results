@@ -1,0 +1,15 @@
+CREATE TABLE `grade_results` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `final_media` float NULL,
+  `enrollment_fk` int NOT NULL,
+  `discipline_fk` int NOT NULL
+) ENGINE='InnoDB' COLLATE 'utf8_unicode_ci';
+
+ALTER TABLE `grade_results`
+ADD FOREIGN KEY (`enrollment_fk`) REFERENCES `student_enrollment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `grade_results`
+ADD FOREIGN KEY (`discipline_fk`) REFERENCES `edcenso_discipline` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `grade_results`
+CHANGE `final_media` `final_media` float NOT NULL AFTER `id`;
