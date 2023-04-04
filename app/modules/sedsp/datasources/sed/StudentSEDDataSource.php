@@ -16,17 +16,19 @@ class StudentSEDDataSource extends SedDataSource
      * @param string $mothersName
      * @return DadosAluno
      */
-    public function getStudentRA($name, $birthday, $mothersName)
+    public function getStudentRA($name, $birthday, $mothersName,$force)
     {
+        if($force){
+            $name = '';
+        }
         $body['inFiltrosNomes'] = array("inNomeAluno" => $name,
         "inNomeMae" => $mothersName,
         "outDataNascimento" => $birthday);
-        //var_dump(json_encode($body));exit;
         try {
             $response = $this->client->request('GET', '/ncaapi/api/Aluno/ListarAlunos', [
                 'body' => json_encode($body)
             ]);
-            return new DadosAluno($response->getBody()->getContents());
+            return new DadosAluno($name,$response->getBody()->getContents());
         }
         catch (GuzzleHttp\Exception\ClientException $e) {
             return new OutErro($e);

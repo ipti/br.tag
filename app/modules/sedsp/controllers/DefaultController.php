@@ -10,6 +10,7 @@ class DefaultController extends Controller
         $school_id = Yii::app()->user->school;
         $ucidentifymulti = new IdentifyMultipleStudentRACode();
         $students = $ucidentifymulti->exec($school_id);
+        //@todo precisa ajustar para carregar os alunos das turmas do ano letivo atual e da escola atual
         $this->render('index', ['students' => $students]);
 	}
 
@@ -41,29 +42,17 @@ class DefaultController extends Controller
             $uclogin = new LoginUseCase();
             $uclogin->exec("SME701", "zyd780mhz1s5");
         }
-        $ucidentify = new IdentifyStudentRACode();
-        $resultRA = $ucidentify->exec($id);
-        if(method_exists($resultRA,'getoutSucesso')){
-            if(!isset($resultRA->outErro)){
-                $ucadd = new AddRACodeToTAG();
-                $student = $ucadd->exec($id,$resultRA->outAluno->outNumRA);
-                echo $student->gov_id;
-            }else {
-                echo $resultRA->outErro;
-                //echo 'criando..';
-                //$ucnewstudent = new AddStudentToSED();
-                //$RA = $ucnewstudent->exec($id);
-            }
-        }else if($resultRA->getHasResponse()){
-                if($resultRA->getCode()==400){
-                    echo $resultRA->getoutErro();
-                }else if($resultRA->getCode()==500){
-                    echo 'erro 500';
-                }
-        }else{
-            echo 'tentar novamente';
-            //tentar novamente
+        $genRA = new GenRA();
+        $msg = $genRA->exec($id);
+        if(!$msg){
+            $msg = $genRA->exec($id,true);
         }
+        echo $msg;
     }
-	
+	public function actionCreateRA($id){
+	    $createRA = new CreateRA();
+	    $createRA->exec($id);
+
+        //@todo
+    }
 }
