@@ -69,6 +69,10 @@
                     'itemsCssClass' => 'js-tag-table student-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                         array(
+                            'name' => 'id',
+                            'htmlOptions' => array('width' => '200px')
+                        ),
+                        array(
                             'name' => 'name',
                             'type' => 'raw',
                             'value' => 'CHtml::link($data->name,Yii::app()->createUrl("student/update",array("id"=>$data->id)))',
@@ -83,7 +87,7 @@
                         ),*/
                         array(
                             'name' => 'filiation_1',
-                            'htmlOptions' => array('width' => '400px')
+                            'htmlOptions' => array('width' => '200px')
                         ),
                         array(
                             'name' => 'birthday',
