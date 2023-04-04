@@ -439,13 +439,13 @@ class StudentController extends Controller
                 }
                 $buttons = CHtml::tag('a',
                     array('href' => yii::app()->createUrl('student/update', array('id' => $sid)),
-                        'class' => "btn btn-primary btn-icon glyphicons eye_open",
+                        'class' => "t-button-primary",
                         'style' => 'margin-top: 5px; width: 110px'), '<i></i>Visualizar aluno');
                 $buttons .= "<br>";
 
                 $buttons .= CHtml::tag('a',
                     array('target' => '_blank', 'href' => yii::app()->createUrl('/forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $mer_id)),
-                        'class' => "btn btn-primary btn-icon glyphicons notes_2",
+                        'class' => "t-button-primary",
                         'style' => 'margin-top: 5px; width: 110px'), '<i></i>Ficha individual');
                 $buttons .= "<br>";
             }
