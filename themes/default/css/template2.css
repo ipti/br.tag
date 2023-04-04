@@ -408,14 +408,6 @@ table.dataTable.no-footer {
     background: #d5dded;
 }
 
-input[type="checkbox"] {
-    margin: 0px 9px 0px 9px;
-}
-
-input[type="checkbox"]:checked {
-    margin: 0px 9px 0px 9px;
-}
-
 .grades_inputs, .grades_inputs .select2-choice{
  width: 134px !important;
 }
@@ -622,4 +614,9 @@ li[instructor]:hover {
 .innerLR {
     padding: 48px 10px 0;
 
+}
+
+.grid-view table tr td {
+    box-shadow: none !important;
+    border-top: none !important;
 }

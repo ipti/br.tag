@@ -3,6 +3,16 @@
 ## [Versão 3.11.25]
 - Cabeçalho de Ações corrigido
 
+## [Versão 3.11.24]
+- Correção de desempenho ao carregar muitos registros na tela de alunos corrigida
+
+## [Versão 3.10.24]
+- Adicionada uma coluna na listagem de alunos
+- Adicionada coluna de matrícula na listagem de alunos em turmas 
+- Alterada a validação nos campos de nome para permitir acentuação
+- Verificação no formulário de criação de turmas nos checkbox em 'tipo de atendimento' consertada
+- Corrigido erro no espaçamento dos checkboxs
+
 ## [Versão 3.10.23]
 - Agora as ações de deletar professores e estudantes funcionam corretamente
 
