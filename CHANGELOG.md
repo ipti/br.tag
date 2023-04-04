@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.11.25]
+- Cabeçalho de Ações corrigido
+
 ## [Versão 3.10.23]
 - Agora as ações de deletar professores e estudantes funcionam corretamente
 
