@@ -1,13 +1,15 @@
 # Atualizações
-## [Versão 3.12.26]
+
+## [Versão 3.11.24]
+- Correção de desempenho ao carregar muitos registros na tela de alunos corrigida
+
+## [Versão 3.10.24]
 - Adicionada uma coluna na listagem de alunos
 - Adicionada coluna de matrícula na listagem de alunos em turmas 
-## [Versão 3.10.26]
 - Alterada a validação nos campos de nome para permitir acentuação
-## [Versão 3.10.25]
 - Verificação no formulário de criação de turmas nos checkbox em 'tipo de atendimento' consertada
-## [Versão 3.10.24]
 - Corrigido erro no espaçamento dos checkboxs
+
 ## [Versão 3.10.23]
 - Agora as ações de deletar professores e estudantes funcionam corretamente
 
