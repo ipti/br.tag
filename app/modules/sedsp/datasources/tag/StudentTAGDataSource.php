@@ -15,4 +15,9 @@ class StudentTAGDataSource
     {
         return  StudentIdentification::model()->findAllByAttributes(["school_inep_id_fk" => $school_id],"gov_id IS NULL");
     }
+
+    public function getAllStudentsEnrollmentsbySchool($school_id)
+    {
+        return StudentEnrollment::model()->findAllByAttributes(["school_inep_id_fk" => $school_id]);
+    }
 }

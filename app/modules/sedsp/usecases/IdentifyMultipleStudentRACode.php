@@ -26,7 +26,6 @@ class IdentifyMultipleStudentRACode
     public function exec($school_id)
     {
         // Get Students From TAG database
-        //@todo getAllStudentsEnrollmentsbySchool
-        return $this->studentTAGDataSource->getAllStudentWithoutRAbySchool($school_id);
+        return $this->studentTAGDataSource->getAllStudentsEnrollmentsbySchool($school_id);
     }
 }
