@@ -25,6 +25,7 @@ $cs->registerCssFile(Yii::app()->request->baseUrl . '/sass/css/main.css');
             ),
                 array
                 (
+                    'header' => 'Ações',
                     'class'=>'CButtonColumn',
                     'template'=>'{email}',
                     'buttons'=>array

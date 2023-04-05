@@ -4,7 +4,7 @@ Yii::import('application.modules.sedsp.usecases.*');
 
 class DefaultController extends Controller
 {
-	public function actionIndex($id)
+	public function actionIndex()
 	{
 
 		$school_id = Yii::app()->user->school;
