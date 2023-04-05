@@ -527,7 +527,7 @@ h5, .subheading { font-size: 14px; color: #94a8be; font-weight: 400; }
 
 .t-modal-container .t-modal-content .t-modal__body label { font-size: 14px; }
 
-.t-modal-container .t-modal-content .t-modal__footer { display: flex; }
+.t-modal-container .t-modal-content .t-modal__footer a, .t-modal-container .t-modal-content .t-modal__footer button { flex: 1; padding: 0.875em; }
 
 .t-badge { display: flex; gap: 2px; align-items: center; border: 0.1rem solid #94A8BE; border-radius: 12px; padding: 0 4px 0 4px; background-color: #eff2f5; }
 

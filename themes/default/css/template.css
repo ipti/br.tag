@@ -8692,9 +8692,10 @@ input[type="text"] {
 }
 
 .js-classroom-diary {
-    width: 510px;
-    max-width: 510px;
-    min-width: 510px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
     height: 200px;
     min-height: 200px;
     max-height: 200px;
