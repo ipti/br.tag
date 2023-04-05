@@ -12,16 +12,18 @@ class DefaultController extends Controller
 		$students = $ucidentifymulti->exec($school_id);
 
 		$criteira = new CDbCriteria;
-
-		$criteira->condition = 'school_inep_id_fk=' . $school_id;
-		$criteira->condition = 'gov_id is null';
+		$criteira->join = 'LEFT JOIN student_enrollment se ON se.student_inep_id = t.inep_id 
+				   LEFT JOIN classroom class ON se.classroom_fk = class.id';
+		$criteira->addCondition('t.school_inep_id_fk = :school_id');
+		$criteira->addCondition('t.gov_id is null');
+		$criteira->addCondition('class.school_year = :year');
+		$criteira->params = array(':school_id' => $school_id, ':year' => Yii::app()->user->year);
 
 		$dataProvider = new CActiveDataProvider('StudentIdentification', array(
 			'criteria' => $criteira,
 			'countCriteria' => $criteira,
 			'pagination' => array('PageSize' => 100),
 		));
-		//@todo precisa ajustar para carregar os alunos das turmas do ano letivo atual e da escola atual
 		$this->render('index', ['dataProvider' => $dataProvider]);
 	}
 
