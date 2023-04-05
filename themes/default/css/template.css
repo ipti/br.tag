@@ -9542,3 +9542,10 @@ tbody .details-control:hover {
     white-space: nowrap;
     max-width: 42px;
 }
+ .accordion .accordion-heading .accordion-toggle {
+    background: none;
+    background-color: rgba(0, 0, 0, 0);
+    background-color: #F5F7F9;
+    font-weight: 500;
+    color: #252A31;
+}
