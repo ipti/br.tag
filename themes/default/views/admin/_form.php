@@ -19,7 +19,6 @@ $form = $this->beginWidget('CActiveForm', array(
     'enableAjaxValidation' => false,
 ));
 ?>
-<?php //echo $form->errorSummary($model); ?>
 
 <div class="row-fluid">
     <div class="span12" style="height: 70px;">
@@ -43,6 +42,8 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="tag-inner">
     <div class="widget widget-tabs border-bottom-none">
+    <?php echo $form->errorSummary($model); ?>
+        
         <div class="widget-head">
             <ul class="tab-classroom">
                 <li id="tab-classroom" class="active">
@@ -146,14 +147,6 @@ $form = $this->beginWidget('CActiveForm', array(
 </script>
 
 <style>
-.form-horizontal .control-group:last-child {
-    margin-bottom: 20px !important;
-}
-
-.control-group:last-child {
-    margin-left: 32px !important;
-}
-
 #active-label {
     width: 40px !important;
 }

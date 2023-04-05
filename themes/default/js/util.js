@@ -17,7 +17,7 @@ dateRules.date = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/([12][0-9]{3}|[0-9
 var stringRules = new Object();
 stringRules.schoolName = /^[A-Z0-9°ºª\- ]{4,100}$/;
 stringRules.classroomName = /^[A-Z0-9°ºª\- ?]{4,80}$/;
-stringRules.personName = /^[A-Z]{1,100}/;
+stringRules.personName = /^[a-zA-ZÀ-ÖØ-öø-ÿ]{1,100}/;
 stringRules.email = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 stringRules.schoolAddress = /^[A-Z0-9°ºª\-\/\., ]*$/;
 stringRules.rg = /^[A-Z0-9°ºª\- ]{1,20}$/;
@@ -42,65 +42,65 @@ numberRules.count = /^[0-9]{0,4}$/;
 numberRules.num = /^[0-9]*$/;
 
 
-function validateYear(year, min, max){
+function validateYear(year, min, max) {
     min = (typeof min == 'undefined') ? 1900 : min;
     max = (typeof max == 'undefined') ? new Date().getFullYear() : max;
-    return (rule(year,numberRules.num) && year >= min && year <=max);
+    return (rule(year, numberRules.num) && year >= min && year <= max);
 }
 
-function validateLogin(pass){
+function validateLogin(pass) {
     return pass.length >= 4;
 }
 
-function validatePassword(pass){
+function validatePassword(pass) {
     return pass.length >= 6;
 }
 
 function validateCount(count) {
-    if(count.length == 0){
+    if (count.length == 0) {
         return true;
-    }else if (count == 0){
+    } else if (count == 0) {
         return false;
-    }else{
-        return(rule(count,numberRules.count));
+    } else {
+        return (rule(count, numberRules.count));
     }
 }
 
 function validateRG(rg) {
-    return(rule(rg,stringRules.rg));
+    return (rule(rg, stringRules.rg));
 }
 
 
 function validateDate(date) {
-    return(rule(date,dateRules.date));
+    return (rule(date, dateRules.date));
 }
 
-function validateTime(time){
-    return(rule(time,dateRules.time));
-    
+function validateTime(time) {
+    return (rule(time, dateRules.time));
+
 }
 
-function stringToDate(str){
-    var date    = new Object();
-    date.day    = str.split("/")[0];
-    date.month  = str.split("/")[1];
-    date.year   = str.split("/")[2];
-    date.asianStr = date.year+'/'+date.month+'/'+date.day;
+function stringToDate(str) {
+    var date = new Object();
+    date.day = str.split("/")[0];
+    date.month = str.split("/")[1];
+    date.year = str.split("/")[2];
+    date.asianStr = date.year + '/' + date.month + '/' + date.day;
     return date;
 }
 
-function validateSchoolName(str){
-    return (rule(str,stringRules.schoolName));
+function validateSchoolName(str) {
+    return (rule(str, stringRules.schoolName));
 }
 
-function validateClassroomName(str){
-    return (rule(str,stringRules.classroomName));
+function validateClassroomName(str) {
+    return (rule(str, stringRules.classroomName));
 }
 
-function numbersNotEqual(num){
+function numbersNotEqual(num) {
     var aux = num[0];
-    for(var i=1; i<num.length;i++){
-        if(num[i] == aux)
+    for (var i = 1; i < num.length; i++) {
+        if (num[i] == aux)
             aux = num[i];
         else
             return true;
@@ -108,68 +108,68 @@ function numbersNotEqual(num){
     return false;
 }
 
-function validateCEP(cep){
+function validateCEP(cep) {
     return (numbersNotEqual(cep) && rule(cep, numberRules.cep));
 }
 
-function validateAddress(str, max){
-    return (str.length <= max && rule(str,stringRules.schoolAddress));
+function validateAddress(str, max) {
+    return (str.length <= max && rule(str, stringRules.schoolAddress));
 }
-function validateInstructorAddress(str){
-    return rule(str,stringRules.instructorAddress);
+function validateInstructorAddress(str) {
+    return rule(str, stringRules.instructorAddress);
 }
-function validateInstructorAddressNumber(str){
-    return rule(str,stringRules.instructorAddressNumber);
+function validateInstructorAddressNumber(str) {
+    return rule(str, stringRules.instructorAddressNumber);
 }
-function validateInstructorAddressComplement(str){
-    return rule(str,stringRules.instructorAddressComplement);
+function validateInstructorAddressComplement(str) {
+    return rule(str, stringRules.instructorAddressComplement);
 }
-function validateInstructorAddressNeighborhood(str){
-    return rule(str,stringRules.instructorAddressNeighborhood);
-}
-
-function validateStudentAddress(str){
-    return rule(str,stringRules.studentAddress);
-}
-function validateStudentAddressNumber(str){
-    return rule(str,stringRules.studentAddressNumber);
-}
-function validateStudentAddressComplement(str){
-    return rule(str,stringRules.studentAddressComplement);
-}
-function validateStudentAddressNeighborhood(str){
-    return rule(str,stringRules.studentAddressNeighborhood);
+function validateInstructorAddressNeighborhood(str) {
+    return rule(str, stringRules.instructorAddressNeighborhood);
 }
 
-function validateDDD(ddd){
+function validateStudentAddress(str) {
+    return rule(str, stringRules.studentAddress);
+}
+function validateStudentAddressNumber(str) {
+    return rule(str, stringRules.studentAddressNumber);
+}
+function validateStudentAddressComplement(str) {
+    return rule(str, stringRules.studentAddressComplement);
+}
+function validateStudentAddressNeighborhood(str) {
+    return rule(str, stringRules.studentAddressNeighborhood);
+}
+
+function validateDDD(ddd) {
     return rule(ddd, numberRules.ddd);
 }
 
 //function validatePhone(phone, length){
-function validatePhone(phone){
+function validatePhone(phone) {
     //return (phone.length <= length && numbersNotEqual(phone) && rule(phone, numberRules.phone));
     return rule(phone, numberRules.phone);
 }
 
-function validateEmail(email){
+function validateEmail(email) {
     return (rule(email, stringRules.email));
 }
 
 
-function anoMinMax(min,max,ano) {
+function anoMinMax(min, max, ano) {
     ano = parseInt(ano);
-    if(ano >= min && ano <= max){
+    if (ano >= min && ano <= max) {
         return true
     }
     return false;
 }
 
-function validateBirthdayPerson(date){
-    if(validateDate(date)){
+function validateBirthdayPerson(date) {
+    if (validateDate(date)) {
         var fullDate = new Date(date);
         var year = fullDate.getFullYear();
-        return anoMinMax(1918,1999,year);
-    }else{
+        return anoMinMax(1918, 1999, year);
+    } else {
         return false;
     }
 }
@@ -180,30 +180,30 @@ function compareSimilarName(name1, name2) {
     var score = 0;
     var response = false;
     for (let i = 0; i < name_test_2.length; i++) {
-        if( name_test_2.includes(name_test_1[i] ) ){
-            if(i <= 1) score += 2;
+        if (name_test_2.includes(name_test_1[i])) {
+            if (i <= 1) score += 2;
             else score++;
         }
     }
-    if(score >= 3) response = true
+    if (score >= 3) response = true
     return response
 }
 
-const {origin,pathname} = window.location;
+const { origin, pathname } = window.location;
 
 const buscar = (dados, chave, conteudo) => {
     const item = dados[chave];
     return Object.values(item).indexOf(conteudo) !== -1 ? item : null;
 };
 
-function validateNamePerson(personName, handler){
-    var complete_name = personName.split(' ');  
+function validateNamePerson(personName, handler) {
+    var complete_name = personName.split(' ');
     var passExp = true;
     var passSimilarName = [];
     var ret = new Array();
-    for(var i=0; i<complete_name.length;i++){
-        if(!rule(complete_name[i],stringRules.personName)){
-            passExp=false;
+    for (var i = 0; i < complete_name.length; i++) {
+        if (!rule(complete_name[i], stringRules.personName)) {
+            passExp = false;
             break;
         }
     }
@@ -211,7 +211,7 @@ function validateNamePerson(personName, handler){
     $.ajax({
         url: `${origin}${pathname}?r=student/comparestudentname`
     }).success(function (response) {
-        const names = $.parseJSON( response );
+        const names = $.parseJSON(response);
         var names_teste = Object.keys(names);
         var formatSimilares = [];
         const similares = names_teste.filter((name) => compareSimilarName(name, personName));
@@ -227,123 +227,116 @@ function validateNamePerson(personName, handler){
             var similares_text = `<a style="color: #2E33B7; font-size: 13px;" href='${origin}${pathname}?r=student/update&id=${array_students[index].id}' >${array_students[index].name}</a><br>`;
             formatSimilares.push(similares_text);
         }
-        if(passExp){
-            if(similares.length > 0) {
+        if (passExp) {
+            if (similares.length > 0) {
                 ret[0] = true;
                 ret[1] = "Cadastro(s) similar(es) encontrado(s), verifique com atenção os dados. Clique para exibir registros";
                 ret[2] = `<p style="display: none;" id="registrosSimilares">${formatSimilares}</p>`
                 handler(ret);
                 return
             }
-            if(isset(complete_name[1])){
+            if (isset(complete_name[1])) {
                 var str4 = null;
-                var until4 = 0; 
-                for(var i=0;i<personName.length;i++){
-                    if(personName[i]!=str4){
+                var until4 = 0;
+                for (var i = 0; i < personName.length; i++) {
+                    if (personName[i] != str4) {
                         str4 = personName[i];
-                        until4=1;
-                    }else{
-                        until4++; 
+                        until4 = 1;
+                    } else {
+                        until4++;
                     }
-                    
-                    if(until4 > 4){
+
+                    if (until4 > 4) {
                         ret[0] = false;
                         ret[1] = "O nome não deve possuir a mesma letra 4 vezes seguidas.";
                         handler(ret);
                         return;
                     }
                 }
-            }else{
+            } else {
                 ret[0] = false;
                 ret[1] = "Nome sem sobrenome.";
                 handler(ret);
                 return;
             }
-        }else{
+        } else {
             ret[0] = false;
             ret[1] = "O campo aceita somente caracteres maiúsculos de A a Z, sem cedilhas e/ou acentos. Tamanho mínimo: 1.";
             handler(ret);
             return;
         }
     })
-    
+
 }
 
-function validateCpf(cpf, handler){
+function existsStudentWithCPF(cpf, callback) {
     var ret = new Array();
     var passCpf = false;
     $.ajax({
         url: `${origin}${pathname}?r=student/comparestudentcpf&student_cpf=${cpf}`,
     }).success(function (response) {
-        $.each( $.parseJSON( response ), function(student_fk, id){
-            if(student_fk != '') passCpf = true
+        $.each($.parseJSON(response), function (student_fk, id) {
+            if (student_fk != '') passCpf = true
         });
+        
+        if (passCpf) {
+            ret[0] = false;
+            ret[1] = "CPF já vinculado com cadastro de aluno existente.";
+            callback(ret);
+            return;
+        }
+    });
+}
 
-        if (cpf == "00000000000" || cpf == "11111111111"
+function validateCpf(cpf) {
+    const statusInvalido = {
+            valid: false,
+            message: "Informe um CPF válido. Deve possuir apenas números."
+    };
+
+    const statusValido = {
+        valid: true,
+        message: "Válido"
+    };
+
+    if (cpf == "00000000000" || cpf == "11111111111"
         || cpf == "22222222222" || cpf == "33333333333"
         || cpf == "44444444444" || cpf == "55555555555"
         || cpf == "66666666666" || cpf == "77777777777"
         || cpf == "88888888888" || cpf == "99999999999"
-        || !rule(cpf, numberRules.cpf)){
-            ret[0] = false;
-            ret[1] = "Informe um CPF válido. Deve possuir apenas números.";
-            handler(ret);
-            return;
-        }else{
-            if(passCpf) {
-                ret[0] = false;
-                ret[1] = "CPF já vinculado com cadastro de aluno existente.";
-                handler(ret);
-                return;
-            }
-            var a = [];
-            var b = new Number;
-            var c = 11;
-            
-            for (var i=0; i<11; i++){
-                a[i] = cpf.charAt(i);
-                if (i < 9) 
-                    b += (a[i] * --c);
-            }
-            var x = b % 11;
-            
-            if (x < 2) { 
-                a[9] = 0 
-            } else { 
-                a[9] = 11-x 
-            }
-            b = 0;
-            c = 11;
-            for (var y=0; y<10; y++) {
-                b += (a[y] * c--);
-            }
-            
-            x = b % 11;
-            if (x < 2){ 
-                a[10] = 0; 
-            } else { 
-                a[10] = 11-x; 
-            }
-
-            if(!( (cpf.charAt(9) == a[9]) && (cpf.charAt(10) == a[10]) )) {
-                ret[0] = false;
-                ret[1] = "Informe um CPF válido. Deve possuir apenas números.";
-                handler(ret);
-                return;
-            }
+        || !rule(cpf, numberRules.cpf)) {
+       
+        return statusInvalido;
+    } else {
+        var soma = 0;
+        for (var i = 0; i < 9; i++) {
+            soma += parseInt(cpf.charAt(i)) * (10 - i);
         }
+        var resto = soma % 11;
+        var digito1 = resto < 2 ? 0 : 11 - resto;
 
-        if(cpf == "00000000000" || cpf == "00000000191"){
-            console.log(rule(cpf, numberRules.cpf));
-            ret[0] = false;
-            ret[1] = "Informe um CPF válido. Deve possuir apenas números.";
-            handler(ret);
-            return;
-        }else{
-            return rule(cpf, numberRules.cpf);
+        soma = 0;
+        for (var i = 0; i < 10; i++) {
+            soma += parseInt(cpf.charAt(i)) * (11 - i);
         }
+        resto = soma % 11;
+        var digito2 = resto < 2 ? 0 : 11 - resto;
 
-    });
+        if (digito1 !== parseInt(cpf.charAt(9)) || digito2 !== parseInt(cpf.charAt(10))) {
+            return statusInvalido;
+        }
+    }
+
+    if (cpf == "00000000000" || cpf == "00000000191") {
+        return statusInvalido;
+    } 
+    
+    if (!rule(cpf, numberRules.cpf)){
+        return statusInvalido;
+    }
+
+    return statusValido;
+
 }
 
 function validateCivilCertificationTermNumber(term_number, handler) {
@@ -352,11 +345,11 @@ function validateCivilCertificationTermNumber(term_number, handler) {
     $.ajax({
         url: `${origin}${pathname}?r=student/comparestudentcertificate&civil_certification_term_number=${term_number}`,
     }).success(function (response) {
-        $.each( $.parseJSON( response ), function(student_fk, id){
+        $.each($.parseJSON(response), function (student_fk, id) {
             console.log(student_fk)
-            if(student_fk != '') passTerm = true
+            if (student_fk != '') passTerm = true
         });
-        if(passTerm) {
+        if (passTerm) {
             ret[0] = false;
             ret[1] = "Nº de certidão já vinculada com cadastro de aluno existente.";
             handler(ret);
@@ -374,11 +367,11 @@ function validateCivilRegisterEnrollmentNumber(term_number, handler) {
     $.ajax({
         url: `${origin}${pathname}?r=student/comparestudentcivilregisterenrollmentnumber&civil_register_enrollment_number=${term_number}`,
     }).success(function (response) {
-        $.each( $.parseJSON( response ), function(student_fk, id){
+        $.each($.parseJSON(response), function (student_fk, id) {
             console.log(student_fk)
-            if(student_fk != '') passTerm = true
+            if (student_fk != '') passTerm = true
         });
-        if(passTerm) {
+        if (passTerm) {
             ret[0] = false;
             ret[1] = "Nº de certidão já vinculada com cadastro de aluno existente.";
             handler(ret);
@@ -387,15 +380,15 @@ function validateCivilRegisterEnrollmentNumber(term_number, handler) {
     });
 }
 
-function validateNis(nis){
+function validateNis(nis) {
     return rule(nis, numberRules.nis);
 }
 
-function validateCns(cns){
+function validateCns(cns) {
     return rule(cns, numberRules.cns);
 }
 
-function isset(variable){
+function isset(variable) {
     return (variable != 'undefined' && variable != null);
 }
 
@@ -404,66 +397,66 @@ function pad(str, max) {
     return str.length < max ? pad("0" + str, max) : str;
 }
 
-function errorMessage(id,message){
+function errorMessage(id, message) {
     removeErrorMessage(id);
     id = $(id).attr("id");
-    $("#"+id).parent().append("<span id='"+id+"_error' class='error'><br/>"+message+"</span>");
+    $("#" + id).parent().append("<span id='" + id + "_error' class='error'><br/>" + message + "</span>");
 }
 
-function warningMessage(id,message) {
+function warningMessage(id, message) {
     removeWarningMessage(id);
     id = $(id).attr("id");
-    $("#"+id).parent().append("<span id='"+id+"_warn' class='warning'><br/>"+message.replace(',','')+"</span>");
-    $("#registrosSimilares").css('margin','5px 0px 0px 1px');
+    $("#" + id).parent().append("<span id='" + id + "_warn' class='warning'><br/>" + message.replace(',', '') + "</span>");
+    $("#registrosSimilares").css('margin', '5px 0px 0px 1px');
 }
 
-function removeErrorMessage(id){
-    $(id+'_error').remove();
+function removeErrorMessage(id) {
+    $(id + '_error').remove();
 }
 
-function removeWarningMessage(id){
-    $(id+'_warn').remove();
+function removeWarningMessage(id) {
+    $(id + '_warn').remove();
 }
 
-function errorNotification(id){
+function errorNotification(id) {
     $(id).parent().children().css("border-color", "#D21C1C");
     $(id).parent().children().css("color", "#D21C1C");
     $(id).parent().children().trigger("mouseover");
-    setTimeout(function(){$(id).parent().children().trigger("mouseout");}, 7000);
+    setTimeout(function () { $(id).parent().children().trigger("mouseout"); }, 7000);
 }
-function removeErrorNotification(id){
+function removeErrorNotification(id) {
     $(id).parent().children().css("border-color", "");
     $(id).parent().children().css("color", "");
 }
 
-function warningNotification(id){
+function warningNotification(id) {
     $(id).parent().children().css("border-color", "#E98305");
     $(id).parent().children().css("color", "#E98305");
     $(id).parent().children().trigger("mouseover");
-    setTimeout(function(){$(id).parent().children().trigger("mouseout");}, 7000);
+    setTimeout(function () { $(id).parent().children().trigger("mouseout"); }, 7000);
 }
-function removeWarningNotification(id){
+function removeWarningNotification(id) {
     $(id).parent().children().css("border-color", "");
     $(id).parent().children().css("color", "");
 }
 
-function addError(id, message){
-    if(message != null) errorMessage(id, message);
+function addError(id, message) {
+    if (message != null) errorMessage(id, message);
     errorNotification(id);
 }
-function removeError(id, id_caixa, id_icon){
-    if(id_caixa != null) $(id_caixa).attr('data-original-title', '');
-    if(id_icon != null) $(id_icon).css('display', 'none');
+function removeError(id, id_caixa, id_icon) {
+    if (id_caixa != null) $(id_caixa).attr('data-original-title', '');
+    if (id_icon != null) $(id_icon).css('display', 'none');
     removeErrorMessage(id);
     removeErrorNotification(id);
 }
 
-function addWarning(id, message, id_caixa, id_icon){
+function addWarning(id, message, id_caixa, id_icon) {
     $(id_icon).css('display', 'inline-block');
     $(id_caixa).attr('data-original-title', message);
     warningNotification(id);
 }
-function removeWarning(id, id_caixa, id_icon){
+function removeWarning(id, id_caixa, id_icon) {
     $(id_icon).css('display', 'none');
     $(id_caixa).attr('data-original-title', '');
     removeWarningNotification(id);
@@ -475,10 +468,10 @@ function removeWarning(id, id_caixa, id_icon){
  * @param {element} id
  * @returns {nothing}
  */
-function addRequired(id){
+function addRequired(id) {
     removeRequired(id);
     $(id).addClass('required');
-    $(id).text($(id).text()+"*");
+    $(id).text($(id).text() + "*");
 }
 /**
  * Remove a classe "required" ao campo, e remove o "*" do seu texto;
@@ -486,10 +479,10 @@ function addRequired(id){
  * @param {element} id
  * @returns {nothing}
  */
-function removeRequired(id){
+function removeRequired(id) {
     var text = $(id).text();
     $(id).removeClass('required');
-    $(id).text(text.replace('*',''));
+    $(id).text(text.replace('*', ''));
 }
 
 /**
@@ -498,7 +491,7 @@ function removeRequired(id){
  * @param {element} id
  * @returns {nothing}
  */
-function addRequiredSelect2(id){
+function addRequiredSelect2(id) {
     var newId = $(id).parent().parent().children("label");
     addRequired(newId);
 }
@@ -509,7 +502,7 @@ function addRequiredSelect2(id){
  * @param {element} id
  * @returns {nothing}
  */
-function removeRequiredSelect2(id){
+function removeRequiredSelect2(id) {
     var newId = $(id).parent().parent().children("label");
     removeRequired(newId);
 }
@@ -520,10 +513,10 @@ function removeRequiredSelect2(id){
  * @param {element} id
  * @returns {nothing}
  */
-function registerAndOpenTab(id){
-    $(id).on('click', function(event) {
+function registerAndOpenTab(id) {
+    $(id).on('click', function (event) {
         event.preventDefault();
-        window.open($(this).attr("url")); 
+        window.open($(this).attr("url"));
     });
 }
 

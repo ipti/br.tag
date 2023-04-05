@@ -2,6 +2,10 @@
 
 namespace SagresEdu;
 
+use JMS\Serializer\Annotation\XmlList;
+
+use JMS\Serializer\Annotation\SerializedName;
+
 /**
  * Class representing ProfissionalTType
  *
@@ -12,27 +16,32 @@ class ProfissionalTType
 {
 
     /**
-     * @var string $cpfProfissional
+     * @var string $cpfProfissional 
+     * @SerializedName("edu:cpfProfissional")
      */
     private $cpfProfissional = null;
 
     /**
      * @var string $especialidade
+     * @SerializedName("edu:especialidade")
      */
     private $especialidade = null;
 
     /**
      * @var int $idEscola
+     * @SerializedName("edu:idEscola")
      */
     private $idEscola = null;
 
     /**
      * @var bool $fundeb
+     * @SerializedName("edu:fundeb")
      */
     private $fundeb = null;
 
     /**
      * @var \SagresEdu\AtendimentoTType[] $atendimento
+     * @XmlList(inline = true, entry = "edu:atendimento")
      */
     private $atendimento = [
         

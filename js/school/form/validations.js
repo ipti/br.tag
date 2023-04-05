@@ -148,8 +148,8 @@ $(formIdentification + 'email').focusout(function () {
 
 $(formIdentification + 'manager_cpf').focusout(function () {
     var id = '#' + $(this).attr("id");
-    if (!validateCpf($(id).val())) {
-        $(id).attr('value', '');
+    const validationState = validateCpf($(id).cleanVal());
+    if (!validationState.valid) {
         addError(id, "Informe um CPF válido. Deve possuir apenas números.");
     } else {
         removeError(id);

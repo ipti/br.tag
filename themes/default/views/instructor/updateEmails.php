@@ -16,7 +16,7 @@
 		'id' => 'updateEmails-form', 'enableAjaxValidation' => FALSE,
 	]);
 ?>
-
+<div class="main">
 <div class="row-fluid">
 	<div class="span12">
 		<h1><?= yii::t('default', 'Update Instructor e-mails') ?></h1>
@@ -40,5 +40,5 @@
 		<div class="clear"></div>
 	</div>
 </div>
-
+</div>
 <?php $this->endWidget(); ?>

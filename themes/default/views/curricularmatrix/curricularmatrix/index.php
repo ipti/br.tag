@@ -44,18 +44,18 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
             <div class="column">
                 <div class="t-field-number">
                     <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Workload'), 'workload', ['class' => "t-field-number__label control-label"]) ?>
-                    <?= CHtml::numberField("workload", "0", ["min" => "0", "max" => "9999", "class" => "t-field-number__input"]) ?>
+                    <?= CHtml::numberField("workload", "0", ["min" => "0", "max" => "9999", "class" => "t-field-number__input" , 'style' => 'height: 23px; border: 1px solid #aaa;']) ?>
                 </div>
             </div>
             <div class="column">
                 <div class="t-field-number">
                     <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Credits'), 'credits', ['class' => "t-field-number__label control-label"]) ?>
-                    <?= CHtml::numberField("credits", "0", ["min" => "0", "max" => "99", "class" => "t-field-text__input"]) ?>
+                    <?= CHtml::numberField("credits", "0", ["min" => "0", "max" => "99", "class" => "t-field-text__input", 'style' => 'height: 23px; border: 1px solid #aaa;']) ?>
                 </div>
             </div>
             <div class="column">
                 <?= CHtml::button(Yii::t('curricularMatrixModule.index', 'Add'), [
-                    "id" => "add-matrix", "class" => "t-button-submit"
+                    "id" => "add-matrix", "class" => "t-button-primary", "style" => "margin: 1.5em 0 !important;"
                 ]) ?>
             </div>
         </div>
@@ -87,6 +87,7 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                         'name' => 'credits',
                         'htmlOptions' => ['width' => '150px']
                     ], [
+                        'header' => 'Ações',
                         'class' => 'CButtonColumn',
                         'template' => Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ? '{delete}' : '',
                         'afterDelete' => 'function(link, success, data){

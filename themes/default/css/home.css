@@ -103,10 +103,6 @@
     color: black !important;
 }
 
-.modal, .modal-dialog, .modal-content, .modal-header {
-    border-radius: 5px 5px 0px 0px !important;
-}
-
 .modal-title {
     font-size: 20px;
     padding-top: 5px !important;
@@ -275,13 +271,8 @@ form {
     display: none;
 }
 
-.no-disciplines-guide, .disciplines-container {
+.disciplines-container {
     display: none;
-}
-
-.no-disciplines-link {
-    cursor: pointer;
-    text-decoration: underline;
 }
 
 .alert-no-disciplines, .alert-no-students {

@@ -364,23 +364,11 @@ preenchidos";
      */
     public function actionIndex()
     {
-        $query = InstructorIdentification::model()->findAll();
-        $filter = new InstructorIdentification('search');
-        $filter->unsetAttributes();  // clear any default values
-        if (isset($_GET['InstructorIdentification'])) {
-            $_GET['InstructorIdentification']['name'] = $this->removeWhiteSpace($_GET['InstructorIdentification']['name']);
-            $filter->attributes = $_GET['InstructorIdentification'];
-        }
-        $school = Yii::app()->user->school;
-        $dataProvider = new CActiveDataProvider('InstructorIdentification', [
-            'criteria' => [
-                'order' => 'name ASC',
-            ], 'pagination' => [
-                'pageSize' => count($query),
-            ]
-        ]);
+        $dataProvider = InstructorIdentification::model()->search();
+        
+        
         $this->render('index', [
-            'dataProvider' => $dataProvider, 'filter' => $filter
+            'dataProvider' => $dataProvider
         ]);
     }
 
@@ -402,10 +390,12 @@ preenchidos";
         $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', [':uf_id' => (int)$edcenso_uf_fk]);
         $data = CHtml::listData($data, 'id', 'name');
 
-        echo CHtml::tag('option', ['value' => ""], 'Selecione uma Cidade', TRUE);
+        $options = array();
         foreach ($data as $value => $name) {
-            echo CHtml::tag('option', ['value' => $value], CHtml::encode($name), TRUE);
+            array_push($options, CHtml::tag('option', ['value' => $value], CHtml::encode($name), TRUE));
         }
+
+        echo json_encode($options);
     }
 
     public function actionGetCityByCep()
@@ -523,7 +513,7 @@ preenchidos";
             if (isset($instructor->inep_id) && !empty($instructor->inep_id)) { // VEr possível correção !!!!
                 $return = InstructorTeachingData::model()->findAllByAttributes(['instructor_inep_id' => $instructor_inepid_id]);
             } else {
-                $return = InstructorTeachingData::model()->find->findAllByAttributes(['instructor_fk' => $instructor_inepid_id]);
+                $return = InstructorTeachingData::model()->findAllByAttributes(['instructor_fk' => $instructor_inepid_id]);
             }
         }
 

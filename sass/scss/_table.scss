@@ -30,8 +30,8 @@
     tbody {
 
         --dt-row-selected: $colorsBaseProductLightActive;
-        --dt-row-selected-text: var(--dt-row-selected)
-        --dt-row-selected-link: var(--dt-row-selected)
+        --dt-row-selected-text: var(--dt-row-selected);
+        --dt-row-selected-link: var(--dt-row-selected);
         .selected {
             background-color: $colorsBaseProductLightActive;
         }
@@ -81,7 +81,6 @@
         text-align: center;
         text-decoration: none !important;
         cursor: pointer;
-        color: inherit !important;
         border: 1px solid transparent;
         border-radius: 2px;
         background: transparent;

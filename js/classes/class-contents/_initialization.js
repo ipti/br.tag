@@ -84,9 +84,18 @@ $("#save").on('click', function () {
     $(".alert-save").hide();
     var classContents = [];
     $(".day-row").each(function () {
+        var students = [];
+        $(this).find(".student-diary-of-the-day").each(function () {
+            students.push({
+                id: $(this).attr("studentid"),
+                diary: $(this).val()
+            })
+        });
         classContents.push({
             day: $(this).attr("day"),
-            contents: $(this).find("select.course-classes-select").val()
+            diary: $(this).find(".classroom-diary-of-the-day").val(),
+            contents: $(this).find("select.course-classes-select").val(),
+            students: students
         });
     });
 
@@ -119,3 +128,37 @@ $("#save").on('click', function () {
 
 $('.heading-buttons').css('width', $('#content').width());
 
+$(document).on("click", ".classroom-diary-button", function () {
+    var button = this;
+    $(".classroom-diary-day").val($(button).closest("tr").attr("day"));
+    $(".js-classroom-diary").val($(button).parent().find(".classroom-diary-of-the-day").val());
+    $(".accordion-students").find(".accordion-group").each(function () {
+        var value = $(button).parent().find(".student-diary-of-the-day[studentid=" + $(this).closest(".accordion-group").attr("studentid") + "]").val();
+        $(this).find(".student-classroom-diary").val(value);
+        value !== ""
+            ? $(this).find(".accordion-title").find(".fa").removeClass("fa-file-o").addClass("fa-file-text-o")
+            : $(this).find(".accordion-title").find(".fa").removeClass("fa-file-text-o").addClass("fa-file-o");
+    });
+    $("#js-classroomdiary").modal("show");
+});
+
+$(document).on("click", ".js-add-classroom-diary", function () {
+    var tr = $("#class-contents tbody").find("tr[day=" + $(".classroom-diary-day").val() + "]");
+    tr.find(".classroom-diary-of-the-day").val($(".js-classroom-diary").val());
+    $(".student-classroom-diary").each(function () {
+        tr.find(".student-diary-of-the-day[studentid=" + $(this).closest(".accordion-group").attr("studentid") + "]").val($(this).val());
+    });
+});
+
+$(document).on("keypress", ".js-classroom-diary, .student-classroom-diary", function (event) {
+    if (event.which === 13) {
+        event.preventDefault();
+        this.value = this.value + "\n";
+    }
+});
+
+$(document).on("input", ".student-classroom-diary", function () {
+    $(this).val() === ""
+        ? $(this).closest(".accordion-group").find(".accordion-title").find(".fa").removeClass("fa-file-text-o").addClass("fa-file-o")
+        : $(this).closest(".accordion-group").find(".accordion-title").find(".fa").removeClass("fa-file-o").addClass("fa-file-text-o");
+});

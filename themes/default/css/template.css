@@ -479,7 +479,7 @@ body > .container-fluid.documentation {
 #content {
     position: relative;
     overflow: visible;
-    margin: 0 0 20px 191px;
+    margin: 0 0 20px 0px;
     background: #fff;
     min-width: 320px;
     padding: 0 0 10px;
@@ -690,23 +690,6 @@ body > .container-fluid.documentation {
 #menu::-webkit-scrollbar {
     display: none;
 }
-
-@media (max-width: 992px) { 
-    #menu {
-        z-index: 99;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    }
-    .navbar.main {
-        width: 100% !important;
-    }
-    #content {
-        margin: 0 0 20px 0px;
-    }
-    #logo-menu{
-        margin-left: 10px;
-    }
-
- }
 
 #menu .profile {
     display: block;
@@ -1640,11 +1623,20 @@ li.highlight.profile
 }
 
 .filter-bar {
-    background: #fafafa;
-    border: 1px solid #e5e5e5;
+    /* background: #fafafa;
+    border: 1px solid #e5e5e5; */
     height: 44px;
     margin-bottom: 20px;
     padding: 0 10px;
+    align-items: flex-end !important;
+}
+
+.filter-bar > div {
+    display: grid;
+}
+
+.filter-bar .t-button-primary {
+    margin: 0 !important;
 }
 
 .filter-bar div {
@@ -7851,9 +7843,6 @@ div.glyphicons.glyphicon-primary i:before {
     .navbar.main {
         width: 100% !important;
     }
-    #content {
-        margin: 0 0 20px 0px;
-    }
     #logo-menu{
         margin-left: 10px;
     }
@@ -7904,6 +7893,12 @@ div.glyphicons.glyphicon-primary i:before {
         margin: 0;
     }
 }
+@media (min-width: 768px) {
+    #content {
+        margin: 0 0 20px 191px;
+    }
+}
+
 /* @media (max-width: 979px) {
     body > .container-fluid.fixed {
         width: auto;
@@ -8553,6 +8548,7 @@ li[discipline]:hover {
     background-color: lightcyan;
 }
 
+
 .frequency-list {
     font-size: 12px;
     padding: 7px 8px 5px 8px !important;
@@ -8677,13 +8673,59 @@ input[type="text"] {
     vertical-align: middle !important;
 }
 
+.classroom-diary-button {
+    padding: 8px;
+    font-size: 18px !important;
+    width: 14px;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.classroom-diary-button:hover {
+    color: #3F45EA;
+}
+
+.classroom-diary-button.disabled {
+    pointer-events: none;
+    color: #ccc;
+}
+
+.js-classroom-diary {
+    width: 510px;
+    max-width: 510px;
+    min-width: 510px;
+    height: 200px;
+    min-height: 200px;
+    max-height: 200px;
+}
+
+#js-classroomdiary .modal-body {
+    height: 500px !important;
+    max-height: 500px !important;
+}
+
+.accordion-students .accordion-title i {
+    margin-right: 5px;
+}
+
+.student-classroom-diary {
+    width: 480px;
+    max-width: 480px;
+    min-width: 480px;
+    height: 100px;
+    min-height: 100px;
+    max-height: 100px;
+
+}
+
 .select2-container.course-classes-select {
     margin-bottom: 0;
     opacity: 100;
     -webkit-appearance: none;
 }
 
-.course-classes-optgroup, .competence-optgroup {
+.course-classes-optgroup {
     text-decoration: underline;
 }
 
@@ -8723,7 +8765,7 @@ input[type="text"] {
     width: 120px;
 }
 
-#course-plan-form .js-course-plan-loading-disciplines, #course-plan-form .js-course-plan-loading-competences {
+#course-plan-form .js-course-plan-loading-disciplines, #course-plan-form .js-course-plan-loading-abilities {
     display: none;
     font-size: 20px;
     vertical-align: middle;
@@ -8769,17 +8811,70 @@ input[type="text"] {
     width: 700px;
 }
 
-.competence-code, .competence-description {
-    font-size: 12px;
-}
-
-.courseplan-competence-container {
-    width: 700px;
+.courseplan-ability-container {
+    width: 720px;
     display: inline-block;
 }
 
-.competence-select {
-    width: 718px;
+.courseplan-abilities-selected {
+    margin-top: 10px;
+}
+
+.js-abilities-parents .loading-next-structure {
+    display: none;
+    margin-left: 10px;
+    font-size: 23px !important;
+    vertical-align: middle;
+}
+
+.ability-panel-option {
+    background-color: #f9f9f9;
+    padding: 5px 10px;
+    text-align: justify;
+    border-radius: 5px;
+    border: 1px solid darkgray;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.courseplan-abilities-selected .ability-panel-option {
+    cursor: auto;
+}
+
+.js-abilities-selected {
+    display: none;
+}
+
+.ability-panel-option.selected {
+    opacity: 0.4;
+}
+
+.ability-panel-option:hover {
+    background-color: #eee;
+}
+
+.ability-panel-option i {
+    vertical-align: middle;
+    width: 25px;
+    font-size: 18px;
+}
+
+.js-abilities-panel .ability-panel-option i {
+    color: #609450;
+}
+
+.js-abilities-selected .ability-panel-option i {
+    color: darkred;
+}
+
+.courseplan-abilities-selected .ability-panel-option i {
+    color: #3F45EA;
+}
+
+.ability-panel-option span {
+    display: inline-block;
+    width: calc(100% - 30px);
+    vertical-align: middle;
 }
 
 .courseplan-type-container {
@@ -8898,7 +8993,7 @@ tbody .details-control:hover {
 
 .pageA4H {
     width: 1122px;
-    height: 810px;
+    height: 1122px;
     margin: 0 auto;
 }
 
@@ -9283,6 +9378,132 @@ tbody .details-control:hover {
     display: none;
 }
 
+@media (max-width: 480px) {
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    #menu .slim-scroll > ul > li.hide-responsive,
+    #menu > ul > li.hide-responsive {
+        display: none !important;
+    }
+
+    .hide-responsive {
+        display: none !important;
+    }
+
+    #content {
+        margin: 0;
+    }
+
+    #box-menu {
+        margin-top: 44px !important;
+    }
+
+    .buttons button {
+        margin-top: -60px;
+    }
+
+    .buttons .print {
+        margin-top: -62px !important;
+    }
+
+    .box-links-previous-next {
+        margin-top: 20px;
+        display: block;
+    }
+
+    .show,
+    .responsive-menu,
+    #buttons-student,
+    .hide-box {
+        display: block;
+    }
+
+    .breadcrumb {
+        height: 52px !important;
+    }
+
+    .responsive-menu .dropdown-menu li {
+        margin-bottom: 5px;
+        border-bottom: solid 1px gray;
+    }
+
+    .responsive-menu .dropdown-menu li:last-child {
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+
+    #widget-StudentsList,
+    .columnone {
+        margin-top: 50px !important;
+    }
+
+    .dropdown-toggle,
+    .responsive-menu .btn-group > .btn:hover,
+    .btn-group > .btn:focus,
+    .btn-group > .btn:active,
+    .btn-group > .btn.active,
+    .btn-group.open .btn.dropdown-toggle {
+        background-color: #496cad;
+        color: #fff;
+    }
+
+    .innerLR .responsive-menu {
+        margin-right: 15px;
+    }
+
+    #classroom-form .responsive-menu {
+        margin-right: 0;
+    }
+
+    .dropdown-margin {
+        margin-top: 57px;
+        margin-right: 10px;
+    }
+
+    #buttons-student {
+        margin-top: 10px;
+    }
+
+    #received .span3:first-child label:first-child {
+        margin-top: 64px !important;
+    }
+
+    #button-add-school {
+        margin-top: 8px;
+        margin-right: 10px;
+    }
+
+    #button-menu {
+       /*  left: 85% !important; */
+       z-index: 2;
+    }
+
+    .box-instructor > .dropdown-margin {
+        margin-top: 66px !important;
+    }
+
+    .container-instructor > .innerLR {
+        padding-top: 10px !important;
+    }
+
+    #LoginForm_year {
+        min-width: 100px;
+    }
+
+    .navbar.main .appbrand {
+        width: 130px;
+    }
+
+    .username {
+        float: left;
+    }
+}
+
 #teachingdata-dialog-form .select2-container {
     width: 100% !important;
 }
@@ -9313,4 +9534,10 @@ tbody .details-control:hover {
 }
 .clearmargin {
     margin: 0;
+}
+.objective-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 42px;
 }

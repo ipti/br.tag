@@ -1,6 +1,72 @@
 # Atualizações
 
-## [Versão 3.3.8]
+## [Versão 3.11.25]
+- Cabeçalho de Ações corrigido
+
+## [Versão 3.11.24]
+- Correção de desempenho ao carregar muitos registros na tela de alunos corrigida
+
+## [Versão 3.10.24]
+- Adicionada uma coluna na listagem de alunos
+- Adicionada coluna de matrícula na listagem de alunos em turmas 
+- Alterada a validação nos campos de nome para permitir acentuação
+- Verificação no formulário de criação de turmas nos checkbox em 'tipo de atendimento' consertada
+- Corrigido erro no espaçamento dos checkboxs
+
+## [Versão 3.10.23]
+- Agora as ações de deletar professores e estudantes funcionam corretamente
+
+## [Versão 3.10.22]
+- Agora os relatórios de turmas funcionam corretamente
+
+## [Versão 3.10.21]
+- Os campos de matriz curricular foram padronizados
+
+## [Versão 3.10.20]
+- Campo de observação adicionado no formulário de matrícula do aluno
+
+## [Versão 3.9.20]
+- Agora as turmas sem alunos aparecem no relatório de alunos por turma
+- Bug no nome da turma no relatório de alunos por turma corrigido
+
+## [Versão 3.9.19]
+- Corrigida responsividade no formulário de alunos 
+
+## [Versão 3.9.18]
+- Estilo das caixas de filtros corrigidos
+
+
+## [Versão 3.9.17]
+- Agora na tela de login o "Lembra-me" agora é "Mantenha-me conectado"
+
+
+## [Versão 3.9.16]
+- O Bug para algumas etapas de ensino no formulário de turmas foi corrigido
+
+## [Versão 3.9.15]
+- Agora o campo nome social agora é Nome de Apresentação que pode ser usado ou não para nome social
+- Agora o campo de nome civil fica oculto e é exibido um checkbox com "Esse é um nome social?" relacionando com o campo "Nome de Apresentação"
+
+## [Versão 3.9.13]
+- Relatório de Cardápios Especiais
+- Aba Saúde adicionada no formulário de aluno
+
+## [Versão 3.8.13]
+- Correções nos formulários do módulo Sagres.
+- Correção da validação do CPF.
+- Agora o CPF do responsável é obrigatório.
+- No formulário de professores agora as cidades aparecem corretamente.
+- Ícone do Sagres adicionado na sidebar.
+- Correção visual no formulário de transferência.
+- Correção visual nos botões.
+- Nos formulários agora aparecem textos nas caixas vazias indicando o que deve ser inserido.
+- Nos formulários o visual das seções foram alteradas.
+- Correção de bugs e visual no formulário de plano de aula.
+
+## [Versão 3.4.7]
+- Módulo Sagres adicionado
+
+## [Versão 3.3.7]
 - Justificativa de falta para o professor
 
 ## [Versão 3.2.7]
@@ -61,6 +127,16 @@
 
 **Bugs Corrigidos**
 - Relatório do Bolsa Família
+
+
+## [Versão 2.11.9]
+**Bugs Corrigidos:**
+- Redirecionamento automático quando sessão expira.
+- Correção na gestão de usuários que estavam removendo os vinculos
+
+## [Versão 2.11.7]
+**Melhorias:**
+- Adicionado módulo de gestão de usuários.
 
 ## [Versão 2.10.7]
 **Melhorias:**

@@ -17,13 +17,11 @@
     
         padding: $spaceSmall $spaceMedium $spaceSmall $spaceMedium;
         margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
-       /*  display: inline-block; */
         overflow-x: hidden;
     }
     @include device(desktop) {
         padding: $spaceXXSmall;
         margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
-       /*  display: inline-block; */
         overflow-x: hidden;
     }
 
@@ -35,15 +33,31 @@
         
         .t-tabs__item {
             display: inline-flex;
-            padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
-            margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
-            border-bottom: $colorsBaseProductLight solid 0.15em;
+            white-space: nowrap;
+            padding: $spaceEmpty;
+            margin: $spaceEmpty;
             text-align: center;
+            
 
             &.active {
-                border-bottom: $colorsBaseProductDarkActive solid 0.15em;
                 font-weight: $fontWeightBold;
                 text-decoration: none;
+                .t-tabs__link {
+                    display: flex;
+                    align-items: center;
+                    color: $colorsBaseProductNormalHover;
+                    .t-tabs__numeration {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin-right: $SizeXSmall;
+                        width: $SizeLarge;
+                        height: $SizeLarge;
+                        border-radius: 100%;
+                        background-color: $colorsBaseProductNormalHover;
+                        color: $colorsBaseWhiteNormal;
+                    }
+                }
             }
 
             a {
@@ -55,17 +69,27 @@
                 height: auto;
                 color: $colorsBaseInkLightHover;
                 padding: $spaceNormal;
-                
+                display: flex;
+                align-items: center;
 
                 @include device(tablet) {
                     padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
-                    
             
                 }
                 @include device(desktop) {
                     padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
-                    display: inline-block;
                     
+                }
+                .t-tabs__numeration {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-right: $SizeXSmall;
+                    width: $SizeLarge;
+                    height: $SizeLarge;
+                    border-radius: 100%;
+                    background-color: $colorsBaseCloudLightActive;
+                    color: $colorsBaseInkLight;
                 }
             }
 

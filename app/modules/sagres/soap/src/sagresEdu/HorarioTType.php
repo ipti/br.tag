@@ -2,6 +2,10 @@
 
 namespace SagresEdu;
 
+use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\XmlList;
+use JMS\Serializer\Annotation\SerializedName;
+
 /**
  * Class representing HorarioTType
  *
@@ -13,30 +17,35 @@ class HorarioTType
 
     /**
      * @var int $diaSemana
+     * @SerializedName("edu:dia_semana")
      */
     private $diaSemana = null;
 
     /**
      * @var int $duracao
+     * @SerializedName("edu:duracao")
      */
     private $duracao = null;
 
     /**
      * @var \DateTime $horaInicio
+     * @Type("DateTime<'H:i:s'>")
+     * @SerializedName("edu:hora_inicio")
      */
     private $horaInicio = null;
 
     /**
      * @var string $disciplina
+     * @SerializedName("edu:disciplina")
      */
     private $disciplina = null;
 
     /**
-     * @var string[] $cpfProfessor
+     * @var [] $cpfProfessor
+     * @XmlList(inline = true, entry = "edu:cpfProfessor")
+     * @SerializedName("edu:cpfProfessor")
      */
-    private $cpfProfessor = [
-        
-    ];
+    private $cpfProfessor = [];
 
     /**
      * Gets as diaSemana
@@ -173,10 +182,10 @@ class HorarioTType
     /**
      * Sets a new cpfProfessor
      *
-     * @param string $cpfProfessor
+     * @param $cpfProfessor
      * @return self
      */
-    public function setCpfProfessor($cpfProfessor)
+    public function setCpfProfessor(array $cpfProfessor)
     {
         $this->cpfProfessor = $cpfProfessor;
         return $this;
