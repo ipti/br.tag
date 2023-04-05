@@ -1,4 +1,6 @@
 # Atualizações
+## [Versão 3.12.27]
+-  Corrigido layout da página de relatório de diário eletônico
 ## [Versão 3.12.26]
 - Adicionada uma coluna na listagem de alunos
 - Adicionada coluna de matrícula na listagem de alunos em turmas 
