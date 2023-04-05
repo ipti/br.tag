@@ -1735,7 +1735,7 @@ li.highlight.profile
 }
 
 .filter-bar label {
-    float: left;
+   /*  float: left; */
     margin: 0 5px;
     display: block;
     line-height: 30px;
