@@ -42,7 +42,7 @@ class GenRA
                 return 'erro 500';
             }
         }else{
-            return 'tentar novamente';
+            return 'Tentar Novamente';
         }
     }
 

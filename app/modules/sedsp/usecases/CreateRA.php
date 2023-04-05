@@ -21,13 +21,13 @@ class CreateRA
         $ucnewstudent = new AddStudentToSED();
         $RA = $ucnewstudent->exec($id);
 
-
         if(method_exists($RA,'getoutSucesso')){
             if(!isset($RA->outErro)){
-
-            }else {
-
+                $ucadd = new AddRACodeToTAG();
+                $student = $ucadd->exec($id, $RA->getoutAluno()->outNumRA);
+                return $student->gov_id;
             }
+            return false;
         }else if($RA->getHasResponse()){
             if($RA->getCode()==400){
                 return $RA->getoutErro();
@@ -35,7 +35,7 @@ class CreateRA
                 return 'erro 500';
             }
         }else{
-            return 'tentar novamente';
+            return 'Tentar Novamente';
         }
     }
 
