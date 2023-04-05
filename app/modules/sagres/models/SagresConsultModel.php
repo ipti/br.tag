@@ -153,7 +153,7 @@ class SagresConsultModel
             $classType = new TurmaTType;
             $classId = $turma['classroomId'];
 
-            if (!empty($this->getEnrollments($classId, $referenceYear, $dateStart, $dateEnd))) {
+           // if (!empty($this->getEnrollments($classId, $referenceYear, $dateStart, $dateEnd))) {
                 $classType
                     ->setPeriodo(0) //0 - Anual
                     ->setDescricao($turma["classroomName"])
@@ -164,7 +164,7 @@ class SagresConsultModel
                     ->setFinalTurma(false);
 
                 $classList[] = $classType;
-            }
+            //}
         }
 
         return $classList;
@@ -208,21 +208,49 @@ class SagresConsultModel
     {
         $scheduleList = [];
 
-        $query = "SELECT s.week_day AS weekDay, ed.name AS disciplineName from schedule s 
-        JOIN edcenso_discipline ed ON ed.id = s.discipline_fk 
-        WHERE s.classroom_fk = :classId";
+        $query = "SELECT  
+                    s.week_day AS weekDay, 
+                    ed.name AS disciplineName 
+                FROM 
+                    schedule s 
+                    JOIN edcenso_discipline ed ON ed.id = s.discipline_fk 
+                    JOIN classroom c ON c.id = s.classroom_fk 
+                    JOIN curricular_matrix cm ON cm.discipline_fk = ed.id 
+                WHERE 
+                    s.classroom_fk = :classId and 
+                    s.month = :referenceMonth
+                GROUP BY 
+                    week_day";
 
         $params = [
-            ':classId' => 442
+            ':classId' => 441,
+            ':referenceMonth' => 1
         ];
+
 
         $schedules = Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
 
         foreach ($schedules as $schedule) {
             $scheduleType = new HorarioTType;
+
+            $query1 = "SELECT 
+                            ROUND( (t.credits / COUNT(*))) AS duration
+                        FROM (
+                            SELECT ed.name AS disciplineName, cm.credits AS credits
+                                FROM schedule s 
+                                JOIN edcenso_discipline ed ON ed.id = s.discipline_fk 
+                                JOIN classroom c ON c.id = s.classroom_fk 
+                                JOIN curricular_matrix cm ON cm.discipline_fk = ed.id 
+                            WHERE s.classroom_fk = 444 and s.month = 1
+                            GROUP BY s.week_day
+                        ) t
+                        WHERE t.disciplineName = '" . $schedule['disciplineName'] . "'";
+           
+            $duration = Yii::app()->db->createCommand($query1)->queryRow();
+
             $scheduleType
                 ->setDiaSemana($schedule['weekDay'])
-                ->setDuracao($schedule['duration'])
+                ->setDuracao($duration['duration'])
                 ->setHoraInicio($this->getDateTimeFromInitialHour($schedule['startTime']))
                 ->setDisciplina($schedule['disciplineName'])
                 ->setCpfProfessor([$schedule['cpfInstructor']]);
