@@ -14,7 +14,8 @@ $cs->registerScriptFile($baseUrl . '/js/admin/grades-structure.js', CClientScrip
 
 $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
 ?>
-<?php //echo $form->errorSummary($model); ?>
+<?php //echo $form->errorSummary($model); 
+?>
 
 <div class="main">
     <?php
@@ -34,7 +35,6 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
         </div>
     </div>
     <div class="tag-inner">
-
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">
                 <?php echo Yii::app()->user->getFlash('success') ?>
@@ -43,6 +43,10 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
         <div class="alert-required-fields no-show alert alert-error"></div>
         <div class="row filter-bar margin-bottom-none">
             <div>
+                <div>
+                    <i class="js-grades-structure-loading fa fa-spin fa-spinner"></i>
+                </div>
+
                 <?php echo CHtml::label(yii::t('default', 'Stage') . "*", 'modality_fk', array('class' => 'control-label required', 'style' => 'width: 54px;')); ?>
                 <div>
                     <?php
@@ -52,8 +56,8 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                         'prompt' => 'Selecione o estágio...',
                     ));
                     ?>
-                </div>
-                <i class="js-grades-structure-loading fa fa-spin fa-spinner"></i>
+                </div> 
+                 <i class="js-grades-structure-loading fa fa-spin fa-spinner"></i>
             </div>
         </div>
         <div class="grades-structure-container js-grades-structure-container">
@@ -68,7 +72,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
         </div>
     </div>
     <div class="formulas">
-        <?php foreach ($formulas as $formula): ?>
+        <?php foreach ($formulas as $formula) : ?>
             <option value="<?= $formula->id ?>"><?= $formula->name ?></option>
         <?php endforeach; ?>
     </div>
@@ -76,10 +80,8 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"
-                        id="myModalLabel">Salvar e Replicar para</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Salvar e Replicar para</h4>
                 </div>
                 <form method="post">
                     <div class="modal-body">
@@ -93,11 +95,9 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default"
-                                data-dismiss="modal">Cancelar
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar
                         </button>
-                        <button type="button" class="btn btn-primary js-save-and-reply-button"
-                                data-dismiss="modal">Salvar e Replicar
+                        <button type="button" class="btn btn-primary js-save-and-reply-button" data-dismiss="modal">Salvar e Replicar
                         </button>
                     </div>
                 </form>

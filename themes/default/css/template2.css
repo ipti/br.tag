@@ -488,7 +488,7 @@ table.dataTable.no-footer {
 .grades-structure-container .unity {
     margin-bottom: 40px;
     padding-bottom: 30px;
-    border-bottom: 1px dashed #ccc;
+    border-bottom: 1px solid #ccc;
     position: relative;
 }
 
