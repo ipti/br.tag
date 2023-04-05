@@ -59,6 +59,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                                 'filter' => false
                             ),
                             array(
+                                'header' => 'Ações',
                                 'class' => 'CButtonColumn',
                                 'template' => '{delete}',
                                 'buttons' => array(
