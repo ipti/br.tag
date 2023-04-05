@@ -127,6 +127,7 @@ class SagresConsultModel
         $classList = [];
 
         $query = "SELECT 
+                    c.initial_hour AS initialHour,
                     c.school_inep_fk AS schoolInepFk,
                     c.id AS classroomId,
                     c.name AS classroomName,
@@ -209,6 +210,7 @@ class SagresConsultModel
         $scheduleList = [];
 
         $query = "SELECT  
+                    s.schedule,
                     s.week_day AS weekDay, 
                     ed.name AS disciplineName 
                 FROM 
@@ -258,13 +260,75 @@ class SagresConsultModel
             $scheduleList[] = $scheduleType;
         }
 
-
         return $scheduleList;
     }
 
+    public function getStartTime($initialHour, $schedule)
+    {
 
-
-
+        /* if($turn == 1){ #Manhã
+            if($schedule == 1)
+                return $this->getDateTimeFromInitialHour(7);
+            elseif ($schedule == 2){
+                return $this->getDateTimeFromInitialHour(8);
+            }elseif ($schedule == 3) {
+                return $this->getDateTimeFromInitialHour(9);
+            }elseif ($schedule == 4) {
+                return $this->getDateTimeFromInitialHour(10);
+            }elseif ($schedule == 5) {
+                return $this->getDateTimeFromInitialHour(11);
+            }
+        }elseif($turn == 2){ #Tarde
+            if ($schedule == 1) {
+                return $this->getDateTimeFromInitialHour(12);
+            }elseif ($schedule == 2) {
+                return $this->getDateTimeFromInitialHour(13);
+            }elseif ($schedule == 2) {
+                return $this->getDateTimeFromInitialHour(14);
+            }elseif ($schedule == 3) {
+                return $this->getDateTimeFromInitialHour(15);
+            }elseif ($schedule == 4) {
+                return $this->getDateTimeFromInitialHour(16);
+            }elseif ($schedule == 5) {
+                return $this->getDateTimeFromInitialHour(17);
+            }
+        } elseif($turn == 3){#Noite
+            if ($schedule == 1) {
+                return $this->getDateTimeFromInitialHour(18);
+            }elseif ($schedule == 2) {
+                return $this->getDateTimeFromInitialHour(19);
+            }elseif ($schedule == 3) {
+                return $this->getDateTimeFromInitialHour(20);
+            }elseif ($schedule == 4) {
+                return $this->getDateTimeFromInitialHour(21);
+            }
+        }elseif($turn == 4){#Integral
+            if($schedule == 1)
+                return $this->getDateTimeFromInitialHour(7);
+            elseif ($schedule == 2){
+                return $this->getDateTimeFromInitialHour(8);
+            }elseif ($schedule == 3) {
+                return $this->getDateTimeFromInitialHour(9);
+            }elseif ($schedule == 4) {
+                return $this->getDateTimeFromInitialHour(10);
+            }elseif ($schedule == 5) {
+                return $this->getDateTimeFromInitialHour(11);
+            }elseif ($schedule == 6) {
+                return $this->getDateTimeFromInitialHour(12);
+            }elseif ($schedule == 7) {
+                return $this->getDateTimeFromInitialHour(13);
+            }elseif ($schedule == 8) {
+                return $this->getDateTimeFromInitialHour(14);
+            }elseif ($schedule == 9) {
+                return $this->getDateTimeFromInitialHour(15);
+            }elseif ($schedule == 10) {
+                return $this->getDateTimeFromInitialHour(16);
+            }
+        }
+        */
+        
+    }
+    
     function getDateTimeFromInitialHour($initialHour)
     {
         $timeFormatted = date('H:i:s', strtotime($initialHour . ':00:00'));
@@ -495,7 +559,7 @@ class SagresConsultModel
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
-            ':enrollmentId' => $enrollmentId,
+            ':enrollmentId' => 441,
             ':referenceYear' => $referenceYear,
             ':dateStart' => $dateStart,
             ':dateEnd' => $dateEnd
