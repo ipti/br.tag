@@ -7,6 +7,7 @@ $this->breadcrumbs=array(
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($themeUrl . '/css/template2.css');
+$cs->registerCssFile(Yii::app()->request->baseUrl . '/sass/css/main.css');
 ?>
 
 <div class="main">
@@ -14,9 +15,10 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
         <div class="span12">
            <?php $this->widget('zii.widgets.grid.CGridView', array(
             'dataProvider' => $dataProvider,
-            'enablePagination' => true,
+            'enablePagination' => false,
             'enableSorting' => false,
-            'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+            'itemsCssClass' => 'js-tag-table tag-table table table-condensed
+            table-striped table-hover table-primary table-vertical-center checkboxs',
             'columns' => array(
             array(
             'name' => 'name'
@@ -40,7 +42,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                                               //$('#AjFlash').html(data).fadeIn().animate({opacity: 1.0}, 3000).fadeOut('slow');
                                               //$.fn.yiiGridView.update('yw0');
                                               $(th).html(data);
-                                              //$(th).removeAttr('href');
+                                              //$(th).removeAttr('  href');
                                         }
                                     })
                                     return false;
