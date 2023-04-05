@@ -50,7 +50,7 @@ $(document).on("click", ".js-new-unity", function (evt) {
         "<div class='unity form-group form-inline'>" +
         "<label class='control-label'>Nome: <span class='red'>*</span></label>" +
         "<input type='text' class='unity-name form-control' placeholder='1ª Unidade, 2ª Unidade, Recuperação Final, etc.'>" +
-        "<i class='remove-unity fa fa-times-circle-o'></i>" +
+        "<i class='remove-unity fa fa-times-circle-o' style='display:flex; margin: 7px 26px 0px 0px'></i>" +
         '<div class="unity-children">' +
         '<div class="unity-type form-group form-inline">' +
         "<label class='control-label'>Modelo: <span class='red'>*</span></label>" +

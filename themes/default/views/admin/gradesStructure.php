@@ -43,10 +43,6 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
         <div class="alert-required-fields no-show alert alert-error"></div>
         <div class="row filter-bar margin-bottom-none">
             <div>
-                <div>
-                    <i class="js-grades-structure-loading fa fa-spin fa-spinner"></i>
-                </div>
-
                 <?php echo CHtml::label(yii::t('default', 'Stage') . "*", 'modality_fk', array('class' => 'control-label required', 'style' => 'width: 54px;')); ?>
                 <div>
                     <?php
@@ -61,6 +57,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             </div>
         </div>
         <div class="grades-structure-container js-grades-structure-container">
+        ---
             <div class="row">
                 <a href="#new-unity" id="new-unity" class="js-new-unity t-button-primary">
                     <img alt="Unidade" src="/themes/default/img/buttonIcon/start.svg">Unidade

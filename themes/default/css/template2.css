@@ -478,7 +478,8 @@ table.dataTable.no-footer {
 }
 
 .grades-structure-container .unity label {
-    width: 105px;
+    /* width: 105px; */
+    width: 64px;
 }
 
 .grades-structure-container .unity-children {
