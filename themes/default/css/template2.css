@@ -153,15 +153,18 @@ table.dataTable {
     margin-left: 5px;
     padding: 0 5px;
 }
+
 .tag-inner {
-    border-radius: 4px;  
+    border-radius: 4px;
 }
+
 .form-content {
-      padding-right: 0;
+    padding-right: 0;
 }
+
 @media (min-width: 768px) {
     .form-content {
-    padding-right: 20% !important;
+        padding-right: 20% !important;
     }
 }
 
@@ -408,8 +411,9 @@ table.dataTable.no-footer {
     background: #d5dded;
 }
 
-.grades_inputs, .grades_inputs .select2-choice{
- width: 134px !important;
+.grades_inputs,
+.grades_inputs .select2-choice {
+    width: 134px !important;
 }
 
 .grades_inputs.select2-container {
@@ -419,11 +423,13 @@ table.dataTable.no-footer {
 
 .grades_title_padding {
     padding: 0px 8px 0px 8px !important;
-   }
-.title_table_notes{
+}
+
+.title_table_notes {
     background-color: #E8EDF1;
     color: #5F738C;
 }
+
 .table-striped.table-grades tbody>tr:nth-child(odd)>td {
     background-color: #ffffff;
 }
@@ -443,7 +449,9 @@ table.dataTable.no-footer {
     border: none;
 }
 
-.main .grades-buttons, .js-new-unity, .formulas {
+.main .grades-buttons,
+.js-new-unity,
+.formulas {
     display: none;
 }
 
@@ -469,7 +477,8 @@ table.dataTable.no-footer {
     width: calc(100% - 122px);
 }
 
-.grades-structure-container .formula-select, .grades-structure-container .type-select {
+.grades-structure-container .formula-select,
+.grades-structure-container .type-select {
     width: calc(100% - 107px);
 }
 
@@ -509,7 +518,8 @@ table.dataTable.no-footer {
     margin-top: 15px;
 }
 
-.grades-structure-container .remove-unity, .grades-structure-container .remove-modality {
+.grades-structure-container .remove-unity,
+.grades-structure-container .remove-modality {
     position: absolute;
     top: 0;
     right: 0;
@@ -518,7 +528,8 @@ table.dataTable.no-footer {
     font-size: 20px;
 }
 
-.grades-structure-container .remove-unity:hover, .grades-structure-container .remove-modality:hover {
+.grades-structure-container .remove-unity:hover,
+.grades-structure-container .remove-modality:hover {
     color: #333;
 }
 
@@ -536,24 +547,27 @@ table.dataTable.no-footer {
     z-index: 1;
 }
 
-.stagename, .stagemodalityname {
+.stagename,
+.stagemodalityname {
     font-weight: bold;
 }
+
 li[discipline]:hover {
-    background-color: lightblue!important;
+    background-color: lightblue !important;
 }
+
 li[instructor]:hover {
-    background-color: lightblue!important;
+    background-color: lightblue !important;
 }
 
 .checkbox {
     pointer-events: none;
-  }
-  
-  .checkbox > input[type="checkbox"] {
+}
+
+.checkbox>input[type="checkbox"] {
     pointer-events: auto;
-  }
-  
+}
+
 
 .grid-view .dataTables_paginate {
     display: flex !important;
@@ -611,6 +625,7 @@ li[instructor]:hover {
 .grid-view .dataTables_paginate span {
     display: flex !important;
 }
+
 .innerLR {
     padding: 48px 10px 0;
 
@@ -619,4 +634,87 @@ li[instructor]:hover {
 .grid-view table tr td {
     box-shadow: none !important;
     border-top: none !important;
+}
+
+.modal-content {
+    width: 624px;
+    height: auto;
+    box-sizing: border-box;
+    background: #FFFFFF;
+    border: 1px solid #F7F7F8;
+    box-shadow: 0px 0px 12px rgba(196, 196, 196, 0.5);
+    border-radius: 3px;
+}
+
+.modal-content .modal-header,
+.modal-content .modal-body {
+    background: none !important;
+    padding: 15px 30px !important;
+}
+
+.modal-content .modal-header h4 {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    /* identical to box height, or 125% */
+
+
+    /* base/ink/normal */
+
+    color: #252A31;
+}
+
+.modal-content label {
+    margin-left: 5px;
+    width: 234px;
+    height: 20px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #252A31;
+}
+
+.modal-content .modal-footer {
+    background: none !important;
+    display: flex;
+    flex-direction: row;
+    padding: 0px;
+    border: none;
+    margin: 20px 0;
+}
+
+.modal-content select {
+    height: 44px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('../img/Suffix.svg');
+    background-repeat: no-repeat;
+    background-position: right center;
+    padding-right: 20px;
+}
+
+.modal-content select option {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.modal-content .modal-footer button {
+    width: 280px;
+    height: 44px;
+    border-radius: 4px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    text-shadow: none !important;
+    border: none !important;
 }
