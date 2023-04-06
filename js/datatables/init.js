@@ -166,18 +166,6 @@ $(document).ready(function () {
                     columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
                     searching: true,
                 });
-                $('#student-identification-table_filter input[type="search"]').attr('placeholder','  Pesquisar aluno');
-                $("#student-identification-table_filter label").contents().filter(function() {
-                    return this.nodeType === 3;
-                }).remove();
-                $('#student-identification-table_filter label').prepend('<img src="../../../themes/default/img/search-icon.svg">');
-                $('#student-identification-table_filter input[type="search"]').css('height', '30px');
-                $('#student-identification-table_filter input[type="search"]').css('border', 'none');
-                $('#student-identification-table_filter input[type="search"]').css('margin-left', '0');
-                $("#student-identification-table_filter label").css('width', '260px');
-                $("#student-identification-table_filter label").css('height', '40px');
-                $("#student-identification-table_filter label").css('border', '1px solid #BAC7D5');
-                $("#student-identification-table_filter label").css('border-radius', '6px');
             } else {
                 $(".js-tag-table").dataTable({
                     language: getLanguagePtbr(),
@@ -189,6 +177,25 @@ $(document).ready(function () {
                     columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
                 });
             }
+            
+            //Definido placeholder para cada módulo
+            if(action.includes("school")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar escola')
+            else if(action.includes("activeDisableUser")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar usuário')
+            else if(action.includes("classroom")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar turma')
+            else if(action.includes("instructor")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar professor')
+            else if(action.includes("manageUsers")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar usuário')
+            else if(action.includes("student")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar aluno')
+            else if(action.includes("curricularmatrix")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar matriz')
+            else if(action.includes("courseplan")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar plano de aula')
+            else if(action.includes("professional")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar profissional')
+
+            //Remove o texto da label original do datatable
+            $(".dataTables_filter label").contents().filter(function() {
+                return this.nodeType === 3;
+            }).remove();
+
+            //adiciona o ícone de pesquisa
+            $('.dataTables_filter label').prepend('<img src="../../../themes/default/img/search-icon.svg">');
         });
     }
 });
