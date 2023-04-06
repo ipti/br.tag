@@ -674,7 +674,7 @@ return array(
     // Instructor-TeachingData
     'Instructor' => 'Professor',
     'Instructors' => 'Professores',
-    'ID' => 'Professor',
+    'ID' => 'Código',
     'Classroom Inep' => 'Inep da turma',
     'Classroom Id Fk' => 'Turma',
     'Role' => 'Função que exerce na escola / Turma',

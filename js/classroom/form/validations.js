@@ -115,7 +115,7 @@ $(".save-classroom").click(function () {
         error = true;
         message += "Campo <b>Tipo de Mediação Didático-Pedagógica</b> é obrigatório.<br>";
     }
-    if (!$(".assistance-types-container input[type=checkbox]:checked").length) {
+    if (!$(".js-assistance-types-container input[type=checkbox]:checked").length) {
         error = true;
         message += "Campo <b>Tipos de Atendimento</b> é obrigatório. Selecione ao menos uma opção.<br>";
     }
