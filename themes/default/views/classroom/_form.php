@@ -71,7 +71,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <div class="widget-body form-horizontal">
 
-        <div class="tab-content form-content">
+            <div class="tab-content form-content">
 
                 <!-- Tab content -->
                 <div class="tab-pane active" id="classroom">
@@ -183,7 +183,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($modelClassroom, 'final_hour'); ?>
                                 <?php echo $form->error($modelClassroom, 'final_minute'); ?>
                             </div>
-                            
+
                             <!-- Dias da semana -->
                             <div class="control-group">
                                 <div class="controls">
