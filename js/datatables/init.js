@@ -166,6 +166,18 @@ $(document).ready(function () {
                     columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
                     searching: true,
                 });
+                $('#student-identification-table_filter input[type="search"]').attr('placeholder','  Pesquisar aluno');
+                $("#student-identification-table_filter label").contents().filter(function() {
+                    return this.nodeType === 3;
+                }).remove();
+                $('#student-identification-table_filter label').prepend('<img src="../../../themes/default/img/search-icon.svg">');
+                $('#student-identification-table_filter input[type="search"]').css('height', '30px');
+                $('#student-identification-table_filter input[type="search"]').css('border', 'none');
+                $('#student-identification-table_filter input[type="search"]').css('margin-left', '0');
+                $("#student-identification-table_filter label").css('width', '260px');
+                $("#student-identification-table_filter label").css('height', '40px');
+                $("#student-identification-table_filter label").css('border', '1px solid #BAC7D5');
+                $("#student-identification-table_filter label").css('border-radius', '6px');
             } else {
                 $(".js-tag-table").dataTable({
                     language: getLanguagePtbr(),

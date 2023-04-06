@@ -216,7 +216,7 @@ input,
 button,
 select,
 textarea {
-    font-family: "Open Sans", sans-serif;
+    font-family: "inter", sans-serif;
 }
 
 pre.prettyprint {
