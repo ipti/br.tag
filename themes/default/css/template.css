@@ -5031,7 +5031,6 @@ tr:first-child
     font-weight: 400 !important;
     font-size: 14px !important;
     line-height: 20px !important;
-    color: #BAC7D5 !important;
 }
 
 .dataTables_filter input[type="search"]::placeholder {
