@@ -694,8 +694,8 @@ li[instructor]:hover {
     appearance: none;
     background-image: url('../img/Suffix.svg');
     background-repeat: no-repeat;
-    background-position: right center;
-    padding-right: 20px;
+    background-position: 97% 55%;
+    padding-left: 15px;
 }
 
 .modal-content select option {
