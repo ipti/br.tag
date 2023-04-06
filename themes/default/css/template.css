@@ -5025,6 +5025,9 @@ tr:first-child
 .dataTables_filter input[type="search"] {
     height: 30px !important;
     border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
     margin-left: 5px !important;
     font-family: 'Inter' !important;
     font-style: normal !important;
