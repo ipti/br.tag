@@ -611,3 +611,8 @@ li[instructor]:hover {
     padding: 48px 10px 0;
 
 }
+
+.grid-view table tr td {
+    box-shadow: none !important;
+    border-top: none !important;
+}

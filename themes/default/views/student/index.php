@@ -12,13 +12,13 @@
 
     <div class="row-fluid">
         <div class="span12">
-            <h1><?php echo Yii::t('default', 'Student Identifications') ?></h1>  
+            <h1><?php echo Yii::t('default', 'Student Identifications') ?></h1>
             <div class="t-buttons-container">
-                <!--<a href="<?= CHtml::normalizeUrl(array('student/create'))?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos PNE</a>-->
-                <a class="t-button-primary" href="<?= CHtml::normalizeUrl(array('student/create'))?>"><?= Yii::t('default', 'Add') ?></a>
+                <!--<a href="<?= CHtml::normalizeUrl(array('student/create')) ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos PNE</a>-->
+                <a class="t-button-primary" href="<?= CHtml::normalizeUrl(array('student/create')) ?>"><?= Yii::t('default', 'Add') ?></a>
                 <div class="mobile-row">
-                    <a class="t-button-secondary" href="<?= CHtml::normalizeUrl(array('student/create', 'simple' => 1))?>"> <?= Yii::t('default', 'Add (Fast)') ?></a>
-                    <a class="t-button-secondary" href="<?= CHtml::normalizeUrl(array('wizard/configuration/student'))?>">Matrícula em Grupo</a>
+                    <a class="t-button-secondary" href="<?= CHtml::normalizeUrl(array('student/create', 'simple' => 1)) ?>"> <?= Yii::t('default', 'Add (Fast)') ?></a>
+                    <a class="t-button-secondary" href="<?= CHtml::normalizeUrl(array('wizard/configuration/student')) ?>">Matrícula em Grupo</a>
                 </div>
             </div>
 
@@ -29,15 +29,15 @@
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="<?= CHtml::normalizeUrl(array('wizard/configuration/student'))?>" class=""><i></i>Matrícula em Grupo</a></li>
-                <li><a href="<?= CHtml::normalizeUrl(array('student/create'))?>" class=""><i></i> <?= Yii::t('default', 'Add') ?></a></li>
-                <li><a href="<?= CHtml::normalizeUrl(array('student/create', 'simple' => 1))?>" class=""><i></i> <?= Yii::t('default', 'Add (Fast)') ?></a></li>
+                <li><a href="<?= CHtml::normalizeUrl(array('wizard/configuration/student')) ?>" class=""><i></i>Matrícula em Grupo</a></li>
+                <li><a href="<?= CHtml::normalizeUrl(array('student/create')) ?>" class=""><i></i> <?= Yii::t('default', 'Add') ?></a></li>
+                <li><a href="<?= CHtml::normalizeUrl(array('student/create', 'simple' => 1)) ?>" class=""><i></i> <?= Yii::t('default', 'Add (Fast)') ?></a></li>
             </ul>
         </div>
     </div>
 
     <div class="tag-inner">
-        <?php if (Yii::app()->user->hasFlash('error')): ?>
+        <?php if (Yii::app()->user->hasFlash('error')) : ?>
             <div class="alert alert-error">
                 <?php echo Yii::app()->user->getFlash('error') ?>
             </div>
@@ -45,9 +45,9 @@
             if (isset($buttons))
                 echo $buttons;
             ?>
-            <br/>
+            <br />
         <?php endif ?>
-        <?php if (Yii::app()->user->hasFlash('success')): ?>
+        <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">
                 <?php echo Yii::app()->user->getFlash('success') ?>
             </div>
@@ -55,65 +55,25 @@
             if (isset($buttons))
                 echo $buttons;
             ?>
-            <br/>
+            <br />
         <?php endif ?>
         <div class="widget clearmargin">
             <div class="widget-body">
-                <?php
-                //<button type="submit" class="btn btn-icon btn-primary glyphicons circle_ok"><i>Ok</i></button>
-                //@done S1 - 05 - Tirar borda esquerda e direita do filtro por nome dos alunos
-                $this->widget('zii.widgets.grid.CGridView', array(
-                    'dataProvider' => $dataProvider,
-                    'enablePagination' => false,
-                    'enableSorting' => false,
-                    'itemsCssClass' => 'js-tag-table student-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                    'columns' => array(
-                        array(
-                            'name' => 'id',
-                            'htmlOptions' => array('width' => '200px')
-                        ),
-                        array(
-                            'name' => 'name',
-                            'type' => 'raw',
-                            'value' => 'CHtml::link($data->name,Yii::app()->createUrl("student/update",array("id"=>$data->id)))',
-                            'htmlOptions' => array('class' => 'link-update-grid-view'),
-                        ),
-                        /*array(
-                            'header' => '',
-                            'value' => '0+$data->documentsFk->received_cc+$data->documentsFk->received_address+$data->documentsFk->received_photo'
-                            . '+$data->documentsFk->received_nis+$data->documentsFk->received_history'
-                            . '+$data->documentsFk->received_responsable_rg+$data->documentsFk->received_responsable_cpf."/7"',
-                            'htmlOptions' => array('width' => '5px')
-                        ),*/
-                        array(
-                            'name' => 'filiation_1',
-                            'htmlOptions' => array('width' => '200px')
-                        ),
-                        array(
-                            'name' => 'birthday',
-                            'filter' => false,
-                            'htmlOptions' => array('width' => '160px')
-                        ),
-                        array(
-                            'name' => 'inep_id'
-                        ),
-                        array(
-                            'class' => 'CButtonColumn', 
-                            'template' => '{update}{delete}',
-                            'buttons' => array(
-                                'update' => array(
-                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
-                                ),
-                                'delete' => array(
-                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
-                                )
-                            ),
-                            'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
-                            'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
-                        ),
-                    ),
-                ));
-                ?>
+                <div class="grid-view">
+                    <table id="student-identification-table" class="display js-tag-table student-table 
+                    tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs" 
+                    style="width:100%" aria-label="students table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Nome da Mãe</th>
+                                <th>Data de Nascimento</th>
+                                <th>ID INEP</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
