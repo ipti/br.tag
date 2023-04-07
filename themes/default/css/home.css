@@ -120,9 +120,6 @@ form {
     height: 10px;
 }
 
-.accordion-toggle:hover {
-    background-color: #b3b3b3 !important;
-}
 
 .accordion-toggle {
     width: calc(100% - 20px) !important;
