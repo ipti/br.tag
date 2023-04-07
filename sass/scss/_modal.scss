@@ -16,7 +16,10 @@
             }
         }
         .t-modal__footer {
-            display: flex;
+            a, button {
+                flex: 1;
+                padding: $spaceNormal;
+            }
         }
     }
     
