@@ -32,7 +32,7 @@ class EnrollmentController extends Controller
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'view', 'create', 'update', "updatedependencies",
-                    'delete', 'getmodalities', 'grades', 'getGrades', 'saveGrades', 'getDisciplines'),
+                    'delete', 'getmodalities', 'grades', 'getGrades', 'saveGrades', 'getDisciplines', 'calculateFinalMedia'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -252,8 +252,36 @@ class EnrollmentController extends Controller
         $this->render('grades', ['classrooms' => $classroom]);
     }
 
+    public function actionGetDisciplines()
+    {
+        $classroom = Classroom::model()->findByPk($_POST["classroom"]);
+        $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
+        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            $disciplines = Yii::app()->db->createCommand(
+                "select ed.id from teaching_matrixes tm 
+                join instructor_teaching_data itd on itd.id = tm.teaching_data_fk 
+                join instructor_identification ii on ii.id = itd.instructor_fk
+                join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
+                join edcenso_discipline ed on ed.id = cm.discipline_fk
+                where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name")
+                ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $classroom->id)->queryAll();
+            foreach ($disciplines as $discipline) {
+                echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true));
+            }
+        } else {
+            echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione...'), true);
+            $classr = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name")->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
+            foreach ($classr as $i => $discipline) {
+                if (isset($discipline['discipline_fk'])) {
+                    echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['discipline_fk']), CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true));
+                }
+            }
+        }
+    }
+
     public function actionSaveGrades()
     {
+        $hasFinalMediaCalculated = false;
         foreach ($_POST["students"] as $student) {
             foreach ($student["grades"] as $grade) {
                 if ($grade["value"] != "") {
@@ -270,6 +298,13 @@ class EnrollmentController extends Controller
                     Grade::model()->deleteAll("enrollment_fk = :enrollment and grade_unity_modality_fk = :modality", [":enrollment" => $student["enrollmentId"], ":modality" => $grade["modalityId"]]);
                 }
             }
+            $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $student["enrollmentId"], "discipline_fk" => $_POST["discipline"]]);
+            if ($gradeResult != null) {
+                $hasFinalMediaCalculated = true;
+            }
+        }
+        if ($hasFinalMediaCalculated) {
+            $this->calculateFinalMedia();
         }
         echo json_encode(["valid" => true]);
     }
@@ -327,8 +362,11 @@ class EnrollmentController extends Controller
                         }
                         array_push($arr["grades"], ["value" => $gradeValue, "modalityId" => $modalityId]);
                     }
+                    $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $_POST["discipline"]]);
+                    $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
                     array_push($result["students"], $arr);
                 }
+
                 $result["valid"] = true;
             } else {
                 $result["valid"] = false;
@@ -341,31 +379,144 @@ class EnrollmentController extends Controller
         echo json_encode($result);
     }
 
-    public function actionGetDisciplines()
+    public function actionCalculateFinalMedia()
     {
-        $classroom = Classroom::model()->findByPk($_POST["classroom"]);
-        $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
-        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-            $disciplines = Yii::app()->db->createCommand(
-                "select ed.id from teaching_matrixes tm 
-                join instructor_teaching_data itd on itd.id = tm.teaching_data_fk 
-                join instructor_identification ii on ii.id = itd.instructor_fk
-                join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
-                join edcenso_discipline ed on ed.id = cm.discipline_fk
-                where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name")
-                ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $classroom->id)->queryAll();
-            foreach ($disciplines as $discipline) {
-                echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true));
+        $this->calculateFinalMedia();
+    }
+
+    private function calculateFinalMedia()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias = "gu";
+        $criteria->join = "join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id";
+        $criteria->join .= " join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id";
+        $criteria->condition = "c.id = :classroom";
+        $criteria->params = array(":classroom" => $_POST["classroom"]);
+        $gradeUnitiesByClassroom = GradeUnity::model()->findAll($criteria);
+
+        $studentEnrollments = StudentEnrollment::model()->findAll("classroom_fk = :classroom_fk", ["classroom_fk" => $_POST["classroom"]]);
+        foreach ($studentEnrollments as $studentEnrollment) {
+            $arr["grades"] = [];
+            foreach ($gradeUnitiesByClassroom as $gradeUnity) {
+                array_push($arr["grades"], $gradeUnity->type == "UR"
+                    ? ["unityId" => $gradeUnity->id, "unityGrade" => "", "unityRecoverGrade" => "", "gradeUnityType" => $gradeUnity->type]
+                    : ["unityId" => $gradeUnity->id, "unityGrade" => "", "gradeUnityType" => $gradeUnity->type]);
             }
-        } else {
-            echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione...'), true);
-            $classr = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name")->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
-            foreach ($classr as $i => $discipline) {
-                if (isset($discipline['discipline_fk'])) {
-                    echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['discipline_fk']), CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true));
+
+            $criteria->select = "distinct gu.id, gu.*";
+            $criteria->join = "join grade_unity_modality gum on gum.grade_unity_fk = gu.id";
+            $criteria->join .= " join grade g on g.grade_unity_modality_fk = gum.id";
+            $criteria->condition = "g.discipline_fk = :discipline_fk and enrollment_fk = :enrollment_fk";
+            $criteria->params = array(":discipline_fk" => $_POST["discipline"], ":enrollment_fk" => $studentEnrollment->id);
+            $criteria->order = "gu.id";
+            $gradeUnitiesByDiscipline = GradeUnity::model()->findAll($criteria);
+            foreach ($gradeUnitiesByDiscipline as $gradeUnity) {
+                $key = array_search($gradeUnity->id, array_column($arr["grades"], 'unityId'));
+                $arr["grades"][$key] = $this->getUnidadeValues($gradeUnity);
+            }
+
+
+            //Cálculo da média final
+            $arr["finalMedia"] = "";
+            $sums = 0;
+            $sumsCount = 0;
+            $arr["semesterMedias"] = [];
+            $hasRF = false;
+            $rawUnitiesFilled = 0;
+            foreach ($arr["grades"] as $grade) {
+                switch ($grade["gradeUnityType"]) {
+                    case "U":
+                        if ($grade["unityGrade"] != "") {
+                            $sums += $grade["unityGrade"];
+                            $rawUnitiesFilled++;
+                        }
+                        $sumsCount++;
+                        break;
+                    case "UR":
+                        if ($grade["unityGrade"] != "" || $grade["unityRecoverGrade"] != "") {
+                            $sums += $grade["unityRecoverGrade"] > $grade["unityGrade"] ? $grade["unityRecoverGrade"] : $grade["unityGrade"];
+                            $rawUnitiesFilled++;
+                        }
+                        $sumsCount++;
+                        break;
+                    case "RS":
+                        if ($sums > 0) {
+                            $semesterMedia = $sums / $sumsCount;
+                            $semesterRecoverMedia = ($semesterMedia + $grade["unityGrade"]) / 2;
+                            array_push($arr["semesterMedias"], $semesterMedia > $semesterRecoverMedia ? $semesterMedia : $semesterRecoverMedia);
+                        } else {
+                            array_push($arr["semesterMedias"], 0);
+                        }
+                        $sums = 0;
+                        $sumsCount = 0;
+                        break;
+                    case "RF":
+                        $hasRF = true;
+                        if ($sums > 0) {
+                            $media = $sums / $sumsCount;
+                            array_push($arr["semesterMedias"], $media);
+                        }
+                        $finalMedia = array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]);
+                        $finalRecoverMedia = ($finalMedia + $grade["unityGrade"]) / 2;
+                        $finalMedia = number_format($finalMedia > $finalRecoverMedia ? $finalMedia : $finalRecoverMedia, 2);
+                        break;
+                }
+            }
+            if (!$hasRF) {
+                if ($sums > 0) {
+                    $media = $sums / $sumsCount;
+                    array_push($arr["semesterMedias"], $media);
+                }
+                $finalMedia = number_format(array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]), 2);
+            }
+
+            $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $_POST["discipline"]]);
+            if ($gradeResult == null) {
+                $gradeResult = new GradeResults();
+                $gradeResult->enrollment_fk = $studentEnrollment->id;
+                $gradeResult->discipline_fk = $_POST["discipline"];
+            }
+            $gradeResult->final_media = $finalMedia;
+            $gradeResult->save();
+        }
+    }
+
+    private function getUnidadeValues($gradeUnity)
+    {
+        $unityGrade = "";
+        $unityRecoverGrade = "";
+        $turnedEmptyToZero = false;
+        $weightsSum = 0;
+        $commonModalitiesCount = 0;
+        foreach ($gradeUnity->gradeUnityModalities as $gradeUnityModality) {
+            if ($gradeUnityModality->type == "C") {
+                $commonModalitiesCount++;
+                $weightsSum += $gradeUnityModality->weight;
+            }
+            foreach ($gradeUnityModality->grades as $grade) {
+                if ($gradeUnityModality->type == "C") {
+                    if (!$turnedEmptyToZero) {
+                        $unityGrade = 0;
+                        $turnedEmptyToZero = true;
+                    }
+                    $unityGrade += $gradeUnity->gradeCalculationFk->name === "Peso"
+                        ? $grade->grade * $gradeUnityModality->weight
+                        : $grade->grade;
+                } else {
+                    $unityRecoverGrade = (int)$grade->grade;
                 }
             }
         }
+        if ($unityGrade !== "") {
+            if ($gradeUnity->gradeCalculationFk->name === "Média") {
+                $unityGrade = number_format($unityGrade / $commonModalitiesCount, 2);
+            } else if ($gradeUnity->gradeCalculationFk->name === "Peso") {
+                $unityGrade = number_format($unityGrade / $weightsSum, 2);
+            }
+        }
+        return $gradeUnity->type == "UR"
+            ? ["unityId" => $gradeUnity->id, "unityGrade" => $unityGrade, "unityRecoverGrade" => $unityRecoverGrade, "gradeUnityType" => $gradeUnity->type]
+            : ["unityId" => $gradeUnity->id, "unityGrade" => $unityGrade, "gradeUnityType" => $gradeUnity->type];
     }
 
     /**

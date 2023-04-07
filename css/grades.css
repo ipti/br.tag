@@ -15,6 +15,10 @@ and open the template in the editor.
     margin-top: 1px;
 }
 
+#save, .calculate-media {
+    display: inline-block !important;
+}
+
 .js-grades-alert {
     display: none;
 }
@@ -52,11 +56,7 @@ and open the template in the editor.
     font-weight: lighter !important;
 }
 
-.js-save-grades-loading-gif {
-    position: absolute;
-    left: calc(50% - 20px);
-    top: 50%;
-    width: 42px;
-    display: none;
-    z-index: 1;
+.final-media {
+    text-align: center !important;
+    vertical-align: middle !important;
 }

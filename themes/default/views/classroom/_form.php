@@ -71,7 +71,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <div class="widget-body form-horizontal">
 
-            <div class="tab-content">
+        <div class="tab-content form-content">
 
                 <!-- Tab content -->
                 <div class="tab-pane active" id="classroom">
@@ -240,7 +240,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <!-- Tipo de Atendimento* -->
-                            <div class="t-field-checkbox-group" id="aee2">
+                            <div class="t-field-checkbox-group js-assistance-types-container" id="aee2">
                                 <label class="t-field-checkbox__label--required"><?php echo Yii::t('default', 'Assistence Types'); ?>*</label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelClassroom, 'schooling', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input', 'id' => 'Escolarização')); ?>
@@ -537,6 +537,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <tr>
                                         <th class='span1'><?php echo Yii::t('default', 'Mover/Cancelar') ?></th>
                                         <th><?php echo Yii::t('default', 'Pedido') ?></th>
+                                        <th><?php echo Yii::t('default', 'Enrollment') ?></th>
                                         <th><?php echo Yii::t('default', 'Name') ?></th>
                                         <th><?php echo Yii::t('default', 'Print') ?></th>
                                     </tr>
@@ -550,6 +551,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <tr>
                                                 <td text-align="center"><input value="<?= $enr->id ?>" name="enrollments[]" type='checkbox' /></td>
                                                 <td width="30"><?= $i ?></td>
+                                                <td><?php echo  $enr->id ?></td>
                                                 <td>
                                                     <a href="<?= Yii::app()->createUrl('student/update', array('id' => $enr->studentFk->id)) ?>"> <?= $enr->studentFk->name ?></a>
                                                 </td>
@@ -564,18 +566,18 @@ $form = $this->beginWidget('CActiveForm', array(
                                         ?>
                                         <tr>
                                             <th>Total:</th>
-                                            <td colspan="3"><?= count($enrollments) ?></td>
+                                            <td colspan="4"><?= count($enrollments) ?></td>
                                         </tr>
                                     <?php } else { ?>
                                         <tr>
-                                            <th colspan="4">Não há alunos matriculados.</th>
+                                            <th colspan="5">Não há alunos matriculados.</th>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
                                 <tfooter>
                                     <?php
-                                    echo "<tr><td colspan='3'>Total:</td><td>" . count($enrollments) . "</td></tr>";
-                                    echo '<tr><td colspan="3">';
+                                    echo "<tr><td colspan='4'>Total:</td><td>" . count($enrollments) . "</td></tr>";
+                                    echo '<tr><td colspan="4">';
                                     echo chtml::dropDownList('toclassroom', "", CHtml::listData(Classroom::model()->findAll(
                                         "school_year = :sy AND school_inep_fk = :si order by name",
                                         array("sy" => (Yii::app()->user->year), "si" => yii::app()->user->school)
