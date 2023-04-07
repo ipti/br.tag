@@ -347,10 +347,6 @@ table.dataTable {
     width: 150px !important;
 }
 
-.electronic-diary.date-container {
-    display: flex;
-}
-
 .electronic-diary.date-container input[type="text"] {
     width: 150px;
     margin-right: 10px;

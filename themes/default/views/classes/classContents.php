@@ -165,14 +165,17 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <form method="post">
                     <input type="hidden" class="classroom-diary-day">
                     <div class="t-modal__body">
-                        <label>Diário de Aula Geral</label>
-                        <textarea class="js-classroom-diary"></textarea>
+                        <div class="t-field-tarea">
+                            <label class="t-field-tarea__label">Diário de Aula Geral</label>
+                            <textarea class="t-field-tarea__input js-classroom-diary"></textarea>
+                        </div>
+                        
                         <label>Diário de Aula por Aluno</label>
                         <div class="alert alert-error classroom-diary-no-students no-show">Não há alunos matriculados na turma.</div>
                         <div class="accordion accordion-students" id="accordion-students"></div>
                     </div>
-                    <div class="t-modal__footer">
-                        <a type="button" class="t-button-secondary"
+                    <div class="t-modal__footer mobile-row">
+                         <a type="button" class="t-button-secondary"
                                 data-dismiss="modal">Cancelar
                         </a>
                         <a type="button" class="t-button-primary js-add-classroom-diary"
