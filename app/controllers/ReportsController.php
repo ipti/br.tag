@@ -766,7 +766,13 @@ class ReportsController extends Controller
     public function actionIndex()
     {
         $this->layout = "fullmenu";
-        $this->render('index');
+
+        $classrooms = Classroom::model()->findAll(array(
+            'condition' => 'school_inep_fk=' . Yii::app()->user->school . ' && school_year = ' . Yii::app()->user->year,
+            'order' => 'name'
+        ));
+
+        $this->render('index', ['classrooms' => $classrooms]);
     }
 
     public function actionElectronicDiary()
