@@ -26,6 +26,11 @@ $this->breadcrumbs = array(
                 </div>
                 <br />
             <?php endif ?>
+            <?php if (Yii::app()->user->hasFlash('error')): ?>
+                <div class="alert alert-error">
+                    <?php echo Yii::app()->user->getFlash('error') ?>
+                </div>
+            <?php endif ?>
             <div class="span12">
                 <div class="span2">
                     <a href="#" data-toggle="modal" data-target="#reportFamilyBag" class="widget-stats" target="_blank">
@@ -198,7 +203,7 @@ $this->breadcrumbs = array(
                     </button>
                     <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
                 </div>
-                <form class="form-vertical" id="createCalendar" action="<?php echo yii::app()->createUrl('site/changeYear') ?>" method="post">
+                <form class="form-vertical"  action="" method="post">
                     <div class="modal-body">
                         <div class="row-fluid">
                             <div class=" span12">
@@ -217,54 +222,42 @@ $this->breadcrumbs = array(
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                            <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('reports/studentbyclassroomreport'); ?>"  type="button" value="Gerar" id="buildReport" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
+                            <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('reports/studentbyclassroomreport'); ?>" type="button" value="Gerar" id="buildReport" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
                         </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="reportFamilyBag" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="documentBag">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Frequência Bolsa Família - Escolha a Turma</h4>
-                </div>
-                <form class="form-vertical" action="/br.tag/?r=calendar" method="post">
-                    <div class="modal-body">
-                        <div class="row-fluid">
-                            <div class=" span12" style="margin: 10px 0 10px 0px; padding: 0px 0px 0px 69px">
-                                <div class=controls>
-                                    <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class=controls>
-                                    <?php
-                                    echo CHtml::dropDownList('classroom2', '', CHtml::listData(Classroom::model()->findAll(array('condition' => 'school_inep_fk=' . Yii::app()->user->school . ' && school_year = ' . Yii::app()->user->year, 'order' => 'name')), 'id', 'name'), array(
-                                        'key' => 'id',
-                                        'class' => 'select-search-on control-input',
-                                        'prompt' => 'Todas as turmas',
-                                        'ajax' => array(
-                                            'type' => 'POST',
-                                            'url' => CController::createUrl('classes/getDisciplines'),
-                                            'success' => 'function(data){
-                                                $("#disciplines").html(decodeHtml(data));
-                                            }'
-                                        )
-                                    ));
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer" style="background-color:#FFF;">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <a class="btn btn-primary" url="<?php echo Yii::app()->createUrl('reports/BFReport'); ?>" type="button" value="Gerar" id="buildReportBF"> Gerar </a>
-                    </div>
-                </form>
-            </div>
+    <div class="modal fade modal-content" id="reportFamilyBag" tabindex="-1" role="dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Frequência Bolsa Família - Escolha a Turma</h4>
         </div>
+        <form class="form-vertical"  action="" method="post">
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class=" span12">
+                        <?php
+                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
+                        ?>
+                        <select name="classroom2" id="classroom2" placeholder="Selecione a turma" style="width:100%">
+                            <?php
+                            echo "<option value='' selected>Selecione a turma</option>";
+                            foreach ($classrooms as $classroom) {
+                                echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                    <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('reports/BFReport'); ?>" type="button" value="Gerar" id="buildReportBF" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
+                </div>
+        </form>
     </div>
 </div>
 <?php
