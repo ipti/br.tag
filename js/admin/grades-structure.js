@@ -48,16 +48,16 @@ $(document).on("change", "#GradeUnity_edcenso_stage_vs_modality_fk", function ()
 $(document).on("click", ".js-new-unity", function (evt) {
     var unityHtml = "" +
         "<div class='unity form-group form-inline'>" +
-        "<label class='control-label'>Nome: <span class='red'>*</span></label>" +
+        "<label class='control-label required'>Nome: <span>*</span></label>" +
         "<input type='text' class='unity-name form-control' placeholder='1ª Unidade, 2ª Unidade, Recuperação Final, etc.'>" +
-        "<i class='remove-unity fa fa-times-circle-o'></i>" +
+        "<i class='remove-unity fa fa-times-circle-o button-icon-close'></i>" +
         '<div class="unity-children">' +
-        '<div class="unity-type form-group form-inline">' +
-        "<label class='control-label'>Modelo: <span class='red'>*</span></label>" +
+        '<div class="unity-type form-group form-inline div-input-structure-units">' +
+        "<label class='control-label required label-input-structure-units'>Modelo: <span>*</span></label>" +
         "<select class='type-select select-search-on control-input'><option value='U'>Unidade</option><option value='UR'>Unidade com recuperação</option><option value='RS'>Recuperação semestral</option><option value='RF'>Recuperação final</option></select>" +
         '</div>' +
-        '<div class="calculation form-group form-inline">' +
-        "<label class='control-label'>Fórmula: <span class='red'>*</span></label>" +
+        '<div class="calculation form-group form-inline div-input-structure-units">' +
+        "<label class='control-label required label-input-structure-units'>Fórmula:  <span>*</span></label>" +
         "<select class='formula-select select-search-on control-input'>" + $(".formulas")[0].innerHTML + "</select>" +
         '</div>' +
         '<div class="row"><a href="#new-modality" id="new-modality" class="js-new-modality t-button-primary"><img alt="Unidade" src="/themes/default/img/buttonIcon/start.svg">Modalidade</a></div>' +

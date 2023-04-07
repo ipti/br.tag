@@ -474,7 +474,8 @@ table.dataTable.no-footer {
 }
 
 .grades-structure-container .unity label {
-    width: 105px;
+    /* width: 105px; */
+    width: 64px;
 }
 
 .grades-structure-container .unity-children {
@@ -484,7 +485,7 @@ table.dataTable.no-footer {
 .grades-structure-container .unity {
     margin-bottom: 40px;
     padding-bottom: 30px;
-    border-bottom: 1px dashed #ccc;
+    border-bottom: 1px solid #ccc;
     position: relative;
 }
 
@@ -616,3 +617,15 @@ li[instructor]:hover {
     box-shadow: none !important;
     border-top: none !important;
 }
+.button-icon-close{
+    display:flex;
+    margin: 7px 26px 0px 0px;
+}
+.div-input-structure-units{
+    margin-right: 7px;
+}
+.label-input-structure-units{
+    margin-right: 10px;
+}
+
+
