@@ -327,11 +327,9 @@ $form = $this->beginWidget('CActiveForm', array(
                     <?= CHtml::hiddenField("MenuMeal[menu_fk]", $menuModel->id, ["id" => "menu-id"]) ?>
                     <div class="modal-body">
                         <div id="is-add-amount" class="widget widget-scroll margin-bottom-none">
-                            <div class="widget-head">
-                                <h4 class="heading">
-                                    <i></i><?= yii::t('lunchModule.lunch', 'New Lunch') ?>
-                                </h4>
-                            </div>
+                            <h4 class="heading">
+                                <i></i><?= yii::t('lunchModule.lunch', 'New Lunch') ?>
+                            </h4>
                             <div class="widget-body">
                                 <div class="row-fluid">
                                     <div class=" span6">
