@@ -650,7 +650,7 @@ li[instructor]:hover {
 }
 
 .modal-content .modal-header h4 {
-    font-family: 'Inter';
+    font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
@@ -662,7 +662,7 @@ li[instructor]:hover {
     margin-left: 5px;
     width: 234px;
     height: 20px;
-    font-family: 'Inter';
+    font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -691,7 +691,7 @@ li[instructor]:hover {
 }
 
 .modal-content select option {
-    font-family: 'Inter';
+    font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -702,7 +702,7 @@ li[instructor]:hover {
     width: 280px;
     height: 44px;
     border-radius: 4px;
-    font-family: 'Inter';
+    font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
