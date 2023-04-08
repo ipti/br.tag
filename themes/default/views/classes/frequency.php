@@ -126,11 +126,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
 </div>
 
-<div class="modal fade" id="save-justification-modal" tabindex="-1" role="dialog" aria-labelledby="Save Justification">
+<div class="modal fade modal-content" id="save-justification-modal" tabindex="-1" role="dialog" aria-labelledby="Save Justification">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="cancel-save-justification close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
                 <h4 class="modal-title" id="myModalLabel">Justificativa</h4>
             </div>
             <div class="centered-loading-gif">
@@ -152,12 +153,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="cancel-save-justifiaction btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary btn-save-justification">Adicionar</button>
+                
+                    <div class="modal-footer">
+                        <button type="button" class="cancel-save-justifiaction btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary btn-save-justification">Adicionar</button>
+                    </div>
                 </div>
             </form>
-        </div>
     </div>
 </div>
