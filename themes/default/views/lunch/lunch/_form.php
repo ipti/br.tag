@@ -171,11 +171,12 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
     </div>
 
-    <div class="modal fade" id="addPortion">
+    <div class="modal fade modal-content" id="addPortion">
         <div class="modal-dialog">
-            <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                    </button>
                     <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Add Portion'); ?></h4>
                 </div>
                 <form id="portion" method="post" action="<?= yii::app()->createUrl("lunch/lunch/addPortion") ?>">
@@ -254,23 +255,24 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default"
-                                data-dismiss="modal"><?= Yii::t('lunchModule.stock', 'Close'); ?></button>
-                        <button type="submit"
-                                class="btn btn-primary"><?= Yii::t('lunchModule.stock', 'Add'); ?></button>
+                    
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal"><?= Yii::t('lunchModule.stock', 'Close'); ?></button>
+                            <button type="submit"
+                                    class="btn btn-primary"><?= Yii::t('lunchModule.stock', 'Add'); ?></button>
+                        </div>
                     </div>
                 </form>
-            </div>
         </div>
     </div>
 
-    <div class="modal fade" id="removePortion">
+    <div class="modal fade modal-content" id="removePortion">
         <div class="modal-dialog">
-            <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                    </button>
                     <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Add Portion'); ?></h4>
                 </div>
                 <form id="portion" method="post" action="<?= yii::app()->createUrl("lunch/lunch/removePortion") ?>">
@@ -301,23 +303,24 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default"
-                                data-dismiss="modal"><?= Yii::t('lunchModule.stock', 'Close'); ?></button>
-                        <button type="submit"
-                                class="btn btn-danger"><?= Yii::t('lunchModule.stock', 'Remove'); ?></button>
+                    
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal"><?= Yii::t('lunchModule.stock', 'Close'); ?></button>
+                            <button type="submit"
+                                    class="btn btn-danger"><?= Yii::t('lunchModule.stock', 'Remove'); ?></button>
+                        </div>
                     </div>
                 </form>
-            </div>
         </div>
     </div>
 
-    <div class="modal fade" id="addMeal">
+    <div class="modal fade modal-content" id="addMeal">
         <div class="modal-dialog">
-            <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                    </button>
                     <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Add Portion'); ?></h4>
                 </div>
                 <form id="portion" method="post" action="<?= yii::app()->createUrl("lunch/lunch/addMeal") ?>">
@@ -346,25 +349,26 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            <?= Yii::t('lunchModule.stock', 'Close'); ?>
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            <?= Yii::t('lunchModule.stock', 'Add'); ?>
-                        </button>
+                    
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                <?= Yii::t('lunchModule.stock', 'Close'); ?>
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <?= Yii::t('lunchModule.stock', 'Add'); ?>
+                            </button>
+                        </div>
                     </div>
                 </form>
-            </div>
         </div>
     </div>
 
-    <div class="modal fade" id="changeMeal">
+    <div class="modal fade modal-content" id="changeMeal">
         <div class="modal-dialog">
-            <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                    </button>
                     <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Update Lunch'); ?></h4>
                 </div>
                 <form id="portion" method="post" action="<?= yii::app()->createUrl("lunch/lunch/changeMeal") ?>">
@@ -394,17 +398,17 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            <?= Yii::t('lunchModule.lunch', 'Close'); ?>
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            <?= Yii::t('lunchModule.lunch', 'Update'); ?>
-                        </button>
+                    
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                <?= Yii::t('lunchModule.lunch', 'Close'); ?>
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <?= Yii::t('lunchModule.lunch', 'Update'); ?>
+                            </button>
+                        </div>
                     </div>
                 </form>
-            </div>
         </div>
     </div>
 <?php endif ?>
