@@ -272,7 +272,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
                     </button>
-                    <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Add Portion'); ?></h4>
+                    <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Remove Portion'); ?></h4>
                 </div>
                 <form id="portion" method="post" action="<?= yii::app()->createUrl("lunch/lunch/removePortion") ?>">
                     <?= CHtml::hiddenField("Menu[id]", $menuModel->id, ["id" => "menu-id"]) ?>
@@ -281,7 +281,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div id="is-add-amount" class="widget widget-scroll margin-bottom-none">
                             <div class="widget-head" style="background: none;">
                                 <h4 class="heading">
-                                    <i></i><?= yii::t('lunchModule.stock', 'Add Amount') ?>
+                                    <i></i><?= yii::t('lunchModule.stock', 'Remove Amount') ?>
                                 </h4>
                             </div>
                             <div class="widget-body" style="overflow: hidden;">
@@ -320,7 +320,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
                     </button>
-                    <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Add Portion'); ?></h4>
+                    <h4 class="modal-title"><?= Yii::t('lunchModule.lunch', 'Add Lunch'); ?></h4>
                 </div>
                 <form id="portion" method="post" action="<?= yii::app()->createUrl("lunch/lunch/addMeal") ?>">
                     <?= CHtml::hiddenField("MenuMeal[menu_fk]", $menuModel->id, ["id" => "menu-id"]) ?>
@@ -366,7 +366,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
                     </button>
-                    <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Update Lunch'); ?></h4>
+                    <h4 class="modal-title"><?= Yii::t('lunchModule.lunch', 'Update Lunch'); ?></h4>
                 </div>
                 <form id="portion" method="post" action="<?= yii::app()->createUrl("lunch/lunch/changeMeal") ?>">
                     <?= CHtml::hiddenField("MenuMeal[menu_fk]", $menuModel->id, ["id" => "menu-id"]) ?>
