@@ -127,11 +127,12 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
     </div>
 
 </div>
-<div class="modal fade" id="addItem">
+<div class="modal fade modal-content" id="addItem">
     <div class="modal-dialog">
-        <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
                 <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Add Item'); ?></h4>
             </div>
             <?php
@@ -222,21 +223,22 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default"
-                        data-dismiss="modal"><?= Yii::t('lunchModule.stock', 'Close'); ?></button>
-                <button type="submit" class="btn btn-primary"><?= Yii::t('lunchModule.stock', 'Add'); ?></button>
+            
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal"><?= Yii::t('lunchModule.stock', 'Close'); ?></button>
+                    <button type="submit" class="btn btn-primary"><?= Yii::t('lunchModule.stock', 'Add'); ?></button>
+                </div>
             </div>
             <?php $this->endWidget(); ?>
-        </div>
     </div>
 </div>
-<div class="modal fade" id="removeItem">
+<div class="modal fade modal-content" id="removeItem">
     <div class="modal-dialog">
-        <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+            </button>
                 <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Remove Item'); ?></h4>
             </div>
             <?php
@@ -270,13 +272,13 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default"
-                        data-dismiss="modal"><?= Yii::t('lunchModule.stock', 'Close'); ?></button>
-                <button type="submit" class="btn btn-danger"><?= Yii::t('lunchModule.stock', 'Remove'); ?></button>
+            
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal"><?= Yii::t('lunchModule.stock', 'Close'); ?></button>
+                    <button type="submit" class="btn btn-danger"><?= Yii::t('lunchModule.stock', 'Remove'); ?></button>
+                </div>
             </div>
             <?php $this->endWidget(); ?>
-        </div>
     </div>
 </div>
