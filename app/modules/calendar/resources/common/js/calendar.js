@@ -3,6 +3,8 @@ $(document).on("click", ".new-calendar-button", function () {
     $(".create-calendar-title, #copy").val("");
     $("#stages").val(null).trigger("change.select2");
     $("#myNewCalendar").modal("show");
+    $(".select2-choices").css('width', '100%');
+    $(".select2-choices").css('border-color', '#d8d9da');
 });
 
 $(document).on("click", ".create-calendar", function () {
