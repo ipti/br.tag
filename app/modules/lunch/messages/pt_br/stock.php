@@ -24,5 +24,7 @@ return [
 
     'Add Item' => 'Adicionar Item',
     'Add Amount' => 'Adicionar Quantidade',
+    'Remove Amount' => 'Remover Quantidade',
     'Add Portion' => 'Adicionar Porção',
+    'Remove Portion' => 'Remover Porção',
 ];
