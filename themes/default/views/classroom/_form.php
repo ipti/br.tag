@@ -243,19 +243,19 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-checkbox-group js-assistance-types-container" id="aee2">
                                 <label class="t-field-checkbox__label--required"><?php echo Yii::t('default', 'Assistence Types'); ?>*</label>
                                 <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelClassroom, 'schooling', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input', 'id' => 'Escolarização')); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'schooling', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
                                     <label for="Escolarização">
                                         <?php echo Classroom::model()->attributeLabels()['schooling']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelClassroom, 'complementary_activity', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input', 'id' => 'Atividade Complementar')); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'complementary_activity', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
                                     <label for="Atividade Complementar">
                                         <?php echo Classroom::model()->attributeLabels()['complementary_activity']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelClassroom, 'aee', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input', 'id' => 'Atendimento Educacional Especializado (AEE)')); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'aee', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
                                     <label for="Atendimento Educacional Especializado (AEE)">
                                         <?php echo Classroom::model()->attributeLabels()['aee']; ?>
                                     </label>

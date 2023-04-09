@@ -28,12 +28,12 @@ services:
       
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: tag
+      # MYSQL_DATABASE: tag
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     volumes:
       - ./db:/var/lib/mysql
-      - .\dump.sql:/docker-entrypoint-initdb.d/dump.sql
+      # - .\dump.sql:/docker-entrypoint-initdb.d/dump.sql
       # - ./dump-data.sql:/docker-entrypoint-initdb.d/dump-data.sql
     networks:
       - tag-v3-network
@@ -51,22 +51,5 @@ networks:
 
 volumes:
   db-volume:
-
-
-  # sqlserver:
-  #   image: mcr.microsoft.com/mssql/server:2019-latest
-  #   environment:
-  #     SA_PASSWORD: "SqlServer2019!"
-  #     ACCEPT_EULA: "Y"
-  #     MSSQL_PID: "Developer"
-  #   ports:
-  #     - "1433:1433"
-  #   volumes:
-  #     - ./20221207_2138_EDU_BUZIOS_DIDATICA-FAETEC.BAK:/tmp/db.BAK
-    
-  # mssqltools:
-  #   image: mcr.microsoft.com/mssql-tools
-  #   depends_on:
-  #     - sqlserver
 
 
