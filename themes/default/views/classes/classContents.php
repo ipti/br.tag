@@ -154,30 +154,29 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     </div>
 </div>
 
-    <div class="t-modal-container modal fade" id="js-classroomdiary" tabindex="-1" role="dialog">
-        <div class="t-modal-content" role="document">           
-                <div class="t-modal__header">
-                    <h2 id="myModalLabel">Diário de Aula</h2>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/fechar.svg" alt="fechar" class="teste">
+    <div class="modal-container modal fade modal-content" id="js-classroomdiary" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">           
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
                     </button>
+                    <h4 class="modal-title" id="myModalLabel">Diário de Aula</h4>           
                 </div>
                 <form method="post">
-                    <input type="hidden" class="classroom-diary-day">
-                    <div class="t-modal__body">
-                        <label>Diário de Aula Geral</label>
-                        <textarea class="js-classroom-diary"></textarea>
+                    <div class="modal-body">
+                        <div class="t-field-tarea">
+                            <label class="t-field-tarea__label">Diário de Aula Geral</label>
+                            <textarea class="t-field-tarea__input js-classroom-diary"></textarea>
+                        </div>
+                        
                         <label>Diário de Aula por Aluno</label>
                         <div class="alert alert-error classroom-diary-no-students no-show">Não há alunos matriculados na turma.</div>
                         <div class="accordion accordion-students" id="accordion-students"></div>
-                    </div>
-                    <div class="t-modal__footer">
-                        <a type="button" class="t-button-secondary"
-                                data-dismiss="modal">Cancelar
-                        </a>
-                        <a type="button" class="t-button-primary js-add-classroom-diary"
-                                data-dismiss="modal">Salvar
-                        </a>
+                    
+                        <div class="modal-footer mobile-row">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary js-add-classroom-diary">Salvar</button>
+                        </div>
                     </div>
                 </form>
         </div>

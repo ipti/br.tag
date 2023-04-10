@@ -1,5 +1,10 @@
 # Atualizações
 
+## [Versão 3.12.26]
+- Novo estilo de caixas de diálogo
+
+## [Versão 3.11.26]
+-  Corrigido layout da página de relatório de diário eletônico
 ## [Versão 3.11.25]
 - Cabeçalho de Ações corrigido
 
