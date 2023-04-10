@@ -216,7 +216,7 @@ input,
 button,
 select,
 textarea {
-    font-family: "Open Sans", sans-serif;
+    font-family: "inter", sans-serif;
 }
 
 pre.prettyprint {
@@ -1639,10 +1639,6 @@ li.highlight.profile
     margin: 0 !important;
 }
 
-.filter-bar .no-disciplines-guide {
-    display: inline-block;
-}
-
 .filter-bar div {
     padding: 5px 0;
     line-height: 30px;
@@ -1739,7 +1735,7 @@ li.highlight.profile
 }
 
 .filter-bar label {
-    float: left;
+   /*  float: left; */
     margin: 0 5px;
     display: block;
     line-height: 30px;
@@ -5017,6 +5013,36 @@ tr:first-child
 
 .dataTables_paginate {
     text-align: right;
+}
+
+.dataTables_filter label {
+    width: 260px;
+    height: 40px;
+    border: 1px solid #BAC7D5;
+    border-radius: 6px;
+}
+
+.dataTables_filter input[type="search"] {
+    height: 30px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    margin-left: 5px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+}
+
+.dataTables_filter input[type="search"]::placeholder {
+    font-family: 'Inter', sans-serif !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    color: #BAC7D5 !important;
 }
 
 .google-visualization-table-div-page {
@@ -8696,9 +8722,10 @@ input[type="text"] {
 }
 
 .js-classroom-diary {
-    width: 510px;
-    max-width: 510px;
-    min-width: 510px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
     height: 200px;
     min-height: 200px;
     max-height: 200px;
@@ -9544,4 +9571,11 @@ tbody .details-control:hover {
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 42px;
+}
+ .accordion .accordion-heading .accordion-toggle {
+    background: none;
+    background-color: rgba(0, 0, 0, 0);
+    background-color: #F5F7F9;
+    font-weight: 500;
+    color: #252A31;
 }

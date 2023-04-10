@@ -53,6 +53,7 @@
                                 'htmlOptions' => array('class' => 'link-update-grid-view'),
                             ),
                             array(
+                                'header' => 'Ações',
                                 'class' => 'CButtonColumn', 
                                 'template' => '{update}{delete}',
                                 'buttons' => array(

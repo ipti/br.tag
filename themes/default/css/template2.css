@@ -153,15 +153,18 @@ table.dataTable {
     margin-left: 5px;
     padding: 0 5px;
 }
+
 .tag-inner {
-    border-radius: 4px;  
+    border-radius: 4px;
 }
-.tab-content {
-      padding-right: 0;
+
+.form-content {
+    padding-right: 0;
 }
+
 @media (min-width: 768px) {
-    .tab-content {
-    padding-right: 20% !important;
+    .form-content {
+        padding-right: 20% !important;
     }
 }
 
@@ -347,10 +350,6 @@ table.dataTable {
     width: 150px !important;
 }
 
-.electronic-diary.date-container {
-    display: flex;
-}
-
 .electronic-diary.date-container input[type="text"] {
     width: 150px;
     margin-right: 10px;
@@ -408,16 +407,9 @@ table.dataTable.no-footer {
     background: #d5dded;
 }
 
-input[type="checkbox"] {
-    margin: 0px 9px 0px 9px;
-}
-
-input[type="checkbox"]:checked {
-    margin: 0px 9px 0px 9px;
-}
-
-.grades_inputs, .grades_inputs .select2-choice{
- width: 134px !important;
+.grades_inputs,
+.grades_inputs .select2-choice {
+    width: 134px !important;
 }
 
 .grades_inputs.select2-container {
@@ -427,11 +419,13 @@ input[type="checkbox"]:checked {
 
 .grades_title_padding {
     padding: 0px 8px 0px 8px !important;
-   }
-.title_table_notes{
+}
+
+.title_table_notes {
     background-color: #E8EDF1;
     color: #5F738C;
 }
+
 .table-striped.table-grades tbody>tr:nth-child(odd)>td {
     background-color: #ffffff;
 }
@@ -451,21 +445,126 @@ input[type="checkbox"]:checked {
     border: none;
 }
 
-li[discipline]:hover {
-    background-color: lightblue!important;
+.main .grades-buttons,
+.js-new-unity,
+.formulas {
+    display: none;
 }
+
+.main .js-grades-structure-loading {
+    display: none;
+    vertical-align: middle;
+    font-size: 18px;
+    margin-top: 1px;
+}
+
+.grades-structure-container {
+    margin-top: 40px;
+    display: none;
+    width: 50%;
+    position: relative;
+}
+
+.grades-structure-container .unity-name {
+    width: calc(100% - 125px);
+}
+
+.grades-structure-container .modality-name {
+    width: calc(100% - 122px);
+}
+
+.grades-structure-container .formula-select,
+.grades-structure-container .type-select {
+    width: calc(100% - 107px);
+}
+
+.grades-structure-container .select2-choice {
+    width: calc(100% - 10px) !important;
+}
+
+.grades-structure-container .unity label {
+    /* width: 105px; */
+    width: 64px;
+}
+
+.grades-structure-container .unity-children {
+    margin: 20px 0 0 105px;
+}
+
+.grades-structure-container .unity {
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+}
+
+.grades-structure-container .unity-type {
+    margin-bottom: 5px;
+}
+
+.grades-structure-container .calculation {
+    margin-bottom: 20px;
+}
+
+.grades-structure-container .modality {
+    margin-top: 5px;
+    position: relative;
+}
+
+.grades-structure-container .js-new-modality {
+    margin-top: 15px;
+}
+
+.grades-structure-container .remove-unity,
+.grades-structure-container .remove-modality {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: darkred;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.grades-structure-container .remove-unity:hover,
+.grades-structure-container .remove-modality:hover {
+    color: #333;
+}
+
+.grades-structure-container .weight {
+    width: 78px;
+    margin-left: 5px;
+}
+
+.save-unity-loading-gif {
+    position: absolute;
+    left: calc(50% - 20px);
+    top: 50%;
+    width: 42px;
+    display: none;
+    z-index: 1;
+}
+
+.stagename,
+.stagemodalityname {
+    font-weight: bold;
+}
+
+li[discipline]:hover {
+    background-color: lightblue !important;
+}
+
 li[instructor]:hover {
-    background-color: lightblue!important;
+    background-color: lightblue !important;
 }
 
 .checkbox {
     pointer-events: none;
-  }
-  
-  .checkbox > input[type="checkbox"] {
+}
+
+.checkbox>input[type="checkbox"] {
     pointer-events: auto;
-  }
-  
+}
+
 
 .grid-view .dataTables_paginate {
     display: flex !important;
@@ -523,4 +622,103 @@ li[instructor]:hover {
 .grid-view .dataTables_paginate span {
     display: flex !important;
 }
+
+.innerLR {
+    padding: 48px 10px 0;
+
+}
+
+.grid-view table tr td {
+    box-shadow: none !important;
+    border-top: none !important;
+}
+
+.modal-content {
+    width: 624px;
+    height: auto;
+    box-sizing: border-box;
+    background: #FFFFFF;
+    border: 1px solid #F7F7F8;
+    box-shadow: 0px 0px 12px rgba(196, 196, 196, 0.5);
+    border-radius: 3px;
+}
+
+.modal-content .modal-header,
+.modal-content .modal-body {
+    background: none !important;
+    padding: 15px 30px !important;
+}
+
+.modal-content .modal-header h4 {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    color: #252A31;
+}
+
+.modal-content label {
+    margin-left: 5px;
+    width: 234px;
+    height: 20px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #252A31;
+}
+
+.modal-content .modal-footer {
+    background: none !important;
+    display: flex;
+    flex-direction: row;
+    padding: 0px;
+    border: none;
+    margin: 20px 0;
+}
+
+.modal-content select {
+    height: 44px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('../img/Suffix.svg');
+    background-repeat: no-repeat;
+    background-position: 97% 55%;
+    padding-left: 15px;
+}
+
+.modal-content select option {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.modal-content .modal-footer button {
+    width: 280px;
+    height: 44px;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    text-shadow: none !important;
+    border: none !important;
+}
+.button-icon-close{
+    display:flex;
+    margin: 7px 26px 0px 0px;
+}
+.div-input-structure-units{
+    margin-right: 7px;
+}
+.label-input-structure-units{
+    margin-right: 10px;
+}
+
 

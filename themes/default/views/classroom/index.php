@@ -74,6 +74,7 @@
                                 'filter' => false
                             ),
                             array(
+                                'header' => 'Ações',
                                 'class' => 'CButtonColumn', 
                                 'template' => '{update}{delete}',
                                 'buttons' => array(

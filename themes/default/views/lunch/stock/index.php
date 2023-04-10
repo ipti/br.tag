@@ -127,11 +127,12 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
     </div>
 
 </div>
-<div class="modal fade" id="addItem">
+<div class="modal fade modal-content" id="addItem">
     <div class="modal-dialog">
-        <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
                 <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Add Item'); ?></h4>
             </div>
             <?php
@@ -144,15 +145,15 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
             <div class="modal-body">
 
                 <div id="is-add-amount" class="widget widget-scroll margin-bottom-none">
-                    <div class="widget-head">
+                    <div class="widget-head" style="background: none;">
                         <h4 class="heading">
-                            <i></i><?= yii::t('lunchModule.stock', 'Add Amount') ?>
+                            <?= yii::t('lunchModule.stock', 'Add Amount') ?>
                         </h4>
                     </div>
                     <div class="widget-body">
 
                         <div class="row-fluid">
-                            <div class=" span4">
+                            <div class=" span8">
                                 <?= CHtml::label(Yii::t('lunchModule.labels', 'Item'), 'Item', array('class' => 'control-label')); ?>
                                 <div class="controls span12">
                                     <?= CHtml::dropDownList('Inventory[item]', '',
@@ -160,55 +161,52 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
 
                                 </div>
                             </div>
-                            <div class="span2">
-                                <label class="control-label">&nbsp;</label>
-
-                                <div class="controls span6">
-                                    <a href="#" id="new-item" class="btn btn-success btn-small">
-                                        <i class="fa fa-plus-circle"></i>
+                            <div class="span2" style="width: 8%;">
+                                <label class="control-label" style="margin: 0 0 10px 0; width: 10px;">&nbsp;</label>
+                                <div class="controls span6" style="width: 100%;">
+                                    <a href="#" id="new-item" class="btn btn-success btn-small" style="background:none; border:none;">
+                                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/addItem.svg" alt="Adicionar Novo Item">
                                     </a>
                                 </div>
                             </div>
-                            <div class=" span6">
-                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', array('class' => 'control-label')); ?>
-                                <div class="controls span12">
-                                    <?= CHtml::numberField('Inventory[amount]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10']); ?>
-                                </div>
+                            <div class=" span2" style="width: 23%;">
+                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', array('class' => 'control-label', 'style' => 'width: 100%')); ?>
+                                <?= CHtml::numberField('Inventory[amount]', '1', ['min' => '0', 'step' => '1','style' => 'height:33px;width:90%;']); ?>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div id="is-new-item" class="widget widget-scroll margin-bottom-none">
-                    <div class="widget-head">
+                    <div class="widget-head" style="background: none;">
                         <h4 class="heading">
                             <i></i><?= yii::t('lunchModule.stock', 'New Item') ?>
                         </h4>
                     </div>
-                    <div class="widget-body">
+                    <div class="widget-body" style="overflow: hidden;">
                         <div class="row-fluid">
-                            <div class=" span6">
+                            <div class=" span6" style="margin-right:12px">
                                 <?= CHtml::label(Yii::t('lunchModule.labels', 'Name'), 'Name', array('class' => 'control-label')); ?>
                                 <div class="controls span12">
-                                    <?= CHtml::textField('Item[name]', '', ['class' => ' span10']); ?>
+                                    <?= CHtml::textField('Item[name]', '', ['class' => ' span10', 'style' => 'height:44px;width:100%;']); ?>
                                 </div>
                             </div>
-                            <div class=" span2">
+                            <div class=" span2" style="margin-right:10px">
                                 <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', array('class' => 'control-label')); ?>
                                 <div class="controls span12">
-                                    <?= CHtml::numberField('Inventory[amount]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10']); ?>
+                                    <?= CHtml::numberField('Inventory[amount]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10', 'style' => 'height:44px;width:100%;']); ?>
                                 </div>
                             </div>
-                            <div class=" span2">
+                            <div class=" span2" style="margin-right:10px">
                                 <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', array('class' => 'control-label')); ?>
                                 <div class="controls span12">
-                                    <?= CHtml::numberField('Item[measure]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10']); ?>
+                                    <?= CHtml::numberField('Item[measure]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10', 'style' => 'height:44px;width:100%;']); ?>
                                 </div>
                             </div>
-                            <div class=" span2">
-                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', array('class' => 'control-label')); ?>
+                            <div class=" span2" style="width: 10%;">
+                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', array('class' => 'control-label', 'style' => 'width:auto')); ?>
                                 <div class="controls span12">
                                     <?= CHtml::dropDownList('Item[unity_fk]', '',
-                                        CHtml::listData(Unity::model()->findAll(), 'id', 'acronym'), ['class' => ' span8']); ?>
+                                        CHtml::listData(Unity::model()->findAll(), 'id', 'acronym'), ['class' => ' span8', 'style' => 'width:100%']); ?>
                                 </div>
                             </div>
                         </div>
@@ -216,27 +214,28 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
                             <div class=" span12">
                                 <?= CHtml::label(Yii::t('lunchModule.labels', 'Description'), 'Description', array('class' => 'control-label')); ?>
                                 <div class="controls span12">
-                                    <?= CHtml::textField('Item[description]', '', ['class' => ' span11']); ?>
+                                    <?= CHtml::textField('Item[description]', '', ['class' => ' span11', 'style' => 'width:99%']); ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default"
-                        data-dismiss="modal"><?= Yii::t('lunchModule.stock', 'Close'); ?></button>
-                <button type="submit" class="btn btn-primary"><?= Yii::t('lunchModule.stock', 'Add'); ?></button>
+            
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal"><?= Yii::t('lunchModule.stock', 'Close'); ?></button>
+                    <button type="submit" class="btn btn-primary"><?= Yii::t('lunchModule.stock', 'Add'); ?></button>
+                </div>
             </div>
             <?php $this->endWidget(); ?>
-        </div>
     </div>
 </div>
-<div class="modal fade" id="removeItem">
+<div class="modal fade modal-content" id="removeItem">
     <div class="modal-dialog">
-        <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+            </button>
                 <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Remove Item'); ?></h4>
             </div>
             <?php
@@ -246,37 +245,35 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
                 'action' => Yii::app()->createUrl('lunch/stock/removeItem')
             ));
             ?>
-            <div class="modal-body">
+            <div class="modal-body" style="overflow: hidden;">
                 <div class="row-fluid">
-                    <div class=" span6">
+                    <div class=" span6" style="width: 75%;">
                         <?= CHtml::label(Yii::t('lunchModule.labels', 'Item'), 'Item', array('class' => 'control-label')); ?>
                         <div class="controls span12">
                             <?= CHtml::dropDownList('Item', '',
-                                CHtml::listData(Item::model()->findAll(), 'id', 'concatName'), ['class' => 'span10']); ?>
+                                CHtml::listData(Item::model()->findAll(), 'id', 'concatName'), ['class' => 'span10', 'style' => 'width: 100%']); ?>
                         </div>
                     </div>
-                    <div class=" span6">
+                    <div class=" span6" style="width: 21%; margin-left: 20px;">
                         <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', array('class' => 'control-label')); ?>
-                        <div class="controls span12">
-                            <?= CHtml::numberField('Amount', '1', ['min' => '0', 'step' => '0.1', 'class' => 'span10']); ?>
-                        </div>
+                        <?= CHtml::numberField('Amount', '1', ['min' => '0', 'step' => '0.1', 'class' => 'span10', 'style' => 'height:44px; width:99%;']); ?>
                     </div>
                 </div>
                 <div class="row-fluid">
                     <div class="span12">
                         <?= CHtml::label(Yii::t('lunchModule.labels', 'Motivation'), 'Motivation', array('class' => 'control-label')); ?>
                         <div class="controls span12">
-                            <?= CHtml::textField('Motivation', "", ['class' => 'span11']); ?>
+                            <?= CHtml::textField('Motivation', "", ['class' => 'span11', 'style' => 'width:99%']); ?>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default"
-                        data-dismiss="modal"><?= Yii::t('lunchModule.stock', 'Close'); ?></button>
-                <button type="submit" class="btn btn-danger"><?= Yii::t('lunchModule.stock', 'Remove'); ?></button>
+            
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal"><?= Yii::t('lunchModule.stock', 'Close'); ?></button>
+                    <button type="submit" class="btn btn-danger"><?= Yii::t('lunchModule.stock', 'Remove'); ?></button>
+                </div>
             </div>
             <?php $this->endWidget(); ?>
-        </div>
     </div>
 </div>
