@@ -19,6 +19,7 @@ return [
     'Menu Info'=>'Informações do Cardápio',
     'Meals' => 'Refeições',
     'Portions Table' => 'Tabela de Porções',
+    'Add Lunch' => 'Adicionar Refeição',
     'Update Lunch' => 'Atualizar Refeição',
     'Lunch Info' => 'Informação da Refeição',
 

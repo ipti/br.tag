@@ -115,11 +115,11 @@ $(document).on("change", "#CoursePlan_discipline_fk", function () {
                     $(".js-alert-ability-structure").hide();
                     if (data.options[0].code === null) {
                         $(".js-abilities-parents").html(buildAbilityStructureSelect(data));
-                        $(".js-abilities-parents select").select2();
+                        // $(".js-abilities-parents select").select2();
                     } else {
                         $(".js-abilities-panel").html(buildAbilityStructurePanel(data));
                     }
-
+                    $(".ability-structure-select").css('width', '100%');
                 } else {
                     $(".js-alert-ability-structure").text("Não foram cadastradas habilidades para essa disciplina.").show();
                 }
@@ -152,11 +152,11 @@ $(document).on("change", ".ability-structure-select", function () {
                 data = JSON.parse(data);
                 if (data.options[0].code === null) {
                     $(".js-abilities-parents").append(buildAbilityStructureSelect(data));
-                    container.next().find("select").select2();
                 } else {
                     $(".js-abilities-panel").html(buildAbilityStructurePanel(data));
                 }
                 container.find(".loading-next-structure").hide();
+                $(".ability-structure-select").css('width', '100%');
             },
         });
     }

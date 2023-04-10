@@ -27,7 +27,7 @@
     <?php echo $form->errorSummary($model); ?>
 
 
-    <div class="row-fluid">
+    <div class="row-fluid hidden-print">
         <div class="span12">
             <h1><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h1>
             <div class="buttons">
@@ -45,44 +45,36 @@
             </div>
         </div>
     </div>
-
-    <div class="innerLR">
+    <div class="tag-inner">
         <div class="widget widget-tabs border-bottom-none">
 
-            <div class="widget-head">
-                <ul class="tab-classroom">
-                    <li id="tab-classroom" class="active"><a class="glyphicons user" href="#User" data-toggle="tab"><?php echo Yii::t('default', 'User') ?></a></li>
+            <div class="t-tabs">
+                <ul class="tab-classroom t-tabs__list">
+                    <li id="tab-classroom" class="active t-tabs__item"><a class="glyphicons user t-tabs__link" href="#User" data-toggle="tab"><span class="t-tabs__numeration">1</span><?php echo Yii::t('default', 'User') ?></a></li>
                 </ul>
             </div>
 
             <div class="widget-body form-horizontal">
-                <div class="tab-content">
+                <div class="tab-content form-content">
 
                     <!-- Tab content -->
                     <div class="tab-pane active" id="User">
-                        <div class="row-fluid">
-                            <div class=" span5">
-                                <div class="control-group">
-                                    <div class="controls">
-                                        <?php echo $form->labelEx($model, 'password', array('class' => 'control-label')); ?>
-                                    </div>
-                                    <div class="controls">
-                                        <?php echo $form->passwordField($model, 'password', array('size' => 32, 'maxlength' => 32)); ?>
+                        <div class="row">
+                            <div class="column">
+                                <div class="span3">
+                                    <div class="t-field-text">
+                                        <?php echo $form->labelEx($model, 'password', array('class' => 't-field-text__label--required')); ?>
+                                        <?php echo $form->passwordField($model, 'password', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input',)); ?>
                                         <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Min length') . "6"; ?>"><i></i></span> -->
                                         <?php echo $form->error($model, 'password'); ?>
                                     </div>
-                                </div>
 
-                                <div class="control-group">
-                                    <div class="controls">
-                                        <?php echo CHtml::label(Yii::t('default', 'Confirm'), 'Confirm', array('class' => 'control-label required indicator')); ?>
-                                    </div>
-                                    <div class="controls">
-                                        <?php echo CHtml::passwordField('Confirm', '', array('size' => 32, 'maxlength' => 32)); ?>
+                                    <div class="t-field-text">
+                                        <?php echo CHtml::label(Yii::t('default', 'Confirm'), 'Confirm', array('class' => 't-field-text__label--required')); ?>
+                                        <?php echo CHtml::passwordField('Confirm', '', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input',)); ?>
                                         <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Confirm Password'); ?>"><i></i></span> -->
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>

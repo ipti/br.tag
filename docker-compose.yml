@@ -42,12 +42,13 @@ services:
               memory: 1GB
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: tag
+      # MYSQL_DATABASE: tag
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     volumes:
-      - ./docker/mysql/dbfiles:/var/lib/mysql
-      - ./docker/mysql/initdb:/docker-entrypoint-initdb.d
+      - ./db:/var/lib/mysql
+      # - .\dump.sql:/docker-entrypoint-initdb.d/dump.sql
+      # - ./dump-data.sql:/docker-entrypoint-initdb.d/dump-data.sql
     networks:
       - tag-v3-network
   

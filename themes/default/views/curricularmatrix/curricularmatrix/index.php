@@ -115,13 +115,13 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
     </div>
 </div>
 </div>
-<div class="modal fade" id="matrix-reuse-modal" tabindex="-1" role="dialog"
+<div class="modal fade modal-content" id="matrix-reuse-modal" tabindex="-1" role="dialog"
      aria-labelledby="Reaproveitamento de Matriz Curricular">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
                 <h4 class="modal-title"
                     id="myModalLabel">Reaproveitamento de Matriz Curricular</h4>
             </div>
@@ -130,15 +130,13 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                     <div class="row-fluid">
                         <b>Tem certeza</b> que deseja reaproveitar a matriz curricular de <?php echo (Yii::app()->user->year - 1) ?>?</b>
                     </div>
-                </div>
-
-                <div class="modal-footer modal-container-buttons ">
-                    <button type="button" class="tag-button-light small-button"
-                            data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="t-button-primary "
-                            data-dismiss="modal">Confirmar</button>
+                    <div class="modal-footer">
+                        <button type="button" class="tag-button-light btn btn-default"
+                                data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary"
+                                data-dismiss="modal">Confirmar</button>
+                    </div>
                 </div>
             </form>
-        </div>
     </div>
 </div>
