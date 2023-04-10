@@ -1,6 +1,8 @@
 <?php
 /* @var $this DefaultController */	
 
+$this->setPageTitle('TAG - ' . Yii::t('default', 'SEDSP'));
+
 $this->breadcrumbs=array(
 	$this->module->id,
 );
