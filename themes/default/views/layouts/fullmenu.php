@@ -266,17 +266,39 @@ if (Yii::app()->user->isGuest) {
                                     <span class="t-menu-item__text">Merenda Escolar</span>
                                 </a>
                             </li>
-                            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ? 'active' : '' ?>">
-                                <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('censo/validate') ?> ">
-                                    <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/educacenso.svg" />
-                                    <span class="t-menu-item__text">Educacenso</span>
+                            <li id="menu-integrations" class="t-menu-group <?=
+                                                                            strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ||
+                                                                                strpos($_SERVER['REQUEST_URI'], "?r=sagres") ||
+                                                                                strpos($_SERVER['REQUEST_URI'], "?r=sedsp")
+                                                                                ? 'active' : '' ?>"><i class="submenu-icon fa fa-chevron-right"></i><i class="submenu-icon fa fa-chevron-down"></i>
+                                <a id="menu-integrations-trigger" data-toggle="collapse" class="t-menu-group__link" href="#submenu-integrations">
+                                    <img class="t-menu-group__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/integration.svg" />
+                                    <span class="t-menu-group__text">Integrações</span>
                                 </a>
-                            </li>
-                            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=sagres") ? 'active' : '' ?>">
-                                <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('sagres') ?> ">
-                                    <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/sagres.svg" />
-                                    <span class="t-menu-item__text">Sagres</span>
-                                </a>
+                                <ul class="collapse <?=
+                                                    strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ||
+                                                        strpos($_SERVER['REQUEST_URI'], "?r=sagres") ||
+                                                        strpos($_SERVER['REQUEST_URI'], "?r=sedsp")? 'in' : '' ?>" id="submenu-integrations">
+                                    
+                                    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ? 'active' : '' ?>">
+                                        <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('censo/validate') ?> ">
+                                            <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/educacenso.svg" />
+                                            <span class="t-menu-item__text">Educacenso</span>
+                                        </a>
+                                    </li>
+                                    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=sagres") ? 'active' : '' ?>">
+                                        <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('sagres') ?> ">
+                                            <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/sagres.svg" />
+                                            <span class="t-menu-item__text">Sagres</span>
+                                        </a>
+                                    </li>
+                                    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=sedsp") ? 'active' : '' ?>">
+                                        <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('sedsp') ?>">
+                                            <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/sedsp.svg" />
+                                            <span class="t-menu-item__text">SEDSP</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                         <?php endif ?>
                         <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
