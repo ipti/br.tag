@@ -118,4 +118,10 @@ $(document).on("change", "#show-student-civil-name", function () {
     }
 });
 
+$('#copy-gov-id').click(function() {
+    var govId = $('#StudentIdentification_gov_id').val();
+    navigator.clipboard.writeText(govId);
+    $('#copy-message').text('Copiado!').fadeIn().delay(1000).fadeOut();
+});
+
 $("#StudentEnrollment_public_transport").trigger("change");

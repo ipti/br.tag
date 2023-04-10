@@ -155,6 +155,7 @@ class StudentIdentification extends AltActiveRecord {
             'register_type' => Yii::t('default', 'Register Type'),
             'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
             'inep_id' => Yii::t('default', 'ID INEP'),
+            'gov_id' => Yii::t('default', 'GOV ID'),
             'id' => Yii::t('default', 'ID'),
             'name' => Yii::t('default', 'Civil Name'),
             'social_name' => Yii::t('default', 'Social Name'),
