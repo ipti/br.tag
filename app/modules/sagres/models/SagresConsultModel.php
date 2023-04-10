@@ -233,8 +233,8 @@ class SagresConsultModel
                     week_day";
 
         $params = [
-            ':classId' => 441,
-            ':referenceMonth' => 1
+            ':classId' => $classId,
+            ':referenceMonth' => $referenceMonth
         ];
 
 
@@ -251,7 +251,7 @@ class SagresConsultModel
                                 JOIN edcenso_discipline ed ON ed.id = s.discipline_fk 
                                 JOIN classroom c ON c.id = s.classroom_fk 
                                 JOIN curricular_matrix cm ON cm.discipline_fk = ed.id 
-                            WHERE s.classroom_fk = 441 and s.month = 1
+                            WHERE s.classroom_fk = $classId and s.month = $referenceMonth
                             GROUP BY s.week_day
                         ) t
                         WHERE t.disciplineName = '" . $schedule['disciplineName'] . "'";
@@ -564,7 +564,7 @@ class SagresConsultModel
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
-            ':enrollmentId' => 441,
+            ':enrollmentId' => $enrollmentId,
             ':referenceYear' => $referenceYear,
             ':dateStart' => $dateStart,
             ':dateEnd' => $dateEnd
