@@ -7,6 +7,7 @@ use Datetime;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
 use JMS\Serializer\SerializerBuilder;
 
+use Symfony\Component\Validator\Exception\InvalidArgumentException;
 use Symfony\Component\Validator\Validation;
 
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
@@ -125,6 +126,7 @@ class SagresConsultModel
     public function getClasses($inepId, $referenceYear, $dateStart, $dateEnd)
     {
         $classList = [];
+        $referenceMonth = (int) date("m", strtotime($dateStart));
 
         $query = "SELECT 
                     c.initial_hour AS initialHour,
@@ -135,9 +137,9 @@ class SagresConsultModel
                 FROM 
                     classroom c
                 WHERE 
-                    c.school_inep_fk = :schoolInepFk
-                    AND c.school_year = :referenceYear
-                    AND Date(c.create_date) BETWEEN :dateStart AND :dateEnd";
+                    c.school_inep_fk = :schoolInepFk AND 
+                    c.school_year = :referenceYear AND 
+                    Date(c.create_date) BETWEEN :dateStart AND :dateEnd";
 
         $params = [
             ':schoolInepFk' => $inepId,
@@ -154,17 +156,17 @@ class SagresConsultModel
             $classType = new TurmaTType;
             $classId = $turma['classroomId'];
 
-           // if (!empty($this->getEnrollments($classId, $referenceYear, $dateStart, $dateEnd))) {
-                $classType
-                    ->setPeriodo(0) //0 - Anual
-                    ->setDescricao($turma["classroomName"])
-                    ->setTurno($this->convertTurn($turma['classroomTurn']))
-                    ->setSerie($this->getSeries($classId))
-                    ->setMatricula($this->getEnrollments($classId, $referenceYear, $dateStart, $dateEnd))
-                    ->setHorario($this->getSchedules($classId))
-                    ->setFinalTurma(false);
+            // if (!empty($this->getEnrollments($classId, $referenceYear, $dateStart, $dateEnd))) {
+            $classType
+                ->setPeriodo(0) //0 - Anual
+                ->setDescricao($turma["classroomName"])
+                ->setTurno($this->convertTurn($turma['classroomTurn']))
+                ->setSerie($this->getSeries($classId))
+                ->setMatricula($this->getEnrollments($classId, $referenceYear, $dateStart, $dateEnd))
+                ->setHorario($this->getSchedules($classId, $referenceMonth))
+                ->setFinalTurma(false);
 
-                $classList[] = $classType;
+            $classList[] = $classType;
             //}
         }
 
@@ -205,14 +207,15 @@ class SagresConsultModel
      * Summary of SerieTType
      * @return HorarioTType[] 
      */
-    public function getSchedules($classId)
+    public function getSchedules($classId, $referenceMonth)
     {
         $scheduleList = [];
 
         $query = "SELECT  
-                    s.schedule,
+                    s.schedule AS schedule,
                     s.week_day AS weekDay, 
-                    ed.name AS disciplineName 
+                    ed.name AS disciplineName,
+                    c.turn AS turn
                 FROM 
                     schedule s 
                     JOIN edcenso_discipline ed ON ed.id = s.discipline_fk 
@@ -247,13 +250,13 @@ class SagresConsultModel
                             GROUP BY s.week_day
                         ) t
                         WHERE t.disciplineName = '" . $schedule['disciplineName'] . "'";
-           
+
             $duration = Yii::app()->db->createCommand($query1)->queryRow();
 
             $scheduleType
                 ->setDiaSemana($schedule['weekDay'])
                 ->setDuracao($duration['duration'])
-                ->setHoraInicio($this->getDateTimeFromInitialHour($schedule['startTime']))
+                ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
                 ->setDisciplina($schedule['disciplineName'])
                 ->setCpfProfessor([$schedule['cpfInstructor']]);
 
@@ -263,72 +266,62 @@ class SagresConsultModel
         return $scheduleList;
     }
 
-    public function getStartTime($initialHour, $schedule)
+
+    /**
+     * Calculates the start time for a given schedule and initial hour.
+     *
+     * @param int $schedule The schedule number (1-10).
+     * @param string $turn The turn type: "1: Morning", "2: Afternoon", "3: Night" or "4: FullTime".
+     * @return DateTime The start time for the given schedule and initial hour.
+     */
+    public function getStartTime(int $schedule, int $turn): DateTime
     {
 
-        /* if($turn == 1){ #Manhã
-            if($schedule == 1)
-                return $this->getDateTimeFromInitialHour(7);
-            elseif ($schedule == 2){
-                return $this->getDateTimeFromInitialHour(8);
-            }elseif ($schedule == 3) {
-                return $this->getDateTimeFromInitialHour(9);
-            }elseif ($schedule == 4) {
-                return $this->getDateTimeFromInitialHour(10);
-            }elseif ($schedule == 5) {
-                return $this->getDateTimeFromInitialHour(11);
-            }
-        }elseif($turn == 2){ #Tarde
-            if ($schedule == 1) {
-                return $this->getDateTimeFromInitialHour(12);
-            }elseif ($schedule == 2) {
-                return $this->getDateTimeFromInitialHour(13);
-            }elseif ($schedule == 2) {
-                return $this->getDateTimeFromInitialHour(14);
-            }elseif ($schedule == 3) {
-                return $this->getDateTimeFromInitialHour(15);
-            }elseif ($schedule == 4) {
-                return $this->getDateTimeFromInitialHour(16);
-            }elseif ($schedule == 5) {
-                return $this->getDateTimeFromInitialHour(17);
-            }
-        } elseif($turn == 3){#Noite
-            if ($schedule == 1) {
-                return $this->getDateTimeFromInitialHour(18);
-            }elseif ($schedule == 2) {
-                return $this->getDateTimeFromInitialHour(19);
-            }elseif ($schedule == 3) {
-                return $this->getDateTimeFromInitialHour(20);
-            }elseif ($schedule == 4) {
-                return $this->getDateTimeFromInitialHour(21);
-            }
-        }elseif($turn == 4){#Integral
-            if($schedule == 1)
-                return $this->getDateTimeFromInitialHour(7);
-            elseif ($schedule == 2){
-                return $this->getDateTimeFromInitialHour(8);
-            }elseif ($schedule == 3) {
-                return $this->getDateTimeFromInitialHour(9);
-            }elseif ($schedule == 4) {
-                return $this->getDateTimeFromInitialHour(10);
-            }elseif ($schedule == 5) {
-                return $this->getDateTimeFromInitialHour(11);
-            }elseif ($schedule == 6) {
-                return $this->getDateTimeFromInitialHour(12);
-            }elseif ($schedule == 7) {
-                return $this->getDateTimeFromInitialHour(13);
-            }elseif ($schedule == 8) {
-                return $this->getDateTimeFromInitialHour(14);
-            }elseif ($schedule == 9) {
-                return $this->getDateTimeFromInitialHour(15);
-            }elseif ($schedule == 10) {
-                return $this->getDateTimeFromInitialHour(16);
-            }
+        $startTimes = [
+            1 => [
+                1 => 7,
+                2 => 8,
+                3 => 9,
+                4 => 10,
+                5 => 11
+            ],
+            2 => [
+                1 => 12,
+                2 => 13,
+                3 => 14,
+                4 => 15,
+                5 => 16,
+                6 => 17
+            ],
+            3 => [
+                1 => 18,
+                2 => 19,
+                3 => 20,
+                4 => 21
+            ],
+            4 => [
+                1 => 7,
+                2 => 8,
+                3 => 9,
+                4 => 10,
+                5 => 11,
+                6 => 12,
+                7 => 13,
+                8 => 14,
+                9 => 15,
+                10 => 16
+            ]
+        ];
+
+        $startTime = $startTimes[$turn][$schedule] ?? null;
+
+        if ($startTime !== null) {
+            return $this->getDateTimeFromInitialHour($startTime);
+        } else {
+            throw new InvalidArgumentException("Invalid turn or schedule.");
         }
-        */
-        
     }
-    
+
     function getDateTimeFromInitialHour($initialHour)
     {
         $timeFormatted = date('H:i:s', strtotime($initialHour . ':00:00'));
@@ -513,9 +506,11 @@ class SagresConsultModel
                     p.inep_id_fk AS idEscola, 
                     fundeb 
                 FROM professional p
-                JOIN edcenso_professional_education_course epec ON p.speciality_fk = epec.id
-                JOIN attendance a ON p.id_professional  = a.professional_fk  
-                WHERE YEAR(a.date) = :reference_year AND a.date BETWEEN :dateStart AND :dateEnd;";
+                    JOIN edcenso_professional_education_course epec ON p.speciality_fk = epec.id
+                    JOIN attendance a ON p.id_professional  = a.professional_fk  
+                WHERE 
+                    YEAR(a.date) = :reference_year AND 
+                    a.date BETWEEN :dateStart AND :dateEnd;";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
@@ -550,12 +545,17 @@ class SagresConsultModel
     {
         $enrollmentList = [];
 
-        $query = "SELECT se.id as numero, se.student_fk,
-                    se.create_date AS data_matricula, 
-                    se.date_cancellation_enrollment AS data_cancelamento,
-                    se.previous_stage_situation AS situation
-                  FROM student_enrollment se 
-                  WHERE se.classroom_fk  =  :enrollmentId AND YEAR(se.create_date) = :referenceYear AND create_date BETWEEN :dateStart AND :dateEnd;";
+        $query = "SELECT 
+                        se.id as numero, se.student_fk,
+                        se.create_date AS data_matricula, 
+                        se.date_cancellation_enrollment AS data_cancelamento,
+                        se.previous_stage_situation AS situation
+                  FROM 
+                        student_enrollment se 
+                  WHERE 
+                        se.classroom_fk  =  :enrollmentId AND 
+                        YEAR(se.create_date) = :referenceYear AND 
+                        create_date BETWEEN :dateStart AND :dateEnd;";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
@@ -598,11 +598,15 @@ class SagresConsultModel
 
     public function returnNumberFaults($studentId, $referenceYear)
     {
-        $sql = "SELECT COUNT(*) 
-            FROM class_faults cf 
-            JOIN schedule s ON s.id = cf.schedule_fk 
-            JOIN classroom c on c.id = s.classroom_fk 
-            WHERE cf.student_fk = :studentId AND c.school_year = :referenceYear;";
+        $sql = "SELECT 
+                    COUNT(*) 
+                FROM 
+                    class_faults cf 
+                    JOIN schedule s ON s.id = cf.schedule_fk 
+                    JOIN classroom c on c.id = s.classroom_fk 
+                WHERE 
+                    cf.student_fk = :studentId AND 
+                    c.school_year = :referenceYear;";
 
         $numberFaults = Yii::app()->db->createCommand($sql)
             ->bindValues([
