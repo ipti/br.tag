@@ -87,7 +87,7 @@
     color: $colorsBaseInkNormal;
 
     &:hover,
-    &--active {
+    &--active, &:focus {
         color: $colorsBaseInkNormal;
         background-color: $colorsBaseCloudLightHover;
     }

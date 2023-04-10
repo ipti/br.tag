@@ -722,3 +722,7 @@ li[instructor]:hover {
 }
 
 
+.widget > .widget-head {
+    background: #ffffff;
+
+}
