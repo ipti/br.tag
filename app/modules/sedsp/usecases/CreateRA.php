@@ -21,21 +21,12 @@ class CreateRA
         $ucnewstudent = new AddStudentToSED();
         $RA = $ucnewstudent->exec($id);
 
-        if(method_exists($RA,'getoutSucesso')){
-            if(!isset($RA->outErro)){
-                $ucadd = new AddRACodeToTAG();
-                $student = $ucadd->exec($id, $RA->getoutAluno()->outNumRA);
-                return $student->gov_id;
-            }
-            return false;
-        }else if($RA->getHasResponse()){
-            if($RA->getCode()==400){
-                return $RA->getoutErro();
-            }else if($RA->getCode()==500){
-                return 'erro 500';
-            }
+        if(!isset($RA->outErro)){
+            $ucadd = new AddRACodeToTAG();
+            $student = $ucadd->exec($id, $RA->getoutAluno()->outNumRA);
+            return $student->gov_id;
         }else{
-            return 'Tentar Novamente';
+            return "Ocorreu um erro. Tente Novamente";
         }
     }
 

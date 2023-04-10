@@ -64,7 +64,16 @@ class DefaultController extends Controller
 	}
 	public function actionCreateRA($id)
 	{
+		if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
+			$uclogin = new LoginUseCase();
+			$uclogin->exec("SME701", "zyd780mhz1s5");
+		}
 		$createRA = new CreateRA();
-		$createRA->exec($id);
+		$msg = $createRA->exec($id);
+
+		if (!$msg) {
+			$msg = $createRA->exec($id, true);
+		}
+		echo $msg;
 	}
 }

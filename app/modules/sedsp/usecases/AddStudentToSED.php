@@ -23,10 +23,8 @@ class AddStudentToSED
         $student = $this->studentTAGDataSource->getStudent($tag_student_id);
         $student_sed = StudentMapper::parseToSEDAlunoFicha($student, $student->documentsFk);
         $response = $this->studentSEDDataSource->addStudent($student_sed);
-
         $content = $response->getBody()->getContents();
-        //$aluno_sed = new DadosAluno($content);
         //Acessando os dados do aluno
-        return $content;
+        return json_decode($content);
     }
 }
