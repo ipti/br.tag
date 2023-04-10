@@ -215,12 +215,17 @@ class SagresConsultModel
                     s.schedule AS schedule,
                     s.week_day AS weekDay, 
                     ed.name AS disciplineName,
-                    c.turn AS turn
+                    c.turn AS turn,
+                    idaa.cpf AS cpfInstructor
                 FROM 
                     schedule s 
                     JOIN edcenso_discipline ed ON ed.id = s.discipline_fk 
+                    JOIN instructor_disciplines id ON id.discipline_fk = ed.id 
+                    JOIN instructor_identification ii ON ii.id = id.instructor_fk 
                     JOIN classroom c ON c.id = s.classroom_fk 
-                    JOIN curricular_matrix cm ON cm.discipline_fk = ed.id 
+                    join school_identification si on si.inep_id = c.school_inep_fk 
+                    join instructor_documents_and_address idaa ON idaa.school_inep_id_fk = si.inep_id 
+                    join curricular_matrix cm ON cm.discipline_fk = ed.id 
                 WHERE 
                     s.classroom_fk = :classId and 
                     s.month = :referenceMonth
@@ -246,7 +251,7 @@ class SagresConsultModel
                                 JOIN edcenso_discipline ed ON ed.id = s.discipline_fk 
                                 JOIN classroom c ON c.id = s.classroom_fk 
                                 JOIN curricular_matrix cm ON cm.discipline_fk = ed.id 
-                            WHERE s.classroom_fk = 444 and s.month = 1
+                            WHERE s.classroom_fk = 441 and s.month = 1
                             GROUP BY s.week_day
                         ) t
                         WHERE t.disciplineName = '" . $schedule['disciplineName'] . "'";
