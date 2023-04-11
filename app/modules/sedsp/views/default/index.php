@@ -39,24 +39,9 @@ $cs->registerCssFile(Yii::app()->request->baseUrl . '/sass/css/main.css');
                                     'label' => 'Gerar RA',
                                     'options' => array("id" => 'data->primaryKey'),
                                     'click' => "function(e){
-                                     e.preventDefault();
-                                    var th=this;
-                                   $.ajax({
-                                        type:'POST',
-                                        url:$(this).attr('href'),
-                                        success:function(data) {
-                                            $(th).html(data);
-                                        },
-                                        error: function(error) {
-                                            const approved =  confirm('Aluno nao encontrado na SED, deseja envia-lo?');
-                                            if(approved){
-                                                console.log(error);
-                                            }
-                                        }
-                                    });
-                                    return false;
-                              }
-                     ",
+                                        e.preventDefault();
+                                        return false;
+                                    }",
                                     'url' => 'Yii::app()->controller->createUrl("GenRA",array("id"=>$data->primaryKey))',
                                 ),
                             )
