@@ -266,13 +266,13 @@ if (Yii::app()->user->isGuest) {
                                     <span class="t-menu-item__text">Merenda Escolar</span>
                                 </a>
                             </li>
-                            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ? 'active' : '' ?>">
+                            <li class="t-menu-item hide-responsive <?= strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ? 'active' : '' ?>">
                                 <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('censo/validate') ?> ">
                                     <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/educacenso.svg" />
                                     <span class="t-menu-item__text">Educacenso</span>
                                 </a>
                             </li>
-                            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=sagres") ? 'active' : '' ?>">
+                            <li class="t-menu-item hide-responsive <?= strpos($_SERVER['REQUEST_URI'], "?r=sagres") ? 'active' : '' ?>">
                                 <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('sagres') ?> ">
                                     <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/sagres.svg" />
                                     <span class="t-menu-item__text">Sagres</span>
