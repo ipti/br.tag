@@ -316,6 +316,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->textField($modelStudentIdentification, 'inep_id', array('size' => 60, 'maxlength' => 12, 'class' => 't-field-text__input', 'placeholder' => 'Digite o ID INEP')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'inep_id'); ?>
                             </div>
+                            <div class="t-field-text js-hide-not-required" style="width: 120%;">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'gov_id', array('class' => 'control-label t-field-text__label')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'gov_id', array('size' => 60, 'maxlength' => 12, 'class' => 't-field-text__input', 'placeholder' => 'Não possui', 'disabled' => 'disabled', 'style' => 'width:82.95%;')); ?>
+                                <button type="button" id="copy-gov-id" style="background: none; border:none;"><span class="t-icon-duplicate"></span></button>
+                                <span id="copy-message" style="display:none;"></span>
+                                <?php echo $form->error($modelStudentIdentification, 'gov_id'); ?>
+                            </div>
                             <div class="t-field-select js-hide-not-required">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable', array('class' => 'control-label t-field-select__label')); ?>
                                 <?php

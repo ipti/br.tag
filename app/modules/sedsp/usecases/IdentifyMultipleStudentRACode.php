@@ -8,7 +8,7 @@ Yii::import('application.modules.sedsp.models.*');
  * @property StudentTAGDataSource $studentTAGDataSource
  * @property StudentSEDDataSource $studentSEDDataSource
  */
-class IdentifyStudentRACode
+class IdentifyMultipleStudentRACode
 {
     private  $studentTAGDataSource;
     private  $studentSEDDataSource;
@@ -20,19 +20,12 @@ class IdentifyStudentRACode
 
     /**
      * Summary of exec
-     * @param int $tag_student_id StudentIdentificantion Id from TAG
-     * @param boolean $force Force search from TAG
-     * @return DadosAluno|OutErro
+     * @param int $school_id School Id from TAG
+     * @return DadosAluno
      */
-    public function exec($tag_student_id, $force = false) : DadosAluno|OutErro
+    public function exec($school_id)
     {
-        // Get Student From TAG database
-        $student_tag = $this->studentTAGDataSource->getStudent($tag_student_id);
-        $nome = $student_tag->name;
-        $data_nascimento = $student_tag->birthday;
-        $nome_mae = $student_tag->filiation_1;
-        $aluno_sed = $this->studentSEDDataSource->getStudentRA($nome,$data_nascimento, $nome_mae,$force);
-        
-        return $aluno_sed;
+        // Get Students From TAG database
+        return $this->studentTAGDataSource->getAllStudentsEnrollmentsbySchool($school_id);
     }
 }
