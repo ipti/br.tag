@@ -47,6 +47,7 @@
  * @property integer $aee_caa
  * @property integer $aee_optical_nonoptical
  * @property string $observation
+ * @property integer $daily_order
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
@@ -212,7 +213,9 @@ class StudentEnrollment extends AltActiveRecord
             'aee_mobility_techniques' => Yii::t('default', 'Aee Mobility Techniques'),
             'aee_caa' => Yii::t('default', 'Aee Caa'),
             'aee_optical_nonoptical' => Yii::t('default', 'Aee Optical Nonoptical'),
-            'observation' => Yii::t('default', 'Observation')
+            'observation' => Yii::t('default', 'Observation'),
+            'daily_order' => Yii::t('default', 'daily_order')
+
         );
     }
 
@@ -282,6 +285,13 @@ class StudentEnrollment extends AltActiveRecord
         $count = Yii::app()->db->createCommand($sql)->queryRow();
         // var_dump($count["qtd"]);
         return $count["qtd"] > 0; 
+    }
+    public function getDailyOrder()
+    {
+        $sql = "SELECT count(student_fk) as qtd FROM student_enrollment WHERE classroom_fk = " . $this->classroom_fk;
+        $count = Yii::app()->db->createCommand($sql)->queryRow();
+        // var_dump($count["qtd"]);
+        return $count["qtd"] + 1; 
     }
 
     /**

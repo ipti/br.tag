@@ -580,6 +580,7 @@ return array(
     'Aee Caa' => 'Ensino de uso da Comunicação Alternativa e Aumentativa (CAA)',
     'Aee Optical Nonoptical' => 'Ensino de uso de recursos ópticos e não ópticos',
     'Observation' => 'Observação',
+    'daily_order' => 'ordem no diário',
 
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',
