@@ -721,4 +721,6 @@ li[instructor]:hover {
     margin-right: 10px;
 }
 
-
+#menu-integrations ul {
+    width: 100%;
+}

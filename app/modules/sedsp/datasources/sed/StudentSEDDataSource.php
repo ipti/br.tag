@@ -1,50 +1,62 @@
 <?php
-require 'vendor/autoload.php'; 
+require_once 'app/vendor/autoload.php';
 
-class StudentSEDDataSource
+Yii::import('application.modules.sedsp.models.*');
+
+/**
+ * Summary of StudentSEDDataSource
+ */
+class StudentSEDDataSource extends SedDataSource
 {
 
-    public function getStudentRA($name, $birthday, $mothersName)
+    /**
+     * Summary of getStudentRA
+     * @param string $name
+     * @param string $birthday
+     * @param string $mothersName
+     * @return DadosAluno|OutErro
+     */
+    public function getStudentRA($name, $birthday, $mothersName,$force)
     {
-        $client = new \GuzzleHttp\Client([
-            // Base URI is used with relative requests
-            'base_uri' => 'https://homologacaointegracaosed.educacao.sp.gov.br',
-            // You can set any number of default request options.
-            'timeout'  => 2.0,
-        ]);
+        if($force){
+            $name = '';
+        }
+        $body['inFiltrosNomes'] = array("inNomeAluno" => $name,
+        "inNomeMae" => $mothersName,
+        "outDataNascimento" => $birthday);
+        try {
+            $response = $this->client->request('GET', '/ncaapi/api/Aluno/ListarAlunos', [
+                'body' => json_encode($body)
+            ]);
+            return new DadosAluno($name, $response->getBody()->getContents());
+        }
+        catch (GuzzleHttp\Exception\ClientException $e) {
+            return new OutErro($e);
+        }
+    }
 
-        $promise = $client->requestAsync('GET', '/ncaapi/api/Aluno/ConsultaRA', [
-            'headers' => [
-                'content-type' => 'application/json',
-                'Authorization' => 'Bearer YYlW35bvTjLdVc+j6ozpvBFHy/t8PLTGb4i6oeMwqgOQVXjRm7y5tyQHVYDROC03nGm8zB+Oh295rqa+CG1jz/ZgbAcYI6hQFP6fBEBv3XgS9jeRHRTQ+UFTqCtiZjPCJ2HOU8GgkoRG9qRIRTQSVsE/ncDzJe/0PQbKWkDQvBSpryHF+u9LymeCtvUj+BDXlrUup3cW5LX4kthTuEaZ3sxv4f5weWCbZBXKfICmaf2K/XfaLDIHORv13oSzdVQ4Pwq+oIKf8+QdCd+CRTidHdC8rkiRO0+R+mtQyK200i23GqHgn/OgdSWOnpsOZwS+0lR+RCUmEFHCd2bXz309WogYOZU1R8I1/6RJ7/mbqb+fgrJ/abOrvYYOgp0sm40SuD0VmQ9lBIM3Or9UC3Qotg=='
-            ],
-            'body' => json_encode([
-                "inNomeAluno" => $name,
-                "inNomeMae" => $mothersName,
-                "inDataNascimento" => $birthday
-            ])
+    public function addStudent($student_sed){
+        $promise = $this->client->request('POST', '/ncaapi/api/Aluno/FichaAluno', [
+            'body' => json_encode($student_sed)
         ]);
-        
         return $promise;
-    }   
+    }
 
     public function getAllStudentsRA($students){
+        
         $promises = [];
-        foreach ($students as $key => $student) {
+        foreach (array_slice($students, 0, 5) as $key => $student) {
             $promises[] = $this->getStudentRA($student->name, $student->birthday, $student->filiation_1);
         }
-
-        $data = []; 
-
-        // GuzzleHttp\Promise\Utils::all(function() use ($promises)->then(function (array $responses) {
-        //     foreach ($responses as $response) {
-        //          $data[] = json_decode($response->getBody(), true);
-        //          // Do something with the profile.
-        //     }
-        // }))->wait();
+        
+        $data = GuzzleHttp\Promise\Utils::all($promises)->then(function (array $responses){
+            $data = [];
+            foreach ($responses as $response) {
+                 $data[] = json_decode($response->getBody()->getContents(), true);
+            }
+            return $data;
+        })->wait(true);
 
         return $data;
     }
 }
-
-?>
