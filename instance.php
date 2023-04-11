@@ -12,7 +12,7 @@ $domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
 $newdb = $domain.'.tag.ong.br';
 
 if($domain == "localhost"){
-    $newdb = 'br-ong-tag-demo';
+    $newdb = 'br.ong.tag.sp.ubatuba';
 }
 
 $_GLOBALGROUP = 0;

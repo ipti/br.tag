@@ -23,11 +23,13 @@ class CreateRA
 
         if(!isset($RA->outErro)){
             $ucadd = new AddRACodeToTAG();
-            $student = $ucadd->exec($id, $RA->getoutAluno()->outNumRA);
+            $student = $ucadd->exec($id, $RA->outAluno->outNumRA);
             return $student->gov_id;
         }else{
-            return "Ocorreu um erro. Tente Novamente";
+            return $RA->outErro;
         }
+        var_dump($RA);
+        exit;
     }
 
 }
