@@ -28,8 +28,6 @@ class CreateRA
         }else{
             return $RA->outErro;
         }
-        var_dump($RA);
-        exit;
     }
 
 }

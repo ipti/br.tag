@@ -29,7 +29,7 @@ $cs->registerCssFile(Yii::app()->request->baseUrl . '/sass/css/main.css');
                 (
                     'header' => 'Ações',
                     'class'=>'CButtonColumn',
-                    'template'=>'{create}',
+                    'template'=>'{generate}',
                     'buttons'=>array
                     (
                         'generate' => array
@@ -52,27 +52,6 @@ $cs->registerCssFile(Yii::app()->request->baseUrl . '/sass/css/main.css');
                               }
                      ",
                             'url'=>'Yii::app()->controller->createUrl("GenRA",array("id"=>$data->primaryKey))',
-                        ),
-                        'create' => array
-                        (
-                            'label'=>'Criar RA',
-                            'options'=>array("id"=>'data->primaryKey'),
-                            'click'=>"function(){
-                                    var th=this;
-                                    $.fn.yiiGridView.update('yw0', {
-                                        type:'POST',
-                                        url:$(this).attr('href'),
-                                        success:function(data) {
-                                              //$('#AjFlash').html(data).fadeIn().animate({opacity: 1.0}, 3000).fadeOut('slow');
-                                              //$.fn.yiiGridView.update('yw0');
-                                              $(th).html(data);
-                                              //$(th).removeAttr('  href');
-                                        }
-                                    })
-                                    return false;
-                              }
-                     ",
-                            'url'=>'Yii::app()->controller->createUrl("CreateRA",array("id"=>$data->primaryKey))',
                         ),
                     )
 

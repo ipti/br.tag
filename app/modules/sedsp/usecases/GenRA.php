@@ -28,7 +28,7 @@ class GenRA
                 return $student->gov_id;
             }else {
                 if($force){
-                    return 'criar um novo..';
+                    return "<a href=".Yii::app()->controller->createUrl('CreateRA',array('id'=>$id)).">Criar RA</a>";
                     $ucnewstudent = new AddStudentToSED();
                     $RA = $ucnewstudent->exec($id);
                 }else {
