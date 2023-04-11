@@ -1,0 +1,1 @@
+ALTER TABLE `student_identification` ADD COLUMN `gov_id` TINYTEXT NULL AFTER `inep_id`;

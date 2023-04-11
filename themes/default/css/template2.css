@@ -256,14 +256,13 @@ table.dataTable {
 }
 
 .home-page-table-item {
-    height: 42px;
     list-style-type: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 4px;
     border-radius: 4px;
-    padding: 0 38px 0 13px;
+    padding: 8px 16px 8px 16px;
 }
 
 .home-page-table-item img {
@@ -725,4 +724,7 @@ li[instructor]:hover {
 .widget > .widget-head {
     background: #ffffff;
 
+}
+#menu-integrations ul {
+    width: 100%;
 }
