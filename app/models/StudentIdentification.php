@@ -7,9 +7,9 @@
  * @property string $register_type
  * @property string $school_inep_id_fk
  * @property string $inep_id
+ * @property string $gov_id
  * @property integer $id
  * @property string $name
- * @property string $civil_name
  * @property string $birthday
  * @property integer $sex
  * @property integer $color_race
@@ -116,7 +116,7 @@ class StudentIdentification extends AltActiveRecord {
             array('register_type', 'length', 'max'=>2),
             array('school_inep_id_fk', 'length', 'max'=>8),
             array('inep_id', 'length', 'max'=>12),
-            array('name, civil_name, filiation_1, filiation_2', 'length', 'max'=>100),
+            array('name, filiation_1, filiation_2', 'length', 'max'=>100),
             array('id_email', 'length', 'max'=>255),
             array('id_email', 'email'),
             array('birthday', 'length', 'max'=>10),
@@ -155,9 +155,10 @@ class StudentIdentification extends AltActiveRecord {
             'register_type' => Yii::t('default', 'Register Type'),
             'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
             'inep_id' => Yii::t('default', 'ID INEP'),
+            'gov_id' => Yii::t('default', 'GOV ID'),
             'id' => Yii::t('default', 'ID'),
-            'name' => Yii::t('default', 'Social Name'),
-            'civil_name' => Yii::t('default', 'Civil Name'),
+            'name' => Yii::t('default', 'Civil Name'),
+            'social_name' => Yii::t('default', 'Social Name'),
             'birthday' => Yii::t('default', 'Birthday'),
             'sex' => Yii::t('default', 'Sex'),
             'color_race' => Yii::t('default', 'Color Race'),
@@ -305,7 +306,6 @@ class StudentIdentification extends AltActiveRecord {
 
         return parent::beforeSave();
     }
-
 
     public function getCurrentStageVsModality(){
         $sid = isset($this->id) ? $this->id : 0;

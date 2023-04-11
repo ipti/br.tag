@@ -9,5 +9,9 @@ $(document).ready(function(){
         $("#menu-electronic-diary").toggleClass("active");
     });
 
+    $("#menu-integrations-trigger").click(function(){
+        $("#menu-integrations").toggleClass("active");
+    });
+
 
 });
