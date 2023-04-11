@@ -292,7 +292,7 @@ if (Yii::app()->user->isGuest) {
                                             <span class="t-menu-item__text">Sagres</span>
                                         </a>
                                     </li>
-                                    <?php if(INSTANCE == "UBATUBA" || INSTANCE == "TREINAMENTO") {?>
+                                    <?php if(INSTANCE == "UBATUBA" || INSTANCE == "TREINAMENTO" || INSTANCE == "LOCALHOST") {?>
                                     <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=sedsp") ? 'active' : '' ?>">
                                         <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('sedsp') ?>">
                                             <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/sedsp.svg" />
