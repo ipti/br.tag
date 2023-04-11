@@ -1,7 +1,7 @@
 <?php
 require_once 'app/vendor/autoload.php';
 
-Yii::import('application.modules.sedsp.models.*');
+Yii::import('application.modules.sedsp.*');
 
 /**
  * Summary of StudentSEDDataSource
