@@ -13,7 +13,7 @@ class IdentifyStudentRACode
     private  $studentTAGDataSource;
     private  $studentSEDDataSource;
 
-    function __construct($studentTAGDataSource = null, $studentSEDDataSource = null) {
+    public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null) {
         $this->studentTAGDataSource = $studentTAGDataSource ?? new StudentTAGDataSource();
         $this->studentSEDDataSource = $studentSEDDataSource ?? new StudentSEDDataSource();
     }

@@ -92,7 +92,7 @@ class StudentMapper
         )
         {
             // Dados Pessoais
-            $out_studentIdentification = new StudentIdentification();
+            $in_dados_pessoais = new StudentIdentification();
             $in_dados_pessoais->setInNomeAluno($student_tag->name);
             $in_dados_pessoais->setInNomeMae($student_tag->filiation_1);
             $in_dados_pessoais->setInNomePai($student_tag->filiation_2);
