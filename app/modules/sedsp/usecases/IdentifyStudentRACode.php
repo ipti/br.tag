@@ -22,9 +22,9 @@ class IdentifyStudentRACode
      * Summary of exec
      * @param int $tag_student_id StudentIdentificantion Id from TAG
      * @param boolean $force Force search from TAG
-     * @return DadosAluno
+     * @return DadosAluno|OutErro
      */
-    public function exec($tag_student_id,$force = false)
+    public function exec($tag_student_id, $force = false) : DadosAluno|OutErro
     {
         // Get Student From TAG database
         $student_tag = $this->studentTAGDataSource->getStudent($tag_student_id);
@@ -32,6 +32,7 @@ class IdentifyStudentRACode
         $data_nascimento = $student_tag->birthday;
         $nome_mae = $student_tag->filiation_1;
         $aluno_sed = $this->studentSEDDataSource->getStudentRA($nome,$data_nascimento, $nome_mae,$force);
+        
         return $aluno_sed;
     }
 }
