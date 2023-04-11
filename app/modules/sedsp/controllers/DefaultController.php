@@ -12,6 +12,7 @@ class DefaultController extends Controller
 		$students = $ucidentifymulti->exec($school_id);
 
 		$criteira = new CDbCriteria;
+		$criteira->select = 'DISTINCT t.*';
 		$criteira->join = 'LEFT JOIN student_enrollment se ON se.student_inep_id = t.inep_id 
 				   LEFT JOIN classroom class ON se.classroom_fk = class.id';
 		$criteira->addCondition('t.school_inep_id_fk = :school_id');
@@ -57,10 +58,22 @@ class DefaultController extends Controller
 		}
 		$genRA = new GenRA();
 		$msg = $genRA->exec($id);
-		if (!$msg) {
-			$msg = $genRA->exec($id, true);
+		try {
+			if (!$msg) {
+				$msg = $genRA->exec($id, true);
+			}
+			echo $msg;
+		} catch (\Throwable $th) {
+			header('Content-Type: application/json', true, 400);
+            echo CJSON::encode(array(
+                'success' => false,
+                'message' => 'Bad Request',
+				'id' => $id,
+            )); // Set the HTTP response code to 400
+            Yii::app()->end();
 		}
-		echo $msg;
+		
+		
 	}
 	public function actionCreateRA($id)
 	{

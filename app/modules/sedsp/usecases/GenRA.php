@@ -28,7 +28,7 @@ class GenRA
                 return $student->gov_id;
             }else {
                 if($force){
-                    return "<a href=".Yii::app()->controller->createUrl('CreateRA',array('id'=>$id)).">Criar RA</a>";
+                    throw new Exception('RA Não Encontrado');
                     $ucnewstudent = new AddStudentToSED();
                     $RA = $ucnewstudent->exec($id);
                 }else {
@@ -37,13 +37,12 @@ class GenRA
             }
         }else if($TryRA->getHasResponse()){
             if($TryRA->getCode()==400){
-                return $TryRA->getoutErro();
+                throw new Exception($TryRA->getoutErro());
             }else if($TryRA->getCode()==500){
-                return 'erro 500';
+                throw new Exception('Erro 500');
             }
-        }else{
-            return 'Tentar Novamente';
         }
+            return 'Tentar Novamente';
     }
 
 }

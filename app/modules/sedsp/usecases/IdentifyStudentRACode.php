@@ -22,7 +22,7 @@ class IdentifyStudentRACode
      * Summary of exec
      * @param int $tag_student_id StudentIdentificantion Id from TAG
      * @param boolean $force Force search from TAG
-     * @return DadosAluno
+     * @return DadosAluno|OutErro
      */
     public function exec($tag_student_id,$force = false)
     {
