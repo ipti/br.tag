@@ -52,6 +52,22 @@ class ClassroomController extends Controller
         );
     }
 
+    private  function defineAssistanceType($classroom){
+        $is_aee = $classroom['aee'];
+        $is_complementary_activity = $classroom['complementary_activity'];
+        $is_schooling = $classroom['schooling'];
+
+        if(isset($is_aee) && $is_aee){
+            return 5;
+        }
+        if(isset($is_complementary_activity) && $is_complementary_activity){
+            return 4;
+        }
+        if(isset($is_schooling) && $is_schooling){
+            return 0;
+        }
+    }
+
     public function actionGetAssistanceType()
     {
         $classroom = new Classroom();
@@ -516,6 +532,9 @@ class ClassroomController extends Controller
             $_POST['Classroom']["complementary_activity_type_6"] = isset($compActs[5]) ? $compActs[5] : null;
 
             $modelClassroom->attributes = $_POST['Classroom'];
+            $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
+
+            
 
             if ($modelClassroom->week_days_sunday || $modelClassroom->week_days_monday || $modelClassroom->week_days_tuesday || $modelClassroom->week_days_wednesday || $modelClassroom->week_days_thursday || $modelClassroom->week_days_friday || $modelClassroom->week_days_saturday) {
 
@@ -612,6 +631,7 @@ class ClassroomController extends Controller
             $_POST['Classroom']["complementary_activity_type_6"] = isset($compActs[5]) ? $compActs[5] : null;
 
             $modelClassroom->attributes = $_POST['Classroom'];
+            $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
 
             $disciplines = json_decode($_POST['disciplines'], true);
             $this->setDisciplines($modelClassroom, $disciplines);
