@@ -716,7 +716,7 @@ class SagresConsultModel
                 throw new Exception(
                     $this->exception(
                         'convertTurn()',
-                        $turn,
+                        $turn == null? "NULL": $turn,
                         "'M' (morning), 'V' (afternoon), 'N' (night), or 'I' (full-time)"
                     )
                 );
