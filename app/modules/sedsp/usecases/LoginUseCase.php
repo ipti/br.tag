@@ -12,7 +12,7 @@ class LoginUseCase
 {
     private  $UsuarioSEDDataSource;
 
-    function __construct($UsuarioSEDDataSource = null) {
+    public function __construct($UsuarioSEDDataSource = null) {
         $this->UsuarioSEDDataSource = $UsuarioSEDDataSource ?? new UsuarioSEDDataSource();
     }
     /**

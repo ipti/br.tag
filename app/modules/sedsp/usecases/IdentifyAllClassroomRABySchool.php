@@ -13,7 +13,7 @@ class IdentifyAllClassroomRABySchool
     private  $studentTAGDataSource;
     private  $studentClassroomSEDDataSource;
 
-    function __construct($studentTAGDataSource = null, $studentClassroomSEDDataSource = null) {
+    public function __construct($studentTAGDataSource = null, $studentClassroomSEDDataSource = null) {
         $this->studentTAGDataSource = $studentTAGDataSource ?? new StudentTAGDataSource();
         $this->studentClassroomSEDDataSource = $studentClassroomSEDDataSource ?? new StudentClassroomSEDDataSource();
     }

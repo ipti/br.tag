@@ -239,8 +239,17 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelClassroom, 'school_year'); ?>
                                 </div>
                             </div>
+                            <!-- <div class="control-group">
+                                <?php echo $form->labelEx($modelClassroom, 'assistance_type', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php
+                                    echo $form->DropDownList($modelClassroom, 'assistance_type', $assistance_types, array('prompt' => 'Selecione o Tipo de Atendimento', 'class' => 'select-search-off'));
+                                    ?> 
+                                    <?php echo $form->error($modelClassroom, 'assistance_type'); ?>
+                                </div>
+                            </div> -->
                             <!-- Tipo de Atendimento* -->
-                            <div class="t-field-checkbox-group js-assistance-types-container" id="aee2">
+                            <div class="t-field-checkbox-group js-assistance-types-container" id="assistance_type">
                                 <label class="t-field-checkbox__label--required"><?php echo Yii::t('default', 'Assistence Types'); ?>*</label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelClassroom, 'schooling', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>

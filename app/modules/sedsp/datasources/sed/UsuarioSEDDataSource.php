@@ -1,5 +1,5 @@
 <?php
-require 'app/vendor/autoload.php';
+require_once 'app/vendor/autoload.php';
 
 class UsuarioSEDDataSource extends SedDataSource
 {

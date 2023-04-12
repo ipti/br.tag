@@ -1,5 +1,5 @@
 <?php
-require 'app/vendor/autoload.php';
+require_once 'app/vendor/autoload.php';
 
 Yii::import('application.modules.sedsp.models.*');
 
@@ -14,7 +14,7 @@ class StudentSEDDataSource extends SedDataSource
      * @param string $name
      * @param string $birthday
      * @param string $mothersName
-     * @return DadosAluno
+     * @return DadosAluno|OutErro
      */
     public function getStudentRA($name, $birthday, $mothersName,$force)
     {
@@ -28,7 +28,7 @@ class StudentSEDDataSource extends SedDataSource
             $response = $this->client->request('GET', '/ncaapi/api/Aluno/ListarAlunos', [
                 'body' => json_encode($body)
             ]);
-            return new DadosAluno($name,$response->getBody()->getContents());
+            return new DadosAluno($name, $response->getBody()->getContents());
         }
         catch (GuzzleHttp\Exception\ClientException $e) {
             return new OutErro($e);
