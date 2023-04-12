@@ -732,7 +732,8 @@ class SagresConsultModel
 
     function transformXML($xml)
     {
-        $xml = str_replace('<result>', '<edu:educacao xmlns:edu="http://www.tce.se.gov.br/sagres2023/xml/sagresEdu">', $xml);
+        $year = date('Y');
+        $xml = str_replace('<result>', sprintf('<edu:educacao xmlns:edu="http://www.tce.se.gov.br/sagres%s/xml/sagresEdu">', $year), $xml);
         $xml = str_replace('</result>', '</edu:educacao>', $xml);
         $xml = str_replace('<edu:prestacaoContas>', '<edu:PrestacaoContas>', $xml);
         $xml = str_replace('</edu:prestacaoContas>', '</edu:PrestacaoContas>', $xml);
