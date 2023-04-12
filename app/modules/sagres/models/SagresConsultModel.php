@@ -4,6 +4,8 @@ namespace SagresEdu;
 
 use Datetime;
 
+use Exception;
+
 use JMS\Serializer\Handler\HandlerRegistryInterface;
 use JMS\Serializer\SerializerBuilder;
 
@@ -145,7 +147,7 @@ class SagresConsultModel
             ':schoolInepFk' => $inepId,
             ':referenceYear' => $referenceYear,
             ':dateStart' => $dateStart,
-            ':dateEnd' => $dateEnd,
+            ':dateEnd' => $dateEnd
         ];
 
         $turmas = $this->dbCommand->setText($query)
@@ -279,7 +281,7 @@ class SagresConsultModel
      * @param string $turn The turn type: "1: Morning", "2: Afternoon", "3: Night" or "4: FullTime".
      * @return DateTime The start time for the given schedule and initial hour.
      */
-    public function getStartTime(int $schedule, int $turn): DateTime
+    public function getStartTime($schedule, $turn): DateTime
     {
 
         $startTimes = [
@@ -551,7 +553,8 @@ class SagresConsultModel
         $enrollmentList = [];
 
         $query = "SELECT 
-                        se.id as numero, se.student_fk,
+                        se.id as numero, 
+                        se.student_fk,
                         se.create_date AS data_matricula, 
                         se.date_cancellation_enrollment AS data_cancelamento,
                         se.previous_stage_situation AS situation
@@ -560,7 +563,7 @@ class SagresConsultModel
                   WHERE 
                         se.classroom_fk  =  :enrollmentId AND 
                         YEAR(se.create_date) = :referenceYear AND 
-                        create_date BETWEEN :dateStart AND :dateEnd;";
+                        create_date BETWEEN :dateStart AND :dateEnd";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
@@ -579,7 +582,7 @@ class SagresConsultModel
                 ->setDataMatricula(new DateTime($enrollment['data_matricula']))
                 ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
                 ->setNumeroFaltas((int) $this->returnNumberFaults($enrollment['student_fk'], $referenceYear))
-                ->setAprovado($this->getStudentSituation($enrollment['situation']))
+                ->setAprovado($this->getStudentSituation($enrollment['numero'], $enrollment['situation']))
                 ->setAluno($this->getStudents($enrollment['student_fk']));
 
             $enrollmentList[] = $enrollmentType;
@@ -588,17 +591,34 @@ class SagresConsultModel
         return $enrollmentList;
     }
 
-    public function getStudentSituation($situation)
+    public function getStudentSituation($idStudent, $situation)
     {
-        /* "0" => "Não frequentou",
-        "1" => "Reprovado",
-        "2" => "Afastado por transferência",
-        "3" => "Afastado por abandono",
-        "4" => "Matrícula final em Educação Infantil",
-        "5" => "Promovido" 
-        */
-        if ($situation == 1)
-            return false;
+        try {
+            $situations = [
+                0 => "Não frequentou",
+                1 => false,
+                2 => "Afastado por transferência",
+                3 => "Afastado por abandono",
+                4 => "Matrícula final em Educação Infantil",
+                5 => true
+            ];
+
+            if (!isset($situations[$situation])) {
+                throw new Exception(
+                    $this->exception(
+                        'getStudentSituation()',
+                        $situation == null ? "student_enrollment id:" . $idStudent . " previous_stage_situation = NULL": $situation,
+                        "'0' (Did not attend), '1' (Failed), '2' (Transferred), '3' (Abandoned), '4' (Final enrollment in early childhood education) or '5' (Promoted)"
+                    )
+                );
+            }
+            return $situations[$situation];
+        } catch (Exception $e) {
+            print("\nError message: " . $e->getMessage());
+            print("\nError code: " . $e->getCode());
+            print("\nError line: " . $e->getLine());
+            exit();
+        }
     }
 
     public function returnNumberFaults($studentId, $referenceYear)
@@ -621,8 +641,6 @@ class SagresConsultModel
 
         return $numberFaults ?? 0;
     }
-
-
 
     public function generatesSagresEduXML($sagresEduObject)
     {
@@ -673,16 +691,43 @@ class SagresConsultModel
         return $validator->validate($object, null, ['xsd_rules']);
     }
 
-    public function convertTurn($turn)
+
+    /**
+     * This function takes a single character string representing a turn abbreviation and returns an integer value 
+     * that corresponds to the turn type. The valid turn types and their corresponding integer values are:
+     * - 'M': 1 (MATUTINO)
+     * - 'V': 2 (VESPERTINO)
+     * - 'N': 3 (NOTURNO)
+     * - 'I': 4 (INTEGRAL)
+     * @param string $turn A single character string representing a turn abbreviation.
+     * @return int The corresponding integer value of the turn type
+     */
+    public function convertTurn($turn = 8)
     {
         $turnos = array(
             'M' => 1,
-            'V' => 2,
+            'T' => 2,
             'N' => 3,
             'I' => 4,
         );
 
-        return isset($turnos[$turn]) ? $turnos[$turn] : 1;
+        try {
+            if (!isset($turnos[$turn])) {
+                throw new Exception(
+                    $this->exception(
+                        'convertTurn()',
+                        $turn,
+                        "'M' (morning), 'V' (afternoon), 'N' (night), or 'I' (full-time)"
+                    )
+                );
+            }
+            return $turnos[$turn];
+        } catch (Exception $e) {
+            print("Error message: " . $e->getMessage());
+            print("\nError code: " . $e->getCode());
+            print("\nError line: " . $e->getLine());
+            exit();
+        }
     }
 
     function transformXML($xml)
@@ -693,5 +738,12 @@ class SagresConsultModel
         $xml = str_replace('</edu:prestacaoContas>', '</edu:PrestacaoContas>', $xml);
 
         return $xml;
+    }
+
+    public function exception($fuction, $situation, $msgExpectedValues)
+    {
+        return "\nFUNCTION: $fuction
+        \nInvalid input: $situation
+        \nExpected values: $msgExpectedValues\n";
     }
 }
