@@ -65,6 +65,13 @@ $form = $this->beginWidget('CActiveForm', array(
                         <span class="t-tabs__numeration">3</span>
                         <?php echo Yii::t('default', 'Students') ?>
                     </a>
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                </li>
+                <li id="tab-daily" class="t-tabs__item">
+                    <a class="t-tabs__link" href="#daily" data-toggle="tab">
+                        <span class="t-tabs__numeration">4</span>
+                        <?php echo Yii::t('default', 'daily_order') ?>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -591,6 +598,36 @@ $form = $this->beginWidget('CActiveForm', array(
                             </table>
                         </div>
                     </div>
+                </div>
+                <div class="tab-pane" id="daily">
+                    <?php
+                        $enrollments = $modelClassroom->studentEnrollments;
+                        $col = array_column( $enrollments, "daily_order" );
+                        array_multisort( $col, SORT_ASC, $enrollments );
+                    ?>
+                    <ul id="t-sortable">
+                        <?php
+                            if (isset($enrollments)) {
+                                $i = 1;
+                            foreach ($enrollments as $enr) { 
+                        ?>
+                        <li id="<?=  $enr->id; ?>"  class="ui-state-default"><span class="t-icon-slip"></span><?= $enr->daily_order; ?><span> <?=  $enr->studentFk->name; ?></span></li>
+                        <?php
+                                $i++;
+                                }
+                            }
+                        ?>
+                    </ul>
+                    <?php
+                        if(count($enrollments) > 1) {
+                    ?>
+                        <div class="t-buttons-container">
+                            <a class="t-button-primary js-save-new-order">salvar</a>
+                        </div>
+                    <?php
+                        } 
+                    ?>
+
                 </div>
                 <?php $this->endWidget(); ?>
             </div>
