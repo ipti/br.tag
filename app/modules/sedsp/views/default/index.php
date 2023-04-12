@@ -6,6 +6,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'SEDSP'));
 $this->breadcrumbs = array(
     $this->module->id,
 );
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($themeUrl . '/css/template2.css');
