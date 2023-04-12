@@ -46,6 +46,12 @@ $this->breadcrumbs=array(
             </div>
             <br/>
         <?php endif ?>
+        <?php if (Yii::app()->user->hasFlash('error')): ?>
+            <div class="alert alert-error">
+                <?php echo Yii::app()->user->getFlash('error') ?>
+            </div>
+            <br/>
+        <?php endif ?>
         <div class="widget clearmargin">
             <div class="widget-body">
                 <?php
