@@ -10,6 +10,7 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($themeUrl . '/css/template2.css');
 $cs->registerCssFile(Yii::app()->request->baseUrl . '/sass/css/main.css');
+$cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClientScript::POS_END);
 ?>
 
 <div class="main">
@@ -54,42 +55,3 @@ $cs->registerCssFile(Yii::app()->request->baseUrl . '/sass/css/main.css');
         </div>
     </div>
 </div>
-
-<script>
-    function create(element, id){
-        $.ajax({
-                type: 'POST',
-                url: `/?r=sedsp/default/CreateRA&id=${id}`,
-                success: function (data) {
-                    $(element).html(data);
-                }
-            });
-    }
-    function generate(element, url){
-        $.ajax({
-                type: 'POST',
-                url: url,
-                success: function (data) {
-                    $(element).html(data);
-                },
-                error: function (error) {
-                    const approved = confirm('Aluno nao encontrado na SED, deseja envia-lo?');
-                    if (approved) {
-                        create(element, error.responseJSON.id);
-                    }
-                }
-            });
-    }
-    $(document).ready(function () {
-        $('.generate').click(function (event) {
-            event.preventDefault();
-
-            const element = this;
-            const url = $(this).attr('href');
-
-            generate(element, url);
-
-            return false;
-        });
-    });
-</script>
