@@ -533,8 +533,8 @@ class AdminController extends Controller
                 $model->password = $password;
                 if ($model->save()) {
                     $save = TRUE;
-                    foreach ($userSchools as $school) {
-                        UsersSchool::model()->deleteAll(array("condition" => "school_fk='$school->school_fk'"));
+                    foreach ($userSchools as $user_school) {
+                        $user_school->delete();
                     }
                     foreach ($_POST['schools'] as $school) {
                         $userSchool = new UsersSchool;

@@ -3,15 +3,30 @@
 
 .t-field-checkbox {
     margin-bottom: $SizeLarge;
-    &__label{
+    display: flex;
+    // margin: 0;
+    white-space: nowrap;
+    width: 100%;
+    &__label {
+        padding-top: 0 !important;
         &--required {
             font-weight: bold;
         }
     }
-    &__input, input[type="checkbox"] {
+
+    &__input,
+    input[type="checkbox"] {
         background: $colorsBaseWhiteNormal;
         height: 20px;
         width: 20px;
-        margin: 0 $SizeXXXXSmall 0;
+        margin: 0 $SizeNormal 0 0 !important;
+    }
+}
+
+.t-field-checkbox-group {
+    margin-bottom: $SizeLarge;
+
+    .t-field-checkbox {
+        margin-bottom: $SizeXXXSmall;
     }
 }

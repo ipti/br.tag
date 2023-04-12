@@ -64,7 +64,7 @@
   </div>
   
   <div class='container-report mt-20'>
-    <? switch($type){ 
+    <?php switch($type){ 
         case 1:
           $this->renderPartial('_initial_year', array());
         break;
