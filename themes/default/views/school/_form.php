@@ -595,7 +595,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'phone_number', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelSchoolIdentification, 'phone_number', array('size' => 9, 'maxlength' => 9, 'placeholder' => '_________')); ?>
+                                    <?php echo $form->textField($modelSchoolIdentification, 'phone_number', array('size' => 9, 'maxlength' => 9, 'placeholder' => '_____-____')); ?>
                                     <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " " . Yii::t('help', 'Phone'); ?>"><i></i></span> -->
                                     <?php echo $form->error($modelSchoolIdentification, 'phone_number'); ?>
                                 </div>
@@ -605,7 +605,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'other_phone_number', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelSchoolIdentification, 'other_phone_number', array('size' => 9, 'maxlength' => 9, 'placeholder' => '_________')); ?>
+                                    <?php echo $form->textField($modelSchoolIdentification, 'other_phone_number', array('size' => 9, 'maxlength' => 9, 'placeholder' => '_____-____')); ?>
                                     <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " " . Yii::t('help', 'Phone'); ?>"><i></i></span> -->
                                     <?php echo $form->error($modelSchoolIdentification, 'other_phone_number'); ?>
                                 </div>
@@ -1944,7 +1944,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </label>
                                 </div>
                             </div>
-
+                                    
                             <div class="control-group">
                                 <div class="controls">
                                     <label class="control-label"><?php echo Yii::t('default', 'Organization of Education'); ?></label>

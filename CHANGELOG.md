@@ -1,5 +1,7 @@
 # Atualizações
 
+## [Versão 3.13.26]
+- Adicionada funcionalidade para alterar gerenciar a ordem dos alunos no diário
 ## [Versão 3.12.26]
 - Novo estilo de caixas de diálogo
 

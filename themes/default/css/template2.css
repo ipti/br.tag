@@ -256,14 +256,13 @@ table.dataTable {
 }
 
 .home-page-table-item {
-    height: 42px;
     list-style-type: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 4px;
     border-radius: 4px;
-    padding: 0 38px 0 13px;
+    padding: 8px 16px 8px 16px;
 }
 
 .home-page-table-item img {
@@ -715,10 +714,17 @@ li[instructor]:hover {
     margin: 7px 26px 0px 0px;
 }
 .div-input-structure-units{
-    margin-right: 7px;
+    margin-right: 14px;
 }
 .label-input-structure-units{
     margin-right: 10px;
 }
 
 
+.widget > .widget-head {
+    background: #ffffff;
+
+}
+#menu-integrations ul {
+    width: 100%;
+}

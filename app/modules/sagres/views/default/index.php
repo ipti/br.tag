@@ -107,7 +107,7 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 		const yearInicio = data.getUTCFullYear();
 
 		// Chame a função downloadFile para gerar e baixar o arquivo
-		const url = `?r=sagres/default/export&year=${yearInicio}&data_inicio=${dataInicio}&data_final=${dataFinal}`;
+		const url = `?r=sagres/default/export&managementUnitId=${1}&year=${yearInicio}&data_inicio=${dataInicio}&data_final=${dataFinal}`;
 		const filename = 'Educacao.xml';
 		downloadFile(url, filename);
 	});
