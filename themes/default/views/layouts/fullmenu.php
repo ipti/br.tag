@@ -266,17 +266,41 @@ if (Yii::app()->user->isGuest) {
                                     <span class="t-menu-item__text">Merenda Escolar</span>
                                 </a>
                             </li>
-                            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ? 'active' : '' ?>">
-                                <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('censo/validate') ?> ">
-                                    <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/educacenso.svg" />
-                                    <span class="t-menu-item__text">Educacenso</span>
+                            <li id="menu-integrations" class="t-menu-group <?=
+                                                                            strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ||
+                                                                                strpos($_SERVER['REQUEST_URI'], "?r=sagres") ||
+                                                                                strpos($_SERVER['REQUEST_URI'], "?r=sedsp")
+                                                                                ? 'active' : '' ?>"><i class="submenu-icon fa fa-chevron-right"></i><i class="submenu-icon fa fa-chevron-down"></i>
+                                <a id="menu-integrations-trigger" data-toggle="collapse" class="t-menu-group__link" href="#submenu-integrations">
+                                    <img class="t-menu-group__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/integration.svg" alt="engrenagem de integração" />
+                                    <span class="t-menu-group__text">Integrações</span>
                                 </a>
-                            </li>
-                            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=sagres") ? 'active' : '' ?>">
-                                <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('sagres') ?> ">
-                                    <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/sagres.svg" />
-                                    <span class="t-menu-item__text">Sagres</span>
-                                </a>
+                                <ul class="collapse <?=
+                                                    strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ||
+                                                        strpos($_SERVER['REQUEST_URI'], "?r=sagres") ||
+                                                        strpos($_SERVER['REQUEST_URI'], "?r=sedsp")? 'in' : '' ?>" id="submenu-integrations">
+                                    
+                                    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ? 'active' : '' ?>">
+                                        <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('censo/validate') ?> ">
+                                            <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/educacenso.svg" alt="censo logo" />
+                                            <span class="t-menu-item__text">Educacenso</span>
+                                        </a>
+                                    </li>
+                                    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=sagres") ? 'active' : '' ?>">
+                                        <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('sagres') ?> ">
+                                            <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/sagres.svg" alt="sagres logo" />
+                                            <span class="t-menu-item__text">Sagres</span>
+                                        </a>
+                                    </li>
+                                    <?php if(INSTANCE == "UBATUBA" || INSTANCE == "TREINAMENTO" || INSTANCE == "LOCALHOST") {?>
+                                    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=sedsp") ? 'active' : '' ?>">
+                                        <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('sedsp') ?>">
+                                            <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/sedsp.svg"  alt="sedsp logo"/>
+                                            <span class="t-menu-item__text">SEDSP</span>
+                                        </a>
+                                    </li>
+                                    <?php }?>
+                                </ul>
                             </li>
                         <?php endif ?>
                         <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
@@ -313,43 +337,34 @@ if (Yii::app()->user->isGuest) {
     
     <div class="menu-cover"></div>
 
-    <div class="modal fade" id="change-year" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <div class="modal fade modal-content" id="change-year" tabindex="-1" role="dialog">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                    </button>
                     <h4 class="modal-title" id="myModalLabel">Selecione o ano</h4>
                 </div>
                 <form class="form-vertical" id="createCalendar" action="<?php echo yii::app()->createUrl('site/changeYear') ?>" method="post">
                     <div class="modal-body">
                         <div class="row-fluid">
-                            <div class=" span12" style="margin: 10px 0 10px 0; padding: 0px 0px 0px 69px">
-                                <div class=controls>
+                            <div class=" span12">
                                     <?php echo CHtml::label(yii::t('default', 'Year'), 'year', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class=controls>
-                                    <select name="years" id="years" placeholder="Selecione o ano">
+                                    <select name="years" id="years" placeholder="Selecione o ano" style="width:100%">
                                         <?php
                                         $years = range(date('Y'), 2014);
-for ($i = 0; $i < count($years); $i++) {
-    if ($years[$i] == Yii::app()->user->year) {
-        echo "<option value=" . $years[$i] . " selected>" . $years[$i] . "</option>";
-    } else {
-        echo "<option value=" . $years[$i] . ">" . $years[$i] . "</option>";
-    }
-}
-?>
+                                            echo "<option value='' selected>Selecione o ano</option>";
+                                            for ($i = 0; $i < count($years); $i++) {
+                                                echo "<option value=" . $years[$i] . ">" . $years[$i] . "</option>";
+                                            }
+                                            ?>
                                     </select>
-                                </div>
                             </div>
                         </div>
-                    <div class="modal-footer" style="background-color:#FFF;">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('admin/changeYear'); ?>" type="submit" value="Alterar"> Alterar </button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                        <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('admin/changeYear'); ?>" type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Selecionar Ano </button>
                     </div>
                 </form>
-            </div>
-        </div>
     </div>
 
     <!-- // Main Container Fluid END -->

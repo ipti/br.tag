@@ -258,13 +258,13 @@ class SiteController extends Controller
                 }
                 $bgColor = 'gray' == $bgColor ? 'blue' : 'gray';
                 $date = date("d/m/Y à\s H:i:s", strtotime($log->date));
-                $html .= '<li class="home-page-table-item '.$bgColor.'" title=\'' . $text . '\'>'
-                    . '<div style="max-width:815px;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;">'
+                $html .= '<li class="row justify-content--start  home-page-table-item '.$bgColor.'" title=\'' . $text . '\'>'
+                    . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
                     . '<img style="background-color:'.$color.'" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/'.$icon.'.svg"/>'
                     . $text . '</div>'
-                    . '<div>'
+                    . '<div class="column">'
                     . '<div class="log-date">' . $date . '</div>'
-                    . '<div class="log-author">' . $log->userFk->name . '- </div>'
+                    . '<div class="log-author">' . $log->userFk->name . ' - </div>'
                     . '</div>'
                     . '</li>';
             }

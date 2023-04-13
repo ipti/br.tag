@@ -12,10 +12,6 @@
     }
 }
 
-.t-buttons-container {
-    display: flex;
-}
-
 .t-button {
     display: flex;
     flex: 1;
@@ -91,7 +87,7 @@
     color: $colorsBaseInkNormal;
 
     &:hover,
-    &--active {
+    &--active, &:focus {
         color: $colorsBaseInkNormal;
         background-color: $colorsBaseCloudLightHover;
     }

@@ -1,5 +1,32 @@
 # Atualizações
 
+## [Versão 3.12.26]
+- Novo estilo de caixas de diálogo
+
+## [Versão 3.11.26]
+-  Corrigido layout da página de relatório de diário eletônico
+## [Versão 3.11.25]
+- Cabeçalho de Ações corrigido
+
+## [Versão 3.11.24]
+- Correção de desempenho ao carregar muitos registros na tela de alunos corrigida
+
+## [Versão 3.10.24]
+- Adicionada uma coluna na listagem de alunos
+- Adicionada coluna de matrícula na listagem de alunos em turmas 
+- Alterada a validação nos campos de nome para permitir acentuação
+- Verificação no formulário de criação de turmas nos checkbox em 'tipo de atendimento' consertada
+- Corrigido erro no espaçamento dos checkboxs
+
+## [Versão 3.10.23]
+- Agora as ações de deletar professores e estudantes funcionam corretamente
+
+## [Versão 3.10.22]
+- Agora os relatórios de turmas funcionam corretamente
+
+## [Versão 3.10.21]
+- Os campos de matriz curricular foram padronizados
+
 ## [Versão 3.10.20]
 - Campo de observação adicionado no formulário de matrícula do aluno
 

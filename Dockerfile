@@ -2,6 +2,7 @@ FROM ipti/yii2
 COPY . /app
 WORKDIR /app/app
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+RUN composer update
 RUN composer update with the "--no-plugins"
 RUN composer install
 WORKDIR /app

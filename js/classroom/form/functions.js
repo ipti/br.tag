@@ -274,7 +274,7 @@ uInstructor.on('change', atualizarListadeDisciplinas);
 $(document).on('click', '.deleteTeachingData', removeTeachingData);
 $("#addTeachingData").on('click', addTeachingData);
 
-$(document).on("change", ".assistance-types-container input[type=checkbox]", function () {
+$(document).on("change", ".js-assistance-types-container input[type=checkbox]", function () {
     if ($(this).attr("id") !== "Classroom_aee") {
         $("#Classroom_aee").prop("checked", false);
         if ($(this).attr("id") === "Classroom_complementary_activity" && $(this).is(":checked")) {
@@ -284,7 +284,7 @@ $(document).on("change", ".assistance-types-container input[type=checkbox]", fun
             $("#complementary_activity").hide();
         }
     } else {
-        $(".assistance-types-container input[type=checkbox]").not("#Classroom_aee").prop("checked", false);
+        $(".js-assistance-types-container input[type=checkbox]").not("#Classroom_aee").prop("checked", false);
     }
 });
 

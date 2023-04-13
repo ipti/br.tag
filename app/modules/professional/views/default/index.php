@@ -84,6 +84,7 @@ $this->breadcrumbs=array(
                             'value' => '$data->fundeb ? Sim : Não',
                         ),
                         array(
+                            'header' => 'Ações',
                             'class' => 'CButtonColumn', 
                             'template' => '{update}{delete}',
                             'buttons' => array(

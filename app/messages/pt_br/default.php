@@ -674,7 +674,7 @@ return array(
     // Instructor-TeachingData
     'Instructor' => 'Professor',
     'Instructors' => 'Professores',
-    'ID' => 'Professor',
+    'ID' => 'Código',
     'Classroom Inep' => 'Inep da turma',
     'Classroom Id Fk' => 'Turma',
     'Role' => 'Função que exerce na escola / Turma',
@@ -913,5 +913,7 @@ return array(
     "Beginning of the School Year" => "Início do Ano Escolar",
     "End of the School Year" => "Fim do Ano Escolar",
 
-    )   
+
+
+)
 ?>
