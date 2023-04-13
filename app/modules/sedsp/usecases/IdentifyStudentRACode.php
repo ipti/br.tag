@@ -24,7 +24,7 @@ class IdentifyStudentRACode
      * @param boolean $force Force search from TAG
      * @return DadosAluno|OutErro
      */
-    public function exec($tag_student_id, $force = false) : DadosAluno|OutErro
+    public function exec($tag_student_id, $force = false)
     {
         // Get Student From TAG database
         $student_tag = $this->studentTAGDataSource->getStudent($tag_student_id);

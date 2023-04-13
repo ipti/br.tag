@@ -2,10 +2,15 @@
 
 class SEDSPModule extends CWebModule
 {
+	public $baseScriptUrl;
+	public $baseUrl;
+
 	public function init()
 	{
 		// this method is called when the module is being created
 		// you may place code here to customize the module or the application
+		$this->baseUrl = Yii::app()->createUrl("sedsp");
+		$this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.sedsp.resources'));
 
 		// import the module-level models and components
 		$this->setImport(array(
