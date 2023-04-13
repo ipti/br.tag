@@ -605,13 +605,13 @@ $form = $this->beginWidget('CActiveForm', array(
                         $col = array_column( $enrollments, "daily_order" );
                         array_multisort( $col, SORT_ASC, $enrollments );
                     ?>
-                    <ul id="t-sortable">
+                    <ul id="js-t-sortable" class="t-sortable">
                         <?php
                             if (isset($enrollments)) {
                                 $i = 1;
                             foreach ($enrollments as $enr) { 
                         ?>
-                        <li id="<?=  $enr->id; ?>"  class="ui-state-default"><span class="t-icon-slip"></span><?= $enr->daily_order; ?><span> <?=  $enr->studentFk->name; ?></span></li>
+                        <li id="<?=  $enr->id; ?>"  class="ui-state-default"><?= $enr->daily_order; ?><span> <?=  $enr->studentFk->name; ?></span></li>
                         <?php
                                 $i++;
                                 }

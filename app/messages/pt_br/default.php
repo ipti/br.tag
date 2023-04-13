@@ -913,6 +913,7 @@ return array(
     'Subtitles'=>'Legenda',
     "Beginning of the School Year" => "Início do Ano Escolar",
     "End of the School Year" => "Fim do Ano Escolar",
-
+    // setflas
+    'dayli order' => 'Ordem do diario alterado com sucesso!',
     )   
 ?>

@@ -38,7 +38,7 @@ class ClassroomController extends Controller
                 'actions' => array('index', 'view', 'create', 'update', 'getassistancetype',
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
                     'getcomplementaryactivitytype', 'delete',
-                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'batchupdatetransport', 'updateDisciplines'
+                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'changeenrollments','batchupdatetransport', 'updateDisciplines'
                 ),
                 'users' => array('@'),
             ),
@@ -810,5 +810,25 @@ class ClassroomController extends Controller
         } else {
             echo json_encode(["valid" => false]);
         }
+    }
+    public function actionChangeEnrollments()
+    {
+    $ids  = $_POST['list'];
+    $enrollments = StudentEnrollment::model()->findAllByPk($ids);
+
+    usort($enrollments, function($a, $b) use ($ids) {
+        $pos_a = array_search($a->id, $ids);
+        $pos_b = array_search($b->id, $ids);
+        return $pos_a - $pos_b;
+    });
+
+    foreach ($enrollments as $i => $enrollment) {
+        $enrollment->daily_order = $i+1;
+        $enrollment->save();
+    } 
+ 
+    Yii::app()->user->setFlash('success', Yii::t('default', 'dayli order'));
+   
+
     }
 }
