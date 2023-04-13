@@ -6,7 +6,11 @@ class DefaultController extends Controller
 {
 	public function actionIndex()
 	{
+		$this->render('index');
+	}
 
+	public function actionManageRA()
+	{
 		$school_id = Yii::app()->user->school;
 		$ucidentifymulti = new IdentifyMultipleStudentRACode();
 		$students = $ucidentifymulti->exec($school_id);
@@ -25,7 +29,22 @@ class DefaultController extends Controller
 			'countCriteria' => $criteira,
 			'pagination' => array('PageSize' => 100),
 		));
-		$this->render('index', ['dataProvider' => $dataProvider]);
+		$this->render('manageRA', ['dataProvider' => $dataProvider]);
+	}
+
+	public function actionAddStudentWithRA()
+	{
+		$RA = $_POST["ra"];
+		if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
+			$uclogin = new LoginUseCase();
+			$uclogin->exec("SME701", "zyd780mhz1s5");
+		}
+		$createStudent = new CreateStudent();
+		$msg = $createStudent->exec($RA);
+		if (!$msg) {
+			$msg = $createStudent->exec($RA, true);
+		}
+		echo $msg;
 	}
 
 	public function actionLogin()

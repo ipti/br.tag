@@ -42,6 +42,21 @@ class StudentSEDDataSource extends SedDataSource
         return $promise;
     }
 
+    public function getStudentWithRA($RA)
+    {
+        $body['inAluno'] = array("inNumRA" => $RA,
+        "inSiglaUFRA" => "SP");
+        try {
+            $response = $this->client->request('GET', '/ncaapi/api/Aluno/ExibirFichaAluno', [
+                'body' => json_encode($body)
+            ]);
+            return $response;
+        }
+        catch (GuzzleHttp\Exception\ClientException $e) {
+            return new OutErro($e);
+        }
+    }
+
     public function getAllStudentsRA($students){
         
         $promises = [];
