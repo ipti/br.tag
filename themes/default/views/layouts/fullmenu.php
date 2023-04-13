@@ -254,12 +254,13 @@ if (Yii::app()->user->isGuest) {
                             </a>
                         </li>
                         <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)) : ?>
-                            <!--<li id="menu-quiz"-->
-                            <!--class="--><?php //= strpos($_SERVER['REQUEST_URI'], "?r=quiz") ? 'active' : ''
-                                            ?><!-- hide-responsive">-->
-                            <!--<a class="glyphicons list" href="--><?php //echo yii::app()->createUrl('quiz')
-                                                                    ?><!-- "><i></i><span class="t-menu-item__text">Questionário</span></a>-->
-                            <!--</li>-->
+                            <li id="menu-quiz" class="<?= strpos($_SERVER['REQUEST_URI'], "?r=quiz") ? 'active' : ''?> hide-responsive">
+                            <a class="glyphicons list" 
+                                href="<?php echo yii::app()->createUrl('quiz') ?>">
+                                <i></i>
+                                <span class="t-menu-item__text">Questionário</span>
+                            </a>
+                            </li>
                             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=lunch") ? 'active' : '' ?> hide-responsive">
                                 <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('lunch/lunch') ?> ">
                                     <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/merenda.svg" />
