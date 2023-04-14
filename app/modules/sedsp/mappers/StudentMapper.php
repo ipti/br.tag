@@ -105,7 +105,7 @@ class StudentMapper
             $student_tag->inep_id = $outDocumentos->outCodINEP;
             $student_tag->gov_id = $outDadosPessoais->outNumRA;
             $student_tag->name = $outDadosPessoais->outNomeAluno;
-            $student_tag->filiation = $outDadosPessoais->outNomeMae != "" || $outDadosPessoais->outNomeMae != "" ? 1 : 0;
+            $student_tag->filiation = $outDadosPessoais->outNomeMae != "" || $outDadosPessoais->outNomePai != "" ? 1 : 0;
             $student_tag->filiation_1 = $outDadosPessoais->outNomeMae;
             $student_tag->filiation_2 = $outDadosPessoais->outNomePai;
             $student_tag->birthday = date_create_from_format('d/m/Y', $outDadosPessoais->outDataNascimento)->format('Y-m-d');
