@@ -29,8 +29,6 @@ class GenRA
             }else {
                 if($force){
                     throw new Exception('RA Não Encontrado');
-                    $ucnewstudent = new AddStudentToSED();
-                    $RA = $ucnewstudent->exec($id);
                 }else {
                     return false;
                 }

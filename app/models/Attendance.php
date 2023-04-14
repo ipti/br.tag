@@ -33,7 +33,7 @@ class Attendance extends CActiveRecord
 		return array(
 			array('date, local, professional_fk', 'required'),
 			array('professional_fk', 'numerical', 'integerOnly'=>true),
-			array('local', 'length', 'max'=>100),
+			array('local', 'length', 'min'=>5, 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_attendance, date, local, professional_fk', 'safe', 'on'=>'search'),

@@ -120,13 +120,15 @@ class DefaultController extends Controller
 			echo $msg;
 		} catch (\Throwable $th) {
 			header('Content-Type: application/json', true, 400);
-			echo CJSON::encode(array(
-				'success' => false,
-				'message' => 'Bad Request',
+            echo CJSON::encode(array(
+                'success' => false,
+                'message' => 'Bad Request',
 				'id' => $id,
-			)); // Set the HTTP response code to 400
-			Yii::app()->end();
+            )); // Set the HTTP response code to 400
+            Yii::app()->end();
 		}
+		
+		
 	}
 	public function actionCreateRA($id)
 	{
