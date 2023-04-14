@@ -42,14 +42,14 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         </div>
 
         <div class="column">
-            <a href="?r=sagres/default/export" id="exportLink" class="widget-stats">
+            <a href="#" id="exportLink" class="widget-stats">
                 <div><i class="fa fa-group fa-4x"></i></div>
                 <span class="txt">Cadastrar Turma</span>
                 <div class="clearfix"></div>
             </a>
         </div>
         <div class="column">
-            <a href="<?php echo Yii::app()->createUrl('sagres/default/update', array('id' => 1)) ?>" href="?r=sagres/default/update&id=2" class="widget-stats">
+            <a href="#" class="widget-stats">
                 <div><i class="fa fa-building-o fa-4x"></i></div>
                 <span class="txt">Cadastrar Escola</span>
                 <div class="clearfix"></div>
