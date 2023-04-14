@@ -283,7 +283,6 @@ class SagresConsultModel
      */
     public function getStartTime($schedule, $turn): DateTime
     {
-
         $startTimes = [
             1 => [
                 1 => 7,
@@ -321,11 +320,11 @@ class SagresConsultModel
         ];
 
         $startTime = $startTimes[$turn][$schedule] ?? null;
-
-        if ($startTime !== null) {
+        
+        if (isset($startTime)) {
             return $this->getDateTimeFromInitialHour($startTime);
         } else {
-            throw new InvalidArgumentException("Invalid turn or schedule.");
+            throw new InvalidArgumentException("Turno ou horário inválido.");
         }
     }
 
@@ -582,7 +581,7 @@ class SagresConsultModel
                 ->setDataMatricula(new DateTime($enrollment['data_matricula']))
                 ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
                 ->setNumeroFaltas((int) $this->returnNumberFaults($enrollment['student_fk'], $referenceYear))
-                ->setAprovado($this->getStudentSituation($enrollment['numero'], $enrollment['situation']))
+                ->setAprovado($this->getStudentSituation($enrollment['situation']))
                 ->setAluno($this->getStudents($enrollment['student_fk']));
 
             $enrollmentList[] = $enrollmentType;
@@ -591,34 +590,22 @@ class SagresConsultModel
         return $enrollmentList;
     }
 
-    public function getStudentSituation($idStudent, $situation)
+    public function getStudentSituation($situation)
     {
-        try {
-            $situations = [
-                0 => "Não frequentou",
-                1 => false,
-                2 => "Afastado por transferência",
-                3 => "Afastado por abandono",
-                4 => "Matrícula final em Educação Infantil",
-                5 => true
-            ];
+        $situations = [
+            0 => "Não frequentou",
+            1 => false,
+            2 => "Afastado por transferência",
+            3 => "Afastado por abandono",
+            4 => "Matrícula final em Educação Infantil",
+            5 => true
+        ];
 
-            if (!isset($situations[$situation])) {
-                throw new Exception(
-                    $this->exception(
-                        'getStudentSituation()',
-                        $situation == null ? "student_enrollment id:" . $idStudent . " previous_stage_situation = NULL": $situation,
-                        "'0' (Did not attend), '1' (Failed), '2' (Transferred), '3' (Abandoned), '4' (Final enrollment in early childhood education) or '5' (Promoted)"
-                    )
-                );
-            }
+        if (isset($situations[$situation])) {
             return $situations[$situation];
-        } catch (Exception $e) {
-            print("\nError message: " . $e->getMessage());
-            print("\nError code: " . $e->getCode());
-            print("\nError line: " . $e->getLine());
-            exit();
-        }
+        } else {
+            throw new InvalidArgumentException("O valor para a situação do estudante não é válido.");
+        }  
     }
 
     public function returnNumberFaults($studentId, $referenceYear)
@@ -702,7 +689,7 @@ class SagresConsultModel
      * @param string $turn A single character string representing a turn abbreviation.
      * @return int The corresponding integer value of the turn type
      */
-    public function convertTurn($turn = 8)
+    public function convertTurn($turn)
     {
         $turnos = array(
             'M' => 1,
@@ -711,23 +698,11 @@ class SagresConsultModel
             'I' => 4,
         );
 
-        try {
-            if (!isset($turnos[$turn])) {
-                throw new Exception(
-                    $this->exception(
-                        'convertTurn()',
-                        $turn == null? "NULL": $turn,
-                        "'M' (morning), 'V' (afternoon), 'N' (night), or 'I' (full-time)"
-                    )
-                );
-            }
+        if (isset($turnos[$turn])) {
             return $turnos[$turn];
-        } catch (Exception $e) {
-            print("Error message: " . $e->getMessage());
-            print("\nError code: " . $e->getCode());
-            print("\nError line: " . $e->getLine());
-            exit();
-        }
+        } else {
+            throw new InvalidArgumentException("O valor para o turno não é válido");
+        }       
     }
 
     function transformXML($xml)
@@ -739,12 +714,5 @@ class SagresConsultModel
         $xml = str_replace('</edu:prestacaoContas>', '</edu:PrestacaoContas>', $xml);
 
         return $xml;
-    }
-
-    public function exception($fuction, $situation, $msgExpectedValues)
-    {
-        return "\nFUNCTION: $fuction
-        \nInvalid input: $situation
-        \nExpected values: $msgExpectedValues\n";
     }
 }
