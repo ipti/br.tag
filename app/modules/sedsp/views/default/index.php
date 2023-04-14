@@ -35,7 +35,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
     <div class="row">
         <div class="column">
             <a href="#" class="widget-stats" data-toggle="modal" data-target="#add-student-ra" target="_blank">
-                <div><i class="fa fa-building-o fa-4x"></i></div>
+                <div><i class="fa fa-graduation-cap	fa-4x"></i></div>
                 <span class="txt">Cadastrar Aluno</span>
                 <div class="clearfix"></div>
             </a>
@@ -43,14 +43,14 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
 
         <div class="column">
             <a href="?r=sagres/default/export" id="exportLink" class="widget-stats">
-                <span class="glyphicons file_export"><i></i></span>
+                <div><i class="fa fa-group fa-4x"></i></div>
                 <span class="txt">Cadastrar Turma</span>
                 <div class="clearfix"></div>
             </a>
         </div>
         <div class="column">
             <a href="<?php echo Yii::app()->createUrl('sagres/default/update', array('id' => 1)) ?>" href="?r=sagres/default/update&id=2" class="widget-stats">
-                <div><i class="fa fa-edit fa-4x"></i></div>
+                <div><i class="fa fa-building-o fa-4x"></i></div>
                 <span class="txt">Cadastrar Escola</span>
                 <div class="clearfix"></div>
             </a>
@@ -58,7 +58,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
 
         <div class="column">
             <a href="<?php echo Yii::app()->createUrl('sedsp/default/manageRA') ?>" class="widget-stats">
-                <span class="glyphicons user"><i></i></span>
+                <div><i class="fa fa-external-link fa-4x"></i></div>
                 <span class="txt">Gerar RA</span>
                 <div class="clearfix"></div>
             </a>
