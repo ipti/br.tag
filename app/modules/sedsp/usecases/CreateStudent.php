@@ -17,20 +17,12 @@ class CreateStudent
      */
     public function exec($RA)
     {
-        $ucstudent = new GetStudentFromSED();
-        $student = $ucstudent->exec($RA);
-
-        if(!isset($student->outErro)){
-            echo 'SUCESSO<br>';
-            echo '<pre>';
-            var_dump($student);
-            echo '</pre>';
-        }else {
-            echo 'ERRO<br>';
-            echo '<pre>';
-            var_dump($student);
-            echo '</pre>';
+        try {
+            $ucstudent = new GetStudentFromSED();
+            $student = $ucstudent->exec($RA);
+        } catch (\Throwable $th) {
+            //throw $th;
         }
+        return $student;
     }
-
 }

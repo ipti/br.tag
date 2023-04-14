@@ -14,7 +14,8 @@ class GetStudentFromSED
     private  $studentTAGDataSource;
     private  $studentSEDDataSource;
 
-    public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null) {
+    public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null)
+    {
         $this->studentTAGDataSource = $studentTAGDataSource ?? new StudentTAGDataSource();
         $this->studentSEDDataSource = $studentSEDDataSource ?? new StudentSEDDataSource();
     }
@@ -22,7 +23,8 @@ class GetStudentFromSED
     {
         $response = $this->studentSEDDataSource->getStudentWithRA($RA);
         $content = $response->getBody()->getContents();
+        $student_tag = StudentMapper::parseToTAGAlunoFicha($content);
         //Acessando os dados do aluno
-        return json_decode($content);
+        return $student_tag;
     }
 }
