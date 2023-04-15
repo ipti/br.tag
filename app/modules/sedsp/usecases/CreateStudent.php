@@ -17,12 +17,8 @@ class CreateStudent
      */
     public function exec($RA)
     {
-        try {
-            $ucstudent = new GetStudentFromSED();
-            $student = $ucstudent->exec($RA);
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
+        $ucstudent = new GetStudentFromSED();
+        $student = $ucstudent->exec($RA);
         return $student;
     }
 }

@@ -35,52 +35,58 @@ class DefaultController extends Controller
 	public function actionAddStudentWithRA()
 	{
 		$RA = $_POST["ra"];
-		if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
-			$uclogin = new LoginUseCase();
-			$uclogin->exec("SME701", "zyd780mhz1s5");
-		}
-		$createStudent = new CreateStudent();
-		$response = $createStudent->exec($RA);
-		if (!$response) {
-			$response = $createStudent->exec($RA, true);
-		}
-		$modelStudentIdentification = new StudentIdentification;
-		$modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress;
-
-		$modelStudentIdentification = $response["StudentIdentification"];
-		$modelStudentDocumentsAndAddress = $response["StudentDocumentsAndAddress"];
-		date_default_timezone_set("America/Recife");
-        $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
-		$modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
-        $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
-
-		// Validação CPF->Nome
-		if($modelStudentDocumentsAndAddress->cpf != null) {
-			$student_test_cpf = StudentDocumentsAndAddress::model()->find('cpf=:cpf', array(':cpf' => $modelStudentDocumentsAndAddress->cpf));
-			if (isset($student_test_cpf)) {
-				Yii::app()->user->setFlash('error', Yii::t('default', "O Aluno já está cadastrado"));
-				$this->redirect(array('index'));
+		try {
+			if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
+				$uclogin = new LoginUseCase();
+				$uclogin->exec("SME701", "zyd780mhz1s5");
 			}
+		} catch (\Throwable $th) {
+			Yii::app()->user->setFlash('error', Yii::t('default', 'Conexão com SEDSP falhou. Tente novamente mais tarde.'));
+			$this->redirect(array('index'));
 		}
-		if ($modelStudentIdentification->name != null) {
-			$student_test_name = StudentIdentification::model()->find('name=:name', array(':name' => $modelStudentIdentification->name));
-			if (isset($student_test_name)) {
-				Yii::app()->user->setFlash('error', Yii::t('default', "O Aluno já está cadastrado"));
-				$this->redirect(array('index'));
+		try {
+			$createStudent = new CreateStudent();
+			$response = $createStudent->exec($RA);
+			if (!$response) {
+				$response = $createStudent->exec($RA, true);
 			}
-		}
 
-		if($modelStudentIdentification->validate() && $modelStudentIdentification->save()) {
-			$modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
-			$modelStudentDocumentsAndAddress->save();
-			if($modelStudentDocumentsAndAddress->validate() && $modelStudentDocumentsAndAddress->save()) {
-				$msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!';
-				Yii::app()->user->setFlash('success', Yii::t('default', $msg));
-				$this->redirect(array('index'));
+			$modelStudentIdentification = $response["StudentIdentification"];
+			$modelStudentDocumentsAndAddress = $response["StudentDocumentsAndAddress"];
+			date_default_timezone_set("America/Recife");
+			$modelStudentIdentification->last_change = date('Y-m-d G:i:s');
+			$modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
+			$modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
+
+			// Validação CPF->Nome
+			if($modelStudentDocumentsAndAddress->cpf != null) {
+				$student_test_cpf = StudentDocumentsAndAddress::model()->find('cpf=:cpf', array(':cpf' => $modelStudentDocumentsAndAddress->cpf));
+				if (isset($student_test_cpf)) {
+					Yii::app()->user->setFlash('error', Yii::t('default', "O Aluno já está cadastrado"));
+					$this->redirect(array('index'));
+				}
 			}
+			if ($modelStudentIdentification->name != null) {
+				$student_test_name = StudentIdentification::model()->find('name=:name', array(':name' => $modelStudentIdentification->name));
+				if (isset($student_test_name)) {
+					Yii::app()->user->setFlash('error', Yii::t('default', "O Aluno já está cadastrado"));
+					$this->redirect(array('index'));
+				}
+			}
+
+			if($modelStudentIdentification->validate() && $modelStudentIdentification->save()) {
+				$modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
+				$modelStudentDocumentsAndAddress->save();
+				if($modelStudentDocumentsAndAddress->validate() && $modelStudentDocumentsAndAddress->save()) {
+					$msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!';
+					Yii::app()->user->setFlash('success', Yii::t('default', $msg));
+					$this->redirect(array('index'));
+				}
+			}
+		} catch (\Throwable $th) {
+			Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro ao cadastrar o aluno. Certifique-se de digitar um RA válido'));
+			$this->redirect(array('index'));
 		}
-		Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro ao cadastrar o aluno'));
-		$this->redirect(array('index'));
 	}
 
 	public function actionLogin()

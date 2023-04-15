@@ -137,7 +137,15 @@ class StudentMapper
             $student_docs_tag->complement = $outEnderecoResidencial->outComplemento;
             $student_docs_tag->cep = $outEnderecoResidencial->outCep;
             $student_docs_tag->residence_zone = $outEnderecoResidencial->outAreaLogradouro == "URBANA" ? 1 : 2;
-            $student_docs_tag->diff_location = $outEnderecoResidencial->outLocalizacaoDiferenciada;
+            if($outEnderecoResidencial->outLocalizacaoDiferenciada == "Não está localizado em área de localização diferenciada") {
+                $student_docs_tag->diff_location = 7;
+            }else if($outEnderecoResidencial->outLocalizacaoDiferenciada == "Área onde se localizada em Comunidade remanescente de Quilombos") {
+                $student_docs_tag->diff_location = 3;
+            }else if($outEnderecoResidencial->outLocalizacaoDiferenciada == "Terra indígena") {
+                $student_docs_tag->diff_location = 2;
+            }else if($outEnderecoResidencial->outLocalizacaoDiferenciada == "Área de assentamento") {
+                $student_docs_tag->diff_location = 1;
+            }
 
             // civil_certification
             if(isset($outCertidaoNova)) {
