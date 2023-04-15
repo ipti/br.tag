@@ -42,7 +42,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         </div>
 
         <div class="column">
-            <a href="#" id="exportLink" class="widget-stats">
+            <a href="#" class="widget-stats" data-toggle="modal" data-target="#add-classroom" target="_blank">
                 <div><i class="fa fa-group fa-4x"></i></div>
                 <span class="txt">Cadastrar Turma</span>
                 <div class="clearfix"></div>
@@ -64,62 +64,55 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             </a>
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade modal-content" id="add-student-ra" tabindex="-1" role="dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Cadastrar Aluno</h4>
+        </div>
+        <form class="form-vertical" id="addStudentRA" action="<?php echo yii::app()->createUrl('sedsp/default/AddStudentWithRA') ?>" method="post" onsubmit="return validateFormStudent();">
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class=" span12">
+                        <?php echo CHtml::label(yii::t('default', 'RA'), 'year', array('class' => 'control-label')); ?>
+                        <input name="ra" id="ra" type="number" placeholder="Digite o RA" style="width: 100%;" oninput="validateRA();" maxlength="12" required>
+                        <div id="ra-warning" style="display: none;color:#D21C1C">O RA deve ter exatamente 12 dígitos.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                    <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('sedsp/default/AddStudentWithRA'); ?>" type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
+                </div>
+        </form>
+    </div>
 </div>
-
-<!-- Modal -->
-<div class="modal fade modal-content" id="add-student-ra" tabindex="-1" role="dialog">
+<div class="modal fade modal-content" id="add-classroom" tabindex="-1" role="dialog">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
         </button>
-        <h4 class="modal-title" id="myModalLabel">Digite o RA</h4>
+        <h4 class="modal-title" id="myModalLabel">Cadastrar Turma</h4>
     </div>
-    <form class="form-vertical" id="addStudentRA" action="<?php echo yii::app()->createUrl('sedsp/default/AddStudentWithRA') ?>" method="post" onsubmit="return validateForm();">
+    <form class="form-vertical" id="addClassroom" action="<?php echo yii::app()->createUrl('sedsp/default/AddClassroom') ?>" method="post" onsubmit="return validateFormClass();">
         <div class="modal-body">
             <div class="row-fluid">
-                <div class=" span12">
-                    <?php echo CHtml::label(yii::t('default', 'RA'), 'year', array('class' => 'control-label')); ?>
-                    <input name="ra" id="ra" type="number" placeholder="Digite o RA" style="width: 100%;" oninput="validateRA();" maxlength="12">
-                    <div id="ra-warning" style="display: none;color:#D21C1C">O RA deve ter exatamente 12 dígitos.</div>
+                <div class=" span12" style="display: flex;">
+                    <div style="width: 100%;">
+                        <?php echo CHtml::label(yii::t('default', 'Inep Head School'), 'school_id', array('class' => 'control-label')); ?>
+                        <input name="classroomNum" id="class" type="number" placeholder="Digite o Código da Turma" oninput="validateClass();" maxlength="9" style="width: 97.5%;" required>
+                        <div id="class-warning" style="display: none;color:#D21C1C">O Código deve ter exatamente 9 dígitos.</div>
+                        <div class="checkbox modal-replicate-actions-container">
+                            <input type="checkbox" name="importStudents" style="margin-right: 10px;">
+                            Importar Matrículas dos Alunos? Isso pode aumentar o tempo de espera.
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('sedsp/default/AddStudentWithRA'); ?>" type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
+                <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('sedsp/default/AddClassroom'); ?>" type="submit" value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
             </div>
     </form>
 </div>
-
-<script>
-    function validateForm() {
-        var raInput = document.getElementById("ra");
-        var warningDiv = document.getElementById("ra-warning");
-        if (raInput.value.length < 12) {
-            warningDiv.style.display = "block";
-            return false;
-        } else {
-            warningDiv.style.display = "none";
-            return true;
-        }
-    }
-
-    function validateRA() {
-        var raInput = document.getElementById("ra");
-        var warningDiv = document.getElementById("ra-warning");
-        if (raInput.value.length < 12) {
-            warningDiv.style.display = "block";
-        } else {
-            warningDiv.style.display = "none";
-        }
-        if (raInput.value.length > raInput.maxLength) {
-            raInput.value = raInput.value.slice(0, raInput.maxLength);
-        }
-    }
-
-    var myForm = document.getElementById("myForm");
-    myForm.addEventListener("submit", function(event) {
-        if (!validateForm()) {
-            event.preventDefault();
-        }
-    });
-</script>
