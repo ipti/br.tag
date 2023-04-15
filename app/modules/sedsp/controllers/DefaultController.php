@@ -35,9 +35,14 @@ class DefaultController extends Controller
 	public function actionAddStudentWithRA()
 	{
 		$RA = $_POST["ra"];
-		if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
-			$uclogin = new LoginUseCase();
-			$uclogin->exec("SME701", "zyd780mhz1s5");
+		try {
+			if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
+				$uclogin = new LoginUseCase();
+				$uclogin->exec("SME701", "zyd780mhz1s5");
+			}
+		} catch (\Throwable $th) {
+			Yii::app()->user->setFlash('error', Yii::t('default', 'Conexão com SEDSP falhou. Tente novamente mais tarde.'));
+			$this->redirect(array('index'));
 		}
 		try {
 			$createStudent = new CreateStudent();
