@@ -88,8 +88,6 @@ class DefaultController extends Controller
 		}
 		$createStudent = new CreateStudent();
 		$response = $createStudent->exec($RA);
-		$modelStudentIdentification = new StudentIdentification;
-		$modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress;
 		$modelStudentEnrollment = new StudentEnrollment;
 
 		$modelStudentIdentification = $response["StudentIdentification"];
@@ -135,10 +133,13 @@ class DefaultController extends Controller
 			$modelClassroom = $response["Classroom"];
 			$students = $response["Students"];
 			if ($modelClassroom->validate() && $modelClassroom->save()) {
-				$msg = "O Cadastro da Turma " . $modelClassroom->name . " foi criado com sucesso! <a href='".Yii::app()->createUrl('classroom/update&id='.$modelClassroom->id)."' style='color:white;'>Clique aqui para visualizar.</a>";
-				if($import_students) {
+				$msg = "O Cadastro da Turma " . $modelClassroom->name . " foi criado com sucesso! 
+				<a href='".Yii::app()->createUrl('classroom/update&id='.$modelClassroom->id)."' style='color:white;'>
+				Clique aqui para visualizar.</a>";
+				if ($import_students) {
 					foreach ($students as $student) {
-						$this->addClassroomStudent($student->outNumRA, $modelClassroom->id, $modelClassroom->inep_id, $modelClassroom->edcenso_stage_vs_modality_fk);
+						$this->addClassroomStudent($student->outNumRA, $modelClassroom->id, 
+						$modelClassroom->inep_id, $modelClassroom->edcenso_stage_vs_modality_fk);
 					}
 				}
 			}
