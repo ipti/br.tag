@@ -60,9 +60,9 @@ function validateRA() {
     }
 }
 
-function validateSchoolId() {
-    var raInput = $("#school");
-    var warningDiv = $("#school-warning");
+function validateClass() {
+    var raInput = $("#class");
+    var warningDiv = $("#class-warning");
     if (raInput.val().length < 7) {
         warningDiv.show();
     } else {

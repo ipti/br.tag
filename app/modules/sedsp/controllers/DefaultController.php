@@ -41,9 +41,6 @@ class DefaultController extends Controller
 		}
 		$createStudent = new CreateStudent();
 		$response = $createStudent->exec($RA);
-		if (!$response) {
-			$response = $createStudent->exec($RA, true);
-		}
 		$modelStudentIdentification = new StudentIdentification;
 		$modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress;
 
@@ -81,6 +78,35 @@ class DefaultController extends Controller
 		}
 		Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro ao cadastrar o aluno'));
 		$this->redirect(array('index'));
+	}
+
+	public function actionAddClassroom()
+	{
+		$num_classe = $_POST["classroomNum"];
+		try {
+			if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
+				$uclogin = new LoginUseCase();
+				$uclogin->exec("SME701", "zyd780mhz1s5");
+			}
+		}catch (\Throwable $th) {
+			Yii::app()->user->setFlash('error', Yii::t('default', 'Conexão com SEDSP falhou. Tente novamente mais tarde.'));
+			$this->redirect(array('index'));
+		}
+		try {
+			$createClassroom = new CreateClassroom();
+			$response = $createClassroom->exec($num_classe);
+			$modelClassroom = new Classroom;
+			$modelClassroom = $response["Classroom"];
+
+			if($modelClassroom->validate() && $modelClassroom->save()) {
+				$msg = 'O Cadastro da Turma ' . $modelClassroom->name . ' foi criado com sucesso!';
+				Yii::app()->user->setFlash('success', Yii::t('default', $msg));
+				$this->redirect(array('index'));
+			}
+		} catch (\Throwable $th) {
+			Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro ao cadastrar a turma. Certifique-se de inserir dados válidos.'));
+			$this->redirect(array('index'));
+		}
 	}
 
 	public function actionLogin()

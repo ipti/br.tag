@@ -99,14 +99,10 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         <div class="modal-body">
             <div class="row-fluid">
                 <div class=" span12" style="display: flex;">
-                    <div style="width: 40%;">
-                        <?php echo CHtml::label(yii::t('default', 'Year'), 'year', array('class' => 'control-label')); ?>
-                        <input name="classroomYear" id="classroomYear" type="date" placeholder="Digite o Ano Letivo" required>
-                    </div>
-                    <div style="width: 60%; padding-left: 10px;">
+                    <div style="width: 100%;">
                         <?php echo CHtml::label(yii::t('default', 'Inep Head School'), 'school_id', array('class' => 'control-label')); ?>
-                        <input name="classroomSchoolId" id="school" type="number" style="width: 95.6%;" placeholder="Digite o Código da escola" oninput="validateSchoolId();" maxlength="7" required>
-                        <div id="school-warning" style="display: none;color:#D21C1C">O Código deve ter exatamente 7 dígitos.</div>
+                        <input name="classroomNum" id="class" type="number" placeholder="Digite o Código da Turma" oninput="validateClass();" maxlength="9" required>
+                        <div id="class-warning" style="display: none;color:#D21C1C">O Código deve ter exatamente 9 dígitos.</div>
                     </div>
                 </div>
             </div>
