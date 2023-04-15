@@ -36,9 +36,9 @@ function validateFormStudent() {
 }
 
 function validateFormClass() {
-    var raInput = $("#school");
-    var warningDiv = $("#school-warning");
-    if (raInput.val().length < 7) {
+    var classInput = $("#class");
+    var warningDiv = $("#class-warning");
+    if (classInput.val().length < 9) {
         warningDiv.show();
         return false;
     } else {
@@ -61,15 +61,15 @@ function validateRA() {
 }
 
 function validateClass() {
-    var raInput = $("#class");
+    var classInput = $("#class");
     var warningDiv = $("#class-warning");
-    if (raInput.val().length < 7) {
+    if (classInput.val().length < 9) {
         warningDiv.show();
     } else {
         warningDiv.hide();
     }
-    if (raInput.val().length > raInput.attr("maxLength")) {
-        raInput.val(raInput.val().slice(0, raInput.attr("maxLength")));
+    if (classInput.val().length > classInput.attr("maxLength")) {
+        classInput.val(classInput.val().slice(0, classInput.attr("maxLength")));
     }
 }
 
