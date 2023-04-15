@@ -9,6 +9,7 @@ class ClassroomMapper
         $result = [];
 
         $outClasse = $response;
+        $outAlunos = $response->outAlunos;
         $tempo_inicio = explode(":", $outClasse->outHorarioInicio);
         $tempo_fim = explode(":", $outClasse->outHorarioFim);
 
@@ -17,7 +18,7 @@ class ClassroomMapper
         
         // Classroom
         $classroom_tag->inep_id = $outClasse->outNumClasse;
-        $classroom_tag->name = $outClasse->outCodSerieAno + "ANO" + $outClasse->outTurma;
+        $classroom_tag->name = $outClasse->outCodSerieAno."º ANO ".$outClasse->outTurma;
         $classroom_tag->edcenso_stage_vs_modality_fk = 1;
         $classroom_tag->modality = 1;
         $classroom_tag->school_inep_fk = Yii::app()->user->school;
@@ -32,10 +33,11 @@ class ClassroomMapper
         $classroom_tag->week_days_thursday = 1;
         $classroom_tag->week_days_friday = 1;
         $classroom_tag->week_days_saturday = 1;
-        $classroom_tag->school_year = intval($outClasse->outAnoLetivo);
+        $classroom_tag->school_year = Yii::app()->user->year;
         $classroom_tag->pedagogical_mediation_type = 1;
 
         $result["Classroom"] = $classroom_tag;
+        $result["Students"] = $outAlunos;
 
         return $result;
     }

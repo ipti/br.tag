@@ -18,6 +18,10 @@ class CreateClassroom
     {
         $ucclassroom = new GetClassroomFromSED();
         $classroom = $ucclassroom->exec($num_classe);
-        return $classroom;
+        if($classroom["Classroom"]->inep_id != null) {
+            return $classroom;
+        }else {
+            throw new Exception("Ocorreu um erro ao cadastrar a turma. Certifique-se de inserir dados válidos.", 500);
+        }
     }
 }

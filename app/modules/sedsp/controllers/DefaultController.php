@@ -47,12 +47,12 @@ class DefaultController extends Controller
 		$modelStudentIdentification = $response["StudentIdentification"];
 		$modelStudentDocumentsAndAddress = $response["StudentDocumentsAndAddress"];
 		date_default_timezone_set("America/Recife");
-        $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
+		$modelStudentIdentification->last_change = date('Y-m-d G:i:s');
 		$modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
-        $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
+		$modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
 
 		// Validação CPF->Nome
-		if($modelStudentDocumentsAndAddress->cpf != null) {
+		if ($modelStudentDocumentsAndAddress->cpf != null) {
 			$student_test_cpf = StudentDocumentsAndAddress::model()->find('cpf=:cpf', array(':cpf' => $modelStudentDocumentsAndAddress->cpf));
 			if (isset($student_test_cpf)) {
 				Yii::app()->user->setFlash('error', Yii::t('default', "O Aluno já está cadastrado"));
@@ -67,10 +67,10 @@ class DefaultController extends Controller
 			}
 		}
 
-		if($modelStudentIdentification->validate() && $modelStudentIdentification->save()) {
+		if ($modelStudentIdentification->validate() && $modelStudentIdentification->save()) {
 			$modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
 			$modelStudentDocumentsAndAddress->save();
-			if($modelStudentDocumentsAndAddress->validate() && $modelStudentDocumentsAndAddress->save()) {
+			if ($modelStudentDocumentsAndAddress->validate() && $modelStudentDocumentsAndAddress->save()) {
 				$msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!';
 				Yii::app()->user->setFlash('success', Yii::t('default', $msg));
 				$this->redirect(array('index'));
@@ -80,15 +80,51 @@ class DefaultController extends Controller
 		$this->redirect(array('index'));
 	}
 
+	private function addClassroomStudent($RA, $classroomId, $classroomInepId, $classroomStage)
+	{
+		if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
+			$uclogin = new LoginUseCase();
+			$uclogin->exec("SME701", "zyd780mhz1s5");
+		}
+		$createStudent = new CreateStudent();
+		$response = $createStudent->exec($RA);
+		$modelStudentIdentification = new StudentIdentification;
+		$modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress;
+		$modelStudentEnrollment = new StudentEnrollment;
+
+		$modelStudentIdentification = $response["StudentIdentification"];
+		$modelStudentDocumentsAndAddress = $response["StudentDocumentsAndAddress"];
+		date_default_timezone_set("America/Recife");
+		$modelStudentIdentification->last_change = date('Y-m-d G:i:s');
+		$modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
+		$modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
+
+		if ($modelStudentIdentification->validate() && $modelStudentIdentification->save()) {
+			$modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
+			$modelStudentEnrollment->school_inep_id_fk = Yii::app()->user->school;
+			$modelStudentEnrollment->student_fk = $modelStudentIdentification->id;
+			$modelStudentEnrollment->student_inep_id = $modelStudentIdentification->inep_id;
+			$modelStudentEnrollment->classroom_fk = $classroomId;
+			$modelStudentEnrollment->classroom_inep_id = $classroomInepId;
+			$modelStudentEnrollment->edcenso_stage_vs_modality_fk = $classroomStage;
+			if ($modelStudentDocumentsAndAddress->validate() && $modelStudentDocumentsAndAddress->save()
+			&& $modelStudentEnrollment->validate() && $modelStudentEnrollment->save()) {
+				return $modelStudentIdentification->name;
+			}
+		}
+		return false;
+	}
+
 	public function actionAddClassroom()
 	{
 		$num_classe = $_POST["classroomNum"];
+		$import_students = $_POST["importStudents"];
 		try {
 			if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
 				$uclogin = new LoginUseCase();
 				$uclogin->exec("SME701", "zyd780mhz1s5");
 			}
-		}catch (\Throwable $th) {
+		} catch (\Throwable $th) {
 			Yii::app()->user->setFlash('error', Yii::t('default', 'Conexão com SEDSP falhou. Tente novamente mais tarde.'));
 			$this->redirect(array('index'));
 		}
@@ -97,14 +133,19 @@ class DefaultController extends Controller
 			$response = $createClassroom->exec($num_classe);
 			$modelClassroom = new Classroom;
 			$modelClassroom = $response["Classroom"];
-
-			if($modelClassroom->validate() && $modelClassroom->save()) {
-				$msg = 'O Cadastro da Turma ' . $modelClassroom->name . ' foi criado com sucesso!';
-				Yii::app()->user->setFlash('success', Yii::t('default', $msg));
-				$this->redirect(array('index'));
+			$students = $response["Students"];
+			if ($modelClassroom->validate() && $modelClassroom->save()) {
+				$msg = "O Cadastro da Turma " . $modelClassroom->name . " foi criado com sucesso! <a href='".Yii::app()->createUrl('classroom/update&id='.$modelClassroom->id)."' style='color:white;'>Clique aqui para visualizar.</a>";
+				if($import_students) {
+					foreach ($students as $student) {
+						$this->addClassroomStudent($student->outNumRA, $modelClassroom->id, $modelClassroom->inep_id, $modelClassroom->edcenso_stage_vs_modality_fk);
+					}
+				}
 			}
-		} catch (\Throwable $th) {
-			Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro ao cadastrar a turma. Certifique-se de inserir dados válidos.'));
+			Yii::app()->user->setFlash('success', Yii::t('default', $msg));
+			$this->redirect(array('index'));
+		} catch (\Exception $e) {
+			Yii::app()->user->setFlash('error', Yii::t('default', $e->getMessage()));
 			$this->redirect(array('index'));
 		}
 	}
@@ -146,15 +187,13 @@ class DefaultController extends Controller
 			echo $msg;
 		} catch (\Throwable $th) {
 			header('Content-Type: application/json', true, 400);
-            echo CJSON::encode(array(
-                'success' => false,
-                'message' => 'Bad Request',
+			echo CJSON::encode(array(
+				'success' => false,
+				'message' => 'Bad Request',
 				'id' => $id,
-            )); // Set the HTTP response code to 400
-            Yii::app()->end();
+			)); // Set the HTTP response code to 400
+			Yii::app()->end();
 		}
-		
-		
 	}
 	public function actionCreateRA($id)
 	{
