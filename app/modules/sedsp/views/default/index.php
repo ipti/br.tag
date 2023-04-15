@@ -78,7 +78,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 <div class="row-fluid">
                     <div class=" span12">
                         <?php echo CHtml::label(yii::t('default', 'RA'), 'year', array('class' => 'control-label')); ?>
-                        <input name="ra" id="ra" type="number" placeholder="Digite o RA" style="width: 100%;" oninput="validateRA();" maxlength="12" required>
+                        <input name="ra" id="ra" type="number" placeholder="Digite o RA" style="width: 97.5%;" oninput="validateRA();" maxlength="12" required>
                         <div id="ra-warning" style="display: none;color:#D21C1C">O RA deve ter exatamente 12 dígitos.</div>
                     </div>
                 </div>

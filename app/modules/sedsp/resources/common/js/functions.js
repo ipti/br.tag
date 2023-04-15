@@ -74,6 +74,12 @@ function validateClass() {
 }
 
 $(document).ready(function () {
+    $('#schoolName').on('input', function () {
+        $(this).val($(this).val().toUpperCase());
+    });
+    $('#schoolMun').on('input', function () {
+        $(this).val($(this).val().toUpperCase());
+    });
     $('.generate').click(function (event) {
         event.preventDefault();
 
