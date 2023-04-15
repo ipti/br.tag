@@ -21,7 +21,7 @@ class CreateSchool
         if($school["SchoolIdentification"]->inep_id != null) {
             return $school;
         }else {
-            throw new Exception("Ocorreu um erro ao cadastrar a turma. Certifique-se de inserir dados válidos.", 500);
+            throw new Exception("Ocorreu um erro ao cadastrar a escola. Certifique-se de inserir dados válidos.", 500);
         }
     }
 }
