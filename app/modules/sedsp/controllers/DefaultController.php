@@ -50,8 +50,6 @@ class DefaultController extends Controller
 			if (!$response) {
 				$response = $createStudent->exec($RA, true);
 			}
-			$modelStudentIdentification = new StudentIdentification;
-			$modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress;
 
 			$modelStudentIdentification = $response["StudentIdentification"];
 			$modelStudentDocumentsAndAddress = $response["StudentDocumentsAndAddress"];
