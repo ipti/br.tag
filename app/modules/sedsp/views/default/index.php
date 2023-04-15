@@ -49,7 +49,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             </a>
         </div>
         <div class="column">
-            <a href="#" class="widget-stats">
+            <a href="#" class="widget-stats" data-toggle="modal" data-target="#add-school" target="_blank">
                 <div><i class="fa fa-building-o fa-4x"></i></div>
                 <span class="txt">Cadastrar Escola</span>
                 <div class="clearfix"></div>
@@ -86,6 +86,30 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
                 <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('sedsp/default/AddStudentWithRA'); ?>" type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
+            </div>
+    </form>
+</div>
+
+<div class="modal fade modal-content" id="add-school" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Adicionar Escola</h4>
+    </div>
+    <form class="form-vertical" id="addStudentRA" action="<?php echo yii::app()->createUrl('sedsp/default/AddSchool') ?>" method="post" onsubmit="return validateForm();">
+        <div class="modal-body">
+            <div class="row-fluid">
+                <div class=" span12">
+                    <?php echo CHtml::label(yii::t('default', 'Nome da Escola'), 'schoolname', array('class' => 'control-label')); ?>
+                    <input type="text" name="schoolName" id="schoolName">
+                    <?php echo CHtml::label(yii::t('default', 'Nome do Município'), 'schoolmun', array('class' => 'control-label')); ?>
+                    <input type="text" name="schoolMun" id="schoolMun">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('sedsp/default/AddSchool'); ?>" type="submit" value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
             </div>
     </form>
 </div>
