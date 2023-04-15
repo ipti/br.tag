@@ -4,6 +4,8 @@ Yii::import('application.modules.sedsp.usecases.*');
 
 class DefaultController extends Controller
 {
+	private $ERROR_CONNECTION = 'Conexão com SEDSP falhou. Tente novamente mais tarde.';
+
 	public function actionIndex()
 	{
 		$this->render('index');
@@ -41,7 +43,7 @@ class DefaultController extends Controller
 				$uclogin->exec("SME701", "zyd780mhz1s5");
 			}
 		} catch (\Throwable $th) {
-			Yii::app()->user->setFlash('error', Yii::t('default', 'Conexão com SEDSP falhou. Tente novamente mais tarde.'));
+			Yii::app()->user->setFlash('error', Yii::t('default', $this->ERROR_CONNECTION));
 			$this->redirect(array('index'));
 		}
 		try {
@@ -132,7 +134,7 @@ class DefaultController extends Controller
 				$uclogin->exec("SME701", "zyd780mhz1s5");
 			}
 		} catch (\Throwable $th) {
-			Yii::app()->user->setFlash('error', Yii::t('default', 'Conexão com SEDSP falhou. Tente novamente mais tarde.'));
+			Yii::app()->user->setFlash('error', Yii::t('default', $this->ERROR_CONNECTION));
 			$this->redirect(array('index'));
 		}
 		try {
@@ -183,7 +185,7 @@ class DefaultController extends Controller
 				$uclogin->exec("SME701", "zyd780mhz1s5");
 			}
 		} catch (\Throwable $th) {
-			Yii::app()->user->setFlash('error', Yii::t('default', 'Conexão com SEDSP falhou. Tente novamente mais tarde.'));
+			Yii::app()->user->setFlash('error', Yii::t('default', $this->ERROR_CONNECTION));
 			$this->redirect(array('index'));
 		}
 
@@ -195,7 +197,8 @@ class DefaultController extends Controller
 			$modelSchoolStructure->school_inep_id_fk = $modelSchool->inep_id;
 			// Bloqueio de duplicação por inep id
 			if ($modelSchool->inep_id != null) {
-				$school_test_name = SchoolIdentification::model()->find('inep_id=:inep_id', array(':inep_id' => $modelSchool->inep_id));
+				$school_test_name = SchoolIdentification::model()->find('inep_id=:inep_id', 
+				array(':inep_id' => $modelSchool->inep_id));
 				if (isset($school_test_name)) {
 					$msg = "O Cadastro da Escola " . $modelSchool->name . " já existe!
 					<a href='".Yii::app()->createUrl('school/update&id='.$modelSchool->inep_id)."' style='color:white;'>
@@ -204,8 +207,9 @@ class DefaultController extends Controller
 					$this->redirect(array('index'));
 				}
 			}
-			if($modelSchool->validate() && $modelSchoolStructure->validate() && $modelSchool->save() && $modelSchoolStructure->save() ) {
-				$msg = "O Cadastro da Escola " . $modelSchool->name . " foi criado com sucesso! 
+			if ($modelSchool->validate() && $modelSchoolStructure->validate() 
+				&& $modelSchool->save() && $modelSchoolStructure->save()) {
+				$msg = "O Cadastro da Escola " . $modelSchool->name . " foi criado com sucesso!
 				<a href='".Yii::app()->createUrl('school/update&id='.$modelSchool->inep_id)."' style='color:white;'>
 				Clique aqui para visualizar.</a>";
 				Yii::app()->user->setFlash('success', Yii::t('default', $msg));
