@@ -1,9 +1,9 @@
 <?php
-    require_once 'app/vendor/autoload.php'; 
+require_once 'app/vendor/autoload.php';
 
 class ClassroomSEDDataSource extends SedDataSource
 {
-    
+
     public function getClassroomRA($school_id, $year)
     {
         $promise = $this->client->requestAsync('GET', '/ncaapi/api/Aluno/ConsultaRA', [
@@ -13,28 +13,42 @@ class ClassroomSEDDataSource extends SedDataSource
             ],
             'body' => json_encode([
                 "inAnoLetivo" => $year,
-	            "inCodEscola" => $school_id
+                "inCodEscola" => $school_id
             ])
-        ]); 
-        
-        return $promise;
-    }   
+        ]);
 
-    public function getAllClassroomsRA($classrooms){
-        
+        return $promise;
+    }
+
+    public function getAllClassroomsRA($classrooms)
+    {
+
         $promises = [];
         foreach (array_slice($classrooms, 0, 5) as $key => $classroom) {
             $promises[] = $this->getClassroomRA($classroom->name, $classroom->birthday, $classroom->filiation_1);
         }
-        
-        $data = GuzzleHttp\Promise\Utils::all($promises)->then(function (array $responses){
+
+        $data = GuzzleHttp\Promise\Utils::all($promises)->then(function (array $responses) {
             $data = [];
             foreach ($responses as $response) {
-                 $data[] = json_decode($response->getBody()->getContents(), true);
+                $data[] = json_decode($response->getBody()->getContents(), true);
             }
             return $data;
         })->wait(true);
 
         return $data;
+    }
+
+    public function getClassroom($num_classe)
+    {
+        $body = array("inNumClasse" => $num_classe);
+        try {
+            $response = $this->client->request('GET', '/ncaapi/api/RelacaoAlunosClasse/FormacaoClasse', [
+                'body' => json_encode($body)
+            ]);
+            return $response;
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            return new OutErro($e);
+        }
     }
 }
