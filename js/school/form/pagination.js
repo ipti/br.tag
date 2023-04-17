@@ -7,7 +7,7 @@
 
 
 
-$('.tab-school li a').click(function () {
+$('.js-tab-school li a').click(function () {
     var classActive = $('li[class="active"]');
     var divActive = $('div .active');
     var li1 = 'tab-school-indentify';
@@ -67,7 +67,7 @@ $('.tab-school li a').click(function () {
 })
 
 $('.next').click(function () {
-    var classActive = $('ul.tab-school li[class="active"]');
+    var classActive = $('ul.js-tab-school').find('li.active');
     var divActive = $('div .active');
     var li1 = 'tab-school-indentify';
     var li2 = 'tab-school-addressContact';
@@ -112,7 +112,7 @@ $('.next').click(function () {
 });
 
 $('.prev').click(function () {
-    var classActive = $('li[class="active"]');
+    var classActive = $('ul.js-tab-school').find('li.active');
     var divActive = $('div .active');
     var li1 = 'tab-school-indentify';
     var li2 = 'tab-school-addressContact';
@@ -127,10 +127,10 @@ $('.prev').click(function () {
             break;
         case li2:
             previous = li1;
+            $('.prev').hide();
             break;
         case li3:
             previous = li2;
-            $('.prev').hide();
             break;
         case li4:
             previous = li3;
