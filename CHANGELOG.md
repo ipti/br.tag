@@ -1,5 +1,7 @@
 # Atualizações
 
+## [Versão 3.13.27]
+- Adicionada funcionalidade para gerenciar a ordem dos alunos no diário
 ## [Versão 3.12.27]
 - Corrigida a paginação no formulário de cadastro e alterção de escolas
 ## [Versão 3.12.26]
