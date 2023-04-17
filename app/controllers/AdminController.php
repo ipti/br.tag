@@ -633,9 +633,7 @@ class AdminController extends Controller
         $criteria->condition = "username != 'admin'";
         $dataProvider = new CActiveDataProvider('Users', array(
             'criteria' => $criteria,
-            'pagination' => array(
-                'pageSize' => 12,
-            )
+            'pagination' => false
         ));
 
         $this->render('manageUsers', array(
