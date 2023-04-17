@@ -8,6 +8,7 @@
  * @property string $title
  * @property string $start_date
  * @property string $end_date
+ * @property string $school_year
  * @property integer $available
  *
  * The followings are the available model relations:
@@ -39,7 +40,7 @@ class Calendar extends CActiveRecord
             array('title', 'length', 'max' => 50),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, title, start_date, end_date, available', 'safe', 'on' => 'search'),
+            array('id, title, start_date, end_date, available','school_year', 'safe', 'on' => 'search'),
         );
     }
 

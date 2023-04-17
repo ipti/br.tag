@@ -65,6 +65,8 @@ class DefaultController extends Controller
             $calendar->start_date = Yii::app()->user->year . "-01-01";
             $calendar->end_date = Yii::app()->user->year . "-12-31";
             $calendar->available = 0;
+            $calendar->school_year = Yii::app()->user->year;
+            
             $calendar->save();
             foreach ($_POST["stages"] as $stage) {
                 $calendarStage = new CalendarStages();
