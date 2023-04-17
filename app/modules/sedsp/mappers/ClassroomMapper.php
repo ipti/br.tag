@@ -20,6 +20,7 @@ class ClassroomMapper
         $classroom_tag->inep_id = $outClasse->outNumClasse;
         $classroom_tag->name = $outClasse->outCodSerieAno."º ANO ".$outClasse->outTurma;
         $classroom_tag->edcenso_stage_vs_modality_fk = 1;
+        $classroom_tag->assistance_type = 0;
         $classroom_tag->modality = 1;
         $classroom_tag->school_inep_fk = Yii::app()->user->school;
         $classroom_tag->initial_hour = $tempo_inicio[0];
