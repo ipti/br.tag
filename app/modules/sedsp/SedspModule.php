@@ -1,6 +1,6 @@
 <?php
 
-class SEDSPModule extends CWebModule
+class SedspModule extends CWebModule
 {
 	public $baseScriptUrl;
 	public $baseUrl;
