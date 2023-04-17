@@ -96,7 +96,6 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="box-links-previous-next" class="">
             <a data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
             <a data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?>
-                <!-- <i></i> -->
             </a>
             <button class="btn btn-icon btn-primary last glyphicons circle_ok pull-right save-school-button" type="button">
                 <i></i> <?= $modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
@@ -105,7 +104,6 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
         <div class="widget-body form-horizontal">
             <div class="tab-content">
-                <!-- Tab content -->
                 <div class="tab-pane active" id="school-indentify">
                     <div>
                         <h3>Dados Básicos</h3>

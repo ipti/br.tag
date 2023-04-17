@@ -29,7 +29,7 @@
                     $this->widget('zii.widgets.grid.CGridView', array(
                         'dataProvider' => $filter->search(),
                         'filter' => $filter,
-                        'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'enablePagination' => true,
                         'columns' => array(
                             array(

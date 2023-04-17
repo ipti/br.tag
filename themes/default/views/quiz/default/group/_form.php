@@ -51,7 +51,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <div class="widget-body form-horizontal">
             <div class="tab-content">
-                    
+                    NO
                 <div class="tab-pane active" id="group">
                         <div class="row-fluid">
                             <div class=" span5">

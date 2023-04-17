@@ -24,7 +24,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="main">
     <div class="row-fluid  hidden-print">
         <div class="span12">
-            <h1><?php echo $title; ?>tezto</h1>
+            <h1><?php echo $title; ?></h1>
             <div class="buttons">
                 <?php echo CHtml::htmlButton('<i></i>' . ($quiz->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'save_button', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
                 ?>
@@ -51,9 +51,14 @@ $form = $this->beginWidget('CActiveForm', array(
         <?php endif ?>
 
         <div class="widget widget-tabs border-bottom-none">
-            <div class="widget-head  hidden-print">
-                <ul class="tab-classroom">
-                    <li id="tab-quiz" class="active"><a class="glyphicons adress_book" href="#quiz" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Quiz') ?></a></li>
+            <div class="t-tabs js-tab-control">
+                <ul class=" tab-student t-tabs__list tab-classroom">
+                    <li id="tab-quiz" class="t-tabs__item active ">
+                        <a class="t-tabs__link" href="#quiz" data-toggle="tab">
+                            <span class="t-tabs__numeration">1</span>
+                            <?php echo Yii::t('default', 'Quiz') ?>
+                        </a>
+                    </li>
                     <?php if (!$quiz->isNewRecord) : ?>
                         <li id="tab-question"><a class="glyphicons book" href="#question" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Question') ?></a></li>
                     <?php endif; ?>
@@ -61,62 +66,50 @@ $form = $this->beginWidget('CActiveForm', array(
             </div>
 
             <div class="widget-body form-horizontal">
-                <div class="tab-content">
-
+                <div class="tab-content form-content">
                     <div class="tab-pane active" id="quiz">
-                        <div class="row-fluid">
-                            <div class=" span5">
-                                <div class="control-group">
-                                    <?php echo $form->labelEx($quiz, 'name', array('class' => 'control-label')); ?>
-                                    <div class="controls">
-                                        <?php echo $form->textField($quiz, 'name', array('size' => 60, 'maxlength' => 150)); ?>
-                                        <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Quiz Name'); ?>"><i></i></span>
-                                        <?php echo $form->error($quiz, 'name'); ?>
-                                    </div>
+                        <div class="row">
+                            <div class="column">
+                                <div class="t-field-text">
+                                    <?php echo $form->labelEx($quiz, 'name', array('class' => 'control-label t-field-text__label--required')); ?>
+                                    <?php echo $form->textField($quiz, 'name', array('size' => 60, 'maxlength' => 150, 'class' => 't-field-text__input',)); ?>
+                                    <?php echo $form->error($quiz, 'name'); ?>
                                 </div>
-                                <!-- .control-group -->
-                                <div class="control-group" id="modality">
-                                    <?php echo $form->labelEx($quiz, 'status', array('class' => 'control-label required')); ?>
-                                    <div class="controls">
-                                        <?php
-                                        echo $form->DropDownList($quiz, 'status', array(
-                                            null => 'Selecione o status',
-                                            '1' => 'Ativo',
-                                            '0' => 'Inativo'
-                                        ), array('class' => 'select-search-off'));
-                                        ?>
-                                        <?php echo $form->error($quiz, 'status'); ?>
-                                    </div>
+                                <div class="t-field-text" id="modality">
+                                    <?php echo $form->labelEx($quiz, 'status', array('class' => 'control-label t-field-text__label--required')); ?>
+                                    <?php
+                                    echo $form->DropDownList($quiz, 'status', array(
+                                        null => 'Selecione o status',
+                                        '1' => 'Ativo',
+                                        '0' => 'Inativo'
+                                    ), array('class' => 'select-search-off t-field-select__input'));
+                                    ?>
+                                    <?php echo $form->error($quiz, 'status'); ?>
                                 </div>
                             </div>
-                            <div class=" span5">
-                                <div class="control-group">
-                                    <?php echo $form->labelEx($quiz, 'init_date', array('class' => 'control-label')); ?>
-                                    <div class="controls">
-                                        <?= $form->dateField($quiz, "init_date") ?>
-                                        <?php echo $form->error($quiz, 'init_date'); ?>
-                                    </div>
-                                </div> <!-- .control-group -->
-                                <div class="control-group">
+                            <div class="column">
+                                <div class="t-field-text">
+                                    <?php echo $form->labelEx($quiz, 'init_date', array('class' => 'control-label required')); ?>
+                                    <?= $form->dateField($quiz, "init_date", array('class' => 't-field-text__input')) ?>
+                                    <?php echo $form->error($quiz, 'init_date'); ?>
+                                </div>
+                                <div class="t-field-text">
                                     <?php echo $form->labelEx($quiz, 'final_date', array('class' => 'control-label required')); ?>
-                                    <div class="controls">
-                                        <?= $form->dateField($quiz, "final_date") ?>
-                                        <?php echo $form->error($quiz, 'final_date'); ?>
-                                    </div>
-                                </div> <!-- .control-group -->
+                                    <?= $form->dateField($quiz, "final_date", array('class' => 't-field-text__input')) ?>
+                                    <?php echo $form->error($quiz, 'final_date'); ?>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="row-fluid">
-                            <div class="span12">
-                                <div class="control-group">
+                        <div class="row">
+                            <div class="column">
+                                <div class="control-group hide-responsive">
                                     <?php echo $form->labelEx($quiz, 'description', array('class' => 'control-label')); ?>
-                                    <div class="controls">
-                                        <?= $form->textArea($quiz, "description", array('rows' => 5, 'cols' => 110)) ?>
-                                        <?php echo $form->error($quiz, 'description'); ?>
-                                    </div>
-                                </div> <!-- .control-group -->
-
+                                    <?= $form->textArea($quiz, "description", array('rows' => 5, 'cols' => 110)) ?>
+                                    <?php echo $form->error($quiz, 'description'); ?>
+                                </div>
+                            </div>
+                            <div class="column">
                             </div>
                         </div>
                     </div>
