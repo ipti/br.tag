@@ -892,6 +892,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="tab-pane" id="student-enrollment">
                     <div class="row">
                         <a href="#" class="t-button-primary  " id="new-enrollment-button">Adicionar Matrícula</a>
+                        <a href='<?php echo @Yii::app()->createUrl('student/transfer', array('id' => $modelStudentIdentification->id)); ?>' class="t-button-primary  " id="transfer-student">Transferir Matrícula</a>
                     </div>
                     <div class="row" id="new-enrollment-form" style="display: none;">
                         <div class="column">

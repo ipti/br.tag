@@ -66,6 +66,7 @@
  *
  * The followings are the available model relations:
  * @property StudentEnrollment[] $studentEnrollments
+ * @property StudentEnrollment $studentEnrollment
  * @property EdcensoNation $edcensoNationFk
  * @property EdcensoUf $edcensoUfFk
  * @property EdcensoCity $edcensoCityFk
@@ -143,7 +144,8 @@ class StudentIdentification extends AltActiveRecord {
             'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
             'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
             'documentsFk' => array(self::BELONGS_TO, 'StudentDocumentsAndAddress', 'id'),
-            'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'student_fk','order'=>'id DESC')
+            'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'student_fk','order'=>'id DESC'),
+            'studentEnrollment' => array(self::HAS_ONE, 'StudentEnrollment', 'student_fk','condition' => 'status = 1')
         );
     }
 

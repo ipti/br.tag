@@ -820,6 +820,8 @@ return array(
     'Update Professional' => 'Atualizar Profissional',
     'Update Management Unit' => 'Atualizar Unidade Gestora',
     
+    //Transferir
+    'Transfer Student' => 'Transferir Aluno',
     //Erros
     'already enrolled in this classroom.' =>'já matriculado na turma.',
     'already have in this student enrolled.' =>'já possui o aluno matriculado.',

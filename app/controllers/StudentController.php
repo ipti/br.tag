@@ -40,7 +40,7 @@ class StudentController extends Controller
         return array(
             array(
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'comparestudentname', 'getstudentajax', 'comparestudentcpf', 'comparestudentcivilregisterenrollmentnumber', 'comparestudentcertificate', 'create', 'update', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
+                'actions' => array('index', 'view', 'comparestudentname', 'getstudentajax', 'comparestudentcpf', 'comparestudentcivilregisterenrollmentnumber', 'comparestudentcertificate', 'create', 'update', 'transfer', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
                 'users' => array('@'),
             ),
             array(
@@ -474,6 +474,16 @@ class StudentController extends Controller
             'studentVaccinesSaves' => $studentVaccinesSaves
         ));
     }
+    //
+    public function actionTransfer($id)
+    {
+        $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
+      //  $modelStudentErol
+        $this->render('transfer', array(
+            'modelStudentIdentification' => $modelStudentIdentification,
+        ));
+    }
+    //
 
 
     /**
