@@ -26,7 +26,7 @@ $this->breadcrumbs = array(
                 </div>
                 <br />
             <?php endif ?>
-            <?php if (Yii::app()->user->hasFlash('error')): ?>
+            <?php if (Yii::app()->user->hasFlash('error')) : ?>
                 <div class="alert alert-error">
                     <?php echo Yii::app()->user->getFlash('error') ?>
                 </div>
@@ -195,6 +195,13 @@ $this->breadcrumbs = array(
                         <div class="clearfix"></div>
                     </a>
                 </div>
+                <div class="span2">
+                    <a href="#" data-toggle="modal" data-target="#quarterly-report" class="widget-stats" target="_blank">
+                        <span class="glyphicons signal"><i></i></span>
+                        <span class="txt">Relatório Trimestral</span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
             </div>
             <div class="modal fade modal-content" id="studentperclassroom" tabindex="-1" role="dialog">
                 <div class="modal-header">
@@ -203,7 +210,7 @@ $this->breadcrumbs = array(
                     </button>
                     <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
                 </div>
-                <form class="form-vertical"  action="" method="post">
+                <form class="form-vertical" action="" method="post">
                     <div class="modal-body">
                         <div class="row-fluid">
                             <div class=" span12">
@@ -229,35 +236,69 @@ $this->breadcrumbs = array(
         </div>
     </div>
 
-    <div class="modal fade modal-content" id="reportFamilyBag" tabindex="-1" role="dialog">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
-                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
-            </button>
-            <h4 class="modal-title" id="myModalLabel">Frequência Bolsa Família - Escolha a Turma</h4>
-        </div>
-        <form class="form-vertical"  action="" method="post">
-            <div class="modal-body">
-                <div class="row-fluid">
-                    <div class=" span12">
-                        <?php
-                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
-                        ?>
-                        <select name="classroom2" id="classroom2" placeholder="Selecione a turma" style="width:100%">
+    <div class="row">
+        <div class="modal fade modal-content" id="reportFamilyBag" tabindex="-1" role="dialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Frequência Bolsa Família - Escolha a Turma</h4>
+            </div>
+            <form class="form-vertical" action="" method="post">
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class=" span12">
                             <?php
-                            echo "<option value='' selected>Selecione a turma</option>";
-                            foreach ($classrooms as $classroom) {
-                                echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
-                            }
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
                             ?>
-                        </select>
+                            <select name="classroom2" id="classroom2" placeholder="Selecione a turma" style="width:100%">
+                                <?php
+                                echo "<option value='' selected>Selecione a turma</option>";
+                                foreach ($classrooms as $classroom) {
+                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                    <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('reports/BFReport'); ?>" type="button" value="Gerar" id="buildReportBF" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
-                </div>
-        </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                        <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('reports/BFReport'); ?>" type="button" value="Gerar" id="buildReportBF" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
+                    </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="modal fade modal-content" id="quarterly-report" tabindex="-1" role="dialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Relatório Trimestral - Escolha a Turma</h4>
+            </div>
+            <form class="form-vertical" action="" method="post">
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class=" span12">
+                            <?php
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
+                            ?>
+                            <select name="classroom3" id="classroom3" placeholder="Selecione a turma" style="width:100%">
+                                <?php
+                                echo "<option value='' selected>Selecione a turma</option>";
+                                foreach ($classrooms as $classroom) {
+                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                        <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('reports/BFReport'); ?>" type="button" value="Gerar" id="buildReportBF" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
+                    </div>
+            </form>
+        </div>
     </div>
 </div>
 <?php
