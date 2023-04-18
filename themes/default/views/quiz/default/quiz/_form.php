@@ -53,14 +53,19 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="widget widget-tabs border-bottom-none">
             <div class="t-tabs js-tab-control">
                 <ul class=" tab-student t-tabs__list tab-classroom">
-                    <li id="tab-quiz" class="t-tabs__item active ">
+                    <li id="tab-quiz" class="t-tabs__item active">
                         <a class="t-tabs__link" href="#quiz" data-toggle="tab">
                             <span class="t-tabs__numeration">1</span>
                             <?php echo Yii::t('default', 'Quiz') ?>
                         </a>
                     </li>
                     <?php if (!$quiz->isNewRecord) : ?>
-                        <li id="tab-question"><a class="glyphicons book" href="#question" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Question') ?></a></li>
+                        <li id="tab-question" class="t-tabs__item">
+                            <a class="t-tabs__link" href="#question" data-toggle="tab">
+                                <span class="t-tabs__numeration">2</span>
+                                <?php echo Yii::t('default', 'Question') ?>
+                            </a>
+                        </li>
                     <?php endif; ?>
                 </ul>
             </div>
@@ -75,7 +80,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->textField($quiz, 'name', array('size' => 60, 'maxlength' => 150, 'class' => 't-field-text__input',)); ?>
                                     <?php echo $form->error($quiz, 'name'); ?>
                                 </div>
-                                <div class="t-field-text" id="modality">
+                                <div class="t-field-select" id="modality">
                                     <?php echo $form->labelEx($quiz, 'status', array('class' => 'control-label t-field-text__label--required')); ?>
                                     <?php
                                     echo $form->DropDownList($quiz, 'status', array(
@@ -115,34 +120,30 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                     <?php if (!$quiz->isNewRecord) : ?>
                         <div class="tab-pane" id="question">
-                            <div class="row-fluid">
-                                <div class="span5">
-                                    <div class="control-group">
-                                        <?php echo CHtml::label('Questão', 'id', array('class' => 'control-label')); ?>
-                                        <div class="controls">
-                                            <?php
-                                            $questions = Question::model()->findAll();
-                                            echo $form->dropDownList(
-                                                $quizQuestion,
-                                                'question_id',
-                                                CHtml::listData(
-                                                    $questions,
-                                                    'id',
-                                                    'description'
-                                                ),
-                                                array("prompt" => "Selecione uma questão", 'class' => 'select-search-on')
-                                            ); ?>
-                                        </div>
+                            <div class="row">
+                                <div class="column">
+                                    <div class="t-field-select ">
+                                        <?php echo CHtml::label('Questão', 'id', array('class' => 'control-label t-field-text__label required')); ?>
+                                        <?php
+                                        $questions = Question::model()->findAll();
+                                        echo $form->dropDownList(
+                                            $quizQuestion,
+                                            'question_id',
+                                            CHtml::listData(
+                                                $questions,
+                                                'id',
+                                                'description'
+                                            ),
+                                            array("prompt" => "Selecione uma questão", 'class' => 'select-search-on t-field-select__input')
+                                        ); ?>
                                         <?php echo $form->hiddenField($quizQuestion, 'quiz_id', array('size' => 60, 'maxlength' => 45, 'value' => $quiz->id)); ?>
                                     </div> <!-- .control-group -->
                                     <div class="control-group">
-                                        <div class="controls">
-                                            <button id="save_quiz_question_button" class="btn btn-icon btn-primary last glyphicons circle_ok" type="button" name="yt0"><i></i>Salvar</button>
-                                        </div>
+                                        <button id="save_quiz_question_button" class="btn btn-icon btn-primary last glyphicons circle_ok" type="button" name="yt0"><i></i>Salvar</button>
                                     </div>
                                 </div>
 
-                                <div class="span6">
+                                <div class="column">
                                     <table class="grade-table table table-bordered table-striped">
                                         <thead>
                                             <tr>
