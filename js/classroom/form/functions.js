@@ -342,3 +342,20 @@ $(document).on("change", "#Classroom_edcenso_stage_vs_modality_fk", function () 
     });
 });
 $("#Classroom_edcenso_stage_vs_modality_fk").trigger("change");
+
+var newOrderArray = []
+$("#js-t-sortable").on("sortupdate", function(event, ui) {
+    newOrderArray = $(this).sortable("toArray");
+    console.log(newOrderArray);
+  }); 
+$(document).on("click", ".js-save-new-order", function () {
+    $.ajax({
+        url: `${window.location.host}?r=classroom/changeenrollments`,
+        type: "POST",
+        data:{
+            list: newOrderArray
+        }
+    }).success(function (response) {
+        location.reload()
+    })
+});

@@ -580,6 +580,7 @@ return array(
     'Aee Caa' => 'Ensino de uso da Comunicação Alternativa e Aumentativa (CAA)',
     'Aee Optical Nonoptical' => 'Ensino de uso de recursos ópticos e não ópticos',
     'Observation' => 'Observação',
+    'daily_order' => 'Ordem no Diário',
 
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',
@@ -912,8 +913,7 @@ return array(
     'Subtitles'=>'Legenda',
     "Beginning of the School Year" => "Início do Ano Escolar",
     "End of the School Year" => "Fim do Ano Escolar",
-
-
-
-)
+    // setflas
+    'dayli order' => 'Ordem do diario alterado com sucesso!',
+    )   
 ?>
