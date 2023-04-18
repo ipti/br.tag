@@ -120,15 +120,14 @@ $(document).on("click", ".js-new-modality", function (evt, indirectTrigger) {
             "<label class='control-label required'>Modalidade: <span>*</span></label>" +
             "<input type='text' class='modality-name form-control' modalitytype='C' placeholder='Prova, Avaliação, Trabalho, etc.' style='width: calc(100% - 222px);'>" +
             "<input type='text' class='weight form-control' placeholder='Peso'>" +
-            "<i class='remove-modality fa fa-times-circle-o button-icon-close'></i>"
-            // "<i class='remove-modality fa fa-times-circle-o'></i>" +
+            "<i class='remove-modality fa fa-times-circle-o button-icon-close'></i>"+
             '</div>';
     } else {
         unityHtml += "" +
             "<div class='modality form-group form-inline'>" +
             "<label class='control-label required'>Modalidade: <span>*</span></label>" +
             "<input type='text' class='modality-name form-control' modalitytype='C' placeholder='Prova, Avaliação, Trabalho, etc.'>" +
-            "<i class='remove-modality fa fa-times-circle-o button-icon-close'></i>"
+            "<i class='remove-modality fa fa-times-circle-o button-icon-close'></i>"+
             '</div>';
     }
 
