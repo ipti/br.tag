@@ -465,11 +465,12 @@ table.dataTable.no-footer {
 }
 
 .grades-structure-container .unity-name {
-    width: calc(100% - 125px);
+    width: calc(100% - 136px);
 }
 
 .grades-structure-container .modality-name {
-    width: calc(100% - 122px);
+    width: calc(100% - 136px);
+    /* margin: 0px 9px 0px 0px; */
 }
 
 .grades-structure-container .formula-select,
@@ -483,7 +484,8 @@ table.dataTable.no-footer {
 
 .grades-structure-container .unity label {
     /* width: 105px; */
-    width: 64px;
+    margin: 0px 10px 0px 0px;
+    width: 92px;
 }
 
 .grades-structure-container .unity-children {
@@ -711,7 +713,7 @@ li[instructor]:hover {
 }
 .button-icon-close{
     display:flex;
-    margin: 7px 26px 0px 0px;
+    margin: 7px -4px 0px 0px;
 }
 .div-input-structure-units{
     margin-right: 14px;
