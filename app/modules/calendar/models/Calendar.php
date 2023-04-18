@@ -35,12 +35,12 @@ class Calendar extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('title, start_date, end_date, available', 'school_year', 'required'),
+            array('title, start_date, end_date, available, school_year', 'required'),
             array('available', 'numerical', 'integerOnly'=>true),
             array('title', 'length', 'max' => 50),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, title, start_date, end_date, available','school_year', 'safe', 'on' => 'search'),
+            array('id, title, start_date, end_date, available, school_year', 'safe', 'on' => 'search'),
         );
     }
 
