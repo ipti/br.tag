@@ -42,14 +42,14 @@ class ReportsController extends Controller
         return true;
     }
 
-    public function actionClassCouncilReport($id)
+    public function actionClassCouncilReport()
     {
         $school_year = Yii::app()->user->school;
         $year = Yii::app()->user->year;
         $condition = '';
 
-        if (isset($_GET['id']) && $_GET['id'] != '') {
-            $condition = " AND c.id = $_GET[id] ";
+        if (isset($_POST['classroom2']) && $_POST['classroom2'] != '') {
+            $condition = " AND c.id = $_POST[classroom2] ";
             $sql = "SELECT 
                     e.name as school_name, c.name as classroom_name, c.id as classroom_id, d.cns,d.rg_number, 
                     s.*, se.status, se.create_date, ii.name, itd.*

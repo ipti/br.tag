@@ -276,7 +276,7 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Ata de Conselho de Classe - Escolha a Turma</h4>
             </div>
-            <form class="form-vertical" action="" method="post">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/ClassCouncilReport'); ?>" method="post">
                 <div class="modal-body">
                     <div class="row-fluid">
                         <div class=" span12">
@@ -295,7 +295,7 @@ $this->breadcrumbs = array(
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                        <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('reports/ClassCouncilReport'); ?>" type="button" value="Gerar" id="buildReportBF" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
+                        <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>    
                     </div>
             </form>
         </div>
