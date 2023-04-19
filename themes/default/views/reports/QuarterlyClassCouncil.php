@@ -115,13 +115,29 @@ if ($turno == 'M') {
                             $create_date =  date('d/m/y', strtotime($c['create_date']));
                             $date_cancellation = date('d/m/y', strtotime($c['date_cancellation']));
                             if ($c['status'] == 1) {
-                                echo 'Matri. ' . $create_date;
+                                if ($c['create_date'] != null) {
+                                    echo 'Matri. ' . $create_date;
+                                }else {
+                                    echo 'Matri. ____/____/______';
+                                }
                             } else if ($c['status'] == 2) {
-                                echo 'Trans. ' . $date_cancellation;
+                                if ($c['date_cancellation'] != null) {
+                                    echo 'Trans. ' . $date_cancellation;
+                                }else {
+                                    echo 'Trans. ____/____/______';
+                                }
                             } else if ($c['status'] == 3) {
-                                echo 'Cancel. ' . $date_cancellation;
+                                if ($c['date_cancellation'] != null) {
+                                    echo 'Cancel. ' . $date_cancellation;
+                                }else {
+                                    echo 'Cancel. ____/____/______';
+                                }
                             } else if ($c['status'] == 4) {
-                                echo 'Evad. ' . $date_cancellation;
+                                if ($c['date_cancellation'] != null) {
+                                    echo 'Evad. ' . $date_cancellation;
+                                }else {
+                                    echo 'Evad. ____/____/______';
+                                }
                             }
                             ?>
                         </td>
