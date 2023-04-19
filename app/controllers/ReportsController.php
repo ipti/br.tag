@@ -44,14 +44,20 @@ class ReportsController extends Controller
 
     public function actionClassCouncilReport()
     {
+        $count_days = $_POST['count_days'];
+        $mounth = $_POST['mounth'];
+        $hour = $_POST['hour'];
+        $quarterly = $_POST['quarterly'];
         $school_year = Yii::app()->user->school;
         $year = Yii::app()->user->year;
+        $year_head = $_POST['year_head'];
         $condition = '';
         if (isset($_POST['classroom2']) && $_POST['classroom2'] != '') {
             $condition = " AND c.id = $_POST[classroom2] ";
             $sql = "SELECT 
                     e.name as school_name, c.name as classroom_name, c.id as classroom_id, d.cns,d.rg_number, 
-                    s.*, se.status, se.create_date, ii.name as prof_name, ed.name as discipline
+                    s.*, se.status, se.create_date, ii.name as prof_name, ed.name as discipline,
+                    c.turn as turno
                 FROM 
                     student_enrollment as se
                     INNER JOIN classroom as c on se.classroom_fk=c.id
@@ -74,7 +80,12 @@ class ReportsController extends Controller
             $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":schoolyear", $school_year)->queryAll();
 
             $this->render('QuarterlyClassCouncil', array(
-                "classroom" => $classrooms
+                "classroom" => $classrooms,
+                "count_days" => $count_days,
+                "mounth" => $mounth,
+                "hour" => $hour,
+                "quarterly" => $quarterly,
+                "year_head" => $year_head
             ));
         }
         Yii::app()->user->setFlash('error', Yii::t('default', 'Selecione ao menos uma opção'));

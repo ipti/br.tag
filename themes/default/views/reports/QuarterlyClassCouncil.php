@@ -6,14 +6,25 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/QuartelyClassCouncil/_initialization.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
+
+$turno =  $classroom[0]['turno'];
+if ($turno == 'M') {
+    $turno = "Matutino";
+}else if ($turno == 'T') {
+    $turno = "Tarde";
+}else if ($turno == 'N') {
+    $turno = "Noite";
+}
 ?>
 <div class="pageA4H page" style="height: auto;">
     <div class="cabecalho" style="margin: 30px 0;">
         <?php $this->renderPartial('headBuzios'); ?>
     </div>
     <h3><?php echo Yii::t('default', 'Quarterly Class Council Report'); ?> EDUCAÇÃO INFANTIL - TRIMESTRAL</h3>
-    <p style="font-size: 19px;">Aos 13 dias do mês de Maio de 2023 às 8:30hs, realizou-se a reunião de Conselho de Classe referente ao 1º Trimestre,
-        Creche - IV da Educação Infantil, turma RAPOSA, do turno Matutino, presidido por _________________________________________
+    <p style="font-size: 19px;">Aos <?php echo $count_days?> dias do mês de <?php echo $mounth?> de 
+    <?php echo $year_head?> às <?php echo $hour?>hs, realizou-se a 
+    reunião de Conselho de Classe referente ao <?php echo $quarterly?> Trimestre,
+        <?php echo $classroom[0]['school_name']?>, na turma <?php echo $classroom[0]['classroom_name']?>, do turno <?php echo $turno?>, presidido por _________________________________________
         desta Unidade Escolar</p>
 
     <div class="container-box global-analysis">
