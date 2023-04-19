@@ -74,22 +74,22 @@ if ($turno == 'M') {
     </div>
     <div class="container-box individual-aspects">
         <p>1.5 Aspectos individuais</p>
-        <table class="students-list-table">
+        <table class="students-list-table" aria-labelledby="Students List">
             <thead style="height: 150px;">
                 <tr>
-                    <th rowspan="2">Nº</th>
-                    <th rowspan="2">NOME DO ALUNO</th>
-                    <th class="vertical-head" rowspan="2">PCD</th>
-                    <th class="vertical-head" rowspan="2">INFREQ.</th>
-                    <th colspan="2">Área Cognitiva (AS)</th>
-                    <th colspan="2">Área Socioafetiva (AS)</th>
-                    <th rowspan="2">Observações</th>
+                    <th rowspan="2" scope="col">Nº</th>
+                    <th rowspan="2" scope="col">NOME DO ALUNO</th>
+                    <th class="vertical-head" rowspan="2" scope="col">PCD</th>
+                    <th class="vertical-head" rowspan="2" scope="col">INFREQ.</th>
+                    <th colspan="2" scope="col">Área Cognitiva (AS)</th>
+                    <th colspan="2" scope="col">Área Socioafetiva (AS)</th>
+                    <th rowspan="2" scope="col">Observações</th>
                 </tr>
                 <tr>
-                    <th><span class="vertical-head">Destaque</span></th>
-                    <th><span class="vertical-head">Dificuldade</span></th>
-                    <th><span class="vertical-head">Destaque</span></th>
-                    <th><span class="vertical-head">Dificuldade</span></th>
+                    <th><span class="vertical-head" scope="col">Destaque</span></th>
+                    <th><span class="vertical-head" scope="col">Dificuldade</span></th>
+                    <th><span class="vertical-head" scope="col">Destaque</span></th>
+                    <th><span class="vertical-head" scope="col">Dificuldade</span></th>
                 </tr>
             </thead>
             <tbody>
@@ -112,9 +112,9 @@ if ($turno == 'M') {
                                 echo 'Matri. ' . $create_date;
                             } else if ($c['status'] == 2) {
                                 echo 'Trans. ' . $create_date;
-                            } else if ($c['status'] == 2) {
+                            } else if ($c['status'] == 3) {
                                 echo 'Cancel. ' . $create_date;
-                            } else if ($c['status'] == 2) {
+                            } else if ($c['status'] == 4) {
                                 echo 'Evad. ' . $create_date;
                             }
                             ?>
@@ -191,12 +191,12 @@ if ($turno == 'M') {
         <div class="container-box">
             <p>Nada mais havendo a declarar, lavramos a presente Ata</p>
         </div>
-        <table class="instructors-list-table">
+        <table class="instructors-list-table"  aria-labelledby="Instructors List">
             <thead>
                 <tr>
-                    <th>Disciplina</th>
-                    <th>Nome do Professor</th>
-                    <th style="width: 40%;">Assinatura</th>
+                    <th scope="col">Disciplina</th>
+                    <th scope="col">Nome do Professor</th>
+                    <th scope="col" style="width: 40%;">Assinatura</th>
                 </tr>
             </thead>
             <tbody>
