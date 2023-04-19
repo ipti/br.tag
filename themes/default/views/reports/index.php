@@ -297,8 +297,8 @@ $this->breadcrumbs = array(
                                 <input type="number" name="count_days" placeholder="Digite o número de dias" style="width: 65%;" min="1" max="99" required>
                                 <label for="hour" class="control-label" style="width: 30%;">Horário das reuniões</label>
                                 <input type="time" id="hour" name="hour" min="00:00" max="23:59" style="width: 30%;" required>
-                                <label for="year_head" class="control-label" style="width: 30%;">Ano das reuniões</label>
-                                <select name="year_head" id="year_head" placeholder="Selecione o ano" style="width:100%" required>
+                                <label for="year" class="control-label" style="width: 30%;">Ano das reuniões</label>
+                                <select name="year" id="year" placeholder="Selecione o ano" style="width:100%" required>
                                     <?php
                                     $years = range(date('Y'), 2014);
                                     echo "<option value='' selected>Selecione o ano</option>";

@@ -48,9 +48,8 @@ class ReportsController extends Controller
         $mounth = $_POST['mounth'];
         $hour = $_POST['hour'];
         $quarterly = $_POST['quarterly'];
-        $school_year = Yii::app()->user->school;
-        $year = Yii::app()->user->year;
-        $year_head = $_POST['year_head'];
+        $school_inep_id = Yii::app()->user->school;
+        $year = $_POST['year'];
         $condition = '';
         if (isset($_POST['classroom2']) && $_POST['classroom2'] != '') {
             $condition = " AND c.id = $_POST[classroom2] ";
@@ -69,14 +68,14 @@ class ReportsController extends Controller
                     INNER JOIN edcenso_discipline as ed on cm.discipline_fk = ed.id 
                     INNER JOIN instructor_identification as ii on itd.instructor_fk = ii.id
                     INNER JOIN edcenso_stage_vs_modality as esvm on c.edcenso_stage_vs_modality_fk = esvm.id 
-                WHERE 
-                    c.school_year = :year AND 
-                    c.school_inep_fk = :schoolyear
+                WHERE
+                    c.school_year = :year AND
+                    c.school_inep_fk = :school_inep_id
                     $condition
                 GROUP BY c.id, s.register_type, s.inep_id, s.id
                 ORDER BY c.id";
 
-            $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":schoolyear", $school_year)->queryAll();
+            $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":school_inep_id", $school_inep_id)->queryAll();
 
             $this->render('QuarterlyClassCouncil', array(
                 "classroom" => $classrooms,
@@ -84,7 +83,7 @@ class ReportsController extends Controller
                 "mounth" => $mounth,
                 "hour" => $hour,
                 "quarterly" => $quarterly,
-                "year_head" => $year_head
+                "year" => $year
             ));
         }
         Yii::app()->user->setFlash('error', Yii::t('default', 'Selecione ao menos uma opção'));
