@@ -108,14 +108,15 @@ if ($turno == 'M') {
                         <td style="text-align: center;">
                             <?php
                             $create_date =  date('d/m/y', strtotime($c['create_date']));
+                            $date_cancellation = date('d/m/y', strtotime($c['date_cancellation']));
                             if ($c['status'] == 1) {
                                 echo 'Matri. ' . $create_date;
                             } else if ($c['status'] == 2) {
-                                echo 'Trans. ' . $create_date;
+                                echo 'Trans. ' . $date_cancellation;
                             } else if ($c['status'] == 3) {
-                                echo 'Cancel. ' . $create_date;
+                                echo 'Cancel. ' . $date_cancellation;
                             } else if ($c['status'] == 4) {
-                                echo 'Evad. ' . $create_date;
+                                echo 'Evad. ' . $date_cancellation;
                             }
                             ?>
                         </td>

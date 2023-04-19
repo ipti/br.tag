@@ -54,10 +54,10 @@ class ReportsController extends Controller
         if (isset($_POST['classroom2']) && $_POST['classroom2'] != '') {
             $condition = " AND c.id = $_POST[classroom2] ";
             $sql = "SELECT 
-                    e.name as school_name, c.name as classroom_name, c.id as classroom_id, 
+                    e.name as school_name, c.name as classroom_name, c.id as classroom_id,
                     s.*, se.status, se.create_date, ii.name as prof_name, ed.name as discipline,
-                    c.turn as turno, esvm.name as class_stage
-                FROM 
+                    c.turn as turno, esvm.name as class_stage, se.date_cancellation_enrollment as date_cancellation
+                FROM
                     student_enrollment as se
                     INNER JOIN classroom as c on se.classroom_fk=c.id
                     INNER JOIN student_identification as s on s.id=se.student_fk
