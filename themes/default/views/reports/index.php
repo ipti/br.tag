@@ -293,7 +293,7 @@ $this->breadcrumbs = array(
                                     }
                                     ?>
                                 </select>
-                                <label for="count_days" class="control-label" style="width: 65%;">Quantidade de dias de reunião de Conselho de Classe</label>
+                                <label for="count_days" class="control-label" style="width: 65%;">Quantidade de dias de reunião de conselho de classe</label>
                                 <input type="number" name="count_days" placeholder="Digite o número de dias" style="width: 65%;" min="1" max="99" required>
                                 <label for="hour" class="control-label" style="width: 30%;">Horário das reuniões</label>
                                 <input type="time" id="hour" name="hour" min="00:00" max="23:59" style="width: 30%;" required>
