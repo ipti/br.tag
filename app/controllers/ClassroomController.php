@@ -602,12 +602,16 @@ class ClassroomController extends Controller
                     $enro = StudentEnrollment::model()->findByPk($enrollment);
                     $enro->classroom_fk = $class_room->id;
                     $enro->classroom_inep_id = $class_room->inep_id;
-                    $enro->update(array('classroom_fk', 'classroom_inep_id'));
+                    $enro->status = 2;
+                    $enro->create_date = date('Y-m-d');
+                    $enro->update(array('classroom_fk', 'classroom_inep_id', 'status', 'create_date'));
                 }
             } else {
                 foreach ($enrollments as $enrollment) {
                     $enro = StudentEnrollment::model()->findByPk($enrollment);
-                    $enro->delete();
+                    $enro->status = 3;
+                    $enro->date_cancellation_enrollment = date('Y-m-d');
+                    $enro->update(array('status', 'date_cancellation_enrollment'));
                 }
             }
             $this->redirect(array('index'));
