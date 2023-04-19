@@ -28,10 +28,11 @@
                 <div class="widget-body">
                     <?php
                     $this->widget('zii.widgets.grid.CGridView', array(
-                        'dataProvider' => $filter->search(),
-                        'filter' => $filter,
+                        // 'dataProvider' => $filter->search(),
+                        'dataProvider' => $dataProvider,
+                        // 'filter' => $filter,
                         'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                        'enablePagination' => true,
+                        'enablePagination' => false,
                         'columns' => array(
                             array(
                                 'name' => 'id',

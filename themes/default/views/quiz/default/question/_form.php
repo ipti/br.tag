@@ -55,7 +55,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <?php if (!$question->isNewRecord &&  in_array($question->type, $question->getEnableOption())) : ?>
                     <li id="tab-option" class="t-tabs__item">
                         <a class="t-tabs__link" href="#option" data-toggle="tab">
-                            <span class="t-tabs__numeration">2</span>    
+                            <span class="t-tabs__numeration">2</span>
                             <?php echo Yii::t('default', 'Option') ?>
                         </a>
                     </li>
@@ -67,13 +67,13 @@ $form = $this->beginWidget('CActiveForm', array(
             <div class="tab-content">
                 <div class="tab-pane active" id="question">
                     <div class="row">
-                        <div class=" column">
+                        <div class="column">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($question, 'description', array('class' => 'control-label t-field-text__label--required')); ?>
-                                <?php echo $form->textField($question, 'description', array('size' => 60, 'maxlength' => 255, 'class'=>'t-field-text__input')); ?>
+                                <?php echo $form->textField($question, 'description', array('size' => 60, 'maxlength' => 255, 'class' => 't-field-text__input')); ?>
                                 <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Question Description'); ?>"><i></i></span> -->
                                 <?php echo $form->error($question, 'description'); ?>
-                            </div> 
+                            </div>
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($question, 'type', array('class' => 'control-label t-field-text__label--required')); ?>
                                 <?php
@@ -111,36 +111,29 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="tab-pane" id="option">
                         <div class="row">
                             <div class="column">
-                                <div class="control-group">
-                                    <?php echo $form->labelEx($option, 'description', array('class' => 'control-label')); ?>
-                                        <?php echo $form->textField($option, 'description', array('size' => 60, 'maxlength' => 255)); ?>
-                                        <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Option Description'); ?>"><i></i></span>
-                                        <?php echo $form->error($option, 'description'); ?>
-                                </div> <!-- .control-group -->
-                                <div class="control-group">
-                                    <?php echo $form->labelEx($option, 'answer', array('class' => 'control-label')); ?>
-                                    <div class="controls">
-                                        <?php echo $form->textField($option, 'answer', array('size' => 60, 'maxlength' => 255)); ?>
-                                        <?php echo $form->error($option, 'answer'); ?>
-                                    </div>
+                                <div class="t-field-text">
+                                    <?php echo $form->labelEx($option, 'description', array('class' => 't-field-text__label--required')); ?>
+                                    <?php echo $form->textField($option, 'description', array('size' => 60, 'maxlength' => 255,  'class' => 't-field-text__input')); ?>
+                                    <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Option Description'); ?>"><i></i></span> -->
+                                    <?php echo $form->error($option, 'description'); ?>
+                                </div>
+                                <div class="t-field-text">
+                                    <?php echo $form->labelEx($option, 'answer', array('class' => 't-field-text__label--required')); ?>
+                                    <?php echo $form->textField($option, 'answer', array('size' => 60, 'maxlength' => 255, 'class' => 't-field-text__input')); ?>
+                                    <?php echo $form->error($option, 'answer'); ?>
                                     <?php echo $form->hiddenField($option, 'question_id', array('size' => 60, 'maxlength' => 45, 'value' => $question->id)); ?>
                                     <?php echo $form->hiddenField($option, 'id', array('size' => 60, 'maxlength' => 45, 'value' => $option->id)); ?>
                                 </div> <!-- .control-group -->
-                                <div class="control-group">
-                                    <?php echo $form->labelEx($option, 'complement', array('class' => 'control-label')); ?>
-                                    <div class="controls">
-                                        <?php echo $form->checkBox($option, 'complement', array('size' => 60, 'maxlength' => 150)); ?>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->labelEx($option, 'complement', array('class' => 't-field-text__label')); ?>
+                                        <?php echo $form->checkBox($option, 'complement', array('size' => 60, 'maxlength' => 150, 'class' =>'t-field-checkbox__input')); ?>
                                         <?php echo $form->error($option, 'complement'); ?>
-                                    </div>
                                 </div> <!-- .control-group -->
                                 <div class="control-group">
-                                    <div class="controls">
                                         <button id="save_option_button" class="btn btn-icon btn-primary last glyphicons circle_ok" type="button" name="yt0"><i></i>Salvar</button>
-                                    </div>
                                 </div>
                             </div>
-
-                            <div class="span6">
+                            <div class="column">
                                 <table class="grade-table table table-bordered table-striped">
                                     <thead>
                                         <tr>
