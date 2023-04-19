@@ -195,6 +195,7 @@ $this->breadcrumbs = array(
                         <div class="clearfix"></div>
                     </a>
                 </div>
+                <?php if(INSTANCE == "BUZIOS" || INSTANCE == "LOCALHOST") {?>
                 <div class="span2">
                     <a href="#" data-toggle="modal" data-target="#quarterly-class-council" class="widget-stats" target="_blank">
                         <div><span class="glyphicons signal"><i></i></span></div>
@@ -202,6 +203,7 @@ $this->breadcrumbs = array(
                         <div class="clearfix"></div>
                     </a>
                 </div>
+                <?php }?>
             </div>
             <div class="modal fade modal-content" id="studentperclassroom" tabindex="-1" role="dialog">
                 <div class="modal-header">
