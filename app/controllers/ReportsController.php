@@ -55,9 +55,9 @@ class ReportsController extends Controller
         if (isset($_POST['classroom2']) && $_POST['classroom2'] != '') {
             $condition = " AND c.id = $_POST[classroom2] ";
             $sql = "SELECT 
-                    e.name as school_name, c.name as classroom_name, c.id as classroom_id, d.cns,d.rg_number, 
+                    e.name as school_name, c.name as classroom_name, c.id as classroom_id, 
                     s.*, se.status, se.create_date, ii.name as prof_name, ed.name as discipline,
-                    c.turn as turno
+                    c.turn as turno, esvm.name as class_stage
                 FROM 
                     student_enrollment as se
                     INNER JOIN classroom as c on se.classroom_fk=c.id
@@ -68,13 +68,12 @@ class ReportsController extends Controller
                     INNER JOIN curricular_matrix as cm on tm.curricular_matrix_fk = cm.id 
                     INNER JOIN edcenso_discipline as ed on cm.discipline_fk = ed.id 
                     INNER JOIN instructor_identification as ii on itd.instructor_fk = ii.id
-                    LEFT JOIN student_documents_and_address as d on s.id = d.student_fk
-
+                    INNER JOIN edcenso_stage_vs_modality as esvm on c.edcenso_stage_vs_modality_fk = esvm.id 
                 WHERE 
                     c.school_year = :year AND 
                     c.school_inep_fk = :schoolyear
                     $condition
-                GROUP BY c.id, s.register_type, s.inep_id, s.id, d.cns
+                GROUP BY c.id, s.register_type, s.inep_id, s.id
                 ORDER BY c.id";
 
             $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":schoolyear", $school_year)->queryAll();
