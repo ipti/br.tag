@@ -72,7 +72,6 @@ class ReportsController extends Controller
                     c.school_year = :year AND
                     c.school_inep_fk = :school_inep_id
                     $condition
-                GROUP BY c.id, s.register_type, s.inep_id, s.id
                 ORDER BY c.id";
 
             $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":school_inep_id", $school_inep_id)->queryAll();

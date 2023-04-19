@@ -95,7 +95,10 @@ if ($turno == 'M') {
             <tbody>
                 <?php
                 $count_std = 1;
-                foreach ($classroom as $c) { ?>
+                $array_students = [];
+                foreach ($classroom as $c) { 
+                    if(!in_array($c['name'] ,$array_students)) {
+                ?>
                     <tr>
                         <td style="text-align: center;"><?= "0" . $count_std ?></td>
                         <td><?= $c['name'] ?></td>
@@ -123,6 +126,8 @@ if ($turno == 'M') {
                     </tr>
                 <?php
                     $count_std++;
+                    }
+                    array_push($array_students, $c['name']);
                 }
                 ?>
             </tbody>
@@ -201,13 +206,22 @@ if ($turno == 'M') {
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($classroom as $c) { ?>
+                <?php
+                $prof_name = '';
+                $discipline = '';
+                foreach ($classroom as $c) {
+                    if($prof_name != $c['prof_name'] || $discipline != $c['discipline'] ) {
+                ?>
                     <tr>
                         <td><?= $c['discipline'] ?></td>
                         <td><?= $c['prof_name'] ?></td>
                         <td></td>
                     </tr>
-                <?php } ?>
+                <?php
+                    }
+                    $prof_name = $c['prof_name'];
+                    $discipline = $c['discipline'];
+                } ?>
             </tbody>
         </table>
         <div class="container-box signatures-container">
