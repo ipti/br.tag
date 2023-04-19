@@ -86,10 +86,10 @@ if ($turno == 'M') {
                     <th rowspan="2" scope="col">Observações</th>
                 </tr>
                 <tr>
-                    <th><span class="vertical-head" scope="col">Destaque</span></th>
-                    <th><span class="vertical-head" scope="col">Dificuldade</span></th>
-                    <th><span class="vertical-head" scope="col">Destaque</span></th>
-                    <th><span class="vertical-head" scope="col">Dificuldade</span></th>
+                    <th scope="col"><span class="vertical-head">Destaque</span></th>
+                    <th scope="col"><span class="vertical-head">Dificuldade</span></th>
+                    <th scope="col"><span class="vertical-head">Destaque</span></th>
+                    <th scope="col"><span class="vertical-head">Dificuldade</span></th>
                 </tr>
             </thead>
             <tbody>
