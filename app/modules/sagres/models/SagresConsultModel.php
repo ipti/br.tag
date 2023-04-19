@@ -206,7 +206,8 @@ class SagresConsultModel
                         student_enrollment se 
                 WHERE 
                         se.classroom_fk  =  :classId 
-                ORDER BY se.create_date DESC";
+                ORDER BY 
+                        se.create_date DESC";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
@@ -255,10 +256,9 @@ class SagresConsultModel
                     join instructor_documents_and_address idaa ON idaa.school_inep_id_fk = si.inep_id 
                     join curricular_matrix cm ON cm.discipline_fk = ed.id 
                 WHERE 
-                    s.classroom_fk = :classId and 
-                    s.month = :referenceMonth
-                GROUP BY 
-                    week_day";
+                    s.classroom_fk = :classId
+                ORDER BY 
+                    C.create_date DESC";
 
         $params = [
             ':classId' => $classId
