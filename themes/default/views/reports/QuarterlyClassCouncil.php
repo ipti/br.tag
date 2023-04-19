@@ -7,9 +7,10 @@ $cs->registerScriptFile($baseUrl . '/js/reports/QuartelyClassCouncil/_initializa
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
-
-<div class="pageA4H" style="height: auto;">
-    <?php $this->renderPartial('headBuzios'); ?>
+<div class="pageA4H page" style="height: auto;">
+    <div class="cabecalho" style="margin: 30px 0;">
+        <?php $this->renderPartial('headBuzios'); ?>
+    </div>
     <h3><?php echo Yii::t('default', 'Quarterly Class Council Report'); ?> EDUCAÇÃO INFANTIL - TRIMESTRAL</h3>
     <p style="font-size: 19px;">Aos 13 dias do mês de Maio de 2023 às 8:30hs, realizou-se a reunião de Conselho de Classe referente ao 1º Trimestre,
         Creche - IV da Educação Infantil, turma RAPOSA, do turno Matutino, presidido por _________________________________________
@@ -95,7 +96,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         <td></td>
                         <td style="text-align: center;">
                             <?php
-                            $create_date =  date('d-m-Y', strtotime($c['create_date']));
+                            $create_date =  date('d/m/y', strtotime($c['create_date']));
                             if ($c['status'] == 1) {
                                 echo 'Matri. ' . $create_date;
                             } else if ($c['status'] == 2) {
@@ -184,21 +185,61 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 <tr>
                     <th>Disciplina</th>
                     <th>Nome do Professor</th>
-                    <th>Assinatura</th>
+                    <th style="width: 40%;">Assinatura</th>
                 </tr>
             </thead>
             <tbody>
-                <?php
-                foreach ($classroom as $c) {
-                    // @todo fazer a tabela de professores
-                }
-                ?>
+                <?php foreach ($classroom as $c) { ?>
+                    <tr>
+                        <td><?= $c['discipline'] ?></td>
+                        <td><?= $c['prof_name'] ?></td>
+                        <td></td>
+                    </tr>
+                <?php } ?>
             </tbody>
         </table>
+        <div class="container-box signatures-container">
+            <p>
+                <span>_______________________________________</span>
+                <span>_______________________________________</span>
+                <span>_______________________________________</span>
+            </p>
+            <p>
+                <span>Prof. Supervisor (a) Escolar</span>
+                <span>Prof. Orientador (a) Educacional </span>
+                <span>Prof. Inspetor (a) Escolar</span>
+            </p>
+            <p style="margin-top: 50px;">
+                <span>_______________________________________</span>
+            </p>
+            <p>
+                <span>Direção</span>
+            </p>
+        </div>
     </div>
 </div>
 
 <style>
+    .signatures-container {
+        margin-top: 80px !important;
+        width: 96%;
+    }
+
+    .signatures-container p {
+        margin: 10px 0px;
+        width: 100%;
+        align-items: center;
+        display: flex;
+    }
+
+    .signatures-container p span {
+        margin: 0px 50px;
+        width: 100%;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+
     .global-analysis p:not(p:first-child) {
         margin: 10px 0;
     }
@@ -226,13 +267,13 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         vertical-align: inherit !important;
     }
 
-    .students-list-table {
-        width: 100%;
+    table {
+        width: 96%;
         margin-top: 10px;
     }
 
     table th,
     table td {
-        border: 1px solid #C0C0C0;
+        border: 2px solid #C0C0C0;
     }
 </style>

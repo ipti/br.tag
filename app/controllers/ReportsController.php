@@ -47,18 +47,20 @@ class ReportsController extends Controller
         $school_year = Yii::app()->user->school;
         $year = Yii::app()->user->year;
         $condition = '';
-
         if (isset($_POST['classroom2']) && $_POST['classroom2'] != '') {
             $condition = " AND c.id = $_POST[classroom2] ";
             $sql = "SELECT 
                     e.name as school_name, c.name as classroom_name, c.id as classroom_id, d.cns,d.rg_number, 
-                    s.*, se.status, se.create_date, ii.name, itd.*
+                    s.*, se.status, se.create_date, ii.name as prof_name, ed.name as discipline
                 FROM 
                     student_enrollment as se
                     INNER JOIN classroom as c on se.classroom_fk=c.id
                     INNER JOIN student_identification as s on s.id=se.student_fk
                     INNER JOIN school_identification as e on c.school_inep_fk = e.inep_id
                     INNER JOIN instructor_teaching_data as itd on c.id = itd.classroom_id_fk
+                    INNER JOIN teaching_matrixes as tm on itd.id = tm.teaching_data_fk 
+                    INNER JOIN curricular_matrix as cm on tm.curricular_matrix_fk = cm.id 
+                    INNER JOIN edcenso_discipline as ed on cm.discipline_fk = ed.id 
                     INNER JOIN instructor_identification as ii on itd.instructor_fk = ii.id
                     LEFT JOIN student_documents_and_address as d on s.id = d.student_fk
 

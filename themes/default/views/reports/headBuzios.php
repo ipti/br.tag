@@ -16,7 +16,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         echo '<img id="logo" src="data:'.$school->logo_file_type.';base64,'.base64_encode($school->logo_file_content).'">';
     };
     ?>
-    <ul id="info">
+    <ul id="info" style="margin: 30px 0;">
         <h4>PREFEITURA MUNICIPAL DE ARMAÇÃO DOS BÚZIOS</h4>
         <h5>Secretaria Municipal de Educação, Ciência e Tecnologia</h5>
         <h5>Coordenação da Unidade Escolar</h5>
