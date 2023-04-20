@@ -44,21 +44,58 @@ class ReportsController extends Controller
 
     public function actionQuarterlyReport()
     {
-        if(isset($_POST['student']) && isset($_POST['classroom_student'])) {
+        if(isset($_POST['student']) && isset($_POST['classroom_student']) && isset($_POST['model_quartely'])) {
             $student_id = $_POST['student'];
             $classroom_id = $_POST['classroom_student'];
+            $model = $_POST['model_quartely'];
             $student_identification = StudentIdentification::model()->findByPk($student_id);
             $student_enrollment = StudentEnrollment::model()->findByAttributes(array('student_fk' => $student_id));
             $classroom = Classroom::model()->findByPk($classroom_id);
             $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             $current_year = Yii::app()->user->year;
-            $this->render('QuarterlyReport', array(
-                "student_identification" => $student_identification,
-                "student_enrollment" => $student_enrollment,
-                "classroom" => $classroom,
-                "school" => $school,
-                 "current_year" => $current_year
-            ));
+
+            // Modelos de Relatório Trimestral
+            if ($model == 1) { // 1º ANO
+                $this->render('QuarterlyReportFirstYear', array(
+                    "student_identification" => $student_identification,
+                    "student_enrollment" => $student_enrollment,
+                    "classroom" => $classroom,
+                    "school" => $school,
+                     "current_year" => $current_year
+                ));
+            }else if ($model == 2) { // 2º ANO
+                $this->render('QuarterlyReportSecondYear', array(
+                    "student_identification" => $student_identification,
+                    "student_enrollment" => $student_enrollment,
+                    "classroom" => $classroom,
+                    "school" => $school,
+                     "current_year" => $current_year
+                ));
+            }else if ($model == 3) { // 3º ANO
+                $this->render('QuarterlyReportThreeYear', array(
+                    "student_identification" => $student_identification,
+                    "student_enrollment" => $student_enrollment,
+                    "classroom" => $classroom,
+                    "school" => $school,
+                     "current_year" => $current_year
+                ));
+            }else if ($model == 4) { // CRECHE II
+                $this->render('QuarterlyReportNurseryr', array(
+                    "student_identification" => $student_identification,
+                    "student_enrollment" => $student_enrollment,
+                    "classroom" => $classroom,
+                    "school" => $school,
+                     "current_year" => $current_year
+                ));
+            }else if ($model == 5) { // PRÉ 1
+                $this->render('QuarterlyReportPre', array(
+                    "student_identification" => $student_identification,
+                    "student_enrollment" => $student_enrollment,
+                    "classroom" => $classroom,
+                    "school" => $school,
+                     "current_year" => $current_year
+                ));
+            }
         }
         Yii::app()->user->setFlash('error', Yii::t('default', 'Selecione ao menos uma opção'));
         return $this->redirect(array('index'));

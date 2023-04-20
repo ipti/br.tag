@@ -15,14 +15,8 @@ if ($turno == 'M') {
 } else if ($turno == 'N') {
     $turno = "Noite";
 } else if ($turno == '' || $turno == null) {
-    $turno = "___________";
+    $turno = "______________________";
 }
-
-$primeiro_ano = strpos($classroom->name, '1º ANO');
-$segundo_ano = strpos($classroom->name, '2º ANO');
-$terceiro_ano = strpos($classroom->name, '3º ANO');
-$creche = strpos($classroom->name, 'CRECHE');
-$pre = strpos($classroom->name, 'PRE');
 
 ?>
 <div class="pageA4H page" style="height: auto;">

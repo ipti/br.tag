@@ -388,6 +388,15 @@ $this->breadcrumbs = array(
                                 <select name="classroom_student" id="classroom_student" style="width: 100%;" required>
                                     <option value="">Selecione a Turma</option>
                                 </select>
+                                <label for="model_quartely" class="control-label"></label>
+                                <select name="model_quartely" id="model_quartely" style="width: 100%;" required>
+                                    <option value="">Selecione o modelo de relatório</option>
+                                    <option value="1">1º ANO</option>
+                                    <option value="2">2º ANO</option>
+                                    <option value="3">3º ANO</option>
+                                    <option value="4">CRECHE II</option>
+                                    <option value="5">PRÉ I</option>
+                                </select>
                                 </div>
                             </div>
                         </div>
