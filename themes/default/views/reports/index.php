@@ -4,6 +4,7 @@
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/css/reports.css');
+$cs->registerScriptFile($baseUrl . '/js/reports/index/functions.js', CClientScript::POS_END);
 
 $this->pageTitle = 'TAG - ' . Yii::t('default', 'Reports');
 $this->breadcrumbs = array(
@@ -204,6 +205,15 @@ $this->breadcrumbs = array(
                     </a>
                 </div>
                 <?php }?>
+                <?php if(INSTANCE == "BUZIOS" || INSTANCE == "TREINAMENTO" || INSTANCE == "LOCALHOST") {?>
+                <div class="span2">
+                    <a href="#" data-toggle="modal" data-target="#quarterly-report" class="widget-stats" target="_blank">
+                        <div><span class="glyphicons signal"><i></i></span></div>
+                        <span class="report-title">Relatório Trimestral do Aluno</span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
+                <?php }?>
             </div>
             <div class="modal fade modal-content" id="studentperclassroom" tabindex="-1" role="dialog">
                 <div class="modal-header">
@@ -331,6 +341,54 @@ $this->breadcrumbs = array(
                                     <option value="3º">3º Trimestre</option>
                                     <option value="4º">4º Trimestre</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                            <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;">Gerar</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="modal fade modal-content" id="quarterly-report" tabindex="-1" role="dialog">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Relatório Trimestral Individual - Escolha o Aluno</h4>
+                </div>
+                <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/QuarterlyReport'); ?>" method="post">
+                    <div class="modal-body">
+                        <div class="row-fluid">
+                            <div class=" span12">
+                                <?php 
+                                echo CHtml::label(yii::t('default', 'Student Fk'), 'year', array('class' => 'control-label'));
+                                ?>
+                                <select name="student" id="student" placeholder="Selecione o aluno" style="width:100%" required>
+                                    <?php
+                                    echo "<option value='' selected>Selecione o aluno</option>";
+                                    foreach ($students as $student) {
+                                        echo "<option value='" . $student->id . "'>" . $student->name . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                                <div class="classroom-student-error" style="display:none;color:#D21C1C;margin-left:5px;font-size:12px;">
+                                    <span>O aluno não está matriculado em nenhuma turma nesse ano.
+                                    </span>
+                                    <a href="#" data-toggle="modal" data-target="#change-year" target="_blank" data-dismiss="modal">
+                                        Clique aqui para mudar o ano.
+                                    </a>
+                                </div>
+                                <div class="classroom-student-container" style="display: none;">
+                                <?php 
+                                echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
+                                ?>
+                                <select name="classroom_student" id="classroom_student" style="width: 100%;" required>
+                                    <option value="">Selecione a Turma</option>
+                                </select>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">

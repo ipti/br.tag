@@ -22,7 +22,7 @@ class ReportsController extends Controller
                     'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
                     'StudentInstructorNumbersRelationReport', 'StudentPendingDocument',
                     'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood',
-                    'ClassCouncilReport'),
+                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -40,6 +40,38 @@ class ReportsController extends Controller
         $this->year = Yii::app()->user->year;
 
         return true;
+    }
+
+    public function actionQuarterlyReport()
+    {
+        if(isset($_POST['student']) && isset($_POST['classroom_student'])) {
+            $student_id = $_POST['student'];
+            $classroom_id = $_POST['classroom_student'];
+            $student_identification = StudentIdentification::model()->findByPk($student_id);
+            $student_enrollment = StudentEnrollment::model()->findByAttributes(array('student_fk' => $student_id));
+            $classroom = Classroom::model()->findByPk($classroom_id);
+            $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+            $current_year = Yii::app()->user->year;
+            $this->render('QuarterlyReport', array(
+                "student_identification" => $student_identification,
+                "student_enrollment" => $student_enrollment,
+                "classroom" => $classroom,
+                "school" => $school,
+                 "current_year" => $current_year
+            ));
+        }
+        Yii::app()->user->setFlash('error', Yii::t('default', 'Selecione ao menos uma opção'));
+        return $this->redirect(array('index'));
+    }
+
+    public function actionGetStudentClassrooms()
+    {
+        $student_id = $_POST['student_id'];
+        $student_enrollment = StudentEnrollment::model()->findByAttributes(array('student_fk' => $student_id));
+        $classrooms = Classroom::model()->findAllByAttributes(array('id' => $student_enrollment->classroom_fk, 'school_year' => Yii::app()->user->year));
+        foreach ($classrooms as $class) {
+            echo "<option value='".$class->id."'>".$class->name."</option>";
+        }
     }
 
     public function actionClassCouncilReport()
@@ -821,7 +853,12 @@ class ReportsController extends Controller
             'order' => 'name'
         ));
 
-        $this->render('index', ['classrooms' => $classrooms]);
+        $students = StudentIdentification::model()->findAll(array(
+            'condition' => 'school_inep_id_fk = ' . Yii::app()->user->school . ' && send_year = ' . Yii::app()->user->year,
+            'order' => 'name'
+        ));
+
+        $this->render('index', ['classrooms' => $classrooms, 'students' => $students]);
     }
 
     public function actionElectronicDiary()
