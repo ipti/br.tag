@@ -214,7 +214,8 @@ class StudentEnrollment extends AltActiveRecord
             'aee_caa' => Yii::t('default', 'Aee Caa'),
             'aee_optical_nonoptical' => Yii::t('default', 'Aee Optical Nonoptical'),
             'observation' => Yii::t('default', 'Observation'),
-            'daily_order' => Yii::t('default', 'daily_order')
+            'daily_order' => Yii::t('default', 'daily_order'),
+            'school-identifications' => Yii::t('default', 'School Identifications'),
 
         );
     }

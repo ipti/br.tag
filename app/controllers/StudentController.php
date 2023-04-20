@@ -40,7 +40,7 @@ class StudentController extends Controller
         return array(
             array(
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'comparestudentname', 'getstudentajax', 'comparestudentcpf', 'comparestudentcivilregisterenrollmentnumber', 'comparestudentcertificate', 'create', 'update', 'transfer', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
+                'actions' => array('index', 'view', 'comparestudentname', 'getstudentajax','getclassrooms', 'comparestudentcpf', 'comparestudentcivilregisterenrollmentnumber', 'comparestudentcertificate', 'create', 'update', 'transfer', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
                 'users' => array('@'),
             ),
             array(
@@ -478,10 +478,23 @@ class StudentController extends Controller
     public function actionTransfer($id)
     {
         $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
+        $modelEnrollment = new StudentEnrollment;
       //  $modelStudentErol
         $this->render('transfer', array(
             'modelStudentIdentification' => $modelStudentIdentification,
+            'modelEnrollment' => $modelEnrollment
         ));
+    }
+    public function actionGetClassrooms() {
+        $school_inep_id = $_POST["inep_id"];
+        $school = SchoolIdentification::model()->findByPk($school_inep_id);
+        $classrooms = $school->classrooms;
+        foreach ($classrooms as $class) {
+            if ($class->school_year == Yii::app()->user->year) {
+                echo "<option value='".$class->id."'>".$class->name."</option>";
+            }
+         
+        }
     }
     //
 
