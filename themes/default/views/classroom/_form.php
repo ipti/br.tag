@@ -609,12 +609,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane" id="daily">
-                    <?php
-                        $enrollments = $modelClassroom->studentEnrollments;
-                        $col = array_column( $enrollments, "daily_order" );
-                        array_multisort( $col, SORT_ASC, $enrollments );
-                    ?>
+                <div class="tab-pane" id="daily">                    
                     <ul id="js-t-sortable" class="t-sortable">
                         <?php
                             if (isset($enrollments)) {

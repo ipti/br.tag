@@ -794,6 +794,7 @@ return array(
     'Out Of Town Students' => 'Alunos fora da cidade',
     'Professional Identifications' => 'Profissionais',
     'Configurarion' => 'Configurações',
+    'Quarterly Class Council Report' => 'ATA DE CONSELHO DE CLASSE',
     
     //Relatórios
     'Result Board' => 'Quadro de Rendimento',

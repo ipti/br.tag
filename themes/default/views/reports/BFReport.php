@@ -40,7 +40,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
                             $html .= "<tr>"
                                 . "<td class='center'>"
-                                . $monthName
+                                . Yii::t('default', $monthName)
                                 . "</td>"
                                 . "<td class='center' >"
                                 . $classes
