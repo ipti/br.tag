@@ -63,7 +63,7 @@ if ($turno == 'M') {
             <!-- 1º ANO -->
             <div class="first-year-container">
                 <!-- PAGINA 1 -->
-                <h4><u>OBJETIVOS DE APRENDIZAGEM - LÍNGUA PORTUGUESA - 1º ANO</u></h3>
+                <h4><u>OBJETIVOS DE APRENDIZAGEM - LÍNGUA PORTUGUESA - 2º ANO</u></h3>
                     <table>
                         <thead>
                             <tr>
@@ -87,25 +87,31 @@ if ($turno == 'M') {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>3. Relaciona elementos sonoros (sílabas, fonemas, parte de palavras) com sua representação escrita.</td>
+                                <td>3. Compara palavras, identificando semelhanças e diferenças entre sons de sílabas iniciais, mediais e finais.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>4. Realiza análise fonológica de palavras, segmentando-as oralmente em unidades menores (partes de palavras e/ou sílabas), identificando rimas e aliterações.</td>
+                                <td>4. Conhece, diferencia e relaciona letras em formato impressa e cursiva, maiúsculas e minúsculas.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>5. Conhece e faz uso das grafias de palavras, de modo a escrever ortograficamente.</td>
+                                <td>5. Realiza análise fonológica de palavras, segmentando-as oralmente em unidades menores (partes de palavras e/ou sílabas), identificando rimas e aliterações.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>6. Compreende e faz uso das convenções gráficas: orientação, alinhamento e segmentação.</td>
+                                <td>6. Conhece e faz uso das grafias de palavras, de modo a escrever ortograficamente.</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>7. Compreende e faz uso das convenções gráficas: orientação, alinhamento e segmentação.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -123,19 +129,25 @@ if ($turno == 'M') {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>7. Lê e compreende, com certa autonomia, textos de gêneros variados, desenvolvendo o gosto pela leitura.</td>
+                                <td>8. Lê e compreende, com certa autonomia, textos de gêneros variados, desenvolvendo o gosto pela leitura.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>8. Localiza informações explícitas em textos de diferentes gêneros, temáticas, lidos pelo professor ou outro leitor experiente.</td>
+                                <td>9. Localiza informações explícitas em textos de diferentes gêneros, temáticas, lidos com autonomia.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>9. Compreende textos de diferentes gêneros lidos pelo professor ou outro leitor experiente, considerando a situação comunicativa e o tema/assunto do texto.</td>
+                                <td>10. Compreende textos de diferentes gêneros lidos pelo professor ou outro leitor experiente, considerando a situação comunicativa e o tema/assunto do texto.</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>11. Reconhece finalidades de textos lidos e apreende os assuntos tratados neles.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -153,7 +165,13 @@ if ($turno == 'M') {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>10. Planeja e participa de interações orais em sala de aula, questionando, sugerindo, argumentando e respeitando os turnos de fala.</td>
+                                <td>12. Reconta oralmente histórias com sequência lógica.</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>13. Planeja e participa de interações orais em sala de aula, questionando, sugerindo, argumentando e respeitando os turnos de fala.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -171,13 +189,13 @@ if ($turno == 'M') {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>11. Escreve, espontaneamente ou por ditado, palavras e frases de forma alfabética – usando letras/grafemas que representem fonemas.</td>
+                                <td>14. Escreve, espontaneamente ou por ditado (e autoditado), palavras e frases de forma alfabética – usando letras/grafemas que representem fonemas.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>12. Planeja e produz textos de diferentes gêneros para atender diferentes finalidades.</td>
+                                <td>15. Planeja e produz textos de diferentes gêneros para atender diferentes finalidades.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -191,7 +209,7 @@ if ($turno == 'M') {
                 <span style="margin-right: 10px;margin-left: 40%">Turma: <?php echo $classroom->name ?></span>
                 <span class="pull-right" style="margin-right: 10px;">Ano letivo: <?php echo $current_year ?></span>
             </div>
-            <h4><u>OBJETIVOS DE APRENDIZAGEM - HISTÓRIA - 1º ANO</u></h3>
+            <h4><u>OBJETIVOS DE APRENDIZAGEM - HISTÓRIA - 2º ANO</u></h3>
                 <table>
                     <thead>
                         <tr>
@@ -215,13 +233,19 @@ if ($turno == 'M') {
                             <td></td>
                         </tr>
                         <tr>
-                            <td>3. Identifica e organiza, temporalmente, fatos da vida cotidiana, usando noções relacionadas ao antes, durante, ao mesmo tempo e depois.</td>
+                            <td>3. Identifica os grupos populacionais que formam a cidade, o município e a região (em especial culturas africanas, indígenas e de migrantes) as relações estabelecidas entre eles e os eventos que marcam a formação da cidade, como fenômenos migratórios (vida rural e urbana), desmatamentos, estabelecimentos de grandes empresas, etc.</td>
                             <td></td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td>4. Utiliza diferentes instrumentos de organização e contagem do tempo das pessoas (calendários, relógios, agendas, quadro de horários).</td>
+                            <td>4. Identifica e organiza, temporalmente, fatos da vida cotidiana, usando noções relacionadas ao antes, durante, ao mesmo tempo e depois.</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>5. Utiliza diferentes instrumentos de organização e contagem do tempo das pessoas (calendários, relógios, agendas, quadro de horários).</td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -239,20 +263,26 @@ if ($turno == 'M') {
                     </thead>
                     <tbody>
                         <tr>
-                            <td>5. Identifica as fases da vida, a partir de registros relacionados à memória e histórias pessoais ou de lembranças dos membros da família e/ou de sua comunidade.</td>
+                            <td>6. Identifica as diferenças entre os variados ambientes em que vive (doméstico, escolar e da comunidade), reconhecendo as especificidades dos hábitos e das regras que os regem.</td>
                             <td></td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td>6. Identifica as diferenças entre os variados ambientes em que vive (doméstico, escolar e da comunidade), reconhecendo as especificidades dos hábitos e das regras que os regem.</td>
+                            <td>7. Percebe como transformações ocorridas na cidade e no campo, no passado, interferem nos modos de vida de seus habitantes no presente.</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>8. Identifica e compara diferentes formas de trabalho na comunidade em que vive e os impactos causados no ambiente.</td>
                             <td></td>
                             <td></td>
                             <td></td>
                         </tr>
                     </tbody>
                 </table>
-                <h4 style="margin-top: 10px;"><u>OBJETIVOS DE APRENDIZAGEM - GEOGRAFIA - 1º ANO</u></h3>
+                <h4 style="margin-top: 10px;"><u>OBJETIVOS DE APRENDIZAGEM - GEOGRAFIA - 2º ANO</u></h3>
                     <table>
                         <thead>
                             <tr>
@@ -276,13 +306,19 @@ if ($turno == 'M') {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>3. Identifica em seu cotidiano, elementos geográficos e suas mudanças ao longo do tempo, associando mudança de vestiário e de hábitos alimentares em sua comunidade ao longo do ano, decorrentes da variação de temperatura e umidade do ambiente.</td>
+                                <td>3. Conhece a formação natural, cultural e histórica e identifica as principais características geográficas do município onde estão situados lugares e grupos de sua vivência.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>4. Reconhece e identifica historicamente e atualmente a existência e importância dos grupos quilombola e indígena na identidade e cultura locais.</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>5. Identifica, em seu cotidiano, elementos geográficos e suas mudanças ao longo do tempo, associando mudança de vestiário e hábitos alimentares em sua comunidade ao longo do ano, decorrentes da variação de temperatura e umidade no ambiente.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -300,19 +336,13 @@ if ($turno == 'M') {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>5. Descreve atividades de trabalho relacionadas com o dia a dia da sua comunidade.</td>
+                                <td>6. Descreve atividades de trabalho relacionadas com o dia a dia da sua comunidade.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>6. Relaciona o dia e a noite a diferentes tipos de atividades sociais (horário escolar, comercial, sono, etc.).</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>7. Descreve e compara diferentes tipos de moradia ou objetos de uso cotidiano (brinquedos, roupas, mobiliários), considerando técnicas e materiais utilizados em sua produção.</td>
+                                <td>7. Relaciona o dia e a noite a diferentes tipos de atividades sociais (horário escolar, comercial, sono, de trabalho, etc).</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -336,13 +366,13 @@ if ($turno == 'M') {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>9. Respeita e promove regras de convívio social e ambiental, exercitando cuidados com o outro, com os espaços coletivos e os patrimônios culturais.</td>
+                                <td>9. Respeita e promove regras de convívio social e ambiental, exercitando cuidados com o outro, com os espaços coletivos.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr>
-                                <td>10. Investiga os usos dos recursos naturais, com destaque para os usos da água em atividades cotidianas (alimentação, higiene, cultivo de plantas, etc.) e discute os problemas ambientais provocados por esse uso.</td>
+                                <td>10. Investiga os usos dos recursos naturais, com destaque para os usos da água em atividades cotidianas (alimentação, higiene, cultivo de plantas etc.), e discute os problemas ambientais provocados por esses usos.</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -365,6 +395,12 @@ if ($turno == 'M') {
                                 <td></td>
                                 <td></td>
                             </tr>
+                            <tr>
+                                <td>12. Identifica objetos e lugares de vivência (escola e moradia) em imagens aéreas e mapas (visão vertical) e fotografias (visão oblíqua).</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                         </tbody>
                     </table>
                     <!-- PAGINA 3 -->
@@ -373,7 +409,7 @@ if ($turno == 'M') {
                         <span style="margin-right: 10px;margin-left: 40%">Turma: <?php echo $classroom->name ?></span>
                         <span class="pull-right" style="margin-right: 10px;">Ano letivo: <?php echo $current_year ?></span>
                     </div>
-                    <h4><u>OBJETIVOS DE APRENDIZAGEM - MATEMÁTICA - 1º ANO</u></h3>
+                    <h4><u>OBJETIVOS DE APRENDIZAGEM - MATEMÁTICA - 2º ANO</u></h3>
                         <table>
                             <thead>
                                 <tr>
@@ -391,19 +427,19 @@ if ($turno == 'M') {
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td>2. Utiliza diferentes estratégias para quantificar e comunicar quantidades.</td>
+                                    <td>2. Associa a denominação de números à sua representação simbólica (do registro com algarismos ao registro com a Língua Materna e vice-versa).</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td>3. Relaciona o número falado e escrito à quantidade que ele representa, realizando a sua representação simbólica até a ordem da centena (100).</td>
+                                    <td>3. Identifica relações em dúzia e meia dúzia, dezena e meia dezena, centena e meia centena.</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td>4. Percebe o significado das operações de adição (juntar e acrescentar) e subtração (retirar).</td>
+                                    <td>4. Realiza agrupamentos de base decimal: unidades, dezenas e centenas.</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -427,13 +463,19 @@ if ($turno == 'M') {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>6. Explicita e/ou representa informalmente a localização de pessoas e objetos, oralmente e por meio de desenhos, segundo sua própria posição ou de um ponto de referência.</td>
+                                    <td>6. Identifica e descreve a localização e a movimentação de pessoas e objetos no espaço, identificando mudanças de direções e sentidos, considerando pontos de referência.</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td>7. Reconhece, nomeia e compara figuras planas e espaciais por meio de características comuns, mesmo que apresentadas em diferentes posições, relacionando-as com os objetos do mundo físico.</td>
+                                    <td>7. Descreve a localização de pessoas e de objetos no espaço em relação à sua própria posição, utilizando termos como à direita, à esquerda, em frente, atrás.</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>8. Reconhece, nomeia e compara figuras planas e espaciais por meio de características comuns, mesmo que apresentadas em diferentes posições.</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -451,19 +493,19 @@ if ($turno == 'M') {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>8. Compara comprimentos, capacidades ou massas, utilizando termos como mais alto, mais baixo, mais comprido, mais curto, mais grosso, mais fino, mais largo, mais pesado, mais leve, cabe mais, cabe menos, entre outros, para ordenar objetos de uso cotidiano.</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
                                     <td>9. Identifica e ordena períodos do dia, dias da semana, meses do ano, datas e relações entre esses períodos utilizando diferentes instrumentos de medida de tempo.</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td>10. Reconhece e nomeia moedas e cédulas do Sistema Monetário Brasileiro, comparando seus valores.</td>
+                                    <td>10. Lê horas (hora e meia hora) comparando relógios digitais e analógicos.</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>11. Estabelece equivalência de valores entre moedas e cédulas do Sistema Monetário Brasileiro para resolver situações cotidianas.</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -481,13 +523,13 @@ if ($turno == 'M') {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>11. Lê, interpreta e transpõe informações simples em diferentes configurações (tipo: anúncios, gráficos, tabelas e propagandas).</td>
+                                    <td>12. Lê, interpreta e transpõe informações simples em diferentes configurações (tipo: anúncios, gráficos, tabelas e propagandas).</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td>12. Resolve problemas cujos dados estão apresentados em tabelas e gráficos de barras ou de colunas.</td>
+                                    <td>13. Resolve problemas cujos dados estão apresentados em tabelas e gráficos de barras ou de colunas.</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -505,14 +547,20 @@ if ($turno == 'M') {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>13. Descreve um padrão (ou regularidade) de sequências repetitivas, por meio de palavras, símbolos ou desenhos.</td>
+                                    <td>14. Descreve um padrão (ou regularidade) de sequências repetitivas, por meio de palavras, símbolos ou desenhos.</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>15. Constrói sequências de números naturais em ordem crescente ou decrescente a partir de um número qualquer, utilizando uma regularidade estabelecida.</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
                             </tbody>
                         </table>
-                        <h4 style="margin-top: 10px;"><u>OBJETIVOS DE APRENDIZAGEM - CIÊNCIAS - 1º ANO</u></h3>
+                        <h4 style="margin-top: 10px;"><u>OBJETIVOS DE APRENDIZAGEM - CIÊNCIAS - 2º ANO</u></h3>
                             <table>
                                 <thead>
                                     <tr>
@@ -524,19 +572,25 @@ if ($turno == 'M') {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>1. Lê textos simples de divulgação científica, formulando perguntas e levantando suposições sobre curiosidades da ciência e da tecnologia.</td>
+                                        <td>1. Participa de situações em que os conceitos e procedimentos científicos são mobilizados para tomar decisões acerca de situações sociais e atuais relevantes, como reaproveitamento de materiais e alimentos.</td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td>2. Reconhece e identifica com diferentes ambientes os recursos naturais disponíveis e o uso que se faz deles.</td>
+                                        <td>2. Percebe o impacto da ciência e da tecnologia na vida das pessoas, comunicando oralmente ou por meio de registro gráfico.</td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td>3. Interpreta imagens e elabora textos escritos sobre o ambiente e os recursos naturais</td>
+                                        <td>3. Lê textos simples de divulgação científica, formulando perguntas e levantando suposições sobre curiosidades da ciência e da tecnologia.</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4. Interpreta imagens e elabora textos escritos sobre o ambiente e os recursos naturais.</td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -554,13 +608,7 @@ if ($turno == 'M') {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>4. Compreende que os seres humanos se desenvolvem ao longo da vida, passando por fases com características próprias, identificando e descrevendo algumas transformações do corpo.</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>5. Reconhece e compreende a alimentação saudável e a higiene pessoal como elementos fundamentais para o crescimento e desenvolvimento satisfatório do corpo.</td>
+                                        <td>5. Compreende que os seres humanos se desenvolvem ao longo da vida, passando por fases com características próprias, identificando e descrevendo algumas transformações do corpo.</td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -572,7 +620,31 @@ if ($turno == 'M') {
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td>7. Utiliza quadros ou tabelas para sistematizar resultados de um levantamento de dados.</td>
+                                        <td>7. Questiona hábitos alimentares e atividades físicas, relacionando-os à saúde.</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style="width: 70%;"><u>Eixo: Terra e Universo</u></th>
+                                        <th><u>1º tri</u></th>
+                                        <th><u>2º tri</u></th>
+                                        <th><u>3º tri</u></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>8. Identiﬁca e nomeia diferentes escalas de tempo: os períodos diários (manhã, tarde, noite) e a sucessão de dias, semanas, meses e anos.</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>9. Utiliza quadros ou tabelas para sistematizar resultados de um levantamento de dados.</td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -747,6 +819,7 @@ if ($turno == 'M') {
         display: flex;
         justify-content: center;
     }
+
     .container-box {
         font-size: 16px;
         margin: 40px 0;
