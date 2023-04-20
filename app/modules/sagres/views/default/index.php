@@ -51,9 +51,9 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 	</div>
 	<div class="row">
 		<div class="column">
-			<a href="?r=sagres/default/create" class="widget-stats">
+			<a href="?r=sagres/default/createorupdate" class="widget-stats">
 				<div><i class="fa fa-building-o fa-4x"></i></div>
-				<span class="txt">Cadastrar Unidade</span>
+				<span class="txt">Cadastrar ou Editar Unidade</span>
 				<div class="clearfix"></div>
 			</a>
 		</div>
@@ -62,14 +62,6 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 			<a href="?r=sagres/default/export" id="exportLink" class="widget-stats">
 				<span class="glyphicons file_export"><i></i></span>
 				<span class="txt">Exportar sagres</span>
-				<div class="clearfix"></div>
-			</a>
-		</div>
-		<div class="column">
-			<a href="<?php echo Yii::app()->createUrl('sagres/default/update', array('id' => 1)) ?>"
-				href="?r=sagres/default/update&id=2" class="widget-stats">
-				<div><i class="fa fa-edit fa-4x"></i></div>
-				<span class="txt">Editar Unidade</span>
 				<div class="clearfix"></div>
 			</a>
 		</div>
