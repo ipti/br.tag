@@ -8,48 +8,24 @@ class DefaultController extends Controller
 		$this->render('index');
 	}
 
-	public function actionCreate()
+	public function actionCreateOrUpdate($id)
 	{
-
-		$model = ProvisionAccounts::model()->findByPk(1);
-
-		if ($model) {
-			Yii::app()->user->setFlash('error', Yii::t('default', 'Unidade gestora já está cadastrada!'));
-			$this->redirect(array('index', 'cod_unidade_gestora' => $model->cod_unidade_gestora));
-		}
-
-		$model = new ProvisionAccounts;
-
-		if (isset($_POST['ProvisionAccounts'])) {
-			$model->attributes = $_POST['ProvisionAccounts'];
-			if ($model->validate() && $model->save()) {
-				Yii::app()->user->setFlash('success', Yii::t('default', 'Unidade cadastrada com sucesso!'));
-				$this->redirect(array('index', 'cod_unidade_gestora' => $model->cod_unidade_gestora));
+		if ($id) {
+			$model = ProvisionAccounts::model()->findByPk($id);
+			if (!$model) {
+				Yii::app()->user->setFlash('error', Yii::t('default', 'Unidade gestora solicitada não existe!'));
+				$this->redirect(array('index'));
 			}
-		}
-
-		$this->render(
-			'create',
-			array(
-				'model' => $model,
-			)
-		);
-	}
-
-	public function actionUpdate($id)
-	{
-		$model = ProvisionAccounts::model()->findByPk($id);
-
-		if (!$model) {
-			Yii::app()->user->setFlash('error', Yii::t('default', 'Unidade gestora solicitada não existe!'));
-			$this->redirect(array('index'));
+		} else {
+			$model = new ProvisionAccounts;
 		}
 
 		if (isset($_POST['ProvisionAccounts'])) {
 			$model->attributes = $_POST['ProvisionAccounts'];
 
 			if ($model->validate() && $model->save()) {
-				Yii::app()->user->setFlash('success', Yii::t('default', 'Unidade atualizada com sucesso!'));
+				$msg = $id ? 'atualizada' : 'criada';
+				Yii::app()->user->setFlash('success', Yii::t('default', 'Unidade ' . $msg . ' com sucesso!'));
 				$this->redirect(array('index', 'cod_unidade_gestora' => $model->cod_unidade_gestora));
 			}
 		}
@@ -62,12 +38,13 @@ class DefaultController extends Controller
 		);
 	}
 
+
 	public function actionExport($managementUnitId, $year, $data_inicio, $data_final)
 	{
 		try {
 			$sagres = new SagresConsultModel;
 			$sagresEduXML = $sagres->generatesSagresEduXML($sagres->getSagresEdu($managementUnitId, $year, $data_inicio, $data_final));
-			echo $sagres->actionExportSagresXML($sagresEduXML); 
+			echo $sagres->actionExportSagresXML($sagresEduXML);
 		} catch (Exception $e) {
 			Yii::app()->user->setFlash('error', Yii::t('default', $e->getMessage()));
 		}
