@@ -442,6 +442,7 @@ class ClassroomController extends Controller {
             $_POST['Classroom']["complementary_activity_type_6"] = isset($compActs[5]) ? $compActs[5] : null;
 
             $modelClassroom->attributes = $_POST['Classroom'];
+            $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
 
             $this->setDisciplines($modelClassroom, $disciplines);
 
@@ -535,6 +536,23 @@ class ClassroomController extends Controller {
             'options_stage'=>$options_stage
         ));
     }
+
+    private  function defineAssistanceType($classroom){
+        $is_aee = $classroom['aee'];
+        $is_complementary_activity = $classroom['complementary_activity'];
+        $is_schooling = $classroom['schooling'];
+
+        if(isset($is_aee) && $is_aee){
+            return 5;
+        }
+        if(isset($is_complementary_activity) && $is_complementary_activity){
+            return 4;
+        }
+        if(isset($is_schooling) && $is_schooling){
+            return 0;
+        }
+    }
+
     public function actionBatchupdatetransport($id) {
 
         //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
@@ -636,6 +654,7 @@ class ClassroomController extends Controller {
             $_POST['Classroom']["complementary_activity_type_6"] = isset($compActs[5]) ? $compActs[5] : null;
 
             $modelClassroom->attributes = $_POST['Classroom'];
+            $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
 
             $this->setDisciplines($modelClassroom, $disciplines);
 
