@@ -21,12 +21,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <h5>Secretaria Municipal de Educação, Ciência e Tecnologia</h5>
         <h5>Coordenação da Unidade Escolar</h5>
         <h5><?php echo $school->name ?></h5>
-        <!-- <?php if(isset($school->act_of_acknowledgement)&&(!empty($school->act_of_acknowledgement))){?>
-            <li><?php echo $school->name ?></li>
-        <?php }else{?>
-            <li>PREFEITURA MUNICIPAL DE <?php echo $school->edcensoCityFk->name ?></li>
-            <li><?php echo $school->name ?></li>
-        <?php }?> -->
     </ul>
     <span class="clear"></span>
 </div>
