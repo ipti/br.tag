@@ -30,16 +30,22 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 	<div class="row">
 		<div class="column no-grow">
 			<div>
-				<h5>Data Inicial</h5>
-				<input id="data-inicio" style="border-color: #e5e5e5;" type="date" name="data_inicio"
-					placeholder="DD/MM/AAAA">
-			</div>
-		</div>
-		<div class="column no-grow">
-			<div>
-				<h5>Data Final</h5>
-				<input id="data-final" style="border-color: #e5e5e5;" type="date" name="Data_final"
-					placeholder="DD/MM/AAAA">
+				<h5>Mês</h5>
+				<select id="mes" style="border-color: #e5e5e5;" name="mes">
+					<option value="">Selecione um mês</option>
+					<option value="01">Janeiro</option>
+					<option value="02">Fevereiro</option>
+					<option value="03">Março</option>
+					<option value="04">Abril</option>
+					<option value="05">Maio</option>
+					<option value="06">Junho</option>
+					<option value="07">Julho</option>
+					<option value="08">Agosto</option>
+					<option value="09">Setembro</option>
+					<option value="10">Outubro</option>
+					<option value="11">Novembro</option>
+					<option value="12">Dezembro</option>
+				</select>
 			</div>
 		</div>
 	</div>
@@ -80,39 +86,48 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
 <script>
-	// Selecione os elementos de input de data
-	const dataInicioInput = document.querySelector('input[name="data_inicio"]');
-	const dataFinalInput = document.querySelector('input[name="Data_final"]');
+	let selectedValue;
+	const selectElement = document.getElementById("mes");
+	selectElement.addEventListener("change", (event) => {
+		selectedValue = event.target.value;
+		const { startDate, endDate } = getDatesFromMonth(selectedValue);
+		console.log(startDate, endDate); 
 
-	// Adicione um ouvinte de eventos para o evento de clique no link
+		const year = new Date().getFullYear();
+		const exportLink = document.getElementById('exportLink');
+		const newHref = `?r=sagres/default/export&managementUnitId=${1}&year=${year}&data_inicio=${startDate}&data_final=${endDate}`;
+		exportLink.setAttribute('href', newHref);
+	});
+
+	function getDatesFromMonth(monthValue) {
+		const year = new Date().getFullYear();
+		const month = parseInt(monthValue, 10);
+		const startDate = new Date(year, month - 1, 1);
+		const endDate = new Date(year, month, 0);
+		return {
+			startDate: startDate.toISOString().slice(0, 10),
+			endDate: endDate.toISOString().slice(0, 10),
+		};
+	}
+
+	function downloadFile(url, filename) {
+		const link = document.createElement('a');
+		link.href = url;
+		link.download = filename;
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+	}
+
 	document.getElementById('exportLink').addEventListener('click', function (e) {
-		$(".alert-error-export").hide();
-		$(".alert-error-export").empty();
-		// Previna o comportamento padrão do link
 		e.preventDefault();
-
-		// Obtenha o valor das datas de início e fim
-		const dataInicio = dataInicioInput.value;
-		const dataFinal = dataFinalInput.value;
-
-		if(dataInicio == '' || dataFinal == '') {
-			$(".alert-error-export").append('Preencha os campos de data inicial e data final');
-			$(".alert-error-export").show();
+		const exportLink = document.getElementById('exportLink');
+		const href = exportLink.getAttribute('href');
+		if (!href) {
+			console.error('O link de exportação não foi definido');
 			return;
 		}
-
-		// Obtenha o ano de início
-		const data = new Date(dataInicio);
-		data.setUTCHours(0, 0, 0, 0); // Define as horas, minutos, segundos e milissegundos como zero
-		const yearInicio = data.getUTCFullYear();
-
-		// Atualize o atributo "href" com as datas selecionadas
-		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&managementUnitId=${1}&year=${yearInicio}&data_inicio=${dataInicio}&data_final=${dataFinal}`;
-		exportLink.setAttribute('href', newHref);
-
-		// Chame a função downloadFile para gerar e baixar o arquivo
-		downloadFile(newHref, 'Educacao.xml');
+		downloadFile(href, 'Educacao.xml');
 	});
 
 	function downloadFile(url, filename) {
@@ -121,7 +136,7 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 		$.get(url, function (data) {
 			const zip = new JSZip();
 			zip.file(filename, data);
-			zip.generateAsync({type:"blob"}).then(function(blob) {
+			zip.generateAsync({ type: "blob" }).then(function (blob) {
 				var url = URL.createObjectURL(blob);
 				var link = document.createElement('a');
 				link.href = url;
@@ -129,19 +144,19 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 				link.click();
 				URL.revokeObjectURL(url);
 			})
-			.catch(function(err) {
-				console.error(err);
-				$(".alert-error-export").append('Erro ao criar o arquivo zip');
+				.catch(function (err) {
+					console.error(err);
+					$(".alert-error-export").append('Erro ao criar o arquivo zip');
+					$(".alert-error-export").show();
+				});
+		})
+			.fail(function () {
+				$(".alert-error-export").append('Erro ao realizar o download do arquivo');
 				$(".alert-error-export").show();
+			})
+			.always(function () {
+				location.reload();
 			});
-		})
-		.fail(function () {
-			$(".alert-error-export").append('Erro ao realizar o download do arquivo');
-			$(".alert-error-export").show();
-		})
-		.always(function() {
-			location.reload();
-		}); 
 	}
 
 </script>
