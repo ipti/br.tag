@@ -32,16 +32,16 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 			<div>
 				<h5>Mês</h5>
 				<select id="mes" style="border-color: #e5e5e5;" name="mes">
-					<option value="">Selecione um mês</option>
-					<option value="01">Janeiro</option>
-					<option value="02">Fevereiro</option>
-					<option value="03">Março</option>
-					<option value="04">Abril</option>
-					<option value="05">Maio</option>
-					<option value="06">Junho</option>
-					<option value="07">Julho</option>
-					<option value="08">Agosto</option>
-					<option value="09">Setembro</option>
+					<option value="0">Selecione um mês</option>
+					<option value="1">Janeiro</option>
+					<option value="2">Fevereiro</option>
+					<option value="3">Março</option>
+					<option value="4">Abril</option>
+					<option value="5">Maio</option>
+					<option value="6">Junho</option>
+					<option value="7">Julho</option>
+					<option value="8">Agosto</option>
+					<option value="9">Setembro</option>
 					<option value="10">Outubro</option>
 					<option value="11">Novembro</option>
 					<option value="12">Dezembro</option>
@@ -90,8 +90,8 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 	const selectElement = document.getElementById("mes");
 	selectElement.addEventListener("change", (event) => {
 		selectedValue = event.target.value;
+		
 		const { startDate, endDate } = getDatesFromMonth(selectedValue);
-		console.log(startDate, endDate); 
 
 		const year = new Date().getFullYear();
 		const exportLink = document.getElementById('exportLink');
@@ -127,6 +127,12 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 			console.error('O link de exportação não foi definido');
 			return;
 		}
+		if (!selectedValue) {
+			$(".alert-error-export").append("Você precisa selecionar um mês antes de exportar os dados.");
+			$(".alert-error-export").show();
+			return;
+		}
+
 		downloadFile(href, 'Educacao.xml');
 	});
 
@@ -151,7 +157,7 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 				});
 		})
 			.fail(function () {
-				$(".alert-error-export").append('Erro ao realizar o download do arquivo');
+				$(".alert-error-export").append('Erro ao realizar o download do arquivo ');
 				$(".alert-error-export").show();
 			})
 			.always(function () {
