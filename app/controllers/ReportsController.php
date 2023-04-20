@@ -51,6 +51,7 @@ class ReportsController extends Controller
             $student_identification = StudentIdentification::model()->findByPk($student_id);
             $student_enrollment = StudentEnrollment::model()->findByAttributes(array('student_fk' => $student_id));
             $classroom = Classroom::model()->findByPk($classroom_id);
+            $classroom_etapa = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_modality_fk);
             $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             $current_year = Yii::app()->user->year;
 
@@ -79,11 +80,12 @@ class ReportsController extends Controller
                     "school" => $school,
                      "current_year" => $current_year
                 ));
-            }else if ($model == 4) { // CRECHE II
+            }else if ($model == 4) { // CRECHE
                 $this->render('QuarterlyReportNurseryr', array(
                     "student_identification" => $student_identification,
                     "student_enrollment" => $student_enrollment,
                     "classroom" => $classroom,
+                    "classroom_etapa" => $classroom_etapa,
                     "school" => $school,
                      "current_year" => $current_year
                 ));
