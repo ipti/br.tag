@@ -321,6 +321,7 @@ class StudentController extends Controller
                                 $modelEnrollment->attributes = $_POST[$this->STUDENT_ENROLLMENT];
                                 $modelEnrollment->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
                                 $modelEnrollment->student_fk = $modelStudentIdentification->id;
+                                $modelEnrollment->create_date = date('Y-m-d');
                                 $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
                                 $saved = false;
                                 if ($modelEnrollment->validate()) {
@@ -422,6 +423,7 @@ class StudentController extends Controller
                             $modelEnrollment->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
                             $modelEnrollment->student_fk = $modelStudentIdentification->id;
                             $modelEnrollment->student_inep_id = $modelStudentIdentification->inep_id;
+                            $modelEnrollment->create_date = date('Y-m-d');
                             $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
                             $saved = false;
 

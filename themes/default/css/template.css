@@ -9062,7 +9062,7 @@ tbody .details-control:hover {
 #header-report #logo {
     float: left;
     height: 100px;
-    width: 100px;
+    width: auto;
     margin-right: 10px;
     background-position: left;
     background-size: 100px 100px;

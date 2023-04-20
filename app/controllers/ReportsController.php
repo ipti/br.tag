@@ -21,7 +21,8 @@ class ReportsController extends Controller
                     'ComplementarActivityAssistantByClassroomReport', 'EducationalAssistantPerClassroomReport',
                     'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
                     'StudentInstructorNumbersRelationReport', 'StudentPendingDocument',
-                    'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood'),
+                    'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood',
+                    'ClassCouncilReport'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -39,6 +40,53 @@ class ReportsController extends Controller
         $this->year = Yii::app()->user->year;
 
         return true;
+    }
+
+    public function actionClassCouncilReport()
+    {
+        $count_days = $_POST['count_days'];
+        $mounth = $_POST['mounth'];
+        $hour = $_POST['hour'];
+        $quarterly = $_POST['quarterly'];
+        $school_inep_id = Yii::app()->user->school;
+        $year = $_POST['year'];
+        $condition = '';
+        if (isset($_POST['classroom2']) && $_POST['classroom2'] != '') {
+            $condition = " AND c.id = $_POST[classroom2] ";
+            $sql = "SELECT 
+                    e.name as school_name, c.name as classroom_name, c.id as classroom_id,
+                    s.*, se.status, se.create_date, ii.name as prof_name, ed.name as discipline,
+                    c.turn as turno, esvm.name as class_stage, se.date_cancellation_enrollment as date_cancellation
+                FROM
+                    student_enrollment as se
+                    INNER JOIN classroom as c on se.classroom_fk=c.id
+                    INNER JOIN student_identification as s on s.id=se.student_fk
+                    INNER JOIN school_identification as e on c.school_inep_fk = e.inep_id
+                    INNER JOIN instructor_teaching_data as itd on c.id = itd.classroom_id_fk
+                    INNER JOIN teaching_matrixes as tm on itd.id = tm.teaching_data_fk 
+                    INNER JOIN curricular_matrix as cm on tm.curricular_matrix_fk = cm.id 
+                    INNER JOIN edcenso_discipline as ed on cm.discipline_fk = ed.id 
+                    INNER JOIN instructor_identification as ii on itd.instructor_fk = ii.id
+                    INNER JOIN edcenso_stage_vs_modality as esvm on c.edcenso_stage_vs_modality_fk = esvm.id 
+                WHERE
+                    c.school_year = :year AND
+                    c.school_inep_fk = :school_inep_id
+                    $condition
+                ORDER BY c.id";
+
+            $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":school_inep_id", $school_inep_id)->queryAll();
+
+            $this->render('QuarterlyClassCouncil', array(
+                "classroom" => $classrooms,
+                "count_days" => $count_days,
+                "mounth" => $mounth,
+                "hour" => $hour,
+                "quarterly" => $quarterly,
+                "year" => $year
+            ));
+        }
+        Yii::app()->user->setFlash('error', Yii::t('default', 'Selecione ao menos uma opção'));
+        return $this->redirect(array('index'));
     }
 
     public function actionStudentsUsingSchoolTransportationRelationReport()

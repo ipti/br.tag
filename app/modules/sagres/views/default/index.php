@@ -106,10 +106,13 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 		data.setUTCHours(0, 0, 0, 0); // Define as horas, minutos, segundos e milissegundos como zero
 		const yearInicio = data.getUTCFullYear();
 
+		// Atualize o atributo "href" com as datas selecionadas
+		const exportLink = document.getElementById('exportLink');
+		const newHref = `?r=sagres/default/export&managementUnitId=${1}&year=${yearInicio}&data_inicio=${dataInicio}&data_final=${dataFinal}`;
+		exportLink.setAttribute('href', newHref);
+
 		// Chame a função downloadFile para gerar e baixar o arquivo
-		const url = `?r=sagres/default/export&managementUnitId=${1}&year=${yearInicio}&data_inicio=${dataInicio}&data_final=${dataFinal}`;
-		const filename = 'Educacao.xml';
-		downloadFile(url, filename);
+		downloadFile(newHref, 'Educacao.xml');
 	});
 
 	function downloadFile(url, filename) {
@@ -135,7 +138,10 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 		.fail(function () {
 			$(".alert-error-export").append('Erro ao realizar o download do arquivo');
 			$(".alert-error-export").show();
-		});
+		})
+		.always(function() {
+			location.reload();
+		}); 
 	}
 
 </script>
