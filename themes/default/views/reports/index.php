@@ -395,7 +395,10 @@ $this->breadcrumbs = array(
                                     <option value="2">2º ANO</option>
                                     <option value="3">3º ANO</option>
                                     <option value="4">CRECHE II</option>
-                                    <option value="5">PRÉ I</option>
+                                    <option value="5">CRECHE III</option>
+                                    <option value="6">CRECHE IV</option>
+                                    <option value="7">PRÉ I</option>
+                                    <option value="8">PRÉ II</option>
                                 </select>
                                 </div>
                             </div>

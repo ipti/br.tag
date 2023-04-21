@@ -80,8 +80,8 @@ class ReportsController extends Controller
                     "school" => $school,
                      "current_year" => $current_year
                 ));
-            }else if ($model == 4) { // CRECHE
-                $this->render('QuarterlyReportNurseryr', array(
+            }else if ($model == 4) { // CRECHE II
+                $this->render('QuarterlyReportNurseryrII', array(
                     "student_identification" => $student_identification,
                     "student_enrollment" => $student_enrollment,
                     "classroom" => $classroom,
@@ -89,11 +89,39 @@ class ReportsController extends Controller
                     "school" => $school,
                      "current_year" => $current_year
                 ));
-            }else if ($model == 5) { // PRÉ 1
-                $this->render('QuarterlyReportPre', array(
+            }else if ($model == 5) { // CRECHE III
+                $this->render('QuarterlyReportNurseryrIII', array(
                     "student_identification" => $student_identification,
                     "student_enrollment" => $student_enrollment,
                     "classroom" => $classroom,
+                    "classroom_etapa" => $classroom_etapa,
+                    "school" => $school,
+                     "current_year" => $current_year
+                ));
+            }else if ($model == 6) { // CRECHE IV
+                $this->render('QuarterlyReportNurseryrIV', array(
+                    "student_identification" => $student_identification,
+                    "student_enrollment" => $student_enrollment,
+                    "classroom" => $classroom,
+                    "classroom_etapa" => $classroom_etapa,
+                    "school" => $school,
+                     "current_year" => $current_year
+                ));
+            }else if ($model == 7) { // PRÉ I
+                $this->render('QuarterlyReportPreI', array(
+                    "student_identification" => $student_identification,
+                    "student_enrollment" => $student_enrollment,
+                    "classroom" => $classroom,
+                    "classroom_etapa" => $classroom_etapa,
+                    "school" => $school,
+                     "current_year" => $current_year
+                ));
+            }else if ($model == 8) { // PRÉ II
+                $this->render('QuarterlyReportPreII', array(
+                    "student_identification" => $student_identification,
+                    "student_enrollment" => $student_enrollment,
+                    "classroom" => $classroom,
+                    "classroom_etapa" => $classroom_etapa,
                     "school" => $school,
                      "current_year" => $current_year
                 ));
