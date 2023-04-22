@@ -57,7 +57,7 @@ class ReportsController extends Controller
 
             // Modelos de Relatório Trimestral
             if ($model == 1) { // 1º ANO
-                $this->render('QuarterlyReportFirstYear', array(
+                $this->render('quarterly/QuarterlyReportFirstYear', array(
                     "student_identification" => $student_identification,
                     "student_enrollment" => $student_enrollment,
                     "classroom" => $classroom,
@@ -65,7 +65,7 @@ class ReportsController extends Controller
                      "current_year" => $current_year
                 ));
             }else if ($model == 2) { // 2º ANO
-                $this->render('QuarterlyReportSecondYear', array(
+                $this->render('quarterly/QuarterlyReportSecondYear', array(
                     "student_identification" => $student_identification,
                     "student_enrollment" => $student_enrollment,
                     "classroom" => $classroom,
@@ -73,7 +73,7 @@ class ReportsController extends Controller
                      "current_year" => $current_year
                 ));
             }else if ($model == 3) { // 3º ANO
-                $this->render('QuarterlyReportThreeYear', array(
+                $this->render('quarterly/QuarterlyReportThreeYear', array(
                     "student_identification" => $student_identification,
                     "student_enrollment" => $student_enrollment,
                     "classroom" => $classroom,
@@ -81,7 +81,7 @@ class ReportsController extends Controller
                      "current_year" => $current_year
                 ));
             }else if ($model == 4) { // CRECHE II
-                $this->render('QuarterlyReportNurseryrII', array(
+                $this->render('quarterly/QuarterlyReportNurseryrII', array(
                     "student_identification" => $student_identification,
                     "student_enrollment" => $student_enrollment,
                     "classroom" => $classroom,
@@ -90,7 +90,7 @@ class ReportsController extends Controller
                      "current_year" => $current_year
                 ));
             }else if ($model == 5) { // CRECHE III
-                $this->render('QuarterlyReportNurseryrIII', array(
+                $this->render('quarterly/QuarterlyReportNurseryrIII', array(
                     "student_identification" => $student_identification,
                     "student_enrollment" => $student_enrollment,
                     "classroom" => $classroom,
@@ -99,7 +99,7 @@ class ReportsController extends Controller
                      "current_year" => $current_year
                 ));
             }else if ($model == 6) { // CRECHE IV
-                $this->render('QuarterlyReportNurseryrIV', array(
+                $this->render('quarterly/QuarterlyReportNurseryrIV', array(
                     "student_identification" => $student_identification,
                     "student_enrollment" => $student_enrollment,
                     "classroom" => $classroom,
@@ -108,7 +108,7 @@ class ReportsController extends Controller
                      "current_year" => $current_year
                 ));
             }else if ($model == 7) { // PRÉ I
-                $this->render('QuarterlyReportPreI', array(
+                $this->render('quarterly/QuarterlyReportPreI', array(
                     "student_identification" => $student_identification,
                     "student_enrollment" => $student_enrollment,
                     "classroom" => $classroom,
@@ -117,7 +117,7 @@ class ReportsController extends Controller
                      "current_year" => $current_year
                 ));
             }else if ($model == 8) { // PRÉ II
-                $this->render('QuarterlyReportPreII', array(
+                $this->render('quarterly/QuarterlyReportPreII', array(
                     "student_identification" => $student_identification,
                     "student_enrollment" => $student_enrollment,
                     "classroom" => $classroom,
@@ -175,7 +175,7 @@ class ReportsController extends Controller
 
             $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":school_inep_id", $school_inep_id)->queryAll();
 
-            $this->render('QuarterlyClassCouncil', array(
+            $this->render('quarterly/QuarterlyClassCouncil', array(
                 "classroom" => $classrooms,
                 "count_days" => $count_days,
                 "mounth" => $mounth,

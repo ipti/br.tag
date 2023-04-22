@@ -693,7 +693,7 @@ if ($turno == 'M') {
                                 </thead>
                             </table>
                             <!-- PAGINA 4 -->
-                            <div class="container-box header-student-info" style="margin-top: 300px;">
+                            <div class="container-box header-student-info" style="margin-top: 1500px;">
                                 <span class="pull-left">Aluno (a): <?php echo $student_identification->name ?></span>
                                 <span style="margin-right: 10px;margin-left: 40%">Turma: <?php echo $classroom->name ?></span>
                                 <span class="pull-right" style="margin-right: 10px;">Ano letivo: <?php echo $current_year ?></span>
