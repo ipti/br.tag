@@ -38,7 +38,7 @@ if ($turno == 'M') {
             <table aria-labelledby="Three Year">
                 <thead>
                     <tr>
-                        <th colspan="5">Resumo Anual</th>
+                        <th scope="col" colspan="5">Resumo Anual</th>
                     </tr>
                     <tr>
                         <th scope="col">Total de dias letivos</th>
@@ -681,7 +681,7 @@ if ($turno == 'M') {
                                     </tr>
                                 </tbody>
                             </table>
-                            <table style="margin-top: 5px;">
+                            <table aria-labelledby="Legenda table" style="margin-top: 5px;">
                                 <thead style="background: none;">
                                     <tr>
                                         <th scope="col"><u>LEGENDA:</u></th>

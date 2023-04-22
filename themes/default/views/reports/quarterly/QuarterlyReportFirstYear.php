@@ -579,7 +579,7 @@ if ($turno == 'M') {
                                     </tr>
                                 </tbody>
                             </table>
-                            <table style="margin-top: 5px;">
+                            <table aria-labelledby="Legenda table" style="margin-top: 5px;">
                                 <thead style="background: none;">
                                     <tr>
                                         <th scope="col"><u>LEGENDA:</u></th>
