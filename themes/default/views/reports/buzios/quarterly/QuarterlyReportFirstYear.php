@@ -21,7 +21,7 @@ if ($turno == 'M') {
 ?>
 <div class="pageA4H page" style="height: auto;">
     <div class="cabecalho" style="margin: 30px 0;">
-        <?php $this->renderPartial('headBuziosII'); ?>
+        <?php $this->renderPartial('buzios/headers/headBuziosII'); ?>
     </div>
     <h4><?php echo Yii::t('default', 'Quarterly Report') . ' - ' . $current_year ?></h3>
         <div class="container-box header-container">

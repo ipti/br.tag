@@ -20,7 +20,7 @@
 ?>
 <div class="pageA4H page" style="height: auto;">
 <div class="cabecalho" style="margin: 30px 0;">
-    <?php $this->renderPartial('headBuziosIII'); ?>
+    <?php $this->renderPartial('buzios/headers/headBuziosIII'); ?>
 </div>
 <h4>
 <?php echo Yii::t('default', 'Quarterly Report') . ' - ' . $current_year ?></h3>

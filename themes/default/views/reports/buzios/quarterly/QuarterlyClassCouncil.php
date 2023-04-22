@@ -20,7 +20,7 @@ if ($turno == 'M') {
 ?>
 <div class="pageA4H page" style="height: auto;">
     <div class="cabecalho" style="margin: 30px 0;">
-        <?php $this->renderPartial('headBuziosI'); ?>
+        <?php $this->renderPartial('buzios/headers/headBuziosI'); ?>
     </div>
     <h3><?php echo Yii::t('default', 'Quarterly Class Council Report'); ?> <?php echo strtoupper($classroom[0]['class_stage'])?></h3>
     <p style="font-size: 19px;">Aos <?php echo $count_days?> dias do mês de <?php echo $mounth?> de 
