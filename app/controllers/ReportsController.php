@@ -137,7 +137,7 @@ class ReportsController extends Controller
         $student_enrollment = StudentEnrollment::model()->findByAttributes(array('student_fk' => $student_id));
         $classrooms = Classroom::model()->findAllByAttributes(array('id' => $student_enrollment->classroom_fk, 'school_year' => Yii::app()->user->year));
         foreach ($classrooms as $class) {
-            echo "<option value='".$class->id."'>".$class->name."</option>";
+            echo "<option value='" . $class->id . "'>" . htmlspecialchars($class->name, ENT_QUOTES, 'UTF-8') . "</option>";
         }
     }
 
