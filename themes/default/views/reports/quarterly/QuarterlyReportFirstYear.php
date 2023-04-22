@@ -35,17 +35,17 @@ if ($turno == 'M') {
             </p>
         </div>
         <div class="container-box annual-summary">
-            <table>
+            <table aria-labelledby="Resumo anual">
                 <thead>
                     <tr>
-                        <th colspan="5">Resumo Anual</th>
+                        <th colspan="5" scope="col">Resumo Anual</th>
                     </tr>
                     <tr>
-                        <th>Total de dias letivos</th>
-                        <th>Total de aulas dadas</th>
-                        <th>Total de carga horária</th>
-                        <th>Total de faltas</th>
-                        <th>% de frequência anual</th>
+                        <th scope="col">Total de dias letivos</th>
+                        <th scope="col">Total de aulas dadas</th>
+                        <th scope="col">Total de carga horária</th>
+                        <th scope="col">Total de faltas</th>
+                        <th scope="col">% de frequência anual</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,13 +64,13 @@ if ($turno == 'M') {
             <div class="first-year-container">
                 <!-- PAGINA 1 -->
                 <h4><u>OBJETIVOS DE APRENDIZAGEM - LÍNGUA PORTUGUESA - 1º ANO</u></h3>
-                    <table>
+                    <table aria-labelledby="Análise Linguítica">
                         <thead>
                             <tr>
-                                <th style="width: 70%;"><u>Eixo: Análise Linguística</u></th>
-                                <th><u>1º tri</u></th>
-                                <th><u>2º tri</u></th>
-                                <th><u>3º tri</u></th>
+                                <th scope="col" style="width: 70%;"><u>Eixo: Análise Linguística</u></th>
+                                <th scope="col"><u>1º tri</u></th>
+                                <th scope="col"><u>2º tri</u></th>
+                                <th scope="col"><u>3º tri</u></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -112,13 +112,13 @@ if ($turno == 'M') {
                             </tr>
                         </tbody>
                     </table>
-                    <table>
+                    <table aria-labelledby="Leitura/Escuta">
                         <thead>
                             <tr>
-                                <th style="width: 70%;"><u>Eixo: Leitura/Escuta</u></th>
-                                <th><u>1º tri</u></th>
-                                <th><u>2º tri</u></th>
-                                <th><u>3º tri</u></th>
+                                <th scope="col" style="width: 70%;"><u>Eixo: Leitura/Escuta</u></th>
+                                <th scope="col"><u>1º tri</u></th>
+                                <th scope="col"><u>2º tri</u></th>
+                                <th scope="col"><u>3º tri</u></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -142,13 +142,13 @@ if ($turno == 'M') {
                             </tr>
                         </tbody>
                     </table>
-                    <table>
+                    <table aria-labelledby="Oralidade">
                         <thead>
                             <tr>
-                                <th style="width: 70%;"><u>Eixo: Oralidade</u></th>
-                                <th><u>1º tri</u></th>
-                                <th><u>2º tri</u></th>
-                                <th><u>3º tri</u></th>
+                                <th scope="col" style="width: 70%;"><u>Eixo: Oralidade</u></th>
+                                <th scope="col"><u>1º tri</u></th>
+                                <th scope="col"><u>2º tri</u></th>
+                                <th scope="col"><u>3º tri</u></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -160,13 +160,13 @@ if ($turno == 'M') {
                             </tr>
                         </tbody>
                     </table>
-                    <table>
+                    <table aria-labelledby="Produção Escrita">
                         <thead>
                             <tr>
-                                <th style="width: 70%;"><u>Eixo: Produção Escrita</u></th>
-                                <th><u>1º tri</u></th>
-                                <th><u>2º tri</u></th>
-                                <th><u>3º tri</u></th>
+                                <th scope="col" style="width: 70%;"><u>Eixo: Produção Escrita</u></th>
+                                <th scope="col"><u>1º tri</u></th>
+                                <th scope="col"><u>2º tri</u></th>
+                                <th scope="col"><u>3º tri</u></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -192,13 +192,13 @@ if ($turno == 'M') {
                 <span class="pull-right" style="margin-right: 10px;">Ano letivo: <?php echo $current_year ?></span>
             </div>
             <h4><u>OBJETIVOS DE APRENDIZAGEM - HISTÓRIA - 1º ANO</u></h3>
-                <table>
+                <table aria-labelledby="Linguagem e procedimentos de pesquisa">
                     <thead>
                         <tr>
-                            <th style="width: 70%;"><u>Eixo: Linguagem e procedimentos de pesquisa</u></th>
-                            <th><u>1º tri</u></th>
-                            <th><u>2º tri</u></th>
-                            <th><u>3º tri</u></th>
+                            <th scope="col" style="width: 70%;"><u>Eixo: Linguagem e procedimentos de pesquisa</u></th>
+                            <th scope="col"><u>1º tri</u></th>
+                            <th scope="col"><u>2º tri</u></th>
+                            <th scope="col"><u>3º tri</u></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -228,13 +228,13 @@ if ($turno == 'M') {
                         </tr>
                     </tbody>
                 </table>
-                <table>
+                <table aria-labelledby="Conhecimentos históricos">
                     <thead>
                         <tr>
-                            <th style="width: 70%;"><u>Eixo: Conhecimentos históricos</u></th>
-                            <th><u>1º tri</u></th>
-                            <th><u>2º tri</u></th>
-                            <th><u>3º tri</u></th>
+                            <th scope="col" style="width: 70%;"><u>Eixo: Conhecimentos históricos</u></th>
+                            <th scope="col"><u>1º tri</u></th>
+                            <th scope="col"><u>2º tri</u></th>
+                            <th scope="col"><u>3º tri</u></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -253,13 +253,13 @@ if ($turno == 'M') {
                     </tbody>
                 </table>
                 <h4 style="margin-top: 10px;"><u>OBJETIVOS DE APRENDIZAGEM - GEOGRAFIA - 1º ANO</u></h3>
-                    <table>
+                    <table aria-labelledby="O sujeito e seu lugar no mundo">
                         <thead>
                             <tr>
-                                <th style="width: 70%;"><u>Eixo: O sujeito e seu lugar no mundo</u></th>
-                                <th><u>1º tri</u></th>
-                                <th><u>2º tri</u></th>
-                                <th><u>3º tri</u></th>
+                                <th scope="col" style="width: 70%;"><u>Eixo: O sujeito e seu lugar no mundo</u></th>
+                                <th scope="col"><u>1º tri</u></th>
+                                <th scope="col"><u>2º tri</u></th>
+                                <th scope="col"><u>3º tri</u></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -289,13 +289,13 @@ if ($turno == 'M') {
                             </tr>
                         </tbody>
                     </table>
-                    <table>
+                    <table aria-labelledby="Mundo do Trabalho">
                         <thead>
                             <tr>
-                                <th style="width: 70%;"><u>Eixo: Mundo do Trabalho</u></th>
-                                <th><u>1º tri</u></th>
-                                <th><u>2º tri</u></th>
-                                <th><u>3º tri</u></th>
+                                <th scope="col" style="width: 70%;"><u>Eixo: Mundo do Trabalho</u></th>
+                                <th scope="col"><u>1º tri</u></th>
+                                <th scope="col"><u>2º tri</u></th>
+                                <th scope="col"><u>3º tri</u></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -319,13 +319,13 @@ if ($turno == 'M') {
                             </tr>
                         </tbody>
                     </table>
-                    <table>
+                    <table aria-labelledby="Natureza, ambiente e qualidade de vida">
                         <thead>
                             <tr>
-                                <th style="width: 70%;"><u>Eixo: Natureza, ambiente e qualidade de vida</u></th>
-                                <th><u>1º tri</u></th>
-                                <th><u>2º tri</u></th>
-                                <th><u>3º tri</u></th>
+                                <th scope="col" style="width: 70%;"><u>Eixo: Natureza, ambiente e qualidade de vida</u></th>
+                                <th scope="col"><u>1º tri</u></th>
+                                <th scope="col"><u>2º tri</u></th>
+                                <th scope="col"><u>3º tri</u></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -349,13 +349,13 @@ if ($turno == 'M') {
                             </tr>
                         </tbody>
                     </table>
-                    <table>
+                    <table aria-labelledby="Formas de representação e pensamento espacial">
                         <thead>
                             <tr>
-                                <th style="width: 70%;"><u>Eixo: Formas de representação e pensamento espacial</u></th>
-                                <th><u>1º tri</u></th>
-                                <th><u>2º tri</u></th>
-                                <th><u>3º tri</u></th>
+                                <th scope="col" style="width: 70%;"><u>Eixo: Formas de representação e pensamento espacial</u></th>
+                                <th scope="col"><u>1º tri</u></th>
+                                <th scope="col"><u>2º tri</u></th>
+                                <th scope="col"><u>3º tri</u></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -374,13 +374,13 @@ if ($turno == 'M') {
                         <span class="pull-right" style="margin-right: 10px;">Ano letivo: <?php echo $current_year ?></span>
                     </div>
                     <h4><u>OBJETIVOS DE APRENDIZAGEM - MATEMÁTICA - 1º ANO</u></h3>
-                        <table>
+                        <table aria-labelledby="First Year table">
                             <thead>
                                 <tr>
-                                    <th style="width: 70%;"><u>Eixo: Números e operações</u></th>
-                                    <th><u>1º tri</u></th>
-                                    <th><u>2º tri</u></th>
-                                    <th><u>3º tri</u></th>
+                                    <th scope="col" style="width: 70%;"><u>Eixo: Números e operações</u></th>
+                                    <th scope="col"><u>1º tri</u></th>
+                                    <th scope="col"><u>2º tri</u></th>
+                                    <th scope="col"><u>3º tri</u></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -416,13 +416,13 @@ if ($turno == 'M') {
                                 </tr>
                             </tbody>
                         </table>
-                        <table>
+                        <table aria-labelledby="First Year table">
                             <thead>
                                 <tr>
-                                    <th style="width: 70%;"><u>Eixo: Geometria</u></th>
-                                    <th><u>1º tri</u></th>
-                                    <th><u>2º tri</u></th>
-                                    <th><u>3º tri</u></th>
+                                    <th scope="col" style="width: 70%;"><u>Eixo: Geometria</u></th>
+                                    <th scope="col"><u>1º tri</u></th>
+                                    <th scope="col"><u>2º tri</u></th>
+                                    <th scope="col"><u>3º tri</u></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -440,13 +440,13 @@ if ($turno == 'M') {
                                 </tr>
                             </tbody>
                         </table>
-                        <table>
+                        <table aria-labelledby="First Year table">
                             <thead>
                                 <tr>
-                                    <th style="width: 70%;"><u>Eixo: Grandezas e Medidas</u></th>
-                                    <th><u>1º tri</u></th>
-                                    <th><u>2º tri</u></th>
-                                    <th><u>3º tri</u></th>
+                                    <th scope="col" style="width: 70%;"><u>Eixo: Grandezas e Medidas</u></th>
+                                    <th scope="col"><u>1º tri</u></th>
+                                    <th scope="col"><u>2º tri</u></th>
+                                    <th scope="col"><u>3º tri</u></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -470,13 +470,13 @@ if ($turno == 'M') {
                                 </tr>
                             </tbody>
                         </table>
-                        <table>
+                        <table aria-labelledby="First Year table">
                             <thead>
                                 <tr>
-                                    <th style="width: 70%;"><u>Eixo: Probalidade e Estatística</u></th>
-                                    <th><u>1º tri</u></th>
-                                    <th><u>2º tri</u></th>
-                                    <th><u>3º tri</u></th>
+                                    <th scope="col" style="width: 70%;"><u>Eixo: Probalidade e Estatística</u></th>
+                                    <th scope="col"><u>1º tri</u></th>
+                                    <th scope="col"><u>2º tri</u></th>
+                                    <th scope="col"><u>3º tri</u></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -494,13 +494,13 @@ if ($turno == 'M') {
                                 </tr>
                             </tbody>
                         </table>
-                        <table>
+                        <table aria-labelledby="First Year table">
                             <thead>
                                 <tr>
-                                    <th style="width: 70%;"><u>Eixo: Pensamento Algébrico</u></th>
-                                    <th><u>1º tri</u></th>
-                                    <th><u>2º tri</u></th>
-                                    <th><u>3º tri</u></th>
+                                    <th scope="col" style="width: 70%;"><u>Eixo: Pensamento Algébrico</u></th>
+                                    <th scope="col"><u>1º tri</u></th>
+                                    <th scope="col"><u>2º tri</u></th>
+                                    <th scope="col"><u>3º tri</u></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -513,13 +513,13 @@ if ($turno == 'M') {
                             </tbody>
                         </table>
                         <h4 style="margin-top: 10px;"><u>OBJETIVOS DE APRENDIZAGEM - CIÊNCIAS - 1º ANO</u></h3>
-                            <table>
+                            <table aria-labelledby="First Year table">
                                 <thead>
                                     <tr>
-                                        <th style="width: 70%;"><u>Eixo: Matéria e Energia</u></th>
-                                        <th><u>1º tri</u></th>
-                                        <th><u>2º tri</u></th>
-                                        <th><u>3º tri</u></th>
+                                        <th scope="col" style="width: 70%;"><u>Eixo: Matéria e Energia</u></th>
+                                        <th scope="col"><u>1º tri</u></th>
+                                        <th scope="col"><u>2º tri</u></th>
+                                        <th scope="col"><u>3º tri</u></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -543,13 +543,13 @@ if ($turno == 'M') {
                                     </tr>
                                 </tbody>
                             </table>
-                            <table>
+                            <table aria-labelledby="First Year table">
                                 <thead>
                                     <tr>
-                                        <th style="width: 70%;"><u>Eixo: Vida e Evolução</u></th>
-                                        <th><u>1º tri</u></th>
-                                        <th><u>2º tri</u></th>
-                                        <th><u>3º tri</u></th>
+                                        <th scope="col" style="width: 70%;"><u>Eixo: Vida e Evolução</u></th>
+                                        <th scope="col"><u>1º tri</u></th>
+                                        <th scope="col"><u>2º tri</u></th>
+                                        <th scope="col"><u>3º tri</u></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -582,11 +582,11 @@ if ($turno == 'M') {
                             <table style="margin-top: 5px;">
                                 <thead style="background: none;">
                                     <tr>
-                                        <th><u>LEGENDA:</u></th>
-                                        <th><u>S - SIM:</u></th>
-                                        <th><u>P - PARCIALMENTE:</u></th>
-                                        <th><u>N - NÃO:</u></th>
-                                        <th><u>ANT - AINDA NÃO TRABALHADO:</u></th>
+                                        <th scope="col"><u>LEGENDA:</u></th>
+                                        <th scope="col"><u>S - SIM:</u></th>
+                                        <th scope="col"><u>P - PARCIALMENTE:</u></th>
+                                        <th scope="col"><u>N - NÃO:</u></th>
+                                        <th scope="col"><u>ANT - AINDA NÃO TRABALHADO:</u></th>
                                     </tr>
                                 </thead>
                             </table>

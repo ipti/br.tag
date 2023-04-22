@@ -43,13 +43,13 @@
     <!-- PAGINA 1 -->
     <h4>
     <u>OBJETIVOS DE APRENDIZAGEM - CRECHE III</u></h3>
-    <table>
+    <table aria-labelledby="creche table">
         <thead>
             <tr>
-                <th style="width: 70%;"><u>Campo de experiências: O Eu, O Outro e O Nós</u></th>
-                <th><u>1º tri</u></th>
-                <th><u>2º tri</u></th>
-                <th><u>3º tri</u></th>
+                <th scope="col" style="width: 70%;"><u>Campo de experiências: O Eu, O Outro e O Nós</u></th>
+                <th scope="col"><u>1º tri</u></th>
+                <th scope="col"><u>2º tri</u></th>
+                <th scope="col"><u>3º tri</u></th>
             </tr>
         </thead>
         <tbody>
@@ -91,13 +91,13 @@
             </tr>
         </tbody>
     </table>
-    <table>
+    <table aria-labelledby="creche table">
         <thead>
             <tr>
-                <th style="width: 70%;"><u>Campo de experiências: Traços, Sons, Cores e Formas</u></th>
-                <th><u>1º tri</u></th>
-                <th><u>2º tri</u></th>
-                <th><u>3º tri</u></th>
+                <th scope="col" style="width: 70%;"><u>Campo de experiências: Traços, Sons, Cores e Formas</u></th>
+                <th scope="col"><u>1º tri</u></th>
+                <th scope="col"><u>2º tri</u></th>
+                <th scope="col"><u>3º tri</u></th>
             </tr>
         </thead>
         <tbody>
@@ -121,13 +121,13 @@
             </tr>
         </tbody>
     </table>
-    <table>
+    <table aria-labelledby="creche table">
         <thead>
             <tr>
-                <th style="width: 70%;"><u>Campo de experiências: Corpo, Gestos e Movimentos</u></th>
-                <th><u>1º tri</u></th>
-                <th><u>2º tri</u></th>
-                <th><u>3º tri</u></th>
+                <th scope="col" style="width: 70%;"><u>Campo de experiências: Corpo, Gestos e Movimentos</u></th>
+                <th scope="col"><u>1º tri</u></th>
+                <th scope="col"><u>2º tri</u></th>
+                <th scope="col"><u>3º tri</u></th>
             </tr>
         </thead>
         <tbody>
@@ -175,13 +175,13 @@
             </tr>
         </tbody>
     </table>
-    <table>
+    <table aria-labelledby="creche table">
         <thead>
             <tr>
-                <th style="width: 70%;"><u>Campo de experiências: Espaços, Tempos, Quantidades, Relações e Transformações</u></th>
-                <th><u>1º tri</u></th>
-                <th><u>2º tri</u></th>
-                <th><u>3º tri</u></th>
+                <th scope="col" style="width: 70%;"><u>Campo de experiências: Espaços, Tempos, Quantidades, Relações e Transformações</u></th>
+                <th scope="col"><u>1º tri</u></th>
+                <th scope="col"><u>2º tri</u></th>
+                <th scope="col"><u>3º tri</u></th>
             </tr>
         </thead>
         <tbody>
@@ -211,13 +211,13 @@
             </tr>
         </tbody>
     </table>
-    <table>
+    <table aria-labelledby="creche table">
         <thead>
             <tr>
-                <th style="width: 70%;"><u>Campo de experiências: Escuta, Fala, Pensamento e Imaginação</u></th>
-                <th><u>1º tri</u></th>
-                <th><u>2º tri</u></th>
-                <th><u>3º tri</u></th>
+                <th scope="col" style="width: 70%;"><u>Campo de experiências: Escuta, Fala, Pensamento e Imaginação</u></th>
+                <th scope="col"><u>1º tri</u></th>
+                <th scope="col"><u>2º tri</u></th>
+                <th scope="col"><u>3º tri</u></th>
             </tr>
         </thead>
         <tbody>
@@ -274,11 +274,11 @@
     <table style="margin-top: 5px;">
         <thead style="background: none;">
             <tr>
-                <th><u>LEGENDA:</u></th>
-                <th><u>S - SIM:</u></th>
-                <th><u>P - PARCIALMENTE:</u></th>
-                <th><u>N - NÃO:</u></th>
-                <th><u>ANT - AINDA NÃO TRABALHADO:</u></th>
+                <th scope="col"><u>LEGENDA:</u></th>
+                <th scope="col"><u>S - SIM:</u></th>
+                <th scope="col"><u>P - PARCIALMENTE:</u></th>
+                <th scope="col"><u>N - NÃO:</u></th>
+                <th scope="col"><u>ANT - AINDA NÃO TRABALHADO:</u></th>
             </tr>
         </thead>
     </table>
