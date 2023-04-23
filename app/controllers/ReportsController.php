@@ -22,7 +22,7 @@ class ReportsController extends Controller
                     'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
                     'StudentInstructorNumbersRelationReport', 'StudentPendingDocument',
                     'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood',
-                    'ClassCouncilReport'),
+                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -40,6 +40,105 @@ class ReportsController extends Controller
         $this->year = Yii::app()->user->year;
 
         return true;
+    }
+
+    public function actionQuarterlyReport()
+    {
+        if(isset($_POST['student']) && isset($_POST['classroom_student']) && isset($_POST['model_quartely'])) {
+            $student_id = $_POST['student'];
+            $classroom_id = $_POST['classroom_student'];
+            $model = $_POST['model_quartely'];
+            $student_identification = StudentIdentification::model()->findByPk($student_id);
+            $student_enrollment = StudentEnrollment::model()->findByAttributes(array('student_fk' => $student_id));
+            $classroom = Classroom::model()->findByPk($classroom_id);
+            $classroom_etapa = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_modality_fk);
+            $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+            $current_year = Yii::app()->user->year;
+
+            // Modelos de Relatório Trimestral
+            if ($model == 1) { // 1º ANO
+                $this->render('buzios/quarterly/QuarterlyReportFirstYear', array(
+                    "student_identification" => $student_identification,
+                    "student_enrollment" => $student_enrollment,
+                    "classroom" => $classroom,
+                    "school" => $school,
+                     "current_year" => $current_year
+                ));
+            }else if ($model == 2) { // 2º ANO
+                $this->render('buzios/quarterly/QuarterlyReportSecondYear', array(
+                    "student_identification" => $student_identification,
+                    "student_enrollment" => $student_enrollment,
+                    "classroom" => $classroom,
+                    "school" => $school,
+                     "current_year" => $current_year
+                ));
+            }else if ($model == 3) { // 3º ANO
+                $this->render('buzios/quarterly/QuarterlyReportThreeYear', array(
+                    "student_identification" => $student_identification,
+                    "student_enrollment" => $student_enrollment,
+                    "classroom" => $classroom,
+                    "school" => $school,
+                     "current_year" => $current_year
+                ));
+            }else if ($model == 4) { // CRECHE II
+                $this->render('buzios/quarterly/QuarterlyReportNurseryrII', array(
+                    "student_identification" => $student_identification,
+                    "student_enrollment" => $student_enrollment,
+                    "classroom" => $classroom,
+                    "classroom_etapa" => $classroom_etapa,
+                    "school" => $school,
+                     "current_year" => $current_year
+                ));
+            }else if ($model == 5) { // CRECHE III
+                $this->render('buzios/quarterly/QuarterlyReportNurseryrIII', array(
+                    "student_identification" => $student_identification,
+                    "student_enrollment" => $student_enrollment,
+                    "classroom" => $classroom,
+                    "classroom_etapa" => $classroom_etapa,
+                    "school" => $school,
+                     "current_year" => $current_year
+                ));
+            }else if ($model == 6) { // CRECHE IV
+                $this->render('buzios/quarterly/QuarterlyReportNurseryrIV', array(
+                    "student_identification" => $student_identification,
+                    "student_enrollment" => $student_enrollment,
+                    "classroom" => $classroom,
+                    "classroom_etapa" => $classroom_etapa,
+                    "school" => $school,
+                     "current_year" => $current_year
+                ));
+            }else if ($model == 7) { // PRÉ I
+                $this->render('buzios/quarterly/QuarterlyReportPreI', array(
+                    "student_identification" => $student_identification,
+                    "student_enrollment" => $student_enrollment,
+                    "classroom" => $classroom,
+                    "classroom_etapa" => $classroom_etapa,
+                    "school" => $school,
+                     "current_year" => $current_year
+                ));
+            }else if ($model == 8) { // PRÉ II
+                $this->render('buzios/quarterly/QuarterlyReportPreII', array(
+                    "student_identification" => $student_identification,
+                    "student_enrollment" => $student_enrollment,
+                    "classroom" => $classroom,
+                    "classroom_etapa" => $classroom_etapa,
+                    "school" => $school,
+                     "current_year" => $current_year
+                ));
+            }
+        }
+        Yii::app()->user->setFlash('error', Yii::t('default', 'Selecione ao menos uma opção'));
+        return $this->redirect(array('index'));
+    }
+
+    public function actionGetStudentClassrooms()
+    {
+        $student_id = $_POST['student_id'];
+        $student_enrollment = StudentEnrollment::model()->findByAttributes(array('student_fk' => $student_id));
+        $classrooms = Classroom::model()->findAllByAttributes(array('id' => $student_enrollment->classroom_fk, 'school_year' => Yii::app()->user->year));
+        foreach ($classrooms as $class) {
+            echo "<option value='" . $class->id . "'>" . htmlspecialchars($class->name, ENT_QUOTES, 'UTF-8') . "</option>";
+        }
     }
 
     public function actionClassCouncilReport()
@@ -76,7 +175,7 @@ class ReportsController extends Controller
 
             $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":school_inep_id", $school_inep_id)->queryAll();
 
-            $this->render('QuarterlyClassCouncil', array(
+            $this->render('buzios/quarterly/QuarterlyClassCouncil', array(
                 "classroom" => $classrooms,
                 "count_days" => $count_days,
                 "mounth" => $mounth,
@@ -821,7 +920,12 @@ class ReportsController extends Controller
             'order' => 'name'
         ));
 
-        $this->render('index', ['classrooms' => $classrooms]);
+        $students = StudentIdentification::model()->findAll(array(
+            'condition' => 'school_inep_id_fk = ' . Yii::app()->user->school . ' && send_year = ' . Yii::app()->user->year,
+            'order' => 'name'
+        ));
+
+        $this->render('index', ['classrooms' => $classrooms, 'students' => $students]);
     }
 
     public function actionElectronicDiary()

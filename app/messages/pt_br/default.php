@@ -795,6 +795,7 @@ return array(
     'Professional Identifications' => 'Profissionais',
     'Configurarion' => 'Configurações',
     'Quarterly Class Council Report' => 'ATA DE CONSELHO DE CLASSE',
+    'Quarterly Report' => 'RELATÓRIO TRIMESTRAL INDIVIDUAL DO ALUNO',
     
     //Relatórios
     'Result Board' => 'Quadro de Rendimento',
