@@ -24,14 +24,16 @@ if ($turno == 'M') {
         <?php $this->renderPartial('buzios/headers/headBuziosII'); ?>
     </div>
     <h4><?php echo Yii::t('default', 'Quarterly Report') . ' - ' . $current_year ?></h3>
-        <div class="container-box header-container">
+        <div class="container-box header-container"  style="margin-bottom: 70px;">
             <p>Unidade Escolar: <?php echo $school->name ?></p>
             <p>Professor(a) Regente 1: _________________________________________________________________________________________________________________________________</p>
             <p>Professor(a) Regente 2: _________________________________________________________________________________________________________________________________</p>
             <p>
-                <span>Ano de escolaridade: <?php echo $current_year ?></span>
-                <span style="margin-left: 250px;">Turno: <?php echo $turno ?></span>
-                <span style="margin-left: 230px;">Turma: <?php echo $classroom->name ?></span>
+                <span class="pull-left">Ano de escolaridade: <?php echo $current_year ?></span>
+                <div class="pull-right" style="margin-right: 40px;">
+                    <span style="margin-right: 300px;">Turno: <?php echo $turno ?></span>
+                    <span>Turma: <?php echo $classroom->name ?></span>
+                </div>
             </p>
         </div>
         <div class="container-box annual-summary">
@@ -212,8 +214,10 @@ if ($turno == 'M') {
             <!-- PAGINA 2 -->
             <div class="container-box header-student-info" style="margin-top: 400px;">
                 <span class="pull-left">Aluno (a): <?php echo $student_identification->name ?></span>
-                <span style="margin-right: 10px;margin-left: 40%">Turma: <?php echo $classroom->name ?></span>
-                <span class="pull-right" style="margin-right: 10px;">Ano letivo: <?php echo $current_year ?></span>
+                <div class="pull-right" style="margin-right: 10px;">
+                    <span>Turma: <?php echo $classroom->name ?></span>
+                    <span style="margin-left:20px">Ano letivo: <?php echo $current_year ?></span>
+                </div>
             </div>
             <h4><u>OBJETIVOS DE APRENDIZAGEM - HISTÓRIA - 3º ANO</u></h3>
                 <table aria-labelledby="Three Year">
@@ -412,8 +416,10 @@ if ($turno == 'M') {
                     <!-- PAGINA 3 -->
                     <div class="container-box header-student-info" style="margin-top: 300px;">
                         <span class="pull-left">Aluno (a): <?php echo $student_identification->name ?></span>
-                        <span style="margin-right: 10px;margin-left: 40%">Turma: <?php echo $classroom->name ?></span>
-                        <span class="pull-right" style="margin-right: 10px;">Ano letivo: <?php echo $current_year ?></span>
+                        <div class="pull-right" style="margin-right: 10px;">
+                            <span>Turma: <?php echo $classroom->name ?></span>
+                            <span style="margin-left:20px">Ano letivo: <?php echo $current_year ?></span>
+                        </div>
                     </div>
                     <h4><u>OBJETIVOS DE APRENDIZAGEM - MATEMÁTICA - 3º ANO</u></h3>
                         <table aria-labelledby="Three Year">
@@ -695,8 +701,10 @@ if ($turno == 'M') {
                             <!-- PAGINA 4 -->
                             <div class="container-box header-student-info" style="margin-top: 1500px;">
                                 <span class="pull-left">Aluno (a): <?php echo $student_identification->name ?></span>
-                                <span style="margin-right: 10px;margin-left: 40%">Turma: <?php echo $classroom->name ?></span>
-                                <span class="pull-right" style="margin-right: 10px;">Ano letivo: <?php echo $current_year ?></span>
+                                <div class="pull-right" style="margin-right: 10px;">
+                                    <span>Turma: <?php echo $classroom->name ?></span>
+                                    <span style="margin-left:20px">Ano letivo: <?php echo $current_year ?></span>
+                                </div>
                             </div>
                             <div class="container-box student-performance">
                                 <p style="margin-top: 0px;"><u>Espaço destinado a descrição do aluno durante o trimestre</u></p>
