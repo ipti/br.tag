@@ -37,7 +37,7 @@
    </p>
    <p>
       <span>Nome do Aluno (a): <?php echo $student_identification->name ?></span>
-      <span style="margin-left: 450px;">Data de Nascimento: <?php echo date('d/m/Y', strtotime($student_identification->birthday));?></span>
+      <span style="margin-left: 450px;">Data de Nascimento: <?php echo $dateFormatCorrect ? $student_identification->birthday : date('d/m/Y', strtotime($student_identification->birthday));?></span>
    </p>
 </div>
 <div class="container-box learning-objectives">
