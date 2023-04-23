@@ -18,6 +18,7 @@ if ($turno == 'M') {
     $turno = "___________";
 }
 ?>
+<?php if (!empty($classroom)) { ?>
 <div class="pageA4H page" style="height: auto;">
     <div class="cabecalho" style="margin: 30px 0;">
         <?php $this->renderPartial('buzios/headers/headBuziosI'); ?>
@@ -264,6 +265,15 @@ if ($turno == 'M') {
         </div>
     </div>
 </div>
+<?php }else {?>
+<div class="pageA4H page" style="height: auto;">
+    <div class="cabecalho" style="margin: 30px 0;">
+        <?php $this->renderPartial('buzios/headers/headBuziosI'); ?>
+    </div>
+    <h3><?php echo Yii::t('default', 'Quarterly Class Council Report'); ?> <?php echo strtoupper($classroom[0]['class_stage'])?></h3>
+    <div class='no-enrollments'>Não há alunos matriculados na turma.</div>
+</div>
+<?php }?>
 
 <style>
     .signatures-container {
