@@ -76,6 +76,13 @@ class SagresConsultModel
         return $headerType;
     }
 
+    public function getUnitCode()
+    {
+        $query = "SELECT pa.id, pa.cod_unidade_gestora FROM provision_accounts pa";
+        $managementUnitCode = Yii::app()->db->createCommand($query)->queryRow();
+        
+        return $managementUnitCode['id'];
+    }
 
     /**
      * Summary of EscolaTType

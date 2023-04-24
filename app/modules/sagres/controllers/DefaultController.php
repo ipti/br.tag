@@ -5,17 +5,19 @@ class DefaultController extends Controller
 {
 	public function actionIndex()
 	{
-		$cod_unidade_gestora = Yii::app()->request->getParam('cod_unidade_gestora');
-   		$this->render('index', array('cod_unidade_gestora' => $cod_unidade_gestora));
+   		$this->render('index');
 	}
 
-	public function actionCreateOrUpdate($id=3)
-	{
-		if ($id) {
-			$model = ProvisionAccounts::model()->findByPk($id);
+	public function actionCreateOrUpdate()
+	{		   		
+		$sagresConsultModel = new SagresConsultModel;
+		$managementUnitCode = $sagresConsultModel->getUnitCode();
+
+		if ($managementUnitCode) {
+			$model = ProvisionAccounts::model()->findByPk($managementUnitCode);
 			if (!$model) {
 				Yii::app()->user->setFlash('error', Yii::t('default', 'Unidade gestora solicitada não existe!'));
-				$this->redirect(array('index'));
+				$this->redirect(array('index', 'cod_unidade_gestora' => $model->cod_unidade_gestora));
 			}
 		} else {
 			$model = new ProvisionAccounts;
@@ -25,7 +27,7 @@ class DefaultController extends Controller
 			$model->attributes = $_POST['ProvisionAccounts'];
 
 			if ($model->validate() && $model->save()) {
-				$msg = $id ? 'atualizada' : 'criada';
+				$msg = $managementUnitCode ? 'atualizada' : 'criada';
 				Yii::app()->user->setFlash('success', Yii::t('default', 'Unidade ' . $msg . ' com sucesso!'));
 				$this->redirect(array('index', 'cod_unidade_gestora' => $model->cod_unidade_gestora));
 			}
