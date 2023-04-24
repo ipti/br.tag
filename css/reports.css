@@ -21,8 +21,10 @@
 }
 
 .report-box-container {
+    display: inline-flex;
+    align-items: center;
     width: 35%;
-    height: 97px;
+    height: 140px;
     padding: 20px;
     background: #FAFAFE;
     border-radius: 5px;
