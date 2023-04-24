@@ -24,19 +24,21 @@
 </div>
 <h4>
 <?php echo Yii::t('default', 'Quarterly Report') . ' - ' . $current_year ?></h3>
-<div class="container-box header-container">
-    <p>Unidade Escolar: <?php echo $school->name ?></p>
-    <p>Professor(a) Regente 1: _________________________________________________________________________________________________________________________________</p>
-    <p>Professor(a) Regente 2: _________________________________________________________________________________________________________________________________</p>
-    <p>
-        <span>Etapa: <?php echo $classroom_etapa ? $classroom_etapa->name : '______________________' ?></span>
-        <span style="margin-left: 100px;">Turno: <?php echo $turno ?></span>
-        <span style="margin-left: 230px;">Turma: <?php echo $classroom->name ?></span>
-    </p>
-    <p>
-        <span>Nome do Aluno (a): <?php echo $student_identification->name ?></span>
-        <span style="margin-left: 450px;">Data de Nascimento: <?php echo date('d/m/Y', strtotime($student_identification->birthday));?></span>
-    </p>
+<div class="container-box header-container" style="margin-bottom: 200px;">
+   <p>Unidade Escolar: <?php echo $school->name ?></p>
+   <p>Professor(a) Regente 1: _________________________________________________________________________________________________________________________________</p>
+   <p>Professor(a) Regente 2: _________________________________________________________________________________________________________________________________</p>
+   <p>
+      <span class="pull-left">Etapa: <?php echo $classroom_etapa ? $classroom_etapa->name : '______________________' ?></span>
+      <div class="pull-right" style="margin-right: 40px;">
+         <span style="margin-right: 100px;">Turno: <?php echo $turno ?></span>
+         <span>Turma: <?php echo $classroom->name ?></span>
+      </div>
+   </p>
+   <p style="margin-top: 60px;">
+      <span class="pull-left">Nome do Aluno (a): <?php echo $student_identification->name ?></span>
+      <span class="pull-right" style="margin-right: 40px;">Data de Nascimento: <?php echo $dateFormatCorrect ? $student_identification->birthday : date('d/m/Y', strtotime($student_identification->birthday));?></span>
+   </p>
 </div>
 <div class="container-box learning-objectives">
 <div class="first-year-container">

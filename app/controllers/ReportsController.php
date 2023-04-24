@@ -55,6 +55,17 @@ class ReportsController extends Controller
             $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             $current_year = Yii::app()->user->year;
 
+            // Verificação de Formato de data
+            $dateFormatCorrect = false;
+            $date_str = $student_identification->birthday;
+            $date_format = 'd/m/Y';
+            // Cria um objeto DateTime a partir da string de data e formato
+            $date = DateTime::createFromFormat($date_format, $date_str);
+            // Verifica se a string de data original corresponde ao formato esperado
+            if ($date && $date->format($date_format) === $date_str) {
+                $dateFormatCorrect = true;
+            }
+
             // Modelos de Relatório Trimestral
             if ($model == 1) { // 1º ANO
                 $this->render('buzios/quarterly/QuarterlyReportFirstYear', array(
@@ -62,7 +73,7 @@ class ReportsController extends Controller
                     "student_enrollment" => $student_enrollment,
                     "classroom" => $classroom,
                     "school" => $school,
-                     "current_year" => $current_year
+                    "current_year" => $current_year
                 ));
             }else if ($model == 2) { // 2º ANO
                 $this->render('buzios/quarterly/QuarterlyReportSecondYear', array(
@@ -70,7 +81,7 @@ class ReportsController extends Controller
                     "student_enrollment" => $student_enrollment,
                     "classroom" => $classroom,
                     "school" => $school,
-                     "current_year" => $current_year
+                    "current_year" => $current_year
                 ));
             }else if ($model == 3) { // 3º ANO
                 $this->render('buzios/quarterly/QuarterlyReportThreeYear', array(
@@ -78,7 +89,7 @@ class ReportsController extends Controller
                     "student_enrollment" => $student_enrollment,
                     "classroom" => $classroom,
                     "school" => $school,
-                     "current_year" => $current_year
+                    "current_year" => $current_year
                 ));
             }else if ($model == 4) { // CRECHE II
                 $this->render('buzios/quarterly/QuarterlyReportNurseryrII', array(
@@ -87,7 +98,8 @@ class ReportsController extends Controller
                     "classroom" => $classroom,
                     "classroom_etapa" => $classroom_etapa,
                     "school" => $school,
-                     "current_year" => $current_year
+                    "current_year" => $current_year,
+                    "dateFormatCorrect" => $dateFormatCorrect
                 ));
             }else if ($model == 5) { // CRECHE III
                 $this->render('buzios/quarterly/QuarterlyReportNurseryrIII', array(
@@ -96,7 +108,8 @@ class ReportsController extends Controller
                     "classroom" => $classroom,
                     "classroom_etapa" => $classroom_etapa,
                     "school" => $school,
-                     "current_year" => $current_year
+                    "current_year" => $current_year,
+                    "dateFormatCorrect" => $dateFormatCorrect
                 ));
             }else if ($model == 6) { // CRECHE IV
                 $this->render('buzios/quarterly/QuarterlyReportNurseryrIV', array(
@@ -105,7 +118,8 @@ class ReportsController extends Controller
                     "classroom" => $classroom,
                     "classroom_etapa" => $classroom_etapa,
                     "school" => $school,
-                     "current_year" => $current_year
+                    "current_year" => $current_year,
+                    "dateFormatCorrect" => $dateFormatCorrect
                 ));
             }else if ($model == 7) { // PRÉ I
                 $this->render('buzios/quarterly/QuarterlyReportPreI', array(
@@ -114,7 +128,8 @@ class ReportsController extends Controller
                     "classroom" => $classroom,
                     "classroom_etapa" => $classroom_etapa,
                     "school" => $school,
-                     "current_year" => $current_year
+                    "current_year" => $current_year,
+                    "dateFormatCorrect" => $dateFormatCorrect
                 ));
             }else if ($model == 8) { // PRÉ II
                 $this->render('buzios/quarterly/QuarterlyReportPreII', array(
@@ -123,7 +138,8 @@ class ReportsController extends Controller
                     "classroom" => $classroom,
                     "classroom_etapa" => $classroom_etapa,
                     "school" => $school,
-                     "current_year" => $current_year
+                    "current_year" => $current_year,
+                    "dateFormatCorrect" => $dateFormatCorrect
                 ));
             }
         }
