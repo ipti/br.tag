@@ -31,6 +31,25 @@
     text-align: left;
 }
 
+@media (max-width: 1440px) {
+    .report-box-container {
+        width: 50%;
+    }
+}
+
+@media (max-width: 1200px) {
+    .report-box-container {
+        width: 70%;
+    }
+}
+
+@media (max-width: 880px) {
+    .report-box-container {
+        width: 100%;
+    }
+}
+  
+
 .report-box-container .title{
     font-style: normal;
     font-weight: 700;
