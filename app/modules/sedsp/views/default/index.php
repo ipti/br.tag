@@ -33,7 +33,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         </div>
         <br />
     <?php endif ?>
-    <div class="container-box">
+    <div class="container-box" style="display: grid;">
         <p>Alunos</p>
 
         <a href="#" data-toggle="modal" data-target="#add-student-ra" target="_blank">

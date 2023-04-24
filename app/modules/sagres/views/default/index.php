@@ -47,7 +47,7 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 			</div>
 		</div>
 	</div>
-	<div class="container-box">
+	<div class="container-box" style="display: grid;">
 
 		<a href="?r=sagres/default/create">
 			<button type="button" class="report-box-container">

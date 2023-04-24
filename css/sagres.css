@@ -20,10 +20,17 @@
     color: #A9ADC4;
 }
 
+.container-box a {
+    width: 35%;
+}
+
+.container-box button {
+    width: 100%;
+}
+
 .report-box-container {
     display: inline-flex;
     align-items: center;
-    width: 35%;
     height: auto;
     padding: 20px 30px;
     background: #FAFAFE;
