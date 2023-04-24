@@ -307,8 +307,8 @@ $this->breadcrumbs = array(
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <div class="pull-left">
-                            <span class="title">Monitores de Atividade <br>Complementar por Turma</span><br>
-                            <span class="subtitle">Informação dos monitores de <br> atividade complementar por turma</span>
+                            <span class="title">Monitores de Atividade Complementar</span><br>
+                            <span class="subtitle">Monitores de atividade complementar por turma</span>
                         </div>
                     </button>
                 </a>
