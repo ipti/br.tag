@@ -1,3 +1,44 @@
 .report-title {
     padding: 5px 5px 0;
 }
+
+.container-box {
+    margin-bottom: 50px;
+    width: 100%;
+}
+
+.container-box p {
+    margin-left: 20px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 19px;
+    color: #A9ADC4;
+}
+
+.report-box-container {
+    width: 20%;
+    height: 97px;
+    padding: 20px;
+    background: #FAFAFE;
+    border-radius: 5px;
+    border: none;
+    margin: 10px;
+    text-align: left;
+}
+
+.report-box-container .title{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 27px;
+}
+
+.report-box-container .subtitle{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 19px;
+    color: #5F738C;
+    margin-left: 0 !important;
+}
