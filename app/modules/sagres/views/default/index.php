@@ -1,12 +1,6 @@
 <?php
-use SagresEdu\SagresConsultModel;
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Sagres'));
-?>
-
-<?php
-/* $export =  new SagresConsultModel;
-print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 ?>
 
 <div id="mainPage" class="main">
@@ -31,7 +25,7 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 		<div class="column no-grow">
 			<div>
 				<h5>Mês</h5>
-				<select id="mes" style="border-color: #e5e5e5;" name="mes">
+				<select id="mes" name="mes">
 					<option value="0">Selecione um mês</option>
 					<option value="1">Janeiro</option>
 					<option value="2">Fevereiro</option>
@@ -57,7 +51,6 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 				<div class="clearfix"></div>
 			</a>
 		</div>
-
 		<div class="column">
 			<a href="?r=sagres/default/export" id="exportLink" class="widget-stats">
 				<span class="glyphicons file_export"><i></i></span>
@@ -80,15 +73,17 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 <script>
 	let selectedValue;
 	const selectElement = document.getElementById("mes");
+
 	selectElement.addEventListener("change", (event) => {
 		selectedValue = event.target.value;
-		
+
 		const { startDate, endDate } = getDatesFromMonth(selectedValue);
 
 		const year = new Date().getFullYear();
 		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&managementUnitId=${1}&year=${year}&data_inicio=${startDate}&data_final=${endDate}`;
+		const newHref = `?r=sagres/default/export&managementUnitCode=${12346710}&year=${year}&startDate=${startDate}&endDate=${endDate}`;
 		exportLink.setAttribute('href', newHref);
+
 	});
 
 	function getDatesFromMonth(monthValue) {
@@ -119,6 +114,7 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 			console.error('O link de exportação não foi definido');
 			return;
 		}
+
 		if (!selectedValue) {
 			$(".alert-error-export").append("Você precisa selecionar um mês antes de exportar os dados.");
 			$(".alert-error-export").show();
