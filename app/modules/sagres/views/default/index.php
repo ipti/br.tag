@@ -2,6 +2,10 @@
 use SagresEdu\SagresConsultModel;
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Sagres'));
+
+$baseUrl = Yii::app()->baseUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerCssFile($baseUrl . '/css/sagres.css');
 ?>
 
 <?php
@@ -43,38 +47,59 @@ print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="column">
-			<a href="?r=sagres/default/create" class="widget-stats">
-				<div><i class="fa fa-building-o fa-4x"></i></div>
-				<span class="txt">Cadastrar Unidade</span>
-				<div class="clearfix"></div>
-			</a>
-		</div>
+	<div class="container-box">
 
-		<div class="column">
-			<a href="?r=sagres/default/export" id="exportLink" class="widget-stats">
-				<span class="glyphicons file_export"><i></i></span>
-				<span class="txt">Exportar sagres</span>
-				<div class="clearfix"></div>
-			</a>
-		</div>
-		<div class="column">
-			<a href="<?php echo Yii::app()->createUrl('sagres/default/update', array('id' => 1)) ?>"
-				href="?r=sagres/default/update&id=2" class="widget-stats">
-				<div><i class="fa fa-edit fa-4x"></i></div>
-				<span class="txt">Editar Unidade</span>
-				<div class="clearfix"></div>
-			</a>
-		</div>
+		<a href="?r=sagres/default/create">
+			<button type="button" class="report-box-container">
+				<div class="pull-left" style="margin-right: 20px;">
+					<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sagresIcon/school.svg" />
+					<!-- <div class="t-icon-schedule report-icon"></div> -->
+				</div>
+				<div class="pull-left">
+					<span class="title">Cadastrar Unidade</span><br>
+					<span class="subtitle">Cadastre uma Unidade gestora</span>
+				</div>
+			</button>
+		</a>
 
-		<div class="column">
-			<a href="<?php echo Yii::app()->createUrl('professional') ?>" class="widget-stats">
-				<span class="glyphicons user"><i></i></span>
-				<span class="txt">Profissionais</span>
-				<div class="clearfix"></div>
-			</a>
-		</div>
+		<a href="?r=sagres/default/export" id="exportLink">
+			<button type="button" class="report-box-container">
+				<div class="pull-left" style="margin-right: 20px;">
+					<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sagresIcon/export.svg" />
+					<!-- <div class="t-icon-schedule report-icon"></div> -->
+				</div>
+				<div class="pull-left">
+					<span class="title">Exportar Unidade</span><br>
+					<span class="subtitle">Exporte os dados da Unidade</span>
+				</div>
+			</button>
+		</a>
+
+		<a href="<?php echo Yii::app()->createUrl('sagres/default/update', array('id' => 1)) ?>">
+			<button type="button" class="report-box-container">
+				<div class="pull-left" style="margin-right: 20px;">
+					<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sagresIcon/edit.svg" />
+					<!-- <div class="t-icon-schedule report-icon"></div> -->
+				</div>
+				<div class="pull-left">
+					<span class="title">Editar Unidade</span><br>
+					<span class="subtitle">Atualize os dados da Unidade</span>
+				</div>
+			</button>
+		</a>
+
+		<a href="<?php echo Yii::app()->createUrl('professional') ?>">
+			<button type="button" class="report-box-container">
+				<div class="pull-left" style="margin-right: 20px;">
+					<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sagresIcon/professional.svg" />
+					<!-- <div class="t-icon-schedule report-icon"></div> -->
+				</div>
+				<div class="pull-left">
+					<span class="title">Profissionais</span><br>
+					<span class="subtitle">Adicione e atualize profissionais</span>
+				</div>
+			</button>
+		</a>
 	</div>
 </div>
 
