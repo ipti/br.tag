@@ -1,5 +1,5 @@
 <?php
-require_once 'app/vendor/autoload.php';
+require 'app/vendor/autoload.php';
 
 use GuzzleHttp\Client;
 

@@ -144,13 +144,13 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Sagres'));
 					$(".alert-error-export").show();
 				});
 		})
-			.fail(function () {
-				$(".alert-error-export").append('Erro ao realizar o download do arquivo ');
-				$(".alert-error-export").show();
-			})
-			.always(function () {
-				location.reload();
-			});
+		.fail(function () {
+			$(".alert-error-export").append('Erro ao realizar o download do arquivo');
+			$(".alert-error-export").show();
+		})
+		.always(function() {
+			location.reload();
+		}); 
 	}
 
 </script>
