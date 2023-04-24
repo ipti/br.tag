@@ -2,6 +2,10 @@
     padding: 5px 5px 0;
 }
 
+.report-icon {
+    font-size: 20px;
+}
+
 .container-box {
     margin-bottom: 50px;
     width: 100%;
@@ -17,7 +21,7 @@
 }
 
 .report-box-container {
-    width: 25%;
+    width: 35%;
     height: 97px;
     padding: 20px;
     background: #FAFAFE;
