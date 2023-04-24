@@ -85,10 +85,10 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div>
                         <h3>Dados Básicos</h3>
                     </div>
-                    <!-- <span class="t-icon-trash"></span> -->
+                    
                     <div class="row">
                         <div class="column">
-                            <?php
+                             <?php
                             echo $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => Yii::app()->user->school));
                             echo CHtml::hiddenField("teachingData", '', array('id' => 'teachingData'));
                             echo CHtml::hiddenField("disciplines", '', array('id' => 'disciplines'));
