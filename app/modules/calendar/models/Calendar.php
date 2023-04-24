@@ -8,7 +8,6 @@
  * @property string $title
  * @property string $start_date
  * @property string $end_date
- * @property string $school_year
  * @property integer $available
  *
  * The followings are the available model relations:
@@ -35,12 +34,12 @@ class Calendar extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('title, start_date, end_date, available, school_year', 'required'),
+            array('title, start_date, end_date, available', 'required'),
             array('available', 'numerical', 'integerOnly'=>true),
             array('title', 'length', 'max' => 50),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, title, start_date, end_date, available, school_year', 'safe', 'on' => 'search'),
+            array('id, title, start_date, end_date, available', 'safe', 'on' => 'search'),
         );
     }
 
@@ -69,7 +68,6 @@ class Calendar extends CActiveRecord
             'start_date' => yii::t('calendarModule.labels', 'Start Date'),
             'end_date' => yii::t('calendarModule.labels', 'End Date'),
             'available' => "Available",
-            'school_year'=> yii::t('calendarModule.labels', 'School Year'),
         );
     }
 
@@ -96,7 +94,6 @@ class Calendar extends CActiveRecord
         $criteria->compare('start_date', $this->start_date, true);
         $criteria->compare('end_date', $this->end_date, true);
         $criteria->compare('available', $this->available);
-        $criteria->compare('school_year', $this->school_year);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

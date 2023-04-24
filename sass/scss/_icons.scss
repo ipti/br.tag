@@ -1,6 +1,7 @@
 .t-icon-trash::before {
     content: 'A';
     font-family: 'icone-tag', sans-serif;
+
 }
 .t-icon-less_stock::before {
     content: 'a';
@@ -205,25 +206,5 @@
 }
 .t-icon-play::before {
     content: 'z';
-    font-family: 'icone-tag', sans-serif;
-}
-.t-icon-to-go-back::before {
-    content:'0';
-    font-family: 'icone-tag', sans-serif;
-}
-.t-icon-attendance-note::before {
-    content:'1';
-    font-family: 'icone-tag', sans-serif;
-}
-.t-icon-group-people::before {
-    content:'2';
-    font-family: 'icone-tag', sans-serif;
-}
-.t-icon-person::before {
-    content:'4';
-    font-family: 'icone-tag', sans-serif;
-}
-.t-icon-slip::before {
-    content:'5';
     font-family: 'icone-tag', sans-serif;
 }

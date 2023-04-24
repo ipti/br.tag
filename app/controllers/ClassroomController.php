@@ -38,7 +38,7 @@ class ClassroomController extends Controller
                 'actions' => array('index', 'view', 'create', 'update', 'getassistancetype',
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
                     'getcomplementaryactivitytype', 'delete',
-                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'changeenrollments','batchupdatetransport', 'updateDisciplines'
+                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'batchupdatetransport', 'updateDisciplines'
                 ),
                 'users' => array('@'),
             ),
@@ -602,16 +602,12 @@ class ClassroomController extends Controller
                     $enro = StudentEnrollment::model()->findByPk($enrollment);
                     $enro->classroom_fk = $class_room->id;
                     $enro->classroom_inep_id = $class_room->inep_id;
-                    $enro->status = 2;
-                    $enro->create_date = date('Y-m-d');
-                    $enro->update(array('classroom_fk', 'classroom_inep_id', 'status', 'create_date'));
+                    $enro->update(array('classroom_fk', 'classroom_inep_id'));
                 }
             } else {
                 foreach ($enrollments as $enrollment) {
                     $enro = StudentEnrollment::model()->findByPk($enrollment);
-                    $enro->status = 3;
-                    $enro->date_cancellation_enrollment = date('Y-m-d');
-                    $enro->update(array('status', 'date_cancellation_enrollment'));
+                    $enro->delete();
                 }
             }
             $this->redirect(array('index'));
@@ -834,25 +830,5 @@ class ClassroomController extends Controller
         } else {
             echo json_encode(["valid" => false]);
         }
-    }
-    public function actionChangeEnrollments()
-    {
-    $ids  = $_POST['list'];
-    $enrollments = StudentEnrollment::model()->findAllByPk($ids);
-
-    usort($enrollments, function($a, $b) use ($ids) {
-        $pos_a = array_search($a->id, $ids);
-        $pos_b = array_search($b->id, $ids);
-        return $pos_a - $pos_b;
-    });
-
-    foreach ($enrollments as $i => $enrollment) {
-        $enrollment->daily_order = $i+1;
-        $enrollment->save();
-    } 
- 
-    Yii::app()->user->setFlash('success', Yii::t('default', 'dayli order'));
-   
-
     }
 }

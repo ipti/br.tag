@@ -28,7 +28,7 @@ $_GLOBALGROUP = 0;
         break;
     case 'santaluzia':
         $instance = 'SANTA LUZIA DO ITANHY';
-        $db = 'santaluzia.tag.ong.br';
+        $db = 'io.escola.se.santaluzia';
         break;
     case 'santaluzia3':
         $instance = 'SANTA LUZIA DO ITANHY - 3';
@@ -291,9 +291,9 @@ $_GLOBALGROUP = 0;
         $instance = 'DEV';
         $db = 'br.ong.tag.maranhao.bacabeira';
         break;
-    case 'sandbox':
+    case 'buzios':
         $instance = 'BUZIOS';
-        $db = 'buzios.tag.ong.br';
+        $db = 'br.ong.tag.rj.buzios';
         break;
     case 'ubatuba':
         $instance = 'UBATUBA';

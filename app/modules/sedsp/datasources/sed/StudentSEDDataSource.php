@@ -1,7 +1,7 @@
 <?php
-require 'app/vendor/autoload.php';
+require_once 'app/vendor/autoload.php';
 
-Yii::import('application.modules.sedsp.*');
+Yii::import('application.modules.sedsp.models.*');
 
 /**
  * Summary of StudentSEDDataSource
@@ -40,21 +40,6 @@ class StudentSEDDataSource extends SedDataSource
             'body' => json_encode($student_sed)
         ]);
         return $promise;
-    }
-
-    public function getStudentWithRA($RA)
-    {
-        $body['inAluno'] = array("inNumRA" => $RA,
-        "inSiglaUFRA" => "SP");
-        try {
-            $response = $this->client->request('GET', '/ncaapi/api/Aluno/ExibirFichaAluno', [
-                'body' => json_encode($body)
-            ]);
-            return $response;
-        }
-        catch (GuzzleHttp\Exception\ClientException $e) {
-            return new OutErro($e);
-        }
     }
 
     public function getAllStudentsRA($students){

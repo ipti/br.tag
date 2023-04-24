@@ -98,7 +98,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         'style' => 'width:100%'
                                     )); ?>
                             </div>
-                            
+
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($model, 'edcenso_stage_vs_modality_fk', array('class' => 't-field-select__label')); ?>
                                     <?php echo $form->dropDownList($model, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa", 'class' => 'select-search-on t-field-select__input')); ?>

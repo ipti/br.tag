@@ -433,7 +433,7 @@ table.dataTable.no-footer {
 
 @font-face {
     font-family: 'icone-tag';
-    src: url('/themes/default/fonts/IconsTag_V4.ttf');
+    src: url('/themes/default/fonts/icone-tag.ttf');
 }
 
 .icones {
@@ -465,12 +465,11 @@ table.dataTable.no-footer {
 }
 
 .grades-structure-container .unity-name {
-    width: calc(100% - 136px);
+    width: calc(100% - 125px);
 }
 
 .grades-structure-container .modality-name {
-    width: calc(100% - 136px);
-    /* margin: 0px 9px 0px 0px; */
+    width: calc(100% - 122px);
 }
 
 .grades-structure-container .formula-select,
@@ -484,8 +483,7 @@ table.dataTable.no-footer {
 
 .grades-structure-container .unity label {
     /* width: 105px; */
-    margin: 0px 10px 0px 0px;
-    width: 92px;
+    width: 64px;
 }
 
 .grades-structure-container .unity-children {
@@ -713,7 +711,7 @@ li[instructor]:hover {
 }
 .button-icon-close{
     display:flex;
-    margin: 7px -4px 0px 0px;
+    margin: 7px 26px 0px 0px;
 }
 .div-input-structure-units{
     margin-right: 14px;

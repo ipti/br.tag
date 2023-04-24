@@ -47,7 +47,6 @@
  * @property integer $aee_caa
  * @property integer $aee_optical_nonoptical
  * @property string $observation
- * @property integer $daily_order
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
@@ -131,7 +130,7 @@ class StudentEnrollment extends AltActiveRecord
         // will receive user inputs.
         return array(
             array('school_inep_id_fk, student_fk', 'required'),
-            array('daily_order, student_fk, classroom_fk, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, current_stage_situation, previous_stage_situation, admission_type, status, aee_cognitive_functions, aee_autonomous_life, aee_curriculum_enrichment, aee_accessible_teaching, aee_libras, aee_portuguese, aee_soroban, aee_braille, aee_mobility_techniques, aee_caa, aee_optical_nonoptical', 'numerical', 'integerOnly' => true),
+            array('student_fk, classroom_fk, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, current_stage_situation, previous_stage_situation, admission_type, status, aee_cognitive_functions, aee_autonomous_life, aee_curriculum_enrichment, aee_accessible_teaching, aee_libras, aee_portuguese, aee_soroban, aee_braille, aee_mobility_techniques, aee_caa, aee_optical_nonoptical', 'numerical', 'integerOnly' => true),
             array('register_type', 'length', 'max' => 2),
             array('school_inep_id_fk', 'length', 'max' => 8),
             array('student_inep_id, classroom_inep_id, enrollment_id', 'length', 'max' => 12),
@@ -213,9 +212,7 @@ class StudentEnrollment extends AltActiveRecord
             'aee_mobility_techniques' => Yii::t('default', 'Aee Mobility Techniques'),
             'aee_caa' => Yii::t('default', 'Aee Caa'),
             'aee_optical_nonoptical' => Yii::t('default', 'Aee Optical Nonoptical'),
-            'observation' => Yii::t('default', 'Observation'),
-            'daily_order' => Yii::t('default', 'daily_order')
-
+            'observation' => Yii::t('default', 'Observation')
         );
     }
 
@@ -285,13 +282,6 @@ class StudentEnrollment extends AltActiveRecord
         $count = Yii::app()->db->createCommand($sql)->queryRow();
         // var_dump($count["qtd"]);
         return $count["qtd"] > 0; 
-    }
-    public function getDailyOrder()
-    {
-        $sql = "SELECT count(student_fk) as qtd FROM student_enrollment WHERE classroom_fk = " . $this->classroom_fk;
-        $count = Yii::app()->db->createCommand($sql)->queryRow();
-        // var_dump($count["qtd"]);
-        return $count["qtd"] + 1; 
     }
 
     /**
