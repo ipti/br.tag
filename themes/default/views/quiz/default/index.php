@@ -32,7 +32,7 @@ $this->breadcrumbs = array(
                                         <span class="t-icon-trash"></span>
                                         Questionários
                                     </div>
-                                    <div class="t-cards-text">Cadastre uma Unidade gestora.</div>
+                                    <div class="t-cards-text">Adicione questões ao relatório.</div>
                                     <!-- <img class="t-icon-trash" alt="icone escola card" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/escola.svg" /> -->
                                     <!-- <span class="fa-list-ol fa fa-4x block"><i></i></span>
                                     <span class="txt">Questionários</span>
@@ -47,7 +47,7 @@ $this->breadcrumbs = array(
                                         <span class="t-icon-trash"></span>
                                         Perguntas
                                     </div>
-                                    <div class="t-cards-text">Exporte os dados da Unidade.</div>
+                                    <div class="t-cards-text">Relacione novos questionários aos grupos.</div>
                                     <!-- <span class="fa fa-edit fa-4x block"></span>
                                     <span class="txt">Perguntas</span>
                                     <div class="clearfix"></div> -->
@@ -61,7 +61,7 @@ $this->breadcrumbs = array(
                                         <span class="t-icon-trash"></span>
                                         Grupos de Perguntas
                                     </div>
-                                    <div class="t-cards-text">Atualize os dados da Unidade.</div>
+                                    <div class="t-cards-text">Crie grupos de perguntas.</div>
                                     <!-- <span class="fa fa-archive fa-4x block"><i></i></span>
                                     <span class="txt">Grupos de Perguntas</span>
                                     <div class="clearfix"></div> -->

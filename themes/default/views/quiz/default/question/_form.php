@@ -104,7 +104,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($question, 'status'); ?>
                             </div>
                         </div>
-                        <div class=" column"></div>
+                        <div class="column"></div>
                     </div>
                 </div>
                 <?php if (!$question->isNewRecord && in_array($question->type, $question->getEnableOption())) : ?>
@@ -125,12 +125,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->hiddenField($option, 'id', array('size' => 60, 'maxlength' => 45, 'value' => $option->id)); ?>
                                 </div> <!-- .control-group -->
                                 <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($option, 'complement', array('size' => 60, 'maxlength' => 150, 'class' => 't-field-checkbox__input')); ?>
+                                    <?php echo $form->error($option, 'complement'); ?>
                                     <?php echo $form->labelEx($option, 'complement', array('class' => 't-field-text__label')); ?>
-                                        <?php echo $form->checkBox($option, 'complement', array('size' => 60, 'maxlength' => 150, 'class' =>'t-field-checkbox__input')); ?>
-                                        <?php echo $form->error($option, 'complement'); ?>
+                                   
                                 </div> <!-- .control-group -->
                                 <div class="control-group">
-                                        <button id="save_option_button" class="btn btn-icon btn-primary last glyphicons circle_ok" type="button" name="yt0"><i></i>Salvar</button>
+                                    <button id="save_option_button" class="btn btn-icon btn-primary last glyphicons circle_ok" type="button" name="yt0"><i></i>Salvar</button>
                                 </div>
                             </div>
                             <div class="column">
