@@ -44,7 +44,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                         <a href="<?php echo Yii::app()->createUrl('admin/createUser') ?>">
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
-                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/createUser.svg" />
+                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/createUser.svg" alt="createUser"/>
                                     <!-- <div class="t-icon-schedule report-icon"></div> -->
                                 </div>
                                 <div class="pull-left">
@@ -57,7 +57,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                         <a href="<?php echo Yii::app()->createUrl('admin/gradesStructure') ?>">
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
-                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/gradesStructure.svg" />
+                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/gradesStructure.svg" alt="gradesStructure"/>
                                     <!-- <div class="t-icon-schedule report-icon"></div> -->
                                 </div>
                                 <div class="pull-left">
@@ -70,7 +70,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                         <a href="<?php echo Yii::app()->createUrl('admin/editPassword', array("id" => Yii::app()->user->loginInfos->id)) ?>">
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
-                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/editPassword.svg" />
+                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/editPassword.svg" alt="editPassword"/>
                                     <!-- <div class="t-icon-schedule report-icon"></div> -->
                                 </div>
                                 <div class="pull-left">
@@ -83,7 +83,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                         <a href="<?php echo Yii::app()->createUrl('admin/exportmaster') ?>">
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
-                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/exportmaster.svg" />
+                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/exportmaster.svg" alt="exportmaster"/>
                                     <!-- <div class="t-icon-schedule report-icon"></div> -->
                                 </div>
                                 <div class="pull-left">
@@ -96,7 +96,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                         <a href="<?php echo Yii::app()->createUrl('admin/manageUsers') ?>">
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
-                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/manageUsers.svg" />
+                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/manageUsers.svg" alt="manageUsers"/>
                                     <!-- <div class="t-icon-schedule report-icon"></div> -->
                                 </div>
                                 <div class="pull-left">
@@ -109,7 +109,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                         <a href="<?php echo Yii::app()->createUrl('admin/activeDisableUser') ?>">
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
-                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/activeDisableUser.svg" />
+                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/activeDisableUser.svg" alt="activeDisableUser"/>
                                     <!-- <div class="t-icon-schedule report-icon"></div> -->
                                 </div>
                                 <div class="pull-left">
@@ -122,7 +122,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                         <a href="<?php echo Yii::app()->createUrl('admin/changelog') ?>">
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
-                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/changelog.svg" />
+                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/changelog.svg" alt="changelog"/>
                                     <!-- <div class="t-icon-schedule report-icon"></div> -->
                                 </div>
                                 <div class="pull-left">
