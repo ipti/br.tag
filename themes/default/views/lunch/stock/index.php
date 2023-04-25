@@ -21,7 +21,7 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
     </div>
 
 
-    <div class="home">
+    <div class="home stock-home">
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="row-fluid">
                 <div class="span12">

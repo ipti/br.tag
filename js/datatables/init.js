@@ -218,7 +218,7 @@ $(document).ready(function () {
             else if(action.includes("stock")) {
                 $('.stock-container .dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar Itens')
                 $('.transactions-container .dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar Movimentações')
-            }
+            }else if(action.includes("lunch/index")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar cardápios')
 
             //Remove o texto da label original do datatable
             $(".dataTables_filter label").contents().filter(function() {

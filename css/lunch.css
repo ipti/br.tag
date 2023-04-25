@@ -1,3 +1,4 @@
+/* Index View */
 .lunch-icon {
     font-size: 20px;
 }
@@ -65,6 +66,7 @@
     margin-left: 0 !important;
 }
 
+/* Estoque View */
 table {
     text-align: left !important;
 }
@@ -105,26 +107,26 @@ table th, table td {
     color: #5F738C;
 }
 
-.dataTables_filter {
+.stock-home .dataTables_filter {
     display: flex !important;
     float: left !important;
     width: 70% !important;
 }
 
-.dataTables_filter > label {
+.stock-home .dataTables_filter > label {
     width: 100% !important;
     cursor: text;
 }
 
-.dataTables_filter > label > img, .dataTables_filter > label > input {
+.stock-home .dataTables_filter > label > img, .stock-home .dataTables_filter > label > input {
     float: left !important;
 }
 
-.dataTables_filter > label > img {
+.stock-home .dataTables_filter > label > img {
     margin: 7px !important;
 }
 
-.dataTables_filter > label > input {
+.stock-home .dataTables_filter > label > input {
     width: 50% !important;
 }
 
@@ -226,4 +228,13 @@ table th, table td {
 
 .container-box table.dataTable {
     border-collapse: collapse !important;
+}
+
+/* Cardápio View */
+.lunch-container {
+    width: auto;
+}
+
+.lunch-home .dataTables_filter > label > img {
+    margin-bottom: 10px !important;
 }
