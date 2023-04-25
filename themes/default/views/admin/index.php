@@ -5,6 +5,7 @@ $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/admin/index/dialogs.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/admin/index/global.js', CClientScript::POS_END);
+$cs->registerCssFile($baseUrl . '/css/admin.css');
 
 $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
 
@@ -38,80 +39,102 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
             <?php endif ?>
             <div class="span12">
                 <div class="row-fluid">
-                    <!--<div class="span3">
-                        <a href="<?php echo Yii::app()->createUrl('admin/ACL') ?>" class="widget-stats">
-                            <span class="glyphicons flag"><i></i></span>
-                            <span class="txt">Config. Permissões</span>
-                            <div class="clearfix"></div>
-                    5</a>
-                    </div>-->
+                    <div class="container-box">
 
-                    <!--                <div class="span3">-->
-                    <!--                    <a href="--><?php //echo Yii::app()->createUrl('admin/clearDB') 
-                                                        ?><!--" class="widget-stats">-->
-                    <!--                        <span class="glyphicons database_minus"><i></i></span>-->
-                    <!--       5                <span class="txt">Limpar Banco</span>-->
-                    <!--                        <div class="clearfix"></div>-->
-                    <!--                    </a>-->
-                    <!--                </div>-->
-                    <div class="span2">
-                        <a href="<?php echo Yii::app()->createUrl('admin/createUser') ?>" class="widget-stats">
-                            <span class="glyphicons user"><i></i></span>
-                            <span class="txt">Cadastrar usuário</span>
-                            <div class="clearfix"></div>
+                        <a href="<?php echo Yii::app()->createUrl('admin/createUser') ?>">
+                            <button type="button" class="admin-box-container">
+                                <div class="pull-left" style="margin-right: 20px;">
+                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/createUser.svg" />
+                                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                                </div>
+                                <div class="pull-left">
+                                    <span class="title">Cadastrar usuário</span><br>
+                                    <span class="subtitle">Cadastre um novo usuário</span>
+                                </div>
+                            </button>
                         </a>
-                    </div>
-                    <div class="span2">
-                        <a href="<?php echo Yii::app()->createUrl('admin/gradesStructure') ?>" class="widget-stats">
-                            <span class="glyphicons list"><i></i></span>
-                            <span class="txt">Estrutura de Unidades e Avaliações</span>
-                            <div class="clearfix"></div>
+
+                        <a href="<?php echo Yii::app()->createUrl('admin/gradesStructure') ?>">
+                            <button type="button" class="admin-box-container">
+                                <div class="pull-left" style="margin-right: 20px;">
+                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/gradesStructure.svg" />
+                                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                                </div>
+                                <div class="pull-left">
+                                    <span class="title">Estrutura de Unidades e Avaliações</span><br>
+                                    <span class="subtitle">Informações das Unidades de uma Etapa</span>
+                                </div>
+                            </button>
                         </a>
-                    </div>
-                    <div class="span2">
-                        <a href="<?php echo Yii::app()->createUrl('admin/editPassword', array("id" => Yii::app()->user->loginInfos->id)) ?>" class="widget-stats">
-                            <span class="glyphicons keys"><i></i></span>
-                            <span class="txt">Alterar Senha</span>
-                            <div class="clearfix"></div>
+
+                        <a href="<?php echo Yii::app()->createUrl('admin/editPassword', array("id" => Yii::app()->user->loginInfos->id)) ?>">
+                            <button type="button" class="admin-box-container">
+                                <div class="pull-left" style="margin-right: 20px;">
+                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/editPassword.svg" />
+                                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                                </div>
+                                <div class="pull-left">
+                                    <span class="title">Alterar Senha</span><br>
+                                    <span class="subtitle">Altere a senha do seu usuário</span>
+                                </div>
+                            </button>
                         </a>
-                    </div>
-                    <div class="span2">
-                        <a href="<?php echo Yii::app()->createUrl('admin/exportmaster') ?>" class="widget-stats">
-                            <span class="glyphicons file_export"><i></i></span>
-                            <span class="txt">Exportar</span>
-                            <div class="clearfix"></div>
+
+                        <a href="<?php echo Yii::app()->createUrl('admin/exportmaster') ?>">
+                            <button type="button" class="admin-box-container">
+                                <div class="pull-left" style="margin-right: 20px;">
+                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/exportmaster.svg" />
+                                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                                </div>
+                                <div class="pull-left">
+                                    <span class="title">Exportar</span><br>
+                                    <span class="subtitle">Exporte as informações do TAG em JSON</span>
+                                </div>
+                            </button>
                         </a>
-                    </div>
-                    <div class="span2">
-                        <a href="<?php echo Yii::app()->createUrl('admin/manageUsers') ?>" class="widget-stats">
-                            <span class="glyphicons edit"><i></i></span>
-                            <span class="txt">Gerenciar Usuários</span>
+
+                        <a href="<?php echo Yii::app()->createUrl('admin/manageUsers') ?>">
+                            <button type="button" class="admin-box-container">
+                                <div class="pull-left" style="margin-right: 20px;">
+                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/manageUsers.svg" />
+                                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                                </div>
+                                <div class="pull-left">
+                                    <span class="title">Gerenciar Usuários</span><br>
+                                    <span class="subtitle">Editar usuários do TAG</span>
+                                </div>
+                            </button>
                         </a>
-                    </div>
-                    <div class="span2">
-                        <a href="<?php echo Yii::app()->createUrl('admin/activeDisableUser') ?>" class="widget-stats">
-                            <span class="glyphicons remove"><i></i></span>
-                            <span class="txt">Ativar/Desativar usuário</span>
+
+                        <a href="<?php echo Yii::app()->createUrl('admin/activeDisableUser') ?>">
+                            <button type="button" class="admin-box-container">
+                                <div class="pull-left" style="margin-right: 20px;">
+                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/activeDisableUser.svg" />
+                                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                                </div>
+                                <div class="pull-left">
+                                    <span class="title">Ativar/Desativar usuário</span><br>
+                                    <span class="subtitle">Torne um usuário ativo ou inativo</span>
+                                </div>
+                            </button>
                         </a>
-                    </div>
-                </div>
-            </div>
-            <div class="span12" style="margin: 10px 0 0 0;">
-                <div class="row-fluid">
-                    <div class="span2">
-                        <a href="<?php echo Yii::app()->createUrl('admin/changelog') ?>" class="widget-stats">
-                            <span class="glyphicons settings"><i></i></span>
-                            <span class="txt">Atualizações no TAG</span>
-                            <div class="clearfix"></div>
+
+                        <a href="<?php echo Yii::app()->createUrl('admin/changelog') ?>">
+                            <button type="button" class="admin-box-container">
+                                <div class="pull-left" style="margin-right: 20px;">
+                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/adminIcon/changelog.svg" />
+                                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                                </div>
+                                <div class="pull-left">
+                                    <span class="title">Atualizações no TAG</span><br>
+                                    <span class="subtitle">Confira todas as novidades do TAG</span>
+                                </div>
+                            </button>
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="changelogs">
-
-        </div>
-
     </div>
 </div>
 <script>
