@@ -40,20 +40,20 @@
     text-align: left;
 }
 
-@media (max-width: 1440px) {
-    .report-box-container {
+@media (max-width: 1255px) {
+    .container-box a {
         width: 50%;
     }
 }
 
-@media (max-width: 1200px) {
-    .report-box-container {
+@media (max-width: 956px) {
+    .container-box a {
         width: 70%;
     }
 }
 
-@media (max-width: 880px) {
-    .report-box-container {
+@media (max-width: 569px) {
+    .container-box a {
         width: 100%;
     }
 }
