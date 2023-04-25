@@ -29,7 +29,7 @@ $this->breadcrumbs = array(
                             <div class="t-cards">
                                 <a href="<?php echo Yii::app()->createUrl('quiz/default/quiz') ?>" class="t-cards-link">
                                     <div class="t-cards-title">
-                                        <span class="t-icon-trash"></span>
+                                        <span class="t-icon-list-form"></span>
                                         Questionários
                                     </div>
                                     <div class="t-cards-text">Adicione questões ao relatório.</div>
@@ -44,7 +44,7 @@ $this->breadcrumbs = array(
                             <div class="t-cards">
                                 <a href="<?php echo Yii::app()->createUrl('quiz/default/question') ?>" class="t-cards-link">
                                     <div class="t-cards-title">
-                                        <span class="t-icon-trash"></span>
+                                        <span class="t-icon-balloon-question"></span>
                                         Perguntas
                                     </div>
                                     <div class="t-cards-text">Relacione novos questionários aos grupos.</div>
@@ -58,7 +58,7 @@ $this->breadcrumbs = array(
                             <div class="t-cards">
                                 <a href="<?php echo Yii::app()->createUrl('quiz/default/group') ?>" class="t-cards-link">
                                     <div class="t-cards-title">
-                                        <span class="t-icon-trash"></span>
+                                        <span class="t-icon-box"></span>
                                         Grupos de Perguntas
                                     </div>
                                     <div class="t-cards-text">Crie grupos de perguntas.</div>
@@ -72,7 +72,7 @@ $this->breadcrumbs = array(
                             <div class="t-cards">
                                 <a href="<?php echo Yii::app()->createUrl('quiz/default/questionGroup') ?>" class="t-cards-link">
                                     <div class="t-cards-title">
-                                        <span class="t-icon-trash"></span>
+                                        <span class="t-icon-question-group"></span>
                                         Agrupar Perguntas
                                     </div>
                                     <div class="t-cards-text">Atualize os dados da Unidade.</div>
