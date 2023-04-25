@@ -43,7 +43,7 @@ $this->breadcrumbs = array(
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <div class="pull-left">
-                            <span class="title">Número de Alunos por Turma</span><br>
+                            <span class="title">Número de alunos por turma</span><br>
                             <span class="subtitle">Quantidade de alunos em cada turma</span>
                         </div>
                     </button>
@@ -56,7 +56,7 @@ $this->breadcrumbs = array(
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <div class="pull-left">
-                            <span class="title">Alunos com Idade Incompatível por Turma</span><br>
+                            <span class="title">Alunos com idade incompatível por turma</span><br>
                             <span class="subtitle">Alunos com idades incompatíveis com as recomendadas</span>
                         </div>
                     </button>
@@ -80,7 +80,7 @@ $this->breadcrumbs = array(
                     </div>
                     <div class="pull-left">
                         <span class="title">Participantes do bolsa familia</span><br>
-                        <span class="subtitle">Alunos beneficiários do Bolsa Família</span>
+                        <span class="subtitle">Alunos beneficiários do bolsa família</span>
                     </div>
                 </button>
 
@@ -91,7 +91,7 @@ $this->breadcrumbs = array(
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <div class="pull-left">
-                            <span class="title">Alunos com Documentos Pendentes</span><br>
+                            <span class="title">Alunos com documentos pendentes</span><br>
                             <span class="subtitle">Relação de alunos com documentos pendentes de entrega.</span>
                         </div>
                     </button>
@@ -117,7 +117,7 @@ $this->breadcrumbs = array(
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <div class="pull-left">
-                            <span class="title">Ata de Conselho de Classe</span><br>
+                            <span class="title">Ata de conselho de classe</span><br>
                             <span class="subtitle">Apresenta as matrículas, professores e avaliações da turma.</span>
                         </div>
                     </button>
@@ -130,7 +130,7 @@ $this->breadcrumbs = array(
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <div class="pull-left">
-                            <span class="title">Alunos com Idade entre 5 e 14 Anos (SUS)</span><br>
+                            <span class="title">Alunos com idade entre 5 e 14 Anos (SUS)</span><br>
                             <span class="subtitle">Todos os alunos que possuem idade entre 5 e 14 anos</span>
                         </div>
                     </button>
@@ -143,7 +143,7 @@ $this->breadcrumbs = array(
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <div class="pull-left">
-                            <span class="title">Relaçao de Alunos em ordem Alfabética</span><br>
+                            <span class="title">Relação de alunos em ordem alfabética</span><br>
                             <span class="subtitle">Alunos em ordem alfabética</span>
                         </div>
                     </button>
@@ -156,8 +156,8 @@ $this->breadcrumbs = array(
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <div class="pull-left">
-                            <span class="title">Alunos - Cardápios Especiais</span><br>
-                            <span class="subtitle">Alunos com eestrições alimentares</span>
+                            <span class="title">Cardápios especiais</span><br>
+                            <span class="subtitle">Alunos com restrições alimentares</span>
                         </div>
                     </button>
                 </a>
@@ -175,6 +175,19 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
+                <a href="<<?php echo Yii::app()->createUrl('reports/electronicdiary') ?>">
+                    <button type="button" class="report-box-container">
+                        <div class="pull-left" style="margin-right: 20px;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/electronicdiary.svg" />
+                            <!-- <div class="t-icon-schedule report-icon"></div> -->
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Diário eletrônico</span><br>
+                            <span class="subtitle">Relatório de notas por aluno e frequência da turma</span>
+                        </div>
+                    </button>
+                </a>
+
                 <?php if (INSTANCE == "BUZIOS" || INSTANCE == "TREINAMENTO" || INSTANCE == "LOCALHOST") { ?>
                     <button type="button" class="report-box-container" data-toggle="modal" data-target="#quarterly-report" target="_blank">
                         <div class="pull-left" style="margin-right: 20px;">
@@ -182,7 +195,7 @@ $this->breadcrumbs = array(
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <d  iv class="pull-left">
-                            <span class="title">Relatório Trimestral do Aluno</span><br>
+                            <span class="title">Relatório trimestral do aluno</span><br>
                             <span class="subtitle">Avaliação do aluno no trimestre</span>
                         </div>
                     </button>
@@ -199,7 +212,7 @@ $this->breadcrumbs = array(
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <div class="pull-left">
-                            <span class="title">Nº de professores por turma</span><br>
+                            <span class="title">Número de professores por turma</span><br>
                             <span class="subtitle">Quantidade de professores por turma</span>
                         </div>
                     </button>
@@ -238,7 +251,7 @@ $this->breadcrumbs = array(
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <div class="pull-left">
-                            <span class="title">Relação Turmas sem Instrutor</span><br>
+                            <span class="title">Relação de turmas sem instrutor</span><br>
                             <span class="subtitle">Todas as turmas que não possuem docente</span>
                         </div>
                     </button>
@@ -255,7 +268,7 @@ $this->breadcrumbs = array(
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <div class="pull-left">
-                            <span class="title">Relação Transporte Escolar</span><br>
+                            <span class="title">Relação transporte escolar</span><br>
                             <span class="subtitle">Alunos que utilizam transporte escolar</span>
                         </div>
                     </button>
@@ -294,7 +307,7 @@ $this->breadcrumbs = array(
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <div class="pull-left">
-                            <span class="title">Relação Acessibilidade</span><br>
+                            <span class="title">Relação acessibilidade</span><br>
                             <span class="subtitle">Alunos que possuem deficiência</span>
                         </div>
                     </button>
@@ -307,7 +320,7 @@ $this->breadcrumbs = array(
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <div class="pull-left">
-                            <span class="title">Monitores de Atividade Complementar</span><br>
+                            <span class="title">Monitores de atividade complementar</span><br>
                             <span class="subtitle">Monitores de atividade complementar por turma</span>
                         </div>
                     </button>
@@ -320,7 +333,7 @@ $this->breadcrumbs = array(
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <div class="pull-left">
-                            <span class="title">Número de Alunos e Professores por Turma</span><br>
+                            <span class="title">Número de alunos e professores por turma</span><br>
                             <span class="subtitle">Quantidade de alunos e professores por turma</span>
                         </div>
                     </button>
