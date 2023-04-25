@@ -77,7 +77,7 @@
                     class='t-button-primary'><?php echo Yii::t('default', 'Search') ?>
                         </a>
                 </div>
-                <i class="loading-report fa fa-spin fa-spinner"></i>
+                <img class="loading-report"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
         <div class="report-container"></div>
         <button class="btn btn-icon btn-small btn-primary print-report"><i class="fa fa-print"></i> Imprimir</button>
