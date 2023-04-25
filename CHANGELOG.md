@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.15.27]
+- O ícones de carregamentos foram modificados
+
 ## [Versão 3.14.27]
 - O estilo da tela de relatórios, Sagres e SEDSP foi alterado
 
