@@ -65,19 +65,19 @@
     margin-left: 0 !important;
 }
 
-.stock-items-table {
+table {
     text-align: left !important;
 }
 
-.stock-items-table thead > tr {
-    border-bottom: 1px solid #BAC7D5 !important;
+table thead > tr {
+    border-bottom: 2px solid #BAC7D5 !important;
 }
 
-.stock-items-table tbody tr {
-    border-bottom: 1px solid #E8EDF1 !important;
+table tbody tr {
+    border-bottom: 2px solid #E8EDF1 !important;
 }
 
-.stock-items-table th, .stock-items-table td {
+table th, table td {
     padding: 10px !important;
 }
 
@@ -217,4 +217,12 @@
     font-size: 14px;
     line-height: 20px;
     color: #28A138;
+}
+
+.odd, .even {
+    background: none !important;
+}
+
+.container-box table.dataTable {
+    border-collapse: collapse !important;
 }
