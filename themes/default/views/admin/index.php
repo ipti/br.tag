@@ -14,7 +14,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
 <div class="main">
 
     <div class="row-fluid">
-        <div class="span12">
+        <div class="span12" style="margin-left: 20px;">
             <h1><?php echo Yii::t('default', 'Administration'); ?></h1>
         </div>
     </div>
