@@ -1175,7 +1175,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <tr>
                                             <td><?php echo $me->schoolInepIdFk->name ?></td>
                                             <td style="text-align: center">
-                                                <?php if ($me->classroomFk->school_year >= date('Y')) { ?>
+                                                <?php if ($me->classroomFk->school_year >=  Yii::app()->user->year) {  ?> 
                                                     <a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)); ?>'>
                                                         <i class="fa fa-pencil" style="color:#3F45EA; padding-right: 1%"></i>
                                                         <?php echo $me->classroomFk->name ?>

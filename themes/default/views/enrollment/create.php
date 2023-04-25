@@ -17,5 +17,5 @@
         </div>
         <br/>
     <?php endif ?>
-    <?php echo $this->renderPartial('_form', array('model' => $model, 'title' => $title)); ?>
+    <?php echo $this->renderPartial('_form', array('model' => $model, 'title' => $title, 'classrooms' => $classrooms)); ?>
 </div>
