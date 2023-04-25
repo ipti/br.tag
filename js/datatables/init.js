@@ -85,7 +85,11 @@ $(document).ready(function () {
                     data: request,
                     dataType: 'json',
                     cache: false,
+                    beforeSend: function () {
+                        $(".loading-datatable-search").show();
+                    },
                     success: function (json) {
+                        $(".loading-datatable-search").hide();
                         cacheLastJson = $.extend(true, {}, json);
 
                         if (cacheLower != drawStart) {
@@ -194,8 +198,9 @@ $(document).ready(function () {
                 return this.nodeType === 3;
             }).remove();
 
-            //adiciona o ícone de pesquisa
+            //adiciona o ícone de pesquisa e loading
             $('.dataTables_filter label').prepend('<img src="../../../themes/default/img/search-icon.svg">');
+            $('#student-identification-table_wrapper').prepend('<img class="loading-datatable-search" style="display:none;margin-left: 75%;margin-top: 1.2%;" height="30px" width="30px" src="../../../themes/default/img/loadingTag.gif" alt="TAG Loading">');
         });
     }
 });
