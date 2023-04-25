@@ -56,39 +56,39 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
 
         <div class="widget-body form-horizontal">
-            <div class="tab-content">
+            <div class="tab-content form-content">
                 <div class="tab-pane active" id="group">
                     <div class="row">
                         <div class="column">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($group, 'name', array('class' => 'control-label t-field-text__label--required')); ?>
-                                    <?php echo $form->textField($group, 'name', array('size' => 60, 'maxlength' => 150, 'class'=>"t-field-text__input")); ?>
-                                    <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Group Name'); ?>"><i></i></span> -->
-                                    <?php echo $form->error($group, 'name'); ?>
+                                <?php echo $form->textField($group, 'name', array('size' => 60, 'maxlength' => 150, 'class' => "t-field-text__input")); ?>
+                                <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Group Name'); ?>"><i></i></span> -->
+                                <?php echo $form->error($group, 'name'); ?>
                             </div>
                             <!-- .control-group -->
                             <div class="control-group">
                                 <?php echo $form->labelEx($group, 'quiz_id', array('class' => 'control-label required')); ?>
-                                    <?php
-                                    $quizs = Quiz::model()->findAll(
-                                        "status = :status AND final_date >= :final_date",
-                                        [
-                                            ':status' => 1,
-                                            ':final_date' => date('Y-m-d'),
-                                        ]
-                                    );
+                                <?php
+                                $quizs = Quiz::model()->findAll(
+                                    "status = :status AND final_date >= :final_date",
+                                    [
+                                        ':status' => 1,
+                                        ':final_date' => date('Y-m-d'),
+                                    ]
+                                );
 
-                                    echo $form->dropDownList(
-                                        $group,
-                                        'quiz_id',
-                                        CHtml::listData(
-                                            $quizs,
-                                            'id',
-                                            'name'
-                                        ),
-                                        array("prompt" => "Selecione um Questionário", 'class' => 'select-search-on t-field-select__input')
-                                    ); ?>
-                                    <?php echo $form->error($group, 'quiz_id'); ?>
+                                echo $form->dropDownList(
+                                    $group,
+                                    'quiz_id',
+                                    CHtml::listData(
+                                        $quizs,
+                                        'id',
+                                        'name'
+                                    ),
+                                    array("prompt" => "Selecione um Questionário", 'class' => 'select-search-on t-field-select__input')
+                                ); ?>
+                                <?php echo $form->error($group, 'quiz_id'); ?>
                             </div>
                         </div>
                         <div class="column"></div>

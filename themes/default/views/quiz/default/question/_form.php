@@ -14,7 +14,6 @@ $form = $this->beginWidget('CActiveForm', array(
     'enableAjaxValidation' => false,
 ));
 ?>
-
 <div class="row-fluid  hidden-print">
     <div class="span12">
         <h1><?php echo $title; ?></h1>
@@ -29,7 +28,6 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
     </div>
 </div>
-
 <div class="tag-inner">
     <?php if (Yii::app()->user->hasFlash('success') && (!$question->isNewRecord)) : ?>
         <div class="alert alert-success">
@@ -64,7 +62,7 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
 
         <div class="widget-body form-horizontal">
-            <div class="tab-content">
+            <div class="tab-content form-content">
                 <div class="tab-pane active" id="question">
                     <div class="row">
                         <div class="column">
@@ -123,13 +121,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($option, 'answer'); ?>
                                     <?php echo $form->hiddenField($option, 'question_id', array('size' => 60, 'maxlength' => 45, 'value' => $question->id)); ?>
                                     <?php echo $form->hiddenField($option, 'id', array('size' => 60, 'maxlength' => 45, 'value' => $option->id)); ?>
-                                </div> <!-- .control-group -->
+                                </div> 
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($option, 'complement', array('size' => 60, 'maxlength' => 150, 'class' => 't-field-checkbox__input')); ?>
                                     <?php echo $form->error($option, 'complement'); ?>
                                     <?php echo $form->labelEx($option, 'complement', array('class' => 't-field-text__label')); ?>
-                                   
-                                </div> <!-- .control-group -->
+
+                                </div> 
                                 <div class="control-group">
                                     <button id="save_option_button" class="btn btn-icon btn-primary last glyphicons circle_ok" type="button" name="yt0"><i></i>Salvar</button>
                                 </div>
@@ -153,9 +151,8 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
     </div>
 </div>
-</div>
 
-</div>
+
 
 <?php
 
