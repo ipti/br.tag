@@ -30,7 +30,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <!-- style="line-height: 190px;" -->
         <div class="tag-buttons-container buttons">
-            <a data-toggle="tab" class='hide-responsive tag-button-light small-button prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+            <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
             <?= $modelSchoolIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
             <button class="t-button-primary  last save-school-button" type="button">
                 <?= $modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
@@ -46,12 +46,12 @@ $form = $this->beginWidget('CActiveForm', array(
         <?php echo $form->errorSummary($modelSchoolStructure); ?>
         <div class="alert alert-error school-error no-show"></div>
         <div class="t-tabs">
-            <ul class="t-tabs__list">
+            <ul class="js-tab-school t-tabs__list">
                 <li id="tab-school-indentify" class="active t-tabs__item"><a class="t-tabs__link" href="#school-indentify" data-toggle="tab">
                         <span class="t-tabs__numeration">1</span>
                         <?php echo Yii::t('default', 'Identification') ?>
                     </a>
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
                 <li id="tab-school-addressContact" class="t-tabs__item">
                     <a class="t-tabs__link" href="#school-addressContact" data-toggle="tab">
@@ -79,7 +79,9 @@ $form = $this->beginWidget('CActiveForm', array(
                         <span class="t-tabs__numeration">5</span>
                         <?php echo Yii::t('default', 'Educational Data') ?>
                     </a>
+                    <?php if (!$modelSchoolIdentification->isNewRecord) : ?>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                    <?php endif ?>
                 </li>
                 <?php if (!$modelSchoolIdentification->isNewRecord) : ?>
                     <li id="tab-school-reports" class="t-tabs__item hide-responsive">
