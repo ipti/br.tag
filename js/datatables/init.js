@@ -170,7 +170,30 @@ $(document).ready(function () {
                     columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
                     searching: true,
                 });
-            } else {
+            }else if ((action.includes("stock"))){
+                $(".stock-items-table").dataTable({
+                    language: getLanguagePtbr(),
+                    responsive: true,
+                    pageLength: 20,
+                    select: {
+                        items: 'cell'
+                    },
+                    ordering: false,
+                    "bLengthChange": false,
+                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
+                });
+                $(".transactions-table").dataTable({
+                    language: getLanguagePtbr(),
+                    responsive: true,
+                    pageLength: 10,
+                    select: {
+                        items: 'cell'
+                    },
+                    ordering: false,
+                    "bLengthChange": false,
+                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
+                });
+            }else {
                 $(".js-tag-table").dataTable({
                     language: getLanguagePtbr(),
                     responsive: true,
@@ -192,6 +215,10 @@ $(document).ready(function () {
             else if(action.includes("curricularmatrix")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar matriz')
             else if(action.includes("courseplan")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar plano de aula')
             else if(action.includes("professional")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar profissional')
+            else if(action.includes("stock")) {
+                $('.stock-container .dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar Itens')
+                $('.transactions-container .dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar Movimentações')
+            }else if(action.includes("lunch/index")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar cardápios')
 
             //Remove o texto da label original do datatable
             $(".dataTables_filter label").contents().filter(function() {
