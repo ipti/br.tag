@@ -110,7 +110,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <?php if (INSTANCE == "BUZIOS" || INSTANCE == "TREINAMENTO" || INSTANCE == "LOCALHOST") { ?>
+                <?php if (INSTANCE == "BUZIOS" || INSTANCE == "TREINAMENTO" || INSTANCE == "DEMO" || INSTANCE == "LOCALHOST") { ?>
                     <button type="button" class="report-box-container" data-toggle="modal" data-target="#quarterly-class-council" target="_blank">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/quarterly-class-council.svg" />
@@ -188,7 +188,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <?php if (INSTANCE == "BUZIOS" || INSTANCE == "TREINAMENTO" || INSTANCE == "LOCALHOST") { ?>
+                <?php if (INSTANCE == "BUZIOS" || INSTANCE == "TREINAMENTO" || INSTANCE == "DEMO" || INSTANCE == "LOCALHOST") { ?>
                     <button type="button" class="report-box-container" data-toggle="modal" data-target="#quarterly-report" target="_blank">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/quarterly-report.svg" />
