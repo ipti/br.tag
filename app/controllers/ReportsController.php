@@ -166,7 +166,7 @@ class ReportsController extends Controller
         $sql = "SELECT * FROM classroom_enrollment
                     where `year`  = " . $this->year . ""
             . " AND classroom_id = $id"
-            . " AND (status = 1 OR status IS NULL) ORDER BY name;";
+            . " AND (status = 1 OR status IS NULL) ORDER BY daily_order;";
         $result = Yii::app()->db->createCommand($sql)->queryAll();
 
         $classroom = Classroom::model()->findByPk($id);

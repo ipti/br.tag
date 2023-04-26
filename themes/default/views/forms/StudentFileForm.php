@@ -256,6 +256,28 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                     <div class="span3"><b>Ano letivo: </b><span><?= $enrollment->classroomFk->school_year ?></span></div>
                     <div class="span4"><b>Série: </b><span><?= $enrollment->classroomFk->name ?></span></div>
                     <div class="span5"><b>Turma: </b><span><?= $enrollment->classroomFk->name ?></span></div>
+                    <div class="span9"><b>Situação do aluno: </b><span>
+                        <?php 
+                              
+                                switch ($enrollment->status) {
+                                    case "1":
+                                        echo "Matriculado";
+                                        break;
+                                    case "2":
+                                        echo "Transferido";
+                                        break;
+                                    case "3":
+                                        echo "Cancelado";
+                                        break;
+                                    case "4":
+                                        echo "Evadido";
+                                        break;
+                                    default:
+                                       echo '';
+                                }
+                    
+                        ?>
+                    </span></div>
                     <div class="span3"><b>Turno: </b><span></span></div>
                 </td>
             </tr>
