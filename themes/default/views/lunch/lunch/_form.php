@@ -80,80 +80,74 @@ $form = $this->beginWidget('CActiveForm', array(
 <br>
 <?php if ($isUpdate) : ?>
     <div class="row-fluid">
-        <div class="widget widget-scroll margin-bottom-none">
-            <div class="widget-head">
-                <h4 class="heading glyphicons notes">
-                    <i></i><?= yii::t('lunchModule.lunch', 'Meals') ?>
-                </h4>
-            </div>
-            <div class="widget-body in" style="height: auto;">
-                <div class="row-fluid">
-                    <div class="span12">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr role="row">
-                                    <th class="span1">Código</th>
-                                    <th class="span4">Restrições</th>
-                                    <th>Porções</th>
-                                    <th class="span1">Quantidade</th>
-                                    <th class="span1">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $odd = false;
-                                foreach ($menuModel->menuMeals as $menuMeal) :
-                                    $meal = $menuMeal->meal;
-                                    $odd = !$odd;
-                                ?>
-                                    <tr class="<?= $odd ? "odd" : "" ?>">
-                                        <td id="id">REF<?= $meal->id ?></td>
-                                        <td id="restrictions"><?= $meal->restrictions ?></td>
-                                        <td id="portions">
-                                            <table class="table table-clear">
-                                                <tbody>
-                                                    <?php foreach ($meal->mealPortions as $mealPortion) :
-                                                        $portion = $mealPortion->portion ?>
-                                                        <tr class="<?= $odd ? "odd" : "" ?>">
-                                                            <td><?= $portion->item->name ?></td>
-                                                            <td class="span2"><?= (floatval($mealPortion->amount) . "x " . floatval($portion->measure)) . " " . $portion->unity->acronym ?></td>
-                                                            <td class="span1 text-right">
-                                                                <a data-toggle="modal" href="#removePortion" data-meal-portion-id="<?= $mealPortion->id ?>" class="button-remove-portion btn btn-danger btn-mini hidden-print">
-                                                                    <i class="fa fa-times"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    <?php endforeach ?>
-                                                    <tr>
-                                                        <td colspan="3" class="<?= $odd ? "odd" : "" ?>">
-
-                                                            <a data-toggle="modal" href="#addPortion" data-meal-id="<?= $menuMeal->meal_fk ?>" class="pull-left button-add-portion btn btn-success btn-small hidden-print">
-                                                                <i class="fa fa-plus-circle"></i>
-                                                                <?= Yii::t('lunchModule.stock', 'Add Portion'); ?>
+        <div class="span12">
+            <div class="container-box form-container">
+                <div class="form-group-container" style="width: 98%;">
+                    <h4 class="heading glyphicons notes">
+                        <i></i><?= yii::t('lunchModule.lunch', 'Meals') ?>
+                    </h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr role="row">
+                                <th class="span1">Código</th>
+                                <th class="span4">Restrições</th>
+                                <th>Porções</th>
+                                <th class="span1">Quantidade</th>
+                                <th class="span1">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $odd = false;
+                            foreach ($menuModel->menuMeals as $menuMeal) :
+                                $meal = $menuMeal->meal;
+                                $odd = !$odd;
+                            ?>
+                                <tr class="<?= $odd ? "odd" : "" ?>">
+                                    <td id="id">REF<?= $meal->id ?></td>
+                                    <td id="restrictions"><?= $meal->restrictions ?></td>
+                                    <td id="portions">
+                                        <table class="table table-clear">
+                                            <tbody>
+                                                <?php foreach ($meal->mealPortions as $mealPortion) :
+                                                    $portion = $mealPortion->portion ?>
+                                                    <tr class="<?= $odd ? "odd" : "" ?>">
+                                                        <td><?= $portion->item->name ?></td>
+                                                        <td class="span2"><?= (floatval($mealPortion->amount) . "x " . floatval($portion->measure)) . " " . $portion->unity->acronym ?></td>
+                                                        <td class="span1 text-right">
+                                                            <a data-toggle="modal" href="#removePortion" data-meal-portion-id="<?= $mealPortion->id ?>" class="button-remove-portion btn btn-danger btn-mini hidden-print">
+                                                                <i class="fa fa-times"></i>
                                                             </a>
                                                         </td>
                                                     </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                        <td id="amount" class="text-center"><?= $menuMeal->amount ?></td>
-                                        <td id="actions" class="text-center">
-                                            <a data-toggle="modal" href="#changeMeal" data-meal-id="<?= $menuMeal->meal_fk ?>" class="button-change-meal btn btn-primary btn-small hidden-print">
-                                                <i class="fa fa-pencil-square-o"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach ?>
-                            </tbody>
-                        </table>
-                    </div>
+                                                <?php endforeach ?>
+                                                <tr>
+                                                    <td colspan="3" class="<?= $odd ? "odd" : "" ?>">
+
+                                                        <a data-toggle="modal" href="#addPortion" data-meal-id="<?= $menuMeal->meal_fk ?>" class="pull-left button-add-portion btn btn-success btn-small hidden-print">
+                                                            <i class="fa fa-plus-circle"></i>
+                                                            <?= Yii::t('lunchModule.stock', 'Add Portion'); ?>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td id="amount" class="text-center"><?= $menuMeal->amount ?></td>
+                                    <td id="actions" class="text-center">
+                                        <a data-toggle="modal" href="#changeMeal" data-meal-id="<?= $menuMeal->meal_fk ?>" class="button-change-meal btn btn-primary btn-small hidden-print">
+                                            <i class="fa fa-pencil-square-o"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach ?>
+                        </tbody>
+                    </table>
+                    <button data-toggle="modal" href="#addMeal" class="button-add-meal pull-right btn btn-success ">
+                        <i class="fa fa-plus-circle"></i>
+                        <?= Yii::t('lunchModule.lunch', 'New Lunch'); ?>
+                    </button>
                 </div>
-            </div>
-            <div class="widget-footer">
-                <button data-toggle="modal" href="#addMeal" class="button-add-meal pull-right btn btn-success ">
-                    <i class="fa fa-plus-circle"></i>
-                    <?= Yii::t('lunchModule.lunch', 'New Lunch'); ?>
-                </button>
             </div>
         </div>
     </div>

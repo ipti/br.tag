@@ -11,13 +11,13 @@ $title = Yii::t('lunchModule.lunch', 'New Menu');
         </div>
     </div>
 
-
-<div class="home">
-    <?= $this->renderPartial('_form', array(
-        'menuModel' => $menu,
-        'title' => $title,
-        'isUpdate'=>false
-    ));
-    ?>        
-</div>
+    <div class="home">
+        <?= $this->renderPartial('_form', array(
+            'menuModel' => $menu,
+            'title' => $title,
+            'isUpdate'=>false
+        ));
+        ?>        
+    </div>
+    
 </div>

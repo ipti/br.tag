@@ -206,7 +206,7 @@ table th, table td {
     text-align: right;
 }
 
-.out {
+.transactions-container .out {
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
@@ -214,7 +214,7 @@ table th, table td {
     color: #D21C1C;
 }
 
-.in {
+.transactions-container .in {
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
