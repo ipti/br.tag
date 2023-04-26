@@ -54,11 +54,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 //@done S1 -  18 - Primeiro seleciona a etapa dae faz um filtro nas turma disponiveis para aquela etapa.
                                 echo $form->labelEx($model, 'classroom_fk', array('class' => 't-field-select__label')); ?>
                                 
-                                    <?php
-
-                                    $isAdmin = Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id);
-                                    $classrooms = $isAdmin ? Classroom::model()->findAll("school_year = " . Yii::app()->user->year . " order by name") : Classroom::model()->findAll("school_year = " . Yii::app()->user->year . " and school_inep_fk = " . Yii::app()->user->school . " order by name");
-
+                                    <?php                                    
                                     echo $form->dropDownList($model, 'classroom_fk', CHtml::listData($classrooms, 'id', 'name', 'schoolInepFk.name'), array('class' => 'select-search-on t-field-select__input', 'style' => 'width:100%'));
                                     echo $form->error($model, 'classroom_fk');
 
