@@ -1,10 +1,16 @@
 <?php
+use SagresEdu\SagresConsultModel;
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Sagres'));
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/css/sagres.css');
+?>
+
+<?php
+/* $export =  new SagresConsultModel;
+print_r($export->getEducacaoData(2022, '2022-01-1', '2022-01-31')); */
 ?>
 
 <div id="mainPage" class="main">
@@ -28,36 +34,30 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 	<div class="row">
 		<div class="column no-grow">
 			<div>
-				<h5>Mês</h5>
-				<select id="mes" name="mes">
-					<option value="0">Selecione um mês</option>
-					<option value="1">Janeiro</option>
-					<option value="2">Fevereiro</option>
-					<option value="3">Março</option>
-					<option value="4">Abril</option>
-					<option value="5">Maio</option>
-					<option value="6">Junho</option>
-					<option value="7">Julho</option>
-					<option value="8">Agosto</option>
-					<option value="9">Setembro</option>
-					<option value="10">Outubro</option>
-					<option value="11">Novembro</option>
-					<option value="12">Dezembro</option>
-				</select>
+				<h5>Data Inicial</h5>
+				<input id="data-inicio" style="border-color: #e5e5e5;" type="date" name="data_inicio"
+					placeholder="DD/MM/AAAA">
+			</div>
+		</div>
+		<div class="column no-grow">
+			<div>
+				<h5>Data Final</h5>
+				<input id="data-final" style="border-color: #e5e5e5;" type="date" name="Data_final"
+					placeholder="DD/MM/AAAA">
 			</div>
 		</div>
 	</div>
-	
 	<div class="container-box" style="display: grid;">
-		<a href="?r=sagres/default/createorupdate">
+
+		<a href="?r=sagres/default/create">
 			<button type="button" class="report-box-container">
 				<div class="pull-left" style="margin-right: 20px;">
 					<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sagresIcon/school.svg" />
 					<!-- <div class="t-icon-schedule report-icon"></div> -->
 				</div>
 				<div class="pull-left">
-					<span class="title">Cadastrar ou Editar Unidade</span><br>
-					<span class="subtitle">Cadastre ou edite a Unidade gestora</span>
+					<span class="title">Cadastrar Unidade</span><br>
+					<span class="subtitle">Cadastre uma Unidade gestora</span>
 				</div>
 			</button>
 		</a>
@@ -71,6 +71,19 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				<div class="pull-left">
 					<span class="title">Exportar Unidade</span><br>
 					<span class="subtitle">Exporte os dados da Unidade</span>
+				</div>
+			</button>
+		</a>
+
+		<a href="<?php echo Yii::app()->createUrl('sagres/default/update', array('id' => 1)) ?>">
+			<button type="button" class="report-box-container">
+				<div class="pull-left" style="margin-right: 20px;">
+					<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sagresIcon/edit.svg" />
+					<!-- <div class="t-icon-schedule report-icon"></div> -->
+				</div>
+				<div class="pull-left">
+					<span class="title">Editar Unidade</span><br>
+					<span class="subtitle">Atualize os dados da Unidade</span>
 				</div>
 			</button>
 		</a>
@@ -92,57 +105,39 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
 <script>
-	let selectedValue;
-	const selectElement = document.getElementById("mes");
+	// Selecione os elementos de input de data
+	const dataInicioInput = document.querySelector('input[name="data_inicio"]');
+	const dataFinalInput = document.querySelector('input[name="Data_final"]');
 
-	selectElement.addEventListener("change", (event) => {
-		selectedValue = event.target.value;
-
-		const { startDate, endDate } = getDatesFromMonth(selectedValue);
-
-		const year = new Date().getFullYear();
-		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&managementUnitCode=${12346710}&year=${year}&startDate=${startDate}&endDate=${endDate}`;
-		exportLink.setAttribute('href', newHref);
-
-	});
-
-	function getDatesFromMonth(monthValue) {
-		const year = new Date().getFullYear();
-		const month = parseInt(monthValue, 10);
-		const startDate = new Date(year, month - 1, 1);
-		const endDate = new Date(year, month, 0);
-		return {
-			startDate: startDate.toISOString().slice(0, 10),
-			endDate: endDate.toISOString().slice(0, 10),
-		};
-	}
-
-	function downloadFile(url, filename) {
-		const link = document.createElement('a');
-		link.href = url;
-		link.download = filename;
-		document.body.appendChild(link);
-		link.click();
-		document.body.removeChild(link);
-	}
-
+	// Adicione um ouvinte de eventos para o evento de clique no link
 	document.getElementById('exportLink').addEventListener('click', function (e) {
+		$(".alert-error-export").hide();
+		$(".alert-error-export").empty();
+		// Previna o comportamento padrão do link
 		e.preventDefault();
-		const exportLink = document.getElementById('exportLink');
-		const href = exportLink.getAttribute('href');
-		if (!href) {
-			console.error('O link de exportação não foi definido');
-			return;
-		}
 
-		if (!selectedValue) {
-			$(".alert-error-export").append("Você precisa selecionar um mês antes de exportar os dados.");
+		// Obtenha o valor das datas de início e fim
+		const dataInicio = dataInicioInput.value;
+		const dataFinal = dataFinalInput.value;
+
+		if(dataInicio == '' || dataFinal == '') {
+			$(".alert-error-export").append('Preencha os campos de data inicial e data final');
 			$(".alert-error-export").show();
 			return;
 		}
 
-		downloadFile(href, 'Educacao.xml');
+		// Obtenha o ano de início
+		const data = new Date(dataInicio);
+		data.setUTCHours(0, 0, 0, 0); // Define as horas, minutos, segundos e milissegundos como zero
+		const yearInicio = data.getUTCFullYear();
+
+		// Atualize o atributo "href" com as datas selecionadas
+		const exportLink = document.getElementById('exportLink');
+		const newHref = `?r=sagres/default/export&managementUnitId=${1}&year=${yearInicio}&data_inicio=${dataInicio}&data_final=${dataFinal}`;
+		exportLink.setAttribute('href', newHref);
+
+		// Chame a função downloadFile para gerar e baixar o arquivo
+		downloadFile(newHref, 'Educacao.xml');
 	});
 
 	function downloadFile(url, filename) {
@@ -151,7 +146,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 		$.get(url, function (data) {
 			const zip = new JSZip();
 			zip.file(filename, data);
-			zip.generateAsync({ type: "blob" }).then(function (blob) {
+			zip.generateAsync({type:"blob"}).then(function(blob) {
 				var url = URL.createObjectURL(blob);
 				var link = document.createElement('a');
 				link.href = url;
@@ -159,19 +154,19 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				link.click();
 				URL.revokeObjectURL(url);
 			})
-				.catch(function (err) {
-					console.error(err);
-					$(".alert-error-export").append('Erro ao criar o arquivo zip');
-					$(".alert-error-export").show();
-				});
-		})
-			.fail(function () {
-				$(".alert-error-export").append('Erro ao realizar o download do arquivo ');
+			.catch(function(err) {
+				console.error(err);
+				$(".alert-error-export").append('Erro ao criar o arquivo zip');
 				$(".alert-error-export").show();
-			})
-			.always(function () {
-				location.reload();
 			});
+		})
+		.fail(function () {
+			$(".alert-error-export").append('Erro ao realizar o download do arquivo');
+			$(".alert-error-export").show();
+		})
+		.always(function() {
+			location.reload();
+		}); 
 	}
 
 </script>

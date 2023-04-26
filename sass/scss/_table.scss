@@ -32,6 +32,7 @@
         --dt-row-selected: $colorsBaseProductLightActive;
         --dt-row-selected-text: var(--dt-row-selected);
         --dt-row-selected-link: var(--dt-row-selected);
+        
         .selected {
             background-color: $colorsBaseProductLightActive;
         }

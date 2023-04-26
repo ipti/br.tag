@@ -21,7 +21,8 @@ class ReportsController extends Controller
                     'ComplementarActivityAssistantByClassroomReport', 'EducationalAssistantPerClassroomReport',
                     'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
                     'StudentInstructorNumbersRelationReport', 'StudentPendingDocument',
-                    'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood'),
+                    'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood',
+                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -934,7 +935,12 @@ class ReportsController extends Controller
             'order' => 'name'
         ));
 
-        $this->render('index', ['classrooms' => $classrooms]);
+        $students = StudentIdentification::model()->findAll(array(
+            'condition' => 'school_inep_id_fk = ' . Yii::app()->user->school . ' && send_year = ' . Yii::app()->user->year,
+            'order' => 'name'
+        ));
+
+        $this->render('index', ['classrooms' => $classrooms, 'students' => $students]);
     }
 
     public function actionElectronicDiary()

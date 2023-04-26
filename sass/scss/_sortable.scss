@@ -1,0 +1,14 @@
+.t-sortable {
+    list-style-type: none;
+    > * {
+        background: $colorsBaseProductLighter !important;
+        border: 1px solid $colorsBaseInkLighter !important;
+        margin: $SizeXXXSmall;
+        border-radius: $borderRadiusNormal;
+        color: $colorsBaseInkNormal !important;
+        display: flex;
+        padding: $SizeSmall $SizeMedium;
+        align-items: center;
+        gap: $SizeSmall;
+    }
+}

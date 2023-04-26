@@ -26,13 +26,13 @@ class SagresConsultModel
         $this->dbCommand = Yii::app()->db->createCommand();
     }
 
-    public function getSagresEdu($managementUnitCode, $referenceYear, $dateStart, $dateEnd): EducacaoTType
+    public function getSagresEdu($managementUnitId, $referenceYear, $dateStart, $dateEnd): EducacaoTType
     {
         $education = new EducacaoTType;
 
         try {
             $education
-                ->setPrestacaoContas($this->getManagementUnit($managementUnitCode, $referenceYear, $dateStart, $dateEnd))
+                ->setPrestacaoContas($this->getManagementUnit($managementUnitId, $referenceYear, $dateStart, $dateEnd))
                 ->setEscola($this->getSchools($referenceYear, $dateStart, $dateEnd))
                 ->setProfissional($this->getProfessionals($referenceYear, $dateStart, $dateEnd));
         } catch (Exception $e) {
@@ -43,21 +43,26 @@ class SagresConsultModel
     }
 
 
-    public function getManagementUnit($managementUnitCode, $referenceYear, $dateStart, $dateEnd): CabecalhoTType
+    public function getManagementUnit($idManagementUnit, $referenceYear, $dateStart, $dateEnd): CabecalhoTType
     {
         $query = "SELECT 
                     pa.id AS managementUnitId,
                     pa.cod_unidade_gestora AS managementUnitCode,
                     pa.name_unidade_gestora AS managementUnitName,
                     pa.cpf_responsavel AS responsibleCpf,
-                    pa.cpf_gestor AS managerCpf
+                    pa.cpf_gestor AS managerCpf,
+                    pa.ano_referencia AS referenceYear,
+                    pa.mes_referencia AS referenceMonth,
+                    pa.versao_xml AS xmlVersion,
+                    pa.dia_inicio_prest_contas AS startDate,
+                    pa.dia_final_prest_contas AS endDate
                 FROM 
                     provision_accounts pa
                 WHERE 
-                    pa.cod_unidade_gestora = :managementUnitCode";
+                    pa.id = :idManagementUnit;";
 
         $managementUnit = Yii::app()->db->createCommand($query)
-            ->bindValue(':managementUnitCode', $managementUnitCode)
+            ->bindValue(':idManagementUnit', $idManagementUnit)
             ->queryRow();
 
         $headerType = new CabecalhoTType;
@@ -69,20 +74,13 @@ class SagresConsultModel
             ->setCpfGestor($managementUnit['managerCpf'])
             ->setAnoReferencia((int) $referenceYear)
             ->setMesReferencia((int) date("m", strtotime($dateEnd)))
-            ->setVersaoXml(1)
+            ->setVersaoXml((int) $managementUnit['xmlVersion'])
             ->setDiaInicPresContas((int) date("d", strtotime($dateStart)))
             ->setDiaFinaPresContas((int) date("d", strtotime($dateEnd)));
 
         return $headerType;
     }
 
-    public function getUnitCode()
-    {
-        $query = "SELECT pa.id, pa.cod_unidade_gestora FROM provision_accounts pa";
-        $managementUnitCode = Yii::app()->db->createCommand($query)->queryRow();
-        
-        return $managementUnitCode['id'];
-    }
 
     /**
      * Summary of EscolaTType
