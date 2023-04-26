@@ -21,7 +21,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('lunchModule.index', 'Lunch');
                 <div class="row-fluid">
                     <div class="container-box">
                         <a href="<?= Yii::app()->createUrl('lunch/lunch/index')?>">
-                            <button type="button" class="lunch-box-container">
+                            <button type="button" class="lunch-box-container" style="margin-left: 0px;">
                                 <div class="pull-left" style="margin-right: 20px;">
                                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/lunchIcon/lunch.svg" alt="lunch"/>
                                     <!-- <div class="t-icon-schedule report-icon"></div> -->
