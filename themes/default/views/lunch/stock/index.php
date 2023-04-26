@@ -58,7 +58,7 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
                                         <tr>
                                             <td><?= $item['name'] ?></td>
                                             <td><?= $item['amount'] * $item['measure'] . " " . $item['unity'] ?></td>
-                                            <td><input type="checkbox" name="itemFault" id="itemFault" style="margin-right: 10px">Em falta</td>
+                                            <td><input type="checkbox" name="itemFault" id="itemFault" style="margin-right: 10px" <?= $item['amount'] * $item['measure'] != 0 ? "" : "checked"?>>Em falta</td>
                                         </tr>
                                     <?php endforeach ?>
                                 </tbody>
