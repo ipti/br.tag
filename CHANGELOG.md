@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.15.28]
+- O estilo das telas de merenda foram modificados
+
 ## [Versão 3.15.27]
 - O ícones de carregamentos foram modificados
 
