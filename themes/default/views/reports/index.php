@@ -490,26 +490,28 @@ $this->breadcrumbs = array(
             <div class="modal-body">
                 <div class="row-fluid">
                     <div class=" span12">
-                    <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
-                            ?>
-                            <select name="quartely_report_classroom_student" id="quartely_report_classroom_student" style="width: 100%;" required>
-                                <option value="">Selecione a Turma</option>
-                                <?php 
-                                 foreach ($classrooms as $classroom) {
-                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
-                                }
-                                ?>
-                            </select>
                         <?php
-                        echo CHtml::label(yii::t('default', 'Student Fk'), 'year', array('class' => 'control-label'));
+                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
                         ?>
-                        <select name="student" id="student" placeholder="Selecione o aluno" style="width:100%" required>
-                            <?php
-                            echo "<option value='' selected>Selecione o aluno</option>";
-                            
+                        <select name="quartely_report_classroom_student" id="quartely_report_classroom_student" style="width: 100%;" required>
+                            <option value="">Selecione a Turma</option>
+                            <?php 
+                            foreach ($classrooms as $classroom) {
+                                echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                            }
                             ?>
                         </select>
+                        <div class="classroom-student-container" style="display: none;">
+                            <?php
+                            echo CHtml::label(yii::t('default', 'Student Fk'), 'year', array('class' => 'control-label'));
+                            ?>
+                            <select name="student" id="student" placeholder="Selecione o aluno" style="width:100%" required>
+                                <?php
+                                echo "<option value='' selected>Selecione o aluno</option>";
+                                
+                                ?>
+                            </select>
+                        </div>
                         <div class="classroom-student-error" style="display:none;color:#D21C1C;margin-left:5px;font-size:12px;">
                             <span>O aluno não está matriculado em nenhuma turma nesse ano.
                             </span>
