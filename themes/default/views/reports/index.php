@@ -513,7 +513,7 @@ $this->breadcrumbs = array(
                             </select>
                         </div>
                         <div class="classroom-student-error" style="display:none;color:#D21C1C;margin-left:5px;font-size:12px;">
-                            <span>O aluno não está matriculado em nenhuma turma nesse ano.
+                            <span>A turma não tem nenhum aluno matriculado.
                             </span>
                             <a href="#" data-toggle="modal" data-target="#change-year" target="_blank" data-dismiss="modal">
                                 Clique aqui para mudar o ano.
