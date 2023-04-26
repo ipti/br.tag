@@ -1164,6 +1164,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <tr>
                                         <th style="text-align: center !important;">Escola</th>
                                         <th style="text-align: center">Atualizar Ficha de Matrícula</th>
+                                        <th style="text-align: center">situação</th>
                                         <th style="text-align: center">Ano</th>
                                         <th style="text-align: center">Formulários</th>
                                         <th style="text-align: center; width: 15%;">Cancelar Matrícula</th>
@@ -1188,6 +1189,26 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         (<?php echo @$me->edcensoStageVsModalityFk->name ?>)
                                                     </p>
                                                 <?php } ?>
+                                            </td>
+                                            <td style="text-align: center"> 
+                                                <?php
+                                                    switch ($me->status) {
+                                                        case "1":
+                                                            echo "Matriculado";
+                                                            break;
+                                                        case "2":
+                                                            echo "Transferido";
+                                                            break;
+                                                        case "3":
+                                                            echo "Cancelado";
+                                                            break;
+                                                        case "4":
+                                                            echo "Evadido";
+                                                            break;
+                                                        default:
+                                                            echo $me->status;
+                                                    }
+                                                ?> 
                                             </td>
                                             <td style="text-align: center"><?php echo $me->classroomFk->school_year ?></td>
                                             <?php
@@ -1251,8 +1272,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     <li><a href='<?php echo @Yii::app()->createUrl('forms/EnrollmentGradesReport', array('enrollment_id' => $me->id)) ?>' target="_blank">Rendimento Escolar Por Atividades</a></li>
                                             </td>
                                             <td style="text-align: center">
-                                                <?php if ($me->classroomFk->school_year >= date('Y')) { ?>
+                                                <?php if ($me->classroomFk->school_year >= date('Y') && $me->status == 1) { ?>
                                                     <a href='<?php echo @Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'><i class="fa fa-trash-o"></i></a>
+                                                <?php } else if ($me->classroomFk->school_year >= date('Y') && $me->status == 2) { ?>
+                                                    <i class="fa fa-minus" title="Não é possível cancelar a Matrícula transferida"></i>
                                                 <?php } else { ?>
                                                     <i class="fa fa-minus" title="Não é possível cancelar a Matrícula do ano anterior"></i>
                                                 <?php } ?>

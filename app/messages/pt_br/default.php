@@ -823,6 +823,7 @@ return array(
     
     //Transferir
     'Transfer Student' => 'Transferir Aluno',
+    'transferred enrollment' => 'Matrícula transferida com sucesso!',
     //Erros
     'already enrolled in this classroom.' =>'já matriculado na turma.',
     'already have in this student enrolled.' =>'já possui o aluno matriculado.',

@@ -145,7 +145,7 @@ class StudentIdentification extends AltActiveRecord {
             'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
             'documentsFk' => array(self::BELONGS_TO, 'StudentDocumentsAndAddress', 'id'),
             'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'student_fk','order'=>'id DESC'),
-            'studentEnrollment' => array(self::HAS_ONE, 'StudentEnrollment', 'student_fk','condition' => 'status = 1')
+            'studentEnrollment' => array(self::HAS_ONE, 'StudentEnrollment', 'student_fk','condition' => 'status = 1', 'order'=>'id DESC',)
         );
     }
 

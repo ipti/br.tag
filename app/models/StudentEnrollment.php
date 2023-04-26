@@ -48,6 +48,7 @@
  * @property integer $aee_optical_nonoptical
  * @property string $observation
  * @property integer $daily_order
+ * @property integer $status
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
