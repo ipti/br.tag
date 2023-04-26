@@ -238,3 +238,8 @@ table th, table td {
 .lunch-home .dataTables_filter > label > img {
     margin-bottom: 10px !important;
 }
+
+.form-group-container {
+    margin-top: 10px;
+    width: 50%;
+}
