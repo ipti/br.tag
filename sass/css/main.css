@@ -700,9 +700,16 @@ html {
   background: #fafafe;
   margin-bottom: 16px;
   margin-right: 16px;
+  width: 100%;
 }
 
-/* line 13, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
+/* line 12, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
+.t-cards span {
+  margin: 0em 0.25em 0em 0em;
+  font-size: 24px;
+}
+
+/* line 17, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
 .t-cards a .t-cards-title {
   display: flex;
   align-items: center;
@@ -712,18 +719,18 @@ html {
   font-weight: 700;
 }
 
-/* line 21, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
+/* line 25, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
 .t-cards a .t-cards-title img {
   margin-right: 8px;
 }
 
-/* line 25, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
+/* line 29, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
 .t-cards a .t-cards-text {
   color: #465567;
-  margin-left: 16px;
+  margin-left: 32px;
 }
 
-/* line 29, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
+/* line 33, ../../../../wamp64/www/br.tag/sass/scss/_cards.scss */
 .t-cards a:hover {
   text-decoration: none;
 }
