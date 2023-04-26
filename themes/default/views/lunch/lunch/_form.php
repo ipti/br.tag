@@ -82,10 +82,12 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="row-fluid">
         <div class="span12">
             <div class="container-box form-container">
-                <div class="form-group-container" style="width: 98%;">
+                <div class="form-group-container" style="margin-bottom: 20px;">
                     <h4 class="heading glyphicons notes">
                         <i></i><?= yii::t('lunchModule.lunch', 'Meals') ?>
                     </h4>
+                </div>
+                <div class="form-group-container" style="width: 98%;">
                     <table class="table table-bordered">
                         <thead>
                             <tr role="row">
