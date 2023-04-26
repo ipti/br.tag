@@ -18,9 +18,10 @@ if ($turno == 'M') {
     $turno = "___________";
 }
 ?>
+<?php if (!empty($classroom)) { ?>
 <div class="pageA4H page" style="height: auto;">
     <div class="cabecalho" style="margin: 30px 0;">
-        <?php $this->renderPartial('headBuzios'); ?>
+        <?php $this->renderPartial('buzios/headers/headBuziosI'); ?>
     </div>
     <h3><?php echo Yii::t('default', 'Quarterly Class Council Report'); ?> <?php echo strtoupper($classroom[0]['class_stage'])?></h3>
     <p style="font-size: 19px;">Aos <?php echo $count_days?> dias do mês de <?php echo $mounth?> de 
@@ -102,7 +103,7 @@ if ($turno == 'M') {
                     if(!in_array($c['name'] ,$array_students)) {
                 ?>
                     <tr>
-                        <td style="text-align: center;"><?= "0" . $count_std ?></td>
+                        <td style="text-align: center;"><?= $count_std < 10 ? "0" . $count_std : $count_std ?></td>
                         <td><?= $c['name'] ?></td>
                         <td></td>
                         <td></td>
@@ -138,6 +139,8 @@ if ($turno == 'M') {
                                 }else {
                                     echo 'Evad. ____/____/______';
                                 }
+                            }else {
+                                echo '______. ____/____/______';
                             }
                             ?>
                         </td>
@@ -262,6 +265,15 @@ if ($turno == 'M') {
         </div>
     </div>
 </div>
+<?php }else {?>
+<div class="pageA4H page" style="height: auto;">
+    <div class="cabecalho" style="margin: 30px 0;">
+        <?php $this->renderPartial('buzios/headers/headBuziosI'); ?>
+    </div>
+    <h3><?php echo Yii::t('default', 'Quarterly Class Council Report'); ?> <?php echo strtoupper($classroom[0]['class_stage'])?></h3>
+    <div class='no-enrollments'>Não há alunos matriculados na turma.</div>
+</div>
+<?php }?>
 
 <style>
     .signatures-container {
@@ -314,10 +326,12 @@ if ($turno == 'M') {
     table {
         width: 96%;
         margin-top: 10px;
+        page-break-inside: auto;
     }
 
     table th,
     table td {
         border: 2px solid #C0C0C0;
+        padding: 10px;
     }
 </style>

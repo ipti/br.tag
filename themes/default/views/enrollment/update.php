@@ -16,10 +16,13 @@
     ?>
 
     <div class="twoColumn">
+        
         <div class="columnone" style="padding-right: 1em">
-            <?php echo $this->renderPartial('_form', array(
+            <?php            
+             echo $this->renderPartial('_form', array(
                 'model' => $model,
-                'transoption'=>$transoption,
+                'transoption'=> $transoption,
+                'classrooms' => $classrooms,
                 'title' => $title)); 
             ?>       
         </div>

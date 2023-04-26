@@ -62,12 +62,12 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                 <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required small-label')); ?>
                 <?= CHtml::dropDownList('classroom_fk', "", CHtml::listData(Classroom::model()->findAll("school_inep_fk = :school_inep_fk and school_year = :school_year order by name", ["school_inep_fk" => Yii::app()->user->school, "school_year" => Yii::app()->user->year]), 'id', 'name'), ["prompt" => yii::t("timesheetModule.timesheet", "Select a Classroom"), "class" => "select-search-on control-input classroom-id"]); ?>
             </div>
-            <div class="schedule-info display-hide">
+            <div class="schedule-info display-hide" style="margin-bottom: 2px;">
                 <button class="t-button-primary  wide-button  btn-generate-timesheet">
                     <i></i><?= yii::t('timesheetModule.timesheet', "Generate automatic timesheet") ?>
                 </button>
             </div>
-            <i class="loading-timesheet fa fa-spin fa-spinner" style="display: none;"></i>
+            <img class="loading-timesheet"  style="margin-bottom:5px;display:none;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
         <hr />
         <div class="loading-alert alert alert-warning display-hide"></div>

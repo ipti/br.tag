@@ -116,7 +116,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <a id="classesSearch" class='t-button-primary'><i class="fa-search fa icon-button-tag"></i><?php echo Yii::t('default', 'Search') ?>
                 </a>
             </div>
-            <i class="loading-frequency fa fa-spin fa-spinner"></i>
+            <img class="loading-frequency"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
 
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>

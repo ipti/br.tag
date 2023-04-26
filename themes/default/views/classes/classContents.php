@@ -134,8 +134,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             ></i><?php echo Yii::t('default', 'Search') ?>
                 </a>
             </div>
-            <i class="loading-class-contents fa fa-spin fa-spinner" style="display: none"></i>
-        
+            <img class="loading-class-contents"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
     </div>
     <div class="clear"></div>
     <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
