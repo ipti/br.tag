@@ -33,7 +33,7 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
             <div class="span12">
                 <div class="container-box lunch-container">
                     <?php if (count($this->school->menus()) > 0): ?>
-                        <table class="js-tag-table">
+                        <table class="js-tag-table" aria-labelledby="Menu Table">
                             <thead>
                             <tr>
                                 <th><?= yii::t('lunchModule.labels', 'Menu') ?></th>

@@ -45,7 +45,7 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
                 <div class="row-fluid">
                     <div class="container-box" style="display: flex;">
                         <div class="stock-container">
-                            <table class="stock-items-table js-tag-table">
+                            <table class="stock-items-table js-tag-table" aria-labelledby="Stock Table">
                                 <thead>
                                     <tr>
                                         <th scope="col">Item</th>
@@ -73,7 +73,7 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
                                 <h3>Movimentações</h3>
                                 <h4>Entrada e saída de itens</h4>
                             </div>
-                            <table class="transactions-table js-tag-table">
+                            <table class="transactions-table js-tag-table" aria-labelledby="Transactions Table">
                                 <thead>
                                     <tr>
                                         <th scope="col">Tipo</th>
