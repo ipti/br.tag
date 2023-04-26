@@ -490,15 +490,24 @@ $this->breadcrumbs = array(
             <div class="modal-body">
                 <div class="row-fluid">
                     <div class=" span12">
+                    <?php
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
+                            ?>
+                            <select name="quartely_report_classroom_student" id="quartely_report_classroom_student" style="width: 100%;" required>
+                                <option value="">Selecione a Turma</option>
+                                <?php 
+                                 foreach ($classrooms as $classroom) {
+                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                                }
+                                ?>
+                            </select>
                         <?php
                         echo CHtml::label(yii::t('default', 'Student Fk'), 'year', array('class' => 'control-label'));
                         ?>
                         <select name="student" id="student" placeholder="Selecione o aluno" style="width:100%" required>
                             <?php
                             echo "<option value='' selected>Selecione o aluno</option>";
-                            foreach ($students as $student) {
-                                echo "<option value='" . $student->id . "'>" . $student->name . "</option>";
-                            }
+                            
                             ?>
                         </select>
                         <div class="classroom-student-error" style="display:none;color:#D21C1C;margin-left:5px;font-size:12px;">
@@ -509,12 +518,6 @@ $this->breadcrumbs = array(
                             </a>
                         </div>
                         <div class="classroom-student-container" style="display: none;">
-                            <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
-                            ?>
-                            <select name="classroom_student" id="classroom_student" style="width: 100%;" required>
-                                <option value="">Selecione a Turma</option>
-                            </select>
                             <label for="model_quartely" class="control-label" style="width: 100%;">Modelo de Eixos e Campos de Experiência</label>
                             <select name="model_quartely" id="model_quartely" style="width: 100%;" required>
                                 <option value="">Selecione o modelo</option>
