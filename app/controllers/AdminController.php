@@ -32,11 +32,12 @@ class AdminController extends Controller
     {
         $model = new Users();
 
-        if (isset($_POST['Users'])) {
+        if (isset($_POST['Users'], $_POST['Confirm'])) {
             $model->attributes = $_POST['Users'];
             if ($model->validate()) {
                 $password = md5($_POST['Users']['password']);
-                
+                $confirm = md5($_POST['Confirm']);
+                if ($password == $confirm) {
                     $model->password = $password;
                     // form inputs are valid, do something here
                     if ($model->save()) {
@@ -54,6 +55,9 @@ class AdminController extends Controller
                             $this->redirect(['index']);
                         }
                     }
+                } else {
+                    $model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
+                }
             }
         }
         $this->render('createUser', ['model' => $model]);
@@ -633,7 +637,9 @@ class AdminController extends Controller
         $criteria->condition = "username != 'admin'";
         $dataProvider = new CActiveDataProvider('Users', array(
             'criteria' => $criteria,
-            'pagination' => false
+            'pagination' => array(
+                'pageSize' => 12,
+            )
         ));
 
         $this->render('manageUsers', array(

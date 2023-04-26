@@ -76,7 +76,7 @@ if (Yii::app()->user->isGuest) {
     <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.print.css' media='print' />
     <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/jquery-ui-1.9.2.custom.min.css' />
     <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/font-awesome.min.css' />
-    <link rel='stylesheet' href='<?php echo Yii::app()->theme->baseUrl; ?>/fonts/FontsIconsTag.tff' />
+    <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/fonts/icone-tag.tff' />
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/home.css?v=1.0" />
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/datatables.min.css" />
 </head>

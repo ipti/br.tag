@@ -1,5 +1,5 @@
 <?php
-require 'app/vendor/autoload.php'; 
+require_once 'vendor/autoload.php'; 
 
 class StudentClassroomSEDDataSource extends SedDataSource
 {
