@@ -319,7 +319,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-text js-hide-not-required" style="width: 120%;">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'gov_id', array('class' => 'control-label t-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'gov_id', array('size' => 60, 'maxlength' => 12, 'class' => 't-field-text__input', 'placeholder' => 'Não possui', 'disabled' => 'disabled', 'style' => 'width:82.95%;')); ?>
-                                <button type="button" id="copy-gov-id" style="background: none; border:none;"><span class="t-icon-duplicate"></span></button>
+                                <button type="button" id="copy-gov-id" style="background: none; border:none;"><span class="t-icon-copy"></span></button>
                                 <span id="copy-message" style="display:none;"></span>
                                 <?php echo $form->error($modelStudentIdentification, 'gov_id'); ?>
                             </div>
@@ -1177,7 +1177,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <tr>
                                             <td><?php echo $me->schoolInepIdFk->name ?></td>
                                             <td style="text-align: center">
-                                                <?php if ($me->classroomFk->school_year >= date('Y')) { ?>
+                                                <?php if ($me->classroomFk->school_year >=  Yii::app()->user->year) {  ?> 
                                                     <a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)); ?>'>
                                                         <i class="fa fa-pencil" style="color:#3F45EA; padding-right: 1%"></i>
                                                         <?php echo $me->classroomFk->name ?>

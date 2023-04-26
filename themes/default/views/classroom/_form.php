@@ -85,10 +85,10 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div>
                         <h3>Dados Básicos</h3>
                     </div>
-                    <!-- <span class="t-icon-trash"></span> -->
+                    
                     <div class="row">
                         <div class="column">
-                            <?php
+                             <?php
                             echo $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => Yii::app()->user->school));
                             echo CHtml::hiddenField("teachingData", '', array('id' => 'teachingData'));
                             echo CHtml::hiddenField("disciplines", '', array('id' => 'disciplines'));
@@ -123,9 +123,9 @@ $form = $this->beginWidget('CActiveForm', array(
                             <!-- Etapa de Ensino -->
                             <div class="t-field-select" id="stage_vs_modality">
                                 <?php echo $form->labelEx($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 't-field-select__label--required')); ?>
-                                <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o estágio vs modalidade', 'class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%')); ?>
+                                <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o estágio vs modalidade', 'class' => 'select-search-off t-field-select__input', 'style' => 'width: 80%')); ?>
                                 <?php echo $form->error($modelClassroom, 'edcenso_stage_vs_modality_fk'); ?>
-                                <i class="loading-disciplines fa fa-spin fa-spinner"></i>
+                                <img class="loading-disciplines"  style="display:none;position: fixed;margin: 5px 20px;" height="20px" width="20px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
                             </div>
                             <!-- Modalidade -->
                             <div class="t-field-select" id="modality">

@@ -15,7 +15,7 @@ $(document).ready(function () {
     $("#new-enrollment-button").click(function() {
         if($("#new-enrollment-form").css('display') == 'none') {
             $("#new-enrollment-form").show();
-            $("#new-enrollment-button").text("Cancelar Matrícula");
+            $("#new-enrollment-button").text("Fechar formulário");
         }else {
             $("#new-enrollment-form").hide();
             $("#new-enrollment-button").text("Adicionar Matrícula");

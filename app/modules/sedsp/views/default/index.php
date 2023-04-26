@@ -11,6 +11,7 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($themeUrl . '/css/template2.css');
 $cs->registerCssFile(Yii::app()->request->baseUrl . '/sass/css/main.css');
+$cs->registerCssFile($baseUrl . '/css/sedsp.css');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClientScript::POS_END);
 ?>
 
@@ -32,35 +33,61 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         </div>
         <br />
     <?php endif ?>
-    <div class="row">
-        <div class="column">
-            <a href="#" class="widget-stats" data-toggle="modal" data-target="#add-student-ra" target="_blank">
-                <div><i class="fa fa-graduation-cap	fa-4x"></i></div>
-                <span class="txt">Cadastrar Aluno</span>
-                <div class="clearfix"></div>
-            </a>
-        </div>
-        <div class="column">
-            <a href="#" class="widget-stats" data-toggle="modal" data-target="#add-classroom" target="_blank">
-                <div><i class="fa fa-group fa-4x"></i></div>
-                <span class="txt">Cadastrar Turma</span>
-                <div class="clearfix"></div>
-            </a>
-        </div>
-        <div class="column">
-            <a href="#" class="widget-stats" data-toggle="modal" data-target="#add-school" target="_blank">
-                <div><i class="fa fa-building-o fa-4x"></i></div>
-                <span class="txt">Cadastrar Escola</span>
-                <div class="clearfix"></div>
-            </a>
-        </div>
-        <div class="column">
-            <a href="<?php echo Yii::app()->createUrl('sedsp/default/manageRA') ?>" class="widget-stats">
-                <div><i class="fa fa-external-link fa-4x"></i></div>
-                <span class="txt">Gerar RA</span>
-                <div class="clearfix"></div>
-            </a>
-        </div>
+    <div class="container-box" style="display: grid;">
+        <p>Alunos</p>
+
+        <a href="#" data-toggle="modal" data-target="#add-student-ra" target="_blank">
+            <button type="button" class="report-box-container">
+                <div class="pull-left" style="margin-right: 20px;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/graduation-cap.svg" />
+                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                </div>
+                <div class="pull-left">
+                    <span class="title">Cadastrar Aluno</span><br>
+                    <span class="subtitle">Digite a RA para cadastrar o Aluno</span>
+                </div>
+            </button>
+        </a>
+
+        <a href="#" data-toggle="modal" data-target="#add-classroom" target="_blank">
+            <button type="button" class="report-box-container">
+                <div class="pull-left" style="margin-right: 20px;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/classroom.svg" />
+                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                </div>
+                <div class="pull-left">
+                    <span class="title">Cadastrar Turma</span><br>
+                    <span class="subtitle">Digite a código para cadastrar uma turma</span>
+                </div>
+            </button>
+        </a>
+        
+        <a href="#" data-toggle="modal" data-target="#add-school" target="_blank">
+            <button type="button" class="report-box-container">
+                <div class="pull-left" style="margin-right: 20px;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/school.svg" />
+                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                </div>
+                <div class="pull-left">
+                    <span class="title">Cadastrar Escola</span><br>
+                    <span class="subtitle">Digite a código para cadastrar uma turma</span>
+                </div>
+            </button>
+        </a>
+
+
+        <a href="<?php echo Yii::app()->createUrl('sedsp/default/manageRA') ?>">
+            <button type="button" class="report-box-container">
+                <div class="pull-left" style="margin-right: 20px;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/generate.svg" />
+                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                </div>
+                <div class="pull-left">
+                    <span class="title">Gerar RA</span><br>
+                    <span class="subtitle">Trazer ou enviar um RA para a sede</span>
+                </div>
+            </button>
+        </a>
     </div>
 </div>
 
