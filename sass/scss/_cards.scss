@@ -26,6 +26,7 @@
                 margin-right: $SizeXSmall;
             }
         }
+        
         .t-cards-text {
             color: $colorsBaseInkLightActive;
             margin-left: $SizeXLarge;
@@ -33,6 +34,6 @@
         &:hover {
             text-decoration: none;
         }
-        
+
     }
 }
