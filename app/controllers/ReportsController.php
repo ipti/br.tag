@@ -280,7 +280,7 @@ class ReportsController extends Controller
         $sql = "SELECT * FROM classroom_enrollment
                     where `year`  = " . $this->year . ""
             . " AND classroom_id = $id"
-            . " AND (status = 1 OR status IS NULL) ORDER BY name;";
+            . " AND (status = 1 OR status IS NULL) ORDER BY daily_order;";
         $result = Yii::app()->db->createCommand($sql)->queryAll();
 
         $classroom = Classroom::model()->findByPk($id);
@@ -1102,13 +1102,14 @@ class ReportsController extends Controller
                 //Montar linhas das disciplinas e notas
                 $result["rows"] = [];
                 $disciplines = Yii::app()->db->createCommand("
-              select ed.id, ed.name from curricular_matrix cm
-              join edcenso_discipline ed on ed.id = cm.discipline_fk
-              join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
-              join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id
-              where c.id = :classroom
-              order by ed.name
-            ")->bindParam(":classroom", $_POST["classroom"])->queryAll();
+                    select ed.id, ed.name from curricular_matrix cm
+                    join edcenso_discipline ed on ed.id = cm.discipline_fk
+                    join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
+                    join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id
+                    where c.id = :classroom
+                    order by ed.name
+                ")->bindParam(":classroom", $_POST["classroom"])->queryAll();
+
                 foreach ($disciplines as $discipline) {
                     $arr["grades"] = [];
                     $rawUnitiesCount = 0;
@@ -1127,11 +1128,15 @@ class ReportsController extends Controller
                     $criteria->condition = "g.discipline_fk = :discipline_fk and enrollment_fk = :enrollment_fk";
                     $criteria->params = array(":discipline_fk" => $discipline["id"], ":enrollment_fk" => $_POST["student"]);
                     $criteria->order = "gu.id";
+                    
                     $gradeUnitiesByDiscipline = GradeUnity::model()->findAll($criteria);
+
                     foreach ($gradeUnitiesByDiscipline as $gradeUnity) {
                         $key = array_search($gradeUnity->id, array_column($arr["grades"], 'unityId'));
                         $arr["grades"][$key] = $this->getUnidadeValues($gradeUnity);
                     }
+                    
+                   
 
                     $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $_POST["student"], "discipline_fk" => $discipline["id"]]);
                     $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
@@ -1158,7 +1163,15 @@ class ReportsController extends Controller
                 $commonModalitiesCount++;
                 $weightsSum += $gradeUnityModality->weight;
             }
-            foreach ($gradeUnityModality->grades as $grade) {
+
+            $student_grades = array_filter(
+                $gradeUnityModality->grades, 
+                function($grade){ 
+                    return $grade->enrollment_fk  === $_POST["student"];
+                }
+            );
+            
+            foreach ($student_grades as $grade) {
                 if ($gradeUnityModality->type == "C") {
                     if (!$turnedEmptyToZero) {
                         $unityGrade = 0;

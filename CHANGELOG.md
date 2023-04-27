@@ -1,5 +1,7 @@
 # Atualizações
 
+## [Versão 3.16.28]
+- Adicionada a funcionalidade de transferêcia de alunos entre escolas
 ## [Versão 3.15.28]
 - O estilo das telas de merenda foram modificados
 
