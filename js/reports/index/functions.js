@@ -1,15 +1,15 @@
-$(document).on("change", "#student", function () {
+$(document).on("change", "#quartely_report_classroom_student", function () {
     $(".classroom-student-container").hide();
     $(".classroom-student-error").hide();
+    const classroom_id = $("#quartely_report_classroom_student").val();
+    
     $.ajax({
-        type: "POST",
-        url: `${window.location.host}/?r=reports/getstudentclassrooms`,
-        data: {
-            student_id: $("#student").val(),
-        },
+        type: "GET",
+        url: `${window.location.host}/?r=reports/getstudentclassrooms&id=${classroom_id}`,
         success: function (response) {
+            $("#student").empty();
             if(response != null && response != '') {
-                $("#classroom_student").append(response)
+                $("#student").append(response);
                 $(".classroom-student-container").show();
             }else {
                 $(".classroom-student-error").show();

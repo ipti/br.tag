@@ -1,7 +1,13 @@
 # Atualizações
 
+## [Versão 3.15.28]
+- O estilo das telas de merenda foram modificados
+
+## [Versão 3.15.27]
+- O ícones de carregamentos foram modificados
+
 ## [Versão 3.14.27]
-- O estilo da tela de relatórios, Sagres e SEDSP foi alterado
+- O estilo da tela de relatórios, administração, Sagres e SEDSP foi alterado
 
 ## [Versão 3.13.27]
 - Adicionada funcionalidade para gerenciar a ordem dos alunos no diário

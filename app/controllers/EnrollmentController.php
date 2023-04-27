@@ -106,6 +106,14 @@ class EnrollmentController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
+        $classrooms = Classroom::model()->findAll(
+            "school_year = :year AND school_inep_fk = :school order by name",
+            [
+                ':year' => Yii::app()->user->year,
+                ':school' => Yii::app()->user->school,
+            ]
+        );
+
         if (isset($_POST['StudentEnrollment'])) {
             $model->attributes = $_POST['StudentEnrollment'];
             if ($model->validate()) {
@@ -130,6 +138,7 @@ class EnrollmentController extends Controller
 
         $this->render('create', array(
             'model' => $model,
+            'classrooms' => $classrooms,
         ));
     }
 
@@ -141,10 +150,35 @@ class EnrollmentController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
+        
+        
+
         if ($model->student_fk == NULL && $model->classroom_fk == NULL) {
             $model->student_fk = StudentIdentification::model()->find('inep_id="' . $model->student_inep_id . '"')->id;
             $model->classroom_fk = Classroom::model()->find('inep_id="' . $model->classroom_inep_id . '"')->id;
         }
+
+        $isAdmin = Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id);
+        
+        $classrooms = [];
+
+        if($isAdmin){
+            $classrooms = Classroom::model()->findAll(
+                "school_year = :year order by name",
+                [
+                    ':year' => Yii::app()->user->year,              
+                ]
+            );
+        } else{
+            $classrooms = Classroom::model()->findAll(
+                "school_year = :year AND school_inep_fk = :school order by name",
+                [
+                    ':year' => Yii::app()->user->year,
+                    ':school' => $model->school_inep_id_fk,
+                ]
+            );
+        }     
+
         if (isset($_POST['StudentEnrollment'])) {
             if ($model->validate()) {
                 $model->attributes = $_POST['StudentEnrollment'];
@@ -152,13 +186,14 @@ class EnrollmentController extends Controller
                 if ($model->save()) {
                     Log::model()->saveAction("enrollment", $model->id, "U", $model->studentFk->name . "|" . $model->classroomFk->name);
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Matrícula alterada com sucesso!'));
-                    $this->redirect(array('student/index'));
+                    $this->redirect(array('student/'));
                 }
             }
         }
 
         $this->render('update', array(
             'model' => $model,
+            'classrooms' => $classrooms
         ));
     }
 
@@ -293,6 +328,7 @@ class EnrollmentController extends Controller
                         $gradeObject->grade_unity_modality_fk = $grade["modalityId"];
                     }
                     $gradeObject->grade = $grade["value"];
+                    var_dump($gradeObject);
                     $gradeObject->save();
                 } else {
                     Grade::model()->deleteAll("enrollment_fk = :enrollment and grade_unity_modality_fk = :modality", [":enrollment" => $student["enrollmentId"], ":modality" => $grade["modalityId"]]);

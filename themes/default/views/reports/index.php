@@ -110,7 +110,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <?php if (INSTANCE == "BUZIOS" || INSTANCE == "TREINAMENTO" || INSTANCE == "LOCALHOST") { ?>
+                <?php if (INSTANCE == "BUZIOS" || INSTANCE == "TREINAMENTO" || INSTANCE == "DEMO" || INSTANCE == "LOCALHOST") { ?>
                     <button type="button" class="report-box-container" data-toggle="modal" data-target="#quarterly-class-council" target="_blank">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/quarterly-class-council.svg" />
@@ -188,7 +188,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <?php if (INSTANCE == "BUZIOS" || INSTANCE == "TREINAMENTO" || INSTANCE == "LOCALHOST") { ?>
+                <?php if (INSTANCE == "BUZIOS" || INSTANCE == "TREINAMENTO" || INSTANCE == "DEMO" || INSTANCE == "LOCALHOST") { ?>
                     <button type="button" class="report-box-container" data-toggle="modal" data-target="#quarterly-report" target="_blank">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/quarterly-report.svg" />
@@ -430,7 +430,7 @@ $this->breadcrumbs = array(
                                 }
                                 ?>
                             </select>
-                            <label for="count_days" class="control-label" style="width: 65%;">Quantidade de dias de reunião de conselho de classe</label>
+                            <label for="count_days" class="control-label" style="width: 65%;"> Dia da reunião de conselho de classe</label>
                             <input type="number" name="count_days" placeholder="Digite o número de dias" style="width: 65%;" min="1" max="99" required>
                             <label for="hour" class="control-label" style="width: 30%;">Horário das reuniões</label>
                             <input type="time" id="hour" name="hour" min="00:00" max="23:59" style="width: 30%;" required>
@@ -491,30 +491,35 @@ $this->breadcrumbs = array(
                 <div class="row-fluid">
                     <div class=" span12">
                         <?php
-                        echo CHtml::label(yii::t('default', 'Student Fk'), 'year', array('class' => 'control-label'));
+                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
                         ?>
-                        <select name="student" id="student" placeholder="Selecione o aluno" style="width:100%" required>
-                            <?php
-                            echo "<option value='' selected>Selecione o aluno</option>";
-                            foreach ($students as $student) {
-                                echo "<option value='" . $student->id . "'>" . $student->name . "</option>";
+                        <select name="quartely_report_classroom_student" id="quartely_report_classroom_student" style="width: 100%;" required>
+                            <option value="">Selecione a Turma</option>
+                            <?php 
+                            foreach ($classrooms as $classroom) {
+                                echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
                             }
                             ?>
                         </select>
+                        <div class="classroom-student-container" style="display: none;">
+                            <?php
+                            echo CHtml::label(yii::t('default', 'Student Fk'), 'year', array('class' => 'control-label'));
+                            ?>
+                            <select name="student" id="student" placeholder="Selecione o aluno" style="width:100%" required>
+                                <?php
+                                echo "<option value='' selected>Selecione o aluno</option>";
+                                
+                                ?>
+                            </select>
+                        </div>
                         <div class="classroom-student-error" style="display:none;color:#D21C1C;margin-left:5px;font-size:12px;">
-                            <span>O aluno não está matriculado em nenhuma turma nesse ano.
+                            <span>A turma não tem nenhum aluno matriculado.
                             </span>
                             <a href="#" data-toggle="modal" data-target="#change-year" target="_blank" data-dismiss="modal">
                                 Clique aqui para mudar o ano.
                             </a>
                         </div>
                         <div class="classroom-student-container" style="display: none;">
-                            <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
-                            ?>
-                            <select name="classroom_student" id="classroom_student" style="width: 100%;" required>
-                                <option value="">Selecione a Turma</option>
-                            </select>
                             <label for="model_quartely" class="control-label" style="width: 100%;">Modelo de Eixos e Campos de Experiência</label>
                             <select name="model_quartely" id="model_quartely" style="width: 100%;" required>
                                 <option value="">Selecione o modelo</option>

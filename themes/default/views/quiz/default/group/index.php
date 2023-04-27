@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <div class="innerLR">
+    <div class="tag-inner">
         <div class="columnone" style="padding-right: 1em">
             <?php if (Yii::app()->user->hasFlash('success')): ?>
                 <div class="alert alert-success">
@@ -27,10 +27,12 @@
                 <div class="widget-body">
                     <?php
                     $this->widget('zii.widgets.grid.CGridView', array(
-                        'dataProvider' => $filter->search(),
-                        'filter' => $filter,
-                        'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                        'enablePagination' => true,
+                        // 'dataProvider' => $filter->search(),
+                        'dataProvider' => $dataProvider,
+                        // $filter->search(),
+                        // 'filter' => $filter,
+                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'enablePagination' => false,
                         'columns' => array(
                             array(
                                 'name' => 'id',

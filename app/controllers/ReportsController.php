@@ -44,9 +44,9 @@ class ReportsController extends Controller
 
     public function actionQuarterlyReport()
     {
-        if(isset($_POST['student']) && isset($_POST['classroom_student']) && isset($_POST['model_quartely'])) {
+        if(isset($_POST['student']) && isset($_POST['quartely_report_classroom_student']) && isset($_POST['model_quartely'])) {
             $student_id = $_POST['student'];
-            $classroom_id = $_POST['classroom_student'];
+            $classroom_id = $_POST['quartely_report_classroom_student'];
             $model = $_POST['model_quartely'];
             $student_identification = StudentIdentification::model()->findByPk($student_id);
             $student_enrollment = StudentEnrollment::model()->findByAttributes(array('student_fk' => $student_id));
@@ -147,13 +147,12 @@ class ReportsController extends Controller
         return $this->redirect(array('index'));
     }
 
-    public function actionGetStudentClassrooms()
+    public function actionGetStudentClassrooms($id)
     {
-        $student_id = $_POST['student_id'];
-        $student_enrollment = StudentEnrollment::model()->findByAttributes(array('student_fk' => $student_id));
-        $classrooms = Classroom::model()->findAllByAttributes(array('id' => $student_enrollment->classroom_fk, 'school_year' => Yii::app()->user->year));
-        foreach ($classrooms as $class) {
-            echo "<option value='" . $class->id . "'>" . htmlspecialchars($class->name, ENT_QUOTES, 'UTF-8') . "</option>";
+        $classroom =  Classroom::model()->findByPk($id);
+        $enrollments = $classroom->studentEnrollments;
+        foreach ($enrollments as $enrollment) {
+            echo "<option value='" . $enrollment->studentFk->id . "'>" . htmlspecialchars($enrollment->studentFk->name, ENT_QUOTES, 'UTF-8') . "</option>";
         }
     }
 

@@ -85,7 +85,11 @@ $(document).ready(function () {
                     data: request,
                     dataType: 'json',
                     cache: false,
+                    beforeSend: function () {
+                        $(".loading-datatable-search").show();
+                    },
                     success: function (json) {
+                        $(".loading-datatable-search").hide();
                         cacheLastJson = $.extend(true, {}, json);
 
                         if (cacheLower != drawStart) {
@@ -166,7 +170,30 @@ $(document).ready(function () {
                     columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
                     searching: true,
                 });
-            } else {
+            }else if ((action.includes("stock"))){
+                $(".stock-items-table").dataTable({
+                    language: getLanguagePtbr(),
+                    responsive: true,
+                    pageLength: 20,
+                    select: {
+                        items: 'cell'
+                    },
+                    ordering: false,
+                    "bLengthChange": false,
+                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
+                });
+                $(".transactions-table").dataTable({
+                    language: getLanguagePtbr(),
+                    responsive: true,
+                    pageLength: 10,
+                    select: {
+                        items: 'cell'
+                    },
+                    ordering: false,
+                    "bLengthChange": false,
+                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
+                });
+            }else {
                 $(".js-tag-table").dataTable({
                     language: getLanguagePtbr(),
                     responsive: true,
@@ -188,14 +215,19 @@ $(document).ready(function () {
             else if(action.includes("curricularmatrix")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar matriz')
             else if(action.includes("courseplan")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar plano de aula')
             else if(action.includes("professional")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar profissional')
+            else if(action.includes("stock")) {
+                $('.stock-container .dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar Itens')
+                $('.transactions-container .dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar Movimentações')
+            }else if(action.includes("lunch/index")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar cardápios')
 
             //Remove o texto da label original do datatable
             $(".dataTables_filter label").contents().filter(function() {
                 return this.nodeType === 3;
             }).remove();
 
-            //adiciona o ícone de pesquisa
+            //adiciona o ícone de pesquisa e loading
             $('.dataTables_filter label').prepend('<img src="../../../themes/default/img/search-icon.svg">');
+            $('#student-identification-table_wrapper').prepend('<img class="loading-datatable-search" style="display:none;margin-left: 75%;margin-top: 1.2%;" height="30px" width="30px" src="../../../themes/default/img/loadingTag.gif" alt="TAG Loading">');
         });
     }
 });
