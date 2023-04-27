@@ -4792,6 +4792,7 @@ div #multiclass {
 
 .table-bordered {
     border-color: #e5e5e5;
+    margin: 0 0 15px;
 }
 
 .table-bordered th,

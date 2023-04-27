@@ -446,9 +446,11 @@ class EnrollmentController extends Controller
             $criteria->params = array(":discipline_fk" => $_POST["discipline"], ":enrollment_fk" => $studentEnrollment->id);
             $criteria->order = "gu.id";
             $gradeUnitiesByDiscipline = GradeUnity::model()->findAll($criteria);
+
+
             foreach ($gradeUnitiesByDiscipline as $gradeUnity) {
                 $key = array_search($gradeUnity->id, array_column($arr["grades"], 'unityId'));
-                $arr["grades"][$key] = $this->getUnidadeValues($gradeUnity);
+                $arr["grades"][$key] = $this->getUnidadeValues($gradeUnity, $studentEnrollment->id);
             }
 
 
@@ -517,7 +519,7 @@ class EnrollmentController extends Controller
         }
     }
 
-    private function getUnidadeValues($gradeUnity)
+    private function getUnidadeValues($gradeUnity, $enrollment_id)
     {
         $unityGrade = "";
         $unityRecoverGrade = "";
