@@ -18,12 +18,12 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="row-fluid  hidden-print">
     <div class="span12">
         <h1><?php echo $title; ?></h1>
-        <div class="buttons">
-            <?php echo CHtml::htmlButton('<i></i>' . ($group->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'save_group_button', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
+        <div class="tag-buttons-container buttons">
+            <?php echo CHtml::htmlButton('<i></i>' . ($group->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'save_group_button', 'class' => 't-button-primary  next', 'type' => 'button'));
             ?>
             <?php
             if (!$group->isNewRecord) {
-                echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Delete'), array('id' => 'delete_group_button', 'class' => 'btn btn-icon btn-primary last glyphicons delete', 'type' => 'button'));
+                echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Delete'), array('id' => 'delete_group_button', 'class' => 't-button-primary  next', 'type' => 'button'));
             }
             ?>
         </div>
