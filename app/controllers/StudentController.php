@@ -281,15 +281,15 @@ class StudentController extends Controller
             $modelStudentRestrictions->attributes = $_POST[$this->STUDENT_RESTRICTIONS];
 
             // Validação CPF->Certidão->Nome
-            if ($modelStudentIdentification->responsable_cpf != null) {
-                $student_test_cpf = StudentIdentification::model()->find('responsable_cpf=:responsable_cpf', array(':responsable_cpf' => $modelStudentIdentification->responsable_cpf));
+            if ($modelStudentDocumentsAndAddress->cpf != null) {
+                $student_test_cpf = StudentDocumentsAndAddress::model()->find('cpf=:cpf', array(':cpf' => $modelStudentDocumentsAndAddress->cpf));
                 if (isset($student_test_cpf)) {
                     Yii::app()->user->setFlash('error', Yii::t('default', "O CPF do responsável informado já está cadastrado"));
                     $this->redirect(array('index'));
                 }
             }
             if ($modelStudentDocumentsAndAddress->civil_certification_term_number != null) {
-                $student_test_certificate = StudentIdentification::model()->find('civil_certification_term_number=:civil_certification_term_number', array(':civil_certification_term_number' => $modelStudentDocumentsAndAddress->civil_certification_term_number));
+                $student_test_certificate = StudentDocumentsAndAddress::model()->find('civil_certification_term_number=:civil_certification_term_number', array(':civil_certification_term_number' => $modelStudentDocumentsAndAddress->civil_certification_term_number));
                 if (isset($student_test_certificate)) {
                     Yii::app()->user->setFlash('error', Yii::t('default', "O Nº do Termo da Certidão informado já está cadastrado"));
                     $this->redirect(array('index'));
