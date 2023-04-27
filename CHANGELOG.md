@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.16.29]
+- Agora as notas são salvas e calculadas corretamente
+
 ## [Versão 3.16.28]
 - Adicionada a funcionalidade de transferêcia de alunos entre escolas
 ## [Versão 3.15.28]
