@@ -283,16 +283,21 @@ class StudentEnrollment extends AltActiveRecord
 
     public function alreadyExists()
     {
-        $sql = "SELECT count(student_fk) as qtd FROM student_enrollment WHERE student_fk = " . $this->student_fk . " AND classroom_fk = " . $this->classroom_fk;
-        $count = Yii::app()->db->createCommand($sql)->queryRow();
-        // var_dump($count["qtd"]);
+        $sql = "SELECT count(student_fk) as qtd FROM student_enrollment WHERE student_fk = :student_fk  AND classroom_fk = :classroom_fk";
+        
+        $count = Yii::app()->db->createCommand($sql)
+            ->bindParam(":student_fk", $this->student_fk)
+            ->bindParam(":classroom_fk", $this->classroom_fk)
+            ->queryRow();
         return $count["qtd"] > 0; 
     }
     public function getDailyOrder()
     {
-        $sql = "SELECT count(student_fk) as qtd FROM student_enrollment WHERE classroom_fk = " . $this->classroom_fk;
-        $count = Yii::app()->db->createCommand($sql)->queryRow();
-        // var_dump($count["qtd"]);
+        $sql = "SELECT count(student_fk) as qtd FROM student_enrollment WHERE classroom_fk = :classroom_fk";
+        $count = Yii::app()->db->createCommand($sql)
+            ->bindParam(":classroom_fk", $this->classroom_fk)
+            ->queryRow();
+
         return $count["qtd"] + 1; 
     }
 
@@ -351,8 +356,10 @@ class StudentEnrollment extends AltActiveRecord
 
     public function getFileInformation($enrollment_id)
     {
-        $sql = "SELECT * FROM studentsfile WHERE enrollment_id = " . $enrollment_id . " AND (status = 1 OR status IS NULL);";
-        return Yii::app()->db->createCommand($sql)->queryRow();
+        $sql = "SELECT * FROM studentsfile WHERE enrollment_id = :enrollment_id AND (status = 1 OR status IS NULL);";
+        return Yii::app()->db->createCommand($sql)
+            ->bindParam(":enrollment_id", $enrollment_id)
+            ->queryRow();
     }
 
     public function getResultGrade($disciplines)
