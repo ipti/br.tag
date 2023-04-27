@@ -40,10 +40,5 @@ CREATE TABLE `provision_accounts` (
   `name_unidade_gestora` varchar(150) NOT NULL,
   `cpf_responsavel` varchar(11) NOT NULL,
   `cpf_gestor` varchar(11) NOT NULL,
-  `ano_referencia` varchar(4) NOT NULL,
-  `mes_referencia` varchar(2) NOT NULL,
-  `versao_xml` varchar(10) NOT NULL,
-  `dia_inicio_prest_contas` date NOT NULL,
-  `dia_final_prest_contas` date NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
