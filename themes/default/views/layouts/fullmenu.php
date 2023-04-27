@@ -152,7 +152,8 @@ if (Yii::app()->user->isGuest) {
                     <ul class="t-menu">
                         <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=site") || $_SERVER['REQUEST_URI'] == "/" ? 'active' : '' ?> hide-responsive">
                             <a href="/" class="t-menu-item__link">
-                                <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/home.svg" />
+                                <span class="t-icon-home"></span>
+                                <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/home.svg" /> -->
                                 <span class="t-menu-item__text">Página Inicial</span>
                             </a>
                         </li>
@@ -164,43 +165,50 @@ if (Yii::app()->user->isGuest) {
                                 }
                                 ?>
                                 <a class="t-menu-item__link" href="<?php echo $schoolurl ?>">
-                                    <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/escola.svg" />
+                                    <span class="t-icon-school"></span>
+                                    <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/escola.svg" /> -->
                                     <span class="t-menu-item__text">Escola</span>
                                 </a>
                             </li>
                             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=classroom") ? 'active' : '' ?>">
                                 <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('classroom') ?>">
-                                    <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/turmas.svg" />
+                                    <span class="t-icon-people"></span>
+                                    <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/turmas.svg" /> -->
                                     <span class="t-menu-item__text">Turmas</span>
                                 </a>
                             </li>
                             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=student") ? 'active' : '' ?>">
                                 <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('student') ?>">
-                                    <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/alunos.svg" />
+                                    <span class="t-icon-pencil"></span>
+                                    <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/alunos.svg" /> -->
                                     <span class="t-menu-item__text">Alunos</span>
                                 </a>
                             </li>
                             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=instructor") ? 'active' : '' ?>">
                                 <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('instructor') ?>">
-                                    <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/professores.svg" />
+                                    <span class="t-icon-book"></span>
+                                    <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/professores.svg" /> -->
                                     <span class="t-menu-item__text">Professores</span>
                                 </a>
                             </li>
                             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=calendar") ? 'active' : '' ?> hide-responsive">
                                 <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('calendar') ?> ">
-                                    <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/calendario.svg" />
+                                    <span class="t-icon-calendar"></span>
+                                    <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/calendario.svg" /> -->
                                     <span class="t-menu-item__text">Calendário Escolar</span>
                                 </a>
                             </li>
                             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=curricularmatrix") ? 'active' : '' ?> hide-responsive">
                                 <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('curricularmatrix') ?> ">
-                                    <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/matriz_curricular.svg" />
+                                    <span class="t-icon-line_graph"></span>
+                                    <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/matriz_curricular.svg" /> -->
                                     <span class="t-menu-item__text">Matriz Curricular</span>
                                 </a>
                             </li>
                             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=timesheet") ? 'active' : '' ?> hide-responsive">
                                 <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('timesheet') ?> ">
-                                    <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/quadro_de_horarios.svg" />
+                                    <span class="t-icon-blackboard"></span>
+                                    <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/quadro_de_horarios.svg" /> -->
                                     <span class="t-menu-item__text">Quadro de Horário</span>
                                 </a>
                             </li>
@@ -212,7 +220,8 @@ if (Yii::app()->user->isGuest) {
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades")
                                                                                 ? 'active' : '' ?>"><i class="submenu-icon fa fa-chevron-right"></i><i class="submenu-icon fa fa-chevron-down"></i>
                             <a id="menu-electronic-diary-trigger" data-toggle="collapse" class="t-menu-group__link" href="#submenu-electronic-diary">
-                                <img class="t-menu-group__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/diario_eletronico.svg" />
+                                <span class="t-icon-schedule"></span>
+                                <!-- <img class="t-menu-group__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/diario_eletronico.svg" /> -->
                                 <span class="t-menu-group__text">Diário Eletrônico</span>
                             </a>
                             <ul class="collapse <?=
@@ -223,25 +232,29 @@ if (Yii::app()->user->isGuest) {
 
                                 <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ? 'active' : '' ?>">
                                     <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('courseplan') ?>">
-                                        <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/plano_de_aula.svg" />
+                                        <span class="t-icon-diary"></span>
+                                        <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/plano_de_aula.svg" /> -->
                                         <span class="t-menu-item__text">Plano de Aula</span>
                                     </a>
                                 </li>
                                 <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ? 'active' : '' ?>">
                                     <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('classes/classContents') ?>">
-                                        <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/aulas_ministradas.svg" />
+                                        <span class="t-icon-topics"></span>
+                                        <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/aulas_ministradas.svg" /> -->
                                         <span class="t-menu-item__text">Aulas Ministradas</span>
                                     </a>
                                 </li>
                                 <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ? 'active' : '' ?>">
                                     <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('classes/frequency') ?>">
-                                        <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/frequencia.svg" />
+                                        <span class="t-icon-checklist"></span>
+                                        <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/frequencia.svg" /> -->
                                         <span class="t-menu-item__text">Frequência</span>
                                     </a>
                                 </li>
                                 <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades") ? 'active' : '' ?>">
                                     <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('enrollment/grades') ?> ">
-                                        <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/notas.svg" />
+                                        <span class="t-icon-edition"></span>
+                                        <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/notas.svg" /> -->
                                         <span class="t-menu-item__text">Notas</span>
                                     </a>
                                 </li>
@@ -249,20 +262,23 @@ if (Yii::app()->user->isGuest) {
                         </li>
                         <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=reports") ? 'active' : '' ?> hide-responsive">
                             <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('reports') ?>">
-                                <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/relatorios.svg" />
+                                <span class="t-icon-column_graphi"></span>
+                                <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/relatorios.svg" /> -->
                                 <span class="t-menu-item__text">Relatórios</span>
                             </a>
                         </li>
                         <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)) : ?>
                             <li id="menu-quiz" class="t-menu-item  <?= strpos($_SERVER['REQUEST_URI'], "?r=quiz") ? 'active' : '' ?> hide-responsive">
                                 <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('quiz') ?>">
-                                    <img alt="Questionario" class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/quizzes.svg" />
+                                    <span class="t-icon-question-group"></span>
+                                    <!-- <img alt="Questionario" class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/quizzes.svg" /> -->
                                     <span class="t-menu-item__text">Questionário</span>
                                 </a>
                             </li>
                             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=lunch") ? 'active' : '' ?> hide-responsive">
                                 <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('lunch') ?> ">
-                                    <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/merenda.svg" />
+                                    <span class="t-icon-apple"></span>
+                                    <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/merenda.svg" /> -->
                                     <span class="t-menu-item__text">Merenda Escolar</span>
                                 </a>
                             </li>
@@ -272,7 +288,8 @@ if (Yii::app()->user->isGuest) {
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=sedsp")
                                                                                 ? 'active' : '' ?>"><i class="submenu-icon fa fa-chevron-right"></i><i class="submenu-icon fa fa-chevron-down"></i>
                                 <a id="menu-integrations-trigger" data-toggle="collapse" class="t-menu-group__link" href="#submenu-integrations">
-                                    <img class="t-menu-group__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/integration.svg" alt="engrenagem de integração" />
+                                <span class="t-icon-settings"></span>   
+                                <!-- <img class="t-menu-group__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/integration.svg" alt="engrenagem de integração" /> -->
                                     <span class="t-menu-group__text">Integrações</span>
                                 </a>
                                 <ul class="collapse <?=
@@ -282,13 +299,15 @@ if (Yii::app()->user->isGuest) {
 
                                     <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ? 'active' : '' ?>">
                                         <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('censo/validate') ?> ">
-                                            <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/educacenso.svg" alt="censo logo" />
+                                            <span class="t-icon-educacenso"></span>
+                                            <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/educacenso.svg" alt="censo logo" /> -->
                                             <span class="t-menu-item__text">Educacenso</span>
                                         </a>
                                     </li>
                                     <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=sagres") ? 'active' : '' ?>">
                                         <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('sagres') ?> ">
-                                            <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/sagres.svg" alt="sagres logo" />
+                                            <span class="t-icon-sagres"></span>
+                                            <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/sagres.svg" alt="sagres logo" /> -->
                                             <span class="t-menu-item__text">Sagres</span>
                                         </a>
                                     </li>
@@ -306,13 +325,15 @@ if (Yii::app()->user->isGuest) {
                         <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
                             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=admin") ? 'active' : '' ?> hide-responsive">
                                 <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('admin') ?>">
-                                    <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/administracao.svg" />
+                                    <span class="t-icon-configuration-adm"></span>
+                                    <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/administracao.svg" /> -->
                                     <span class="t-menu-item__text">Administração</span>
                                 </a>
                             </li>
                             <li class="t-menu-item hide-responsive">
                                 <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('resultsmanagement') ?>">
-                                    <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/gestao-de-resultados.svg" />
+                                    <span class="t-icon-bar_graph"></span>
+                                    <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/gestao-de-resultados.svg" /> -->
                                     <span class="t-menu-item__text">Gestão de Resultados</span>
                                 </a>
                             </li>

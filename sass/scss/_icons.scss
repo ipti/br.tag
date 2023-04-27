@@ -190,8 +190,15 @@
     content: 'w';
     font-family: 'icone-tag', sans-serif;
 }
-
-.t-icon-bar_graph::before {
+.t-icon-configuration-adm::before{
+    content: 'X';
+    font-family: 'icone-tag', sans-serif;
+}
+.t-icon-export::before{
+    content: 'x';
+    font-family: 'icone-tag', sans-serif;
+}
+.t-icon-sagres::before {
     content: 'Y';
     font-family: 'icone-tag', sans-serif;
 }
