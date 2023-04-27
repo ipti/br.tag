@@ -339,7 +339,7 @@ class EnrollmentController extends Controller
             //     $hasFinalMediaCalculated = true;
             // }
         }
-        // if (!$hasFinalMediaCalculated) {
+        // if ($hasFinalMediaCalculated) {
         //     $this->calculateFinalMedia();
         // }
         $this->calculateFinalMedia();
