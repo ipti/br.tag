@@ -25,6 +25,10 @@
     margin-right: $spaceMedium;
     cursor: pointer;
 
+    span{
+        margin: $spaceEmpty $spaceXXXSmall $spaceEmpty $spaceEmpty;
+        font-size: $FontSizeHeadingTitle1;
+    }
     &:hover,
     &--active {
         text-decoration: none;
