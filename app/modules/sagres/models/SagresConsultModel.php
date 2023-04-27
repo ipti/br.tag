@@ -137,6 +137,7 @@ class SagresConsultModel
         $referenceMonth = (int) date("m", strtotime($dateStart));
 
         $query = "SELECT 
+                    Date(COALESCE(c.create_date, (SELECT date FROM log WHERE reference_ids = c.id AND crud = 'C'))) AS createDate,
                     c.initial_hour AS initialHour,
                     c.school_inep_fk AS schoolInepFk,
                     c.id AS classroomId,
@@ -147,7 +148,7 @@ class SagresConsultModel
                 WHERE 
                     c.school_inep_fk = :schoolInepFk AND 
                     c.school_year = :referenceYear AND 
-                    Date(c.create_date) BETWEEN :dateStart AND :dateEnd";
+                    (c.create_date IS NULL OR Date(c.create_date) BETWEEN :dateStart AND :dateEnd)";
 
         $params = [
             ':schoolInepFk' => $inepId,
