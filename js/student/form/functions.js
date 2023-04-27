@@ -7,6 +7,7 @@ $('.js-select-school-classroom').change(function () {
             inep_id:  school_id
         }
     }).success(function (response) {
+        $("#StudentEnrollment_classroom_fk").empty();
         $("#StudentEnrollment_classroom_fk").html(response);
         $("#StudentEnrollment_classroom_fk").prop("disabled", false);
     }) 
