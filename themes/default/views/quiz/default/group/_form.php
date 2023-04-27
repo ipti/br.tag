@@ -59,7 +59,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <div class="tab-content form-content">
                 <div class="tab-pane active" id="group">
                     <div class="row">
-                        <div class="column">
+                        <div class="column helper">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($group, 'name', array('class' => 'control-label t-field-text__label--required')); ?>
                                 <?php echo $form->textField($group, 'name', array('size' => 60, 'maxlength' => 150, 'class' => "t-field-text__input")); ?>

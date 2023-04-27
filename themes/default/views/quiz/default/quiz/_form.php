@@ -122,7 +122,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <?php if (!$quiz->isNewRecord) : ?>
                     <div class="tab-pane" id="question">
                         <div class="row">
-                            <div class="column">
+                            <div class="column helper">
                                 <div class="t-field-select ">
                                     <?php echo CHtml::label('Questão', 'id', array('class' => 'control-label t-field-text__label required')); ?>
                                     <?php

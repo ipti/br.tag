@@ -65,7 +65,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                 <div class="tab-pane active" id="group">
                     <div class="row">
-                        <div class="column">
+                        <div class="column helper">
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($questionGroup, 'question_group_id', array('class' => 't-field-text__label--required')); ?>
                                 <?php
