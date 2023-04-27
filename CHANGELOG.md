@@ -1,7 +1,12 @@
 # Atualizações
 
-## [Versão 3.16.27]
+##  [Versão 3.16.29]
+- retirando o botão de transferência de aluno para novos registros
+## [Versão 3.16.28]
 - Adicionada a funcionalidade de transferêcia de alunos entre escolas
+## [Versão 3.15.28]
+- O estilo das telas de merenda foram modificados
+
 ## [Versão 3.15.27]
 - O ícones de carregamentos foram modificados
 

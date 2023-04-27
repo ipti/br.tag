@@ -124,7 +124,7 @@ if (Yii::app()->user->isGuest) {
                 <li id="menu-logout" class="hide-responsive" style="margin-left: auto">
                     <a class="t-button-tertiary" href="<?php echo yii::app()->createUrl('site/logout') ?>">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.svg" />
-                        <span>Sair</span>
+                        Sair
                     </a>
                 </li>
             </ul>
@@ -261,7 +261,7 @@ if (Yii::app()->user->isGuest) {
                                 </a>
                             </li>
                             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=lunch") ? 'active' : '' ?> hide-responsive">
-                                <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('lunch/lunch') ?> ">
+                                <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('lunch') ?> ">
                                     <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/merenda.svg" />
                                     <span class="t-menu-item__text">Merenda Escolar</span>
                                 </a>
