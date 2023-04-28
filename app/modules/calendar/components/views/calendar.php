@@ -90,7 +90,7 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
             <div class="accordion-heading">
                 <div class="accordion-toggle" data-toggle="collapse" data-parent="#calendars"
                      href="#collapse<?= $calendar->id ?>">
-                    <a class="accordion-title span12"><?= $calendar->title ?></a>
+                    <a class="accordion-title" style="margin-left:10px"><?= $calendar->title ?></a>
                     <span class="text-right pull-right remove-calendar" data-toggle="tooltip" data-placement="top"
                           data-original-title="Remover Calendário" data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-remove"></i>

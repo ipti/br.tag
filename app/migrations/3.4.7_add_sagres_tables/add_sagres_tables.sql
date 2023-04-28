@@ -38,7 +38,7 @@ CREATE TABLE `provision_accounts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cod_unidade_gestora` varchar(30) NOT NULL,
   `name_unidade_gestora` varchar(150) NOT NULL,
-  `cpf_responsavel` varchar(11) NOT NULL,
-  `cpf_gestor` varchar(11) NOT NULL,
+  `cpf_responsavel` varchar(14) NOT NULL,
+  `cpf_gestor` varchar(14) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
