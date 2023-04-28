@@ -9,8 +9,8 @@
     <div class="row-fluid">
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Question Group') ?></h1>  
-            <div class="buttons">
-                <a href="<?php echo Yii::app()->createUrl('quiz/default/createQuestionGroup') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> <?= Yii::t('default', 'New Question Group') ?> </a>
+            <div class="t-buttons-container">
+                <a href="<?php echo Yii::app()->createUrl('quiz/default/createQuestionGroup') ?>" class="t-button-primary"><i></i> <?= Yii::t('default', 'New Question Group') ?> </a>
             </div>
         </div>
     </div>

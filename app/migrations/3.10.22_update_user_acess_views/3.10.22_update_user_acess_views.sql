@@ -1,6 +1,6 @@
 DROP VIEW IF EXISTS `ata_performance`;
 
-CREATE ALGORITHM = UNDEFINED DEFINER = `root` @`%` SQL SECURITY DEFINER VIEW `ata_performance` AS
+CREATE ALGORITHM = UNDEFINED  SQL SECURITY DEFINER VIEW `ata_performance` AS
 select
 	`s`.`name` AS `school`,
 	`se`.`status` AS `status`,
@@ -34,7 +34,7 @@ left join `edcenso_stage_vs_modality` `svm` on
 
 DROP VIEW IF EXISTS `classroom_enrollment`;
 
-CREATE ALGORITHM = UNDEFINED DEFINER = `root` @`%` SQL SECURITY DEFINER VIEW `classroom_enrollment` AS
+CREATE ALGORITHM = UNDEFINED  SQL SECURITY DEFINER VIEW `classroom_enrollment` AS
 select
 	`s`.`id` AS `enrollment`,
 	`s`.`name` AS `name`,
@@ -78,7 +78,7 @@ join `classroom` `c` on
 
 DROP VIEW IF EXISTS `classroom_instructors`;
 
-CREATE ALGORITHM = UNDEFINED DEFINER = `root` @`%` SQL SECURITY DEFINER VIEW `classroom_instructors` AS
+CREATE ALGORITHM = UNDEFINED  SQL SECURITY DEFINER VIEW `classroom_instructors` AS
 select
 	`c`.`id` AS `id`,
 	`c`.`name` AS `name`,
@@ -152,7 +152,7 @@ order by
 
 DROP VIEW IF EXISTS `classroom_qtd_students`;
 
-CREATE ALGORITHM = UNDEFINED DEFINER = `root` @`%` SQL SECURITY DEFINER VIEW `classroom_qtd_students` AS
+CREATE ALGORITHM = UNDEFINED  SQL SECURITY DEFINER VIEW `classroom_qtd_students` AS
 select
 	`c`.`school_inep_fk` AS `school_inep_fk`,
 	`c`.`id` AS `id`,
@@ -188,7 +188,7 @@ group by
 
 DROP VIEW IF EXISTS `imob_classroom`;
 
-CREATE ALGORITHM = UNDEFINED DEFINER = `root` @`%` SQL SECURITY DEFINER VIEW `imob_classroom` AS
+CREATE ALGORITHM = UNDEFINED  SQL SECURITY DEFINER VIEW `imob_classroom` AS
 select
 	count(distinct `c`.`id`) AS `c_total`,
 	`c`.`school_year` AS `year`,
@@ -203,7 +203,7 @@ order by
 
 DROP VIEW IF EXISTS `imob_student_enrollment`;
 
-CREATE ALGORITHM = UNDEFINED DEFINER = `root` @`%` SQL SECURITY DEFINER VIEW `imob_student_enrollment` AS
+CREATE ALGORITHM = UNDEFINED  SQL SECURITY DEFINER VIEW `imob_student_enrollment` AS
 select
 	count(distinct `se`.`id`) AS `se_total`,
 	sum((case when ((month(`se`.`create_date`) >= 1) and (month(`se`.`create_date`) < 6)) then 1 else 0 end)) AS `se_half1`,
@@ -220,7 +220,7 @@ order by
 
 DROP VIEW IF EXISTS `studentsdeclaration`;
 
-CREATE ALGORITHM = UNDEFINED DEFINER = `root` @`%` SQL SECURITY DEFINER VIEW `studentsdeclaration` AS
+CREATE ALGORITHM = UNDEFINED  SQL SECURITY DEFINER VIEW `studentsdeclaration` AS
 select
 	`s`.`name` AS `name`,
 	`s`.`birthday` AS `birthday`,
@@ -270,7 +270,7 @@ order by
 
 DROP VIEW IF EXISTS `studentsfile`;
 
-CREATE ALGORITHM = UNDEFINED DEFINER = `root` @`%` SQL SECURITY DEFINER VIEW `studentsfile` AS
+CREATE ALGORITHM = UNDEFINED  SQL SECURITY DEFINER VIEW `studentsfile` AS
 select
 	`s`.`id` AS `id`,
 	`se`.`id` AS `enrollment_id`,
@@ -447,7 +447,7 @@ order by
 
 DROP VIEW IF EXISTS `studentsfile2`;
 
-CREATE ALGORITHM = UNDEFINED DEFINER = `root` @`%` SQL SECURITY DEFINER VIEW `studentsfile2` AS
+CREATE ALGORITHM = UNDEFINED  SQL SECURITY DEFINER VIEW `studentsfile2` AS
 select
 	`s`.`id` AS `id`,
 	`s`.`name` AS `name`,

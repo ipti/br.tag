@@ -40,7 +40,7 @@ class StudentController extends Controller
         return array(
             array(
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'comparestudentname', 'getstudentajax', 'comparestudentcpf', 'comparestudentcivilregisterenrollmentnumber', 'comparestudentcertificate', 'create', 'update', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
+                'actions' => array('index', 'view', 'comparestudentname', 'getstudentajax','getclassrooms', 'comparestudentcpf', 'comparestudentcivilregisterenrollmentnumber', 'comparestudentcertificate', 'create', 'update', 'transfer', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
                 'users' => array('@'),
             ),
             array(
@@ -476,6 +476,54 @@ class StudentController extends Controller
             'studentVaccinesSaves' => $studentVaccinesSaves
         ));
     }
+    //
+    public function actionTransfer($id)
+    {
+        $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
+        $modelEnrollment = new StudentEnrollment;
+        if (isset($_POST['StudentEnrollment'])) {
+            $currentEnrollment = StudentEnrollment::model()->findByPk($modelStudentIdentification->studentEnrollment->id);
+            if ($currentEnrollment->validate()) {
+                $currentEnrollment->status = 2;
+                if ($currentEnrollment->save()) {
+                    Log::model()->saveAction("enrollment", $currentEnrollment->id, "U", $currentEnrollment->studentFk->name . "|" . $currentEnrollment->classroomFk->name);
+                }
+            }
+            $modelEnrollment->school_inep_id_fk = $_POST['StudentEnrollment']['school_inep_id_fk'];
+            $modelEnrollment->classroom_fk = $_POST['StudentEnrollment']['classroom_fk'];
+            $modelEnrollment->student_fk = $modelStudentIdentification->id;
+            $modelEnrollment->student_inep_id = $modelStudentIdentification->inep_id;
+            $modelEnrollment->status = 1;
+            $modelEnrollment->create_date = date('Y-m-d');
+            $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
+
+            $hasDuplicate = $modelEnrollment->alreadyExists();
+
+            if ($modelEnrollment->validate() && !$hasDuplicate) {
+                    $saved = $modelEnrollment->save();
+            }
+            Yii::app()->user->setFlash('success', Yii::t('default', 'transferred enrollment'));
+            $this->redirect(array('student/update&id='.$modelStudentIdentification->id));
+        } else {
+            $this->render('transfer', array(
+                'modelStudentIdentification' => $modelStudentIdentification,
+                'modelEnrollment' => $modelEnrollment
+            ));
+        }
+    }
+    public function actionGetClassrooms() {
+        $school_inep_id = $_POST["inep_id"];
+        $school = SchoolIdentification::model()->findByPk($school_inep_id);
+        $classrooms = $school->classrooms;
+        foreach ($classrooms as $class) {
+            if ($class->school_year == Yii::app()->user->year) {
+                $class_id = htmlspecialchars($class->id);
+                $class_name = htmlspecialchars($class->name);
+                echo "<option value='".$class_id."'>".$class_name."</option>";
+            }
+        }
+    }
+    //
 
 
     /**

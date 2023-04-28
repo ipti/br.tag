@@ -1,0 +1,245 @@
+/* Index View */
+.lunch-icon {
+    font-size: 20px;
+}
+
+.container-box {
+    margin-left: 20px;
+    margin-bottom: 50px;
+    width: 100%;
+}
+
+.container-box p {
+    margin-left: 20px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 19px;
+    color: #A9ADC4;
+}
+
+.lunch-box-container {
+    display: inline-flex;
+    align-items: center;
+    width: 30%;
+    height: auto;
+    padding: 20px 30px;
+    background: #FAFAFE;
+    border-radius: 5px;
+    border: none;
+    margin: 10px;
+    text-align: left;
+}
+
+@media (max-width: 1440px) {
+    .lunch-box-container {
+        width: 50%;
+    }
+}
+
+@media (max-width: 1200px) {
+    .lunch-box-container {
+        width: 70%;
+    }
+}
+
+@media (max-width: 880px) {
+    .lunch-box-container {
+        width: 100%;
+    }
+}
+  
+
+.lunch-box-container .title{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 27px;
+}
+
+.lunch-box-container .subtitle{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 19px;
+    color: #5F738C;
+    margin-left: 0 !important;
+}
+
+/* Estoque View */
+table {
+    text-align: left !important;
+}
+
+table thead > tr {
+    border-bottom: 2px solid #BAC7D5 !important;
+}
+
+table tbody tr {
+    border-bottom: 2px solid #E8EDF1 !important;
+}
+
+table th, table td {
+    padding: 10px !important;
+}
+
+.stock-container, .transactions-container {
+    width: 40% !important;
+}
+
+.stock-container {
+    margin-right: 10% !important;
+}
+
+.trasactions-header h3 {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #252A31;
+}
+
+.trasactions-header h4 {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #5F738C;
+}
+
+.stock-home .dataTables_filter {
+    display: flex !important;
+    float: left !important;
+    width: 70% !important;
+}
+
+.stock-home .dataTables_filter > label {
+    width: 100% !important;
+    cursor: text;
+}
+
+.stock-home .dataTables_filter > label > img, .stock-home .dataTables_filter > label > input {
+    float: left !important;
+}
+
+.stock-home .dataTables_filter > label > img {
+    margin: 7px !important;
+}
+
+.stock-home .dataTables_filter > label > input {
+    width: 52% !important;
+}
+
+.dataTables_paginate {
+    display: flex !important;
+}
+
+.dataTables_paginate .previous {
+    background-image: url('../img/chevron-left.svg') !important;
+    background-repeat: no-repeat !important;
+    background-position-y: center !important;
+}
+
+.dataTables_paginate .next {
+    background-image: url('../img/chevron-right.svg') !important;
+    background-repeat: no-repeat !important;
+    background-position-y: center !important;
+}
+
+.dataTables_paginate .previous:active {
+    box-shadow: none !important;
+}
+
+.dataTables_paginate .next:active {
+    box-shadow: none !important;
+}
+
+.dataTables_paginate a {
+    border: 1px solid white !important;
+}
+
+.dataTables_paginate span .paginate_button {
+    height: 24px !important;
+    width: 24px !important;
+    border-radius: 50% !important;
+    padding: 10px !important;
+    margin: 5px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background-color: transparent;
+    color: #252A31;
+}
+
+.dataTables_paginate span .paginate_button:hover:not(.current) {
+    background: #F5F7F9 !important;
+    color: #252A31 !important;
+}
+
+.current {
+    background-color: #3F45EA !important;
+    color: #fff !important;
+}
+
+.dataTables_paginate span {
+    display: flex !important;
+}
+
+.add-item-button {
+    width: 198px;
+    height: 44px;
+    background: #EFF2F5;
+    border-radius: 4px;
+    padding: 12px 16px;
+}
+
+.remove-item-button {
+    width: 198px;
+    height: 44px;
+    background: #EFF2F5;
+    border-radius: 4px;
+    padding: 12px 16px;
+}
+
+.button-container {
+    margin-bottom: 20%;
+    text-align: right;
+}
+
+.transactions-container .out, .stock-container .out {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    color: #D21C1C;
+}
+
+.transactions-container .in, .stock-container .in {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    color: #28A138;
+}
+
+.odd, .even {
+    background: none !important;
+}
+
+.container-box table.dataTable {
+    border-collapse: collapse !important;
+}
+
+/* Cardápio View */
+.lunch-container {
+    width: auto;
+}
+
+.lunch-home .dataTables_filter > label > img {
+    margin-bottom: 10px !important;
+}
+
+.form-group-container {
+    margin-top: 10px;
+    width: 50%;
+}
