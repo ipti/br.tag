@@ -2,6 +2,11 @@
 /* @var $this ProvisionAcountsController */
 /* @var $model ProvisionAcounts */
 /* @var $form CActiveForm */
+
+$baseUrl = Yii::app()->baseUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseUrl . '/js/sagres/form/validations.js?v=1.0', CClientScript::POS_END);
+
 ?>
 
 <div class="form">
@@ -71,7 +76,7 @@
                                             <?php echo $form->labelEx($model, 'cpf_responsavel', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($model, 'cpf_responsavel', array('size' => 14, 'maxlength' => 14, 'placeholder'=>'___.___.___-__')); ?>
+                                            <?php echo $form->textField($model, 'cpf_responsavel', array('size' => 14, 'maxlength' => 14, 'placeholder'=>'___.___.___-__', 'id' => 'input_responsible_cpf')); ?>
                                             <?php echo $form->error($model, 'cpf_responsavel'); ?>
                                         </div>
                                     </div>
@@ -81,7 +86,7 @@
                                             <?php echo $form->labelEx($model, 'cpf_gestor', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($model, 'cpf_gestor', array('size' => 14, 'maxlength' => 14,'placeholder'=>'___.___.___-__')); ?>
+                                            <?php echo $form->textField($model, 'cpf_gestor', array('size' => 14, 'maxlength' => 14,'placeholder'=>'___.___.___-__','id' => 'input_manager_cpf')); ?>
                                             <?php echo $form->error($model, 'cpf_gestor'); ?>
                                         </div>
                                     </div>

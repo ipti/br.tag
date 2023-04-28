@@ -11,9 +11,9 @@ class DefaultController extends Controller
 	public function actionCreateOrUpdate()
 	{		   		
 		$sagresConsultModel = new SagresConsultModel;
-		$managementUnitCode = $sagresConsultModel->getUnitCode();
+		$managementUnitCode = $sagresConsultModel->getManagementId();
 
-		if ($managementUnitCode) {
+		if (isset($managementUnitCode)) {
 			$model = ProvisionAccounts::model()->findByPk($managementUnitCode);
 			if (!$model) {
 				Yii::app()->user->setFlash('error', Yii::t('default', 'Unidade gestora solicitada não existe!'));
@@ -42,11 +42,11 @@ class DefaultController extends Controller
 	}
 
 
-	public function actionExport($managementUnitCode, $year, $startDate, $endDate)
+	public function actionExport($year, $startDate, $endDate)
 	{
 		try {
 			$sagres = new SagresConsultModel;
-			$sagresEduXML = $sagres->generatesSagresEduXML($sagres->getSagresEdu($managementUnitCode, $year, $startDate, $endDate));
+			$sagresEduXML = $sagres->generatesSagresEduXML($sagres->getSagresEdu($year, $startDate, $endDate));
 			echo $sagres->actionExportSagresXML($sagresEduXML);
 		} catch (Exception $e) {
 			Yii::app()->user->setFlash('error', Yii::t('default', $e->getMessage()));
