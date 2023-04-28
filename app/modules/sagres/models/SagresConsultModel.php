@@ -10,6 +10,8 @@ use Exception;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
 use JMS\Serializer\SerializerBuilder;
 
+use PDO;
+use PDOException;
 use Symfony\Component\Validator\Validation;
 
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
@@ -17,6 +19,9 @@ use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
 
 use Yii;
 
+/**
+ * Summary of SagresConsultModel
+ */
 class SagresConsultModel
 {
     private $dbCommand;
@@ -26,13 +31,14 @@ class SagresConsultModel
         $this->dbCommand = Yii::app()->db->createCommand();
     }
 
-    public function getSagresEdu($managementUnitCode, $referenceYear, $dateStart, $dateEnd): EducacaoTType
+    public function getSagresEdu($referenceYear, $dateStart, $dateEnd): EducacaoTType
     {
         $education = new EducacaoTType;
+        $managementUnitId = $this->getManagementId();
 
         try {
             $education
-                ->setPrestacaoContas($this->getManagementUnit($managementUnitCode, $referenceYear, $dateStart, $dateEnd))
+                ->setPrestacaoContas($this->getManagementUnit($managementUnitId, $referenceYear, $dateStart, $dateEnd))
                 ->setEscola($this->getSchools($referenceYear, $dateStart, $dateEnd))
                 ->setProfissional($this->getProfessionals($referenceYear, $dateStart, $dateEnd));
         } catch (Exception $e) {
@@ -43,45 +49,63 @@ class SagresConsultModel
     }
 
 
-    public function getManagementUnit($managementUnitCode, $referenceYear, $dateStart, $dateEnd): CabecalhoTType
+    public function getManagementUnit($managementUnitId, $referenceYear, $dateStart, $dateEnd): CabecalhoTType
     {
-        $query = "SELECT 
-                    pa.id AS managementUnitId,
-                    pa.cod_unidade_gestora AS managementUnitCode,
-                    pa.name_unidade_gestora AS managementUnitName,
-                    pa.cpf_responsavel AS responsibleCpf,
-                    pa.cpf_gestor AS managerCpf
-                FROM 
-                    provision_accounts pa
-                WHERE 
-                    pa.cod_unidade_gestora = :managementUnitCode";
+        try {
+            $query = "SELECT 
+                        pa.id AS managementUnitId,
+                        pa.cod_unidade_gestora AS managementUnitCode,
+                        pa.name_unidade_gestora AS managementUnitName,
+                        pa.cpf_responsavel AS responsibleCpf,
+                        pa.cpf_gestor AS managerCpf
+                    FROM 
+                        provision_accounts pa
+                    WHERE 
+                        pa.id = :managementUnitId";
 
-        $managementUnit = Yii::app()->db->createCommand($query)
-            ->bindValue(':managementUnitCode', $managementUnitCode)
-            ->queryRow();
+            $managementUnit = Yii::app()->db->createCommand($query)
+                ->bindValue(':managementUnithId', $managementUnitId)
+                ->queryRow();
 
-        $headerType = new CabecalhoTType;
+            $headerType = new CabecalhoTType;
 
-        $headerType
-            ->setCodigoUnidGestora($managementUnit['managementUnitCode'])
-            ->setNomeUnidGestora($managementUnit['managementUnitName'])
-            ->setCpfResponsavel($managementUnit['responsibleCpf'])
-            ->setCpfGestor($managementUnit['managerCpf'])
-            ->setAnoReferencia((int) $referenceYear)
-            ->setMesReferencia((int) date("m", strtotime($dateEnd)))
-            ->setVersaoXml(1)
-            ->setDiaInicPresContas((int) date("d", strtotime($dateStart)))
-            ->setDiaFinaPresContas((int) date("d", strtotime($dateEnd)));
+            $headerType
+                ->setCodigoUnidGestora($managementUnit['managementUnitCode'])
+                ->setNomeUnidGestora($managementUnit['managementUnitName'])
+                ->setCpfResponsavel($managementUnit['responsibleCpf'])
+                ->setCpfGestor($managementUnit['managerCpf'])
+                ->setAnoReferencia((int) $referenceYear)
+                ->setMesReferencia((int) date("m", strtotime($dateEnd)))
+                ->setVersaoXml(1)
+                ->setDiaInicPresContas((int) date("d", strtotime($dateStart)))
+                ->setDiaFinaPresContas((int) date("d", strtotime($dateEnd)));
 
-        return $headerType;
+            return $headerType;
+        } catch (Exception $e) {
+            throw new Exception("Ocorreu um erro ao buscar a unidade gestora");
+        }
     }
 
-    public function getUnitCode()
+    /**
+     * Summary of getManagementId
+     * @throws Exception
+     * @return int|null
+     */
+    public function getManagementId()
     {
-        $query = "SELECT pa.id, pa.cod_unidade_gestora FROM provision_accounts pa";
-        $managementUnitCode = Yii::app()->db->createCommand($query)->queryRow();
-        
-        return $managementUnitCode['id'];
+        $query = "SELECT id, cod_unidade_gestora FROM provision_accounts";
+
+        try {
+            $managementUnitCode = Yii::app()->db->createCommand($query)->queryRow(PDO::PARAM_INT);
+        } catch (PDOException $e) {
+            throw new Exception('Erro ao buscar o código da unidade gestora: ' . $e->getMessage());
+        }
+
+        if (!$managementUnitCode || $managementUnitCode['id'] === null) {
+            return null;
+        }    
+
+        return (int) $managementUnitCode['id'];
     }
 
     /**
@@ -137,6 +161,7 @@ class SagresConsultModel
         $referenceMonth = (int) date("m", strtotime($dateStart));
 
         $query = "SELECT 
+                    Date(COALESCE(c.create_date, (SELECT date FROM log WHERE reference_ids = c.id AND crud = 'C'))) AS createDate,
                     c.initial_hour AS initialHour,
                     c.school_inep_fk AS schoolInepFk,
                     c.id AS classroomId,
@@ -147,7 +172,7 @@ class SagresConsultModel
                 WHERE 
                     c.school_inep_fk = :schoolInepFk AND 
                     c.school_year = :referenceYear AND 
-                    Date(c.create_date) BETWEEN :dateStart AND :dateEnd";
+                    (c.create_date IS NULL OR Date(c.create_date) BETWEEN :dateStart AND :dateEnd)";
 
         $params = [
             ':schoolInepFk' => $inepId,
@@ -175,12 +200,12 @@ class SagresConsultModel
                     : $this->getEnrollments($classId, $referenceYear, $dateStart, $dateEnd)
                 )
                 ->setHorario(
-                    empty($this->getSchedules($classId, $referenceMonth)) 
+                    empty($this->getSchedules($classId, $referenceMonth))
                     ? $this->getRecentSchedules($classId)
                     : $this->getSchedules($classId, $referenceMonth)
-                    )
+                )
                 ->setFinalTurma(false);
-    
+
             if(!empty($classType->getHorario()) and !empty($classType->getMatricula())){
                 $classList[] = $classType;
             }

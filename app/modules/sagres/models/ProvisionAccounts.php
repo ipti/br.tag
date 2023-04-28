@@ -32,7 +32,7 @@ class ProvisionAccounts extends CActiveRecord
 			array('cod_unidade_gestora, name_unidade_gestora, cpf_responsavel, cpf_gestor', 'required'),
 			array('cod_unidade_gestora', 'length', 'max'=>30),
 			array('name_unidade_gestora', 'length', 'max'=>150),
-			array('cpf_responsavel, cpf_gestor', 'length', 'max'=>11),
+			array('cpf_responsavel, cpf_gestor', 'length', 'max'=>14),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, cod_unidade_gestora, name_unidade_gestora, cpf_responsavel, cpf_gestor', 'safe', 'on'=>'search'),
