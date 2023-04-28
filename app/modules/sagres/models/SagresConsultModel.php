@@ -61,7 +61,7 @@ class SagresConsultModel
                     FROM 
                         provision_accounts pa
                     WHERE 
-                        pa.id = :managementUnitId";
+                        pa.id = :managementUnitId";                        
 
             $managementUnit = Yii::app()->db->createCommand($query)
                 ->bindValue(':managementUnitId', $managementUnitId)
@@ -161,7 +161,7 @@ class SagresConsultModel
         $referenceMonth = (int) date("m", strtotime($dateStart));
 
         $query = "SELECT 
-                    Date(COALESCE(c.create_date, (SELECT date FROM log WHERE reference_ids = c.id AND crud = 'C'))) AS createDate,
+                    Date(COALESCE(c.create_date, (SELECT date FROM log WHERE reference_ids = c.id AND crud = 'C' AND reference = 'classroom' order by reference_ids limit 1))) AS createDate,
                     c.initial_hour AS initialHour,
                     c.school_inep_fk AS schoolInepFk,
                     c.id AS classroomId,
