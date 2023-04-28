@@ -746,6 +746,7 @@ return array(
     'Month' => 'Mês',
     
     //Abas
+    'Affiliation' => 'Filiação',
     'Identification' => 'Identificação',
     'Structure' => 'Estrutura',
     'Equipments' => 'Equipamentos',
