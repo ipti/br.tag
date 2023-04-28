@@ -479,7 +479,7 @@ class SchoolIdentificationValidation extends Register
 
         if (!($situation == '1' && $administrative_dependence == '4')) {
             if ($cnpj != null) {
-                return array("status" => false, "erro" => "Valor $value deveria ser nulo");
+                return array("status" => false, "erro" => "Valor $cnpj deveria ser nulo");
             } else {
                 return array("status" => true, "erro" => "");
             }

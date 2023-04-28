@@ -176,10 +176,10 @@ class Register
         }
 
         if ($value !== "" && $value !== null) {
-            $result = $this->onlyAlphabet($value);
-            if (!$result['status']) {
-                return array("status" => false, "erro" => $result['erro']);
-            }
+            // $result = $this->onlyAlphabet($value);
+            // if (!$result['status']) {
+            //     return array("status" => false, "erro" => $result['erro']);
+            // }
             $result = $this->checkNameRules($value);
             if (!$result['status']) {
                 return array("status" => false, "erro" => $result['erro']);
@@ -398,20 +398,17 @@ class Register
         return array("status" => true, "erro" => "");
 
     }
+    
 
     function ufcity($nationality, $nation, $city)
     {
 
-        if ($nationality == 1) {
-            if ($nation == "" || $city == null) {
-                return array("status" => false, "erro" => "Cidade deveria ser preenchida");
-            }
-        } else {
-            if ($nation != "") {
-                return array("status" => false, "erro" => "Cidade não deveria ser preenchida");
-            }
+        if ($nationality == 1 && ($nation == "" || !isset($city))) {
+            return array("status" => false, "erro" => "Cidade deveria ser preenchida");
+        } else if (!($city == "" || isset($city))) {
+            return array("status" => false, "erro" => "Cidade não deveria ser preenchida");
         }
-
+    
         return array("status" => true, "erro" => "");
     }
 
