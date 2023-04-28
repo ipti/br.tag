@@ -1,5 +1,7 @@
 # Atualizações
 
+## [Versão 3.16.31]
+- correção na tela de calendário
 ## [Versão 3.16.30]
 - Consertado modal na tela de aulas ministradada que não estava salvando
 ##  [Versão 3.16.29]
