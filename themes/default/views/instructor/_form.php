@@ -163,10 +163,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <?php echo $form->labelEx($modelInstructorIdentification, 'birthday_date', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelInstructorIdentification, 'birthday_date', array('size' => 10, 'maxlength' => 10, 'placeholder' => 'Digite a Data de Nascimento (Dia/Mês/Ano)')); ?>
-                                    <!-- <span class="btn-action single glyphicons circle_question_mark"
-                                          data-toggle="tooltip" data-placement="top"
-                                          data-original-title="<?php echo Yii::t('help', 'Date'); ?>"><i></i></span> -->
+                                    <?php echo $form->textField($modelInstructorIdentification, 'birthday_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
                                     <?php echo $form->error($modelInstructorIdentification, 'birthday_date'); ?>
                                 </div>
                             </div>
