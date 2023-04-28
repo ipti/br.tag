@@ -65,7 +65,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
             ));
             ?>
         </div>
-        <i class="js-grades-loading fa fa-spin fa-spinner"></i>
+        <img class="js-grades-loading"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
     </div>
     <br>
     <div class="js-grades-container"></div>
