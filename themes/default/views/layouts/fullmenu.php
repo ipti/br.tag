@@ -288,7 +288,7 @@ if (Yii::app()->user->isGuest) {
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=sedsp")
                                                                                 ? 'active' : '' ?>"><i class="submenu-icon fa fa-chevron-right"></i><i class="submenu-icon fa fa-chevron-down"></i>
                                 <a id="menu-integrations-trigger" data-toggle="collapse" class="t-menu-group__link" href="#submenu-integrations">
-                                    <span class="t-icon-settings t-menu-item__icon"></span>
+                                    <span class="t-icon-integration t-menu-item__icon"></span>
                                     <!-- <img class="t-menu-group__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/integration.svg" alt="engrenagem de integração" /> -->
                                     <span class="t-menu-group__text">Integrações</span>
                                 </a>
@@ -314,7 +314,8 @@ if (Yii::app()->user->isGuest) {
                                     <?php if (INSTANCE == "UBATUBA" || INSTANCE == "TREINAMENTO" || INSTANCE == "LOCALHOST") { ?>
                                         <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=sedsp") ? 'active' : '' ?>">
                                             <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('sedsp') ?>">
-                                                <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/sedsp.svg" alt="sedsp logo" />
+                                                <span class="t-icon-sp  t-menu-item__icon"></span>
+                                                <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/sedsp.svg" alt="sedsp logo" /> -->
                                                 <span class="t-menu-item__text">SEDSP</span>
                                             </a>
                                         </li>

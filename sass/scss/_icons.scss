@@ -266,3 +266,11 @@
     content:'#';
     font-family: 'icone-tag', sans-serif;
 }
+.t-icon-sp::before{
+    content: '.';
+    font-family: 'icone-tag', sans-serif
+}
+.t-icon-integration::before{
+    content: '`';
+    font-family: 'icone-tag', sans-serif
+}

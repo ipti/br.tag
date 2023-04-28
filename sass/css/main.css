@@ -1776,6 +1776,18 @@ h5, .subheading {
   font-family: 'icone-tag', sans-serif;
 }
 
+/* line 269, ../../../../wamp64/www/br.tag/sass/scss/_icons.scss */
+.t-icon-sp::before {
+  content: '.';
+  font-family: 'icone-tag', sans-serif;
+}
+
+/* line 273, ../../../../wamp64/www/br.tag/sass/scss/_icons.scss */
+.t-icon-integration::before {
+  content: '`';
+  font-family: 'icone-tag', sans-serif;
+}
+
 /* Color */
 /* Product */
 /* Ink */
