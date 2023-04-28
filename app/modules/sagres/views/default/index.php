@@ -102,7 +102,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 
 		const year = new Date().getFullYear();
 		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&managementUnitCode=${12346710}&year=${year}&startDate=${startDate}&endDate=${endDate}`;
+		const newHref = `?r=sagres/default/export&year=${year}&startDate=${startDate}&endDate=${endDate}`;
 		exportLink.setAttribute('href', newHref);
 
 	});
