@@ -64,7 +64,7 @@ class SagresConsultModel
                         pa.id = :managementUnitId";
 
             $managementUnit = Yii::app()->db->createCommand($query)
-                ->bindValue(':managementUnithId', $managementUnitId)
+                ->bindValue(':managementUnitId', $managementUnitId)
                 ->queryRow();
 
             $headerType = new CabecalhoTType;
