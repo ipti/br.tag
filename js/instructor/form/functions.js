@@ -23,7 +23,7 @@ function updateCep(data) {
 }
 
 $("#InstructorIdentification_edcenso_uf_fk").on("change", function () {
-    $('#InstructorIdentification_edcenso_city_fk option:not(:contains("Selecione uma cidade"))').remove();
+    // $('#InstructorIdentification_edcenso_city_fk option:not(:contains("Selecione uma cidade"))').remove();
     $.ajax({
         type: "POST",
         url: "?r=instructor/getCity",
