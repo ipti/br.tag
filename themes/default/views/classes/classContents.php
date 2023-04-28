@@ -162,6 +162,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <h4 class="modal-title" id="myModalLabel">Diário de Aula</h4>           
                 </div>
                 <form method="post">
+                <input type="hidden" class="classroom-diary-day">
                     <div class="modal-body">
                         <div class="t-field-tarea">
                             <label class="t-field-tarea__label">Diário de Aula Geral</label>
@@ -174,7 +175,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     
                         <div class="modal-footer mobile-row">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary js-add-classroom-diary">Salvar</button>
+                            <button type="button" class="btn btn-primary js-add-classroom-diary" data-dismiss="modal">Salvar</button>
                         </div>
                     </div>
                 </form>
