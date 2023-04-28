@@ -124,7 +124,7 @@ if (Yii::app()->user->isGuest) {
                 <li id="menu-logout" class="hide-responsive" style="margin-left: auto">
                     <a class="t-button-tertiary" href="<?php echo yii::app()->createUrl('site/logout') ?>">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.svg" />
-                        <span>Sair</span>
+                        Sair
                     </a>
                 </li>
             </ul>

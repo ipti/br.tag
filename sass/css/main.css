@@ -50,26 +50,26 @@ html {
 /* Line Height */
 /*Font Weight*/
 /* Font Family */
-/* line 5, ../../../../wamp64/www/br.tag/sass/scss/_grid.scss */
+/* line 6, ../../../../wamp64/www/br.tag/sass/scss/_grid.scss */
 .row {
   display: flex;
   flex-direction: column;
 }
 
 @media (min-width: 640px) {
-  /* line 5, ../../../../wamp64/www/br.tag/sass/scss/_grid.scss */
+  /* line 6, ../../../../wamp64/www/br.tag/sass/scss/_grid.scss */
   .row {
     flex-direction: row;
   }
 }
 
-/* line 14, ../../../../wamp64/www/br.tag/sass/scss/_grid.scss */
+/* line 15, ../../../../wamp64/www/br.tag/sass/scss/_grid.scss */
 .mobile-row {
   display: flex;
   flex-direction: row;
 }
 
-/* line 19, ../../../../wamp64/www/br.tag/sass/scss/_grid.scss */
+/* line 20, ../../../../wamp64/www/br.tag/sass/scss/_grid.scss */
 .column {
   flex: 1;
   flex-basis: 0;
@@ -77,15 +77,20 @@ html {
   margin-right: 1em;
 }
 
-/* line 25, ../../../../wamp64/www/br.tag/sass/scss/_grid.scss */
+/* line 26, ../../../../wamp64/www/br.tag/sass/scss/_grid.scss */
 .column.clearfix {
   margin-left: 0;
   margin-right: 0;
 }
 
-/* line 30, ../../../../wamp64/www/br.tag/sass/scss/_grid.scss */
+/* line 31, ../../../../wamp64/www/br.tag/sass/scss/_grid.scss */
 .column.no-grow {
   flex-grow: 0;
+}
+
+/* line 34, ../../../../wamp64/www/br.tag/sass/scss/_grid.scss */
+.column.helper {
+  max-width: 50%;
 }
 
 /* Color */
