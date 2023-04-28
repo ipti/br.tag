@@ -1,7 +1,9 @@
 # Atualizações
 
-## [Versão 3.16.29]
+## [Versão 3.16.30]
 - Consertado modal na tela de aulas ministradada que não estava salvando
+##  [Versão 3.16.29]
+- retirando o botão de transferência de aluno para novos registros
 ## [Versão 3.16.28]
 - Adicionada a funcionalidade de transferêcia de alunos entre escolas
 ## [Versão 3.15.28]

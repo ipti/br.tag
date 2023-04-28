@@ -25,12 +25,12 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="row-fluid  hidden-print">
     <div class="span12">
         <h1><?php echo $title; ?></h1>
-        <div class="buttons">
-            <?php echo CHtml::htmlButton('<i></i>' . ($quiz->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'save_button', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
+        <div class="tag-buttons-container buttons">
+            <?php echo CHtml::htmlButton('<i></i>' . ($quiz->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'save_button', 'class' => 't-button-primary  next', 'type' => 'button'));
             ?>
             <?php
             if (!$quiz->isNewRecord) {
-                echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Delete'), array('id' => 'delete_button', 'class' => 'btn btn-icon btn-primary last glyphicons delete', 'type' => 'button'));
+                echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Delete'), array('id' => 'delete_button', 'class' => 't-button-primary  next', 'type' => 'button'));
             }
             ?>
         </div>
@@ -61,6 +61,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 </li>
                 <?php if (!$quiz->isNewRecord) : ?>
                     <li id="tab-question" class="t-tabs__item">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                         <a class="t-tabs__link" href="#question" data-toggle="tab">
                             <span class="t-tabs__numeration">2</span>
                             <?php echo Yii::t('default', 'Question') ?>
@@ -80,7 +81,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->textField($quiz, 'name', array('size' => 60, 'maxlength' => 150, 'class' => 't-field-text__input',)); ?>
                                 <?php echo $form->error($quiz, 'name'); ?>
                             </div>
-                            
+
                             <div class="t-field-select" id="modality">
                                 <?php echo $form->labelEx($quiz, 'status', array('class' => 'control-label t-field-text__label--required')); ?>
                                 <?php
@@ -109,9 +110,9 @@ $form = $this->beginWidget('CActiveForm', array(
 
                     <div class="row">
                         <div class="column">
-                            <div class="control-group hide-responsive">
-                                <?php echo $form->labelEx($quiz, 'description', array('class' => 'control-label')); ?>
-                                <?= $form->textArea($quiz, "description", array('rows' => 5, 'cols' => 110)) ?>
+                            <div class="t-field-tarea hide-responsive">
+                                <?php echo $form->labelEx($quiz, 'description', array('class' => 't-field-tarea__label')); ?>
+                                <?= $form->textArea($quiz, "description", array('rows' => 5, 'cols' => 110, 'class' => 't-field-tarea__input')) ?>
                                 <?php echo $form->error($quiz, 'description'); ?>
                             </div>
                         </div>
@@ -122,7 +123,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <?php if (!$quiz->isNewRecord) : ?>
                     <div class="tab-pane" id="question">
                         <div class="row">
-                            <div class="column">
+                            <div class="column helper">
                                 <div class="t-field-select ">
                                     <?php echo CHtml::label('Questão', 'id', array('class' => 'control-label t-field-text__label required')); ?>
                                     <?php
@@ -140,7 +141,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->hiddenField($quizQuestion, 'quiz_id', array('size' => 60, 'maxlength' => 45, 'value' => $quiz->id)); ?>
                                 </div> <!-- .control-group -->
                                 <div class="control-group">
-                                    <button id="save_quiz_question_button" class="btn btn-icon btn-primary last glyphicons circle_ok" type="button" name="yt0"><i></i>Salvar</button>
+                                    <button id="save_quiz_question_button" class="t-button-primary" type="button" name="yt0"><i></i>Salvar</button>
                                 </div>
                             </div>
 
