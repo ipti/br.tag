@@ -1050,7 +1050,12 @@ h5, .subheading {
   padding: 8px;
 }
 
-/* line 5, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 4, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+.t-menu .t-menu-item__icon {
+  font-size: 18px;
+}
+
+/* line 8, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-item {
   position: relative;
   display: flex;
@@ -1062,12 +1067,12 @@ h5, .subheading {
   background: #fafafe;
 }
 
-/* line 15, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 18, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-item__icon {
   filter: invert(42%) sepia(30%) saturate(380%) hue-rotate(173deg) brightness(98%) contrast(88%);
 }
 
-/* line 19, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 22, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-item__link {
   display: flex;
   gap: 8px;
@@ -1078,27 +1083,27 @@ h5, .subheading {
   align-items: center;
 }
 
-/* line 29, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 32, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-item__link:link, .t-menu-item__link:focus, .t-menu-item__link:hover, .t-menu-item__link--active, .t-menu-item__link:active {
   text-decoration: none !important;
 }
 
-/* line 38, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 41, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-item__text {
   color: #5F738C;
 }
 
-/* line 42, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 45, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-item:hover {
   background: #eaeaf8;
 }
 
-/* line 46, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 49, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-item.active {
   background: #ccd0ee;
 }
 
-/* line 48, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 51, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-item.active::before {
   content: "";
   position: absolute;
@@ -1109,17 +1114,17 @@ h5, .subheading {
   border-radius: 0 4px 4px 0;
 }
 
-/* line 57, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 61, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-item.active .t-menu-item__icon {
   filter: saturate(1);
 }
 
-/* line 60, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 66, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-item.active .t-menu-item__text {
   color: #272B96;
 }
 
-/* line 66, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 73, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-group {
   position: relative;
   display: flex;
@@ -1131,12 +1136,12 @@ h5, .subheading {
   cursor: pointer;
 }
 
-/* line 76, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 83, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-group__icon {
   filter: invert(42%) sepia(30%) saturate(380%) hue-rotate(173deg) brightness(98%) contrast(88%);
 }
 
-/* line 80, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 87, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-group__link {
   display: flex;
   gap: 8px;
@@ -1147,42 +1152,42 @@ h5, .subheading {
   align-items: center;
 }
 
-/* line 90, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 97, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-group__link:link, .t-menu-group__link:focus, .t-menu-group__link:hover, .t-menu-group__link--active, .t-menu-group__link:active {
   text-decoration: none !important;
 }
 
-/* line 99, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 106, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-group__text {
   color: #5F738C;
 }
 
-/* line 102, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 109, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-group ul {
   margin: 0;
 }
 
-/* line 106, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 113, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-group:not(.active) .fa-chevron-down {
   display: none;
 }
 
-/* line 111, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 118, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-group.active .fa-chevron-right {
   display: none;
 }
 
-/* line 114, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 121, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-group.active .collapse {
   overflow: visible;
 }
 
-/* line 118, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 125, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-group.active .t-menu-group__icon {
   filter: saturate(1);
 }
 
-/* line 121, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
+/* line 128, ../../../../wamp64/www/br.tag/sass/scss/_menu.scss */
 .t-menu-group.active .t-menu-group__text {
   color: #272B96;
 }
