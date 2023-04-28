@@ -1,6 +1,6 @@
 # Atualizações
 
-## [Versão 3.16.30]
+## [Versão 3.16.32]
 - Agora as notas são salvas e calculadas corretamente
 
 ##  [Versão 3.16.29]
