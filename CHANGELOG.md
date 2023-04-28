@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.16.33]
+- Correções nos formulários de alunos e professores
+
 ##  [Versão 3.16.29]
 - retirando o botão de transferência de aluno para novos registros
 ## [Versão 3.16.28]
