@@ -17,12 +17,12 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="row-fluid  hidden-print">
     <div class="span12">
         <h1><?php echo $title; ?></h1>
-        <div class="buttons">
-            <?php echo CHtml::htmlButton('<i></i>' . ($question->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'save_question_button', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
+        <div class="tag-buttons-container buttons">
+            <?php echo CHtml::htmlButton('<i></i>' . ($question->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'save_question_button', 'class' => 't-button-primary  next', 'type' => 'button'));
             ?>
             <?php
             if (!$question->isNewRecord) {
-                echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Delete'), array('id' => 'delete_question_button', 'class' => 'btn btn-icon btn-primary last glyphicons delete', 'type' => 'button'));
+                echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Delete'), array('id' => 'delete_question_button', 'class' => 't-button-primary  next', 'type' => 'button'));
             }
             ?>
         </div>
@@ -49,9 +49,11 @@ $form = $this->beginWidget('CActiveForm', array(
                         <span class="t-tabs__numeration">1</span>
                         <?php echo Yii::t('default', 'Question') ?>
                     </a>
+                    
                 </li>
                 <?php if (!$question->isNewRecord &&  in_array($question->type, $question->getEnableOption())) : ?>
                     <li id="tab-option" class="t-tabs__item">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                         <a class="t-tabs__link" href="#option" data-toggle="tab">
                             <span class="t-tabs__numeration">2</span>
                             <?php echo Yii::t('default', 'Option') ?>
@@ -121,15 +123,15 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($option, 'answer'); ?>
                                     <?php echo $form->hiddenField($option, 'question_id', array('size' => 60, 'maxlength' => 45, 'value' => $question->id)); ?>
                                     <?php echo $form->hiddenField($option, 'id', array('size' => 60, 'maxlength' => 45, 'value' => $option->id)); ?>
-                                </div> 
+                                </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($option, 'complement', array('size' => 60, 'maxlength' => 150, 'class' => 't-field-checkbox__input')); ?>
                                     <?php echo $form->error($option, 'complement'); ?>
                                     <?php echo $form->labelEx($option, 'complement', array('class' => 't-field-text__label')); ?>
 
-                                </div> 
+                                </div>
                                 <div class="control-group">
-                                    <button id="save_option_button" class="btn btn-icon btn-primary last glyphicons circle_ok" type="button" name="yt0"><i></i>Salvar</button>
+                                    <button id="save_option_button" class="t-button-primary" type="button" name="yt0"><i></i>Salvar</button>
                                 </div>
                             </div>
                             <div class="column">

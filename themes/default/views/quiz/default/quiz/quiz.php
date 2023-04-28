@@ -10,8 +10,8 @@
         <!-- Página de Questionário -->
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Quiz') ?></h1>  
-            <div class="buttons">
-                <a href="<?php echo Yii::app()->createUrl('quiz/default/createQuiz') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Novo Questionário</a>
+            <div class="t-buttons-container">
+                <a href="<?php echo Yii::app()->createUrl('quiz/default/createQuiz') ?>" class="t-button-primary"><i></i> Novo Questionário</a>
             </div>
         </div>
     </div>
