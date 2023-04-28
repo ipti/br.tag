@@ -302,7 +302,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
                             <div class="t-field-text js-hide-not-required">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'nis', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'nis', array('size' => 11, 'maxlength' => 11, 'placeholder' => 'Digite o NIS')); ?>
+                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'nis', array('onkeypress' => 'return event.charCode >= 48 && event.charCode <= 57', 'size' => 11, 'maxlength' => 11, 'placeholder' => 'Digite o NIS')); ?>
                                 <span id="nisMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
                                     <img id="errorNisIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
                                 </span>
@@ -313,7 +313,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="t-field-text js-hide-not-required">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'inep_id', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'inep_id', array('size' => 60, 'maxlength' => 12, 'class' => 't-field-text__input', 'placeholder' => 'Digite o ID INEP')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'inep_id', array('onkeypress' => 'return event.charCode >= 48 && event.charCode <= 57', 'size' => 60, 'maxlength' => 12, 'class' => 't-field-text__input', 'placeholder' => 'Digite o ID INEP')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'inep_id'); ?>
                             </div>
                             <div class="t-field-text js-hide-not-required" style="width: 120%;">
@@ -646,7 +646,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </h3>
                                     <div class="t-field-text">
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cns', array('class' => 't-field-text__label control-label')); ?>
-                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cns', array('size' => 11, 'maxlength' => 15, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite o Nº do CNS')); ?>
+                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cns', array('onkeypress' => 'return event.charCode >= 48 && event.charCode <= 57', 'size' => 11, 'maxlength' => 15, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite o Nº do CNS')); ?>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'cns'); ?>
                                     </div>
                          
