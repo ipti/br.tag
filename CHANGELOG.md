@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.16.33]
+- Correções nos formulários de alunos e professores
+
 ## [Versão 3.16.32]
 - Agora as notas são salvas e calculadas corretamente
 
