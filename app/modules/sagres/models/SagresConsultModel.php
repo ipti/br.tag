@@ -147,7 +147,7 @@ class SagresConsultModel
                 }
             }
         }
-
+        $schoolList[] = $schoolType;
         return $schoolList;
     }
 
@@ -205,8 +205,8 @@ class SagresConsultModel
                     : $this->getSchedules($classId, $referenceMonth)
                 )
                 ->setFinalTurma(false);
-
-            if(!empty($classType->getHorario()) and !empty($classType->getMatricula())){
+            
+            if(!empty($classType->getHorario()) && !empty($classType->getMatricula())){
                 $classList[] = $classType;
             }
         }
@@ -228,7 +228,7 @@ class SagresConsultModel
                         se.student_fk,
                         se.create_date AS data_matricula, 
                         se.date_cancellation_enrollment AS data_cancelamento,
-                        se.previous_stage_situation AS situation
+                        se.status AS situation
                 FROM 
                         student_enrollment se 
                 WHERE 
@@ -267,23 +267,21 @@ class SagresConsultModel
     {
         $scheduleList = [];
 
-        $query = "SELECT  
+        $query = "SELECT DISTINCT 
                     s.schedule AS schedule,
                     s.week_day AS weekDay, 
                     ed.name AS disciplineName,
                     c.turn AS turn,
                     idaa.cpf AS cpfInstructor
-                FROM 
-                    schedule s 
-                    JOIN edcenso_discipline ed ON ed.id = s.discipline_fk 
-                    JOIN instructor_disciplines id ON id.discipline_fk = ed.id 
-                    JOIN instructor_identification ii ON ii.id = id.instructor_fk 
-                    JOIN classroom c ON c.id = s.classroom_fk 
-                    join school_identification si on si.inep_id = c.school_inep_fk 
-                    join instructor_documents_and_address idaa ON idaa.school_inep_id_fk = si.inep_id 
-                    join curricular_matrix cm ON cm.discipline_fk = ed.id 
+                FROM instructor_teaching_data itd 
+                    JOIN teaching_matrixes tm on itd.id = tm.teaching_data_fk
+                    JOIN curricular_matrix cm on tm.curricular_matrix_fk = cm.id 
+                    JOIN schedule s on s.discipline_fk = cm.discipline_fk and s.classroom_fk = itd.classroom_id_fk  
+                    JOIN instructor_documents_and_address idaa on itd.instructor_fk = idaa.id 
+                    JOIN edcenso_discipline ed ON ed.id = cm.discipline_fk 
+                JOIN classroom c on c.id = itd.classroom_id_fk 
                 WHERE 
-                    s.classroom_fk = :classId
+                    c.id = :classId
                 ORDER BY 
                     C.create_date DESC";
 
@@ -298,7 +296,7 @@ class SagresConsultModel
             $scheduleType = new HorarioTType;
 
             $query1 = "SELECT 
-                            ROUND( (t.credits / COUNT(*))) AS duration
+                            ROUND( (t.credits / COUNT(1))) AS duration
                         FROM (
                             SELECT ed.name AS disciplineName, cm.credits AS credits
                                 FROM schedule s 
@@ -312,10 +310,12 @@ class SagresConsultModel
 
             $duration = Yii::app()->db->createCommand($query1)->queryRow();
 
+            
+
             $scheduleType
                 ->setDiaSemana($schedule['weekDay'])
                 ->setDuracao($duration['duration'])
-                ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
+                // ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
                 ->setDisciplina($schedule['disciplineName'])
                 ->setCpfProfessor([$schedule['cpfInstructor']]);
 
@@ -532,7 +532,7 @@ class SagresConsultModel
         $studentType = new AlunoTType;
         $studentType
             ->setNome($student['name'])
-            ->setDataNascimento(new DateTime($student['birthdate']))
+            ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $student['birthdate']))
             ->setCpfAluno(!empty($student['cpfStudent']) ? $student['cpfStudent'] : null)
             ->setPcd($student['deficiency'])
             ->setSexo($student['gender']);
@@ -550,19 +550,14 @@ class SagresConsultModel
         $menuList = [];
 
         $query = "SELECT 
-                lm.date AS data, 
-                cr.turn AS turno, 
-                li.description AS descricaoMerenda, 
-                lm.adjusted AS ajustado 
-            FROM classroom cr 
-                JOIN school_identification si ON si.inep_id = cr.school_inep_fk 
-                JOIN lunch_menu lm ON lm.school_fk = si.inep_id 
-                JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk 
-                JOIN lunch_meal lme ON lme.id = lmm.meal_fk 
-                JOIN lunch_meal_portion lmp ON lmp.meal_fk = lme.id 
-                JOIN lunch_portion lp ON lp.id = lmp.portion_fk 
-                JOIN lunch_item li ON li.id = lp.item_fk
-            WHERE si.inep_id = :schoolId AND YEAR(lm.date) = :year AND lm.date BETWEEN :startDate AND :endDate";
+                    lm.date AS data,
+                    lm.turn AS turno,
+                    lm2.restrictions  AS descricaoMerenda, 
+                    lm.adjusted AS ajustado 
+                FROM lunch_menu lm 
+                    JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk   
+                    JOIN lunch_meal lm2 on lmm.meal_fk = lm2.id
+                WHERE lm.school_fk =  :schoolId AND YEAR(lm.date) = :year AND lm.date BETWEEN :startDate AND :endDate";
 
         $params = [
             ':schoolId' => $schoolId,
@@ -592,21 +587,16 @@ class SagresConsultModel
     {
         $cardapioList = [];
         $query = "SELECT 
-                lm.date AS data, 
-                cr.turn AS turno, 
-                li.description AS descricaoMerenda, 
-                lm.adjusted AS ajustado 
-            FROM classroom cr 
-                JOIN school_identification si ON si.inep_id = cr.school_inep_fk 
-                JOIN lunch_menu lm ON lm.school_fk = si.inep_id 
-                JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk 
-                JOIN lunch_meal lme ON lme.id = lmm.meal_fk 
-                JOIN lunch_meal_portion lmp ON lmp.meal_fk = lme.id 
-                JOIN lunch_portion lp ON lp.id = lmp.portion_fk 
-                JOIN lunch_item li ON li.id = lp.item_fk
-            WHERE si.inep_id = " . $id_escola . ". and YEAR(lm.date) = " . $year . "
-            GROUP BY lm.date DESC
-            LIMIT 1";
+                    lm.date AS data,
+                    lm.turn AS turno,
+                    lm2.restrictions  AS descricaoMerenda, 
+                    lm.adjusted AS ajustado 
+                FROM lunch_menu lm 
+                    JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk   
+                    JOIN lunch_meal lm2 on lmm.meal_fk = lm2.id
+                WHERE si.inep_id = " . $id_escola . ". and YEAR(lm.date) = " . $year . "
+                GROUP BY lm.date DESC
+                LIMIT 1";
 
         $cardapios = Yii::app()->db->createCommand($query)->queryAll();
 
@@ -706,7 +696,7 @@ class SagresConsultModel
                         se.student_fk,
                         se.create_date AS data_matricula, 
                         se.date_cancellation_enrollment AS data_cancelamento,
-                        se.previous_stage_situation AS situation
+                        se.status AS situation
                   FROM 
                         student_enrollment se 
                   WHERE 
@@ -754,7 +744,7 @@ class SagresConsultModel
         if (isset($situations[$situation])) {
             return $situations[$situation];
         } else {
-            throw new ErrorException("O valor para a situação do estudante não é válido.");
+            throw new ErrorException("O valor ". $situation. " para a situação do estudante não é válido.");
         }
     }
 

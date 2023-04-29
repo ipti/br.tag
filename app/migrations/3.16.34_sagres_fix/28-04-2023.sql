@@ -1,0 +1,1 @@
+ALTER TABLE lunch_menu ADD turn VARCHAR(45) DEFAULT "M" NOT NULL;
