@@ -316,11 +316,11 @@ class EnrollmentController extends Controller
 
     public function actionSaveGrades()
     {
-        $hasFinalMediaCalculated = false;
+        // $hasFinalMediaCalculated = false;
         foreach ($_POST["students"] as $student) {
             foreach ($student["grades"] as $grade) {
                 if ($grade["value"] != "") {
-                    $gradeObject = Grade::model()->find("enrollment_fk = :enrollment and grade_unity_modality_fk = :modality", [":enrollment" => $student["enrollmentId"], ":modality" => $grade["modalityId"]]);
+                    $gradeObject = Grade::model()->find("enrollment_fk = :enrollment and grade_unity_modality_fk = :modality and discipline_fk = :discipline_fk", [":enrollment" => $student["enrollmentId"], ":modality" => $grade["modalityId"], ":discipline_fk" => $_POST["discipline"]]);
                     if ($gradeObject == null) {
                         $gradeObject = new Grade();
                         $gradeObject->enrollment_fk = $student["enrollmentId"];
@@ -328,20 +328,21 @@ class EnrollmentController extends Controller
                         $gradeObject->grade_unity_modality_fk = $grade["modalityId"];
                     }
                     $gradeObject->grade = $grade["value"];
-                    var_dump($gradeObject);
+                    // var_dump($gradeObject);
                     $gradeObject->save();
                 } else {
                     Grade::model()->deleteAll("enrollment_fk = :enrollment and grade_unity_modality_fk = :modality", [":enrollment" => $student["enrollmentId"], ":modality" => $grade["modalityId"]]);
                 }
             }
-            $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $student["enrollmentId"], "discipline_fk" => $_POST["discipline"]]);
-            if ($gradeResult != null) {
-                $hasFinalMediaCalculated = true;
-            }
+            // $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $student["enrollmentId"], "discipline_fk" => $_POST["discipline"]]);
+            // if ($gradeResult != null) {
+            //     $hasFinalMediaCalculated = true;
+            // }
         }
-        if ($hasFinalMediaCalculated) {
-            $this->calculateFinalMedia();
-        }
+        // if ($hasFinalMediaCalculated) {
+        //     $this->calculateFinalMedia();
+        // }
+        $this->calculateFinalMedia();
         echo json_encode(["valid" => true]);
     }
 
@@ -450,7 +451,7 @@ class EnrollmentController extends Controller
 
             foreach ($gradeUnitiesByDiscipline as $gradeUnity) {
                 $key = array_search($gradeUnity->id, array_column($arr["grades"], 'unityId'));
-                $arr["grades"][$key] = $this->getUnidadeValues($gradeUnity, $studentEnrollment->id);
+                $arr["grades"][$key] = $this->getUnidadeValues($gradeUnity, $studentEnrollment->id, $_POST["discipline"]);
             }
 
 
@@ -519,7 +520,7 @@ class EnrollmentController extends Controller
         }
     }
 
-    private function getUnidadeValues($gradeUnity, $enrollment_id)
+    private function getUnidadeValues($gradeUnity, $enrollment_id, $discipline)
     {
         $unityGrade = "";
         $unityRecoverGrade = "";
@@ -531,7 +532,15 @@ class EnrollmentController extends Controller
                 $commonModalitiesCount++;
                 $weightsSum += $gradeUnityModality->weight;
             }
-            foreach ($gradeUnityModality->grades as $grade) {
+
+            $student_grades = array_filter(
+                $gradeUnityModality->grades,
+                function($grade)use($enrollment_id, $discipline){
+                    return $grade->enrollment_fk === $enrollment_id && $grade->discipline_fk === $discipline;
+                }
+            );
+
+            foreach ($student_grades as $grade) {
                 if ($gradeUnityModality->type == "C") {
                     if (!$turnedEmptyToZero) {
                         $unityGrade = 0;

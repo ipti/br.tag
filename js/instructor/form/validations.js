@@ -26,14 +26,14 @@ $(formInstructorIdentification + 'email').on('focusout', function () {
 
 });
 
-$(formInstructorIdentification + 'birthday_date').on('focusout', function () {
+var date = new Date();
+$(formInstructorIdentification + 'birthday_date').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
+$(formInstructorIdentification + 'birthday_date').focusout(function () {
     var id = '#' + $(this).attr("id");
-    var birthday = stringToDate($(id).val());
+    var birthday_date = stringToDate($(formInstructorIdentification + 'birthday_date').val());
 
-
-    if (!validateDate($(id).val()) || !validateYear(birthday.year)) {
-        $(id).attr('value', '');
-        addError(id, "O campo deve possuir apenas números, seguindo a estrutura Dia/Mês/Ano. Deve possuir um ano inferior ao ano atual.");
+    if ((!validateDate($(formInstructorIdentification + 'birthday_date').val()) || !validateYear(birthday_date.year)) && ($(id).val() != '')) {
+        addError(id, "Informe uma data válida no formato Dia/Mês/Ano.");
     } else {
         removeError(id);
     }

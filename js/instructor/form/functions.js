@@ -23,7 +23,23 @@ function updateCep(data) {
 }
 
 $("#InstructorIdentification_edcenso_uf_fk").on("change", function () {
-    // $('#InstructorIdentification_edcenso_city_fk option:not(:contains("Selecione uma cidade"))').remove();
+    $.ajax({
+        type: "POST",
+        url: "?r=instructor/getCity",
+        data: {
+            edcenso_uf_fk: $(this).val(),
+        },
+        success: function (response) {
+            $('#InstructorIdentification_edcenso_city_fk option:not(:contains("Selecione uma cidade"))').remove();
+            $.each(JSON.parse(response), function (id, option) {
+                $("#InstructorIdentification_edcenso_city_fk").append(option);
+            })
+        }
+    });
+});
+
+$("#InstructorDocumentsAndAddress_edcenso_uf_fk").on("change", function () {
+    $('#InstructorDocumentsAndAddress_edcenso_city_fk option:not(:contains("Selecione uma cidade"))').remove();
     $.ajax({
         type: "POST",
         url: "?r=instructor/getCity",
@@ -32,7 +48,7 @@ $("#InstructorIdentification_edcenso_uf_fk").on("change", function () {
         },
         success: function (response) {
             $.each(JSON.parse(response), function (id, option) {
-                $("#InstructorIdentification_edcenso_city_fk").append(option);
+                $("#InstructorDocumentsAndAddress_edcenso_city_fk").append(option);
             })
         }
     });

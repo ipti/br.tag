@@ -1133,7 +1133,7 @@ class ReportsController extends Controller
 
                     foreach ($gradeUnitiesByDiscipline as $gradeUnity) {
                         $key = array_search($gradeUnity->id, array_column($arr["grades"], 'unityId'));
-                        $arr["grades"][$key] = $this->getUnidadeValues($gradeUnity);
+                        $arr["grades"][$key] = $this->getUnidadeValues($gradeUnity, $_POST['student'], $discipline["id"]);
                     }
                     
                    
@@ -1151,7 +1151,7 @@ class ReportsController extends Controller
         echo json_encode($result);
     }
 
-    private function getUnidadeValues($gradeUnity)
+    private function getUnidadeValues($gradeUnity, $enrollment_id, $discipline)
     {
         $unityGrade = "";
         $unityRecoverGrade = "";
@@ -1165,9 +1165,9 @@ class ReportsController extends Controller
             }
 
             $student_grades = array_filter(
-                $gradeUnityModality->grades, 
-                function($grade){ 
-                    return $grade->enrollment_fk  === $_POST["student"];
+                $gradeUnityModality->grades,
+                function($grade)use($enrollment_id, $discipline){
+                    return $grade->enrollment_fk === $enrollment_id && $grade->discipline_fk === $discipline;
                 }
             );
             
