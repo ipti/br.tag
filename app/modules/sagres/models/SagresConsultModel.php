@@ -594,7 +594,7 @@ class SagresConsultModel
                 FROM lunch_menu lm 
                     JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk   
                     JOIN lunch_meal lm2 on lmm.meal_fk = lm2.id
-                WHERE si.inep_id = " . $id_escola . ". and YEAR(lm.date) = " . $year . "
+                WHERE lm.school_fk = " . $id_escola . " and YEAR(lm.date) = " . $year . "
                 GROUP BY lm.date DESC
                 LIMIT 1";
 
