@@ -100,53 +100,39 @@ class StudentController extends Controller
             3 => 'inep_id',
             4 => 'actions'
         );
+        
+        $criteria = new CDbCriteria();
 
-        $students = StudentIdentification::model()->findAll();
-
+        
         // Filtrar a pesquisa
         if (!empty($requestData['search']['value'])) {
-            $students = StudentIdentification::model()->findAll(array(
-                'condition' => "name LIKE '%" . $requestData['search']['value'] . "%' OR " .
-                    "filiation_1 LIKE '%" . $requestData['search']['value'] . "%' OR " .
-                    "birthday LIKE '%" . $requestData['search']['value'] . "%' OR " .
-                    "inep_id LIKE '%" . $requestData['search']['value'] . "%'"
-            ));
+            $criteria->condition = "name LIKE '%" . $requestData['search']['value'] . "%' OR " .
+                "filiation_1 LIKE '%" . $requestData['search']['value'] . "%' OR " .
+                "birthday LIKE '%" . $requestData['search']['value'] . "%' OR " .
+                "inep_id LIKE '%" . $requestData['search']['value'] . "%'";
         }
 
-        // Ordenar os resultados
-        usort($students, function ($a, $b) use ($columns, $requestData) {
-            $sortColumn = $columns[$requestData['order'][0]['column']];
-            $sortDirection = $requestData['order'][0]['dir'];
-
-            $aValue = $a->getAttribute($sortColumn);
-            $bValue = $b->getAttribute($sortColumn);
-
-            if ($aValue == $bValue) {
-                return 0;
-            }
-
-            if ($sortDirection == 'asc') {
-                return $aValue < $bValue ? -1 : 1;
-            } else {
-                return $aValue > $bValue ? -1 : 1;
-            }
-        });
+        // Obter o número total de registros
+        $totalData = StudentIdentification::model()->count();
+        $totalFiltered = StudentIdentification::model()->count($criteria);
 
         // Paginação
         $start = $requestData['start'];
         $length = $requestData['length'];
-        $students = array_slice($students, $start, $length);
 
-        // Obter o número total de registros
-        $totalData = StudentIdentification::model()->count();
+        $criteria->offset = $start;
+        $criteria->limit = $length;
 
-        // Obter o número de registros filtrados
-        $totalFiltered = StudentIdentification::model()->count(array(
-            'condition' => "name LIKE '%" . $requestData['search']['value'] . "%' OR " .
-                "filiation_1 LIKE '%" . $requestData['search']['value'] . "%' OR " .
-                "birthday LIKE '%" . $requestData['search']['value'] . "%' OR " .
-                "inep_id LIKE '%" . $requestData['search']['value'] . "%'"
-        ));
+        // Ordem
+        $sortColumn = $columns[$requestData['order'][0]['column']];
+        $sortDirection = $requestData['order'][0]['dir'];
+        $criteria->order = $sortColumn ." ". $sortDirection;
+
+
+     
+
+        $students = StudentIdentification::model()->findAll($criteria);
+
 
         // Formatar os dados de saída
         $data = array();
