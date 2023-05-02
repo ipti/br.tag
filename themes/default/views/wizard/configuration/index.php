@@ -69,3 +69,9 @@ $this->breadcrumbs = array(
         </div>
     </div>
 </div>
+
+<style>
+    .t-cards {
+        width: 30% !important;
+    }
+</style>
