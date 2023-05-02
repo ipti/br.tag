@@ -158,42 +158,38 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ?>
                                 <?php echo $form->error($modelStudentIdentification, 'color_race'); ?>
                             </div>
-                            <div class="t-field-select">
+                            <!-- Aqui -->
+                            <!-- <div class="t-field-select">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation', array('class' => 'control-label  t-field-select__label--required')); ?>
                                 <?php echo $form->DropDownList($modelStudentIdentification, 'filiation', array(null => "Selecione a filiação", "0" => "Não declarado/Ignorado", "1" => "Pai e/ou Mãe"), array('class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation'); ?>
-                            </div>
-
+                            </div> -->
                             <div class=" t-field-text js-hide-not-required">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'id_email', array('class' => 'control-label  t-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'id_email', array('size' => 60, 'maxlength' => 255, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Email')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'id_email'); ?>
                             </div>
-
                             <div class="t-field-select js-hide-not-required">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'scholarity', array('class' => 'control-label t-field-select__label')); ?>
                                 <?php echo $form->DropDownList($modelStudentIdentification, 'scholarity', array(null => "Selecione a escolaridade", "1" => "Formação Geral", "2" => "Modalidade Normal (Magistério)", "3" => "Curso Técnico", "4" => "Magistério Indígena Modalidade Normal"), array('class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'scholarity'); ?>
                             </div>
-
-                            <div class="t-field-text js-hide-not-required js-visibility-fname">
+                            <!-- <div class="t-field-text js-hide-not-required js-visibility-fname">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1', array('class' => 'control-label t-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'filiation_1', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o Nome Completo da Mãe')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1'); ?>
-                            </div>
-
-                            <div class="t-field-text  js-hide-not-required">
+                            </div> -->
+                            <!-- <div class="t-field-text  js-hide-not-required">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_rg', array('class' => 'control-label t-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'filiation_1_rg', array('size' => 60, 'maxlength' => 45, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o RG da Mãe')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_rg'); ?>
-                            </div>
-                            <div class="t-field-text js-hide-not-required">
+                            </div> -->
+                            <!-- <div class="t-field-text js-hide-not-required">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_cpf', array('class' => 'control-label t-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'filiation_1_cpf', array('size' => 60, 'maxlength' => 14, "class" => "js-disabled-finputs js-finput-clear t-field-text__input")); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_cpf'); ?>
-                            </div>
-
-                            <div class="t-field-select js-hide-not-required">
+                            </div> -->
+                            <!-- <div class="t-field-select js-hide-not-required">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_scholarity', array('class' => 'control-label t-field-select__label')); ?>
                                 <?php
                                 echo $form->dropDownList($modelStudentIdentification, 'filiation_1_scholarity', array(
@@ -204,7 +200,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ), array('class' => 'select-search-off js-disabled-finputs js-finput-clear t-field-select__input', 'style' => 'width: 100%'));
                                 ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_scholarity'); ?>
-                            </div>
+                            </div> -->
 
                             <div class="t-field-text js-hide-not-required">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_job', array('class' => 'control-label t-field-text__label')); ?>
@@ -298,8 +294,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ?>
                                 <?php echo $form->error($modelStudentIdentification, 'edcenso_city_fk'); ?>
                             </div>
-
-
                         </div>
                         <div class="column">
                             <div class="t-field-text">
@@ -478,8 +472,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo StudentIdentification::model()->attributeLabels()['resource_braille_test']; ?>
                                     <?php echo $form->checkBox($modelStudentIdentification, 'resource_braille_test', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
-                                <!-- problema aqui -->
-                                <!-- problema aqui -->
                                 <label class="checkbox">
                                     <?php echo StudentIdentification::model()->attributeLabels()['resource_proof_language']; ?>
                                     <?php echo $form->checkBox($modelStudentIdentification, 'resource_proof_language', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -513,24 +505,26 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
 
-                            <!-- name student -->
-                            <div class="t-field-text">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'name', array('class' => 'control-label t-field-text__label--required')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome Social')); ?>
-                                <span id="similarMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                                    <img id="warningNameIcon" onclick="displayRecords()" style="display: none;" src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>" alt="icone aviso">
-                                    <img id="errorNameIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
-                                </span>
-                                <?php echo $form->error($modelStudentIdentification, 'name'); ?>
+                            <!-- Filiação -->
+                            <!-- <div class="t-field-select">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation', array('class' => 'control-label  t-field-select__label--required')); ?>
+                                <?php echo $form->DropDownList($modelStudentIdentification, 'filiation', array(null => "Selecione a filiação", "0" => "Não declarado/Ignorado", "1" => "Pai e/ou Mãe"), array('class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%')); ?>
+                                <?php echo $form->error($modelStudentIdentification, 'filiation'); ?>
+                            </div> -->
+                            <div class="t-field-text js-hide-not-required js-visibility-fname">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1', array('class' => 'control-label t-field-text__label')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o Nome Completo da Mãe')); ?>
+                                <?php echo $form->error($modelStudentIdentification, 'filiation_1'); ?>
                             </div>
-                            <label class="checkbox show-student-civil-name-box">
-                                Esse é um nome social?
-                                <input type="checkbox" id="show-student-civil-name" <?php if ($modelStudentIdentification->civil_name != null) echo "checked"; ?>>
-                            </label>
-                            <div class="t-field-text student-civil-name" style="display: none;">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'civil_name', array('class' => 'control-label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'civil_name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome Civil')); ?>
-                                <?php echo $form->error($modelStudentIdentification, 'civil_name'); ?>
+                            <div class="t-field-text  js-hide-not-required">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_rg', array('class' => 'control-label t-field-text__label')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1_rg', array('size' => 60, 'maxlength' => 45, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o RG da Mãe')); ?>
+                                <?php echo $form->error($modelStudentIdentification, 'filiation_1_rg'); ?>
+                            </div>
+                            <div class="t-field-text js-hide-not-required">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable_job', array('class' => 'control-label t-field-text__label')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'responsable_job', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite a Profissão do Responsável')); ?>
+                                <?php echo $form->error($modelStudentIdentification, 'responsable_job'); ?>
                             </div>
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'birthday', array('class' => 'control-label  t-field-text__label--required')); ?>
@@ -698,10 +692,32 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ?>
                                 <?php echo $form->error($modelStudentIdentification, 'edcenso_city_fk'); ?>
                             </div>
-
-
                         </div>
                         <div class="column">
+                            <div class="t-field-text js-hide-not-required">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_cpf', array('class' => 'control-label t-field-text__label')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1_cpf', array('size' => 60, 'maxlength' => 14, "class" => "js-disabled-finputs js-finput-clear t-field-text__input")); ?>
+                                <?php echo $form->error($modelStudentIdentification, 'filiation_1_cpf'); ?>
+                            </div>
+                            <div class="t-field-select js-hide-not-required">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_scholarity', array('class' => 'control-label t-field-select__label')); ?>
+                                <?php
+                                echo $form->dropDownList($modelStudentIdentification, 'filiation_1_scholarity', array(
+                                    null => "Selecione a escolaridade da mãe",
+                                    0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
+                                    3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
+                                    6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'
+                                ), array('class' => 'select-search-off js-disabled-finputs js-finput-clear t-field-select__input', 'style' => 'width: 100%'));
+                                ?>
+                                <?php echo $form->error($modelStudentIdentification, 'filiation_1_scholarity'); ?>
+                            </div>
+                            <div class="t-field-select js-hide-not-required">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable', array('class' => 'control-label t-field-select__label')); ?>
+                                <?php
+                                echo $form->dropDownList($modelStudentIdentification, 'responsable', array(null => "Selecione o responsável", 0 => 'Pai', 1 => 'Mãe', 2 => 'Outro',), array('class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%'));
+                                ?>
+                                <?php echo $form->error($modelStudentIdentification, 'responsable'); ?>
+                            </div>
                             <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
                             <div class="t-field-text js-hide-not-required">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'nis', array('class' => 'control-label t-field-text__label')); ?>
@@ -726,19 +742,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <span id="copy-message" style="display:none;"></span>
                                 <?php echo $form->error($modelStudentIdentification, 'gov_id'); ?>
                             </div>
-                            <div class="t-field-select js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable', array('class' => 'control-label t-field-select__label')); ?>
-                                <?php
-                                echo $form->dropDownList($modelStudentIdentification, 'responsable', array(null => "Selecione o responsável", 0 => 'Pai', 1 => 'Mãe', 2 => 'Outro',), array('class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%'));
-                                ?>
-                                <?php echo $form->error($modelStudentIdentification, 'responsable'); ?>
-                            </div>
                             <div class="t-field-text js-hide-not-required">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_telephone', array('class' => 'control-label t-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'responsable_telephone', array('size' => 60, 'maxlength' => 15, 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'responsable_telephone'); ?>
                             </div>
-
                             <div class="t-field-text js-hide-not-required" style="<?php echo (isset($modelStudentIdentification->responsable_name)) ? '' : 'display:none'; ?>" id="responsable_name">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_name', array('class' => 'control-label  t-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'responsable_name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Responsável')); ?>
@@ -754,7 +762,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 14)); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'responsable_cpf'); ?>
                             </div>
-
                             <div class="t-field-select js-hide-not-required">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_scholarity', array('class' => 'control-label t-field-select__label')); ?>
                                 <?php
@@ -766,12 +773,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ), array('class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%'));
                                 ?>
                                 <?php echo $form->error($modelStudentIdentification, 'responsable_scholarity'); ?>
-                            </div>
-
-                            <div class="t-field-text js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable_job', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'responsable_job', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite a Profissão do Responsável')); ?>
-                                <?php echo $form->error($modelStudentIdentification, 'responsable_job'); ?>
                             </div>
 
                             <div class="t-field-checkbox js-hide-not-required">
@@ -1289,7 +1290,6 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
-
                 <!-- Tab Student Enrollment -->
                 <div class="tab-pane" id="student-enrollment">
                     <div class="row">
