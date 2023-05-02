@@ -65,6 +65,12 @@ $form = $this->beginWidget('CActiveForm', array(
                 <?= CHTML::textField(chtml::resolveName($menuModel, $name), $menuModel->name, ['class' => "span8 form-control", 'placeholder' => 'Digite o Nome do Cardápio']) ?>
 
             </div>
+            <div class="t-field-select">
+                <?= CHTML::activeLabel($menuModel, 'turn', ['class' => "control-label"])?>
+            </div>
+
+
+
             <div class="form-group-container">
                 <div class="t-buttons-container">
                     <button type="submit" class="t-button-primary">
