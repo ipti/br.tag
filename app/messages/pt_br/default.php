@@ -857,6 +857,7 @@ return array(
     'Classroom Configuration' => 'Reaproveitamento das Turmas',
     'Copy'=>'Copiar',
     'Select Classrom'=>'Selecione uma Turma',
+    'Select Classrooms'=>'Selecione uma ou mais Turmas',
     'Student Configuration' => 'Reaproveitamento de Alunos',
 
     //ClassContents
