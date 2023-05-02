@@ -110,7 +110,7 @@ class Register20
                     $attributes["complementary_activity"] = '0';
                 }
 
-                if ($attributes["pedagogical_mediation_type"] != '1' && $attributes["pedagogical_mediation_type"] != '2') {
+                if ($attributes["pedagogical_mediation_type"] != '1') {
                     $attributes["diff_location"] = '';
                 } else if ($attributes["diff_location"] == null) {
                     $attributes["diff_location"] = '0';
@@ -120,9 +120,6 @@ class Register20
                     $attributes["complementary_activity"] = '0';
                 }
 
-                if ($attributes["pedagogical_mediation_type"] == '2' && ($attributes["modality"] == null || $attributes["modality"] == "")) {
-                    $attributes["modality"] = '3';
-                }
                 if ($attributes["pedagogical_mediation_type"] == '3' && ($attributes["modality"] == null || $attributes["modality"] == "")) {
                     $attributes["modality"] = '1';
                 }
@@ -135,7 +132,7 @@ class Register20
                     $attributes['course'] = '';
                 }
 
-                if ($attributes["schooling"] == '0' || $attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3) {
+                if ($attributes['edcenso_stage_vs_modality_fk'] == '' || $attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3) {
                     foreach ($attributes as $i => $attr) {
                         $pos = strstr($i, 'discipline');
                         if ($pos) {
@@ -223,8 +220,8 @@ class Register20
                                 $register[34] = '1';
                             }
                         }
-                    } else if ($edcensoAlias->corder == 73) {
-                        if ($attributes["schooling"] == '0' || $attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3) {
+                    } else if ($edcensoAlias->corder == 74) {
+                        if ($attributes['edcenso_stage_vs_modality_fk'] == '' || $attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3) {
                             $register[$edcensoAlias->corder] = '';
                         } else {
                             $register[$edcensoAlias->corder] = '0';

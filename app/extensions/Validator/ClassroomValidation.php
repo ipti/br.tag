@@ -490,8 +490,8 @@ class ClassroomValidation extends Register
 
     public function isValidDiffLocation($pedagogicalMediationType, $diffLocation)
     {
-        if (($pedagogicalMediationType == "1" || $pedagogicalMediationType == "2") && ($diffLocation == null || $diffLocation == "")) {
-            return array('status' => false, 'erro' => 'Quando o tipo de mediação didático-pedagógica for presencial ou semipresencial, o campo se torna obrigatório');
+        if ($pedagogicalMediationType == "1" && ($diffLocation == null || $diffLocation == "")) {
+            return array('status' => false, 'erro' => 'Quando o tipo de mediação didático-pedagógica for presencial, o campo se torna obrigatório');
         }
         return array('status' => true, 'erro' => '');
     }

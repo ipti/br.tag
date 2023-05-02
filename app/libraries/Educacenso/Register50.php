@@ -36,8 +36,9 @@ class Register50
                 $teaching['register_type'] = '50';
                 $teaching['instructor_fk'] = $id;
 
+                //ajeitar com teching_matrixes
                 $classroom = Classroom::model()->findByPk($teaching['classroom_id_fk']);
-                if ($classroom->schooling == 0 || $classroom->edcenso_stage_vs_modality_fk == 1 || $classroom->edcenso_stage_vs_modality_fk == 2 || $classroom->edcenso_stage_vs_modality_fk == 3
+                if ($classroom->edcenso_stage_vs_modality_fk == 1 || $classroom->edcenso_stage_vs_modality_fk == 2 || $classroom->edcenso_stage_vs_modality_fk == 3
                     || ($teaching["role"] != '1' && $teaching["role"] != '5')) {
                     foreach ($teaching as $i => $attr) {
                         $pos = strstr($i, 'discipline');
@@ -60,6 +61,12 @@ class Register50
                             }
                         }
                     }
+                }
+
+                if ($classroom->pedagogical_mediation_type == "1" && ($teaching['role'] != '1' && $teaching['role'] != '2' && $teaching['role'] != '3' && $teaching['role'] != '4')) {
+                    $teaching['role'] = "1";
+                } else if ($classroom->pedagogical_mediation_type == "3" && ($teaching['role'] != '4' && $teaching['role'] != '5')) {
+                    $teaching['role'] = "4";
                 }
 
                 if ($teaching['role'] != '1' && $teaching['role'] != '5' && $teaching['role'] != '6') {
