@@ -218,9 +218,11 @@ if (Yii::app()->user->isGuest) {
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ||
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ||
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades")
-                                                                                ? 'active' : '' ?>"><i class="submenu-icon fa fa-chevron-right"></i><i class="submenu-icon fa fa-chevron-down"></i>
+                                                                                ? 'active' : '' ?>">
+                                                                                <i class="submenu-icon fa fa-chevron-right"></i>
+                                                                                <i class="submenu-icon fa fa-chevron-down"></i>
                             <a id="menu-electronic-diary-trigger" data-toggle="collapse" class="t-menu-group__link" href="#submenu-electronic-diary">
-                                <span class="t-icon-schedule t-menu-item__icon"></span>
+                                <span class="t-icon-schedule t-menu-item__icon t-menu-group__icon"></span>
                                 <!-- <img class="t-menu-group__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/diario_eletronico.svg" /> -->
                                 <span class="t-menu-group__text">Diário Eletrônico</span>
                             </a>
@@ -288,7 +290,7 @@ if (Yii::app()->user->isGuest) {
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=sedsp")
                                                                                 ? 'active' : '' ?>"><i class="submenu-icon fa fa-chevron-right"></i><i class="submenu-icon fa fa-chevron-down"></i>
                                 <a id="menu-integrations-trigger" data-toggle="collapse" class="t-menu-group__link" href="#submenu-integrations">
-                                    <span class="t-icon-integration t-menu-item__icon"></span>
+                                    <span class="t-icon-integration t-menu-item__icon t-menu-group__icon"></span>
                                     <!-- <img class="t-menu-group__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/integration.svg" alt="engrenagem de integração" /> -->
                                     <span class="t-menu-group__text">Integrações</span>
                                 </a>
