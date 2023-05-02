@@ -97,6 +97,7 @@ return array(
     'Organization Civil Society' => 'Organização da Sociedade Civil (OSCIP)',
     'Manager Contract Type' => 'Tipo de Contrato',
     'Manager Access Criterion' => 'Especificação do Critério de Acesso',
+    'Number Ato' => 'Número do ato',
 
     //School Structure
     'School Inep Id Fk' => 'Escola',
