@@ -19,12 +19,12 @@ $this->breadcrumbs = array(
 ?>
 <div id="mainPage" class="main">
     <div class="row-fluid">
-        <div class="span12">
-            <h1>
-                <?php echo Yii::t('default', 'Configurarion'); ?>
-            </h1>
+        <div class="span12" style="margin-left: 20px;">
+                <h1>
+                    <?php echo Yii::t('default', 'Configurarion'); ?>
+                </h1>
+            </div>
         </div>
-    </div>
     <div class="innerLR">
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">
