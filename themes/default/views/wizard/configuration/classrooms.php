@@ -18,17 +18,16 @@ $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($themeUrl . '/css/template2.css');
 ?>
 <div class="main">
-<div class="row-fluid">
-    <div class="span12">
-        <h1>
-            <?php echo $title; ?>
-        </h1>
-        <div class="tag-buttons-container buttons">
-            <?php echo CHtml::htmlButton('' . Yii::t('default', 'Copy'), array('class' => 't-button-primary  last ', 'type' => 'submit')); ?>
+    <div class="row-fluid">
+        <div class="span12" style="margin-left: 20px;">
+            <h1>
+                <?php echo $title; ?>
+            </h1>
+            <div class="tag-buttons-container buttons">
+                <?php echo CHtml::htmlButton('' . Yii::t('default', 'Copy'), array('class' => 't-button-primary  last ', 'type' => 'submit')); ?>
+            </div>
         </div>
     </div>
-</div>
-<div class="innerLR">
     <?php if (Yii::app()->user->hasFlash('success')): ?>
         <div class="alert alert-success">
             <?php echo Yii::app()->user->getFlash('success') ?>
@@ -46,7 +45,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
             </ul>
         </div>
 
-        <div class="widget-body form-horizontal">
+        <div class="widget-body form-horizontal"  style="margin-left: 20px;">
             <div class="tab-content">
                 <div class="tab-pane active" id="classroom">
                     <div class="row-fluid">	
@@ -67,5 +66,4 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
             <?php $this->endWidget(); ?>
         </div>
     </div>
-</div>
 </div>
