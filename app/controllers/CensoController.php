@@ -904,8 +904,8 @@ class CensoController extends Controller
 		*/
 
         //campo 09
-        $result = $itdv->disciplineOne($collumn['discipline_1_fk'], $collumn['role'], $assistance_type, $edcenso_svm);
-        if (!$result["status"]) array_push($log, array("discipline_1_fk" => $result["erro"]));
+//        $result = $itdv->disciplineOne($collumn['discipline_1_fk'], $collumn['role'], $assistance_type, $edcenso_svm);
+//        if (!$result["status"]) array_push($log, array("discipline_1_fk" => $result["erro"]));
 
         //campo 09 à 21
 
