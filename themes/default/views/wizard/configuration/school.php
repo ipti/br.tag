@@ -8,7 +8,7 @@ $this->breadcrumbs = array(
     Yii::t('app', 'Create'),
 );
 
-$title = Yii::t('app', 'School Configurarion');
+$title = Yii::t('wizardModule.labels', 'School Configuration');
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'school-configuration-form',
