@@ -3,6 +3,8 @@
 /* @var $this SchoolConfigurationControler */
 /* @var $form CActiveForm */
 
+$this->setPageTitle('TAG - ' .  Yii::t('wizardModule.labels', 'School Configuration'));
+
 $this->breadcrumbs = array(
     Yii::t('app', 'School Configurarion') => array('index'),
     Yii::t('app', 'Create'),

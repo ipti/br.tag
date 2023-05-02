@@ -2,6 +2,9 @@
 /** @var $this ClassroomConfigurationControler */
 /** @var $title String */
 /** @var $form CActiveForm */
+
+$this->setPageTitle('TAG - ' .  Yii::t('default', 'Reaproveitamento das Turmas'));
+
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'school-configuration-form',
     'enableAjaxValidation' => false

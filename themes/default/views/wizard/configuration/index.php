@@ -2,6 +2,9 @@
 /* @var $this ClassroomConfigurationControler */
 /* @var $form ActiveForm */
 /* @var $title String */
+
+$this->setPageTitle('TAG - ' .  Yii::t('default', 'Configurarion'));
+
 $baseUrl = Yii::app()->baseUrl;
 $baseUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
