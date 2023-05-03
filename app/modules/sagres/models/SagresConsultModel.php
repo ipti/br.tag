@@ -295,18 +295,13 @@ class SagresConsultModel
         foreach ($schedules as $schedule) {
             $scheduleType = new HorarioTType;
 
-            $query1 = "SELECT 
-                            ROUND( (t.credits / COUNT(1))) AS duration
-                        FROM (
-                            SELECT ed.name AS disciplineName, cm.credits AS credits
-                                FROM schedule s 
-                                JOIN edcenso_discipline ed ON ed.id = s.discipline_fk 
-                                JOIN classroom c ON c.id = s.classroom_fk 
-                                JOIN curricular_matrix cm ON cm.discipline_fk = ed.id 
-                            WHERE s.classroom_fk = $classId
-                            GROUP BY s.week_day
-                        ) t
-                        WHERE t.disciplineName = '" . $schedule['disciplineName'] . "'";
+            $query1 = "SELECT distinct 
+                        ed.name AS disciplineName, ed.id as discipline_fk, cm.credits AS credits
+                    FROM schedule s 
+                        join classroom c on s.classroom_fk = s.classroom_fk
+                        join edcenso_discipline ed on ed.id  = s.discipline_fk 
+                        join curricular_matrix cm on cm.stage_fk = c.edcenso_stage_vs_modality_fk and s.discipline_fk = cm.discipline_fk 
+                    where c.id = ". $classId ." and ed.name = '" . $schedule['disciplineName'] . "'";
 
             $duration = Yii::app()->db->createCommand($query1)->queryRow();
 
@@ -314,12 +309,14 @@ class SagresConsultModel
 
             $scheduleType
                 ->setDiaSemana($schedule['weekDay'])
-                ->setDuracao($duration['duration'])
-                // ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
+                ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
+                ->setDuracao(isset($duration['duration'])? $duration['duration'] : 2)
                 ->setDisciplina($schedule['disciplineName'])
                 ->setCpfProfessor([$schedule['cpfInstructor']]);
-
-            $scheduleList[] = $scheduleType;
+            
+                if(isset($schedule['cpfInstructor'])){
+                    $scheduleList[] = $scheduleType;
+                }
         }
 
         return $scheduleList;
@@ -447,7 +444,8 @@ class SagresConsultModel
                 3 => 14,
                 4 => 15,
                 5 => 16,
-                6 => 17
+                6 => 17,
+                7 => 18
             ],
             3 => [
                 1 => 18,
@@ -474,6 +472,7 @@ class SagresConsultModel
         if (isset($startTime)) {
             return $this->getDateTimeFromInitialHour($startTime);
         } else {
+            var_dump($startTime);
             throw new ErrorException("Turno ou horário inválido.");
         }
     }
@@ -573,7 +572,7 @@ class SagresConsultModel
             $menuType
                 ->setData(new DateTime($menu['data']))
                 ->setTurno($this->convertTurn($menu['turno']))
-                ->setDescricaoMerenda($menu['descricaoMerenda'])
+                ->setDescricaoMerenda(str_replace("ª", "", $menu['descricaoMerenda']))
                 ->setAjustado($menu['ajustado']);
 
             $menuList[] = $menuType;
@@ -719,7 +718,7 @@ class SagresConsultModel
             $enrollmentType
                 ->setNumero($enrollment['numero'])
                 ->setDataMatricula(new DateTime($enrollment['data_matricula']))
-                ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
+                // ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
                 ->setNumeroFaltas((int) $this->returnNumberFaults($enrollment['student_fk'], $referenceYear))
                 ->setAprovado($this->getStudentSituation($enrollment['situation']))
                 ->setAluno($this->getStudents($enrollment['student_fk']));
