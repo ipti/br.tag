@@ -5,6 +5,8 @@
 - No relatório trimestral de 1ºANO, 2º ANO e 3º ANO o cabeçalho de buzios foi corrigido para a logo ficar posicionada corretamente
 - Agora todos os botões do módulo relatórios abrem o relatório em uma nova aba
 
+## [Versão 3.17.35]
+- Adicionando campo de truno no cadastro de cardápio
 ## [Versão 3.16.35]
 - Mudando a ordenação 'default' dos alunos na página Ordem no Diário
 - Colocado campo de número do ató no formulário de escola
