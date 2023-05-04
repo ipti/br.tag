@@ -23,7 +23,7 @@ class LunchController extends Controller {
 
         $menu = new Menu();
         $menu->date = date("Y-m-d h:i:s");
-
+        $menu->turn = $menuPost["turn"];
         if($menuPost){
             $menu->attributes = $menuPost;
             $menu->date = date("Y-m-d h:i:s");
@@ -52,6 +52,7 @@ class LunchController extends Controller {
 
         if($menuPost){
             $menu->name = $menuPost['name'];
+            $menu->turn = $menuPost["turn"];
             if($menu->validate()){
                 $menu->save();
                 Log::model()->saveAction("lunch_menu", $menu->id, "U", $menu->name);

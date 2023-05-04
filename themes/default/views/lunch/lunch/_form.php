@@ -42,31 +42,29 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
 <?php endif ?>
 
-<div class="row-fluid">
-    <div class="span12">
+<div class="row">
+    <div class="column no-grow">
         <div class="container-box form-container">
-            <div class="form-group-container">
-                <h4 class="heading glyphicons notes">
-                    <i></i><?= yii::t('lunchModule.lunch', 'Menu Info') ?>
-                </h4>
-            </div>
-            <div class="form-group-container">
-                <?= CHTML::activeLabel($menuModel, 'date', ['class' => "control-label"]) ?>
+            <div class="t-field-text">
+                <?= CHTML::activeLabel($menuModel, 'date', ['class' => "control-label t-field-text__label"]) ?>
 
                 <?php $date = 'date';
                 ?>
-                <?= CHTML::textField("none", date("d/m/Y", strtotime($menuModel->date)), ['class' => "span8 form-control", "readonly" => "readonly"]) ?>
-                <?= CHTML::hiddenField(chtml::resolveName($menuModel, $date), $menuModel->date, ['class' => "span10 form-control", "readonly" => "readonly"]) ?>
+                <?= CHTML::textField("none", date("d/m/Y", strtotime($menuModel->date)), ['class' => "form-control t-field-text____input", "readonly" => "readonly"]) ?>
+                <?= CHTML::hiddenField(chtml::resolveName($menuModel, $date), $menuModel->date, ['class' => "form-control t-field-text____input", "readonly" => "readonly"]) ?>
 
             </div>
-            <div class="form-group-container">
-                <?= CHTML::activeLabel($menuModel, 'name', ['class' => "control-label"]) ?>
+            <div class="t-field-text">
+                <?= CHTML::activeLabel($menuModel, 'name', ['class' => "t-field-text__label"]) ?>
                 <?php $name = 'name'; ?>
-                <?= CHTML::textField(chtml::resolveName($menuModel, $name), $menuModel->name, ['class' => "span8 form-control", 'placeholder' => 'Digite o Nome do Cardápio']) ?>
+                <?= CHTML::textField(chtml::resolveName($menuModel, $name), $menuModel->name, ['class' => "t-field-text__input", 'placeholder' => 'Digite o Nome do Cardápio']) ?>
 
             </div>
             <div class="t-field-select">
-                <?= CHTML::activeLabel($menuModel, 'turn', ['class' => "control-label"])?>
+                <?= CHTML::activeLabel($menuModel, 'turn', ['class' => "t-field-select__label"])?>
+                <?php $turn = 'turn'; ?>
+                <?= CHtml::dropDownList(chtml::resolveName($menuModel, $turn), $menuModel->turn, 
+                ['M'=>'Manhã', 'T' => 'Tarde', 'N' => 'Noite'], ["class" => "select-search-on t-field-select__input"])?>
             </div>
 
 

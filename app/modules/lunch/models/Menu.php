@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'lunch_menu':
  * @property integer $id
  * @property string $name
+ * @property string $turn
  * @property string $date
  * @property string $school_fk
  *
