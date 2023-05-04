@@ -647,11 +647,10 @@ class SagresConsultModel
         $query = "SELECT 
                     p.id_professional AS id_professional, 
                     p.cpf_professional  AS cpfProfissional, 
-                    epec.name  AS especialidade, 
+                    p.speciality  AS especialidade, 
                     p.inep_id_fk AS idEscola, 
                     fundeb 
                 FROM professional p
-                    JOIN edcenso_professional_education_course epec ON p.speciality_fk = epec.id
                     JOIN attendance a ON p.id_professional  = a.professional_fk  
                 WHERE 
                     YEAR(a.date) = :reference_year AND 
