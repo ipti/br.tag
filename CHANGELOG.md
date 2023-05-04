@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.16.35]
+- Mudando a ordenação 'default' dos alunos na página Ordem no Diário
+- Colocado campo de número do ató no formulário de escola
 ## [Versão 3.16.33]
 - Correções nos formulários de alunos e professores
 

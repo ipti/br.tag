@@ -242,6 +242,17 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelSchoolIdentification, 'manager_email'); ?>
                                 </div>
                             </div>
+            
+                            <div class="control-group">
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelSchoolIdentification, 'number_ato', array('class' => 'control-label')); ?>
+                                </div>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelSchoolIdentification, 'number_ato', array( 'placeholder' => 'Digite o número ato')); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'number_ato'); ?>
+                                </div>
+                            </div>
+            
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'manager_role', array('class' => 'control-label')); ?>
