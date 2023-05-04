@@ -748,6 +748,8 @@ return array(
     //Abas
     'Affiliation' => 'Filiação',
     'Identification' => 'Identificação',
+    'Student Data' => 'Dados do Aluno',
+    'Social Data' => 'Dados Sociais',
     'Structure' => 'Estrutura',
     'Equipments' => 'Equipamentos',
     'Human Resources' => 'Recursos Humanos',
