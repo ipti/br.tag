@@ -1,5 +1,7 @@
 # Atualizações
 
+## [Versão 3.17.35]
+- Adicionando campo de truno no cadastro de cardápio
 ## [Versão 3.16.35]
 - Mudando a ordenação 'default' dos alunos na página Ordem no Diário
 - Colocado campo de número do ató no formulário de escola
