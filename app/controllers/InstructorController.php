@@ -220,6 +220,7 @@ preenchidos";
         //=======================================
         $modelInstructorIdentification = $this->loadModel($id, $this->InstructorIdentification);
         $modelInstructorDocumentsAndAddress = $this->loadModel($id, $this->InstructorDocumentsAndAddress);
+        $modelInstructorDocumentsAndAddress = isset($modelInstructorDocumentsAndAddress) ? $modelInstructorDocumentsAndAddress : new InstructorDocumentsAndAddress; 
         $modelInstructorVariableData = $this->loadModel($id, $this->InstructorVariableData);
         if ($modelInstructorVariableData == null) {
             $modelInstructorVariableData = new InstructorVariableData();
