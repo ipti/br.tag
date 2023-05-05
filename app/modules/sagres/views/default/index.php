@@ -46,8 +46,15 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				</select>
 			</div>
 		</div>
+		<div class="control-group">
+			<div class="controls">
+				<input type="checkbox" name="finalTurma" value="1" id="finalTurma">
+				<label for="opcao1">Final turma</label>
+			</div>
+		</div>
+		
 	</div>
-	
+
 	<div class="container-box" style="display: grid;">
 		<a href="?r=sagres/default/createorupdate">
 			<button type="button" class="report-box-container">
@@ -94,6 +101,19 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 <script>
 	let selectedValue;
 	const selectElement = document.getElementById("mes");
+	var checkbox = document.getElementById("finalTurma");
+	var checkboxValue = 0;
+
+	checkbox.addEventListener('change', function () {
+		checkboxValue = checkbox.checked ? true : false;
+
+		const { startDate, endDate } = getDatesFromMonth(selectedValue);
+
+		const year = new Date().getFullYear();
+		const exportLink = document.getElementById('exportLink');
+		const newHref = `?r=sagres/default/export&year=${year}&startDate=${startDate}&endDate=${endDate}&finalClass=${checkboxValue}`;
+		exportLink.setAttribute('href', newHref);
+	});
 
 	selectElement.addEventListener("change", (event) => {
 		selectedValue = event.target.value;
@@ -102,7 +122,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 
 		const year = new Date().getFullYear();
 		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&year=${year}&startDate=${startDate}&endDate=${endDate}`;
+		const newHref = `?r=sagres/default/export&year=${year}&startDate=${startDate}&endDate=${endDate}&finalClass=${checkboxValue}`;
 		exportLink.setAttribute('href', newHref);
 
 	});
