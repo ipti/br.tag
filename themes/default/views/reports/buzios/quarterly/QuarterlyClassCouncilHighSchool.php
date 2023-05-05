@@ -262,7 +262,7 @@ if ($turno == 'M') {
         </div>
         <div class="container-box">
             <p>5 - Quadro de rendimentos (Positivos e Negativos):</p>
-            <table>
+            <table aria-labelledby="Income Table Table">
                 <thead>
                     <tr>
                         <th rowspan="2" scope="col" style="width: 60%;">Disciplinas</th>
