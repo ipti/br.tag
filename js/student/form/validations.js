@@ -141,7 +141,7 @@ $(formIdentification + 'birthday').focusout(function () {
     var id = '#' + $(this).attr("id");
     var birthday = stringToDate($(formIdentification + 'birthday').val());
 
-
+-visibility-fname
     if ((!validateDate($(formIdentification + 'birthday').val()) || !validateYear(birthday.year)) && ($(id).val() != '')) {
         //$(formIdentification + 'birthday').attr('value', '');
         addError(id, "Informe uma data válida no formato Dia/Mês/Ano.");
@@ -152,9 +152,9 @@ $(formIdentification + 'birthday').focusout(function () {
 
 $(formIdentification + 'filiation').change(function () {
     var simple = getUrlVars()['simple'];
-    $('.js-disabled-finputs').attr("disabled", "disabled");
+    $('.js-disabled-finputs').hide();
     if ($(formIdentification + 'filiation').val() == 1) {
-        $('.js-disabled-finputs').removeAttr("disabled");
+        $('.js-disabled-finputs').show();
         $(formIdentification + 'filiation_1').closest(".js-visibility-fname").show();
         $(formIdentification + 'filiation_2').closest(".js-visibility-fname").show();
     } else {
@@ -673,6 +673,8 @@ $(formIdentification + 'responsable').on('change', function () {
         $('#responsable_name').hide();
     }
 });
+
+
 
 $(formEnrollment + 'school_admission_date').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
 $(formEnrollment + 'school_admission_date').focusout(function () {
