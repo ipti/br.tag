@@ -28,6 +28,7 @@ $("#InstructorIdentification_edcenso_uf_fk").on("change", function () {
         url: "?r=instructor/getCity",
         data: {
             edcenso_uf_fk: $(this).val(),
+            current_city: $("#InstructorIdentification_edcenso_city_fk").val()
         },
         success: function (response) {
             const optionsList = JSON.parse(response); 
@@ -45,6 +46,7 @@ $("#InstructorDocumentsAndAddress_edcenso_uf_fk").on("change", function () {
         url: "?r=instructor/getCity",
         data: {
             edcenso_uf_fk: $(this).val(),
+            current_city: $("#InstructorDocumentsAndAddress_edcenso_city_fk").val()
         },
         success: function (response) {
             $.each(JSON.parse(response), function (id, option) {
