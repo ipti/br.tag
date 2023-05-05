@@ -84,7 +84,7 @@ if ($turno == 'M') {
                     <th rowspan="2" scope="col">NOME DO ALUNO</th>
                     <th class="vertical-head" rowspan="2" scope="col">PCD</th>
                     <th class="vertical-head" rowspan="2" scope="col">INFREQ.</th>
-                    <th colspan="2" scope="col">Área Cognitiva (AS)</th>
+                    <th colspan="2" scope="col">Área Cognitiva (AC)</th>
                     <th colspan="2" scope="col">Área Socioafetiva (AS)</th>
                     <th rowspan="2" scope="col">Observações</th>
                 </tr>
