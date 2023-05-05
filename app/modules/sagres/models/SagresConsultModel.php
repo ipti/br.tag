@@ -582,7 +582,7 @@ class SagresConsultModel
     }
 
 
-    public function getSchoolMenu($id_escola, $year)
+    public function getSchoolMenu($schoolId, $selectedYear)
     {
         $cardapioList = [];
         $query = "SELECT 
@@ -593,11 +593,16 @@ class SagresConsultModel
                 FROM lunch_menu lm 
                     JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk   
                     JOIN lunch_meal lm2 on lmm.meal_fk = lm2.id
-                WHERE lm.school_fk = " . $id_escola . " and YEAR(lm.date) = " . $year . "
+                WHERE lm.school_fk = :schoolId and YEAR(lm.date) = :selectedYear
                 GROUP BY lm.date DESC
                 LIMIT 1";
 
-        $cardapios = Yii::app()->db->createCommand($query)->queryAll();
+        $params = [
+            ':schoolId' => $schoolId,
+            ':selectedYear' => $selectedYear
+        ];
+
+        $cardapios = Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
 
         foreach ($cardapios as $cardapio) {
             $cardapioType = new CardapioTType;
@@ -839,7 +844,7 @@ class SagresConsultModel
         if (isset($turnos[$turn])) {
             return $turnos[$turn];
         } else {
-            throw new ErrorException("O valor para o turno não é válido");
+            throw new ErrorException("O valor: " . $turn . " para o turno não é válido");
         }
     }
 

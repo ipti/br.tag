@@ -26,6 +26,9 @@ class DefaultController extends Controller
 		if (isset($_POST['ProvisionAccounts'])) {
 			$model->attributes = $_POST['ProvisionAccounts'];
 
+			$model->cpf_responsavel = str_replace(array(".", "-"), "", $model->cpf_responsavel);
+			$model->cpf_gestor = str_replace(array(".", "-"), "", $model->cpf_gestor);
+
 			if ($model->validate() && $model->save()) {
 				$msg = $managementUnitCode ? 'atualizada' : 'criada';
 				Yii::app()->user->setFlash('success', Yii::t('default', 'Unidade ' . $msg . ' com sucesso!'));
