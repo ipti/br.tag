@@ -102,7 +102,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 
 		const year = new Date().getFullYear();
 		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&managementUnitCode=${12346710}&year=${year}&startDate=${startDate}&endDate=${endDate}`;
+		const newHref = `?r=sagres/default/export&year=${year}&startDate=${startDate}&endDate=${endDate}`;
 		exportLink.setAttribute('href', newHref);
 
 	});
@@ -158,20 +158,19 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				link.download = 'Educacao.zip';
 				link.click();
 				URL.revokeObjectURL(url);
-			})
-				.catch(function (err) {
-					console.error(err);
-					$(".alert-error-export").append('Erro ao criar o arquivo zip');
-					$(".alert-error-export").show();
-				});
-		})
-			.fail(function () {
-				$(".alert-error-export").append('Erro ao realizar o download do arquivo ');
+			}).catch(function (err) {
+				console.error(err);
+				$(".alert-error-export").append('Erro ao criar o arquivo zip');
 				$(".alert-error-export").show();
-			})
-			.always(function () {
+			}).finally(function(){
 				location.reload();
 			});
+		})
+		.fail(function () {
+			$(".alert-error-export").append('Erro ao realizar o download do arquivo ');
+			$(".alert-error-export").show();
+		})
+			
 	}
 
 </script>

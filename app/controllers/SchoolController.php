@@ -342,6 +342,10 @@ class SchoolController extends Controller
             $return = SchoolIdentification::model()->findByPk($id);
         } else if ($model == $this->SCHOOL_STRUCTURE) {
             $return = SchoolStructure::model()->findByPk($id);
+            if(!isset($return)){
+                $return = new SchoolStructure;
+                $return->stages_concept_grades = [14, 15, 16];
+            }
             $stagesConceptGradesArray = [];
             $schoolStagesConceptGrades = SchoolStagesConceptGrades::model()->findAll("school_fk = :school_fk", ["school_fk" => $id]);
             foreach ($schoolStagesConceptGrades as $schoolStageConceptGrade) {

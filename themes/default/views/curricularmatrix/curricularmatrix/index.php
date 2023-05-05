@@ -15,6 +15,10 @@ $cs->registerScript("vars", "var addMatrix = '" . $this->createUrl("addMatrix") 
 $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricular Matrix'));
 // $cs->registerCssFile($themeUrl . '/css/template2.css');
 ?>
+
+
+
+
 <div class="main">
 <div class="row-fluid">
     <div class="span12">
@@ -64,10 +68,35 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
     <?php endif ?>
                     
     <div class="widget">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="alert" style="display:none">
+                    
+                </div>
+            </div>
+        </div>
+        <?php if (Yii::app()->user->hasFlash('success')): ?>
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="alert alert-success">
+                <?php echo Yii::app()->user->getFlash('success') ?>
+            </div>
+        </div>
+    </div>
+<?php endif ?>
+<?php if (Yii::app()->user->hasFlash('error')): ?>
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="alert alert-error">
+                <?php echo Yii::app()->user->getFlash('error') ?>
+            </div>
+        </div>
+    </div>
+<?php endif ?>
         <div class="widget-body">
             <?php
             $this->widget('zii.widgets.grid.CGridView', [
-                'id' => 'matrizgridview', 'dataProvider' => $dataProvider,
+                'id' => 'matrizgridview', 'dataProvider' => $dataProvider, 'ajaxUpdate' => false,
                 'itemsCssClass' => 'js-tag-table curricularmatrix-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                 'enablePagination' => false, 'columns' => [
                     [
@@ -90,20 +119,13 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                         'header' => 'Ações',
                         'class' => 'CButtonColumn',
                         'template' => Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ? '{delete}' : '',
-                        'afterDelete' => 'function(link, success, data){
-                    data = JSON.parse(data);
-                    if (data.valid) {
-                        $(".alert").text(data.message).addClass("alert-success").removeClass("alert-error");
-                    } else {
-                        $(".alert").text(data.message).addClass("alert-error").removeClass("alert-success");
-                    }
-                    $(".alert-container").show();
-                }',
-                'buttons' => array(
-                    'delete' => array(
-                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
-                    ))
-                    ],
+                        'buttons' => array(
+                            'delete' => array(
+                                'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                        
+                            )
+                        )
+                ],
                     
                 ],
             ]);

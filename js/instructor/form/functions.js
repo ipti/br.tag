@@ -10,29 +10,47 @@ function updateCep(data) {
     if (data.UF == null)
         $(formDocumentsAndAddress + 'cep').val('').trigger('focusout');
     $(formDocumentsAndAddress + 'edcenso_uf_fk')
-            .val(data['UF'])
-            .trigger('change')
-            .select2('readonly', data.UF != null);
-    setTimeout(function() {
+        .val(data['UF'])
+        .trigger('change')
+        .select2('readonly', data.UF != null);
+    setTimeout(function () {
         $(formDocumentsAndAddress + 'edcenso_city_fk')
-                .val(data['City'])
-                .trigger('change')
-                .select2('readonly', data.City != null);
+            .val(data['City'])
+            .trigger('change')
+            .select2('readonly', data.City != null);
     }, 500);
 
 }
 
 $("#InstructorIdentification_edcenso_uf_fk").on("change", function () {
-    $('#InstructorIdentification_edcenso_city_fk option:not(:contains("Selecione uma cidade"))').remove();
     $.ajax({
         type: "POST",
         url: "?r=instructor/getCity",
         data: {
             edcenso_uf_fk: $(this).val(),
+            current_city: $("#InstructorIdentification_edcenso_city_fk").val()
+        },
+        success: function (response) {
+            const optionsList = JSON.parse(response); 
+            const options = optionsList.join("");
+            $("#InstructorIdentification_edcenso_city_fk").html(options);
+            $("#InstructorIdentification_edcenso_city_fk").select2();
+        }
+    });
+});
+
+$("#InstructorDocumentsAndAddress_edcenso_uf_fk").on("change", function () {
+    $('#InstructorDocumentsAndAddress_edcenso_city_fk option:not(:contains("Selecione uma cidade"))').remove(); 
+    $.ajax({
+        type: "POST",
+        url: "?r=instructor/getCity",
+        data: {
+            edcenso_uf_fk: $(this).val(),
+            current_city: $("#InstructorDocumentsAndAddress_edcenso_city_fk").val()
         },
         success: function (response) {
             $.each(JSON.parse(response), function (id, option) {
-                $("#InstructorIdentification_edcenso_city_fk").append(option);
+                $("#InstructorDocumentsAndAddress_edcenso_city_fk").append(option);
             })
         }
     });

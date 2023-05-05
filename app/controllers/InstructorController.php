@@ -251,6 +251,7 @@ preenchidos";
             $saveInstructor = TRUE;
 
             //=== MODEL DocumentsAndAddress
+            $modelInstructorDocumentsAndAddress->cpf = str_replace([".", "-"], "", $modelInstructorDocumentsAndAddress->cpf);
             if (isset($modelInstructorDocumentsAndAddress->cep) && !empty($modelInstructorDocumentsAndAddress->cep)) {
                 //Então o endereço, uf e cidade são obrigatórios
                 if (isset($modelInstructorDocumentsAndAddress->address) && !empty($modelInstructorDocumentsAndAddress->address) && isset($modelInstructorDocumentsAndAddress->neighborhood) && !empty($modelInstructorDocumentsAndAddress->neighborhood) && isset($modelInstructorDocumentsAndAddress->edcenso_uf_fk) && !empty($modelInstructorDocumentsAndAddress->edcenso_uf_fk) && isset($modelInstructorDocumentsAndAddress->edcenso_city_fk) && !empty($modelInstructorDocumentsAndAddress->edcenso_city_fk)) {
@@ -386,13 +387,14 @@ preenchidos";
     {
 
         $edcenso_uf_fk = $_POST['edcenso_uf_fk'];
+        $current_city = $_POST['current_city'];
 
         $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', [':uf_id' => (int)$edcenso_uf_fk]);
         $data = CHtml::listData($data, 'id', 'name');
 
         $options = array();
         foreach ($data as $value => $name) {
-            array_push($options, CHtml::tag('option', ['value' => $value], CHtml::encode($name), TRUE));
+            array_push($options, CHtml::tag('option', ['value' => $value, 'selected' => $value == $current_city], CHtml::encode($name), TRUE));
         }
 
         echo json_encode($options);

@@ -1014,8 +1014,8 @@ class CensoController extends Controller
         if (!$result["status"]) array_push($log, array("edcenso_uf_fk" => $result["erro"]));
 
         //campo 15
-        $result = $stiv->ufcity($collumn['nationality'], $collumn['edcenso_nation_fk'], $collumn['edcenso_city_fk']);
-        if (!$result["status"]) array_push($log, array("edcenso_uf_fk" => $result["erro"]));
+        // $result = $stiv->ufcity($collumn['nationality'], $collumn['edcenso_nation_fk'], $collumn['edcenso_city_fk']);
+        // if (!$result["status"]) array_push($log, array("edcenso_uf_fk" => $result["erro"]));
 
         //campo 16
         $student_id = $collumn['id'];

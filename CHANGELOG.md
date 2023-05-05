@@ -1,7 +1,28 @@
 # Atualizações
 
+## [Versão 3.16.38]
+- No relatório trimestral o cabeçalho com as informações do aluno foi adicionado a primeira página
+- No relatório trimestral de 1ºANO, 2º ANO e 3º ANO o cabeçalho de buzios foi corrigido para a logo ficar posicionada corretamente
+- Agora todos os botões do módulo relatórios abrem o relatório em uma nova aba
+
+## [Versão 3.17.35]
+- Adicionando campo de truno no cadastro de cardápio
+## [Versão 3.16.35]
+- Mudando a ordenação 'default' dos alunos na página Ordem no Diário
+- Colocado campo de número do ató no formulário de escola
+## [Versão 3.16.33]
+- Correções nos formulários de alunos e professores
+
+## [Versão 3.16.32]
+- Agora as notas são salvas e calculadas corretamente
+
+## [Versão 3.16.31]
+- correção na tela de calendário
+## [Versão 3.16.30]
+- Consertado modal na tela de aulas ministradada que não estava salvando
+
 ##  [Versão 3.16.29]
-- retirando o botão de transferência de aluno para novos registros
+- Retirado o botão de transferência de aluno para novos registros
 ## [Versão 3.16.28]
 - Adicionada a funcionalidade de transferêcia de alunos entre escolas
 ## [Versão 3.15.28]

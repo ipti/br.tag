@@ -116,11 +116,7 @@ if ($turno == 'M') {
                             $create_date =  date('d/m/y', strtotime($c['create_date']));
                             $date_cancellation = date('d/m/y', strtotime($c['date_cancellation']));
                             if ($c['status'] == 1) {
-                                if ($c['create_date'] != null) {
-                                    echo 'Matri. ' . $create_date;
-                                }else {
-                                    echo 'Matri. ____/____/______';
-                                }
+                                echo '';
                             } else if ($c['status'] == 2) {
                                 if ($c['date_cancellation'] != null) {
                                     echo 'Trans. ' . $date_cancellation;
@@ -140,7 +136,7 @@ if ($turno == 'M') {
                                     echo 'Evad. ____/____/______';
                                 }
                             }else {
-                                echo '______. ____/____/______';
+                                echo '';
                             }
                             ?>
                         </td>
@@ -153,7 +149,7 @@ if ($turno == 'M') {
                 ?>
             </tbody>
         </table>
-        <p style="margin-top: 10px;">Legenda: PCD - Pessoa com Defeciência. CAAPE - Centro de Atendimento e Apoio Pedagógico ao Educando. </p>
+        <p style="margin-top: 10px;">Legenda: PCD - Pessoa com Defeciência. </p>
         <div class="container-box line-box individual-observations">
             <p>1. Observações individuais</p>
             <p>_________________________________________________________________________________________________________________________________________________________________________________
@@ -258,8 +254,10 @@ if ($turno == 'M') {
             </p>
             <p style="margin-top: 50px;">
                 <span>_______________________________________</span>
+                <span>_______________________________________</span>
             </p>
             <p>
+                <span>Secretário(a) escolar</span>
                 <span>Direção</span>
             </p>
         </div>
@@ -276,6 +274,11 @@ if ($turno == 'M') {
 <?php }?>
 
 <style>
+    @media print {
+        .signatures-container {
+            page-break-before: always;
+        }
+	}
     .signatures-container {
         margin-top: 80px !important;
         width: 96%;

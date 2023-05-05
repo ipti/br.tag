@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'lunch_menu':
  * @property integer $id
  * @property string $name
+ * @property string $turn
  * @property string $date
  * @property string $school_fk
  *
@@ -64,6 +65,7 @@ class Menu extends CActiveRecord{
 			'id' => Yii::t('lunchModule.labels', 'ID'),
 			'date' => Yii::t('lunchModule.labels', 'Date Creation'),
 			'name' => Yii::t('lunchModule.labels', 'Name'),
+			'turn' => Yii::t('lunchModule.labels', 'Turn'),
 			'school' => Yii::t('lunchModule.labels', 'School'),
 		);
 	}

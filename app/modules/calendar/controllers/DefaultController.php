@@ -327,9 +327,11 @@ class DefaultController extends Controller
             join calendar_stages cs on cs.stage_fk = cr.edcenso_stage_vs_modality_fk
             join calendar c on cs.calendar_fk = c.id
             where c.id = :id")->bindParam(":id", $_POST["id"])->queryRow();
+
             $calendar = Calendar::model()->findByPk($_POST["id"]);
+            
             if (!$calendar->available || (int)$result["qtd"] == 0) {
-                $calendar->available = $calendar->available ? 0 : 1;
+                $calendar->available = intVal($calendar->available) == 0 ? 1 : 0;
                 $calendar->save();
                 echo json_encode(["valid" => true, "available" => $calendar->available]);
             } else {

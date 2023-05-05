@@ -3,12 +3,14 @@
 /* @var $this SchoolConfigurationControler */
 /* @var $form CActiveForm */
 
+$this->setPageTitle('TAG - ' .  Yii::t('wizardModule.labels', 'School Configuration'));
+
 $this->breadcrumbs = array(
     Yii::t('app', 'School Configurarion') => array('index'),
     Yii::t('app', 'Create'),
 );
 
-$title = Yii::t('app', 'School Configurarion');
+$title = Yii::t('wizardModule.labels', 'School Configuration');
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'school-configuration-form',
@@ -18,18 +20,17 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($themeUrl . '/css/template2.css');
 ?>
-<div class ="main">
-<div class="row-fluid">
-    <div class="span12">
-        <h1><?php echo $title; ?>
-            <span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span>
-        </h1>
+<div class="main">
+    <div class="row-fluid">
+        <div class="span12" style="margin-left: 20px;">
+            <h1><?php echo $title; ?>
+                <span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span>
+            </h1>
 
-        <div class="tag-buttons-container buttons">
-            <?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('class' => 't-button-primary  last', 'type' => 'submit')); ?></div>
+            <div class="tag-buttons-container buttons">
+                <?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('class' => 't-button-primary  last', 'type' => 'submit')); ?></div>
+        </div>
     </div>
-</div>
-<div class="innerLR">
     <div class="widget widget-tabs border-bottom-none">
         <?php echo $form->errorSummary($model); ?>
 
@@ -37,14 +38,14 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
             <ul class="t-tabs__list ">
                 <li id="tab-time" class="active t-tabs__item">
                     <a href="#time" data-toggle="tab" class="t-tabs__link">
-                        <span  class="t-tabs__numeration">1</span>
-                       <?php echo Yii::t('wizardModule.labels', 'Schedule') ?>
+                        <span class="t-tabs__numeration">1</span>
+                        <?php echo Yii::t('wizardModule.labels', 'Schedule') ?>
                     </a>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
                 <li id="tab-exams" class="t-tabs__item">
                     <a href="#exams" data-toggle="tab" class="t-tabs__link">
-                    <span  class="t-tabs__numeration">2</span>
+                        <span class="t-tabs__numeration">2</span>
                         <?php echo Yii::t('wizardModule.labels', 'Exam dates') ?>
                     </a>
                 </li>
@@ -202,6 +203,5 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
             <?php $this->endWidget(); ?>
         </div>
     </div>
-</div>
 </div>
 <!-- form -->
