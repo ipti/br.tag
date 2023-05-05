@@ -31,7 +31,7 @@ class SagresConsultModel
         $this->dbCommand = Yii::app()->db->createCommand();
     }
 
-    public function getSagresEdu($referenceYear, $dateStart, $dateEnd): EducacaoTType
+    public function getSagresEdu($referenceYear, $dateStart, $dateEnd, $finalClass): EducacaoTType
     {
         $education = new EducacaoTType;
         $managementUnitId = $this->getManagementId();
@@ -39,7 +39,7 @@ class SagresConsultModel
         try {
             $education
                 ->setPrestacaoContas($this->getManagementUnit($managementUnitId, $referenceYear, $dateStart, $dateEnd))
-                ->setEscola($this->getSchools($referenceYear, $dateStart, $dateEnd))
+                ->setEscola($this->getSchools($referenceYear, $dateStart, $dateEnd, $finalClass))
                 ->setProfissional($this->getProfessionals($referenceYear, $dateStart, $dateEnd));
         } catch (Exception $e) {
             throw new ErrorException($e->getMessage());
@@ -112,7 +112,7 @@ class SagresConsultModel
      * Summary of EscolaTType
      * @return EscolaTType[] 
      */
-    public function getSchools($referenceYear, $dateStart, $dateEnd)
+    public function getSchools($referenceYear, $dateStart, $dateEnd, $finalClass)
     {
         $schoolList = [];
 
@@ -123,7 +123,7 @@ class SagresConsultModel
             $schoolType = new EscolaTType;
             $schoolType
                 ->setIdEscola($school['inep_id'])
-                ->setTurma($this->getClasses($school['inep_id'], $referenceYear, $dateStart, $dateEnd))
+                ->setTurma($this->getClasses($school['inep_id'], $referenceYear, $dateStart, $dateEnd, $finalClass))
                 ->setDiretor($this->getDirectorSchool($school['inep_id']))
                 ->setCardapio($this->getMenuList($school['inep_id'], $referenceYear, $dateStart, $dateEnd));
 
@@ -155,7 +155,7 @@ class SagresConsultModel
      * Summary of TurmaTType
      * @return TurmaTType[]
      */
-    public function getClasses($inepId, $referenceYear, $dateStart, $dateEnd)
+    public function getClasses($inepId, $referenceYear, $dateStart, $dateEnd, $finalClass)
     {
         $classList = [];
         $referenceMonth = (int) date("m", strtotime($dateStart));
@@ -204,7 +204,7 @@ class SagresConsultModel
                     ? $this->getRecentSchedules($classId)
                     : $this->getSchedules($classId, $referenceMonth)
                 )
-                ->setFinalTurma(false);
+                ->setFinalTurma($finalClass);
             
             if(!empty($classType->getHorario()) && !empty($classType->getMatricula())){
                 $classList[] = $classType;
