@@ -3,9 +3,10 @@
 /* @var $model ProvisionAcounts */
 /* @var $form CActiveForm */
 
-$baseUrl = Yii::app()->baseUrl;
+$modulePath = Yii::app()->getModule('sagres')->getBasePath();
+$baseUrl = Yii::app()->getAssetManager()->publish($modulePath . '/resources/form/validations.js');
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/sagres/form/validations.js?v=1.0', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl, CClientScript::POS_END);
 
 ?>
 
