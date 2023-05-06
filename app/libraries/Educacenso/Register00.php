@@ -2,6 +2,14 @@
 
 class Register00
 {
+    private static function sanitizeString($string)
+    {
+        $wh = ['ä', 'ã', 'à', 'á', 'â', 'ê', 'ë', 'è', 'é', 'ï', 'ì', 'í', 'ö', 'õ', 'ò', 'ó', 'ô', 'ü', 'ù', 'ú', 'û', 'À', 'Á', 'Ã', 'Â', 'É', 'Ê', 'Í', 'Ó', 'Õ', 'Ô', 'Ú', 'Û', 'ñ', 'Ñ', 'ç', 'Ç', ' ', '-', '(', ')', ',', ';', ':', '|', '!', '"', '#', '$', '%', '&', '/', '=', '?', '~', '^', '>', '<', 'ª', 'º', '°', '.'];
+        $by = ['a', 'a', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'A', 'A', 'A', 'A', 'E', 'E', 'I', 'O', 'O', 'O', 'U', 'U', 'n', 'n', 'c', 'C', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'];
+
+        return str_replace($wh, $by, $string);
+    }
+
     public static function export($year)
     {
         $registers = [];
@@ -9,6 +17,8 @@ class Register00
         $register = [];
 
         $attributes = SchoolIdentification::model()->findByPk(Yii::app()->user->school)->attributes;
+
+        $attributes['name'] = trim(strtoupper(self::sanitizeString($attributes['name'])));
 
         if ($attributes["address_complement"] !== "" && $attributes["address_complement"] !== null) {
             $attributes["address_complement"] = strtoupper($attributes["address_complement"]);

@@ -125,7 +125,7 @@ class Register
             }
         } else {
             $value = $this->ifNull($value);
-            return array("status" => false, "erro" => "valor $value não é numérico");
+            return array("status" => false, "erro" => "valor $value deve ser constituído apenas de números. Remova quaisquer letras, símbolos ou espaços em branco.");
         }
 
         return array("status" => true, "erro" => "");
@@ -232,7 +232,7 @@ class Register
         $age = $this->getAge($birthyear, $currentyear);
         $result = $this->isGreaterThan($age, $target_age);
         if (!$result['status']) {
-            return array("status" => false, "erro" => "idade $age é menor que o permitido ($target_age)");
+            return array("status" => false, "erro" => "idade $age é menor que a permitida ($target_age)");
         }
 
         return array("status" => true, "erro" => "");
@@ -333,6 +333,9 @@ class Register
 
     function checkNameRules($value)
     {
+        if (!preg_match('/^[A-zÀ-ú \']+$/', $value)) {
+            return array("status" => false, "erro" => "'$value' inválido. Nome deve conter apenas letras.");
+        }
 
         if (str_word_count($value) < 2) {
             return array("status" => false, "erro" => "'$value' não contém mais que 2 palavras.");
@@ -380,9 +383,8 @@ class Register
     function checkNation($nationality, $nation, $allowedvalues)
     {
 
-        $result = $this->isAllowed($nationality, $allowedvalues);
-        if (!$result['status']) {
-            return array("status" => false, "erro" => $result['erro']);
+        if (!in_array($nationality, $allowedvalues)) {
+            return array("status" => false, "erro" => "Campo obrigatório. Selecione uma das opções.");
         }
 
         if ($nationality == 1 || $nationality == 2) {
@@ -469,11 +471,11 @@ class Register
             $result = $this->moreThanTwo($deficiencies);
             if ($result['status']) {
                 if ($multipleDeficiencies != "1") {
-                    return array("status" => false, "erro" => "Opção 'Deficiência múltipla' não foi selecionada, mas as deficiências combinadas acarretam em deficiência múltipla. Selecione esta opção ou mantenha apenas uma deficiência.");
+                    return array("status" => false, "erro" => "Opção 'Deficiência múltipla' não foi selecionada, mas o Educacenso enquadra as deficiências selecionadas como deficiência múltipla. Selecione esta opção.");
                 }
             } else {
                 if ($multipleDeficiencies != "0") {
-                    return array("status" => false, "erro" => "Opção 'Deficiência múltipla' foi selecionada, mas as deficiências informadas não acarretam em deficiência múltipla. Desmarque esta opção ou marque mais de 02 deficiências (além da múltipla).");
+                    return array("status" => false, "erro" => "Opção 'Deficiência múltipla' foi selecionada, mas as opções selecionadas, segundo o Educacenso, não refletem em deficiência múltipla. Desmarque esta opção.");
                 }
             }
         }
