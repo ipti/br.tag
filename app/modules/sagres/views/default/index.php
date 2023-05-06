@@ -102,7 +102,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 	let selectedValue;
 	const selectElement = document.getElementById("mes");
 	var checkbox = document.getElementById("finalTurma");
-	var checkboxValue = 0;
+	var checkboxValue = false;
 
 	checkbox.addEventListener('change', function () {
 		checkboxValue = checkbox.checked ? true : false;
