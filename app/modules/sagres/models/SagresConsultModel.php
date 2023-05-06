@@ -472,7 +472,6 @@ class SagresConsultModel
         if (isset($startTime)) {
             return $this->getDateTimeFromInitialHour($startTime);
         } else {
-            var_dump($startTime);
             throw new ErrorException("Turno ou horário inválido.");
         }
     }
