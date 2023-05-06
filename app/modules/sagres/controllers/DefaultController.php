@@ -45,11 +45,11 @@ class DefaultController extends Controller
 	}
 
 
-	public function actionExport($year, $startDate, $endDate)
+	public function actionExport($year, $startDate, $endDate, $finalClass)
 	{
 		try {
 			$sagres = new SagresConsultModel;
-			$sagresEduXML = $sagres->generatesSagresEduXML($sagres->getSagresEdu($year, $startDate, $endDate));
+			$sagresEduXML = $sagres->generatesSagresEduXML($sagres->getSagresEdu($year, $startDate, $endDate, $finalClass));
 			echo $sagres->actionExportSagresXML($sagresEduXML);
 		} catch (Exception $e) {
 			Yii::app()->user->setFlash('error', Yii::t('default', $e->getMessage()));
