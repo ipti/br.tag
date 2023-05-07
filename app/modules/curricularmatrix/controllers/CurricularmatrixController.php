@@ -150,16 +150,24 @@ class CurricularmatrixController extends Controller
         if ((int)$schedules["qtd"] === 0 && (int)$teachingDatas["qtd"] === 0) {
             try {
                 if ($curricularMatrix->delete()) {
-                    echo json_encode(["valid" => true, "message" => "Matriz excluída com sucesso!"]);
+                   //  echo json_encode(["valid" => true, "message" => "Matriz excluída com sucesso!"]);
+                    Yii::app()->user->setFlash('success', Yii::t('default', 'Matriz excluída com sucesso!'));
+                    $this->redirect('?r=curricularmatrix');
                 }
             } catch (Exception $e) {
-                echo json_encode(["valid" => false, "message" => "Um erro aconteceu. Não foi possível remover a matriz curricular."]);
+                //echo json_encode(["valid" => false, "message" => "Um erro aconteceu. Não foi possível remover a matriz curricular."]);
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Um erro aconteceu. Não foi possível remover a matriz curricular.'));
+                $this->redirect('?r=curricularmatrix');
             }
         } else {
             if ((int)$schedules["qtd"] !== 0) {
-                echo json_encode(["valid" => false, "message" => "Não se pode remover uma matriz que está sendo utilizada no quadro de horário de alguma turma."]);
+            //    echo json_encode(["valid" => false, "message" => "Não se pode remover uma matriz que está sendo utilizada no quadro de horário de alguma turma."], JSON_UNESCAPED_UNICODE);
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Não se pode remover uma matriz que está sendo utilizada no quadro de horário de alguma turma.'));
+                $this->redirect('?r=curricularmatrix');
             } else {
-                echo json_encode(["valid" => false, "message" => "Não se pode remover uma matriz que está esteja vinculada a algum professor de alguma turma."]);
+               // echo json_encode(["valid" => false, "message" => "Não se pode remover uma matriz que está esteja vinculada a algum professor de alguma turma."]);
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Não se pode remover uma matriz que está esteja vinculada a algum professor de alguma turma.'));
+                $this->redirect('?r=curricularmatrix');
             }
         }
     }
