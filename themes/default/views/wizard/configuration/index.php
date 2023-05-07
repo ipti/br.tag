@@ -2,6 +2,9 @@
 /* @var $this ClassroomConfigurationControler */
 /* @var $form ActiveForm */
 /* @var $title String */
+
+$this->setPageTitle('TAG - ' .  Yii::t('default', 'Configurarion'));
+
 $baseUrl = Yii::app()->baseUrl;
 $baseUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
@@ -19,12 +22,12 @@ $this->breadcrumbs = array(
 ?>
 <div id="mainPage" class="main">
     <div class="row-fluid">
-        <div class="span12">
-            <h1>
-                <?php echo Yii::t('default', 'Configurarion'); ?>
-            </h1>
+        <div class="span12" style="margin-left: 20px;">
+                <h1>
+                    <?php echo Yii::t('default', 'Configurarion'); ?>
+                </h1>
+            </div>
         </div>
-    </div>
     <div class="innerLR">
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">
@@ -69,3 +72,9 @@ $this->breadcrumbs = array(
         </div>
     </div>
 </div>
+
+<style>
+    .t-cards {
+        width: 30% !important;
+    }
+</style>

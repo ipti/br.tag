@@ -6,6 +6,7 @@ return [
     "Item" => "Item",
     "Amount" => "Quantidade",
     "Name" => "Nome",
+    "Turn" => "Turno",
     "Description" => "Descrição",
     "Unity" => "Unidade",
     "Measure" => "Medida",

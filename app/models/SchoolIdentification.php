@@ -196,6 +196,7 @@ class SchoolIdentification extends AltActiveRecord {
             'private_school_organization_civil_society' => Yii::t('default', 'Organization Civil Society'),
             'manager_access_criterion' => Yii::t('default', 'Manager Access Criterion'),
             'manager_contract_type' => Yii::t('default', 'Manager Contract Type'),
+            'number_ato' => Yii::t('default', 'Number Ato'),
         );
     }
 

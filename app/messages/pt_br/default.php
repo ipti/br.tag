@@ -97,6 +97,7 @@ return array(
     'Organization Civil Society' => 'Organização da Sociedade Civil (OSCIP)',
     'Manager Contract Type' => 'Tipo de Contrato',
     'Manager Access Criterion' => 'Especificação do Critério de Acesso',
+    'Number Ato' => 'Número do ato',
 
     //School Structure
     'School Inep Id Fk' => 'Escola',
@@ -861,6 +862,7 @@ return array(
     'Classroom Configuration' => 'Reaproveitamento das Turmas',
     'Copy'=>'Copiar',
     'Select Classrom'=>'Selecione uma Turma',
+    'Select Classrooms'=>'Selecione uma ou mais Turmas',
     'Student Configuration' => 'Reaproveitamento de Alunos',
 
     //ClassContents

@@ -35,6 +35,13 @@ if ($turno == 'M') {
                     <span>Turma: <?php echo $classroom->name ?></span>
                 </div>
             </p>
+            <div class="container-box header-student-info" style="margin-top: 60px">
+                <span class="pull-left">Aluno (a): <?php echo $student_identification->name ?></span>
+                <div class="pull-right" style="margin-right: 10px;">
+                    <span>Turma: <?php echo $classroom->name ?></span>
+                    <span style="margin-left:20px">Ano letivo: <?php echo $current_year ?></span>
+                </div>
+            </div>
         </div>
         <div class="container-box annual-summary">
             <table aria-labelledby="Resumo anual">

@@ -163,6 +163,7 @@ class ReportsController extends Controller
         $hour = $_POST['hour'];
         $quarterly = $_POST['quarterly'];
         $school_inep_id = Yii::app()->user->school;
+        $model = $_POST['quarterly-model'];
         $year = $_POST['year'];
         $condition = '';
         if (isset($_POST['classroom2']) && $_POST['classroom2'] != '') {
@@ -186,21 +187,39 @@ class ReportsController extends Controller
                     c.school_year = :year AND
                     c.school_inep_fk = :school_inep_id
                     $condition
-                ORDER BY c.id";
+                ORDER BY c.id, s.name";
 
             $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":school_inep_id", $school_inep_id)->queryAll();
 
-            $this->render('buzios/quarterly/QuarterlyClassCouncil', array(
-                "classroom" => $classrooms,
-                "count_days" => $count_days,
-                "mounth" => $mounth,
-                "hour" => $hour,
-                "quarterly" => $quarterly,
-                "year" => $year
-            ));
+            if ($model == 1) {
+                $this->render('buzios/quarterly/QuarterlyClassCouncil', array(
+                    "classroom" => $classrooms,
+                    "count_days" => $count_days,
+                    "mounth" => $mounth,
+                    "hour" => $hour,
+                    "quarterly" => $quarterly,
+                    "year" => $year
+                ));
+            }else if ($model == 2) {
+                $this->render('buzios/quarterly/QuarterlyClassCouncilSixNineYear', array(
+                    "classroom" => $classrooms,
+                    "count_days" => $count_days,
+                    "mounth" => $mounth,
+                    "hour" => $hour,
+                    "quarterly" => $quarterly,
+                    "year" => $year
+                ));
+            }else if ($model == 3) {
+                $this->render('buzios/quarterly/QuarterlyClassCouncilHighSchool', array(
+                    "classroom" => $classrooms,
+                    "count_days" => $count_days,
+                    "mounth" => $mounth,
+                    "hour" => $hour,
+                    "quarterly" => $quarterly,
+                    "year" => $year
+                ));
+            }
         }
-        Yii::app()->user->setFlash('error', Yii::t('default', 'Selecione ao menos uma opção'));
-        return $this->redirect(array('index'));
     }
 
     public function actionStudentsUsingSchoolTransportationRelationReport()
