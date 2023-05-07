@@ -113,7 +113,7 @@ class Register60
                     && $classroom->complementary_activity_type_4 == null && $classroom->complementary_activity_type_5 == null && $classroom->complementary_activity_type_6 == null) {
                     $complementaryActivity = '0';
                 }
-                if ($pedagogicalMediationType != '1' && $pedagogicalMediationType != '2') {
+                if ($pedagogicalMediationType != '1') {
                     $diffLocation = '';
                 } else if ($diffLocation == null) {
                     $diffLocation = '0';
@@ -130,7 +130,7 @@ class Register60
                     $enrollment['another_scholarization_place'] = '';
                 }
 
-                if (($pedagogicalMediationType != '1' && $pedagogicalMediationType != '2') || $schooling != '1') {
+                if ($pedagogicalMediationType != '1' || $schooling != '1') {
                     $enrollment['public_transport'] = '';
                     $enrollment['transport_responsable_government'] = '';
                     $enrollment['vehicle_type_bike'] = '';

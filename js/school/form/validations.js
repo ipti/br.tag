@@ -254,10 +254,6 @@ $(".save-school-button").click(function () {
         error = true;
         message += "Campo <b>Dependencia de Administrativa</b> é obrigatório.<br>";
     }
-    if ($("#SchoolIdentification_act_of_acknowledgement").val() === "") {
-        error = true;
-        message += "Campo <b>Ato de reconhecimento</b> é obrigatório.<br>";
-    }
     if ($("#SchoolIdentification_regulation").val() === "") {
         error = true;
         message += "Campo <b>Regulamentação</b> é obrigatório.<br>";
@@ -290,7 +286,7 @@ $(".save-school-button").click(function () {
         error = true;
         message += "Campo <b>Local de Funcionamento</b> é obrigatório. Selecione ao menos uma opção.<br>";
     }
-    if (!$("#SchoolIdentification_regulation_organ input[type=checkbox]:checked").length) {
+    if (($("#SchoolIdentification_regulation").val() == "1" || $("#SchoolIdentification_regulation").val() == "2") && !$("#SchoolIdentification_regulation_organ input[type=checkbox]:checked").length) {
         error = true;
         message += "Campo <b>Esfera do Órgão Regulador</b> é obrigatório. Selecione ao menos uma opção.<br>";
     }

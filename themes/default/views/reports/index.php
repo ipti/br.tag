@@ -174,8 +174,9 @@ $this->breadcrumbs = array(
                         </div>
                     </button>
                 </a>
+                
+                <a href="<?php echo Yii::app()->createUrl('reports/electronicdiary') ?>"  target="_blank"  rel="noopener">
 
-                <a href="<<?php echo Yii::app()->createUrl('reports/electronicdiary') ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/electronicdiary.svg" />

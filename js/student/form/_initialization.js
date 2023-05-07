@@ -34,10 +34,15 @@ $(document).ready(function () {
 
     if ($(formIdentification + "deficiency_type_blindness").is(":checked")) {
         $(formIdentification + "deficiency_type_low_vision").attr("disabled", "disabled");
+        $(formIdentification + "deficiency_type_monocular_vision").attr("disabled", "disabled");
         $(formIdentification + "deficiency_type_deafness").attr("disabled", "disabled");
         $(formIdentification + "deficiency_type_deafblindness").attr("disabled", "disabled");
     }
     if ($(formIdentification + "deficiency_type_low_vision").is(":checked")) {
+        $(formIdentification + "deficiency_type_blindness").attr("disabled", "disabled");
+        $(formIdentification + "deficiency_type_deafblindness").attr("disabled", "disabled");
+    }
+    if ($(formIdentification + "deficiency_type_monocular_vision").is(":checked")) {
         $(formIdentification + "deficiency_type_blindness").attr("disabled", "disabled");
         $(formIdentification + "deficiency_type_deafblindness").attr("disabled", "disabled");
     }
@@ -53,6 +58,7 @@ $(document).ready(function () {
     if ($(formIdentification + "deficiency_type_deafblindness").is(":checked")) {
         $(formIdentification + "deficiency_type_blindness").attr("disabled", "disabled");
         $(formIdentification + "deficiency_type_low_vision").attr("disabled", "disabled");
+        $(formIdentification + "deficiency_type_monocular_vision").attr("disabled", "disabled");
         $(formIdentification + "deficiency_type_deafness").attr("disabled", "disabled");
         $(formIdentification + "deficiency_type_disability_hearing").attr("disabled", "disabled");
     }
