@@ -110,9 +110,19 @@ class SchoolStructureValidation extends Register
     {
 
         if ($collun3 == 1) {
-            $result = $this->isGreaterThan($value, "0");
-            if (!$result["status"]) {
-                return array("status" => false, "erro" => $result["erro"]);
+            if ($value === 0) {
+                return array("status" => false, "erro" => "Campo deve ser preenchido com um número maior que 0.");
+            }
+        }
+        return array("status" => true, "erro" => "");
+    }
+
+    function usedSchoolsCount($collun3, $value)
+    {
+
+        if ($collun3 == 1) {
+            if ($value > "0") {
+                return array("status" => false, "erro" => "Campo deve ser preenchido");
             }
         }
         return array("status" => true, "erro" => "");

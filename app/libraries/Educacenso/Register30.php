@@ -148,6 +148,7 @@ class Register30
         if ($student['deficiency'] == 0) {
             $student['deficiency_type_blindness'] = '';
             $student['deficiency_type_low_vision'] = '';
+            $student['deficiency_type_monocular_vision'] = '';
             $student['deficiency_type_deafness'] = '';
             $student['deficiency_type_disability_hearing'] = '';
             $student['deficiency_type_deafblindness'] = '';
@@ -254,7 +255,7 @@ class Register30
             $alias = EdcensoAlias::model()->findByAttributes(['register' => '301', 'attr' => $key, 'year' => $year]);
             if (isset($alias->corder)) {
                 if ($key == 'edcenso_city_fk') {
-                    $register[42] = $attr;
+                    $register[43] = $attr;
                 } else {
                     $register[$alias->corder] = $attr;
                 }
@@ -287,6 +288,7 @@ class Register30
         if ($instructor['deficiency'] == 0) {
             $instructor['deficiency_type_blindness'] = '';
             $instructor['deficiency_type_low_vision'] = '';
+            $instructor['deficiency_type_monocular_vision'] = '';
             $instructor['deficiency_type_deafness'] = '';
             $instructor['deficiency_type_disability_hearing'] = '';
             $instructor['deficiency_type_deafblindness'] = '';
@@ -332,9 +334,9 @@ class Register30
         }
 
         if (empty($instructor['area_of_residence'])) {
-            $register[43] = '1';
+            $register[44] = '1';
             if ($instructor['documents']['diff_location'] == '1') {
-                $register[44] = '';
+                $register[45] = '';
             }
         } else if ($instructor["area_of_residence"] == "1" && $instructor["diff_location"] == "1") {
             $instructor["diff_location"] = "";
@@ -344,7 +346,7 @@ class Register30
             $alias = EdcensoAlias::model()->findByAttributes(['register' => '302', 'attr' => $key, 'year' => $year]);
             if (isset($alias->corder)) {
                 if ($key == 'edcenso_city_fk') {
-                    $register[42] = $attr;
+                    $register[43] = $attr;
                 } else {
                     $register[$alias->corder] = $attr;
                 }
@@ -458,7 +460,7 @@ class Register30
                 $register[$alias->corder] = $attr;
             }
             if ($key == 'scholarity' && $attr == '7') {
-                $register[46] = '1';
+                $register[47] = '1';
             }
         }
 

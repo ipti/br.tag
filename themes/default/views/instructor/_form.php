@@ -296,6 +296,10 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                         <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_low_vision', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
+                                        <?php echo InstructorIdentification::model()->attributeLabels()['deficiency_type_monocular_vision']; ?>
+                                        <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_monocular_vision', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
                                         <?php echo InstructorIdentification::model()->attributeLabels()['deficiency_type_deafness']; ?>
                                         <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_deafness', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
@@ -447,7 +451,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'diff_location', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 7 => 'Não reside em área de localização diferenciada', 3 => 'Área onde se localiza comunidade remanescente de quilombos', 2 => 'Terra indígena', 1 => 'Área de assentamento'), array("class" => "select-search-on control-input")); ?>
+                                    <?php echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 7 => 'Não reside em área de localização diferenciada', 3 => 'Área onde se localiza comunidade remanescente de quilombos', 2 => 'Terra indígena', 1 => 'Área de assentamento', 8 => 'Área onde se localiza povos e comunidades tradicionais'), array("class" => "select-search-on control-input")); ?>
                                     <div class="controls">
                                         <?php echo $form->error($modelInstructorDocumentsAndAddress, 'diff_location'); ?>
                                     </div>
@@ -558,6 +562,14 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <label class="checkbox">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_human_rights_education'];
                                         echo $form->checkBox($modelInstructorVariableData, 'other_courses_human_rights_education', array('class' => 'other_courses', 'value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_bilingual_education_for_the_deaf'];
+                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_bilingual_education_for_the_deaf', array('class' => 'other_courses', 'value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_education_and_tic'];
+                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_education_and_tic', array('class' => 'other_courses', 'value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_sexual_education'];

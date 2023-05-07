@@ -1,5 +1,7 @@
 const action = window.location.search;
-$(document).ready(function () {
+$(document).ready(initDatatable);
+
+function initDatatable() {
 
     //
     // Pipelining function for DataTables. To be used to the `ajax` option of DataTables
@@ -230,4 +232,4 @@ $(document).ready(function () {
             $('#student-identification-table_wrapper').prepend('<img class="loading-datatable-search" style="display:none;margin-left: 75%;margin-top: 1.2%;" height="30px" width="30px" src="../../../themes/default/img/loadingTag.gif" alt="TAG Loading">');
         });
     }
-});
+}

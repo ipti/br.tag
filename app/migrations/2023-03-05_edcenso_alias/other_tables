@@ -1,0 +1,14 @@
+ALTER TABLE `school_structure`
+ADD `dependencies_recording_and_editing_studio` tinyint(1) NULL AFTER `dependencies_vocational_education_workshop`;
+
+update classroom set pedagogical_mediation_type = 1 where pedagogical_mediation_type = 2;
+
+ALTER TABLE `instructor_identification`
+ADD `deficiency_type_monocular_vision` tinyint(1) NULL AFTER `deficiency_type_low_vision`;
+
+ALTER TABLE `student_identification`
+ADD `deficiency_type_monocular_vision` tinyint(1) NULL AFTER `deficiency_type_low_vision`;
+
+ALTER TABLE `instructor_variable_data`
+ADD `other_courses_bilingual_education_for_the_deaf` tinyint(1) NOT NULL AFTER `other_courses_human_rights_education`,
+ADD `other_courses_education_and_tic` tinyint(1) NOT NULL AFTER `other_courses_bilingual_education_for_the_deaf`;

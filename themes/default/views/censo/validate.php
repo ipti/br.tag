@@ -1,6 +1,6 @@
 <div id="mainPage" class="main" style="margin-top:40px; padding: 10px">
     <?php
-    
+
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Censo'));
     $title = Yii::t('default', 'Create a new User');
     $contextDesc = Yii::t('default', 'Available actions that may be taken on User.');
@@ -11,7 +11,7 @@
     );
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
-    $cs->registerCssFile($themeUrl . '/css/template2.css');  
+    $cs->registerCssFile($themeUrl . '/css/template2.css');
     ?>
     <style type="text/css">
         .widget-timeline .widget-body:before {
@@ -28,7 +28,8 @@
         }
 
         .ellipsis {
-            max-width: calc(100% - 40px) !important;
+            max-width: calc(100% - 130px) !important;
+            margin-right: 5px;
         }
     </style>
     <div class="clearfix"></div>
@@ -77,12 +78,12 @@
                                       class="glyphicons activity-icon">
                                     <i></i>
                                 </span>
-                                            <span class="ellipsis">
+                                            <span class="ellipsis" title="<?php echo @current($identification) ?>">
                                     <?php echo str_replace("*", "", @SchoolIdentification::model()->getAttributeLabel(key($identification))) ?>
                                                     -
                                                     <?php echo @current($identification) ?>
-                                                <?php echo CHtml::link('- Corrigir', array('school/update', 'id' => $log['school']['info']['inep_id'], 'censo' => 1)); ?>
                                 </span>
+                                            <?php echo CHtml::link('- Corrigir', array('school/update', 'id' => $log['school']['info']['inep_id'], 'censo' => 1)); ?>
                                             <?php @$dataValidation['school' . $log['school']['info']['inep_id']][] = current($identification); ?>
                                             <div class="clearfix"></div>
                                         </li>
@@ -95,12 +96,12 @@
                                       class="glyphicons activity-icon">
                                     <i></i>
                                 </span>
-                                            <span class="ellipsis">
+                                            <span class="ellipsis" title="<?php echo @current($structure) ?>">
                                     <?php echo str_replace("*", "", @SchoolStructure::model()->getAttributeLabel(key($structure))) ?>
                                                     -
                                                     <?php echo @current($structure) ?>
-                                                <?php echo CHtml::link('- Corrigir', array('school/update', 'id' => $log['school']['info']['inep_id'], 'censo' => 1)); ?>
                                 </span>
+                                            <?php echo CHtml::link('- Corrigir', array('school/update', 'id' => $log['school']['info']['inep_id'], 'censo' => 1)); ?>
                                             <?php @$dataValidation['school' . $log['school']['info']['inep_id']][] = current($structure); ?>
                                             <div class="clearfix"></div>
                                         </li>
@@ -119,13 +120,13 @@
                                               class="glyphicons activity-icon">
                                             <i></i>
                                         </span>
-                                            <span class="ellipsis">
+                                            <span class="ellipsis" title="<?php echo current($classerror) ?>">
                                                 <?php echo str_replace("*", "", Classroom::model()->getAttributeLabel(key($classerror))) ?>
                                                     -
                                                     <?php echo current($classerror) ?>
-                                                <?php echo CHtml::link('- Corrigir', array('classroom/update',
-                                                    'id' => $class['info']['id'], 'censo' => 1)); ?>
                                             </span>
+                                            <?php echo CHtml::link('- Corrigir', array('classroom/update',
+                                                'id' => $class['info']['id'], 'censo' => 1)); ?>
                                             <?php $dataValidation['classroom' . $class['info']['id']][] = current($classerror); ?>
                                             <div class="clearfix"></div>
                                         </li>
@@ -144,12 +145,12 @@
                                           class="glyphicons activity-icon">
                                         <i></i>
                                     </span>
-                                        <span class="ellipsis">
+                                        <span class="ellipsis" title="<?php echo current($instructorerror) ?>">
                                             <?php echo str_replace("*", "", InstructorIdentification::model()->getAttributeLabel(key($instructorerror))) ?>
                                                 - <?php echo current($instructorerror) ?>
-                                            <?php echo CHtml::link('- Corrigir', array('instructor/update',
-                                                'id' => $instructor['info']['id'], 'censo' => 1)); ?>
                                         </span>
+                                        <?php echo CHtml::link('- Corrigir', array('instructor/update',
+                                            'id' => $instructor['info']['id'], 'censo' => 1)); ?>
                                         <?php $dataValidation['instructor' . $instructor['info']['id']][] = current($instructorerror); ?>
                                         <div class="clearfix"></div>
                                     </li>
@@ -160,12 +161,12 @@
                                           class="glyphicons activity-icon">
                                         <i></i>
                                     </span>
-                                        <span class="ellipsis">
+                                        <span class="ellipsis" title="<?php echo current($instructorerror) ?>">
                                             <?php echo str_replace("*", "", InstructorDocumentsAndAddress::model()->getAttributeLabel(key($instructorerror))) ?>
                                                 - <?php echo current($instructorerror) ?>
-                                            <?php echo CHtml::link('- Corrigir', array('instructor/update',
-                                                'id' => $instructor['info']['id'], 'censo' => 1)); ?>
                                         </span>
+                                        <?php echo CHtml::link('- Corrigir', array('instructor/update',
+                                            'id' => $instructor['info']['id'], 'censo' => 1)); ?>
                                         <?php $dataValidation['instructor' . $instructor['info']['id']][] = current($instructorerror); ?>
                                         <div class="clearfix"></div>
                                     </li>
@@ -177,12 +178,12 @@
                                           class="glyphicons activity-icon">
                                         <i></i>
                                     </span>
-                                            <span class="ellipsis">Na turma <?php echo $variabledata['turma'] ?> |
+                                            <span class="ellipsis" title="<?php echo current($vberros) ?>">Na turma <?php echo $variabledata['turma'] ?> |
                                                     <?php echo str_replace("*", "", InstructorVariableData::model()->getAttributeLabel(key($vberros))) ?>
                                                     - <?php echo current($vberros) ?>
-                                                <?php echo CHtml::link('- Corrigir', array('classroom/update',
-                                                    'id' => $variabledata['id'], 'censo' => 1)); ?>
                                         </span>
+                                            <?php echo CHtml::link('- Corrigir', array('classroom/update',
+                                                'id' => $variabledata['id'], 'censo' => 1)); ?>
                                             <?php $dataValidation['classroom' . $variabledata['id']][] = current($vberros); ?>
                                             <div class="clearfix"></div>
                                         </li>
@@ -199,13 +200,13 @@
                                           class="glyphicons activity-icon">
                                         <i></i>
                                     </span>
-                                        <span class="ellipsis">
+                                        <span class="ellipsis" title="<?php echo current($studenterror) ?>">
                                             <?php echo str_replace("*", "", StudentIdentification::model()->getAttributeLabel(key($studenterror))) ?>
                                                 -
                                                 <?php echo current($studenterror) ?>
-                                            <?php echo CHtml::link('- Corrigir', array('student/update',
-                                                'id' => $student['info']['id'], 'censo' => 1)); ?>
                                         </span>
+                                        <?php echo CHtml::link('- Corrigir', array('student/update',
+                                            'id' => $student['info']['id'], 'censo' => 1)); ?>
                                         <?php $dataValidation['student' . $student['info']['id']][] = current($studenterror); ?>
                                         <div class="clearfix"></div>
                                     </li>
@@ -216,12 +217,12 @@
                                           class="glyphicons activity-icon">
                                         <i></i>
                                     </span>
-                                        <span class="ellipsis">
+                                        <span class="ellipsis" title="<?php echo current($studenterror) ?>">
                                             <?php echo str_replace("*", "", StudentDocumentsAndAddress::model()->getAttributeLabel(key($studenterror))) ?>
                                                 - <?php echo current($studenterror) ?>
-                                            <?php echo CHtml::link('- Corrigir', array('student/update',
-                                                'id' => $student['info']['id'], 'censo' => 1)); ?>
                                         </span>
+                                        <?php echo CHtml::link('- Corrigir', array('student/update',
+                                            'id' => $student['info']['id'], 'censo' => 1)); ?>
                                         <?php $dataValidation['student' . $student['info']['id']][] = current($studenterror); ?>
                                         <div class="clearfix"></div>
                                     </li>
@@ -233,12 +234,12 @@
                                           class="glyphicons activity-icon">
                                         <i></i>
                                     </span>
-                                            <span class="ellipsis">Na turma <?php echo $enrollment['turma'] ?> |
+                                            <span class="ellipsis" title="<?php echo current($eberros) ?>">Na turma <?php echo $enrollment['turma'] ?> |
                                                     <?php echo str_replace("*", "", StudentEnrollment::model()->getAttributeLabel(key($eberros))) ?>
                                                     - <?php echo current($eberros) ?>
-                                                <?php echo CHtml::link('- Corrigir', array('enrollment/update',
-                                                    'id' => $enrollment['id'], 'censo' => 1)); ?>
                                             </span>
+                                            <?php echo CHtml::link('- Corrigir', array('enrollment/update',
+                                                'id' => $enrollment['id'], 'censo' => 1)); ?>
                                             <?php $dataValidation['enrollment' . $enrollment['id']][] = current($eberros); ?>
                                             <div class="clearfix"></div>
                                         </li>

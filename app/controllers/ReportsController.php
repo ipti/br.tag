@@ -44,7 +44,7 @@ class ReportsController extends Controller
 
     public function actionQuarterlyReport()
     {
-        if(isset($_POST['student']) && isset($_POST['quartely_report_classroom_student']) && isset($_POST['model_quartely'])) {
+        if (isset($_POST['student']) && isset($_POST['quartely_report_classroom_student']) && isset($_POST['model_quartely'])) {
             $student_id = $_POST['student'];
             $classroom_id = $_POST['quartely_report_classroom_student'];
             $model = $_POST['model_quartely'];
@@ -75,7 +75,7 @@ class ReportsController extends Controller
                     "school" => $school,
                     "current_year" => $current_year
                 ));
-            }else if ($model == 2) { // 2º ANO
+            } else if ($model == 2) { // 2º ANO
                 $this->render('buzios/quarterly/QuarterlyReportSecondYear', array(
                     "student_identification" => $student_identification,
                     "student_enrollment" => $student_enrollment,
@@ -83,7 +83,7 @@ class ReportsController extends Controller
                     "school" => $school,
                     "current_year" => $current_year
                 ));
-            }else if ($model == 3) { // 3º ANO
+            } else if ($model == 3) { // 3º ANO
                 $this->render('buzios/quarterly/QuarterlyReportThreeYear', array(
                     "student_identification" => $student_identification,
                     "student_enrollment" => $student_enrollment,
@@ -91,7 +91,7 @@ class ReportsController extends Controller
                     "school" => $school,
                     "current_year" => $current_year
                 ));
-            }else if ($model == 4) { // CRECHE II
+            } else if ($model == 4) { // CRECHE II
                 $this->render('buzios/quarterly/QuarterlyReportNurseryrII', array(
                     "student_identification" => $student_identification,
                     "student_enrollment" => $student_enrollment,
@@ -101,7 +101,7 @@ class ReportsController extends Controller
                     "current_year" => $current_year,
                     "dateFormatCorrect" => $dateFormatCorrect
                 ));
-            }else if ($model == 5) { // CRECHE III
+            } else if ($model == 5) { // CRECHE III
                 $this->render('buzios/quarterly/QuarterlyReportNurseryrIII', array(
                     "student_identification" => $student_identification,
                     "student_enrollment" => $student_enrollment,
@@ -111,7 +111,7 @@ class ReportsController extends Controller
                     "current_year" => $current_year,
                     "dateFormatCorrect" => $dateFormatCorrect
                 ));
-            }else if ($model == 6) { // CRECHE IV
+            } else if ($model == 6) { // CRECHE IV
                 $this->render('buzios/quarterly/QuarterlyReportNurseryrIV', array(
                     "student_identification" => $student_identification,
                     "student_enrollment" => $student_enrollment,
@@ -121,7 +121,7 @@ class ReportsController extends Controller
                     "current_year" => $current_year,
                     "dateFormatCorrect" => $dateFormatCorrect
                 ));
-            }else if ($model == 7) { // PRÉ I
+            } else if ($model == 7) { // PRÉ I
                 $this->render('buzios/quarterly/QuarterlyReportPreI', array(
                     "student_identification" => $student_identification,
                     "student_enrollment" => $student_enrollment,
@@ -131,7 +131,7 @@ class ReportsController extends Controller
                     "current_year" => $current_year,
                     "dateFormatCorrect" => $dateFormatCorrect
                 ));
-            }else if ($model == 8) { // PRÉ II
+            } else if ($model == 8) { // PRÉ II
                 $this->render('buzios/quarterly/QuarterlyReportPreII', array(
                     "student_identification" => $student_identification,
                     "student_enrollment" => $student_enrollment,
@@ -149,7 +149,7 @@ class ReportsController extends Controller
 
     public function actionGetStudentClassrooms($id)
     {
-        $classroom =  Classroom::model()->findByPk($id);
+        $classroom = Classroom::model()->findByPk($id);
         $enrollments = $classroom->studentEnrollments;
         foreach ($enrollments as $enrollment) {
             echo "<option value='" . $enrollment->studentFk->id . "'>" . htmlspecialchars($enrollment->studentFk->name, ENT_QUOTES, 'UTF-8') . "</option>";
@@ -163,6 +163,7 @@ class ReportsController extends Controller
         $hour = $_POST['hour'];
         $quarterly = $_POST['quarterly'];
         $school_inep_id = Yii::app()->user->school;
+        $model = $_POST['quarterly-model'];
         $year = $_POST['year'];
         $condition = '';
         if (isset($_POST['classroom2']) && $_POST['classroom2'] != '') {
@@ -186,21 +187,39 @@ class ReportsController extends Controller
                     c.school_year = :year AND
                     c.school_inep_fk = :school_inep_id
                     $condition
-                ORDER BY c.id";
+                ORDER BY c.id, s.name";
 
             $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":school_inep_id", $school_inep_id)->queryAll();
 
-            $this->render('buzios/quarterly/QuarterlyClassCouncil', array(
-                "classroom" => $classrooms,
-                "count_days" => $count_days,
-                "mounth" => $mounth,
-                "hour" => $hour,
-                "quarterly" => $quarterly,
-                "year" => $year
-            ));
+            if ($model == 1) {
+                $this->render('buzios/quarterly/QuarterlyClassCouncil', array(
+                    "classroom" => $classrooms,
+                    "count_days" => $count_days,
+                    "mounth" => $mounth,
+                    "hour" => $hour,
+                    "quarterly" => $quarterly,
+                    "year" => $year
+                ));
+            }else if ($model == 2) {
+                $this->render('buzios/quarterly/QuarterlyClassCouncilSixNineYear', array(
+                    "classroom" => $classrooms,
+                    "count_days" => $count_days,
+                    "mounth" => $mounth,
+                    "hour" => $hour,
+                    "quarterly" => $quarterly,
+                    "year" => $year
+                ));
+            }else if ($model == 3) {
+                $this->render('buzios/quarterly/QuarterlyClassCouncilHighSchool', array(
+                    "classroom" => $classrooms,
+                    "count_days" => $count_days,
+                    "mounth" => $mounth,
+                    "hour" => $hour,
+                    "quarterly" => $quarterly,
+                    "year" => $year
+                ));
+            }
         }
-        Yii::app()->user->setFlash('error', Yii::t('default', 'Selecione ao menos uma opção'));
-        return $this->redirect(array('index'));
     }
 
     public function actionStudentsUsingSchoolTransportationRelationReport()
@@ -1111,36 +1130,40 @@ class ReportsController extends Controller
                 ")->bindParam(":classroom", $_POST["classroom"])->queryAll();
 
                 foreach ($disciplines as $discipline) {
+                    $arr["disciplineName"] = $discipline["name"];
+
                     $arr["grades"] = [];
-                    $rawUnitiesCount = 0;
                     foreach ($gradeUnitiesByClassroom as $gradeUnity) {
-                        $rawUnitiesCount = $gradeUnity->type == "UR" || $gradeUnity->type == "U" ? $rawUnitiesCount + 1 : $rawUnitiesCount;
                         array_push($arr["grades"], $gradeUnity->type == "UR"
                             ? ["unityId" => $gradeUnity->id, "unityGrade" => "", "unityRecoverGrade" => "", "gradeUnityType" => $gradeUnity->type]
                             : ["unityId" => $gradeUnity->id, "unityGrade" => "", "gradeUnityType" => $gradeUnity->type]);
                     }
-                    $arr["disciplineName"] = $discipline["name"];
-
-                    //Trazer notas das unidades
-                    $criteria->select = "distinct gu.id, gu.*";
-                    $criteria->join = "join grade_unity_modality gum on gum.grade_unity_fk = gu.id";
-                    $criteria->join .= " join grade g on g.grade_unity_modality_fk = gum.id";
-                    $criteria->condition = "g.discipline_fk = :discipline_fk and enrollment_fk = :enrollment_fk";
-                    $criteria->params = array(":discipline_fk" => $discipline["id"], ":enrollment_fk" => $_POST["student"]);
-                    $criteria->order = "gu.id";
-                    
-                    $gradeUnitiesByDiscipline = GradeUnity::model()->findAll($criteria);
-
-                    foreach ($gradeUnitiesByDiscipline as $gradeUnity) {
-                        $key = array_search($gradeUnity->id, array_column($arr["grades"], 'unityId'));
-                        $arr["grades"][$key] = $this->getUnidadeValues($gradeUnity, $_POST['student'], $discipline["id"]);
-                    }
-                    
-                   
 
                     $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $_POST["student"], "discipline_fk" => $discipline["id"]]);
-                    $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
+                    $recSemIndex = 0;
+                    $gradeIndex = 0;
+                    foreach ($arr["grades"] as &$grade) {
+                        switch ($grade["gradeUnityType"]) {
+                            case "U":
+                                $grade["unityGrade"] = $gradeResult["grade_" . ($gradeIndex + 1)] != null ? $gradeResult["grade_" . ($gradeIndex + 1)] : "";
+                                $gradeIndex++;
+                                break;
+                            case "UR":
+                                $grade["unityGrade"] = $gradeResult["grade_" . ($gradeIndex + 1)] != null ? $gradeResult["grade_" . ($gradeIndex + 1)] : "";
+                                $grade["unityRecoverGrade"] = $gradeResult["rec_bim_" . ($gradeIndex + 1)] != null ? $gradeResult["rec_bim_" . ($gradeIndex + 1)] : "";
+                                $gradeIndex++;
+                                break;
+                            case "RS":
+                                $grade["unityGrade"] = $gradeResult["rec_sem_" . ($recSemIndex + 1)] != null ? $gradeResult["rec_sem_" . ($recSemIndex + 1)] : "";
+                                $recSemIndex++;
+                                break;
+                            case "RF":
+                                $grade["unityGrade"] = $gradeResult["rec_final"] != null ? $gradeResult["rec_final"] : "";
+                                break;
+                        }
+                    }
 
+                    $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
                     array_push($result["rows"], $arr);
                 }
                 $result["valid"] = true;
@@ -1149,52 +1172,6 @@ class ReportsController extends Controller
             }
         }
         echo json_encode($result);
-    }
-
-    private function getUnidadeValues($gradeUnity, $enrollment_id, $discipline)
-    {
-        $unityGrade = "";
-        $unityRecoverGrade = "";
-        $turnedEmptyToZero = false;
-        $weightsSum = 0;
-        $commonModalitiesCount = 0;
-        foreach ($gradeUnity->gradeUnityModalities as $gradeUnityModality) {
-            if ($gradeUnityModality->type == "C") {
-                $commonModalitiesCount++;
-                $weightsSum += $gradeUnityModality->weight;
-            }
-
-            $student_grades = array_filter(
-                $gradeUnityModality->grades,
-                function($grade)use($enrollment_id, $discipline){
-                    return $grade->enrollment_fk === $enrollment_id && $grade->discipline_fk === $discipline;
-                }
-            );
-            
-            foreach ($student_grades as $grade) {
-                if ($gradeUnityModality->type == "C") {
-                    if (!$turnedEmptyToZero) {
-                        $unityGrade = 0;
-                        $turnedEmptyToZero = true;
-                    }
-                    $unityGrade += $gradeUnity->gradeCalculationFk->name === "Peso"
-                        ? $grade->grade * $gradeUnityModality->weight
-                        : $grade->grade;
-                } else {
-                    $unityRecoverGrade = (int)$grade->grade;
-                }
-            }
-        }
-        if ($unityGrade !== "") {
-            if ($gradeUnity->gradeCalculationFk->name === "Média") {
-                $unityGrade = number_format($unityGrade / $commonModalitiesCount, 2);
-            } else if ($gradeUnity->gradeCalculationFk->name === "Peso") {
-                $unityGrade = number_format($unityGrade / $weightsSum, 2);
-            }
-        }
-        return $gradeUnity->type == "UR"
-            ? ["unityId" => $gradeUnity->id, "unityGrade" => $unityGrade, "unityRecoverGrade" => $unityRecoverGrade, "gradeUnityType" => $gradeUnity->type]
-            : ["unityId" => $gradeUnity->id, "unityGrade" => $unityGrade, "gradeUnityType" => $gradeUnity->type];
     }
 
     public function actionOutOfTownStudentsReport()

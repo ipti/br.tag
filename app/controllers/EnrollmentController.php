@@ -342,7 +342,7 @@ class EnrollmentController extends Controller
         // if ($hasFinalMediaCalculated) {
         //     $this->calculateFinalMedia();
         // }
-        $this->calculateFinalMedia();
+        $this->calculateGradeResults();
         echo json_encode(["valid" => true]);
     }
 
@@ -418,10 +418,10 @@ class EnrollmentController extends Controller
 
     public function actionCalculateFinalMedia()
     {
-        $this->calculateFinalMedia();
+        $this->calculateGradeResults();
     }
 
-    private function calculateFinalMedia()
+    private function calculateGradeResults()
     {
         $criteria = new CDbCriteria();
         $criteria->alias = "gu";
@@ -454,6 +454,12 @@ class EnrollmentController extends Controller
                 $arr["grades"][$key] = $this->getUnidadeValues($gradeUnity, $studentEnrollment->id, $_POST["discipline"]);
             }
 
+            $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $_POST["discipline"]]);
+            if ($gradeResult == null) {
+                $gradeResult = new GradeResults();
+                $gradeResult->enrollment_fk = $studentEnrollment->id;
+                $gradeResult->discipline_fk = $_POST["discipline"];
+            }
 
             //Cálculo da média final
             $arr["finalMedia"] = "";
@@ -462,6 +468,8 @@ class EnrollmentController extends Controller
             $arr["semesterMedias"] = [];
             $hasRF = false;
             $rawUnitiesFilled = 0;
+            $recSemIndex = 0;
+            $gradeIndex = 0;
             foreach ($arr["grades"] as $grade) {
                 switch ($grade["gradeUnityType"]) {
                     case "U":
@@ -470,6 +478,9 @@ class EnrollmentController extends Controller
                             $rawUnitiesFilled++;
                         }
                         $sumsCount++;
+
+                        $gradeResult["grade_" . ($gradeIndex + 1)] = $grade["unityGrade"] != "" ? $grade["unityGrade"] : null;
+                        $gradeIndex++;
                         break;
                     case "UR":
                         if ($grade["unityGrade"] != "" || $grade["unityRecoverGrade"] != "") {
@@ -477,6 +488,10 @@ class EnrollmentController extends Controller
                             $rawUnitiesFilled++;
                         }
                         $sumsCount++;
+
+                        $gradeResult["grade_" . ($gradeIndex + 1)] = $grade["unityGrade"] != "" ? $grade["unityGrade"] : null;
+                        $gradeResult["rec_bim_" . ($gradeIndex + 1)] = $grade["unityRecoverGrade"] != "" ? $grade["unityRecoverGrade"] : null;
+                        $gradeIndex++;
                         break;
                     case "RS":
                         if ($sums > 0) {
@@ -488,6 +503,9 @@ class EnrollmentController extends Controller
                         }
                         $sums = 0;
                         $sumsCount = 0;
+
+                        $gradeResult["rec_sem_" . ($recSemIndex + 1)] = $grade["unityGrade"] != "" ? $grade["unityGrade"] : null;
+                        $recSemIndex++;
                         break;
                     case "RF":
                         $hasRF = true;
@@ -498,6 +516,8 @@ class EnrollmentController extends Controller
                         $finalMedia = array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]);
                         $finalRecoverMedia = ($finalMedia + $grade["unityGrade"]) / 2;
                         $finalMedia = number_format($finalMedia > $finalRecoverMedia ? $finalMedia : $finalRecoverMedia, 2);
+
+                        $gradeResult["rec_final"] = $grade["unityGrade"] != "" ? $grade["unityGrade"] : null;
                         break;
                 }
             }
@@ -509,12 +529,6 @@ class EnrollmentController extends Controller
                 $finalMedia = number_format(array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]), 2);
             }
 
-            $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $_POST["discipline"]]);
-            if ($gradeResult == null) {
-                $gradeResult = new GradeResults();
-                $gradeResult->enrollment_fk = $studentEnrollment->id;
-                $gradeResult->discipline_fk = $_POST["discipline"];
-            }
             $gradeResult->final_media = $finalMedia;
             $gradeResult->save();
         }

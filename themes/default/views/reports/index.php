@@ -174,8 +174,9 @@ $this->breadcrumbs = array(
                         </div>
                     </button>
                 </a>
+                
+                <a href="<?php echo Yii::app()->createUrl('reports/electronicdiary') ?>"  target="_blank"  rel="noopener">
 
-                <a href="<<?php echo Yii::app()->createUrl('reports/electronicdiary') ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/electronicdiary.svg" />
@@ -431,44 +432,70 @@ $this->breadcrumbs = array(
                                 }
                                 ?>
                             </select>
-                            <label for="count_days" class="control-label" style="width: 65%;"> Dia da reunião de conselho de classe</label>
-                            <input type="number" name="count_days" placeholder="Digite o número de dias" style="width: 65%;" min="1" max="99" required>
-                            <label for="hour" class="control-label" style="width: 30%;">Horário das reuniões</label>
-                            <input type="time" id="hour" name="hour" min="00:00" max="23:59" style="width: 30%;" required>
-                            <label for="year" class="control-label" style="width: 30%;">Ano das reuniões</label>
-                            <select name="year" id="year" placeholder="Selecione o ano" style="width:100%" required>
-                                <?php
-                                $years = range(date('Y'), 2014);
-                                echo "<option value='' selected>Selecione o ano</option>";
-                                for ($i = 0; $i < count($years); $i++) {
-                                    echo "<option value=" . $years[$i] . ">" . $years[$i] . "</option>";
-                                }
-                                ?>
-                            </select>
-                            <label for="mounth" class="control-label" style="width: 30%;">Mês das reuniões</label>
-                            <select id="mounth" name="mounth" style="width:100%" required>
-                                <option value='' selected>Selecione o mês</option>
-                                <option value="Janeiro">Janeiro</option>
-                                <option value="Fevereiro">Fevereiro</option>
-                                <option value="Março">Março</option>
-                                <option value="Abril">Abril</option>
-                                <option value="Maio">Maio</option>
-                                <option value="Junho">Junho</option>
-                                <option value="Julho">Julho</option>
-                                <option value="Agosto">Agosto</option>
-                                <option value="Setembro">Setembro</option>
-                                <option value="Outubro">Outubro</option>
-                                <option value="Novembro">Novembro</option>
-                                <option value="Dezembro">Dezembro</option>
-                            </select>
-                            <label for="mounth" class="control-label" style="width: 30%;">Trimestre</label>
-                            <select name="quarterly" id="quarterly" style="width:100%" required>
-                                <option value='' selected>Selecione o trimestre</option>
-                                <option value="1º">1º Trimestre</option>
-                                <option value="2º">2º Trimestre</option>
-                                <option value="3º">3º Trimestre</option>
-                                <option value="4º">4º Trimestre</option>
-                            </select>
+                            <div class="model-quarterly-container" style="display: flex;">
+                                <div style="display:block;width:65%;margin-right:5%;">
+                                    <label for="count_days" class="control-label" style="width: 100%;"> Dia da reunião de conselho de classe</label>
+                                    <input type="number" name="count_days" placeholder="Digite o dia das reuniões" style="width: 100%;" min="1" max="31" required>
+                                </div>
+                                <div style="display:block;width:30%;">
+                                    <label for="hour" class="control-label" style="width: 100%;">Horário das reuniões</label>
+                                    <input type="time" id="hour" name="hour" min="00:00" max="23:59" style="width: 92%;" required>
+                                </div>
+                            </div>
+
+                            <div class="model-quarterly-container" style="display: flex;">
+                                <div style="display:block;width:45%;margin-right:5%;">
+                                    <label for="year" class="control-label" style="width: 100%;">Ano das reuniões</label>
+                                    <select name="year" id="year" placeholder="Selecione o ano" style="width:100%" required>
+                                        <?php
+                                        $years = range(date('Y'), 2014);
+                                        echo "<option value='' selected>Selecione o ano</option>";
+                                        for ($i = 0; $i < count($years); $i++) {
+                                            echo "<option value=" . $years[$i] . ">" . $years[$i] . "</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div style="display:block;width:50%;">
+                                    <label for="mounth" class="control-label" style="width: 100%;">Mês das reuniões</label>
+                                    <select id="mounth" name="mounth" style="width:100%" required>
+                                        <option value='' selected>Selecione o mês</option>
+                                        <option value="Janeiro">Janeiro</option>
+                                        <option value="Fevereiro">Fevereiro</option>
+                                        <option value="Março">Março</option>
+                                        <option value="Abril">Abril</option>
+                                        <option value="Maio">Maio</option>
+                                        <option value="Junho">Junho</option>
+                                        <option value="Julho">Julho</option>
+                                        <option value="Agosto">Agosto</option>
+                                        <option value="Setembro">Setembro</option>
+                                        <option value="Outubro">Outubro</option>
+                                        <option value="Novembro">Novembro</option>
+                                        <option value="Dezembro">Dezembro</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="model-quarterly-container" style="display: flex;">
+                                <div style="display:block;width:45%;margin-right:5%;">
+                                    <label for="quarterly-model" class="control-label">Modelo</label>
+                                    <select name="quarterly-model" id="quarterly-model" style="width:100%" required>
+                                        <option value='' selected>Selecione o trimestre</option>
+                                        <option value="1">1º ao 5º Ano</option>
+                                        <option value="2">6º ao 9º Ano</option>
+                                        <option value="3">Ensino Médio</option>
+                                    </select>
+                                </div>
+                                <div style="display:block;width:50%;">
+                                    <label for="quarterly" class="control-label" style="width: 30%;">Trimestre</label>
+                                    <select name="quarterly" id="quarterly" style="width:100%" required>
+                                        <option value='' selected>Selecione o trimestre</option>
+                                        <option value="1º">1º Trimestre</option>
+                                        <option value="2º">2º Trimestre</option>
+                                        <option value="3º">3º Trimestre</option>
+                                        <option value="4º">4º Trimestre</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

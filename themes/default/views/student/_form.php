@@ -403,6 +403,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_low_vision', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
                                     </label>
                                     <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_monocular_vision']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_monocular_vision', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                    </label>
+                                    <label class="checkbox">
                                         <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_deafness']; ?>
                                         <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
                                     </label>
@@ -789,7 +793,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="t-field-select  js-hide-not-required">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'diff_location', array('class' => 't-field-select__label control-label')); ?>
-                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 7 => 'Não reside em área de localização diferenciada', 3 => 'Área onde se localiza comunidade remanescente de quilombos', 2 => 'Terra indígena', 1 => 'Área de assentamento'), array("class" => "select-search-on t-field-select__input", 'style'=>'width:100%')); ?>
+                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 7 => 'Não reside em área de localização diferenciada', 3 => 'Área onde se localiza comunidade remanescente de quilombos', 2 => 'Terra indígena', 1 => 'Área de assentamento', 8 => 'Área onde se localiza povos e comunidades tradicionais'), array("class" => "select-search-on t-field-select__input", 'style'=>'width:100%')); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'diff_location'); ?>
                             </div>
                         </div>
