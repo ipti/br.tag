@@ -1,5 +1,9 @@
 # Atualizações
 
+## [Versão 3.18.38]
+- Modelo de ata de conselho de classe de 6º ao 9º ano adicionado
+- Modelo de ata de conselho de classe de ensino médio adicionado
+
 ## [Versão 3.16.38]
 - No relatório trimestral o cabeçalho com as informações do aluno foi adicionado a primeira página
 - No relatório trimestral de 1ºANO, 2º ANO e 3º ANO o cabeçalho de buzios foi corrigido para a logo ficar posicionada corretamente
