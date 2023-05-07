@@ -91,7 +91,8 @@ class ClassroomValidation extends Register
     //campo 5
     function isValidClassroomName($name)
     {
-        $regex = "/^([0-9A-Z ª°º-])+$/";
+
+        $regex = "/^([0-9A-ZÀ-Ú ª°º-])+$/";
         $length = $this->checkLength($name, 80);
         if (!$length['status']) {
             return array('status' => false, 'erro' => $length['erro']);
@@ -406,7 +407,7 @@ class ClassroomValidation extends Register
             return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a mediação didático-pedagócica "Educação a distância" for selecionada.');
         }
         if (($diffLocation == 2 || $diffLocation == 3) && in_array($stage, array(1, 2, 3, 56))) {
-            return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando o local de funcionamento diferenciado for "Unidade de atendimento socioeducativo" ou "Unidade prisional".');
+            return array('status' => false, 'erro' => 'Quando se trata de uma etapa de Educação Infantil, o local de funcionamento diferenciado NÃO PODE SER "Unidade de atendimento socioeducativo" ou "Unidade prisional".');
         }
         return array('status' => true, 'erro' => '');
     }
@@ -434,40 +435,47 @@ class ClassroomValidation extends Register
 
     function isValidDiscipline($disciplineArray, $mediation, $assistance_type, $stage)
     {
-        $allowedValues = array(0, 1, 2);
-        $mustFillOne = false;
-
-//        if (!in_array($assistance_type, array(4, 5)) && !in_array($stage, array(1, 2, 3, 65))) {
-//            $mustFillOne = true;
-//        }
-
         foreach ($disciplineArray as $key => $discipline) {
             $emptyDiscipline = $this->isEmpty($discipline);
-            if (strlen($discipline) > 1) {
-                return array('status' => false, 'erro' => 'O campo deve ter apenas 1 caractere');
-            }
-            if ($mustFillOne && $emptyDiscipline['status']) {
-                return array('status' => false, 'erro' => 'O campo deve ser preenchido quando o tipo de atendimento for diferente de 4 ou 5 e a etapa for diferente de 1, 2, 3 ou 65');
-            }
-            if ((in_array($assistance_type, array(4, 5)) || in_array($stage, array(1, 2, 3, 65))) && !$emptyDiscipline['status']) {
-                return array('status' => false, 'erro' => 'O campo deve ser nulo quando o tipo de atendimento for 4 ou 5 e a etapa for 1, 2, 3 ou 65');
-            }
-            if (!in_array($discipline, $allowedValues)) {
-                return array('status' => false, 'erro' => 'O campo foi preenchido com valor invalido');
-            }
-
-            //falta fazer regra 5
-
-            if ($discipline == 2 && $mediation == 3) {
-                return array('status' => false, 'erro' => 'O campo nao pode ser preenchido com 2 quando a mediacao for Educacao a Distancia');
+            if (in_array($stage, array(1, 2, 3)) && !$emptyDiscipline['status']) {
+                return array('status' => false, 'erro' => 'Não se pode preencher disciplinas de Educação Fundamental quando a etapa for de Educação Infantil');
             }
         }
 
-        $atLeastOne = $this->atLeastOne($disciplineArray);
-        if ($mustFillOne && !$atLeastOne['status']) {
-            return array('status' => false, 'erro' => 'Pelo menos uma disciplina/professor deve ser inserida na turma');
-        }
-        return array('status' => true, 'erro' => '');
+//        $allowedValues = array(0, 1, 2);
+//        $mustFillOne = false;
+//
+////        if (!in_array($assistance_type, array(4, 5)) && !in_array($stage, array(1, 2, 3, 65))) {
+////            $mustFillOne = true;
+////        }
+//
+//        foreach ($disciplineArray as $key => $discipline) {
+//            $emptyDiscipline = $this->isEmpty($discipline);
+//            if (strlen($discipline) > 1) {
+//                return array('status' => false, 'erro' => 'O campo deve ter apenas 1 caractere');
+//            }
+//            if ($mustFillOne && $emptyDiscipline['status']) {
+//                return array('status' => false, 'erro' => 'O campo deve ser preenchido quando o tipo de atendimento for diferente de 4 ou 5 e a etapa for diferente de 1, 2, 3 ou 65');
+//            }
+//            if ((in_array($assistance_type, array(4, 5)) || in_array($stage, array(1, 2, 3, 65))) && !$emptyDiscipline['status']) {
+//                return array('status' => false, 'erro' => 'O campo deve ser nulo quando o tipo de atendimento for 4 ou 5 e a etapa for 1, 2, 3 ou 65');
+//            }
+//            if (!in_array($discipline, $allowedValues)) {
+//                return array('status' => false, 'erro' => 'O campo foi preenchido com valor invalido');
+//            }
+//
+//            //falta fazer regra 5
+//
+//            if ($discipline == 2 && $mediation == 3) {
+//                return array('status' => false, 'erro' => 'O campo nao pode ser preenchido com 2 quando a mediacao for Educacao a Distancia');
+//            }
+//        }
+//
+//        $atLeastOne = $this->atLeastOne($disciplineArray);
+//        if ($mustFillOne && !$atLeastOne['status']) {
+//            return array('status' => false, 'erro' => 'Pelo menos uma disciplina/professor deve ser inserida na turma');
+//        }
+//        return array('status' => true, 'erro' => '');
     }
 
     public function replaceCodeModalities($msg)
@@ -490,8 +498,8 @@ class ClassroomValidation extends Register
 
     public function isValidDiffLocation($pedagogicalMediationType, $diffLocation)
     {
-        if (($pedagogicalMediationType == "1" || $pedagogicalMediationType == "2") && ($diffLocation == null || $diffLocation == "")) {
-            return array('status' => false, 'erro' => 'Quando o tipo de mediação didático-pedagógica for presencial ou semipresencial, o campo se torna obrigatório');
+        if ($pedagogicalMediationType == "1" && ($diffLocation == null || $diffLocation == "")) {
+            return array('status' => false, 'erro' => 'Quando o tipo de mediação didático-pedagógica for presencial, o campo se torna obrigatório');
         }
         return array('status' => true, 'erro' => '');
     }
@@ -500,7 +508,7 @@ class ClassroomValidation extends Register
     {
         if ($complementaryActivity == null || $complementaryActivity === "0") {
             foreach ($instructorsTeachingData as $instructorTeachingData) {
-                if ($instructorTeachingData->role === "3") {
+                if (!empty($instructorTeachingData->teachingMatrixes) && $instructorTeachingData->role === "3") {
                     return array('status' => false, 'erro' => 'O cargo de um professor não pode ser "Monitor" quando o campo da turma "Tipo de Atendimento - Atividade Complementar" não for selecionado.');
                 }
             }
@@ -544,7 +552,18 @@ class ClassroomValidation extends Register
 
     public function containsInstructors($instructorsTeachingData) {
         if ($instructorsTeachingData == null) {
-            return array('status' => false, 'erro' => 'A turma precisa de professores cadastrados.');
+            return array('status' => false, 'erro' => 'A turma precisa de professores com disciplinas cadastrados.');
+        } else {
+            $hasInstructorWithTeachingMatrix = false;
+            foreach($instructorsTeachingData as $instructorTeachingData) {
+                if (!empty($instructorTeachingData->teachingMatrixes)) {
+                    $hasInstructorWithTeachingMatrix = true;
+                    break;
+                }
+            }
+            if (!$hasInstructorWithTeachingMatrix) {
+                return array('status' => false, 'erro' => 'A turma precisa de professores com disciplinas cadastrados.');
+            }
         }
         return array('status' => true, 'erro' => '');
     }
