@@ -114,7 +114,7 @@ $(document).on("change", "#others-check", function () {
 $(document).on("change", "#show-student-civil-name", function () {
     if($(this).is(":checked")) {
         $(".student-civil-name").show();
-        $(".show-student-civil-name-box").hide();
+        $("#show-student-civil-name-box").hide();
     }
 });
 

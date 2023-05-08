@@ -114,6 +114,12 @@ $form = $this->beginWidget('CActiveForm', array(
                             Dados Básicos
                         </h3>
                     </div>
+                    <!-- <div class="row">
+                        <div class="column">
+                        </div>
+                        <div class="column">
+                        </div>
+                    </div> -->
                     <div class="row">
                         <div class="column">
                             <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
@@ -127,12 +133,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </span>
                                 <?php echo $form->error($modelStudentIdentification, 'name'); ?>
                             </div>
-                            <!-- Nome social -->
-                            <!-- <label class="checkbox show-student-civil-name-box">
-                                   Esse é um nome social?
-                                   <input type="checkbox" id="show-student-civil-name" <?php if ($modelStudentIdentification->civil_name != null) echo "checked"; ?>>
-                            </label> -->
-                            <!-- <div class="t-field-text student-civil-name" style="display: none;"> -->
+
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'birthday', array('class' => 'control-label  t-field-text__label--required')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'birthday', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
@@ -306,12 +307,20 @@ $form = $this->beginWidget('CActiveForm', array(
                             <!----------------------------------------------------------------------------------------------------------------------------------- -->
                         </div>
                         <div class="column">
-                            <div class="t-field-text">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'civil_name', array('class' => 'control-label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'civil_name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome Civil')); ?>
-                                <?php echo $form->error($modelStudentIdentification, 'civil_name'); ?>
+                            <!-- Nome social -->
+                            <div class="t-field-checkbox js-hide-not-required" id="show-student-civil-name-box">
+                                <label class="checkbox control-label t-field-checkbox__label">
+                                    Esse é um nome social?
+                                    <input type="checkbox" class="t-field-checkbox__input" id="show-student-civil-name" <?php if ($modelStudentIdentification->civil_name != null) echo "checked"; ?>>
+                                </label>
                             </div>
-                            </h3>
+                            <div class="t-field-text student-civil-name" style="display: none;">
+                                <div class="t-field-text">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'civil_name', array('class' => 'control-label t-field-text__label--required')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'civil_name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome Civil')); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'civil_name'); ?>
+                                </div>
+                            </div>
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf', array('class' => 't-field-text__label control-label')); ?>
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br")); ?>
@@ -520,7 +529,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                             <div class="js-disabled-finputs">
                                 <h3>
-                                Filiação 2
+                                    Filiação 2
                                 </h3>
                             </div>
                         </div>
@@ -1345,175 +1354,221 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     <?php echo $form->labelEx($modelStudentIdentification, 'deficiency', array('class' => 'control-label t-field-checkbox__label--required')); ?>
                                                     <?php echo $form->error($modelStudentIdentification, 'deficiency'); ?>
                                                 </div>
-                                                <div class="deficiencies-container js-change-required js-visibility-deficiencies">
-                                                    <label class="control-label"><?php echo Yii::t('default', 'Deficiency Type'); ?>
+                                                <div id="StudentIdentification_deficiencies" class="t-field-checkbox-group control-group deficiencies-container js-change-required js-visibility-deficiencies">
+                                                    <label class="t-field-checkbox__label--required"><?php echo Yii::t('default', 'Deficiency Type'); ?>
                                                         *</label>
-                                                    <div id="StudentIdentification_deficiencies t-field-checkbox-group t-field-checkbox">
-                                                        <label class="checkbox">
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                                        <label class="t-field-checkbox">
                                                             <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_blindness']; ?>
-                                                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
                                                         </label>
-                                                        <label class="checkbox">
+                                                    </div>
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_low_vision', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                                        <label class="t-field-checkbox">
                                                             <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_low_vision']; ?>
-                                                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_low_vision', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
                                                         </label>
-                                                        <label class="checkbox">
+                                                    </div>
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                                        <label class="t-field-checkbox">
                                                             <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_deafness']; ?>
-                                                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
                                                         </label>
-                                                        <label class="checkbox">
+                                                    </div>
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_disability_hearing', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                                        <label class="t-field-checkbox">
                                                             <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_disability_hearing']; ?>
-                                                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_disability_hearing', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
                                                         </label>
-                                                        <label class="checkbox">
+                                                    </div>
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafblindness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                                        <label class="t-field-checkbox">
                                                             <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_deafblindness']; ?>
-                                                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafblindness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
                                                         </label>
-                                                        <label class="checkbox">
+                                                    </div>
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_phisical_disability', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                                        <label class="t-field-checkbox">
                                                             <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_phisical_disability']; ?>
-                                                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_phisical_disability', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
                                                         </label>
-                                                        <label class="checkbox">
+                                                    </div>
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_intelectual_disability', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                                        <label class="t-field-checkbox">
                                                             <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_intelectual_disability']; ?>
-                                                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_intelectual_disability', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
                                                         </label>
-                                                        <label class="checkbox">
+                                                    </div>
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_multiple_disabilities', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                        <label class="t-field-checkbox">
                                                             <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_multiple_disabilities']; ?>
-                                                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_multiple_disabilities', array('value' => 1, 'uncheckValue' => 0)); ?>
                                                         </label>
-                                                        <label class="checkbox">
+                                                    </div>
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_autism', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                        <label class="t-field-checkbox">
                                                             <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_autism']; ?>
-                                                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_autism', array('value' => 1, 'uncheckValue' => 0)); ?>
                                                         </label>
-                                                        <label class="checkbox">
+                                                    </div>
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_gifted', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                        <label class="t-field-checkbox">
                                                             <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_gifted']; ?>
-                                                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_gifted', array('value' => 1, 'uncheckValue' => 0)); ?>
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div class=" js-visibility-dresource hide-responsive resources-container">
-                                                    <label class="control-label"><?php echo Yii::t('default', 'Required Resources'); ?></label>
-                                                    <label class="checkbox">
-                                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_aid_lector']; ?>
+                                                <div class="t-field-checkbox-group js-visibility-dresource hide-responsive resources-container">
+                                                    <label class="t-field-checkbox__label"><?php echo Yii::t('default', 'Required Resources'); ?></label>
+                                                    <div class="t-field-checkbox">
                                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_lector', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                    </label>
-                                                    <label class="checkbox">
-                                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_aid_transcription']; ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_aid_lector']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
                                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_transcription', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                    </label>
-                                                    <label class="checkbox">
-                                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_interpreter_guide']; ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_aid_transcription']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
                                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_interpreter_guide', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                    </label>
-                                                    <label class="checkbox">
-                                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_interpreter_libras']; ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_interpreter_guide']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
                                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_interpreter_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                    </label>
-                                                    <label class="checkbox">
-                                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_lip_reading']; ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_interpreter_libras']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
                                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_lip_reading', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                    </label>
-                                                    <label class="checkbox">
-                                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_18']; ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_lip_reading']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
                                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_18', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                    </label>
-                                                    <label class="checkbox">
-                                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_24']; ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_18']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
                                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_24', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                    </label>
-                                                    <label class="checkbox">
-                                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_braille_test']; ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_24']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
                                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_braille_test', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                    </label>
-                                                    <label class="checkbox">
-                                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_proof_language']; ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_braille_test']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
                                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_proof_language', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                    </label>
-                                                    <label class="checkbox">
-                                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_cd_audio']; ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_proof_language']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
                                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_cd_audio', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                    </label>
-                                                    <label class="checkbox">
-                                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_video_libras']; ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_cd_audio']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
                                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_video_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                    </label>
-                                                    <label class="checkbox">
-                                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_none']; ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_video_libras']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
                                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_none', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                    </label>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_none']; ?>
+                                                        </label>
+                                                    </div>
                                                 </div>
                                                 <h3><?php echo Yii::t('default', 'Restrictions'); ?>
                                                 </h3>
-                                                <label class="checkbox">
-                                                    <?php echo StudentRestrictions::model()->attributeLabels()['celiac']; ?>
-                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'celiac', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                </label>
-
-
-                                                <label class="checkbox">
-                                                    <?php echo StudentRestrictions::model()->attributeLabels()['diabetes']; ?>
-                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'diabetes', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                </label>
-
-
-                                                <label class="checkbox">
-                                                    <?php echo StudentRestrictions::model()->attributeLabels()['hypertension']; ?>
-                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'hypertension', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                </label>
-
-
-                                                <label class="checkbox">
-                                                    <?php echo StudentRestrictions::model()->attributeLabels()['iron_deficiency_anemia']; ?>
-                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'iron_deficiency_anemia', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                </label>
-
-
-                                                <label class="checkbox">
-                                                    <?php echo StudentRestrictions::model()->attributeLabels()['sickle_cell_anemia']; ?>
-                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'sickle_cell_anemia', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                </label>
-
-
-                                                <label class="checkbox">
-                                                    <?php echo StudentRestrictions::model()->attributeLabels()['lactose_intolerance']; ?>
-                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'lactose_intolerance', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                </label>
-
-
-                                                <label class="checkbox">
-                                                    <?php echo StudentRestrictions::model()->attributeLabels()['malnutrition']; ?>
-                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'malnutrition', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                </label>
-
-
-                                                <label class="checkbox">
-                                                    <?php echo StudentRestrictions::model()->attributeLabels()['obesity']; ?>
-                                                    <?php echo $form->checkBox($modelStudentRestrictions, 'obesity', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                                </label>
-
-                                                <label class="checkbox">
-                                                    <?php echo StudentRestrictions::model()->attributeLabels()['others']; ?>
-                                                    <?php echo $modelStudentRestrictions->others != null ?
-                                                        "<input type='checkbox' id='others-check' checked>" :
-                                                        "<input type='checkbox' id='others-check'>" ?>
-                                                </label>
-
-                                                <div class="row others-text-box" style="display: none;">
-                                                    <?php echo $form->textArea($modelStudentRestrictions, 'others', array('rows' => 6, 'cols' => 50)); ?>
+                                                <div class="t-field-checkbox-group">
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $form->checkBox($modelStudentRestrictions, 'celiac', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentRestrictions::model()->attributeLabels()['celiac']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $form->checkBox($modelStudentRestrictions, 'diabetes', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentRestrictions::model()->attributeLabels()['diabetes']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $form->checkBox($modelStudentRestrictions, 'hypertension', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentRestrictions::model()->attributeLabels()['hypertension']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $form->checkBox($modelStudentRestrictions, 'iron_deficiency_anemia', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentRestrictions::model()->attributeLabels()['iron_deficiency_anemia']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $form->checkBox($modelStudentRestrictions, 'sickle_cell_anemia', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentRestrictions::model()->attributeLabels()['sickle_cell_anemia']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $form->checkBox($modelStudentRestrictions, 'lactose_intolerance', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentRestrictions::model()->attributeLabels()['lactose_intolerance']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $form->checkBox($modelStudentRestrictions, 'malnutrition', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentRestrictions::model()->attributeLabels()['malnutrition']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $form->checkBox($modelStudentRestrictions, 'obesity', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentRestrictions::model()->attributeLabels()['obesity']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="t-field-checkbox">
+                                                        <?php echo $modelStudentRestrictions->others != null ?
+                                                            "<input type='checkbox' id='others-check' checked>" :
+                                                            "<input type='checkbox' id='others-check'>" ?>
+                                                        <label class="t-field-checkbox">
+                                                            <?php echo StudentRestrictions::model()->attributeLabels()['others']; ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="row others-text-box" style="display: none;">
+                                                        <?php echo $form->textArea($modelStudentRestrictions, 'others', array('rows' => 6, 'cols' => 50)); ?>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-
-
                                         <div class="column">
                                             <h3><?php echo Yii::t('default', 'Vaccine'); ?>
                                             </h3>
-                                            <div class="vaccines-container">
+                                            <div class="t-field-checkbox-group vaccines-container">
                                                 <?php foreach ($vaccines as $vaccine) : ?>
-                                                    <label class="checkbox">
-                                                        <?= $vaccine->name; ?>
+                                                    <div class="t-field-checkbox">
                                                         <?php echo CHtml::activeCheckBox($vaccine, "vaccine_id[]", array('checked' => in_array($vaccine->id, $studentVaccinesSaves), 'value' => $vaccine->id, 'uncheckValue' => null, 'class' => 'vaccine-checkbox', 'code' => $vaccine->code)); ?>
-                                                    </label>
+                                                        <label class="t-field-checkbox">
+                                                            <?= $vaccine->name; ?>
+                                                        </label>
+                                                    </div>
                                                 <?php endforeach; ?>
                                             </div>
                                         </div>
