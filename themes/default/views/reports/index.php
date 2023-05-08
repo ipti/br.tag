@@ -476,7 +476,7 @@ $this->breadcrumbs = array(
                                 </div>
                             </div>
                             <div class="model-quarterly-container" style="display: flex;">
-                                <div style="display:block;width:45%;margin-right:5%;">
+                                <!-- <div style="display:block;width:45%;margin-right:5%;">
                                     <label for="quarterly-model" class="control-label">Modelo</label>
                                     <select name="quarterly-model" id="quarterly-model" style="width:100%" required>
                                         <option value='' selected>Selecione o modelo</option>
@@ -485,8 +485,8 @@ $this->breadcrumbs = array(
                                         <option value="3">6º ao 9º Ano</option>
                                         <option value="4">Ensino Médio</option>
                                     </select>
-                                </div>
-                                <div style="display:block;width:50%;">
+                                </div> -->
+                                <div style="display:block;width:68%;">
                                     <label for="quarterly" class="control-label" style="width: 30%;">Trimestre</label>
                                     <select name="quarterly" id="quarterly" style="width:100%" required>
                                         <option value='' selected>Selecione o trimestre</option>
@@ -495,6 +495,10 @@ $this->breadcrumbs = array(
                                         <option value="3º">3º Trimestre</option>
                                         <option value="4º">4º Trimestre</option>
                                     </select>
+                                </div>
+                                <div style="width: 30%;margin-top: 6%;margin-left:2%;text-align:right;">
+                                Educação Infantil?
+                                <input type="checkbox" name="infantil-model" id="infantil-model">  
                                 </div>
                             </div>
                         </div>

@@ -163,7 +163,7 @@ class ReportsController extends Controller
         $hour = $_POST['hour'];
         $quarterly = $_POST['quarterly'];
         $school_inep_id = Yii::app()->user->school;
-        $model = $_POST['quarterly-model'];
+        $infantil = $_POST['infantil-model'];
         $year = $_POST['year'];
         $condition = '';
         if (isset($_POST['classroom2']) && $_POST['classroom2'] != '') {
@@ -171,7 +171,7 @@ class ReportsController extends Controller
             $sql = "SELECT 
                     e.name as school_name, c.name as classroom_name, c.id as classroom_id,
                     s.*, se.status, se.create_date, ii.name as prof_name, ed.name as discipline,
-                    c.turn as turno, esvm.name as class_stage, se.date_cancellation_enrollment as date_cancellation
+                    c.turn as turno, esvm.stage as stage_id ,esvm.name as class_stage, se.date_cancellation_enrollment as date_cancellation
                 FROM
                     student_enrollment as se
                     INNER JOIN classroom as c on se.classroom_fk=c.id
@@ -191,12 +191,22 @@ class ReportsController extends Controller
 
             $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":school_inep_id", $school_inep_id)->queryAll();
 
+            $stage_id = $classrooms[0]['stage_id'];
+            $current_report = 0;
+            if ($stage_id == 1 || $stage_id == 2) {
+                $current_report = 1;
+            }else if ($stage_id == 3) {
+                $current_report = 2;
+            }else if ($stage_id == 4) {
+                $current_report = 3;
+            }
+
             $title = '';
-            if($model == 1) {
+            if($infantil) {
                 $title = "EDUCAÇÃO INFANTIL";
             }
 
-            if ($model == 1 || $model == 2) {
+            if ($current_report == 1) {
                 $this->render('buzios/quarterly/QuarterlyClassCouncil', array(
                     "classroom" => $classrooms,
                     "count_days" => $count_days,
@@ -206,7 +216,7 @@ class ReportsController extends Controller
                     "year" => $year,
                     "title" => $title
                 ));
-            }else if ($model == 3) {
+            }else if ($current_report == 2) {
                 $this->render('buzios/quarterly/QuarterlyClassCouncilSixNineYear', array(
                     "classroom" => $classrooms,
                     "count_days" => $count_days,
@@ -215,7 +225,7 @@ class ReportsController extends Controller
                     "quarterly" => $quarterly,
                     "year" => $year
                 ));
-            }else if ($model == 4) {
+            }else if ($current_report == 3) {
                 $this->render('buzios/quarterly/QuarterlyClassCouncilHighSchool', array(
                     "classroom" => $classrooms,
                     "count_days" => $count_days,
