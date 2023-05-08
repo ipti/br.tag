@@ -191,16 +191,22 @@ class ReportsController extends Controller
 
             $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":school_inep_id", $school_inep_id)->queryAll();
 
-            if ($model == 1) {
+            $title = '';
+            if($model == 1) {
+                $title = "EDUCAÇÃO INFANTIL";
+            }
+
+            if ($model == 1 || $model == 2) {
                 $this->render('buzios/quarterly/QuarterlyClassCouncil', array(
                     "classroom" => $classrooms,
                     "count_days" => $count_days,
                     "mounth" => $mounth,
                     "hour" => $hour,
                     "quarterly" => $quarterly,
-                    "year" => $year
+                    "year" => $year,
+                    "title" => $title
                 ));
-            }else if ($model == 2) {
+            }else if ($model == 3) {
                 $this->render('buzios/quarterly/QuarterlyClassCouncilSixNineYear', array(
                     "classroom" => $classrooms,
                     "count_days" => $count_days,
@@ -209,7 +215,7 @@ class ReportsController extends Controller
                     "quarterly" => $quarterly,
                     "year" => $year
                 ));
-            }else if ($model == 3) {
+            }else if ($model == 4) {
                 $this->render('buzios/quarterly/QuarterlyClassCouncilHighSchool', array(
                     "classroom" => $classrooms,
                     "count_days" => $count_days,

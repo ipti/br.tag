@@ -479,10 +479,11 @@ $this->breadcrumbs = array(
                                 <div style="display:block;width:45%;margin-right:5%;">
                                     <label for="quarterly-model" class="control-label">Modelo</label>
                                     <select name="quarterly-model" id="quarterly-model" style="width:100%" required>
-                                        <option value='' selected>Selecione o trimestre</option>
-                                        <option value="1">1º ao 5º Ano</option>
-                                        <option value="2">6º ao 9º Ano</option>
-                                        <option value="3">Ensino Médio</option>
+                                        <option value='' selected>Selecione o modelo</option>
+                                        <option value="1">Educação Infantil</option>
+                                        <option value="2">1º ao 5º Ano</option>
+                                        <option value="3">6º ao 9º Ano</option>
+                                        <option value="4">Ensino Médio</option>
                                     </select>
                                 </div>
                                 <div style="display:block;width:50%;">
