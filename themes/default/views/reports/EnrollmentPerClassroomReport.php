@@ -11,7 +11,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
 ?>
 <br>
 <br>
-<div class="pageA4H">
+<div class="pageA4H" style="width: 1075px;">
     <?php $this->renderPartial('head'); ?>
     <h3>RELATÓRIO DE MATRÍCULA / <?= $classroom->school_year?></h3>
     
