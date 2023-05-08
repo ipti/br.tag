@@ -4,6 +4,7 @@
 - Ajuste na largura para impressão do relatório de matrícula
 - Adição de legendas para o relatório de matrícula
 - Modificação do formulário de gerar ata de conselho de classe
+- O bug de repetição dos professores no ata de conselho de classe foi corrigido
 
 ## [Versão 3.18.38]
 - Modelo de ata de conselho de classe de 6º ao 9º ano adicionado
