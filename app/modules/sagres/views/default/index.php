@@ -52,7 +52,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				<label for="opcao1">Final turma</label>
 			</div>
 		</div>
-		
+
 	</div>
 
 	<div class="container-box" style="display: grid;">
@@ -91,6 +91,19 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				<div class="pull-left">
 					<span class="title">Profissionais</span><br>
 					<span class="subtitle">Adicione e atualize profissionais</span>
+				</div>
+			</button>
+		</a>
+
+		<a href="<?php echo Yii::app()->createUrl('inconsistency') ?>">
+			<button type="button" class="report-box-container">
+				<div class="pull-left" style="margin-right: 20px;">
+					<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sagresIcon/inconsistency.svg" />
+					<!-- <div class="t-icon-schedule report-icon"></div> -->
+				</div>
+				<div class="pull-left">
+					<span class="title">Inconsistências</span><br>
+					<span class="subtitle">Lista de inconsitências SAGRES</span>
 				</div>
 			</button>
 		</a>
@@ -186,11 +199,11 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				location.reload();
 			});
 		})
-		.fail(function () {
-			$(".alert-error-export").append('Erro ao realizar o download do arquivo ');
-			$(".alert-error-export").show();
-		})
-			
+			.fail(function () {
+				$(".alert-error-export").append('Erro ao realizar o download do arquivo ');
+				$(".alert-error-export").show();
+			})
+
 	}
 
 </script>
