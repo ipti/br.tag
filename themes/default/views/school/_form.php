@@ -977,6 +977,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_vocational_education_workshop', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_recording_and_editing_studio']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_recording_and_editing_studio', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['dependencies_none']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_none', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>

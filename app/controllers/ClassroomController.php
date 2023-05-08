@@ -719,7 +719,7 @@ class ClassroomController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = Classroom::model()->search();
+        $dataProvider = Classroom::model()->with('enrollmentsCount')->search();
     
         $this->render('index', array(
             'dataProvider' => $dataProvider,
