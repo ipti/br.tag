@@ -223,22 +223,25 @@ if ($turno == 'M') {
                 </tr>
             </thead>
             <tbody>
-                <?php
-                $prof_name = '';
-                $discipline = '';
+            <?php
+                $validate_array = array();
                 foreach ($classroom as $c) {
-                    if($prof_name != $c['prof_name'] || $discipline != $c['discipline'] ) {
-                ?>
-                    <tr>
-                        <td><?= $c['discipline'] ?></td>
-                        <td><?= $c['prof_name'] ?></td>
-                        <td></td>
-                    </tr>
-                <?php
+                    $json = json_encode(array(
+                        "prof_name" => $c['prof_name'],
+                        "discipline" => $c['discipline']
+                    ));
+                    if(!in_array($json, $validate_array)) {
+            ?>
+                        <tr>
+                            <td><?= $c['discipline'] ?></td>
+                            <td><?= $c['prof_name'] ?></td>
+                            <td></td>
+                        </tr>
+            <?php
                     }
-                    $prof_name = $c['prof_name'];
-                    $discipline = $c['discipline'];
-                } ?>
+                    array_push($validate_array, $json);
+                }
+            ?>
             </tbody>
         </table>
         <div class="container-box signatures-container">
