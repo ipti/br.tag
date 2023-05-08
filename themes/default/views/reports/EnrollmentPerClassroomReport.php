@@ -6,7 +6,19 @@ Yii::app()->clientScript->registerCoreScript('jquery');
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $stage = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_modality_fk)->name;
-$school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
+$school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
+
+$subtitle = "
+<div class='subtitle-enrollments'>
+<span>MI - Matrícula Inicial</span>
+<span>MC - Rematrícula</span>
+<span>MR - Matrícula Recorrente</span>
+<span>MT - Matrícula por Transferência</span>
+<span>N - Não informado</span>
+<span>P - Promovido</span>
+<span>R - Transferido</span>
+</div>
+";
 
 ?>
 <br>
@@ -277,6 +289,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
         </tr>
         <?php echo $r20;?>
     </table>
+    <?php echo $subtitle?>
     <br>
     <br>
     <?php if(isset($r40)){ ?>
@@ -306,6 +319,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
             </tr>
             <?php echo $r40;?>
         </table>
+        <?php echo $subtitle?>
     <?php } ?>
 
 <br>
@@ -370,6 +384,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
     table { page-break-after:auto; }
     thead { display:table-header-group }
     tfoot { display:table-footer-group }
+    .subtitle-enrollments span {margin-right: 10px;}
 </style>
 
 
