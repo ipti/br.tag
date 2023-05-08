@@ -435,11 +435,11 @@ $this->breadcrumbs = array(
                             <div class="model-quarterly-container" style="display: flex;">
                                 <div style="display:block;width:65%;margin-right:5%;">
                                     <label for="count_days" class="control-label" style="width: 100%;"> Dia da reunião de conselho de classe</label>
-                                    <input type="number" name="count_days" placeholder="Digite o dia das reuniões" style="width: 100%;" min="1" max="31" required>
+                                    <input type="number" name="count_days" placeholder="Digite o dia das reuniões" style="width: 100%;height:35px;" min="1" max="31" required>
                                 </div>
                                 <div style="display:block;width:30%;">
                                     <label for="hour" class="control-label" style="width: 100%;">Horário das reuniões</label>
-                                    <input type="time" id="hour" name="hour" min="00:00" max="23:59" style="width: 92%;" required>
+                                    <input type="time" id="hour" name="hour" min="00:00" max="23:59" style="width: 92%;height:35px;" required>
                                 </div>
                             </div>
 
@@ -486,7 +486,7 @@ $this->breadcrumbs = array(
                                         <option value="4">Ensino Médio</option>
                                     </select>
                                 </div> -->
-                                <div style="display:block;width:68%;">
+                                <div style="display:block;width:70%;">
                                     <label for="quarterly" class="control-label" style="width: 30%;">Trimestre</label>
                                     <select name="quarterly" id="quarterly" style="width:100%" required>
                                         <option value='' selected>Selecione o trimestre</option>
@@ -496,9 +496,9 @@ $this->breadcrumbs = array(
                                         <option value="4º">4º Trimestre</option>
                                     </select>
                                 </div>
-                                <div style="width: 30%;margin-top: 6%;margin-left:2%;text-align:right;">
+                                <div style="width: 30%;margin-top: 6%;text-align:right;">
+                                <input type="checkbox" name="infantil-model" id="infantil-model" style="margin-right:5px;margin-bottom:2px;">
                                 Educação Infantil?
-                                <input type="checkbox" name="infantil-model" id="infantil-model">  
                                 </div>
                             </div>
                         </div>

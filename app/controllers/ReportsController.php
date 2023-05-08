@@ -206,34 +206,39 @@ class ReportsController extends Controller
                 $title = "EDUCAÇÃO INFANTIL";
             }
 
-            if ($current_report == 1) {
-                $this->render('buzios/quarterly/QuarterlyClassCouncil', array(
-                    "classroom" => $classrooms,
-                    "count_days" => $count_days,
-                    "mounth" => $mounth,
-                    "hour" => $hour,
-                    "quarterly" => $quarterly,
-                    "year" => $year,
-                    "title" => $title
-                ));
-            }else if ($current_report == 2) {
-                $this->render('buzios/quarterly/QuarterlyClassCouncilSixNineYear', array(
-                    "classroom" => $classrooms,
-                    "count_days" => $count_days,
-                    "mounth" => $mounth,
-                    "hour" => $hour,
-                    "quarterly" => $quarterly,
-                    "year" => $year
-                ));
-            }else if ($current_report == 3) {
-                $this->render('buzios/quarterly/QuarterlyClassCouncilHighSchool', array(
-                    "classroom" => $classrooms,
-                    "count_days" => $count_days,
-                    "mounth" => $mounth,
-                    "hour" => $hour,
-                    "quarterly" => $quarterly,
-                    "year" => $year
-                ));
+            if($classrooms[0] != null) {
+                if ($current_report == 1) {
+                    $this->render('buzios/quarterly/QuarterlyClassCouncil', array(
+                        "classroom" => $classrooms,
+                        "count_days" => $count_days,
+                        "mounth" => $mounth,
+                        "hour" => $hour,
+                        "quarterly" => $quarterly,
+                        "year" => $year,
+                        "title" => $title
+                    ));
+                }else if ($current_report == 2) {
+                    $this->render('buzios/quarterly/QuarterlyClassCouncilSixNineYear', array(
+                        "classroom" => $classrooms,
+                        "count_days" => $count_days,
+                        "mounth" => $mounth,
+                        "hour" => $hour,
+                        "quarterly" => $quarterly,
+                        "year" => $year
+                    ));
+                }else if ($current_report == 3) {
+                    $this->render('buzios/quarterly/QuarterlyClassCouncilHighSchool', array(
+                        "classroom" => $classrooms,
+                        "count_days" => $count_days,
+                        "mounth" => $mounth,
+                        "hour" => $hour,
+                        "quarterly" => $quarterly,
+                        "year" => $year
+                    ));
+                }
+            }else {
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Certifique-se de que a turma selecionada tem professores e alunos cadastrados'));
+                return $this->redirect(array('index'));
             }
         }
     }
