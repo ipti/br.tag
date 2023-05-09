@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.18.42]
+- Corrigindo o campo de inserção da instituição de ensino superior no formulário do professor
+
 ## [Vesão 3.18.41]
 - Ajuste na largura para impressão do relatório de matrícula
 - Adição de legendas para o relatório de matrícula

@@ -1,11 +1,10 @@
 window.location.search.includes("update") ? $('.last').css('display', 'block') : $('.last').css('display', 'none');
 
-$('.heading-buttons').css('width', $('#content').width());
+ $('.heading-buttons').css('width', $('#content').width());
 
-$(document).ready(function () {
+ $(window).load(function () {
     $(formInstructorvariableData + 'scholarity').trigger('change');
     $(formInstructorIdentification + 'birthday_date').mask("99/99/9999");
-
     $(formInstructorvariableData + "high_education_institution_code_1_fk, "
         + formInstructorvariableData + "high_education_institution_code_2_fk, "
         + formInstructorvariableData + "high_education_institution_code_3_fk").select2({

@@ -704,7 +704,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 
                                                             </div>
                                                             <div class="controls">
-                                                                <?php echo $form->textField($modelInstructorVariableData, 'high_education_institution_code_1_fk', array("style" => "width:240px;", 'class' => 'select-search-on control-input')); ?>
+                                                                <?php echo $form->textField($modelInstructorVariableData, 'high_education_institution_code_1_fk', array("style" => "width:425px;", 'class' => 'select-search-on control-input')); ?>
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_1_fk'); ?>
                                                             </div>
                                                         </div>
@@ -800,7 +800,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 
                                                             </div>
                                                             <div class="controls">
-                                                                <?php echo $form->textField($modelInstructorVariableData, 'high_education_institution_code_2_fk', array("style" => "width:220px;")); ?>
+                                                                <?php echo $form->textField($modelInstructorVariableData, 'high_education_institution_code_2_fk', array("style" => "width:425px;")); ?>
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_2_fk'); ?>
                                                             </div>
                                                         </div>
@@ -894,7 +894,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                                 <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_3_fk', array('class' => 'control-label required indicator')); ?>
                                                             </div>
                                                             <div class="controls">
-                                                                <?php echo $form->textField($modelInstructorVariableData, 'high_education_institution_code_3_fk', array("style" => "width:220px;")); ?>
+                                                                <?php echo $form->textField($modelInstructorVariableData, 'high_education_institution_code_3_fk', array("style" => "width:425px;")); ?>
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_3_fk'); ?>
                                                             </div>
                                                         </div>
