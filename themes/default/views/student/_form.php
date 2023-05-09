@@ -638,6 +638,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 Certidão Civil
                             </h3>
                         </div>
+                        <div class="column">
+                            <h3>
+                            </h3>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="column">
@@ -690,14 +694,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk'); ?>
                                 </div>
                             </div>
-                            <h3>
-                                Cartão Nacional de Saúde
-                            </h3>
-                            <div class="t-field-text">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cns', array('class' => 't-field-text__label control-label')); ?>
-                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cns', array('size' => 11, 'maxlength' => 15, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite o Nº do CNS')); ?>
-                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'cns'); ?>
-                            </div>
                         </div>
                         <div class="column">
                             <div class="js-hidden-oldDocuments-fields">
@@ -742,19 +738,50 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number'); ?>
                                 </div>
                             </div>
-                            <h3>
-                                Cadastro de Pessoa Física
-                            </h3>
-
                         </div>
                     </div>
+                    <section class="t-field-section">
+                        <div class="row">
+                            <div class="column">
+                                <h3>
+                                    Cartão Nacional de Saúde
+                                </h3>
+                            </div>
+                            <div class="column">
+                                <h3>
+                                    Cadastro de Pessoa Física
+                                </h3>
+                            </div>
+                        </div>
+                    </section>
                     <div class="row">
                         <div class="column">
-                            <h3>
-                                Registro Geral
-                            </h3>
+                            <div class="t-field-text">
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cns', array('class' => 't-field-text__label control-label')); ?>
+                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cns', array('size' => 11, 'maxlength' => 15, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite o Nº do CNS')); ?>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'cns'); ?>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="t-field-text">
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf', array('class' => 't-field-text__label control-label')); ?>
+                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br")); ?>
+                                <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                    <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                </span>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'cpf'); ?>
+                            </div>
                         </div>
                     </div>
+                    <section class="t-field-section">
+                        <div class="row">
+                            <div class="column">
+                                <h3>
+                                    Registro Geral
+                                </h3>
+                            </div>
+                        </div>
+                    </section>
                     <div class="row">
                         <div class="column">
                             <div class="t-field-text">
@@ -768,14 +795,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ?>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk'); ?>
                             </div>
-                            <h3>
+                            <!-- <h3>
                                 Justiça
-                            </h3>
-                            <div class="t-field-select">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'justice_restriction', array('class' => 't-field-select__label control-label')); ?>
-                                <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'justice_restriction', array(null => "Selecione", "0" => "Não possui restrições", "1" => "LA - Liberdade Assistida", "2" => "PSC - Prestação de Serviços Comunitários"), array('class' => 'select-search-off t-field-select__input', "style" => "width:100%")); ?>
-                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'justice_restriction'); ?>
-                            </div>
+                            </h3> -->
                         </div>
                         <div class="column">
                             <div class="t-field-select">
@@ -789,9 +811,35 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number_expediction_date', array('size' => 10, 'maxlength' => 10, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite a Data de Expedição da Identidade')); ?>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_expediction_date'); ?>
                             </div>
-                            <h3>
+                            <!-- <h3>
                                 Passaporte
-                            </h3>
+                            </h3> -->
+
+                        </div>
+                    </div>
+                    <section class="t-field-section">
+                        <div class="row">
+                            <div class="column">
+                                <h3>
+                                    Justiça
+                                </h3>
+                            </div>
+                            <div class="column">
+                                <h3>
+                                    Passaporte
+                                </h3>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="row">
+                        <div class="column">
+                            <div class="t-field-select">
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'justice_restriction', array('class' => 't-field-select__label control-label')); ?>
+                                <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'justice_restriction', array(null => "Selecione", "0" => "Não possui restrições", "1" => "LA - Liberdade Assistida", "2" => "PSC - Prestação de Serviços Comunitários"), array('class' => 'select-search-off t-field-select__input', "style" => "width:100%")); ?>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'justice_restriction'); ?>
+                            </div>
+                        </div>
+                        <div class="column">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('class' => 't-field-text__label control-label')); ?>
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('size' => 20, 'maxlength' => 20, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive n-br", 'placeholder' => 'Digite o Passaporte ou Documento Estrangeiro')); ?>
@@ -799,13 +847,15 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="column">
-                            <h3>
-                                Justificativa da falta de documentação
-                            </h3>
+                    <section class="t-field-section">
+                        <div class="row">
+                            <div class="column">
+                                <h3>
+                                    Justificativa da falta de documentação
+                                </h3>
+                            </div>
                         </div>
-                    </div>
+                    </section>
                     <div class="row">
                         <div class="column">
                             <div class="t-field-select">
@@ -817,13 +867,15 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="column">
-                            <h3>
-                                Dados Sociais
-                            </h3>
+                    <section class="t-field-section">
+                        <div class="row">
+                            <div class="column">
+                                <h3>
+                                    Dados Sociais
+                                </h3>
+                            </div>
                         </div>
-                    </div>
+                    </section>
                     <div class="row">
                         <div class="column">
                             <div class="t-field-text js-hide-not-required">
