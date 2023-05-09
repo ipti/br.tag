@@ -3,9 +3,10 @@
 /* @var $model ProvisionAcounts */
 /* @var $form CActiveForm */
 
-$baseUrl = Yii::app()->baseUrl;
+$modulePath = Yii::app()->getModule('sagres')->getBasePath();
+$baseUrl = Yii::app()->getAssetManager()->publish($modulePath . '/resources/form/validations.js');
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/sagres/form/validations.js?v=1.0', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl, CClientScript::POS_END);
 
 ?>
 
@@ -76,17 +77,18 @@ $cs->registerScriptFile($baseUrl . '/js/sagres/form/validations.js?v=1.0', CClie
                                             <?php echo $form->labelEx($model, 'cpf_responsavel', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($model, 'cpf_responsavel', array('size' => 14, 'maxlength' => 14, 'placeholder'=>'___.___.___-__', 'id' => 'input_responsible_cpf')); ?>
+                                            <?php echo $form->textField($model, 'cpf_responsavel', array('size' => 14, 'maxlength' => 14, 'id' => 'input_responsible_cpf')); ?>
                                             <?php echo $form->error($model, 'cpf_responsavel'); ?>
                                         </div>
                                     </div>
+
 
                                     <div class="control-group">
                                         <div class="controls">
                                             <?php echo $form->labelEx($model, 'cpf_gestor', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($model, 'cpf_gestor', array('size' => 14, 'maxlength' => 14,'placeholder'=>'___.___.___-__','id' => 'input_manager_cpf')); ?>
+                                            <?php echo $form->textField($model, 'cpf_gestor', array('size' => 14, 'maxlength' => 14,'id' => 'input_manager_cpf')); ?>
                                             <?php echo $form->error($model, 'cpf_gestor'); ?>
                                         </div>
                                     </div>
