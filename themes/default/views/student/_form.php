@@ -637,35 +637,17 @@ $form = $this->beginWidget('CActiveForm', array(
                             <h3>
                                 Certidão Civil
                             </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column">
                             <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
-                            <div class="t-field-text js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'nis', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'nis', array('size' => 11, 'maxlength' => 11, 'placeholder' => 'Digite o NIS')); ?>
-                                <span id="nisMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                                    <img id="errorNisIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
-                                </span>
-                                <span id="nisMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                                    <img id="errorNisIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
-                                </span>
-                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'nis'); ?>
-                            </div>
-                            <div class="t-field-checkbox js-hide-not-required">
-                                <?php echo $form->checkBox($modelStudentIdentification, 'bf_participator', array('class' => 't-field-checkbox__input')); ?>
-                                <?php echo $form->labelEx($modelStudentIdentification, 'bf_participator', array('class' => 'control-label t-field-checkbox__label')); ?>
-                                <?php echo $form->error($modelStudentIdentification, 'bf_participator'); ?>
-                            </div>
-
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification', array('class' => 't-field-select__label control-label')); ?>
                                 <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'civil_certification', array(null => "Selecione o modelo", "1" => "Modelo Antigo", "2" => "Modelo Novo"), array("class" => "select-search-off t-field-select__input nationality-sensitive br", "disabled" => "disabled", "style" => "width:100%")); ?>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification'); ?>
                             </div>
                             <div class="js-hidden-oldDocuments-fields">
-                                <div class="t-field-select">
-                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_type', array('class' => 't-field-select__label control-label')); ?>
-                                    <?php echo $form->DropdownList($modelStudentDocumentsAndAddress, 'civil_certification_type', array(null => "Selecione o tipo", "1" => "Nascimento", "2" => "Casamento"), array("class" => "select-search-off t-field-select__input nationality-sensitive br", "disabled" => "disabled",  "style" => "width:100%")); ?>
-                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_type'); ?>
-                                </div>
                                 <div class="t-field-text">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_term_number', array('class' => 't-field-text__label control-label')); ?>
                                     <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_term_number', array('size' => 8, 'maxlength' => 8, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite o Nº do Termo')); ?>
@@ -675,19 +657,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_term_number'); ?>
                                 </div>
                                 <div class="t-field-text">
-                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_sheet', array('class' => 't-field-text__label control-label')); ?>
-                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_sheet', array('size' => 4, 'maxlength' => 4, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite a Folha')); ?>
-                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_sheet'); ?>
-                                </div>
-                                <div class="t-field-text">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_book', array('class' => 't-field-text__label control-label')); ?>
                                     <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_book', array('size' => 8, 'maxlength' => 8, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite o Livro')); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_book'); ?>
-                                </div>
-                                <div class="t-field-text">
-                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_date', array('class' => 't-field-text__label control-label')); ?>
-                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_date', array('size' => 10, 'maxlength' => 10, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite a Data de Emissão da Certidão (Dia/Mês/Ano)')); ?>
-                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_date'); ?>
                                 </div>
                                 <div class="t-field-select">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'notary_office_uf_fk', array('class' => 't-field-select__label control-label')); ?>
@@ -707,6 +679,44 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'notary_office_uf_fk'); ?>
                                 </div>
                                 <div class="t-field-select">
+                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', array('class' => 't-field-select__label control-label')); ?>
+                                    <?php
+                                    echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', CHtml::listData(EdcensoNotaryOffice::model()->findAllByAttributes(array('city' => $modelStudentDocumentsAndAddress->notary_office_city_fk), array('order' => 'name')), 'cod', 'name') + array('7177' => 'OUTROS'), array(
+                                        "prompt" => "Selecione um cartório",
+                                        "class" => "select-search-on t-field-select__input nationality-sensitive br", "disabled" => "disabled",
+                                        "style" => "width:100%"
+                                    ));
+                                    ?>
+                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk'); ?>
+                                </div>
+                            </div>
+                            <h3>
+                                Cartão Nacional de Saúde
+                            </h3>
+                            <div class="t-field-text">
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cns', array('class' => 't-field-text__label control-label')); ?>
+                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cns', array('size' => 11, 'maxlength' => 15, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite o Nº do CNS')); ?>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'cns'); ?>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="js-hidden-oldDocuments-fields">
+                                <div class="t-field-select">
+                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_type', array('class' => 't-field-select__label control-label')); ?>
+                                    <?php echo $form->DropdownList($modelStudentDocumentsAndAddress, 'civil_certification_type', array(null => "Selecione o tipo", "1" => "Nascimento", "2" => "Casamento"), array("class" => "select-search-off t-field-select__input nationality-sensitive br", "disabled" => "disabled",  "style" => "width:100%")); ?>
+                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_type'); ?>
+                                </div>
+                                <div class="t-field-text">
+                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_sheet', array('class' => 't-field-text__label control-label')); ?>
+                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_sheet', array('size' => 4, 'maxlength' => 4, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite a Folha')); ?>
+                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_sheet'); ?>
+                                </div>
+                                <div class="t-field-text">
+                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_date', array('class' => 't-field-text__label control-label')); ?>
+                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_date', array('size' => 10, 'maxlength' => 10, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite a Data de Emissão da Certidão (Dia/Mês/Ano)')); ?>
+                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_date'); ?>
+                                </div>
+                                <div class="t-field-select">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'notary_office_city_fk', array('class' => 't-field-select__label control-label')); ?>
                                     <?php
                                     echo $form->dropDownList($modelStudentDocumentsAndAddress, 'notary_office_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->notary_office_uf_fk), array('order' => 'name')), 'id', 'name'), array(
@@ -723,29 +733,81 @@ $form = $this->beginWidget('CActiveForm', array(
                                     ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'notary_office_city_fk'); ?>
                                 </div>
-                                <div class="t-field-select">
-                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', array('class' => 't-field-select__label control-label')); ?>
-                                    <?php
-                                    echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', CHtml::listData(EdcensoNotaryOffice::model()->findAllByAttributes(array('city' => $modelStudentDocumentsAndAddress->notary_office_city_fk), array('order' => 'name')), 'cod', 'name') + array('7177' => 'OUTROS'), array(
-                                        "prompt" => "Selecione um cartório",
-                                        "class" => "select-search-on t-field-select__input nationality-sensitive br", "disabled" => "disabled",
-                                        "style" => "width:100%"
-                                    ));
-                                    ?>
-                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk'); ?>
+                                <div class="t-field-text js-hidden-newDocument-field">
+                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array('class' => 't-field-text__label control-label')); ?>
+                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array("disabled" => "disabled", "class" => "nationality-sensitive br t-field-text__input")); ?>
+                                    <span id="registerMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                        <img id="registerIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                    </span>
+                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number'); ?>
                                 </div>
                             </div>
-                            <div class="t-field-text js-hidden-newDocument-field">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array('class' => 't-field-text__label control-label')); ?>
-                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array("disabled" => "disabled", "class" => "nationality-sensitive br t-field-text__input")); ?>
-                                <span id="registerMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                                    <img id="registerIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
-                                </span>
-                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number'); ?>
+                            <h3>
+                                Cadastro de Pessoa Física
+                            </h3>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <h3>
+                                Registro Geral
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <div class="t-field-text">
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number', array('class' => 't-field-text__label control-label')); ?>
+                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number', array('size' => 20, 'maxlength' => 20, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite o Nº da Identidade')); ?>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number'); ?>
                             </div>
+                            <div class="t-field-select">
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk', array('class' => 't-field-select__label control-label')); ?>
+                                <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione um estado", "class" => "select-search-on t-field-select__input nationality-sensitive br", "disabled" => "disabled", "style" => "width:100%"));
+                                ?>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk'); ?>
+                            </div>
+                            <h3>
+                                Justiça
+                            </h3>
+                            <div class="t-field-select">
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'justice_restriction', array('class' => 't-field-select__label control-label')); ?>
+                                <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'justice_restriction', array(null => "Selecione", "0" => "Não possui restrições", "1" => "LA - Liberdade Assistida", "2" => "PSC - Prestação de Serviços Comunitários"), array('class' => 'select-search-off t-field-select__input', "style" => "width:100%")); ?>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'justice_restriction'); ?>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="t-field-select">
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk', array('class' => 't-field-select__label control-label')); ?>
+                                <?php echo $form->DropdownList($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk', CHtml::listData(EdcensoOrganIdEmitter::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione um órgão emissor da identidade", "class" => "select-search-on t-field-select__input nationality-sensitive br", "disabled" => "disabled", "style" => "width:100%"));
+                                ?>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk'); ?>
+                            </div>
+                            <div class="t-field-text">
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_expediction_date', array('class' => 't-field-text__label control-label')); ?>
+                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number_expediction_date', array('size' => 10, 'maxlength' => 10, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite a Data de Expedição da Identidade')); ?>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_expediction_date'); ?>
+                            </div>
+                            <h3>
+                                Passaporte
+                            </h3>
+                            <div class="t-field-text">
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('class' => 't-field-text__label control-label')); ?>
+                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('size' => 20, 'maxlength' => 20, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive n-br", 'placeholder' => 'Digite o Passaporte ou Documento Estrangeiro')); ?>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'foreign_document_or_passport'); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column">
                             <h3>
                                 Justificativa da falta de documentação
                             </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column">
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'no_document_desc', array('class' => 't-field-select__label control-label')); ?>
                                 <?php echo $form->DropDownList($modelStudentIdentification, 'no_document_desc', array(null => "Selecione a justificativa", "1" => "o(a) aluno(a) não possui os documentos pessoais solicitados", "2" => "A escola não dispõe ou não recebeu os documentos pessoais do(a) aluno(a)"), array("class" => "select-search-off t-field-select__input nationality-sensitive br", "disabled" => "disabled", "style" => "width:100%")); ?>
@@ -753,9 +815,35 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                         <div class="column">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column">
                             <h3>
-                                Cartão Nacional de Saúde
+                                Dados Sociais
                             </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <div class="t-field-text js-hide-not-required">
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'nis', array('class' => 'control-label t-field-text__label')); ?>
+                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'nis', array('size' => 11, 'maxlength' => 11, 'placeholder' => 'Digite o NIS')); ?>
+                                <span id="nisMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                    <img id="errorNisIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                </span>
+                                <span id="nisMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                    <img id="errorNisIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                </span>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'nis'); ?>
+                            </div>
+                            <div class="t-field-checkbox js-hide-not-required">
+                                <?php echo $form->checkBox($modelStudentIdentification, 'bf_participator', array('class' => 't-field-checkbox__input')); ?>
+                                <?php echo $form->labelEx($modelStudentIdentification, 'bf_participator', array('class' => 'control-label t-field-checkbox__label')); ?>
+                                <?php echo $form->error($modelStudentIdentification, 'bf_participator'); ?>
+                            </div>
+                        </div>
+                        <div class="column">
                             <div class="t-field-text js-hide-not-required">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'inep_id', array('class' => 'control-label t-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'inep_id', array('size' => 60, 'maxlength' => 12, 'class' => 't-field-text__input', 'placeholder' => 'Digite o ID INEP')); ?>
@@ -765,71 +853,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->checkBox($modelStudentIdentification, 'send_year', array('value' => date('Y') + 1, 'uncheckValue' => (date('Y')), 'class' => 't-field-checkbox__input')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'send_year'); ?>
                                 <?php echo $form->labelEx($modelStudentIdentification, 'send_year', array('class' => 'control-label t-field-checkbox__label--required')); ?>
-
-                            </div>
-                            <div class="t-field-text">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cns', array('class' => 't-field-text__label control-label')); ?>
-                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cns', array('size' => 11, 'maxlength' => 15, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite o Nº do CNS')); ?>
-                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'cns'); ?>
-                            </div>
-                            <h3>
-                                Cadastro de Pessoa Física
-                            </h3>
-                            <div class="t-field-text">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf', array('class' => 't-field-text__label control-label')); ?>
-                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br")); ?>
-                                <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                                    <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
-                                </span>
-                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'cpf'); ?>
-                            </div>
-                            <h3>
-                                Registro Geral
-                            </h3>
-
-                            <div class="t-field-text">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number', array('class' => 't-field-text__label control-label')); ?>
-                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number', array('size' => 20, 'maxlength' => 20, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite o Nº da Identidade')); ?>
-                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number'); ?>
-                            </div>
-
-                            <div class="t-field-select">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk', array('class' => 't-field-select__label control-label')); ?>
-                                <?php echo $form->DropdownList($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk', CHtml::listData(EdcensoOrganIdEmitter::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione um órgão emissor da identidade", "class" => "select-search-on t-field-select__input nationality-sensitive br", "disabled" => "disabled", "style" => "width:100%"));
-                                ?>
-                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk'); ?>
-                            </div>
-
-                            <div class="t-field-select">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk', array('class' => 't-field-select__label control-label')); ?>
-                                <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione um estado", "class" => "select-search-on t-field-select__input nationality-sensitive br", "disabled" => "disabled", "style" => "width:100%"));
-                                ?>
-                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk'); ?>
-                            </div>
-
-                            <div class="t-field-text">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_expediction_date', array('class' => 't-field-text__label control-label')); ?>
-                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number_expediction_date', array('size' => 10, 'maxlength' => 10, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite a Data de Expedição da Identidade')); ?>
-                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_expediction_date'); ?>
-                            </div>
-
-
-                            <h3>
-                                Justiça
-                            </h3>
-                            <div class="t-field-select">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'justice_restriction', array('class' => 't-field-select__label control-label')); ?>
-                                <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'justice_restriction', array(null => "Selecione", "0" => "Não possui restrições", "1" => "LA - Liberdade Assistida", "2" => "PSC - Prestação de Serviços Comunitários"), array('class' => 'select-search-off t-field-select__input', "style" => "width:100%")); ?>
-                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'justice_restriction'); ?>
-                            </div>
-
-                            <h3>
-                                Passaporte
-                            </h3>
-                            <div class="t-field-text">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('class' => 't-field-text__label control-label')); ?>
-                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('size' => 20, 'maxlength' => 20, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive n-br", 'placeholder' => 'Digite o Passaporte ou Documento Estrangeiro')); ?>
-                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'foreign_document_or_passport'); ?>
                             </div>
                         </div>
                     </div>
