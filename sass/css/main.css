@@ -129,7 +129,7 @@ html {
 }
 
 /* line 15, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
-.t-button, .t-button-primary, .t-button-submit, .t-button-secondary, .t-button-tertiary, .t-button-danger {
+.t-button, .t-button-primary, .t-button-submit, .t-button-secondary, .t-button-tertiary, .t-button-danger, .t-button-icon {
   display: flex;
   flex: 1;
   padding: 0.875em;
@@ -144,19 +144,19 @@ html {
 }
 
 /* line 28, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
-.t-button span, .t-button-primary span, .t-button-submit span, .t-button-secondary span, .t-button-tertiary span, .t-button-danger span {
+.t-button span, .t-button-primary span, .t-button-submit span, .t-button-secondary span, .t-button-tertiary span, .t-button-danger span, .t-button-icon span {
   margin: 0em 0.25em 0em 0em;
   font-size: 24px;
 }
 
 /* line 32, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
-.t-button:hover, .t-button-primary:hover, .t-button-submit:hover, .t-button-secondary:hover, .t-button-tertiary:hover, .t-button-danger:hover, .t-button--active {
+.t-button:hover, .t-button-primary:hover, .t-button-submit:hover, .t-button-secondary:hover, .t-button-tertiary:hover, .t-button-danger:hover, .t-button-icon:hover, .t-button--active {
   text-decoration: none;
 }
 
 @media (min-width: 768px) {
   /* line 15, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
-  .t-button, .t-button-primary, .t-button-submit, .t-button-secondary, .t-button-tertiary, .t-button-danger {
+  .t-button, .t-button-primary, .t-button-submit, .t-button-secondary, .t-button-tertiary, .t-button-danger, .t-button-icon {
     flex: 0 auto;
     padding: 0.25em 1em 0.25em 1em;
     font-size: 14px;
@@ -165,23 +165,23 @@ html {
 
 @media (min-width: 1536px) {
   /* line 15, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
-  .t-button, .t-button-primary, .t-button-submit, .t-button-secondary, .t-button-tertiary, .t-button-danger {
+  .t-button, .t-button-primary, .t-button-submit, .t-button-secondary, .t-button-tertiary, .t-button-danger, .t-button-icon {
     padding: 0.375em 1em 0.375em 1em;
   }
 }
 
 /* line 47, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
-.t-button:link, .t-button-primary:link, .t-button-submit:link, .t-button-secondary:link, .t-button-tertiary:link, .t-button-danger:link, .t-button:focus, .t-button-primary:focus, .t-button-submit:focus, .t-button-secondary:focus, .t-button-tertiary:focus, .t-button-danger:focus, .t-button:hover, .t-button-primary:hover, .t-button-submit:hover, .t-button-secondary:hover, .t-button-tertiary:hover, .t-button-danger:hover, .t-button--active, .t-button:active, .t-button-primary:active, .t-button-submit:active, .t-button-secondary:active, .t-button-tertiary:active, .t-button-danger:active {
+.t-button:link, .t-button-primary:link, .t-button-submit:link, .t-button-secondary:link, .t-button-tertiary:link, .t-button-danger:link, .t-button-icon:link, .t-button:focus, .t-button-primary:focus, .t-button-submit:focus, .t-button-secondary:focus, .t-button-tertiary:focus, .t-button-danger:focus, .t-button-icon:focus, .t-button:hover, .t-button-primary:hover, .t-button-submit:hover, .t-button-secondary:hover, .t-button-tertiary:hover, .t-button-danger:hover, .t-button-icon:hover, .t-button--active, .t-button:active, .t-button-primary:active, .t-button-submit:active, .t-button-secondary:active, .t-button-tertiary:active, .t-button-danger:active, .t-button-icon:active {
   text-decoration: none !important;
 }
 
 /* line 55, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
-.t-button img, .t-button-primary img, .t-button-submit img, .t-button-secondary img, .t-button-tertiary img, .t-button-danger img {
+.t-button img, .t-button-primary img, .t-button-submit img, .t-button-secondary img, .t-button-tertiary img, .t-button-danger img, .t-button-icon img {
   margin-right: 6px;
 }
 
 /* line 59, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
-.t-button i, .t-button-primary i, .t-button-submit i, .t-button-secondary i, .t-button-tertiary i, .t-button-danger i {
+.t-button i, .t-button-primary i, .t-button-submit i, .t-button-secondary i, .t-button-tertiary i, .t-button-danger i, .t-button-icon i {
   align-self: center;
   margin-right: 6px;
   opacity: 0.5;
@@ -256,6 +256,21 @@ html {
 /* line 131, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
 .t-button-danger--disabled:hover {
   color: #94a8be;
+}
+
+/* line 135, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+.t-button-icon {
+  padding: 0.375em 0.375em 0.375em 0.375em;
+  display: contents;
+  background: none;
+  border: none;
+}
+
+/* line 141, ../../../../wamp64/www/br.tag/sass/scss/_button.scss */
+.t-button-icon span {
+  margin: 0em 0.25em 0em 0em;
+  font-size: 18px;
+  color: #5F738C;
 }
 
 /* Color */

@@ -22,6 +22,36 @@ $(document).ready(function () {
         }
         
     });
+    $("#new-enrollment-button").click(function() {
+        if($("#new-enrollment-form2").css('display') == 'none') {
+            $("#new-enrollment-form2").show();
+            $("#new-enrollment-button").text("Fechar formulário");
+        }else {
+            $("#new-enrollment-form2").hide();
+            $("#new-enrollment-button").text("Adicionar Matrícula");
+        }
+        
+    });
+    $("#new-enrollment-button").click(function() {
+        if($("#new-enrollment-form3").css('display') == 'none') {
+            $("#new-enrollment-form3").show();
+            $("#new-enrollment-button").text("Fechar formulário");
+        }else {
+            $("#new-enrollment-form3").hide();
+            $("#new-enrollment-button").text("Adicionar Matrícula");
+        }
+        
+    });
+    $("#new-enrollment-button").click(function() {
+        if($("#new-enrollment-form4").css('display') == 'none') {
+            $("#new-enrollment-form4").show();
+            $("#new-enrollment-button").text("Fechar formulário");
+        }else {
+            $("#new-enrollment-form4").hide();
+            $("#new-enrollment-button").text("Adicionar Matrícula");
+        }
+        
+    });
     var simple = getUrlVars()['simple'];
     if (simple == '1') {
         $("#tab-student-documents").hide();

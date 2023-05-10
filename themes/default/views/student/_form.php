@@ -133,7 +133,26 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </span>
                                 <?php echo $form->error($modelStudentIdentification, 'name'); ?>
                             </div>
-
+                        </div>
+                        <div class="column">
+                            <!-- Nome social -->
+                            <div class="t-field-checkbox js-hide-not-required" id="show-student-civil-name-box">
+                                <label class="checkbox control-label t-field-checkbox__label">
+                                    Esse é um nome social?
+                                    <input type="checkbox" class="t-field-checkbox__input" id="show-student-civil-name" <?php if ($modelStudentIdentification->civil_name != null) echo "checked"; ?>>
+                                </label>
+                            </div>
+                            <div class="t-field-text student-civil-name" style="display: none;">
+                                <div class="t-field-text">
+                                    <?php echo $form->labelEx($modelStudentIdentification, 'civil_name', array('class' => 'control-label t-field-text__label--required')); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'civil_name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome Civil')); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'civil_name'); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'birthday', array('class' => 'control-label  t-field-text__label--required')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'birthday', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
@@ -180,8 +199,11 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-text js-hide-not-required" style="width: 120%;">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'gov_id', array('class' => 'control-label t-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'gov_id', array('size' => 60, 'maxlength' => 12, 'class' => 't-field-text__input', 'placeholder' => 'Não possui', 'disabled' => 'disabled', 'style' => 'width:82.95%;')); ?>
-                                <button type="button" id="copy-gov-id" style="background: none; border:none;"><span class="t-icon-copy"></span></button>
-                                <span id="copy-message" style="display:none;"></span>
+                                <button type="button" id="copy-gov-id" class="t-button-icon">
+                                    <span class="t-icon-copy"></span>
+                                </button>
+                                <span id="copy-message" style="display:none;">
+                                </span>
                                 <?php echo $form->error($modelStudentIdentification, 'gov_id'); ?>
                             </div>
                             <!--
@@ -307,20 +329,6 @@ $form = $this->beginWidget('CActiveForm', array(
                             <!----------------------------------------------------------------------------------------------------------------------------------- -->
                         </div>
                         <div class="column">
-                            <!-- Nome social -->
-                            <div class="t-field-checkbox js-hide-not-required" id="show-student-civil-name-box">
-                                <label class="checkbox control-label t-field-checkbox__label">
-                                    Esse é um nome social?
-                                    <input type="checkbox" class="t-field-checkbox__input" id="show-student-civil-name" <?php if ($modelStudentIdentification->civil_name != null) echo "checked"; ?>>
-                                </label>
-                            </div>
-                            <div class="t-field-text student-civil-name" style="display: none;">
-                                <div class="t-field-text">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'civil_name', array('class' => 'control-label t-field-text__label--required')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'civil_name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome Civil')); ?>
-                                    <?php echo $form->error($modelStudentIdentification, 'civil_name'); ?>
-                                </div>
-                            </div>
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf', array('class' => 't-field-text__label control-label')); ?>
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br")); ?>
@@ -995,12 +1003,6 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row" id="new-enrollment-form" style="display: none;">
                         <div class="column helper">
                             <?php echo $form->hiddenField($modelEnrollment, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
-                            <!-- Data -->
-                            <div class="t-field-text js-hide-not-required">
-                                <?php echo $form->labelEx($modelEnrollment, 'school_admission_date', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelEnrollment, 'school_admission_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
-                                <?php echo $form->error($modelEnrollment, 'school_admission_date'); ?>
-                            </div>
                             <!-- turma -->
                             <div class="t-field-select t-input">
                                 <?php echo $form->labelEx($modelEnrollment, 'classroom_fk', array('class' => 'control-label  t-input__label--required')); ?>
@@ -1026,44 +1028,46 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                                 <?php echo $form->error($modelEnrollment, 'classroom_fk'); ?>
                             </div>
-                            <!-- turma unificada -->
-                            <div id="multiclass">
-                                <div class="t-field-select js-hide-not-required">
-                                    <?php echo $form->labelEx($modelEnrollment, 'unified_class', array('class' => 'control-label t-field-text__label')); ?>
-                                    <?php echo $form->DropDownList($modelEnrollment, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA"), array('class' => 'select-search-off control-input t-field-select__input')); ?>
-                                    <?php echo $form->error($modelEnrollment, 'unified_class'); ?>
-                                </div>
-                                <div class="t-field-select js-hide-not-required">
-                                    <?php echo CHtml::label("Etapa", 'Stage', array('class' => 'control-label t-field-text__label')); ?>
-                                    <?php
-                                    echo CHtml::dropDownList("Stage", null, array(
-                                        "0" => "Selecione a Modalidade",
-                                        "1" => "Infantil",
-                                        "2" => "Fundamental Menor",
-                                        "3" => "Fundamental Maior",
-                                        "4" => "Médio",
-                                        "5" => "Profissional",
-                                        "6" => "EJA",
-                                        "7" => "Outros",
-                                    ), array(
-                                        'class' => 'select-search-off control-input t-field-select__input',
-                                        'ajax' => array(
-                                            'type' => 'POST',
-                                            'url' => CController::createUrl('enrollment/getmodalities'),
-                                            'success' => 'function(data){
-                                                $("#StudentEnrollment_edcenso_stage_vs_modality_fk").html(decodeHtml(data));
-                                            }'
-                                        ),
-                                    ));
-                                    ?>
-                                </div>
-                                <!-- Etapa de Ensino -->
-                                <div class="control-group js-hide-not-required">
-                                    <?php echo $form->labelEx($modelEnrollment, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label t-field-text__label')); ?>
-                                    <?php echo $form->dropDownList($modelEnrollment, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa", 'class' => 'select-search-on control-input t-field-select__input')); ?>
-                                    <?php echo $form->error($modelEnrollment, 'edcenso_stage_vs_modality_fk'); ?>
-                                </div>
+                        </div>
+                        <div class="column helper">
+                            <div class="control-group js-hide-not-required">
+                                <?php echo $form->labelEx($modelEnrollment, 'admission_type', array('class' => 'control-label t-field-text__label')); ?>
+                                <?php echo $form->DropDownList($modelEnrollment, 'admission_type', array("1" => "Rematrícula", "2" => "Transferência interna", "3" => "Transferência externa"), array("prompt" => "Selecione", 'class' => 'select-search-off control-input t-field-select__input')); ?>
+                                <?php echo $form->error($modelEnrollment, 'admission_type'); ?>
                             </div>
+                            <!--  -->
+
+                        </div>
+                    </div>
+                    <div class="row" id="new-enrollment-form2" style="display: none;">
+                        <div class="column helper">
+                            <!-- Data -->
+                            <div class="t-field-text js-hide-not-required">
+                                <?php echo $form->labelEx($modelEnrollment, 'school_admission_date', array('class' => 'control-label t-field-text__label')); ?>
+                                <?php echo $form->textField($modelEnrollment, 'school_admission_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->error($modelEnrollment, 'school_admission_date'); ?>
+                            </div>
+                        </div>
+                        <div class="column helper">
+                            <div class="control-group js-hide-not-required">
+                                <?php echo $form->labelEx($modelEnrollment, 'current_stage_situation', array('class' => 'control-label t-field-text__label')); ?>
+                                <?php echo $form->DropDownList(
+                                    $modelEnrollment,
+                                    'current_stage_situation',
+                                    array(
+                                        null => "Selecione",
+                                        "0" => "Primeira matrícula no curso",
+                                        "1" => "Promovido na série anterior do mesmo curso",
+                                        "2" => "Repetente"
+                                    ),
+                                    array('class' => 'select-search-off control-input t-field-select__input')
+                                ); ?>
+                                <?php echo $form->error($modelEnrollment, 'current_stage_situation'); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="new-enrollment-form3" style="display: none;">
+                        <div class="column helper">
                             <!-- Situação da matrícula -->
                             <div class="control-group js-hide-not-required">
                                 <?php echo $form->labelEx($modelEnrollment, 'status', array('class' => 'control-label t-field-text__label')); ?>
@@ -1077,11 +1081,6 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                         <div class="column helper">
-                            <div class="control-group js-hide-not-required">
-                                <?php echo $form->labelEx($modelEnrollment, 'admission_type', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->DropDownList($modelEnrollment, 'admission_type', array("1" => "Rematrícula", "2" => "Transferência interna", "3" => "Transferência externa"), array("prompt" => "Selecione", 'class' => 'select-search-off control-input t-field-select__input')); ?>
-                                <?php echo $form->error($modelEnrollment, 'admission_type'); ?>
-                            </div>
                             <div class="control-group js-hide-not-required">
                                 <?php echo $form->labelEx($modelEnrollment, 'current_stage_situation', array('class' => 'control-label t-field-text__label')); ?>
                                 <?php echo $form->DropDownList(
@@ -1115,6 +1114,51 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                                 <?php echo $form->error($modelEnrollment, 'previous_stage_situation'); ?>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row" id="new-enrollment-form4" style="display: none;">
+                        <div class="column helper">
+                            <!-- turma unificada -->
+                            <div id="multiclass">
+                                <div class="t-field-select js-hide-not-required">
+                                    <?php echo $form->labelEx($modelEnrollment, 'unified_class', array('class' => 'control-label t-field-text__label')); ?>
+                                    <?php echo $form->DropDownList($modelEnrollment, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA"), array('class' => 'select-search-off control-input t-field-select__input')); ?>
+                                    <?php echo $form->error($modelEnrollment, 'unified_class'); ?>
+                                </div>
+                                <!-- etapa -->
+                                <div class="t-field-select js-hide-not-required">
+                                    <?php echo CHtml::label("Etapa", 'Stage', array('class' => 'control-label t-field-text__label')); ?>
+                                    <?php
+                                    echo CHtml::dropDownList("Stage", null, array(
+                                        "0" => "Selecione a Modalidade",
+                                        "1" => "Infantil",
+                                        "2" => "Fundamental Menor",
+                                        "3" => "Fundamental Maior",
+                                        "4" => "Médio",
+                                        "5" => "Profissional",
+                                        "6" => "EJA",
+                                        "7" => "Outros",
+                                    ), array(
+                                        'class' => 'select-search-off control-input t-field-select__input',
+                                        'ajax' => array(
+                                            'type' => 'POST',
+                                            'url' => CController::createUrl('enrollment/getmodalities'),
+                                            'success' => 'function(data){
+                                                    $("#StudentEnrollment_edcenso_stage_vs_modality_fk").html(decodeHtml(data));
+                                                }'
+                                        ),
+                                    ));
+                                    ?>
+                                </div>
+                                <!-- Etapa de Ensino -->
+                                <div class="control-group js-hide-not-required">
+                                    <?php echo $form->labelEx($modelEnrollment, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label t-field-text__label')); ?>
+                                    <?php echo $form->dropDownList($modelEnrollment, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa", 'class' => 'select-search-on control-input t-field-select__input')); ?>
+                                    <?php echo $form->error($modelEnrollment, 'edcenso_stage_vs_modality_fk'); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column helper">
                             <!-- Transporte escolar Público -->
                             <div class="t-field-checkbox js-hide-not-required">
                                 <?php echo $form->checkBox($modelEnrollment, 'public_transport', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
@@ -1416,6 +1460,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
+
                 <div class="tab-pane" id="student-health">
                     <div class="row-fluid" style="padding: 0 0 0px 0;">
                         <div class="span12">
@@ -1655,7 +1700,6 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
