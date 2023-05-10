@@ -11,7 +11,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
 $subtitle = "
 <div class='subtitle-enrollments'>
 <span>MI - Matrícula Inicial</span>
-<span>MC - Rematrícula</span>
+<span>MC - Matrícula Continuada</span>
 <span>MR - Matrícula Recorrente</span>
 <span>MT - Matrícula por Transferência</span>
 <span>N - Não informado</span>
