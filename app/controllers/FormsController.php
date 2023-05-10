@@ -129,10 +129,19 @@ class FormsController extends Controller {
 
     public function actionAtaSchoolPerformance($id) {
         $this->layout = "reports";
-        $sql = "SELECT * FROM ata_performance
-                    where `school_year` = " . $this->year . ""
-            . " AND classroom_id = $id  AND (status = 1 OR status IS NULL);";
-        $result = Yii::app()->db->createCommand($sql)->queryRow();
+        $sql = "SELECT c.id as classroom_id, 
+                c.name as classroom_name, 
+                si.inep_id as student_inep_id, 
+                si.name as student_name, 
+                ed.name as discipline_name,
+                gr.* 
+                FROM student_identification si 
+                JOIN student_enrollment se on(se.student_fk = si.id)
+                JOIN grade_results gr on(gr.enrollment_fk = se.id)
+                JOIN edcenso_discipline ed on(gr.discipline_fk = ed.id)
+                JOIN classroom c on(se.classroom_fk = c.id)
+                WHERE c.id = ".$id.";";
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
         setlocale(LC_ALL, NULL);
         setlocale(LC_ALL, "pt_BR.utf8", "pt_BR", "ptb", "ptb.utf8");
         $time = mktime(0, 0, 0, $result['month']);
@@ -144,16 +153,11 @@ class FormsController extends Controller {
             "select ed.id as 'discipline_id', ed.name as 'discipline_name' from curricular_matrix cm 
             join edcenso_discipline ed on ed.id = cm.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name"
         )->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
-
-
-
-        foreach($disciplines as $key => $value){
-            if($value == 1){
-                $enableDisciplines[$key] = $disciplineLabels[$key];
-            }
-        }
         
         $students = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $classroom->id));
+
+        // var_dump($disciplines);
+        // exit;
 
         $this->render('AtaSchoolPerformance', array(
             'report' => $result,
