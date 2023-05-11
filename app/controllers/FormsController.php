@@ -172,6 +172,7 @@ class FormsController extends Controller {
                             "final_media" => $r['final_media']
                         )
                     );
+                    break;
                 }
             }
         }

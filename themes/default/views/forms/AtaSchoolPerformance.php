@@ -155,7 +155,7 @@ if ($turno == 'M') {
             <thead>
                 <tr><th rowspan="4" class='vertical-text'><div>Ordem</div></th><th rowspan="4" class='vertical-text'><div>ID INEP</div></th><th rowspan="4">Nome do Aluno</th><th colspan="25">Componentes Curriculares</th></tr>
                 <tr><th colspan="25">Rendimento Escolar</th></tr>
-                <tr><th colspan="<?php echo $qtde?>">Disciplinas</th><th colspan="5">Resultado Final</th><th colspan="5">Dependência</th></tr>
+                <tr><th colspan="<?php echo $qtde?>">Disciplinas</th><th colspan="4">Resultado Final</th><th colspan="5">Dependência</th></tr>
                 <tr>
                     <?php foreach($disciplines as $discipline) {
                         
@@ -178,7 +178,7 @@ if ($turno == 'M') {
                         echo "<th class='vertical-text'><div>".$discipline."</div></th>";
                     }
                     ?>
-                    <th class='vertical-text'><div>Frequência&nbsp;</div></th><th class='vertical-text'><div>Aprovado</div></th><th class='vertical-text'><div>Prom.&nbsp;com Dependência</div></th><th class='vertical-text'><div>Reprovado</div></th>
+                    <th class='vertical-text'><div>Aprovado</div></th><th class='vertical-text'><div>Prom.&nbsp;com Dependência</div></th><th class='vertical-text'><div>Reprovado</div></th>
                     <th class='vertical-text'><div>Disciplina</div></th><th class='vertical-text'><div>Nota</div></th><th class='vertical-text'><div>Disciplina</div></th><th class='vertical-text'><div>Nota</div></th>
                 </tr>
             </thead>
