@@ -123,7 +123,7 @@ class DefaultController extends CController{
 
             foreach ($classesList as $c) {
                 $did = $c['discipline_fk'] == null ? -1 : $c['discipline_fk'];
-                $dName = $c['discipline_fk'] == null ? "Todas as Disciplinas" :  $c['discipline_name'];
+                $dName = $c['discipline_fk'] == null ? "Todos os componentes curriculares/eixos" :  $c['discipline_name'];
                 $classes = $c['classes'];
                 $month = $c['month'];
                 if(!isset($frequency[$did])) {
