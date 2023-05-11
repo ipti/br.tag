@@ -52,6 +52,46 @@ $(document).ready(function () {
         }
         
     });
+    $("#new-enrollment-button").click(function() {
+        if($("#new-enrollment-form5").css('display') == 'none') {
+            $("#new-enrollment-form5").show();
+            $("#new-enrollment-button").text("Fechar formulário");
+        }else {
+            $("#new-enrollment-form5").hide();
+            $("#new-enrollment-button").text("Adicionar Matrícula");
+        }
+        
+    });
+    $("#new-enrollment-button").click(function() {
+        if($("#new-enrollment-form6").css('display') == 'none') {
+            $("#new-enrollment-form6").show();
+            $("#new-enrollment-button").text("Fechar formulário");
+        }else {
+            $("#new-enrollment-form6").hide();
+            $("#new-enrollment-button").text("Adicionar Matrícula");
+        }
+        
+    });
+        $("#new-enrollment-button").click(function() {
+        if($("#new-enrollment-form7").css('display') == 'none') {
+            $("#new-enrollment-form7").show();
+            $("#new-enrollment-button").text("Fechar formulário");
+        }else {
+            $("#new-enrollment-form7").hide();
+            $("#new-enrollment-button").text("Adicionar Matrícula");
+        }
+        
+    });
+    $("#new-enrollment-button").click(function() {
+        if($("#new-enrollment-form8").css('display') == 'none') {
+            $("#new-enrollment-form8").show();
+            $("#new-enrollment-button").text("Fechar formulário");
+        }else {
+            $("#new-enrollment-form8").hide();
+            $("#new-enrollment-button").text("Adicionar Matrícula");
+        }
+        
+    });
     var simple = getUrlVars()['simple'];
     if (simple == '1') {
         $("#tab-student-documents").hide();
