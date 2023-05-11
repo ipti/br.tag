@@ -226,8 +226,8 @@ $this->breadcrumbs = array(
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <div class="pull-left">
-                            <span class="title">Relação disciplina por docente</span><br>
-                            <span class="subtitle">Informações do docente e disciplina ministrada em cada turma</span>
+                            <span class="title">Relação componente curricular/eixo por docente</span><br>
+                            <span class="subtitle">Informações do docente e componente curricular/eixo ministrado em cada turma</span>
                         </div>
                     </button>
                 </a>

@@ -44,7 +44,7 @@
     <br/>
     <table>
         <tr class="center">
-            <td rowspan="2">DISCIPLINA</td>
+            <td rowspan="2">DISCIPCOMPONENTE CURRICULAR/EIXOLINA</td>
             <td rowspan="2"><div>TIPO</td>
             <td>1° Ano</td>
             <td>2° Ano</td>

@@ -84,7 +84,7 @@ class CurricularmatrixController extends Controller
             }
             echo json_encode(["valid" => true, "message" => "Matriz inserida com sucesso!"]);
         } else {
-            echo json_encode(["valid" => false, "message" => "Preencha os campos de etapa, disciplinas, carga horária e horas semanais."]);
+            echo json_encode(["valid" => false, "message" => "Preencha os campos de etapa, Componentes curriculares/eixos, carga horária e horas semanais."]);
         }
 
     }

@@ -64,7 +64,7 @@ $uf = EdcensoUf::model()->findByPk($school['edcenso_uf_fk']);
       </div>
     </div>
     <div class="col-1 text-center line-style-head no-border-top no-border-left no-border-right no-border-bottom">Cargo</div>
-    <div class="col-1 text-center line-style-head no-border-top no-border-right no-border-bottom">Disciplina</div>
+    <div class="col-1 text-center line-style-head no-border-top no-border-right no-border-bottom">Componente curricular/eixo</div>
     <div class="col-1 no-border-top no-border-right no-border-bottom text-center font-bold font-size-middle">
       <div class="row-grid no-border-left no-border-top no-border-bottom">
         <div class="col no-border-left no-border-right no-border-top no-border-bottom ">Turno</div>
