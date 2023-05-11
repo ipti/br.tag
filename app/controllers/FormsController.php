@@ -129,18 +129,21 @@ class FormsController extends Controller {
 
     public function actionAtaSchoolPerformance($id) {
         $this->layout = "reports";
-        $sql = "SELECT c.id as classroom_id, 
-                c.name as classroom_name, 
-                si.inep_id as student_inep_id, 
-                si.name as student_name, 
-                ed.name as discipline_name,
-                gr.* 
-                FROM student_identification si 
-                JOIN student_enrollment se on(se.student_fk = si.id)
-                JOIN grade_results gr on(gr.enrollment_fk = se.id)
-                JOIN edcenso_discipline ed on(gr.discipline_fk = ed.id)
-                JOIN classroom c on(se.classroom_fk = c.id)
-                WHERE c.id = ".$id.";";
+        $sql = "SELECT 
+                se.id AS enrollment_id,
+                si.name AS student_name,
+                si.id AS student_id,
+                ed.name AS discipline_name,
+                ed.id AS discipline_id,
+                gr.final_media
+                FROM classroom c
+                JOIN curricular_matrix cm ON c.edcenso_stage_vs_modality_fk = cm.stage_fk
+                JOIN student_enrollment se ON se.classroom_fk = c.id
+                JOIN student_identification si ON si.id = se.student_fk
+                JOIN edcenso_discipline ed ON cm.discipline_fk = ed.id 
+                LEFT JOIN grade_results gr ON gr.enrollment_fk = se.id AND cm.discipline_fk = gr.discipline_fk
+                WHERE c.id = ".$id."
+                ORDER BY discipline_name;";
         $result = Yii::app()->db->createCommand($sql)->queryAll();
         setlocale(LC_ALL, NULL);
         setlocale(LC_ALL, "pt_BR.utf8", "pt_BR", "ptb", "ptb.utf8");
@@ -156,14 +159,29 @@ class FormsController extends Controller {
         
         $students = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $classroom->id));
 
-        // var_dump($disciplines);
-        // exit;
+        $grades = [];
+
+        foreach ($result as $r) {
+            foreach ($disciplines as $d) {
+                if($r['discipline_id'] == $d['discipline_id']) {
+                    array_push($grades, array(
+                            "discipline_id" => $d['discipline_id'],
+                            "discipline_name" => $d['discipline_name'],
+                            "student_name" => $r['student_name'],
+                            "student_id" => $r['student_id'],
+                            "final_media" => $r['final_media']
+                        )
+                    );
+                }
+            }
+        }
 
         $this->render('AtaSchoolPerformance', array(
             'report' => $result,
             'classroom' => $classroom,
             'students' => $students,
-            'disciplines' => $disciplines
+            'disciplines' => $disciplines,
+            'grades' => $grades
         ));
     }
 

@@ -22,6 +22,21 @@ function valorPorExtenso( $valor = 0){
     return($pre." <b>".$texto[$valor]." ".$pos."</b>");
 
 }
+
+$actual_day = valorPorExtenso(date('d'));
+$actual_mounth = date('M');
+$actual_year = date('Y');
+
+$turno =  $classroom->turn;
+if ($turno == 'M') {
+    $turno = "Matutino";
+}else if ($turno == 'T') {
+    $turno = "Tarde";
+}else if ($turno == 'N') {
+    $turno = "Noite";
+}else if ($turno == '' || $turno == null) {
+    $turno = "______________________";
+}
 ?>
 
 <style>
@@ -126,9 +141,9 @@ function valorPorExtenso( $valor = 0){
         </div>
         <br>
         <br>
-        <p style="text-align: justify;"><?php echo valorPorExtenso($report["day"])?> do mês de <b><?php echo Yii::t('default', $report["month"]) ?></b> do ano de <b><?php echo $report["year"]?></b>. 
-            Realizou-se o processo de apuração do rendimento escolar dos alunos da série de <b><?php echo $report["serie"]?></b>, turma <b><?php echo $report["name"]?></b>,
-            turno <b><?php echo $report["turn"]?></b> do <b><?php echo $report["ensino"]?></b> deste estabelecimento, com a Carga Horária anual de _________ horas 
+        <p style="text-align: justify;"><?php echo $actual_day?> do mês de <b><?php echo Yii::t('default', $actual_mounth) ?></b> do ano de <b><?php echo $actual_year?></b>. 
+            Realizou-se o processo de apuração do rendimento escolar dos alunos da série de <b><?php echo $report["serie"]?></b>, turma <b><?php echo $classroom->name?></b>,
+            turno <b><?php echo $turno?></b> do <b><?php echo $classroom->edcensoStageVsModalityFk->name?></b> deste estabelecimento, com a Carga Horária anual de _________ horas 
         e um total de _________ dias letivos, conforme os resultados abaixo.</p>
         
         <?php 
@@ -140,19 +155,58 @@ function valorPorExtenso( $valor = 0){
             <thead>
                 <tr><th rowspan="4" class='vertical-text'><div>Ordem</div></th><th rowspan="4" class='vertical-text'><div>ID INEP</div></th><th rowspan="4">Nome do Aluno</th><th colspan="25">Componentes Curriculares</th></tr>
                 <tr><th colspan="25">Rendimento Escolar</th></tr>
-                <tr><th colspan="15">Disciplinas</th><th colspan="5">Resultado Final</th><th colspan="5">Dependência</th></tr>
+                <tr><th colspan="<?php echo $qtde?>">Disciplinas</th><th colspan="5">Resultado Final</th><th colspan="5">Dependência</th></tr>
                 <tr>
-                    <?php for ($i=0;$i<=15;$i++) {
-                        echo "<th class='vertical-text'><div>".$disciplines[$i]['discipline_name']."</div></th>";
+                    <?php foreach($disciplines as $discipline) {
+                        
+                        // Tratamentos da string de disciplina
+                        if($discipline['discipline_id'] == 10) {
+                            $discipline = "Artes";
+                        }else if($discipline['discipline_id'] == 6) {
+                            $discipline = "Português";
+                        }else {
+                            $discipline = $discipline['discipline_name'];
+                        }
+                        $comprimento_maximo = 30;
+                        if(strpos($discipline, "Língua /Literatura estrangeira - ") !== false) {
+                            $discipline = str_replace("Língua /Literatura estrangeira - ", "", $discipline);
+                        }
+                        if (strlen($discipline) > $comprimento_maximo) {
+                          $discipline = substr($discipline, 0, $comprimento_maximo) . "...";
+                        }
+
+                        echo "<th class='vertical-text'><div>".$discipline."</div></th>";
                     }
                     ?>
-                    <th class='vertical-text'><div></div></th><th class='vertical-text'><div>Frequência&nbsp;</div></th><th class='vertical-text'><div>Aprovado</div></th><th class='vertical-text'><div>Prom.&nbsp;com Dependência</div></th><th class='vertical-text'><div>Reprovado</div></th>
-                    <th class='vertical-text'><div></div></th><th class='vertical-text'><div>Disciplina</div></th><th class='vertical-text'><div>Nota</div></th><th class='vertical-text'><div>Disciplina</div></th><th class='vertical-text'><div>Nota</div></th>
+                    <th class='vertical-text'><div>Frequência&nbsp;</div></th><th class='vertical-text'><div>Aprovado</div></th><th class='vertical-text'><div>Prom.&nbsp;com Dependência</div></th><th class='vertical-text'><div>Reprovado</div></th>
+                    <th class='vertical-text'><div>Disciplina</div></th><th class='vertical-text'><div>Nota</div></th><th class='vertical-text'><div>Disciplina</div></th><th class='vertical-text'><div>Nota</div></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                </tr>
+                <?php
+                $count = 1;
+                foreach($students as $s) {
+                    echo "<tr>"
+                    ."<td>"."0".$count ."</td>"
+                    ."<td>".$s->studentFk->inep_id."</td>"
+                    ."<td>".$s->studentFk->name."</td>";
+                    foreach ($grades as $grade) {
+                        if($grade['student_id'] == $s->studentFk->id) {
+                            echo "<td>".$grade['final_media']."</td>";
+                        }
+                    }
+                    echo "<td></td>".
+                    "<td></td>".
+                    "<td></td>".
+                    "<td></td>".
+                    "<td></td>".
+                    "<td></td>".
+                    "<td></td>".
+                    "<td></td>";
+                    echo "</tr>";
+                    $count++;
+                }
+                ?>
             </tbody>
         </table>        
         <br>
