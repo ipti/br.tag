@@ -12,7 +12,11 @@ use JMS\Serializer\SerializerBuilder;
 
 use PDO;
 use PDOException;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
@@ -61,7 +65,7 @@ class SagresConsultModel
                     FROM 
                         provision_accounts pa
                     WHERE 
-                        pa.id = :managementUnitId";                        
+                        pa.id = :managementUnitId";
 
             $managementUnit = Yii::app()->db->createCommand($query)
                 ->bindValue(':managementUnitId', $managementUnitId)
@@ -103,7 +107,7 @@ class SagresConsultModel
 
         if (!$managementUnitCode || $managementUnitCode['id'] === null) {
             return null;
-        }    
+        }
 
         return (int) $managementUnitCode['id'];
     }
@@ -205,7 +209,7 @@ class SagresConsultModel
                     : $this->getSchedules($classId, $referenceMonth)
                 )
                 ->setFinalTurma($finalClass);
-            
+
             if(!empty($classType->getHorario()) && !empty($classType->getMatricula())){
                 $classList[] = $classType;
             }
@@ -305,7 +309,7 @@ class SagresConsultModel
 
             $duration = Yii::app()->db->createCommand($query1)->queryRow();
 
-            
+
 
             $scheduleType
                 ->setDiaSemana($schedule['weekDay'])
@@ -313,10 +317,10 @@ class SagresConsultModel
                 ->setDuracao(isset($duration['duration'])? $duration['duration'] : 2)
                 ->setDisciplina($schedule['disciplineName'])
                 ->setCpfProfessor([$schedule['cpfInstructor']]);
-            
+
                 if(isset($schedule['cpfInstructor'])){
-                    $scheduleList[] = $scheduleType;
-                }
+                $scheduleList[] = $scheduleType;
+            }
         }
 
         return $scheduleList;
@@ -636,6 +640,19 @@ class SagresConsultModel
         $directorType
             ->setCpfDiretor($director['cpfDiretor'])
             ->setNrAto($director['nrAto']);
+
+        $violations = $directorType->validator($directorType);
+
+        if (count($violations) > 0) {
+            $errors = [];
+            foreach ($violations as $violation) {
+                $property = $violation->getPropertyPath();
+                $message = $violation->getMessage();
+                $errors[$property] = $message;
+            }
+        
+            print_r($errors);
+        }        
 
         return $directorType;
     }
