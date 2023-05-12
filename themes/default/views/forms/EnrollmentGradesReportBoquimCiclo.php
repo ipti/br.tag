@@ -113,7 +113,7 @@ $disciplineDiversifiedCount = count($disciplines['diversified']) + 1;
                     <td colspan="19" style="text-align: center">RENDIMENTO DE ACOMPANHAMENTO - RENDIMENTO</td>
                 </tr>
                 <tr>
-                    <td rowspan="2" style="text-align: center; max-width: 90px !important;">DISCIPLINAS</td>
+                    <td rowspan="2" style="text-align: center; max-width: 90px !important;">COMPONENTES CURRICULARES/EIXOS</td>
                     <td>1º</td>
                     <td>2º</td>
                     <td>3º</td>

@@ -294,7 +294,7 @@ class ClassesController extends Controller
                 echo json_encode(["valid" => false, "error" => "Matricule alunos nesta turma para trazer o quadro de frequência."]);
             }
         } else {
-            echo json_encode(["valid" => false, "error" => "No quadro de horário da turma, não existe dia letivo no mês selecionado para esta disciplina."]);
+            echo json_encode(["valid" => false, "error" => "No quadro de horário da turma, não existe dia letivo no mês selecionado para este componente curricular/eixo."]);
         }
     }
 
@@ -383,7 +383,7 @@ class ClassesController extends Controller
                 echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true));
             }
         } else {
-            echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione a disciplina'), true);
+            echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione o componente curricular/eixo'), true);
             $classr = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name")->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
             foreach ($classr as $i => $discipline) {
                 if (isset($discipline['discipline_fk'])) {

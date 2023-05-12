@@ -438,7 +438,7 @@ class ClassroomValidation extends Register
         foreach ($disciplineArray as $key => $discipline) {
             $emptyDiscipline = $this->isEmpty($discipline);
             if (in_array($stage, array(1, 2, 3)) && !$emptyDiscipline['status']) {
-                return array('status' => false, 'erro' => 'Não se pode preencher disciplinas de Educação Fundamental quando a etapa for de Educação Infantil');
+                return array('status' => false, 'erro' => 'Não se pode preencher componentes curriculares/eixos de Educação Fundamental quando a etapa for de Educação Infantil');
             }
         }
 
@@ -520,7 +520,7 @@ class ClassroomValidation extends Register
     {
         foreach ($instructorsTeachingData as $instructorTeachingData) {
             if ($this->instructorHasDiscipline($instructorTeachingData, 25) && in_array($stage, [14, 15, 16, 17, 18, 69, 19, 20, 21, 41, 23, 22, 56, 70, 72, 73, 25, 26, 27, 28, 29, 71, 30, 31, 32, 33, 34, 74, 67, 39, 40, 64, 68])) {
-                return array('status' => false, 'erro' => 'A Disciplina "Disciplinas pedagógicas" não é compatível com a etapa de ensino nesta turma.');
+                return array('status' => false, 'erro' => 'A componente curricular "Componentes curriculares/eixos pedagógicos" não é compatível com a etapa de ensino nesta turma.');
             }
         }
         return array('status' => true, 'erro' => '');
@@ -552,7 +552,7 @@ class ClassroomValidation extends Register
 
     public function containsInstructors($instructorsTeachingData) {
         if ($instructorsTeachingData == null) {
-            return array('status' => false, 'erro' => 'A turma precisa de professores com disciplinas cadastrados.');
+            return array('status' => false, 'erro' => 'A turma precisa de professores com componentes curriculares/eixos cadastrados.');
         } else {
             $hasInstructorWithTeachingMatrix = false;
             foreach($instructorsTeachingData as $instructorTeachingData) {
@@ -562,7 +562,7 @@ class ClassroomValidation extends Register
                 }
             }
             if (!$hasInstructorWithTeachingMatrix) {
-                return array('status' => false, 'erro' => 'A turma precisa de professores com disciplinas cadastrados.');
+                return array('status' => false, 'erro' => 'A turma precisa de professores com componentes curriculares/eixos cadastrados.');
             }
         }
         return array('status' => true, 'erro' => '');

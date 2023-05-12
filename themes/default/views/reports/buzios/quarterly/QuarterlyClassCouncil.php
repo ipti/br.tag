@@ -217,7 +217,7 @@ if ($turno == 'M') {
         <table class="instructors-list-table"  aria-labelledby="Instructors List">
             <thead>
                 <tr>
-                    <th scope="col">Disciplina</th>
+                    <th scope="col">Componente curricular/eixo</th>
                     <th scope="col">Nome do Professor</th>
                     <th scope="col" style="width: 40%;">Assinatura</th>
                 </tr>
