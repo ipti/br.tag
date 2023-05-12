@@ -53,11 +53,11 @@
  *
  * The followings are the available model relations:
  * @property EdcensoCourseOfHigherEducation $highEducationCourseCode1Fk
- * @property EdcensoIes $highEducationInstitutionCode1Fk
+ * @property EdcensoIES $highEducationInstitutionCode1Fk
  * @property EdcensoCourseOfHigherEducation $highEducationCourseCode2Fk
- * @property EdcensoIes $highEducationInstitutionCode2Fk
+ * @property EdcensoIES $highEducationInstitutionCode2Fk
  * @property EdcensoCourseOfHigherEducation $highEducationCourseCode3Fk
- * @property EdcensoIes $highEducationInstitutionCode3Fk
+ * @property EdcensoIES $highEducationInstitutionCode3Fk
  */
 class InstructorVariableData extends AltActiveRecord
 {
@@ -119,11 +119,11 @@ class InstructorVariableData extends AltActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'highEducationCourseCode1Fk' => array(self::BELONGS_TO, 'EdcensoCourseOfHigherEducation', 'high_education_course_code_1_fk'),
-			'highEducationInstitutionCode1Fk' => array(self::BELONGS_TO, 'EdcensoIes', 'high_education_institution_code_1_fk'),
+			'highEducationInstitutionCode1Fk' => array(self::BELONGS_TO, 'EdcensoIES', 'high_education_institution_code_1_fk'),
 			'highEducationCourseCode2Fk' => array(self::BELONGS_TO, 'EdcensoCourseOfHigherEducation', 'high_education_course_code_2_fk'),
-			'highEducationInstitutionCode2Fk' => array(self::BELONGS_TO, 'EdcensoIes', 'high_education_institution_code_2_fk'),
+			'highEducationInstitutionCode2Fk' => array(self::BELONGS_TO, 'EdcensoIES', 'high_education_institution_code_2_fk'),
 			'highEducationCourseCode3Fk' => array(self::BELONGS_TO, 'EdcensoCourseOfHigherEducation', 'high_education_course_code_3_fk'),
-			'highEducationInstitutionCode3Fk' => array(self::BELONGS_TO, 'EdcensoIes', 'high_education_institution_code_3_fk'),
+			'highEducationInstitutionCode3Fk' => array(self::BELONGS_TO, 'EdcensoIES', 'high_education_institution_code_3_fk'),
 		);
 	}
 
