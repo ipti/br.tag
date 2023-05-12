@@ -218,21 +218,34 @@ if ($turno == 'M') {
         <br>
         <table class="table table-bordered table-striped">
             <thead>
-                <tr><th rowspan="4" class='vertical-text'><div>Ordem</div></th><th rowspan="4" class='vertical-text'><div>ID INEP</div></th><th rowspan="4" style="width: 300px;">Nome do Aluno</th><th colspan="25">Componentes Curriculares</th></tr>
-                <tr><th colspan="25">Rendimento Escolar</th></tr>
-                <tr><th colspan="<?php echo $qtde?>">Disciplinas</th><th colspan="3">Resultado Final</th><th colspan="2">Dependência</th></tr>
+                <tr>
+                    <th scope="col" rowspan="4" class='vertical-text'><div>Ordem</div></th>
+                    <th scope="col" rowspan="4" class='vertical-text'><div>ID INEP</div></th>
+                    <th scope="col" rowspan="4" style="width: 300px;">Nome do Aluno</th>
+                    <th scope="col" colspan="25">Componentes Curriculares</th></tr>
+                <tr>
+                    <th scope="col" colspan="25">Rendimento Escolar</th>
+                </tr>
+                <tr>
+                    <th scope="col" colspan="<?php echo $qtde?>">Disciplinas</th>
+                    <th scope="col" colspan="3">Resultado Final</th>
+                    <th scope="col" colspan="2">Dependência</th>
+                </tr>
                 <tr>
                     <?php foreach($disciplines as $discipline) {
                         $discipline = classroomDisciplineLabelResumeArray($discipline['discipline_id']);
                         if (strlen($discipline) <= 20) {
-                            echo "<th class='vertical-text'><div>".$discipline."</div></th>";
+                            echo "<th scope='col' class='vertical-text'><div>".$discipline."</div></th>";
                         }else {
-                            echo "<th class='vertical-text'>".$discipline."</th>";
+                            echo "<th scope='col' class='vertical-text'>".$discipline."</th>";
                         }
                     }
                     ?>
-                    <th class='vertical-text'><div>Aprovado</div></th><th class='vertical-text'><div>Prom.&nbsp;com Dependência</div></th><th class='vertical-text'><div>Reprovado</div></th>
-                    <th class='vertical-text'><div>Disciplina</div></th><th class='vertical-text'><div>Nota</div></th>
+                    <th scope="col" class='vertical-text'><div>Aprovado</div></th>
+                    <th scope="col" class='vertical-text'><div>Prom.&nbsp;com Dependência</div></th>
+                    <th scope="col" class='vertical-text'><div>Reprovado</div></th>
+                    <th scope="col" class='vertical-text'><div>Disciplina</div></th>
+                    <th scope="col" class='vertical-text'><div>Nota</div></th>
                 </tr>
             </thead>
             <tbody>
