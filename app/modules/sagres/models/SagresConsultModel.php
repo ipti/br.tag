@@ -199,9 +199,9 @@ class SagresConsultModel
                 ->setTurno($this->convertTurn($turma['classroomTurn']))
                 ->setSerie($this->getSeries($classId))
                 ->setMatricula(
-                    empty($this->getEnrollments($classId, $referenceYear, $dateStart, $dateEnd))
+                    empty($this->getEnrollments($classId, $referenceYear, $dateStart, $dateEnd, $finalClass))
                     ? $this->getRecentEnrollments($classId)
-                    : $this->getEnrollments($classId, $referenceYear, $dateStart, $dateEnd)
+                    : $this->getEnrollments($classId, $referenceYear, $dateStart, $dateEnd, $finalClass)
                 )
                 ->setHorario(
                     empty($this->getSchedules($classId, $referenceMonth))
@@ -704,7 +704,7 @@ class SagresConsultModel
      *
      * @return MatriculaTType[]
      */
-    public function getEnrollments($classId, $referenceYear, $dateStart, $dateEnd)
+    public function getEnrollments($classId, $referenceYear, $dateStart, $dateEnd, $finalClass)
     {
         $enrollmentList = [];
 
@@ -738,8 +738,11 @@ class SagresConsultModel
                 ->setDataMatricula(new DateTime($enrollment['data_matricula']))
                 // ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
                 ->setNumeroFaltas((int) $this->returnNumberFaults($enrollment['student_fk'], $referenceYear))
-                ->setAprovado($this->getStudentSituation($enrollment['situation']))
                 ->setAluno($this->getStudents($enrollment['student_fk']));
+
+            if($finalClass){
+                $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
+            }
 
             $enrollmentList[] = $enrollmentType;
         }
