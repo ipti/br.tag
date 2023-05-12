@@ -7,8 +7,10 @@
     // margin: 0;
     white-space: nowrap;
     width: 100%;
+
     &__label {
         padding-top: 0 !important;
+
         &--required {
             font-weight: bold;
         }
@@ -20,6 +22,12 @@
         height: 20px;
         width: 20px;
         margin: 0 $SizeNormal 0 0 !important;
+    }
+
+    &.helper {
+        margin-top: 36px;
+        margin-bottom: 10px;
+        margin-left: -18px;
     }
 }
 

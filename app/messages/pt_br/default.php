@@ -473,7 +473,7 @@ return array(
     'Resource Zoomed Test 24' => 'Prova Ampliada (Fonte tamanho 24)',
     'Resource Zoomed Test 18' => 'Prova Ampliada (Fonte tamanho 18)',
     'Resource Braille Test' => 'Prova em Braille',
-    'Resource Proof Language' => 'Prova de Língua Portuguesa como segunda língua para surdos e deficientes auditivos',
+    'Resource Proof Language' => 'Prova de Língua Portuguesa: Segunda língua surdos e deficientes auditivos',
     'Resource Cd Audio' => 'CD com áudio para deficiente visual',
     'Resource Video Libras' => 'Vídeo em Libras',
     'Resource None' => 'Nenhum',
