@@ -56,7 +56,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
             ?>
         </div>
         <div>
-            <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'discipline', array('class' => 'control-label required', 'style' => 'width: 75px;')); ?>
+            <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'discipline', array('class' => 'control-label required', 'style' => 'width: 100%;')); ?>
             <?php
             echo CHtml::dropDownList('discipline', '', array(), array(
                 'key' => 'id',
