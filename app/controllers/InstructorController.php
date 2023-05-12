@@ -71,42 +71,6 @@ class InstructorController extends Controller
      */
     public function actionCreate()
     {
-//        $mII = new InstructorIdentification();
-//        $mDA = new InstructorDocumentsAndAddress();
-//        $mVD = new InstructorVariableData();
-//
-//        if(isset($_POST['InstructorIdentification'],$_POST['InstructorDocumentsAndAddress'],$_POST['InstructorVariableData'])){
-//            $mII->attributes = $_POST['InstructorIdentification'];
-//            $mDA->attributes = $_POST['InstructorDocumentsAndAddress'];
-//            $mVD->attributes = $_POST['InstructorVariableData'];
-//            
-//            $mII->school_inep_id_fk = Yii::app()->user->school;
-//            $mDA->school_inep_id_fk = Yii::app()->user->school;
-//            $mVD->school_inep_id_fk = Yii::app()->user->school;
-//            
-//            if($mII->validate() && $mDA->validate() && $mVD->validate()){
-//                if($mII->save()){
-//                    $mDA->id = $mII->id;
-//                    $mVD->id = $mII->id;
-//                    var_dump($mDA->validate() && $mVD->validate());
-//                    if($mDA->validate() && $mVD->validate()){
-//                        exit;
-//                        if($mDA->save() && $mVD->save()){
-//                            Yii::app()->user->setFlash('success', Yii::t('default', 'Professor adicionado com sucesso!'));
-//                            $this->redirect(array('index'));
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        $error[] = '';
-//        
-//        $this->render('create', array(
-//            'modelInstructorIdentification' => $mII,
-//            'modelInstructorDocumentsAndAddress' => $mDA,
-//            'modelInstructorVariableData' => $mVD,
-//            'error' => $error,
-//        ));
 
         $modelInstructorIdentification = new InstructorIdentification();
         $modelInstructorDocumentsAndAddress = new InstructorDocumentsAndAddress();
@@ -339,26 +303,6 @@ preenchidos";
         } else {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
-
-
-//            if( $this->loadModel($id, $this->SCHOOL_STRUCTURE)->delete()
-//                && $this->loadModel($id, $this->SCHOOL_IDENTIFICATION)->delete()){
-//                    Yii::app()->user->setFlash('success', Yii::t('default', 'Escola excluída com sucesso:'));
-//                    $this->redirect(array('index'));
-//            }else{
-//                throw new CHttpException(404,'The requested page does not exist.');
-//            }
-//        
-//        if (Yii::app()->request->isPostRequest) {
-//            // we only allow deletion via POST request
-//            $this->loadModel($id)->delete();
-//
-//            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-//            if (!isset($_GET['ajax']))
-//                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-//        }
-//        else
-//            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
     }
 
     /**

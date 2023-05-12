@@ -258,34 +258,11 @@ class ClassroomController extends Controller
     static function classroomDisciplineLabelResumeArray()
     {
         $labels = array();
-        $labels[1] = "Química";
-        $labels[2] = "Física";
-        $labels[3] = "Matemática";
-        $labels[4] = "Biologia";
-        $labels[5] = "Ciências";
-        $labels[6] = "Português";
-        $labels[7] = "Inglês";
-        $labels[8] = "Espanhol";
-        $labels[9] = "Outro Idioma";
-        $labels[10] = "Artes";
-        $labels[11] = "Edicação Física";
-        $labels[12] = "História";
-        $labels[13] = "Geografia";
-        $labels[14] = "Filosofia";
-        $labels[16] = "Informática";
-        $labels[17] = "Disc. Profissionalizante";
-        $labels[20] = "Educação Especial";
-        $labels[21] = "Sociedade&nbsp;e Cultura";
-        $labels[23] = "Libras";
-        $labels[25] = "Pedogogia";
-        $labels[26] = "Ensino Religioso";
-        $labels[27] = "Língua Nativa";
-        $labels[28] = "Estudo Social";
-        $labels[29] = "Sociologia";
-        $labels[30] = "Francês";
-        $labels[99] = "Outras";
-        $labels[10001] = yii::t('default', 'Writing');
-
+        $disciplines =  EdcensoDiscipline::model()->findAll(['select' => 'name']);
+        foreach ($disciplines as $key => $value) {
+            $labels[$key] = $value->name;
+        } 
+        
         return $labels;
     }
 
