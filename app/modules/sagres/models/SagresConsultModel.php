@@ -210,7 +210,7 @@ class SagresConsultModel
                 )
                 ->setFinalTurma($finalClass);
 
-            if(!empty($classType->getHorario()) && !empty($classType->getMatricula())){
+            if (!empty($classType->getHorario()) && !empty($classType->getMatricula())) {
                 $classList[] = $classType;
             }
         }
@@ -305,7 +305,7 @@ class SagresConsultModel
                         join classroom c on s.classroom_fk = s.classroom_fk
                         join edcenso_discipline ed on ed.id  = s.discipline_fk 
                         join curricular_matrix cm on cm.stage_fk = c.edcenso_stage_vs_modality_fk and s.discipline_fk = cm.discipline_fk 
-                    where c.id = ". $classId ." and ed.name = '" . $schedule['disciplineName'] . "'";
+                    where c.id = " . $classId . " and ed.name = '" . $schedule['disciplineName'] . "'";
 
             $duration = Yii::app()->db->createCommand($query1)->queryRow();
 
@@ -314,11 +314,11 @@ class SagresConsultModel
             $scheduleType
                 ->setDiaSemana($schedule['weekDay'])
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
-                ->setDuracao(isset($duration['duration'])? $duration['duration'] : 2)
+                ->setDuracao(isset($duration['duration']) ? $duration['duration'] : 2)
                 ->setDisciplina($schedule['disciplineName'])
                 ->setCpfProfessor([$schedule['cpfInstructor']]);
 
-                if(isset($schedule['cpfInstructor'])){
+            if (isset($schedule['cpfInstructor'])) {
                 $scheduleList[] = $scheduleType;
             }
         }
@@ -364,23 +364,21 @@ class SagresConsultModel
     {
         $scheduleList = [];
 
-        $query = "SELECT  
+        $query = "SELECT DISTINCT 
                     s.schedule AS schedule,
                     s.week_day AS weekDay, 
                     ed.name AS disciplineName,
                     c.turn AS turn,
                     idaa.cpf AS cpfInstructor
-                FROM 
-                    schedule s 
-                    JOIN edcenso_discipline ed ON ed.id = s.discipline_fk 
-                    JOIN instructor_disciplines id ON id.discipline_fk = ed.id 
-                    JOIN instructor_identification ii ON ii.id = id.instructor_fk 
-                    JOIN classroom c ON c.id = s.classroom_fk 
-                    join school_identification si on si.inep_id = c.school_inep_fk 
-                    join instructor_documents_and_address idaa ON idaa.school_inep_id_fk = si.inep_id 
-                    join curricular_matrix cm ON cm.discipline_fk = ed.id 
+                FROM instructor_teaching_data itd 
+                    JOIN teaching_matrixes tm on itd.id = tm.teaching_data_fk
+                    JOIN curricular_matrix cm on tm.curricular_matrix_fk = cm.id 
+                    JOIN schedule s on s.discipline_fk = cm.discipline_fk and s.classroom_fk = itd.classroom_id_fk  
+                    JOIN instructor_documents_and_address idaa on itd.instructor_fk = idaa.id 
+                    JOIN edcenso_discipline ed ON ed.id = cm.discipline_fk 
+                    JOIN classroom c on c.id = itd.classroom_id_fk 
                 WHERE 
-                    s.classroom_fk = :classId and 
+                    c.id = :classId and 
                     s.month = :referenceMonth
                 GROUP BY 
                     week_day";
@@ -650,9 +648,9 @@ class SagresConsultModel
                 $message = $violation->getMessage();
                 $errors[$property] = $message;
             }
-        
+
             print_r($errors);
-        }        
+        }
 
         return $directorType;
     }
@@ -763,7 +761,7 @@ class SagresConsultModel
         if (isset($situations[$situation])) {
             return $situations[$situation];
         } else {
-            throw new ErrorException("O valor ". $situation. " para a situação do estudante não é válido.");
+            throw new ErrorException("O valor " . $situation . " para a situação do estudante não é válido.");
         }
     }
 
