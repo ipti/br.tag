@@ -55,3 +55,32 @@ $("#InstructorDocumentsAndAddress_edcenso_uf_fk").on("change", function () {
         }
     });
 });
+$("#IES").on("change", function () {
+    loadIES("#IES", "#InstructorVariableData_high_education_institution_code_1_fk");
+});
+
+$(function(){
+    const currentIES = $("#InstructorVariableData_high_education_institution_code_1_fk").val();
+    loadIES("#IES", "#InstructorVariableData_high_education_institution_code_1_fk", currentIES);
+});
+
+
+function loadIES(iesUfDropDown, iesDropDownPath, currentIES){
+    console.log(currentIES)
+    $.ajax({
+        type: "POST",
+        url: "?r=instructor/getinstitution",
+        data: {
+            edcenso_uf_fk: $(iesUfDropDown).val(),
+        },
+        success: function (response) {
+            const options = response.map((item) => {
+                return $(`<option value=${item.id} >${item.name}</option>`)
+                } 
+            );
+           $(iesDropDownPath).html(options);
+           $(iesDropDownPath).select2("val", currentIES); 
+          //  $("#s2id_InstructorVariableData_high_education_institution_code_1_fk").prop("disabled", false);
+        }
+    });
+}
