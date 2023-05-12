@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.18.42]
+- Em turmas, ata de notas agora exibe as notas corretamente
+
 ## [Vesão 3.18.41]
 - Ajuste na largura para impressão do relatório de matrícula
 - Adição de legendas para o relatório de matrícula
