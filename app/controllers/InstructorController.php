@@ -41,7 +41,7 @@ class InstructorController extends Controller
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
                     'index', 'view', 'create', 'update', 'updateEmails', 'frequency', 'saveEmails', 'getCity', 'getCityByCep',
-                    'getInstitutions', 'getCourses', 'delete', 'getFrequency', 'getFrequencyDisciplines', 'getFrequencyClassroom',
+                    'getInstitutions', 'getInstitution', 'getCourses', 'delete', 'getFrequency', 'getFrequencyDisciplines', 'getFrequencyClassroom',
                     'saveFrequency', 'saveJustification'
                 ], 'users' => ['@'],
             ], [
@@ -422,17 +422,29 @@ preenchidos";
         $results = Yii::app()->db->createCommand("SELECT COUNT(*) as total FROM edcenso_ies where name like :q")->bindValue(":q", "%" . $_POST['q'] . "%")->queryAll();
         $total = (int)$results[0]["total"];
 
-        $data = EdcensoIES::model()->findAll("name like '%" . $_POST['q'] . "%' ORDER BY name LIMIT " . (($_POST['page'] - 1) * 10) . ",10");
+        $data = EdcensoIES::model()->findAll("name like '%" . $_POST['q'] . "%' ORDER BY name LIMIT 0,10");
         $data = CHtml::listData($data, 'id', 'name');
 
         $return = [];
-        $return['total'] = $total;
-        $return['ies'] = [];
+        // $return['total'] = $total;
+        $return = [];
         foreach ($data as $value => $name) {
-            array_push($return['ies'], ['id' => CHtml::encode($value), 'name' => CHtml::encode($name)]);
+            array_push($return, ['id' => CHtml::encode($value), 'name' => CHtml::encode($name)]);
         }
-
-        echo json_encode($return);
+        header('Content-Type: application/json; charset="UTF-8"');
+        echo json_encode($return, JSON_OBJECT_AS_ARRAY);
+    }
+    public function actionGetInstitution (){
+        $edcenso_uf_fk = $_POST["edcenso_uf_fk"];
+        $institutions = EdcensoIES::model()->findAllByAttributes(array('edcenso_uf_fk' => $edcenso_uf_fk));
+        // $institutions = CHtml::listData($institutions, 'id', 'name');
+        
+        $return = [];
+        foreach ($institutions as $institution) {
+            array_push($return, ['id' => CHtml::encode($institution->id), 'name' => CHtml::encode($institution->name)]);
+        }
+        header('Content-Type: application/json; charset="UTF-8"');
+        echo json_encode($return, JSON_OBJECT_AS_ARRAY);
     }
 
     //@done s1 - criar funçao que retorna os cursos baseados na área de atuação
