@@ -151,7 +151,7 @@ class SagresConsultModel
                 }
             }
         }
-        $schoolList[] = $schoolType;
+
         return $schoolList;
     }
 
@@ -826,7 +826,7 @@ class SagresConsultModel
 
 
     public function validatorSagresEduExportXML($object)
-    {
+    {      
         // get the validator
         $builder = Validation::createValidatorBuilder();
         foreach (glob('C:\Users\JoseNatan\Documents\Developer\br.tag\app\modules\sagres\soap\metadata\sagresEduMetadata') as $file) {
