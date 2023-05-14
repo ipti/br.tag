@@ -95,7 +95,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 			</button>
 		</a>
 
-		<a href="<?php echo Yii::app()->createUrl('inconsistency') ?>">
+		<a href="?r=sagres/default/inconsistencysagres">
 			<button type="button" class="report-box-container">
 				<div class="pull-left" style="margin-right: 20px;">
 					<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sagresIcon/inconsistency.svg" />
