@@ -44,6 +44,10 @@ class DefaultController extends Controller
 		);
 	}
 
+	public function actionInconsistencySagres()
+	{
+		$this->render('inconsistencys');
+	}
 
 	public function actionExport($year, $startDate, $endDate, $finalClass)
 	{
