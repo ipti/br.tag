@@ -617,6 +617,14 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->DropdownList($modelStudentDocumentsAndAddress, 'civil_certification_type', array(null => "Selecione o tipo", "1" => "Nascimento", "2" => "Casamento"), array("class" => "select-search-off t-field-select__input nationality-sensitive br", "disabled" => "disabled",  "style" => "width:100%")); ?>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_type'); ?>
                             </div>
+                            <div class="t-field-text js-hidden-newDocument-field">
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array('class' => 't-field-text__label control-label')); ?>
+                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array("disabled" => "disabled", "class" => "nationality-sensitive br t-field-text__input")); ?>
+                                <span id="registerMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                    <img id="registerIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                </span>
+                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number'); ?>
+                            </div>
                         </div>
                     </div>
                     <!-- Livro e Folha -->
@@ -721,14 +729,14 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- Nº da Matrícula (Registro Civil - Certidão nova) -->
                         <div class="column">
-                            <div class="t-field-text js-hidden-newDocument-field">
+                            <!-- <div class="t-field-text js-hidden-newDocument-field">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array('class' => 't-field-text__label control-label')); ?>
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array("disabled" => "disabled", "class" => "nationality-sensitive br t-field-text__input")); ?>
                                 <span id="registerMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
                                     <img id="registerIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
                                 </span>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number'); ?>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
 
