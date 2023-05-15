@@ -27,6 +27,27 @@
                             <th>AÇÃO</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        <?php
+                        $models = ValidationSagresModel::model()->findAll();
+                        foreach ($models as $model) {
+                            ?>
+                            <tr>
+                                <td>
+                                    <?php echo $model->enrollment ?>
+                                </td>
+                                <td>
+                                    <?php echo $model->school ?>
+                                </td>
+                                <td>
+                                    <?php echo $model->description ?>
+                                </td>
+                                <td>
+                                    <?php echo $model->action ?>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
                 </table>
             </div>
         </div>
