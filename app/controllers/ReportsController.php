@@ -149,9 +149,12 @@ class ReportsController extends Controller
 
     public function actionQuarterlyFollowUpReport()
     {
-        $classroom = $_POST['quarterly_follow_up_classroom'];
-        $discipline = $_POST['quarterly_follow_up_disciplines'];
+        $classroom_id = $_POST['quarterly_follow_up_classroom'];
+        $discipline_id = $_POST['quarterly_follow_up_disciplines'];
+        $classroom_model = Classroom::model()->findByPk($classroom_id);
+        $discipline_model = EdcensoDiscipline::model()->findByPk($discipline_id);
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+        $trimestre = $_POST['quarterly'];
 
         $sql = "SELECT ii.name AS instructor_name, ed.name AS discipline_name, c.name AS classroom_name, c.turn as classroom_turn 
                 FROM edcenso_discipline ed
@@ -160,10 +163,32 @@ class ReportsController extends Controller
                 JOIN instructor_teaching_data itd ON itd.id = tm.teaching_data_fk 
                 JOIN classroom c ON c.id = itd.classroom_id_fk 
                 JOIN instructor_identification ii ON itd.instructor_fk = ii.id
-                WHERE ed.id = ".$discipline." AND c.id = ".$classroom."
+                WHERE ed.id = ".$discipline_id." AND c.id = ".$classroom_id."
                 GROUP BY ii.name;";
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
+        $turno =  $result[0]['classroom_turn'];
+        if ($turno == 'M') {
+            $turno = "Matutino";
+        }else if ($turno == 'T') {
+            $turno = "Vesperitino";
+        }else if ($turno == 'N') {
+            $turno = "Noturno";
+        }else if ($turno == '' || $turno == null) {
+            $turno = "___________";
+        }
+
+        if($result) {
+            $this->render('buzios/quarterly/QuarterlyFollowUpReport', array(
+                "report" => $result,
+                "school" => $school,
+                "turno" => $turno,
+                "trimestre" => $trimestre
+            ));
+        }
+
+        Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom_model->name." não possui professores para a disciplina de ".$discipline_model->name));
+        return $this->redirect(array('index'));
 
         var_dump($result);
         exit;
