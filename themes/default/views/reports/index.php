@@ -625,12 +625,9 @@ $this->breadcrumbs = array(
                             ?>
                             <select name="quarterly_follow_up_disciplines" id="quarterly_follow_up_disciplines" placeholder="Selecione a disciplina" style="width:100%" required>
                                 <option value="" selected>Selecione a disciplina</option>
-                                <option value="10">Artes</option>
+                                <option value="10">Arte (Educação Artística, Teatro, Dança, Música, Artes Plásticas e outras)</option>
                                 <option value="11">Educação Física</option>
                             </select>
-                        </div>
-                        <div class="classroom-disciplines-error" style="display:none;color:#D21C1C;margin-left:5px;font-size:12px;">
-                            <span>A turma não tem disciplinas cadastradas.</span>
                         </div>
                     </div>
                 </div>

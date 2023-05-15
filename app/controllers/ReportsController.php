@@ -152,6 +152,21 @@ class ReportsController extends Controller
         $classroom = $_POST['quarterly_follow_up_classroom'];
         $discipline = $_POST['quarterly_follow_up_disciplines'];
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+
+        $sql = "SELECT ii.name AS instructor_name, ed.name AS discipline_name, c.name AS classroom_name, c.turn as classroom_turn 
+                FROM edcenso_discipline ed
+                JOIN curricular_matrix cm ON cm.discipline_fk = ed.id
+                JOIN teaching_matrixes tm ON tm.curricular_matrix_fk = cm.id 
+                JOIN instructor_teaching_data itd ON itd.id = tm.teaching_data_fk 
+                JOIN classroom c ON c.id = itd.classroom_id_fk 
+                JOIN instructor_identification ii ON itd.instructor_fk = ii.id
+                WHERE ed.id = ".$discipline." AND c.id = ".$classroom."
+                GROUP BY ii.name;";
+
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+
+        var_dump($result);
+        exit;
     }
 
     public function actionGetStudentClassrooms($id)
