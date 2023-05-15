@@ -1,6 +1,7 @@
 # Atualizações
 
 ## [Versão 3.18.42]
+- Em turmas, ata de notas agora exibe as notas corretamente
 - Corrigindo o campo de inserção da instituição de ensino superior no formulário do professor
 
 ## [Vesão 3.18.41]
