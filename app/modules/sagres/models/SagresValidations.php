@@ -53,7 +53,6 @@ class SagresValidations
     }
 
     public function validatorMenu($school){
-        
         $inconsistencies = [];
         $menus = $school->getCardapio();
         foreach($menus as $menu){
@@ -62,12 +61,12 @@ class SagresValidations
                     "enrollment" => 'CARDÁPIO', 
                     "school" => $school->getIdEscola(), 
                     "description" => 'TURNO INVÁLIDO', 
-                    "action" => 'INFORMAR UM NÚMERO VÁLIDO PARA O TURNO'
+                    "action" => 'INFORMAR UM TURNO VÁLIDO PARA O TURNO'
                 ];
             }
         }
 
-        return  $inconsistencies;     
+        return  array_unique($inconsistencies);     
     }
 
     function validaCPF($cpf) {

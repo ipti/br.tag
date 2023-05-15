@@ -869,7 +869,7 @@ class SagresConsultModel
         if (isset($turnos[$turn])) {
             return $turnos[$turn];
         } else {
-            return 5;
+            return 0;
         }
     }
 
