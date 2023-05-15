@@ -49,16 +49,28 @@
     </div>
     <div class="row">
         <div class="column">
-              
-             <div class="t-field-select">
-                <?php echo $form->labelEx($modelEnrollment, 'school-identifications', array('class' => 't-field-select__label')); ?>
-                <?php echo $form->dropDownList($modelEnrollment, 'school_inep_id_fk', Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'), array('empty' => 'Selecione a escola', 'class' => 'select-search-on t-field-select__input js-select-school-classroom', 'style' => 'width:100%')); ?>
-             </div>
-        </div>
-        <div class="column">
-            <div class="t-field-select">
-                    <?php echo $form->labelEx($modelEnrollment, 'classroom_fk', array('class' => 't-field-select__label')); ?>
-                    <?php echo $form->dropDownList($modelEnrollment, 'classroom_fk', CHtml::listData($classrooms, 'id', 'name', 'schoolInepFk.name'), array('empty' => 'Selecione a escola', 'class' => 'select-search-on t-field-select__input js-classrooms-select', 'disabled'=>'disabled', 'style' => 'width:100%')); ?> 
+            <div class="row">
+                <div class="column">
+                    <div class="t-field-select">
+                        <?php echo $form->labelEx($modelEnrollment, 'school-identifications', array('class' => 't-field-select__label')); ?>
+                        <?php echo $form->dropDownList($modelEnrollment, 'school_inep_id_fk', Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'), array('empty' => 'Selecione a escola', 'class' => 'select-search-on t-field-select__input js-select-school-classroom', 'style' => 'width:100%')); ?>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="t-field-select">
+                            <?php echo $form->labelEx($modelEnrollment, 'classroom_fk', array('class' => 't-field-select__label')); ?>
+                            <?php echo $form->dropDownList($modelEnrollment, 'classroom_fk', CHtml::listData($classrooms, 'id', 'name', 'schoolInepFk.name'), array('empty' => 'Selecione a escola', 'class' => 'select-search-on t-field-select__input js-classrooms-select', 'disabled'=>'disabled', 'style' => 'width:100%')); ?> 
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <div class="t-field-tarea">
+                        <?php echo $form->labelEx($modelEnrollment, 'observation', array('class' => 't-field-tarea__label'))?>
+                        <?php echo $form->textArea($modelEnrollment, 'observation', array('rows'=>6, 'cols'=>50, 'class' => 't-field-tarea__input')) ?>
+                    </div>
+                </div>
+                <div class="column"></div>
             </div>
         </div>
     </div>

@@ -119,11 +119,11 @@ class InstructorVariableData extends AltActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'highEducationCourseCode1Fk' => array(self::BELONGS_TO, 'EdcensoCourseOfHigherEducation', 'high_education_course_code_1_fk'),
-			'highEducationInstitutionCode1Fk' => array(self::BELONGS_TO, 'EdcensoIes', 'high_education_institution_code_1_fk'),
+			'highEducationInstitutionCode1Fk' => array(self::BELONGS_TO, 'EdcensoIES', 'high_education_institution_code_1_fk'),
 			'highEducationCourseCode2Fk' => array(self::BELONGS_TO, 'EdcensoCourseOfHigherEducation', 'high_education_course_code_2_fk'),
-			'highEducationInstitutionCode2Fk' => array(self::BELONGS_TO, 'EdcensoIes', 'high_education_institution_code_2_fk'),
+			'highEducationInstitutionCode2Fk' => array(self::BELONGS_TO, 'EdcensoIES', 'high_education_institution_code_2_fk'),
 			'highEducationCourseCode3Fk' => array(self::BELONGS_TO, 'EdcensoCourseOfHigherEducation', 'high_education_course_code_3_fk'),
-			'highEducationInstitutionCode3Fk' => array(self::BELONGS_TO, 'EdcensoIes', 'high_education_institution_code_3_fk'),
+			'highEducationInstitutionCode3Fk' => array(self::BELONGS_TO, 'EdcensoIES', 'high_education_institution_code_3_fk'),
 		);
 	}
 
