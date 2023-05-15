@@ -12,14 +12,14 @@ use JMS\Serializer\SerializerBuilder;
 
 use PDO;
 use PDOException;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
+
 use Symfony\Component\Validator\Validation;
-use Symfony\Component\Validator\Constraints\Type;
-use Symfony\Component\Validator\Constraints as Assert;
 
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
+
+use ValidationSagresModel;
+use SagresEdu\SagresValidations;
 
 use Yii;
 
@@ -122,6 +122,7 @@ class SagresConsultModel
 
         $query = "SELECT inep_id FROM school_identification";
         $schools = Yii::app()->db->createCommand($query)->queryAll();
+        $validationSagres = new \SagresValidations;
 
         foreach ($schools as $school) {
             $schoolType = new EscolaTType;
@@ -145,14 +146,34 @@ class SagresConsultModel
                     }
                 }
             } else { //Não tem turma no periodo mas tem cardapio   
-                // Adiciona a escola à lista de escolas
                 if (!empty($schoolType->getCardapio())) {
                     $schoolList[] = $schoolType;
                 }
             }
+
         }
-        $schoolList[] = $schoolType;
+
+        $inconsistencyList = $validationSagres->validator($schoolList);
+        $inconsistencyModel = new ValidationSagresModel;
+
+        foreach ($inconsistencyList as $value) {
+            $inconsistencyModel = new ValidationSagresModel;
+
+            $inconsistencyModel->enrollment = $value["enrollment"];
+            $inconsistencyModel->school =  $value["school"] ." - ".$this->getNameSchool($value["school"]);
+            $inconsistencyModel->description = $value["description"];
+            $inconsistencyModel->action = $value["action"];
+            $inconsistencyModel->save();
+        }
+        
         return $schoolList;
+    }
+
+    public function getNameSchool($idSchool)
+    {
+        $query = "SELECT name FROM school_identification where inep_id = :idSchool";
+
+        return Yii::app()->db->createCommand($query)->bindValue(":idSchool", $idSchool)->queryScalar();
     }
 
     /**
@@ -639,19 +660,6 @@ class SagresConsultModel
             ->setCpfDiretor($director['cpfDiretor'])
             ->setNrAto($director['nrAto']);
 
-        $violations = $directorType->validator($directorType);
-
-        if (count($violations) > 0) {
-            $errors = [];
-            foreach ($violations as $violation) {
-                $property = $violation->getPropertyPath();
-                $message = $violation->getMessage();
-                $errors[$property] = $message;
-            }
-
-            print_r($errors);
-        }
-
         return $directorType;
     }
 
@@ -861,7 +869,7 @@ class SagresConsultModel
         if (isset($turnos[$turn])) {
             return $turnos[$turn];
         } else {
-            throw new ErrorException("O valor: " . $turn . " para o turno não é válido");
+            return 5;
         }
     }
 
