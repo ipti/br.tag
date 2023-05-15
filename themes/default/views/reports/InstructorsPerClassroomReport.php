@@ -45,7 +45,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                                 . "<th>Etapa:</th>"
                                 . "<td colspan='5'>" . $r["stage"] . "</td>"
                                 . "</tr>"
-                                . "<tr><th>Ordem</th><th>Identificação Única</th><th>Data de Nascimento</th><th>Nome do Doscente</th><th>Escolaridade</th><th>Disciplinas Ministradas</th></tr>";
+                                . "<tr><th>Ordem</th><th>Identificação Única</th><th>Data de Nascimento</th><th>Nome do Doscente</th><th>Escolaridade</th><th>Componentes curriculares/eixos Ministrados</th></tr>";
                     }
                     $i++;
                     $html .= "<tr>"

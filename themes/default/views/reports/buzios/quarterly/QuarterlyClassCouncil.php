@@ -11,9 +11,9 @@ $turno =  $classroom[0]['turno'];
 if ($turno == 'M') {
     $turno = "Matutino";
 }else if ($turno == 'T') {
-    $turno = "Tarde";
+    $turno = "Vesperitino";
 }else if ($turno == 'N') {
-    $turno = "Noite";
+    $turno = "Noturno";
 }else if ($turno == '' || $turno == null) {
     $turno = "___________";
 }
@@ -23,7 +23,7 @@ if ($turno == 'M') {
     <div class="cabecalho" style="margin: 30px 0;">
         <?php $this->renderPartial('buzios/headers/headBuziosI'); ?>
     </div>
-    <h3><?php echo Yii::t('default', 'Quarterly Class Council Report')." - "; ?> <?php echo $title == '' ? strtoupper($classroom[0]['class_stage']) : $title?></h3>
+    <h3><?php echo Yii::t('default', 'Quarterly Class Council Report')." - "; ?> <?php echo $title == '' ? mb_strtoupper($classroom[0]['class_stage'], 'UTF-8') : $title?></h3>
     <p style="font-size: 19px;">Aos <?php echo $count_days?> dias do mês de <?php echo $mounth?> de 
     <?php echo $year?> às <?php echo $hour?>hs, realizou-se a 
     reunião de Conselho de Classe referente ao <br> <?php echo $quarterly?> Trimestre,
@@ -217,7 +217,7 @@ if ($turno == 'M') {
         <table class="instructors-list-table"  aria-labelledby="Instructors List">
             <thead>
                 <tr>
-                    <th scope="col">Disciplina</th>
+                    <th scope="col">Componente curricular/eixo</th>
                     <th scope="col">Nome do Professor</th>
                     <th scope="col" style="width: 40%;">Assinatura</th>
                 </tr>
@@ -271,7 +271,7 @@ if ($turno == 'M') {
     <div class="cabecalho" style="margin: 30px 0;">
         <?php $this->renderPartial('buzios/headers/headBuziosI'); ?>
     </div>
-    <h3><?php echo Yii::t('default', 'Quarterly Class Council Report')." - "; ?> <?php echo $title == '' ? strtoupper($classroom[0]['class_stage']) : $title?></h3>
+    <h3><?php echo Yii::t('default', 'Quarterly Class Council Report')." - "; ?> <?php echo $title == '' ? mb_strtoupper($classroom[0]['class_stage'], 'UTF-8') : $title?></h3>
     <div class='no-enrollments'>Não há alunos matriculados na turma.</div>
 </div>
 <?php }?>

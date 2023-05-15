@@ -53,11 +53,11 @@
  *
  * The followings are the available model relations:
  * @property EdcensoCourseOfHigherEducation $highEducationCourseCode1Fk
- * @property EdcensoIes $highEducationInstitutionCode1Fk
+ * @property EdcensoIES $highEducationInstitutionCode1Fk
  * @property EdcensoCourseOfHigherEducation $highEducationCourseCode2Fk
- * @property EdcensoIes $highEducationInstitutionCode2Fk
+ * @property EdcensoIES $highEducationInstitutionCode2Fk
  * @property EdcensoCourseOfHigherEducation $highEducationCourseCode3Fk
- * @property EdcensoIes $highEducationInstitutionCode3Fk
+ * @property EdcensoIES $highEducationInstitutionCode3Fk
  */
 class InstructorVariableData extends AltActiveRecord
 {

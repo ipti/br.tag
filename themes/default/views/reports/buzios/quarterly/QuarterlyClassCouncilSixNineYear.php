@@ -11,9 +11,9 @@ $turno =  $classroom[0]['turno'];
 if ($turno == 'M') {
     $turno = "Matutino";
 }else if ($turno == 'T') {
-    $turno = "Tarde";
+    $turno = "Vesperitino";
 }else if ($turno == 'N') {
-    $turno = "Noite";
+    $turno = "Noturno";
 }else if ($turno == '' || $turno == null) {
     $turno = "___________";
 }
@@ -265,7 +265,7 @@ if ($turno == 'M') {
             <table aria-labelledby="Income Table Table">
                 <thead>
                     <tr>
-                        <th rowspan="2" scope="col" style="width: 60%;">Disciplinas</th>
+                        <th rowspan="2" scope="col" style="width: 60%;">Componentes curriculares/eixos</th>
                         <th colspan="2" scope="col">Total de alunos</th>
                     </tr>
                     <tr>
@@ -353,7 +353,7 @@ if ($turno == 'M') {
         <table class="instructors-list-table"  aria-labelledby="Instructors List">
             <thead>
                 <tr>
-                    <th scope="col">Disciplina</th>
+                    <th scope="col">Componente curricular/eixo</th>
                     <th scope="col">Nome do Professor</th>
                     <th scope="col" style="width: 40%;">Assinatura</th>
                 </tr>

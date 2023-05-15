@@ -82,7 +82,7 @@
     <br/>
     <table class="grades">
         <tr>
-            <td>Disciplina</td>
+            <td>Componente curricular/eixo</td>
             <td>1°Av</td>
             <td>1°Re</td>
             <td>1°Md</td>

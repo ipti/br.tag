@@ -222,7 +222,7 @@ class SiteController extends Controller
                         break;
                     case "curricular_matrix":
                         $infos = explode("|", $log->additional_info);
-                        $text = 'Matriz curricular da disciplina "' . $infos[1] . '" da etapa "' . $infos[0] . '" foi ' . $crud . ".";
+                        $text = 'Matriz curricular do componente curricular/eixo "' . $infos[1] . '" da etapa "' . $infos[0] . '" foi ' . $crud . ".";
                         $icon = "matriz_curricular";
                         break;
                     case "lunch_stock":

@@ -26,6 +26,9 @@ class DefaultController extends Controller
 		if (isset($_POST['ProvisionAccounts'])) {
 			$model->attributes = $_POST['ProvisionAccounts'];
 
+			$model->cpf_responsavel = str_replace(array(".", "-"), "", $model->cpf_responsavel);
+			$model->cpf_gestor = str_replace(array(".", "-"), "", $model->cpf_gestor);
+
 			if ($model->validate() && $model->save()) {
 				$msg = $managementUnitCode ? 'atualizada' : 'criada';
 				Yii::app()->user->setFlash('success', Yii::t('default', 'Unidade ' . $msg . ' com sucesso!'));
@@ -42,11 +45,11 @@ class DefaultController extends Controller
 	}
 
 
-	public function actionExport($year, $startDate, $endDate)
+	public function actionExport($year, $startDate, $endDate, $finalClass)
 	{
 		try {
 			$sagres = new SagresConsultModel;
-			$sagresEduXML = $sagres->generatesSagresEduXML($sagres->getSagresEdu($year, $startDate, $endDate));
+			$sagresEduXML = $sagres->generatesSagresEduXML($sagres->getSagresEdu($year, $startDate, $endDate, $finalClass));
 			echo $sagres->actionExportSagresXML($sagresEduXML);
 		} catch (Exception $e) {
 			Yii::app()->user->setFlash('error', Yii::t('default', $e->getMessage()));

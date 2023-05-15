@@ -76,7 +76,7 @@ $this->breadcrumbs=array(
                         array(
                             'name' => 'speciality',
                             'header' => 'Especialidade',
-                            'value' => '$data->specialityFk->name',
+                            'value' => '$data->speciality',
                         ),
                         array(
                             'name' => 'fundeb',

@@ -187,7 +187,7 @@ class ReportsController extends Controller
                     c.school_year = :year AND
                     c.school_inep_fk = :school_inep_id
                     $condition
-                ORDER BY c.id, s.name";
+                ORDER BY c.id, se.daily_order";
 
             $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":school_inep_id", $school_inep_id)->queryAll();
 
@@ -237,7 +237,7 @@ class ReportsController extends Controller
                     ));
                 }
             }else {
-                Yii::app()->user->setFlash('error', Yii::t('default', 'Certifique-se de que a turma selecionada tem professores e alunos cadastrados'));
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Certifique-se de que a turma selecionada tem professores, alunos e disciplinas cadastradas'));
                 return $this->redirect(array('index'));
             }
         }

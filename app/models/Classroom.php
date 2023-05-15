@@ -294,6 +294,21 @@ class Classroom extends AltActiveRecord
         return $schedules;
     }
 
+    public function getDisciplines()
+    {
+        $disciplines = EdcensoDiscipline::model()
+        ->with(array(
+            'curricularMatrices.teachingMatrixes.teachingDataFk' => array(
+                'condition' => 'teachingDataFk.classroom_id_fk=:classroom_id',
+                'params' => array(':classroom_id' => $this->id),
+            )
+        ))
+        ->findAll();
+        
+        var_dump($disciplines);
+        return $disciplines;
+    }
+
     public function getSchoolDaysByExam($exam)
     {
         /* @var $schoolConfiguration SchoolConfiguration */
