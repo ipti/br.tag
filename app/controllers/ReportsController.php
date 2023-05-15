@@ -180,13 +180,21 @@ class ReportsController extends Controller
             $turno = "___________";
         }
 
+        $sql = "SELECT si.name AS student_name FROM classroom c 
+                JOIN student_enrollment se on c.id = se.classroom_fk 
+                JOIN student_identification si on se.student_fk = si.id 
+                WHERE c.id = ".$classroom_id.";";
+
+        $students = Yii::app()->db->createCommand($sql)->queryAll();
+
         if($result) {
             $this->render('buzios/quarterly/QuarterlyFollowUpReport', array(
                 "report" => $result,
                 "school" => $school,
                 "turno" => $turno,
                 "trimestre" => $trimestre,
-                "stage_id" => $stage_id
+                "stage_id" => $stage_id,
+                "students" => $students
             ));
         }
 
