@@ -51,22 +51,24 @@
  * @property InstructorDocumentsAndAddress $documents
  * @property InstructorVariableData $instructorVariableData
  */
-class InstructorIdentification extends AltActiveRecord {
-    
-    const SCENARIO_IMPORT = "SCENARIO_IMPORT";
+class InstructorIdentification extends AltActiveRecord
+{
+    public const SCENARIO_IMPORT = "SCENARIO_IMPORT";
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return InstructorIdentification the static model class
      */
-    public static function model($className = __CLASS__) {
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return 'instructor_identification';
     }
     /*
@@ -109,7 +111,8 @@ class InstructorIdentification extends AltActiveRecord {
     /**
      * @return array relational rules.
      */
-    public function relations() {
+    public function relations()
+    {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
@@ -126,7 +129,8 @@ class InstructorIdentification extends AltActiveRecord {
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return array(
             'register_type' => Yii::t('default', 'Register Type'),
             'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
@@ -167,43 +171,25 @@ class InstructorIdentification extends AltActiveRecord {
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search() {
+    public function search()
+    {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
         //$criteria->with = array('documents');
 
-        $criteria->compare('register_type', $this->register_type, true);        
-       $school = Yii::app()->user->school;
-       $criteria->compare('school_inep_id_fk', $school);
+        $criteria->compare('register_type', $this->register_type, true);
+
+        // if (Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)) {
+        //     $school = Yii::app()->user->school;
+        //     $criteria->compare('school_inep_id_fk', $school);   
+        // }
+
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
-        //        $criteria->compare('email', $this->email, true);
-//        $criteria->compare('nis', $this->nis, true);
-//        $criteria->compare('birthday_date', $this->birthday_date, true);
-//        $criteria->compare('sex', $this->sex);
-//        $criteria->compare('color_race', $this->color_race);
-//        $criteria->compare('mother_name', $this->mother_name, true);
-//        $criteria->compare('nationality', $this->nationality);
-//        $criteria->compare('edcenso_nation_fk', $this->edcenso_nation_fk);
-//        $criteria->compare('edcenso_uf_fk', $this->edcenso_uf_fk);
-//        $criteria->compare('edcenso_city_fk', $this->edcenso_city_fk);
-//        $criteria->compare('deficiency', $this->deficiency);
-//        $criteria->compare('deficiency_type_blindness', $this->deficiency_type_blindness);
-//        $criteria->compare('deficiency_type_low_vision', $this->deficiency_type_low_vision);
-//        $criteria->compare('deficiency_type_deafness', $this->deficiency_type_deafness);
-//        $criteria->compare('deficiency_type_disability_hearing', $this->deficiency_type_disability_hearing);
-//        $criteria->compare('deficiency_type_deafblindness', $this->deficiency_type_deafblindness);
-//        $criteria->compare('deficiency_type_phisical_disability', $this->deficiency_type_phisical_disability);
-//        $criteria->compare('deficiency_type_intelectual_disability', $this->deficiency_type_intelectual_disability);
-//        $criteria->compare('deficiency_type_multiple_disabilities', $this->deficiency_type_multiple_disabilities);
-//        $criteria->compare('users_fk',$this->users_fk);
-
-
-        //$criteria->addCondition('documents.cpf like "' . $this->documents . '%"');
-
+        
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                     'sort' => array(
@@ -213,6 +199,23 @@ class InstructorIdentification extends AltActiveRecord {
                     ),
                     'pagination' => false
                 ));
+    }
+
+    public function getDisciplines()
+    {
+        $disciplines = EdcensoDiscipline::model()
+        ->with(array(
+                'curricularMatrices.teachingMatrixes.teachingDataFk' => array(
+                'condition' => 'teachingDataFk.instructor_fk=:instructor_fk',
+                'params' => array(':instructor_fk' => $this->id),
+            )
+        ))
+        ->findAll(array(
+            'select' => 'DISTINCT ed.*',
+        ));
+
+        var_dump($disciplines);
+        return $disciplines;
     }
 
 }

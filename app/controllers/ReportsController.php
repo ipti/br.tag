@@ -237,7 +237,7 @@ class ReportsController extends Controller
                     ));
                 }
             }else {
-                Yii::app()->user->setFlash('error', Yii::t('default', 'Certifique-se de que a turma selecionada tem professores e alunos cadastrados'));
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Certifique-se de que a turma selecionada tem professores, alunos e disciplinas cadastradas'));
                 return $this->redirect(array('index'));
             }
         }
