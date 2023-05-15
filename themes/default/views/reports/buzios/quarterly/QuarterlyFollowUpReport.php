@@ -6,17 +6,25 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/QuartelyClassCouncil/_initialization.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
+
+$stage = '';
+if ($stage_id == 1) {
+    $stage = "1º, 2º E 3º ANOS";
+}else if ($stage_id == 2) {
+    $stage = "4º E 5º ANOS";
+}
+
 ?>
 <div class="pageA4H page" style="height: auto;">
     <div class="cabecalho" style="margin: 30px 0;">
         <?php $this->renderPartial('buzios/headers/headBuziosI'); ?>
     </div>
-    <h3 style="margin-bottom: 20px;"><?php echo "RELATÓRIO TRIMESTRAL DE ACOMPANHAMENTO DOS 4º E 5º ANOS COMPONENTE CURRICULAR: ".mb_strtoupper($report[0]['discipline_name'], 'UTF-8');?></h3>
+    <h3 style="margin-bottom: 20px;"><?php echo "RELATÓRIO TRIMESTRAL DE ACOMPANHAMENTO DOS ".$stage." <br>COMPONENTE CURRICULAR: ".mb_strtoupper($report[0]['discipline_name'], 'UTF-8');?></h3>
     <div class="container-section" style="border-top: 3px solid black;"><?php echo "Escola: ".$school->name?></div>
     <div class="container-section"><?php echo "Professor(a): ".$report[0]['instructor_name']?></div>
     <div class="container-section container">
         <span><?php echo "Turma: ".$report[0]['classroom_name']?></span>
-        <span><?php echo "Ano de escolaridade: ".Yii::app()->user->year?></span>
+        <span><?php echo "Ano de escolaridade: ".$stage?></span>
         <span style="margin-right: 100px;"><?php echo "Turno: ".$turno?></span>
     </div>
     <div class="container-section container">

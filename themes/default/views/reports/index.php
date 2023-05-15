@@ -629,9 +629,13 @@ $this->breadcrumbs = array(
                                 <option value="11">Educação Física</option>
                             </select>
                         </div>
-                        <?php
-                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
-                        ?>
+                        <label for="" class="control-label">Ano de escolaridade</label>
+                        <select name="stage_id" id="stage_id" style="width: 100%;" required>
+                            <option value="">Selecione o ano de escolaridade</option>
+                            <option value="1">1º, 2º e 3º Anos</option>
+                            <option value="2">4º e 5º Anos</option>
+                        </select>
+                        <label for="" class="control-label">Trimestre</label>
                         <select name="quarterly" id="quarterly" style="width: 100%;" required>
                             <option value="">Selecione o Trimestre</option>
                             <option value="1º Trimestre">1º Trimestre</option>

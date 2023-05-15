@@ -151,10 +151,12 @@ class ReportsController extends Controller
     {
         $classroom_id = $_POST['quarterly_follow_up_classroom'];
         $discipline_id = $_POST['quarterly_follow_up_disciplines'];
+        $stage_id = $_POST['stage_id'];
+        $trimestre = $_POST['quarterly'];
+        
         $classroom_model = Classroom::model()->findByPk($classroom_id);
         $discipline_model = EdcensoDiscipline::model()->findByPk($discipline_id);
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-        $trimestre = $_POST['quarterly'];
 
         $sql = "SELECT ii.name AS instructor_name, ed.name AS discipline_name, c.name AS classroom_name, c.turn as classroom_turn 
                 FROM edcenso_discipline ed
@@ -183,7 +185,8 @@ class ReportsController extends Controller
                 "report" => $result,
                 "school" => $school,
                 "turno" => $turno,
-                "trimestre" => $trimestre
+                "trimestre" => $trimestre,
+                "stage_id" => $stage_id
             ));
         }
 
