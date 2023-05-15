@@ -22,7 +22,7 @@ class ReportsController extends Controller
                     'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
                     'StudentInstructorNumbersRelationReport', 'StudentPendingDocument',
                     'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood',
-                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms'),
+                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -145,6 +145,13 @@ class ReportsController extends Controller
         }
         Yii::app()->user->setFlash('error', Yii::t('default', 'Selecione ao menos uma opção'));
         return $this->redirect(array('index'));
+    }
+
+    public function actionQuarterlyFollowUpReport()
+    {
+        $classroom = $_POST['quarterly_follow_up_classroom'];
+        $discipline = $_POST['quarterly_follow_up_disciplines'];
+        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     }
 
     public function actionGetStudentClassrooms($id)

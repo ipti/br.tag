@@ -32,7 +32,7 @@ $this->breadcrumbs = array(
                     <?php echo Yii::app()->user->getFlash('error') ?>
                 </div>
             <?php endif ?>
-            <div class="container-box">
+            <div class="container-box student-report-container">
 
                 <p>Alunos</p>
 
@@ -198,6 +198,26 @@ $this->breadcrumbs = array(
                         <d  iv class="pull-left">
                             <span class="title">Relatório trimestral do aluno</span><br>
                             <span class="subtitle">Avaliação do aluno no trimestre</span>
+                        </div>
+                    </button>
+                    <button type="button" class="report-box-container quarterly-follow-up" data-toggle="modal" data-target="#quarterly-follow-up" target="_blank">
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/quarterly-report.svg" />
+                            <!-- <div class="t-icon-schedule report-icon"></div> -->
+                        </div>
+                        <d  iv class="pull-left">
+                            <span class="title">Relatório trimestral de acompanhamento</span><br>
+                            <span class="subtitle">Acompanhamento do aluno por disciplina</span>
+                        </div>
+                    </button>
+                    <button type="button" class="report-box-container evaluation-follow-up" data-toggle="modal" data-target="#evaluation-follow-up" target="_blank">
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/quarterly-report.svg" />
+                            <!-- <div class="t-icon-schedule report-icon"></div> -->
+                        </div>
+                        <d  iv class="pull-left">
+                            <span class="title">Acompanhamento avaliativo dos alunos</span><br>
+                            <span class="subtitle">Acompanhamento dos alunos de uma turma por disciplina</span>
                         </div>
                     </button>
                 <?php } ?>
@@ -575,8 +595,127 @@ $this->breadcrumbs = array(
         </form>
     </div>
 </div>
+
+<div class="row">
+    <div class="modal fade modal-content" id="quarterly-follow-up" tabindex="-1" role="dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Relatório Trimestral de Acompanhamento</h4>
+        </div>
+        <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/QuarterlyFollowUpReport'); ?>" method="post" target="_blank">
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class=" span12">
+                        <?php
+                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
+                        ?>
+                        <select name="quarterly_follow_up_classroom" id="quarterly_follow_up_classroom" style="width: 100%;" required>
+                            <option value="">Selecione a Turma</option>
+                            <?php 
+                            foreach ($classrooms as $classroom) {
+                                echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                            }
+                            ?>
+                        </select>
+                        <div class="quarterly-follow-up-disciplines-container">
+                            <?php
+                            echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', array('class' => 'control-label'));
+                            ?>
+                            <select name="quarterly_follow_up_disciplines" id="quarterly_follow_up_disciplines" placeholder="Selecione a disciplina" style="width:100%" required>
+                                <option value="" selected>Selecione a disciplina</option>
+                                <option value="10">Artes</option>
+                                <option value="11">Educação Física</option>
+                            </select>
+                        </div>
+                        <div class="classroom-disciplines-error" style="display:none;color:#D21C1C;margin-left:5px;font-size:12px;">
+                            <span>A turma não tem disciplinas cadastradas.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                    <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;">Gerar</button>
+                </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="modal fade modal-content" id="evaluation-follow-up" tabindex="-1" role="dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Acompanhamento Avaliativo dos Alunos</h4>
+        </div>
+        <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/QuarterlyReport'); ?>" method="post" target="_blank">
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class=" span12">
+                        <?php
+                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
+                        ?>
+                        <select name="quartely_report_classroom_student" id="quartely_report_classroom_student" style="width: 100%;" required>
+                            <option value="">Selecione a Turma</option>
+                            <?php 
+                            foreach ($classrooms as $classroom) {
+                                echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                            }
+                            ?>
+                        </select>
+                        <div class="classroom-student-container" style="display: none;">
+                            <?php
+                            echo CHtml::label(yii::t('default', 'Student Fk'), 'year', array('class' => 'control-label'));
+                            ?>
+                            <select name="student" id="student" placeholder="Selecione o aluno" style="width:100%" required>
+                                <?php
+                                echo "<option value='' selected>Selecione o aluno</option>";
+                                
+                                ?>
+                            </select>
+                        </div>
+                        <div class="classroom-student-error" style="display:none;color:#D21C1C;margin-left:5px;font-size:12px;">
+                            <span>A turma não tem nenhum aluno matriculado.
+                            </span>
+                            <a href="#" data-toggle="modal" data-target="#change-year" target="_blank" data-dismiss="modal">
+                                Clique aqui para mudar o ano.
+                            </a>
+                        </div>
+                        <div class="classroom-student-container" style="display: none;">
+                            <label for="model_quartely" class="control-label" style="width: 100%;">Modelo de Eixos e Campos de Experiência</label>
+                            <select name="model_quartely" id="model_quartely" style="width: 100%;" required>
+                                <option value="">Selecione o modelo</option>
+                                <option value="1">1º ANO</option>
+                                <option value="2">2º ANO</option>
+                                <option value="3">3º ANO</option>
+                                <option value="4">CRECHE II</option>
+                                <option value="5">CRECHE III</option>
+                                <option value="6">CRECHE IV</option>
+                                <option value="7">PRÉ I</option>
+                                <option value="8">PRÉ II</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                    <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;">Gerar</button>
+                </div>
+        </form>
+    </div>
+</div>
+
 </div>
 </div>
+
+<script>
+    var containerFollowUp = $('.quarterly-follow-up');
+    var containerEvaluation = $('.evaluation-follow-up');
+    containerFollowUp.appendTo('.student-report-container');
+    containerEvaluation.appendTo('.student-report-container');
+</script>
 <?php
 
 $cs = Yii::app()->getClientScript();
