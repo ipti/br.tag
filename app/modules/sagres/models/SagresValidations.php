@@ -15,6 +15,7 @@ class SagresValidations
         foreach ($schools as $school) {
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorSchoolDirector($school));
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorMenu($school));
+            $inconsistencyList = array_merge($inconsistencyList, $this->validatorClass($school));
         }
 
         return $inconsistencyList;
@@ -88,7 +89,7 @@ class SagresValidations
                 ];
             }
 
-            if(!$this->validateDate($menu->getData()->format("Y-m-d"))){
+            if (!$this->validateDate($menu->getData()->format("Y-m-d"))) {
                 $inconsistencies[] = [
                     "enrollment" => 'CARDÁPIO',
                     "school" => $school->getIdEscola(),
@@ -96,11 +97,42 @@ class SagresValidations
                     "action" => 'ADICIONE UMA DATA NO FORMATO VÁLIDA'
                 ];
             }
- 
         }
 
         return array_unique($inconsistencies);
     }
+
+    public function validatorClass($school)
+    {
+
+        $strlen = 2;
+        $inconsistencies = [];
+        $classes = $school->getTurma();
+
+        foreach ($classes as $class) {
+
+            if (!in_array($class->getTurno(), [1, 2, 3, 4])) {
+                $inconsistencies[] = [
+                    "enrollment" => 'TURMA',
+                    "school" => $school->getIdEscola(),
+                    "description" => 'VALOR INVÁLIDO PARA O TURNO DA TURMA',
+                    "action" => 'ADICIONE UM VALOR VÁLIDO PARA O TURNO DA TURMA'
+                ];
+            }
+            if (strlen($class->getDescricao()) <= $strlen) {
+                $inconsistencies[] = [
+                    "enrollment" => 'TURMA',
+                    "school" => $school->getIdEscola(),
+                    "description" => 'DESCRIÇÃO PARA A TURMA MENOR QUE 3 CARACTERES ',
+                    "action" => 'INFORMAR UMA DESCRIÇÃO MAIOR QUE 2 CARACTERES'
+                ];
+            }
+        }
+
+        return array_unique($inconsistencies);
+    }
+
+
 
     function validaCPF($cpf)
     {
