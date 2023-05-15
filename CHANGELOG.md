@@ -2,7 +2,7 @@
 
 ## [Versão 3.18.42]
 - Em turmas, ata de notas agora exibe as notas corretamente
-- Corrigindo o campo de inserção da instituição de ensino superior no formulário do professor
+- O campo de inserção da instituição de ensino superior no formulário do professor foi corrigido
 
 ## [Vesão 3.18.41]
 - Ajuste na largura para impressão do relatório de matrícula
