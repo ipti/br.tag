@@ -11,9 +11,9 @@ $turno =  $classroom[0]['turno'];
 if ($turno == 'M') {
     $turno = "Matutino";
 }else if ($turno == 'T') {
-    $turno = "Tarde";
+    $turno = "Vesperitino";
 }else if ($turno == 'N') {
-    $turno = "Noite";
+    $turno = "Noturno";
 }else if ($turno == '' || $turno == null) {
     $turno = "___________";
 }
