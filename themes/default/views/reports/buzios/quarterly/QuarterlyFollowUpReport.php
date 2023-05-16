@@ -6,26 +6,18 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/QuartelyClassCouncil/_initialization.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
-
-$stage = '';
-if ($stage_id == 1) {
-    $stage = "1º, 2º E 3º ANOS";
-}else if ($stage_id == 2) {
-    $stage = "4º E 5º ANOS";
-}
-
 ?>
 <div class="pageA4H page" style="height: auto;">
     <div class="cabecalho" style="margin: 30px 0;">
         <?php $this->renderPartial('buzios/headers/headBuziosI'); ?>
     </div>
     <!-- TAB RELATÓRIO -->
-    <h3 style="margin-bottom: 20px;"><?php echo "RELATÓRIO TRIMESTRAL DE ACOMPANHAMENTO DOS ".$stage." <br>COMPONENTE CURRICULAR: ".mb_strtoupper($report[0]['discipline_name'], 'UTF-8');?></h3>
+    <h3 style="margin-bottom: 20px;"><?php echo "RELATÓRIO TRIMESTRAL DE ACOMPANHAMENTO DOS ".mb_strtoupper($anosTitulo,'UTF-8')." <br>COMPONENTE CURRICULAR: ".mb_strtoupper($report[0]['discipline_name'], 'UTF-8');?></h3>
     <div class="container-section" style="border-top: 3px solid black;"><?php echo "Escola: ".$school->name?></div>
     <div class="container-section"><?php echo "Professor(a): ".$report[0]['instructor_name']?></div>
     <div class="container-section container">
         <span><?php echo "Turma: ".$report[0]['classroom_name']?></span>
-        <span><?php echo "Ano de escolaridade: ".$stage?></span>
+        <span><?php echo "Ano de escolaridade: ".mb_strtoupper($stage_name,'UTF-8')?></span>
         <span style="margin-right: 100px;"><?php echo "Turno: ".$turno?></span>
     </div>
     <div class="container-section container">
@@ -80,7 +72,15 @@ if ($stage_id == 1) {
             <span><?php echo "Componenete Curricular: ".$report[0]['discipline_name']?></span>
         </p>
         <p>
-            <span style="margin-right: 0;">Ano de Escolaridade:</span><span>(&nbsp&nbsp&nbsp&nbsp)4º</span><span>(&nbsp&nbsp&nbsp&nbsp)5º</span>
+            <span style="margin-right: 0;">Ano de Escolaridade:</span>
+            <?php if ($anosVerify == 1) {?>
+                <span>(<?php echo $anosPosition == 1 ? "&nbspX&nbsp" : "&nbsp&nbsp&nbsp&nbsp"?>)&nbsp1º</span>
+                <span>(<?php echo $anosPosition == 2 ? "&nbspX&nbsp" : "&nbsp&nbsp&nbsp&nbsp"?>)&nbsp2º</span>
+                <span>(<?php echo $anosPosition == 3 ? "&nbspX&nbsp" : "&nbsp&nbsp&nbsp&nbsp"?>)&nbsp3º</span>
+            <?php }else {?>
+                <span>(<?php echo $anosPosition == 4 ? "&nbspX&nbsp" : "&nbsp&nbsp&nbsp&nbsp"?>)&nbsp4º</span>
+                <span>(<?php echo $anosPosition == 5 ? "&nbspX&nbsp" : "&nbsp&nbsp&nbsp&nbsp"?>)&nbsp5º</span>
+            <?php }?>
             <span style="margin-left: 100px;"><?php echo "Turno: ".$turno?></span>
             <span><?php echo "Turma: ".$report[0]['classroom_name']?></span>
         </p>

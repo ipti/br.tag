@@ -151,7 +151,6 @@ class ReportsController extends Controller
     {
         $classroom_id = $_POST['quarterly_follow_up_classroom'];
         $discipline_id = $_POST['quarterly_follow_up_disciplines'];
-        $stage_id = $_POST['stage_id'];
         $trimestre = $_POST['quarterly'];
         
         $classroom_model = Classroom::model()->findByPk($classroom_id);
@@ -188,22 +187,51 @@ class ReportsController extends Controller
 
         $students = Yii::app()->db->createCommand($sql)->queryAll();
 
+        $classroom_stage_name = $classroom_model->edcensoStageVsModalityFk->name;
+        $parts = explode("-", $classroom_stage_name);
+        $stage_name = trim($parts[1]);
+
+        $anos1 = array("1º", "2º", "3º");
+        $anos2 = array("4º", "5º");    
+
+        $anosTitulo = '';
+        $anosVerify = 0;
+        $anosPosition = 0;
+
+        for ($i=0; $i < count($anos1); $i++) { 
+            if (strpos($stage_name, $anos1[$i]) !== false) {
+                $anosTitulo = "1º, 2º e 3º ANOS";
+                $anosVerify = 1;
+                $anosPosition = $i + 1;
+                break;
+            }
+        }
+        for ($i=0; $i < count($anos2); $i++) { 
+            if (strpos($stage_name, $anos2[$i]) !== false) {
+                $anosTitulo = "4º E 5º ANOS";
+                $anosVerify = 2;
+                $anosPosition = $i + 4;
+                break;
+            }
+        }
+
         if($result) {
             $this->render('buzios/quarterly/QuarterlyFollowUpReport', array(
                 "report" => $result,
                 "school" => $school,
                 "turno" => $turno,
                 "trimestre" => $trimestre,
-                "stage_id" => $stage_id,
-                "students" => $students
+                "students" => $students,
+                "classroom" => $classroom_model,
+                "anosTitulo" => $anosTitulo,
+                "anosVerify" => $anosVerify,
+                "anosPosition" => $anosPosition,
+                "stage_name" => $stage_name
             ));
         }
 
         Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom_model->name." não possui professores para a disciplina de ".$discipline_model->name));
         return $this->redirect(array('index'));
-
-        var_dump($result);
-        exit;
     }
 
     public function actionGetStudentClassrooms($id)
