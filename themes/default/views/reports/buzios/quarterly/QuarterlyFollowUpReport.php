@@ -9,7 +9,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
 <div class="pageA4H page" style="height: auto;">
     <div class="cabecalho" style="margin: 30px 0;">
-        <?php $this->renderPartial('buzios/headers/headBuziosI'); ?>
+        <?php $this->renderPartial('buzios/headers/headBuziosIV'); ?>
     </div>
     <!-- TAB RELATÓRIO -->
     <h3 style="margin-bottom: 20px;"><?php echo "RELATÓRIO TRIMESTRAL DE ACOMPANHAMENTO DOS ".mb_strtoupper($anosTitulo,'UTF-8')." <br>COMPONENTE CURRICULAR: ".mb_strtoupper($report[0]['discipline_name'], 'UTF-8');?></h3>
