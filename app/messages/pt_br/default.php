@@ -157,7 +157,7 @@ return array(
     'Dependencies Outside Bathroom' => 'Banheiro Fora do Prédio',
     'Dependencies Inside Bathroom' => 'Banheiro dentro do Prédio',
     'Dependencies Child Bathroom' => 'Banheiro Adequado à Ed. Infantil',
-    'Dependencies Prysical Disability Bathroom' => 'Banheiro Adequado aos Alunos com Deficiência ou Mobilidade Reduzida',
+    'Dependencies Prysical Disability Bathroom' => 'Banheiro Adequado à PcD ou Mobilidade Reduzida',
     'Dependencies Physical Disability Support' => 'Dependências e Vias Adequadas aos Alunos com Deficências ou Mobilidade Reduzida',
     'Dependencies Bathroom With Shower' => 'Banheiro com Chuveiro',
     'Dependencies Refectory' => 'Refeitório',
