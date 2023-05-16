@@ -164,10 +164,13 @@ class ReportsController extends Controller
                 JOIN instructor_teaching_data itd ON itd.id = tm.teaching_data_fk 
                 JOIN classroom c ON c.id = itd.classroom_id_fk 
                 JOIN instructor_identification ii ON itd.instructor_fk = ii.id
-                WHERE ed.id = ".$discipline_id." AND c.id = ".$classroom_id."
+                WHERE ed.id = :discipline_id AND c.id = :classroom_id
                 GROUP BY ii.name;";
 
-        $result = Yii::app()->db->createCommand($sql)->queryAll();
+        $result = Yii::app()->db->createCommand($sql)
+        ->bindParam(":discipline_id", $discipline_id)
+        ->bindParam(":classroom_id", $classroom_id)
+        ->queryAll();
         $turno =  $result[0]['classroom_turn'];
         if ($turno == 'M') {
             $turno = "Matutino";
@@ -182,17 +185,17 @@ class ReportsController extends Controller
         $sql = "SELECT si.name AS student_name FROM classroom c 
                 JOIN student_enrollment se on c.id = se.classroom_fk 
                 JOIN student_identification si on se.student_fk = si.id 
-                WHERE c.id = ".$classroom_id."
+                WHERE c.id = :classroom_id
                 ORDER BY se.daily_order;";
 
-        $students = Yii::app()->db->createCommand($sql)->queryAll();
+        $students = Yii::app()->db->createCommand($sql)->bindParam(":classroom_id", $classroom_id)->queryAll();
 
         $classroom_stage_name = $classroom_model->edcensoStageVsModalityFk->name;
         $parts = explode("-", $classroom_stage_name);
         $stage_name = trim($parts[1]);
 
         $anos1 = array("1º", "2º", "3º");
-        $anos2 = array("4º", "5º");    
+        $anos2 = array("4º", "5º");
 
         $anosTitulo = '';
         $anosVerify = 0;
