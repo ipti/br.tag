@@ -182,11 +182,11 @@ class ReportsController extends Controller
             $turno = "___________";
         }
 
-        $sql = "SELECT si.name AS student_name FROM classroom c 
+        $sql = "SELECT si.name AS student_name, se.daily_order FROM classroom c 
                 JOIN student_enrollment se on c.id = se.classroom_fk 
                 JOIN student_identification si on se.student_fk = si.id 
                 WHERE c.id = :classroom_id
-                ORDER BY se.daily_order;";
+                ORDER BY se.daily_order, si.name;";
 
         $students = Yii::app()->db->createCommand($sql)->bindParam(":classroom_id", $classroom_id)->queryAll();
 
