@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.19.42]
+- Novo relatório trimestral de acompanhamento
+
 ## [Versão 3.18.42]
 - Em turmas, ata de notas agora exibe as notas corretamente
 - O campo de inserção da instituição de ensino superior no formulário do professor foi corrigido
