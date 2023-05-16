@@ -63,7 +63,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     <!-- TAB RELATÓRIO AVALIATIVO -->
     <div class="container-evaluative-title">
         <div class="cabecalho" style="margin: 30px 0;">
-            <?php $this->renderPartial('buzios/headers/headBuziosII'); ?>
+            <?php $this->renderPartial('buzios/headers/headBuziosV'); ?>
         </div>
         <p class="title">RELATÓRIO AVALIATIVO TRIMESTRAL</p>
         <p><?php echo "Unidade Escolar: ".$school->name?></p>
@@ -232,7 +232,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     }
 
     .container-evaluative-title {
-        width: 70%;
+        width: 80%;
         font-size: 14px;
     }
 
