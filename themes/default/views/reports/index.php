@@ -202,7 +202,7 @@ $this->breadcrumbs = array(
                     </button>
                     <button type="button" class="report-box-container quarterly-follow-up" data-toggle="modal" data-target="#quarterly-follow-up" target="_blank">
                         <div class="pull-left" style="margin-right: 20px;">
-                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/quarterly-report.svg" />
+                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/student_monitoring.svg" alt="student_monitoring" />
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <d  iv class="pull-left">

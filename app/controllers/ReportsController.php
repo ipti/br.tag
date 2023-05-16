@@ -231,10 +231,10 @@ class ReportsController extends Controller
                 "anosPosition" => $anosPosition,
                 "stage_name" => $stage_name
             ));
+        }else {
+            Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom_model->name." não possui professores para a disciplina de ".$discipline_model->name));
+            return $this->redirect(array('index'));
         }
-
-        Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom_model->name." não possui professores para a disciplina de ".$discipline_model->name));
-        return $this->redirect(array('index'));
     }
 
     public function actionGetStudentClassrooms($id)
