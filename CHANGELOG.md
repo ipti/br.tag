@@ -1,7 +1,11 @@
 # Atualizações
 
+## [Versão 3.19.43]
+ - Corrigido o espaçamento dos checkbox no formulário de escola e o alinhamento dos campos desse formulário foi ajustado 
+
 ## [Versão 3.18.42]
-- Corrigindo o campo de inserção da instituição de ensino superior no formulário do professor
+- Em turmas, ata de notas agora exibe as notas corretamente
+- O campo de inserção da instituição de ensino superior no formulário do professor foi corrigido
 
 ## [Vesão 3.18.41]
 - Ajuste na largura para impressão do relatório de matrícula

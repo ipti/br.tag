@@ -22,7 +22,7 @@ class ReportsController extends Controller
                     'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
                     'StudentInstructorNumbersRelationReport', 'StudentPendingDocument',
                     'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood',
-                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms'),
+                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -145,6 +145,104 @@ class ReportsController extends Controller
         }
         Yii::app()->user->setFlash('error', Yii::t('default', 'Selecione ao menos uma opção'));
         return $this->redirect(array('index'));
+    }
+
+    public function actionQuarterlyFollowUpReport()
+    {
+        $classroom_id = $_POST['quarterly_follow_up_classroom'];
+        $discipline_id = $_POST['quarterly_follow_up_disciplines'];
+        $trimestre = $_POST['quarterly'];
+        
+        $classroom_model = Classroom::model()->findByPk($classroom_id);
+        $discipline_model = EdcensoDiscipline::model()->findByPk($discipline_id);
+        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+
+        $sql = "SELECT ii.name AS instructor_name, ed.name AS discipline_name, c.name AS classroom_name, c.turn as classroom_turn 
+                FROM edcenso_discipline ed
+                JOIN curricular_matrix cm ON cm.discipline_fk = ed.id
+                JOIN teaching_matrixes tm ON tm.curricular_matrix_fk = cm.id 
+                JOIN instructor_teaching_data itd ON itd.id = tm.teaching_data_fk 
+                JOIN classroom c ON c.id = itd.classroom_id_fk 
+                JOIN instructor_identification ii ON itd.instructor_fk = ii.id
+                WHERE ed.id = :discipline_id AND c.id = :classroom_id
+                GROUP BY ii.name;";
+
+        $result = Yii::app()->db->createCommand($sql)
+        ->bindParam(":discipline_id", $discipline_id)
+        ->bindParam(":classroom_id", $classroom_id)
+        ->queryAll();
+        $turno =  $result[0]['classroom_turn'];
+        if ($turno == 'M') {
+            $turno = "Matutino";
+        }else if ($turno == 'T') {
+            $turno = "Vesperitino";
+        }else if ($turno == 'N') {
+            $turno = "Noturno";
+        }else if ($turno == '' || $turno == null) {
+            $turno = "___________";
+        }
+
+        $sql = "SELECT si.name AS student_name, se.daily_order FROM classroom c 
+                JOIN student_enrollment se on c.id = se.classroom_fk 
+                JOIN student_identification si on se.student_fk = si.id 
+                WHERE c.id = :classroom_id
+                ORDER BY se.daily_order, si.name;";
+
+        $students = Yii::app()->db->createCommand($sql)->bindParam(":classroom_id", $classroom_id)->queryAll();
+
+        $classroom_stage_name = $classroom_model->edcensoStageVsModalityFk->name;
+        $parts = explode("-", $classroom_stage_name);
+        $stage_name = trim($parts[1]);
+
+        $anos1 = array("1º", "2º", "3º");
+        $anos2 = array("4º", "5º");
+
+        $anosTitulo = '';
+        $anosVerify = 0;
+        $anosPosition = 0;
+        $stageVerify = false;
+
+        for ($i=0; $i < count($anos1); $i++) { 
+            if (strpos($stage_name, $anos1[$i]) !== false) {
+                $anosTitulo = "1º, 2º e 3º ANOS";
+                $anosVerify = 1;
+                $anosPosition = $i + 1;
+                $stageVerify = true;
+                break;
+            }
+        }
+        for ($i=0; $i < count($anos2); $i++) { 
+            if (strpos($stage_name, $anos2[$i]) !== false) {
+                $anosTitulo = "4º E 5º ANOS";
+                $anosVerify = 2;
+                $anosPosition = $i + 4;
+                $stageVerify = true;
+                break;
+            }
+        }
+
+        if(!$stageVerify) {
+            Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom_model->name." não possui uma etapa correspondente ao relatório. Etapa da Turma: ".$classroom_stage_name));
+            return $this->redirect(array('index'));
+        }
+
+        if($result) {
+            $this->render('buzios/quarterly/QuarterlyFollowUpReport', array(
+                "report" => $result,
+                "school" => $school,
+                "turno" => $turno,
+                "trimestre" => $trimestre,
+                "students" => $students,
+                "classroom" => $classroom_model,
+                "anosTitulo" => $anosTitulo,
+                "anosVerify" => $anosVerify,
+                "anosPosition" => $anosPosition,
+                "stage_name" => $stage_name
+            ));
+        }else {
+            Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom_model->name." não possui professores para a disciplina de ".$discipline_model->name));
+            return $this->redirect(array('index'));
+        }
     }
 
     public function actionGetStudentClassrooms($id)
@@ -1052,147 +1150,163 @@ class ReportsController extends Controller
     {
         $result = [];
         if ($_POST["type"] === "frequency") {
-            $arr = explode('/', $_POST["initialDate"]);
-            $initialDate = $arr[2] . "-" . $arr[1] . "-" . $arr[0];
-            $arr = explode('/', $_POST["finalDate"]);
-            $finalDate = $arr[2] . "-" . $arr[1] . "-" . $arr[0];
-            $students = [];
-            if ($_POST["fundamentalMaior"] == "1") {
-                $schedules = Schedule::model()
-                    ->findAll("classroom_fk = :classroom_fk and date_format(concat(" . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and discipline_fk = :discipline_fk and unavailable = 0 order by month, day, schedule",
-                        ["classroom_fk" => $_POST["classroom"], "initial_date" => $initialDate, "final_date" => $finalDate, "discipline_fk" => $_POST["discipline"]]);
-                if ($schedules !== null) {
-                    foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
-                        array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "total" => count($schedules), "faults" => [], "frequency" => ""]);
-                    }
-                    foreach ($schedules as $schedule) {
-                        foreach ($schedule->classFaults as $classFault) {
-                            $key = array_search($classFault->student_fk, array_column($students, 'id'));
-                            array_push($students[$key]["faults"], str_pad($schedule["day"], 2, "0", STR_PAD_LEFT) . "/" . str_pad($schedule["month"], 2, "0", STR_PAD_LEFT) . " (" . $schedule["schedule"] . "º Hor.)");
-                        }
-                    }
-                    foreach ($students as &$student) {
-                        $student["frequency"] = (floor((($student["total"] - count($student["faults"])) / $student["total"]) * 100 * 100) / 100) . "%";
-                    }
-                }
-            } else {
-                $schedules = Schedule::model()
-                    ->findAll("classroom_fk = :classroom_fk and date_format(concat(" . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and unavailable = 0 order by month, day",
-                        ["classroom_fk" => $_POST["classroom"], "initial_date" => $initialDate, "final_date" => $finalDate]);
-                if ($schedules !== null) {
-                    foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
-                        array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "days" => 0, "faults" => [], "frequency" => ""]);
-                    }
-                    $days = [];
-                    foreach ($schedules as $schedule) {
-                        if (!in_array($schedule["day"] . $schedule["month"], $days)) {
-                            array_push($days, $schedule["day"] . $schedule["month"]);
-                        }
-                        foreach ($schedule->classFaults as $classFault) {
-                            $key = array_search($classFault->student_fk, array_column($students, 'id'));
-                            if (!in_array(str_pad($schedule["day"], 2, "0", STR_PAD_LEFT) . "/" . str_pad($schedule["month"], 2, "0", STR_PAD_LEFT), $students[$key]["faults"])) {
-                                array_push($students[$key]["faults"], str_pad($schedule["day"], 2, "0", STR_PAD_LEFT) . "/" . str_pad($schedule["month"], 2, "0", STR_PAD_LEFT));
-                            }
-                        }
-                    }
-                    foreach ($students as &$student) {
-                        $student["total"] = count($days);
-                        $student["frequency"] = (floor((($student["total"] - count($student["faults"])) / $student["total"]) * 100 * 100) / 100) . "%";
-                    }
-                }
-            }
-            $col = array_column($students, "name");
-            array_multisort($col, SORT_ASC, $students);
-            $result["students"] = $students;
+            $initial_date = $_POST["initialDate"];
+            $final_date = $_POST["finalDate"];
+            $fundamental_maior = $_POST["fundamentalMaior"];
+            $classroom = $_POST["classroom"];
+            $result = $this->frequencyReport($initial_date, $final_date, $fundamental_maior, $classroom);
         } else if ($_POST["type"] === "gradesByStudent") {
-
-            $criteria = new CDbCriteria();
-            $criteria->alias = "gu";
-            $criteria->join = "join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id";
-            $criteria->join .= " join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id";
-            $criteria->condition = "c.id = :classroom";
-            $criteria->params = array(":classroom" => $_POST["classroom"]);
-            $gradeUnitiesByClassroom = GradeUnity::model()->findAll($criteria);
-            if ($gradeUnitiesByClassroom !== null) {
-                $result["unityNames"] = [];
-                $result["subunityNames"] = [];
-                foreach ($gradeUnitiesByClassroom as $gradeUnity) {
-                    array_push($result["unityNames"], ["name" => $gradeUnity["name"], "colspan" => $gradeUnity->type == "UR" ? 2 : 1]);
-                    $commonModalitiesName = "";
-                    $recoverModalityName = "";
-                    $firstCommonModality = false;
-                    foreach ($gradeUnity->gradeUnityModalities as $index => $gradeUnityModality) {
-                        if ($gradeUnityModality->type == "C") {
-                            if (!$firstCommonModality) {
-                                $commonModalitiesName .= $gradeUnityModality->name;
-                                $firstCommonModality = true;
-                            } else {
-                                $commonModalitiesName .= " + " . $gradeUnityModality->name;
-                            }
-                        } else {
-                            $recoverModalityName = $gradeUnityModality->name;
-                        }
-                    }
-                    array_push($result["subunityNames"], $commonModalitiesName);
-                    if ($recoverModalityName !== "") {
-                        array_push($result["subunityNames"], $recoverModalityName);
-                    }
-                }
-
-                //Montar linhas das disciplinas e notas
-                $result["rows"] = [];
-                $disciplines = Yii::app()->db->createCommand("
-                    select ed.id, ed.name from curricular_matrix cm
-                    join edcenso_discipline ed on ed.id = cm.discipline_fk
-                    join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
-                    join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id
-                    where c.id = :classroom
-                    order by ed.name
-                ")->bindParam(":classroom", $_POST["classroom"])->queryAll();
-
-                foreach ($disciplines as $discipline) {
-                    $arr["disciplineName"] = $discipline["name"];
-
-                    $arr["grades"] = [];
-                    foreach ($gradeUnitiesByClassroom as $gradeUnity) {
-                        array_push($arr["grades"], $gradeUnity->type == "UR"
-                            ? ["unityId" => $gradeUnity->id, "unityGrade" => "", "unityRecoverGrade" => "", "gradeUnityType" => $gradeUnity->type]
-                            : ["unityId" => $gradeUnity->id, "unityGrade" => "", "gradeUnityType" => $gradeUnity->type]);
-                    }
-
-                    $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $_POST["student"], "discipline_fk" => $discipline["id"]]);
-                    $recSemIndex = 0;
-                    $gradeIndex = 0;
-                    foreach ($arr["grades"] as &$grade) {
-                        switch ($grade["gradeUnityType"]) {
-                            case "U":
-                                $grade["unityGrade"] = $gradeResult["grade_" . ($gradeIndex + 1)] != null ? $gradeResult["grade_" . ($gradeIndex + 1)] : "";
-                                $gradeIndex++;
-                                break;
-                            case "UR":
-                                $grade["unityGrade"] = $gradeResult["grade_" . ($gradeIndex + 1)] != null ? $gradeResult["grade_" . ($gradeIndex + 1)] : "";
-                                $grade["unityRecoverGrade"] = $gradeResult["rec_bim_" . ($gradeIndex + 1)] != null ? $gradeResult["rec_bim_" . ($gradeIndex + 1)] : "";
-                                $gradeIndex++;
-                                break;
-                            case "RS":
-                                $grade["unityGrade"] = $gradeResult["rec_sem_" . ($recSemIndex + 1)] != null ? $gradeResult["rec_sem_" . ($recSemIndex + 1)] : "";
-                                $recSemIndex++;
-                                break;
-                            case "RF":
-                                $grade["unityGrade"] = $gradeResult["rec_final"] != null ? $gradeResult["rec_final"] : "";
-                                break;
-                        }
-                    }
-
-                    $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
-                    array_push($result["rows"], $arr);
-                }
-                $result["valid"] = true;
-            } else {
-                $result["valid"] = false;
-            }
+            $result = $this->gradesReport($_POST["classroom"], $_POST["student"]);
         }
         echo json_encode($result);
+    }
+
+    private function frequencyReport($initial_date, $final_date, $fundamental_maior, $classroom){
+        
+
+        $arr = explode('/', $initial_date);
+        $initialDate = $arr[2] . "-" . $arr[1] . "-" . $arr[0];
+        $arr = explode('/', $final_date);
+        $finalDate = $arr[2] . "-" . $arr[1] . "-" . $arr[0];
+        $students = [];
+        if ($fundamental_maior == "1") {
+            $schedules = Schedule::model()
+                ->findAll("classroom_fk = :classroom_fk and date_format(concat(" . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and discipline_fk = :discipline_fk and unavailable = 0 order by month, day, schedule",
+                    ["classroom_fk" => $classroom, "initial_date" => $initialDate, "final_date" => $finalDate, "discipline_fk" => $_POST["discipline"]]);
+            if ($schedules !== null) {
+                foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
+                    array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "total" => count($schedules), "faults" => [], "frequency" => ""]);
+                }
+                foreach ($schedules as $schedule) {
+                    foreach ($schedule->classFaults as $classFault) {
+                        $key = array_search($classFault->student_fk, array_column($students, 'id'));
+                        array_push($students[$key]["faults"], str_pad($schedule["day"], 2, "0", STR_PAD_LEFT) . "/" . str_pad($schedule["month"], 2, "0", STR_PAD_LEFT) . " (" . $schedule["schedule"] . "º Hor.)");
+                    }
+                }
+                foreach ($students as &$student) {
+                    $student["frequency"] = (floor((($student["total"] - count($student["faults"])) / $student["total"]) * 100 * 100) / 100) . "%";
+                }
+            }
+        } else {
+            $schedules = Schedule::model()
+                ->findAll("classroom_fk = :classroom_fk and date_format(concat(" . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and unavailable = 0 order by month, day",
+                    ["classroom_fk" => $classroom, "initial_date" => $initialDate, "final_date" => $finalDate]);
+            if ($schedules !== null) {
+                foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
+                    array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "days" => 0, "faults" => [], "frequency" => ""]);
+                }
+                $days = [];
+                foreach ($schedules as $schedule) {
+                    if (!in_array($schedule["day"] . $schedule["month"], $days)) {
+                        array_push($days, $schedule["day"] . $schedule["month"]);
+                    }
+                    foreach ($schedule->classFaults as $classFault) {
+                        $key = array_search($classFault->student_fk, array_column($students, 'id'));
+                        if (!in_array(str_pad($schedule["day"], 2, "0", STR_PAD_LEFT) . "/" . str_pad($schedule["month"], 2, "0", STR_PAD_LEFT), $students[$key]["faults"])) {
+                            array_push($students[$key]["faults"], str_pad($schedule["day"], 2, "0", STR_PAD_LEFT) . "/" . str_pad($schedule["month"], 2, "0", STR_PAD_LEFT));
+                        }
+                    }
+                }
+                foreach ($students as &$student) {
+                    $student["total"] = count($days);
+                    $student["frequency"] = (floor((($student["total"] - count($student["faults"])) / $student["total"]) * 100 * 100) / 100) . "%";
+                }
+            }
+        }
+        $col = array_column($students, "name");
+        array_multisort($col, SORT_ASC, $students);
+        $result["students"] = $students;
+        
+        return $result;
+    }
+
+    private function gradesReport($classroom_id, $student_id){
+        $classroom = Classroom::model()
+            ->with('edcensoStageVsModalityFk.gradeUnities')
+            ->find("t.id = :classroom", [":classroom" => $classroom_id]);
+
+        $gradeUnitiesByClassroom = $classroom->edcensoStageVsModalityFk->gradeUnities; 
+        if ($gradeUnitiesByClassroom !== null) {
+            $result["unityNames"] = [];
+            $result["subunityNames"] = [];
+
+            foreach ($gradeUnitiesByClassroom as $gradeUnity) {
+                array_push($result["unityNames"], ["name" => $gradeUnity["name"], "colspan" => $gradeUnity->type == "UR" ? 2 : 1]);
+                $commonModalitiesName = "";
+                $recoverModalityName = "";
+                $firstCommonModality = false;
+                foreach ($gradeUnity->gradeUnityModalities as $index => $gradeUnityModality) {
+                    if ($gradeUnityModality->type == "C") {
+                        if (!$firstCommonModality) {
+                            $commonModalitiesName .= $gradeUnityModality->name;
+                            $firstCommonModality = true;
+                        } else {
+                            $commonModalitiesName .= " + " . $gradeUnityModality->name;
+                        }
+                    } else {
+                        $recoverModalityName = $gradeUnityModality->name;
+                    }
+                }
+                array_push($result["subunityNames"], $commonModalitiesName);
+                if ($recoverModalityName !== "") {
+                    array_push($result["subunityNames"], $recoverModalityName);
+                }
+            }
+
+            //Montar linhas das disciplinas e notas
+            $result["rows"] = [];
+            $disciplines = Yii::app()->db->createCommand("
+                select ed.id, ed.name from curricular_matrix cm
+                join edcenso_discipline ed on ed.id = cm.discipline_fk
+                join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
+                join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id
+                where c.id = :classroom
+                order by ed.name
+            ")->bindParam(":classroom", $classroom_id)->queryAll();
+
+            foreach ($disciplines as $discipline) {
+                $arr["disciplineName"] = $discipline["name"];
+
+                $arr["grades"] = [];
+                foreach ($gradeUnitiesByClassroom as $gradeUnity) {
+                    array_push($arr["grades"], $gradeUnity->type == "UR"
+                        ? ["unityId" => $gradeUnity->id, "unityGrade" => "", "unityRecoverGrade" => "", "gradeUnityType" => $gradeUnity->type]
+                        : ["unityId" => $gradeUnity->id, "unityGrade" => "", "gradeUnityType" => $gradeUnity->type]);
+                }
+
+                $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $student_id, "discipline_fk" => $discipline["id"]]);
+                $recSemIndex = 0;
+                $gradeIndex = 0;
+                foreach ($arr["grades"] as &$grade) {
+                    switch ($grade["gradeUnityType"]) {
+                        case "U":
+                            $grade["unityGrade"] = $gradeResult["grade_" . ($gradeIndex + 1)] != null ? $gradeResult["grade_" . ($gradeIndex + 1)] : "";
+                            $gradeIndex++;
+                            break;
+                        case "UR":
+                            $grade["unityGrade"] = $gradeResult["grade_" . ($gradeIndex + 1)] != null ? $gradeResult["grade_" . ($gradeIndex + 1)] : "";
+                            $grade["unityRecoverGrade"] = $gradeResult["rec_bim_" . ($gradeIndex + 1)] != null ? $gradeResult["rec_bim_" . ($gradeIndex + 1)] : "";
+                            $gradeIndex++;
+                            break;
+                        case "RS":
+                            $grade["unityGrade"] = $gradeResult["rec_sem_" . ($recSemIndex + 1)] != null ? $gradeResult["rec_sem_" . ($recSemIndex + 1)] : "";
+                            $recSemIndex++;
+                            break;
+                        case "RF":
+                            $grade["unityGrade"] = $gradeResult["rec_final"] != null ? $gradeResult["rec_final"] : "";
+                            break;
+                    }
+                }
+
+                $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
+                array_push($result["rows"], $arr);
+            }
+            $result["valid"] = true;
+        } else {
+            $result["valid"] = false;
+        }
+    
+        return $result;
     }
 
     public function actionOutOfTownStudentsReport()
