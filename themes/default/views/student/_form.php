@@ -84,21 +84,21 @@ $form = $this->beginWidget('CActiveForm', array(
                 </li>
                 <li id="tab-student-address" class="t-tabs__item ">
                     <a class="t-tabs__link" href="#student-address" data-toggle="tab">
-                        <span class="t-tabs__numeration js-change-number-2">4</span>
+                        <span class="t-tabs__numeration js-change-number-3">4</span>
                         <?php echo Yii::t('default', 'Address') ?>
                     </a>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
                 <li id="tab-student-enrollment" class="t-tabs__item ">
                     <a class="t-tabs__link" href="#student-enrollment" data-toggle="tab">
-                        <span class="t-tabs__numeration js-change-number-3">5</span>
+                        <span class="t-tabs__numeration js-change-number-4">5</span>
                         <?php echo Yii::t('default', 'Enrollment') ?>
                     </a>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
                 <li id="tab-student-health" class="t-tabs__item ">
                     <a class="t-tabs__link" href="#student-health" data-toggle="tab">
-                        <span class="t-tabs__numeration js-change-number-4">6</span>
+                        <span class="t-tabs__numeration js-change-number-5">6</span>
                         <?php echo Yii::t('default', 'Health') ?>
                     </a>
                 </li>
@@ -1549,9 +1549,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         <ul>
                                                             <?php
                                                             $forms = unserialize(FORMS);
-                                                            foreach ($forms as $form) {
-                                                                $link = Yii::app()->createUrl('forms/' . $form['action'], array('type' => $type, 'enrollment_id' => $me->id));
-                                                                echo "<li><a target='_blank' href=" . $link . ">" . $form['name'] . "</a></li>";
+                                                            foreach ($forms as $item) {
+                                                                $link = Yii::app()->createUrl('forms/' . $item['action'], array('type' => $type, 'enrollment_id' => $me->id));
+                                                                echo "<li><a target='_blank' href=" . $link . ">" . $item['name'] . "</a></li>";
                                                             }
                                                             if ($me->classroomFk->school_year == date('Y')) {
                                                                 $date = date('Y-m-d');

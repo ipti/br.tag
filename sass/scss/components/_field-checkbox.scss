@@ -8,6 +8,8 @@
     white-space: normal;
     line-height: 12px;
     width: 100%;
+    margin-top: $SizeXXXSmall;
+    margin-bottom: $SizeXSmall;
 
     &__label {
         padding-top: 0 !important;
@@ -36,6 +38,7 @@
     margin-bottom: $SizeLarge;
 
     .t-field-checkbox {
+        margin-top: $SizeXXXSmall;
         margin-bottom: $SizeXSmall;
     }
 }

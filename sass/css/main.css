@@ -418,19 +418,21 @@ html {
   white-space: normal;
   line-height: 12px;
   width: 100%;
+  margin-top: 4px;
+  margin-bottom: 8px;
 }
 
-/* line 12, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
+/* line 14, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
 .t-field-checkbox__label {
   padding-top: 0 !important;
 }
 
-/* line 15, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
+/* line 17, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
 .t-field-checkbox__label--required {
   font-weight: bold;
 }
 
-/* line 20, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
+/* line 22, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
 .t-field-checkbox__input,
 .t-field-checkbox input[type="checkbox"] {
   background: #FFFFFF;
@@ -439,20 +441,21 @@ html {
   margin: 0 14px 0 0 !important;
 }
 
-/* line 28, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
+/* line 30, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
 .t-field-checkbox.helper {
   margin-top: 31px;
   margin-bottom: 10px;
   margin-left: -18px;
 }
 
-/* line 35, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
+/* line 37, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
 .t-field-checkbox-group {
   margin-bottom: 24px;
 }
 
-/* line 38, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
+/* line 40, ../../../../wamp64/www/br.tag/sass/scss/components/_field-checkbox.scss */
 .t-field-checkbox-group .t-field-checkbox {
+  margin-top: 4px;
   margin-bottom: 8px;
 }
 
