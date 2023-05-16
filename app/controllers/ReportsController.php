@@ -200,12 +200,14 @@ class ReportsController extends Controller
         $anosTitulo = '';
         $anosVerify = 0;
         $anosPosition = 0;
+        $stageVerify = false;
 
         for ($i=0; $i < count($anos1); $i++) { 
             if (strpos($stage_name, $anos1[$i]) !== false) {
                 $anosTitulo = "1º, 2º e 3º ANOS";
                 $anosVerify = 1;
                 $anosPosition = $i + 1;
+                $stageVerify = true;
                 break;
             }
         }
@@ -214,8 +216,14 @@ class ReportsController extends Controller
                 $anosTitulo = "4º E 5º ANOS";
                 $anosVerify = 2;
                 $anosPosition = $i + 4;
+                $stageVerify = true;
                 break;
             }
+        }
+
+        if(!$stageVerify) {
+            Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom_model->name." não possui uma etapa correspondente ao relatório. Etapa da Turma: ".$classroom_stage_name));
+            return $this->redirect(array('index'));
         }
 
         if($result) {
