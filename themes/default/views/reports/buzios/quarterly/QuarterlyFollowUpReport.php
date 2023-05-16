@@ -73,15 +73,15 @@ if ($stage_id == 1) {
         <div class="cabecalho" style="margin: 30px 0;">
             <?php $this->renderPartial('buzios/headers/headBuziosII'); ?>
         </div>
-        <p>RELATÓRIO AVALIATIVO TRIMESTRAL</p>
+        <p class="title">RELATÓRIO AVALIATIVO TRIMESTRAL</p>
         <p><?php echo "Unidade Escolar: ".$school->name?></p>
         <p>
             <span><?php echo "Professor(a): ".$report[0]['instructor_name']?></span>
             <span><?php echo "Componenete Curricular: ".$report[0]['discipline_name']?></span>
         </p>
         <p>
-            <span>Ano de Escolaridade:</span><span>(__)4º</span><span>(__)5º</span>
-            <span><?php echo "Turno: ".$turno?></span>
+            <span style="margin-right: 0;">Ano de Escolaridade:</span><span>(&nbsp&nbsp&nbsp&nbsp)4º</span><span>(&nbsp&nbsp&nbsp&nbsp)5º</span>
+            <span style="margin-left: 100px;"><?php echo "Turno: ".$turno?></span>
             <span><?php echo "Turma: ".$report[0]['classroom_name']?></span>
         </p>
     </div>
@@ -117,10 +117,94 @@ if ($stage_id == 1) {
                 <?php }?>
             </tbody>
         </table>
+        <div class="subtitle-table-container">
+            <span><u>LEGENDA</u></span>
+            <span><u>S - SIM</u></span>
+            <span><u>P - PARCIALMENTE</u></span>
+            <span><u>N - NÃO</u></span>
+        </div>
+        <div class="container-box line-box individual-observations">
+            <p style="font-weight: bold;" >OBSERVAÇÕES INDIVIDUAIS A RESPEITO DO ALUNO:</p>
+            <p>_________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <p>
+                _________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <p>
+                _________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <p>
+                _________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <p>_________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <p>
+                _________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <p>
+                _________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <p>
+                _________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <p>
+                _________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+            <p>
+                _________________________________________________________________________________________________________________________________________________________________________________
+            </p>
+        </div>
+        <p> 
+            Segundo os artigos 82º, 112º e 114º, parágrafo 3º, o processo de avaliação dos 
+            componentes curriculares de Arte e Cultura e Educação Física 
+            será através de um relatório trimestral da turma, elaborado pelo professor com observações individuais, 
+            em formulário específico enviado pela Secretaria Municipal de Educação, Ciência e Tecnologia.
+        </p>
+        <div class="container-box signatures-container">
+            <p>
+                <span>_______________________________________</span>
+                <span>_______________________________________</span>
+                <span>_______________________________________</span>
+            </p>
+            <p>
+                <span>Professor(a)</span>
+                <span>Professor(a) Supervisor(a) Escolar</span>
+                <span>Professor(a) Orientador(a) Educacional</span>
+            </p>
+        </div>
     </div>
 </div>
 
 <style>
+    .signatures-container {
+        margin-top: 80px !important;
+        width: 96%;
+    }
+
+    .signatures-container p {
+        margin: 10px 0px;
+        width: 100%;
+        align-items: center;
+        display: flex;
+    }
+
+    .signatures-container p span {
+        margin: 0px 50px;
+        width: 100%;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        font-size: 12px;
+    }
+    .line-box p:not(p:first-child) {
+        margin: 10px 0;
+    }
+
+    .container-box {
+        font-size: 14px;
+        margin: 40px 0;
+    }
+
     .container-section {
         width: 93%;
         border-bottom: 3px solid black;
@@ -131,13 +215,43 @@ if ($stage_id == 1) {
         font-weight: bold;
     }
 
+    .subtitle-table-container {
+        border: 2px solid black;
+        margin-left: 300px;
+        margin-top: 20px;
+        width: 50%;
+    }
+
+    .subtitle-table-container span {
+        padding-inline: 27px;
+        font-weight: bold;
+    }
+
+    .subtitle-table-container span:not(:first-child) {
+        border-left: 2px solid black;
+    }
+
     .container-evaluative-title {
         width: 70%;
         font-size: 14px;
     }
+
+    .container-evaluative-title .title {
+        text-align: center;
+        font-weight:bold;
+    }
+
+    .container-evaluative-title p {
+        margin-bottom:10px;
+    }
+
+    .container-evaluative-title p span {
+        margin-right: 20px;
+    }
     .container-evaluative-content {
         width: 96%;
         font-size: 14px;
+        margin-top: 30px;
     }
     .container {
         display: flex;

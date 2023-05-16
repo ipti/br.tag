@@ -183,7 +183,8 @@ class ReportsController extends Controller
         $sql = "SELECT si.name AS student_name FROM classroom c 
                 JOIN student_enrollment se on c.id = se.classroom_fk 
                 JOIN student_identification si on se.student_fk = si.id 
-                WHERE c.id = ".$classroom_id.";";
+                WHERE c.id = ".$classroom_id."
+                ORDER BY se.daily_order;";
 
         $students = Yii::app()->db->createCommand($sql)->queryAll();
 
