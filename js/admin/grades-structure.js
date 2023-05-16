@@ -22,15 +22,26 @@ $(document).on("change", "#GradeUnity_edcenso_stage_vs_modality_fk", function ()
                         $(".js-new-unity").trigger("click");
                         var unity = $(".unity").last();
                         unity.find(".unity-name").val(this.name);
-                        unity.find("select.type-select").val(this.type).trigger("change.select2");
-                        unity.find("select.formula-select").val(this.grade_calculation_fk).trigger("change.select2");
+                        unity.find("select.type-select").val(this.type).trigger("change");
+                        unity.find("select.formula-select").val(this.grade_calculation_fk).trigger("change");
+                        var unityType = this.type;
                         $.each(this.modalities, function () {
-                            unity.find(".js-new-modality").trigger("click", [true]);
-                            unity.find(".modality").last().find(".modality-name").val(this.name);
-                            unity.find(".modality").last().find(".weight").val(this.weight);
-                            if (this.type === "R") {
-                                changeRecoverModality(unity);
+                            var modality;
+                            if (unityType === "UR") {
+                                if (this.type === "C") {
+                                    unity.find(".js-new-modality").trigger("click");
+                                    modality = unity.find(".modality").last().prev();
+                                } else {
+                                    modality = unity.find(".modality").last();
+                                }
+                            } else if (unityType === "UC") {
+                                modality = unity.find(".modality").last();
+                            } else {
+                                unity.find(".js-new-modality").trigger("click");
+                                modality = unity.find(".modality").last();
                             }
+                            modality.find(".modality-name").val(this.name);
+                            modality.find(".weight").val(this.weight);
                         });
                     });
                 }
@@ -48,16 +59,16 @@ $(document).on("change", "#GradeUnity_edcenso_stage_vs_modality_fk", function ()
 $(document).on("click", ".js-new-unity", function (evt) {
     var unityHtml = "" +
         "<div class='unity form-group form-inline'>" +
-        "<label class='control-label required'>Nome: <span>*</span></label>" +
+        "<label class='control-label required'>Nome: <span class='red'>*</span></label>" +
         "<input type='text' class='unity-name form-control' placeholder='1ª Unidade, 2ª Unidade, Recuperação Final, etc.'>" +
         "<i class='remove-unity fa fa-times-circle-o button-icon-close'></i>" +
         '<div class="unity-children">' +
         '<div class="unity-type form-group form-inline div-input-structure-units">' +
-        "<label class='control-label required label-input-structure-units'>Modelo: <span>*</span></label>" +
-        "<select class='type-select select-search-on control-input'><option value='U'>Unidade</option><option value='UR'>Unidade com recuperação</option><option value='RS'>Recuperação semestral</option><option value='RF'>Recuperação final</option></select>" +
+        "<label class='control-label required label-input-structure-units'>Modelo: <span class='red'>*</span></label>" +
+        "<select class='type-select select-search-on control-input'><option value='U'>Unidade</option><option value='UR'>Unidade com recuperação</option><option value='UC'>Unidade por conceito</option><option value='RS'>Recuperação semestral</option><option value='RF'>Recuperação final</option></select>" +
         '</div>' +
         '<div class="calculation form-group form-inline div-input-structure-units">' +
-        "<label class='control-label required label-input-structure-units'>Fórmula:  <span>*</span></label>" +
+        "<label class='control-label required label-input-structure-units'>Fórmula:  <span class='red'>*</span></label>" +
         "<select class='formula-select select-search-on control-input'>" + $(".formulas")[0].innerHTML + "</select>" +
         '</div>' +
         '<div class="row"><a href="#new-modality" id="new-modality" class="js-new-modality t-button-primary"><img alt="Unidade" src="/themes/default/img/buttonIcon/start.svg">Modalidade</a></div>' +
@@ -70,27 +81,35 @@ $(document).on("click", ".js-new-unity", function (evt) {
 $(document).on("change", ".type-select", function () {
     var unity = $(this).closest(".unity");
     if ($(this).val() === "UR") {
-        unity.find(".js-new-modality").trigger("click", [true]);
-        changeRecoverModality(unity);
-    } else {
+        unity.find(".js-new-modality").trigger("click").show();
+        unity.find(".calculation").show();
+        unity.find(".modality[concept=1]").remove();
+        unity.find(".modality").last().children("label").html("Recuperação: " + '<span class="red">*</span>');
+        unity.find(".modality").last().find(".modality-name").attr("modalitytype", "R").css("width", "calc(100% - 140px)");
+        unity.find(".modality").last().find(".remove-modality, .weight").remove();
+    } else if ($(this).val() === "UC") {
+        unity.find(".modality").remove();
+        unity.find(".js-new-modality").trigger("click").hide();
+        unity.find(".formula-select").val("1").trigger("change");
+        unity.find(".calculation").hide();
         unity.find(".modality-name[modalitytype=R]").closest(".modality").remove();
+        unity.find(".modality").last().attr("concept", "1").find(".remove-modality").remove();
+    } else {
+        unity.find(".js-new-modality").show();
+        unity.find(".calculation").show();
+        unity.find(".modality-name[modalitytype=R]").closest(".modality").remove();
+        unity.find(".modality[concept=1]").remove();
     }
 });
-
-function changeRecoverModality(unity) {
-    unity.find(".modality").last().children("label").html("Recuperação: " + '<span class="red">*</span>');
-    unity.find(".modality").last().find(".modality-name").attr("modalitytype", "R").css("width", "calc(100% - 122px)");
-    unity.find(".modality").last().find(".remove-modality, .weight").remove();
-}
 
 $(document).on("change", ".formula-select", function () {
     var unity = $(this).closest(".unity");
     if ($(this).select2('data').text === "Peso") {
-        unity.find(".modality-name[modalitytype=C]").css("width", "calc(100% - 222px)");
+        unity.find(".modality-name[modalitytype=C]").css("width", "calc(100% - 240px)");
         unity.find(".modality-name[modalitytype=C]").parent().append("<input type='text' class='weight form-control' placeholder='Peso'>");
     } else {
         unity.find(".weight").remove();
-        unity.find(".modality-name[modalitytype=C]").css("width", "calc(100% - 122px)");
+        unity.find(".modality-name[modalitytype=C]").css("width", "calc(100% - 140px)");
     }
 });
 
@@ -111,31 +130,30 @@ $(document).on("keyup", ".weight", function (e) {
     this.value = val;
 });
 
-$(document).on("click", ".js-new-modality", function (evt, indirectTrigger) {
+$(document).on("click", ".js-new-modality", function (evt) {
     evt.preventDefault();
     var unityHtml = "";
     if ($(this).closest(".unity").find(".formula-select").select2('data').text === "Peso") {
         unityHtml += "" +
-            "<div class='modality form-group form-inline'>" +
-            "<label class='control-label required'>Modalidade: <span>*</span></label>" +
+            "<div class='modality form-group form-inline' concept='0'>" +
+            "<label class='control-label required'>Modalidade: <span class='red'>*</span></label>" +
             "<input type='text' class='modality-name form-control' modalitytype='C' placeholder='Prova, Avaliação, Trabalho, etc.' style='width: calc(100% - 222px);'>" +
             "<input type='text' class='weight form-control' placeholder='Peso'>" +
-            "<i class='remove-modality fa fa-times-circle-o button-icon-close'></i>"+
+            "<i class='remove-modality fa fa-times-circle-o button-icon-close'></i>" +
             '</div>';
     } else {
         unityHtml += "" +
-            "<div class='modality form-group form-inline'>" +
-            "<label class='control-label required'>Modalidade: <span>*</span></label>" +
+            "<div class='modality form-group form-inline' concept='0'>" +
+            "<label class='control-label required'>Modalidade: <span class='red'>*</span></label>" +
             "<input type='text' class='modality-name form-control' modalitytype='C' placeholder='Prova, Avaliação, Trabalho, etc.'>" +
-            "<i class='remove-modality fa fa-times-circle-o button-icon-close'></i>"+
+            "<i class='remove-modality fa fa-times-circle-o button-icon-close'></i>" +
             '</div>';
     }
 
     $(unityHtml).insertBefore(
-        $(this).closest(".unity").find("select.type-select").val() !== "UR" || indirectTrigger
+        $(this).closest(".unity").find("select.type-select").val() !== "UR" || !$(this).closest(".unity").find(".modality").length
             ? $(this).parent()
-            : $(this).closest(".unity").find(".modality").last()
-    );
+            : $(this).closest(".unity").find(".modality").last());
 });
 
 $(document).on("click", ".remove-unity", function () {
@@ -217,6 +235,7 @@ function checkValidInputs() {
     var valid = true;
     var message = "";
     if ($(".unity").length) {
+        var ucCount = 0;
         var rsCount = 0;
         var rsIndexes = [];
         $(".unity").each(function (index) {
@@ -237,6 +256,9 @@ function checkValidInputs() {
                     return false;
                 }
             });
+            if ($(this).find("select.type-select").val() === "UC") {
+                ucCount++;
+            }
             if ($(this).find("select.type-select").val() === "UR") {
                 if (!$(this).find(".modality-name[modalitytype=C]").length) {
                     valid = false;
@@ -252,7 +274,7 @@ function checkValidInputs() {
             }
             if (index === 0 && ($(this).find("select.type-select").val() === "RF" || $(this).find("select.type-select").val() === "RS")) {
                 valid = false;
-                message = "Uma unidade de recuperação não pode ser a primeira.";
+                message = "Uma unidade de recuperação semestral ou final não podem ser a primeira.";
                 return false;
             }
             if ($(this).find("select.type-select").val() === "RF" && index !== $(".unity").length - 1) {
@@ -277,6 +299,10 @@ function checkValidInputs() {
         if (rsCount !== 0 && rsCount !== 2) {
             valid = false;
             message = "Quando utilizadas, devem haver 02 recuperações semestrais.";
+        }
+        if (ucCount > 0 && ucCount !== $(".unity").length) {
+            valid = false;
+            message = "Quando uma unidade por conceito for utilizada, nenhum outro modelo pode ser utilizado.";
         }
     } else {
         valid = false;

@@ -1129,6 +1129,7 @@ class ReportsController extends Controller
 
         $gradeUnitiesByClassroom = $classroom->edcensoStageVsModalityFk->gradeUnities; 
         if ($gradeUnitiesByClassroom !== null) {
+            $result["isUnityConcept"] = $gradeUnitiesByClassroom[0]->type == "UC";
             $result["unityNames"] = [];
             $result["subunityNames"] = [];
 
@@ -1196,6 +1197,10 @@ class ReportsController extends Controller
                             break;
                         case "RF":
                             $grade["unityGrade"] = $gradeResult["rec_final"] != null ? $gradeResult["rec_final"] : "";
+                            break;
+                        case "UC":
+                            $grade["unityGrade"] = $gradeResult["grade_concept_" . ($gradeIndex + 1)] != null ? $gradeResult["grade_concept_" . ($gradeIndex + 1)] : "";
+                            $gradeIndex++;
                             break;
                     }
                 }
