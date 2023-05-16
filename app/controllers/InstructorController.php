@@ -41,7 +41,7 @@ class InstructorController extends Controller
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
                     'index', 'view', 'create', 'update', 'updateEmails', 'frequency', 'saveEmails', 'getCity', 'getCityByCep',
-                    'getInstitutions', 'getCourses', 'delete', 'getFrequency', 'getFrequencyDisciplines', 'getFrequencyClassroom',
+                    'getInstitutions', 'getInstitution', 'getCourses', 'delete', 'getFrequency', 'getFrequencyDisciplines', 'getFrequencyClassroom',
                     'saveFrequency', 'saveJustification'
                 ], 'users' => ['@'],
             ], [
@@ -71,42 +71,6 @@ class InstructorController extends Controller
      */
     public function actionCreate()
     {
-//        $mII = new InstructorIdentification();
-//        $mDA = new InstructorDocumentsAndAddress();
-//        $mVD = new InstructorVariableData();
-//
-//        if(isset($_POST['InstructorIdentification'],$_POST['InstructorDocumentsAndAddress'],$_POST['InstructorVariableData'])){
-//            $mII->attributes = $_POST['InstructorIdentification'];
-//            $mDA->attributes = $_POST['InstructorDocumentsAndAddress'];
-//            $mVD->attributes = $_POST['InstructorVariableData'];
-//            
-//            $mII->school_inep_id_fk = Yii::app()->user->school;
-//            $mDA->school_inep_id_fk = Yii::app()->user->school;
-//            $mVD->school_inep_id_fk = Yii::app()->user->school;
-//            
-//            if($mII->validate() && $mDA->validate() && $mVD->validate()){
-//                if($mII->save()){
-//                    $mDA->id = $mII->id;
-//                    $mVD->id = $mII->id;
-//                    var_dump($mDA->validate() && $mVD->validate());
-//                    if($mDA->validate() && $mVD->validate()){
-//                        exit;
-//                        if($mDA->save() && $mVD->save()){
-//                            Yii::app()->user->setFlash('success', Yii::t('default', 'Professor adicionado com sucesso!'));
-//                            $this->redirect(array('index'));
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        $error[] = '';
-//        
-//        $this->render('create', array(
-//            'modelInstructorIdentification' => $mII,
-//            'modelInstructorDocumentsAndAddress' => $mDA,
-//            'modelInstructorVariableData' => $mVD,
-//            'error' => $error,
-//        ));
 
         $modelInstructorIdentification = new InstructorIdentification();
         $modelInstructorDocumentsAndAddress = new InstructorDocumentsAndAddress();
@@ -220,6 +184,7 @@ preenchidos";
         //=======================================
         $modelInstructorIdentification = $this->loadModel($id, $this->InstructorIdentification);
         $modelInstructorDocumentsAndAddress = $this->loadModel($id, $this->InstructorDocumentsAndAddress);
+        $modelInstructorDocumentsAndAddress = isset($modelInstructorDocumentsAndAddress) ? $modelInstructorDocumentsAndAddress : new InstructorDocumentsAndAddress; 
         $modelInstructorVariableData = $this->loadModel($id, $this->InstructorVariableData);
         if ($modelInstructorVariableData == null) {
             $modelInstructorVariableData = new InstructorVariableData();
@@ -338,26 +303,6 @@ preenchidos";
         } else {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
-
-
-//            if( $this->loadModel($id, $this->SCHOOL_STRUCTURE)->delete()
-//                && $this->loadModel($id, $this->SCHOOL_IDENTIFICATION)->delete()){
-//                    Yii::app()->user->setFlash('success', Yii::t('default', 'Escola excluída com sucesso:'));
-//                    $this->redirect(array('index'));
-//            }else{
-//                throw new CHttpException(404,'The requested page does not exist.');
-//            }
-//        
-//        if (Yii::app()->request->isPostRequest) {
-//            // we only allow deletion via POST request
-//            $this->loadModel($id)->delete();
-//
-//            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-//            if (!isset($_GET['ajax']))
-//                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-//        }
-//        else
-//            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
     }
 
     /**
@@ -421,17 +366,29 @@ preenchidos";
         $results = Yii::app()->db->createCommand("SELECT COUNT(*) as total FROM edcenso_ies where name like :q")->bindValue(":q", "%" . $_POST['q'] . "%")->queryAll();
         $total = (int)$results[0]["total"];
 
-        $data = EdcensoIES::model()->findAll("name like '%" . $_POST['q'] . "%' ORDER BY name LIMIT " . (($_POST['page'] - 1) * 10) . ",10");
+        $data = EdcensoIES::model()->findAll("name like '%" . $_POST['q'] . "%' ORDER BY name LIMIT 0,10");
         $data = CHtml::listData($data, 'id', 'name');
 
         $return = [];
-        $return['total'] = $total;
-        $return['ies'] = [];
+        // $return['total'] = $total;
+        $return = [];
         foreach ($data as $value => $name) {
-            array_push($return['ies'], ['id' => CHtml::encode($value), 'name' => CHtml::encode($name)]);
+            array_push($return, ['id' => CHtml::encode($value), 'name' => CHtml::encode($name)]);
         }
-
-        echo json_encode($return);
+        header('Content-Type: application/json; charset="UTF-8"');
+        echo json_encode($return, JSON_OBJECT_AS_ARRAY);
+    }
+    public function actionGetInstitution (){
+        $edcenso_uf_fk = $_POST["edcenso_uf_fk"];
+        $institutions = EdcensoIES::model()->findAllByAttributes(array('edcenso_uf_fk' => $edcenso_uf_fk));
+        // $institutions = CHtml::listData($institutions, 'id', 'name');
+        
+        $return = [];
+        foreach ($institutions as $institution) {
+            array_push($return, ['id' => CHtml::encode($institution->id), 'name' => CHtml::encode($institution->name)]);
+        }
+        header('Content-Type: application/json; charset="UTF-8"');
+        echo json_encode($return, JSON_OBJECT_AS_ARRAY);
     }
 
     //@done s1 - criar funçao que retorna os cursos baseados na área de atuação
@@ -630,7 +587,7 @@ preenchidos";
                 echo json_encode(["valid" => false, "error" => "Cadastre professores nesta turma para trazer o quadro de frequência."]);
             }
         } else {
-            echo json_encode(["valid" => false, "error" => "No quadro de horário da turma, não existe dia letivo no mês selecionado para esta disciplina."]);
+            echo json_encode(["valid" => false, "error" => "No quadro de horário da turma, não existe dia letivo no mês selecionado para este componente curricular/eixo."]);
         }
     }
 

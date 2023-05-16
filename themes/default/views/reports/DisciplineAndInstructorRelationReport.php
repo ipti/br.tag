@@ -40,7 +40,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 . "<th> <b>Data de Nascimento  </b></th>"
                 . "<th> <b>Nome Completo  </b></th>"
                 . "<th> <b>Escolaridade  </b></th>"
-                . "<th> <b>Disciplina(s) que leciona  </b></th>"
+                . "<th> <b>Componente(s) curricular(es)/eixo(s) que leciona  </b></th>"
                 . "</tr>";
 
             foreach($c["instructors"] as $instructor) {

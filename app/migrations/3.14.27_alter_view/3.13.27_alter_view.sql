@@ -1,7 +1,7 @@
--- `demo.tag.ong.br`.classroom_enrollment source
+-- classroom_enrollment source
 DROP VIEW IF EXISTS `classroom_enrollment`;
 CREATE OR REPLACE
-ALGORITHM = UNDEFINED VIEW `demo.tag.ong.br`.`classroom_enrollment` AS
+ALGORITHM = UNDEFINED VIEW `classroom_enrollment` AS
 select
     `s`.`id` AS `enrollment`,
     `s`.`name` AS `name`,
@@ -30,16 +30,16 @@ select
     `c`.`id` AS `classroom_id`,
     `c`.`school_year` AS `year`
 from
-    ((((((`demo.tag.ong.br`.`student_identification` `s`
-join `demo.tag.ong.br`.`student_documents_and_address` `sd` on
+    ((((((`student_identification` `s`
+join `student_documents_and_address` `sd` on
     ((`s`.`id` = `sd`.`id`)))
-left join `demo.tag.ong.br`.`edcenso_nation` `en` on
+left join `edcenso_nation` `en` on
     ((`s`.`edcenso_nation_fk` = `en`.`id`)))
-left join `demo.tag.ong.br`.`edcenso_uf` `euf` on
+left join `edcenso_uf` `euf` on
     ((`s`.`edcenso_uf_fk` = `euf`.`id`)))
-left join `demo.tag.ong.br`.`edcenso_city` `ec` on
+left join `edcenso_city` `ec` on
     ((`s`.`edcenso_city_fk` = `ec`.`id`)))
-join `demo.tag.ong.br`.`student_enrollment` `se` on
+join `student_enrollment` `se` on
     ((`s`.`id` = `se`.`student_fk`)))
-join `demo.tag.ong.br`.`classroom` `c` on
+join `classroom` `c` on
     ((`se`.`classroom_fk` = `c`.`id`)));

@@ -11,6 +11,11 @@ $cs->registerScriptFile($baseUrl . '/js/reports/StudentsFileReport/_initializati
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
+
+$turns = ['M'=>'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
+
+
+
 ?>
 
 
@@ -278,7 +283,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                     
                         ?>
                     </span></div>
-                    <div class="span3"><b>Turno: </b><span></span></div>
+                    <div class="span3"><b>Turno: </b><span> <?php echo $turns[$enrollment->classroomFk->turn]; ?></span></div>
                 </td>
             </tr>
         <?php }?>

@@ -11,9 +11,9 @@ $turno =  $classroom[0]['turno'];
 if ($turno == 'M') {
     $turno = "Matutino";
 }else if ($turno == 'T') {
-    $turno = "Tarde";
+    $turno = "Vesperitino";
 }else if ($turno == 'N') {
-    $turno = "Noite";
+    $turno = "Noturno";
 }else if ($turno == '' || $turno == null) {
     $turno = "___________";
 }
@@ -265,7 +265,7 @@ if ($turno == 'M') {
             <table aria-labelledby="Income Table Table">
                 <thead>
                     <tr>
-                        <th rowspan="2" scope="col" style="width: 60%;">Disciplinas</th>
+                        <th rowspan="2" scope="col" style="width: 60%;">Componentes curriculares/eixos</th>
                         <th colspan="2" scope="col">Total de alunos</th>
                     </tr>
                     <tr>
@@ -275,19 +275,19 @@ if ($turno == 'M') {
                 </thead>
                 <tbody>
                     <?php
-                    $discipline = '';
-                    foreach ($classroom as $c) {
-                        if($discipline != $c['discipline'] ) {
+                        $validate_array = array();
+                        foreach ($classroom as $c) {
+                            if(!in_array($c['discipline'], $validate_array)) {
                     ?>
-                        <tr>
-                            <td><?= $c['discipline'] ?></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                                <tr>
+                                    <td><?= $c['discipline'] ?></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
                     <?php
+                            }
+                            array_push($validate_array, $c['discipline']);
                         }
-                        $discipline = $c['discipline'];
-                    } 
                     ?>
                 </tbody>
             </table>
@@ -353,28 +353,31 @@ if ($turno == 'M') {
         <table class="instructors-list-table"  aria-labelledby="Instructors List">
             <thead>
                 <tr>
-                    <th scope="col">Disciplina</th>
+                    <th scope="col">Componente curricular/eixo</th>
                     <th scope="col">Nome do Professor</th>
                     <th scope="col" style="width: 40%;">Assinatura</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $prof_name = '';
-                $discipline = '';
-                foreach ($classroom as $c) {
-                    if($prof_name != $c['prof_name'] || $discipline != $c['discipline'] ) {
+                    $validate_array = array();
+                    foreach ($classroom as $c) {
+                        $json = json_encode(array(
+                            "prof_name" => $c['prof_name'],
+                            "discipline" => $c['discipline']
+                        ));
+                        if(!in_array($json, $validate_array)) {
                 ?>
-                    <tr>
-                        <td><?= $c['discipline'] ?></td>
-                        <td><?= $c['prof_name'] ?></td>
-                        <td></td>
-                    </tr>
+                            <tr>
+                                <td><?= $c['discipline'] ?></td>
+                                <td><?= $c['prof_name'] ?></td>
+                                <td></td>
+                            </tr>
                 <?php
+                        }
+                        array_push($validate_array, $json);
                     }
-                    $prof_name = $c['prof_name'];
-                    $discipline = $c['discipline'];
-                } ?>
+                ?>
             </tbody>
         </table>
         <div class="container-box signatures-container">
@@ -408,7 +411,7 @@ if ($turno == 'M') {
     <div class="cabecalho" style="margin: 30px 0;">
         <?php $this->renderPartial('buzios/headers/headBuziosI'); ?>
     </div>
-    <h3><?php echo Yii::t('default', 'Quarterly Class Council Report'); ?> <?php echo strtoupper($classroom[0]['class_stage'])?></h3>
+    <h3><?php echo Yii::t('default', 'Quarterly Class Council Report'); ?> <?php echo '- ENSINO MÉDIO'?></h3>
     <div class='no-enrollments'>Não há alunos matriculados na turma.</div>
 </div>
 <?php }?>

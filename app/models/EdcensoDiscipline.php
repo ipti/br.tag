@@ -66,6 +66,7 @@ class EdcensoDiscipline extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'curricularMatrices' => array(self::HAS_MANY, 'CurricularMatrix', 'discipline_fk'),
 			'instructorTeachingDatas' => array(self::HAS_MANY, 'InstructorTeachingData', 'discipline_10_fk'),
 			'instructorTeachingDatas1' => array(self::HAS_MANY, 'InstructorTeachingData', 'discipline_11_fk'),
 			'instructorTeachingDatas2' => array(self::HAS_MANY, 'InstructorTeachingData', 'discipline_12_fk'),
