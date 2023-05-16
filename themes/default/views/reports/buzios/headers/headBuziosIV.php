@@ -18,9 +18,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     };
     ?>
     <ul id="info" style="margin: 30px 0px 0px;">
-        <h5>ESTADO DO RIO DE JANEIRO</h5>
-        <h5>PREFEITURA DE ARMAÇÃO DOS BÚZIOS</h5>
-        <h5>SECRETARIA MUNICIPAL DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA</h5>
+        <h4 style="margin-top: 20px;">ESTADO DO RIO DE JANEIRO</h4>
+        <h4>PREFEITURA DE ARMAÇÃO DOS BÚZIOS</h4>
+        <h4>SECRETARIA MUNICIPAL DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA</h4>
     </ul>
     <span class="clear"></span>
 </div>
