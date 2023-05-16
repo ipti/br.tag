@@ -135,20 +135,7 @@ $(formDocumentsAndAddress + 'cns').focusout(function () {
     }
 });
 
-var date = new Date();
-$(formIdentification + 'birthday').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
-$(formIdentification + 'birthday').focusout(function () {
-    var id = '#' + $(this).attr("id");
-    var birthday = stringToDate($(formIdentification + 'birthday').val());
-
-
-    if ((!validateDate($(formIdentification + 'birthday').val()) || !validateYear(birthday.year)) && ($(id).val() != '')) {
-        //$(formIdentification + 'birthday').attr('value', '');
-        addError(id, "Informe uma data válida no formato Dia/Mês/Ano.");
-    } else {
-        removeError(id);
-    }
-});
+initDateFieldMaskAndValidation(formIdentification + 'birthday');
 
 $(formIdentification + 'filiation').change(function () {
     var simple = getUrlVars()['simple'];

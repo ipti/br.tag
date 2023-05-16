@@ -1,0 +1,1 @@
+ALTER TABLE student_enrollment ADD COLUMN transfer_date DATE NULL;

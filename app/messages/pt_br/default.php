@@ -584,6 +584,7 @@ return array(
     'Aee Optical Nonoptical' => 'Ensino de uso de recursos ópticos e não ópticos',
     'Observation' => 'Observação',
     'daily_order' => 'Ordem no Diário',
+    'Transfer Date' => 'Data da Transferência', 
 
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',
