@@ -22,7 +22,7 @@ class ReportsController extends Controller
                     'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
                     'StudentInstructorNumbersRelationReport', 'StudentPendingDocument',
                     'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood',
-                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport'),
+                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 'EvaluationFollowUpStudentsReport'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -241,6 +241,54 @@ class ReportsController extends Controller
             ));
         }else {
             Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom_model->name." não possui professores para a disciplina de ".$discipline_model->name));
+            return $this->redirect(array('index'));
+        }
+    }
+
+    public function actionEvaluationFollowUpStudentsReport()
+    {
+        $discipline_id = $_POST['evaluation_follow_up_disciplines'];
+        $classroom_id = $_POST['evaluation_follow_up_classroom'];
+
+        $classroom = Classroom::model()->findByPk($classroom_id);
+        $discipline = EdcensoDiscipline::model()->findByPk($discipline_id);
+
+        $sql = "SELECT ii.name AS instructor_name, ed.name AS discipline_name
+                FROM edcenso_discipline ed
+                JOIN curricular_matrix cm ON cm.discipline_fk = ed.id
+                JOIN teaching_matrixes tm ON tm.curricular_matrix_fk = cm.id 
+                JOIN instructor_teaching_data itd ON itd.id = tm.teaching_data_fk 
+                JOIN classroom c ON c.id = itd.classroom_id_fk 
+                JOIN instructor_identification ii ON itd.instructor_fk = ii.id
+                WHERE ed.id = :discipline_id AND c.id = :classroom_id
+                GROUP BY ii.name;";
+
+        $instructor = Yii::app()->db->createCommand($sql)
+        ->bindParam(":discipline_id", $discipline_id)
+        ->bindParam(":classroom_id", $classroom_id)
+        ->queryAll();
+
+        $sql = "SELECT si.name FROM student_enrollment se 
+                JOIN student_identification si on si.id = se.student_fk
+                WHERE se.classroom_fk = :classroom_id
+                ORDER BY se.daily_order, si.name;";
+
+        $students = Yii::app()->db->createCommand($sql)->bindParam(":classroom_id", $classroom_id)->queryAll();
+
+        if($instructor) {
+            if($students) {
+                $this->render('buzios/quarterly/EvaluationFollowUpReport', array(
+                    "instructor" => $instructor,
+                    "students" => $students,
+                    "classroom" => $classroom,
+                    "discipline" => $discipline
+                ));
+            }else {
+                Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom->name." não possui alunos matriculados"));
+                return $this->redirect(array('index'));
+            }
+        }else {
+            Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom->name." não possui professores para a disciplina de ".$discipline->name));
             return $this->redirect(array('index'));
         }
     }
