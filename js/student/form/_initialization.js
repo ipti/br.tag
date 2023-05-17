@@ -9,7 +9,7 @@ $(document).ready(function () {
 
     if($("#show-student-civil-name").is(":checked")) {
         $(".student-civil-name").show();
-        $(".show-student-civil-name-box").hide();
+        $("#show-student-civil-name-box").hide();
     }
 
     $("#new-enrollment-button").click(function() {
