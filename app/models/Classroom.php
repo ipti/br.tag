@@ -148,6 +148,7 @@ class Classroom extends AltActiveRecord
             'edcensoProfessionalEducationCourseFk' => array(self::BELONGS_TO, 'EdcensoProfessionalEducationCourse', 'edcenso_professional_education_course_fk'),
             'instructorTeachingDatas' => array(self::HAS_MANY, 'InstructorTeachingData', 'classroom_id_fk'),
             'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'classroom_fk', 'order' => 'daily_order ASC, name', 'join' => 'JOIN student_identification ON student_identification.id=studentEnrollments.student_fk'),
+            'enrollmentsCount'=>array(self::STAT, 'StudentEnrollment', 'classroom_fk'),
         );
     }
 
@@ -291,6 +292,21 @@ class Classroom extends AltActiveRecord
             }
         }
         return $schedules;
+    }
+
+    public function getDisciplines()
+    {
+        $disciplines = EdcensoDiscipline::model()
+        ->with(array(
+            'curricularMatrices.teachingMatrixes.teachingDataFk' => array(
+                'condition' => 'teachingDataFk.classroom_id_fk=:classroom_id',
+                'params' => array(':classroom_id' => $this->id),
+            )
+        ))
+        ->findAll();
+        
+        var_dump($disciplines);
+        return $disciplines;
     }
 
     public function getSchoolDaysByExam($exam)

@@ -244,7 +244,7 @@ class SchoolIdentificationValidation extends Register
             return array("status" => false, "erro" =>
                 "O campo Nome da escola tem mais de 100 caracteres");
         }
-        if (!(preg_match('/^[a-z\d°ºª\- ]{4,20}/i', $name))) {
+        if (!(preg_match('/^[a-z\d°ºª\-. ]{4,20}/i', $name))) {
             return array("status" => false, "erro" =>
                 "O campo Nome da escola possui caracteres inválidos");
         }
@@ -338,23 +338,26 @@ class SchoolIdentificationValidation extends Register
 
     function checkPhoneNumbers($ddd, $phoneNumber, $otherPhoneNumber)
     {
-        if ($ddd !== "" && $phoneNumber === "" && $otherPhoneNumber === "") {
+        $dddEmpty = $ddd === "" || $ddd === null;
+        $phoneNumberEmpty = $phoneNumber === "" || $phoneNumber === null;
+        $otherPhoneNumberEmpty = $otherPhoneNumber === "" || $otherPhoneNumber === null;
+        if (!$dddEmpty && $phoneNumberEmpty && $otherPhoneNumberEmpty) {
             return array("status" => false, "erro" => "Quando o DDD é prenchido, pelo menos um dos telefones também deve ser preenchido.");
-        } else if ($ddd === "" && ($phoneNumber !== "" || $otherPhoneNumber !== "")) {
+        } else if ($dddEmpty && (!$phoneNumberEmpty || !$otherPhoneNumberEmpty)) {
             return array("status" => false, "erro" => "Quando um dos telefones é preenchido, o DDD também deve ser preenchido.");
-        } else if ($ddd !== "" && strlen($ddd) != 2) {
-            return array("status" => false, "erro" => "DDD deve conter 2 caracteres.");
-        } else if ($phoneNumber !== "" && $otherPhoneNumber !== "" && ($phoneNumber === $otherPhoneNumber)) {
+        } else if (!$dddEmpty && strlen($ddd) != 2) {
+            return array("status" => false, "erro" => "DDD deve conter 2 dígitos.");
+        } else if (!$phoneNumberEmpty && !$otherPhoneNumberEmpty && ($phoneNumber === $otherPhoneNumber)) {
             return array("status" => false, "erro" => "Os dois campos de números de telefone não podem ser iguais.");
-        } else if (($phoneNumber !== "" && (strlen($phoneNumber) < 8 || strlen($phoneNumber) > 9))
-            || ($otherPhoneNumber !== "" && (strlen($otherPhoneNumber) < 8 || strlen($otherPhoneNumber) > 9))) {
-            return array("status" => false, "erro" => "Os campos de telefone, quando preenchidos, devem conter 8 ou 9 caracteres.");
-        } else if (($phoneNumber !== "" && !is_numeric($phoneNumber)) || ($otherPhoneNumber !== "" && !is_numeric($otherPhoneNumber))) {
-            return array("status" => false, "erro" => "Apenas números podem ser informados.");
-        } else if (($phoneNumber !== "" && strlen($phoneNumber) === 9 && substr($phoneNumber, 0, 1) !== "9")
-            || ($otherPhoneNumber !== "" && strlen($otherPhoneNumber) === 9 && substr($otherPhoneNumber, 0, 1) !== "9")) {
-            return array("status" => false, "erro" => "Quando o telefone tiver 9 caracteres, o primeiro caractere deve ser o dígito 9.");
-        } else if (($phoneNumber !== "" && count(array_unique(str_split($phoneNumber)))) === 1 || ($otherPhoneNumber !== "" && count(array_unique(str_split($otherPhoneNumber))))) {
+        } else if ((!$phoneNumberEmpty && (strlen($phoneNumber) < 8 || strlen($phoneNumber) > 9))
+            || (!$otherPhoneNumberEmpty && (strlen($otherPhoneNumber) < 8 || strlen($otherPhoneNumber) > 9))) {
+            return array("status" => false, "erro" => "Os campos de telefone, quando preenchidos, devem conter 8 ou 9 dígitos.");
+        } else if ((!$phoneNumberEmpty && !is_numeric($phoneNumber)) || (!$otherPhoneNumberEmpty && !is_numeric($otherPhoneNumber))) {
+            return array("status" => false, "erro" => "Apenas dígitos devem ser informados, sem hífens.");
+        } else if ((!$phoneNumberEmpty && strlen($phoneNumber) === 9 && substr($phoneNumber, 0, 1) !== "9")
+            || (!$otherPhoneNumberEmpty && strlen($otherPhoneNumber) === 9 && substr($otherPhoneNumber, 0, 1) !== "9")) {
+            return array("status" => false, "erro" => "Quando o telefone tiver 9 dígitos, o primeiro caractere deve ser o dígito 9.");
+        } else if ((!$phoneNumberEmpty && count(array_unique(str_split($phoneNumber))) === 1) || (!$otherPhoneNumberEmpty && count(array_unique(str_split($otherPhoneNumber))) === 1)) {
             return array("status" => false, "erro" => "Os campos de telefone não podem ser a repetição de um mesmo algarismo.");
         }
         return array("status" => true, "erro" => "");
@@ -501,7 +504,7 @@ class SchoolIdentificationValidation extends Register
         //campo 7 deve ser igual a 1
         if ($schoolSituation == 1) {
             if ($value != 0 && $value != 1 && $value != 2) {
-                return array("status" => false, "erro" => "Regulamentação da escola errada");
+                return array("status" => false, "erro" => "Campo Obrigatório");
             }
         } else {
             if ($value != null) {

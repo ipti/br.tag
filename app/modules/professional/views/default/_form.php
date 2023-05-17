@@ -72,16 +72,11 @@
 									</div>
 									<div class="control-group">
 										<div class="controls">
-											<?php echo $form->labelEx($modelProfessional, 'speciality_fk', array('class' => 'control-label')); ?>
+											<?php echo $form->labelEx($modelProfessional, 'speciality', array('class' => 'control-label')); ?>
 										</div>
 										<div class="controls">
-											<?php echo $form->DropDownList(
-												$modelProfessional,
-												'speciality_fk',
-												CHtml::listData(EdcensoProfessionalEducationCourse::model()->findAll(array('order' => 'name')), 'id', 'name'),
-												array('prompt' => 'Selecione a especialidade', 'class' => 'select-search-on control-input')
-											); ?>
-											<?php echo $form->error($modelProfessional, 'speciality_fk'); ?>
+											<?php echo $form->textField($modelProfessional, 'speciality', array('size' => 100)); ?>
+											<?php echo $form->error($modelProfessional, 'speciality'); ?>
 										</div>
 									</div>
 									<div class="control-group">

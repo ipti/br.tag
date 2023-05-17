@@ -103,7 +103,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <!-- Tipo de Mediação Didático-Pedagógica -->
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($modelClassroom, 'pedagogical_mediation_type', array('class' => 't-field-select__label--required')); ?>
-                                <?php echo $form->DropDownList($modelClassroom, 'pedagogical_mediation_type', array(null => 'Selecione o tipo', "1" => "Presencial", "2" => "Semipresencial", "3" => "Educação a Distância"), array('class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%')); ?>
+                                <?php echo $form->DropDownList($modelClassroom, 'pedagogical_mediation_type', array(null => 'Selecione o tipo', "1" => "Presencial", "3" => "Educação a Distância - EAD"), array('class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%')); ?>
                                 <?php echo $form->error($modelClassroom, 'pedagogical_mediation_type'); ?>
                             </div>
                             <!-- Código Curso Educação Profissional -->
@@ -387,7 +387,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="separator"></div>
                             <?php
                             $teachingDataList = "<div>"
-                                . "<div class='disciplines-with-container'><span><b>Disciplinas com Instrutores</b></span><div class='separator'></div>"
+                                . "<div class='disciplines-with-container'><span><b>Componentes curriculares/eixos com Instrutores</b></span><div class='separator'></div>"
                                 . "<ul id='DisciplinesWithInstructors'>";
                             $teachingDataArray = array();
                             $teachingDataDisciplines = array();
@@ -398,7 +398,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             foreach ($instructors as $instructor) {
                                 $teachingDataNames[$instructor->id] = $instructor->name;
                             }
-                            $roleName = [null, "Professor", "Auxiliar", "Monitor", "Intérprete"];
+                            $roleName = [null, "Docente", "Auxiliar/assistente educacional", "Profissional/monitor de atividade complementar", "Tradutor e Intérprete de Libras", "EAD - Docente Titular", "EAD - Docente Tutor"];
                             $contractTypeName = [null, "Concursado/Efetivo", "Temporário", "Terceirizado", "CLT"];
                             $i = 0;
                             foreach ($modelTeachingData as $key => $model) {
@@ -438,7 +438,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             $disciplinesWithoutInstructor = array_diff($disciplinesArray, $teachingDataDisciplines);
 
                             //monta a lista com as disciplinas que não possuem instrutor                                
-                            $teachingDataList .= "<div class='disciplines-without-container'><span><b>Disciplinas sem Instrutores</b></span><div class='separator'></div>"
+                            $teachingDataList .= "<div class='disciplines-without-container'><span><b>Componentes curriculares/eixos sem Instrutores</b></span><div class='separator'></div>"
                                 . "<ul id='DisciplinesWithoutInstructors'>";
                             $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
                             foreach ($disciplinesWithoutInstructor as $disciplineId => $value) {
@@ -647,7 +647,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
     <div id="teachingdata-dialog-form" title="<?php echo Yii::t('default', 'New Discipline'); ?>">
         <div class="alert alert-error no-curricular-matrix-error">Preencha a matriz curricular da etapa de ensino
-            selecionada nesta turma para adicionar disciplinas.
+            selecionada nesta turma para adicionar Componentes curriculares/eixos.
         </div>
         <div class="row-fluid">
             <div class="span12">
@@ -656,7 +656,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <?php echo CHtml::DropDownList("Instructors", '', CHtml::listData(InstructorIdentification::model()->findAll(), 'id', 'name'), array('prompt' => 'Sem Instrutor', 'class' => 'select-search-on control-input')); ?>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">Disciplinas <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="right" data-original-title="Serão listadas apenas as disciplinas inseridas na matriz curricular desta etapa de ensino selecionada na turma.">
+                    <label class="control-label">Componentes curriculares/eixos <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="right" data-original-title="Serão listadas apenas as componentes curriculares/eixos inseridos na matriz curricular desta etapa de ensino selecionada na turma.">
                             <!-- <i></i> -->
                         </span></label>
                     <select id="Disciplines" class="select-disciplines" multiple></select>
@@ -666,10 +666,12 @@ $form = $this->beginWidget('CActiveForm', array(
                     <?php
                     echo CHtml::DropDownList("Role", '', array(
                         null => 'Selecione um Cargo',
-                        1 => 'Professor',
-                        2 => 'Auxiliar',
-                        3 => 'Monitor',
-                        4 => 'Intérprete',
+                        1 => 'Docente',
+                        2 => 'Auxiliar/assistente educacional',
+                        3 => 'Profissional/monitor de atividade complementar',
+                        4 => 'Tradutor e Intérprete de Libras',
+                        5 => "EAD - Docente Titular",
+                        6 => "EAD - Docente Tutor",
                     ), array('class' => 'select-search-off'));
                     ?>
                 </div>

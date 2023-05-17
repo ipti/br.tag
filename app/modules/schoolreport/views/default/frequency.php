@@ -11,7 +11,7 @@ $cs = Yii::app()->getClientScript();
 <table id="grades" class="ui compact selectable  table">
     <thead>
     <tr>
-        <th id="discipline" class="left aligned">Disciplina</th>
+        <th id="discipline" class="left aligned">Componente curricular/eixo</th>
         <th class="center aligned">Jan</th>
         <th class="center aligned">Fev</th>
         <th class="center aligned">Mar</th>

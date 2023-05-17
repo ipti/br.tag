@@ -46,8 +46,15 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				</select>
 			</div>
 		</div>
+		<div class="control-group">
+			<div class="controls">
+				<input type="checkbox" name="finalTurma" value="1" id="finalTurma">
+				<label for="opcao1">Final turma</label>
+			</div>
+		</div>
+
 	</div>
-	
+
 	<div class="container-box" style="display: grid;">
 		<a href="?r=sagres/default/createorupdate">
 			<button type="button" class="report-box-container">
@@ -87,6 +94,19 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				</div>
 			</button>
 		</a>
+
+		<a href="<?php echo Yii::app()->createUrl('inconsistency') ?>">
+			<button type="button" class="report-box-container">
+				<div class="pull-left" style="margin-right: 20px;">
+					<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sagresIcon/inconsistency.svg" />
+					<!-- <div class="t-icon-schedule report-icon"></div> -->
+				</div>
+				<div class="pull-left">
+					<span class="title">Inconsistências</span><br>
+					<span class="subtitle">Lista de inconsitências SAGRES</span>
+				</div>
+			</button>
+		</a>
 	</div>
 </div>
 
@@ -94,6 +114,19 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 <script>
 	let selectedValue;
 	const selectElement = document.getElementById("mes");
+	var checkbox = document.getElementById("finalTurma");
+	var checkboxValue = false;
+
+	checkbox.addEventListener('change', function () {
+		checkboxValue = checkbox.checked ? true : false;
+
+		const { startDate, endDate } = getDatesFromMonth(selectedValue);
+
+		const year = new Date().getFullYear();
+		const exportLink = document.getElementById('exportLink');
+		const newHref = `?r=sagres/default/export&year=${year}&startDate=${startDate}&endDate=${endDate}&finalClass=${checkboxValue}`;
+		exportLink.setAttribute('href', newHref);
+	});
 
 	selectElement.addEventListener("change", (event) => {
 		selectedValue = event.target.value;
@@ -102,7 +135,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 
 		const year = new Date().getFullYear();
 		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&year=${year}&startDate=${startDate}&endDate=${endDate}`;
+		const newHref = `?r=sagres/default/export&year=${year}&startDate=${startDate}&endDate=${endDate}&finalClass=${checkboxValue}`;
 		exportLink.setAttribute('href', newHref);
 
 	});
@@ -166,11 +199,11 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				location.reload();
 			});
 		})
-		.fail(function () {
-			$(".alert-error-export").append('Erro ao realizar o download do arquivo ');
-			$(".alert-error-export").show();
-		})
-			
+			.fail(function () {
+				$(".alert-error-export").append('Erro ao realizar o download do arquivo ');
+				$(".alert-error-export").show();
+			})
+
 	}
 
 </script>

@@ -4,9 +4,9 @@ return [
     "Save" => "Salvar",
     "Curricular Matrix" => "Matriz Curricular",
     "Stage" => "Etapa",
-    "Discipline" => "Disciplina",
+    "Discipline" => "Componente curricular/eixo",
     "Stages" => "Etapas",
-    "Disciplines" => "Disciplinas",
+    "Disciplines" => "Componentes curriculares/eixos",
     "Workload" => "Carga Horária",
     "Credits" => "Horas Semanais",
 	"Add" => "Adicionar"

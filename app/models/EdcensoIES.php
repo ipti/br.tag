@@ -73,7 +73,7 @@ class EdcensoIES extends CActiveRecord
 	{
 		return array(
 			'id' => Yii::t('default', 'ID'),
-			//'edcenso_city_fk' => Yii::t('default', 'Edcenso City Fk'),
+			'edcenso_uf_fk' => Yii::t('default', 'Edcenso Uf Fk'),
 			//'code' => Yii::t('default', 'Code'),
 			'name' => Yii::t('default', 'Name'),
 		);
