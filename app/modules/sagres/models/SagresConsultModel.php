@@ -169,6 +169,11 @@ class SagresConsultModel
         return $schoolList;
     }
 
+    public function getInconsistenciesCount(){
+        $query = "SELECT count(*) FROM inconsistency_sagres";
+        return Yii::app()->db->createCommand($query)->queryScalar();
+    }
+
     public function getNameSchool($idSchool)
     {
         $query = "SELECT name FROM school_identification where inep_id = :idSchool";
@@ -495,7 +500,7 @@ class SagresConsultModel
         if (isset($startTime)) {
             return $this->getDateTimeFromInitialHour($startTime);
         } else {
-            throw new ErrorException("Turno ou horário inválido.");
+            return $this->getDateTimeFromInitialHour('00');
         }
     }
 

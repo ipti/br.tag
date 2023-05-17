@@ -105,6 +105,11 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 					<span class="title">Inconsistências</span><br>
 					<span class="subtitle">Lista de inconsitências SAGRES</span>
 				</div>
+				<?php
+					if($numInconsistencys != 0){
+						echo '<span class="pull-right circle">' . $numInconsistencys . '</span>';
+					}
+				?>
 			</button>
 		</a>
 	</div>
@@ -195,7 +200,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				console.error(err);
 				$(".alert-error-export").append('Erro ao criar o arquivo zip');
 				$(".alert-error-export").show();
-			}).finally(function(){
+			}).finally(function () {
 				location.reload();
 			});
 		})

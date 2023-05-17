@@ -5,7 +5,10 @@ class DefaultController extends Controller
 {
 	public function actionIndex()
 	{
-   		$this->render('index');
+		$sagresConsultModel = new SagresConsultModel;
+
+		$numInconsistencys = $sagresConsultModel->getInconsistenciesCount();
+   		$this->render('index', ['numInconsistencys' => $numInconsistencys]);
 	}
 
 	public function actionCreateOrUpdate()
