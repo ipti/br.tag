@@ -550,34 +550,46 @@ $form = $this->beginWidget('CActiveForm', array(
 
                     <div class="row t-field-checkbox-group" id="received">
                         <div class="column">
-                            <label class="t-field-checkbox">
-                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_cc', array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_cc)); ?>
-                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_cc']; ?>
-                            </label>
-                            <label class="t-field-checkbox ">
-                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_address', array('value' => 1, 'class' => 't-field-checkbox__input',  'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_address)); ?>
-                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_address']; ?>
-                            </label>
+                            <div class="t-field-checkbox">
+                            <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_cc', array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_cc)); ?>
+                                <label class="t-field-checkbox">
+                                    <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_cc']; ?>
+                                </label>
+                            </div>
+                            <div class="t-field-checkbox">
+                            <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_address', array('value' => 1, 'class' => 't-field-checkbox__input',  'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_address)); ?>
+                                <label class="t-field-checkbox ">
+                                    <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_address']; ?>
+                                </label>
+                            </div>
                         </div>
                         <div class="column">
-                            <label class="t-field-checkbox ">
-                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_photo', array('value' => 1, 'class' => 't-field-checkbox__input',  'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_photo)); ?>
-                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_photo']; ?>
-                            </label>
-                            <label class="t-field-checkbox ">
-                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_nis', array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_nis)); ?>
-                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_nis']; ?>
-                            </label>
+                            <div class="t-field-checkbox">
+                            <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_photo', array('value' => 1, 'class' => 't-field-checkbox__input',  'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_photo)); ?>
+                                <label class="t-field-checkbox ">
+                                    <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_photo']; ?>
+                                </label>
+                            </div>
+                            <div class="t-field-checkbox">
+                            <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_nis', array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_nis)); ?>
+                                <label class="t-field-checkbox ">
+                                    <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_nis']; ?>
+                                </label>
+                            </div>
                         </div>
                         <div class="column">
-                            <label class="t-field-checkbox">
-                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_rg', array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_rg)); ?>
-                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_rg']; ?>
-                            </label>
-                            <label class="t-field-checkbox">
-                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_cpf)); ?>
-                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_cpf']; ?>
-                            </label>
+                            <div class="t-field-checkbox">
+                            <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_rg', array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_rg)); ?>
+                                <label class="t-field-checkbox">
+                                    <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_rg']; ?>
+                                </label>
+                            </div>
+                            <div class="t-field-checkbox">
+                            <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_cpf)); ?>
+                                <label class="t-field-checkbox">
+                                    <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_cpf']; ?>
+                                </label>
+                            </div>
                         </div>
                         <?php if (INSTANCE == "CLOC") : ?>
                             <div class="column">
