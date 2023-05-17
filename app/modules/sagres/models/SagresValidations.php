@@ -99,7 +99,7 @@ class SagresValidations
             }
         }
 
-        return array_unique($inconsistencies);
+        return $inconsistencies;
     }
 
     public function validatorClass($school)
@@ -143,6 +143,7 @@ class SagresValidations
             }
 
             $inconsistencies = array_merge($inconsistencies, $this->validationSeries($class, $schoolId));
+            $inconsistencies = array_merge($inconsistencies, $this->validatorEnrollments($class, $schoolId));
         }
 
         return $inconsistencies;
@@ -181,7 +182,7 @@ class SagresValidations
             }
         };
 
-        return array_unique($inconsistencies);
+        return $inconsistencies;
     }
 
     public function validatorEnrollments($class, $schoolId)
@@ -190,7 +191,6 @@ class SagresValidations
        $enrollments = $class->getMatricula();
 
        foreach ($enrollments as $enrollment) {
-
             if(!$this->validateDate($enrollment->getDataMatricula()->format("Y-m-d"))){
                 $inconsistencies[] = [
                     "enrollment" => 'MATRÍCULA',
@@ -199,9 +199,83 @@ class SagresValidations
                     "action" => 'ADICIONE UMA DATA NO FORMATO VÁLIDA'
                 ];
             }
+
+            if(!is_int($enrollment->getNumeroFaltas())){
+                $inconsistencies[] = [
+                    "enrollment" => 'MATRÍCULA',
+                    "school" => $schoolId,
+                    "description" => 'O VALOR PARA O NÚMERO DE FALTAS É INVÁLIDO',
+                    "action" => 'COLOQUE UM VALOR VÁLIDO PARA O NÚMERO DE FALTAS'
+                ];
+            }
+
+            if(!is_bool($enrollment->getAprovado())){
+                $inconsistencies[] = [
+                    "enrollment" => 'MATRÍCULA',
+                    "school" => $schoolId,
+                    "description" => 'STATUS DO APROVADO DO ALUNO É INVÁLIDO',
+                    "action" => 'MARQUE COMO APROVADO OU REPROVADO NO STATUS'
+                ];
+            }       
+
+            $inconsistencies = array_merge($inconsistencies, $this->validationStudent($enrollment->getAluno(),  $schoolId));
+
        }
 
        return $inconsistencies;
+    }
+
+    public function validationStudent($student, $schoolId)
+    {
+        $strlen = 5;
+        $inconsistencies = [];
+
+        if(!$this->validaCPF($student->getCpfAluno()) || is_null($student->getCpfAluno())){
+            $inconsistencies[] = [
+                "enrollment" => 'ESTUDANTE',
+                "school" => $schoolId,
+                "description" => 'CPF DO ESTUDANTE É INVÁLIDO',
+                "action" => 'INFORME UM CPF VÁLIDO PARA O ESTUDANTE'
+            ];
+        }
+
+        if(!$this->validateDate($student->getDataNascimento()->format("Y-m-d"))){
+            $inconsistencies[] = [
+                "enrollment" => 'ESTUDANTE',
+                "school" => $schoolId,
+                "description" => 'DATA NO FORMATO INVÁLIDO',
+                "action" => 'ADICIONE UMA DATA NO FORMATO VÁLIDA'
+            ];
+        }
+
+        if(strlen($student->getNome()) < $strlen){
+            $inconsistencies[] = [
+                "enrollment" => 'ESTUDANTE',
+                "school" => $schoolId,
+                "description" => 'TAMANHO DO NOME DO ESTUDANTE MENOR QUE 5 CARACTERES',
+                "action" => 'ADICIONE UM NOME PARA O ESTUDANTE COM PELO MENOS 5 CARACTERES'
+            ];
+        }
+
+        if(!is_bool($student->getPcd())){
+            $inconsistencies[] = [
+                "enrollment" => 'ESTUDANTE',
+                "school" => $schoolId,
+                "description" => 'CÓDIGO PCD É INVÁLIDO',
+                "action" => 'ADICIONE UM VALOR VÁLIDO PARA O PCD'
+            ];
+        }
+
+        if(!in_array($student->getSexo(), [1, 2, 3])){
+            $inconsistencies[] = [
+                "enrollment" => 'ESTUDANTE',
+                "school" => $schoolId,
+                "description" => 'SEXO NÃO É VÁLIDO',
+                "action" => 'ADICIONE UM SEXO VÁLIDO PARA O ESTUDANTE'
+            ];
+        }
+        
+        return $inconsistencies;
     }
 
 // Função de callback personalizada para filtrar arrays vazios
