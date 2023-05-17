@@ -287,7 +287,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
         </div>
         <form method="post">
             <div class="modal-body">
-                <div class="add-schedule-alert alert alert-error">Selecione uma disciplina.</div>
+                <div class="add-schedule-alert alert alert-error">Selecione um componente curricular/eixo.</div>
                 <input type="hidden" class="add-schedule-month">
                 <input type="hidden" class="add-schedule-day">
                 <input type="hidden" class="add-schedule-weekday">

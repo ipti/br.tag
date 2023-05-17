@@ -3,7 +3,7 @@ return [
 	"Instructors" => "Professores",
 	"Add Instructors" => "Adicionar Professores",
 	"Add Unavailability" => "Adicionar Indisponibilidade",
-	"Add Disciplines" => "Disciplina",
+	"Add Disciplines" => "Componente curricular/eixo",
 	"Timesheets" => "Quadro de Horários",
 
 	"Select a Instructor" => "Selecione um Instrutor",
@@ -18,10 +18,10 @@ return [
 	"Week Day" => "Dia da Semana",
 	"new unavailability" => "nova indisponibilidade",
 
-	"Add Instructors Disciplines" => "Adicionar Disciplinas aos Professores",
+	"Add Instructors Disciplines" => "Adicionar Componentes curriculares/eixos aos Professores",
 	"Stages" => "Estágios",
-	"Disciplines" => "Disciplinas",
-	"new discipline/stage" => "nova disciplina/estagio",
+	"Disciplines" => "Componentes curriculares/eixos",
+	"new discipline/stage" => "novo componente curricular/eixo/estagio",
 
 	"Sunday" => "Domingo",
 	"Monday" => "Segunda",

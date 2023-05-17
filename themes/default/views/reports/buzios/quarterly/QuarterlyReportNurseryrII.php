@@ -11,9 +11,9 @@
    if ($turno == 'M') {
        $turno = "Matutino";
    } else if ($turno == 'T') {
-       $turno = "Tarde";
+       $turno = "Vespertino";
    } else if ($turno == 'N') {
-       $turno = "Noite";
+       $turno = "Noturno";
    } else if ($turno == '' || $turno == null) {
        $turno = "______________________";
    }

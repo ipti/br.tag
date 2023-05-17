@@ -247,73 +247,22 @@ class ClassroomController extends Controller
     static function classroomDisciplineLabelArray()
     {
         $labels = array();
-        $labels[1] = Classroom::model()->attributeLabels()['discipline_chemistry'];
-        $labels[2] = Classroom::model()->attributeLabels()['discipline_physics'];
-        $labels[3] = Classroom::model()->attributeLabels()['discipline_mathematics'];
-        $labels[4] = Classroom::model()->attributeLabels()['discipline_biology'];
-        $labels[5] = Classroom::model()->attributeLabels()['discipline_science'];
-        $labels[6] = Classroom::model()->attributeLabels()['discipline_language_portuguese_literature'];
-        $labels[7] = Classroom::model()->attributeLabels()['discipline_foreign_language_english'];
-        $labels[8] = Classroom::model()->attributeLabels()['discipline_foreign_language_spanish'];
-        $labels[9] = Classroom::model()->attributeLabels()['discipline_foreign_language_other'];
-        $labels[10] = Classroom::model()->attributeLabels()['discipline_arts'];
-        $labels[11] = Classroom::model()->attributeLabels()['discipline_physical_education'];
-        $labels[12] = Classroom::model()->attributeLabels()['discipline_history'];
-        $labels[13] = Classroom::model()->attributeLabels()['discipline_geography'];
-        $labels[14] = Classroom::model()->attributeLabels()['discipline_philosophy'];
-        $labels[16] = Classroom::model()->attributeLabels()['discipline_informatics'];
-        $labels[17] = Classroom::model()->attributeLabels()['discipline_professional_disciplines'];
-        $labels[20] = Classroom::model()->attributeLabels()['discipline_special_education_and_inclusive_practices'];
-        $labels[21] = Classroom::model()->attributeLabels()['discipline_sociocultural_diversity'];
-        $labels[23] = Classroom::model()->attributeLabels()['discipline_libras'];
-        $labels[25] = Classroom::model()->attributeLabels()['discipline_pedagogical'];
-        $labels[26] = Classroom::model()->attributeLabels()['discipline_religious'];
-        $labels[27] = Classroom::model()->attributeLabels()['discipline_native_language'];
-        $labels[28] = Classroom::model()->attributeLabels()['discipline_social_study'];
-        $labels[29] = Classroom::model()->attributeLabels()['discipline_sociology'];
-        $labels[30] = Classroom::model()->attributeLabels()['discipline_foreign_language_franch'];
-        $labels[99] = Classroom::model()->attributeLabels()['discipline_others'];
-        $labels[10001] = yii::t('default', 'Writing');
-        $labels[10007] = yii::t('default', 'Listen, Speak, Thought and Imagination');
-        $labels[10008] = yii::t('default', 'Space, Time, Quantity, Relations and Transformations');
-        $labels[10009] = yii::t('default', 'Body, Gesture and Movement');
-        $labels[10010] = yii::t('default', 'Traces, Sounds, Colors and Shapes');
-        $labels[10011] = yii::t('default', 'The I, the Other and the We');
-
+        $disciplines =  EdcensoDiscipline::model()->findAll(['select' => 'name']);
+        foreach ($disciplines as $key => $value) {
+            $labels[$key] = $value->name;
+        } 
+        
         return $labels;
     }
 
     static function classroomDisciplineLabelResumeArray()
     {
         $labels = array();
-        $labels[1] = "Química";
-        $labels[2] = "Física";
-        $labels[3] = "Matemática";
-        $labels[4] = "Biologia";
-        $labels[5] = "Ciências";
-        $labels[6] = "Português";
-        $labels[7] = "Inglês";
-        $labels[8] = "Espanhol";
-        $labels[9] = "Outro Idioma";
-        $labels[10] = "Artes";
-        $labels[11] = "Edicação Física";
-        $labels[12] = "História";
-        $labels[13] = "Geografia";
-        $labels[14] = "Filosofia";
-        $labels[16] = "Informática";
-        $labels[17] = "Disc. Profissionalizante";
-        $labels[20] = "Educação Especial";
-        $labels[21] = "Sociedade&nbsp;e Cultura";
-        $labels[23] = "Libras";
-        $labels[25] = "Pedogogia";
-        $labels[26] = "Ensino Religioso";
-        $labels[27] = "Língua Nativa";
-        $labels[28] = "Estudo Social";
-        $labels[29] = "Sociologia";
-        $labels[30] = "Francês";
-        $labels[99] = "Outras";
-        $labels[10001] = yii::t('default', 'Writing');
-
+        $disciplines =  EdcensoDiscipline::model()->findAll(['select' => 'name']);
+        foreach ($disciplines as $key => $value) {
+            $labels[$value->id] = $value->name;
+        }
+        
         return $labels;
     }
 
@@ -353,34 +302,15 @@ class ClassroomController extends Controller
 
     public static function classroomDiscipline2array($classroom)
     {
-        $disciplines = array();
 
-        $disciplines[1] = $classroom->discipline_chemistry;
-        $disciplines[2] = $classroom->discipline_physics;
-        $disciplines[3] = $classroom->discipline_mathematics;
-        $disciplines[4] = $classroom->discipline_biology;
-        $disciplines[5] = $classroom->discipline_science;
-        $disciplines[6] = $classroom->discipline_language_portuguese_literature;
-        $disciplines[7] = $classroom->discipline_foreign_language_english;
-        $disciplines[8] = $classroom->discipline_foreign_language_spanish;
-        $disciplines[9] = $classroom->discipline_foreign_language_other;
-        $disciplines[10] = $classroom->discipline_arts;
-        $disciplines[11] = $classroom->discipline_physical_education;
-        $disciplines[12] = $classroom->discipline_history;
-        $disciplines[13] = $classroom->discipline_geography;
-        $disciplines[14] = $classroom->discipline_philosophy;
-        $disciplines[16] = $classroom->discipline_informatics;
-        $disciplines[17] = $classroom->discipline_professional_disciplines;
-        $disciplines[20] = $classroom->discipline_special_education_and_inclusive_practices;
-        $disciplines[21] = $classroom->discipline_sociocultural_diversity;
-        $disciplines[23] = $classroom->discipline_libras;
-        $disciplines[25] = $classroom->discipline_pedagogical;
-        $disciplines[26] = $classroom->discipline_religious;
-        $disciplines[27] = $classroom->discipline_native_language;
-        $disciplines[28] = $classroom->discipline_social_study;
-        $disciplines[29] = $classroom->discipline_sociology;
-        $disciplines[30] = $classroom->discipline_foreign_language_franch;
-        $disciplines[99] = $classroom->discipline_others;
+        $disciplines = array();        
+        $classroomModel =  Classroom::model()
+            ->with("edcensoStageVsModalityFk.curricularMatrixes.disciplineFk")            
+            ->find("t.id = :classroom", [":classroom" => $classroom->id]);
+        
+        foreach ($classroomModel->edcensoStageVsModalityFk->curricularMatrixes as $key => $matrix) {
+            $disciplines[$matrix->disciplineFk->id] = $matrix->disciplineFk->name;
+        }
 
         return $disciplines;
     }
@@ -828,7 +758,8 @@ class ClassroomController extends Controller
         $disciplines = Yii::app()->db->createCommand("
             select ed.id, ed.name from curricular_matrix cm 
             join edcenso_discipline ed on ed.id = cm.discipline_fk
-            where cm.stage_fk = :id and cm.school_year = :year")->bindParam(":id", $_POST["id"])->bindParam(":year", Yii::app()->user->year)->queryAll();
+            where cm.stage_fk = :id and cm.school_year = :year")
+            ->bindParam(":id", $_POST["id"])->bindParam(":year", Yii::app()->user->year)->queryAll();
         if ($disciplines) {
             echo json_encode(["valid" => true, "disciplines" => $disciplines]);
         } else {

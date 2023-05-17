@@ -305,7 +305,13 @@ class EnrollmentController extends Controller
             }
         } else {
             echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione...'), true);
-            $classr = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name")->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
+            $classr = Yii::app()->db->createCommand(
+                "select curricular_matrix.discipline_fk 
+                from curricular_matrix 
+                    join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk 
+                where stage_fk = :stage_fk and school_year = :year order by ed.name")
+                ->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)
+                ->bindParam(":year", Yii::app()->user->year)->queryAll();
             foreach ($classr as $i => $discipline) {
                 if (isset($discipline['discipline_fk'])) {
                     echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['discipline_fk']), CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true));
