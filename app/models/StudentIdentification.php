@@ -222,8 +222,7 @@ class StudentIdentification extends AltActiveRecord {
             'filiation_2_cpf' => Yii::t('default', 'Father CPF'),
             'filiation_2_scholarity' => Yii::t('default', 'Father Scholarity'),
             'filiation_2_job' => Yii::t('default', 'Father Job'),
-            'no_documents_desc' => Yii::t('default', 'No Documents Desc')
-            
+            'no_document_desc' => Yii::t('default', 'No Documents Desc')
         );
     }
 

@@ -334,12 +334,12 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                     <!-- Profissão do responsável e email do Responsável -->
                     <div class="row">
-                        <!-- Profissão do Responsável -->
+                        <!-- nome do responsével -->
                         <div class="column">
                             <div class="t-field-text js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable_job', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'responsable_job', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite a Profissão do Responsável')); ?>
-                                <?php echo $form->error($modelStudentIdentification, 'responsable_job'); ?>
+                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable_name', array('class' => 'control-label  t-field-text__label')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'responsable_name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Responsável')); ?>
+                                <?php echo $form->error($modelStudentIdentification, 'responsable_name'); ?>
                             </div>
                         </div>
                         <!-- Email responsável -->
@@ -353,12 +353,12 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                     <!-- Nome do responsável e Escolaridade do resposável -->
                     <div class="row">
-                        <!-- nome responsavel -->
+                        <!-- Profissião do responsavel -->
                         <div class="column">
                             <div class="t-field-text js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable_name', array('class' => 'control-label  t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'responsable_name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Responsável')); ?>
-                                <?php echo $form->error($modelStudentIdentification, 'responsable_name'); ?>
+                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable_job', array('class' => 'control-label t-field-text__label')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'responsable_job', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite a Profissão do Responsável')); ?>
+                                <?php echo $form->error($modelStudentIdentification, 'responsable_job'); ?>
                             </div>
                         </div>
                         <!-- Escolaridade do responsavel -->
@@ -823,7 +823,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_expediction_date', array('class' => 't-field-text__label control-label')); ?>
-                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number_expediction_date', array('size' => 10, 'maxlength' => 10, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite a Data de Expedição da Identidade')); ?>
+                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number_expediction_date', array('size' => 10, 'maxlength' => 10, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br", 'placeholder' => 'Digite a Data de Expedição da Identidade dd/mm/aaaa')); ?>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_expediction_date'); ?>
                             </div>
                         </div>

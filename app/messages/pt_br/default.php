@@ -522,6 +522,7 @@ return array(
     'CNS Number' => 'Nº do CNS',
     'Document Failure Lack' => 'Justificativa para a falta de documentação do aluno',
     'Residence Zone' => 'Localização / Zona de residência',
+    'No Document Desc' => 'Justificativa da falta de documentação',
     'CEP' => 'CEP',
     'Address' => 'Endereço',
     'Number' => 'Nº',

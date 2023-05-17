@@ -136,6 +136,7 @@ $(formDocumentsAndAddress + 'cns').focusout(function () {
 });
 
 var date = new Date();
+// aniversário
 $(formIdentification + 'birthday').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
 $(formIdentification + 'birthday').focusout(function () {
     var id = '#' + $(this).attr("id");
@@ -658,7 +659,7 @@ $(formDocumentsAndAddress + 'civil_certification').change(function () {
     }
 });
 
-$(formDocumentsAndAddress + 'rg_number_expediction_date, ' + formDocumentsAndAddress + 'civil_certification_date').mask("99/99/9999");
+$(formDocumentsAndAddress + 'rg_number_expediction_date, ' + formDocumentsAndAddress + 'civil_certification_date').mask("99/99/9999", {placeholder: "dd/mm/aaaa"});
 $(formDocumentsAndAddress + 'rg_number_expediction_date, ' + formDocumentsAndAddress + 'civil_certification_date').focusout(function () {
     var id = '#' + $(this).attr("id");
     var documentDate = stringToDate($(id).val());

@@ -313,6 +313,7 @@ html {
 .t-field-text__input, .t-field-text input[type="text"], .t-field-text input[type="number"] {
   width: 100%;
   margin-bottom: 0px;
+  resize: none;
   /* padding: $spaceEmpty $spaceSmall; */
 }
 
@@ -355,6 +356,7 @@ html {
 /* line 16, ../../../../wamp64/www/br.tag/sass/scss/components/_field-select2.scss */
 .t-field-select__input.select2-container .select2-choice {
   width: 100%;
+  word-wrap: break-word;
 }
 
 /* Color */
@@ -541,6 +543,7 @@ html {
 /* line 16, ../../../../wamp64/www/br.tag/sass/scss/components/_field-select2.scss */
 .t-field-select__input.select2-container .select2-choice {
   width: 100%;
+  word-wrap: break-word;
 }
 
 /* line 5, ../../../../wamp64/www/br.tag/sass/scss/components/_field-multiselect.scss */
@@ -552,14 +555,15 @@ html {
   color: #004680;
   padding: 0.375em 0.5em !important;
   background-image: none !important;
+  word-wrap: break-word;
 }
 
-/* line 13, ../../../../wamp64/www/br.tag/sass/scss/components/_field-multiselect.scss */
+/* line 14, ../../../../wamp64/www/br.tag/sass/scss/components/_field-multiselect.scss */
 .t-multiselect .select2-search-choice div {
   margin-left: 24px;
 }
 
-/* line 16, ../../../../wamp64/www/br.tag/sass/scss/components/_field-multiselect.scss */
+/* line 17, ../../../../wamp64/www/br.tag/sass/scss/components/_field-multiselect.scss */
 .t-multiselect .select2-search-choice .select2-search-choice-close {
   background-image: url("../../../themes/default/img/botao-cancelar-multiselect.svg") !important;
   width: 14px !important;
