@@ -249,6 +249,7 @@ class ReportsController extends Controller
     {
         $discipline_id = $_POST['evaluation_follow_up_disciplines'];
         $classroom_id = $_POST['evaluation_follow_up_classroom'];
+        $quarterly = $_POST['quarterly'];
 
         $classroom = Classroom::model()->findByPk($classroom_id);
         $discipline = EdcensoDiscipline::model()->findByPk($discipline_id);
@@ -268,12 +269,48 @@ class ReportsController extends Controller
         ->bindParam(":classroom_id", $classroom_id)
         ->queryAll();
 
-        $sql = "SELECT si.name FROM student_enrollment se 
+        $sql = "SELECT si.name AS student_name FROM student_enrollment se 
                 JOIN student_identification si on si.id = se.student_fk
                 WHERE se.classroom_fk = :classroom_id
                 ORDER BY se.daily_order, si.name;";
 
         $students = Yii::app()->db->createCommand($sql)->bindParam(":classroom_id", $classroom_id)->queryAll();
+
+        $classroom_stage_name = $classroom->edcensoStageVsModalityFk->name;
+        $parts = explode("-", $classroom_stage_name);
+        $stage_name = trim($parts[1]);
+
+        $anos1 = array("1º", "2º", "3º");
+        $anos2 = array("4º", "5º");
+
+        $anosTitulo = '';
+        $anosVerify = 0;
+        $anosPosition = 0;
+        $stageVerify = false;
+
+        for ($i=0; $i < count($anos1); $i++) { 
+            if (strpos($stage_name, $anos1[$i]) !== false) {
+                $anosTitulo = "1º, 2º e 3º ANOS";
+                $anosVerify = 1;
+                $anosPosition = $i + 1;
+                $stageVerify = true;
+                break;
+            }
+        }
+        for ($i=0; $i < count($anos2); $i++) { 
+            if (strpos($stage_name, $anos2[$i]) !== false) {
+                $anosTitulo = "4º E 5º ANOS";
+                $anosVerify = 2;
+                $anosPosition = $i + 4;
+                $stageVerify = true;
+                break;
+            }
+        }
+
+        if(!$stageVerify) {
+            Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom->name." não possui uma etapa correspondente ao relatório. Etapa da Turma: ".$classroom_stage_name));
+            return $this->redirect(array('index'));
+        }
 
         if($instructor) {
             if($students) {
@@ -281,7 +318,11 @@ class ReportsController extends Controller
                     "instructor" => $instructor,
                     "students" => $students,
                     "classroom" => $classroom,
-                    "discipline" => $discipline
+                    "discipline" => $discipline,
+                    "anosTitulo" => $anosTitulo,
+                    "anosVerify" => $anosVerify,
+                    "anosPosition" => $anosPosition,
+                    "quarterly" => $quarterly
                 ));
             }else {
                 Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom->name." não possui alunos matriculados"));
