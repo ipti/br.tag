@@ -1,5 +1,10 @@
 window.location.search.includes("update") ? $('.last').css('display', 'block') : $('.last').css('display', 'none');
 
+// class New_enrollment_form{
+    
+// }
+
+
 $(document).ready(function () {
     if($("#others-check").is(":checked")) {
         $(".others-text-box").show();
@@ -12,86 +17,19 @@ $(document).ready(function () {
         $("#show-student-civil-name-box").hide();
     }
 
+
+
     $("#new-enrollment-button").click(function() {
-        if($("#new-enrollment-form").css('display') == 'none') {
-            $("#new-enrollment-form").show();
+        if($(".new-enrollment-form").css('display') == 'none') {
+            $(".new-enrollment-form").show();
             $("#new-enrollment-button").text("Fechar formulário");
         }else {
-            $("#new-enrollment-form").hide();
+            $(".new-enrollment-form").hide();
             $("#new-enrollment-button").text("Adicionar Matrícula");
         }
         
     });
-    $("#new-enrollment-button").click(function() {
-        if($("#new-enrollment-form2").css('display') == 'none') {
-            $("#new-enrollment-form2").show();
-            $("#new-enrollment-button").text("Fechar formulário");
-        }else {
-            $("#new-enrollment-form2").hide();
-            $("#new-enrollment-button").text("Adicionar Matrícula");
-        }
-        
-    });
-    $("#new-enrollment-button").click(function() {
-        if($("#new-enrollment-form3").css('display') == 'none') {
-            $("#new-enrollment-form3").show();
-            $("#new-enrollment-button").text("Fechar formulário");
-        }else {
-            $("#new-enrollment-form3").hide();
-            $("#new-enrollment-button").text("Adicionar Matrícula");
-        }
-        
-    });
-    $("#new-enrollment-button").click(function() {
-        if($("#new-enrollment-form4").css('display') == 'none') {
-            $("#new-enrollment-form4").show();
-            $("#new-enrollment-button").text("Fechar formulário");
-        }else {
-            $("#new-enrollment-form4").hide();
-            $("#new-enrollment-button").text("Adicionar Matrícula");
-        }
-        
-    });
-    $("#new-enrollment-button").click(function() {
-        if($("#new-enrollment-form5").css('display') == 'none') {
-            $("#new-enrollment-form5").show();
-            $("#new-enrollment-button").text("Fechar formulário");
-        }else {
-            $("#new-enrollment-form5").hide();
-            $("#new-enrollment-button").text("Adicionar Matrícula");
-        }
-        
-    });
-    $("#new-enrollment-button").click(function() {
-        if($("#new-enrollment-form6").css('display') == 'none') {
-            $("#new-enrollment-form6").show();
-            $("#new-enrollment-button").text("Fechar formulário");
-        }else {
-            $("#new-enrollment-form6").hide();
-            $("#new-enrollment-button").text("Adicionar Matrícula");
-        }
-        
-    });
-        $("#new-enrollment-button").click(function() {
-        if($("#new-enrollment-form7").css('display') == 'none') {
-            $("#new-enrollment-form7").show();
-            $("#new-enrollment-button").text("Fechar formulário");
-        }else {
-            $("#new-enrollment-form7").hide();
-            $("#new-enrollment-button").text("Adicionar Matrícula");
-        }
-        
-    });
-    $("#new-enrollment-button").click(function() {
-        if($("#new-enrollment-form8").css('display') == 'none') {
-            $("#new-enrollment-form8").show();
-            $("#new-enrollment-button").text("Fechar formulário");
-        }else {
-            $("#new-enrollment-form8").hide();
-            $("#new-enrollment-button").text("Adicionar Matrícula");
-        }
-        
-    });
+    
     var simple = getUrlVars()['simple'];
     if (simple == '1') {
         $("#tab-student-documents").hide();

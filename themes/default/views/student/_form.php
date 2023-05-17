@@ -551,13 +551,13 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row t-field-checkbox-group" id="received">
                         <div class="column">
                             <div class="t-field-checkbox">
-                            <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_cc', array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_cc)); ?>
+                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_cc', array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_cc)); ?>
                                 <label class="t-field-checkbox">
                                     <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_cc']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
-                            <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_address', array('value' => 1, 'class' => 't-field-checkbox__input',  'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_address)); ?>
+                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_address', array('value' => 1, 'class' => 't-field-checkbox__input',  'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_address)); ?>
                                 <label class="t-field-checkbox ">
                                     <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_address']; ?>
                                 </label>
@@ -565,13 +565,13 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column">
                             <div class="t-field-checkbox">
-                            <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_photo', array('value' => 1, 'class' => 't-field-checkbox__input',  'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_photo)); ?>
+                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_photo', array('value' => 1, 'class' => 't-field-checkbox__input',  'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_photo)); ?>
                                 <label class="t-field-checkbox ">
                                     <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_photo']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
-                            <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_nis', array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_nis)); ?>
+                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_nis', array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_nis)); ?>
                                 <label class="t-field-checkbox ">
                                     <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_nis']; ?>
                                 </label>
@@ -579,13 +579,13 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column">
                             <div class="t-field-checkbox">
-                            <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_rg', array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_rg)); ?>
+                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_rg', array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_rg)); ?>
                                 <label class="t-field-checkbox">
                                     <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_rg']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
-                            <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_cpf)); ?>
+                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_cpf)); ?>
                                 <label class="t-field-checkbox">
                                     <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_cpf']; ?>
                                 </label>
@@ -1075,7 +1075,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <!-- Turma e tipo de ingresso -->
-                    <div class="row" id="new-enrollment-form" style="display: none;">
+                    <div class="row new-enrollment-form" style="display: none;">
                         <!-- Turma -->
                         <div class="column">
                             <?php echo $form->hiddenField($modelEnrollment, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
@@ -1114,7 +1114,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <!-- Data de ingresso na escola e Situação na série/etapa atual -->
-                    <div class="row" id="new-enrollment-form2" style="display: none;">
+                    <div class="row new-enrollment-form" style="display: none;">
                         <!--  Data de ingresso na escola -->
                         <div class="column">
                             <div class="t-field-text js-hide-not-required">
@@ -1143,7 +1143,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <!-- Situação da matrícula e Situação na série/etapa atual -->
-                    <div class="row" id="new-enrollment-form3" style="display: none;">
+                    <div class="row new-enrollment-form" style="display: none;">
                         <!-- Situação da matrícula -->
                         <div class="column">
                             <div class="control-group js-hide-not-required">
@@ -1172,7 +1172,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <!-- Escolarização em outro espaço e Situação no ano anterior -->
-                    <div class="row" id="new-enrollment-form4" style="display: none;">
+                    <div class="row new-enrollment-form" style="display: none;">
                         <!-- Escolarização em outro espaço -->
                         <div class="column">
                             <div class="control-group js-hide-not-required">
@@ -1204,7 +1204,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <!-- Titulo -->
-                    <div class="row" id="new-enrollment-form5" style="display: none;">
+                    <div class="row new-enrollment-form" style="display: none;">
                         <div class="column">
                             <div class="">
                                 <h3>
@@ -1220,7 +1220,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <!-- turma unificada , etapa e Etapa de Ensino  / -->
-                    <div class="row" id="new-enrollment-form6" style="display: none;">
+                    <div class="row new-enrollment-form" style="display: none;">
                         <div class="column">
                             <div id="multiclass">
                                 <!-- Turma unificada -->
@@ -1267,7 +1267,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <!-- Titulo-->
-                    <div class="row" id="new-enrollment-form7" style="display: none;">
+                    <div class="row new-enrollment-form" style="display: none;">
                         <div class="column">
                             <div class="">
                                 <h3>
@@ -1284,7 +1284,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <!-- Transporte -->
-                    <div class="row" id="new-enrollment-form8" style="display: none;">
+                    <div class="row new-enrollment-form" style="display: none;">
                         <!-- Transporte escolar Público, Tipo Transporte escolar Público e Tipo de Transporte-->
                         <div class="column">
                             <!-- Transporte escolar Público -->
