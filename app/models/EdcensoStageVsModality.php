@@ -125,6 +125,7 @@
                 'schoolStagesConceptGrades' => array(self::HAS_MANY, 'SchoolStagesConceptGrades', 'edcenso_stage_vs_modality_fk'),
                 'studentEnrollments' => [self::HAS_MANY, 'StudentEnrollment', 'edcenso_stage_vs_modality_fk'],
                 'gradeUnities' => array(self::HAS_MANY, 'GradeUnity', 'edcenso_stage_vs_modality_fk'),
+                'curricularMatrixes' => array(self::HAS_MANY, 'CurricularMatrix', 'stage_fk'),
             ];
         }
 
