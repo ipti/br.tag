@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.19.45]
+- Novo relatório de acompanhamento avaliativo dos alunos
+
 ## [Versão 3.19.43]
  - Corrigido o espaçamento dos checkbox no formulário de escola e o alinhamento dos campos desse formulário foi ajustado 
 
