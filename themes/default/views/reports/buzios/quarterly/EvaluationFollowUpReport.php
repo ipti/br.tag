@@ -39,7 +39,7 @@ $tableWhiteFieldsComplete = "<td></td><td></td><td></td><td></td><td></td>
             <thead>
                 <tr>
                     <th scope="col" rowspan="2">Nº</th>
-                    <th scope="col" rowspan="2" style="width: 300px;">Alunos</th>
+                    <th scope="col" rowspan="2" style="width: 300px;font-size:20px;">Alunos</th>
                     <th scope="col" class="vertical-head" colspan="3">1. Apresenta evolução motora<br> adequada a idade/ano?</th>
                     <th scope="col" class="vertical-head" colspan="3">2. Percebe comandos e os<br> contextualiza para executar as<br> atividades propostas corretamente?</th>
                     <th scope="col" class="vertical-head" colspan="3">3. Possui coordenação motora extensa<br> sendo capaz de dominá-la para<br> executar tarefas?</th>
@@ -81,6 +81,7 @@ $tableWhiteFieldsComplete = "<td></td><td></td><td></td><td></td><td></td>
         </div>
     </div>
     <div class="comments-container">
+        <h4 style="color: black;">Observações descritas a respeito do trabalho executado no trimestre:</h4>
         <div class="line-container">
             <div class="title-comments">1.&nbsp&nbsp&nbsp Objetivos da aprendizagem para este trimestre:</div>
             <div class="subtitle-comments">(Conteúdos dados)</div>
@@ -240,6 +241,7 @@ $tableWhiteFieldsComplete = "<td></td><td></td><td></td><td></td><td></td>
     }
     .comments-container {
         width: 100%;
+        margin-top: 20px;
     }
     .line-container {
         margin-top: 20px;
