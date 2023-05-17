@@ -25,7 +25,7 @@ if ($turno == 'M') {
     </div>
     <h3><?php echo Yii::t('default', 'Quarterly Class Council Report'); ?> <?php echo '- 6º AO 9º ANO DE ESCOLARIDADE'?></h3>
     <p style="font-size: 19px;">Aos <?php echo $count_days?> dias do mês de <?php echo $mounth?> de 
-    <?php echo $year?> às <?php echo $hour?>hs, teve início a 
+    <?php echo $year?> às <?php echo $hour?>, teve início a 
     reunião de Conselho de Classe referente ao <br> <?php echo $quarterly?> Trimestre do <?php echo $classroom[0]['class_stage']?>,
     turma <?php echo $classroom[0]['classroom_name']?>, do turno <?php echo $turno?>, presidido por _________________________________________.</p>
 

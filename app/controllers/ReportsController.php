@@ -258,7 +258,7 @@ class ReportsController extends Controller
     {
         $count_days = $_POST['count_days'];
         $mounth = $_POST['mounth'];
-        $hour = $_POST['hour'];
+        $hour = str_replace(":", "h", $_POST['hour']);;
         $quarterly = $_POST['quarterly'];
         $school_inep_id = Yii::app()->user->school;
         $infantil = $_POST['infantil-model'];
