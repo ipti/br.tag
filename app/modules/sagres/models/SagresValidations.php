@@ -107,32 +107,107 @@ class SagresValidations
 
         $strlen = 2;
         $inconsistencies = [];
-        $classes = $school->getTurma();
+        $classes = $school->getTurma();   
+        $schoolId = $school->getIdEscola();
 
         foreach ($classes as $class) {
+
+             /* 
+             *  [0 : Anual], [1 : 1°], [2 : 2º] Semestre
+             */	
+            if (!in_array($class->getPeriodo(), [0, 1, 2])) {
+                $inconsistencies[] = [
+                    "enrollment" => 'TURMA',
+                    "school" => $school->getIdEscola(),
+                    "description" => 'VALOR INVÁLIDO PARA O PERÍODO',
+                    "action" => 'FORNEÇA UM VALOR VÁLIDO PARA O PERÍODO'
+                ];
+            }
+
+            if (strlen($class->getDescricao()) <= $strlen) {
+                $inconsistencies[] = [
+                    "enrollment" => 'TURMA',
+                    "school" => $school->getIdEscola(),
+                    "description" => 'DESCRIÇÃO PARA A TURMA MENOR QUE 3 CARACTERES',
+                    "action" => 'FORNEÇA UMA DESCRIÇÃO MAIS DETALHADA, CONTENDO MAIS DE 5 CARACTERES'
+                ];
+            }
 
             if (!in_array($class->getTurno(), [1, 2, 3, 4])) {
                 $inconsistencies[] = [
                     "enrollment" => 'TURMA',
                     "school" => $school->getIdEscola(),
                     "description" => 'VALOR INVÁLIDO PARA O TURNO DA TURMA',
-                    "action" => 'ADICIONE UM VALOR VÁLIDO PARA O TURNO DA TURMA'
+                    "action" => 'SELECIONE UM TURNO VÁLIDO PARA O HORÁRIO DE FUNCIONAMENTO'
                 ];
             }
-            if (strlen($class->getDescricao()) <= $strlen) {
-                $inconsistencies[] = [
-                    "enrollment" => 'TURMA',
-                    "school" => $school->getIdEscola(),
-                    "description" => 'DESCRIÇÃO PARA A TURMA MENOR QUE 3 CARACTERES ',
-                    "action" => 'INFORMAR UMA DESCRIÇÃO MAIOR QUE 2 CARACTERES'
-                ];
-            }
+
+            $inconsistencies = array_merge($inconsistencies, $this->validationSeries($class, $schoolId));
         }
+
+        return $inconsistencies;
+    }
+
+
+    public function validationSeries($class, $schoolId)
+    {
+        $strlen = 2;
+        $inconsistencies = [];
+        $series = $class->getSerie();
+
+        foreach ($series as $serie) {
+            if (strlen($serie->getDescricao()) <= $strlen) {
+                $inconsistencies[] = [
+                    "enrollment" => 'SÉRIE',
+                    "school" => $schoolId,
+                    "description" => 'DESCRIÇÃO PARA A SÉRIE MENOR QUE 3 CARACTERES',
+                    "action" => 'FORNEÇA UMA DESCRIÇÃO MAIS DETALHADA, CONTENDO MAIS DE 5 CARACTERES'
+                ];
+            }
+
+            /* [1, 2, 3, 4]
+             * 1 - Educação Infantil -->
+             * 2 - Ensino Fundamental -->
+             * 3 - Ensino Médio -->				
+             * 4 - Educação de Jovens e Adultos -->
+             */
+            if (!in_array($serie->getModalidade(), [1, 2, 3, 4])) {
+                $inconsistencies[] = [
+                    "enrollment" => 'SÉRIE',
+                    "school" => $schoolId,
+                    "description" => 'MODALIDADE INVÁLIDA',
+                    "action" => 'SELECIONE UMA MODALIDADE VÁLIDA'
+                ];
+            }
+        };
 
         return array_unique($inconsistencies);
     }
 
+    public function validatorEnrollments($class, $schoolId)
+    {
+       $inconsistencies = [];
+       $enrollments = $class->getMatricula();
 
+       foreach ($enrollments as $enrollment) {
+
+            if(!$this->validateDate($enrollment->getDataMatricula()->format("Y-m-d"))){
+                $inconsistencies[] = [
+                    "enrollment" => 'MATRÍCULA',
+                    "school" => $schoolId,
+                    "description" => 'DATA NO FORMATO INVÁLIDO',
+                    "action" => 'ADICIONE UMA DATA NO FORMATO VÁLIDA'
+                ];
+            }
+       }
+
+       return $inconsistencies;
+    }
+
+// Função de callback personalizada para filtrar arrays vazios
+function filterEmptyArrays($value) {
+    return !empty($value);
+}
 
     function validaCPF($cpf)
     {
