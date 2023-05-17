@@ -260,8 +260,8 @@ class ClassroomController extends Controller
         $labels = array();
         $disciplines =  EdcensoDiscipline::model()->findAll(['select' => 'name']);
         foreach ($disciplines as $key => $value) {
-            $labels[$key] = $value->name;
-        } 
+            $labels[$value->id] = $value->name;
+        }
         
         return $labels;
     }
@@ -302,34 +302,15 @@ class ClassroomController extends Controller
 
     public static function classroomDiscipline2array($classroom)
     {
-        $disciplines = array();
 
-        $disciplines[1] = $classroom->discipline_chemistry;
-        $disciplines[2] = $classroom->discipline_physics;
-        $disciplines[3] = $classroom->discipline_mathematics;
-        $disciplines[4] = $classroom->discipline_biology;
-        $disciplines[5] = $classroom->discipline_science;
-        $disciplines[6] = $classroom->discipline_language_portuguese_literature;
-        $disciplines[7] = $classroom->discipline_foreign_language_english;
-        $disciplines[8] = $classroom->discipline_foreign_language_spanish;
-        $disciplines[9] = $classroom->discipline_foreign_language_other;
-        $disciplines[10] = $classroom->discipline_arts;
-        $disciplines[11] = $classroom->discipline_physical_education;
-        $disciplines[12] = $classroom->discipline_history;
-        $disciplines[13] = $classroom->discipline_geography;
-        $disciplines[14] = $classroom->discipline_philosophy;
-        $disciplines[16] = $classroom->discipline_informatics;
-        $disciplines[17] = $classroom->discipline_professional_disciplines;
-        $disciplines[20] = $classroom->discipline_special_education_and_inclusive_practices;
-        $disciplines[21] = $classroom->discipline_sociocultural_diversity;
-        $disciplines[23] = $classroom->discipline_libras;
-        $disciplines[25] = $classroom->discipline_pedagogical;
-        $disciplines[26] = $classroom->discipline_religious;
-        $disciplines[27] = $classroom->discipline_native_language;
-        $disciplines[28] = $classroom->discipline_social_study;
-        $disciplines[29] = $classroom->discipline_sociology;
-        $disciplines[30] = $classroom->discipline_foreign_language_franch;
-        $disciplines[99] = $classroom->discipline_others;
+        $disciplines = array();        
+        $classroomModel =  Classroom::model()
+            ->with("edcensoStageVsModalityFk.curricularMatrixes.disciplineFk")            
+            ->find("t.id = :classroom", [":classroom" => $classroom->id]);
+        
+        foreach ($classroomModel->edcensoStageVsModalityFk->curricularMatrixes as $key => $matrix) {
+            $disciplines[$matrix->disciplineFk->id] = $matrix->disciplineFk->name;
+        }
 
         return $disciplines;
     }
@@ -777,7 +758,8 @@ class ClassroomController extends Controller
         $disciplines = Yii::app()->db->createCommand("
             select ed.id, ed.name from curricular_matrix cm 
             join edcenso_discipline ed on ed.id = cm.discipline_fk
-            where cm.stage_fk = :id and cm.school_year = :year")->bindParam(":id", $_POST["id"])->bindParam(":year", Yii::app()->user->year)->queryAll();
+            where cm.stage_fk = :id and cm.school_year = :year")
+            ->bindParam(":id", $_POST["id"])->bindParam(":year", Yii::app()->user->year)->queryAll();
         if ($disciplines) {
             echo json_encode(["valid" => true, "disciplines" => $disciplines]);
         } else {

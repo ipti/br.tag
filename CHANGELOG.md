@@ -1,5 +1,14 @@
 # Atualizações
 
+## [Versão 3.20.44]
+- Novo relatório de acompanhamento avaliativo dos alunos
+
+## [Versão 3.19.44]
+- Corrigido a margem dos checkbox no formulário de escola
+
+## [Versão 3.19.43]
+ - Corrigido o espaçamento dos checkbox no formulário de escola e o alinhamento dos campos desse formulário foi ajustado 
+
 ## [Versão 3.18.42]
 - Em turmas, ata de notas agora exibe as notas corretamente
 - O campo de inserção da instituição de ensino superior no formulário do professor foi corrigido

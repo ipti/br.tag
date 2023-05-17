@@ -14,14 +14,14 @@ class Register20
     {
         $teachingDataDisciplines = [];
 
-        $modelTeachingData = Classroom::model()->findByPk($id)->instructorTeachingDatas;
-        foreach ($modelTeachingData as $key => $model) {
-            $disciplines = ClassroomController::teachingDataDiscipline2array($model);
-            foreach ($disciplines as $discipline) {
-                if ($discipline->id > 99 || $discipline->id == 20 || $discipline->id == 21) {
+        $teachingDatasOfClassroom = Classroom::model()->findByPk($id)->instructorTeachingDatas;
+        foreach ($teachingDatasOfClassroom as $key => $teachingData) {
+            foreach($teachingData->teachingMatrixes as $teachingMatrix) {
+                if ($teachingMatrix->curricularMatrixFk->discipline_fk > 99 || $teachingMatrix->curricularMatrixFk->discipline_fk == 20 || $teachingMatrix->curricularMatrixFk->discipline_fk == 21) {
                     $teachingDataDisciplines[99] = 99;
+                } else {
+                    $teachingDataDisciplines[$teachingMatrix->curricularMatrixFk->discipline_fk] = $teachingMatrix->curricularMatrixFk->discipline_fk;
                 }
-                $teachingDataDisciplines[$discipline->id] = $discipline->id;
             }
         }
 

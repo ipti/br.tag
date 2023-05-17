@@ -2,7 +2,7 @@
 @import '../_functions.scss';
 
 .t-field-checkbox {
-    margin-bottom: $SizeLarge;
+    margin-bottom: $SizeXXSmall;
     display: flex;
     // margin: 0;
     white-space: nowrap;
@@ -24,7 +24,8 @@
 }
 
 .t-field-checkbox-group {
-    margin-bottom: $SizeLarge;
+    margin-bottom: $SizeXXSmall;
+    margin-top: $SizeXXSmall;
 
     .t-field-checkbox {
         margin-bottom: $SizeXXXSmall;
