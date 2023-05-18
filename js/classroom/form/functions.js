@@ -1,15 +1,22 @@
 ////////////////////////////////////////////////
 // Functions                                  //
 ////////////////////////////////////////////////
+var RegentTeacherCount = 0
 var removeTeachingData = function () {
     var instructor = $(this).parent().parent().parent().attr("instructor");
     var discipline = ($(this).parent().attr("discipline"));
+    var isRegent = $(this).attr("regent");
+    console.log("Is Regent:")
+    console.log(isRegent)
     if (instructor == undefined) {
         instructor = $(this).parent().attr("instructor");
         if (instructor == undefined) {
             disciplines[discipline] = 0;
             $("#DisciplinesWithoutInstructors li[discipline = " + discipline + "]").remove();
         } else {
+            if(isRegent == 1) {
+                RegentTeacherCount--;
+            }
             removeInstructor(instructor);
         }
     } else {
@@ -56,6 +63,13 @@ var removeDiscipline = function (instructor, discipline) {
     $("li[instructor = " + instructor + "] li[discipline = " + discipline + "]").remove();
 }
 
+$(document).on("change", "#Role", function () {
+    $(".regent-teacher-container").hide()
+    if($(this).val() == 1 && RegentTeacherCount < 2) {
+        $(".regent-teacher-container").show()
+    }
+})
+
 var addTeachingData = function () {
     var instructorName = $('#s2id_Instructors span').text();
     var instructorId = $('#Instructors').val();
@@ -65,6 +79,7 @@ var addTeachingData = function () {
 
     var role = $("#Role").val();
     var contract = $("#ContractType").val();
+    var regent = $("#RegentTeacher").is(':checked') ? 1 : 0;
 
     $.each($("#s2id_Disciplines li.select2-search-choice"), function (i, v) {
         disciplineNameList[i] = $(v).text();
@@ -87,6 +102,7 @@ var addTeachingData = function () {
             Classroom: null,
             Role: role,
             ContractType: contract,
+            RegentTeacher: regent,
             Disciplines: []
         };
         var html = "";
@@ -96,9 +112,14 @@ var addTeachingData = function () {
         var instructorIndex = -1;
 
         if (!hasInstructor) {
+            regentLabel = ""
+            if(regent) {
+                regentLabel = " (Regente)"
+                RegentTeacherCount++
+            }
             tag = "#DisciplinesWithInstructors";
-            html = "<li class='li-instructor' instructor='" + instructorId + "'><span>" + instructorName + "</span>"
-                + "<a href='#' class='deleteTeachingData delete' title='Excluir'> </a>"
+            html = "<li class='li-instructor' instructor='" + instructorId + "'><span>" + instructorName + "</span>" + "<span>" + regentLabel + "</span>"
+                + "<a href='#' class='deleteTeachingData delete' title='Excluir' regent='" + regent + "'> </a>"
                 + "<ul>";
         } else {
             $.each(teachingData, function (i, data) {
@@ -129,6 +150,11 @@ var addTeachingData = function () {
         }
         $(tag).append(html);
     }
+    if(RegentTeacherCount == 2) {
+        $(".regent-teacher-container").hide();
+    }
+    $('#RegentTeacher').prop('checked', false);
+    console.log(RegentTeacherCount)
 }
 
 //Cria estrutura de uma aula

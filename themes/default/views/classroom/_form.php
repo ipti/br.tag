@@ -672,6 +672,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         4 => 'Tradutor e Intérprete de Libras',
                         5 => "EAD - Docente Titular",
                         6 => "EAD - Docente Tutor",
+                        7 => "Professor de Apoio",
                     ), array('class' => 'select-search-off'));
                     ?>
                 </div>
@@ -686,6 +687,10 @@ $form = $this->beginWidget('CActiveForm', array(
                         4 => 'CLT',
                     ), array('class' => 'select-search-off'));
                     ?>
+                </div>
+                <div class="control-group regent-teacher-container" style="display:none">
+                    <?php echo CHtml::checkBox("RegentTeacher", false, array('value' => '1', 'id' => 'RegentTeacher'));?>
+                    <?php echo CHtml::label(Yii::t("default", "Regent Teacher"), "RegentTeacher", array('class' => 'control-label', 'style' => 'display: inline-block'));?>
                 </div>
             </div>
         </div>
