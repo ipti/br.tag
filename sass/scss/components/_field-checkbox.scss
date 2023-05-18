@@ -2,9 +2,7 @@
 @import '../_functions.scss';
 
 .t-field-checkbox {
-    // margin-bottom: $SizeLarge;
     display: flex;
-    // white-space: nowrap;
     white-space: normal;
     line-height: 12px;
     width: 100%;
@@ -18,7 +16,6 @@
             font-weight: bold;
         }
     }
-
     &__input,
     input[type="checkbox"] {
         background: $colorsBaseWhiteNormal;
@@ -33,7 +30,6 @@
         margin-left: -18px;
     }
 }
-
 .t-field-checkbox-group {
     margin-bottom: $SizeLarge;
 
