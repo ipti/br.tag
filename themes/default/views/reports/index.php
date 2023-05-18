@@ -79,8 +79,8 @@ $this->breadcrumbs = array(
                         <!-- <div class="t-icon-schedule report-icon"></div> -->
                     </div>
                     <div class="pull-left">
-                        <span class="title">Participantes do bolsa familia</span><br>
-                        <span class="subtitle">Alunos beneficiários do bolsa família</span>
+                        <span class="title">Frequência para o bolsa família</span><br>
+                        <span class="subtitle">Frequência dos alunos por turma nos últimos três meses</span>
                     </div>
                 </button>
 
