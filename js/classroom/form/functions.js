@@ -6,8 +6,6 @@ var removeTeachingData = function () {
     var instructor = $(this).parent().parent().parent().attr("instructor");
     var discipline = ($(this).parent().attr("discipline"));
     var isRegent = $(this).attr("regent");
-    console.log("Is Regent:")
-    console.log(isRegent)
     if (instructor == undefined) {
         instructor = $(this).parent().attr("instructor");
         if (instructor == undefined) {
