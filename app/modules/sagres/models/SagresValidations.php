@@ -107,14 +107,14 @@ class SagresValidations
 
         $strlen = 2;
         $inconsistencies = [];
-        $classes = $school->getTurma();   
+        $classes = $school->getTurma();
         $schoolId = $school->getIdEscola();
 
         foreach ($classes as $class) {
 
-             /* 
+            /* 
              *  [0 : Anual], [1 : 1°], [2 : 2º] Semestre
-             */	
+             */
             if (!in_array($class->getPeriodo(), [0, 1, 2])) {
                 $inconsistencies[] = [
                     "enrollment" => 'TURMA',
@@ -144,6 +144,7 @@ class SagresValidations
 
             $inconsistencies = array_merge($inconsistencies, $this->validationSeries($class, $schoolId));
             $inconsistencies = array_merge($inconsistencies, $this->validatorEnrollments($class, $schoolId));
+            $inconsistencies = array_merge($inconsistencies, $this->validatorSchedules($class, $schoolId));
         }
 
         return $inconsistencies;
@@ -187,10 +188,10 @@ class SagresValidations
 
     public function validatorEnrollments($class, $schoolId)
     {
-       $inconsistencies = [];
-       $enrollments = $class->getMatricula();
+        $inconsistencies = [];
+        $enrollments = $class->getMatricula();
 
-       foreach ($enrollments as $enrollment) {
+        foreach ($enrollments as $enrollment) {
             if(!$this->validateDate($enrollment->getDataMatricula()->format("Y-m-d"))){
                 $inconsistencies[] = [
                     "enrollment" => 'MATRÍCULA',
@@ -216,15 +217,15 @@ class SagresValidations
                     "description" => 'STATUS DO APROVADO DO ALUNO É INVÁLIDO',
                     "action" => 'MARQUE COMO APROVADO OU REPROVADO NO STATUS'
                 ];
-            }       
+            }
 
-            $inconsistencies = array_merge($inconsistencies, $this->validationStudent($enrollment->getAluno(),  $schoolId));
+            $inconsistencies = array_merge($inconsistencies, $this->validationStudent($enrollment->getAluno(), $schoolId));
 
-       }
+        }
 
-       return $inconsistencies;
+        return $inconsistencies;
     }
-    
+
     public function validationStudent($student, $schoolId)
     {
         $strlen = 5;
@@ -256,10 +257,8 @@ class SagresValidations
                 "action" => 'ADICIONE UM NOME PARA O ESTUDANTE COM PELO MENOS 5 CARACTERES'
             ];
         }
-        
-        $pcd =  $student->getPcd();
-        
-        if(!is_bool(boolval($student->getPcd()))){
+
+        if (!is_bool(boolval($student->getPcd()))) {
             $inconsistencies[] = [
                 "enrollment" => 'ESTUDANTE',
                 "school" => $schoolId,
@@ -276,14 +275,58 @@ class SagresValidations
                 "action" => 'ADICIONE UM SEXO VÁLIDO PARA O ESTUDANTE'
             ];
         }
-        
+
         return $inconsistencies;
     }
 
-// Função de callback personalizada para filtrar arrays vazios
-function filterEmptyArrays($value) {
-    return !empty($value);
-}
+
+
+    public function validatorSchedules($class, $schoolId)
+    {
+        $strlen = 5;
+        $inconsistencies = [];
+        $schedules = $class->getHorario();
+        foreach ($schedules as $schedule) {
+            if (!in_array($schedule->getDiaSemana(), [1, 2, 3, 4, 5, 6, 7])) {
+                $inconsistencies[] = [
+                    "enrollment" => 'HORÁRIO',
+                    "school" => $schoolId,
+                    "description" => 'DIA DA SEMANA INVÁLIDO',
+                    "action" => 'ADICIONE UM DIA DA SEMANA VÁLIDO PARA A DISCIPLINA'
+                ];
+            }
+
+            if (!is_int($schedule->getDuracao())) {
+                $inconsistencies[] = [
+                    "enrollment" => 'HORÁRIO',
+                    "school" => $schoolId,
+                    "description" => 'DURAÇÃO INVÁLIDA',
+                    "action" => 'ADICIONE UMA DURAÇÃO VÁLIDA PARA DISCIPLINA'
+                ];
+            }
+
+            if (!$this->validaCPF($schedule->getCpfProfessor())) {
+                $inconsistencies[] = [
+                    "enrollment" => 'HORÁRIO',
+                    "school" => $schoolId,
+                    "description" => 'CPF DO PROFESSOR É INVÁLIDO',
+                    "action" => 'INFORMAR UM CPF VÁLIDO PARA O PROFESSOR'
+                ];
+            }
+
+            
+            if (strlen($schedule->getDisciplina()) < $strlen) {
+                $inconsistencies[] = [
+                    "enrollment" => 'HORÁRIO',
+                    "school" => $schoolId,
+                    "description" => 'TAMANHO DO NOME DA DISCIPLINA MENOR QUE 5 CARACTERES',
+                    "action" => 'ADICIONE UM NOME PARA A DISCIPLINA COM PELO MENOS 5 CARACTERES'
+                ];
+            }
+        }
+
+        return $inconsistencies;
+    }
 
     function validaCPF($cpf)
     {
