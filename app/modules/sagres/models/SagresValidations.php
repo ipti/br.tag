@@ -142,6 +142,15 @@ class SagresValidations
                 ];
             }
 
+            if(!is_bool($class->getFinalTurma())){
+                $inconsistencies[] = [
+                    "enrollment" => 'TURMA',
+                    "school" => $school->getIdEscola(),
+                    "description" => 'VALOR INVÁLIDO PARA O FINAL TURMA',
+                    "action" => 'SELECIONE UM VALOR VÁLIDO PARA O FINAL TURMA'
+                ];
+            }
+
             $inconsistencies = array_merge($inconsistencies, $this->validationSeries($class, $schoolId));
             $inconsistencies = array_merge($inconsistencies, $this->validatorEnrollments($class, $schoolId));
             $inconsistencies = array_merge($inconsistencies, $this->validatorSchedules($class, $schoolId));
@@ -231,15 +240,17 @@ class SagresValidations
         $strlen = 5;
         $inconsistencies = [];
 
-        if(!is_null($student->getCpfAluno()) && !$this->validaCPF($student->getCpfAluno())){
-            $inconsistencies[] = [
-                "enrollment" => 'ESTUDANTE',
-                "school" => $schoolId,
-                "description" => 'CPF DO ESTUDANTE É INVÁLIDO' ,
-                "action" => 'INFORME UM CPF VÁLIDO PARA O ESTUDANTE: '.$student->getCpfAluno()
-            ];
+        if(!is_null($student->getCpfAluno())){
+            if(!$this->validaCPF($student->getCpfAluno())){
+                $inconsistencies[] = [
+                    "enrollment" => 'ESTUDANTE',
+                    "school" => $schoolId,
+                    "description" => 'CPF DO ESTUDANTE É INVÁLIDO' ,
+                    "action" => 'INFORME UM CPF VÁLIDO PARA O ESTUDANTE: '.$student->getCpfAluno()
+                ];
+            }
         }
-
+        
         if(!$this->validateDate($student->getDataNascimento()->format("Y-m-d"))){
             $inconsistencies[] = [
                 "enrollment" => 'ESTUDANTE',
@@ -305,7 +316,8 @@ class SagresValidations
                 ];
             }
 
-            if (!$this->validaCPF($schedule->getCpfProfessor())) {
+            $cpfInstructor = $schedule->getCpfProfessor();
+            if (!$this->validaCPF($cpfInstructor[0])) {
                 $inconsistencies[] = [
                     "enrollment" => 'HORÁRIO',
                     "school" => $schoolId,
@@ -319,7 +331,7 @@ class SagresValidations
                 $inconsistencies[] = [
                     "enrollment" => 'HORÁRIO',
                     "school" => $schoolId,
-                    "description" => 'TAMANHO DO NOME DA DISCIPLINA MENOR QUE 5 CARACTERES',
+                    "description" => 'NOME DA DISCIPLINA MENOR QUE 5 CARACTERES',
                     "action" => 'ADICIONE UM NOME PARA A DISCIPLINA COM PELO MENOS 5 CARACTERES'
                 ];
             }
@@ -329,8 +341,7 @@ class SagresValidations
     }
 
     function validaCPF($cpf)
-    {
-
+    {    
         $cpf = preg_replace('/[^0-9]/is', '', $cpf);
 
         if (strlen($cpf) != 11) {
