@@ -546,7 +546,7 @@ class SagresConsultModel
                     si2.responsable_cpf AS cpfStudent,
                     si2.birthday AS birthdate,
                     si2.name AS name,
-                    si2.deficiency AS deficiency,
+                    ifnull(si2.deficiency, 0) AS deficiency,
                     si2.sex AS gender
                 FROM 
                     student_identification si2
