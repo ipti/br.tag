@@ -292,14 +292,18 @@ preenchidos";
 
         $delete = TRUE;
 
-        if ($modelInstructorDocumentsAndAddress->delete() && $modelInstructorVariableData->delete()) {
+        if(isset($modelInstructorDocumentsAndAddress)) {
+            $modelInstructorDocumentsAndAddress->delete();
+        }
+        if(isset($modelInstructorVariableData)) {
+            $modelInstructorVariableData->delete();
             foreach ($modelInstructorTeachingData as $td) {
                 $delete = $delete && $td->delete();
             }
-            if ($delete && $modelInstructorIdentification->delete()) {
-                Yii::app()->user->setFlash('success', Yii::t('default', 'Professor excluído com sucesso!'));
-                $this->redirect(['index']);
-            }
+        }
+        if ($delete && $modelInstructorIdentification->delete()) {
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Professor excluído com sucesso!'));
+            $this->redirect(['index']);
         } else {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
