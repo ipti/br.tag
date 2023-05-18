@@ -886,14 +886,14 @@ $form = $this->beginWidget('CActiveForm', array(
                     <!-- Justificativa de falta de documentação -->
                     <div class="row">
                         <!-- Justificativa de falta de documentação -->
-                        <div class="column">
-                            <div class="t-field-select">
+                        <div class="column helper">
+                            <div class="t-field-select ">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'no_document_desc', array('class' => 't-field-select__label control-label')); ?>
                                 <?php echo $form->DropDownList($modelStudentIdentification, 'no_document_desc', array(null => "Selecione a justificativa", "1" => "o(a) aluno(a) não possui os documentos pessoais solicitados", "2" => "A escola não dispõe ou não recebeu os documentos pessoais do(a) aluno(a)"), array("class" => "select-search-off t-field-select__input nationality-sensitive br", "disabled" => "disabled", "style" => "width:100%")); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'no_document_desc'); ?>
                             </div>
                         </div>
-                        <div class="column">
+                        <div class="column helper">
                         </div>
                     </div>
 
