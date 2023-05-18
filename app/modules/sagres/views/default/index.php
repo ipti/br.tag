@@ -95,7 +95,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 			</button>
 		</a>
 
-		<a href="<?php echo Yii::app()->createUrl('inconsistency') ?>">
+		<a href="?r=sagres/default/inconsistencysagres">
 			<button type="button" class="report-box-container">
 				<div class="pull-left" style="margin-right: 20px;">
 					<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sagresIcon/inconsistency.svg" />
@@ -105,6 +105,11 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 					<span class="title">Inconsistências</span><br>
 					<span class="subtitle">Lista de inconsitências SAGRES</span>
 				</div>
+				<?php
+					if($numInconsistencys != 0){
+						echo '<span class="pull-right circle">' . $numInconsistencys . '</span>';
+					}
+				?>
 			</button>
 		</a>
 	</div>
@@ -195,7 +200,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				console.error(err);
 				$(".alert-error-export").append('Erro ao criar o arquivo zip');
 				$(".alert-error-export").show();
-			}).finally(function(){
+			}).finally(function () {
 				location.reload();
 			});
 		})
