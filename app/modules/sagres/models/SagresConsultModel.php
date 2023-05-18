@@ -335,16 +335,16 @@ class SagresConsultModel
 
             $duration = Yii::app()->db->createCommand($query1)->queryRow();
 
-
+            $cpf_instructor = isset($schedule['cpfInstructor']) ? $schedule['cpfInstructor'] : "";
 
             $scheduleType
                 ->setDiaSemana($schedule['weekDay'])
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
                 ->setDuracao(isset($duration['duration']) ? $duration['duration'] : 2)
                 ->setDisciplina($schedule['disciplineName'])
-                ->setCpfProfessor([str_replace([".", "-"], "", $schedule['cpfInstructor'])]);
+                ->setCpfProfessor([str_replace([".", "-"], "", $cpf_instructor)]);
 
-            if (isset($schedule['cpfInstructor'])) {
+            if (isset($cpf_instructor)) {
                 $scheduleList[] = $scheduleType;
             }
         }
