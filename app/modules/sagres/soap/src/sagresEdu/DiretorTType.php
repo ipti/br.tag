@@ -2,6 +2,11 @@
 
 namespace SagresEdu;
 use JMS\Serializer\Annotation\SerializedName;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Class representing DiretorTType
@@ -68,6 +73,15 @@ class DiretorTType
         return $this;
     }
 
+    public function validator($directorType){
+        $validator = Validation::createValidator();
+        $violations = $validator->validate($directorType, [
+            new Length(['min' => 11]),
+            new NotBlank(),
+        ]);
+    
+        return $violations;
+    }
 
 }
 
