@@ -451,9 +451,6 @@ class ClassroomController extends Controller
             $disciplines = json_decode($_POST['disciplines'], true);
             $this->setDisciplines($modelClassroom, $disciplines);
 
-            throw new Exception("Error Processing Request", 1);
-            
-
             // Em adição, inserir a condição dos campos 25-35 (AEE activities)
             // de nao deixar criar com todos os campos igual a 0
             if (isset($_POST['Classroom']["complementary_activity_type_1"])) {
