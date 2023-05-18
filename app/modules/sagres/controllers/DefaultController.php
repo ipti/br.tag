@@ -5,7 +5,10 @@ class DefaultController extends Controller
 {
 	public function actionIndex()
 	{
-   		$this->render('index');
+		$sagresConsultModel = new SagresConsultModel;
+
+		$numInconsistencys = $sagresConsultModel->getInconsistenciesCount();
+   		$this->render('index', ['numInconsistencys' => $numInconsistencys]);
 	}
 
 	public function actionCreateOrUpdate()
@@ -44,6 +47,10 @@ class DefaultController extends Controller
 		);
 	}
 
+	public function actionInconsistencySagres()
+	{
+		$this->render('inconsistencys');
+	}
 
 	public function actionExport($year, $startDate, $endDate, $finalClass)
 	{
