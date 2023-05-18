@@ -76,8 +76,8 @@ class SagresConsultModel
             $headerType
                 ->setCodigoUnidGestora($managementUnit['managementUnitCode'])
                 ->setNomeUnidGestora($managementUnit['managementUnitName'])
-                ->setCpfResponsavel($managementUnit['responsibleCpf'])
-                ->setCpfGestor($managementUnit['managerCpf'])
+                ->setCpfResponsavel(str_replace([".", "-"], "", $managementUnit['responsibleCpf']))
+                ->setCpfGestor(str_replace([".", "-"], "", $managementUnit['managerCpf']))
                 ->setAnoReferencia((int) $referenceYear)
                 ->setMesReferencia((int) date("m", strtotime($dateEnd)))
                 ->setVersaoXml(1)
@@ -342,7 +342,7 @@ class SagresConsultModel
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
                 ->setDuracao(isset($duration['duration']) ? $duration['duration'] : 2)
                 ->setDisciplina($schedule['disciplineName'])
-                ->setCpfProfessor([$schedule['cpfInstructor']]);
+                ->setCpfProfessor([str_replace([".", "-"], "", $schedule['cpfInstructor'])]);
 
             if (isset($schedule['cpfInstructor'])) {
                 $scheduleList[] = $scheduleType;
