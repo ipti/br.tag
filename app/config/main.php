@@ -45,6 +45,7 @@ return array(
         'sagres',
         'professional',
         'sedsp',
+        'food',
     ),
     // application components
     'components' => array(
