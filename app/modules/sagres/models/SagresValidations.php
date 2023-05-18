@@ -224,18 +224,18 @@ class SagresValidations
 
        return $inconsistencies;
     }
-
+    
     public function validationStudent($student, $schoolId)
     {
         $strlen = 5;
         $inconsistencies = [];
 
-        if(!$this->validaCPF($student->getCpfAluno()) || is_null($student->getCpfAluno())){
+        if(!is_null($student->getCpfAluno()) && !$this->validaCPF($student->getCpfAluno())){
             $inconsistencies[] = [
                 "enrollment" => 'ESTUDANTE',
                 "school" => $schoolId,
-                "description" => 'CPF DO ESTUDANTE É INVÁLIDO',
-                "action" => 'INFORME UM CPF VÁLIDO PARA O ESTUDANTE'
+                "description" => 'CPF DO ESTUDANTE É INVÁLIDO' ,
+                "action" => 'INFORME UM CPF VÁLIDO PARA O ESTUDANTE: '.$student->getCpfAluno()
             ];
         }
 
@@ -256,8 +256,10 @@ class SagresValidations
                 "action" => 'ADICIONE UM NOME PARA O ESTUDANTE COM PELO MENOS 5 CARACTERES'
             ];
         }
-
-        if(!is_bool($student->getPcd())){
+        
+        $pcd =  $student->getPcd();
+        
+        if(!is_bool(boolval($student->getPcd()))){
             $inconsistencies[] = [
                 "enrollment" => 'ESTUDANTE',
                 "school" => $schoolId,

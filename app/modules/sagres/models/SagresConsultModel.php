@@ -546,7 +546,7 @@ class SagresConsultModel
                     si2.responsable_cpf AS cpfStudent,
                     si2.birthday AS birthdate,
                     si2.name AS name,
-                    si2.deficiency AS deficiency,
+                    ifnull(si2.deficiency, 0) AS deficiency,
                     si2.sex AS gender
                 FROM 
                     student_identification si2
@@ -683,10 +683,9 @@ class SagresConsultModel
                     p.inep_id_fk AS idEscola, 
                     fundeb 
                 FROM professional p
-                    JOIN attendance a ON p.id_professional  = a.professional_fk  
+                    JOIN attendance a ON p.id_professional  = a.professional_fk  and a.date BETWEEN :dateStart AND :dateEnd
                 WHERE 
-                    YEAR(a.date) = :reference_year AND 
-                    a.date BETWEEN :dateStart AND :dateEnd;";
+                    YEAR(a.date) = :reference_year";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
@@ -728,18 +727,16 @@ class SagresConsultModel
                         se.date_cancellation_enrollment AS data_cancelamento,
                         se.status AS situation
                   FROM 
-                        student_enrollment se 
+                        student_enrollment se
+                        join classroom c on se.classroom_fk = c.id 
                   WHERE 
                         se.classroom_fk  =  :classId AND 
-                        YEAR(se.create_date) = :referenceYear AND 
-                        create_date BETWEEN :dateStart AND :dateEnd";
+                        c.school_year = :referenceYear";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
             ':classId' => $classId,
-            ':referenceYear' => $referenceYear,
-            ':dateStart' => $dateStart,
-            ':dateEnd' => $dateEnd
+            ':referenceYear' => $referenceYear
         ]);
 
         $enrollments = $command->queryAll();

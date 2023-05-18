@@ -132,3 +132,17 @@
         color: $colorsBaseInkLighterActive;
     }
 }
+.t-button-icon{
+    @extend .t-button;
+    padding: $spaceXXSmall $spaceXXSmall $spaceXXSmall $spaceXXSmall;
+    display: contents;
+    background: none;
+    border: none;
+    span{
+        margin: $spaceEmpty $spaceXXXSmall $spaceEmpty $spaceEmpty;
+        font-size: $FontSizeIcons;
+        color: $colorsBaseInkLight;
+        // background: none; 
+        // border:none;
+    } 
+}
