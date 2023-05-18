@@ -76,8 +76,8 @@ class SagresConsultModel
             $headerType
                 ->setCodigoUnidGestora($managementUnit['managementUnitCode'])
                 ->setNomeUnidGestora($managementUnit['managementUnitName'])
-                ->setCpfResponsavel($managementUnit['responsibleCpf'])
-                ->setCpfGestor($managementUnit['managerCpf'])
+                ->setCpfResponsavel(str_replace([".", "-"], "", $managementUnit['responsibleCpf']))
+                ->setCpfGestor(str_replace([".", "-"], "", $managementUnit['managerCpf']))
                 ->setAnoReferencia((int) $referenceYear)
                 ->setMesReferencia((int) date("m", strtotime($dateEnd)))
                 ->setVersaoXml(1)
@@ -335,16 +335,16 @@ class SagresConsultModel
 
             $duration = Yii::app()->db->createCommand($query1)->queryRow();
 
-
+            $cpf_instructor = isset($schedule['cpfInstructor']) ? $schedule['cpfInstructor'] : "";
 
             $scheduleType
                 ->setDiaSemana($schedule['weekDay'])
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
                 ->setDuracao((int) isset($duration['duration']) ? $duration['duration'] : 2)
                 ->setDisciplina($schedule['disciplineName'])
-                ->setCpfProfessor([$schedule['cpfInstructor']]);
+                ->setCpfProfessor([str_replace([".", "-"], "", $cpf_instructor)]);
 
-            if (isset($schedule['cpfInstructor'])) {
+            if (isset($cpf_instructor)) {
                 $scheduleList[] = $scheduleType;
             }
         }
