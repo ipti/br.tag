@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.21.48]
+- O seletor de turma final agora é exibido corretamente
+
 ## [Versão 3.20.45]
 - Corrigido o erro na exclusão de professor quando não há dados nas tabelas
 
