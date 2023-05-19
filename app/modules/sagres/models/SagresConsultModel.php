@@ -234,7 +234,7 @@ class SagresConsultModel
                     ? $this->getRecentSchedules($classId)
                     : $this->getSchedules($classId, $referenceMonth)
                 )
-                ->setFinalTurma($finalClass);
+                ->setFinalTurma((bool)$finalClass);
 
             if (!empty($classType->getHorario()) && !empty($classType->getMatricula())) {
                 $classList[] = $classType;
@@ -340,7 +340,7 @@ class SagresConsultModel
             $scheduleType
                 ->setDiaSemana($schedule['weekDay'])
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
-                ->setDuracao(isset($duration['duration']) ? $duration['duration'] : 2)
+                ->setDuracao((int) isset($duration['duration']) ? $duration['duration'] : 2)
                 ->setDisciplina($schedule['disciplineName'])
                 ->setCpfProfessor([str_replace([".", "-"], "", $cpf_instructor)]);
 
@@ -437,7 +437,7 @@ class SagresConsultModel
 
             $scheduleType
                 ->setDiaSemana($schedule['weekDay'])
-                ->setDuracao($duration['duration'])
+                ->setDuracao((int)$duration['duration'])
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
                 ->setDisciplina($schedule['disciplineName'])
                 ->setCpfProfessor([$schedule['cpfInstructor']]);
