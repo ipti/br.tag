@@ -96,7 +96,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				</div>
 				<div class="pull-left">
 					<span class="title">Inconsistências</span><br>
-					<span class="subtitle">Lista de inconsitências SAGRES</span>
+					<span class="subtitle">Lista de inconsistências SAGRES</span>
 				</div>
 				<?php
 				if ($numInconsistencys != 0) {
