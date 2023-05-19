@@ -1,6 +1,6 @@
 # Atualizações
 
-## [Versão 3.20.46]
+## [Versão 3.21.49]
 - Corrigido a pré seleção no select de cargo no formulário de usuário
 
 ## [Versão 3.20.45]
