@@ -5,7 +5,7 @@ use Yii;
 class SagresValidations
 {
 
-    public function validator($schools)
+    public function validator($schools, $professionals)
     {
         $query = "delete from inconsistency_sagres";
         Yii::app()->db->createCommand($query)->execute();
@@ -16,9 +16,40 @@ class SagresValidations
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorSchoolDirector($school));
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorMenu($school));
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorClass($school));
+            $inconsistencyList = array_merge($inconsistencyList, $this->validatorProfessionals($professionals, $school));
         }
 
         return $inconsistencyList;
+    }
+
+    public function validatorProfessionals($professionals, $school)
+    {
+        $inconsistencyList = [];
+
+        foreach ($professionals as $professional) {
+            $inconsistencyList = array_merge($inconsistencyList,$this->validatorAttendance($professional, $school));
+        }
+
+        return $inconsistencyList;
+    }
+
+    public function validatorAttendance($professional, $school)
+    {
+        $inconsistencies = [];
+        $professionals = $professional->getAtendimento();
+
+        foreach ($professionals as $professional) {
+            if($professional->getData()->format("Y") < 2022){
+                $inconsistencies[] = [
+                    "enrollment" => 'ATENDIMENTO',
+                    "school" => $school->getIdEscola(),
+                    "description" => 'ANO DO ATENDIMENTO MENOR QUE 2022',
+                    "action" => 'INFORMAR UM ANO PARA O ATENDIMENTO MAIOR QUE 2022'
+                ];
+            }
+        }
+
+        return $inconsistencies;
     }
 
     function validatorSchoolDirector($school)
@@ -52,7 +83,7 @@ class SagresValidations
             ];
         }
 
-        if(empty($inconsistencies)){
+        if(is_null($inconsistencies)){
             $inconsistencies[] = [
                 "enrollment" => 'DIRETOR',
                 "school" => $school->getIdEscola(),
@@ -70,7 +101,7 @@ class SagresValidations
         $inconsistencies = [];
         $menus = $school->getCardapio();
 
-        if(empty($menus)){
+        if(is_null($menus)){
             $inconsistencies[] = [
                 "enrollment" => 'CARDÁPIO',
                 "school" => $school->getIdEscola(),
@@ -130,7 +161,6 @@ class SagresValidations
         $schoolId = $school->getIdEscola();
 
         foreach ($classes as $class) {
-
             /* 
              *  [0 : Anual], [1 : 1°], [2 : 2º] Semestre
              */
@@ -185,7 +215,7 @@ class SagresValidations
         $inconsistencies = [];
         $series = $class->getSerie();
 
-        if(empty($series)){
+        if(is_null($series)){
             $inconsistencies[] = [
                 "enrollment" => 'SÉRIE',
                 "school" => $schoolId,
@@ -228,7 +258,7 @@ class SagresValidations
         $inconsistencies = [];
         $enrollments = $class->getMatricula();
 
-        if(empty($enrollments)){
+        if(is_null($enrollments)){
             $inconsistencies[] = [
                 "enrollment" => 'MATRÍCULA',
                 "school" => $schoolId,
@@ -323,7 +353,7 @@ class SagresValidations
             ];
         }
 
-        if(empty($inconsistencies)){
+        if(is_null($inconsistencies)){
             $inconsistencies[] = [
                 "enrollment" => 'ESTUDANTE',
                 "school" => $schoolId,
@@ -344,7 +374,7 @@ class SagresValidations
         $inconsistencies = [];
         $schedules = $class->getHorario();
 
-        if(empty($schedules)){
+        if(is_null($schedules)){
             $inconsistencies[] = [
                 "enrollment" => 'HORÁRIO',
                 "school" => $schoolId,
@@ -388,15 +418,6 @@ class SagresValidations
                         "school" => $schoolId,
                         "description" => 'NOME DA DISCIPLINA MENOR QUE 5 CARACTERES',
                         "action" => 'ADICIONE UM NOME PARA A DISCIPLINA COM PELO MENOS 5 CARACTERES'
-                    ];
-                }
-    
-                if (strlen($schedule->getDisciplina()) > $maxLength) {
-                    $inconsistencies[] = [
-                        "enrollment" => 'HORÁRIO',
-                        "school" => $schoolId,
-                        "description" => 'NOME DA DISCIPLINA MAIOR QUE 50 CARACTERES',
-                        "action" => 'ADICIONE UM NOME PARA A DISCIPLINA COM ATÉ 50 CARACTERES'
                     ];
                 }
             }
