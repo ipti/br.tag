@@ -686,6 +686,7 @@ return array(
     'Classroom Id Fk' => 'Turma',
     'Role' => 'Função que exerce na escola / Turma',
     'Contract Type' => 'Tipo de Contrato',
+    'Regent Teacher' => 'Professor Regente',
     'Add Teacher' => 'Vincular professor',
     'Discipline 1 Fk' => '',
     'Discipline 2 Fk' => '',

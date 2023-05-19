@@ -1,0 +1,1 @@
+ALTER TABLE instructor_teaching_data ADD regent TINYINT NOT NULL;

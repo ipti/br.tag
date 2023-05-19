@@ -1,5 +1,6 @@
 # Atualizações
 
+
 ## [Versão 3.21.49]
 - Corrigido a pré seleção no select de cargo no formulário de usuário
 
@@ -12,9 +13,12 @@
 ## [Versão 3.21.46]
 - adicionada a opção outros no select de instituição de ensino superior
 
+## [Versão 3.21.45]
+- Agora é possível adicionar até 2 professores regentes por turma
 
 ## [Versão 3.20.45]
-- Corrigido o erro na exclusão de professor quando não há dados nas tabelas
+- O erro ao deletar professores sem documentos e endereços cadastrados foi corrigido
+
 
 ## [Versão 3.20.44]
 - Novo relatório de acompanhamento avaliativo dos alunos
