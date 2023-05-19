@@ -30,18 +30,18 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
         <form onsubmit="return false">
             <div class="row align-items--end justify-content--space-between">
             <div class="column clear-margin--left">
-                <div class="t-field-select">
+                <div class="t-multiselect">
                     <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Stage'), 'stages', ['class' => "control-label"]) ?>
                     <?= CHtml::dropDownList("stages", [], CHtml::listData(EdcensoStageVsModality::model()->findAll(), "id", "name"), [
-                        "multiple" => "multiple", "class" => "t-field-select__input select-search-on control-input"
+                        "multiple" => "multiple", "class" => "t-field-select__input select-search-on control-input multiselect"
                     ]) ?>
                 </div>
             </div>
             <div class="column">
-                <div class="t-field-select">
+                <div class="t-multiselect">
                     <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Disciplines'), 'disciplines', ['class' => "control-label"]) ?>
                     <?= CHtml::dropDownList("disciplines", [], CHtml::listData(EdcensoDiscipline::model()->findAll(), "id", "name"), [
-                        "multiple" => "multiple", "class" => "t-field-select__input select-search-on control-input"
+                        "multiple" => "multiple", "class" => "t-field-select__input select-search-on control-input multiselect"
                     ]) ?>
                 </div>
             </div>
