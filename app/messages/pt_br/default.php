@@ -803,6 +803,7 @@ return array(
     'Reports' => 'Relatórios',
     'Out Of Town Students' => 'Alunos fora da cidade',
     'Professional Identifications' => 'Profissionais',
+    'Inconsistency Sagres' => 'Inconsistências Sagres',
     'Configurarion' => 'Configurações',
     'Quarterly Class Council Report' => 'ATA DE CONSELHO DE CLASSE',
     'Quarterly Report' => 'RELATÓRIO TRIMESTRAL INDIVIDUAL DO ALUNO',
