@@ -45,7 +45,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 			</select>
 		</div>
 		<input type="checkbox" name="finalTurma" value="1" id="finalTurma" style="margin: 30px 0 0 20px;">
-		<label for="finalTurma" style="margin: 30px 0 0 10px;">Final turma</label>
+		<label for="finalTurma" style="margin: 30px 0 0 10px;">Encerramento de Período</label>
 	</div>
 
 	<div class="container-box" style="display: grid;">
