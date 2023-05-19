@@ -6,6 +6,7 @@
 ## [Versão 3.20.45]
 - O erro ao deletar professores sem documentos e endereços cadastrados foi corrigido
 
+
 ## [Versão 3.20.44]
 - Novo relatório de acompanhamento avaliativo dos alunos
 
