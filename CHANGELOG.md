@@ -1,5 +1,11 @@
 # Atualizações
 
+## [Versão 3.21.35]
+- Agora é possível adicionar até 2 professores regentes por turma
+
+## [Versão 3.20.45]
+- O erro ao deletar professores sem documentos e endereços cadastrados foi corrigido
+
 ## [Versão 3.20.44]
 - Novo relatório de acompanhamento avaliativo dos alunos
 
