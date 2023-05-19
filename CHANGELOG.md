@@ -1,5 +1,9 @@
 # Atualizações
 
+
+## [Versão 3.21.48]
+- O seletor de turma final agora é exibido corretamente
+- 
 ## [Versão 3.21.47]
 - Espaçamento dos botões na tela de relatórios foi corrigido
 
