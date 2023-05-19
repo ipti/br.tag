@@ -1,6 +1,6 @@
 # Atualizações
 
-## [Versão 3.21.46]
+## [Versão 3.21.47]
 - Espaçamento dos botões na tela de relatórios foi corrigido
 
 ## [Versão 3.20.45]
