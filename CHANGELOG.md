@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.20.46]
+- Corrigido a pré seleção no select de cargo no formulário de usuário
+
 ## [Versão 3.20.45]
 - Corrigido o erro na exclusão de professor quando não há dados nas tabelas
 
