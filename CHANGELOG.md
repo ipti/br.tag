@@ -1,6 +1,6 @@
 # Atualizações
 
-## [Versão 3.21.35]
+## [Versão 3.21.45]
 - Agora é possível adicionar até 2 professores regentes por turma
 
 ## [Versão 3.20.45]
