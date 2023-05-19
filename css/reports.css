@@ -24,7 +24,7 @@
     display: inline-flex;
     align-items: center;
     width: 35%;
-    height: auto;
+    height: 150px;
     padding: 20px 30px;
     background: #FAFAFE;
     border-radius: 5px;
@@ -36,6 +36,7 @@
 @media (max-width: 1440px) {
     .report-box-container {
         width: 50%;
+        margin-left: 10px !important;
     }
 }
 

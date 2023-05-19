@@ -177,7 +177,7 @@ $this->breadcrumbs = array(
                 
                 <a href="<?php echo Yii::app()->createUrl('reports/electronicdiary') ?>"  target="_blank"  rel="noopener">
 
-                    <button type="button" class="report-box-container">
+                    <button type="button" class="report-box-container" style="padding-left: 25px;">
                         <div class="pull-left" style="margin-right: 20px;">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/electronicdiary.svg" />
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
@@ -200,7 +200,7 @@ $this->breadcrumbs = array(
                             <span class="subtitle">Avaliação do aluno no trimestre</span>
                         </div>
                     </button>
-                    <button type="button" class="report-box-container quarterly-follow-up" data-toggle="modal" data-target="#quarterly-follow-up" target="_blank">
+                    <button type="button" class="report-box-container quarterly-follow-up" data-toggle="modal" data-target="#quarterly-follow-up" target="_blank" style="margin-left:15px;padding-left: 35px;">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/student_monitoring.svg" alt="student_monitoring" />
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
@@ -211,7 +211,7 @@ $this->breadcrumbs = array(
                         </div>
                     </button>
                     
-                    <button type="button" class="report-box-container evaluation-follow-up" data-toggle="modal" data-target="#evaluation-follow-up-students" target="_blank">
+                    <button type="button" class="report-box-container evaluation-follow-up" data-toggle="modal" data-target="#evaluation-follow-up-students" target="_blank" style="padding-left: 35px;">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/monitoring_report.svg" alt="student_monitoring" />
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
@@ -705,8 +705,10 @@ $this->breadcrumbs = array(
 <script>
     var containerFollowUp = $('.quarterly-follow-up');
     var containerEvaluation = $('.evaluation-follow-up');
+    var containerBoxOut = $('.container-box');
     containerFollowUp.appendTo('.student-report-container');
     containerEvaluation.appendTo('.student-report-container');
+    containerBoxOut.appendTo('.main');
 </script>
 <?php
 
