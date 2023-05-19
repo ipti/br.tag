@@ -39,6 +39,7 @@ class SagresConsultModel
     {
         $education = new EducacaoTType;
         $managementUnitId = $this->getManagementId();
+        $validationSagres = new \SagresValidations;
 
         try {
             $education
@@ -47,6 +48,19 @@ class SagresConsultModel
                 ->setProfissional($this->getProfessionals($referenceYear, $dateStart, $dateEnd));
         } catch (Exception $e) {
             throw new ErrorException($e->getMessage());
+        }
+
+        $inconsistencyList = $validationSagres->validator($education->getEscola(), $education->getProfissional());
+        $inconsistencyModel = new ValidationSagresModel;
+
+        foreach ($inconsistencyList as $value) {
+            $inconsistencyModel = new ValidationSagresModel;
+
+            $inconsistencyModel->enrollment = $value["enrollment"];
+            $inconsistencyModel->school =  $value["school"] ." - ".$this->getNameSchool($value["school"]);
+            $inconsistencyModel->description = $value["description"];
+            $inconsistencyModel->action = $value["action"];
+            $inconsistencyModel->save();
         }
 
         return $education;
@@ -152,20 +166,7 @@ class SagresConsultModel
             }
 
         }
-
-        $inconsistencyList = $validationSagres->validator($schoolList);
-        $inconsistencyModel = new ValidationSagresModel;
-
-        foreach ($inconsistencyList as $value) {
-            $inconsistencyModel = new ValidationSagresModel;
-
-            $inconsistencyModel->enrollment = $value["enrollment"];
-            $inconsistencyModel->school =  $value["school"] ." - ".$this->getNameSchool($value["school"]);
-            $inconsistencyModel->description = $value["description"];
-            $inconsistencyModel->action = $value["action"];
-            $inconsistencyModel->save();
-        }
-        
+       
         return $schoolList;
     }
 
@@ -235,8 +236,8 @@ class SagresConsultModel
                     : $this->getSchedules($classId, $referenceMonth)
                 )
                 ->setFinalTurma((bool)$finalClass);
-
-            if (!empty($classType->getHorario()) && !empty($classType->getMatricula())) {
+           
+            if (!is_null($classType->getHorario()) && !is_null($classType->getMatricula())) {
                 $classList[] = $classType;
             }
         }
@@ -437,7 +438,7 @@ class SagresConsultModel
 
             $scheduleType
                 ->setDiaSemana($schedule['weekDay'])
-                ->setDuracao((int)$duration['duration'])
+                ->setDuracao(2)
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
                 ->setDisciplina($schedule['disciplineName'])
                 ->setCpfProfessor([$schedule['cpfInstructor']]);
