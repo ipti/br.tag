@@ -81,11 +81,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="controls">
                                     <?php
-                                    $roles = CHtml::listData(AuthItem::model()->findAll('type=2 and name <> "instructor" order by name'), 'name', 'name');
+                                    $roles = CHtml::listData(AuthItem::model()->findAll('type=2 order by name'), 'name', 'name');
                                     foreach ($roles as $key => $value) {
                                         $roles[$key] = Yii::t('default', $value);
                                     }
-                                    echo CHtml::dropDownList('Role', '', $roles, array('class' => 'select-search-off control-input')); ?>
+                                    echo CHtml::dropDownList('Role', $actual_role, $roles, array('class' => 'select-search-off control-input')); ?>
                                 </div>
                             </div>
                         </div>
