@@ -3,6 +3,16 @@
 ## [Versão 3.21.49]
 - Corrigido a pré seleção no select de cargo no formulário de usuário
 
+## [Versão 3.21.48]
+- O seletor de turma final agora é exibido corretamente
+- 
+## [Versão 3.21.47]
+- Espaçamento dos botões na tela de relatórios foi corrigido
+
+## [Versão 3.21.46]
+- adicionada a opção outros no select de instituição de ensino superior
+
+
 ## [Versão 3.20.45]
 - Corrigido o erro na exclusão de professor quando não há dados nas tabelas
 
