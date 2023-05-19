@@ -3,6 +3,9 @@
 ## [Versão 3.21.47]
 - Espaçamento dos botões na tela de relatórios foi corrigido
 
+## [Versão 3.21.46]
+- adicionada a opção outros no select de instituição de ensino superior
+
 ## [Versão 3.20.45]
 - Corrigido o erro na exclusão de professor quando não há dados nas tabelas
 
