@@ -224,7 +224,7 @@ class SagresValidations
 
        return $inconsistencies;
     }
-
+    
     public function validationStudent($student, $schoolId)
     {
         $strlen = 5;

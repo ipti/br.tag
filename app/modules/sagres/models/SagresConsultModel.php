@@ -76,8 +76,8 @@ class SagresConsultModel
             $headerType
                 ->setCodigoUnidGestora($managementUnit['managementUnitCode'])
                 ->setNomeUnidGestora($managementUnit['managementUnitName'])
-                ->setCpfResponsavel($managementUnit['responsibleCpf'])
-                ->setCpfGestor($managementUnit['managerCpf'])
+                ->setCpfResponsavel(str_replace([".", "-"], "", $managementUnit['responsibleCpf']))
+                ->setCpfGestor(str_replace([".", "-"], "", $managementUnit['managerCpf']))
                 ->setAnoReferencia((int) $referenceYear)
                 ->setMesReferencia((int) date("m", strtotime($dateEnd)))
                 ->setVersaoXml(1)
@@ -335,16 +335,16 @@ class SagresConsultModel
 
             $duration = Yii::app()->db->createCommand($query1)->queryRow();
 
-
+            $cpf_instructor = isset($schedule['cpfInstructor']) ? $schedule['cpfInstructor'] : "";
 
             $scheduleType
                 ->setDiaSemana($schedule['weekDay'])
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
                 ->setDuracao(isset($duration['duration']) ? $duration['duration'] : 2)
                 ->setDisciplina($schedule['disciplineName'])
-                ->setCpfProfessor([$schedule['cpfInstructor']]);
+                ->setCpfProfessor([str_replace([".", "-"], "", $cpf_instructor)]);
 
-            if (isset($schedule['cpfInstructor'])) {
+            if (isset($cpf_instructor)) {
                 $scheduleList[] = $scheduleType;
             }
         }
@@ -546,7 +546,7 @@ class SagresConsultModel
                     si2.responsable_cpf AS cpfStudent,
                     si2.birthday AS birthdate,
                     si2.name AS name,
-                    si2.deficiency AS deficiency,
+                    ifnull(si2.deficiency, 0) AS deficiency,
                     si2.sex AS gender
                 FROM 
                     student_identification si2
@@ -683,10 +683,9 @@ class SagresConsultModel
                     p.inep_id_fk AS idEscola, 
                     fundeb 
                 FROM professional p
-                    JOIN attendance a ON p.id_professional  = a.professional_fk  
+                    JOIN attendance a ON p.id_professional  = a.professional_fk  and a.date BETWEEN :dateStart AND :dateEnd
                 WHERE 
-                    YEAR(a.date) = :reference_year AND 
-                    a.date BETWEEN :dateStart AND :dateEnd;";
+                    YEAR(a.date) = :reference_year";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
@@ -728,18 +727,16 @@ class SagresConsultModel
                         se.date_cancellation_enrollment AS data_cancelamento,
                         se.status AS situation
                   FROM 
-                        student_enrollment se 
+                        student_enrollment se
+                        join classroom c on se.classroom_fk = c.id 
                   WHERE 
                         se.classroom_fk  =  :classId AND 
-                        YEAR(se.create_date) = :referenceYear AND 
-                        create_date BETWEEN :dateStart AND :dateEnd";
+                        c.school_year = :referenceYear";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
             ':classId' => $classId,
-            ':referenceYear' => $referenceYear,
-            ':dateStart' => $dateStart,
-            ':dateEnd' => $dateEnd
+            ':referenceYear' => $referenceYear
         ]);
 
         $enrollments = $command->queryAll();
