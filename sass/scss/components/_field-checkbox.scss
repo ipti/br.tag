@@ -2,18 +2,20 @@
 @import '../_functions.scss';
 
 .t-field-checkbox {
-    margin-bottom: $SizeLarge;
     display: flex;
-    // margin: 0;
-    white-space: nowrap;
+    white-space: normal;
+    line-height: 12px;
     width: 100%;
+    margin-top: $SizeXXXSmall;
+    margin-bottom: $SizeXSmall;
+
     &__label {
         padding-top: 0 !important;
+
         &--required {
             font-weight: bold;
         }
     }
-
     &__input,
     input[type="checkbox"] {
         background: $colorsBaseWhiteNormal;
@@ -21,12 +23,19 @@
         width: 20px;
         margin: 0 $SizeNormal 0 0 !important;
     }
-}
 
+    &.helper {
+        margin-top: 31px;
+        margin-bottom: 10px;
+        margin-left: -18px;
+    }
+}
 .t-field-checkbox-group {
-    margin-bottom: $SizeLarge;
+    margin-bottom: $SizeXXSmall;
+    margin-top: $SizeXXSmall;
 
     .t-field-checkbox {
-        margin-bottom: $SizeXXXSmall;
+        margin-top: $SizeXXXSmall;
+        margin-bottom: $SizeXSmall;
     }
 }

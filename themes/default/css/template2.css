@@ -730,3 +730,6 @@ li[instructor]:hover {
 #menu-integrations ul {
     width: 100%;
 }
+.widthfull {
+    width: 100% !important;
+}

@@ -22,7 +22,7 @@ class ReportsController extends Controller
                     'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
                     'StudentInstructorNumbersRelationReport', 'StudentPendingDocument',
                     'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood',
-                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms'),
+                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 'EvaluationFollowUpStudentsReport'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -66,6 +66,15 @@ class ReportsController extends Controller
                 $dateFormatCorrect = true;
             }
 
+            $sql = "SELECT ii.name as instructor_name FROM classroom c
+                    JOIN instructor_teaching_data itd on itd.classroom_id_fk = c.id 
+                    JOIN instructor_identification ii on itd.instructor_fk = ii.id
+                    WHERE c.id = :classroom_id AND itd.regent = 1;";
+
+            $regentTeachers = Yii::app()->db->createCommand($sql)
+            ->bindParam(":classroom_id", $classroom->id)
+            ->queryAll();
+
             // Modelos de Relatório Trimestral
             if ($model == 1) { // 1º ANO
                 $this->render('buzios/quarterly/QuarterlyReportFirstYear', array(
@@ -73,7 +82,8 @@ class ReportsController extends Controller
                     "student_enrollment" => $student_enrollment,
                     "classroom" => $classroom,
                     "school" => $school,
-                    "current_year" => $current_year
+                    "current_year" => $current_year,
+                    "regentTeachers" => $regentTeachers
                 ));
             } else if ($model == 2) { // 2º ANO
                 $this->render('buzios/quarterly/QuarterlyReportSecondYear', array(
@@ -81,7 +91,8 @@ class ReportsController extends Controller
                     "student_enrollment" => $student_enrollment,
                     "classroom" => $classroom,
                     "school" => $school,
-                    "current_year" => $current_year
+                    "current_year" => $current_year,
+                    "regentTeachers" => $regentTeachers
                 ));
             } else if ($model == 3) { // 3º ANO
                 $this->render('buzios/quarterly/QuarterlyReportThreeYear', array(
@@ -89,7 +100,8 @@ class ReportsController extends Controller
                     "student_enrollment" => $student_enrollment,
                     "classroom" => $classroom,
                     "school" => $school,
-                    "current_year" => $current_year
+                    "current_year" => $current_year,
+                    "regentTeachers" => $regentTeachers
                 ));
             } else if ($model == 4) { // CRECHE II
                 $this->render('buzios/quarterly/QuarterlyReportNurseryrII', array(
@@ -99,7 +111,8 @@ class ReportsController extends Controller
                     "classroom_etapa" => $classroom_etapa,
                     "school" => $school,
                     "current_year" => $current_year,
-                    "dateFormatCorrect" => $dateFormatCorrect
+                    "dateFormatCorrect" => $dateFormatCorrect,
+                    "regentTeachers" => $regentTeachers
                 ));
             } else if ($model == 5) { // CRECHE III
                 $this->render('buzios/quarterly/QuarterlyReportNurseryrIII', array(
@@ -109,7 +122,8 @@ class ReportsController extends Controller
                     "classroom_etapa" => $classroom_etapa,
                     "school" => $school,
                     "current_year" => $current_year,
-                    "dateFormatCorrect" => $dateFormatCorrect
+                    "dateFormatCorrect" => $dateFormatCorrect,
+                    "regentTeachers" => $regentTeachers
                 ));
             } else if ($model == 6) { // CRECHE IV
                 $this->render('buzios/quarterly/QuarterlyReportNurseryrIV', array(
@@ -119,7 +133,8 @@ class ReportsController extends Controller
                     "classroom_etapa" => $classroom_etapa,
                     "school" => $school,
                     "current_year" => $current_year,
-                    "dateFormatCorrect" => $dateFormatCorrect
+                    "dateFormatCorrect" => $dateFormatCorrect,
+                    "regentTeachers" => $regentTeachers
                 ));
             } else if ($model == 7) { // PRÉ I
                 $this->render('buzios/quarterly/QuarterlyReportPreI', array(
@@ -129,7 +144,8 @@ class ReportsController extends Controller
                     "classroom_etapa" => $classroom_etapa,
                     "school" => $school,
                     "current_year" => $current_year,
-                    "dateFormatCorrect" => $dateFormatCorrect
+                    "dateFormatCorrect" => $dateFormatCorrect,
+                    "regentTeachers" => $regentTeachers
                 ));
             } else if ($model == 8) { // PRÉ II
                 $this->render('buzios/quarterly/QuarterlyReportPreII', array(
@@ -139,12 +155,200 @@ class ReportsController extends Controller
                     "classroom_etapa" => $classroom_etapa,
                     "school" => $school,
                     "current_year" => $current_year,
-                    "dateFormatCorrect" => $dateFormatCorrect
+                    "dateFormatCorrect" => $dateFormatCorrect,
+                    "regentTeachers" => $regentTeachers
                 ));
             }
         }
         Yii::app()->user->setFlash('error', Yii::t('default', 'Selecione ao menos uma opção'));
         return $this->redirect(array('index'));
+    }
+
+    public function actionQuarterlyFollowUpReport()
+    {
+        $classroom_id = $_POST['quarterly_follow_up_classroom'];
+        $discipline_id = $_POST['quarterly_follow_up_disciplines'];
+        $trimestre = $_POST['quarterly'];
+        
+        $classroom_model = Classroom::model()->findByPk($classroom_id);
+        $discipline_model = EdcensoDiscipline::model()->findByPk($discipline_id);
+        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+
+        $sql = "SELECT ii.name AS instructor_name, ed.name AS discipline_name, c.name AS classroom_name, c.turn as classroom_turn 
+                FROM edcenso_discipline ed
+                JOIN curricular_matrix cm ON cm.discipline_fk = ed.id
+                JOIN teaching_matrixes tm ON tm.curricular_matrix_fk = cm.id 
+                JOIN instructor_teaching_data itd ON itd.id = tm.teaching_data_fk 
+                JOIN classroom c ON c.id = itd.classroom_id_fk 
+                JOIN instructor_identification ii ON itd.instructor_fk = ii.id
+                WHERE ed.id = :discipline_id AND c.id = :classroom_id
+                GROUP BY ii.name;";
+
+        $result = Yii::app()->db->createCommand($sql)
+        ->bindParam(":discipline_id", $discipline_id)
+        ->bindParam(":classroom_id", $classroom_id)
+        ->queryAll();
+        $turno =  $result[0]['classroom_turn'];
+        if ($turno == 'M') {
+            $turno = "Matutino";
+        }else if ($turno == 'T') {
+            $turno = "Vesperitino";
+        }else if ($turno == 'N') {
+            $turno = "Noturno";
+        }else if ($turno == '' || $turno == null) {
+            $turno = "___________";
+        }
+
+        $sql = "SELECT si.name AS student_name, se.daily_order FROM classroom c 
+                JOIN student_enrollment se on c.id = se.classroom_fk 
+                JOIN student_identification si on se.student_fk = si.id 
+                WHERE c.id = :classroom_id
+                ORDER BY se.daily_order, si.name;";
+
+        $students = Yii::app()->db->createCommand($sql)->bindParam(":classroom_id", $classroom_id)->queryAll();
+
+        $classroom_stage_name = $classroom_model->edcensoStageVsModalityFk->name;
+        $parts = explode("-", $classroom_stage_name);
+        $stage_name = trim($parts[1]);
+
+        $anos1 = array("1º", "2º", "3º");
+        $anos2 = array("4º", "5º");
+
+        $anosTitulo = '';
+        $anosVerify = 0;
+        $anosPosition = 0;
+        $stageVerify = false;
+
+        for ($i=0; $i < count($anos1); $i++) { 
+            if (strpos($stage_name, $anos1[$i]) !== false) {
+                $anosTitulo = "1º, 2º e 3º ANOS";
+                $anosVerify = 1;
+                $anosPosition = $i + 1;
+                $stageVerify = true;
+                break;
+            }
+        }
+        for ($i=0; $i < count($anos2); $i++) { 
+            if (strpos($stage_name, $anos2[$i]) !== false) {
+                $anosTitulo = "4º E 5º ANOS";
+                $anosVerify = 2;
+                $anosPosition = $i + 4;
+                $stageVerify = true;
+                break;
+            }
+        }
+
+        if(!$stageVerify) {
+            Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom_model->name." não possui uma etapa correspondente ao relatório. Etapa da Turma: ".$classroom_stage_name));
+            return $this->redirect(array('index'));
+        }
+
+        if($result) {
+            $this->render('buzios/quarterly/QuarterlyFollowUpReport', array(
+                "report" => $result,
+                "school" => $school,
+                "turno" => $turno,
+                "trimestre" => $trimestre,
+                "students" => $students,
+                "classroom" => $classroom_model,
+                "anosTitulo" => $anosTitulo,
+                "anosVerify" => $anosVerify,
+                "anosPosition" => $anosPosition,
+                "stage_name" => $stage_name
+            ));
+        }else {
+            Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom_model->name." não possui professores para a disciplina de ".$discipline_model->name));
+            return $this->redirect(array('index'));
+        }
+    }
+
+    public function actionEvaluationFollowUpStudentsReport()
+    {
+        $discipline_id = $_POST['evaluation_follow_up_disciplines'];
+        $classroom_id = $_POST['evaluation_follow_up_classroom'];
+        $quarterly = $_POST['quarterly'];
+
+        $classroom = Classroom::model()->findByPk($classroom_id);
+        $discipline = EdcensoDiscipline::model()->findByPk($discipline_id);
+
+        $sql = "SELECT ii.name AS instructor_name, ed.name AS discipline_name
+                FROM edcenso_discipline ed
+                JOIN curricular_matrix cm ON cm.discipline_fk = ed.id
+                JOIN teaching_matrixes tm ON tm.curricular_matrix_fk = cm.id 
+                JOIN instructor_teaching_data itd ON itd.id = tm.teaching_data_fk 
+                JOIN classroom c ON c.id = itd.classroom_id_fk 
+                JOIN instructor_identification ii ON itd.instructor_fk = ii.id
+                WHERE ed.id = :discipline_id AND c.id = :classroom_id
+                GROUP BY ii.name;";
+
+        $instructor = Yii::app()->db->createCommand($sql)
+        ->bindParam(":discipline_id", $discipline_id)
+        ->bindParam(":classroom_id", $classroom_id)
+        ->queryAll();
+
+        $sql = "SELECT si.name AS student_name FROM student_enrollment se 
+                JOIN student_identification si on si.id = se.student_fk
+                WHERE se.classroom_fk = :classroom_id
+                ORDER BY se.daily_order, si.name;";
+
+        $students = Yii::app()->db->createCommand($sql)->bindParam(":classroom_id", $classroom_id)->queryAll();
+
+        $classroom_stage_name = $classroom->edcensoStageVsModalityFk->name;
+        $parts = explode("-", $classroom_stage_name);
+        $stage_name = trim($parts[1]);
+
+        $anos1 = array("1º", "2º", "3º");
+        $anos2 = array("4º", "5º");
+
+        $anosTitulo = '';
+        $anosVerify = 0;
+        $anosPosition = 0;
+        $stageVerify = false;
+
+        for ($i=0; $i < count($anos1); $i++) { 
+            if (strpos($stage_name, $anos1[$i]) !== false) {
+                $anosTitulo = "1º, 2º e 3º ANOS";
+                $anosVerify = 1;
+                $anosPosition = $i + 1;
+                $stageVerify = true;
+                break;
+            }
+        }
+        for ($i=0; $i < count($anos2); $i++) { 
+            if (strpos($stage_name, $anos2[$i]) !== false) {
+                $anosTitulo = "4º E 5º ANOS";
+                $anosVerify = 2;
+                $anosPosition = $i + 4;
+                $stageVerify = true;
+                break;
+            }
+        }
+
+        if(!$stageVerify) {
+            Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom->name." não possui uma etapa correspondente ao relatório. Etapa da Turma: ".$classroom_stage_name));
+            return $this->redirect(array('index'));
+        }
+
+        if($instructor) {
+            if($students) {
+                $this->render('buzios/quarterly/EvaluationFollowUpReport', array(
+                    "instructor" => $instructor,
+                    "students" => $students,
+                    "classroom" => $classroom,
+                    "discipline" => $discipline,
+                    "anosTitulo" => $anosTitulo,
+                    "anosVerify" => $anosVerify,
+                    "anosPosition" => $anosPosition,
+                    "quarterly" => $quarterly
+                ));
+            }else {
+                Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom->name." não possui alunos matriculados"));
+                return $this->redirect(array('index'));
+            }
+        }else {
+            Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom->name." não possui professores para a disciplina de ".$discipline->name));
+            return $this->redirect(array('index'));
+        }
     }
 
     public function actionGetStudentClassrooms($id)

@@ -17,9 +17,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         base64_encode($school->logo_file_content).'">';
     };
     ?>
-    <ul id="info" style="padding: 25px 0;">
+    <ul id="info" style="padding: 20px 0;">
         <h4 style="color:#628dc3 !important;font-weight: 500;">SECRETARIA MUNICIPAL DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA</h4>
-        <h4 style="color:#628dc3 !important;font-weight: 500;">COORDENAÇÃO DA UNIDADE EDUCACIONAL</h4>
+        <h4 style="color:#628dc3 !important;font-weight: 500;margin-top: 15px;">COORDENAÇÃO DA UNIDADE EDUCACIONAL</h4>
     </ul>
     <span class="clear"></span>
 </div>
