@@ -46,7 +46,7 @@ class SagresValidations
                 $inconsistencies[] = [
                     "enrollment" => 'ATENDIMENTO',
                     "school" => $school->getIdEscola(),
-                    "description" => 'ANO DO ATENDIMENTO: ' . $dateOfAttendance . ' MENOR QUE: ' . ($currentDate - 3),
+                    "description" => 'ANO DO ATENDIMENTO: ' . $professional->getData()->format("d/m/Y"). ' MENOR QUE: ' . ($currentDate - 3),
                     "action" => 'INFORMAR UM ANO PARA O ATENDIMENTO MAIOR QUE: ' . ($currentDate - 3)
                 ];
             }
