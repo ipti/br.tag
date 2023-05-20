@@ -234,9 +234,13 @@ class SagresConsultModel
                     empty($this->getSchedules($classId, $referenceMonth))
                     ? $this->getRecentSchedules($classId)
                     : $this->getSchedules($classId, $referenceMonth)
-                )
-                ->setFinalTurma((bool)$finalClass);
-           
+                );
+                
+                
+            if((bool)$finalClass){
+                $classType->setFinalTurma((bool)$finalClass);
+            }
+
             if (!is_null($classType->getHorario()) && !is_null($classType->getMatricula())) {
                 $classList[] = $classType;
             }
@@ -764,11 +768,11 @@ class SagresConsultModel
     public function getStudentSituation($situation)
     {
         $situations = [
-            0 => "Não frequentou",
+            0 => false,
             1 => false,
             2 => false,
-            3 => "Afastado por abandono",
-            4 => "Matrícula final em Educação Infantil",
+            3 => false,
+            4 => false,
             5 => true
         ];
 
