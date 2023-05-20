@@ -30,7 +30,7 @@ class SagresValidations
             $inconsistencyList = array_merge($inconsistencyList,$this->validatorAttendance($professional, $school));
         }
 
-        return $inconsistencyList;
+        return array_unique($inconsistencyList);
     }
 
     public function validatorAttendance($professional, $school)
@@ -38,13 +38,16 @@ class SagresValidations
         $inconsistencies = [];
         $professionals = $professional->getAtendimento();
 
-        foreach ($professionals as $professional) {
-            if($professional->getData()->format("Y") < 2022){
+        foreach ($professionals as $professional) {       
+            $dateOfAttendance = intval($professional->getData()->format("Y"));
+            $currentDate = date('Y');
+            
+            if($dateOfAttendance <= ($currentDate - 3)){
                 $inconsistencies[] = [
                     "enrollment" => 'ATENDIMENTO',
                     "school" => $school->getIdEscola(),
-                    "description" => 'ANO DO ATENDIMENTO MENOR QUE 2022',
-                    "action" => 'INFORMAR UM ANO PARA O ATENDIMENTO MAIOR QUE 2022'
+                    "description" => 'ANO DO ATENDIMENTO: ' . $dateOfAttendance . ' MENOR QUE: ' . ($currentDate - 3),
+                    "action" => 'INFORMAR UM ANO PARA O ATENDIMENTO MAIOR QUE: ' . ($currentDate - 3)
                 ];
             }
         }
@@ -60,8 +63,8 @@ class SagresValidations
             $inconsistencies[] = [
                 "enrollment" => 'DIRETOR',
                 "school" => $school->getIdEscola(),
-                "description" => 'NR-ATO NÃO PODE SER VAZIO',
-                "action" => 'INFORMAR UM NR-ATO PARA O DIRETOR'
+                "description" => 'NÚMERO DO ATO DE NOMEAÇÃO NÃO PODE SER VAZIO',
+                "action" => 'INFORMAR UM NÚMERO DO ATO DE NOMEAÇÃO PARA O DIRETOR'
             ];
         }
 
@@ -101,7 +104,7 @@ class SagresValidations
         $inconsistencies = [];
         $menus = $school->getCardapio();
 
-        if(is_null($menus)){
+        if(empty($menus)){
             $inconsistencies[] = [
                 "enrollment" => 'CARDÁPIO',
                 "school" => $school->getIdEscola(),
@@ -215,7 +218,7 @@ class SagresValidations
         $inconsistencies = [];
         $series = $class->getSerie();
 
-        if(is_null($series)){
+        if(empty($series)){
             $inconsistencies[] = [
                 "enrollment" => 'SÉRIE',
                 "school" => $schoolId,
@@ -258,7 +261,7 @@ class SagresValidations
         $inconsistencies = [];
         $enrollments = $class->getMatricula();
 
-        if(is_null($enrollments)){
+        if(empty($enrollments)){
             $inconsistencies[] = [
                 "enrollment" => 'MATRÍCULA',
                 "school" => $schoolId,
@@ -282,15 +285,6 @@ class SagresValidations
                         "school" => $schoolId,
                         "description" => 'O VALOR PARA O NÚMERO DE FALTAS É INVÁLIDO',
                         "action" => 'COLOQUE UM VALOR VÁLIDO PARA O NÚMERO DE FALTAS'
-                    ];
-                }
-    
-                if(!is_bool($enrollment->getAprovado())){
-                    $inconsistencies[] = [
-                        "enrollment" => 'MATRÍCULA',
-                        "school" => $schoolId,
-                        "description" => 'STATUS DO APROVADO DO ALUNO É INVÁLIDO',
-                        "action" => 'MARQUE COMO APROVADO OU REPROVADO NO STATUS'
                     ];
                 }
 
@@ -374,7 +368,7 @@ class SagresValidations
         $inconsistencies = [];
         $schedules = $class->getHorario();
 
-        if(is_null($schedules)){
+        if(empty($schedules)){
             $inconsistencies[] = [
                 "enrollment" => 'HORÁRIO',
                 "school" => $schoolId,
