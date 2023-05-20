@@ -199,7 +199,7 @@ class SagresValidations
                     "enrollment" => 'TURMA',
                     "school" => $school->getIdEscola(),
                     "description" => 'VALOR INVÁLIDO PARA O FINAL TURMA',
-                    "action" => 'SELECIONE UM VALOR VÁLIDO PARA O FINAL TURMA'
+                    "action" => 'SELECIONE UM VALOR VÁLIDO PARA O ENCERRAMENTO DO PERÍODO'
                 ];
             }
 
@@ -247,7 +247,7 @@ class SagresValidations
                         "enrollment" => 'SÉRIE',
                         "school" => $schoolId,
                         "description" => 'MODALIDADE INVÁLIDA',
-                        "action" => 'SELECIONE UMA MODALIDADE VÁLIDA'
+                        "action" => 'SELECIONE UMA MODALIDADE VÁLIDA PARA A SÉRIE'
                     ];
                 }
             };
@@ -275,7 +275,7 @@ class SagresValidations
                         "enrollment" => 'MATRÍCULA',
                         "school" => $schoolId,
                         "description" => 'DATA NO FORMATO INVÁLIDO',
-                        "action" => 'ADICIONE UMA DATA NO FORMATO VÁLIDA'
+                        "action" => 'ADICIONE UMA DATA NO FORMATO VÁLIDO'
                     ];
                 }
     
@@ -285,6 +285,15 @@ class SagresValidations
                         "school" => $schoolId,
                         "description" => 'O VALOR PARA O NÚMERO DE FALTAS É INVÁLIDO',
                         "action" => 'COLOQUE UM VALOR VÁLIDO PARA O NÚMERO DE FALTAS'
+                    ];
+                }
+
+                if(!is_bool($enrollment->getAprovado())){
+                    $inconsistencies[] = [
+                        "enrollment" => 'MATRÍCULA',
+                        "school" => $schoolId,
+                        "description" => 'VALOR INVÁLIDO PARA O STATUS APROVADO',
+                        "action" => 'ADICIONE UM VALOR VÁLIDO PARA O CAMPO APROVADO DO ALUNO NA TURMA: '. $class->getDescricao()
                     ];
                 }
 

@@ -766,7 +766,7 @@ class SagresConsultModel
         $situations = [
             0 => "Não frequentou",
             1 => false,
-            2 => "Afastado por transferência",
+            2 => false,
             3 => "Afastado por abandono",
             4 => "Matrícula final em Educação Infantil",
             5 => true
