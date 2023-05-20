@@ -314,7 +314,7 @@ class SagresConsultModel
                 WHERE 
                     c.id = :classId
                 ORDER BY 
-                    C.create_date DESC";
+                    c.create_date DESC";
 
         $params = [
             ':classId' => $classId
