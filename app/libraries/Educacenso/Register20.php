@@ -4,29 +4,24 @@ class Register20
 {
     private static function sanitizeString($string)
     {
-        $wh = ['ä', 'ã', 'à', 'á', 'â', 'ê', 'ë', 'è', 'é', 'ï', 'ì', 'í', 'ö', 'õ', 'ò', 'ó', 'ô', 'ü', 'ù', 'ú', 'û', 'À', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ', 'ç', 'Ç', ' ', '-', '(', ')', ',', ';', ':', '|', '!', '"', '#', '$', '%', '&', '/', '=', '?', '~', '^', '>', '<', 'ª', 'º', '°'];
-        $by = ['a', 'a', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'A', 'A', 'E', 'I', 'O', 'U', 'n', 'n', 'c', 'C', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '', '', ''];
+        $wh = ['ä', 'ã', 'à', 'á', 'â', 'ê', 'ë', 'è', 'é', 'ï', 'ì', 'í', 'ö', 'õ', 'ò', 'ó', 'ô', 'ü', 'ù', 'ú', 'û', 'À', 'Á', 'Ã', 'Â', 'É', 'Ê', 'Í', 'Ó', 'Õ', 'Ô', 'Ú', 'Û', 'ñ', 'Ñ', 'ç', 'Ç', ' ', '-', '(', ')', ',', ';', ':', '|', '!', '"', '#', '$', '%', '&', '/', '=', '?', '~', '^', '>', '<', 'ª', 'º', '°', '.'];
+        $by = ['a', 'a', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'A', 'A', 'A', 'A', 'E', 'E', 'I', 'O', 'O', 'O', 'U', 'U', 'n', 'n', 'c', 'C', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'];
 
         return str_replace($wh, $by, $string);
-    }
-
-    private static function fixName($name)
-    {
-        return preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($name));
     }
 
     private static function findDisc($id)
     {
         $teachingDataDisciplines = [];
 
-        $modelTeachingData = Classroom::model()->findByPk($id)->instructorTeachingDatas;
-        foreach ($modelTeachingData as $key => $model) {
-            $disciplines = ClassroomController::teachingDataDiscipline2array($model);
-            foreach ($disciplines as $discipline) {
-                if ($discipline->id > 99 || $discipline->id == 20 || $discipline->id == 21) {
+        $teachingDatasOfClassroom = Classroom::model()->findByPk($id)->instructorTeachingDatas;
+        foreach ($teachingDatasOfClassroom as $key => $teachingData) {
+            foreach($teachingData->teachingMatrixes as $teachingMatrix) {
+                if ($teachingMatrix->curricularMatrixFk->discipline_fk > 99 || $teachingMatrix->curricularMatrixFk->discipline_fk == 20 || $teachingMatrix->curricularMatrixFk->discipline_fk == 21) {
                     $teachingDataDisciplines[99] = 99;
+                } else {
+                    $teachingDataDisciplines[$teachingMatrix->curricularMatrixFk->discipline_fk] = $teachingMatrix->curricularMatrixFk->discipline_fk;
                 }
-                $teachingDataDisciplines[$discipline->id] = $discipline->id;
             }
         }
 
@@ -77,7 +72,7 @@ class Register20
 
                 $register = [];
 
-                $attributes['name'] = strtoupper(self::sanitizeString($attributes['name']));
+                $attributes['name'] = trim(strtoupper(self::sanitizeString($attributes['name'])));
 
                 if ($attributes["pedagogical_mediation_type"] == null) {
                     $attributes["pedagogical_mediation_type"] = 1;
@@ -110,7 +105,7 @@ class Register20
                     $attributes["complementary_activity"] = '0';
                 }
 
-                if ($attributes["pedagogical_mediation_type"] != '1' && $attributes["pedagogical_mediation_type"] != '2') {
+                if ($attributes["pedagogical_mediation_type"] != '1') {
                     $attributes["diff_location"] = '';
                 } else if ($attributes["diff_location"] == null) {
                     $attributes["diff_location"] = '0';
@@ -120,9 +115,6 @@ class Register20
                     $attributes["complementary_activity"] = '0';
                 }
 
-                if ($attributes["pedagogical_mediation_type"] == '2' && ($attributes["modality"] == null || $attributes["modality"] == "")) {
-                    $attributes["modality"] = '3';
-                }
                 if ($attributes["pedagogical_mediation_type"] == '3' && ($attributes["modality"] == null || $attributes["modality"] == "")) {
                     $attributes["modality"] = '1';
                 }
@@ -135,7 +127,7 @@ class Register20
                     $attributes['course'] = '';
                 }
 
-                if ($attributes["schooling"] == '0' || $attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3) {
+                if ($attributes['edcenso_stage_vs_modality_fk'] == '' || $attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3) {
                     foreach ($attributes as $i => $attr) {
                         $pos = strstr($i, 'discipline');
                         if ($pos) {
@@ -223,8 +215,8 @@ class Register20
                                 $register[34] = '1';
                             }
                         }
-                    } else if ($edcensoAlias->corder == 73) {
-                        if ($attributes["schooling"] == '0' || $attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3) {
+                    } else if ($edcensoAlias->corder == 74) {
+                        if ($attributes['edcenso_stage_vs_modality_fk'] == '' || $attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3) {
                             $register[$edcensoAlias->corder] = '';
                         } else {
                             $register[$edcensoAlias->corder] = '0';

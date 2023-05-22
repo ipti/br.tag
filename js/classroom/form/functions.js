@@ -1,15 +1,20 @@
 ////////////////////////////////////////////////
 // Functions                                  //
 ////////////////////////////////////////////////
+var RegentTeacherCount = 0
 var removeTeachingData = function () {
     var instructor = $(this).parent().parent().parent().attr("instructor");
     var discipline = ($(this).parent().attr("discipline"));
+    var isRegent = $(this).attr("regent");
     if (instructor == undefined) {
         instructor = $(this).parent().attr("instructor");
         if (instructor == undefined) {
             disciplines[discipline] = 0;
             $("#DisciplinesWithoutInstructors li[discipline = " + discipline + "]").remove();
         } else {
+            if(isRegent == 1) {
+                RegentTeacherCount--;
+            }
             removeInstructor(instructor);
         }
     } else {
@@ -56,6 +61,13 @@ var removeDiscipline = function (instructor, discipline) {
     $("li[instructor = " + instructor + "] li[discipline = " + discipline + "]").remove();
 }
 
+$(document).on("change", "#Role", function () {
+    $(".regent-teacher-container").hide()
+    if($(this).val() == 1 && RegentTeacherCount < 2) {
+        $(".regent-teacher-container").show()
+    }
+})
+
 var addTeachingData = function () {
     var instructorName = $('#s2id_Instructors span').text();
     var instructorId = $('#Instructors').val();
@@ -65,6 +77,7 @@ var addTeachingData = function () {
 
     var role = $("#Role").val();
     var contract = $("#ContractType").val();
+    var regent = $("#RegentTeacher").is(':checked') ? 1 : 0;
 
     $.each($("#s2id_Disciplines li.select2-search-choice"), function (i, v) {
         disciplineNameList[i] = $(v).text();
@@ -87,6 +100,7 @@ var addTeachingData = function () {
             Classroom: null,
             Role: role,
             ContractType: contract,
+            RegentTeacher: regent,
             Disciplines: []
         };
         var html = "";
@@ -96,9 +110,14 @@ var addTeachingData = function () {
         var instructorIndex = -1;
 
         if (!hasInstructor) {
+            regentLabel = ""
+            if(regent) {
+                regentLabel = " (Regente)"
+                RegentTeacherCount++
+            }
             tag = "#DisciplinesWithInstructors";
-            html = "<li class='li-instructor' instructor='" + instructorId + "'><span>" + instructorName + "</span>"
-                + "<a href='#' class='deleteTeachingData delete' title='Excluir'> </a>"
+            html = "<li class='li-instructor' instructor='" + instructorId + "'><span>" + instructorName + "</span>" + "<span>" + regentLabel + "</span>"
+                + "<a href='#' class='deleteTeachingData delete' title='Excluir' regent='" + regent + "'> </a>"
                 + "<ul>";
         } else {
             $.each(teachingData, function (i, data) {
@@ -129,6 +148,11 @@ var addTeachingData = function () {
         }
         $(tag).append(html);
     }
+    if(RegentTeacherCount == 2) {
+        $(".regent-teacher-container").hide();
+    }
+    $('#RegentTeacher').prop('checked', false);
+    console.log(RegentTeacherCount)
 }
 
 //Cria estrutura de uma aula
@@ -274,7 +298,7 @@ uInstructor.on('change', atualizarListadeDisciplinas);
 $(document).on('click', '.deleteTeachingData', removeTeachingData);
 $("#addTeachingData").on('click', addTeachingData);
 
-$(document).on("change", ".assistance-types-container input[type=checkbox]", function () {
+$(document).on("change", ".js-assistance-types-container input[type=checkbox]", function () {
     if ($(this).attr("id") !== "Classroom_aee") {
         $("#Classroom_aee").prop("checked", false);
         if ($(this).attr("id") === "Classroom_complementary_activity" && $(this).is(":checked")) {
@@ -284,7 +308,7 @@ $(document).on("change", ".assistance-types-container input[type=checkbox]", fun
             $("#complementary_activity").hide();
         }
     } else {
-        $(".assistance-types-container input[type=checkbox]").not("#Classroom_aee").prop("checked", false);
+        $(".js-assistance-types-container input[type=checkbox]").not("#Classroom_aee").prop("checked", false);
     }
 });
 
@@ -342,3 +366,20 @@ $(document).on("change", "#Classroom_edcenso_stage_vs_modality_fk", function () 
     });
 });
 $("#Classroom_edcenso_stage_vs_modality_fk").trigger("change");
+
+var newOrderArray = []
+$("#js-t-sortable").on("sortupdate", function(event, ui) {
+    newOrderArray = $(this).sortable("toArray");
+    console.log(newOrderArray);
+  }); 
+$(document).on("click", ".js-save-new-order", function () {
+    $.ajax({
+        url: `${window.location.host}?r=classroom/changeenrollments`,
+        type: "POST",
+        data:{
+            list: newOrderArray
+        }
+    }).success(function (response) {
+        location.reload()
+    })
+});

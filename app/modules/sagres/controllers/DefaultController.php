@@ -5,51 +5,36 @@ class DefaultController extends Controller
 {
 	public function actionIndex()
 	{
-		$this->render('index');
+		$sagresConsultModel = new SagresConsultModel;
+
+		$numInconsistencys = $sagresConsultModel->getInconsistenciesCount();
+   		$this->render('index', ['numInconsistencys' => $numInconsistencys]);
 	}
 
-	public function actionCreate()
-	{
+	public function actionCreateOrUpdate()
+	{		   		
+		$sagresConsultModel = new SagresConsultModel;
+		$managementUnitCode = $sagresConsultModel->getManagementId();
 
-		$model = ProvisionAccounts::model()->findByPk(1);
-
-		if ($model) {
-			Yii::app()->user->setFlash('error', Yii::t('default', 'Unidade gestora já está cadastrada!'));
-			$this->redirect(array('index', 'cod_unidade_gestora' => $model->cod_unidade_gestora));
-		}
-
-		$model = new ProvisionAccounts;
-
-		if (isset($_POST['ProvisionAccounts'])) {
-			$model->attributes = $_POST['ProvisionAccounts'];
-			if ($model->validate() && $model->save()) {
-				Yii::app()->user->setFlash('success', Yii::t('default', 'Unidade cadastrada com sucesso!'));
+		if (isset($managementUnitCode)) {
+			$model = ProvisionAccounts::model()->findByPk($managementUnitCode);
+			if (!$model) {
+				Yii::app()->user->setFlash('error', Yii::t('default', 'Unidade gestora solicitada não existe!'));
 				$this->redirect(array('index', 'cod_unidade_gestora' => $model->cod_unidade_gestora));
 			}
-		}
-
-		$this->render(
-			'create',
-			array(
-				'model' => $model,
-			)
-		);
-	}
-
-	public function actionUpdate($id)
-	{
-		$model = ProvisionAccounts::model()->findByPk($id);
-
-		if (!$model) {
-			Yii::app()->user->setFlash('error', Yii::t('default', 'Unidade gestora solicitada não existe!'));
-			$this->redirect(array('index'));
+		} else {
+			$model = new ProvisionAccounts;
 		}
 
 		if (isset($_POST['ProvisionAccounts'])) {
 			$model->attributes = $_POST['ProvisionAccounts'];
 
+			$model->cpf_responsavel = str_replace(array(".", "-"), "", $model->cpf_responsavel);
+			$model->cpf_gestor = str_replace(array(".", "-"), "", $model->cpf_gestor);
+
 			if ($model->validate() && $model->save()) {
-				Yii::app()->user->setFlash('success', Yii::t('default', 'Unidade atualizada com sucesso!'));
+				$msg = $managementUnitCode ? 'atualizada' : 'criada';
+				Yii::app()->user->setFlash('success', Yii::t('default', 'Unidade ' . $msg . ' com sucesso!'));
 				$this->redirect(array('index', 'cod_unidade_gestora' => $model->cod_unidade_gestora));
 			}
 		}
@@ -62,10 +47,19 @@ class DefaultController extends Controller
 		);
 	}
 
-	public function actionExport($year, $data_inicio, $data_final)
+	public function actionInconsistencySagres()
 	{
-		$sagres = new SagresConsultModel;
-        $sagresEduXML = $sagres->generatesSagresEduXML($sagres->getEducacaoData($year, $data_inicio, $data_final));
-        print_r($sagres->actionExportSagresXML($sagresEduXML));
+		$this->render('inconsistencys');
+	}
+
+	public function actionExport($year, $startDate, $endDate, $finalClass)
+	{
+		try {
+			$sagres = new SagresConsultModel;
+			$sagresEduXML = $sagres->generatesSagresEduXML($sagres->getSagresEdu($year, $startDate, $endDate, $finalClass));
+			echo $sagres->actionExportSagresXML($sagresEduXML);
+		} catch (Exception $e) {
+			Yii::app()->user->setFlash('error', Yii::t('default', $e->getMessage()));
+		}
 	}
 }

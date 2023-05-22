@@ -7,14 +7,13 @@
  * @property integer $id_professional
  * @property string $name
  * @property string $cpf_professional
- * @property integer $speciality_fk
+ * @property string $speciality
  * @property string $inep_id_fk
  * @property integer $fundeb
  *
  * The followings are the available model relations:
  * @property Attendance[] $attendances
  * @property SchoolIdentification $inepIdFk
- * @property EdcensoProfessionalEducationCourse $specialityFk
  */
 class Professional extends CActiveRecord
 {
@@ -34,15 +33,16 @@ class Professional extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, cpf_professional, speciality_fk, inep_id_fk, fundeb', 'required'),
+			array('name, cpf_professional, speciality, inep_id_fk, fundeb', 'required'),
 			array('cpf_professional', 'unique', 'className' => 'Professional'),
-			array('speciality_fk, fundeb', 'numerical', 'integerOnly'=>true),
+			array('fundeb', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>200),
+			array('speciality', 'length', 'max'=>100),
 			array('cpf_professional', 'length', 'max'=>14),
 			array('inep_id_fk', 'length', 'max'=>8),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_professional, name, cpf_professional, speciality_fk, inep_id_fk, fundeb', 'safe', 'on'=>'search'),
+			array('id_professional, name, cpf_professional, speciality, inep_id_fk, fundeb', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,7 +56,6 @@ class Professional extends CActiveRecord
 		return array(
 			'attendances' => array(self::HAS_MANY, 'Attendance', 'professional_fk'),
 			'inepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'inep_id_fk'),
-			'specialityFk' => array(self::BELONGS_TO, 'EdcensoProfessionalEducationCourse', 'speciality_fk'),
 		);
 	}
 
@@ -69,7 +68,7 @@ class Professional extends CActiveRecord
 			'id_professional' => 'Id Professional',
 			'name' => 'Nome',
 			'cpf_professional' => 'CPF',
-			'speciality_fk' => 'Especialidade',
+			'speciality' => 'Especialidade',
 			'inep_id_fk' => 'Inep Id Fk',
 			'fundeb' => 'Fundeb',
 		);
@@ -96,7 +95,7 @@ class Professional extends CActiveRecord
 		$criteria->compare('id_professional',$this->id_professional);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('cpf_professional',$this->cpf_professional,true);
-		$criteria->compare('speciality_fk',$this->speciality_fk);
+		$criteria->compare('speciality',$this->speciality);
 		$criteria->compare('inep_id_fk',$this->inep_id_fk,true);
 		$criteria->compare('fundeb',$this->fundeb);
 

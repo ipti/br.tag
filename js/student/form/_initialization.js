@@ -1,16 +1,35 @@
 window.location.search.includes("update") ? $('.last').css('display', 'block') : $('.last').css('display', 'none');
 
+// class New_enrollment_form{
+    
+// }
+
+
 $(document).ready(function () {
+    if($("#others-check").is(":checked")) {
+        $(".others-text-box").show();
+    }else {
+        $(".others-text-box").hide();
+    }
+
+    if($("#show-student-civil-name").is(":checked")) {
+        $(".student-civil-name").show();
+        $("#show-student-civil-name-box").hide();
+    }
+
+
+
     $("#new-enrollment-button").click(function() {
-        if($("#new-enrollment-form").css('display') == 'none') {
-            $("#new-enrollment-form").show();
-            $("#new-enrollment-button").text("Cancelar Matrícula");
+        if($(".new-enrollment-form").css('display') == 'none') {
+            $(".new-enrollment-form").show();
+            $("#new-enrollment-button").text("Fechar formulário");
         }else {
-            $("#new-enrollment-form").hide();
+            $(".new-enrollment-form").hide();
             $("#new-enrollment-button").text("Adicionar Matrícula");
         }
         
     });
+    
     var simple = getUrlVars()['simple'];
     if (simple == '1') {
         $("#tab-student-documents").hide();
@@ -23,10 +42,15 @@ $(document).ready(function () {
 
     if ($(formIdentification + "deficiency_type_blindness").is(":checked")) {
         $(formIdentification + "deficiency_type_low_vision").attr("disabled", "disabled");
+        $(formIdentification + "deficiency_type_monocular_vision").attr("disabled", "disabled");
         $(formIdentification + "deficiency_type_deafness").attr("disabled", "disabled");
         $(formIdentification + "deficiency_type_deafblindness").attr("disabled", "disabled");
     }
     if ($(formIdentification + "deficiency_type_low_vision").is(":checked")) {
+        $(formIdentification + "deficiency_type_blindness").attr("disabled", "disabled");
+        $(formIdentification + "deficiency_type_deafblindness").attr("disabled", "disabled");
+    }
+    if ($(formIdentification + "deficiency_type_monocular_vision").is(":checked")) {
         $(formIdentification + "deficiency_type_blindness").attr("disabled", "disabled");
         $(formIdentification + "deficiency_type_deafblindness").attr("disabled", "disabled");
     }
@@ -42,6 +66,7 @@ $(document).ready(function () {
     if ($(formIdentification + "deficiency_type_deafblindness").is(":checked")) {
         $(formIdentification + "deficiency_type_blindness").attr("disabled", "disabled");
         $(formIdentification + "deficiency_type_low_vision").attr("disabled", "disabled");
+        $(formIdentification + "deficiency_type_monocular_vision").attr("disabled", "disabled");
         $(formIdentification + "deficiency_type_deafness").attr("disabled", "disabled");
         $(formIdentification + "deficiency_type_disability_hearing").attr("disabled", "disabled");
     }
@@ -91,4 +116,26 @@ $(document).on("change", "#StudentEnrollment_public_transport", function () {
         $("#transport_responsable, #transport_type").hide();
     }
 });
+
+$(document).on("change", "#others-check", function () {
+    if($(this).is(":checked")) {
+        $(".others-text-box").show();
+    }else {
+        $(".others-text-box").hide();
+    }
+});
+
+$(document).on("change", "#show-student-civil-name", function () {
+    if($(this).is(":checked")) {
+        $(".student-civil-name").show();
+        $("#show-student-civil-name-box").hide();
+    }
+});
+
+$('#copy-gov-id').click(function() {
+    var govId = $('#StudentIdentification_gov_id').val();
+    navigator.clipboard.writeText(govId);
+    $('#copy-message').text('Copiado!').fadeIn().delay(1000).fadeOut();
+});
+
 $("#StudentEnrollment_public_transport").trigger("change");

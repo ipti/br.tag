@@ -43,7 +43,7 @@
     </table>
   </div>
   
-  <? switch($type){ 
+  <?php switch($type){ 
       case 1:
         $this->renderPartial('_regular_education', array());
       break;

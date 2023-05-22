@@ -30,7 +30,7 @@ class MatriculaTType
     /**
      * @var \DateTime $dataCancelamento
      * @type("DateTime<'Y-m-d'>")
-     * @SerializedName("edu:dataCancelamento")
+     * @SerializedName("edu:data_cancelamento")
      */
     private $dataCancelamento = null;
 

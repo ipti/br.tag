@@ -13,13 +13,13 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/admin/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/admin/form/_initialization.js', CClientScript::POS_END);
 $cs->registerCssFile($themeUrl . '/css/template2.css');
+$cs->registerCssFile($baseUrl . 'sass/css/main.css');
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'users-createUser-form',
     'enableAjaxValidation' => false,
 ));
 ?>
-<?php //echo $form->errorSummary($model); ?>
 
 <div class="row-fluid">
     <div class="span12" style="height: 70px;">
@@ -43,6 +43,8 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="tag-inner">
     <div class="widget widget-tabs border-bottom-none">
+        <?php echo $form->errorSummary($model); ?>
+
         <div class="widget-head">
             <ul class="tab-classroom">
                 <li id="tab-classroom" class="active">
@@ -79,28 +81,28 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="controls">
                                     <?php
-                                    $roles = CHtml::listData(AuthItem::model()->findAll('type=2 and name <> "instructor" order by name'), 'name', 'name');
+                                    $roles = CHtml::listData(AuthItem::model()->findAll('type=2 order by name'), 'name', 'name');
                                     foreach ($roles as $key => $value) {
                                         $roles[$key] = Yii::t('default', $value);
                                     }
-                                    echo CHtml::dropDownList('Role', '', $roles, array('class' => 'select-search-off control-input')); ?>
+                                    echo CHtml::dropDownList('Role', $actual_role, $roles, array('class' => 'select-search-off control-input')); ?>
                                 </div>
                             </div>
                         </div>
                         <div class="separator"></div>
-                        <div class="span6" >
+                        <div class="span6">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo CHtml::label(Yii::t('default', 'Schools'), 'schools', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo CHtml::dropDownList('schools',$userSchools,CHtml::listData(SchoolIdentification::model()->findAll('situation=1 order by name'), 'inep_id', 'name'),array('multiple'=>'multiple', 'class'=>'select-search-on')); ?>
+                                    <?php echo CHtml::dropDownList('schools', $userSchools, CHtml::listData(SchoolIdentification::model()->findAll('situation=1 order by name'), 'inep_id', 'name'), array('multiple' => 'multiple', 'class' => 'select-search-on t-multiselect control-input multiselect')); ?>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo CHtml::activeCheckbox($model,'active') ?>
-                                    <?php echo CHtml::label( Yii::t('default','Active'), 'active', array('class' => 'control-label', 'id' => 'active-label')); ?>
+                                    <?php echo CHtml::activeCheckbox($model, 'active') ?>
+                                    <?php echo CHtml::label(Yii::t('default', 'Active'), 'active', array('class' => 'control-label', 'id' => 'active-label')); ?>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +132,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Min length') . "6"; ?>"><i></i></span> -->
                                     <?php echo $form->error($model, 'password'); ?>
                                 </div>
-                            </div> 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -146,11 +148,11 @@ $form = $this->beginWidget('CActiveForm', array(
 </script>
 
 <style>
-#active-label {
-    width: 40px !important;
-}
+    #active-label {
+        width: 40px !important;
+    }
 
-input[type="checkbox"] {
-    height: 30px !important;
-}
+    input[type="checkbox"] {
+        height: 30px !important;
+    }
 </style>

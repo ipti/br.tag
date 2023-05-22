@@ -2,6 +2,7 @@
 @import '_tokens.scss';
 
 
+
 .row {
     display: flex;
     flex-direction: column;
@@ -29,6 +30,9 @@
 
     &.no-grow {
         flex-grow: 0;
+    }
+    &.helper{
+        max-width: 50%;
     }
 }
 

@@ -1,5 +1,142 @@
 # Atualizações
 
+
+## [Versão 3.21.49]
+- Corrigido a pré seleção no select de cargo no formulário de usuário
+
+## [Versão 3.21.48]
+- O seletor de turma final agora é exibido corretamente
+- 
+## [Versão 3.21.47]
+- Espaçamento dos botões na tela de relatórios foi corrigido
+
+## [Versão 3.21.46]
+- adicionada a opção outros no select de instituição de ensino superior
+
+## [Versão 3.21.45]
+- Agora é possível adicionar até 2 professores regentes por turma
+
+## [Versão 3.20.45]
+- O erro ao deletar professores sem documentos e endereços cadastrados foi corrigido
+
+
+## [Versão 3.20.44]
+- Novo relatório de acompanhamento avaliativo dos alunos
+
+## [Versão 3.19.44]
+- Corrigido a margem dos checkbox no formulário de escola
+
+## [Versão 3.19.43]
+ - Corrigido o espaçamento dos checkbox no formulário de escola e o alinhamento dos campos desse formulário foi ajustado 
+
+## [Versão 3.18.42]
+- Em turmas, ata de notas agora exibe as notas corretamente
+- O campo de inserção da instituição de ensino superior no formulário do professor foi corrigido
+
+## [Vesão 3.18.41]
+- Ajuste na largura para impressão do relatório de matrícula
+- Adição de legendas para o relatório de matrícula
+- Modificação do formulário de gerar ata de conselho de classe
+- O bug de repetição dos professores no ata de conselho de classe foi corrigido
+
+## [Versão 3.18.38]
+- Modelo de ata de conselho de classe de 6º ao 9º ano adicionado
+- Modelo de ata de conselho de classe de ensino médio adicionado
+
+## [Versão 3.16.38]
+- No relatório trimestral o cabeçalho com as informações do aluno foi adicionado a primeira página
+- No relatório trimestral de 1ºANO, 2º ANO e 3º ANO o cabeçalho de buzios foi corrigido para a logo ficar posicionada corretamente
+- Agora todos os botões do módulo relatórios abrem o relatório em uma nova aba
+
+## [Versão 3.17.35]
+- Adicionando campo de truno no cadastro de cardápio
+## [Versão 3.16.35]
+- Mudando a ordenação 'default' dos alunos na página Ordem no Diário
+- Colocado campo de número do ató no formulário de escola
+## [Versão 3.16.33]
+- Correções nos formulários de alunos e professores
+
+## [Versão 3.16.32]
+- Agora as notas são salvas e calculadas corretamente
+
+## [Versão 3.16.31]
+- correção na tela de calendário
+## [Versão 3.16.30]
+- Consertado modal na tela de aulas ministradada que não estava salvando
+
+##  [Versão 3.16.29]
+- Retirado o botão de transferência de aluno para novos registros
+## [Versão 3.16.28]
+- Adicionada a funcionalidade de transferêcia de alunos entre escolas
+## [Versão 3.15.28]
+- O estilo das telas de merenda foram modificados
+
+## [Versão 3.15.27]
+- O ícones de carregamentos foram modificados
+
+## [Versão 3.14.27]
+- O estilo da tela de relatórios, administração, Sagres e SEDSP foi alterado
+
+## [Versão 3.13.27]
+- Adicionada funcionalidade para gerenciar a ordem dos alunos no diário
+## [Versão 3.12.27]
+- Corrigida a paginação no formulário de cadastro e alterção de escolas
+## [Versão 3.12.26]
+- Novo estilo de caixas de diálogo
+
+## [Versão 3.11.26]
+-  Corrigido layout da página de relatório de diário eletônico
+## [Versão 3.11.25]
+- Cabeçalho de Ações corrigido
+
+## [Versão 3.11.24]
+- Correção de desempenho ao carregar muitos registros na tela de alunos corrigida
+
+## [Versão 3.10.24]
+- Adicionada uma coluna na listagem de alunos
+- Adicionada coluna de matrícula na listagem de alunos em turmas 
+- Alterada a validação nos campos de nome para permitir acentuação
+- Verificação no formulário de criação de turmas nos checkbox em 'tipo de atendimento' consertada
+- Corrigido erro no espaçamento dos checkboxs
+
+## [Versão 3.10.23]
+- Agora as ações de deletar professores e estudantes funcionam corretamente
+
+## [Versão 3.10.22]
+- Agora os relatórios de turmas funcionam corretamente
+
+## [Versão 3.10.21]
+- Os campos de matriz curricular foram padronizados
+
+## [Versão 3.10.20]
+- Campo de observação adicionado no formulário de matrícula do aluno
+
+## [Versão 3.9.20]
+- Agora as turmas sem alunos aparecem no relatório de alunos por turma
+- Bug no nome da turma no relatório de alunos por turma corrigido
+
+## [Versão 3.9.19]
+- Corrigida responsividade no formulário de alunos 
+
+## [Versão 3.9.18]
+- Estilo das caixas de filtros corrigidos
+
+
+## [Versão 3.9.17]
+- Agora na tela de login o "Lembra-me" agora é "Mantenha-me conectado"
+
+
+## [Versão 3.9.16]
+- O Bug para algumas etapas de ensino no formulário de turmas foi corrigido
+
+## [Versão 3.9.15]
+- Agora o campo nome social agora é Nome de Apresentação que pode ser usado ou não para nome social
+- Agora o campo de nome civil fica oculto e é exibido um checkbox com "Esse é um nome social?" relacionando com o campo "Nome de Apresentação"
+
+## [Versão 3.9.13]
+- Relatório de Cardápios Especiais
+- Aba Saúde adicionada no formulário de aluno
+
 ## [Versão 3.8.13]
 - Correções nos formulários do módulo Sagres.
 - Correção da validação do CPF.
@@ -76,6 +213,16 @@
 
 **Bugs Corrigidos**
 - Relatório do Bolsa Família
+
+
+## [Versão 2.11.9]
+**Bugs Corrigidos:**
+- Redirecionamento automático quando sessão expira.
+- Correção na gestão de usuários que estavam removendo os vinculos
+
+## [Versão 2.11.7]
+**Melhorias:**
+- Adicionado módulo de gestão de usuários.
 
 ## [Versão 2.10.7]
 **Melhorias:**

@@ -9,13 +9,13 @@
     <div class="row-fluid">
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Question') ?></h1>  
-            <div class="buttons">
-                <a href="<?php echo Yii::app()->createUrl('quiz/default/createQuestion') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> <?= Yii::t('default', 'New Question') ?> </a>
+            <div class="t-buttons-container">
+                <a href="<?php echo Yii::app()->createUrl('quiz/default/createQuestion') ?>" class="t-button-primary"><i></i> <?= Yii::t('default', 'New Question') ?> </a>
             </div>
         </div>
     </div>
 
-    <div class="innerLR">
+    <div class="tag-inner">
         <div class="columnone" style="padding-right: 1em">
             <?php if (Yii::app()->user->hasFlash('success')): ?>
                 <div class="alert alert-success">
@@ -27,14 +27,15 @@
                 <div class="widget-body">
                     <?php
                     $this->widget('zii.widgets.grid.CGridView', array(
-                        'dataProvider' => $filter->search(),
-                        'filter' => $filter,
-                        'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                        'enablePagination' => true,
+                        'enableSorting' => false,
+                        'dataProvider' => $dataProvider,
+                        // 'filter' => $filter,
+                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'enablePagination' => false,
                         'columns' => array(
                             array(
                                 'name' => 'id',
-                                'htmlOptions' => array('width' => '150px')
+                                'htmlOptions' => array('width' => '150px'),
                             ),
                             array(
                                 'name' => 'description',

@@ -8,6 +8,8 @@
 @import 'components/field-tarea.scss';
 @import 'components/field-checkbox';
 @import 'components/field-number';
+@import 'components/field-multiselect';
+@import 'components/field-section';
 @import '_functions.scss';
 @import '_tabs.scss';
 @import '_cards.scss';
@@ -18,7 +20,12 @@
 @import '_typography.scss';
 @import '_menu.scss';
 @import '_drawer';
-@import '_badge';    
+@import '_modal';
+@import '_badge';   
+@import 'reports';
+@import 'icons';
+@import '_reports';
+@import '_sortable';
 
 // place imports before that
 @import '_helpers.scss';

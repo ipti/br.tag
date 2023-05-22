@@ -11,16 +11,19 @@ $cs->registerScriptFile($baseUrl . '/js/reports/StudentsFileReport/_initializati
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
+
+$turns = ['M'=>'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
+
+
+
 ?>
 
 
 <div id="body-students-file-form" class="pageA4V">
     <?php
-
-    $this->renderPartial('head');
-    $data = $enrollment->getFileInformation($enrollment_id);
-    $birth_uf = $enrollment->studentFk->edcensoUfFk->acronym;
-
+        $this->renderPartial('head');
+        $data = $enrollment->getFileInformation($enrollment_id);
+        $birth_uf = $enrollment->studentFk->edcensoUfFk->acronym;
     ?>
     <br>
     <div style="width: 100%; margin: 0 auto; text-align:center;margin-top: -15px;">
@@ -254,9 +257,31 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                     <div class="span12"><b>15 - Matrícula do aluno: </b></div>
                     <br>
                     <div class="span3"><b>Ano letivo: </b><span><?= $enrollment->classroomFk->school_year ?></span></div>
-                    <div class="span4"><b>Série: </b><span><?= $enrollment->classroomFk->name ?></span></div>
+                    <div class="span4"><b>Série: </b><span><?= $enrollment->edcensoStageVsModalityFk->name ?></span></div>
                     <div class="span5"><b>Turma: </b><span><?= $enrollment->classroomFk->name ?></span></div>
-                    <div class="span3"><b>Turno: </b><span></span></div>
+                    <div class="span9"><b>Situação do aluno: </b><span>
+                        <?php 
+                              
+                                switch ($enrollment->status) {
+                                    case "1":
+                                        echo "Matriculado";
+                                        break;
+                                    case "2":
+                                        echo "Transferido";
+                                        break;
+                                    case "3":
+                                        echo "Cancelado";
+                                        break;
+                                    case "4":
+                                        echo "Evadido";
+                                        break;
+                                    default:
+                                       echo '';
+                                }
+                    
+                        ?>
+                    </span></div>
+                    <div class="span3"><b>Turno: </b><span> <?php echo $turns[$enrollment->classroomFk->turn]; ?></span></div>
                 </td>
             </tr>
         <?php }?>
@@ -358,38 +383,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
     </table>
 </div>
 
-<?php if(GLOGALGROUP != 1){?>
-    <div class='container-report mt-30 mb-30'>
-    <table class="table-border">
-      <tr class="blue-background titleBig text-center">
-        <th colspan="8">Controle de Matrícula e Rematrícula</th>
-      </tr>
-      <tr>
-        <th>Ano Letivo</th>
-        <th>Data da Matrícula</th>
-        <th>Nível/Ano/Série</th>
-        <th>Etapa Modalidade*</th>
-        <th>Turno</th>
-        <th>Situação Final do(a) Aluno(a)</th>
-        <th>Assinatura do(a) Responsável pela Matrícula</th>
-        <th>Assinatura dos Pais ou Responsável</th>
-      </tr>
-      <? for($i=1; $i <= 12; $i++): ?>
-        <tr>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
-        </tr>
-      <? endfor; ?>
-    </table>
-  </div>
-</div>
-<?php } ?>
+
 <style>
 
     .container-report {

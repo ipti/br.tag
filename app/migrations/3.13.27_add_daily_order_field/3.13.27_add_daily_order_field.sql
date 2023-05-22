@@ -1,0 +1,1 @@
+ALTER TABLE student_enrollment ADD daily_order INT;

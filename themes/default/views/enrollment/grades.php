@@ -1,7 +1,7 @@
 <?php
-/** 
+/**
 * @var ClassesController $this ClassesController
-* @var CActiveDataProvider $dataProvider CActiveDataProvider 
+* @var CActiveDataProvider $dataProvider CActiveDataProvider
 *
 */
 
@@ -9,7 +9,6 @@ $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/enrollment/grades/_initialization.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/enrollment/grades/functions.js', CClientScript::POS_END);
 
 $script = "var getGradesUrl = '" . Yii::app()->createUrl('enrollment/getGrades') . "';";
 
@@ -20,7 +19,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
 ?>
 
 <div class="main">
-    <?php 
+    <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'classes-form',
             'enableAjaxValidation' => false,
@@ -30,7 +29,8 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
     <div class="row-fluid hidden-print">
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Grades'); ?></h1>
-            <div class="buttons span9">
+            <div class="buttons row grades-buttons">
+                <button class='t-button-primary calculate-media'>Calcular Média</button>
                 <button id="save"
                    class='t-button-primary  hidden-print no-show'><?php echo Yii::t('default', 'Save') ?>
                 </button>
@@ -43,31 +43,32 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
             <?php echo Yii::app()->user->getFlash('success') ?>
         </div>
     <?php endif ?>
-
+    <div class="js-grades-alert alert"></div>
     <div class="filter-bar margin-bottom-none">
         <div>
-            <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'small-label control-label required')); ?>
+            <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'small-label control-label required', 'style' => 'width: 53px;')); ?>
             <?php
             echo CHtml::dropDownList('classroom', '', $classrooms, array(
                 'key' => 'id',
-                'class' => 'select-search-on control-input',
-                'prompt' => 'Selecione a turma',
+                'class' => 'select-search-on control-input classroom-input',
+                'prompt' => 'Selecione...',
                 ));
             ?>
         </div>
-        <div class="no-disciplines-guide">Algumas Disciplinas não aparecem na tabela? <span class="no-disciplines-link">Saiba mais</span>.</div>
+        <div>
+            <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'discipline', array('class' => 'control-label required', 'style' => 'width: 100%;')); ?>
+            <?php
+            echo CHtml::dropDownList('discipline', '', array(), array(
+                'key' => 'id',
+                'class' => 'select-search-on control-input discipline-input',
+                'prompt' => 'Selecione...',
+            ));
+            ?>
+        </div>
+        <img class="js-grades-loading"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
     </div>
     <br>
-    <div class="alert-no-students alert alert-warning">Não há estudantes cadastrados na turma.</div>
-    <div class="alert-no-disciplines alert alert-warning"></div>
-    <div class="classroom widget widget-tabs widget-tabs-vertical row row-merge hide">
-        <div class="students widget-head span3">
-            <ul></ul>
-        </div>
-        <div class="grades widget-body span3">
-            <div class="tab-content"></div>
-        </div>
-    </div>
+    <div class="js-grades-container"></div>
 <?php $this->endWidget(); ?>
 
 </div>

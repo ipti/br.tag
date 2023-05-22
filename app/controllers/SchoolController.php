@@ -295,15 +295,12 @@ class SchoolController extends Controller
      */
     public function actionIndex()
     {
-        $query = SchoolIdentification::model()->findAll();
         $filter = new SchoolIdentification('search');
         $filter->unsetAttributes();  // clear any default values
         if (isset($_GET['SchoolIdentification'])) {
             $filter->attributes = $_GET['SchoolIdentification'];
         }
-        $dataProvider = new CActiveDataProvider($this->SCHOOL_IDENTIFICATION, array('pagination' => array(
-            'pageSize' => count($query),
-        )));
+        $dataProvider = new CActiveDataProvider($this->SCHOOL_IDENTIFICATION, array('pagination' => false));
         $this->render('index', array(
             'dataProvider' => $dataProvider,
             'filter' => $filter
@@ -345,6 +342,10 @@ class SchoolController extends Controller
             $return = SchoolIdentification::model()->findByPk($id);
         } else if ($model == $this->SCHOOL_STRUCTURE) {
             $return = SchoolStructure::model()->findByPk($id);
+            if(!isset($return)){
+                $return = new SchoolStructure;
+                $return->stages_concept_grades = [14, 15, 16];
+            }
             $stagesConceptGradesArray = [];
             $schoolStagesConceptGrades = SchoolStagesConceptGrades::model()->findAll("school_fk = :school_fk", ["school_fk" => $id]);
             foreach ($schoolStagesConceptGrades as $schoolStageConceptGrade) {

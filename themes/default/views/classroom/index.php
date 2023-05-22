@@ -62,6 +62,11 @@
                                 'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
                             ),
                             array(
+                                'name' => 'enrollmentsCount',
+                                'header' => 'Alunos',
+                                'value' => '$data->enrollmentsCount',
+                            ),
+                            array(
                                 'name' => 'edcensoStageVsModalityFk',
                                 'header' => 'Etapa',
                                 'value' => '$data->edcensoStageVsModalityFk->name',
@@ -74,6 +79,7 @@
                                 'filter' => false
                             ),
                             array(
+                                'header' => 'Ações',
                                 'class' => 'CButtonColumn', 
                                 'template' => '{update}{delete}',
                                 'buttons' => array(

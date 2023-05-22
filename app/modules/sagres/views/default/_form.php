@@ -2,6 +2,12 @@
 /* @var $this ProvisionAcountsController */
 /* @var $model ProvisionAcounts */
 /* @var $form CActiveForm */
+
+$modulePath = Yii::app()->getModule('sagres')->getBasePath();
+$baseUrl = Yii::app()->getAssetManager()->publish($modulePath . '/resources/form/validations.js');
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseUrl, CClientScript::POS_END);
+
 ?>
 
 <div class="form">
@@ -71,92 +77,19 @@
                                             <?php echo $form->labelEx($model, 'cpf_responsavel', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($model, 'cpf_responsavel', array('size' => 14, 'maxlength' => 14, 'placeholder'=>'___.___.___-__')); ?>
+                                            <?php echo $form->textField($model, 'cpf_responsavel', array('size' => 14, 'maxlength' => 14, 'id' => 'input_responsible_cpf')); ?>
                                             <?php echo $form->error($model, 'cpf_responsavel'); ?>
                                         </div>
                                     </div>
+
 
                                     <div class="control-group">
                                         <div class="controls">
                                             <?php echo $form->labelEx($model, 'cpf_gestor', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($model, 'cpf_gestor', array('size' => 14, 'maxlength' => 14,'placeholder'=>'___.___.___-__')); ?>
+                                            <?php echo $form->textField($model, 'cpf_gestor', array('size' => 14, 'maxlength' => 14,'id' => 'input_manager_cpf')); ?>
                                             <?php echo $form->error($model, 'cpf_gestor'); ?>
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <div class="controls">
-                                            <?php echo $form->labelEx($model, 'mes_referencia', array('class' => 'control-label')); ?>
-                                        </div>
-                                        <div class="controls">
-                                            <?php echo $form->DropDownList($model, 'mes_referencia', array(
-                                                null => 'Selecione o mês',
-                                                '01' => 'Janeiro',
-                                                '02' => 'Fevereiro',
-                                                '03' => 'Março',
-                                                '04' => 'Abril',
-                                                '05' => 'Maio',
-                                                '06' => 'Junho',
-                                                '07' => 'Julho',
-                                                '08' => 'Agosto',
-                                                '09' => 'Setembro',
-                                                '10' => 'Outubro',
-                                                '11' => 'Novembro',
-                                                '12' => 'Dezembro'
-                                            )); ?>
-                                            <?php echo $form->error($model, 'mes_referencia'); ?>
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <div class="controls">
-                                            <?php echo $form->labelEx($model, 'ano_referencia', array('class' => 'control-label')); ?>
-                                        </div>
-                                        <div class="controls">
-                                            <?php 
-                                            $anos = array();
-                                            for ($i = date('Y'); $i >= 2014; $i--) {
-                                                $anos[$i] = $i;
-                                            }
-                                            echo $form->DropDownList($model,'ano_referencia',$anos, array('prompt' => 'Selecione o ano')); ?>
-                                            <?php echo $form->error($model, 'ano_referencia'); ?>
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <div class="controls">
-                                            <?php echo $form->labelEx($model, 'versao_xml', array('class' => 'control-label')); ?>
-                                        </div>
-                                        <div class="controls">
-                                            <?php echo $form->DropDownList($model, 'versao_xml', array(
-                                                null => 'Selecione a versão',
-                                                '1.0' => '1.0',
-                                                '1.1' => '1.1',
-                                                '1.2' => '1.2',
-                                            )); ?>
-                                            <?php echo $form->error($model, 'versao_xml'); ?>
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <div class="controls">
-                                            <?php echo $form->labelEx($model, 'dia_inicio_prest_contas', array('class' => 'control-label')); ?>
-                                        </div>
-                                        <div class="controls">
-                                            <?php echo $form->dateField($model, 'dia_inicio_prest_contas', array('size' => 60, 'maxlength' => 100)); ?>
-                                            <?php echo $form->error($model, 'dia_inicio_prest_contas'); ?>
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <div class="controls">
-                                            <?php echo $form->labelEx($model, 'dia_final_prest_contas', array('class' => 'control-label')); ?>
-                                        </div>
-                                        <div class="controls">
-                                            <?php echo $form->dateField($model, 'dia_final_prest_contas', array('size' => 60, 'maxlength' => 100)); ?>
-                                            <?php echo $form->error($model, 'dia_final_prest_contas'); ?>
                                         </div>
                                     </div>
                                 </div>

@@ -14,7 +14,7 @@ class instructorTeachingDataValidation extends Register{
 			return array("status"=>false,"erro"=>$result['erro']);
 		}
 
-		if($pedagogical_mediation_type != '1' && $pedagogical_mediation_type != '2'){
+		if($pedagogical_mediation_type != '1'){
 			if(!($value == '5' || $value == '6')){
 				return array("status"=>false,"erro"=>"$translate[$value] indisponível devido ao tipo de mediação Didático-Pedagógica");
 			}

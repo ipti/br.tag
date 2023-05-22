@@ -103,7 +103,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 ?>
             </div>
                 <!-- diciplina -->
-            <div class="disciplines-container">
+            <div class="disciplines-container" style="display: none;">
                 <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required','style' => 'width: 88px;')); ?>
                 <?php
                 echo CHtml::dropDownList('disciplines', '', array(), array(
@@ -116,7 +116,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <a id="classesSearch" class='t-button-primary'><i class="fa-search fa icon-button-tag"></i><?php echo Yii::t('default', 'Search') ?>
                 </a>
             </div>
-            <i class="loading-frequency fa fa-spin fa-spinner"></i>
+            <img class="loading-frequency"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
 
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>
@@ -126,11 +126,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
 </div>
 
-<div class="modal fade" id="save-justification-modal" tabindex="-1" role="dialog" aria-labelledby="Save Justification">
+<div class="modal fade modal-content" id="save-justification-modal" tabindex="-1" role="dialog" aria-labelledby="Save Justification">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="cancel-save-justification close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
                 <h4 class="modal-title" id="myModalLabel">Justificativa</h4>
             </div>
             <div class="centered-loading-gif">
@@ -152,12 +153,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="cancel-save-justifiaction btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary btn-save-justification">Adicionar</button>
+                
+                    <div class="modal-footer">
+                        <button type="button" class="cancel-save-justifiaction btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary btn-save-justification">Adicionar</button>
+                    </div>
                 </div>
             </form>
-        </div>
     </div>
 </div>

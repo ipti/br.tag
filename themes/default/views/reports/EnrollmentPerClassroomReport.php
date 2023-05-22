@@ -6,12 +6,24 @@ Yii::app()->clientScript->registerCoreScript('jquery');
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $stage = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_modality_fk)->name;
-$school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
+$school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
+
+$subtitle = "
+<div class='subtitle-enrollments'>
+<span>MI - Matrícula Inicial</span>
+<span>MC - Matrícula Confirmada</span>
+<span>MR - Matrícula Renovada</span>
+<span>MT - Matrícula por Transferência</span>
+<span>N - Não informado</span>
+<span>P - Promovido</span>
+<span>R - Transferido</span>
+</div>
+";
 
 ?>
 <br>
 <br>
-<div class="pageA4H">
+<div class="pageA4H" style="width: 1075px;">
     <?php $this->renderPartial('head'); ?>
     <h3>RELATÓRIO DE MATRÍCULA / <?= $classroom->school_year?></h3>
     
@@ -141,10 +153,30 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
     <?php
     $rows = "";
     foreach ($report as $key=>$r){
+        $status = '';
+
+        switch ($r['status']) {
+            case "1":
+                $status = "Matriculado";
+                break;
+            case "2":
+                $status = "Transferido";
+                break;
+            case "3":
+                $status = "Cancelado";
+                break;
+            case "4":
+                $status = "Evadido";
+                break;
+            default:
+                $status = "";
+        }
+
         if($key <= 20){
             $r20 .= "<tr>". "<td style='text-align: center;'>" . ($key + 1) . "</td>"
                 . "<td style='text-align: center;'>" . $r['inep_id'] . "</td>"
                 . "<td style='text-align: center;'>" . $r['name'] . "</td>"
+                . "<td style='text-align: center;'>" .  $status  . "</td>"
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
@@ -162,6 +194,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
             $r40 .= "<tr>". "<td style='text-align: center;'>" . ($key + 1) . "</td>"
                 . "<td style='text-align: center;'>" . $r['inep_id'] . "</td>"
                 . "<td style='text-align: center;'>" . $r['name'] . "</td>"
+                ."<td style='text-align: center;'>" .  $status  . "</td>"
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
@@ -235,6 +268,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
             <th rowspan="2" style="text-align: center;">Nº</th>
             <th rowspan="2" style="text-align: center;">ID INEP</th>
             <th rowspan="2" style="text-align: center;">ALUNO</th>
+            <th rowspan="2" style="text-align: center;">SITUAÇÃO DO ALUNO</th>
             <th colspan="2" style="text-align: center;">GÊNERO</th>
             <th rowspan="2" style="text-align: center;">DATA DE NASCIMENTO</th>
             <th rowspan="2" style="text-align: center;">NATURALIDADE</th>
@@ -255,6 +289,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
         </tr>
         <?php echo $r20;?>
     </table>
+    <?php echo $subtitle?>
     <br>
     <br>
     <?php if(isset($r40)){ ?>
@@ -263,6 +298,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                 <th rowspan="2" style="text-align: center;">Nº</th>
                 <th rowspan="2" style="text-align: center;">ID INEP</th>
                 <th rowspan="2" style="text-align: center;">ALUNO</th>
+                <th rowspan="2" style="text-align: center;">SITUAÇÃO DO ALUNO</th>
                 <th colspan="2" style="text-align: center;">GÊNERO</th>
                 <th rowspan="2" style="text-align: center;">DATA DE NASCIMENTO</th>
                 <th rowspan="2" style="text-align: center;">NATURALIDADE</th>
@@ -283,6 +319,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
             </tr>
             <?php echo $r40;?>
         </table>
+        <?php echo $subtitle?>
     <?php } ?>
 
 <br>
@@ -347,6 +384,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
     table { page-break-after:auto; }
     thead { display:table-header-group }
     tfoot { display:table-footer-group }
+    .subtitle-enrollments span {margin-right: 10px;}
 </style>
 
 

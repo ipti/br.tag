@@ -80,16 +80,24 @@ class DefaultController extends Controller
 			$modelAttendance->attributes = $_POST['Attendance'];
 			$modelAttendance->professional_fk = $modelProfessional->id_professional;
 			if($modelAttendance->validate()) {
-				$modelAttendance->save();
+				if($modelAttendance->save()){
+					Yii::app()->user->setFlash('success', Yii::t('default', 'Atendimento adicionado com sucesso!'));
+					$this->redirect(array('index'));	
+				}
 			}
 		}
 
 		if(isset($_POST['Professional']))
 		{
 			$modelProfessional->attributes = $_POST['Professional'];
-			if($modelProfessional->save() && $modelAttendance->save())
+			
+			if($modelProfessional->save()){
 				Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional atualizado com sucesso!'));
 				$this->redirect(array('index'));
+			}else{
+				Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível atualizar o profissional!'));
+				$this->redirect(array('index'));
+			}
 		}
 
 		$this->render('update',array(

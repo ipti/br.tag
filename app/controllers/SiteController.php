@@ -222,7 +222,7 @@ class SiteController extends Controller
                         break;
                     case "curricular_matrix":
                         $infos = explode("|", $log->additional_info);
-                        $text = 'Matriz curricular da disciplina "' . $infos[1] . '" da etapa "' . $infos[0] . '" foi ' . $crud . ".";
+                        $text = 'Matriz curricular do componente curricular/eixo "' . $infos[1] . '" da etapa "' . $infos[0] . '" foi ' . $crud . ".";
                         $icon = "matriz_curricular";
                         break;
                     case "lunch_stock":
@@ -258,13 +258,13 @@ class SiteController extends Controller
                 }
                 $bgColor = 'gray' == $bgColor ? 'blue' : 'gray';
                 $date = date("d/m/Y à\s H:i:s", strtotime($log->date));
-                $html .= '<li class="home-page-table-item '.$bgColor.'" title=\'' . $text . '\'>'
-                    . '<div style="max-width:815px;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;">'
+                $html .= '<li class="row justify-content--start  home-page-table-item '.$bgColor.'" title=\'' . $text . '\'>'
+                    . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
                     . '<img style="background-color:'.$color.'" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/'.$icon.'.svg"/>'
                     . $text . '</div>'
-                    . '<div>'
+                    . '<div class="column">'
                     . '<div class="log-date">' . $date . '</div>'
-                    . '<div class="log-author">' . $log->userFk->name . '- </div>'
+                    . '<div class="log-author">' . $log->userFk->name . ' - </div>'
                     . '</div>'
                     . '</li>';
             }

@@ -216,7 +216,7 @@ input,
 button,
 select,
 textarea {
-    font-family: "Open Sans", sans-serif;
+    font-family: "inter", sans-serif;
 }
 
 pre.prettyprint {
@@ -479,7 +479,7 @@ body > .container-fluid.documentation {
 #content {
     position: relative;
     overflow: visible;
-    margin: 0 0 20px 191px;
+    margin: 0 0 20px 0px;
     background: #fff;
     min-width: 320px;
     padding: 0 0 10px;
@@ -690,23 +690,6 @@ body > .container-fluid.documentation {
 #menu::-webkit-scrollbar {
     display: none;
 }
-
-@media (max-width: 992px) { 
-    #menu {
-        z-index: 99;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    }
-    .navbar.main {
-        width: 100% !important;
-    }
-    #content {
-        margin: 0 0 20px 0px;
-    }
-    #logo-menu{
-        margin-left: 10px;
-    }
-
- }
 
 #menu .profile {
     display: block;
@@ -1640,11 +1623,20 @@ li.highlight.profile
 }
 
 .filter-bar {
-    background: #fafafa;
-    border: 1px solid #e5e5e5;
+    /* background: #fafafa;
+    border: 1px solid #e5e5e5; */
     height: 44px;
     margin-bottom: 20px;
     padding: 0 10px;
+    align-items: flex-end !important;
+}
+
+.filter-bar > div {
+    display: grid;
+}
+
+.filter-bar .t-button-primary {
+    margin: 0 !important;
 }
 
 .filter-bar div {
@@ -1743,7 +1735,7 @@ li.highlight.profile
 }
 
 .filter-bar label {
-    float: left;
+   /*  float: left; */
     margin: 0 5px;
     display: block;
     line-height: 30px;
@@ -4800,6 +4792,7 @@ div #multiclass {
 
 .table-bordered {
     border-color: #e5e5e5;
+    margin: 0 0 15px;
 }
 
 .table-bordered th,
@@ -5021,6 +5014,36 @@ tr:first-child
 
 .dataTables_paginate {
     text-align: right;
+}
+
+.dataTables_filter label {
+    width: 260px;
+    height: 40px;
+    border: 1px solid #BAC7D5;
+    border-radius: 6px;
+}
+
+.dataTables_filter input[type="search"] {
+    height: 30px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    margin-left: 5px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+}
+
+.dataTables_filter input[type="search"]::placeholder {
+    font-family: 'Inter', sans-serif !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    color: #BAC7D5 !important;
 }
 
 .google-visualization-table-div-page {
@@ -7851,9 +7874,6 @@ div.glyphicons.glyphicon-primary i:before {
     .navbar.main {
         width: 100% !important;
     }
-    #content {
-        margin: 0 0 20px 0px;
-    }
     #logo-menu{
         margin-left: 10px;
     }
@@ -7904,6 +7924,12 @@ div.glyphicons.glyphicon-primary i:before {
         margin: 0;
     }
 }
+@media (min-width: 768px) {
+    #content {
+        margin: 0 0 20px 191px;
+    }
+}
+
 /* @media (max-width: 979px) {
     body > .container-fluid.fixed {
         width: auto;
@@ -8553,6 +8579,7 @@ li[discipline]:hover {
     background-color: lightcyan;
 }
 
+
 .frequency-list {
     font-size: 12px;
     padding: 7px 8px 5px 8px !important;
@@ -8696,9 +8723,10 @@ input[type="text"] {
 }
 
 .js-classroom-diary {
-    width: 510px;
-    max-width: 510px;
-    min-width: 510px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
     height: 200px;
     min-height: 200px;
     max-height: 200px;
@@ -9034,7 +9062,7 @@ tbody .details-control:hover {
 #header-report #logo {
     float: left;
     height: 100px;
-    width: 100px;
+    width: auto;
     margin-right: 10px;
     background-position: left;
     background-size: 100px 100px;
@@ -9382,6 +9410,132 @@ tbody .details-control:hover {
     display: none;
 }
 
+@media (max-width: 480px) {
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    #menu .slim-scroll > ul > li.hide-responsive,
+    #menu > ul > li.hide-responsive {
+        display: none !important;
+    }
+
+    .hide-responsive {
+        display: none !important;
+    }
+
+    #content {
+        margin: 0;
+    }
+
+    #box-menu {
+        margin-top: 44px !important;
+    }
+
+    .buttons button {
+        margin-top: -60px;
+    }
+
+    .buttons .print {
+        margin-top: -62px !important;
+    }
+
+    .box-links-previous-next {
+        margin-top: 20px;
+        display: block;
+    }
+
+    .show,
+    .responsive-menu,
+    #buttons-student,
+    .hide-box {
+        display: block;
+    }
+
+    .breadcrumb {
+        height: 52px !important;
+    }
+
+    .responsive-menu .dropdown-menu li {
+        margin-bottom: 5px;
+        border-bottom: solid 1px gray;
+    }
+
+    .responsive-menu .dropdown-menu li:last-child {
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+
+    #widget-StudentsList,
+    .columnone {
+        margin-top: 50px !important;
+    }
+
+    .dropdown-toggle,
+    .responsive-menu .btn-group > .btn:hover,
+    .btn-group > .btn:focus,
+    .btn-group > .btn:active,
+    .btn-group > .btn.active,
+    .btn-group.open .btn.dropdown-toggle {
+        background-color: #496cad;
+        color: #fff;
+    }
+
+    .innerLR .responsive-menu {
+        margin-right: 15px;
+    }
+
+    #classroom-form .responsive-menu {
+        margin-right: 0;
+    }
+
+    .dropdown-margin {
+        margin-top: 57px;
+        margin-right: 10px;
+    }
+
+    #buttons-student {
+        margin-top: 10px;
+    }
+
+    #received .span3:first-child label:first-child {
+        margin-top: 64px !important;
+    }
+
+    #button-add-school {
+        margin-top: 8px;
+        margin-right: 10px;
+    }
+
+    #button-menu {
+       /*  left: 85% !important; */
+       z-index: 2;
+    }
+
+    .box-instructor > .dropdown-margin {
+        margin-top: 66px !important;
+    }
+
+    .container-instructor > .innerLR {
+        padding-top: 10px !important;
+    }
+
+    #LoginForm_year {
+        min-width: 100px;
+    }
+
+    .navbar.main .appbrand {
+        width: 130px;
+    }
+
+    .username {
+        float: left;
+    }
+}
+
 #teachingdata-dialog-form .select2-container {
     width: 100% !important;
 }
@@ -9418,4 +9572,11 @@ tbody .details-control:hover {
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 42px;
+}
+ .accordion .accordion-heading .accordion-toggle {
+    background: none;
+    background-color: rgba(0, 0, 0, 0);
+    background-color: #F5F7F9;
+    font-weight: 500;
+    color: #252A31;
 }

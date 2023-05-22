@@ -15,6 +15,10 @@ $cs->registerScript("vars", "var addMatrix = '" . $this->createUrl("addMatrix") 
 $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricular Matrix'));
 // $cs->registerCssFile($themeUrl . '/css/template2.css');
 ?>
+
+
+
+
 <div class="main">
 <div class="row-fluid">
     <div class="span12">
@@ -44,18 +48,18 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
             <div class="column">
                 <div class="t-field-number">
                     <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Workload'), 'workload', ['class' => "t-field-number__label control-label"]) ?>
-                    <?= CHtml::numberField("workload", "0", ["min" => "0", "max" => "9999", "class" => "t-field-number__input"]) ?>
+                    <?= CHtml::numberField("workload", "0", ["min" => "0", "max" => "9999", "class" => "t-field-number__input" , 'style' => 'height: 23px; border: 1px solid #aaa;']) ?>
                 </div>
             </div>
             <div class="column">
                 <div class="t-field-number">
                     <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Credits'), 'credits', ['class' => "t-field-number__label control-label"]) ?>
-                    <?= CHtml::numberField("credits", "0", ["min" => "0", "max" => "99", "class" => "t-field-text__input"]) ?>
+                    <?= CHtml::numberField("credits", "0", ["min" => "0", "max" => "99", "class" => "t-field-text__input", 'style' => 'height: 23px; border: 1px solid #aaa;']) ?>
                 </div>
             </div>
             <div class="column">
                 <?= CHtml::button(Yii::t('curricularMatrixModule.index', 'Add'), [
-                    "id" => "add-matrix", "class" => "t-button-submit"
+                    "id" => "add-matrix", "class" => "t-button-primary", "style" => "margin: 1.5em 0 !important;"
                 ]) ?>
             </div>
         </div>
@@ -64,10 +68,35 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
     <?php endif ?>
                     
     <div class="widget">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="alert" style="display:none">
+                    
+                </div>
+            </div>
+        </div>
+        <?php if (Yii::app()->user->hasFlash('success')): ?>
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="alert alert-success">
+                <?php echo Yii::app()->user->getFlash('success') ?>
+            </div>
+        </div>
+    </div>
+<?php endif ?>
+<?php if (Yii::app()->user->hasFlash('error')): ?>
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="alert alert-error">
+                <?php echo Yii::app()->user->getFlash('error') ?>
+            </div>
+        </div>
+    </div>
+<?php endif ?>
         <div class="widget-body">
             <?php
             $this->widget('zii.widgets.grid.CGridView', [
-                'id' => 'matrizgridview', 'dataProvider' => $dataProvider,
+                'id' => 'matrizgridview', 'dataProvider' => $dataProvider, 'ajaxUpdate' => false,
                 'itemsCssClass' => 'js-tag-table curricularmatrix-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                 'enablePagination' => false, 'columns' => [
                     [
@@ -87,22 +116,16 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                         'name' => 'credits',
                         'htmlOptions' => ['width' => '150px']
                     ], [
+                        'header' => 'Ações',
                         'class' => 'CButtonColumn',
                         'template' => Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ? '{delete}' : '',
-                        'afterDelete' => 'function(link, success, data){
-                    data = JSON.parse(data);
-                    if (data.valid) {
-                        $(".alert").text(data.message).addClass("alert-success").removeClass("alert-error");
-                    } else {
-                        $(".alert").text(data.message).addClass("alert-error").removeClass("alert-success");
-                    }
-                    $(".alert-container").show();
-                }',
-                'buttons' => array(
-                    'delete' => array(
-                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
-                    ))
-                    ],
+                        'buttons' => array(
+                            'delete' => array(
+                                'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                        
+                            )
+                        )
+                ],
                     
                 ],
             ]);
@@ -114,13 +137,13 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
     </div>
 </div>
 </div>
-<div class="modal fade" id="matrix-reuse-modal" tabindex="-1" role="dialog"
+<div class="modal fade modal-content" id="matrix-reuse-modal" tabindex="-1" role="dialog"
      aria-labelledby="Reaproveitamento de Matriz Curricular">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
                 <h4 class="modal-title"
                     id="myModalLabel">Reaproveitamento de Matriz Curricular</h4>
             </div>
@@ -129,15 +152,13 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                     <div class="row-fluid">
                         <b>Tem certeza</b> que deseja reaproveitar a matriz curricular de <?php echo (Yii::app()->user->year - 1) ?>?</b>
                     </div>
-                </div>
-
-                <div class="modal-footer modal-container-buttons ">
-                    <button type="button" class="tag-button-light small-button"
-                            data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="t-button-primary "
-                            data-dismiss="modal">Confirmar</button>
+                    <div class="modal-footer">
+                        <button type="button" class="tag-button-light btn btn-default"
+                                data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary"
+                                data-dismiss="modal">Confirmar</button>
+                    </div>
                 </div>
             </form>
-        </div>
     </div>
 </div>

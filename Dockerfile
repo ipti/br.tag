@@ -2,9 +2,13 @@ FROM ipti/yii2
 COPY . /app
 WORKDIR /app/app
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+RUN composer update
 RUN composer update with the "--no-plugins"
 RUN composer install
 WORKDIR /app
+RUN composer update
+RUN composer update with the "--no-plugins"
+RUN composer install
 ENV MUSL_LOCALE_DEPS cmake make musl-dev gcc gettext-dev libintl 
 ENV MUSL_LOCPATH /usr/share/i18n/locales/musl
 RUN apk add --no-cache \

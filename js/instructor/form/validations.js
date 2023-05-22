@@ -26,14 +26,14 @@ $(formInstructorIdentification + 'email').on('focusout', function () {
 
 });
 
-$(formInstructorIdentification + 'birthday_date').on('focusout', function () {
+var date = new Date();
+$(formInstructorIdentification + 'birthday_date').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
+$(formInstructorIdentification + 'birthday_date').focusout(function () {
     var id = '#' + $(this).attr("id");
-    var birthday = stringToDate($(id).val());
+    var birthday_date = stringToDate($(formInstructorIdentification + 'birthday_date').val());
 
-
-    if (!validateDate($(id).val()) || !validateYear(birthday.year)) {
-        $(id).attr('value', '');
-        addError(id, "O campo deve possuir apenas números, seguindo a estrutura Dia/Mês/Ano. Deve possuir um ano inferior ao ano atual.");
+    if ((!validateDate($(formInstructorIdentification + 'birthday_date').val()) || !validateYear(birthday_date.year)) && ($(id).val() != '')) {
+        addError(id, "Informe uma data válida no formato Dia/Mês/Ano.");
     } else {
         removeError(id);
     }
@@ -80,216 +80,125 @@ $(formInstructorIdentification + 'deficiency').on('change', function () {
 
 
 $(formInstructorIdentification + 'deficiency_type_blindness').on('click', function () {
-    if (($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_deafness').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-    ) {
-        $(formInstructorIdentification + 'deficiency_type_multiple_disabilities').add().attr('checked', 'checked');
-    } else {
-        $(formInstructorIdentification + 'deficiency_type_multiple_disabilities').removeAttr('checked', 'checked');
-    }
+    checkMultipleDeficiencies();
 
     if ($(this).is(':checked')) {
-        $(formInstructorIdentification + 'deficiency_type_low_vision').add().attr('disabled', 'disabled');
-        $(formInstructorIdentification + 'deficiency_type_deafness').removeAttr('checked', 'checked');
-        $(formInstructorIdentification + 'deficiency_type_deafness').add().attr('disabled', 'disabled');
-        $(formInstructorIdentification + 'deficiency_type_deafblindness').removeAttr('checked', 'checked');
-        $(formInstructorIdentification + 'deficiency_type_deafblindness').add().attr('disabled', 'disabled');
+        $(formInstructorIdentification + 'deficiency_type_low_vision').removeAttr('checked').attr('disabled', 'disabled');
+        $(formInstructorIdentification + 'deficiency_type_monocular_vision').removeAttr('checked').attr('disabled', 'disabled');
+        $(formInstructorIdentification + 'deficiency_type_deafness').removeAttr('checked').attr('disabled', 'disabled');
+        $(formInstructorIdentification + 'deficiency_type_deafblindness').removeAttr('checked', 'checked').attr('disabled', 'disabled');
     } else {
         $(formInstructorIdentification + 'deficiency_type_low_vision').removeAttr('disabled');
-        $(formInstructorIdentification + 'deficiency_type_deafness').removeAttr('disabled');
-        $(formInstructorIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+        $(formInstructorIdentification + 'deficiency_type_monocular_vision').removeAttr('disabled');
+        if (!$(formInstructorIdentification + 'deficiency_type_disability_hearing').is(":checked")) {
+            $(formInstructorIdentification + 'deficiency_type_deafness').removeAttr('disabled');
+            $(formInstructorIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+        }
     }
 });
 
 $(formInstructorIdentification + 'deficiency_type_low_vision').on('click', function () {
-    if (($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_deafness').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-    ) {
-        $(formInstructorIdentification + 'deficiency_type_multiple_disabilities').add().attr('checked', 'checked');
-    } else {
-        $(formInstructorIdentification + 'deficiency_type_multiple_disabilities').removeAttr('checked', 'checked');
-    }
     if ($(this).is(':checked')) {
-        $(formInstructorIdentification + 'deficiency_type_blindness').removeAttr('checked', 'checked');
-        $(formInstructorIdentification + 'deficiency_type_blindness').add().attr('disabled', 'disabled');
-        $(formInstructorIdentification + 'deficiency_type_deafblindness').removeAttr('checked', 'checked');
-        $(formInstructorIdentification + 'deficiency_type_deafblindness').add().attr('disabled', 'disabled');
+        $(formInstructorIdentification + 'deficiency_type_blindness').removeAttr('checked', 'checked').attr('disabled', 'disabled');
+        $(formInstructorIdentification + 'deficiency_type_deafblindness').removeAttr('checked', 'checked').attr('disabled', 'disabled');
     } else {
-        $(formInstructorIdentification + 'deficiency_type_blindness').removeAttr('disabled');
-        $(formInstructorIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+        if (!$(formInstructorIdentification + 'deficiency_type_monocular_vision').is(":checked") && !$(formInstructorIdentification + 'deficiency_type_deafness').is(":checked")) {
+            $(formInstructorIdentification + 'deficiency_type_blindness').removeAttr('disabled');
+            if (!$(formInstructorIdentification + 'deficiency_type_disability_hearing').is(":checked")) {
+                $(formInstructorIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+            }
+        }
     }
+    checkMultipleDeficiencies();
+});
+
+$(formInstructorIdentification + 'deficiency_type_monocular_vision').on('click', function () {
+    if ($(this).is(':checked')) {
+        $(formInstructorIdentification + 'deficiency_type_blindness').removeAttr('checked', 'checked').attr('disabled', 'disabled');
+        $(formInstructorIdentification + 'deficiency_type_deafblindness').removeAttr('checked', 'checked').attr('disabled', 'disabled');
+    } else {
+        if (!$(formInstructorIdentification + 'deficiency_type_low_vision').is(":checked") && !$(formInstructorIdentification + 'deficiency_type_deafness').is(":checked")) {
+            $(formInstructorIdentification + 'deficiency_type_blindness').removeAttr('disabled');
+            if (!$(formInstructorIdentification + 'deficiency_type_disability_hearing').is(":checked")) {
+                $(formInstructorIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+            }
+        }
+    }
+    checkMultipleDeficiencies();
 });
 
 $(formInstructorIdentification + 'deficiency_type_deafness').on('click', function () {
-    if (($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_deafness').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-    ) {
-        $(formInstructorIdentification + 'deficiency_type_multiple_disabilities').add().attr('checked', 'checked');
-    } else {
-        $(formInstructorIdentification + 'deficiency_type_multiple_disabilities').removeAttr('checked', 'checked');
-    }
     if ($(this).is(':checked')) {
-        $(formInstructorIdentification + 'deficiency_type_blindness').removeAttr('checked', 'checked');
-        $(formInstructorIdentification + 'deficiency_type_blindness').add().attr('disabled', 'disabled');
-        $(formInstructorIdentification + 'deficiency_type_disability_hearing').removeAttr('checked', 'checked');
-        $(formInstructorIdentification + 'deficiency_type_disability_hearing').add().attr('disabled', 'disabled');
-        $(formInstructorIdentification + 'deficiency_type_deafblindness').removeAttr('checked', 'checked');
-        $(formInstructorIdentification + 'deficiency_type_deafblindness').add().attr('disabled', 'disabled');
+        $(formInstructorIdentification + 'deficiency_type_blindness').removeAttr('checked', 'checked').attr('disabled', 'disabled');
+        $(formInstructorIdentification + 'deficiency_type_disability_hearing').removeAttr('checked', 'checked').attr('disabled', 'disabled');
+        $(formInstructorIdentification + 'deficiency_type_deafblindness').removeAttr('checked', 'checked').attr('disabled', 'disabled');
     } else {
-        $(formInstructorIdentification + 'deficiency_type_blindness').removeAttr('disabled');
+        if (!$(formInstructorIdentification + 'deficiency_type_low_vision').is(":checked") && !$(formInstructorIdentification + 'deficiency_type_monocular_vision').is(":checked")) {
+            $(formInstructorIdentification + 'deficiency_type_blindness').removeAttr('disabled');
+            $(formInstructorIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+        }
         $(formInstructorIdentification + 'deficiency_type_disability_hearing').removeAttr('disabled');
-        $(formInstructorIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
     }
+    checkMultipleDeficiencies();
 });
 
 $(formInstructorIdentification + 'deficiency_type_disability_hearing').on('click', function () {
-    if (($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_deafness').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-    ) {
-        $(formInstructorIdentification + 'deficiency_type_multiple_disabilities').add().attr('checked', 'checked');
-    } else {
-        $(formInstructorIdentification + 'deficiency_type_multiple_disabilities').removeAttr('checked', 'checked');
-    }
     if ($(this).is(':checked')) {
-        $(formInstructorIdentification + 'deficiency_type_deafness').removeAttr('checked', 'checked');
-        $(formInstructorIdentification + 'deficiency_type_deafness').add().attr('disabled', 'disabled');
-        $(formInstructorIdentification + 'deficiency_type_deafblindness').removeAttr('checked', 'checked');
-        $(formInstructorIdentification + 'deficiency_type_deafblindness').add().attr('disabled', 'disabled');
+        $(formInstructorIdentification + 'deficiency_type_deafness').removeAttr('checked', 'checked').attr('disabled', 'disabled');
+        $(formInstructorIdentification + 'deficiency_type_deafblindness').removeAttr('checked', 'checked').attr('disabled', 'disabled');
     } else {
-        $(formInstructorIdentification + 'deficiency_type_deafness').removeAttr('disabled');
-        $(formInstructorIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
-
+        if (!$(formInstructorIdentification + 'deficiency_type_blindness').is(":checked")) {
+            $(formInstructorIdentification + 'deficiency_type_deafness').removeAttr('disabled');
+            if (!$(formInstructorIdentification + 'deficiency_type_low_vision').is(":checked") && !$(formInstructorIdentification + 'deficiency_type_monocular_vision').is(":checked")) {
+                $(formInstructorIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+            }
+        }
     }
+    checkMultipleDeficiencies();
 });
-$(formInstructorIdentification + 'deficiency_type_deafblindness').on('click', function () {
-    if (($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_deafness').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-    ) {
-        $(formInstructorIdentification + 'deficiency_type_multiple_disabilities').add().attr('checked', 'checked');
-    } else {
-        $(formInstructorIdentification + 'deficiency_type_multiple_disabilities').removeAttr('checked', 'checked');
-    }
 
+$(formInstructorIdentification + 'deficiency_type_deafblindness').on('click', function () {
     if ($(this).is(':checked')) {
-        $(formInstructorIdentification + 'deficiency_type_blindness').removeAttr('checked', 'checked');
-        $(formInstructorIdentification + 'deficiency_type_blindness').add().attr('disabled', 'disabled');
-        $(formInstructorIdentification + 'deficiency_type_low_vision').removeAttr('checked', 'checked');
-        $(formInstructorIdentification + 'deficiency_type_low_vision').add().attr('disabled', 'disabled');
-        $(formInstructorIdentification + 'deficiency_type_deafness').removeAttr('checked', 'checked');
-        $(formInstructorIdentification + 'deficiency_type_deafness').add().attr('disabled', 'disabled');
-        $(formInstructorIdentification + 'deficiency_type_disability_hearing').removeAttr('checked', 'checked');
-        $(formInstructorIdentification + 'deficiency_type_disability_hearing').add().attr('disabled', 'disabled');
+        $(formInstructorIdentification + 'deficiency_type_blindness').removeAttr('checked', 'checked').attr('disabled', 'disabled');
+        $(formInstructorIdentification + 'deficiency_type_low_vision').removeAttr('checked', 'checked').attr('disabled', 'disabled');
+        $(formInstructorIdentification + 'deficiency_type_monocular_vision').removeAttr('checked', 'checked').attr('disabled', 'disabled');
+        $(formInstructorIdentification + 'deficiency_type_deafness').removeAttr('checked', 'checked').attr('disabled', 'disabled');
+        $(formInstructorIdentification + 'deficiency_type_disability_hearing').removeAttr('checked', 'checked').attr('disabled', 'disabled');
     } else {
         $(formInstructorIdentification + 'deficiency_type_blindness').removeAttr('disabled');
         $(formInstructorIdentification + 'deficiency_type_low_vision').removeAttr('disabled');
+        $(formInstructorIdentification + 'deficiency_type_monocular_vision').removeAttr('disabled');
         $(formInstructorIdentification + 'deficiency_type_deafness').removeAttr('disabled');
         $(formInstructorIdentification + 'deficiency_type_disability_hearing').removeAttr('disabled');
     }
+    checkMultipleDeficiencies();
 });
 
 $(formInstructorIdentification + 'deficiency_type_phisical_disability').on('click', function () {
-    if (($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_deafness').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-    ) {
-        $(formInstructorIdentification + 'deficiency_type_multiple_disabilities').add().attr('checked', 'checked');
-    } else {
-        $(formInstructorIdentification + 'deficiency_type_multiple_disabilities').removeAttr('checked', 'checked');
-    }
+    checkMultipleDeficiencies();
 });
 
 $(formInstructorIdentification + 'deficiency_type_intelectual_disability').on('click', function () {
-    if (($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_deafness').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked'))
-        || ($(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked'))
-    ) {
-        $(formInstructorIdentification + 'deficiency_type_multiple_disabilities').add().attr('checked', 'checked');
+    checkMultipleDeficiencies();
+});
+
+function checkMultipleDeficiencies() {
+    var length = 0;
+    length = $(formInstructorIdentification + 'deficiency_type_blindness').is(':checked') ? length + 1 : length;
+    length = $(formInstructorIdentification + 'deficiency_type_low_vision').is(':checked') ? length + 1 : length;
+    length = $(formInstructorIdentification + 'deficiency_type_monocular_vision').is(':checked') ? length + 1 : length;
+    length = $(formInstructorIdentification + 'deficiency_type_deafness').is(':checked') ? length + 1 : length;
+    length = $(formInstructorIdentification + 'deficiency_type_disability_hearing').is(':checked') ? length + 1 : length;
+    length = $(formInstructorIdentification + 'deficiency_type_deafblindness').is(':checked') ? length + 1 : length;
+    length = $(formInstructorIdentification + 'deficiency_type_phisical_disability').is(':checked') ? length + 1 : length;
+    length = $(formInstructorIdentification + 'deficiency_type_intelectual_disability').is(':checked') ? length + 1 : length;
+
+    if (length >= 2) {
+        $(formInstructorIdentification + 'deficiency_type_multiple_disabilities').attr('checked', 'checked');
     } else {
         $(formInstructorIdentification + 'deficiency_type_multiple_disabilities').removeAttr('checked', 'checked');
     }
-});
+}
 
 var formDocumentsAndAddress = '#InstructorDocumentsAndAddress_';
 
@@ -697,7 +606,7 @@ $(".save-instructor").click(function () {
         message += "Campo <b>Escolaridade</b> é obrigatório.<br>";
     }
 
-    if($("#InstructorDocumentsAndAddress_cpf_error").length) {
+    if ($("#InstructorDocumentsAndAddress_cpf_error").length) {
         error = true;
         message += "Corrija o campo <b>Nº do CPF</b>.<br>";
     }

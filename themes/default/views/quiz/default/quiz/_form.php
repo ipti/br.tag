@@ -10,6 +10,9 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/quiz.js', CClientScript::POS_END);
+$cs->registerCssFile($themeUrl . '/css/template2.css');
+$cs->registerCssFile($baseUrl . 'sass/css/main.css');
+
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Quiz'));
 
 
@@ -21,147 +24,147 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="row-fluid  hidden-print">
     <div class="span12">
-        <h1><?php echo $title; ?></h1>  
-        <div class="buttons">
-            <?php echo CHtml::htmlButton('<i></i>' . ($quiz->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'save_button', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
+        <h1><?php echo $title; ?></h1>
+        <div class="tag-buttons-container buttons">
+            <?php echo CHtml::htmlButton('<i></i>' . ($quiz->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'save_button', 'class' => 't-button-primary  next', 'type' => 'button'));
             ?>
-            <?php 
-                if(!$quiz->isNewRecord){
-                    echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Delete'), array('id' => 'delete_button', 'class' => 'btn btn-icon btn-primary last glyphicons delete', 'type' => 'button'));
-                }
+            <?php
+            if (!$quiz->isNewRecord) {
+                echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Delete'), array('id' => 'delete_button', 'class' => 't-button-primary  next', 'type' => 'button'));
+            }
             ?>
         </div>
     </div>
 </div>
 
-<div class="innerLR">
-    <?php if (Yii::app()->user->hasFlash('success') && (!$quiz->isNewRecord)): ?>
+<div class="tag-inner">
+    <?php if (Yii::app()->user->hasFlash('success') && (!$quiz->isNewRecord)) : ?>
         <div class="alert alert-success">
             <?php echo Yii::app()->user->getFlash('success') ?>
         </div>
     <?php endif ?>
 
-    <?php if (Yii::app()->user->hasFlash('error') && (!$quiz->isNewRecord)): ?>
+    <?php if (Yii::app()->user->hasFlash('error') && (!$quiz->isNewRecord)) : ?>
         <div class="alert alert-error">
             <?php echo Yii::app()->user->getFlash('error') ?>
         </div>
     <?php endif ?>
-    
+
     <div class="widget widget-tabs border-bottom-none">
-        <div class="widget-head  hidden-print">
-            <ul class="tab-classroom">
-                <li id="tab-quiz" class="active" ><a class="glyphicons adress_book" href="#quiz" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Quiz') ?></a></li>
-                <?php if(!$quiz->isNewRecord): ?>
-                    <li id="tab-question"><a class="glyphicons book" href="#question" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Question') ?></a></li>
+        <div class="t-tabs js-tab-control">
+            <ul class=" tab-student t-tabs__list tab-classroom">
+                <li id="tab-quiz" class="t-tabs__item active">
+                    <a class="t-tabs__link" href="#quiz" data-toggle="tab">
+                        <span class="t-tabs__numeration">1</span>
+                        <?php echo Yii::t('default', 'Quiz') ?>
+                    </a>
+                </li>
+                <?php if (!$quiz->isNewRecord) : ?>
+                    <li id="tab-question" class="t-tabs__item">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                        <a class="t-tabs__link" href="#question" data-toggle="tab">
+                            <span class="t-tabs__numeration">2</span>
+                            <?php echo Yii::t('default', 'Question') ?>
+                        </a>
+                    </li>
                 <?php endif; ?>
             </ul>
         </div>
 
         <div class="widget-body form-horizontal">
-            <div class="tab-content">
-                    
+            <div class="tab-content form-content">
                 <div class="tab-pane active" id="quiz">
-                        <div class="row-fluid">
-                            <div class=" span5">
-                                <div class="control-group">                
-                                    <?php echo $form->labelEx($quiz, 'name', array('class' => 'control-label')); ?>
-                                    <div class="controls">
-                                        <?php echo $form->textField($quiz, 'name', array('size' => 60, 'maxlength' => 150)); ?>
-                                        <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Quiz Name'); ?>"><i></i></span>
-                                        <?php echo $form->error($quiz, 'name'); ?>
-                                    </div>
-                                </div> 
-                                <!-- .control-group -->
-                                <div class="control-group" id="modality">
-                                    <?php echo $form->labelEx($quiz, 'status', array('class' => 'control-label required')); ?>
-                                    <div class="controls">
-                                        <?php
-                                        echo $form->DropDownList($quiz, 'status', array(
-                                            null => 'Selecione o status',
-                                            '1' => 'Ativo',
-                                            '0' => 'Inativo'), array('class' => 'select-search-off'));
-                                        ?>
-                                        <?php echo $form->error($quiz, 'status'); ?>
-                                    </div>
-                                </div>
+                    <div class="row">
+                        <div class="column">
+                            <div class="t-field-text">
+                                <?php echo $form->labelEx($quiz, 'name', array('class' => 'control-label t-field-text__label--required')); ?>
+                                <?php echo $form->textField($quiz, 'name', array('size' => 60, 'maxlength' => 150, 'class' => 't-field-text__input',)); ?>
+                                <?php echo $form->error($quiz, 'name'); ?>
                             </div>
-                            <div class=" span5">
-                                <div class="control-group">                
-                                    <?php echo $form->labelEx($quiz, 'init_date', array('class' => 'control-label')); ?>
-                                    <div class="controls">
-                                        <?= $form->dateField($quiz, "init_date") ?>
-                                        <?php echo $form->error($quiz, 'init_date'); ?>
-                                    </div>
-                                </div> <!-- .control-group -->
-                                <div class="control-group">
-                                    <?php echo $form->labelEx($quiz, 'final_date', array('class' => 'control-label required')); ?>
-                                    <div class="controls">
-                                        <?= $form->dateField($quiz, "final_date") ?>
-                                        <?php echo $form->error($quiz, 'final_date'); ?>
-                                    </div>
-                                </div> <!-- .control-group -->
+
+                            <div class="t-field-select" id="modality">
+                                <?php echo $form->labelEx($quiz, 'status', array('class' => 'control-label t-field-text__label--required')); ?>
+                                <?php
+                                echo $form->DropDownList($quiz, 'status', array(
+                                    null => 'Selecione o status',
+                                    '1' => 'Ativo',
+                                    '0' => 'Inativo'
+                                ), array('class' => 'select-search-off t-field-select__input'));
+                                ?>
+                                <?php echo $form->error($quiz, 'status'); ?>
                             </div>
                         </div>
-
-                        <div class="row-fluid">
-                            <div class="span12">
-							<div class="control-group">                
-                                    <?php echo $form->labelEx($quiz, 'description', array('class' => 'control-label')); ?>
-                                    <div class="controls">
-                                        <?= $form->textArea($quiz, "description", array('rows' => 5, 'cols'=> 110)) ?>
-                                        <?php echo $form->error($quiz, 'description'); ?>
-                                    </div>
-                                </div> <!-- .control-group -->
-
+                        <div class="column">
+                            <div class="t-field-text">
+                                <?php echo $form->labelEx($quiz, 'init_date', array('class' => 'control-label required')); ?>
+                                <?= $form->dateField($quiz, "init_date", array('class' => 't-field-text__input')) ?>
+                                <?php echo $form->error($quiz, 'init_date'); ?>
+                            </div>
+                            <div class="t-field-text">
+                                <?php echo $form->labelEx($quiz, 'final_date', array('class' => 'control-label required')); ?>
+                                <?= $form->dateField($quiz, "final_date", array('class' => 't-field-text__input')) ?>
+                                <?php echo $form->error($quiz, 'final_date'); ?>
                             </div>
                         </div>
                     </div>
-                    <?php if(!$quiz->isNewRecord): ?>
+
+                    <div class="row">
+                        <div class="column">
+                            <div class="t-field-tarea hide-responsive">
+                                <?php echo $form->labelEx($quiz, 'description', array('class' => 't-field-tarea__label')); ?>
+                                <?= $form->textArea($quiz, "description", array('rows' => 5, 'cols' => 110, 'class' => 't-field-tarea__input')) ?>
+                                <?php echo $form->error($quiz, 'description'); ?>
+                            </div>
+                        </div>
+                        <div class="column">
+                        </div>
+                    </div>
+                </div>
+                <?php if (!$quiz->isNewRecord) : ?>
                     <div class="tab-pane" id="question">
-                        <div class="row-fluid">
-                            <div class="span5">
-                                <div class="control-group">                
-                                    <?php echo CHtml::label('Questão', 'id', array('class' => 'control-label')); ?>
-                                    <div class="controls">
+                        <div class="row">
+                            <div class="column helper">
+                                <div class="t-field-select ">
+                                    <?php echo CHtml::label('Questão', 'id', array('class' => 'control-label t-field-text__label required')); ?>
                                     <?php
-                                        $questions = Question::model()->findAll();
-                                        echo $form->dropDownList($quizQuestion, 'question_id',
-                                            CHtml::listData(
-                                                $questions, 'id', 'description'),
-                                            array("prompt" => "Selecione uma questão", 'class' => 'select-search-on')); ?>
-                                    </div>
+                                    $questions = Question::model()->findAll();
+                                    echo $form->dropDownList(
+                                        $quizQuestion,
+                                        'question_id',
+                                        CHtml::listData(
+                                            $questions,
+                                            'id',
+                                            'description'
+                                        ),
+                                        array("prompt" => "Selecione uma questão", 'class' => 'select-search-on t-field-select__input')
+                                    ); ?>
                                     <?php echo $form->hiddenField($quizQuestion, 'quiz_id', array('size' => 60, 'maxlength' => 45, 'value' => $quiz->id)); ?>
                                 </div> <!-- .control-group -->
-								<div class="control-group">
-									<div class="controls">
-										<button id="save_quiz_question_button" class="btn btn-icon btn-primary last glyphicons circle_ok" type="button" name="yt0"><i></i>Salvar</button>
-									</div>
-								</div>
+                                <div class="control-group">
+                                    <button id="save_quiz_question_button" class="t-button-primary" type="button" name="yt0"><i></i>Salvar</button>
+                                </div>
                             </div>
 
-                            <div class="span6">
+                            <div class="column">
                                 <table class="grade-table table table-bordered table-striped">
-										<thead>
-											<tr>
-												<th width="15%">Nº</th>
-												<th width="55%">Opção</th>
-												<th width="30%">Ação</th>
-											</tr>
-										</thead>
-										<tbody id="container_quiz_question"></tbody>
+                                    <thead>
+                                        <tr>
+                                            <th width="15%">Nº</th>
+                                            <th width="55%">Opção</th>
+                                            <th width="30%">Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="container_quiz_question"></tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    <?php endif; ?>
-                </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
-	
 </div>
-
-<?php $form = $this->endWidget(); 
+<?php $form = $this->endWidget();
 
 
 
@@ -171,7 +174,7 @@ $query = Yii::app()->db->createCommand()
     ->select('qq.quiz_id, qq.question_id, description')
     ->from('quiz_question qq')
     ->join('question qu', 'qq.question_id=qu.id')
-    ->where('qq.quiz_id=:quizId', array(':quizId'=>$quiz->id))
+    ->where('qq.quiz_id=:quizId', array(':quizId' => $quiz->id))
     ->queryAll();
 
 foreach ($query as $value) {
@@ -181,9 +184,9 @@ foreach ($query as $value) {
 
 
 $script = "
-    var dataQuizQuestion = ".json_encode($dataQuizQuestion).";
+    var dataQuizQuestion = " . json_encode($dataQuizQuestion) . ";
     QuizQuestion.init();";
 
-$cs->registerScript('quizQuestion' ,$script, CClientScript::POS_END);
+$cs->registerScript('quizQuestion', $script, CClientScript::POS_END);
 
 ?>

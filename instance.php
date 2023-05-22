@@ -8,12 +8,16 @@ $_FORMS[5] = array('name'=>'Formulário de Transferência','action'=>'TransferFo
 $_FORMS[6] = array('name'=>'Requerimento de Transferência','action'=>'TransferRequirement');
 $_FORMS[8] = array('name'=>'Declaração de Cursou','action'=>'StatementAttended');
 $_FORMS[8] = array('name'=>'Termo de Advertência','action'=>'WarningTerm');
+$domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
+$newdb = $domain.'.tag.ong.br';
 
-@$domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
+if($domain == "localhost"){
+    $newdb = 'demo.tag.ong.br';
+}
 
 $_GLOBALGROUP = 0;
 
-switch ($domain) {
+/*switch ($domain) {
     case 'propria':
         $instance = 'PROPRIÁ';
         $db = 'io.escola.se.propria';
@@ -24,7 +28,7 @@ switch ($domain) {
         break;
     case 'santaluzia':
         $instance = 'SANTA LUZIA DO ITANHY';
-        $db = 'io.escola.se.santaluzia';
+        $db = 'santaluzia.tag.ong.br';
         break;
     case 'santaluzia3':
         $instance = 'SANTA LUZIA DO ITANHY - 3';
@@ -110,6 +114,10 @@ switch ($domain) {
         $instance = 'SÃO SEBASTIÃO';
         $db = 'io.escola.pa.saosebastiao';
         break;
+    case 'rubelita':
+        $instance = 'RUBELITA';
+        $db = 'rubelita.tag.ong.br';
+        break;
     case 'padrecarvalho':
         $instance = 'PADRE CARVALHO';
         $db = 'io.escola.mg.padrecarvalho';
@@ -154,6 +162,14 @@ switch ($domain) {
         $instance = 'CAMPO DO BRITO';
         $db = 'io.escola.se.campodobrito';
         break;
+    case 'pocodantas':
+        $instance = 'POÇO DANTAS';
+        $db = 'br.ong.tag.paraiba.pocodantas';
+        break;
+    case 'uirauna':
+        $instance = 'UIRÁUNA';
+        $db = 'br.ong.tag.paraiba.uirauna';
+        break;
     case 'saomigueldoaleixo':
         $instance = 'SÃO MIGUEL DO ALEIXO';
         $db = 'io.escola.se.saomigueldoaleixo';
@@ -181,6 +197,10 @@ switch ($domain) {
     case 'indiaroba':
         $instance = 'INDIAROBA';
         $db = 'io.escola.se.indiaroba';
+        break;
+    case 'generalmaynard':
+        $instance = 'GENERAL MAYANARD';
+        $db = 'br.ong.tag.se.generalmaynard';
         break;
     case 'geminiano':
         $_GLOBALGROUP = 1;
@@ -271,9 +291,9 @@ switch ($domain) {
         $instance = 'DEV';
         $db = 'br.ong.tag.maranhao.bacabeira';
         break;
-    case 'buzios':
+    case 'sandbox':
         $instance = 'BUZIOS';
-        $db = 'br.ong.tag.rj.buzios';
+        $db = 'buzios.tag.ong.br';
         break;
     case 'ubatuba':
         $instance = 'UBATUBA';
@@ -283,21 +303,20 @@ switch ($domain) {
         $instance = 'SERGIPE';
         $db = 'io.escola.demo';
         break;
-}
+}*/
 
 define("GLOGALGROUP",$_GLOBALGROUP);
 define("FORMS",serialize($_FORMS));
-define("DBNAME",$db);
-
+define("DBNAME",$newdb);
 $HOST = getenv("HOST_DB_TAG");
 $USER = getenv("USER_DB_TAG");
 $PWD = getenv("PWD_DB_TAG");
 
 define ("DBCONFIG", serialize (array(
-    'connectionString' => "mysql:host=$HOST;dbname=$db",
+    'connectionString' => "mysql:host=$HOST;dbname=$newdb",
     'emulatePrepare' => true,
     'username' => $USER,
     'password' => $PWD,
     'charset' => 'utf8',
 )));
-define('INSTANCE',$instance);
+define('INSTANCE',strtoupper($domain));

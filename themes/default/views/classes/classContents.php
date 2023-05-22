@@ -61,8 +61,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     </table>
     <br>
 
-    <div class="innerLR">
-
+    <!-- <div class="innerLR"> -->
+    <div>
     <?php if (Yii::app()->user->hasFlash('success')) : ?>
         <div class="alert alert-success">
             <?php echo Yii::app()->user->getFlash('success') ?>
@@ -90,6 +90,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     </select>
                 </div>
 
+            </div>
+
+            <div>
 
                 <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 'control-label required', 'style' => 'width: 53px;')); ?>
 
@@ -116,7 +119,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 ?>
 
             </div>
-            <div class="disciplines-container">
+            <div class="disciplines-container" style="display: none;">
                 <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required', 'style' => 'width: 85px;')); ?>
                 <?php
                 echo CHtml::dropDownList('disciplines', '', array(), array(
@@ -131,8 +134,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             ></i><?php echo Yii::t('default', 'Search') ?>
                 </a>
             </div>
-            <i class="loading-class-contents fa fa-spin fa-spinner" style="display: none"></i>
-        
+            <img class="loading-class-contents"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
     </div>
     <div class="clear"></div>
     <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
@@ -151,34 +153,32 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     </div>
 </div>
 
-        <div class="modal fade" id="js-classroomdiary" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <div class="modal-container modal fade modal-content" id="js-classroomdiary" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">           
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"
-                        id="myModalLabel">Diário de Aula</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Diário de Aula</h4>           
                 </div>
                 <form method="post">
-                    <input type="hidden" class="classroom-diary-day">
+                <input type="hidden" class="classroom-diary-day">
                     <div class="modal-body">
-                        <label>Diário de Aula Geral</label>
-                        <textarea class="js-classroom-diary"></textarea>
+                        <div class="t-field-tarea">
+                            <label class="t-field-tarea__label">Diário de Aula Geral</label>
+                            <textarea class="t-field-tarea__input js-classroom-diary"></textarea>
+                        </div>
+                        
                         <label>Diário de Aula por Aluno</label>
                         <div class="alert alert-error classroom-diary-no-students no-show">Não há alunos matriculados na turma.</div>
                         <div class="accordion accordion-students" id="accordion-students"></div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default"
-                                data-dismiss="modal">Cancelar
-                        </button>
-                        <button type="button" class="btn btn-primary js-add-classroom-diary"
-                                data-dismiss="modal">Salvar
-                        </button>
+                    
+                        <div class="modal-footer mobile-row">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary js-add-classroom-diary" data-dismiss="modal">Salvar</button>
+                        </div>
                     </div>
                 </form>
-            </div>
         </div>
     </div>
     <?php $this->endWidget(); ?>

@@ -140,28 +140,28 @@ class studentEnrollmentValidation extends Register
         switch ($classroomStage) {
             case 3:
                 if ($enrollmentStage !== "1" && $enrollmentStage !== "2") {
-                    return array("status" => false, "erro" => "quando for Educação Infantil Unificada, a etapa de ensino é OBRIGATÓRIA e deve ser Creche ou Pré-escola.");
+                    return array("status" => false, "erro" => "em turmas de Educação Infantil Unificada, o campo ETAPA DE ENSINO na matrícula é OBRIGATÓRIA e deve ser Creche ou Pré-escola.");
                 }
                 break;
             case 22:
             case 23:
                 if ($enrollmentStage !== "14" && $enrollmentStage !== "15" && $enrollmentStage !== "16" && $enrollmentStage !== "17" && $enrollmentStage !== "18" && $enrollmentStage !== "19" && $enrollmentStage !== "20" && $enrollmentStage !== "21" && $enrollmentStage !== "41") {
-                    return array("status" => false, "erro" => "quando for Ensino Fundamental de 9 Anos - Multi ou Correção de Fluxo, a etapa de ensino é OBRIGATÓRIA e deve ser derivada do Ensino Fundamental de 9 Anos.");
+                    return array("status" => false, "erro" => "em turmas de Ensino Fundamental de 9 Anos - Multi ou Correção de Fluxo, o campo ETAPA DE ENSINO na matrícula é OBRIGATÓRIA e deve ser derivada do Ensino Fundamental de 9 Anos.");
                 }
                 break;
             case 72:
                 if ($enrollmentStage !== "69" && $enrollmentStage !== "70") {
-                    return array("status" => false, "erro" => "quando for EJA - Ensino Fundamental - Anos Iniciais e Anos Finais, a etapa de ensino é OBRIGATÓRIA e deve ser EJA, 'Anos Iniciais' ou 'Anos Finais'.");
+                    return array("status" => false, "erro" => "em turmas de EJA - Ensino Fundamental - Anos Iniciais e Anos Finais, o campo ETAPA DE ENSINO na matrícula é OBRIGATÓRIA e deve ser EJA, 'Anos Iniciais' ou 'Anos Finais'.");
                 }
                 break;
             case 56:
                 if ($enrollmentStage !== "1" && $enrollmentStage !== "2" && $enrollmentStage !== "14" && $enrollmentStage !== "15" && $enrollmentStage !== "16" && $enrollmentStage !== "17" && $enrollmentStage !== "18" && $enrollmentStage !== "19" && $enrollmentStage !== "20" && $enrollmentStage !== "21" && $enrollmentStage !== "41") {
-                    return array("status" => false, "erro" => "quando for Educação Infantil e Ensino Fundamental (8 e 9 anos) Multietapa, a etapa de ensino é OBRIGATÓRIA e deve ser alguma derivada da 'Educação Infantil' ou 'Ensino Fundamental de 9 Anos'.");
+                    return array("status" => false, "erro" => "em turmas de Educação Infantil e Ensino Fundamental (8 e 9 anos) Multietapa, o campo ETAPA DE ENSINO na matrícula é OBRIGATÓRIA e deve ser alguma derivada da 'Educação Infantil' ou 'Ensino Fundamental de 9 Anos'.");
                 }
                 break;
             case 64:
                 if ($enrollmentStage !== "39" && $enrollmentStage !== "40") {
-                    return array("status" => false, "erro" => "quando for Educação Profissional Mista - Concomitante e Subsequente , a etapa de ensino é OBRIGATÓRIA e deve ser Curso Técnico - Concomitante ou Subsequente.");
+                    return array("status" => false, "erro" => "em turmas de Educação Profissional Mista - Concomitante e Subsequente , o campo ETAPA DE ENSINO na matrícula é OBRIGATÓRIA e deve ser Curso Técnico - Concomitante ou Subsequente.");
                 }
                 break;
         }

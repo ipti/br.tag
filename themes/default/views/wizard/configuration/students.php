@@ -26,14 +26,13 @@ $model = new StudentEnrollment();
 ?>
 <div class="main">
     <div class="row-fluid">
-        <div class="span12">
+        <div class="span12" style="margin-left: 20px;">
             <h1>
                 <?php echo $title; ?>
             </h1>
 
         </div>
     </div>
-    <div class="innerLR">
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">
                 <?php echo Yii::app()->user->getFlash('success') ?>
@@ -54,7 +53,7 @@ $model = new StudentEnrollment();
                                         ), 'id', 'name'), array(
                                             'class' => 'select-search-on',
                                             'multiple' => 'multiple',
-                                            'placeholder' => Yii::t('default', 'Select Classroom'),
+                                            'placeholder' => Yii::t('default', 'Select Classrooms'),
                                         ));
                                         ?>
                                     </div>
@@ -87,7 +86,6 @@ $model = new StudentEnrollment();
             </div>
         </div>
     </div>
-    </div>
 <script type="text/javascript">
     $(document).ready(function() {
         $("#Students").select2({
@@ -99,3 +97,17 @@ $model = new StudentEnrollment();
     var formEnrollment = '#StudentEnrollment_';
     var updateDependenciesURL = "<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>";
 </script>
+
+<style>
+    .select2-choice {
+        height: 44px !important;
+    }
+    .select2-chosen {
+        margin-top: 7px !important;
+        color: #999 !important;
+        font-weight: 400;
+    }
+    .select2-choice .select2-arrow b {
+        margin-top: 8px !important;
+    }
+</style>

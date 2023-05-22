@@ -13,22 +13,26 @@ class IdentifyStudentRACode
     private  $studentTAGDataSource;
     private  $studentSEDDataSource;
 
-    function __construct($studentTAGDataSource = null, $studentSEDDataSource = null) {
+    public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null) {
         $this->studentTAGDataSource = $studentTAGDataSource ?? new StudentTAGDataSource();
         $this->studentSEDDataSource = $studentSEDDataSource ?? new StudentSEDDataSource();
     }
-    public function exec($tag_student_id)
+
+    /**
+     * Summary of exec
+     * @param int $tag_student_id StudentIdentificantion Id from TAG
+     * @param boolean $force Force search from TAG
+     * @return DadosAluno|OutErro
+     */
+    public function exec($tag_student_id, $force = false)
     {
-        $students = $this->studentTAGDataSource->getAllStudentBySchool($tag_student_id);
-        // $response = $this->studentSEDDataSource->getStudentRA($student->name, $student->birthday, $student->filiation_1);
-        $response = $this->studentSEDDataSource->getAllStudentsRA($students);
-        // $response = $this->studentSEDDataSource->getStudentRA("ADALBERTO AMORIM CARDOSO DOS SANTOS", "24/05/2018", "VICTORIA APARECIDA DOS SANTOS");
-        // $body = $response->getBody()->getContents();
-
-        $dadosAluno = new DadosAluno($body);
-        var_dump($dadosAluno);
-
-        //Acessando os dados do aluno
-        return $dadosAluno->outAluno->outNumRA;
+        // Get Student From TAG database
+        $student_tag = $this->studentTAGDataSource->getStudent($tag_student_id);
+        $nome = $student_tag->name;
+        $data_nascimento = $student_tag->birthday;
+        $nome_mae = $student_tag->filiation_1;
+        $aluno_sed = $this->studentSEDDataSource->getStudentRA($nome,$data_nascimento, $nome_mae,$force);
+        
+        return $aluno_sed;
     }
 }

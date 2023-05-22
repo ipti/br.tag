@@ -2,7 +2,7 @@
 return [
     'Schedule' => 'Horário',
     'Exam dates' => 'Datas das Avaliações',
-
+    'School Configuration' => 'Configuração de Escola',
     'Morning Initial' => 'Manhã Início',
     'Morning Final' => 'Manhã Final',
     'Afternoon Initial' => 'Tarde Início',

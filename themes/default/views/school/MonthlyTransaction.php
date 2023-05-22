@@ -64,7 +64,7 @@
   </div>
   
   <div class='container-report mt-20'>
-    <? switch($type){ 
+    <?php switch($type){ 
         case 1:
           $this->renderPartial('_initial_year', array());
         break;
@@ -84,7 +84,7 @@
         <th>Nº</th>
         <th class="">PESSOAL DOCENTE EM EXERCÍCIO EM SALA DE AULA</th>
         <th>VÍNCULO</th>
-        <th>DISCIPLINAS LECIONADAS</th>
+        <th>COMPONENTES CURRICULARES/EIXOS LECIONADOS</th>
         <th>ANO</th>
         <th>TURMA</th>
         <th>C.H</th>
