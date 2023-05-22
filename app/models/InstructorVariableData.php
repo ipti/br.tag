@@ -42,6 +42,8 @@
  * @property integer $other_courses_field_education
  * @property integer $other_courses_environment_education
  * @property integer $other_courses_human_rights_education
+ * @property integer $other_courses_bilingual_education_for_the_deaf
+ * @property integer $other_courses_education_and_tic
  * @property integer $other_courses_sexual_education
  * @property integer $other_courses_child_and_teenage_rights
  * @property integer $other_courses_ethnic_education
@@ -51,11 +53,11 @@
  *
  * The followings are the available model relations:
  * @property EdcensoCourseOfHigherEducation $highEducationCourseCode1Fk
- * @property EdcensoIes $highEducationInstitutionCode1Fk
+ * @property EdcensoIES $highEducationInstitutionCode1Fk
  * @property EdcensoCourseOfHigherEducation $highEducationCourseCode2Fk
- * @property EdcensoIes $highEducationInstitutionCode2Fk
+ * @property EdcensoIES $highEducationInstitutionCode2Fk
  * @property EdcensoCourseOfHigherEducation $highEducationCourseCode3Fk
- * @property EdcensoIes $highEducationInstitutionCode3Fk
+ * @property EdcensoIES $highEducationInstitutionCode3Fk
  */
 class InstructorVariableData extends AltActiveRecord
 {
@@ -94,7 +96,7 @@ class InstructorVariableData extends AltActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('school_inep_id_fk, scholarity, other_courses_nursery, other_courses_pre_school, other_courses_basic_education_initial_years, other_courses_basic_education_final_years, other_courses_high_school, other_courses_education_of_youth_and_adults, other_courses_special_education, other_courses_native_education, other_courses_field_education, other_courses_environment_education, other_courses_human_rights_education, other_courses_sexual_education, other_courses_child_and_teenage_rights, other_courses_ethnic_education, other_courses_other, other_courses_none', 'required'),
+			array('school_inep_id_fk, scholarity, other_courses_nursery, other_courses_pre_school, other_courses_basic_education_initial_years, other_courses_basic_education_final_years, other_courses_high_school, other_courses_education_of_youth_and_adults, other_courses_special_education, other_courses_native_education, other_courses_field_education, other_courses_environment_education, other_courses_human_rights_education, other_courses_bilingual_education_for_the_deaf, other_courses_education_and_tic, other_courses_sexual_education, other_courses_child_and_teenage_rights, other_courses_ethnic_education, other_courses_other, other_courses_none', 'required'),
 			array('scholarity, high_education_situation_1, high_education_formation_1, high_education_institution_code_1_fk, high_education_situation_2, high_education_formation_2, high_education_institution_code_2_fk, high_education_situation_3, high_education_formation_3, high_education_institution_code_3_fk, post_graduation_specialization, post_graduation_master, post_graduation_doctorate, post_graduation_none, other_courses_nursery, other_courses_pre_school, other_courses_basic_education_initial_years, other_courses_basic_education_final_years, other_courses_high_school, other_courses_education_of_youth_and_adults, other_courses_special_education, other_courses_native_education, other_courses_field_education, other_courses_environment_education, other_courses_human_rights_education, other_courses_sexual_education, other_courses_child_and_teenage_rights, other_courses_ethnic_education, other_courses_other, other_courses_none', 'numerical', 'integerOnly'=>true),
 			array('register_type', 'length', 'max'=>2),
 			array('school_inep_id_fk', 'length', 'max'=>8),
@@ -104,7 +106,7 @@ class InstructorVariableData extends AltActiveRecord
 			array('hash', 'length', 'max'=>40),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('register_type, school_inep_id_fk, inep_id, id, scholarity, high_education_situation_1, high_education_formation_1, high_education_course_code_1_fk, high_education_initial_year_1, high_education_final_year_1, high_education_institution_code_1_fk, high_education_situation_2, high_education_formation_2, high_education_course_code_2_fk, high_education_initial_year_2, high_education_final_year_2, high_education_institution_code_2_fk, high_education_situation_3, high_education_formation_3, high_education_course_code_3_fk, high_education_initial_year_3, high_education_final_year_3, high_education_institution_code_3_fk, post_graduation_specialization, post_graduation_master, post_graduation_doctorate, post_graduation_none, other_courses_nursery, other_courses_pre_school, other_courses_basic_education_initial_years, other_courses_basic_education_final_years, other_courses_high_school, other_courses_education_of_youth_and_adults, other_courses_special_education, other_courses_native_education, other_courses_field_education, other_courses_environment_education, other_courses_human_rights_education, other_courses_sexual_education, other_courses_child_and_teenage_rights, other_courses_ethnic_education, other_courses_other, other_courses_none, hash', 'safe', 'on'=>'search'),
+			array('register_type, school_inep_id_fk, inep_id, id, scholarity, high_education_situation_1, high_education_formation_1, high_education_course_code_1_fk, high_education_initial_year_1, high_education_final_year_1, high_education_institution_code_1_fk, high_education_situation_2, high_education_formation_2, high_education_course_code_2_fk, high_education_initial_year_2, high_education_final_year_2, high_education_institution_code_2_fk, high_education_situation_3, high_education_formation_3, high_education_course_code_3_fk, high_education_initial_year_3, high_education_final_year_3, high_education_institution_code_3_fk, post_graduation_specialization, post_graduation_master, post_graduation_doctorate, post_graduation_none, other_courses_nursery, other_courses_pre_school, other_courses_basic_education_initial_years, other_courses_basic_education_final_years, other_courses_high_school, other_courses_education_of_youth_and_adults, other_courses_special_education, other_courses_native_education, other_courses_field_education, other_courses_environment_education, other_courses_human_rights_education, other_courses_bilingual_education_for_the_deaf, other_courses_education_and_tic, other_courses_sexual_education, other_courses_child_and_teenage_rights, other_courses_ethnic_education, other_courses_other, other_courses_none, hash', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -117,11 +119,11 @@ class InstructorVariableData extends AltActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'highEducationCourseCode1Fk' => array(self::BELONGS_TO, 'EdcensoCourseOfHigherEducation', 'high_education_course_code_1_fk'),
-			'highEducationInstitutionCode1Fk' => array(self::BELONGS_TO, 'EdcensoIes', 'high_education_institution_code_1_fk'),
+			'highEducationInstitutionCode1Fk' => array(self::BELONGS_TO, 'EdcensoIES', 'high_education_institution_code_1_fk'),
 			'highEducationCourseCode2Fk' => array(self::BELONGS_TO, 'EdcensoCourseOfHigherEducation', 'high_education_course_code_2_fk'),
-			'highEducationInstitutionCode2Fk' => array(self::BELONGS_TO, 'EdcensoIes', 'high_education_institution_code_2_fk'),
+			'highEducationInstitutionCode2Fk' => array(self::BELONGS_TO, 'EdcensoIES', 'high_education_institution_code_2_fk'),
 			'highEducationCourseCode3Fk' => array(self::BELONGS_TO, 'EdcensoCourseOfHigherEducation', 'high_education_course_code_3_fk'),
-			'highEducationInstitutionCode3Fk' => array(self::BELONGS_TO, 'EdcensoIes', 'high_education_institution_code_3_fk'),
+			'highEducationInstitutionCode3Fk' => array(self::BELONGS_TO, 'EdcensoIES', 'high_education_institution_code_3_fk'),
 		);
 	}
 
@@ -169,6 +171,8 @@ class InstructorVariableData extends AltActiveRecord
 			'other_courses_field_education' => Yii::t('default', 'Other Courses Field Education'),
 			'other_courses_environment_education' => Yii::t('default', 'Other Courses Environment Education'),
 			'other_courses_human_rights_education' => Yii::t('default', 'Other Courses Human Rights Education'),
+			'other_courses_bilingual_education_for_the_deaf' => Yii::t('default', 'Other Courses Bilingual Education For The Deaf'),
+			'other_courses_education_and_tic' => Yii::t('default', 'Other Courses Education And Tic'),
 			'other_courses_sexual_education' => Yii::t('default', 'Other Courses Sexual Education'),
 			'other_courses_child_and_teenage_rights' => Yii::t('default', 'Other Courses Child And Teenage Rights'),
 			'other_courses_ethnic_education' => Yii::t('default', 'Other Courses Ethnic Education'),
@@ -226,6 +230,8 @@ class InstructorVariableData extends AltActiveRecord
 		$criteria->compare('other_courses_field_education',$this->other_courses_field_education);
 		$criteria->compare('other_courses_environment_education',$this->other_courses_environment_education);
 		$criteria->compare('other_courses_human_rights_education',$this->other_courses_human_rights_education);
+		$criteria->compare('other_courses_bilingual_education_for_the_deaf',$this->other_courses_bilingual_education_for_the_deaf);
+		$criteria->compare('other_courses_education_and_tic',$this->other_courses_education_and_tic);
 		$criteria->compare('other_courses_sexual_education',$this->other_courses_sexual_education);
 		$criteria->compare('other_courses_child_and_teenage_rights',$this->other_courses_child_and_teenage_rights);
 		$criteria->compare('other_courses_ethnic_education',$this->other_courses_ethnic_education);

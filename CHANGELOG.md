@@ -1,5 +1,55 @@
 # Atualizações
 
+
+## [Versão 3.21.49]
+- Corrigido a pré seleção no select de cargo no formulário de usuário
+
+## [Versão 3.21.48]
+- O seletor de turma final agora é exibido corretamente
+- 
+## [Versão 3.21.47]
+- Espaçamento dos botões na tela de relatórios foi corrigido
+
+## [Versão 3.21.46]
+- adicionada a opção outros no select de instituição de ensino superior
+
+## [Versão 3.21.45]
+- Agora é possível adicionar até 2 professores regentes por turma
+
+## [Versão 3.20.45]
+- O erro ao deletar professores sem documentos e endereços cadastrados foi corrigido
+
+
+## [Versão 3.20.44]
+- Novo relatório de acompanhamento avaliativo dos alunos
+
+## [Versão 3.19.44]
+- Corrigido a margem dos checkbox no formulário de escola
+
+## [Versão 3.19.43]
+ - Corrigido o espaçamento dos checkbox no formulário de escola e o alinhamento dos campos desse formulário foi ajustado 
+
+## [Versão 3.18.42]
+- Em turmas, ata de notas agora exibe as notas corretamente
+- O campo de inserção da instituição de ensino superior no formulário do professor foi corrigido
+
+## [Vesão 3.18.41]
+- Ajuste na largura para impressão do relatório de matrícula
+- Adição de legendas para o relatório de matrícula
+- Modificação do formulário de gerar ata de conselho de classe
+- O bug de repetição dos professores no ata de conselho de classe foi corrigido
+
+## [Versão 3.18.38]
+- Modelo de ata de conselho de classe de 6º ao 9º ano adicionado
+- Modelo de ata de conselho de classe de ensino médio adicionado
+
+## [Versão 3.16.38]
+- No relatório trimestral o cabeçalho com as informações do aluno foi adicionado a primeira página
+- No relatório trimestral de 1ºANO, 2º ANO e 3º ANO o cabeçalho de buzios foi corrigido para a logo ficar posicionada corretamente
+- Agora todos os botões do módulo relatórios abrem o relatório em uma nova aba
+
+## [Versão 3.17.35]
+- Adicionando campo de truno no cadastro de cardápio
 ## [Versão 3.16.35]
 - Mudando a ordenação 'default' dos alunos na página Ordem no Diário
 - Colocado campo de número do ató no formulário de escola

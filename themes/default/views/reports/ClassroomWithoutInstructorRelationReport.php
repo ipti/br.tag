@@ -30,7 +30,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 <th> Ordem</th>
                 <th> Nome da Turma</th>
                 <th> Etapa</th>
-                <th> Disciplina(s)</th>
+                <th> Componente(s) curricular(es)/eixo(s)</th>
             </tr>
 
             <?php

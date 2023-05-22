@@ -32,11 +32,11 @@ $this->breadcrumbs = array(
                     <?php echo Yii::app()->user->getFlash('error') ?>
                 </div>
             <?php endif ?>
-            <div class="container-box">
+            <div class="container-box student-report-container">
 
                 <p>Alunos</p>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/NumberStudentsPerClassroomReport') ?>">
+                <a href="<?php echo Yii::app()->createUrl('reports/NumberStudentsPerClassroomReport') ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/NumberStudentsPerClassroomReport.svg" />
@@ -49,7 +49,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/incompatiblestudentagebyclassroomreport') ?>">
+                <a href="<?php echo Yii::app()->createUrl('reports/incompatiblestudentagebyclassroomreport') ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/incompatiblestudentagebyclassroomreport.svg" />
@@ -79,12 +79,12 @@ $this->breadcrumbs = array(
                         <!-- <div class="t-icon-schedule report-icon"></div> -->
                     </div>
                     <div class="pull-left">
-                        <span class="title">Participantes do bolsa familia</span><br>
-                        <span class="subtitle">Alunos beneficiários do bolsa família</span>
+                        <span class="title">Frequência para o bolsa família</span><br>
+                        <span class="subtitle">Frequência dos alunos por turma nos últimos três meses</span>
                     </div>
                 </button>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/studentpendingdocument') ?>">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentpendingdocument') ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/studentpendingdocument.svg" />
@@ -97,7 +97,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/studentsbyclassroomreport') ?>">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentsbyclassroomreport') ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/studentsbyclassroomreport.svg" />
@@ -123,7 +123,7 @@ $this->breadcrumbs = array(
                     </button>
                 <?php } ?>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/studentsbetween5and14yearsoldreport', array('id' => Yii::app()->user->school)) ?>">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentsbetween5and14yearsoldreport', array('id' => Yii::app()->user->school)) ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/studentsbetween5and14yearsoldreport.svg" />
@@ -136,7 +136,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/studentsinalphabeticalorderrelationreport') ?>">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentsinalphabeticalorderrelationreport') ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/studentsinalphabeticalorderrelationreport.svg" />
@@ -149,7 +149,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/studentspecialfood') ?>">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentspecialfood') ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/studentspecialfood.svg" />
@@ -162,7 +162,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/outoftownstudentsreport') ?>">
+                <a href="<?php echo Yii::app()->createUrl('reports/outoftownstudentsreport') ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/outoftownstudentsreport.svg" />
@@ -174,9 +174,10 @@ $this->breadcrumbs = array(
                         </div>
                     </button>
                 </a>
+                
+                <a href="<?php echo Yii::app()->createUrl('reports/electronicdiary') ?>"  target="_blank"  rel="noopener">
 
-                <a href="<<?php echo Yii::app()->createUrl('reports/electronicdiary') ?>">
-                    <button type="button" class="report-box-container">
+                    <button type="button" class="report-box-container" style="padding-left: 25px;">
                         <div class="pull-left" style="margin-right: 20px;">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/electronicdiary.svg" />
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
@@ -199,13 +200,34 @@ $this->breadcrumbs = array(
                             <span class="subtitle">Avaliação do aluno no trimestre</span>
                         </div>
                     </button>
+                    <button type="button" class="report-box-container quarterly-follow-up" data-toggle="modal" data-target="#quarterly-follow-up" target="_blank" style="margin-left:15px;padding-left: 35px;">
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/student_monitoring.svg" alt="student_monitoring" />
+                            <!-- <div class="t-icon-schedule report-icon"></div> -->
+                        </div>
+                        <d  iv class="pull-left">
+                            <span class="title">Relatório trimestral de acompanhamento</span><br>
+                            <span class="subtitle">Acompanhamento dos alunos por disciplina</span>
+                        </div>
+                    </button>
+                    
+                    <button type="button" class="report-box-container evaluation-follow-up" data-toggle="modal" data-target="#evaluation-follow-up-students" target="_blank" style="padding-left: 35px;">
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/monitoring_report.svg" alt="student_monitoring" />
+                            <!-- <div class="t-icon-schedule report-icon"></div> -->
+                        </div>
+                        <d  iv class="pull-left">
+                            <span class="title">Acompanhamento avaliativo dos alunos</span><br>
+                            <span class="subtitle">Acompanhamento avaliativo dos alunos por disciplina</span>
+                        </div>
+                    </button>
                 <?php } ?>
             </div>
             <div class="container-box">
 
                 <p>Professores</p>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/schoolprofessionalnumberbyclassroomreport') ?>">
+                <a href="<?php echo Yii::app()->createUrl('reports/schoolprofessionalnumberbyclassroomreport') ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/schoolprofessionalnumberbyclassroomreport.svg" />
@@ -218,20 +240,20 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/disciplineandinstructorrelationreport') ?>">
+                <a href="<?php echo Yii::app()->createUrl('reports/disciplineandinstructorrelationreport') ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/disciplineandinstructorrelationreport.svg" />
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <div class="pull-left">
-                            <span class="title">Relação disciplina por docente</span><br>
-                            <span class="subtitle">Informações do docente e disciplina ministrada em cada turma</span>
+                            <span class="title">Relação componente curricular por docente</span><br>
+                            <span class="subtitle">Docente e componente curricular ministrado em cada turma</span>
                         </div>
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/InstructorsPerClassroomReport') ?>">
+                <a href="<?php echo Yii::app()->createUrl('reports/InstructorsPerClassroomReport') ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/InstructorsPerClassroomReport.svg" />
@@ -244,7 +266,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/classroomwithoutinstructorrelationreport') ?>">
+                <a href="<?php echo Yii::app()->createUrl('reports/classroomwithoutinstructorrelationreport') ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/classroomwithoutinstructorrelationreport.svg" />
@@ -261,7 +283,7 @@ $this->breadcrumbs = array(
 
                 <p>Escola</p>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/studentsusingschooltransportationrelationreport') ?>">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentsusingschooltransportationrelationreport') ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/studentsusingschooltransportationrelationreport.svg" />
@@ -274,7 +296,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/educationalassistantperclassroomreport', array('id' => Yii::app()->user->school)) ?>">
+                <a href="<?php echo Yii::app()->createUrl('reports/educationalassistantperclassroomreport', array('id' => Yii::app()->user->school)) ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/educationalassistantperclassroomreport.svg" />
@@ -287,7 +309,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/enrollmentcomparativeanalysisreport') ?>">
+                <a href="<?php echo Yii::app()->createUrl('reports/enrollmentcomparativeanalysisreport') ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/enrollmentcomparativeanalysisreport.svg" />
@@ -300,7 +322,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/studentswithdisabilitiesrelationreport') ?>">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentswithdisabilitiesrelationreport') ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/studentswithdisabilitiesrelationreport.svg" />
@@ -313,7 +335,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/complementaractivityassistantbyclassroomreport') ?>">
+                <a href="<?php echo Yii::app()->createUrl('reports/complementaractivityassistantbyclassroomreport') ?>"  target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/complementaractivityassistantbyclassroomreport.svg" />
@@ -326,7 +348,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/studentinstructornumbersrelationreport') ?>">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentinstructornumbersrelationreport') ?>" target="_blank"  rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/studentinstructornumbersrelationreport.svg" />
@@ -346,7 +368,8 @@ $this->breadcrumbs = array(
     <div class="row">
         <div class="modal fade modal-content" id="reportFamilyBag" tabindex="-1" role="dialog">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="
+                Close" style="position:static;">
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Frequência Bolsa Família - Escolha a Turma</h4>
@@ -415,7 +438,7 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Ata de Conselho de Classe - Escolha a Turma</h4>
             </div>
-            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/ClassCouncilReport'); ?>" method="post">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/ClassCouncilReport'); ?>" method="post"  target="_blank">
                 <div class="modal-body" style="max-height: none !important;overflow: visible !important;">
                     <div class="row-fluid">
                         <div class=" span12">
@@ -430,44 +453,75 @@ $this->breadcrumbs = array(
                                 }
                                 ?>
                             </select>
-                            <label for="count_days" class="control-label" style="width: 65%;"> Dia da reunião de conselho de classe</label>
-                            <input type="number" name="count_days" placeholder="Digite o número de dias" style="width: 65%;" min="1" max="99" required>
-                            <label for="hour" class="control-label" style="width: 30%;">Horário das reuniões</label>
-                            <input type="time" id="hour" name="hour" min="00:00" max="23:59" style="width: 30%;" required>
-                            <label for="year" class="control-label" style="width: 30%;">Ano das reuniões</label>
-                            <select name="year" id="year" placeholder="Selecione o ano" style="width:100%" required>
-                                <?php
-                                $years = range(date('Y'), 2014);
-                                echo "<option value='' selected>Selecione o ano</option>";
-                                for ($i = 0; $i < count($years); $i++) {
-                                    echo "<option value=" . $years[$i] . ">" . $years[$i] . "</option>";
-                                }
-                                ?>
-                            </select>
-                            <label for="mounth" class="control-label" style="width: 30%;">Mês das reuniões</label>
-                            <select id="mounth" name="mounth" style="width:100%" required>
-                                <option value='' selected>Selecione o mês</option>
-                                <option value="Janeiro">Janeiro</option>
-                                <option value="Fevereiro">Fevereiro</option>
-                                <option value="Março">Março</option>
-                                <option value="Abril">Abril</option>
-                                <option value="Maio">Maio</option>
-                                <option value="Junho">Junho</option>
-                                <option value="Julho">Julho</option>
-                                <option value="Agosto">Agosto</option>
-                                <option value="Setembro">Setembro</option>
-                                <option value="Outubro">Outubro</option>
-                                <option value="Novembro">Novembro</option>
-                                <option value="Dezembro">Dezembro</option>
-                            </select>
-                            <label for="mounth" class="control-label" style="width: 30%;">Trimestre</label>
-                            <select name="quarterly" id="quarterly" style="width:100%" required>
-                                <option value='' selected>Selecione o trimestre</option>
-                                <option value="1º">1º Trimestre</option>
-                                <option value="2º">2º Trimestre</option>
-                                <option value="3º">3º Trimestre</option>
-                                <option value="4º">4º Trimestre</option>
-                            </select>
+                            <div class="model-quarterly-container" style="display: flex;">
+                                <div style="display:block;width:65%;margin-right:5%;">
+                                    <label for="count_days" class="control-label" style="width: 100%;"> Dia da reunião de conselho de classe</label>
+                                    <input type="number" name="count_days" placeholder="Digite o dia das reuniões" style="width: 100%;height:35px;" min="1" max="31" required>
+                                </div>
+                                <div style="display:block;width:30%;">
+                                    <label for="hour" class="control-label" style="width: 100%;">Horário das reuniões</label>
+                                    <input type="time" id="hour" name="hour" min="00:00" max="23:59" style="width: 92%;height:35px;" required>
+                                </div>
+                            </div>
+
+                            <div class="model-quarterly-container" style="display: flex;">
+                                <div style="display:block;width:45%;margin-right:5%;">
+                                    <label for="year" class="control-label" style="width: 100%;">Ano das reuniões</label>
+                                    <select name="year" id="year" placeholder="Selecione o ano" style="width:100%" required>
+                                        <?php
+                                        $years = range(date('Y'), 2014);
+                                        echo "<option value='' selected>Selecione o ano</option>";
+                                        for ($i = 0; $i < count($years); $i++) {
+                                            echo "<option value=" . $years[$i] . ">" . $years[$i] . "</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div style="display:block;width:50%;">
+                                    <label for="mounth" class="control-label" style="width: 100%;">Mês das reuniões</label>
+                                    <select id="mounth" name="mounth" style="width:100%" required>
+                                        <option value='' selected>Selecione o mês</option>
+                                        <option value="Janeiro">Janeiro</option>
+                                        <option value="Fevereiro">Fevereiro</option>
+                                        <option value="Março">Março</option>
+                                        <option value="Abril">Abril</option>
+                                        <option value="Maio">Maio</option>
+                                        <option value="Junho">Junho</option>
+                                        <option value="Julho">Julho</option>
+                                        <option value="Agosto">Agosto</option>
+                                        <option value="Setembro">Setembro</option>
+                                        <option value="Outubro">Outubro</option>
+                                        <option value="Novembro">Novembro</option>
+                                        <option value="Dezembro">Dezembro</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="model-quarterly-container" style="display: flex;">
+                                <!-- <div style="display:block;width:45%;margin-right:5%;">
+                                    <label for="quarterly-model" class="control-label">Modelo</label>
+                                    <select name="quarterly-model" id="quarterly-model" style="width:100%" required>
+                                        <option value='' selected>Selecione o modelo</option>
+                                        <option value="1">Educação Infantil</option>
+                                        <option value="2">1º ao 5º Ano</option>
+                                        <option value="3">6º ao 9º Ano</option>
+                                        <option value="4">Ensino Médio</option>
+                                    </select>
+                                </div> -->
+                                <div style="display:block;width:70%;">
+                                    <label for="quarterly" class="control-label" style="width: 30%;">Trimestre</label>
+                                    <select name="quarterly" id="quarterly" style="width:100%" required>
+                                        <option value='' selected>Selecione o trimestre</option>
+                                        <option value="1º">1º Trimestre</option>
+                                        <option value="2º">2º Trimestre</option>
+                                        <option value="3º">3º Trimestre</option>
+                                        <option value="4º">4º Trimestre</option>
+                                    </select>
+                                </div>
+                                <div style="width: 30%;margin-top: 6%;text-align:right;">
+                                <input type="checkbox" name="infantil-model" id="infantil-model" style="margin-right:5px;margin-bottom:2px;">
+                                Educação Infantil?
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -486,7 +540,7 @@ $this->breadcrumbs = array(
             </button>
             <h4 class="modal-title" id="myModalLabel">Relatório Trimestral Individual - Escolha o Aluno</h4>
         </div>
-        <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/QuarterlyReport'); ?>" method="post">
+        <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/QuarterlyReport'); ?>" method="post" target="_blank">
             <div class="modal-body">
                 <div class="row-fluid">
                     <div class=" span12">
@@ -542,8 +596,120 @@ $this->breadcrumbs = array(
         </form>
     </div>
 </div>
+
+<div class="row">
+    <div class="modal fade modal-content" id="quarterly-follow-up" tabindex="-1" role="dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Relatório Trimestral de Acompanhamento</h4>
+        </div>
+        <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/QuarterlyFollowUpReport'); ?>" method="post" target="_blank">
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class=" span12">
+                        <?php
+                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
+                        ?>
+                        <select name="quarterly_follow_up_classroom" id="quarterly_follow_up_classroom" style="width: 100%;" required>
+                            <option value="">Selecione a Turma</option>
+                            <?php 
+                            foreach ($classrooms as $classroom) {
+                                echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                            }
+                            ?>
+                        </select>
+                        <div class="quarterly-follow-up-disciplines-container">
+                            <?php
+                            echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', array('class' => 'control-label'));
+                            ?>
+                            <select name="quarterly_follow_up_disciplines" id="quarterly_follow_up_disciplines" placeholder="Selecione a disciplina" style="width:100%" required>
+                                <option value="" selected>Selecione a disciplina</option>
+                                <option value="10">Arte (Educação Artística, Teatro, Dança, Música, Artes Plásticas e outras)</option>
+                                <option value="11">Educação Física</option>
+                            </select>
+                        </div>
+                        <label for="" class="control-label">Trimestre</label>
+                        <select name="quarterly" id="quarterly" style="width: 100%;" required>
+                            <option value="">Selecione o Trimestre</option>
+                            <option value="1º Trimestre">1º Trimestre</option>
+                            <option value="2º Trimestre">2º Trimestre</option>
+                            <option value="3º Trimestre">3º Trimestre</option>
+                            <option value="4º Trimestre">4º Trimestre</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                    <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;">Gerar</button>
+                </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="modal fade modal-content" id="evaluation-follow-up-students" tabindex="-1" role="dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Acompanhamento Avaliativo dos Alunos</h4>
+        </div>
+        <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/EvaluationFollowUpStudentsReport'); ?>" method="post" target="_blank">
+            <div class="modal-body">
+                <div class="row-fluid">
+                    <div class=" span12">
+                        <?php
+                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
+                        ?>
+                        <select name="evaluation_follow_up_classroom" id="evaluation_follow_up_classroom" style="width: 100%;" required>
+                            <option value="">Selecione a Turma</option>
+                            <?php 
+                            foreach ($classrooms as $classroom) {
+                                echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                            }
+                            ?>
+                        </select>
+                        <div class="evaluation-follow-up-disciplines-container">
+                            <?php
+                            echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', array('class' => 'control-label'));
+                            ?>
+                            <select name="evaluation_follow_up_disciplines" id="evaluation_follow_up_disciplines" placeholder="Selecione a disciplina" style="width:100%" required>
+                                <option value="" selected>Selecione a disciplina</option>
+                                <option value="10">Arte (Educação Artística, Teatro, Dança, Música, Artes Plásticas e outras)</option>
+                                <option value="11">Educação Física</option>
+                            </select>
+                        </div>
+                        <label for="" class="control-label">Trimestre</label>
+                        <select name="quarterly" id="quarterly" style="width: 100%;" required>
+                            <option value="">Selecione o Trimestre</option>
+                            <option value="1º">1º Trimestre</option>
+                            <option value="2º">2º Trimestre</option>
+                            <option value="3º">3º Trimestre</option>
+                            <option value="4º">4º Trimestre</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                    <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;">Gerar</button>
+                </div>
+        </form>
+    </div>
+</div>
+
 </div>
 </div>
+
+<script>
+    var containerFollowUp = $('.quarterly-follow-up');
+    var containerEvaluation = $('.evaluation-follow-up');
+    var containerBoxOut = $('.container-box');
+    containerFollowUp.appendTo('.student-report-container');
+    containerEvaluation.appendTo('.student-report-container');
+    containerBoxOut.appendTo('.main');
+</script>
 <?php
 
 $cs = Yii::app()->getClientScript();

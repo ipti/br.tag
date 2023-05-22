@@ -11,9 +11,9 @@
     if ($turno == 'M') {
         $turno = "Matutino";
     } else if ($turno == 'T') {
-        $turno = "Tarde";
+        $turno = "Vespertino";
     } else if ($turno == 'N') {
-        $turno = "Noite";
+        $turno = "Noturno";
     } else if ($turno == '' || $turno == null) {
         $turno = "______________________";
     }
@@ -28,8 +28,15 @@
     <?php echo Yii::t('default', 'Quarterly Report') . ' - ' . $current_year ?></h3>
     <div class="container-box header-container" style="margin-bottom: 200px;">
         <p>Unidade Escolar: <?php echo $school->name ?></p>
-        <p>Professor(a) Regente 1: _________________________________________________________________________________________________________________________________</p>
-        <p>Professor(a) Regente 2: _________________________________________________________________________________________________________________________________</p>
+        <?php 
+            for ($i=1; $i <= 2; $i++) {
+                if($regentTeachers[$i-1]) {
+                    echo "<p>Professor(a) Regente ".$i.": ".$regentTeachers[$i-1]['instructor_name']."</p>";
+                }else {
+                    echo "<p>Professor(a) Regente ".$i.": _________________________________________________________________________________________________________________________________</p>";
+                }
+            }
+        ?>
         <p>
             <span class="pull-left">Etapa: <?php echo $classroom_etapa ? $classroom_etapa->name : '______________________' ?></span>
             <div class="pull-right" style="margin-right: 40px;">

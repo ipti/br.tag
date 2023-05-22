@@ -11,9 +11,9 @@ $turno =  $classroom->turn;
 if ($turno == 'M') {
     $turno = "Matutino";
 } else if ($turno == 'T') {
-    $turno = "Tarde";
+    $turno = "Vespertino";
 } else if ($turno == 'N') {
-    $turno = "Noite";
+    $turno = "Noturno";
 } else if ($turno == '' || $turno == null) {
     $turno = "______________________";
 }
@@ -26,8 +26,15 @@ if ($turno == 'M') {
     <h4><?php echo Yii::t('default', 'Quarterly Report') . ' - ' . $current_year ?></h3>
         <div class="container-box header-container"  style="margin-bottom: 70px;">
             <p>Unidade Escolar: <?php echo $school->name ?></p>
-            <p>Professor(a) Regente 1: _________________________________________________________________________________________________________________________________</p>
-            <p>Professor(a) Regente 2: _________________________________________________________________________________________________________________________________</p>
+            <?php 
+            for ($i=1; $i <= 2; $i++) {
+                if($regentTeachers[$i-1]) {
+                    echo "<p>Professor(a) Regente ".$i.": ".$regentTeachers[$i-1]['instructor_name']."</p>";
+                }else {
+                    echo "<p>Professor(a) Regente ".$i.": _________________________________________________________________________________________________________________________________</p>";
+                }
+            }
+            ?>
             <p>
                 <span class="pull-left">Ano de escolaridade: <?php echo $current_year ?></span>
                 <div class="pull-right" style="margin-right: 40px;">
@@ -35,6 +42,13 @@ if ($turno == 'M') {
                     <span>Turma: <?php echo $classroom->name ?></span>
                 </div>
             </p>
+            <div class="container-box header-student-info" style="margin-top: 60px">
+                <span class="pull-left">Aluno (a): <?php echo $student_identification->name ?></span>
+                <div class="pull-right" style="margin-right: 10px;">
+                    <span>Turma: <?php echo $classroom->name ?></span>
+                    <span style="margin-left:20px">Ano letivo: <?php echo $current_year ?></span>
+                </div>
+            </div>
         </div>
         <div class="container-box annual-summary">
             <table aria-labelledby="Three Year">

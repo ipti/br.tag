@@ -24,6 +24,10 @@ class Register50
                 $teachingData->instructor_inep_id = $teachingData->instructorFk->inep_id;
                 $teachingData->school_inep_id_fk = $school->inep_id;
                 $instructors[$teachingData->instructor_fk]['teaching'][$classroom->id] = $teachingData->attributes;
+                $instructors[$teachingData->instructor_fk]['teaching'][$classroom->id]["disciplines"] = [];
+                foreach ($teachingData->teachingMatrixes as $teachingMatrix) {
+                    array_push($instructors[$teachingData->instructor_fk]['teaching'][$classroom->id]["disciplines"], $teachingMatrix->curricularMatrixFk->discipline_fk);
+                }
             }
         }
 
@@ -37,29 +41,33 @@ class Register50
                 $teaching['instructor_fk'] = $id;
 
                 $classroom = Classroom::model()->findByPk($teaching['classroom_id_fk']);
-                if ($classroom->schooling == 0 || $classroom->edcenso_stage_vs_modality_fk == 1 || $classroom->edcenso_stage_vs_modality_fk == 2 || $classroom->edcenso_stage_vs_modality_fk == 3
-                    || ($teaching["role"] != '1' && $teaching["role"] != '5')) {
-                    foreach ($teaching as $i => $attr) {
-                        $pos = strstr($i, 'discipline');
-                        if ($pos) {
-                            $teaching[$i] = '';
-                        }
-                    }
-                } else {
-                    $countdisc = 1;
-                    foreach ($teaching as $i => $attr) {
-                        $pos = strstr($i, 'discipline');
-                        if ($pos) {
-                            if (($teaching[$i] >= 99 || $teaching[$i] == 20 || $teaching[$i] == 21)) {
-                                if ($countdisc == 1) {
-                                    $teaching[$i] = 99;
-                                } else {
-                                    $teaching[$i] = '';
-                                }
-                                $countdisc++;
+                $codigos = [];
+                $alreadyHave99 = false;
+                $n = 0;
+                for ($i = 9; $i <= 33; $i++) {
+                    if ($classroom->edcenso_stage_vs_modality_fk == 1 || $classroom->edcenso_stage_vs_modality_fk == 2 || $classroom->edcenso_stage_vs_modality_fk == 3
+                        || ($teaching["role"] != '1' && $teaching["role"] != '5')) {
+                        $codigos[$i] = "";
+                    } else {
+                        $value = $teaching["disciplines"][$n] != null ? $teaching["disciplines"][$n] : "";
+                        if ($value >= 99 || $value == 20 || $value == 21) {
+                            if (!$alreadyHave99) {
+                                $codigos[$i] = 99;
+                                $alreadyHave99 = true;
+                            } else {
+                                $codigos[$i] = "";
                             }
+                        } else {
+                            $codigos[$i] = $value;
                         }
+                        $n++;
                     }
+                }
+
+                if ($classroom->pedagogical_mediation_type == "1" && ($teaching['role'] != '1' && $teaching['role'] != '2' && $teaching['role'] != '3' && $teaching['role'] != '4')) {
+                    $teaching['role'] = "1";
+                } else if ($classroom->pedagogical_mediation_type == "3" && ($teaching['role'] != '4' && $teaching['role'] != '5')) {
+                    $teaching['role'] = "4";
                 }
 
                 if ($teaching['role'] != '1' && $teaching['role'] != '5' && $teaching['role'] != '6') {
@@ -71,7 +79,11 @@ class Register50
                 $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 50 order by corder', [":year" => $year]);
                 foreach ($edcensoAliases as $edcensoAlias) {
                     $register[$edcensoAlias->corder] = $edcensoAlias->default;
-                    if ($edcensoAlias["attr"] != null && $teaching[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
+                    //códigos
+                    if ($edcensoAlias->corder >= 9 && $edcensoAlias->corder <= 33) {
+                        $register[$edcensoAlias->corder] = $codigos[$edcensoAlias->corder];
+                    }
+                    else if ($edcensoAlias["attr"] != null && $teaching[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
                         $register[$edcensoAlias->corder] = $teaching[$edcensoAlias["attr"]];
                     }
                 }

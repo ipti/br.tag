@@ -14,40 +14,40 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 		</div>
 	</div>
 	<div class="alert alert-error alert-error-export" style="display: none;"></div>
-	<?php if (Yii::app()->user->hasFlash('error')): ?>
+	<?php if (Yii::app()->user->hasFlash('error')) : ?>
 		<div class="alert alert-error">
 			<?php echo Yii::app()->user->getFlash('error') ?>
 		</div>
 	<?php endif ?>
-	<?php if (Yii::app()->user->hasFlash('success')): ?>
+	<?php if (Yii::app()->user->hasFlash('success')) : ?>
 		<div class="alert alert-success">
 			<?php echo Yii::app()->user->getFlash('success') ?>
 		</div>
 		<br />
 	<?php endif ?>
-	<div class="row">
-		<div class="column no-grow">
-			<div>
-				<h5>Mês</h5>
-				<select id="mes" name="mes">
-					<option value="0">Selecione um mês</option>
-					<option value="1">Janeiro</option>
-					<option value="2">Fevereiro</option>
-					<option value="3">Março</option>
-					<option value="4">Abril</option>
-					<option value="5">Maio</option>
-					<option value="6">Junho</option>
-					<option value="7">Julho</option>
-					<option value="8">Agosto</option>
-					<option value="9">Setembro</option>
-					<option value="10">Outubro</option>
-					<option value="11">Novembro</option>
-					<option value="12">Dezembro</option>
-				</select>
-			</div>
+	<div class="sagres-header" style="display: inline-flex;margin-left: 15px;">
+		<div>
+			<h5>Mês</h5>
+			<select id="mes" name="mes">
+				<option value="0">Selecione um mês</option>
+				<option value="1">Janeiro</option>
+				<option value="2">Fevereiro</option>
+				<option value="3">Março</option>
+				<option value="4">Abril</option>
+				<option value="5">Maio</option>
+				<option value="6">Junho</option>
+				<option value="7">Julho</option>
+				<option value="8">Agosto</option>
+				<option value="9">Setembro</option>
+				<option value="10">Outubro</option>
+				<option value="11">Novembro</option>
+				<option value="12">Dezembro</option>
+			</select>
 		</div>
+		<input type="checkbox" name="finalTurma" value="1" id="finalTurma" style="margin: 30px 0 0 20px;">
+		<label for="finalTurma" style="margin: 30px 0 0 10px;">Encerramento de Período</label>
 	</div>
-	
+
 	<div class="container-box" style="display: grid;">
 		<a href="?r=sagres/default/createorupdate">
 			<button type="button" class="report-box-container">
@@ -87,6 +87,24 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				</div>
 			</button>
 		</a>
+
+		<a href="?r=sagres/default/inconsistencysagres">
+			<button type="button" class="report-box-container">
+				<div class="pull-left" style="margin-right: 20px;">
+					<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sagresIcon/inconsistency.svg" />
+					<!-- <div class="t-icon-schedule report-icon"></div> -->
+				</div>
+				<div class="pull-left">
+					<span class="title">Inconsistências</span><br>
+					<span class="subtitle">Lista de inconsistências SAGRES</span>
+				</div>
+				<?php
+				if ($numInconsistencys != 0) {
+					echo '<span class="pull-right circle">' . $numInconsistencys . '</span>';
+				}
+				?>
+			</button>
+		</a>
 	</div>
 </div>
 
@@ -94,15 +112,34 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 <script>
 	let selectedValue;
 	const selectElement = document.getElementById("mes");
+	var checkbox = document.getElementById("finalTurma");
+	var checkboxValue = false;
+
+	checkbox.addEventListener('change', function() {
+		checkboxValue = checkbox.checked ? true : false;
+
+		const {
+			startDate,
+			endDate
+		} = getDatesFromMonth(selectedValue);
+
+		const year = new Date().getFullYear();
+		const exportLink = document.getElementById('exportLink');
+		const newHref = `?r=sagres/default/export&year=${year}&startDate=${startDate}&endDate=${endDate}&finalClass=${checkboxValue}`;
+		exportLink.setAttribute('href', newHref);
+	});
 
 	selectElement.addEventListener("change", (event) => {
 		selectedValue = event.target.value;
 
-		const { startDate, endDate } = getDatesFromMonth(selectedValue);
+		const {
+			startDate,
+			endDate
+		} = getDatesFromMonth(selectedValue);
 
 		const year = new Date().getFullYear();
 		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&year=${year}&startDate=${startDate}&endDate=${endDate}`;
+		const newHref = `?r=sagres/default/export&year=${year}&startDate=${startDate}&endDate=${endDate}&finalClass=${checkboxValue}`;
 		exportLink.setAttribute('href', newHref);
 
 	});
@@ -127,7 +164,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 		document.body.removeChild(link);
 	}
 
-	document.getElementById('exportLink').addEventListener('click', function (e) {
+	document.getElementById('exportLink').addEventListener('click', function(e) {
 		e.preventDefault();
 		const exportLink = document.getElementById('exportLink');
 		const href = exportLink.getAttribute('href');
@@ -148,29 +185,30 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 	function downloadFile(url, filename) {
 		$(".alert-error-export").hide();
 		$(".alert-error-export").empty();
-		$.get(url, function (data) {
-			const zip = new JSZip();
-			zip.file(filename, data);
-			zip.generateAsync({ type: "blob" }).then(function (blob) {
-				var url = URL.createObjectURL(blob);
-				var link = document.createElement('a');
-				link.href = url;
-				link.download = 'Educacao.zip';
-				link.click();
-				URL.revokeObjectURL(url);
-			}).catch(function (err) {
-				console.error(err);
-				$(".alert-error-export").append('Erro ao criar o arquivo zip');
+		$.get(url, function(data) {
+				const zip = new JSZip();
+				zip.file(filename, data);
+				zip.generateAsync({
+					type: "blob"
+				}).then(function(blob) {
+					var url = URL.createObjectURL(blob);
+					var link = document.createElement('a');
+					link.href = url;
+					link.download = 'Educacao.zip';
+					link.click();
+					URL.revokeObjectURL(url);
+				}).catch(function(err) {
+					console.error(err);
+					$(".alert-error-export").append('Erro ao criar o arquivo zip');
+					$(".alert-error-export").show();
+				}).finally(function() {
+					location.reload();
+				});
+			})
+			.fail(function() {
+				$(".alert-error-export").append('Erro ao realizar o download do arquivo ');
 				$(".alert-error-export").show();
-			}).finally(function(){
-				location.reload();
-			});
-		})
-		.fail(function () {
-			$(".alert-error-export").append('Erro ao realizar o download do arquivo ');
-			$(".alert-error-export").show();
-		})
-			
-	}
+			})
 
+	}
 </script>

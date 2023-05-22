@@ -11,9 +11,9 @@ $turno =  $classroom[0]['turno'];
 if ($turno == 'M') {
     $turno = "Matutino";
 }else if ($turno == 'T') {
-    $turno = "Tarde";
+    $turno = "Vesperitino";
 }else if ($turno == 'N') {
-    $turno = "Noite";
+    $turno = "Noturno";
 }else if ($turno == '' || $turno == null) {
     $turno = "___________";
 }
@@ -23,7 +23,7 @@ if ($turno == 'M') {
     <div class="cabecalho" style="margin: 30px 0;">
         <?php $this->renderPartial('buzios/headers/headBuziosI'); ?>
     </div>
-    <h3><?php echo Yii::t('default', 'Quarterly Class Council Report'); ?> <?php echo strtoupper($classroom[0]['class_stage'])?></h3>
+    <h3><?php echo Yii::t('default', 'Quarterly Class Council Report')." - "; ?> <?php echo $title == '' ? mb_strtoupper($classroom[0]['class_stage'], 'UTF-8') : $title?></h3>
     <p style="font-size: 19px;">Aos <?php echo $count_days?> dias do mês de <?php echo $mounth?> de 
     <?php echo $year?> às <?php echo $hour?>hs, realizou-se a 
     reunião de Conselho de Classe referente ao <br> <?php echo $quarterly?> Trimestre,
@@ -84,7 +84,7 @@ if ($turno == 'M') {
                     <th rowspan="2" scope="col">NOME DO ALUNO</th>
                     <th class="vertical-head" rowspan="2" scope="col">PCD</th>
                     <th class="vertical-head" rowspan="2" scope="col">INFREQ.</th>
-                    <th colspan="2" scope="col">Área Cognitiva (AS)</th>
+                    <th colspan="2" scope="col">Área Cognitiva (AC)</th>
                     <th colspan="2" scope="col">Área Socioafetiva (AS)</th>
                     <th rowspan="2" scope="col">Observações</th>
                 </tr>
@@ -116,11 +116,7 @@ if ($turno == 'M') {
                             $create_date =  date('d/m/y', strtotime($c['create_date']));
                             $date_cancellation = date('d/m/y', strtotime($c['date_cancellation']));
                             if ($c['status'] == 1) {
-                                if ($c['create_date'] != null) {
-                                    echo 'Matri. ' . $create_date;
-                                }else {
-                                    echo 'Matri. ____/____/______';
-                                }
+                                echo '';
                             } else if ($c['status'] == 2) {
                                 if ($c['date_cancellation'] != null) {
                                     echo 'Trans. ' . $date_cancellation;
@@ -140,7 +136,7 @@ if ($turno == 'M') {
                                     echo 'Evad. ____/____/______';
                                 }
                             }else {
-                                echo '______. ____/____/______';
+                                echo '';
                             }
                             ?>
                         </td>
@@ -153,7 +149,7 @@ if ($turno == 'M') {
                 ?>
             </tbody>
         </table>
-        <p style="margin-top: 10px;">Legenda: PCD - Pessoa com Defeciência. CAAPE - Centro de Atendimento e Apoio Pedagógico ao Educando. </p>
+        <p style="margin-top: 10px;">Legenda: PCD - Pessoa com Defeciência. </p>
         <div class="container-box line-box individual-observations">
             <p>1. Observações individuais</p>
             <p>_________________________________________________________________________________________________________________________________________________________________________________
@@ -221,28 +217,31 @@ if ($turno == 'M') {
         <table class="instructors-list-table"  aria-labelledby="Instructors List">
             <thead>
                 <tr>
-                    <th scope="col">Disciplina</th>
+                    <th scope="col">Componente curricular/eixo</th>
                     <th scope="col">Nome do Professor</th>
                     <th scope="col" style="width: 40%;">Assinatura</th>
                 </tr>
             </thead>
             <tbody>
-                <?php
-                $prof_name = '';
-                $discipline = '';
+            <?php
+                $validate_array = array();
                 foreach ($classroom as $c) {
-                    if($prof_name != $c['prof_name'] || $discipline != $c['discipline'] ) {
-                ?>
-                    <tr>
-                        <td><?= $c['discipline'] ?></td>
-                        <td><?= $c['prof_name'] ?></td>
-                        <td></td>
-                    </tr>
-                <?php
+                    $json = json_encode(array(
+                        "prof_name" => $c['prof_name'],
+                        "discipline" => $c['discipline']
+                    ));
+                    if(!in_array($json, $validate_array)) {
+            ?>
+                        <tr>
+                            <td><?= $c['discipline'] ?></td>
+                            <td><?= $c['prof_name'] ?></td>
+                            <td></td>
+                        </tr>
+            <?php
                     }
-                    $prof_name = $c['prof_name'];
-                    $discipline = $c['discipline'];
-                } ?>
+                    array_push($validate_array, $json);
+                }
+            ?>
             </tbody>
         </table>
         <div class="container-box signatures-container">
@@ -258,8 +257,10 @@ if ($turno == 'M') {
             </p>
             <p style="margin-top: 50px;">
                 <span>_______________________________________</span>
+                <span>_______________________________________</span>
             </p>
             <p>
+                <span>Secretário(a) escolar</span>
                 <span>Direção</span>
             </p>
         </div>
@@ -270,12 +271,17 @@ if ($turno == 'M') {
     <div class="cabecalho" style="margin: 30px 0;">
         <?php $this->renderPartial('buzios/headers/headBuziosI'); ?>
     </div>
-    <h3><?php echo Yii::t('default', 'Quarterly Class Council Report'); ?> <?php echo strtoupper($classroom[0]['class_stage'])?></h3>
+    <h3><?php echo Yii::t('default', 'Quarterly Class Council Report')." - "; ?> <?php echo $title == '' ? mb_strtoupper($classroom[0]['class_stage'], 'UTF-8') : $title?></h3>
     <div class='no-enrollments'>Não há alunos matriculados na turma.</div>
 </div>
 <?php }?>
 
 <style>
+    @media print {
+        .signatures-container {
+            page-break-before: always;
+        }
+	}
     .signatures-container {
         margin-top: 80px !important;
         width: 96%;

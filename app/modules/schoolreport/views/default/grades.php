@@ -11,7 +11,7 @@ $cs->registerCssFile($baseScriptUrl . '/common/css/grades.css');
 <table id="grades" class="ui compact selectable  table">
     <thead>
         <tr>
-            <th id="discipline" class="left aligned">Disciplina</th>
+            <th id="discipline" class="left aligned">Componente curricular/eixo</th>
             <th class="center aligned">1ª</th>
             <th class="center aligned">1ª Rec.</th>
             <th class="center aligned">2ª</th>
