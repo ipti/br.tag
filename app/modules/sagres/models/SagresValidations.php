@@ -293,7 +293,7 @@ class SagresValidations
                         "enrollment" => 'MATRÍCULA',
                         "school" => $schoolId,
                         "description" => 'VALOR INVÁLIDO PARA O STATUS APROVADO',
-                        "action" => 'ADICIONE UM VALOR VÁLIDO PARA O CAMPO APROVADO DO ALUNO NA TURMA: '. $class->getDescricao()
+                        "action" => 'ADICIONE UM VALOR VÁLIDO PARA O CAMPO APROVADO DO ALUNO '.$enrollment->getAluno()->getNome().' NA TURMA: '. $class->getDescricao()
                     ];
                 }
 
@@ -382,7 +382,7 @@ class SagresValidations
                 "enrollment" => 'HORÁRIO',
                 "school" => $schoolId,
                 "description" => 'NÃO HÁ UM HORÁRIO PARA A TURMA: ' . $class->getDescricao() . ' DA ESCOLA: ' . $schoolId,
-                "action" => 'ADICIONE AO MENOS UMA TURMA'
+                "action" => 'ADICIONE QUADRO DE HORÁRIO A TURMA'
             ];
         }else{
             foreach ($schedules as $schedule) {

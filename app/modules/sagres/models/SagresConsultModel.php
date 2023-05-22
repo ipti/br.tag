@@ -234,9 +234,13 @@ class SagresConsultModel
                     empty($this->getSchedules($classId, $referenceMonth))
                     ? $this->getRecentSchedules($classId)
                     : $this->getSchedules($classId, $referenceMonth)
-                )
-                ->setFinalTurma((bool)$finalClass);
-           
+                );
+                
+                
+            if((bool)$finalClass){
+                $classType->setFinalTurma((bool)$finalClass);
+            }
+
             if (!is_null($classType->getHorario()) && !is_null($classType->getMatricula())) {
                 $classList[] = $classType;
             }
