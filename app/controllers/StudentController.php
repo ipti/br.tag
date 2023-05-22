@@ -504,9 +504,7 @@ class StudentController extends Controller
         $classrooms = $school->classrooms;
         foreach ($classrooms as $class) {
             if ($class->school_year == Yii::app()->user->year) {
-                $class_id = htmlspecialchars($class->id);
-                $class_name = htmlspecialchars($class->name);
-                echo "<option value='".$class_id."'>".$class_name."</option>";
+                echo "<option value='".htmlspecialchars($class->id)."'>".htmlspecialchars($class->name)."</option>";
             }
         }
     }

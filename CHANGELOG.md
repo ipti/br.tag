@@ -1,6 +1,8 @@
 # Atualizações
 
 
+## [Versão 3.22.50]
+- adicionando campos de observação e data de transferência no formulário de transferência
 ## [Versão 3.21.49]
 - Corrigido a pré seleção no select de cargo no formulário de usuário
 
