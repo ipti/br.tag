@@ -398,7 +398,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             foreach ($instructors as $instructor) {
                                 $teachingDataNames[$instructor->id] = $instructor->name;
                             }
-                            $roleName = [null, "Docente", "Auxiliar/assistente educacional", "Profissional/monitor de atividade complementar", "Tradutor e Intérprete de Libras", "EAD - Docente Titular", "EAD - Docente Tutor"];
+                            $roleName = [null, "Docente", "Auxiliar/assistente educacional", "Profissional/monitor de atividade complementar", "Tradutor e Intérprete de Libras", "EAD - Docente Titular", "EAD - Docente Tutor", "Guia-Intérprete", "Profissional de apoio escolar para aluno(a)s com deficiência"];
                             $contractTypeName = [null, "Concursado/Efetivo", "Temporário", "Terceirizado", "CLT"];
                             $i = 0;
                             foreach ($modelTeachingData as $key => $model) {
@@ -672,7 +672,8 @@ $form = $this->beginWidget('CActiveForm', array(
                         4 => 'Tradutor e Intérprete de Libras',
                         5 => "EAD - Docente Titular",
                         6 => "EAD - Docente Tutor",
-                        7 => "Professor de Apoio",
+                        7 => "Guia-Intérprete",
+                        8 => "Profissional de apoio escolar para aluno(a) com deficiência",
                     ), array('class' => 'select-search-off'));
                     ?>
                 </div>
