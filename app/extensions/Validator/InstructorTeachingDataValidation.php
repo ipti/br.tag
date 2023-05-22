@@ -8,8 +8,8 @@ class instructorTeachingDataValidation extends Register{
 
 	function checkRole($value, $pedagogical_mediation_type, $assistance_type, $status_instructor, $status_student){
 
-		$result = $this->isAllowed($value, array('1', '2', '3', '4', '5', '6'));
-		$translate = array('1' => 'Professor', '2' => 'Auxiliar', '3' => 'Monitor', '4' => 'Intérprete', '5' => 'Valor', '6' => 'Valor'); 
+		$result = $this->isAllowed($value, array('1', '2', '3', '4', '5', '6', '7', '8'));
+		$translate = array('1' => 'Docente', '2' => 'Auxiliar/assistente educacional', '3' => 'Profissional/monitor de atividade complementar', '4' => 'Tradutor e Intérprete de Libras', '5' => 'EAD - Docente Titular', '6' => 'EAD - Docente Tutor', '7' => 'Guia-Intérprete', '8' => 'Profissional de apoio escolar para aluno(a)s com deficiência');
 		if(!$result['status']){
 			return array("status"=>false,"erro"=>$result['erro']);
 		}
