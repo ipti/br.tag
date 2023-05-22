@@ -1,5 +1,25 @@
 # Atualizações
 
+
+## [Versão 3.21.49]
+- Corrigido a pré seleção no select de cargo no formulário de usuário
+
+## [Versão 3.21.48]
+- O seletor de turma final agora é exibido corretamente
+- 
+## [Versão 3.21.47]
+- Espaçamento dos botões na tela de relatórios foi corrigido
+
+## [Versão 3.21.46]
+- adicionada a opção outros no select de instituição de ensino superior
+
+## [Versão 3.21.45]
+- Agora é possível adicionar até 2 professores regentes por turma
+
+## [Versão 3.20.45]
+- O erro ao deletar professores sem documentos e endereços cadastrados foi corrigido
+
+
 ## [Versão 3.20.44]
 - Novo relatório de acompanhamento avaliativo dos alunos
 

@@ -39,6 +39,7 @@ class SagresConsultModel
     {
         $education = new EducacaoTType;
         $managementUnitId = $this->getManagementId();
+        $validationSagres = new \SagresValidations;
 
         try {
             $education
@@ -47,6 +48,19 @@ class SagresConsultModel
                 ->setProfissional($this->getProfessionals($referenceYear, $dateStart, $dateEnd));
         } catch (Exception $e) {
             throw new ErrorException($e->getMessage());
+        }
+
+        $inconsistencyList = $validationSagres->validator($education->getEscola(), $education->getProfissional());
+        $inconsistencyModel = new ValidationSagresModel;
+
+        foreach ($inconsistencyList as $value) {
+            $inconsistencyModel = new ValidationSagresModel;
+
+            $inconsistencyModel->enrollment = $value["enrollment"];
+            $inconsistencyModel->school =  $value["school"] ." - ".$this->getNameSchool($value["school"]);
+            $inconsistencyModel->description = $value["description"];
+            $inconsistencyModel->action = $value["action"];
+            $inconsistencyModel->save();
         }
 
         return $education;
@@ -76,8 +90,8 @@ class SagresConsultModel
             $headerType
                 ->setCodigoUnidGestora($managementUnit['managementUnitCode'])
                 ->setNomeUnidGestora($managementUnit['managementUnitName'])
-                ->setCpfResponsavel($managementUnit['responsibleCpf'])
-                ->setCpfGestor($managementUnit['managerCpf'])
+                ->setCpfResponsavel(str_replace([".", "-"], "", $managementUnit['responsibleCpf']))
+                ->setCpfGestor(str_replace([".", "-"], "", $managementUnit['managerCpf']))
                 ->setAnoReferencia((int) $referenceYear)
                 ->setMesReferencia((int) date("m", strtotime($dateEnd)))
                 ->setVersaoXml(1)
@@ -152,20 +166,7 @@ class SagresConsultModel
             }
 
         }
-
-        $inconsistencyList = $validationSagres->validator($schoolList);
-        $inconsistencyModel = new ValidationSagresModel;
-
-        foreach ($inconsistencyList as $value) {
-            $inconsistencyModel = new ValidationSagresModel;
-
-            $inconsistencyModel->enrollment = $value["enrollment"];
-            $inconsistencyModel->school =  $value["school"] ." - ".$this->getNameSchool($value["school"]);
-            $inconsistencyModel->description = $value["description"];
-            $inconsistencyModel->action = $value["action"];
-            $inconsistencyModel->save();
-        }
-        
+       
         return $schoolList;
     }
 
@@ -233,10 +234,14 @@ class SagresConsultModel
                     empty($this->getSchedules($classId, $referenceMonth))
                     ? $this->getRecentSchedules($classId)
                     : $this->getSchedules($classId, $referenceMonth)
-                )
-                ->setFinalTurma($finalClass);
+                );
+                
+                
+            if((bool)$finalClass){
+                $classType->setFinalTurma((bool)$finalClass);
+            }
 
-            if (!empty($classType->getHorario()) && !empty($classType->getMatricula())) {
+            if (!is_null($classType->getHorario()) && !is_null($classType->getMatricula())) {
                 $classList[] = $classType;
             }
         }
@@ -313,7 +318,7 @@ class SagresConsultModel
                 WHERE 
                     c.id = :classId
                 ORDER BY 
-                    C.create_date DESC";
+                    c.create_date DESC";
 
         $params = [
             ':classId' => $classId
@@ -335,16 +340,16 @@ class SagresConsultModel
 
             $duration = Yii::app()->db->createCommand($query1)->queryRow();
 
-
+            $cpf_instructor = isset($schedule['cpfInstructor']) ? $schedule['cpfInstructor'] : "";
 
             $scheduleType
                 ->setDiaSemana($schedule['weekDay'])
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
-                ->setDuracao(isset($duration['duration']) ? $duration['duration'] : 2)
+                ->setDuracao((int) isset($duration['duration']) ? $duration['duration'] : 2)
                 ->setDisciplina($schedule['disciplineName'])
-                ->setCpfProfessor([$schedule['cpfInstructor']]);
+                ->setCpfProfessor([str_replace([".", "-"], "", $cpf_instructor)]);
 
-            if (isset($schedule['cpfInstructor'])) {
+            if (isset($cpf_instructor)) {
                 $scheduleList[] = $scheduleType;
             }
         }
@@ -437,7 +442,7 @@ class SagresConsultModel
 
             $scheduleType
                 ->setDiaSemana($schedule['weekDay'])
-                ->setDuracao($duration['duration'])
+                ->setDuracao(2)
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
                 ->setDisciplina($schedule['disciplineName'])
                 ->setCpfProfessor([$schedule['cpfInstructor']]);
@@ -763,11 +768,11 @@ class SagresConsultModel
     public function getStudentSituation($situation)
     {
         $situations = [
-            0 => "Não frequentou",
+            0 => false,
             1 => false,
-            2 => "Afastado por transferência",
-            3 => "Afastado por abandono",
-            4 => "Matrícula final em Educação Infantil",
+            2 => false,
+            3 => false,
+            4 => false,
             5 => true
         ];
 

@@ -160,7 +160,8 @@ class StudentIdentification extends AltActiveRecord {
             'inep_id' => Yii::t('default', 'ID INEP'),
             'gov_id' => Yii::t('default', 'GOV ID'),
             'id' => Yii::t('default', 'ID'),
-            'name' => Yii::t('default', 'Civil Name'),
+            'name' => Yii::t('default', 'Nome de Apresentação'),
+            'civil_name' => Yii::t('default', 'Civil Name'),
             'social_name' => Yii::t('default', 'Social Name'),
             'birthday' => Yii::t('default', 'Birthday'),
             'sex' => Yii::t('default', 'Sex'),
@@ -221,8 +222,7 @@ class StudentIdentification extends AltActiveRecord {
             'filiation_2_cpf' => Yii::t('default', 'Father CPF'),
             'filiation_2_scholarity' => Yii::t('default', 'Father Scholarity'),
             'filiation_2_job' => Yii::t('default', 'Father Job'),
-            'no_documents_desc' => Yii::t('default', 'No Documents Desc')
-            
+            'no_document_desc' => Yii::t('default', 'No Documents Desc')
         );
     }
 

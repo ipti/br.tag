@@ -10,6 +10,7 @@
         color: $colorsAlertInfoText;
         padding: $spaceXXSmall $spaceXSmall !important;
         background-image: none !important;
+        word-wrap: break-word;
         div{
             margin-left: $SizeLarge;
         }

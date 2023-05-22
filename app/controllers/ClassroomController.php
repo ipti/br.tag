@@ -210,9 +210,12 @@ class ClassroomController extends Controller
 
     public function setDisciplines($modelClassroom, $discipline)
     {
+
         $type = $modelClassroom->assistance_type;
         $stage = $modelClassroom->edcenso_stage_vs_modality_fk;
         $putNull = ($type == 4 || $type == 5) || ($stage == 1 || $stage == 2 || $stage == 3 || $stage == 65);
+
+        
         $modelClassroom->discipline_chemistry = $putNull ? null : (isset($discipline[1]) ? $discipline[1] : 0);
         $modelClassroom->discipline_physics = $putNull ? null : (isset($discipline[2]) ? $discipline[2] : 0);
         $modelClassroom->discipline_mathematics = $putNull ? null : (isset($discipline[3]) ? $discipline[3] : 0);
@@ -239,7 +242,6 @@ class ClassroomController extends Controller
         $modelClassroom->discipline_sociology = $putNull ? null : (isset($discipline[29]) ? $discipline[29] : 0);
         $modelClassroom->discipline_foreign_language_franch = $putNull ? null : (isset($discipline[30]) ? $discipline[30] : 0);
         $modelClassroom->discipline_others = $putNull ? null : (isset($discipline[99]) ? $discipline[99] : 0);
-
     }
 
     //@done s1 - criar função para pegar os labels das disciplinas separando pelo id do educacenso
@@ -481,6 +483,7 @@ class ClassroomController extends Controller
                         $modelTeachingData[$key]->instructor_fk = $td->Instructor;
                         $modelTeachingData[$key]->role = $td->Role;
                         $modelTeachingData[$key]->contract_type = $td->ContractType;
+                        $modelTeachingData[$key]->regent = $td->RegentTeacher;
                         $modelTeachingData[$key]->disciplines = $td->Disciplines;
                         $teachingDataValidated = $teachingDataValidated && $modelTeachingData[$key]->validate();
                     }
@@ -585,6 +588,7 @@ class ClassroomController extends Controller
                         $modelTeachingData[$key]->instructor_fk = $td->Instructor;
                         $modelTeachingData[$key]->role = $td->Role;
                         $modelTeachingData[$key]->contract_type = $td->ContractType;
+                        $modelTeachingData[$key]->regent = $td->RegentTeacher;
                         $modelTeachingData[$key]->disciplines = $td->Disciplines;
                         $teachingDataValidated = $teachingDataValidated && $modelTeachingData[$key]->validate();
                     }

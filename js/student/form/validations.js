@@ -139,9 +139,9 @@ initDateFieldMaskAndValidation(formIdentification + 'birthday');
 
 $(formIdentification + 'filiation').change(function () {
     var simple = getUrlVars()['simple'];
-    $('.js-disabled-finputs').attr("disabled", "disabled");
+    $('.js-disabled-finputs').hide();
     if ($(formIdentification + 'filiation').val() == 1) {
-        $('.js-disabled-finputs').removeAttr("disabled");
+        $('.js-disabled-finputs').show();
         $(formIdentification + 'filiation_1').closest(".js-visibility-fname").show();
         $(formIdentification + 'filiation_2').closest(".js-visibility-fname").show();
     } else {
@@ -645,7 +645,7 @@ $(formDocumentsAndAddress + 'civil_certification').change(function () {
     }
 });
 
-$(formDocumentsAndAddress + 'rg_number_expediction_date, ' + formDocumentsAndAddress + 'civil_certification_date').mask("99/99/9999");
+$(formDocumentsAndAddress + 'rg_number_expediction_date, ' + formDocumentsAndAddress + 'civil_certification_date').mask("99/99/9999", {placeholder: "dd/mm/aaaa"});
 $(formDocumentsAndAddress + 'rg_number_expediction_date, ' + formDocumentsAndAddress + 'civil_certification_date').focusout(function () {
     var id = '#' + $(this).attr("id");
     var documentDate = stringToDate($(id).val());
@@ -666,6 +666,8 @@ $(formIdentification + 'responsable').on('change', function () {
         $('#responsable_name').hide();
     }
 });
+
+
 
 $(formEnrollment + 'school_admission_date').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
 $(formEnrollment + 'school_admission_date').focusout(function () {

@@ -1,5 +1,10 @@
 window.location.search.includes("update") ? $('.last').css('display', 'block') : $('.last').css('display', 'none');
 
+// class New_enrollment_form{
+    
+// }
+
+
 $(document).ready(function () {
     if($("#others-check").is(":checked")) {
         $(".others-text-box").show();
@@ -9,19 +14,22 @@ $(document).ready(function () {
 
     if($("#show-student-civil-name").is(":checked")) {
         $(".student-civil-name").show();
-        $(".show-student-civil-name-box").hide();
+        $("#show-student-civil-name-box").hide();
     }
 
+
+
     $("#new-enrollment-button").click(function() {
-        if($("#new-enrollment-form").css('display') == 'none') {
-            $("#new-enrollment-form").show();
+        if($(".new-enrollment-form").css('display') == 'none') {
+            $(".new-enrollment-form").show();
             $("#new-enrollment-button").text("Fechar formulário");
         }else {
-            $("#new-enrollment-form").hide();
+            $(".new-enrollment-form").hide();
             $("#new-enrollment-button").text("Adicionar Matrícula");
         }
         
     });
+    
     var simple = getUrlVars()['simple'];
     if (simple == '1') {
         $("#tab-student-documents").hide();
@@ -120,7 +128,7 @@ $(document).on("change", "#others-check", function () {
 $(document).on("change", "#show-student-civil-name", function () {
     if($(this).is(":checked")) {
         $(".student-civil-name").show();
-        $(".show-student-civil-name-box").hide();
+        $("#show-student-civil-name-box").hide();
     }
 });
 

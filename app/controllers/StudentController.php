@@ -288,7 +288,6 @@ class StudentController extends Controller
             date_default_timezone_set("America/Recife");
             $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
             
-            // $modelStudentIdentification->civil_name = $modelStudentIdentification->name;
 
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
                 

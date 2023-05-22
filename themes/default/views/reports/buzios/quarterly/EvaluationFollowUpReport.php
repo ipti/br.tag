@@ -29,7 +29,7 @@ $tableWhiteFieldsComplete = "<td></td><td></td><td></td><td></td><td></td>
             <?php }?>
     </h3>
     <div class="title-container">
-        <p><?php echo "Professor: ".$instructor[0]['instructor_name']?></p>
+        <p><?php echo "Professor(a): ".$instructor[0]['instructor_name']?></p>
         <span><?php echo "Turma: ".$classroom->name?></span>
         <span><?php echo "Total de alunos: ".count($students)?></span>
         <span><?php echo "Trimestre: ".$quarterly?></span>

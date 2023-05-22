@@ -31,7 +31,7 @@ $("#InstructorIdentification_edcenso_uf_fk").on("change", function () {
             current_city: $("#InstructorIdentification_edcenso_city_fk").val()
         },
         success: function (response) {
-            const optionsList = JSON.parse(response); 
+            const optionsList = JSON.parse(response);
             const options = optionsList.join("");
             $("#InstructorIdentification_edcenso_city_fk").html(options);
             $("#InstructorIdentification_edcenso_city_fk").select2();
@@ -40,7 +40,7 @@ $("#InstructorIdentification_edcenso_uf_fk").on("change", function () {
 });
 
 $("#InstructorDocumentsAndAddress_edcenso_uf_fk").on("change", function () {
-    $('#InstructorDocumentsAndAddress_edcenso_city_fk option:not(:contains("Selecione uma cidade"))').remove(); 
+    $('#InstructorDocumentsAndAddress_edcenso_city_fk option:not(:contains("Selecione uma cidade"))').remove();
     $.ajax({
         type: "POST",
         url: "?r=instructor/getCity",
@@ -59,13 +59,13 @@ $("#IES").on("change", function () {
     loadIES("#IES", "#InstructorVariableData_high_education_institution_code_1_fk");
 });
 
-$(function(){
+$(function () {
     const currentIES = $("#InstructorVariableData_high_education_institution_code_1_fk").val();
     loadIES("#IES", "#InstructorVariableData_high_education_institution_code_1_fk", currentIES);
 });
 
 
-function loadIES(iesUfDropDown, iesDropDownPath, currentIES){
+function loadIES(iesUfDropDown, iesDropDownPath, currentIES) {
     console.log(currentIES)
     $.ajax({
         type: "POST",
@@ -74,13 +74,15 @@ function loadIES(iesUfDropDown, iesDropDownPath, currentIES){
             edcenso_uf_fk: $(iesUfDropDown).val(),
         },
         success: function (response) {
-            const options = response.map((item) => {
+            var options = response.map((item) => {
                 return $(`<option value=${item.id} >${item.name}</option>`)
-                } 
+            },
+
             );
-           $(iesDropDownPath).html(options);
-           $(iesDropDownPath).select2("val", currentIES); 
-          //  $("#s2id_InstructorVariableData_high_education_institution_code_1_fk").prop("disabled", false);
+            options.push("<option value=9999999>OUTRO</option>")
+            $(iesDropDownPath).html(options);
+            $(iesDropDownPath).select2("val", currentIES);
+            //  $("#s2id_InstructorVariableData_high_education_institution_code_1_fk").prop("disabled", false);
         }
     });
 }
