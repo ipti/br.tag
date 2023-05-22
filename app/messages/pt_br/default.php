@@ -933,11 +933,5 @@ return array(
     "End of the School Year" => "Fim do Ano Escolar",
     // setflas
     'dayli order' => 'Ordem do diario alterado com sucesso!',
-    //food
-    'create_menu' => 'Criar Cardápio',
-    'food_menu_description' => 'Nome',
-    'food_menu_observation' => 'Observação',
-    'food_menu_start_date' => 'Data inicial',
-    'food_menu_final_date' => 'Data final',
     )   
 ?>
