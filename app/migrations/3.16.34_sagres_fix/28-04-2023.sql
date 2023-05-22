@@ -15,3 +15,7 @@ SET p.speciality = e.name;
 
 ALTER TABLE professional
 DROP FOREIGN KEY professional_edcenso_professional_education_course_fk;
+
+
+ALTER TABLE professional
+drop column  speciality_fk;
