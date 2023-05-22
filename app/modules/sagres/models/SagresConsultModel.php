@@ -764,12 +764,12 @@ class SagresConsultModel
     public function getStudentSituation($situation)
     {
         $situations = [
-            0 => false,
-            1 => false,
-            2 => false,
-            3 => false,
-            4 => false,
-            5 => true
+            0 => false, // Não frequentou
+            1 => false, // Reprovado
+            2 => false, // Afastado por transferência
+            3 => false, // Afastado por abandono
+            4 => false, // Matrícula final em Educação Infantil
+            5 => true   // Promovido
         ];
 
         if (isset($situations[$situation])) {
