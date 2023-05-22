@@ -1,5 +1,7 @@
 # Atualizações
 
+## [Versão 3.21.50]
+- O cabeçalho de ata de conselho de classe teve seus erros de sintaxe corrigidos
 
 ## [Versão 3.21.49]
 - Corrigido a pré seleção no select de cargo no formulário de usuário
