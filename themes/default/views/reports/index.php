@@ -53,8 +53,8 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/incompatiblestudentagebyclassroomreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
-
-                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/incompatiblestudentagebyclassroomreport.svg" />
+                            <span class="t-parents-children t-reports_icons"></span>
+                            <!-- <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/incompatiblestudentagebyclassroomreport.svg" /> -->
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
                         <div class="pull-left">
@@ -215,7 +215,7 @@ $this->breadcrumbs = array(
                     </button>
                     <button type="button" class="report-box-container quarterly-follow-up" data-toggle="modal" data-target="#quarterly-follow-up" target="_blank" style="margin-left:15px;padding-left: 35px;">
                         <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-reports_icons"></span>
+                            <span class="t-student-monitoring t-reports_icons"></span>
                             <!-- <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/student_monitoring.svg" alt="student_monitoring" /> -->
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
@@ -227,7 +227,7 @@ $this->breadcrumbs = array(
 
                     <button type="button" class="report-box-container evaluation-follow-up" data-toggle="modal" data-target="#evaluation-follow-up-students" target="_blank" style="padding-left: 35px;">
                         <div class="pull-left" style="margin-right: 20px;">
-                            <span class="t-reports_icons t-reports_icons"></span>
+                            <span class=" t-monitoring_report t-reports_icons"></span>
                             <!-- <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/monitoring_report.svg" alt="student_monitoring" /> -->
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
@@ -245,7 +245,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/schoolprofessionalnumberbyclassroomreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-icon-graduation-cap t-reports_icons"></span>
+                            <span class="t-icon-graduation-cap t-reports_icons"></span>
                             <!-- <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/schoolprofessionalnumberbyclassroomreport.svg" /> -->
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
@@ -259,7 +259,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/disciplineandinstructorrelationreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-icon-person t-reports_icons"></span>
+                            <span class="t-icon-person t-reports_icons"></span>
                             <!-- <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/disciplineandinstructorrelationreport.svg" /> -->
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
@@ -273,7 +273,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/InstructorsPerClassroomReport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-icon-column_graphi t-reports_icons"></span>
+                            <span class="t-icon-column_graphi t-reports_icons"></span>
                             <!-- <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/InstructorsPerClassroomReport.svg" /> -->
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
@@ -287,7 +287,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/classroomwithoutinstructorrelationreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-icon-no-teacher t-reports_icons"></span>
+                            <span class="t-icon-no-teacher t-reports_icons"></span>
                             <!-- <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/classroomwithoutinstructorrelationreport.svg" /> -->
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
@@ -305,7 +305,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/studentsusingschooltransportationrelationreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-icon-bus2 t-reports_icons"></span>
+                            <span class="t-icon-bus2 t-reports_icons"></span>
                             <!-- <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/studentsusingschooltransportationrelationreport.svg" /> -->
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
@@ -319,7 +319,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/educationalassistantperclassroomreport', array('id' => Yii::app()->user->school)) ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-icon-handshake t-reports_icons"></span>
+                            <span class="t-icon-handshake t-reports_icons"></span>
                             <!-- <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/educationalassistantperclassroomreport.svg" /> -->
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
@@ -333,7 +333,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/enrollmentcomparativeanalysisreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-icon-copy t-reports_icons"></span>
+                            <span class="t-icon-copy t-reports_icons"></span>
                             <!-- <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/enrollmentcomparativeanalysisreport.svg" /> -->
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
@@ -347,7 +347,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/studentswithdisabilitiesrelationreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-icon-wheelchair t-reports_icons"></span>
+                            <span class="t-icon-wheelchair t-reports_icons"></span>
                             <!-- <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/studentswithdisabilitiesrelationreport.svg" /> -->
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
@@ -361,7 +361,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/complementaractivityassistantbyclassroomreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-icon-bullseye-arrow t-reports_icons"></span>
+                            <span class="t-icon-bullseye-arrow t-reports_icons"></span>
                             <!-- <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/complementaractivityassistantbyclassroomreport.svg" /> -->
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
@@ -375,7 +375,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/studentinstructornumbersrelationreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-icon-teachers-students t-reports_icons"></span>
+                            <span class="t-icon-teachers-students t-reports_icons"></span>
                             <!-- <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/reportsIcon/studentinstructornumbersrelationreport.svg" /> -->
                             <!-- <div class="t-icon-schedule report-icon"></div> -->
                         </div>
