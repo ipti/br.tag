@@ -398,7 +398,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             foreach ($instructors as $instructor) {
                                 $teachingDataNames[$instructor->id] = $instructor->name;
                             }
-                            $roleName = [null, "Docente", "Auxiliar/assistente educacional", "Profissional/monitor de atividade complementar", "Tradutor e Intérprete de Libras", "EAD - Docente Titular", "EAD - Docente Tutor"];
+                            $roleName = [null, "Docente", "Auxiliar/assistente educacional", "Profissional/monitor de atividade complementar", "Tradutor e Intérprete de Libras", "EAD - Docente Titular", "EAD - Docente Tutor", "Guia-Intérprete", "Profissional de apoio escolar para aluno(a)s com deficiência"];
                             $contractTypeName = [null, "Concursado/Efetivo", "Temporário", "Terceirizado", "CLT"];
                             $i = 0;
                             foreach ($modelTeachingData as $key => $model) {
@@ -672,6 +672,8 @@ $form = $this->beginWidget('CActiveForm', array(
                         4 => 'Tradutor e Intérprete de Libras',
                         5 => "EAD - Docente Titular",
                         6 => "EAD - Docente Tutor",
+                        7 => "Guia-Intérprete",
+                        8 => "Profissional de apoio escolar para aluno(a) com deficiência",
                     ), array('class' => 'select-search-off'));
                     ?>
                 </div>
@@ -686,6 +688,10 @@ $form = $this->beginWidget('CActiveForm', array(
                         4 => 'CLT',
                     ), array('class' => 'select-search-off'));
                     ?>
+                </div>
+                <div class="control-group regent-teacher-container" style="display:none">
+                    <?php echo CHtml::checkBox("RegentTeacher", false, array('value' => '1', 'id' => 'RegentTeacher'));?>
+                    <?php echo CHtml::label(Yii::t("default", "Regent Teacher"), "RegentTeacher", array('class' => 'control-label', 'style' => 'display: inline-block'));?>
                 </div>
             </div>
         </div>

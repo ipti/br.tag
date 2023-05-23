@@ -2,8 +2,7 @@
 defined('YII_DEBUG') or define('YII_DEBUG', true);
 // defined('YII_DEBUG') or define('YII_DEBUG', false);
 
-define("TAG_VERSION", '3.20.46');
-
+define("TAG_VERSION", '3.21.50');
 
 define("YII_VERSION", Yii::getVersion());
 define("BOARD_MSG", '<div class="alert alert-success">Novas atualizações no TAG. Confira clicando <a class="changelog-link" href="?r=admin/changelog">aqui</a>.</div>');
