@@ -124,7 +124,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <!-- name student -->
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'name', array('class' => 'control-label t-field-text__label--required')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome Social')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome de Apresentação')); ?>
                                 <span id="similarMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
                                     <img id="warningNameIcon" onclick="displayRecords()" style="display: none;" src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>" alt="icone aviso">
                                     <img id="errorNameIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">

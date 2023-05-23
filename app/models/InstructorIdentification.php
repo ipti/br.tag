@@ -136,7 +136,7 @@ class InstructorIdentification extends AltActiveRecord
             'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
             'inep_id' => Yii::t('default', 'Inep'),
             'id' => Yii::t('default', 'ID'),
-            'name' => Yii::t('default', 'Nome social'),
+            'name' => Yii::t('default', 'Nome de Apresentação'),
             'civil_name' => Yii::t('default', 'Nome civil'),
             'email' => Yii::t('default', 'Email'),
             'nis' => Yii::t('default', 'Nis'),
