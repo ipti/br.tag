@@ -1,5 +1,7 @@
 # Atualizações
 
+## [Versão 3.21.50]
+- O cabeçalho de ata de conselho de classe teve seus erros de sintaxe corrigidos
 
 ## [Versão 3.21.50]
 - Corrigido a animação de carregamento fora de estrutura fixa e colocando a animação com símbolo do tag na tela de Estrutura de Unidades e Avaliações
