@@ -44,7 +44,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 </div>
                 <div class="pull-left">
                     <span class="title">Cadastrar Aluno</span><br>
-                    <span class="subtitle">Digite a RA para cadastrar o Aluno</span>
+                    <span class="subtitle">Digite o RA para cadastrar o Aluno</span>
                 </div>
             </button>
         </a>
@@ -57,7 +57,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 </div>
                 <div class="pull-left">
                     <span class="title">Cadastrar Turma</span><br>
-                    <span class="subtitle">Digite a código para cadastrar uma turma</span>
+                    <span class="subtitle">Cadastrar turma podendo trazer alunos matriculados</span>
                 </div>
             </button>
         </a>
@@ -70,7 +70,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 </div>
                 <div class="pull-left">
                     <span class="title">Cadastrar Escola</span><br>
-                    <span class="subtitle">Digite a código para cadastrar uma turma</span>
+                    <span class="subtitle">Digite o nome da escola e do município</span>
                 </div>
             </button>
         </a>
@@ -104,7 +104,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             <div class="modal-body">
                 <div class="row-fluid">
                     <div class=" span12">
-                        <?php echo CHtml::label(yii::t('default', 'RA'), 'year', array('class' => 'control-label')); ?>
+                        <?php echo CHtml::label(yii::t('default', 'RA do Aluno'), 'year', array('class' => 'control-label')); ?>
                         <input name="ra" id="ra" type="number" placeholder="Digite o RA" style="width: 97.5%;" oninput="validateRA();" maxlength="12" required>
                         <div id="ra-warning" style="display: none;color:#D21C1C">O RA deve ter exatamente 12 dígitos.</div>
                     </div>
@@ -154,7 +154,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 <div class="row-fluid">
                     <div class=" span12" style="display: flex;">
                         <div style="width: 100%;">
-                            <?php echo CHtml::label(yii::t('default', 'Inep Head School'), 'school_id', array('class' => 'control-label')); ?>
+                            <?php echo CHtml::label(yii::t('default', 'Código da Turma'), 'school_id', array('class' => 'control-label')); ?>
                             <input name="classroomNum" id="class" type="number" placeholder="Digite o Código da Turma" oninput="validateClass();" maxlength="9" style="width: 97.5%;" required>
                             <div id="class-warning" style="display: none;color:#D21C1C">O Código deve ter exatamente 9 dígitos.</div>
                             <div class="checkbox modal-replicate-actions-container">
