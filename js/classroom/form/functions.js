@@ -1,7 +1,8 @@
 ////////////////////////////////////////////////
 // Functions                                  //
 ////////////////////////////////////////////////
-var RegentTeacherCount = 0
+var count = $('.regent-teacher').length;
+var RegentTeacherCount = count;
 var removeTeachingData = function () {
     var instructor = $(this).parent().parent().parent().attr("instructor");
     var discipline = ($(this).parent().attr("discipline"));

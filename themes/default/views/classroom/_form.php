@@ -402,8 +402,14 @@ $form = $this->beginWidget('CActiveForm', array(
                             $contractTypeName = [null, "Concursado/Efetivo", "Temporário", "Terceirizado", "CLT"];
                             $i = 0;
                             foreach ($modelTeachingData as $key => $model) {
-                                $teachingDataList .= "<li instructor='" . $model->instructor_fk . "'><span>" . $model->instructorFk->name . "</span><span> - " . $roleName[$model->role] . "</span>"
-                                    . '<a  href="#" class="deleteTeachingData delete" title="Excluir">
+                                $regentText = "";
+                                $classRegent = "";
+                                if($model->regent == 1) {
+                                    $regentText = "&nbsp(Regente)";
+                                    $classRegent = "regent-teacher";
+                                }
+                                $teachingDataList .= "<li class='".$classRegent."' instructor='" . $model->instructor_fk . "'><span>" . $model->instructorFk->name . "</span><span>".$regentText."</span><span> - " . $roleName[$model->role] . "</span>"
+                                    .'<a  href="#" class="deleteTeachingData delete" title="Excluir" regent="'.$model->regent.'">
                                               </a>';
                                 $teachingDataList .= "<ul>";
 
@@ -412,6 +418,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 $teachingDataArray[$i]['Classroom'] = $model->classroom_id_fk;
                                 $teachingDataArray[$i]['Role'] = $model->role;
                                 $teachingDataArray[$i]['ContractType'] = $model->contract_type;
+                                $teachingDataArray[$i]['RegentTeacher'] = $model->regent;
                                 $teachingDataArray[$i]['Disciplines'] = array();
 
                                 foreach ($model->teachingMatrixes as $teachingMatrix) {
