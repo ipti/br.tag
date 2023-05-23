@@ -1,7 +1,9 @@
 @import './field-select2';
 
 .t-multiselect{
+
     @extend .t-field-select;
+    
     .select2-search-choice {
         background-color: $colorsAlertInfoBackground !important;
         border: none !important;
@@ -11,6 +13,8 @@
         padding: $spaceXXSmall $spaceXSmall !important;
         background-image: none !important;
         word-wrap: break-word;
+        
+        
         div{
             margin-left: $SizeLarge;
         }
@@ -24,7 +28,7 @@
         overflow: auto !important;
         max-height: 42px;
     }
-
+    
 }
 // botao-cancelar-multiselect
 // select2-search-choice-close
