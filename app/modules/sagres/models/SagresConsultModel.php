@@ -411,8 +411,8 @@ class SagresConsultModel
                 WHERE 
                     c.id = :classId and 
                     s.month = :referenceMonth
-                GROUP BY 
-                    week_day";
+                ORDER BY 
+                    c.create_date DESC";
 
         $params = [
             ':classId' => $classId,
