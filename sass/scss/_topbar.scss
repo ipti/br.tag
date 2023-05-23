@@ -66,6 +66,7 @@
             
             
             .tag-topbar__school_logo {
+                object-fit: contain;
                 width: $SizeMedium * 2;
                 height: $SizeMedium * 2;
                 border-radius: $borderRadiusCircle;

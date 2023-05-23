@@ -249,22 +249,20 @@ class ClassroomController extends Controller
     static function classroomDisciplineLabelArray()
     {
         $labels = array();
-        $disciplines =  EdcensoDiscipline::model()->findAll(['select' => 'name']);
-        foreach ($disciplines as $key => $value) {
-            $labels[$key] = $value->name;
+        $disciplines =  EdcensoDiscipline::model()->findAll(['select' => 'id, name']);
+        foreach ($disciplines as $value) {
+            $labels[$value->id] = $value->name;
         } 
-        
         return $labels;
     }
 
     static function classroomDisciplineLabelResumeArray()
     {
         $labels = array();
-        $disciplines =  EdcensoDiscipline::model()->findAll(['select' => 'name']);
-        foreach ($disciplines as $key => $value) {
+        $disciplines =  EdcensoDiscipline::model()->findAll(['select' => 'id, name']);
+        foreach ($disciplines as $value) {
             $labels[$value->id] = $value->name;
-        }
-        
+        }   
         return $labels;
     }
 
