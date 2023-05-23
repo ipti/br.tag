@@ -21,11 +21,11 @@ class StudentSEDDataSource extends SedDataSource
         if($force){
             $name = '';
         }
-        $body['inFiltrosNomes'] = array("inNomeAluno" => $name,
+        $body = array("inNomeAluno" => $name,
         "inNomeMae" => $mothersName,
-        "outDataNascimento" => $birthday);
+        "inDataNascimento" => $birthday);
         try {
-            $response = $this->client->request('GET', '/ncaapi/api/Aluno/ListarAlunos', [
+            $response = $this->client->request('GET', '/ncaapi/api/Aluno/ConsultaRA', [
                 'body' => json_encode($body)
             ]);
             return new DadosAluno($name, $response->getBody()->getContents());
