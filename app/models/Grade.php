@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'grade':
  * @property integer $id
  * @property double $grade
+ * @property integer $grade_concept_fk
  * @property integer $enrollment_fk
  * @property integer $discipline_fk
  * @property integer $grade_unity_modality_fk
@@ -14,6 +15,7 @@
  * @property StudentEnrollment $enrollmentFk
  * @property GradeUnityModality $gradeUnityModalityFk
  * @property EdcensoDiscipline $disciplineFk
+ * @property GradeConcept $gradeConceptFk
  */
 class Grade extends CActiveRecord
 {
@@ -33,12 +35,12 @@ class Grade extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('grade, enrollment_fk, discipline_fk, grade_unity_modality_fk', 'required'),
-			array('enrollment_fk, discipline_fk, grade_unity_modality_fk', 'numerical', 'integerOnly'=>true),
+			array('enrollment_fk, discipline_fk, grade_unity_modality_fk', 'required'),
+			array('grade_concept_fk, enrollment_fk, discipline_fk, grade_unity_modality_fk', 'numerical', 'integerOnly'=>true),
 			array('grade', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, grade, enrollment_fk, discipline_fk, grade_unity_modality_fk', 'safe', 'on'=>'search'),
+			array('id, grade, grade_concept_fk, enrollment_fk, discipline_fk, grade_unity_modality_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,6 +55,7 @@ class Grade extends CActiveRecord
 			'enrollmentFk' => array(self::BELONGS_TO, 'StudentEnrollment', 'enrollment_fk'),
 			'gradeUnityModalityFk' => array(self::BELONGS_TO, 'GradeUnityModality', 'grade_unity_modality_fk'),
 			'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
+			'gradeConceptFk' => array(self::BELONGS_TO, 'GradeConcept', 'grade_concept_fk'),
 		);
 	}
 
@@ -64,6 +67,7 @@ class Grade extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'grade' => 'Grade',
+			'grade_concept_fk' => 'Grade Concept Fk',
 			'enrollment_fk' => 'Enrollment Fk',
 			'discipline_fk' => 'Discipline Fk',
 			'grade_unity_modality_fk' => 'Grade Unity Modality Fk',
@@ -90,6 +94,7 @@ class Grade extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('grade',$this->grade);
+		$criteria->compare('grade_concept_fk',$this->grade_concept_fk);
 		$criteria->compare('enrollment_fk',$this->enrollment_fk);
 		$criteria->compare('discipline_fk',$this->discipline_fk);
 		$criteria->compare('grade_unity_modality_fk',$this->grade_unity_modality_fk);
