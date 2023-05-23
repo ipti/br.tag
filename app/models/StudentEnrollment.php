@@ -49,6 +49,7 @@
  * @property string $observation
  * @property integer $daily_order
  * @property integer $status
+ * @property string $transfer_date
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
@@ -217,6 +218,7 @@ class StudentEnrollment extends AltActiveRecord
             'observation' => Yii::t('default', 'Observation'),
             'daily_order' => Yii::t('default', 'daily_order'),
             'school-identifications' => Yii::t('default', 'School Identifications'),
+            'transfer_date' => Yii::t('default', 'Transfer Date'),
 
         );
     }
