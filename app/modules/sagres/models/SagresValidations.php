@@ -14,7 +14,7 @@ class SagresValidations
 
         foreach ($schools as $school) {
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorSchoolDirector($school));
-            $inconsistencyList = array_merge($inconsistencyList, $this->validatorMenu($school));
+            #$inconsistencyList = array_merge($inconsistencyList, $this->validatorMenu($school));
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorClass($school));
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorProfessionals($professionals, $school));
         }
@@ -98,7 +98,7 @@ class SagresValidations
         return $inconsistencies;
     }
 
-    public function validatorMenu($school)
+ /*    public function validatorMenu($school)
     {
         $strlen = 4;
         $inconsistencies = [];
@@ -153,7 +153,7 @@ class SagresValidations
         }
 
         return $inconsistencies;
-    }
+    } */
 
     public function validatorClass($school)
     {
