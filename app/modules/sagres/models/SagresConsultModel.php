@@ -149,26 +149,8 @@ class SagresConsultModel
                 ->setDiretor($this->getDirectorSchool($school['inep_id']))
                 ->setCardapio($this->getMenuList($school['inep_id'], $referenceYear, $month));
 
-            // Verifica se a escola tem turmas no período
-            if (!empty($schoolType->getTurma())) {
-                // Verifica se a escola tem cardápio disponível no período
-                if (!empty($schoolType->getCardapio())) {
-                    $schoolList[] = $schoolType;
-                } else {
-                    // Busca o cardápio mais rescente para o período
-                    $schoolType->setCardapio($this->getSchoolMenu($school['inep_id'], $referenceYear));
-                    // Verifica se o cardápio foi encontrado
-                    if (!empty($schoolType->getCardapio())) {
-                        $schoolList[] = $schoolType;
-                    }
-                }
-            } else { //Não tem turma no periodo mas tem cardapio   
-                if (!empty($schoolType->getCardapio())) {
-                    $schoolList[] = $schoolType;
-                }
+                $schoolList[] = $schoolType;       
             }
-
-        }
        
         return $schoolList;
     }
