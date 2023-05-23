@@ -15,6 +15,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <tr><th>Ordem</th><th>Cód.&nbsp;da Turma</th><th>Nome da Turma</th><th>Horário de Funcionamento</th><th>Tipo de Atendimento</th><th>Modalidade</th><th>Etapa</th><th>Nº&nbsp;de Alunos</th></tr>
             <?php
             $html = "";
+            $count_students = 0;
             $i = 0;
             foreach ($report as $r) {
                 $i++;
@@ -28,8 +29,10 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         . "<td>" . $r["stage"] . "</td>"
                         . "<td>" . $r["students"] . "</td>"
                         . "</tr>";
+                $count_students += intval($r["students"]);
             }
             echo $html;
+            echo "<tr><td></td><td></td><td></td><td></td><td></td><td></td><td style='font-weight:bold;text-align: right;'>TOTAL:</td><td style='font-weight:bold;'>".$count_students."</td></tr>"
             ?>
             </tbody>
         </table>
