@@ -56,7 +56,7 @@ $('#discipline').change(function (e, triggerEvent) {
                     $.each(data.students, function () {
                         html += "<tr><td class='grade-student-name'><input type='hidden' class='enrollment-id' value='" + this.enrollmentId + "'>" + $.trim(this.studentName) + "</td>";
                         $.each(this.grades, function () {
-                            html += "<td class='grade-td'><input type='text' class='grade' modalityid='" + this.modalityId + "' value='" + this.value + "'></td>";
+                            html += "<td class='grade-td'><input type='text' class='grade' modalityid='" + this.modalityId + "' value='" + parseFloat(this.value).toFixed(1) + "'></td>";
                         });
                         html += "<td class='final-media'>" + this.finalMedia + "</td></tr>";
                     });
@@ -121,7 +121,7 @@ $(document).on("keyup", "input.grade", function (e) {
         e.preventDefault();
         val = "";
     } else {
-        grade = /^(10|\d)(?:(\.|\,)\d{0,2}){0,1}$/;
+        grade = /^(10|\d)(?:(\.|\,)\d{0,1}){0,1}$/;
         if (val.match(grade) === null) {
             val = "";
         } else {
