@@ -61,7 +61,7 @@ $('#discipline').change(function (e, triggerEvent) {
                         $.each(this.grades, function () {
                             html += "<td class='grade-td'>";
                             if (!data.isUnityConcept) {
-                                html += "<input type='text' class='grade' modalityid='" + this.modalityId + "' value='" + this.value + "'>";
+                                html += "<input type='text' class='grade' modalityid='" + this.modalityId + "' value='" + parseFloat(this.value).toFixed(1) + "'>";
                             } else {
                                 html += "<select class='grade-concept' modalityid='" + this.modalityId + "'><option value=''></option>";
                                 var concept = this.concept;
@@ -146,7 +146,7 @@ $(document).on("keyup", "input.grade", function (e) {
         e.preventDefault();
         val = "";
     } else {
-        grade = /^(10|\d)(?:(\.|\,)\d{0,2}){0,1}$/;
+        grade = /^(10|\d)(?:(\.|\,)\d{0,1}){0,1}$/;
         if (val.match(grade) === null) {
             val = "";
         } else {
