@@ -14,7 +14,7 @@ class SagresValidations
 
         foreach ($schools as $school) {
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorSchoolDirector($school));
-            $inconsistencyList = array_merge($inconsistencyList, $this->validatorMenu($school));
+            #$inconsistencyList = array_merge($inconsistencyList, $this->validatorMenu($school));
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorClass($school));
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorProfessionals($professionals, $school));
         }
@@ -98,7 +98,7 @@ class SagresValidations
         return $inconsistencies;
     }
 
-    public function validatorMenu($school)
+ /*    public function validatorMenu($school)
     {
         $strlen = 4;
         $inconsistencies = [];
@@ -153,7 +153,7 @@ class SagresValidations
         }
 
         return $inconsistencies;
-    }
+    } */
 
     public function validatorClass($school)
     {
@@ -287,7 +287,6 @@ class SagresValidations
                         "action" => 'COLOQUE UM VALOR VÁLIDO PARA O NÚMERO DE FALTAS'
                     ];
                 }
-
                 if(!is_bool($enrollment->getAprovado())){
                     $inconsistencies[] = [
                         "enrollment" => 'MATRÍCULA',
@@ -324,7 +323,7 @@ class SagresValidations
             $inconsistencies[] = [
                 "enrollment" => 'ESTUDANTE',
                 "school" => $schoolId,
-                "description" => 'DATA NO FORMATO INVÁLIDO',
+                "description" => 'DATA NO FORMATO INVÁLIDO: ' . $student->getDataNascimento()->format("d/m/Y"),
                 "action" => 'ADICIONE UMA DATA NO FORMATO VÁLIDA'
             ];
         }
@@ -456,6 +455,9 @@ class SagresValidations
     function validateDate($date, $format = 'Y-m-d')
     {
         $d = DateTime::createFromFormat($format, $date);
+        if(intval($d->format('Y')) <= 1900)
+            return false;
+           
         return $d && $d->format($format) == $date;
     }
 }

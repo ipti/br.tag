@@ -35,7 +35,7 @@ class SagresConsultModel
         $this->dbCommand = Yii::app()->db->createCommand();
     }
 
-    public function getSagresEdu($referenceYear, $dateStart, $dateEnd, $finalClass): EducacaoTType
+    public function getSagresEdu($referenceYear, $month, $finalClass): EducacaoTType
     {
         $education = new EducacaoTType;
         $managementUnitId = $this->getManagementId();
@@ -43,9 +43,9 @@ class SagresConsultModel
 
         try {
             $education
-                ->setPrestacaoContas($this->getManagementUnit($managementUnitId, $referenceYear, $dateStart, $dateEnd))
-                ->setEscola($this->getSchools($referenceYear, $dateStart, $dateEnd, $finalClass))
-                ->setProfissional($this->getProfessionals($referenceYear, $dateStart, $dateEnd));
+                ->setPrestacaoContas($this->getManagementUnit($managementUnitId, $referenceYear, $month))
+                ->setEscola($this->getSchools($referenceYear, $month, $finalClass))
+                ->setProfissional($this->getProfessionals($referenceYear, $month));
         } catch (Exception $e) {
             throw new ErrorException($e->getMessage());
         }
@@ -67,8 +67,11 @@ class SagresConsultModel
     }
 
 
-    public function getManagementUnit($managementUnitId, $referenceYear, $dateStart, $dateEnd): CabecalhoTType
+    public function getManagementUnit($managementUnitId, $referenceYear, $month): CabecalhoTType
     {
+
+        $finalDay = date('t', strtotime("$referenceYear-$month-01"));
+
         try {
             $query = "SELECT 
                         pa.id AS managementUnitId,
@@ -93,10 +96,10 @@ class SagresConsultModel
                 ->setCpfResponsavel(str_replace([".", "-"], "", $managementUnit['responsibleCpf']))
                 ->setCpfGestor(str_replace([".", "-"], "", $managementUnit['managerCpf']))
                 ->setAnoReferencia((int) $referenceYear)
-                ->setMesReferencia((int) date("m", strtotime($dateEnd)))
+                ->setMesReferencia((int) $month)
                 ->setVersaoXml(1)
-                ->setDiaInicPresContas((int) date("d", strtotime($dateStart)))
-                ->setDiaFinaPresContas((int) date("d", strtotime($dateEnd)));
+                ->setDiaInicPresContas((int) 01)
+                ->setDiaFinaPresContas((int) $finalDay);
 
             return $headerType;
         } catch (Exception $e) {
@@ -130,7 +133,7 @@ class SagresConsultModel
      * Summary of EscolaTType
      * @return EscolaTType[] 
      */
-    public function getSchools($referenceYear, $dateStart, $dateEnd, $finalClass)
+    public function getSchools($referenceYear, $month, $finalClass)
     {
         $schoolList = [];
 
@@ -142,30 +145,12 @@ class SagresConsultModel
             $schoolType = new EscolaTType;
             $schoolType
                 ->setIdEscola($school['inep_id'])
-                ->setTurma($this->getClasses($school['inep_id'], $referenceYear, $dateStart, $dateEnd, $finalClass))
+                ->setTurma($this->getClasses($school['inep_id'], $referenceYear, $month, $finalClass))
                 ->setDiretor($this->getDirectorSchool($school['inep_id']))
-                ->setCardapio($this->getMenuList($school['inep_id'], $referenceYear, $dateStart, $dateEnd));
+                ->setCardapio($this->getMenuList($school['inep_id'], $referenceYear, $month));
 
-            // Verifica se a escola tem turmas no período
-            if (!empty($schoolType->getTurma())) {
-                // Verifica se a escola tem cardápio disponível no período
-                if (!empty($schoolType->getCardapio())) {
-                    $schoolList[] = $schoolType;
-                } else {
-                    // Busca o cardápio mais rescente para o período
-                    $schoolType->setCardapio($this->getSchoolMenu($school['inep_id'], $referenceYear));
-                    // Verifica se o cardápio foi encontrado
-                    if (!empty($schoolType->getCardapio())) {
-                        $schoolList[] = $schoolType;
-                    }
-                }
-            } else { //Não tem turma no periodo mas tem cardapio   
-                if (!empty($schoolType->getCardapio())) {
-                    $schoolList[] = $schoolType;
-                }
+                $schoolList[] = $schoolType;       
             }
-
-        }
        
         return $schoolList;
     }
@@ -186,30 +171,42 @@ class SagresConsultModel
      * Summary of TurmaTType
      * @return TurmaTType[]
      */
-    public function getClasses($inepId, $referenceYear, $dateStart, $dateEnd, $finalClass)
+    public function getClasses($inepId, $referenceYear, $month, $finalClass)
     {
         $classList = [];
-        $referenceMonth = (int) date("m", strtotime($dateStart));
 
-        $query = "SELECT 
-                    Date(COALESCE(c.create_date, (SELECT date FROM log WHERE reference_ids = c.id AND crud = 'C' AND reference = 'classroom' order by reference_ids limit 1))) AS createDate,
-                    c.initial_hour AS initialHour,
-                    c.school_inep_fk AS schoolInepFk,
-                    c.id AS classroomId,
-                    c.name AS classroomName,
-                    c.turn AS classroomTurn
-                FROM 
-                    classroom c
-                WHERE 
-                    c.school_inep_fk = :schoolInepFk AND 
-                    c.school_year = :referenceYear AND 
-                    (c.create_date IS NULL OR Date(c.create_date) BETWEEN :dateStart AND :dateEnd)";
-
+        $query = "SELECT * FROM (
+                        SELECT DATE(
+                                COALESCE(
+                                    c.create_date, 
+                                    (
+                                        SELECT date 
+                                        FROM log 
+                                        WHERE reference_ids = c.id 
+                                        AND crud = 'C' 
+                                        AND reference = 'classroom' 
+                                        ORDER BY reference_ids 
+                                        LIMIT 1
+                                    )
+                                )
+                            ) AS createDate,
+                            c.initial_hour AS initialHour,
+                            c.school_inep_fk AS schoolInepFk,
+                            c.id AS classroomId,
+                            c.name AS classroomName,
+                            c.turn AS classroomTurn
+                        FROM 
+                            classroom c
+                        WHERE 
+                            c.school_inep_fk = :schoolInepFk 
+                            AND c.school_year = :referenceYear
+                    ) AS subquery
+                    WHERE MONTH(subquery.createDate) < :month";
+        
         $params = [
             ':schoolInepFk' => $inepId,
             ':referenceYear' => $referenceYear,
-            ':dateStart' => $dateStart,
-            ':dateEnd' => $dateEnd
+            ':month' => $month
         ];
 
         $turmas = $this->dbCommand->setText($query)
@@ -226,14 +223,14 @@ class SagresConsultModel
                 ->setTurno($this->convertTurn($turma['classroomTurn']))
                 ->setSerie($this->getSeries($classId))
                 ->setMatricula(
-                    empty($this->getEnrollments($classId, $referenceYear, $dateStart, $dateEnd, $finalClass))
+                    empty($this->getEnrollments($classId, $referenceYear, $month, $finalClass))
                     ? $this->getRecentEnrollments($classId)
-                    : $this->getEnrollments($classId, $referenceYear, $dateStart, $dateEnd, $finalClass)
+                    : $this->getEnrollments($classId, $referenceYear, $month, $finalClass)
                 )
                 ->setHorario(
-                    empty($this->getSchedules($classId, $referenceMonth))
+                    empty($this->getSchedules($classId, $month))
                     ? $this->getRecentSchedules($classId)
-                    : $this->getSchedules($classId, $referenceMonth)
+                    : $this->getSchedules($classId, $month)
                 );
                 
                 
@@ -391,7 +388,7 @@ class SagresConsultModel
      * Summary of SerieTType
      * @return HorarioTType[] 
      */
-    public function getSchedules($classId, $referenceMonth)
+    public function getSchedules($classId, $month)
     {
         $scheduleList = [];
 
@@ -410,13 +407,13 @@ class SagresConsultModel
                     JOIN classroom c on c.id = itd.classroom_id_fk 
                 WHERE 
                     c.id = :classId and 
-                    s.month = :referenceMonth
-                GROUP BY 
-                    week_day";
+                    s.month < :referenceMonth
+                ORDER BY 
+                    c.create_date DESC";
 
         $params = [
             ':classId' => $classId,
-            ':referenceMonth' => $referenceMonth
+            ':referenceMonth' => $month
         ];
 
 
@@ -425,7 +422,7 @@ class SagresConsultModel
         foreach ($schedules as $schedule) {
             $scheduleType = new HorarioTType;
 
-            $query1 = "SELECT 
+            $queryGetDuration = "SELECT 
                             ROUND( (t.credits / COUNT(*))) AS duration
                         FROM (
                             SELECT ed.name AS disciplineName, cm.credits AS credits
@@ -433,12 +430,12 @@ class SagresConsultModel
                                 JOIN edcenso_discipline ed ON ed.id = s.discipline_fk 
                                 JOIN classroom c ON c.id = s.classroom_fk 
                                 JOIN curricular_matrix cm ON cm.discipline_fk = ed.id 
-                            WHERE s.classroom_fk = $classId and s.month = $referenceMonth
+                            WHERE s.classroom_fk = $classId and s.month < $month
                             GROUP BY s.week_day
                         ) t
                         WHERE t.disciplineName = '" . $schedule['disciplineName'] . "'";
 
-            $duration = Yii::app()->db->createCommand($query1)->queryRow();
+            $duration = Yii::app()->db->createCommand($queryGetDuration)->queryRow();
 
             $scheduleType
                 ->setDiaSemana($schedule['weekDay'])
@@ -576,7 +573,7 @@ class SagresConsultModel
      * Summary of CardapioTType
      * @return CardapioTType[] 
      */
-    public function getMenuList($schoolId, $year, $startDate, $endDate)
+    public function getMenuList($schoolId, $year, $month)
     {
         $menuList = [];
 
@@ -588,13 +585,12 @@ class SagresConsultModel
                 FROM lunch_menu lm 
                     JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk   
                     JOIN lunch_meal lm2 on lmm.meal_fk = lm2.id
-                WHERE lm.school_fk =  :schoolId AND YEAR(lm.date) = :year AND lm.date BETWEEN :startDate AND :endDate";
+                WHERE lm.school_fk =  :schoolId AND YEAR(lm.date) = :year AND MONTH(lm.date) < :month";
 
         $params = [
             ':schoolId' => $schoolId,
             ':year' => $year,
-            ':startDate' => $startDate,
-            'endDate' => $endDate
+            ':month' => $month
         ];
 
         $menus = Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
@@ -678,7 +674,7 @@ class SagresConsultModel
      * Summary of ProfissionalTType
      * @return ProfissionalTType[] 
      */
-    public function getProfessionals($reference_year, $dateStart, $dateEnd)
+    public function getProfessionals($referenceYear, $month)
     {
         $professionalList = [];
         $query = "SELECT 
@@ -688,15 +684,14 @@ class SagresConsultModel
                     p.inep_id_fk AS idEscola, 
                     fundeb 
                 FROM professional p
-                    JOIN attendance a ON p.id_professional  = a.professional_fk  and a.date BETWEEN :dateStart AND :dateEnd
+                    JOIN attendance a ON p.id_professional  = a.professional_fk  and MONTH(a.date) < :currentMonth
                 WHERE 
                     YEAR(a.date) = :reference_year";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
-            ':reference_year' => $reference_year,
-            ':dateStart' => $dateStart,
-            ':dateEnd' => $dateEnd
+            ':reference_year' => $referenceYear,
+            ':currentMonth' => $month
         ]);
 
         $professionals = $command->queryAll();
@@ -721,7 +716,7 @@ class SagresConsultModel
      *
      * @return MatriculaTType[]
      */
-    public function getEnrollments($classId, $referenceYear, $dateStart, $dateEnd, $finalClass)
+    public function getEnrollments($classId, $referenceYear, $month, $finalClass)
     {
         $enrollmentList = [];
 
@@ -736,12 +731,14 @@ class SagresConsultModel
                         join classroom c on se.classroom_fk = c.id 
                   WHERE 
                         se.classroom_fk  =  :classId AND 
-                        c.school_year = :referenceYear";
+                        c.school_year = :referenceYear AND
+                        MONTH(se.create_date) < :month";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
             ':classId' => $classId,
-            ':referenceYear' => $referenceYear
+            ':referenceYear' => $referenceYear,
+            ':month' => $month
         ]);
 
         $enrollments = $command->queryAll();
@@ -768,12 +765,12 @@ class SagresConsultModel
     public function getStudentSituation($situation)
     {
         $situations = [
-            0 => false,
-            1 => false,
-            2 => false,
-            3 => false,
-            4 => false,
-            5 => true
+            0 => false, // Não frequentou
+            1 => false, // Reprovado
+            2 => false, // Afastado por transferência
+            3 => false, // Afastado por abandono
+            4 => false, // Matrícula final em Educação Infantil
+            5 => true   // Promovido
         ];
 
         if (isset($situations[$situation])) {
