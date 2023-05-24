@@ -225,22 +225,25 @@ function loadReport() {
                     $.each(data.subunityNames, function () {
                         subunityRow += "<th class='center'>" + this + "</th>"
                     });
-                    html += "<tr><th class='table-title' colspan='" + (totalColSpan + 2) + "'>Notas</th></tr>";
-                    html += "<tr><th class='center' colspan='" + (totalColSpan + 2) + "'>" + $('#student').select2('data').text + "</th></tr>";
-                    html += "<tr><th class='center' colspan='" + (totalColSpan + 2) + "'>" + $('#classroom').select2('data').text + "</th></tr>";
-                    html += "<tr><th></th>" + unityRow + "<th class='center'></th></tr>";
-                    html += "<tr><th>Disciplina</th>" + subunityRow + "<th class='center'>Média Final</th></tr>";
-                    html += "</thead><tbody>";
+                    totalColSpan += (!data.isUnityConcept ? 2 : 1);
+                    html += "<tr><th class='table-title' colspan='" + totalColSpan + "'>Notas</th></tr>";
+                    html += "<tr><th class='center' colspan='" + totalColSpan + "'>" + $('#student').select2('data').text + "</th></tr>";
+                    html += "<tr><th class='center' colspan='" + totalColSpan + "'>" + $('#classroom').select2('data').text + "</th></tr>";
+                    html += "<tr><th></th>" + unityRow;
+                    html += !data.isUnityConcept ? "<th class='center'></th>" : "";
+                    html += "</tr>";
+                    html += "<tr><th>Disciplina</th>" + subunityRow;
+                    html += !data.isUnityConcept ? "<th class='center'>Média Final</th>" : "";
+                    html += "</tr></thead><tbody>";
                     $.each(data.rows, function () {
                         html += "<tr><td>" + this.disciplineName + "</td>";
                         $.each(this.grades, function () {
                             html += "<td class='center'>" + this.unityGrade + "</td>";
-                            console.log(this.unityGrade)
                             if (this.gradeUnityType === "UR") {
-                                html += "<td class='center'>" +  this.unityRecoverGrade + "</td>";
+                                html += "<td class='center'>" + this.unityRecoverGrade + "</td>";
                             }
                         });
-                        html += "<td class='center'>" + this.finalMedia + "</td></tr>";
+                        html += !data.isUnityConcept ? "<td class='center'>" + this.finalMedia + "</td></tr>" : "";
                     });
                     html += "</tbody></table>";
                     $(".report-container").html(html);

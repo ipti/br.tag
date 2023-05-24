@@ -470,6 +470,7 @@ class StudentController extends Controller
             $currentEnrollment = StudentEnrollment::model()->findByPk($modelStudentIdentification->studentEnrollment->id);
             if ($currentEnrollment->validate()) {
                 $currentEnrollment->status = 2;
+                $currentEnrollment->transfer_date = date_create_from_format('d/m/Y', $_POST['StudentEnrollment']['transfer_date'])->format('Y-m-d');
                 if ($currentEnrollment->save()) {
                     Log::model()->saveAction("enrollment", $currentEnrollment->id, "U", $currentEnrollment->studentFk->name . "|" . $currentEnrollment->classroomFk->name);
                 }
@@ -479,6 +480,7 @@ class StudentController extends Controller
             $modelEnrollment->student_fk = $modelStudentIdentification->id;
             $modelEnrollment->student_inep_id = $modelStudentIdentification->inep_id;
             $modelEnrollment->status = 1;
+            $modelEnrollment->observation = $_POST['StudentEnrollment']['observation'];
             $modelEnrollment->create_date = date('Y-m-d');
             $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
 
@@ -502,9 +504,7 @@ class StudentController extends Controller
         $classrooms = $school->classrooms;
         foreach ($classrooms as $class) {
             if ($class->school_year == Yii::app()->user->year) {
-                $class_id = htmlspecialchars($class->id);
-                $class_name = htmlspecialchars($class->name);
-                echo "<option value='".$class_id."'>".$class_name."</option>";
+                echo "<option value='".htmlspecialchars($class->id)."'>".htmlspecialchars($class->name)."</option>";
             }
         }
     }

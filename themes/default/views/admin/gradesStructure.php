@@ -52,10 +52,11 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                         'prompt' => 'Selecione o estágio...',
                     ));
                     ?>
-                </div> 
-                 <i class="js-grades-structure-loading fa fa-spin fa-spinner"></i>
+                </div>
             </div>
+            <img class="js-grades-structure-loading"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
+        
         <div class="grades-structure-container js-grades-structure-container">
             <div class="row">
                 <a href="#new-unity" id="new-unity" class="js-new-unity t-button-primary">
@@ -74,30 +75,33 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
     </div>
     <div class="modal fade modal-content" id="js-saveandreply-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">Salvar e Replicar para</h4>
-                </div>
-                <form method="post">
-                    <div class="modal-body">
-                        <div class="radios-container">
-                            <div class="radio">
-                                <label><input type="radio" class="reply-option" name="reply-option" value="A"><span>Toda a Matriz Curricular.</span></label>
-                            </div>
-                            <div class="radio">
-                                <label><input type="radio" class="reply-option" name="reply-option" value="S"><span>Todas as etapas de <span class="stagemodalityname"></span>.</span></label>
-                            </div>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt=""
+                         style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Salvar e Replicar para</h4>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                    <div class="radios-container">
+                        <div class="radio">
+                            <label><input type="radio" class="reply-option" name="reply-option" value="A"><span>Toda a Matriz Curricular.</span></label>
                         </div>
-                        <div class="modal-footer" style="margin-top: 50px">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar
-                            </button>
-                            <button type="button" class="btn btn-primary js-save-and-reply-button" data-dismiss="modal">Salvar e Replicar
-                            </button>
+                        <div class="radio">
+                            <label><input type="radio" class="reply-option" name="reply-option" value="S"><span>Todas as etapas de <span
+                                            class="stagemodalityname"></span>.</span></label>
                         </div>
                     </div>
-                </form>
+                    <div class="modal-footer" style="margin-top: 50px">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar
+                        </button>
+                        <button type="button" class="btn btn-primary js-save-and-reply-button" data-dismiss="modal">
+                            Salvar e Replicar
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     <?php $this->endWidget(); ?>

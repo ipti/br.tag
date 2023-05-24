@@ -118,42 +118,25 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 	checkbox.addEventListener('change', function() {
 		checkboxValue = checkbox.checked ? true : false;
 
-		const {
-			startDate,
-			endDate
-		} = getDatesFromMonth(selectedValue);
+		month = parseInt(selectedValue, 10)
 
 		const year = new Date().getFullYear();
 		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&year=${year}&startDate=${startDate}&endDate=${endDate}&finalClass=${checkboxValue}`;
+		const newHref = `?r=sagres/default/export&year=${year}&month=${month}&finalClass=${checkboxValue}`;
 		exportLink.setAttribute('href', newHref);
 	});
 
 	selectElement.addEventListener("change", (event) => {
 		selectedValue = event.target.value;
 
-		const {
-			startDate,
-			endDate
-		} = getDatesFromMonth(selectedValue);
+		month = parseInt(selectedValue, 10)
 
 		const year = new Date().getFullYear();
 		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&year=${year}&startDate=${startDate}&endDate=${endDate}&finalClass=${checkboxValue}`;
+		const newHref = `?r=sagres/default/export&year=${year}&month=${month}&finalClass=${checkboxValue}`;
 		exportLink.setAttribute('href', newHref);
 
 	});
-
-	function getDatesFromMonth(monthValue) {
-		const year = new Date().getFullYear();
-		const month = parseInt(monthValue, 10);
-		const startDate = new Date(year, month - 1, 1);
-		const endDate = new Date(year, month, 0);
-		return {
-			startDate: startDate.toISOString().slice(0, 10),
-			endDate: endDate.toISOString().slice(0, 10),
-		};
-	}
 
 	function downloadFile(url, filename) {
 		const link = document.createElement('a');

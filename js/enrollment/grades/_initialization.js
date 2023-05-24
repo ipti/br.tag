@@ -44,24 +44,44 @@ $('#discipline').change(function (e, triggerEvent) {
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.valid) {
-                    var html = "<table class='grades-table table table-bordered table-striped'><thead><tr><th colspan='" + (Object.keys(data.modalityColumns).length + 2) + "' class='table-title'>Notas</th></tr><tr><th></th>";
+                    var tableColspan = Object.keys(data.modalityColumns).length + (!data.isUnityConcept ? 2 : 1);
+                    var html = "<table class='grades-table table table-bordered table-striped' concept='" + (data.isUnityConcept ? "1" : "0") + "'><thead><tr><th colspan='" + tableColspan + "' class='table-title'>Notas</th></tr><tr><th></th>";
                     $.each(data.unityColumns, function () {
                         html += "<th colspan='" + this.colspan + "'>" + this.name + "</th>";
                     });
-                    html += "<th></th></tr><tr class='modality-row'><th></th>";
+                    html += !data.isUnityConcept ? '<th></th>' : '';
+                    html += "</tr><tr class='modality-row'><th></th>";
                     $.each(data.modalityColumns, function () {
                         html += "<th>" + this + "</th>";
                     });
-                    html += "<th>Média Final</th></tr></thead><tbody>";
+                    html += !data.isUnityConcept ? '<th>Média Final</th>' : '';
+                    html += "</tr></thead><tbody>";
                     $.each(data.students, function () {
                         html += "<tr><td class='grade-student-name'><input type='hidden' class='enrollment-id' value='" + this.enrollmentId + "'>" + $.trim(this.studentName) + "</td>";
                         $.each(this.grades, function () {
-                            html += "<td class='grade-td'><input type='text' class='grade' modalityid='" + this.modalityId + "' value='" + this.value + "'></td>";
+                            if (this.value == "") {
+                                valueGrade = "";
+                            } else {
+                                valueGrade = parseFloat(this.value).toFixed(1);
+                            }
+                            html += "<td class='grade-td'>";
+                            if (!data.isUnityConcept) {
+                                html += "<input type='text' class='grade' modalityid='" + this.modalityId + "' value='" + valueGrade + "'>";
+                            } else {
+                                html += "<select class='grade-concept' modalityid='" + this.modalityId + "'><option value=''></option>";
+                                var concept = this.concept;
+                                $.each(data.conceptOptions, function (index, value) {
+                                    html += "<option value='" + index + "' " + (index === concept ? "selected" : "") + ">" + value + "</option>";
+                                });
+                            }
+                            html += "</td>";
                         });
-                        html += "<td class='final-media'>" + this.finalMedia + "</td></tr>";
+                        html += !data.isUnityConcept ? "<td class='final-media'>" + this.finalMedia + "</td>" : "";
+                        html += "</tr>";
                     });
                     html += "</tbody></table>";
                     $(".js-grades-container").html(html);
+                    $(".grade-concept").select2();
                     if (triggerEvent === "saveGrades") {
                         $(".js-grades-alert").removeClass("alert-error").addClass("alert-success").text("Notas registradas com sucesso!").show();
                     }
@@ -84,12 +104,21 @@ $("#save").on("click", function (e) {
     var students = [];
     $('.grades-table tbody tr').each(function () {
         var grades = [];
-        $(this).find(".grade").each(function () {
-            grades.push({
-                modalityId: $(this).attr("modalityid"),
-                value: $(this).val()
+        if ($(".grades-table").attr("concept") === "1") {
+            $(this).find(".grade-concept").each(function () {
+                grades.push({
+                    modalityId: $(this).attr("modalityid"),
+                    concept: $(this).val()
+                });
             });
-        });
+        } else {
+            $(this).find(".grade").each(function () {
+                grades.push({
+                    modalityId: $(this).attr("modalityid"),
+                    value: $(this).val()
+                });
+            });
+        }
         students.push({
             enrollmentId: $(this).find(".enrollment-id").val(),
             grades: grades
@@ -103,7 +132,8 @@ $("#save").on("click", function (e) {
         data: {
             classroom: $("#classroom").val(),
             discipline: $("#discipline").val(),
-            students: students
+            students: students,
+            isConcept: $(".grades-table").attr("concept")
         },
         beforeSend: function () {
             $(".js-grades-loading").css("display", "inline-block");
@@ -121,7 +151,7 @@ $(document).on("keyup", "input.grade", function (e) {
         e.preventDefault();
         val = "";
     } else {
-        grade = /^(10|\d)(?:(\.|\,)\d{0,2}){0,1}$/;
+        grade = /^(10|\d)(?:(\.|\,)\d{0,1}){0,1}$/;
         if (val.match(grade) === null) {
             val = "";
         } else {

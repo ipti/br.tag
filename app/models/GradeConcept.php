@@ -1,30 +1,21 @@
 <?php
 
 /**
- * This is the model class for table "grade".
+ * This is the model class for table "grade_concept".
  *
- * The followings are the available columns in table 'grade':
+ * The followings are the available columns in table 'grade_concept':
  * @property integer $id
- * @property double $grade
- * @property integer $grade_concept_fk
- * @property integer $enrollment_fk
- * @property integer $discipline_fk
- * @property integer $grade_unity_modality_fk
- *
- * The followings are the available model relations:
- * @property StudentEnrollment $enrollmentFk
- * @property GradeUnityModality $gradeUnityModalityFk
- * @property EdcensoDiscipline $disciplineFk
- * @property GradeConcept $gradeConceptFk
+ * @property string $name
+ * @property string $acronym
  */
-class Grade extends CActiveRecord
+class GradeConcept extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'grade';
+		return 'grade_concept';
 	}
 
 	/**
@@ -35,12 +26,12 @@ class Grade extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('enrollment_fk, discipline_fk, grade_unity_modality_fk', 'required'),
-			array('grade_concept_fk, enrollment_fk, discipline_fk, grade_unity_modality_fk', 'numerical', 'integerOnly'=>true),
-			array('grade', 'numerical'),
+			array('name, acronym', 'required'),
+			array('name', 'length', 'max'=>50),
+			array('acronym', 'length', 'max'=>5),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, grade, grade_concept_fk, enrollment_fk, discipline_fk, grade_unity_modality_fk', 'safe', 'on'=>'search'),
+			array('id, name, acronym', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,10 +43,6 @@ class Grade extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'enrollmentFk' => array(self::BELONGS_TO, 'StudentEnrollment', 'enrollment_fk'),
-			'gradeUnityModalityFk' => array(self::BELONGS_TO, 'GradeUnityModality', 'grade_unity_modality_fk'),
-			'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
-			'gradeConceptFk' => array(self::BELONGS_TO, 'GradeConcept', 'grade_concept_fk'),
 		);
 	}
 
@@ -66,11 +53,8 @@ class Grade extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'grade' => 'Grade',
-			'grade_concept_fk' => 'Grade Concept Fk',
-			'enrollment_fk' => 'Enrollment Fk',
-			'discipline_fk' => 'Discipline Fk',
-			'grade_unity_modality_fk' => 'Grade Unity Modality Fk',
+			'name' => 'Name',
+			'acronym' => 'Acronym',
 		);
 	}
 
@@ -93,11 +77,8 @@ class Grade extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('grade',$this->grade);
-		$criteria->compare('grade_concept_fk',$this->grade_concept_fk);
-		$criteria->compare('enrollment_fk',$this->enrollment_fk);
-		$criteria->compare('discipline_fk',$this->discipline_fk);
-		$criteria->compare('grade_unity_modality_fk',$this->grade_unity_modality_fk);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('acronym',$this->acronym,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -108,7 +89,7 @@ class Grade extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Grade the static model class
+	 * @return GradeConcept the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
