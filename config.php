@@ -1,6 +1,6 @@
 <?php
-defined('YII_DEBUG') or define('YII_DEBUG', true);
-// defined('YII_DEBUG') or define('YII_DEBUG', false);
+// defined('YII_DEBUG') or define('YII_DEBUG', true);
+defined('YII_DEBUG') or define('YII_DEBUG', false);
 
 define("TAG_VERSION", '3.22.51');
 
