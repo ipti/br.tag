@@ -13,6 +13,7 @@ class SagresValidations
         $inconsistencyList = [];
 
         foreach ($schools as $school) {
+
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorSchoolDirector($school));
             #$inconsistencyList = array_merge($inconsistencyList, $this->validatorMenu($school));
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorClass($school));
@@ -24,13 +25,22 @@ class SagresValidations
 
     public function validatorProfessionals($professionals, $school)
     {
-        $inconsistencyList = [];
+        $inconsistencies = [];
 
         foreach ($professionals as $professional) {
-            $inconsistencyList = array_merge($inconsistencyList,$this->validatorAttendance($professional, $school));
+            if (!$this->validaCPF($professional->getCpfProfissional())) {
+                $inconsistencies[] = [
+                    "enrollment" => 'PROFESSIONAL',
+                    "school" => $school->getIdEscola(),
+                    "description" => 'CPF INVÁLIDO: ' . $professional->getCpfProfissional(),
+                    "action" => 'INFORMAR UM CPF VÁLIDO'
+                ];
+            }
+
+            $inconsistencies = array_merge($inconsistencies,$this->validatorAttendance($professional, $school));
         }
 
-        return array_unique($inconsistencyList);
+        return array_unique($inconsistencies);
     }
 
     public function validatorAttendance($professional, $school)
