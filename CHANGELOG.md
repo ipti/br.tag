@@ -1,7 +1,7 @@
 # Atualizações
 
 ## [Versão 3.21.52]
-- coloquando campo de  data de transferência como obrigatório
+- colocando campo de  data de transferência como obrigatório
 - adicionando validação no front para a data de transferência
 ## [Versão 3.21.50]
 - O cabeçalho de ata de conselho de classe teve seus erros de sintaxe corrigidos
