@@ -525,3 +525,21 @@ function decodeHtml(html) {
     txt.innerHTML = html;
     return txt.value;
 }
+
+function initDateFieldMaskAndValidation(element) {
+    var date = new Date();
+    $(element).mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
+    $(element).focusout(function () {
+        var id = '#' + $(this).attr("id");
+        var dateValue = stringToDate($(element).val());
+    
+    
+        if ((!validateDate($(element).val()) || !validateYear(dateValue.year)) && ($(id).val() != '')) {
+            //$(formIdentification + 'birthday').attr('value', '');
+            addError(id, "Informe uma data válida no formato Dia/Mês/Ano.");
+        } else {
+            removeError(id);
+        }
+    });
+    
+}

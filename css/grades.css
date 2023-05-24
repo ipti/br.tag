@@ -47,6 +47,14 @@ and open the template in the editor.
     text-align: center !important;
 }
 
+.grade-td .select2-chosen {
+    text-align: initial !important;
+}
+
+.grade-td .select2-container .select2-choice {
+    width: 100px !important;
+}
+
 .grade {
     margin-bottom: 0 !important;
     width: 50px !important;

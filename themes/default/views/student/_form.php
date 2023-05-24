@@ -124,7 +124,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <!-- name student -->
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'name', array('class' => 'control-label t-field-text__label--required')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome Social')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome de Apresentação')); ?>
                                 <span id="similarMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
                                     <img id="warningNameIcon" onclick="displayRecords()" style="display: none;" src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>" alt="icone aviso">
                                     <img id="errorNameIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
@@ -1504,7 +1504,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                                 echo "Matriculado";
                                                                 break;
                                                             case "2":
-                                                                echo "Transferido";
+                                                                echo "Transferido </br>" .  date_create_from_format('Y-m-d', $me->transfer_date)->format('d/m/Y');
                                                                 break;
                                                             case "3":
                                                                 echo "Cancelado";

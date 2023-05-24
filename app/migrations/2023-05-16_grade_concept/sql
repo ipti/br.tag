@@ -1,0 +1,28 @@
+CREATE TABLE `grade_concept` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` varchar(50) NOT NULL,
+  `acronym` varchar(5) NOT NULL
+) ENGINE='InnoDB' COLLATE 'utf8_unicode_ci';
+
+ALTER TABLE `grade`
+CHANGE `grade` `grade` float NULL AFTER `id`,
+ADD `grade_concept_fk` int NULL AFTER `grade`;
+
+ALTER TABLE `grade`
+ADD FOREIGN KEY (`grade_concept_fk`) REFERENCES `grade_concept` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `grade_results`
+CHANGE `final_media` `final_media` float NULL AFTER `rec_final`;
+
+INSERT INTO `grade_concept` (`name`, `acronym`)
+VALUES ('Regular', 'R'), ('Bom', 'B'), ('Excelente', 'E');
+
+ALTER TABLE `grade_results`
+ADD `grade_concept_1` varchar(50) NULL AFTER `final_media`,
+ADD `grade_concept_2` varchar(50) NULL AFTER `grade_concept_1`,
+ADD `grade_concept_3` varchar(50) NULL AFTER `grade_concept_2`,
+ADD `grade_concept_4` varchar(50) NULL AFTER `grade_concept_3`,
+ADD `grade_concept_5` varchar(50) NULL AFTER `grade_concept_4`,
+ADD `grade_concept_6` varchar(50) NULL AFTER `grade_concept_5`,
+ADD `grade_concept_7` varchar(50) NULL AFTER `grade_concept_6`,
+ADD `grade_concept_8` varchar(50) NULL AFTER `grade_concept_7`;
