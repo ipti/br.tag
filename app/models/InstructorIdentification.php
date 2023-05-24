@@ -205,7 +205,7 @@ class InstructorIdentification extends AltActiveRecord
     {
         $disciplines = EdcensoDiscipline::model()
         ->with(array(
-                'curricularMatrices.teachingMatrixes.teachingDataFk' => array(
+                'curricularMatrixes.teachingMatrixes.teachingDataFk' => array(
                 'condition' => 'teachingDataFk.instructor_fk=:instructor_fk',
                 'params' => array(':instructor_fk' => $this->id),
             )

@@ -298,7 +298,7 @@ class Classroom extends AltActiveRecord
     {
         $disciplines = EdcensoDiscipline::model()
         ->with(array(
-            'curricularMatrices.teachingMatrixes.teachingDataFk' => array(
+            'curricularMatrixes.teachingMatrixes.teachingDataFk' => array(
                 'condition' => 'teachingDataFk.classroom_id_fk=:classroom_id',
                 'params' => array(':classroom_id' => $this->id),
             )
