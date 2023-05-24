@@ -176,7 +176,7 @@ class SagresValidations
                 ];
             }
 
-            if (strlen($class->getDescricao()) <= $strlen) {
+            if (strlen($class->getDescricao()) <= $strlen && !is_null($class->getDescricao())) {
                 $inconsistencies[] = [
                     "enrollment" => 'TURMA',
                     "school" => $school->getIdEscola(),
