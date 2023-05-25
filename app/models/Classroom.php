@@ -305,7 +305,6 @@ class Classroom extends AltActiveRecord
         ))
         ->findAll();
         
-        var_dump($disciplines);
         return $disciplines;
     }
 

@@ -214,7 +214,6 @@ class InstructorIdentification extends AltActiveRecord
             'select' => 'DISTINCT ed.*',
         ));
 
-        var_dump($disciplines);
         return $disciplines;
     }
 

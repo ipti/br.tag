@@ -63,6 +63,8 @@ class DefaultController extends Controller
             $model->attributes=$_POST['EdcensoDiscipline'];
             if($model->save()) {
                 $this->redirect(array('index'));
+            } else {
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível criar esse componente curricular'));
             }
         }
 
@@ -88,7 +90,9 @@ class DefaultController extends Controller
             $model->attributes=$_POST['EdcensoDiscipline'];
             if($model->save()) {
                 $this->redirect(array('index'));
-            }
+            } else {
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível atualizar esse componente curricular'));
+            }            
         }
 
         $this->render('update', array(
@@ -111,9 +115,12 @@ class DefaultController extends Controller
             $this->redirect(array('index'));
         }
 
-        $curricular_component->delete();
+        if($curricular_component->delete()){
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Componente curricular excluído com sucesso!'));
+        } else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Não é possível remover este componente curricular'));
+        }
 
-        Yii::app()->user->setFlash('success', Yii::t('default', 'Componente curricular excluído com sucesso!'));
         $this->redirect(array('index'));
     }
 
