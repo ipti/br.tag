@@ -201,7 +201,7 @@ class SagresConsultModel
                             c.school_inep_fk = :schoolInepFk 
                             AND c.school_year = :referenceYear
                     ) AS subquery
-                    WHERE MONTH(subquery.createDate) < :month";
+                    WHERE MONTH(subquery.createDate) <= :month";
         
         $params = [
             ':schoolInepFk' => $inepId,
@@ -407,7 +407,7 @@ class SagresConsultModel
                     JOIN classroom c on c.id = itd.classroom_id_fk 
                 WHERE 
                     c.id = :classId and 
-                    s.month < :referenceMonth
+                    s.month <= :referenceMonth
                 ORDER BY 
                     c.create_date DESC";
 
@@ -430,7 +430,7 @@ class SagresConsultModel
                                 JOIN edcenso_discipline ed ON ed.id = s.discipline_fk 
                                 JOIN classroom c ON c.id = s.classroom_fk 
                                 JOIN curricular_matrix cm ON cm.discipline_fk = ed.id 
-                            WHERE s.classroom_fk = $classId and s.month < $month
+                            WHERE s.classroom_fk = $classId and s.month <= $month
                             GROUP BY s.week_day
                         ) t
                         WHERE t.disciplineName = '" . $schedule['disciplineName'] . "'";
@@ -585,7 +585,7 @@ class SagresConsultModel
                 FROM lunch_menu lm 
                     JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk   
                     JOIN lunch_meal lm2 on lmm.meal_fk = lm2.id
-                WHERE lm.school_fk =  :schoolId AND YEAR(lm.date) = :year AND MONTH(lm.date) < :month";
+                WHERE lm.school_fk =  :schoolId AND YEAR(lm.date) = :year AND MONTH(lm.date) <= :month";
 
         $params = [
             ':schoolId' => $schoolId,
@@ -684,7 +684,7 @@ class SagresConsultModel
                     p.inep_id_fk AS idEscola, 
                     fundeb 
                 FROM professional p
-                    JOIN attendance a ON p.id_professional  = a.professional_fk  and MONTH(a.date) < :currentMonth
+                    JOIN attendance a ON p.id_professional  = a.professional_fk  and MONTH(a.date) <= :currentMonth
                 WHERE 
                     YEAR(a.date) = :reference_year";
 
@@ -732,7 +732,7 @@ class SagresConsultModel
                   WHERE 
                         se.classroom_fk  =  :classId AND 
                         c.school_year = :referenceYear AND
-                        MONTH(se.create_date) < :month";
+                        MONTH(se.create_date) <= :month";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
