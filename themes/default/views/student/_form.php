@@ -1504,7 +1504,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                                                 echo "Matriculado";
                                                                 break;
                                                             case "2":
-                                                                echo "Transferido </br>" .  date_create_from_format('Y-m-d', $me->transfer_date)->format('d/m/Y');
+                                                                $transfer_date = "";
+                                                                if(isset($me->transfer_date)){
+                                                                    $transfer_date = date_create_from_format('Y-m-d', $me->transfer_date)->format('d/m/Y');
+                                                                }
+                                                                echo "Transferido </br>" . $transfer_date;
                                                                 break;
                                                             case "3":
                                                                 echo "Cancelado";

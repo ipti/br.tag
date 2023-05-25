@@ -74,7 +74,7 @@
                 <div class="column">
                     <div class="t-field-text">
                         <?php echo $form->labelEx($modelEnrollment, 'transfer_date', array('class' => 'control-label  t-field-text__label')); ?>
-                        <?php echo $form->textField($modelEnrollment, 'transfer_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
+                        <?php echo $form->textField($modelEnrollment, 'transfer_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input', 'required' => 'required')); ?>
                         <?php echo $form->error($modelEnrollment, 'transfer_date'); ?>
                     </div>
                 </div>

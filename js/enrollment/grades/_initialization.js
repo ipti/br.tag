@@ -59,13 +59,18 @@ $('#discipline').change(function (e, triggerEvent) {
                     $.each(data.students, function () {
                         html += "<tr><td class='grade-student-name'><input type='hidden' class='enrollment-id' value='" + this.enrollmentId + "'>" + $.trim(this.studentName) + "</td>";
                         $.each(this.grades, function () {
+                            if (this.value == "") {
+                                valueGrade = "";
+                            } else {
+                                valueGrade = parseFloat(this.value).toFixed(1);
+                            }
                             html += "<td class='grade-td'>";
                             if (!data.isUnityConcept) {
-                                html += "<input type='text' class='grade' modalityid='" + this.modalityId + "' value='" + this.value + "'>";
+                                html += "<input type='text' class='grade' modalityid='" + this.modalityId + "' value='" + valueGrade + "'>";
                             } else {
                                 html += "<select class='grade-concept' modalityid='" + this.modalityId + "'><option value=''></option>";
                                 var concept = this.concept;
-                                $.each(data.conceptOptions, function(index, value) {
+                                $.each(data.conceptOptions, function (index, value) {
                                     html += "<option value='" + index + "' " + (index === concept ? "selected" : "") + ">" + value + "</option>";
                                 });
                             }
@@ -146,7 +151,7 @@ $(document).on("keyup", "input.grade", function (e) {
         e.preventDefault();
         val = "";
     } else {
-        grade = /^(10|\d)(?:(\.|\,)\d{0,2}){0,1}$/;
+        grade = /^(10|\d)(?:(\.|\,)\d{0,1}){0,1}$/;
         if (val.match(grade) === null) {
             val = "";
         } else {

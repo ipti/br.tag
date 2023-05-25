@@ -244,8 +244,17 @@ class SchoolController extends Controller
                     || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other) {
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save()) {
 
+                        $criteriaStages = new CDbCriteria();
+                        $criteriaStages->condition = 'school_fk = :school_fk';
+                        $criteriaStages->params = array(
+                            ':school_fk' => $modelSchoolIdentification->inep_id,
+                        );
+
                         if ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] != "") {
-                            SchoolStagesConceptGrades::model()->deleteAll("school_fk = :school_fk and edcenso_stage_vs_modality_fk not in (:edcenso_stage_vs_modality_fk)", ["school_fk" => $modelSchoolIdentification->inep_id, "edcenso_stage_vs_modality_fk" => implode(",", $_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"])]);
+                            
+                            $criteriaStages->addNotInCondition('edcenso_stage_vs_modality_fk', $_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"]);
+                            SchoolStagesConceptGrades::model()->deleteAll($criteriaStages);
+                            
                             foreach ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] as $stage_concept_grade) {
                                 $schoolStagesConceptGrades = SchoolStagesConceptGrades::model()->find("school_fk = :school_fk and edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk", [":school_fk" => $modelSchoolIdentification->inep_id, ":edcenso_stage_vs_modality_fk" => $stage_concept_grade]);
                                 if ($schoolStagesConceptGrades == null) {
@@ -256,7 +265,7 @@ class SchoolController extends Controller
                                 }
                             }
                         } else {
-                            SchoolStagesConceptGrades::model()->deleteAll("school_fk = :school_fk", ["school_fk" => $modelSchoolIdentification->inep_id]);
+                            SchoolStagesConceptGrades::model()->deleteAll($criteriaStages);
                         }
 
                         Log::model()->saveAction("school", $modelSchoolIdentification->inep_id, "U", $modelSchoolIdentification->name);
@@ -443,7 +452,6 @@ class SchoolController extends Controller
 
             case 2:
                 $title = "Histórico Ensino EJA";
-                break;
                 break;
         }
 
