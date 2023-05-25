@@ -107,15 +107,14 @@ class DefaultController extends Controller
         $curricular_component = $this->loadModel($id);
 
         if($curricular_component->edcenso_base_discipline_fk < 99) {
-            throw new CHttpException(400, 'Não é possível remover um componente base do EducaCenso');
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Não é possível remover um componente base do EducaCenso'));
+            $this->redirect(array('index'));
         }
 
         $curricular_component->delete();
 
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if(!isset($_GET['ajax'])) {
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-        }
+        Yii::app()->user->setFlash('success', Yii::t('default', 'Componente curricular excluído com sucesso!'));
+        $this->redirect(array('index'));
     }
 
     /**
