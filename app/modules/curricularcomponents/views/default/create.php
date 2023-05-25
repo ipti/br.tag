@@ -1,6 +1,6 @@
 <?php
-/* @var $this DefaultController */
-/* @var $model EdcensoDiscipline */
+/** @var DefaultController $this DefaultController */
+/** @var EdcensoDiscipline $model EdcensoDiscipline */
 
 $this->breadcrumbs=array(
 	'Edcenso Disciplines'=>array('index'),
@@ -11,8 +11,14 @@ $this->menu=array(
 	array('label'=>'List EdcensoDiscipline', 'url'=>array('index')),
 	array('label'=>'Manage EdcensoDiscipline', 'url'=>array('admin')),
 );
+
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Add New Student'));
+$title = Yii::t('default', 'Add New Student');
+
 ?>
 
-<h1>Create EdcensoDiscipline</h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+
+<div id="mainPage" class="main">
+	<?php $this->renderPartial('_form', array('model'=>$model, 'edcenso_base_disciplines' => $edcenso_base_disciplines,  'title' => $title)); ?>
+</div>

@@ -1,6 +1,6 @@
 <?php
-/* @var $this DefaultController */
-/* @var $model EdcensoDiscipline */
+/** @var DefaultController $this DefaultController */
+/** @var EdcensoDiscipline $model EdcensoDiscipline */
 
 $this->breadcrumbs=array(
 	'Edcenso Disciplines'=>array('index'),
@@ -8,14 +8,14 @@ $this->breadcrumbs=array(
 	'Update',
 );
 
-$this->menu=array(
-	array('label'=>'List EdcensoDiscipline', 'url'=>array('index')),
-	array('label'=>'Create EdcensoDiscipline', 'url'=>array('create')),
-	array('label'=>'View EdcensoDiscipline', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage EdcensoDiscipline', 'url'=>array('admin')),
-);
+$this->setPageTitle('TAG - Atualizar Componente Curricular');
+$title = Yii::t('default', 'Atualizar Componente: '. $model->name);
+
 ?>
 
-<h1>Update EdcensoDiscipline <?php echo $model->id; ?></h1>
-
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<div id="mainPage" class="main">
+	<?php $this->renderPartial('_form', array(
+		'model'=>$model, 
+		'edcenso_base_disciplines' => $edcenso_base_disciplines,  
+		'title' => $title)); ?>
+</div>
