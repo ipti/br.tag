@@ -15,6 +15,10 @@ $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($themeUrl . '/css/template2.css');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/professional.js?v=1.1', CClientScript::POS_END);
 
+if(!$model->isNewRecord){
+    $cant_change_censo_discipline = $model->edcenso_base_discipline_fk < 99;
+}
+
 ?>
 
 <div class="form">
@@ -52,7 +56,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/professional.js?v=1.1', CCl
 
                     <div class="t-field-text">
                         <?php echo $form->labelEx($model, 'edcenso_base_discipline_fk', array('class' => 'control-label t-field-text__label--required')); ?>
-                        <?php echo $form->dropDownList($model, 'edcenso_base_discipline_fk', CHtml::listData($edcenso_base_disciplines, "id", "name"), array( 'class' => 't-field-text__input')); ?>
+                        <?php echo $form->dropDownList($model, 'edcenso_base_discipline_fk', CHtml::listData($edcenso_base_disciplines, "id", "name"), array( 'class' => 't-field-text__input', 'disabled' => $cant_change_censo_discipline)); ?>
                         <?php echo $form->error($model, 'edcenso_base_discipline_fk'); ?>
                     </div>
                 </div>

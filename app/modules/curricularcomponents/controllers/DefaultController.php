@@ -104,7 +104,13 @@ class DefaultController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->loadModel($id)->delete();
+        $curricular_component = $this->loadModel($id);
+
+        if($curricular_component->edcenso_base_discipline_fk < 99) {
+            throw new CHttpException(400, 'Não é possível remover um componente base do EducaCenso');
+        }
+
+        $curricular_component->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if(!isset($_GET['ajax'])) {

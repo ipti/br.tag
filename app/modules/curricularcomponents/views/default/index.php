@@ -30,7 +30,7 @@ $title = Yii::t('default', 'Disciplines');
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id'=>'edcenso-discipline-grid',
-    'dataProvider'=>$dataProvider,
+    'dataProvider' => $dataProvider,
     'enablePagination' => false,
     'enableSorting' => false,
     'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
