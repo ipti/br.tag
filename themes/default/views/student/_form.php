@@ -1178,17 +1178,11 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row new-enrollment-form" style="display: none;">
                         <!-- Escolarização em outro espaço -->
                         <div class="column">
-                            <div class="control-group js-hide-not-required">
-                                <?php echo $form->labelEx($modelEnrollment, 'another_scholarization_place', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->DropDownList($modelEnrollment, 'another_scholarization_place', array("1" => "Não recebe", "2" => "Em hospital", "3" => "Em domicílio"), array('class' => 'select-search-on control-input t-field-select__input')); ?>
-                                <?php echo $form->error($modelEnrollment, 'another_scholarization_place'); ?>
-                            </div>
+
                         </div>
                         <!-- Situação no ano anterior -->
                         <div class="column">
-                            <div class="control-group js-hide-not-required">
-                                
-                            </div>
+
                         </div>
                     </div>
                     <!-- Titulo -->
@@ -1251,7 +1245,11 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                         <div class="column">
-
+                            <div class="control-group js-hide-not-required">
+                                <?php echo $form->labelEx($modelEnrollment, 'another_scholarization_place', array('class' => 'control-label t-field-text__label')); ?>
+                                <?php echo $form->DropDownList($modelEnrollment, 'another_scholarization_place', array("1" => "Não recebe", "2" => "Em hospital", "3" => "Em domicílio"), array('class' => 'select-search-on control-input t-field-select__input')); ?>
+                                <?php echo $form->error($modelEnrollment, 'another_scholarization_place'); ?>
+                            </div>
                         </div>
                     </div>
                     <!-- Titulo-->
