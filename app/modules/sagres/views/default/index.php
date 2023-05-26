@@ -72,6 +72,12 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 					<span class="title">Exportar Unidade</span><br>
 					<span class="subtitle">Exporte os dados da Unidade</span>
 				</div>
+				<div id="loading-popup" style="display: none;">
+					<div class="loading-content">
+						<div class="loading-spinner"></div>
+						<div class="loading-text">Aguarde equanto o arquivo é gerado...</div>
+					</div>
+				</div>
 			</button>
 		</a>
 
@@ -168,6 +174,9 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 	function downloadFile(url, filename) {
 		$(".alert-error-export").hide();
 		$(".alert-error-export").empty();
+
+		$("#loading-popup").show();
+
 		$.get(url, function(data) {
 				const zip = new JSZip();
 				zip.file(filename, data);
@@ -189,6 +198,9 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				});
 			})
 			.fail(function() {
+
+				$("#loading-popup").hide();
+
 				$(".alert-error-export").append('Erro ao realizar o download do arquivo ');
 				$(".alert-error-export").show();
 			})

@@ -226,7 +226,8 @@ class SchoolController extends Controller
 
             $modelSchoolIdentification->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
             $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
-
+            
+            $modelSchoolIdentification->number_ato = $_POST[$this->SCHOOL_IDENTIFICATION]["number_ato"];
 
             if (!empty($_FILES['SchoolIdentification']['tmp_name']['logo_file_content'])) {
                 $file = CUploadedFile::getInstance($modelSchoolIdentification, 'logo_file_content');

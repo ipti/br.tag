@@ -50,6 +50,7 @@
  * @property string $logo_file_type
  * @property string $logo_file_content
  * @property string $act_of_acknowledgement
+ * @property string $number_ato
  *
  * The followings are the available model relations:
  * @property Calendar[] $calendars
@@ -110,7 +111,7 @@ class SchoolIdentification extends AltActiveRecord {
             array('logo_file_content, act_of_acknowledgement', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, inep_id, manager_cpf, manager_name, manager_role, manager_email, situation, initial_date, final_date, name, latitude, longitude, cep, address, address_number, address_complement, address_neighborhood, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, ddd, phone_number, public_phone_number, other_phone_number, fax_number, email, edcenso_regional_education_organ_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, private_school_maintainer_cnpj, private_school_cnpj, offer_or_linked_unity, inep_head_school, ies_code, regulation, logo_file_name, logo_file_type, logo_file_content, act_of_acknowledgement', 'safe', 'on'=>'search'),
+            array('register_type, inep_id, manager_cpf, number_ato, manager_name, manager_role, manager_email, situation, initial_date, final_date, name, latitude, longitude, cep, address, address_number, address_complement, address_neighborhood, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, ddd, phone_number, public_phone_number, other_phone_number, fax_number, email, edcenso_regional_education_organ_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, private_school_maintainer_cnpj, private_school_cnpj, offer_or_linked_unity, inep_head_school, ies_code, regulation, logo_file_name, logo_file_type, logo_file_content, act_of_acknowledgement', 'safe', 'on'=>'search'),
         );
     }
 
