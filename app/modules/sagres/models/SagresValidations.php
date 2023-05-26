@@ -15,7 +15,7 @@ class SagresValidations
         foreach ($schools as $school) {
 
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorSchoolDirector($school));
-            #$inconsistencyList = array_merge($inconsistencyList, $this->validatorMenu($school));
+            $inconsistencyList = array_merge($inconsistencyList, $this->validatorMenu($school));
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorClass($school));
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorProfessionals($professionals, $school));
         }
@@ -108,62 +108,54 @@ class SagresValidations
         return $inconsistencies;
     }
 
- /*    public function validatorMenu($school)
+    public function validatorMenu($school)
     {
         $strlen = 4;
         $inconsistencies = [];
         $menus = $school->getCardapio();
 
-        if(empty($menus)){
-            $inconsistencies[] = [
-                "enrollment" => 'CARDÁPIO',
-                "school" => $school->getIdEscola(),
-                "description" => 'NÃO HÁ CARDÁPIO CADASTRADO PARA A ESCOLA: ' . $school->getIdEscola(),
-                "action" => 'ADICIONE AO MENOS UM CARDÁPIO PARA A ESCOLA: ' . $school->getIdEscola()
-            ];
-        }else{
-            foreach ($menus as $menu) {
 
-                if (!in_array($menu->getTurno(), [1, 2, 3, 4])) {
-                    $inconsistencies[] = [
-                        "enrollment" => 'CARDÁPIO',
-                        "school" => $school->getIdEscola(),
-                        "description" => 'TURNO INVÁLIDO',
-                        "action" => 'INFORMAR UM TURNO VÁLIDO PARA O TURNO'
-                    ];
-                }
-    
-                if (strlen($menu->getDescricaoMerenda()) <= $strlen) {
-                    $inconsistencies[] = [
-                        "enrollment" => 'CARDÁPIO',
-                        "school" => $school->getIdEscola(),
-                        "description" => 'DESCRIÇÃO PARA MERENDA MENOR QUE 5 CARACTERES',
-                        "action" => 'INFORMAR UMA DESCRIÇÃO PARA MERENDA MAIOR QUE 4 CARACTERES'
-                    ];
-                }
-    
-                if (!in_array($menu->getAjustado(), [0, 1])) { # 0: Not, 1: True
-                    $inconsistencies[] = [
-                        "enrollment" => 'CARDÁPIO',
-                        "school" => $school->getIdEscola(),
-                        "description" => 'VALOR INVÁLIDO PARA O CAMPO AJUSTADO',
-                        "action" => 'MARQUE OU DESMARQUE O CHECKBOX PARA O CAMPO AJUSTADO'
-                    ];
-                }
-    
-                if (!$this->validateDate($menu->getData()->format("Y-m-d"))) {
-                    $inconsistencies[] = [
-                        "enrollment" => 'CARDÁPIO',
-                        "school" => $school->getIdEscola(),
-                        "description" => 'DATA NO FORMATO INVÁLIDO',
-                        "action" => 'ADICIONE UMA DATA NO FORMATO VÁLIDA'
-                    ];
-                }
+        foreach ($menus as $menu) {
+
+            if (!in_array($menu->getTurno(), [1, 2, 3, 4])) {
+                $inconsistencies[] = [
+                    "enrollment" => 'CARDÁPIO',
+                    "school" => $school->getIdEscola(),
+                    "description" => 'TURNO INVÁLIDO',
+                    "action" => 'INFORMAR UM TURNO VÁLIDO PARA O TURNO'
+                ];
             }
+
+            if (strlen($menu->getDescricaoMerenda()) <= $strlen) {
+                $inconsistencies[] = [
+                    "enrollment" => 'CARDÁPIO',
+                    "school" => $school->getIdEscola(),
+                    "description" => 'DESCRIÇÃO PARA MERENDA MENOR QUE 5 CARACTERES',
+                    "action" => 'INFORMAR UMA DESCRIÇÃO PARA MERENDA MAIOR QUE 4 CARACTERES'
+                ];
+            }
+
+            if (!in_array($menu->getAjustado(), [0, 1])) { # 0: Not, 1: True
+                $inconsistencies[] = [
+                    "enrollment" => 'CARDÁPIO',
+                    "school" => $school->getIdEscola(),
+                    "description" => 'VALOR INVÁLIDO PARA O CAMPO AJUSTADO',
+                    "action" => 'MARQUE OU DESMARQUE O CHECKBOX PARA O CAMPO AJUSTADO'
+                ];
+            }
+
+            if (!$this->validateDate($menu->getData()->format("Y-m-d"))) {
+                $inconsistencies[] = [
+                    "enrollment" => 'CARDÁPIO',
+                    "school" => $school->getIdEscola(),
+                    "description" => 'DATA NO FORMATO INVÁLIDO',
+                    "action" => 'ADICIONE UMA DATA NO FORMATO VÁLIDA'
+                ];
+            }            
         }
 
         return $inconsistencies;
-    } */
+    }
 
     public function validatorClass($school)
     {
@@ -390,8 +382,8 @@ class SagresValidations
             $inconsistencies[] = [
                 "enrollment" => 'HORÁRIO',
                 "school" => $schoolId,
-                "description" => 'NÃO HÁ UM HORÁRIO PARA A TURMA: ' . $class->getDescricao() . ' DA ESCOLA: ' . $schoolId,
-                "action" => 'ADICIONE QUADRO DE HORÁRIO A TURMA'
+                "description" => 'NÃO HÁ UM PROFESSOR, HORÁRIOS OU COMPONETES CURRICULARES PARA A TURMA: ' . $class->getDescricao() . ' DA ESCOLA: ' . $schoolId,
+                "action" => 'ADICIONE UM PROFESSOR OU COMPONENTES CURRICULARES À TURMA'
             ];
         }else{
             foreach ($schedules as $schedule) {
