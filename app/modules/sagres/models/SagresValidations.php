@@ -414,7 +414,6 @@ class SagresValidations
                         "action" => 'INFORMAR UM CPF VÁLIDO PARA O PROFESSOR'
                     ];
                 }
-    
                 
                 if (strlen($schedule->getDisciplina()) < $strlen) {
                     $inconsistencies[] = [
@@ -422,6 +421,15 @@ class SagresValidations
                         "school" => $schoolId,
                         "description" => 'NOME DA DISCIPLINA MENOR QUE 5 CARACTERES',
                         "action" => 'ADICIONE UM NOME PARA A DISCIPLINA COM PELO MENOS 5 CARACTERES'
+                    ];
+                }
+
+                if (strlen($schedule->getDisciplina()) > $maxLength) {
+                    $inconsistencies[] = [
+                        "enrollment" => 'HORÁRIO',
+                        "school" => $schoolId,
+                        "description" => 'NOME DA DISCIPLINA MAIOR QUE 50 CARACTERES',
+                        "action" => 'ADICIONE UM NOME PARA A DISCIPLINA COM ATÉ 50 CARACTERES'
                     ];
                 }
             }
