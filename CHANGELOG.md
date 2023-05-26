@@ -1,5 +1,11 @@
 # Atualizações
 
+## [Versão 3.23.57]
+- O campo duplicado na matrícula de estudante foi removido
+- Agora não é possível cadastrar CPF inválidos no formulário de profissionais
+- A caixa de seleção de componente curricular/eixo e seu título foram corrigidos
+- O bug do ícone de imprimir em Aulas Ministradas foi corrigido
+
 ## [Versão 3.23.53]
 - Novo módulo de gestão para componentes curriculares
 
