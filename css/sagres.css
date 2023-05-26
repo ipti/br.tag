@@ -98,7 +98,7 @@
     width: 40vw;
     height: 20vh;
     display: flex;
-	background: #b2b8e9;
+	background: #f3f3f7;
     justify-content: center;
     align-items: center;
     border-radius: 8px;
@@ -120,6 +120,7 @@
     height: 100vh;
     backdrop-filter: blur(8px);
     z-index: 9999;
+    
 }
 
 .loading-content {

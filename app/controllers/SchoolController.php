@@ -32,7 +32,7 @@ class SchoolController extends Controller
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('edcenso_import', 'configacl', 'index', 'view', 'update', 'create',
-                    'getcities', 'getdistricts', 'getorgans', 'updateufdependencies', 'updatecitydependencies', 'displayLogo'),
+                    'getcities', 'getdistricts', 'getorgans', 'updateufdependencies', 'updatecitydependencies', 'displayLogo', 'RemoveLogo'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -226,7 +226,8 @@ class SchoolController extends Controller
 
             $modelSchoolIdentification->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
             $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
-
+            
+            $modelSchoolIdentification->number_ato = $_POST[$this->SCHOOL_IDENTIFICATION]["number_ato"];
 
             if (!empty($_FILES['SchoolIdentification']['tmp_name']['logo_file_content'])) {
                 $file = CUploadedFile::getInstance($modelSchoolIdentification, 'logo_file_content');
@@ -402,6 +403,16 @@ class SchoolController extends Controller
         $school_logo = $baseUrl.$themeUrl."/img/emblema-escola.svg";
         header('Content-Type: image/svg+xml');
         print file_get_contents($school_logo);
+    }
+
+    public function actionRemoveLogo($id)
+    {
+        $model = $this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
+        $model->logo_file_name = null;
+        $model->logo_file_type = null;
+        $model->logo_file_content = null;
+        $model->save();
+        echo "<script>window.history.back();</script>";
     }
 
     public function actionReports($id)
