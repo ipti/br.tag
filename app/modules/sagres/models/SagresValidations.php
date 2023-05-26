@@ -382,8 +382,8 @@ class SagresValidations
             $inconsistencies[] = [
                 "enrollment" => 'HORÁRIO',
                 "school" => $schoolId,
-                "description" => 'NÃO HÁ UM HORÁRIO PARA A TURMA: ' . $class->getDescricao() . ' DA ESCOLA: ' . $schoolId,
-                "action" => 'ADICIONE QUADRO DE HORÁRIO A TURMA'
+                "description" => 'NÃO HÁ UM PROFESSOR, HORÁRIOS OU COMPONETES CURRICULARES PARA A TURMA: ' . $class->getDescricao() . ' DA ESCOLA: ' . $schoolId,
+                "action" => 'ADICIONE UM PROFESSOR OU COMPONENTES CURRICULARES À TURMA'
             ];
         }else{
             foreach ($schedules as $schedule) {
