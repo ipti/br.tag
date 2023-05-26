@@ -98,12 +98,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
             <!-- diciplina -->
             <div class="column">
-                <div class="disciplines-container t-field-select">
+                <div class=" t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label t-field-select__label--required')); ?>
                     <?php
                     echo CHtml::dropDownList('disciplines', '', array(), array(
                         'key' => 'id',
-                        'class' => 'select-search-on t-field-select frequency-input',
+                        'class' => 'select-search-on t-field-select',
                     ));
                     ?>
                 </div>
@@ -127,7 +127,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <img class="loading-frequency" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
             </div>
         </div>
-
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>
         <div id="frequency-container" class="table-responsive"></div>
     </div>
