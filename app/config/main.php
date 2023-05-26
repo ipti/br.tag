@@ -45,6 +45,7 @@ return array(
         'sagres',
         'professional',
         'sedsp',
+        'classdiary'
     ),
     // application components
     'components' => array(
