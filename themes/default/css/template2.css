@@ -370,6 +370,12 @@ table.dataTable {
 
 }
 
+.select2-container.select-search-on.control-input.frequency-input-curricular-component .select2-choice,
+.select2-container.select-search-on.control-input.classContents-input-curricular-component .select2-choice {
+    width: 97.8% !important;
+
+}
+
 .control-group.aluno {
     margin-left: 32px;
 }
