@@ -5,7 +5,7 @@ use Yii;
 class SagresValidations
 {
 
-    public function validator($schools, $professionals)
+    public function validator($schools, $professionals, $finalClass)
     {
         $query = "delete from inconsistency_sagres";
         Yii::app()->db->createCommand($query)->execute();
@@ -16,7 +16,7 @@ class SagresValidations
 
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorSchoolDirector($school));
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorMenu($school));
-            $inconsistencyList = array_merge($inconsistencyList, $this->validatorClass($school));
+            $inconsistencyList = array_merge($inconsistencyList, $this->validatorClass($school, $finalClass));
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorProfessionals($professionals, $school));
         }
 
@@ -157,7 +157,7 @@ class SagresValidations
         return $inconsistencies;
     }
 
-    public function validatorClass($school)
+    public function validatorClass($school, $finalClass)
     {
 
         $strlen = 2;
@@ -206,7 +206,7 @@ class SagresValidations
             }
 
             $inconsistencies = array_merge($inconsistencies, $this->validationSeries($class, $schoolId));
-            $inconsistencies = array_merge($inconsistencies, $this->validatorEnrollments($class, $schoolId));
+            $inconsistencies = array_merge($inconsistencies, $this->validatorEnrollments($class, $schoolId, $finalClass));
             $inconsistencies = array_merge($inconsistencies, $this->validatorSchedules($class, $schoolId));
         }
 
@@ -258,7 +258,7 @@ class SagresValidations
         return $inconsistencies;
     }
 
-    public function validatorEnrollments($class, $schoolId)
+    public function validatorEnrollments($class, $schoolId, $finalClass)
     {
         $inconsistencies = [];
         $enrollments = $class->getMatricula();
@@ -289,13 +289,15 @@ class SagresValidations
                         "action" => 'COLOQUE UM VALOR VÁLIDO PARA O NÚMERO DE FALTAS'
                     ];
                 }
-                if(!is_bool($enrollment->getAprovado())){
-                    $inconsistencies[] = [
-                        "enrollment" => 'MATRÍCULA',
-                        "school" => $schoolId,
-                        "description" => 'VALOR INVÁLIDO PARA O STATUS APROVADO',
-                        "action" => 'ADICIONE UM VALOR VÁLIDO PARA O CAMPO APROVADO DO ALUNO '.$enrollment->getAluno()->getNome().' NA TURMA: '. $class->getDescricao()
-                    ];
+                if(filter_var($finalClass,  FILTER_VALIDATE_BOOLEAN)){
+                    if(!is_bool($enrollment->getAprovado())){
+                        $inconsistencies[] = [
+                            "enrollment" => 'MATRÍCULA',
+                            "school" => $schoolId,
+                            "description" => 'VALOR INVÁLIDO PARA O STATUS APROVADO',
+                            "action" => 'ADICIONE UM VALOR VÁLIDO PARA O CAMPO APROVADO DO ALUNO '.$enrollment->getAluno()->getNome().' NA TURMA: '. $class->getDescricao()
+                        ];
+                    }
                 }
 
                 $inconsistencies = array_merge($inconsistencies, $this->validationStudent($enrollment->getAluno(), $schoolId, $class->getDescricao()));
@@ -329,6 +331,7 @@ class SagresValidations
                 "action" => 'ADICIONE UMA DATA NO FORMATO VÁLIDA'
             ];
         }
+
 
         if(strlen($student->getNome()) < $strlen){
             $inconsistencies[] = [
