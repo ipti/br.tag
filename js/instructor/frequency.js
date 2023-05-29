@@ -22,7 +22,7 @@ $("#classesSearch").on("click", function () {
                 if (data.valid) {
                     var html = "";
                     html += "" +
-                        "<table class='table-frequency table table-bordered table-striped table-hover'>" +
+                        "<table class='tag-table table-frequency table table-bordered table-striped table-hover'>" +
                         "<thead>" +
                         "<tr><th class='table-title' colspan='" + (Object.keys(data.instructors[0].schedules).length + 1) + "'>" + ($('#disciplines').select2('data').text) + "</th></tr>";
                     var daynameRow = "";

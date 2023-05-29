@@ -69,11 +69,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             Os Campos com * são obrigatórios.
         </div>
         <!-- Mês e componente curricular -->
-        <div class="row">
+        <div class="mobile-row">
             <!-- Mês -->
-            <div class="column">
-                <div class="t-field-select">
-                    <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 'control-label t-field-select__label--required')); ?>
+            <div class="column helper">
+                <div class="t-field-select__helper">
+                    <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 't-field-select__label--required')); ?>
                     <?php
                     echo CHtml::dropDownList('month', '', array(
                         1 => 'Janeiro',
@@ -90,36 +90,30 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         12 => 'Dezembro'
                     ), array(
                         'key' => 'id',
-                        'class' => 'select-search-on t-field-select',
+                        'class' => 'select-search-on t-field-select__input',
                         'prompt' => 'Selecione o mês',
                     ));
                     ?>
                 </div>
-            </div>
-            <!-- diciplina -->
-            <div class="column">
-                <div class=" t-field-select">
-                    <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label t-field-select__label--required')); ?>
+                <!-- diciplina -->
+                <div class="t-field-select__helper">
+                    <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 't-field-select__label--required')); ?>
                     <?php
                     echo CHtml::dropDownList('disciplines', '', array(), array(
                         'key' => 'id',
-                        'class' => 'select-search-on t-field-select',
+                        'class' => 'select-search-on t-field-select__input',
                     ));
                     ?>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="column">
-                <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required')); ?>
-                <select class="select-search-on frequency-input t-field-select" id="classroom">
+            <div class="column helper">
+                <div class="t-field-select__helper" <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 't-field-select__label--required')); ?> <select class="select-search-on frequency-input t-field-select__input" id="classroom">
                     <option>Selecione a turma</option>
                     <?php foreach ($classrooms as $classroom) : ?>
                         <option value="<?= $classroom->id ?>" fundamentalMaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
                     <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="column">
+                    </select>
+                </div>
                 <div class="">
                     <a id="classesSearch" class='t-button-primary'><i class="fa-search fa icon-button-tag"></i><?php echo Yii::t('default', 'Search') ?>
                     </a>
@@ -128,7 +122,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
         </div>
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>
-        <div id="frequency-container" class="table-responsive"></div>
+        <div id="frequency-container" class="tag-table table-responsive">
+            
+        </div>
     </div>
     <?php $this->endWidget(); ?>
 
