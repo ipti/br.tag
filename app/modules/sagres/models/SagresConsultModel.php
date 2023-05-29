@@ -50,7 +50,7 @@ class SagresConsultModel
             throw new ErrorException($e->getMessage());
         }
 
-        $inconsistencyList = $validationSagres->validator($education->getEscola(), $education->getProfissional());
+        $inconsistencyList = $validationSagres->validator($education->getEscola(), $education->getProfissional(), $finalClass);
         $inconsistencyModel = new ValidationSagresModel;
 
         foreach ($inconsistencyList as $value) {
@@ -222,18 +222,9 @@ class SagresConsultModel
                 ->setDescricao($turma["classroomName"])
                 ->setTurno($this->convertTurn($turma['classroomTurn']))
                 ->setSerie($this->getSeries($classId))
-                ->setMatricula(
-                    empty($this->getEnrollments($classId, $referenceYear, $month, $finalClass))
-                    ? $this->getRecentEnrollments($classId, $finalClass)
-                    : $this->getEnrollments($classId, $referenceYear, $month, $finalClass)
-                )
-                ->setHorario(
-                    empty($this->getSchedules($classId, $month))
-                    ? $this->getRecentSchedules($classId)
-                    : $this->getSchedules($classId, $month)
-                );
-                
-                
+                ->setMatricula($this->getEnrollments($classId, $referenceYear, $month, $finalClass))
+                ->setHorario($this->getSchedules($classId, $month));
+                            
             if((bool)$finalClass){
                 $classType->setFinalTurma((bool)$finalClass);
             }
