@@ -1,11 +1,15 @@
 # Atualizações
 
-## [Versão 3.23.53]
-- Novo módulo de gestão para componentes curriculares
+## [Versão 3.23.57]
+- O campo duplicado na matrícula de estudante foi removido
+- Agora não é possível cadastrar CPF inválidos no formulário de profissionais
+- A caixa de seleção de componente curricular/eixo e seu título foram corrigidos
+- O bug do ícone de imprimir em Aulas Ministradas foi corrigido
 
 ## [Versão 3.22.53]
-- colocando campo de  data de transferência como obrigatório
-- adicionando validação no front para a data de transferência
+- Campo de data de transferência do aluno foi definido como obrigatório
+- Validação para a data de transferência do aluno adicionada
+- Novo módulo de gestão para componentes curriculares
 
 ## [Versão 3.22.52]
 - adicionando campos de observação e data de transferência no formulário de transferência
