@@ -224,7 +224,7 @@ class SagresConsultModel
                 ->setSerie($this->getSeries($classId))
                 ->setMatricula(
                     empty($this->getEnrollments($classId, $referenceYear, $month, $finalClass))
-                    ? $this->getRecentEnrollments($classId)
+                    ? $this->getRecentEnrollments($classId, $finalClass)
                     : $this->getEnrollments($classId, $referenceYear, $month, $finalClass)
                 )
                 ->setHorario(
@@ -251,7 +251,7 @@ class SagresConsultModel
      *
      * @return MatriculaTType[]
      */
-    public function getRecentEnrollments($classId)
+    public function getRecentEnrollments($classId, $finalClass)
     {
         $enrollmentList = [];
 
@@ -280,9 +280,13 @@ class SagresConsultModel
             $enrollmentType
                 ->setNumero($enrollment['numero'])
                 ->setDataMatricula(new DateTime($enrollment['data_matricula']))
-                ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
-                ->setAprovado($this->getStudentSituation($enrollment['situation']))
-                ->setAluno($this->getStudents($enrollment['student_fk']));
+                ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']));
+
+                if(filter_var($finalClass,  FILTER_VALIDATE_BOOLEAN)){
+                    $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
+                }
+
+                $enrollmentType->setAluno($this->getStudents($enrollment['student_fk']));
 
             $enrollmentList[] = $enrollmentType;
         }
@@ -751,8 +755,8 @@ class SagresConsultModel
                 // ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
                 ->setNumeroFaltas((int) $this->returnNumberFaults($enrollment['student_fk'], $referenceYear))
                 ->setAluno($this->getStudents($enrollment['student_fk']));
-
-            if($finalClass){
+           
+            if(filter_var($finalClass,  FILTER_VALIDATE_BOOLEAN)){
                 $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
             }
 
@@ -775,8 +779,6 @@ class SagresConsultModel
 
         if (isset($situations[$situation])) {
             return $situations[$situation];
-        } else {
-            throw new ErrorException("O valor " . $situation . " para a situação do estudante não é válido.");
         }
     }
 
