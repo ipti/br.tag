@@ -413,7 +413,7 @@ class SagresValidations
                     $inconsistencies[] = [
                         "enrollment" => 'HORÁRIO',
                         "school" => $schoolId,
-                        "description" => 'CPF DO PROFESSOR É INVÁLIDO',
+                        "description" => 'CPF DO PROFESSOR É INVÁLIDO, VINCULADO A TURMA: '.$class->getDescricao(),
                         "action" => 'INFORMAR UM CPF VÁLIDO PARA O PROFESSOR'
                     ];
                 }
@@ -431,7 +431,7 @@ class SagresValidations
                     $inconsistencies[] = [
                         "enrollment" => 'HORÁRIO',
                         "school" => $schoolId,
-                        "description" => 'NOME DA DISCIPLINA MAIOR QUE 50 CARACTERES',
+                        "description" => 'NOME DA DISCIPLINA MAIOR QUE 50 CARACTERES - '.$schedule->getDisciplina(),
                         "action" => 'ADICIONE UM NOME PARA A DISCIPLINA COM ATÉ 50 CARACTERES'
                     ];
                 }

@@ -66,7 +66,6 @@ class SagresConsultModel
         return $education;
     }
 
-
     public function getManagementUnit($managementUnitId, $referenceYear, $month): CabecalhoTType
     {
 
@@ -251,7 +250,12 @@ class SagresConsultModel
                         se.student_fk,
                         se.create_date AS data_matricula, 
                         se.date_cancellation_enrollment AS data_cancelamento,
-                        se.status AS situation
+                        se.status AS situation,
+                        si.responsable_cpf AS cpfStudent,
+                        si.birthday AS birthdate,
+                        si.name AS name,
+                        ifnull(si.deficiency, 0) AS deficiency,
+                        si.sex AS gender
                 FROM 
                         student_enrollment se 
                 WHERE 
@@ -267,6 +271,14 @@ class SagresConsultModel
         $enrollments = $command->queryAll();
 
         foreach ($enrollments as $enrollment) {
+            $studentType = new AlunoTType;
+            $studentType
+                ->setNome($enrollment['name'])
+                ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $enrollment['birthdate']))
+                ->setCpfAluno(!empty($enrollment['cpfenrollment']) ? $enrollment['cpfenrollment'] : null)
+                ->setPcd($enrollment['deficiency'])
+                ->setSexo($enrollment['gender']);
+
             $enrollmentType = new MatriculaTType;
             $enrollmentType
                 ->setNumero($enrollment['numero'])
@@ -277,7 +289,7 @@ class SagresConsultModel
                     $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
                 }
 
-                $enrollmentType->setAluno($this->getStudents($enrollment['student_fk']));
+                $enrollmentType->setAluno($studentType);
 
             $enrollmentList[] = $enrollmentType;
         }
@@ -338,7 +350,7 @@ class SagresConsultModel
                 ->setDiaSemana($schedule['weekDay'])
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
                 ->setDuracao((int) isset($duration['duration']) ? $duration['duration'] : 2)
-                ->setDisciplina($schedule['disciplineName'])
+                ->setDisciplina(substr($schedule['disciplineName'], 0, 50))
                 ->setCpfProfessor([str_replace([".", "-"], "", $cpf_instructor)]);
 
             if (isset($cpf_instructor)) {
@@ -436,7 +448,7 @@ class SagresConsultModel
                 ->setDiaSemana($schedule['weekDay'])
                 ->setDuracao(2)
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
-                ->setDisciplina($schedule['disciplineName'])
+                ->setDisciplina(substr($schedule['disciplineName'], 0, 50))
                 ->setCpfProfessor([$schedule['cpfInstructor']]);
 
             $scheduleList[] = $scheduleType;
@@ -720,14 +732,25 @@ class SagresConsultModel
                         se.student_fk,
                         se.create_date AS data_matricula, 
                         se.date_cancellation_enrollment AS data_cancelamento,
-                        se.status AS situation
+                        se.status AS situation,
+                        si.responsable_cpf AS cpfStudent,
+                        si.birthday AS birthdate,
+                        si.name AS name,
+                        ifnull(si.deficiency, 0) AS deficiency,
+                        si.sex AS gender,
+                        SUM(IF(cf.id is null, 0, 1)) AS faults
                   FROM 
                         student_enrollment se
-                        join classroom c on se.classroom_fk = c.id 
+                        join classroom c on se.classroom_fk = c.id
+                        join student_identification si on si.id = se.student_fk 
+                        left join class_faults cf on cf.student_fk = si.id
+                        join schedule s on cf.schedule_fk = s.id
                   WHERE 
                         se.classroom_fk  =  :classId AND 
                         c.school_year = :referenceYear AND
-                        MONTH(se.create_date) <= :month";
+                        MONTH(se.create_date) <= :month
+                  GROUP BY se.id;
+                ";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
@@ -739,13 +762,21 @@ class SagresConsultModel
         $enrollments = $command->queryAll();
 
         foreach ($enrollments as $enrollment) {
+            $studentType = new AlunoTType;
+            $studentType
+                ->setNome($enrollment['name'])
+                ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $enrollment['birthdate']))
+                ->setCpfAluno(!empty($enrollment['cpfenrollment']) ? $enrollment['cpfenrollment'] : null)
+                ->setPcd($enrollment['deficiency'])
+                ->setSexo($enrollment['gender']);
+
             $enrollmentType = new MatriculaTType;
             $enrollmentType
                 ->setNumero($enrollment['numero'])
                 ->setDataMatricula(new DateTime($enrollment['data_matricula']))
                 // ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
-                ->setNumeroFaltas((int) $this->returnNumberFaults($enrollment['student_fk'], $referenceYear))
-                ->setAluno($this->getStudents($enrollment['student_fk']));
+                ->setNumeroFaltas((int) $enrollment['faults'])
+                ->setAluno($studentType);
            
             if(filter_var($finalClass,  FILTER_VALIDATE_BOOLEAN)){
                 $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
