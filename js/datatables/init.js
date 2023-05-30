@@ -217,6 +217,7 @@ function initDatatable() {
             else if(action.includes("curricularmatrix")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar matriz')
             else if(action.includes("courseplan")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar plano de aula')
             else if(action.includes("professional")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar profissional')
+            else if(action.includes("curricularcomponents")) $('.dataTables_filter input[type="search"]').attr('placeholder', ' Pesquisar componente')
             else if(action.includes("stock")) {
                 $('.stock-container .dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar Itens')
                 $('.transactions-container .dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar Movimentações')

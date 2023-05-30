@@ -50,7 +50,7 @@ class SagresConsultModel
             throw new ErrorException($e->getMessage());
         }
 
-        $inconsistencyList = $validationSagres->validator($education->getEscola(), $education->getProfissional());
+        $inconsistencyList = $validationSagres->validator($education->getEscola(), $education->getProfissional(), $finalClass);
         $inconsistencyModel = new ValidationSagresModel;
 
         foreach ($inconsistencyList as $value) {
@@ -201,7 +201,7 @@ class SagresConsultModel
                             c.school_inep_fk = :schoolInepFk 
                             AND c.school_year = :referenceYear
                     ) AS subquery
-                    WHERE MONTH(subquery.createDate) < :month";
+                    WHERE MONTH(subquery.createDate) <= :month";
         
         $params = [
             ':schoolInepFk' => $inepId,
@@ -222,18 +222,9 @@ class SagresConsultModel
                 ->setDescricao($turma["classroomName"])
                 ->setTurno($this->convertTurn($turma['classroomTurn']))
                 ->setSerie($this->getSeries($classId))
-                ->setMatricula(
-                    empty($this->getEnrollments($classId, $referenceYear, $month, $finalClass))
-                    ? $this->getRecentEnrollments($classId)
-                    : $this->getEnrollments($classId, $referenceYear, $month, $finalClass)
-                )
-                ->setHorario(
-                    empty($this->getSchedules($classId, $month))
-                    ? $this->getRecentSchedules($classId)
-                    : $this->getSchedules($classId, $month)
-                );
-                
-                
+                ->setMatricula($this->getEnrollments($classId, $referenceYear, $month, $finalClass))
+                ->setHorario($this->getSchedules($classId, $month));
+                            
             if((bool)$finalClass){
                 $classType->setFinalTurma((bool)$finalClass);
             }
@@ -251,7 +242,7 @@ class SagresConsultModel
      *
      * @return MatriculaTType[]
      */
-    public function getRecentEnrollments($classId)
+    public function getRecentEnrollments($classId, $finalClass)
     {
         $enrollmentList = [];
 
@@ -280,9 +271,13 @@ class SagresConsultModel
             $enrollmentType
                 ->setNumero($enrollment['numero'])
                 ->setDataMatricula(new DateTime($enrollment['data_matricula']))
-                ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
-                ->setAprovado($this->getStudentSituation($enrollment['situation']))
-                ->setAluno($this->getStudents($enrollment['student_fk']));
+                ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']));
+
+                if(filter_var($finalClass,  FILTER_VALIDATE_BOOLEAN)){
+                    $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
+                }
+
+                $enrollmentType->setAluno($this->getStudents($enrollment['student_fk']));
 
             $enrollmentList[] = $enrollmentType;
         }
@@ -407,7 +402,7 @@ class SagresConsultModel
                     JOIN classroom c on c.id = itd.classroom_id_fk 
                 WHERE 
                     c.id = :classId and 
-                    s.month < :referenceMonth
+                    s.month <= :referenceMonth
                 ORDER BY 
                     c.create_date DESC";
 
@@ -430,7 +425,7 @@ class SagresConsultModel
                                 JOIN edcenso_discipline ed ON ed.id = s.discipline_fk 
                                 JOIN classroom c ON c.id = s.classroom_fk 
                                 JOIN curricular_matrix cm ON cm.discipline_fk = ed.id 
-                            WHERE s.classroom_fk = $classId and s.month < $month
+                            WHERE s.classroom_fk = $classId and s.month <= $month
                             GROUP BY s.week_day
                         ) t
                         WHERE t.disciplineName = '" . $schedule['disciplineName'] . "'";
@@ -585,7 +580,7 @@ class SagresConsultModel
                 FROM lunch_menu lm 
                     JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk   
                     JOIN lunch_meal lm2 on lmm.meal_fk = lm2.id
-                WHERE lm.school_fk =  :schoolId AND YEAR(lm.date) = :year AND MONTH(lm.date) < :month";
+                WHERE lm.school_fk =  :schoolId AND YEAR(lm.date) = :year AND MONTH(lm.date) <= :month";
 
         $params = [
             ':schoolId' => $schoolId,
@@ -684,7 +679,7 @@ class SagresConsultModel
                     p.inep_id_fk AS idEscola, 
                     fundeb 
                 FROM professional p
-                    JOIN attendance a ON p.id_professional  = a.professional_fk  and MONTH(a.date) < :currentMonth
+                    JOIN attendance a ON p.id_professional  = a.professional_fk  and MONTH(a.date) <= :currentMonth
                 WHERE 
                     YEAR(a.date) = :reference_year";
 
@@ -732,7 +727,7 @@ class SagresConsultModel
                   WHERE 
                         se.classroom_fk  =  :classId AND 
                         c.school_year = :referenceYear AND
-                        MONTH(se.create_date) < :month";
+                        MONTH(se.create_date) <= :month";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
@@ -751,8 +746,8 @@ class SagresConsultModel
                 // ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
                 ->setNumeroFaltas((int) $this->returnNumberFaults($enrollment['student_fk'], $referenceYear))
                 ->setAluno($this->getStudents($enrollment['student_fk']));
-
-            if($finalClass){
+           
+            if(filter_var($finalClass,  FILTER_VALIDATE_BOOLEAN)){
                 $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
             }
 
@@ -775,8 +770,6 @@ class SagresConsultModel
 
         if (isset($situations[$situation])) {
             return $situations[$situation];
-        } else {
-            throw new ErrorException("O valor " . $situation . " para a situação do estudante não é válido.");
         }
     }
 

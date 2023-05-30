@@ -67,6 +67,18 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                             </button>
                         </a>
 
+                        <a href="<?php echo Yii::app()->createUrl('curricularcomponents') ?>">
+                            <button type="button" class="admin-box-container">
+                                <div class="pull-left" style="margin-right: 20px;">
+                                    <span class="t-icon-copy t-reports_icons"></span>
+                                </div>
+                                <div class="pull-left">
+                                    <span class="title">Componentes curriculares</span><br>
+                                    <span class="subtitle">Gerencie os componetes curriculares da unidade</span>
+                                </div>
+                            </button>
+                        </a>
+
                         <a href="<?php echo Yii::app()->createUrl('admin/editPassword', array("id" => Yii::app()->user->loginInfos->id)) ?>">
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
