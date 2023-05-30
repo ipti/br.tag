@@ -22,7 +22,8 @@ class ReportsController extends Controller
                     'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
                     'StudentInstructorNumbersRelationReport', 'StudentPendingDocument',
                     'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood',
-                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 'EvaluationFollowUpStudentsReport'),
+                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 
+                    'EvaluationFollowUpStudentsReport', 'CnsPerClassroomReport', 'CnsSchools', 'CnsPerSchool'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -40,6 +41,59 @@ class ReportsController extends Controller
         $this->year = Yii::app()->user->year;
 
         return true;
+    }
+
+    public function actionCnsPerClassroomReport()
+    {
+        $classroom_id = $_POST['cns_classroom_id'];
+        $sql = "SELECT 
+                si.name, si.birthday, sdaa.cns, c.name AS classroom_name,
+                si.responsable_name, si.responsable_telephone
+                FROM student_enrollment se 
+                JOIN classroom c ON se.classroom_fk = c.id
+                JOIN student_identification si ON se.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON si.inep_id = sdaa.student_fk 
+                WHERE c.id = :classroom_id
+                GROUP BY name;";
+        $result =  Yii::app()->db->createCommand($sql)
+        ->bindParam(":classroom_id", $classroom_id)
+        ->queryAll();
+        $title = $result[0]['classroom_name'];
+        $this->render('CnsReport', array(
+            "report" => $result,
+            "title" => $title
+        ));
+    }
+
+    public function actionCnsSchools()
+    {
+        $sql = "SELECT 
+                si.name, si.birthday, sdaa.cns,
+                si.responsable_name, si.responsable_telephone
+                FROM student_enrollment se 
+                JOIN student_identification si ON se.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON si.inep_id = sdaa.student_fk
+                GROUP BY name;";
+        $result =  Yii::app()->db->createCommand($sql)->queryAll();
+        $this->render('CnsReport', array(
+            "report" => $result
+        ));
+    }
+
+    public function actionCnsPerSchool()
+    {
+        $sql = "SELECT 
+                si.name, si.birthday, sdaa.cns,
+                si.responsable_name, si.responsable_telephone
+                FROM student_enrollment se 
+                JOIN student_identification si ON se.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON si.inep_id = sdaa.student_fk
+                WHERE se.school_inep_id_fk = :school_id
+                GROUP BY name;";
+        $result =  Yii::app()->db->createCommand($sql)->bindParam(":school_id", Yii::app()->user->school)->queryAll();
+        $this->render('CnsReport', array(
+            "report" => $result
+        ));
     }
 
     public function actionQuarterlyReport()
