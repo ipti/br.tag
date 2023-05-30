@@ -11,6 +11,8 @@ class ClassdiaryModule extends CWebModule
 		$this->setImport(array(
 			'classdiary.models.*',
 			'classdiary.components.*',
+			'classdiary.services.*',
+			'classdiary.usecases.*',
 		));
 	}
 

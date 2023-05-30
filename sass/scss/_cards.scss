@@ -2,38 +2,45 @@
 @import '_functions.scss';
 
 .t-cards {
+    display: inline-block;
     border-radius: $borderRadiusLarge;
     padding: $SizeLarge;
     background: $colorsBaseProductLighter;
     margin-bottom: $SizeMedium;
     margin-right: $SizeMedium;
     width: 100%;
+    min-width: 320px;
+    max-width: 50%;
+
+    .t-cards-title {
+        display: flex;
+        align-items: center;
+        color: $colorsBaseProductDarkActive;
+        font-size: $FontSizeHeadingTitle2;
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+
+        img {
+            margin-right: $SizeXSmall;
+        }
+    }
+    
+    .t-cards-text {
+        color: $colorsBaseInkLightActive;
+        margin-left: $SizeXLarge;
+        &.clear-margin {
+            &--left {
+                margin-left: 0;
+            }
+        }
+    }
+    &:hover {
+        text-decoration: none;
+    }
 
     span{
         margin: $spaceEmpty $spaceXXXSmall $spaceEmpty $spaceEmpty;
         font-size: $FontSizeHeadingTitle1;
     }
-    a {
-        .t-cards-title {
-            display: flex;
-            align-items: center;
-            color: $colorsBaseProductDarkActive;
-            font-size: $FontSizeHeadingTitle2;
-            font-family: 'Inter', sans-serif;
-            font-weight: 700;
 
-            img {
-                margin-right: $SizeXSmall;
-            }
-        }
-        
-        .t-cards-text {
-            color: $colorsBaseInkLightActive;
-            margin-left: $SizeXLarge;
-        }
-        &:hover {
-            text-decoration: none;
-        }
-
-    }
 }

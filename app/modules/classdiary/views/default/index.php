@@ -1,17 +1,33 @@
 <?php
-/* @var $this DefaultController */
+/** @var DefaultController $this DefaultController */
 
 $this->breadcrumbs=array(
 	$this->module->id,
 );
-?>
-<h1>aaaaaaaa</h1><!-- 
 
-<p>
-This is the view content for action "<?php echo $this->action->id; ?>".
-The action belongs to the controller "<?php echo get_class($this); ?>"
-in the "<?php echo $this->module->id; ?>" module.
-</p>
-<p>
-You may customize this page by editing <tt><?php echo __FILE__; ?></tt>
-</p> -->
+?>
+<div class="main">
+<h1>Diário de Classe</h1>
+<div class="classrooms">
+
+</div>
+<div class="row wrap">
+ <?php 
+ foreach ($classrooms as $class) {
+	$stage = EdcensoStageVsModality::model()->findByPk($class->edcensoStageVsModalityFk)->name;
+	echo '<div class="column">
+			<a href="#" class="t-cards">
+				<div class="t-cards-title">'.$class->name.'</div>
+				<div class="t-cards-text clear-margin--left">'.$stage.'</div>
+			</a>
+		</div>';
+};
+?>
+
+
+<?php 
+	
+
+?>
+</div>
+</div>
