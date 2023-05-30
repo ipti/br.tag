@@ -394,7 +394,7 @@ class SagresValidations
                     $inconsistencies[] = [
                         "enrollment" => 'HORÁRIO',
                         "school" => $schoolId,
-                        "description" => 'DIA DA SEMANA INVÁLIDO',
+                        "description" => 'DIA DA SEMANA INVÁLIDO: '.$schedule->getDiaSemana(),
                         "action" => 'ADICIONE UM DIA DA SEMANA VÁLIDO PARA A DISCIPLINA'
                     ];
                 }
