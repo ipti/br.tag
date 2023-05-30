@@ -4,6 +4,8 @@ namespace SagresEdu;
 
 use JMS\Serializer\Annotation\XmlList;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\XmlElement;
+
 
 /**
  * Class representing TurmaTType
@@ -17,18 +19,21 @@ class TurmaTType
     /**
      * @var int $periodo
      * @SerializedName("edu:periodo")
+     * @XmlElement(cdata=false)
      */
     private $periodo = null;
 
     /**
      * @var string $descricao
      * @SerializedName("edu:descricao")
+     * @XmlElement(cdata=false)
      */
     private $descricao = null;
 
     /**
      * @var int $turno
      * @SerializedName("edu:turno")
+     * @XmlElement(cdata=false)
      */
     private $turno = null;
 
@@ -59,6 +64,7 @@ class TurmaTType
     /**
      * @var bool $finalTurma
      * @SerializedName("edu:finalTurma")
+     * @XmlElement(cdata=false)
      */
     private $finalTurma = null;
 

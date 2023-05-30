@@ -37,9 +37,9 @@ class SagresConsultModel
 
     public function getSagresEdu($referenceYear, $month, $finalClass): EducacaoTType
     {
-        $education = new EducacaoTType;
+        $education = new EducacaoTType();
         $managementUnitId = $this->getManagementId();
-        $validationSagres = new \SagresValidations;
+        $validationSagres = new \SagresValidations();
 
         try {
             $education
@@ -51,10 +51,10 @@ class SagresConsultModel
         }
 
         $inconsistencyList = $validationSagres->validator($education->getEscola(), $education->getProfissional(), $finalClass);
-        $inconsistencyModel = new ValidationSagresModel;
+        $inconsistencyModel = new ValidationSagresModel();
 
         foreach ($inconsistencyList as $value) {
-            $inconsistencyModel = new ValidationSagresModel;
+            $inconsistencyModel = new ValidationSagresModel();
 
             $inconsistencyModel->enrollment = $value["enrollment"];
             $inconsistencyModel->school =  $value["school"] ." - ".$this->getNameSchool($value["school"]);
@@ -87,7 +87,7 @@ class SagresConsultModel
                 ->bindValue(':managementUnitId', $managementUnitId)
                 ->queryRow();
 
-            $headerType = new CabecalhoTType;
+            $headerType = new CabecalhoTType();
 
             $headerType
                 ->setCodigoUnidGestora($managementUnit['managementUnitCode'])
@@ -130,7 +130,7 @@ class SagresConsultModel
 
     /**
      * Summary of EscolaTType
-     * @return EscolaTType[] 
+     * @return EscolaTType[]
      */
     public function getSchools($referenceYear, $month, $finalClass)
     {
@@ -138,23 +138,24 @@ class SagresConsultModel
 
         $query = "SELECT inep_id FROM school_identification";
         $schools = Yii::app()->db->createCommand($query)->queryAll();
-        $validationSagres = new \SagresValidations;
+        $validationSagres = new \SagresValidations();
 
         foreach ($schools as $school) {
-            $schoolType = new EscolaTType;
+            $schoolType = new EscolaTType();
             $schoolType
                 ->setIdEscola($school['inep_id'])
                 ->setTurma($this->getClasses($school['inep_id'], $referenceYear, $month, $finalClass))
                 ->setDiretor($this->getDirectorSchool($school['inep_id']))
                 ->setCardapio($this->getMenuList($school['inep_id'], $referenceYear, $month));
 
-                $schoolList[] = $schoolType;       
-            }
-       
+            $schoolList[] = $schoolType;
+        }
+
         return $schoolList;
     }
 
-    public function getInconsistenciesCount(){
+    public function getInconsistenciesCount()
+    {
         $query = "SELECT count(*) FROM inconsistency_sagres";
         return Yii::app()->db->createCommand($query)->queryScalar();
     }
@@ -201,7 +202,7 @@ class SagresConsultModel
                             AND c.school_year = :referenceYear
                     ) AS subquery
                     WHERE MONTH(subquery.createDate) <= :month";
-        
+
         $params = [
             ':schoolInepFk' => $inepId,
             ':referenceYear' => $referenceYear,
@@ -213,7 +214,7 @@ class SagresConsultModel
             ->queryAll();
 
         foreach ($turmas as $turma) {
-            $classType = new TurmaTType;
+            $classType = new TurmaTType();
             $classId = $turma['classroomId'];
 
             $classType
@@ -223,8 +224,8 @@ class SagresConsultModel
                 ->setSerie($this->getSeries($classId))
                 ->setMatricula($this->getEnrollments($classId, $referenceYear, $month, $finalClass))
                 ->setHorario($this->getSchedules($classId, $month));
-                            
-            if((bool)$finalClass){
+
+            if((bool)$finalClass) {
                 $classType->setFinalTurma((bool)$finalClass);
             }
 
@@ -271,7 +272,7 @@ class SagresConsultModel
         $enrollments = $command->queryAll();
 
         foreach ($enrollments as $enrollment) {
-            $studentType = new AlunoTType;
+            $studentType = new AlunoTType();
             $studentType
                 ->setNome($enrollment['name'])
                 ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $enrollment['birthdate']))
@@ -279,16 +280,16 @@ class SagresConsultModel
                 ->setPcd($enrollment['deficiency'])
                 ->setSexo($enrollment['gender']);
 
-            $enrollmentType = new MatriculaTType;
+            $enrollmentType = new MatriculaTType();
             $enrollmentType
                 ->setNumero($enrollment['numero'])
                 ->setDataMatricula(new DateTime($enrollment['data_matricula']))
                 ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']));
 
-                if(filter_var($finalClass,  FILTER_VALIDATE_BOOLEAN)){
-                    $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
-                }
-                $enrollmentType->setAluno($studentType);
+            if(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
+                $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
+            }
+            $enrollmentType->setAluno($studentType);
             $enrollmentList[] = $enrollmentType;
         }
 
@@ -298,7 +299,7 @@ class SagresConsultModel
 
     /**
      * Summary of SerieTType
-     * @return HorarioTType[] 
+     * @return HorarioTType[]
      */
     public function getRecentSchedules($classId)
     {
@@ -330,7 +331,7 @@ class SagresConsultModel
         $schedules = Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
 
         foreach ($schedules as $schedule) {
-            $scheduleType = new HorarioTType;
+            $scheduleType = new HorarioTType();
 
             $query1 = "SELECT distinct 
                         ed.name AS disciplineName, ed.id as discipline_fk, cm.credits AS credits
@@ -361,7 +362,7 @@ class SagresConsultModel
 
     /**
      * Summary of SerieTType
-     * @return SerieTType[] 
+     * @return SerieTType[]
      */
     public function getSeries($classId)
     {
@@ -378,7 +379,7 @@ class SagresConsultModel
         $series = Yii::app()->db->createCommand($query)->bindValue(":id", $classId)->queryAll();
 
         foreach ($series as $serie) {
-            $serieType = new SerieTType;
+            $serieType = new SerieTType();
             $serieType
                 ->setDescricao($serie['serieDescription'])
                 ->setModalidade($serie['serieModality']);
@@ -391,7 +392,7 @@ class SagresConsultModel
 
     /**
      * Summary of SerieTType
-     * @return HorarioTType[] 
+     * @return HorarioTType[]
      */
     public function getSchedules($classId, $month)
     {
@@ -425,7 +426,7 @@ class SagresConsultModel
         $schedules = Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
 
         foreach ($schedules as $schedule) {
-            $scheduleType = new HorarioTType;
+            $scheduleType = new HorarioTType();
 
             $queryGetDuration = "SELECT 
                             ROUND( (t.credits / COUNT(*))) AS duration
@@ -511,7 +512,7 @@ class SagresConsultModel
         }
     }
 
-    function getDateTimeFromInitialHour($initialHour)
+    public function getDateTimeFromInitialHour($initialHour)
     {
         $timeFormatted = date('H:i:s', strtotime($initialHour . ':00:00'));
         return new DateTime($timeFormatted);
@@ -519,7 +520,7 @@ class SagresConsultModel
 
     /**
      * Summary of EscolaTType
-     * @return AtendimentoTType[] 
+     * @return AtendimentoTType[]
      */
     public function getAttendances($professionalId)
     {
@@ -536,7 +537,7 @@ class SagresConsultModel
         $attendances = Yii::app()->db->createCommand($query)->bindValue(":professionalId", $professionalId)->queryAll();
 
         foreach ($attendances as $attendance) {
-            $attendanceType = new AtendimentoTType;
+            $attendanceType = new AtendimentoTType();
             $attendanceType
                 ->setData(new DateTime($attendance['attendanceDate']))
                 ->setLocal($attendance['attendanceLocation']);
@@ -568,7 +569,7 @@ class SagresConsultModel
 
         $student = Yii::app()->db->createCommand($query)->bindValues($params)->queryRow();
 
-        $studentType = new AlunoTType;
+        $studentType = new AlunoTType();
         $studentType
             ->setNome($student['name'])
             ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $student['birthdate']))
@@ -582,7 +583,7 @@ class SagresConsultModel
 
     /**
      * Summary of CardapioTType
-     * @return CardapioTType[] 
+     * @return CardapioTType[]
      */
     public function getMenuList($schoolId, $year, $month)
     {
@@ -607,7 +608,7 @@ class SagresConsultModel
         $menus = Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
 
         foreach ($menus as $menu) {
-            $menuType = new CardapioTType;
+            $menuType = new CardapioTType();
             $menuType
                 ->setData(new DateTime($menu['data']))
                 ->setTurno($this->convertTurn($menu['turno']))
@@ -644,7 +645,7 @@ class SagresConsultModel
         $cardapios = Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
 
         foreach ($cardapios as $cardapio) {
-            $cardapioType = new CardapioTType;
+            $cardapioType = new CardapioTType();
             $cardapioType
                 ->setData(new DateTime($cardapio['data']))
                 ->setTurno($this->convertTurn($cardapio['turno']))
@@ -672,7 +673,7 @@ class SagresConsultModel
             ->bindValue(':idSchool', $idSchool)
             ->queryRow();
 
-        $directorType = new DiretorTType;
+        $directorType = new DiretorTType();
         $directorType
             ->setCpfDiretor($director['cpfDiretor'])
             ->setNrAto($director['nrAto']);
@@ -683,7 +684,7 @@ class SagresConsultModel
 
     /**
      * Summary of ProfissionalTType
-     * @return ProfissionalTType[] 
+     * @return ProfissionalTType[]
      */
     public function getProfessionals($referenceYear, $month)
     {
@@ -708,7 +709,7 @@ class SagresConsultModel
         $professionals = $command->queryAll();
 
         foreach ($professionals as $professional) {
-            $professionalType = new ProfissionalTType;
+            $professionalType = new ProfissionalTType();
             $professionalType
                 ->setCpfProfissional($professional['cpfProfissional'])
                 ->setEspecialidade($professional['especialidade'])
@@ -766,7 +767,7 @@ class SagresConsultModel
         $enrollments = $command->queryAll();
 
         foreach ($enrollments as $enrollment) {
-            $studentType = new AlunoTType;
+            $studentType = new AlunoTType();
             $studentType
                 ->setNome($enrollment['name'])
                 ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $enrollment['birthdate']))
@@ -774,15 +775,15 @@ class SagresConsultModel
                 ->setPcd($enrollment['deficiency'])
                 ->setSexo($enrollment['gender']);
 
-            $enrollmentType = new MatriculaTType;
+            $enrollmentType = new MatriculaTType();
             $enrollmentType
                 ->setNumero($enrollment['numero'])
                 ->setDataMatricula(new DateTime($enrollment['data_matricula']))
                 // ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
                 ->setNumeroFaltas((int) $enrollment['faults'])
                 ->setAluno($studentType);
-    
-            if(filter_var($finalClass,  FILTER_VALIDATE_BOOLEAN)){
+
+            if(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
                 $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
             }
 
@@ -847,18 +848,27 @@ class SagresConsultModel
 
     public function actionExportSagresXML($xml)
     {
-        $fileName = "Educacao.xml";
-        $fileDir = "./app/export/SagresEdu/" . $fileName;
+        $memory_limit = ini_get('memory_limit');
 
-        // Limpa o conteúdo dentro de CDATA
-        $linha = $this->transformXML(preg_replace("/<!\[CDATA\[(.*?)\]\]>/s", "\\1", $xml));
+        try {
+            ini_set('memory_limit', '2048M');
+            $fileName = "Educacao.xml";
+            $fileDir = "./app/export/SagresEdu/" . $fileName;
 
-        // Escreve o conteúdo no arquivo
-        $result = file_put_contents($fileDir, $linha);
+            // Limpa o conteúdo dentro de CDATA
+            $linha = $this->transformXML($xml);
+            // Escreve o conteúdo no arquivo
+            $result = file_put_contents($fileDir, $linha);
+            
+            ini_set('memory_limit', $memory_limit);
 
-        if ($result !== false) {
-            return file_get_contents($fileDir);
-        } else {
+            if ($result !== false) {
+                return file_get_contents($fileDir);
+            } else {
+                throw new ErrorException("Ocorreu um erro ao exportar o arquivo XML.");
+            }
+        } catch (\Throwable $e) {
+            ini_set('memory_limit', $memory_limit);
             throw new ErrorException("Ocorreu um erro ao exportar o arquivo XML.");
         }
     }
@@ -880,7 +890,7 @@ class SagresConsultModel
 
 
     /**
-     * This function takes a single character string representing a turn abbreviation and returns an integer value 
+     * This function takes a single character string representing a turn abbreviation and returns an integer value
      * that corresponds to the turn type. The valid turn types and their corresponding integer values are:
      * - 'M': 1 (MATUTINO)
      * - 'V': 2 (VESPERTINO)
@@ -905,13 +915,13 @@ class SagresConsultModel
         }
     }
 
-    function transformXML($xml)
+    public function transformXML($xml)
     {
         $year = date('Y');
-        $xml = str_replace('<result>', sprintf('<edu:educacao xmlns:edu="http://www.tce.se.gov.br/sagres%s/xml/sagresEdu">', $year), $xml);
-        $xml = str_replace('</result>', '</edu:educacao>', $xml);
-        $xml = str_replace('<edu:prestacaoContas>', '<edu:PrestacaoContas>', $xml);
-        $xml = str_replace('</edu:prestacaoContas>', '</edu:PrestacaoContas>', $xml);
+        // $xml = str_replace('<result>', sprintf('<edu:educacao xmlns:edu="http://www.tce.se.gov.br/sagres%s/xml/sagresEdu">', $year), $xml);
+        // $xml = str_replace('</result>', '</edu:educacao>', $xml);
+        // $xml = str_replace('<edu:prestacaoContas>', '<edu:PrestacaoContas>', $xml);
+        // $xml = str_replace('</edu:prestacaoContas>', '</edu:PrestacaoContas>', $xml);
 
         return $xml;
     }
