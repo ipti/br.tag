@@ -744,7 +744,7 @@ class SagresConsultModel
                         join classroom c on se.classroom_fk = c.id
                         join student_identification si on si.id = se.student_fk 
                         left join class_faults cf on cf.student_fk = si.id
-                        join schedule s on cf.schedule_fk = s.id
+                        left join schedule s on cf.schedule_fk = s.id
                   WHERE 
                         se.classroom_fk  =  :classId AND 
                         c.school_year = :referenceYear AND
