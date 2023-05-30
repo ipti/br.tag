@@ -445,7 +445,7 @@ class SagresConsultModel
             $duration = Yii::app()->db->createCommand($queryGetDuration)->queryRow();
 
             $scheduleType
-                ->setDiaSemana($schedule['weekDay'])
+                ->setDiaSemana(((int)$schedule['weekDay']) + 1)
                 ->setDuracao(2)
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
                 ->setDisciplina(substr($schedule['disciplineName'], 0, 50))
