@@ -22,8 +22,8 @@ $("#classesSearch").on("click", function () {
                 if (data.valid) {
                     var html = "";
                     html += "" +
-                        "<table class='js-tag-table tag-table table-frequency table table-bordered table-striped table-hover'>" +
-                        "<thead>" +
+                        "<table class='t-tabs table-frequency table table-bordered table-striped table-hover'>" +
+                        "<thead class='t-tabs'>" +
                         "<tr><th class='table-title' colspan='" + (Object.keys(data.students[0].schedules).length + 1) + "'>" + (fundamentalMaior ? $('#disciplines').select2('data').text : "Todas as Disciplinas") + "</th></tr>";
                     var daynameRow = "";
                     var dayRow = "";
@@ -31,13 +31,14 @@ $("#classesSearch").on("click", function () {
                     var checkboxRow = "";
                     $.each(data.students[0].schedules, function () {
                         dayRow += "<th>" + (pad(this.day, 2) + "/" + pad($("#month").val(), 2)) + "</th>";
-                        daynameRow += "<th>" + this.week_day + "</th>";
-                        scheduleRow += fundamentalMaior ? "<th>" + this.schedule + "º Horário</th>" : "";
+                        // daynameRow += "<th>" + this.week_day + "</th>";
+                        // scheduleRow += fundamentalMaior ? "<th>" + this.schedule + "º Horário</th>" : "";
                         checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!this.available ? "disabled" : "") + " classroomId='" + $("#classroom").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "' fundamentalMaior='" + fundamentalMaior + "'></th>";
                     });
-                    html += "<tr class='day-row'><th></th>" + dayRow + "</tr><tr class='dayname-row'><th></th>" + daynameRow + "</tr>" + (fundamentalMaior ? "<tr class='schedule-row'><th></th>" + scheduleRow + "</tr>" : "") + "<tr class='checkbox-row'><th></th>" + checkboxRow + "</tr>";
+                    // html += "<tr class='day-row'><th></th>" + dayRow + "</tr><tr class='dayname-row'><th></th>" + daynameRow + "</tr>" + (fundamentalMaior ? "<tr class='schedule-row'><th></th>" + scheduleRow + "</tr>" : "") + "<tr class='checkbox-row'><th></th>" + checkboxRow + "</tr>";
+                    html += "<tr class='day-row'><th></th>" + dayRow +  "<tr class='checkbox-row'><th></th>" + checkboxRow + "</tr>";
                     html += "</thead><tbody>";
-                    $.each(data.students, function (indexStudent, student) {
+                    $.each(data.students, function (indexStudent, student) {  
                         html += "<tr><td class='student-name'>" + student.studentName + "</td>";
                         $.each(student.schedules, function (indexSchedule, schedule) {
                             var justificationContainer = "";

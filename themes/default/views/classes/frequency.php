@@ -122,7 +122,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
         </div>
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>
-        <div id="frequency-container" class="tag-table table-responsive">
+        <div id="frequency-container" class="t-tabs table-responsive">
             
         </div>
     </div>
