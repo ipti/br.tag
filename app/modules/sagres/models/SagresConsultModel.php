@@ -241,7 +241,7 @@ class SagresConsultModel
      *
      * @return MatriculaTType[]
      */
-    public function getRecentEnrollments($classId, $finalClass)
+    public function getRecentEnrollments($classId, $finalClass, $year)
     {
         $enrollmentList = [];
 
@@ -288,9 +288,7 @@ class SagresConsultModel
                 if(filter_var($finalClass,  FILTER_VALIDATE_BOOLEAN)){
                     $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
                 }
-
                 $enrollmentType->setAluno($studentType);
-
             $enrollmentList[] = $enrollmentType;
         }
 
@@ -549,7 +547,7 @@ class SagresConsultModel
         return $attendanceList;
     }
 
-    public function getStudents($studentFk): AlunoTType
+    public function getStudents($studentFk, $year): AlunoTType
     {
         $query = "SELECT
                     si2.responsable_cpf AS cpfStudent,
@@ -560,9 +558,15 @@ class SagresConsultModel
                 FROM 
                     student_identification si2
                 WHERE 
-                    si2.id = :studentFk";
+                    si2.id = :studentFk AND 
+                    si2.send_year = :year";
 
-        $student = Yii::app()->db->createCommand($query)->bindValue(':studentFk', $studentFk)->queryRow();
+        $params = [
+            ':studentFk' => $studentFk,
+            ':year' => $year
+        ];
+
+        $student = Yii::app()->db->createCommand($query)->bindValues($params)->queryRow();
 
         $studentType = new AlunoTType;
         $studentType
@@ -777,7 +781,7 @@ class SagresConsultModel
                 // ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
                 ->setNumeroFaltas((int) $enrollment['faults'])
                 ->setAluno($studentType);
-           
+    
             if(filter_var($finalClass,  FILTER_VALIDATE_BOOLEAN)){
                 $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
             }
