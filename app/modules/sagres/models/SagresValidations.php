@@ -422,7 +422,7 @@ class SagresValidations
                     $inconsistencies[] = [
                         "enrollment" => 'HORÁRIO',
                         "school" => $schoolId,
-                        "description" => 'NOME DA DISCIPLINA MENOR QUE 5 CARACTERES',
+                        "description" => 'NOME DA DISCIPLINA MUITO CURTA',
                         "action" => 'ADICIONE UM NOME PARA A DISCIPLINA COM PELO MENOS 5 CARACTERES'
                     ];
                 }
@@ -431,7 +431,7 @@ class SagresValidations
                     $inconsistencies[] = [
                         "enrollment" => 'HORÁRIO',
                         "school" => $schoolId,
-                        "description" => 'NOME DA DISCIPLINA MAIOR QUE 50 CARACTERES',
+                        "description" => 'NOME DA DISCIPLINA COM MAIS DE 50 CARACTERES',
                         "action" => 'ADICIONE UM NOME PARA A DISCIPLINA COM ATÉ 50 CARACTERES'
                     ];
                 }
