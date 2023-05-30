@@ -137,7 +137,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     </div>
     <div class="clear"></div>
     <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
-        <table id="class-contents" class="tag-table-secondary table-bordered">
+        <table id="class-contents" class="tag-table-secondary table-bordered" aria-labelledby="create class contents">
             <thead>
             </thead>
             <tbody>
