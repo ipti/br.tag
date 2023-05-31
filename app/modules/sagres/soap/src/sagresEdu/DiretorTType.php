@@ -5,8 +5,7 @@ use JMS\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validation;
-use Symfony\Component\Validator\Constraints as Assert;
-
+use JMS\Serializer\Annotation\XmlElement;
 
 /**
  * Class representing DiretorTType
@@ -20,12 +19,14 @@ class DiretorTType
     /**
      * @var string $cpfDiretor
      * @SerializedName("edu:cpfDiretor")
+     * @XmlElement(cdata=false)
      */
     private $cpfDiretor = null;
 
     /**
      * @var string $nrAto
      * @SerializedName("edu:nrAto")
+     * @XmlElement(cdata=false)
      */
     private $nrAto = null;
 

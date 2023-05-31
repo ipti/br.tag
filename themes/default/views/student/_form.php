@@ -124,7 +124,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <!-- name student -->
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'name', array('class' => 'control-label t-field-text__label--required')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome Social')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome de Apresentação')); ?>
                                 <span id="similarMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
                                     <img id="warningNameIcon" onclick="displayRecords()" style="display: none;" src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>" alt="icone aviso">
                                     <img id="errorNameIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
@@ -1155,35 +1155,6 @@ $form = $this->beginWidget('CActiveForm', array(
                         <!-- Situação na série/etapa atual -->
                         <div class="column">
                             <div class="control-group js-hide-not-required">
-                                <?php echo $form->labelEx($modelEnrollment, 'current_stage_situation', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->DropDownList(
-                                    $modelEnrollment,
-                                    'current_stage_situation',
-                                    array(
-                                        null => "Selecione",
-                                        "0" => "Primeira matrícula no curso",
-                                        "1" => "Promovido na série anterior do mesmo curso",
-                                        "2" => "Repetente"
-                                    ),
-                                    array('class' => 'select-search-off control-input t-field-select__input')
-                                ); ?>
-                                <?php echo $form->error($modelEnrollment, 'current_stage_situation'); ?>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Escolarização em outro espaço e Situação no ano anterior -->
-                    <div class="row new-enrollment-form" style="display: none;">
-                        <!-- Escolarização em outro espaço -->
-                        <div class="column">
-                            <div class="control-group js-hide-not-required">
-                                <?php echo $form->labelEx($modelEnrollment, 'another_scholarization_place', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->DropDownList($modelEnrollment, 'another_scholarization_place', array("1" => "Não recebe", "2" => "Em hospital", "3" => "Em domicílio"), array('class' => 'select-search-on control-input t-field-select__input')); ?>
-                                <?php echo $form->error($modelEnrollment, 'another_scholarization_place'); ?>
-                            </div>
-                        </div>
-                        <!-- Situação no ano anterior -->
-                        <div class="column">
-                            <div class="control-group js-hide-not-required">
                                 <?php echo $form->labelEx($modelEnrollment, 'previous_stage_situation', array('class' => 'control-label t-field-text__label')); ?>
                                 <?php echo $form->DropDownList(
                                     $modelEnrollment,
@@ -1201,6 +1172,17 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                                 <?php echo $form->error($modelEnrollment, 'previous_stage_situation'); ?>
                             </div>
+                        </div>
+                    </div>
+                    <!-- Escolarização em outro espaço e Situação no ano anterior -->
+                    <div class="row new-enrollment-form" style="display: none;">
+                        <!-- Escolarização em outro espaço -->
+                        <div class="column">
+
+                        </div>
+                        <!-- Situação no ano anterior -->
+                        <div class="column">
+
                         </div>
                     </div>
                     <!-- Titulo -->
@@ -1263,7 +1245,11 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                         <div class="column">
-
+                            <div class="control-group js-hide-not-required">
+                                <?php echo $form->labelEx($modelEnrollment, 'another_scholarization_place', array('class' => 'control-label t-field-text__label')); ?>
+                                <?php echo $form->DropDownList($modelEnrollment, 'another_scholarization_place', array("1" => "Não recebe", "2" => "Em hospital", "3" => "Em domicílio"), array('class' => 'select-search-on control-input t-field-select__input')); ?>
+                                <?php echo $form->error($modelEnrollment, 'another_scholarization_place'); ?>
+                            </div>
                         </div>
                     </div>
                     <!-- Titulo-->
@@ -1504,7 +1490,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                                                 echo "Matriculado";
                                                                 break;
                                                             case "2":
-                                                                echo "Transferido";
+                                                                $transfer_date = "";
+                                                                if(isset($me->transfer_date)){
+                                                                    $transfer_date = date_create_from_format('Y-m-d', $me->transfer_date)->format('d/m/Y');
+                                                                }
+                                                                echo "Transferido </br>" . $transfer_date;
                                                                 break;
                                                             case "3":
                                                                 echo "Cancelado";

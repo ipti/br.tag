@@ -384,7 +384,7 @@ return array(
     'Modality' => 'Modalidade',
     'Edcenso Stage Vs Modality Fk' => 'Etapas de Ensino',
     'Edcenso Professional Education Course Fk' => 'Código Curso Educação Profissional',
-    'Disciplines' => 'Componentes curricularea/eixos',
+    'Disciplines' => 'Componentes curriculares/eixos',
     'Discipline' => 'Componente curricular/eixo',
     'Discipline Chemistry' => 'Química',
     'Discipline Physics' => 'Física',
@@ -585,6 +585,7 @@ return array(
     'Aee Optical Nonoptical' => 'Ensino de uso de recursos ópticos e não ópticos',
     'Observation' => 'Observação',
     'daily_order' => 'Ordem no Diário',
+    'Transfer Date' => 'Data da Transferência', 
 
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',

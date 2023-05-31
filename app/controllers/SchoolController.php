@@ -32,7 +32,7 @@ class SchoolController extends Controller
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('edcenso_import', 'configacl', 'index', 'view', 'update', 'create',
-                    'getcities', 'getdistricts', 'getorgans', 'updateufdependencies', 'updatecitydependencies', 'displayLogo'),
+                    'getcities', 'getdistricts', 'getorgans', 'updateufdependencies', 'updatecitydependencies', 'displayLogo', 'RemoveLogo'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -226,7 +226,8 @@ class SchoolController extends Controller
 
             $modelSchoolIdentification->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
             $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
-
+            
+            $modelSchoolIdentification->number_ato = $_POST[$this->SCHOOL_IDENTIFICATION]["number_ato"];
 
             if (!empty($_FILES['SchoolIdentification']['tmp_name']['logo_file_content'])) {
                 $file = CUploadedFile::getInstance($modelSchoolIdentification, 'logo_file_content');
@@ -244,8 +245,17 @@ class SchoolController extends Controller
                     || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other) {
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save()) {
 
+                        $criteriaStages = new CDbCriteria();
+                        $criteriaStages->condition = 'school_fk = :school_fk';
+                        $criteriaStages->params = array(
+                            ':school_fk' => $modelSchoolIdentification->inep_id,
+                        );
+
                         if ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] != "") {
-                            SchoolStagesConceptGrades::model()->deleteAll("school_fk = :school_fk and edcenso_stage_vs_modality_fk not in (:edcenso_stage_vs_modality_fk)", ["school_fk" => $modelSchoolIdentification->inep_id, "edcenso_stage_vs_modality_fk" => implode(",", $_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"])]);
+                            
+                            $criteriaStages->addNotInCondition('edcenso_stage_vs_modality_fk', $_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"]);
+                            SchoolStagesConceptGrades::model()->deleteAll($criteriaStages);
+                            
                             foreach ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] as $stage_concept_grade) {
                                 $schoolStagesConceptGrades = SchoolStagesConceptGrades::model()->find("school_fk = :school_fk and edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk", [":school_fk" => $modelSchoolIdentification->inep_id, ":edcenso_stage_vs_modality_fk" => $stage_concept_grade]);
                                 if ($schoolStagesConceptGrades == null) {
@@ -256,7 +266,7 @@ class SchoolController extends Controller
                                 }
                             }
                         } else {
-                            SchoolStagesConceptGrades::model()->deleteAll("school_fk = :school_fk", ["school_fk" => $modelSchoolIdentification->inep_id]);
+                            SchoolStagesConceptGrades::model()->deleteAll($criteriaStages);
                         }
 
                         Log::model()->saveAction("school", $modelSchoolIdentification->inep_id, "U", $modelSchoolIdentification->name);
@@ -395,6 +405,16 @@ class SchoolController extends Controller
         print file_get_contents($school_logo);
     }
 
+    public function actionRemoveLogo($id)
+    {
+        $model = $this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
+        $model->logo_file_name = null;
+        $model->logo_file_type = null;
+        $model->logo_file_content = null;
+        $model->save();
+        echo "<script>window.history.back();</script>";
+    }
+
     public function actionReports($id)
     {
         $this->layout = "reports";
@@ -443,7 +463,6 @@ class SchoolController extends Controller
 
             case 2:
                 $title = "Histórico Ensino EJA";
-                break;
                 break;
         }
 

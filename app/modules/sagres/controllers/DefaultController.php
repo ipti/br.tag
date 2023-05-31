@@ -52,11 +52,11 @@ class DefaultController extends Controller
 		$this->render('inconsistencys');
 	}
 
-	public function actionExport($year, $startDate, $endDate, $finalClass)
+	public function actionExport($year, $month, $finalClass)
 	{
 		try {
 			$sagres = new SagresConsultModel;
-			$sagresEduXML = $sagres->generatesSagresEduXML($sagres->getSagresEdu($year, $startDate, $endDate, $finalClass));
+			$sagresEduXML = $sagres->generatesSagresEduXML($sagres->getSagresEdu($year, $month, $finalClass));
 			echo $sagres->actionExportSagresXML($sagresEduXML);
 		} catch (Exception $e) {
 			Yii::app()->user->setFlash('error', Yii::t('default', $e->getMessage()));

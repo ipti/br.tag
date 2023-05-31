@@ -370,6 +370,12 @@ table.dataTable {
 
 }
 
+.select2-container.select-search-on.control-input.frequency-input-curricular-component .select2-choice,
+.select2-container.select-search-on.control-input.classContents-input-curricular-component .select2-choice {
+    width: 97.8% !important;
+
+}
+
 .control-group.aluno {
     margin-left: 32px;
 }
@@ -465,11 +471,11 @@ table.dataTable.no-footer {
 }
 
 .grades-structure-container .unity-name {
-    width: calc(100% - 136px);
+    width: calc(100% - 140px);
 }
 
 .grades-structure-container .modality-name {
-    width: calc(100% - 136px);
+    width: calc(100% - 140px);
     /* margin: 0px 9px 0px 0px; */
 }
 
@@ -485,7 +491,7 @@ table.dataTable.no-footer {
 .grades-structure-container .unity label {
     /* width: 105px; */
     margin: 0px 10px 0px 0px;
-    width: 92px;
+    width: 96px;
 }
 
 .grades-structure-container .unity-children {

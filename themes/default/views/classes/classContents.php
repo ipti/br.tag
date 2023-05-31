@@ -28,7 +28,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <h1><?php echo Yii::t('default', 'Class Contents'); ?></h1>
             <div class="buttons span9">
                 <a id="print" class='tag-button-light  medium-button'>
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.png"/>
+                    <span class="t-icon-printer"></span>
                     <?php echo Yii::t('default', 'Print') ?>
                 </a>
                 <a id="save" class='t-button-primary  '><?php echo Yii::t('default', 'Save') ?></a>
@@ -119,12 +119,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 ?>
 
             </div>
-            <div class="disciplines-container" style="display: none;">
-                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required', 'style' => 'width: 85px;')); ?>
+            <div class="disciplines-container" style="display: none;width: 35%;">
+                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required')); ?>
                 <?php
                 echo CHtml::dropDownList('disciplines', '', array(), array(
                     'key' => 'id',
-                    'class' => 'select-search-on control-input classContents-input',
+                    'class' => 'select-search-on control-input classContents-input-curricular-component',
                 ));
                 ?>
             </div>

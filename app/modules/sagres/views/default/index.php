@@ -72,6 +72,12 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 					<span class="title">Exportar Unidade</span><br>
 					<span class="subtitle">Exporte os dados da Unidade</span>
 				</div>
+				<div id="loading-popup" style="display: none;">
+					<div class="loading-content">
+						<div class="loading-spinner"></div>
+						<div class="loading-text">Aguarde equanto o arquivo é gerado...</div>
+					</div>
+				</div>
 			</button>
 		</a>
 
@@ -118,42 +124,25 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 	checkbox.addEventListener('change', function() {
 		checkboxValue = checkbox.checked ? true : false;
 
-		const {
-			startDate,
-			endDate
-		} = getDatesFromMonth(selectedValue);
+		month = parseInt(selectedValue, 10)
 
 		const year = new Date().getFullYear();
 		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&year=${year}&startDate=${startDate}&endDate=${endDate}&finalClass=${checkboxValue}`;
+		const newHref = `?r=sagres/default/export&year=${year}&month=${month}&finalClass=${checkboxValue}`;
 		exportLink.setAttribute('href', newHref);
 	});
 
 	selectElement.addEventListener("change", (event) => {
 		selectedValue = event.target.value;
 
-		const {
-			startDate,
-			endDate
-		} = getDatesFromMonth(selectedValue);
+		month = parseInt(selectedValue, 10)
 
 		const year = new Date().getFullYear();
 		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&year=${year}&startDate=${startDate}&endDate=${endDate}&finalClass=${checkboxValue}`;
+		const newHref = `?r=sagres/default/export&year=${year}&month=${month}&finalClass=${checkboxValue}`;
 		exportLink.setAttribute('href', newHref);
 
 	});
-
-	function getDatesFromMonth(monthValue) {
-		const year = new Date().getFullYear();
-		const month = parseInt(monthValue, 10);
-		const startDate = new Date(year, month - 1, 1);
-		const endDate = new Date(year, month, 0);
-		return {
-			startDate: startDate.toISOString().slice(0, 10),
-			endDate: endDate.toISOString().slice(0, 10),
-		};
-	}
 
 	function downloadFile(url, filename) {
 		const link = document.createElement('a');
@@ -185,6 +174,9 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 	function downloadFile(url, filename) {
 		$(".alert-error-export").hide();
 		$(".alert-error-export").empty();
+
+		$("#loading-popup").show();
+
 		$.get(url, function(data) {
 				const zip = new JSZip();
 				zip.file(filename, data);
@@ -206,6 +198,9 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				});
 			})
 			.fail(function() {
+
+				$("#loading-popup").hide();
+
 				$(".alert-error-export").append('Erro ao realizar o download do arquivo ');
 				$(".alert-error-export").show();
 			})
