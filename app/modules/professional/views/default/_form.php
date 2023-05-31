@@ -123,7 +123,7 @@
 										<h3>
 											Atendimentos
 										</h3>
-										<table class="tag-table table-bordered table-striped"
+										<table class="tag-table-primary table-bordered table-striped"
 											aria-describedby="tabela de atendimentos">
 											<thead>
 												<tr>

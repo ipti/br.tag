@@ -161,7 +161,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- CPF -->
                         <div class="column">
-                            <div class="t-field-text">
+                        <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf', array('class' => 't-field-text__label control-label')); ?>
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br")); ?>
                                 <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
@@ -760,9 +760,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </h3>
                             </div>
                             <div class="column">
-                                <h3>
-                                    Cadastro de Pessoa Física
-                                </h3>
                             </div>
                         </div>
                     </section>
@@ -776,14 +773,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                         <div class="column">
-                            <div class="t-field-text">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf', array('class' => 't-field-text__label control-label')); ?>
-                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br")); ?>
-                                <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                                    <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
-                                </span>
-                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'cpf'); ?>
-                            </div>
+
                         </div>
                     </div>
 
@@ -1452,7 +1442,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="row">
                                 <div class="column">
-                                    <table class="tag-table table-bordered table-striped" aria-describedby="tabela de matriculas">
+                                    <table class="tag-table-primary table-bordered table-striped" aria-describedby="tabela de matriculas">
                                         <thead>
                                             <tr>
                                                 <th style="text-align: center !important;">Escola</th>

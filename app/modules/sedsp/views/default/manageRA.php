@@ -23,7 +23,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                     'dataProvider' => $dataProvider,
                     'enablePagination' => false,
                     'enableSorting' => false,
-                    'itemsCssClass' => 'js-tag-table tag-table table table-condensed
+                    'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed
             table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                         array(
