@@ -3,7 +3,7 @@
 namespace SagresEdu;
 
 use JMS\Serializer\Annotation\XmlList;
-
+use JMS\Serializer\Annotation\XmlElement;
 use JMS\Serializer\Annotation\SerializedName;
 
 /**
@@ -18,24 +18,28 @@ class ProfissionalTType
     /**
      * @var string $cpfProfissional 
      * @SerializedName("edu:cpfProfissional")
+     * @XmlElement(cdata=false)
      */
     private $cpfProfissional = null;
 
     /**
      * @var string $especialidade
      * @SerializedName("edu:especialidade")
+     * @XmlElement(cdata=false)
      */
     private $especialidade = null;
 
     /**
      * @var int $idEscola
      * @SerializedName("edu:idEscola")
+     * @XmlElement(cdata=false)
      */
     private $idEscola = null;
 
     /**
      * @var bool $fundeb
      * @SerializedName("edu:fundeb")
+     * @XmlElement(cdata=false)
      */
     private $fundeb = null;
 

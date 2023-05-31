@@ -4,6 +4,7 @@ namespace SagresEdu;
 
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\XmlElement;
 
 /**
  * Class representing MatriculaTType
@@ -17,6 +18,7 @@ class MatriculaTType
     /**
      * @var string $numero
      * @SerializedName("edu:numero")
+     * @XmlElement(cdata=false)
      */
     private $numero = null;
 
@@ -24,6 +26,7 @@ class MatriculaTType
      * @var \DateTime $dataMatricula
      * @type("DateTime<'Y-m-d'>")
      * @SerializedName("edu:data_matricula")
+     * @XmlElement(cdata=false)
      */
     private $dataMatricula = null;
 
@@ -31,24 +34,28 @@ class MatriculaTType
      * @var \DateTime $dataCancelamento
      * @type("DateTime<'Y-m-d'>")
      * @SerializedName("edu:data_cancelamento")
+     * @XmlElement(cdata=false)
      */
     private $dataCancelamento = null;
 
     /**
      * @var int $numeroFaltas
      * @SerializedName("edu:numero_faltas")
+     * @XmlElement(cdata=false)
      */
     private $numeroFaltas = null;
 
     /**
      * @var bool $aprovado
      * @SerializedName("edu:aprovado")
+     * @XmlElement(cdata=false)
      */
     private $aprovado = null;
 
     /**
      * @var \SagresEdu\AlunoTType $aluno
      * @SerializedName("edu:aluno")
+     * @XmlElement(cdata=false)
      */
     private $aluno = null;
 
