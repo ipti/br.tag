@@ -323,7 +323,7 @@ class SagresConsultModel
                 ->setDuracao(2)
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
                 ->setDisciplina(substr($schedule['disciplineName'], 0, 50))
-                ->setCpfProfessor([$schedule['cpfInstructor']]);
+                ->setCpfProfessor([str_replace([".", "-"], "", $schedule['cpfInstructor'])]);
 
             $scheduleList[] = $scheduleType;
         }
@@ -586,7 +586,7 @@ class SagresConsultModel
         foreach ($professionals as $professional) {
             $professionalType = new ProfissionalTType();
             $professionalType
-                ->setCpfProfissional($professional['cpfProfissional'])
+                ->setCpfProfissional(str_replace([".", "-"], "", $professional['cpfProfissional']))
                 ->setEspecialidade($professional['especialidade'])
                 ->setIdEscola($professional['idEscola'])
                 ->setFundeb($professional['fundeb'])
