@@ -4,6 +4,7 @@ namespace SagresEdu;
 
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\XmlElement;
 
 /**
  * Class representing CardapioTType
@@ -18,24 +19,28 @@ class CardapioTType
      * @var \DateTime $data
      * @Type("DateTime<'Y-m-d'>")
      * @SerializedName("edu:data")
+     * @XmlElement(cdata=false)
      */
     private $data = null;
 
     /**
      * @var int $turno
      * @SerializedName("edu:turno")
+     * @XmlElement(cdata=false)
      */
     private $turno = null;
 
     /**
      * @var string $descricaoMerenda
      * @SerializedName("edu:descricao_merenda")
+     * @XmlElement(cdata=false)
      */
     private $descricaoMerenda = null;
 
     /**
      * @var bool $ajustado
      * @SerializedName("edu:ajustado")
+     * @XmlElement(cdata=false)
      */
     private $ajustado = null;
 

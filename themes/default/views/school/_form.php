@@ -125,10 +125,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->dropDownList($modelSchoolIdentification, 'administrative_dependence', array(null => 'Selecione a dependencia administrativa', 1 => 'Federal', 2 => 'Estadual', 3 => 'Municipal', 4 => 'Privada'), array('class' => 'select-search-off control-input')); ?>
                                 <?php echo $form->error($modelSchoolIdentification, 'administrative_dependence'); ?>
                             </div>
-                            <?php if ($modelSchoolIdentification->logo_file_name !== null) {
-                                echo CHtml::image(Yii::app()->controller->createUrl('school/displayLogo', array('id' => $modelSchoolIdentification->inep_id)), 'logo', array('width' => 40, 'style' => 'margin: -10px 0 15px 145px', 'class' => 'logo-preview'));
-                            }
-                            ?>
                             <div class="control-group hide-responsive">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'act_of_acknowledgement', array('class' => 'control-label')); ?>
                                 <?php echo $form->textArea($modelSchoolIdentification, 'act_of_acknowledgement', array('placeholder' => 'Digite o Ato de Reconhecimento')); ?>
@@ -136,15 +132,14 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="control-group">
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'logo_file_content', array('class' => 'control-label widthfull')); ?>
-                                    
                                     <button class="btn btn-icon glyphicons upload upload-logo-button" type="button">
                                         <i></i>Anexar
                                     </button>
-                                    <span class="uploaded-logo-name"></span>
+                                    <span class="uploaded-logo-name"><?php echo $modelSchoolIdentification->logo_file_name !== null ? 
+                                    $modelSchoolIdentification->logo_file_name . '<a href="'.Yii::app()->controller->createUrl('school/removeLogo', array('id' => $modelSchoolIdentification->inep_id)).'" class="deleteTeachingData" title="Excluir"></a>' : '' ?> </span>
                                     <?php echo $form->fileField($modelSchoolIdentification, 'logo_file_content'); ?>
                                     <?php echo $form->error($modelSchoolIdentification, 'logo_file_content'); ?>
                             </div>
-
                         </div>
                         <div class="span7">
                             <div class="control-group">

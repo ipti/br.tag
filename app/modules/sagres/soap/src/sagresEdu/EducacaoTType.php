@@ -5,19 +5,25 @@ namespace SagresEdu;
 
 use JMS\Serializer\Annotation\XmlList;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\XmlRoot;
+use JMS\Serializer\Annotation\XmlNamespace;
+use JMS\Serializer\Annotation\XmlElement;
+
 
 /**
  * Class representing EducacaoTType
  *
  * 
  * XSD Type: educacao_t
+ * @XmlRoot("educacao")
+ * @XmlNamespace(uri="http://www.tce.se.gov.br/sagres%s/xml/sagresEdu", prefix="edu")
  */
 class EducacaoTType
 {
 
     /**
      * @var \SagresEdu\CabecalhoTType $prestacaoContas
-     * @SerializedName("edu:prestacaoContas")
+     * @SerializedName("edu:PrestacaoContas")
      */
     private $prestacaoContas = null;
 
