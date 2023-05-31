@@ -23,12 +23,17 @@ class AddRACodeToTAG
      * @param int $tag_student_id StudentIdentificantion Id from TAG
      * @return StudentIdentification
      */
-    public function exec($tag_student_id,$racode)
+    public function exec($tag_student_id, $racode)
     {
         // Get Student From TAG database
         $student_tag = $this->studentTAGDataSource->getStudent($tag_student_id);
         $student_tag->gov_id = $racode;
-        $student_tag->update(array('gov_id'));
-        return $student_tag;
+        
+        if($student_tag->update()){
+           return $student_tag;     
+        }
+
+        throw new Exception("Error Processing Request", 1);
+        
     }
 }
