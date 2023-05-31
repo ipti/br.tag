@@ -356,25 +356,52 @@ $this->breadcrumbs = array(
                         </div>
                     </button>
                 </a>
-
-                <?php if(Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
-                    <a href="<?php echo Yii::app()->createUrl('reports/CnsSchools') ?>" target="_blank" rel="noopener">
-                        <button type="button" class="report-box-container">
-                            <div class="pull-left" style="margin-right: 20px;">
-                                <span class="t-icon-teachers-students t-reports_icons"></span>
-                            </div>
-                            <div class="pull-left">
-                                <span class="title">Relatório CNS de todas as escolas</span><br>
-                                <span class="subtitle">Listagem de Alunos com CNS de todas as escolas</span>
-                            </div>
-                        </button>
-                    </a>
-                <?php } ?>
-
             </div>
+            
+            <?php if(Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
+            <div class="container-box">
+                <p>Administrador</p>
+
+                <button type="button" class="report-box-container" data-toggle="modal" data-target="#loading-warning" target="_blank">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <span class="t-icon-teachers-students t-reports_icons"></span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">Relatório CNS de todas as escolas</span><br>
+                        <span class="subtitle">Listagem de Alunos com CNS de todas as escolas</span>
+                    </div>
+                </button>
+            </div>
+            <?php } ?>
         </div>
     </div>
     <!-- Modais -->
+    <div class="row">
+        <div class="modal fade modal-content" id="loading-warning" tabindex="-1" role="dialog" aria-labelledby="Generate Another Timesheet">
+            <div class="modal-dialog" role="document">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">ATENÇÃO <span class="t-icon-info"></span></h4>
+                </div>
+                <form method="post">
+                    <div class="modal-body">
+                        <div class="row-fluid">
+                            Deseja gerar o relatório de CNS de todas as escolas? <b>Isso pode demorar um pouco!</b>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <a href="<?php echo Yii::app()->createUrl('reports/CnsSchools') ?>" target="_blank" rel="noopener">
+                                <button type="button" class="btn btn-primary">Gerar</button>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="modal fade modal-content" id="reportFamilyBag" tabindex="-1" role="dialog">
             <div class="modal-header">
