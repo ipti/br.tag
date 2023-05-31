@@ -243,12 +243,18 @@ class ClassesController extends Controller
             $criteria->params = array(':school_year' => Yii::app()->user->year, ':school_inep_fk' => Yii::app()->user->school, ':users_fk' => Yii::app()->user->loginInfos->id);
 
             $classrooms = Classroom::model()->findAll($criteria);
+            $this->render('frequencyInstructor', array(
+                'classrooms' => $classrooms
+            ));
         } else {
             $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
+            $this->render('frequency', array(
+                'classrooms' => $classrooms
+            ));
         }
-        $this->render('frequency', array(
-            'classrooms' => $classrooms
-        ));
+        // $this->render('frequency', array(
+        //     'classrooms' => $classrooms
+        // ));
     }
 
     /**
