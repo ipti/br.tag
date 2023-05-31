@@ -97,7 +97,7 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                 <?php
                 $this->widget('zii.widgets.grid.CGridView', [
                     'id' => 'matrizgridview', 'dataProvider' => $dataProvider, 'ajaxUpdate' => false,
-                    'itemsCssClass' => 'js-tag-table curricularmatrix-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                    'itemsCssClass' => 'js-tag-table curricularmatrix-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'enablePagination' => false, 'columns' => [
                         [
                             'header' => Yii::t('curricularMatrixModule.index', 'Stage'),
