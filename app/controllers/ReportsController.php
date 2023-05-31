@@ -58,10 +58,12 @@ class ReportsController extends Controller
         $result =  Yii::app()->db->createCommand($sql)
         ->bindParam(":classroom_id", $classroom_id)
         ->queryAll();
-        $title = $result[0]['classroom_name'];
+        $title = "Relatório CNS por Turma";
+        $header = $result[0]['classroom_name'];
         $this->render('CnsReport', array(
             "report" => $result,
-            "title" => $title
+            "title" => $title,
+            "header" => $header
         ));
     }
 
@@ -75,24 +77,31 @@ class ReportsController extends Controller
                 JOIN student_documents_and_address sdaa ON si.inep_id = sdaa.student_fk
                 GROUP BY name;";
         $result =  Yii::app()->db->createCommand($sql)->queryAll();
+        $title = "Relatório CNS todas as Escolas";
         $this->render('CnsReport', array(
-            "report" => $result
+            "report" => $result,
+            "title" => $title
         ));
     }
 
     public function actionCnsPerSchool()
     {
         $sql = "SELECT 
-                si.name, si.birthday, sdaa.cns,
+                sch.name AS school_name, si.name, si.birthday, sdaa.cns,
                 si.responsable_name, si.responsable_telephone
-                FROM student_enrollment se 
+                FROM school_identification sch
+                JOIN student_enrollment se ON se.school_inep_id_fk = sch.inep_id
                 JOIN student_identification si ON se.student_fk = si.id
                 JOIN student_documents_and_address sdaa ON si.inep_id = sdaa.student_fk
-                WHERE se.school_inep_id_fk = :school_id
+                WHERE sch.inep_id = :school_id
                 GROUP BY name;";
         $result =  Yii::app()->db->createCommand($sql)->bindParam(":school_id", Yii::app()->user->school)->queryAll();
+        $title = "Relatório CNS por Escola";
+        $header = $result[0]['school_name'];
         $this->render('CnsReport', array(
-            "report" => $result
+            "report" => $result,
+            "title" => $title,
+            "header" => $header
         ));
     }
 
