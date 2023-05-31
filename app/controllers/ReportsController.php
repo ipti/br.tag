@@ -58,14 +58,12 @@ class ReportsController extends Controller
 
         $result =  Yii::app()->db->createCommand($sql)
         ->bindParam(":classroom_id", $classroom_id)
-        ->bindParam(":year", Yii::app()->user->year)
         ->queryAll();
 
         $title = "Relatório CNS por Turma";
         $header = $result[0]['classroom_name'];
         
-        $this->render('
-        ', array(
+        $this->render('CnsReport', array(
             "report" => $result,
             "title" => $title,
             "header" => $header
