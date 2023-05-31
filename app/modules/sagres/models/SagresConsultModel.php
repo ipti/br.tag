@@ -223,11 +223,9 @@ class SagresConsultModel
                 ->setTurno($this->convertTurn($turma['classroomTurn']))
                 ->setSerie($this->getSeries($classId))
                 ->setMatricula($this->getEnrollments($classId, $referenceYear, $month, $finalClass))
-                ->setHorario($this->getSchedules($classId, $month));
-
-            if((bool)$finalClass) {
-                $classType->setFinalTurma((bool)$finalClass);
-            }
+                ->setHorario($this->getSchedules($classId, $month))
+                ->setFinalTurma(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN));
+            
 
             if (!is_null($classType->getHorario()) && !is_null($classType->getMatricula())) {
                 $classList[] = $classType;
