@@ -49,17 +49,21 @@ class ReportsController extends Controller
         $sql = "SELECT 
                 si.name, si.birthday, sdaa.cns, c.name AS classroom_name,
                 si.responsable_name, si.responsable_telephone
-                FROM student_enrollment se 
+                FROM student_enrollment se
                 JOIN classroom c ON se.classroom_fk = c.id
                 JOIN student_identification si ON se.student_fk = si.id
                 JOIN student_documents_and_address sdaa ON si.inep_id = sdaa.student_fk 
-                WHERE c.id = :classroom_id
+                WHERE c.id = :classroom_id AND c.school_year = :year
                 GROUP BY name;";
+                
         $result =  Yii::app()->db->createCommand($sql)
         ->bindParam(":classroom_id", $classroom_id)
+        ->bindParam(":year", Yii::app()->user->year)
         ->queryAll();
+
         $title = "Relatório CNS por Turma";
         $header = $result[0]['classroom_name'];
+        
         $this->render('CnsReport', array(
             "report" => $result,
             "title" => $title,
@@ -73,10 +77,16 @@ class ReportsController extends Controller
                 si.name, si.birthday, sdaa.cns,
                 si.responsable_name, si.responsable_telephone
                 FROM student_enrollment se 
+                JOIN classroom c ON se.classroom_fk = c.id
                 JOIN student_identification si ON se.student_fk = si.id
                 JOIN student_documents_and_address sdaa ON si.inep_id = sdaa.student_fk
+                WHERE c.school_year = :year
                 GROUP BY name;";
-        $result =  Yii::app()->db->createCommand($sql)->queryAll();
+
+        $result =  Yii::app()->db->createCommand($sql)
+        ->bindParam(":year", Yii::app()->user->year)
+        ->queryAll();
+
         $title = "Relatório CNS todas as Escolas";
         $this->render('CnsReport', array(
             "report" => $result,
@@ -91,13 +101,20 @@ class ReportsController extends Controller
                 si.responsable_name, si.responsable_telephone
                 FROM school_identification sch
                 JOIN student_enrollment se ON se.school_inep_id_fk = sch.inep_id
+                JOIN classroom c ON se.classroom_fk = c.id
                 JOIN student_identification si ON se.student_fk = si.id
                 JOIN student_documents_and_address sdaa ON si.inep_id = sdaa.student_fk
-                WHERE sch.inep_id = :school_id
+                WHERE sch.inep_id = :school_id AND c.school_year = :year
                 GROUP BY name;";
-        $result =  Yii::app()->db->createCommand($sql)->bindParam(":school_id", Yii::app()->user->school)->queryAll();
+
+        $result =  Yii::app()->db->createCommand($sql)
+        ->bindParam(":school_id", Yii::app()->user->school)
+        ->bindParam(":year", Yii::app()->user->year)
+        ->queryAll();
+
         $title = "Relatório CNS por Escola";
         $header = $result[0]['school_name'];
+
         $this->render('CnsReport', array(
             "report" => $result,
             "title" => $title,
