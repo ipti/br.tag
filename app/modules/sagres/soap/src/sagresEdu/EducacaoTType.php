@@ -15,8 +15,8 @@ use JMS\Serializer\Annotation\XmlElement;
  *
  * 
  * XSD Type: educacao_t
- * @XmlRoot("educacao")
- * @XmlNamespace(uri="http://www.tce.se.gov.br/sagres%s/xml/sagresEdu", prefix="edu")
+ * @XmlRoot("edu:educacao")
+ * @XmlNamespace(uri="http://www.tce.se.gov.br/sagres2023/xml/sagresEdu", prefix="edu")
  */
 class EducacaoTType
 {
