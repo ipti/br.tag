@@ -238,118 +238,6 @@ class SagresConsultModel
     }
 
     /**
-     * Sets a new MatriculaTType
-     *
-     * @return MatriculaTType[]
-     */
-    public function getRecentEnrollments($classId, $finalClass, $year)
-    {
-        $enrollmentList = [];
-
-        $query = "SELECT
-                        se.id as numero, 
-                        se.student_fk,
-                        se.create_date AS data_matricula, 
-                        se.date_cancellation_enrollment AS data_cancelamento,
-                        se.status AS situation
-                FROM 
-                        student_enrollment se 
-                WHERE 
-                        se.classroom_fk  =  :classId 
-                ORDER BY 
-                        se.create_date DESC";
-
-        $command = Yii::app()->db->createCommand($query);
-        $command->bindValues([
-            ':classId' => $classId
-        ]);
-
-        $enrollments = $command->queryAll();
-
-        foreach ($enrollments as $enrollment) {
-            $enrollmentType = new MatriculaTType;
-            $enrollmentType
-                ->setNumero($enrollment['numero'])
-                ->setDataMatricula(new DateTime($enrollment['data_matricula']))
-                ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']));
-
-                if(filter_var($finalClass,  FILTER_VALIDATE_BOOLEAN)){
-                    $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
-                }
-
-                $enrollmentType->setAluno($this->getStudents($enrollment['student_fk']), $year);
-
-            $enrollmentList[] = $enrollmentType;
-        }
-
-        return $enrollmentList;
-    }
-
-
-    /**
-     * Summary of SerieTType
-     * @return HorarioTType[] 
-     */
-    public function getRecentSchedules($classId)
-    {
-        $scheduleList = [];
-
-        $query = "SELECT DISTINCT 
-                    s.schedule AS schedule,
-                    s.week_day AS weekDay, 
-                    ed.name AS disciplineName,
-                    c.turn AS turn,
-                    idaa.cpf AS cpfInstructor
-                FROM instructor_teaching_data itd 
-                    JOIN teaching_matrixes tm on itd.id = tm.teaching_data_fk
-                    JOIN curricular_matrix cm on tm.curricular_matrix_fk = cm.id 
-                    JOIN schedule s on s.discipline_fk = cm.discipline_fk and s.classroom_fk = itd.classroom_id_fk  
-                    JOIN instructor_documents_and_address idaa on itd.instructor_fk = idaa.id 
-                    JOIN edcenso_discipline ed ON ed.id = cm.discipline_fk 
-                JOIN classroom c on c.id = itd.classroom_id_fk 
-                WHERE 
-                    c.id = :classId
-                ORDER BY 
-                    c.create_date DESC";
-
-        $params = [
-            ':classId' => $classId
-        ];
-
-
-        $schedules = Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
-
-        foreach ($schedules as $schedule) {
-            $scheduleType = new HorarioTType;
-
-            $query1 = "SELECT distinct 
-                        ed.name AS disciplineName, ed.id as discipline_fk, cm.credits AS credits
-                    FROM schedule s 
-                        join classroom c on s.classroom_fk = s.classroom_fk
-                        join edcenso_discipline ed on ed.id  = s.discipline_fk 
-                        join curricular_matrix cm on cm.stage_fk = c.edcenso_stage_vs_modality_fk and s.discipline_fk = cm.discipline_fk 
-                    where c.id = " . $classId . " and ed.name = '" . $schedule['disciplineName'] . "'";
-
-            $duration = Yii::app()->db->createCommand($query1)->queryRow();
-
-            $cpf_instructor = isset($schedule['cpfInstructor']) ? $schedule['cpfInstructor'] : "";
-
-            $scheduleType
-                ->setDiaSemana($schedule['weekDay'])
-                ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
-                ->setDuracao((int) isset($duration['duration']) ? $duration['duration'] : 2)
-                ->setDisciplina($schedule['disciplineName'])
-                ->setCpfProfessor([str_replace([".", "-"], "", $cpf_instructor)]);
-
-            if (isset($cpf_instructor)) {
-                $scheduleList[] = $scheduleType;
-            }
-        }
-
-        return $scheduleList;
-    }
-
-    /**
      * Summary of SerieTType
      * @return SerieTType[] 
      */
@@ -751,7 +639,7 @@ class SagresConsultModel
                 ->setDataMatricula(new DateTime($enrollment['data_matricula']))
                 // ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
                 ->setNumeroFaltas((int) $this->returnNumberFaults($enrollment['student_fk'], $referenceYear))
-                ->setAluno($this->getStudents($enrollment['student_fk']), $referenceYear);
+                ;
            
             if(filter_var($finalClass,  FILTER_VALIDATE_BOOLEAN)){
                 $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
