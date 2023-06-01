@@ -383,7 +383,7 @@ $this->breadcrumbs = array(
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">ATENÇÃO <span class="t-icon-info"></span></h4>
+                    <h4 class="modal-title" id="myModalLabel">ATENÇÃO <span class="t-info_positive"></span></h4>
                 </div>
                 <form method="post">
                     <div class="modal-body">
