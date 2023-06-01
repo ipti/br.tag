@@ -1,5 +1,9 @@
 # Atualizações
 
+## [Versão 3.24.57]
+- Alterado o estilo da tela de aulas ministradas
+- Criação de variações da classe table
+
 ## [Versão 3.23.57]
 - O campo duplicado na matrícula de estudante foi removido
 - Agora não é possível cadastrar CPF inválidos no formulário de profissionais
