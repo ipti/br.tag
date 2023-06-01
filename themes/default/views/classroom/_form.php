@@ -143,7 +143,6 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                     <div>
                         <h3>Horário de funcionamento</h3>
-                        <span class="t-hospital-user"></span>
                     </div>
                     <div class="row">
                         <div class="column">
