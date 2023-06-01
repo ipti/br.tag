@@ -9,12 +9,9 @@ $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization.js?v=1.0', CClientScript::POS_END);
-$cs->registerCssFile($themeUrl . '/css/template2.css');
-$cs->registerCssFile($baseUrl . 'sass/css/main.css');
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes'));
 
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-
 ?>
 <div class="main">
     <?php
@@ -31,33 +28,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <h5> Marcar apenas faltas.</h5>
         </div>
     </div>
-
-    <table class="table table-bordered table-striped visible-print">
-        <tr>
-            <th>Escola:</th>
-            <td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>
-        <tr>
-        <tr>
-            <th>Estado:</th>
-            <td colspan="2"><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
-            <th>Municipio:</th>
-            <td colspan="2"><?php echo $school->edcensoCityFk->name ?></td>
-            <th>Endereço:</th>
-            <td colspan="2"><?php echo $school->address ?></td>
-        <tr>
-        <tr>
-            <th>Localização:</th>
-            <td colspan="2"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
-            <th>Dependência Administrativa:</th>
-            <td colspan="4"><?php
-                            $ad = $school->administrative_dependence;
-                            echo ($ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
-                                "PRIVADA")));
-                            ?></td>
-        <tr>
-    </table>
-    <br>
-
     <div class="tag-inner">
 
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
@@ -122,8 +92,19 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
         </div>
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>
-        <div id="frequency-container" class="t-tabs table-responsive">
-
+        <div id="frequency-container" class="t-tabs">
+            <div>
+                <div class="table">
+                    <div class="column">Nome</div>
+                    <div class="column"> 09/10</div>
+                </div>
+                <div class="row">
+                    <div class="column">Fulaninho da silva</div>
+                    <div class="column">
+                        <input type="checkbox" class="t-field-checkbox">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <?php $this->endWidget(); ?>
