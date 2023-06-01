@@ -60,7 +60,7 @@ class ReportsController extends Controller
         ->bindParam(":classroom_id", $classroom_id)
         ->queryAll();
 
-        $title = "Relatório CNS por Turma";
+        $title = "Relatório CNS da Turma";
         $header = $result[0]['classroom_name'];
         
         $this->render('CnsReport', array(
@@ -89,7 +89,7 @@ class ReportsController extends Controller
         ->queryAll();
         $allSchools = true;
         $countTotal = true;
-        $title = "Relatório CNS todas as Escolas";
+        $title = "Relatório CNS Escolas";
         $this->render('CnsReport', array(
             "report" => $result,
             "title" => $title,
@@ -117,7 +117,7 @@ class ReportsController extends Controller
         ->queryAll();
 
         $countTotal = true;
-        $title = "Relatório CNS por Escola";
+        $title = "Relatório CNS da Escola";
         $header = $result[0]['school_name'];
 
         $this->render('CnsReport', array(
