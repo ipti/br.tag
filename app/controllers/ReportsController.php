@@ -22,7 +22,8 @@ class ReportsController extends Controller
                     'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
                     'StudentInstructorNumbersRelationReport', 'StudentPendingDocument',
                     'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood',
-                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 'EvaluationFollowUpStudentsReport'),
+                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 
+                    'EvaluationFollowUpStudentsReport', 'CnsPerClassroomReport', 'CnsSchools', 'CnsPerSchool'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -40,6 +41,91 @@ class ReportsController extends Controller
         $this->year = Yii::app()->user->year;
 
         return true;
+    }
+
+    public function actionCnsPerClassroomReport()
+    {
+        $classroom_id = $_POST['cns_classroom_id'];
+        $sql = "SELECT 
+                si.name, si.birthday, sdaa.cns, c.name AS classroom_name,
+                si.responsable_name, si.responsable_telephone
+                FROM student_enrollment se
+                JOIN classroom c ON se.classroom_fk = c.id
+                JOIN student_identification si ON se.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON si.inep_id = sdaa.student_fk 
+                WHERE c.id = :classroom_id
+                GROUP BY name;";
+
+        $result =  Yii::app()->db->createCommand($sql)
+        ->bindParam(":classroom_id", $classroom_id)
+        ->queryAll();
+
+        $title = "RELATÓRIO CNS DA TURMA";
+        $header = $result[0]['classroom_name'];
+        
+        $this->render('CnsReport', array(
+            "report" => $result,
+            "title" => $title,
+            "header" => $header
+        ));
+    }
+
+    public function actionCnsSchools()
+    {
+        $sql = "SELECT 
+        si2.name AS school_name, si.name, si.birthday, sdaa.cns,
+        si.responsable_name, si.responsable_telephone
+        FROM student_enrollment se 
+        JOIN classroom c ON se.classroom_fk = c.id
+        JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
+        JOIN student_identification si ON se.student_fk = si.id
+        JOIN student_documents_and_address sdaa ON si.inep_id = sdaa.student_fk
+        WHERE c.school_year = :year
+        GROUP BY name
+        ORDER BY si2.inep_id;";
+
+        $result =  Yii::app()->db->createCommand($sql)
+        ->bindParam(":year", Yii::app()->user->year)
+        ->queryAll();
+        $allSchools = true;
+        $countTotal = true;
+        $title = "RELATÓRIO CNS ESCOLAS";
+        $this->render('CnsReport', array(
+            "report" => $result,
+            "title" => $title,
+            "allSchools" => $allSchools,
+            "countTotal" => $countTotal
+        ));
+    }
+
+    public function actionCnsPerSchool()
+    {
+        $sql = "SELECT 
+                sch.name AS school_name, si.name, si.birthday, sdaa.cns,
+                si.responsable_name, si.responsable_telephone
+                FROM school_identification sch
+                JOIN student_enrollment se ON se.school_inep_id_fk = sch.inep_id
+                JOIN classroom c ON se.classroom_fk = c.id
+                JOIN student_identification si ON se.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON si.inep_id = sdaa.student_fk
+                WHERE sch.inep_id = :school_id AND c.school_year = :year
+                GROUP BY name;";
+
+        $result =  Yii::app()->db->createCommand($sql)
+        ->bindParam(":school_id", Yii::app()->user->school)
+        ->bindParam(":year", Yii::app()->user->year)
+        ->queryAll();
+
+        $countTotal = true;
+        $title = "RELATÓRIO CNS DA ESCOLA";
+        $header = $result[0]['school_name'];
+
+        $this->render('CnsReport', array(
+            "report" => $result,
+            "title" => $title,
+            "header" => $header,
+            "countTotal" => $countTotal
+        ));
     }
 
     public function actionQuarterlyReport()

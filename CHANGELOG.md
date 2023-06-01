@@ -1,5 +1,10 @@
 # Atualizações
 
+## [Versão 3.25.59]
+- Relatório CNS por Turma
+- Relatório CNS da Escola
+- Relatório CNS de Todas as Escolas (somente para administrador)
+
 ## [Versão 3.24.59]
 - Um bug que fazia gerar RA não funcionar corretamente foi corrigido
 

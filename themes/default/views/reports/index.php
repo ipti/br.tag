@@ -165,7 +165,6 @@ $this->breadcrumbs = array(
                 </a>
 
                 <a href="<?php echo Yii::app()->createUrl('reports/electronicdiary') ?>" target="_blank" rel="noopener">
-
                     <button type="button" class="report-box-container" style="padding-left: 25px;">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-book t-reports_icons"></span>
@@ -176,6 +175,16 @@ $this->breadcrumbs = array(
                         </div>
                     </button>
                 </a>
+
+                <button type="button" class="report-box-container" data-toggle="modal" data-target="#cns-per-classroom" target="_blank">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <span class="t-medical t-reports_icons"></span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">Relatório CNS por Turma</span><br>
+                        <span class="subtitle">Listagem de CNS dos alunos por Turma</span>
+                    </div>
+                </button>
 
                 <?php if (INSTANCE == "BUZIOS" || INSTANCE == "TREINAMENTO" || INSTANCE == "DEMO" || INSTANCE == "LOCALHOST") { ?>
                     <button type="button" class="report-box-container" data-toggle="modal" data-target="#quarterly-report" target="_blank">
@@ -336,10 +345,63 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
+                <a href="<?php echo Yii::app()->createUrl('reports/CnsPerSchool') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">    
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-doctor t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Relatório CNS da escola</span><br>
+                            <span class="subtitle">Listagem de CNS dos alunos da escola atual</span>
+                        </div>
+                    </button>
+                </a>
             </div>
+            
+            <?php if(Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
+            <div class="container-box">
+                <p>Administrador</p>
+
+                <button type="button" class="report-box-container" data-toggle="modal" data-target="#loading-warning" target="_blank">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <span class="t-hospital-user t-reports_icons"></span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">Relatório CNS de todas as escolas</span><br>
+                        <span class="subtitle">Listagem de CNS dos alunos de todas as escolas</span>
+                    </div>
+                </button>
+            </div>
+            <?php } ?>
         </div>
     </div>
     <!-- Modais -->
+    <div class="row">
+        <div class="modal fade modal-content" id="loading-warning" tabindex="-1" role="dialog" aria-labelledby="Generate Another Timesheet">
+            <div class="modal-dialog" role="document">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">ATENÇÃO <span class="t-info_positive"></span></h4>
+                </div>
+                <form method="post">
+                    <div class="modal-body">
+                        <div class="row-fluid">
+                            Deseja gerar o relatório de CNS dos alunos de todas as escolas? <b>Isso pode demorar um pouco!</b>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <a href="<?php echo Yii::app()->createUrl('reports/CnsSchools') ?>" target="_blank" rel="noopener" style="margin-left: 5px;">
+                                <button type="button" class="btn btn-primary">Gerar</button>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="modal fade modal-content" id="reportFamilyBag" tabindex="-1" role="dialog">
             <div class="modal-header">
@@ -401,6 +463,38 @@ $this->breadcrumbs = array(
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
                         <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('reports/studentbyclassroomreport'); ?>" type="button" value="Gerar" id="buildReport" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
+                    </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="modal fade modal-content" id="cns-per-classroom" tabindex="-1" role="dialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
+            </div>
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/CnsPerClassroomReport'); ?>" method="post" target="_blank">
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class=" span12">
+                            <?php
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
+                            ?>
+                            <select name="cns_classroom_id" id="cns_classroom_id" placeholder="Selecione a turma" style="width:100%" required>
+                                <?php
+                                echo "<option value='' selected>Selecione a turma</option>";
+                                foreach ($classrooms as $classroom) {
+                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                        <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
                     </div>
             </form>
         </div>
