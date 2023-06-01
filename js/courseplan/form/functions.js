@@ -210,7 +210,7 @@ function buildAbilityStructureSelect(data) {
     $.each(data.options, function () {
         div += '<option value="' + this.id + '">' + this.description + '</option>';
     });
-    div += "</select><i class='loading-next-structure fa fa-spin fa-spinner'></i></div>";
+    div += "</select></div>";
     return div;
 }
 
