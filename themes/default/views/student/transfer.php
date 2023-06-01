@@ -24,7 +24,7 @@
     <div class="row">
         <div class="column">
              
-            <table class="tag-table table-bordered table-striped" aria-describedby="tabela de matriculas">
+            <table class="tag-table-primary table-bordered table-striped" aria-describedby="tabela de matriculas">
                 <thead>
                     <tr>
                         <th style="text-align: center">Aluno</th>

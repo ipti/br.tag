@@ -66,7 +66,7 @@
 											<?php echo $form->labelEx($modelProfessional, 'cpf_professional', array('class' => 'control-label')); ?>
 										</div>
 										<div class="controls">
-											<?php echo $form->textField($modelProfessional, 'cpf_professional', array('size' => 60, 'maxlength' => 100)); ?>
+											<?php echo $form->textField($modelProfessional, 'cpf_professional', array('size' => 60, 'maxlength' => 100, 'class' => 'cpf-input')); ?>
 											<?php echo $form->error($modelProfessional, 'cpf_professional'); ?>
 										</div>
 									</div>
@@ -123,7 +123,7 @@
 										<h3>
 											Atendimentos
 										</h3>
-										<table class="tag-table table-bordered table-striped"
+										<table class="tag-table-primary table-bordered table-striped"
 											aria-describedby="tabela de atendimentos">
 											<thead>
 												<tr>
@@ -154,5 +154,84 @@
 			</div>
 		</div>
 	</div>
-
 	<?php $this->endWidget(); ?>
+</div>
+
+<script type="text/javascript">
+    // Aplica a máscara e validação do CPF
+    $(document).ready(function(){
+        $('.cpf-input').mask('999.999.999-99', {placeholder: '___.___.___-__'});
+        $('.cpf-input').blur(function(){
+            var cpf = $(this).val().replace(/[^0-9]+/g,'');
+            
+            if(cpf.length == 11){
+                var v = [];
+                var sum = 0;
+                
+                // Validar CPF
+                for (var i = 1; i <= 9; i++) {
+                    sum += parseInt(cpf.substring(i-1, i)) * (11 - i);
+                }
+                
+                var remainder = (sum * 10) % 11;
+                
+                if ((remainder === 10) || (remainder === 11)) {
+                    remainder = 0;
+                }
+                
+                if (remainder !== parseInt(cpf.substring(9, 10))) {
+                    v.push(false);
+                }
+                
+                sum = 0;
+                
+                for (var i = 1; i <= 10; i++) {
+                    sum += parseInt(cpf.substring(i-1, i)) * (12 - i);
+                }
+                
+                remainder = (sum * 10) % 11;
+                
+                if ((remainder === 10) || (remainder === 11)) {
+                    remainder = 0;
+                }
+                
+                if (remainder !== parseInt(cpf.substring(10, 11))) {
+                    v.push(false);
+                }
+                
+                if(v.length === 0){
+                    // CPF válido
+					$(".save-professional").removeAttr('disabled');
+					$(this).css('border', '1px solid #ccc');
+					$(this).css('color', 'black');
+                    $(this).removeClass('error');
+                    $(this).next('.error-message').remove();
+                }else{
+                    // CPF inválido
+					$(".save-professional").attr('disabled', 'disabled');
+					$(this).css('border', '1px solid red');
+					$(this).css('color', 'red');
+                    $(this).next('.error-message').remove();
+                    $(this).after('<div class="error-message">CPF inválido</div>');
+                }
+            }else{
+                // CPF inválido
+				$(".save-professional").attr('disabled', 'disabled');
+				$(this).css('border', '1px solid red');
+				$(this).css('color', 'red');
+                $(this).next('.error-message').remove();
+                $(this).after('<div class="error-message">CPF inválido</div>');
+            }
+        });
+    });
+</script>
+
+<style>
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+</style>

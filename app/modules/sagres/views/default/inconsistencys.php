@@ -17,7 +17,7 @@
             <div class="grid-view">
                 <table id="student-identification-table"
                     class="display js-tag-table student-table 
-                    tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs" style="width:100%"
+                    tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs" style="width:100%"
                     aria-label="students table">
                     <thead>
                         <tr>

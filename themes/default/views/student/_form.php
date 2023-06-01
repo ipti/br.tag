@@ -161,7 +161,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- CPF -->
                         <div class="column">
-                            <div class="t-field-text">
+                        <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf', array('class' => 't-field-text__label control-label')); ?>
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br")); ?>
                                 <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
@@ -760,9 +760,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </h3>
                             </div>
                             <div class="column">
-                                <h3>
-                                    Cadastro de Pessoa Física
-                                </h3>
                             </div>
                         </div>
                     </section>
@@ -776,14 +773,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                         <div class="column">
-                            <div class="t-field-text">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf', array('class' => 't-field-text__label control-label')); ?>
-                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br")); ?>
-                                <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                                    <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
-                                </span>
-                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'cpf'); ?>
-                            </div>
+
                         </div>
                     </div>
 
@@ -1155,35 +1145,6 @@ $form = $this->beginWidget('CActiveForm', array(
                         <!-- Situação na série/etapa atual -->
                         <div class="column">
                             <div class="control-group js-hide-not-required">
-                                <?php echo $form->labelEx($modelEnrollment, 'current_stage_situation', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->DropDownList(
-                                    $modelEnrollment,
-                                    'current_stage_situation',
-                                    array(
-                                        null => "Selecione",
-                                        "0" => "Primeira matrícula no curso",
-                                        "1" => "Promovido na série anterior do mesmo curso",
-                                        "2" => "Repetente"
-                                    ),
-                                    array('class' => 'select-search-off control-input t-field-select__input')
-                                ); ?>
-                                <?php echo $form->error($modelEnrollment, 'current_stage_situation'); ?>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Escolarização em outro espaço e Situação no ano anterior -->
-                    <div class="row new-enrollment-form" style="display: none;">
-                        <!-- Escolarização em outro espaço -->
-                        <div class="column">
-                            <div class="control-group js-hide-not-required">
-                                <?php echo $form->labelEx($modelEnrollment, 'another_scholarization_place', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->DropDownList($modelEnrollment, 'another_scholarization_place', array("1" => "Não recebe", "2" => "Em hospital", "3" => "Em domicílio"), array('class' => 'select-search-on control-input t-field-select__input')); ?>
-                                <?php echo $form->error($modelEnrollment, 'another_scholarization_place'); ?>
-                            </div>
-                        </div>
-                        <!-- Situação no ano anterior -->
-                        <div class="column">
-                            <div class="control-group js-hide-not-required">
                                 <?php echo $form->labelEx($modelEnrollment, 'previous_stage_situation', array('class' => 'control-label t-field-text__label')); ?>
                                 <?php echo $form->DropDownList(
                                     $modelEnrollment,
@@ -1201,6 +1162,17 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                                 <?php echo $form->error($modelEnrollment, 'previous_stage_situation'); ?>
                             </div>
+                        </div>
+                    </div>
+                    <!-- Escolarização em outro espaço e Situação no ano anterior -->
+                    <div class="row new-enrollment-form" style="display: none;">
+                        <!-- Escolarização em outro espaço -->
+                        <div class="column">
+
+                        </div>
+                        <!-- Situação no ano anterior -->
+                        <div class="column">
+
                         </div>
                     </div>
                     <!-- Titulo -->
@@ -1263,7 +1235,11 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                         <div class="column">
-
+                            <div class="control-group js-hide-not-required">
+                                <?php echo $form->labelEx($modelEnrollment, 'another_scholarization_place', array('class' => 'control-label t-field-text__label')); ?>
+                                <?php echo $form->DropDownList($modelEnrollment, 'another_scholarization_place', array("1" => "Não recebe", "2" => "Em hospital", "3" => "Em domicílio"), array('class' => 'select-search-on control-input t-field-select__input')); ?>
+                                <?php echo $form->error($modelEnrollment, 'another_scholarization_place'); ?>
+                            </div>
                         </div>
                     </div>
                     <!-- Titulo-->
@@ -1466,7 +1442,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="row">
                                 <div class="column">
-                                    <table class="tag-table table-bordered table-striped" aria-describedby="tabela de matriculas">
+                                    <table class="tag-table-primary table-bordered table-striped" aria-describedby="tabela de matriculas">
                                         <thead>
                                             <tr>
                                                 <th style="text-align: center !important;">Escola</th>
