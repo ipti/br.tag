@@ -51,4 +51,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         vertical-align: middle !important;
         text-align: center !important;
     }
+
+    @media print {
+        table {
+            page-break-inside: auto;
+        }
+    }
+
 </style>
