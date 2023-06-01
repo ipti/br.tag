@@ -5,25 +5,36 @@ use Yii;
 class SagresValidations
 {
 
-    public function validator($schools, $professionals, $finalClass)
+    public function validator($education, $finalClass)
     {
         $query = "delete from inconsistency_sagres";
         Yii::app()->db->createCommand($query)->execute();
 
+        $managementUnit = $education->getPrestacaoContas();
+        $schools = $education->getEscola();
+        $professionals = $education->getProfissional();
+
         $inconsistencyList = [];
+        $inconsistencyList = array_merge($inconsistencyList, $this->validatorManagementUnit($managementUnit));
 
         foreach ($schools as $school) {
-
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorSchoolDirector($school));
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorMenu($school));
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorClass($school, $finalClass));
-            $inconsistencyList = array_merge($inconsistencyList, $this->validatorProfessionals($professionals, $school));
         }
+
+        $inconsistencyList = array_merge($inconsistencyList, $this->validatorProfessionals($professionals));
+        
 
         return $inconsistencyList;
     }
 
-    public function validatorProfessionals($professionals, $school)
+    public function validatorManagementUnit($managementUnit)
+    {
+        
+    }
+
+    public function validatorProfessionals($professionals)
     {
         $inconsistencies = [];
 
@@ -31,32 +42,31 @@ class SagresValidations
             if (!$this->validaCPF($professional->getCpfProfissional())) {
                 $inconsistencies[] = [
                     "enrollment" => 'PROFESSIONAL',
-                    "school" => $school->getIdEscola(),
+                    "school" => $professional->getIdEscola(),
                     "description" => 'CPF INVÁLIDO: ' . $professional->getCpfProfissional(),
                     "action" => 'INFORMAR UM CPF VÁLIDO'
                 ];
             }
-
-            $inconsistencies = array_merge($inconsistencies,$this->validatorAttendance($professional, $school));
+            $inconsistencies = array_merge($inconsistencies,$this->validatorAttendance($professional));
         }
 
         return array_unique($inconsistencies);
     }
 
-    public function validatorAttendance($professional, $school)
+    public function validatorAttendance($professional)
     {
         $inconsistencies = [];
-        $professionals = $professional->getAtendimento();
+        $attendances = $professional->getAtendimento();
 
-        foreach ($professionals as $professional) {       
-            $dateOfAttendance = intval($professional->getData()->format("Y"));
+        foreach ($attendances as $attendance) {       
+            $dateOfAttendance = intval($attendance->getData()->format("Y"));
             $currentDate = date('Y');
             
             if($dateOfAttendance <= ($currentDate - 3)){
                 $inconsistencies[] = [
                     "enrollment" => 'ATENDIMENTO',
-                    "school" => $school->getIdEscola(),
-                    "description" => 'ANO DO ATENDIMENTO: ' . $professional->getData()->format("d/m/Y"). ' MENOR QUE: ' . ($currentDate - 3),
+                    "school" => $professional->getIdEscola(),
+                    "description" => 'ANO DO ATENDIMENTO: ' . $attendance->getData()->format("d/m/Y"). ' MENOR QUE: ' . ($currentDate - 3),
                     "action" => 'INFORMAR UM ANO PARA O ATENDIMENTO MAIOR QUE: ' . ($currentDate - 3)
                 ];
             }
@@ -437,7 +447,7 @@ class SagresValidations
                 }
             }
         }
-        
+       
         return $inconsistencies;
     }
 
