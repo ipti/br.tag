@@ -12,7 +12,7 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/admin/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/admin/form/_initialization.js', CClientScript::POS_END);
-$cs->registerCssFile($themeUrl . '/css/template2.css');
+
 $cs->registerCssFile($baseUrl . 'sass/css/main.css');
 
 $form = $this->beginWidget('CActiveForm', array(

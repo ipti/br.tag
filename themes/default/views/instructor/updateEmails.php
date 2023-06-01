@@ -9,7 +9,7 @@
 	$themeUrl = Yii::app()->theme->baseUrl;
 	$cs = Yii::app()->getClientScript();
 	$cs->registerScriptFile($baseUrl . '/js/instructor/form/updateEmails.js', CClientScript::POS_END);
-	$cs->registerCssFile($themeUrl . '/css/template2.css');
+	
 	$this->setPageTitle('TAG - ' . Yii::t('default', 'Update Instructor e-mails'));
 
 	$form = $this->beginWidget('CActiveForm', [

@@ -3,6 +3,10 @@
 ## [Versão 3.24.59]
 - Um bug que fazia gerar RA não funcionar corretamente foi corrigido
 
+## [Versão 3.24.58]
+- Adicionamento versão para arquivos css, resolvendo problema
+com cache do style
+
 ## [Versão 3.24.57]
 - Alterado o estilo da tela de aulas ministradas
 - Criação de variações da classe table
