@@ -4,6 +4,8 @@ namespace SagresEdu;
 
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\XmlElement;
+
 /**
  * Class representing AtendimentoTType
  *
@@ -17,12 +19,14 @@ class AtendimentoTType
      * @var \DateTime $data
      * @Type("DateTime<'Y-m-d'>")
      * @SerializedName("edu:data")
+     * @XmlElement(cdata=false)
      */
     private $data = null;
 
     /**
      * @var string $local
      * @SerializedName("edu:local")
+     * @XmlElement(cdata=false)
      */
     private $local = null;
 

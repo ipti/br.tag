@@ -15,7 +15,7 @@ $script = "var getGradesUrl = '" . Yii::app()->createUrl('enrollment/getGrades')
 $cs->registerScript('variables', $script, CClientScript::POS_END);
 $cs->registerCssFile($baseUrl . '/css/grades.css');
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Grades'));
-$cs->registerCssFile($themeUrl . '/css/template2.css');
+
 ?>
 
 <div class="main">

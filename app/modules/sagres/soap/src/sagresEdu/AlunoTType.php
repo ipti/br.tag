@@ -4,6 +4,8 @@ namespace SagresEdu;
 
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\XmlElement;
+
 /**
  * Class representing AlunoTType
  *
@@ -16,6 +18,7 @@ class AlunoTType
     /**
      * @var string $cpfAluno
      * @SerializedName("edu:cpfAluno")
+     * @XmlElement(cdata=false)
      */
     private $cpfAluno = null;
 
@@ -23,24 +26,28 @@ class AlunoTType
      * @var \DateTime $dataNascimento
      * @Type("DateTime<'Y-m-d'>")
      * @SerializedName("edu:data_nascimento")
+     * @XmlElement(cdata=false)
      */
     private $dataNascimento = null;
 
     /**
      * @var string $nome
      * @SerializedName("edu:nome")
+     * @XmlElement(cdata=false)
      */
     private $nome = null;
 
     /**
      * @var bool $pcd
      * @SerializedName("edu:pcd")
+     * @XmlElement(cdata=false)
      */
     private $pcd = null;
 
     /**
      * @var int $sexo
      * @SerializedName("edu:sexo")
+     * @XmlElement(cdata=false)
      */
     private $sexo = null;
 
