@@ -1,5 +1,5 @@
 $("#classesSearch").on("click", function () {
-    if ($("#classrooms").val() !== "" && $("#month").val() !== "" 
+    if ($("#classrooms").val() !== "" && $("#month").val() !== ""
         && $("#instructor").val() !== "" && $("#disciplines").val() !== "") {
         $(".alert-required-fields, .alert-incomplete-data").hide();
         jQuery.ajax({
