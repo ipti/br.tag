@@ -8405,7 +8405,7 @@ li.tlypageguide-active.tlypageguide_bottom:after {
 
 .btn-primary:hover,
 .btn-primary:focus {
-    background-color: #41619b;
+    background-color: #2E33B7 !important;
 }
 
 .tlypageguide_shadow:after {

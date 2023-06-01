@@ -1,5 +1,9 @@
 # Atualizações
 
+## [Versão 3.25.62]
+- Na tela de plano de aula os GIFs de loading foram atualizados
+- A cor do botão no card de justificativa quando o mouse passa em cima foi atualizado
+
 ## [Versão 3.25.60]
 - O relatório Alunos por Turma foi atualizado
 

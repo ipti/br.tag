@@ -77,18 +77,18 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <div class="tab-content">
                     <div class="tab-pane active" id="create-plan">
                     <div class="row">
-                                <div class="column no-grow">
+                                <div class="column">
                                     <div>
                                             <?php echo CHtml::label(yii::t('default', 'Name') . "*", 'name', array(
-                                                'class' => 'control-label required',
+                                                'class' => 'control-label required', 'style' => 'display: contents;',
 
                                 )); ?>
                                 <?php
-                                echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'placeholder' => 'Digite o Nome do Plano'));
+                                echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'placeholder' => 'Digite o Nome do Plano', 'style' => 'display:block;margin: 10px 0;width: 399px;'));
                                 ?>
                             </div>
                             <div>
-                                <?php echo CHtml::label(yii::t('default', 'Stage') . "*", 'modality_fk', array('class' => 'control-label required')); ?>
+                                <?php echo CHtml::label(yii::t('default', 'Stage') . "*", 'modality_fk', array('class' => 'control-label required', 'style' => 'display: contents;')); ?>
                                 <div>
                                     <?php
                                     echo $form->dropDownList($coursePlan, 'modality_fk', CHtml::listData($stages, 'id', 'name'), array(
@@ -98,11 +98,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
                                     ));
                                     ?>
-                                    <i class="js-course-plan-loading-disciplines fa fa-spin fa-spinner"></i>
+                                    <img class="js-course-plan-loading-disciplines"  style="margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
                                 </div>
                             </div>
                             <div>
-                                <?php echo CHtml::label(yii::t('default', 'Discipline') . "*", 'discipline_fk', array('class' => 'control-label required')); ?>
+                                <?php echo CHtml::label(yii::t('default', 'Discipline') . "*", 'discipline_fk', array('class' => 'control-label required', 'style' => 'display: contents;')); ?>
                                 <div class="coursePlan-input"><?php
                                     echo $form->dropDownList($coursePlan, 'discipline_fk', array(), array(
                                         'key' => 'id',
@@ -111,7 +111,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                         'prompt' => 'Selecione o componente curricular/eixo...',
                                     ));
                                     ?>
-                                    <i class="js-course-plan-loading-abilities fa fa-spin fa-spinner"></i>
+                                    <img class="js-course-plan-loading-abilities"  style="margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
                                 </div>
                             </div>
                         </div>
@@ -182,7 +182,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <div class="modal-body">
                     <div class="alert alert-error js-alert-ability-structure">Para adicionar habilidades, é preciso primeiro escolher a etapa e o componente curricular/eixo do plano.</div>
                     <div class="js-abilities-parents">
-
                     </div>
                     <div class="js-abilities-panel">
 
@@ -190,6 +189,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <div class="js-abilities-selected">
                         <label>SELECIONADAS</label>
                     </div>
+                    <img class="loading-abilities-select"  style="display:none;margin: 0px 5px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading"></img>
                 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default"
@@ -204,3 +204,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     </div>
 </div>
 <?php $this->endWidget(); ?>
+
+<style>
+.select2-container .select2-choice {
+    margin: 10px 0;
+}
+</style>
