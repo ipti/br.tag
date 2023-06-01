@@ -8,6 +8,10 @@ $schoolurl = yii::app()->createUrl('school');
 
 $select_school = '';
 
+if (Yii::app()->user->isGuest) {
+    $this->redirect(yii::app()->createUrl('site/login'));
+}
+
 if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
     $select_school = CHtml::activeDropDownList(
         SchoolIdentification::model(),
@@ -29,9 +33,7 @@ if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginIn
     );
 }
 
-if (Yii::app()->user->isGuest) {
-    $this->redirect(yii::app()->createUrl('site/login'));
-}
+
 
 $assetManager = Yii::app()->getAssetManager();
 $assetUrl = Yii::app()->theme->baseUrl;
