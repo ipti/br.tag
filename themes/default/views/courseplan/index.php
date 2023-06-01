@@ -5,7 +5,7 @@
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerCssFile($themeUrl . '/css/template2.css');
+
 ?>
 
 <div id="mainPage" class="main">
@@ -28,7 +28,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                         'dataProvider' => $dataProvider,
                         'enablePagination' => false,
                         'enableSorting' => false,
-                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'columns' => array(
                             array(
                                 'header' => Yii::t('default', 'Name'),

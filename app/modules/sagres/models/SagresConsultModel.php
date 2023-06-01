@@ -223,11 +223,9 @@ class SagresConsultModel
                 ->setTurno($this->convertTurn($turma['classroomTurn']))
                 ->setSerie($this->getSeries($classId))
                 ->setMatricula($this->getEnrollments($classId, $referenceYear, $month, $finalClass))
-                ->setHorario($this->getSchedules($classId, $month));
-
-            if((bool)$finalClass) {
-                $classType->setFinalTurma((bool)$finalClass);
-            }
+                ->setHorario($this->getSchedules($classId, $month))
+                ->setFinalTurma(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN));
+            
 
             if (!is_null($classType->getHorario()) && !is_null($classType->getMatricula())) {
                 $classList[] = $classType;
@@ -325,7 +323,7 @@ class SagresConsultModel
                 ->setDuracao(2)
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
                 ->setDisciplina(substr($schedule['disciplineName'], 0, 50))
-                ->setCpfProfessor([$schedule['cpfInstructor']]);
+                ->setCpfProfessor([str_replace([".", "-"], "", $schedule['cpfInstructor'])]);
 
             $scheduleList[] = $scheduleType;
         }
@@ -527,7 +525,7 @@ class SagresConsultModel
                 ->setData(new DateTime($cardapio['data']))
                 ->setTurno($this->convertTurn($cardapio['turno']))
                 ->setDescricaoMerenda($cardapio['descricaoMerenda'])
-                ->setAjustado($cardapio['ajustado']);
+                ->setAjustado(isset($cardapio['ajustado']) ? $cardapio['ajustado'] :  0);
 
             $cardapioList[] = $cardapioType;
         }
@@ -588,7 +586,7 @@ class SagresConsultModel
         foreach ($professionals as $professional) {
             $professionalType = new ProfissionalTType();
             $professionalType
-                ->setCpfProfissional($professional['cpfProfissional'])
+                ->setCpfProfissional(str_replace([".", "-"], "", $professional['cpfProfissional']))
                 ->setEspecialidade($professional['especialidade'])
                 ->setIdEscola($professional['idEscola'])
                 ->setFundeb($professional['fundeb'])

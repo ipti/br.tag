@@ -8,7 +8,7 @@
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/pie.js', CClientScript::POS_END);
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/lang/pt.js', CClientScript::POS_END);
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/themes/light.js', CClientScript::POS_END);
-	$cs->registerCssFile($themeUrl . '/css/template2.css');
+	
 	/* @var $this SiteController */
 
 	$cs->registerScript("vars",

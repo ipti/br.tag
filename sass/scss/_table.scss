@@ -3,6 +3,10 @@
         background: $colorsBaseWhiteNormal;
         padding: $spaceMedium;
 
+        .t-icon {
+            color: $colorsBaseInkLight;
+        }
+
         a {
             color: $colorsBaseProductNormalActive;
         }
@@ -10,12 +14,6 @@
 
     thead {
         tr th {
-            font-weight: 500;
-            color: $colorsBaseWhiteNormal;
-            background-color: $colorsBaseProductDarkActive;
-            padding: $SizeXSmall;
-            line-height: normal;
-
             &:first-child {
                 border-radius: $borderRadiusLeft;
             }
@@ -57,6 +55,33 @@
 
 }
 
+.tag-table-primary {
+    @extend .tag-table;
+
+    thead {
+        tr th {
+            font-weight: 500;
+            color: $colorsBaseWhiteNormal;
+            background-color: $colorsBaseProductDarkActive;
+            padding: $SizeXSmall;
+            line-height: normal;
+        }
+    }
+}
+
+.tag-table-secondary {
+    @extend .tag-table;
+
+    thead {
+        tr th {
+            font-weight: bold;
+            color: $colorsBaseInkLight;
+            background-color: $colorsBaseCloudDark;
+            padding: $SizeXSmall;
+            line-height: normal;
+        }
+    }
+}
 
 .grid-view {
     padding-top: $spaceNormal;
