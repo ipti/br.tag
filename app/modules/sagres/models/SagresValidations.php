@@ -31,7 +31,46 @@ class SagresValidations
 
     public function validatorManagementUnit($managementUnit)
     {
+
+        $inconsistencies = [];
+
+        if (empty($managementUnit->getCodigoUnidGestora())) {
+            $inconsistencies[] = [
+                "enrollment" => 'UNIDADE GESTORA: ' . $managementUnit->getNomeUnidGestora(),
+                "school" => '',
+                "description" => 'CÓDIGO DA UNIDADE GESTORA NÃO INFORMADO',
+                "action" => 'POR FAVOR, INFORME O CÓDIGO DE IDENTIFICAÇÃO DA UNIDADE GESTORA'
+            ];
+        }
         
+        if (empty($managementUnit->getNomeUnidGestora())) {
+            $inconsistencies[] = [
+                "enrollment" => 'UNIDADE GESTORA: ' . $managementUnit->getNomeUnidGestora(),
+                "school" => '',
+                "description" => 'NOME DA UNIDADE GESTORA NÃO INFORMADO',
+                "action" => 'POR FAVOR, INFORME UM NOME PARA A UNIDADE GESTORA'
+            ];
+        }
+        
+        if (empty($managementUnit->getCpfResponsavel())) {
+            $inconsistencies[] = [
+                "enrollment" => 'UNIDADE GESTORA: ' . $managementUnit->getNomeUnidGestora(),
+                "school" => '',
+                "description" => 'CPF DO RESPONSÁVEL NÃO INFORMADO',
+                "action" => 'POR FAVOR, INFORME UM CPF VÁLIDO PARA O RESPONSÁVEL'
+            ];
+        }
+        
+        if (empty($managementUnit->getCpfGestor())) {
+            $inconsistencies[] = [
+                "enrollment" => 'UNIDADE GESTORA: ' . $managementUnit->getNomeUnidGestora(),
+                "school" => '',
+                "description" => 'CPF DO GESTOR NÃO INFORMADO',
+                "action" => 'POR FAVOR, INFORME UM CPF VÁLIDO PARA O GESTOR'
+            ];
+        }
+        
+        return $inconsistencies;
     }
 
     public function validatorProfessionals($professionals)
