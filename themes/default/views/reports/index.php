@@ -178,11 +178,11 @@ $this->breadcrumbs = array(
 
                 <button type="button" class="report-box-container" data-toggle="modal" data-target="#cns-per-classroom" target="_blank">
                     <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-icon-checklist t-reports_icons"></span>
+                        <span class="t-medical t-reports_icons"></span>
                     </div>
                     <div class="pull-left">
                         <span class="title">Relatório CNS por Turma</span><br>
-                        <span class="subtitle">Listagem de Alunos com CNS por Turma</span>
+                        <span class="subtitle">Listagem de CNS dos alunos por Turma</span>
                     </div>
                 </button>
 
@@ -348,11 +348,11 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/CnsPerSchool') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">    
                         <div class="pull-left" style="margin-right: 20px;">
-                            <span class="t-icon-teachers-students t-reports_icons"></span>
+                            <span class="t-doctor t-reports_icons"></span>
                         </div>
                         <div class="pull-left">
                             <span class="title">Relatório CNS da escola</span><br>
-                            <span class="subtitle">Listagem de Alunos com CNS da escola atual</span>
+                            <span class="subtitle">Listagem de CNS dos alunos da escola atual</span>
                         </div>
                     </button>
                 </a>
@@ -364,11 +364,11 @@ $this->breadcrumbs = array(
 
                 <button type="button" class="report-box-container" data-toggle="modal" data-target="#loading-warning" target="_blank">
                     <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-icon-teachers-students t-reports_icons"></span>
+                        <span class="t-hospital-user t-reports_icons"></span>
                     </div>
                     <div class="pull-left">
                         <span class="title">Relatório CNS de todas as escolas</span><br>
-                        <span class="subtitle">Listagem de Alunos com CNS de todas as escolas</span>
+                        <span class="subtitle">Listagem de CNS dos alunos de todas as escolas</span>
                     </div>
                 </button>
             </div>
