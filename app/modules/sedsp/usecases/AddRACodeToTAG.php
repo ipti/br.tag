@@ -29,8 +29,8 @@ class AddRACodeToTAG
         $student_tag = $this->studentTAGDataSource->getStudent($tag_student_id);
         $student_tag->gov_id = $racode;
         
-        if($student_tag->update()){
-           return $student_tag;     
+        if ($student_tag->update()) {
+           return $student_tag;
         }
 
         throw new Exception("Error Processing Request", 1);

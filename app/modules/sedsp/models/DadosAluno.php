@@ -21,16 +21,17 @@ class DadosAluno {
         return $this->outSucesso;
     }
     public function getoutAluno(){
-        // if(count($this->outListaAlunos) > 1){
-        //     foreach ($this->outListaAlunos as $outListaAluno) {
-        //         $match = similar_text($this->inName, $outListaAluno->outNomeAluno, $pcr);
-        //         $probables[$match]=$outListaAluno;
-        //     }
-        //     ksort($probables);
-        //     return new Aluno($probables[0]);
-        // }else{
-        //     return new Aluno($this->outListaAlunos[0]);
-        // }
+        /* Código antigo para rota ListarAlunos (que está obsoleta)
+        if(count($this->outListaAlunos) > 1){
+             foreach ($this->outListaAlunos as $outListaAluno) {
+                 $match = similar_text($this->inName, $outListaAluno->outNomeAluno, $pcr);
+                 $probables[$match]=$outListaAluno;
+             }
+             ksort($probables);
+             return new Aluno($probables[0]);
+         }else{
+             return new Aluno($this->outListaAlunos[0]);
+        }*/
         return $this->outAluno;
     }
 }
