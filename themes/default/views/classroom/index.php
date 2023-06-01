@@ -6,10 +6,6 @@
     $this->menu = array(
         array('label' => Yii::t('default', 'Create a new Classroom'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new Classroom')),
     );
-    $themeUrl = Yii::app()->theme->baseUrl;
-    $cs = Yii::app()->getClientScript();
-    $cs->registerCssFile($themeUrl . '/css/template2.css');
-    $cs->registerCssFile(Yii::app()->request->baseUrl . '/sass/css/main.css');
     
     ?>
 

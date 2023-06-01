@@ -7,7 +7,7 @@
     );
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
-    $cs->registerCssFile($themeUrl . '/css/template2.css');
+    
     ?>
 
     <div class="row-fluid">
