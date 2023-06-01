@@ -13,21 +13,15 @@ $this->breadcrumbs=array(
 </div>
 <div class="row wrap">
  <?php 
- foreach ($classrooms as $class) {
-	$stage = EdcensoStageVsModality::model()->findByPk($class->edcensoStageVsModalityFk)->name;
+ foreach ($classrooms as $c) {
 	echo '<div class="column">
 			<a href="#" class="t-cards">
-				<div class="t-cards-title">'.$class->name.'</div>
-				<div class="t-cards-text clear-margin--left">'.$stage.'</div>
+				<div class="t-tag-primary">'.$c["discipline_name"].'</div>
+				<div class="t-cards-title">'.$c["name"].'</div>
+				<div class="t-cards-text clear-margin--left">'.$c["stage_name"].'</div>
 			</a>
 		</div>';
-};
-?>
-
-
-<?php 
-	
-
+	};
 ?>
 </div>
 </div>

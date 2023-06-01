@@ -1,0 +1,22 @@
+@import '_tokens.scss';
+@import '_functions.scss';
+
+.t-tag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $FontSizeHeadingTitle4;
+    padding: $SizeXXXSmall $SizeXSmall;
+    width: fit-content;
+}
+
+.t-tag-primary {
+    @extend .t-tag;
+    color: $colorsBaseProductLogo;
+    background-color: $colorsBaseProductLightActive;
+}
+.t-tag-secundary {
+    @extend .t-tag;
+    color: $colorsAlertInfoText;
+    background-color: $colorsAlertInfoBackground;
+}

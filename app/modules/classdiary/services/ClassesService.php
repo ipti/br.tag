@@ -12,15 +12,22 @@
         }
 
         public function getClassroomsInstructor() {
-            $criteria = new CDbCriteria;
-            $criteria->alias = "c";
-            $criteria->join = ""
-                . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
-                . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
-            $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
-            $criteria->order = "name";
-            $criteria->params = array(':school_year' => Yii::app()->user->year, ':school_inep_fk' => Yii::app()->user->school, ':users_fk' => Yii::app()->user->loginInfos->id);
-            $classrooms = Classroom::model()->findAll($criteria);
+
+            $sql = "SELECT ii.id, ii.name as instructor_name, ed.name as discipline_name, esvm.name as stage_name, c.name  
+            from instructor_teaching_data itd 
+            join teaching_matrixes tm ON itd.id = tm.teaching_data_fk 
+            join instructor_identification ii on itd.instructor_fk = ii.id 
+            join curricular_matrix cm on tm.curricular_matrix_fk = cm.id 
+            JOIN edcenso_discipline ed on ed.id = cm.discipline_fk 
+            join classroom c on c.id = itd.classroom_id_fk  
+            Join edcenso_stage_vs_modality esvm on esvm.id = c.edcenso_stage_vs_modality_fk  
+            WHERE ii.users_fk = :users_fk
+            ORDER BY ii.name";
+
+            $command = Yii::app()->db->createCommand($sql);
+            $command->bindValue(':users_fk', Yii::app()->user->loginInfos->id, PDO::PARAM_INT);
+
+            $classrooms = $command->queryAll();
            
             return $classrooms;
         }

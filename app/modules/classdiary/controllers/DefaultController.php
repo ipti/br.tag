@@ -9,14 +9,13 @@ class DefaultController extends Controller
 			
 			$getClassrooms = new GetClassrooms();
 			$classrooms = $getClassrooms->exec(Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id));
-
 			$this->render('index', [
 				'classrooms' => $classrooms
 			]);
 
 		} catch (\Throwable $th) {
 			Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro ao carregar as turmas.'));
-			$this->redirect(array('index'));
+			var_dump($th);
 		}
 		
 	}
