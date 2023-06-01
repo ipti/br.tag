@@ -7,7 +7,7 @@ $cs->registerScriptFile($baseUrl . '/js/admin/index/dialogs.js', CClientScript::
 $cs->registerScriptFile($baseUrl . '/js/admin/index/global.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/admin/activeDisableUser/_initialization.js', CClientScript::POS_END);
 $themeUrl = Yii::app()->theme->baseUrl;
-$cs->registerCssFile($themeUrl . '/css/template2.css');
+
 ?>
 
 <div id="mainPage" class="main">

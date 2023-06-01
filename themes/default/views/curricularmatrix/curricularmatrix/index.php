@@ -13,7 +13,7 @@ $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.2');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/curricularmatrix.js', CClientScript::POS_END);
 $cs->registerScript("vars", "var addMatrix = '" . $this->createUrl("addMatrix") . "';", CClientScript::POS_HEAD);
 $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricular Matrix'));
-// $cs->registerCssFile($themeUrl . '/css/template2.css');
+// 
 ?>
 
 

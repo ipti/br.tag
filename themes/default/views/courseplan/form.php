@@ -16,7 +16,7 @@ $cs->registerScriptFile($baseUrl . '/js/courseplan/form/pagination.js', CClientS
 // $cs->registerScriptFile($themeUrl . '/js/jquery/jquery.dataTables.min.js', CClientScript::POS_END);
 // $cs->registerCssFile($themeUrl . '/css/jquery.dataTables.min.css');
 // $cs->registerCssFile($themeUrl . '/css/dataTables.fontAwesome.css');
-$cs->registerCssFile($themeUrl . '/css/template2.css');
+
 
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));

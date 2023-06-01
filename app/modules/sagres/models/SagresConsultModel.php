@@ -525,7 +525,7 @@ class SagresConsultModel
                 ->setData(new DateTime($cardapio['data']))
                 ->setTurno($this->convertTurn($cardapio['turno']))
                 ->setDescricaoMerenda($cardapio['descricaoMerenda'])
-                ->setAjustado($cardapio['ajustado']);
+                ->setAjustado(isset($cardapio['ajustado']) ? $cardapio['ajustado'] :  0);
 
             $cardapioList[] = $cardapioType;
         }

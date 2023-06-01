@@ -9,7 +9,7 @@ $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/css/bootstrap.min.css');
 $cs->registerCssFile($baseUrl . '/css/responsive.min.css');
 $cs->registerCssFile($baseUrl . '/css/template.css?v=1.0');
-$cs->registerCssFile($themeUrl . '/css/template2.css'); 
+ 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'login-form',
     'enableClientValidation' => true,

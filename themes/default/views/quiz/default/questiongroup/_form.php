@@ -6,7 +6,6 @@ $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/quiz.js', CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('Group', 'default'));
-$cs->registerCssFile($baseUrl . 'sass/css/main.css');
 
 Yii::app()->clientScript->registerMetaTag('unsafe-url', 'referrer');
 Yii::app()->clientScript->registerMetaTag('origin', 'referrer');
