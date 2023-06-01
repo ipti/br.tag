@@ -360,3 +360,19 @@
     content: '{';
     font-family: 'icone-tag', sans-serif 
 }
+.t-info_positive::before{
+    content: '}';
+    font-family: 'icone-tag', sans-serif 
+}
+.t-medical::before{
+    content: 'É';
+        font-family: 'icone-tag', sans-serif 
+}
+.t-hospital-user::before{
+    content: '·';
+        font-family: 'icone-tag', sans-serif 
+}
+.t-doctor::before{
+    content: '_';
+    font-family: 'icone-tag', sans-serif  
+}

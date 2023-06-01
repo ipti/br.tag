@@ -124,7 +124,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     ?>
                 </div>
             </div>
-            <img class="loading-class-contents"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+            <img class="loading-class-contents" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
             <div class="column clearfix">
                 <div class="t-buttons-container justify-content--end">
                 <a id="classesSearch" class='t-button-primary'>
