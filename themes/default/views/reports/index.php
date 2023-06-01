@@ -388,12 +388,12 @@ $this->breadcrumbs = array(
                 <form method="post">
                     <div class="modal-body">
                         <div class="row-fluid">
-                            Deseja gerar o relatório de CNS de todas as escolas? <b>Isso pode demorar um pouco!</b>
+                            Deseja gerar o relatório de CNS dos alunos de todas as escolas? <b>Isso pode demorar um pouco!</b>
                         </div>
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <a href="<?php echo Yii::app()->createUrl('reports/CnsSchools') ?>" target="_blank" rel="noopener">
+                            <a href="<?php echo Yii::app()->createUrl('reports/CnsSchools') ?>" target="_blank" rel="noopener" style="margin-left: 5px;">
                                 <button type="button" class="btn btn-primary">Gerar</button>
                             </a>
                         </div>
