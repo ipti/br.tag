@@ -33,7 +33,7 @@ class AddRACodeToTAG
            return $student_tag;
         }
 
-        throw new Exception("Error Processing Request", 1);
+        throw new CHttpException(404,'The requested student does not updated.');
         
     }
 }
