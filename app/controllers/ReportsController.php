@@ -978,27 +978,31 @@ class ReportsController extends Controller
     {
         $school_year = Yii::app()->user->school;
         $year = Yii::app()->user->year;
-        $condition = '';
 
         if (isset($_GET['id']) && $_GET['id'] != '') {
-            $condition = " AND c.id = $_GET[id] ";
+            $classroom_id = $_GET['id'];
             $sql = "SELECT 
-                    e.name as school_name, c.name as classroom_name, c.id as classroom_id, d.cns,d.rg_number, s.*
+                    e.name as school_name, c.name as classroom_name, c.id as classroom_id, d.cpf, d.address, s.*
                 FROM 
                     student_enrollment as se
                     INNER JOIN classroom as c on se.classroom_fk=c.id
                     INNER JOIN student_identification as s on s.id=se.student_fk
                     INNER JOIN school_identification as e on c.school_inep_fk = e.inep_id
-                    LEFT JOIN student_documents_and_address as d on s.id = d.student_fk
+                    LEFT JOIN student_documents_and_address as d on s.inep_id = d.student_fk
 
                 WHERE 
                     c.school_year = :year AND 
-                    c.school_inep_fk = :schoolyear
-                    $condition
-                GROUP BY c.id, s.register_type, s.inep_id, s.id, d.cns
+                    c.school_inep_fk = :schoolyear AND
+                    c.id = :classroom_id
+                GROUP BY s.name
                 ORDER BY c.id";
 
-            $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":schoolyear", $school_year)->queryAll();
+            $classrooms = Yii::app()->db->createCommand($sql)
+            ->bindParam(":year", $year)
+            ->bindParam(":classroom_id", $classroom_id)
+            ->bindParam(":schoolyear", $school_year)
+            ->queryAll();
+
 
             $this->render('StudentByClassroomReport', array(
                 "classroom" => $classrooms

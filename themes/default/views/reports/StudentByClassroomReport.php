@@ -25,10 +25,8 @@ function age($date){
     <table class="table table-bordered table-striped">
         <tr>
             <th> <b>Aluno </b></th>
-            <th> <b>RG </b></th>
+            <th> <b>CPF </b></th>
             <th> <b>ID INEP</b></th>
-            <!-- <th> <b>N° SUS </b></th>
-            <th> <b>Data de Nascimento </b></th> -->
             <th> <b>Idade </b></th>
             <th> <b>Mãe </b></th>
             <th> <b>RG Mãe </b></th>
@@ -36,13 +34,14 @@ function age($date){
             <th> <b>RG Pai</b> </th>
             <th> <b>Responsável</b> </th>
             <th> <b>RG Responsável</b> </th>
+            <th> <b>Endereço</b> </th>
         </tr>
         <?php
         $oldClassroom = "";
         foreach($classroom as $c){?>
             <tr>
                 <td><?= $c['name'] ?></td>
-                <td><?= $c['rg_number'] ?></td>
+                <td><?= $c['cpf'] ?></td>
                 <td><?= $c['inep_id'] ?></td>
                 <!-- <td><?= $c['cns'] ?></td>
                 <td><?= $c['birthday'] ?></td> -->
@@ -53,6 +52,7 @@ function age($date){
                 <td><?= $c['filiation_2_rg'] ?></td>
                 <td><?= $c['responsable_name'] ?></td>
                 <td><?= $c['responsable_rg'] ?></td>
+                <td><?= $c['address'] ?></td>
             </tr>
     <?php 
             $oldClassroom = $c['classroom_id'];
