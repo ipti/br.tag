@@ -982,7 +982,8 @@ class ReportsController extends Controller
         if (isset($_GET['id']) && $_GET['id'] != '') {
             $classroom_id = $_GET['id'];
             $sql = "SELECT 
-                    e.name as school_name, c.name as classroom_name, c.id as classroom_id, d.cpf, d.address, s.*
+                    e.name as school_name, c.name as classroom_name, 
+                    c.id as classroom_id, d.cpf, d.address, s.*
                 FROM 
                     student_enrollment as se
                     INNER JOIN classroom as c on se.classroom_fk=c.id

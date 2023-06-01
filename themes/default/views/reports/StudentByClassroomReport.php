@@ -18,7 +18,7 @@ function age($date){
 
 
 ?>
-<div class="pageA4H">
+<div class="pageA4H" style="width: 1080px;">
     <?php $this->renderPartial('head'); ?>
     <h3><?php echo Yii::t('default', 'Student By Classroom'); ?></h3>
     <h4 style="text-align: center;"><?php echo $classroom[0]['classroom_name']?></h4>
@@ -33,7 +33,8 @@ function age($date){
             <th> <b>Pai</b> </th>
             <th> <b>RG Pai</b> </th>
             <th> <b>Responsável</b> </th>
-            <th> <b>RG Responsável</b> </th>
+            <th> <b>CPF Responsável</b> </th>
+            <th> <b>Tel. Responsável</b> </th>
             <th> <b>Endereço</b> </th>
         </tr>
         <?php
@@ -43,15 +44,14 @@ function age($date){
                 <td><?= $c['name'] ?></td>
                 <td><?= $c['cpf'] ?></td>
                 <td><?= $c['inep_id'] ?></td>
-                <!-- <td><?= $c['cns'] ?></td>
-                <td><?= $c['birthday'] ?></td> -->
                 <td><?= age($c['birthday']) ?></td>
                 <td><?= $c['filiation_1'] ?></td>
                 <td><?= $c['filiation_1_rg'] ?></td>
                 <td><?= $c['filiation_2'] ?></td>
                 <td><?= $c['filiation_2_rg'] ?></td>
                 <td><?= $c['responsable_name'] ?></td>
-                <td><?= $c['responsable_rg'] ?></td>
+                <td><?= $c['responsable_cpf'] ?></td>
+                <td><?= $c['responsable_telephone'] ?></td>
                 <td><?= $c['address'] ?></td>
             </tr>
     <?php 
