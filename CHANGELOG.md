@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.25.60]
+- O relatório Alunos por Turma foi atualizado
+
 ## [Versão 3.25.59]
 - Relatório CNS por Turma
 - Relatório CNS da Escola
