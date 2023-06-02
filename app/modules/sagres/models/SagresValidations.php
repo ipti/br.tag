@@ -4,11 +4,30 @@ use Yii;
 
 class SagresValidations
 {
+    public function __construct()
+    {
+        $connection = Yii::app()->db;
+        $transaction = $connection->beginTransaction();
+
+        try {
+            $deleteQuery = "DELETE FROM inconsistency_sagres";
+            $connection->createCommand($deleteQuery)->execute();
+
+            $resetQuery = "ALTER TABLE inconsistency_sagres AUTO_INCREMENT = 1";
+            $connection->createCommand($resetQuery)->execute();
+
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw $e;
+        }
+    }
 
     public function validator($education, $finalClass)
     {
-        $query = "delete from inconsistency_sagres";
-        Yii::app()->db->createCommand($query)->execute();
+        $managementUnit = $education->getPrestacaoContas();
+        $schools = $education->getEscola();
+        $professionals = $education->getProfissional();
 
         $managementUnit = $education->getPrestacaoContas();
         $schools = $education->getEscola();
@@ -75,17 +94,28 @@ class SagresValidations
 
     public function validatorProfessionals($professionals)
     {
+        $strMaxLength = 50;
         $inconsistencies = [];
 
         foreach ($professionals as $professional) {
             if (!$this->validaCPF($professional->getCpfProfissional())) {
                 $inconsistencies[] = [
-                    "enrollment" => 'PROFESSIONAL',
+                    "enrollment" => 'PROFISSIONAL',
                     "school" => $professional->getIdEscola(),
                     "description" => 'CPF INVÁLIDO: ' . $professional->getCpfProfissional(),
                     "action" => 'INFORMAR UM CPF VÁLIDO'
                 ];
             }
+
+            if (strlen($professional->getEspecialidade()) > $strMaxLength) {
+                $inconsistencies[] = [
+                    "enrollment" => 'PROFISSIONAL',
+                    "school" => $professional->getIdEscola(),
+                    "description" => 'ESPECIALIDADE COM MAIS DE 50 CARACTERES',
+                    "action" => 'INFORMAR UMA DESCRIÇÃO PARA A ESPECIALIDADE COM ATÉ 50 CARACTERES'
+                ];
+            }
+
             $inconsistencies = array_merge($inconsistencies,$this->validatorAttendance($professional));
         }
 
@@ -94,6 +124,7 @@ class SagresValidations
 
     public function validatorAttendance($professional)
     {
+        $strMaxLength = 200;
         $inconsistencies = [];
         $attendances = $professional->getAtendimento();
 
@@ -109,6 +140,15 @@ class SagresValidations
                     "action" => 'INFORMAR UM ANO PARA O ATENDIMENTO MAIOR QUE: ' . ($currentDate - 3)
                 ];
             }
+
+            if(strlen($attendance->getLocal()) > $strMaxLength){
+                $inconsistencies[] = [
+                    "enrollment" => 'ATENDIMENTO',
+                    "school" => $professional->getIdEscola(),
+                    "description" => 'NOME DO LOCAL DO ATENDIMENTO COM MAIS DE 200 CARACTERES',
+                    "action" => 'INFORMAR UM NOME PARA O LOCAL DO ATENDIMENTO COM ATÉ 200 CARACTERES'
+                ];
+            }
         }
 
         return $inconsistencies;
@@ -116,6 +156,7 @@ class SagresValidations
 
     function validatorSchoolDirector($school)
     {
+        $strMaxLength = 100;
         $inconsistencies = [];
 
         if ($school->getDiretor()->getNrAto() == null) {
@@ -124,6 +165,15 @@ class SagresValidations
                 "school" => $school->getIdEscola(),
                 "description" => 'NÚMERO DO ATO DE NOMEAÇÃO NÃO PODE SER VAZIO',
                 "action" => 'INFORMAR UM NÚMERO DO ATO DE NOMEAÇÃO PARA O DIRETOR'
+            ];
+        }
+
+        if (strlen($school->getDiretor()->getNrAto()) > $strMaxLength) {
+            $inconsistencies[] = [
+                "enrollment" => 'DIRETOR',
+                "school" => $school->getIdEscola(),
+                "description" => 'NÚMERO DO ATO DE NOMEAÇÃO COM MAIS DE 100 CARACTERES',
+                "action" => 'INFORMAR UM NÚMERO DO ATO DE NOMEAÇÃO COM ATÉ 100 CARACTERES'
             ];
         }
 
@@ -208,7 +258,7 @@ class SagresValidations
 
     public function validatorClass($school, $finalClass)
     {
-
+        $strMaxLength = 50;
         $strlen = 2;
         $inconsistencies = [];
         $classes = $school->getTurma();
@@ -233,6 +283,15 @@ class SagresValidations
                     "school" => $school->getIdEscola(),
                     "description" => 'DESCRIÇÃO PARA A TURMA MENOR QUE 3 CARACTERES',
                     "action" => 'ADICIONE UMA DESCRIÇÃO MAIS DETALHADA, CONTENDO MAIS DE 5 CARACTERES'
+                ];
+            }
+
+            if (strlen($class->getDescricao()) > $strMaxLength) {
+                $inconsistencies[] = [
+                    "enrollment" => 'TURMA',
+                    "school" => $school->getIdEscola(),
+                    "description" => 'DESCRIÇÃO PARA A TURMA COM MAIS DE 50 CARACTERES',
+                    "action" => 'ADICIONE UMA DESCRIÇÃO MENOS DETALHADA, CONTENDO ATÉ 50 CARACTERES'
                 ];
             }
 
@@ -266,6 +325,7 @@ class SagresValidations
     public function validationSeries($class, $schoolId)
     {
         $strlen = 2;
+        $strMaxLength = 50;
         $inconsistencies = [];
         $series = $class->getSerie();
 
@@ -284,6 +344,15 @@ class SagresValidations
                         "school" => $schoolId,
                         "description" => 'DESCRIÇÃO PARA A SÉRIE MENOR QUE 3 CARACTERES',
                         "action" => 'FORNEÇA UMA DESCRIÇÃO MAIS DETALHADA, CONTENDO MAIS DE 5 CARACTERES'
+                    ];
+                }
+
+                if (strlen($serie->getDescricao()) > $strMaxLength) {
+                    $inconsistencies[] = [
+                        "enrollment" => 'SÉRIE',
+                        "school" => $schoolId,
+                        "description" => 'DESCRIÇÃO PARA A SÉRIE: ' . $class->getDescricao() . ' COM MAIS DE 50 CARACTERES',
+                        "action" => 'FORNEÇA UMA DESCRIÇÃO MENOS DETALHADA, CONTENDO ATÉ 50 CARACTERES'
                     ];
                 }
     
@@ -358,6 +427,7 @@ class SagresValidations
 
     public function validationStudent($student, $schoolId, $class)
     {
+        $strMaxLength = 200;
         $strlen = 5;
         $inconsistencies = [];
 
@@ -386,8 +456,17 @@ class SagresValidations
             $inconsistencies[] = [
                 "enrollment" => 'ESTUDANTE',
                 "school" => $schoolId,
-                "description" => 'TAMANHO DO NOME DO ESTUDANTE MENOR QUE 5 CARACTERES',
+                "description" => 'NOME DO ESTUDANTE COM MENOS DE 5 CARACTERES',
                 "action" => 'ADICIONE UM NOME PARA O ESTUDANTE COM PELO MENOS 5 CARACTERES'
+            ];
+        }
+
+        if(strlen($student->getNome()) > $strMaxLength){
+            $inconsistencies[] = [
+                "enrollment" => 'ESTUDANTE',
+                "school" => $schoolId,
+                "description" => 'NOME DO ESTUDANTE COM MAIS DE 200 CARACTERES',
+                "action" => 'ADICIONE UM NOME PARA O ESTUDANTE COM ATÉ 200 CARACTERES'
             ];
         }
 
