@@ -50,7 +50,7 @@ class SagresConsultModel
             throw new ErrorException($e->getMessage());
         }
 
-        $inconsistencyList = $validationSagres->validator($education->getEscola(), $education->getProfissional(), $finalClass);
+        $inconsistencyList = $validationSagres->validator($education, $finalClass);
         $inconsistencyModel = new ValidationSagresModel();
 
         foreach ($inconsistencyList as $value) {
