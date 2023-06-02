@@ -92,33 +92,14 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
         </div>
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>
-        <div id="frequency-container" class="t-tabs">
-            <div>
-                <table class="table table-bordered table-striped visible-print">
-                    <tr>
-                        <th>Escola:</th>
-                        <td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>
-                    <tr>
-                    <tr>
-                        <th>Estado:</th>
-                        <td colspan="2"><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
-                        <th>Municipio:</th>
-                        <td colspan="2"><?php echo $school->edcensoCityFk->name ?></td>
-                        <th>Endereço:</th>
-                        <td colspan="2"><?php echo $school->address ?></td>
-                    <tr>
-                    <tr>
-                        <th>Localização:</th>
-                        <td colspan="2"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
-                        <th>Dependência Administrativa:</th>
-                        <td colspan="4"><?php
-                                        $ad = $school->administrative_dependence;
-                                        echo ($ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
-                                            "PRIVADA")));
-                                        ?></td>
-                    <tr>
-                </table>
-            </div>
+        <div class="t-accordeon">
+            <input type="checkbox" id="item-1" class="t-accordeon"></input>
+            <label for="item-1"><span></span>Expandable Item 1</label>
+            <article>
+                <div id="frequency-container" class="table-frequency">
+
+                </div>
+            </article>
         </div>
     </div>
     <?php $this->endWidget(); ?>

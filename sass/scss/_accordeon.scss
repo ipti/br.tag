@@ -1,0 +1,41 @@
+.t-accordeon {
+    border-bottom: 1px solid;
+    padding-top: 30px;
+    position: relative;
+
+    &:first-of-type {
+        padding-top: 0;
+    }
+    input.t-accordeon {
+        // Hide checkbox
+        appearance: none;
+        left: -100%;
+        position: absolute;
+        top: -100%;
+
+        // Style the label text
+        &+label {
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            padding-left: 25px;
+        }
+        // Hide the article if the checkbox is unchecked
+        &~article {
+            height: 0px;
+            opacity: 0;
+            overflow: hidden;
+            padding: 5px;
+            padding-left: 25px;
+            transition: height 700ms ease,
+                opacity 700ms ease;
+        }
+        &:checked {
+            // Show the article if the checkbox is checked
+            &~article {
+                height: 100%;
+                opacity: 1;
+            }
+        }
+    }
+}

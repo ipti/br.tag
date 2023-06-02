@@ -1,4 +1,5 @@
 <?php
+
 /**  
  * @var ClassesController $this ClassesController
  * @var CActiveDataProvider $dataProvider CActiveDataProvider
@@ -48,40 +49,39 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <tr>
         <tr>
             <th>Localização:</th>
-            <td colspan="2"><?php echo($school->location == 1 ? "URBANA" : "RURAL") ?></td>
+            <td colspan="2"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
             <th>Dependência Administrativa:</th>
             <td colspan="4"><?php
-                $ad = $school->administrative_dependence;
-                echo($ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
-                    "PRIVADA")));
-                ?></td>
+                            $ad = $school->administrative_dependence;
+                            echo ($ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
+                                "PRIVADA")));
+                            ?></td>
         <tr>
     </table>
     <br>
 
     <!-- <div class="innerLR"> -->
     <div>
-    <?php if (Yii::app()->user->hasFlash('success')) : ?>
-        <div class="alert alert-success">
-            <?php echo Yii::app()->user->getFlash('success') ?>
+        <?php if (Yii::app()->user->hasFlash('success')) : ?>
+            <div class="alert alert-success">
+                <?php echo Yii::app()->user->getFlash('success') ?>
+            </div>
+        <?php endif ?>
+        <div class="alert-save no-show alert alert-success">
+            Aulas ministradas atualizadas com sucesso!
         </div>
-    <?php endif ?>
-    <div class="alert-save no-show alert alert-success">
-        Aulas ministradas atualizadas com sucesso!
-    </div>
-    <div class="alert-required-fields no-show alert alert-error">
-        Os campos com * são obrigatórios.
-    </div>
-    <div class="row align-items--center">
-        
+        <div class="alert-required-fields no-show alert alert-error">
+            Os campos com * são obrigatórios.
+        </div>
+        <div class="row align-items--center">
+
             <div class="column clearleft">
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
                     <select class="select-search-on t-field-select__input classContents-input" id="classroom" name="classroom">
                         <option>Selecione a turma</option>
                         <?php foreach ($classrooms as $classroom) : ?>
-                            <option value="<?= $classroom->id ?>"
-                                    fundamentalmaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
+                            <option value="<?= $classroom->id ?>" fundamentalmaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -124,57 +124,57 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     ?>
                 </div>
             </div>
-            <img class="loading-class-contents"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+            <img class="loading-class-contents" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
             <div class="column clearfix">
                 <div class="t-buttons-container justify-content--end">
-                <a id="classesSearch" class='t-button-primary'>
-                    <i class="fa-search fa icon-button-tag"></i>
-                    <?php echo Yii::t('default', 'Search') ?>
-                </a>
+                    <a id="classesSearch" class='t-button-primary'>
+                        <i class="fa-search fa icon-button-tag"></i>
+                        <?php echo Yii::t('default', 'Search') ?>
+                    </a>
                 </div>
             </div>
-            
+
+        </div>
+        <div class="clear"></div>
+        <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
+            <table id="class-contents" class="tag-table-secondary table-bordered" aria-labelledby="create class contents">
+                <thead>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="center">1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="clear"></div>
-    <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
-        <table id="class-contents" class="tag-table-secondary table-bordered" aria-labelledby="create class contents">
-            <thead>
-            </thead>
-            <tbody>
-            <tr>
-                <td class="center">1</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
 
     <div class="modal-container modal fade modal-content" id="js-classroomdiary" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">           
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">Diário de Aula</h4>           
-                </div>
-                <form method="post">
+        <div class="modal-dialog" role="document">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Diário de Aula</h4>
+            </div>
+            <form method="post">
                 <input type="hidden" class="classroom-diary-day">
-                    <div class="modal-body">
-                        <div class="t-field-tarea">
-                            <label class="t-field-tarea__label">Diário de Aula Geral</label>
-                            <textarea class="t-field-tarea__input js-classroom-diary"></textarea>
-                        </div>
-                        
-                        <label>Diário de Aula por Aluno</label>
-                        <div class="alert alert-error classroom-diary-no-students no-show">Não há alunos matriculados na turma.</div>
-                        <div class="accordion accordion-students" id="accordion-students"></div>
-                    
-                        <div class="modal-footer mobile-row">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary js-add-classroom-diary" data-dismiss="modal">Salvar</button>
-                        </div>
+                <div class="modal-body">
+                    <div class="t-field-tarea">
+                        <label class="t-field-tarea__label">Diário de Aula Geral</label>
+                        <textarea class="t-field-tarea__input js-classroom-diary"></textarea>
                     </div>
-                </form>
+
+                    <label>Diário de Aula por Aluno</label>
+                    <div class="alert alert-error classroom-diary-no-students no-show">Não há alunos matriculados na turma.</div>
+                    <div class="accordion accordion-students" id="accordion-students"></div>
+
+                    <div class="modal-footer mobile-row">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary js-add-classroom-diary" data-dismiss="modal">Salvar</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     <?php $this->endWidget(); ?>

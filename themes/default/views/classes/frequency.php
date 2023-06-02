@@ -120,50 +120,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </div>
                 <img class="loading-frequency" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
             </div>
-
-            <div>
-                <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 'control-label required','style' => 'width: 53px;')); ?>
-                <?php
-                echo CHtml::dropDownList('month', '', array(
-                    1 => 'Janeiro',
-                    2 => 'Fevereiro',
-                    3 => 'Março',
-                    4 => 'Abril',
-                    5 => 'Maio',
-                    6 => 'Junho',
-                    7 => 'Julho',
-                    8 => 'Agosto',
-                    9 => 'Setembro',
-                    10 => 'Outubro',
-                    11 => 'Novembro',
-                    12 => 'Dezembro'
-                ), array(
-                    'key' => 'id',
-                    'class' => 'select-search-on control-input frequency-input',
-                    'width: 53px;',
-                    'prompt' => 'Selecione o mês',
-                ));
-                ?>
-            </div>
-                <!-- diciplina -->
-            <div class="disciplines-container" style="display: none;width: 35%;">
-                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required')); ?>
-                <?php
-                echo CHtml::dropDownList('disciplines', '', array(), array(
-                    'key' => 'id',
-                    'class' => 'select-search-on control-input frequency-input-curricular-component',
-                ));
-                ?>
-            </div>
-            <div class="row">
-                <a id="classesSearch" class='t-button-primary'><i class="fa-search fa icon-button-tag"></i><?php echo Yii::t('default', 'Search') ?>
-                </a>
-            </div>
-            <img class="loading-frequency"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>
-        <div id="frequency-container" class="t-tabs table-responsive">
-            
+        <div id="frequency-container" class=" table-responsive">
+
         </div>
     </div>
     <?php $this->endWidget(); ?>

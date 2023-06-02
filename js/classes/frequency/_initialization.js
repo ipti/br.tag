@@ -22,23 +22,22 @@ $("#classesSearch").on("click", function () {
                 if (data.valid) {
                     var html = "";
                     html += "" +
-                        "<table class='t-tabs table-frequency table table-bordered table-striped table-hover'>" +
-                        "<thead class='t-tabs'>" +
-                        "<tr><th class='table-title' colspan='" + (Object.keys(data.students[0].schedules).length + 1) + "'>" + (fundamentalMaior ? $('#disciplines').select2('data').text : "Todas as Disciplinas") + "</th></tr>";
+                        "<table class=' table-frequency table table-bordered table-striped table-hover'>" +
+                        "<thead class='t-accordion__head'>" +
+                        "<tr>"
+                        "</tr>";
                     var daynameRow = "";
                     var dayRow = "";
                     var scheduleRow = "";
                     var checkboxRow = "";
                     $.each(data.students[0].schedules, function () {
                         dayRow += "<th>" + (pad(this.day, 2) + "/" + pad($("#month").val(), 2)) + "</th>";
-                        // daynameRow += "<th>" + this.week_day + "</th>";
-                        // scheduleRow += fundamentalMaior ? "<th>" + this.schedule + "º Horário</th>" : "";
+
                         checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!this.available ? "disabled" : "") + " classroomId='" + $("#classroom").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "' fundamentalMaior='" + fundamentalMaior + "'></th>";
                     });
-                    // html += "<tr class='day-row'><th></th>" + dayRow + "</tr><tr class='dayname-row'><th></th>" + daynameRow + "</tr>" + (fundamentalMaior ? "<tr class='schedule-row'><th></th>" + scheduleRow + "</tr>" : "") + "<tr class='checkbox-row'><th></th>" + checkboxRow + "</tr>";
-                    html += "<tr class='day-row'><th></th>" + dayRow +  "<tr class='checkbox-row'><th></th>" + checkboxRow + "</tr>";
-                    html += "</thead><tbody>";
-                    $.each(data.students, function (indexStudent, student) {  
+                    html += "<tr class='day-row'><th></th>" + dayRow + "<tr class='checkbox-row'><th></th>" + checkboxRow + "</tr>";
+                    html += "</thead><tbody class='t-accordion__body'>";
+                    $.each(data.students, function (indexStudent, student) {
                         html += "<tr><td class='student-name'>" + student.studentName + "</td>";
                         $.each(student.schedules, function (indexSchedule, schedule) {
                             var justificationContainer = "";
@@ -60,7 +59,7 @@ $("#classesSearch").on("click", function () {
                         $(this).find(".frequency-checkbox").prop("checked", $(".frequency-checkbox-student .frequency-checkbox[day=" + day + "]:checked").length === $(".frequency-checkbox-student .frequency-checkbox[day=" + day + "]").length);
 
                     });
-                    $('[data-toggle="tooltip"]').tooltip({container: "body"});
+                    $('[data-toggle="tooltip"]').tooltip({ container: "body" });
                 } else {
                     $("#frequency-container").hide();
                     $(".alert-incomplete-data").html(data.error).show();
@@ -201,7 +200,7 @@ $(document).on("click", ".btn-save-justification", function () {
                 justification.attr("data-original-title", "").tooltip('hide');
             } else {
                 justification.html("<i class='fa fa-file-text-o'></i><i class='fa fa-file-text'></i>");
-                justification.attr("data-original-title", $(".justification-text").val()).tooltip({container: "body"});
+                justification.attr("data-original-title", $(".justification-text").val()).tooltip({ container: "body" });
             }
             $("#save-justification-modal").modal("hide");
         },

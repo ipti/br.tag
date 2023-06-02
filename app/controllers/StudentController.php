@@ -37,10 +37,10 @@ class StudentController extends Controller
      */
     public function accessRules()
     {
-        return array(
+        return array
             array(
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'comparestudentname', 'getstudentajax','getclassrooms', 'comparestudentcpf', 'comparestudentcivilregisterenrollmentnumber', 'comparestudentcertificate', 'create', 'update', 'transfer', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
+                'actions' => array('index', 'view', 'comparestudentname', 'getstudentajax', 'getclassrooms', 'comparestudentcpf', 'comparestudentcivilregisterenrollmentnumber', 'comparestudentcertificate', 'create', 'update', 'transfer', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
                 'users' => array('@'),
             ),
             array(
@@ -100,10 +100,10 @@ class StudentController extends Controller
             3 => 'inep_id',
             4 => 'actions'
         );
-        
+
         $criteria = new CDbCriteria();
 
-        
+
         // Filtrar a pesquisa
         if (!empty($requestData['search']['value'])) {
             $criteria->condition = "name LIKE '%" . $requestData['search']['value'] . "%' OR " .
@@ -126,10 +126,10 @@ class StudentController extends Controller
         // Ordem
         $sortColumn = $columns[$requestData['order'][0]['column']];
         $sortDirection = $requestData['order'][0]['dir'];
-        $criteria->order = $sortColumn ." ". $sortDirection;
+        $criteria->order = $sortColumn . " " . $sortDirection;
 
 
-     
+
 
         $students = StudentIdentification::model()->findAll($criteria);
 
@@ -138,14 +138,14 @@ class StudentController extends Controller
         $data = array();
         foreach ($students as $student) {
             $nestedData = array();
-            $nestedData[] = "<a href='/?r=student/update&id=".$student->id."' cursor: pointer;>".$student->name."</a>";
+            $nestedData[] = "<a href='/?r=student/update&id=" . $student->id . "' cursor: pointer;>" . $student->name . "</a>";
             $nestedData[] = $student->filiation_1;
             $nestedData[] = $student->birthday;
             $nestedData[] = $student->inep_id;
-            $nestedData[] = "<a style='cursor: pointer;' title='Editar'  href='/?r=student/update&id=".$student->id."'>
+            $nestedData[] = "<a style='cursor: pointer;' title='Editar'  href='/?r=student/update&id=" . $student->id . "'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/editar.svg' . "' alt='Editar'></img>
                             </a>&nbsp;"
-                            ."<a style='cursor: pointer;' title='Excluir' href='/?r=student/delete&id=".$student->id."'>
+                . "<a style='cursor: pointer;' title='Excluir' href='/?r=student/delete&id=" . $student->id . "'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/deletar.svg' . "' alt='Excluir'></img>
                             </a>";
             $data[] = $nestedData;
@@ -287,10 +287,10 @@ class StudentController extends Controller
             $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
             date_default_timezone_set("America/Recife");
             $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
-            
+
 
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
-                
+
                 if ($modelStudentIdentification->save()) {
                     $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
                     $modelStudentRestrictions->student_fk = $modelStudentIdentification->id;
@@ -487,10 +487,10 @@ class StudentController extends Controller
             $hasDuplicate = $modelEnrollment->alreadyExists();
 
             if ($modelEnrollment->validate() && !$hasDuplicate) {
-                    $saved = $modelEnrollment->save();
+                $saved = $modelEnrollment->save();
             }
             Yii::app()->user->setFlash('success', Yii::t('default', 'transferred enrollment'));
-            $this->redirect(array('student/update&id='.$modelStudentIdentification->id));
+            $this->redirect(array('student/update&id=' . $modelStudentIdentification->id));
         } else {
             $this->render('transfer', array(
                 'modelStudentIdentification' => $modelStudentIdentification,
@@ -498,13 +498,14 @@ class StudentController extends Controller
             ));
         }
     }
-    public function actionGetClassrooms() {
+    public function actionGetClassrooms()
+    {
         $school_inep_id = $_POST["inep_id"];
         $school = SchoolIdentification::model()->findByPk($school_inep_id);
         $classrooms = $school->classrooms;
         foreach ($classrooms as $class) {
             if ($class->school_year == Yii::app()->user->year) {
-                echo "<option value='".htmlspecialchars($class->id)."'>".htmlspecialchars($class->name)."</option>";
+                echo "<option value='" . htmlspecialchars($class->id) . "'>" . htmlspecialchars($class->name) . "</option>";
             }
         }
     }

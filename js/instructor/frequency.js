@@ -22,8 +22,8 @@ $("#classesSearch").on("click", function () {
                 if (data.valid) {
                     var html = "";
                     html += "" +
-                        "<table class='t-tabs table-frequency table table-bordered table-striped table-hover'>" +
-                        "<thead class='t-tabs'>" +
+                        "<table class='t-accordion table-frequency table table-bordered table-striped table-hover'>" +
+                        "<thead class='t-accordion__head'>" +
                         "<tr><th class='table-title' colspan='" + (Object.keys(data.instructors[0].schedules).length + 1) + "'>" + ($('#disciplines').select2('data').text) + "</th></tr>";
                     var daynameRow = "";
                     var dayRow = "";
@@ -36,7 +36,7 @@ $("#classesSearch").on("click", function () {
                         checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!this.available ? "disabled" : "") + " classroomId='" + $("#classrooms").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "></th>";
                     });
                     html += "<tr class='day-row'><th></th>" + dayRow + "</tr><tr class='dayname-row'><th></th>" + daynameRow + "</tr>" + ("<tr class='schedule-row'><th></th>" + scheduleRow + "</tr>");
-                    html += "</thead><tbody>";
+                    html += "</thead><tbody class='t-accordion__body'>";
                     $.each(data.instructors, function (indexinstructor, instructor) {
                         html += "<tr><td class='instructor-name'>" + instructor.instructorName + "</td>";
                         $.each(instructor.schedules, function (indexSchedule, schedule) {
