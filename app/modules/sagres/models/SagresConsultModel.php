@@ -51,16 +51,14 @@ class SagresConsultModel
         }
 
         $inconsistencyList = $validationSagres->validator($education, $finalClass);
-        $inconsistencyModel = new ValidationSagresModel();
-
+        
         foreach ($inconsistencyList as $value) {
             $inconsistencyModel = new ValidationSagresModel();
-
             $inconsistencyModel->enrollment = $value["enrollment"];
             $inconsistencyModel->school =  $value["school"] ." - ".$this->getNameSchool($value["school"]);
             $inconsistencyModel->description = $value["description"];
             $inconsistencyModel->action = $value["action"];
-            $inconsistencyModel->save();
+            $inconsistencyModel->insert();
         }
 
         return $education;
