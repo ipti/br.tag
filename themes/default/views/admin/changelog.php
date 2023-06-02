@@ -1,6 +1,10 @@
+<?php 
+$this->pageTitle = 'TAG - ' . Yii::t('default', 'Changelog');
+?>
+
 <script type="module" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/zero-md.min.js"></script>
 
-<div id="mainPage" class="main" style="padding: 60px 15px 0;">
+<div id="mainPage" class="main" style="padding: 60px 50px 0;">
     <zero-md src="CHANGELOG.md"></zero-md>
 </div>
 
