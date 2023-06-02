@@ -29,10 +29,6 @@ class SagresValidations
         $schools = $education->getEscola();
         $professionals = $education->getProfissional();
 
-        $managementUnit = $education->getPrestacaoContas();
-        $schools = $education->getEscola();
-        $professionals = $education->getProfissional();
-
         $inconsistencyList = [];
         $inconsistencyList = array_merge($inconsistencyList, $this->validatorManagementUnit($managementUnit));
 
@@ -44,7 +40,6 @@ class SagresValidations
 
         $inconsistencyList = array_merge($inconsistencyList, $this->validatorProfessionals($professionals));
         
-
         return $inconsistencyList;
     }
 
