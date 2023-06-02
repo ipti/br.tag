@@ -12,36 +12,43 @@
     min-width: 320px;
     max-width: 50%;
 
-    .t-cards-title {
+    .t-cards-content {
         display: flex;
-        align-items: center;
-        color: $colorsBaseProductDarkActive;
-        font-size: $FontSizeHeadingTitle2;
-        font-family: 'Inter', sans-serif;
-        font-weight: 700;
-     
-
-        img {
-            margin-right: $SizeXSmall;
-        }
-    }
+        flex-direction: column;
+        gap: 8px;
+        .t-cards-title {
+            display: flex;
+            align-items: center;
+            color: $colorsBaseProductDarkActive;
+            font-size: $FontSizeHeadingTitle2;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+         
     
-    .t-cards-text {
-        color: $colorsBaseInkLightActive;
-        margin-left: $SizeXLarge;
-        &.clear-margin {
-            &--left {
-                margin-left: 0;
+            img {
+                margin-right: $SizeXSmall;
             }
         }
-    }
-    &:hover {
-        text-decoration: none;
-    }
+        
+        .t-cards-text {
+            color: $colorsBaseInkLightActive;
+            margin-left: $SizeXLarge;
+            &.clear-margin {
+                &--left {
+                    margin-left: 0;
+                }
+            }
+        }
+      
+    
+        span{
+            margin: $spaceEmpty $spaceXXXSmall $spaceEmpty $spaceEmpty;
+            font-size: $FontSizeHeadingTitle1;
+        }
 
-    span{
-        margin: $spaceEmpty $spaceXXXSmall $spaceEmpty $spaceEmpty;
-        font-size: $FontSizeHeadingTitle1;
     }
+      &:hover {
+            text-decoration: none;
+        }
 
 }

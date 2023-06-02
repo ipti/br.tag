@@ -13,9 +13,9 @@
         {
             $this->classService = $classService ?? new ClassesService();
         }
-        public function exec($isInstructor){
+        public function exec($isInstructor, $discipline){
             if ($isInstructor) {
-                $response = $this->classService->getClassroomsInstructor();
+                $response = $this->classService->getClassroomsInstructor($discipline);
                 return  $response; 
             } else {
                 $response = $this->classService->getClassrooms();

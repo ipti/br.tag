@@ -11,7 +11,7 @@
             return $classrooms;
         }
 
-        public function getClassroomsInstructor() {
+        public function getClassroomsInstructor($discipline) {
 
             $sql = "SELECT ii.id, ii.name as instructor_name, ed.name as discipline_name, esvm.name as stage_name, c.name  
             from instructor_teaching_data itd 
@@ -21,11 +21,13 @@
             JOIN edcenso_discipline ed on ed.id = cm.discipline_fk 
             join classroom c on c.id = itd.classroom_id_fk  
             Join edcenso_stage_vs_modality esvm on esvm.id = c.edcenso_stage_vs_modality_fk  
-            WHERE ii.users_fk = :users_fk
+            WHERE ii.users_fk = :users_fk and ed.id = :discipline_id and c.school_year = :user_year
             ORDER BY ii.name";
 
             $command = Yii::app()->db->createCommand($sql);
-            $command->bindValue(':users_fk', Yii::app()->user->loginInfos->id, PDO::PARAM_INT);
+            $command->bindValue(':users_fk', Yii::app()->user->loginInfos->id, PDO::PARAM_INT)
+            ->bindValue(':discipline_id', $discipline, PDO::PARAM_INT)
+            ->bindValue(':user_year', Yii::app()->user->year, PDO::PARAM_INT);
 
             $classrooms = $command->queryAll();
            

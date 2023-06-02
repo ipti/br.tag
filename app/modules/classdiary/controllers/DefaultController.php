@@ -6,11 +6,10 @@ class DefaultController extends Controller
 	public function actionIndex()
 	{
 		try {
-			
-			$getClassrooms = new GetClassrooms();
-			$classrooms = $getClassrooms->exec(Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id));
+			$getDisciplines = new GetDisciplines();
+			$disciplines = $getDisciplines->exec();
 			$this->render('index', [
-				'classrooms' => $classrooms
+				'disciplines' => $disciplines
 			]);
 
 		} catch (\Throwable $th) {
@@ -18,5 +17,12 @@ class DefaultController extends Controller
 			var_dump($th);
 		}
 		
+	}
+	public function actionGetClassrooms(){
+		$getClassrooms = new GetClassrooms();
+		$isInstructor = Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id);
+		$discipline = $_POST["discipline"];
+		$classrooms = $getClassrooms->exec($isInstructor, $discipline); 
+		 echo json_encode($classrooms, JSON_OBJECT_AS_ARRAY);
 	}
 }
