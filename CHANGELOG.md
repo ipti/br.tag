@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.25.63]
+- Agora o formulário de matrícula ao atualizar retorna para o formulário com os dados salvos
+
 ## [Versão 3.25.62]
 - Na tela de plano de aula os GIFs de loading foram atualizados
 - A cor do botão no card de justificativa quando o mouse passa em cima foi atualizado

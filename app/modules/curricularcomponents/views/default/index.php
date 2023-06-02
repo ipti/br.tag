@@ -48,7 +48,7 @@ $title = Yii::t('default', 'Disciplines');
                     'enablePagination' => false,
                     'enableSorting' => false,
                     'ajaxUpdate' => false,
-                    'itemsCssClass' => 'js-tag-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                    'itemsCssClass' => 'js-tag-table tag-table-primary tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns'=>array(
                         'id',
                         'name',
