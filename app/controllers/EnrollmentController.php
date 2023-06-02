@@ -185,7 +185,7 @@ class EnrollmentController extends Controller
                 if ($model->save()) {
                     Log::model()->saveAction("enrollment", $model->id, "U", $model->studentFk->name . "|" . $model->classroomFk->name);
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Matrícula alterada com sucesso!'));
-                    $this->redirect(array('student/'));
+                    // $this->redirect(array('student/'));
                 }
             }
         }

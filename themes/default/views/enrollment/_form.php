@@ -29,6 +29,16 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="widget widget-tabs border-bottom-none">
 
         <?php echo $form->errorSummary($model); ?>
+        <?php if (Yii::app()->user->hasFlash('error')) : ?>
+            <div class="alert alert-error">
+                <?php echo Yii::app()->user->getFlash('error') ?>
+            </div>
+        <?php endif ?>
+        <?php if (Yii::app()->user->hasFlash('success')) : ?>
+            <div class="alert alert-success">
+                <?php echo Yii::app()->user->getFlash('success') ?>
+            </div>
+        <?php endif ?>
         <div class="alert alert-error enrollment-error no-show"></div>
         <h1 style="margin-left: 20px;"><?php echo $modelStudentIdentification->name ?></h1>
         <div class="t-tabs">
