@@ -151,9 +151,9 @@ class EnrollmentController extends Controller
     {
         $model = $this->loadModel($id);
 
-
+        $modelStudentIdentification = StudentIdentification::model()->find('inep_id="' . $model->student_inep_id . '"');
         if ($model->student_fk == NULL && $model->classroom_fk == NULL) {
-            $model->student_fk = StudentIdentification::model()->find('inep_id="' . $model->student_inep_id . '"')->id;
+            $model->student_fk = $modelStudentIdentification->id;
             $model->classroom_fk = Classroom::model()->find('inep_id="' . $model->classroom_inep_id . '"')->id;
         }
 
@@ -192,6 +192,7 @@ class EnrollmentController extends Controller
 
         $this->render('update', array(
             'model' => $model,
+            'modelStudentIdentification' => $modelStudentIdentification,
             'classrooms' => $classrooms
         ));
     }
