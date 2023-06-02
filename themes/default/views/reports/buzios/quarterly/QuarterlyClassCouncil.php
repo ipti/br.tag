@@ -24,6 +24,13 @@ if ($turno == 'M') {
         <?php $this->renderPartial('buzios/headers/headBuziosI'); ?>
     </div>
     <h3><?php echo Yii::t('default', 'Quarterly Class Council Report')." - "; ?> <?php echo $title == '' ? mb_strtoupper($classroom[0]['class_stage'], 'UTF-8') : $title?></h3>
+    <div class="row-fluid hidden-print">
+        <div class="span12">
+            <div class="buttons">
+                <a id="print" onclick="imprimirPagina()" class='btn btn-icon glyphicons print hidden-print' style="padding: 10px;"><img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> <?php echo Yii::t('default', 'Print') ?><i></i></a>
+            </div>
+        </div>
+    </div>
     <p style="font-size: 19px;">Aos <?php echo $count_days?> dias do mês de <?php echo $mounth?> de 
     <?php echo $year?>, às <?php echo $hour?>, realizou-se a 
     reunião de Conselho de Classe referente ao <br> <?php echo $quarterly?> Trimestre,
@@ -275,11 +282,21 @@ if ($turno == 'M') {
     <div class='no-enrollments'>Não há alunos matriculados na turma.</div>
 </div>
 <?php }?>
-
+<script>
+    function imprimirPagina() {
+      window.print();
+    }
+</script>
 <style>
     @media print {
         .signatures-container {
             page-break-before: always;
+        }
+        .hidden-print {
+            display: none;
+        }
+        @page {
+            size: portrait;
         }
 	}
     .signatures-container {
@@ -341,3 +358,9 @@ if ($turno == 'M') {
         padding: 10px;
     }
 </style>
+
+<script>
+    function imprimirPagina() {
+      window.print();
+    }
+</script>

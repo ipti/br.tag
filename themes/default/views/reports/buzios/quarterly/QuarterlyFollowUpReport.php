@@ -13,6 +13,13 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     </div>
     <!-- TAB RELATÓRIO -->
     <h3 style="margin-bottom: 20px;"><?php echo "RELATÓRIO TRIMESTRAL DE ACOMPANHAMENTO DOS ".mb_strtoupper($anosTitulo,'UTF-8')." <br>COMPONENTE CURRICULAR: ".mb_strtoupper($report[0]['discipline_name'], 'UTF-8');?></h3>
+    <div class="row-fluid hidden-print">
+        <div class="span12">
+            <div class="buttons">
+                <a id="print" onclick="imprimirPagina()" class='btn btn-icon glyphicons print hidden-print' style="padding: 10px;"><img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> <?php echo Yii::t('default', 'Print') ?><i></i></a>
+            </div>
+        </div>
+    </div>
     <div class="container-section" style="border-top: 3px solid black;"><?php echo "Escola: ".$school->name?></div>
     <div class="container-section"><?php echo "Professor(a): ".$report[0]['instructor_name']?></div>
     <div class="container-section container">
@@ -176,6 +183,14 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 </div>
 
 <style>
+    @media print {
+        .hidden-print {
+            display: none;
+        }
+        @page {
+            size: portrait;
+        }
+    }
     .signatures-container {
         margin-top: 80px !important;
         width: 96%;
@@ -296,3 +311,9 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         padding: 10px;
     }
 </style>
+
+<script>
+    function imprimirPagina() {
+      window.print();
+    }
+</script>
