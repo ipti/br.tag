@@ -18,7 +18,7 @@ $lastYear = (Yii::app()->user->year - 1);
 $school = Yii::app()->user->school;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerCssFile($themeUrl . '/css/template2.css');
+
 ?>
 <div class="main">
     <div class="row-fluid">

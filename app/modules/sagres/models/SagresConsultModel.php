@@ -50,7 +50,7 @@ class SagresConsultModel
             throw new ErrorException($e->getMessage());
         }
 
-        $inconsistencyList = $validationSagres->validator($education->getEscola(), $education->getProfissional(), $finalClass);
+        $inconsistencyList = $validationSagres->validator($education, $finalClass);
         $inconsistencyModel = new ValidationSagresModel();
 
         foreach ($inconsistencyList as $value) {
@@ -525,7 +525,7 @@ class SagresConsultModel
                 ->setData(new DateTime($cardapio['data']))
                 ->setTurno($this->convertTurn($cardapio['turno']))
                 ->setDescricaoMerenda($cardapio['descricaoMerenda'])
-                ->setAjustado($cardapio['ajustado']);
+                ->setAjustado(isset($cardapio['ajustado']) ? $cardapio['ajustado'] :  0);
 
             $cardapioList[] = $cardapioType;
         }

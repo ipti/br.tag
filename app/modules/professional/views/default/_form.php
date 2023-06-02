@@ -10,7 +10,7 @@
 	$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 	$themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
-    $cs->registerCssFile($themeUrl . '/css/template2.css');
+    
 	$cs->registerScriptFile($baseScriptUrl . '/common/js/professional.js?v=1.1', CClientScript::POS_END);
 
 	$form = $this->beginWidget(

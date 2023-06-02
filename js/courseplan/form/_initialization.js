@@ -146,7 +146,7 @@ $(document).on("change", ".ability-structure-select", function () {
                 id: selectedValue
             },
             beforeSend: function () {
-                container.find(".loading-next-structure").css("display", "inline-block");
+                $(".loading-abilities-select").show();
             },
             success: function (data) {
                 data = JSON.parse(data);
@@ -155,7 +155,7 @@ $(document).on("change", ".ability-structure-select", function () {
                 } else {
                     $(".js-abilities-panel").html(buildAbilityStructurePanel(data));
                 }
-                container.find(".loading-next-structure").hide();
+                $(".loading-abilities-select").hide();
                 $(".ability-structure-select").css('width', '100%');
             },
         });
