@@ -58,6 +58,7 @@ class SagresConsultModel
             $inconsistencyModel->school =  $value["school"] ." - ".$this->getNameSchool($value["school"]);
             $inconsistencyModel->description = $value["description"];
             $inconsistencyModel->action = $value["action"];
+            $inconsistencyModel->inep_id = $value['school'];
             $inconsistencyModel->insert();
         }
 
