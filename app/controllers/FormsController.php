@@ -41,7 +41,7 @@ class FormsController extends Controller {
 
     private function daysOfCalendarCalculate($classroom_fk, $discipline_id) {
         $days = [];
-        $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and discipline_fk = :discipline_fk", ["classroom_fk" => $classroom->id, ":discipline_fk" => $discipline_id]);
+        $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and discipline_fk = :discipline_fk", ["classroom_fk" => $classroom_fk, ":discipline_fk" => $discipline_id]);
         foreach ($schedules as $schedule) {
             if (!isset($days[$schedule->month])) {
                 $days[$schedule->month] = [];
