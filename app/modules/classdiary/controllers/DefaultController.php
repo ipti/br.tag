@@ -18,11 +18,16 @@ class DefaultController extends Controller
 		}
 		
 	}
-	public function actionGetClassrooms(){
+	public function actionGetClassrooms()
+	{
 		$getClassrooms = new GetClassrooms();
 		$isInstructor = Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id);
 		$discipline = $_POST["discipline"];
 		$classrooms = $getClassrooms->exec($isInstructor, $discipline); 
 		 echo json_encode($classrooms, JSON_OBJECT_AS_ARRAY);
+	}
+	public function actionClassDiary($id) 
+	{
+		$this->render('classDiary');
 	}
 }

@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
-
+@import '_functions.scss';
 *,
 body,
 html {
@@ -7,7 +7,11 @@ html {
 }
 
 .main {
-    padding: $spaceLarge;
+    padding: $spaceSmall;
+    @include device(mobile) {
+        padding: $spaceLarge;
+    }
+    
     // padding: $spaceLarge $spaceLarge $spaceLarge $spaceXSmall;
 }
 

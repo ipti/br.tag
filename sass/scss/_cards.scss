@@ -9,7 +9,8 @@
     margin-bottom: $SizeMedium;
     margin-right: $SizeMedium;
     width: 100%;
-    min-width: 320px;
+    min-width: 300px;
+    box-sizing: border-box;
     max-width: 50%;
 
     .t-cards-content {

@@ -6,14 +6,13 @@ $(".js-select-disciplines").on("change", function() {
             discipline: this.value
         }
     }).success(function (response) {
-        // console.log(response)
         const result = JSON.parse(response);
         const classrooms = $(".js-add-classrooms-cards");
         
         const cardsClassrooms = result.reduce((acc, element) => 
             acc += `
-            <div class="column no-grow">
-                <a href="#" class="t-cards">
+            <div class="column clearfix no-grow">
+                <a href="${window.location.host}?r=classdiary/default/ClassDiary&id=${element["id"]}" class="t-cards">
                     <div class="t-cards-content">
                         <div class="t-tag-primary">${element["discipline_name"]}</div>
                         <div class="t-cards-title">${element["name"]}</div>

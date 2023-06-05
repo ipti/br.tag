@@ -13,7 +13,7 @@
 
         public function getClassroomsInstructor($discipline) {
 
-            $sql = "SELECT ii.id, ii.name as instructor_name, ed.name as discipline_name, esvm.name as stage_name, c.name  
+            $sql = "SELECT c.id, ii.name as instructor_name, ed.name as discipline_name, esvm.name as stage_name, c.name  
             from instructor_teaching_data itd 
             join teaching_matrixes tm ON itd.id = tm.teaching_data_fk 
             join instructor_identification ii on itd.instructor_fk = ii.id 
