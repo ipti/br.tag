@@ -9,7 +9,7 @@
     );
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
-    
+
     ?>
 
     <div class="widget clearmargin">
@@ -29,7 +29,12 @@
                     </thead>
                     <tbody>
                         <?php
-                        $models = ValidationSagresModel::model()->findAll();
+
+                        if ((Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id))) 
+                            $models = ValidationSagresModel::model()->findAll();
+                        elseif ((Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id))) 
+                            $models = ValidationSagresModel::model()->findAllByAttributes(array('inep_id' => Yii::app()->user->school));
+                        
                         foreach ($models as $model) {
                             ?>
                             <tr>
@@ -46,7 +51,8 @@
                                     <?php echo $model->action ?>
                                 </td>
                             </tr>
-                        <?php } ?>
+                        <?php }
+                        ?>
                     </tbody>
                 </table>
             </div>
