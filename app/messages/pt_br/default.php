@@ -808,6 +808,7 @@ return array(
     'Configurarion' => 'Configurações',
     'Quarterly Class Council Report' => 'ATA DE CONSELHO DE CLASSE',
     'Quarterly Report' => 'RELATÓRIO TRIMESTRAL INDIVIDUAL DO ALUNO',
+    'Changelog' => 'Atualizações',
     
     //Relatórios
     'Result Board' => 'Quadro de Rendimento',
