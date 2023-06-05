@@ -8,7 +8,7 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization.js?v=1.0', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization_instructor.js?v=1.0', CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes'));
 
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
@@ -92,14 +92,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
         </div>
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>
-        <div class="t-accordeon">
-            <input type="checkbox" id="item-1" class="t-accordeon"></input>
-            <label for="item-1"><span></span>Expandable Item 1</label>
-            <article>
-                <div id="frequency-container" class="table-frequency">
-
-                </div>
-            </article>
+        <div id="frequency-container" class="table-frequency">
         </div>
     </div>
     <?php $this->endWidget(); ?>
