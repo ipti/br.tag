@@ -6,92 +6,92 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentGradesReport/_initialization.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
-$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+// $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
-$disciplines = [];
-$disciplines['base'] = [];
-$disciplines['diversified'] = [];
-$exams = [];
-$finals = [];
-$finals['base'] = [];
-$finals['diversified'] = [];
-$averages = [];
-$averages['base'] = [];
-$averages['diversified'] = [];
-$finalAverage = [];
-$finalAverage['base'] = [];
-$finalAverage['diversified'] = [];
-$schoolDays = [];
-$workingHours = [];
-$faultsCount = [];
-$faultsCount['discipline'] = [];
-$faultsCount['discipline']['base'] = [];
-$faultsCount['discipline']['diversified'] = [];
-$faultsCount['exam'] = [];
-$faultsCount['total'] = 0;;
-$givenClassesByDiscipline = [];
-$givenClassesByDiscipline['base'] = [];
-$givenClassesByDiscipline['diversified'] = [];
-$faultsByDiscipline = [];
-$faultsByDiscipline['base'] = [];
-$faultsByDiscipline['diversified'] = [];
-$frequencyByDiscipline = [];
-$frequencyByDiscipline['base'] = [];
-$frequencyByDiscipline['diversified'] = [];
-$schoolDaysTotal = 0;
-$workingHoursTotal = 0;
-$frequencyTotal = 0;
+// $disciplines = [];
+// $disciplines['base'] = [];
+// $disciplines['diversified'] = [];
+// $exams = [];
+// $finals = [];
+// $finals['base'] = [];
+// $finals['diversified'] = [];
+// $averages = [];
+// $averages['base'] = [];
+// $averages['diversified'] = [];
+// $finalAverage = [];
+// $finalAverage['base'] = [];
+// $finalAverage['diversified'] = [];
+// $schoolDays = [];
+// $workingHours = [];
+// $faultsCount = [];
+// $faultsCount['discipline'] = [];
+// $faultsCount['discipline']['base'] = [];
+// $faultsCount['discipline']['diversified'] = [];
+// $faultsCount['exam'] = [];
+// $faultsCount['total'] = 0;;
+// $givenClassesByDiscipline = [];
+// $givenClassesByDiscipline['base'] = [];
+// $givenClassesByDiscipline['diversified'] = [];
+// $faultsByDiscipline = [];
+// $faultsByDiscipline['base'] = [];
+// $faultsByDiscipline['diversified'] = [];
+// $frequencyByDiscipline = [];
+// $frequencyByDiscipline['base'] = [];
+// $frequencyByDiscipline['diversified'] = [];
+// $schoolDaysTotal = 0;
+// $workingHoursTotal = 0;
+// $frequencyTotal = 0;
 
-for ($i = 1; $i <= 4; $i++) {
-    $exams[$i] = [];
-    $exams[$i]['base'] = [];
-    $exams[$i]['diversified'] = [];
-    $schoolDays[$i] = $enrollment->classroomFk->getSchoolDaysByExam($i);
-    $schoolDaysTotal += $schoolDays[$i];
-    $workingHours[$i] = $enrollment->classroomFk->getWorkingHoursByExam($i);
-    $workingHoursTotal += $workingHours[$i];
-}
+// for ($i = 1; $i <= 4; $i++) {
+//     $exams[$i] = [];
+//     $exams[$i]['base'] = [];
+//     $exams[$i]['diversified'] = [];
+//     $schoolDays[$i] = $enrollment->classroomFk->getSchoolDaysByExam($i);
+//     $schoolDaysTotal += $schoolDays[$i];
+//     $workingHours[$i] = $enrollment->classroomFk->getWorkingHoursByExam($i);
+//     $workingHoursTotal += $workingHours[$i];
+// }
 
-foreach ($enrollment->grades as $grades) {
-    /* @var $grades Grade */
-    /* @var $discipline EdcensoDiscipline */
-    $discipline = $grades->disciplineFk;
-    $disciplineId = $discipline->id;
-    $type = "";
-    if ($disciplineId < 99) {
-        $type = 'base';
-    } else {
-        $type = 'diversified';
-    }
+// foreach ($enrollment->grades as $grades) {
+//     /* @var $grades Grade */
+//     /* @var $discipline EdcensoDiscipline */
+//     $discipline = $grades->disciplineFk;
+//     $disciplineId = $discipline->id;
+//     $type = "";
+//     if ($disciplineId < 99) {
+//         $type = 'base';
+//     } else {
+//         $type = 'diversified';
+//     }
 
-    $disciplines[$type][$disciplineId] = $discipline->name;
-    $faults = $enrollment->classFaults;
+//     $disciplines[$type][$disciplineId] = $discipline->name;
+//     $faults = $enrollment->classFaults;
 
-    $exams[1][$type][$disciplineId] = $grades->grade1 != null ? $grades->grade1 : "";
-    $exams[2][$type][$disciplineId] = $grades->grade2 != null ? $grades->grade2 : "";
-    $exams[3][$type][$disciplineId] = $grades->grade3 != null ? $grades->grade3 : "";
-    $exams[4][$type][$disciplineId] = $grades->grade4 != null ? $grades->grade4 : "";
-    $finals[$type][$disciplineId] = $grades->recovery_final_grade != null ? $grades->recovery_final_grade : "";
-    $averages[$type][$disciplineId] = $grades->getAverage();
-    $finalAverage[$type][$disciplineId] = $grades->getFinalAverage();
+//     $exams[1][$type][$disciplineId] = $grades->grade1 != null ? $grades->grade1 : "";
+//     $exams[2][$type][$disciplineId] = $grades->grade2 != null ? $grades->grade2 : "";
+//     $exams[3][$type][$disciplineId] = $grades->grade3 != null ? $grades->grade3 : "";
+//     $exams[4][$type][$disciplineId] = $grades->grade4 != null ? $grades->grade4 : "";
+//     $finals[$type][$disciplineId] = $grades->recovery_final_grade != null ? $grades->recovery_final_grade : "";
+//     $averages[$type][$disciplineId] = $grades->getAverage();
+//     $finalAverage[$type][$disciplineId] = $grades->getFinalAverage();
 
-    $givenClassesByDiscipline[$type][$disciplineId] = count($enrollment->classroomFk->getGivenClassesByDiscipline($disciplineId));
-    $faultsCount['discipline'][$type][$disciplineId] = count($enrollment->getFaultsByDiscipline($disciplineId));
-    $frequencyByDiscipline[$type][$disciplineId] = $givenClassesByDiscipline[$type][$disciplineId] == 0 ? 1 : (($givenClassesByDiscipline[$type][$disciplineId] - $faultsCount['discipline'][$type][$disciplineId]) / $givenClassesByDiscipline[$type][$disciplineId]);
-    $frequencyTotal += $frequencyByDiscipline[$type][$disciplineId];
-}
+//     $givenClassesByDiscipline[$type][$disciplineId] = count($enrollment->classroomFk->getGivenClassesByDiscipline($disciplineId));
+//     $faultsCount['discipline'][$type][$disciplineId] = count($enrollment->getFaultsByDiscipline($disciplineId));
+//     $frequencyByDiscipline[$type][$disciplineId] = $givenClassesByDiscipline[$type][$disciplineId] == 0 ? 1 : (($givenClassesByDiscipline[$type][$disciplineId] - $faultsCount['discipline'][$type][$disciplineId]) / $givenClassesByDiscipline[$type][$disciplineId]);
+//     $frequencyTotal += $frequencyByDiscipline[$type][$disciplineId];
+// }
 
-$faultsCount['exam'][1] = count($enrollment->getFaultsByExam(1));
-$faultsCount['exam'][2] = count($enrollment->getFaultsByExam(2));
-$faultsCount['exam'][3] = count($enrollment->getFaultsByExam(3));
-$faultsCount['exam'][4] = count($enrollment->getFaultsByExam(4));
-$faultsCount['total'] = $faultsCount['exam'][1] + $faultsCount['exam'][2] + $faultsCount['exam'][3] + $faultsCount['exam'][4];
+// $faultsCount['exam'][1] = count($enrollment->getFaultsByExam(1));
+// $faultsCount['exam'][2] = count($enrollment->getFaultsByExam(2));
+// $faultsCount['exam'][3] = count($enrollment->getFaultsByExam(3));
+// $faultsCount['exam'][4] = count($enrollment->getFaultsByExam(4));
+// $faultsCount['total'] = $faultsCount['exam'][1] + $faultsCount['exam'][2] + $faultsCount['exam'][3] + $faultsCount['exam'][4];
 
-$disciplinesCount = (count($disciplines['base'])+count($disciplines['diversified']));
-$disciplineBaseCount = count($disciplines['base']) + 1;
-$disciplineDiversifiedCount = count($disciplines['diversified']) + 1;
+// $disciplinesCount = (count($disciplines['base'])+count($disciplines['diversified']));
+// $disciplineBaseCount = count($disciplines['base']) + 1;
+// $disciplineDiversifiedCount = count($disciplines['diversified']) + 1;
 
-@$frequencyTotal = $frequencyTotal / $disciplinesCount;
+// @$frequencyTotal = $frequencyTotal / $disciplinesCount;
 
 ?>
 

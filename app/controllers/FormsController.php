@@ -35,10 +35,58 @@ class FormsController extends Controller {
         return true;
     }
 
+    private function compareGradeAndResult($grade, $gradesResult) {
+        return $grade->discipline_fk == $gradesResult->discipline_fk && $grade->enrollment_fk == $gradesResult->enrollment_fk;
+    }
+
+    private function daysOfCalendarCalculate($classroom_fk, $discipline_id) {
+        $days = [];
+        $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and discipline_fk = :discipline_fk", ["classroom_fk" => $classroom->id, ":discipline_fk" => $discipline_id]);
+        foreach ($schedules as $schedule) {
+            if (!isset($days[$schedule->month])) {
+                $days[$schedule->month] = [];
+            }
+            if (!in_array($schedule->day, $days[$schedule->month])) {
+                array_push($days[$schedule->month], $schedule->day);
+            }
+        }
+        return count($days);
+    }
+
     public function actionEnrollmentGradesReport($enrollment_id) {
         $this->layout = "reports";
+        $result = array();
         $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
-        $this->render('EnrollmentGradesReport', array('enrollment'=>$enrollment));
+        $grades = Grade::model()->findAllByAttributes(["enrollment_fk" => $enrollment_id]);
+        $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $enrollment_id]);
+        $classFaults = ClassFaults::model()->findAllByAttributes(["student_fk" => $enrollment->studentFk->id]);
+        $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk]);
+
+        foreach ($gradesResult as $finalMedia) {
+            $schoolDays = $this->daysOfCalendarCalculate($enrollment->classroomFk->id, $finalMedia->disciplineFk->id);
+            $disciplineMatrix = array_values(array_filter($curricularMatrix, function ($matrix) use ($finalMedia) {
+                return $matrix->discipline_fk == $finalMedia->disciplineFk->id;
+            }));
+            $result[$finalMedia->disciplineFk->id] = [
+                "discipline_name" => $finalMedia->disciplineFk->name,
+                "final_media" => $finalMedia->final_media,
+                "grades" => array_filter($grades, function ($grade) use ($finalMedia) {
+                    return $this->compareGradeAndResult($grade, $finalMedia);
+                }),
+                "faults" => count(array_filter($classFaults, function ($fault) use ($enrollment, $finalMedia) {
+                    return $fault->scheduleFk->discipline_fk == $finalMedia->discipline_fk && $fault->scheduleFk->classroom_fk == $enrollment->classroom_fk;
+                })),
+                "workload" => $disciplineMatrix[0]->workload,
+                "school_days" => $schoolDays,
+            ];
+        }
+
+        echo '<pre>';
+        var_dump($result);
+        echo '</pre>';
+        exit;
+
+        $this->render('EnrollmentGradesReport', array('result'=>$result));
     }
     public function actionEnrollmentGradesReportBoquim($enrollment_id) {
         $this->layout = "reports";
