@@ -22,7 +22,7 @@
     flex-basis: 0;
     margin-left: $spaceXLarge/2;
     margin-right: $spaceXLarge/2;
-    
+
     &.clearfix {
         margin-left: 0;
         margin-right: 0;
@@ -31,8 +31,64 @@
     &.no-grow {
         flex-grow: 0;
     }
-    &.helper{
+
+    &.is-half {
+        @include device(mobile) {
+            max-width: 50%;
+        }
+    }
+
+    &.is-four-fifths {
+        @include device(mobile) {
+            max-width: 80%;
+        }
+    }
+
+    &.is-three-quarters {
+        @include device(mobile) {
+            max-width: 75%;
+        }
+    }
+
+    &.is-two-thirds {
+        @include device(mobile) {
+            max-width: 66.6666%;
+        }
+    }
+
+    &.is-three-fifths {
+        @include device(mobile) {
+            max-width: 60%;
+        }
+    }
+
+    &.is-two-fifths {
+        @include device(mobile) {
+            max-width: 40%;
+        }
+    }
+
+    &.is-one-third {
+        @include device(mobile) {
+            max-width: 33.3333%;
+        }
+    }
+
+    &.is-one-quarter {
+        @include device(mobile) {
+            max-width: 25%;
+        }
+    }
+
+    &.is-one-fifth {
+        @include device(mobile) {
+            max-width: 20%;
+        }
+    }
+
+    //retirar isso
+    &.helper {
         max-width: 50%;
     }
-}
 
+}

@@ -30,4 +30,10 @@ class DefaultController extends Controller
 	{
 		$this->render('classDiary');
 	}
+	public function actionRenderFrequencyElement() 
+	{
+		$widthWindow = $_POST["widthWindow"];
+		$element = $widthWindow <= 640 ? 'frequencyElementMobile': 'frequencyElementDesktop';
+		$this->renderPartial($element);
+	}
 }
