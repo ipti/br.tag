@@ -147,84 +147,78 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines);
                         <tr>
                             <td><?= $i."ª AVALIAÇÃO"?></td>
                             <?php
-                            for($j=0; $j < $rows; $j++) { ?>
+                            $school_days = 0;
+                            $workload = 0;
+                            $faults = 0;
+                            for($j=0; $j < $rows; $j++) { 
+                                $school_days += $result[$j]['school_days'];
+                                $workload += $result[$j]['workload'];
+                                $faults += $result[$j]['faults'];
+                                ?>
                                 <td><?= $result[$j]['grades'][$i-1]->grade ?></td>
                             <?php }?>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td><?= $school_days?></td>
+                            <td><?= $workload?></td>
+                            <td><?= $faults?></td>
                         </tr>
                     <?php }?>
                 </tbody>
 
                 <tr>
                     <td colspan="1">MÉDIA ANUAL</td>
-                    <?php
-                    // printando colunas
-                    for ($i=0; $i < $rows; $i++) { 
-                        echo "<td></td>";
-                    }
-                    ?>
+                    <?php for ($i=0; $i < $rows; $i++) { ?>
+                        <td><?= $result[$i]['final_media']?></td>
+                    <?php }?>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td colspan="1">NOTA DA PROVA FINAL</td>
-                    <?php
-                    // printando colunas
-                    for ($i=0; $i < $rows; $i++) { 
-                        echo "<td></td>";
-                    }
-                    ?>
+                    <?php for ($i=0; $i < $rows; $i++) { ?>
+                        <td><?= end($result[$i]['grades'])->grade?></td>
+                    <?php }?>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td colspan="1">MÉDIA FINAL</td>
-                    <?php
-                    // printando colunas
-                    for ($i=0; $i < $rows; $i++) { 
-                        echo "<td></td>";
-                    }
-                    ?>
+                    <?php for ($i=0; $i < $rows; $i++) { ?>
+                        <td><?= $result[$i]['final_media']?></td>
+                    <?php }?>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td style="text-align:right;" colspan="1">TOTAL DE AULAS DADAS</td>
-                    <?php
-                    // printando colunas
-                    for ($i=0; $i < $rows; $i++) { 
-                        echo "<td></td>";
-                    }
-                    ?>
+                    <?php for ($i=0; $i < $rows; $i++) { ?>
+                        <td><?= $result[$i]['school_days']?></td>
+                    <?php }?>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td style="text-align:right;" colspan="1">TOTAL DE FALTAS</td>
-                    <?php
-                    // printando colunas
-                    for ($i=0; $i < $rows; $i++) { 
-                        echo "<td></td>";
-                    }
-                    ?>
+                    <?php for ($i=0; $i < $rows; $i++) { ?>
+                        <td><?= $result[$i]['faults']?></td>
+                    <?php }?>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td style="text-align:right;" colspan="1">FREQUÊNCIAS %</td>
-                    <?php
-                    // printando colunas
-                    for ($i=0; $i < $rows; $i++) { 
-                        echo "<td></td>";
-                    }
-                    ?>
+                    <?php for ($i=0; $i < $rows; $i++) { 
+                        $totalDiasAula = $result[$i]['school_days'];
+                        $quantidadeFaltas = $result[$i]['faults'];
+                        $frequencia = (($totalDiasAula - $quantidadeFaltas) / $totalDiasAula) * 100;
+                        $verifyCalc = is_nan($frequencia);
+                        ?>
+                        <td><?= !$verifyCalc ? strval(number_format($frequencia, 2))."%" : "" ?></td>
+                    <?php }?>
                     <td></td>
                     <td></td>
                     <td></td>

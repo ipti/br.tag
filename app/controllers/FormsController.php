@@ -75,7 +75,7 @@ class FormsController extends Controller {
         $grades = Grade::model()->findAllByAttributes(["enrollment_fk" => $enrollment_id]);
         $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $enrollment_id]);
         $classFaults = ClassFaults::model()->findAllByAttributes(["student_fk" => $enrollment->studentFk->id]);
-        $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk]);
+        $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]);
         $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk]);
 
         // separando os headers
@@ -145,6 +145,7 @@ class FormsController extends Controller {
         // exit;
 
         $this->render('EnrollmentGradesReport', array(
+            'enrollment' => $enrollment,
             'result' => $report,
             'baseDisciplines' => array_unique($baseDisciplines),
             'diversifiedDisciplines' => array_unique($diversifiedDisciplines),
