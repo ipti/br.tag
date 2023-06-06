@@ -3,6 +3,11 @@
     padding-top: 30px;
     position: relative;
 
+    .t-accordeon-div{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
     &:first-of-type {
         padding-top: 0;
     }
@@ -20,6 +25,7 @@
             font-weight: bold;
             padding-left: 25px;
         }
+        
         // Hide the article if the checkbox is unchecked
         &~article {
             height: 0px;
@@ -37,5 +43,6 @@
                 opacity: 1;
             }
         }
+
     }
 }
