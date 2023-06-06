@@ -108,11 +108,11 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines);
                     <tr>
                         <!-- <td></td> -->
                         <td style="text-align: center; max-width: 90px !important;">PARTES&nbsp;DO&nbsp;CURRÍCULO</td>
-                        <td colspan="<?= count($baseDisciplines) ?>" style="text-align: center; font-weight: bold; min-width:300px;">BASE
+                        <td colspan="<?= count($baseDisciplines) ?>" style="text-align: center; font-weight: bold; min-width:150px;">BASE
                             NACIONAL
                             COMUM
                         </td>
-                        <td colspan="<?= count($diversifiedDisciplines) ?>" style="text-align: center; font-weight: bold; min-width:300px;">PARTE
+                        <td colspan="<?= count($diversifiedDisciplines) ?>" style="text-align: center; font-weight: bold; min-width:100px;">PARTE
                             DIVERSIFICADA
                         </td>
                         <td rowspan="2" class="vertical-text">
