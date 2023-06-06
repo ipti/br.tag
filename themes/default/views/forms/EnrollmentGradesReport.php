@@ -147,11 +147,9 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines);
                         <tr>
                             <td><?= $i."ª AVALIAÇÃO"?></td>
                             <?php
-                            // printando colunas
-                            for ($i=0; $i < $rows; $i++) { 
-                                echo "<td></td>";
-                            }
-                            ?>
+                            for($j=0; $j < $rows; $j++) { ?>
+                                <td><?= $result[$j]['grades'][$i-1]->grade ?></td>
+                            <?php }?>
                             <td></td>
                             <td></td>
                             <td></td>
