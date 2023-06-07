@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.25.64]
+- O relatório de rendimento escolar por atividade agora exibe as informações corretamente
+
 ## [Versão 3.25.63]
 - Agora o formulário de matrícula ao atualizar retorna para o formulário com os dados salvos
 
