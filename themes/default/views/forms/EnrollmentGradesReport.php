@@ -236,7 +236,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
             <div style="text-align:right;">Resultado Final _____________________________</div>
             <div style="text-align:center">APTO PARA CURSAR O _____________ ANO DO ENSINO FUNDAMENTAL
                 <div>
-                    <div style="text-align: center;line-height: 15px;">
+                    <div style="text-align: center;line-height: 15px;margin-top:20px;">
                         _________________________________________________________<br>Local e data
                         <div>
                             <div style="float: left;line-height: 15px; width:50%">
