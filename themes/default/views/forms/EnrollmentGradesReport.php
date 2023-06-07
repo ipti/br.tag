@@ -7,7 +7,7 @@ $cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentGradesReport/_initiali
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
-// Tratamento do cabeçalho das
+// Tratamento do cabeçalho das disciplinas
 function classroomDisciplineLabelResumeArray($discipline_id)
 {
     $label = '';
