@@ -1,1 +1,12 @@
-<div>frequencia mobile</div>
+<table>
+    <thead>
+        <tr>
+            <th>
+                Nome
+            </th>
+            <th>
+                Faltas
+            </th>
+        </tr>
+    </thead>
+</table>
