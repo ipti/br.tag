@@ -26,6 +26,13 @@ if ($turno == 'M') {
    </div>
    <h4>
       <?php echo Yii::t('default', 'Quarterly Report') . ' - ' . $current_year ?></h3>
+      <div class="row-fluid hidden-print">
+        <div class="span12">
+            <div class="buttons">
+                <a id="print" onclick="imprimirPagina()" class='btn btn-icon glyphicons print hidden-print' style="padding: 10px;"><img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> <?php echo Yii::t('default', 'Print') ?><i></i></a>
+            </div>
+        </div>
+      </div>
       <div class="container-box header-container" style="margin-bottom: 200px;">
          <p>Unidade Escolar: <?php echo $school->name ?></p>
          <?php
@@ -355,6 +362,16 @@ if ($turno == 'M') {
                   </div>
                </div>
                <style>
+                  @media print {
+                     .hidden-print {
+                        display: none;
+                     }
+
+                     @page {
+                        size: portrait;
+                     }
+                  }
+
                   .signatures-container {
                      margin-top: 80px !important;
                      width: 96%;
@@ -435,3 +452,9 @@ if ($turno == 'M') {
                      background-color: #C6D9F1;
                   }
                </style>
+
+               <script>
+                  function imprimirPagina() {
+                     window.print();
+                  }
+               </script>

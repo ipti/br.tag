@@ -51,16 +51,15 @@ class SagresConsultModel
         }
 
         $inconsistencyList = $validationSagres->validator($education, $finalClass);
-        $inconsistencyModel = new ValidationSagresModel();
-
+        
         foreach ($inconsistencyList as $value) {
             $inconsistencyModel = new ValidationSagresModel();
-
             $inconsistencyModel->enrollment = $value["enrollment"];
             $inconsistencyModel->school =  $value["school"] ." - ".$this->getNameSchool($value["school"]);
             $inconsistencyModel->description = $value["description"];
             $inconsistencyModel->action = $value["action"];
-            $inconsistencyModel->save();
+            $inconsistencyModel->inep_id = $value['school'];
+            $inconsistencyModel->insert();
         }
 
         return $education;
@@ -730,10 +729,8 @@ class SagresConsultModel
             $fileName = "Educacao.xml";
             $fileDir = "./app/export/SagresEdu/" . $fileName;
 
-            // Limpa o conteúdo dentro de CDATA
-            $linha = $this->transformXML($xml);
             // Escreve o conteúdo no arquivo
-            $result = file_put_contents($fileDir, $linha);
+            $result = file_put_contents($fileDir, $xml);
             
             ini_set('memory_limit', $memory_limit);
 
@@ -788,16 +785,5 @@ class SagresConsultModel
         } else {
             return 0;
         }
-    }
-
-    public function transformXML($xml)
-    {
-        $year = date('Y');
-        // $xml = str_replace('<result>', sprintf('<edu:educacao xmlns:edu="http://www.tce.se.gov.br/sagres%s/xml/sagresEdu">', $year), $xml);
-        // $xml = str_replace('</result>', '</edu:educacao>', $xml);
-        // $xml = str_replace('<edu:prestacaoContas>', '<edu:PrestacaoContas>', $xml);
-        // $xml = str_replace('</edu:prestacaoContas>', '</edu:PrestacaoContas>', $xml);
-
-        return $xml;
     }
 }
