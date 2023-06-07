@@ -6,10 +6,10 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
+
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js', CClientScript::POS_END);
 
-$cs->registerCssFile($themeUrl . '/css/template2.css');
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'school-configuration-form',
     'enableAjaxValidation' => false
@@ -44,7 +44,7 @@ $model = new StudentEnrollment();
                     <div class="tab-pane active" id="student">
                         <div class="row-fluid">
                             <div class="span5">
-                                <div class="control-group">
+                                <div class="control-group t-multiselect">
                                     <?php echo Chtml::label('Turma de ' . $lastYear . ':', '', array('class' => 'controls control-label ml-10 required')); ?>
                                     <div class="controls">
                                         <?php echo chtml::dropDownList('Classrooms', "", CHtml::listData(Classroom::model()->findAll(

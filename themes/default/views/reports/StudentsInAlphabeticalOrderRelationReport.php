@@ -12,8 +12,13 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 <div class="pageA4H">
     <?php $this->renderPartial('head'); ?>
     <h3><?php echo Yii::t('default', 'Students In Alphabetical Order Relation'); ?></h3>
-
-
+    <div class="row-fluid hidden-print">
+        <div class="span12">
+            <div class="buttons">
+                <a id="print" onclick="imprimirPagina()" class='btn btn-icon glyphicons print hidden-print' style="padding: 10px;"><img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> <?php echo Yii::t('default', 'Print') ?><i></i></a>
+            </div>
+        </div>
+    </div>
 
     <table class="table table-bordered table-striped">
         <tr>
@@ -50,7 +55,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         }
         $html = "";
         $html .= "<tr>"
-                . "<td colspan= 4>" . " <b> Total de alunos nessa turma: </b>" . ($ordem-1) . "</td>"
+                . "<td colspan= 4>" . " <b> Total de alunos: </b>" . ($ordem-1) . "</td>"
             . "</tr>";
 
         echo $html;
@@ -58,3 +63,20 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
     </table>
 </div>
+
+<style>
+    @media print {
+        .hidden-print {
+            display: none;
+        }
+        @page {
+            size: landscape;
+        }
+    }
+</style>
+
+<script>
+    function imprimirPagina() {
+      window.print();
+    }
+</script>

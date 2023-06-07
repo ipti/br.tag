@@ -12,7 +12,7 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.1');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/index.js', CClientScript::POS_END);
-$cs->registerCssFile($themeUrl . '/css/template2.css');
+
 $this->setPageTitle('TAG - ' . Yii::t('calendarModule.index', 'Calendar'));
 ?>
 

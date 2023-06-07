@@ -75,11 +75,79 @@
 }
 
 .pull-right.circle {
-    margin-left: 70px; width: 20px;
+    margin-left: 70px; 
+    width: 20px;
     height: 20px;
     border-radius: 15%;
     background-color: red;
     color: white;
     text-align: center;
     line-height: 20px
+}
+
+
+
+/*
+ *  CSS to display a pop-up of the sagres xml file loading
+ */
+#loading-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40vw;
+    height: 20vh;
+    display: flex;
+	background: #f3f3f7;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    overflow: hidden;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 600px) {
+  #loading-popup {
+    width: 32vh;
+  }
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    
+}
+
+.loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loading-spinner {
+    margin-bottom: 10px;
+    border: 4px solid #fff;
+    border-top: 4px solid #506c93;
+    border-radius: 50%;
+    width: 10vw;
+    height: 10vw;
+    max-width: 50px;
+    max-height: 50px;
+    animation: spin 2s linear infinite;
+}
+
+.loading-text {
+    color: #454e7e;
+    font-size: 14px;
+	font-weight: bold;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

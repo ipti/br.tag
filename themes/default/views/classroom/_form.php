@@ -14,7 +14,7 @@ $cs->registerScriptFile($baseUrl . '/js/classroom/form/dialogs.js', CClientScrip
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/functions.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/validations.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/pagination.js', CClientScript::POS_END);
-$cs->registerCssFile($themeUrl . '/css/template2.css');
+
 $cs->registerCssFile($baseUrl . 'sass/css/main.css');
 
 $form = $this->beginWidget('CActiveForm', array(

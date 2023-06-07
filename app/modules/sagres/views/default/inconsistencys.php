@@ -9,7 +9,7 @@
     );
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
-    $cs->registerCssFile($themeUrl . '/css/template2.css');
+
     ?>
 
     <div class="widget clearmargin">
@@ -17,7 +17,7 @@
             <div class="grid-view">
                 <table id="student-identification-table"
                     class="display js-tag-table student-table 
-                    tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs" style="width:100%"
+                    tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs" style="width:100%"
                     aria-label="students table">
                     <thead>
                         <tr>
@@ -29,7 +29,12 @@
                     </thead>
                     <tbody>
                         <?php
-                        $models = ValidationSagresModel::model()->findAll();
+
+                        if ((Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id))) 
+                            $models = ValidationSagresModel::model()->findAll();
+                        elseif ((Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id))) 
+                            $models = ValidationSagresModel::model()->findAllByAttributes(array('inep_id' => Yii::app()->user->school));
+                        
                         foreach ($models as $model) {
                             ?>
                             <tr>
@@ -46,7 +51,8 @@
                                     <?php echo $model->action ?>
                                 </td>
                             </tr>
-                        <?php } ?>
+                        <?php }
+                        ?>
                     </tbody>
                 </table>
             </div>

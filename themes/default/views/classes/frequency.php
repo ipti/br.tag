@@ -8,7 +8,7 @@ $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization.js?v=1.0', CClientScript::POS_END);
-$cs->registerCssFile($themeUrl . '/css/template2.css');
+
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes'));
 
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
@@ -103,12 +103,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 ?>
             </div>
                 <!-- diciplina -->
-            <div class="disciplines-container" style="display: none;">
-                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required','style' => 'width: 88px;')); ?>
+            <div class="disciplines-container" style="display: none;width: 35%;">
+                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required')); ?>
                 <?php
                 echo CHtml::dropDownList('disciplines', '', array(), array(
                     'key' => 'id',
-                    'class' => 'select-search-on control-input frequency-input',
+                    'class' => 'select-search-on control-input frequency-input-curricular-component',
                 ));
                 ?>
             </div>

@@ -4,6 +4,7 @@ namespace SagresEdu;
 
 use JMS\Serializer\Annotation\XmlList;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\XmlElement;
 
 /**
  * Class representing EscolaTType
@@ -17,6 +18,7 @@ class EscolaTType
     /**
      * @var int $idEscola
      * @SerializedName("edu:idEscola")
+     * @XmlElement(cdata=false)
      */
     private $idEscola = null;
 

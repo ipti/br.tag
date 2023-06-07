@@ -6,10 +6,6 @@
     $this->menu = array(
         array('label' => Yii::t('default', 'Create a new Classroom'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new Classroom')),
     );
-    $themeUrl = Yii::app()->theme->baseUrl;
-    $cs = Yii::app()->getClientScript();
-    $cs->registerCssFile($themeUrl . '/css/template2.css');
-    $cs->registerCssFile(Yii::app()->request->baseUrl . '/sass/css/main.css');
     
     ?>
 
@@ -52,7 +48,7 @@
                         'dataProvider' => $dataProvider,
                         'enablePagination' => false,
                         'enableSorting' => false,
-                        'itemsCssClass' => 'js-tag-table tag-table table table-condensed
+                        'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed
                         table-striped table-hover table-primary table-vertical-center checkboxs',
                         'columns' => array(
                             array(

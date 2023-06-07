@@ -10,7 +10,7 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/classes/class-contents/_initialization.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classes/class-contents/functions.js?v=1.0', CClientScript::POS_END);
-$cs->registerCssFile($themeUrl . '/css/template2.css');
+
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));
 
 $form = $this->beginWidget('CActiveForm', array(
@@ -23,17 +23,15 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
 ?>
 <div class="main">
-<div class="row-fluid hidden-print">
-        <div class="span12">
-            <h1><?php echo Yii::t('default', 'Class Contents'); ?></h1>
-            <div class="buttons span9">
-                <a id="print" class='tag-button-light  medium-button'>
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.png"/>
-                    <?php echo Yii::t('default', 'Print') ?>
-                </a>
-                <a id="save" class='t-button-primary  '><?php echo Yii::t('default', 'Save') ?></a>
-            </div>
-        </div>
+    <div class="row">
+        <h1><?php echo Yii::t('default', 'Class Contents'); ?></h1>
+    </div>
+    <div class="row justify-content--space-between">
+        <a id="print" class=' t-button-secondary'>
+            <span class="t-icon-printer"></span>
+            <?php echo Yii::t('default', 'Print') ?>
+        </a>
+        <a id="save" class='t-button-primary'><?php echo Yii::t('default', 'Save') ?></a>
     </div>
     <table class="table table-bordered table-striped visible-print">
         <tr>
@@ -74,14 +72,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <div class="alert-required-fields no-show alert alert-error">
         Os campos com * são obrigatórios.
     </div>
-    <div class="row align-items--center filter-bar">
+    <div class="row align-items--center">
         
-            <div>
-                <div class="controls">
-                    <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required', 'style' => 'width: 53px;')); ?>
-                </div>
-                <div class="controls">
-                    <select class="select-search-on control-input classContents-input" id="classroom" name="classroom">
+            <div class="column clearleft">
+                <div class="t-field-select">
+                    <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
+                    <select class="select-search-on t-field-select__input classContents-input" id="classroom" name="classroom">
                         <option>Selecione a turma</option>
                         <?php foreach ($classrooms as $classroom) : ?>
                             <option value="<?= $classroom->id ?>"
@@ -89,59 +85,59 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <?php endforeach; ?>
                     </select>
                 </div>
-
             </div>
 
-            <div>
-
-                <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 'control-label required', 'style' => 'width: 53px;')); ?>
-
-
-                <?php
-                echo CHtml::dropDownList('month', '', array(
-                    1 => 'Janeiro',
-                    2 => 'Fevereiro',
-                    3 => 'Março',
-                    4 => 'Abril',
-                    5 => 'Maio',
-                    6 => 'Junho',
-                    7 => 'Julho',
-                    8 => 'Agosto',
-                    9 => 'Setembro',
-                    10 => 'Outubro',
-                    11 => 'Novembro',
-                    12 => 'Dezembro'
-                ), array(
-                    'key' => 'id',
-                    'class' => 'select-search-on control-input classContents-input',
-                    'prompt' => 'Selecione o mês',
-                ));
-                ?>
-
+            <div class="column">
+                <div class="t-field-select">
+                    <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
+                    <?php
+                    echo CHtml::dropDownList('month', '', array(
+                        1 => 'Janeiro',
+                        2 => 'Fevereiro',
+                        3 => 'Março',
+                        4 => 'Abril',
+                        5 => 'Maio',
+                        6 => 'Junho',
+                        7 => 'Julho',
+                        8 => 'Agosto',
+                        9 => 'Setembro',
+                        10 => 'Outubro',
+                        11 => 'Novembro',
+                        12 => 'Dezembro'
+                    ), array(
+                        'key' => 'id',
+                        'class' => 'select-search-on t-field-select__input classContents-input',
+                        'prompt' => 'Selecione o mês',
+                    ));
+                    ?>
+                </div>
             </div>
-            <div class="disciplines-container" style="display: none;">
-                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required', 'style' => 'width: 85px;')); ?>
-                <?php
-                echo CHtml::dropDownList('disciplines', '', array(), array(
-                    'key' => 'id',
-                    'class' => 'select-search-on control-input classContents-input',
-                ));
-                ?>
+
+            <div class="column disciplines-container" style="display: none;">
+                <div class="t-field-select">
+                    <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label t-field-select__label--required')); ?>
+                    <?php
+                    echo CHtml::dropDownList('disciplines', '', array(), array(
+                        'key' => 'id',
+                        'class' => 'select-search-on t-field-select__input classContents-input',
+                    ));
+                    ?>
+                </div>
             </div>
-            <div class="pull-right">
-                <a id="classesSearch" class='t-button-primary '><i
-                            class="fa-search fa icon-button-tag"
-                            ></i><?php echo Yii::t('default', 'Search') ?>
+            <img class="loading-class-contents" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+            <div class="column clearfix">
+                <div class="t-buttons-container justify-content--end">
+                <a id="classesSearch" class='t-button-primary'>
+                    <i class="fa-search fa icon-button-tag"></i>
+                    <?php echo Yii::t('default', 'Search') ?>
                 </a>
+                </div>
             </div>
-            <img class="loading-class-contents"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+            
     </div>
     <div class="clear"></div>
     <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
-        <div class="widget-head">
-            <h4 class="heading"><span id="month_text"></span> - <span id="discipline_text"></span></h4>
-        </div>
-        <table id="class-contents" class="table table-bordered table-striped">
+        <table id="class-contents" class="tag-table-secondary table-bordered" aria-labelledby="create class contents">
             <thead>
             </thead>
             <tbody>

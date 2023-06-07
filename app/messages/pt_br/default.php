@@ -384,7 +384,7 @@ return array(
     'Modality' => 'Modalidade',
     'Edcenso Stage Vs Modality Fk' => 'Etapas de Ensino',
     'Edcenso Professional Education Course Fk' => 'Código Curso Educação Profissional',
-    'Disciplines' => 'Componentes curricularea/eixos',
+    'Disciplines' => 'Componentes curriculares/eixos',
     'Discipline' => 'Componente curricular/eixo',
     'Discipline Chemistry' => 'Química',
     'Discipline Physics' => 'Física',
@@ -808,6 +808,7 @@ return array(
     'Configurarion' => 'Configurações',
     'Quarterly Class Council Report' => 'ATA DE CONSELHO DE CLASSE',
     'Quarterly Report' => 'RELATÓRIO TRIMESTRAL INDIVIDUAL DO ALUNO',
+    'Changelog' => 'Atualizações',
     
     //Relatórios
     'Result Board' => 'Quadro de Rendimento',

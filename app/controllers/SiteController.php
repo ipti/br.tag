@@ -133,7 +133,8 @@ class SiteController extends Controller
             Yii::app()->user->school = $_POST['SchoolIdentification']['inep_id'];
         }
 
-        $this->redirect(Yii::app()->homeUrl);
+        echo '<script>history.go(-1);</script>';
+        exit;
     }
 
     public function actionChangeYear()

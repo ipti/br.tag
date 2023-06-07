@@ -28,6 +28,13 @@ $tableWhiteFieldsComplete = "<td></td><td></td><td></td><td></td><td></td>
                 <span style="color: black">(<?php echo $anosPosition == 5 ? "&nbspX&nbsp" : "&nbsp&nbsp&nbsp&nbsp"?>)&nbsp5º</span>
             <?php }?>
     </h3>
+    <div class="row-fluid hidden-print">
+        <div class="span12">
+            <div class="buttons">
+                <a id="print" onclick="imprimirPagina()" class='btn btn-icon glyphicons print hidden-print' style="padding: 10px;"><img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> <?php echo Yii::t('default', 'Print') ?><i></i></a>
+            </div>
+        </div>
+    </div>
     <div class="title-container">
         <p><?php echo "Professor(a): ".$instructor[0]['instructor_name']?></p>
         <span><?php echo "Turma: ".$classroom->name?></span>
@@ -218,6 +225,14 @@ $tableWhiteFieldsComplete = "<td></td><td></td><td></td><td></td><td></td>
 </div>
 
 <style>
+    @media print {
+        .hidden-print {
+            display: none;
+        }
+        @page {
+            size: portrait;
+        }
+    }
     .signatures-container {
         margin-top: 80px !important;
     }
@@ -306,3 +321,9 @@ $tableWhiteFieldsComplete = "<td></td><td></td><td></td><td></td><td></td>
         margin-bottom: 10px;
     }
 </style>
+
+<script>
+    function imprimirPagina() {
+      window.print();
+    }
+</script>

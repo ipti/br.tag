@@ -21,6 +21,7 @@
             <?php            
              echo $this->renderPartial('_form', array(
                 'model' => $model,
+                'modelStudentIdentification' => $modelStudentIdentification,
                 'transoption'=> $transoption,
                 'classrooms' => $classrooms,
                 'title' => $title)); 

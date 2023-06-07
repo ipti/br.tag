@@ -28,6 +28,10 @@
         margin-right: 0;
     }
 
+    &.clearleft {
+        margin-left: 0; 
+    }
+
     &.no-grow {
         flex-grow: 0;
     }

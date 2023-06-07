@@ -217,6 +217,7 @@ function initDatatable() {
             else if(action.includes("curricularmatrix")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar matriz')
             else if(action.includes("courseplan")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar plano de aula')
             else if(action.includes("professional")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar profissional')
+            else if(action.includes("curricularcomponents")) $('.dataTables_filter input[type="search"]').attr('placeholder', ' Pesquisar componente')
             else if(action.includes("stock")) {
                 $('.stock-container .dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar Itens')
                 $('.transactions-container .dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar Movimentações')
@@ -229,7 +230,7 @@ function initDatatable() {
 
             //adiciona o ícone de pesquisa e loading
             $('.dataTables_filter label').prepend('<img src="../../../themes/default/img/search-icon.svg">');
-            $('#student-identification-table_wrapper').prepend('<img class="loading-datatable-search" style="display:none;margin-left: 75%;margin-top: 1.2%;" height="30px" width="30px" src="../../../themes/default/img/loadingTag.gif" alt="TAG Loading">');
+            $('#student-identification-table_wrapper').prepend('<img class="loading-datatable-search" style="display:none;margin-left: 70%;margin-top: 1.2%;" height="30px" width="30px" src="../../../themes/default/img/loadingTag.gif" alt="TAG Loading">');
         });
     }
 }

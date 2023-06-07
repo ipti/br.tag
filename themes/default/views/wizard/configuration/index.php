@@ -8,7 +8,6 @@ $this->setPageTitle('TAG - ' .  Yii::t('default', 'Configurarion'));
 $baseUrl = Yii::app()->baseUrl;
 $baseUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerCssFile($baseUrl . 'sass/css/main.css');
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'school-configuration-form',

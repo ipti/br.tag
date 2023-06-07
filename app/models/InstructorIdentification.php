@@ -203,9 +203,10 @@ class InstructorIdentification extends AltActiveRecord
 
     public function getDisciplines()
     {
+
         $disciplines = EdcensoDiscipline::model()
         ->with(array(
-                'curricularMatrices.teachingMatrixes.teachingDataFk' => array(
+                'curricularMatrixes.teachingMatrixes.teachingDataFk' => array(
                 'condition' => 'teachingDataFk.instructor_fk=:instructor_fk',
                 'params' => array(':instructor_fk' => $this->id),
             )
@@ -214,7 +215,6 @@ class InstructorIdentification extends AltActiveRecord
             'select' => 'DISTINCT ed.*',
         ));
 
-        var_dump($disciplines);
         return $disciplines;
     }
 
