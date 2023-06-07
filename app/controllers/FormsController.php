@@ -58,6 +58,7 @@ class FormsController extends Controller {
     }
 
     private function schoolDaysCalculate($classroom_fk, $discipline_id) {
+        // calculando todos dias letivos no quadro de horário para a turma naquela disciplina
         $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and discipline_fk = :discipline_fk", ["classroom_fk" => $classroom_fk, ":discipline_fk" => $discipline_id]);
         return count($schedules);
     }
@@ -166,8 +167,8 @@ class FormsController extends Controller {
         $this->render('EnrollmentGradesReport', array(
             'enrollment' => $enrollment,
             'result' => $report,
-            'baseDisciplines' => array_unique($baseDisciplines),
-            'diversifiedDisciplines' => array_unique($diversifiedDisciplines),
+            'baseDisciplines' => array_unique($baseDisciplines), //função usada para evitar repetição
+            'diversifiedDisciplines' => array_unique($diversifiedDisciplines), //função usada para evitar repetição
             'unities' => $unities
         ));
     }
