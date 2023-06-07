@@ -1508,6 +1508,12 @@ $form = $this->beginWidget('CActiveForm', array(
                                             </label>
                                         </div>
                                         <div class="t-field-checkbox">
+                                            <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_teachingdeafs', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            <label class="t-field-checkbox">
+                                                <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingdeafs']; ?>
+                                            </label>
+                                        </div>
+                                        <div class="t-field-checkbox">
                                             <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_teachingindian', array('value' => 1, 'uncheckValue' => 0)); ?>
                                             <label class="t-field-checkbox">
                                                 <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingindian']; ?>    
