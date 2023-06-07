@@ -83,7 +83,7 @@ function classroomDisciplineLabelResumeArray($discipline_id)
     
     return $label;
 }
-$rows = count($baseDisciplines)+count($diversifiedDisciplines);
+$rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com a soma do total de disciplinas da matriz
 ?>
 
 <div class="pageA4H">
@@ -107,7 +107,6 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines);
                         <th colspan="18" style="text-align: center">RENDIMENTO ESCOLAR POR ATIVIDADES</th>
                     </tr>
                     <tr>
-                        <!-- <td></td> -->
                         <td style="text-align: center; max-width: 90px !important;">PARTES&nbsp;DO&nbsp;CURRÍCULO</td>
                         <td colspan="<?= count($baseDisciplines) ?>" style="text-align: center; font-weight: bold; min-width:150px;">BASE
                             NACIONAL
@@ -195,7 +194,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines);
                 <tr>
                     <td style="text-align:right;" colspan="1">TOTAL DE AULAS DADAS</td>
                     <?php for ($i=0; $i < $rows; $i++) { ?>
-                        <td><?= $result[$i]['school_days']?></td>
+                        <td><?= $result[$i]['total_number_of_classes']?></td>
                     <?php }?>
                     <td></td>
                     <td></td>

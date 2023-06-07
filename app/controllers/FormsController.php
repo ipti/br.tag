@@ -37,17 +37,34 @@ class FormsController extends Controller {
 
     private function compareGradeAndResult($grade, $gradesResult) 
     {
+        // faz o casamento entre o grade_result e o grade para ter mais garantia do resultado
         return $grade->discipline_fk == $gradesResult->discipline_fk && $grade->enrollment_fk == $gradesResult->enrollment_fk;
     }
 
-    private function daysOfCalendarCalculate($classroom_fk, $discipline_id) 
+    private function daysOfClassContentsCalculate($classroom_fk, $discipline_id) 
     {
+        // calculando o total de aulas ministradas naquela turma na disciplina específica
+        $days = ClassContents::model()->findAll(array(
+            'join' => 'JOIN course_class cc2 ON t.course_class_fk = cc2.id
+                       JOIN course_plan cp ON cc2.course_plan_fk = cp.id
+                       JOIN classroom c ON c.edcenso_stage_vs_modality_fk = cp.modality_fk',
+            'condition' => 'c.id = :classroomId AND cp.discipline_fk = :disciplineId',
+            'params' => array(
+                ':classroomId' => $classroom_fk,
+                ':disciplineId' => $discipline_id,
+            ),
+        ));
+        return count($days);
+    }
+
+    private function schoolDaysCalculate($classroom_fk, $discipline_id) {
         $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and discipline_fk = :discipline_fk", ["classroom_fk" => $classroom_fk, ":discipline_fk" => $discipline_id]);
         return count($schedules);
     }
 
     private function separateBaseDisciplines($discipline_id)
     {
+        // verifica se a disciplina faz parte da BNCC
         if ($discipline_id == 6 || $discipline_id == 10 || $discipline_id == 11 || $discipline_id == 7 ||
             $discipline_id == 3 || $discipline_id == 5 || $discipline_id == 12 || $discipline_id == 13 || 
             $discipline_id == 26)
@@ -69,7 +86,7 @@ class FormsController extends Controller {
         $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
         $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk]); // unidades da turma
 
-        // Aqui eu separo as disciplinas da BNCC das disciplinas diversas para montar o cabeçalho 
+        // Aqui eu separo as disciplinas da BNCC das disciplinas diversas para depois montar o cabeçalho 
         foreach ($curricularMatrix as $matrix) {
             if($this->separateBaseDisciplines($matrix->discipline_fk)) { // se for disciplina da BNCC
                 array_push($baseDisciplines, $matrix->disciplineFk->id);
@@ -87,7 +104,10 @@ class FormsController extends Controller {
             $mediaExists = false; // verifica se o aluno tem notas para a disciplina
 
             // cálculo de dias letivos
-            $schoolDays = $this->daysOfCalendarCalculate($enrollment->classroomFk->id, $discipline);
+            $schoolDays = $this->schoolDaysCalculate($enrollment->classroomFk->id, $discipline);
+
+            // cálculo de aulas dadas
+            $totaNumberOfClasses = $this->daysOfClassContentsCalculate($enrollment->classroomFk->id, $discipline);
 
             // pego o registro de matriz curricular da disciplina para verificar a carga horaria da disciplina
             $disciplineMatrix = array_values(array_filter($curricularMatrix, function ($matrix) use ($discipline) {
@@ -110,6 +130,7 @@ class FormsController extends Controller {
                         })),
                         "faults" => $faults,
                         "workload" => $disciplineMatrix[0]->workload,
+                        "total_number_of_classes" => $totaNumberOfClasses,
                         "school_days" => $schoolDays,
                     ]);
                     $mediaExists = true;
@@ -124,6 +145,7 @@ class FormsController extends Controller {
                     "grades" => null,
                     "faults" => $faults,
                     "workload" => $disciplineMatrix[0]->workload,
+                    "total_number_of_classes" => $totaNumberOfClasses,
                     "school_days" => $schoolDays,
                 ]);
             }
