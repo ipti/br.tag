@@ -231,13 +231,12 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                     <td></td>
                 </tr>
             </table>
-            <br/>
-
-            <div style="text-align:right;">Resultado Final _____________________________</div>
+            </br>
+            <div style="text-align:right; margin-right:20px;">Resultado Final _____________________________</div>
             <div style="text-align:center">APTO PARA CURSAR O _____________ ANO DO ENSINO FUNDAMENTAL
                 <p style="margin-top:20px">
                     <span>_________________________________________________________</span>
-                    <span style="margin-inline: 16px;">_________________________________________________________</span>
+                    <span style="margin-inline: 16px;">_____________________________,____________________________</span>
                     <span>_________________________________________________________</span>
                 </p>
                 <p style="margin-top:10px">
