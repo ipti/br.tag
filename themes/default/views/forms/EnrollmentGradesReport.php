@@ -287,11 +287,6 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
             padding: 10px !important;
         }
 
-        .report-table-empty td {
-            padding-top: 0 !important;
-            padding: 10px !important;
-        }
-
         #canvas-td {
             background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 10 10'> <path d='M0 0 L0 10 L10 10' fill='black' /></svg>");
             background-repeat: no-repeat;
@@ -313,4 +308,4 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
     function imprimirPagina() {
       window.print();
     }
-</script>
+</script>   
