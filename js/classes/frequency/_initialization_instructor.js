@@ -23,6 +23,7 @@ $("#classesSearch").on("click", function () {
                     var acordeon = '';
 
                     $.each(data.students[0].schedules, function () {
+                        var dia =this.day;
                         acordeon +=
                             `<div class='t-accordeon'>
                                 <div class='t-accordeon-div'>
@@ -39,38 +40,62 @@ $("#classesSearch").on("click", function () {
                                         <thead class='t-accordion__head'></thead>
                                         <tbody class='t-accordion__body'>`;
                         $.each(data.students, function (indexStudent, student) {
-
+                            console.log(student.schedules);
+                            console.log(student.schedules[0].fault);
                             acordeon +=
 
                                 `<tr>
                                             <td class='student-name'>
                                             ${student.studentName}
-                                            </td>`;
-                            $.each(student.schedules, function (indexSchedule, schedule) {
-                                var justificationContainer = "";
-                                if (schedule.fault) {
-                                    if (schedule.justification !== null) {
-                                        justificationContainer += "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon' title='" + schedule.justification + "'><i class='fa fa-file-text-o'></i><i class='fa fa-file-text'></i></a>";
-                                    } else {
-                                        justificationContainer += "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>";
-                                    }
+                                            </td>
+                                            <td class='frequency-checkbox-student'></td>`;
+                            var justificationContainer = "";
+                            if (student.schedules[0].fault) {
+                                if (student.schedules[0].justification !== null) {
+                                    justificationContainer += "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon' title='" + student.schedules[0].justification + "'><i class='fa fa-file-text-o'></i><i class='fa fa-file-text'></i></a>";
+                                } else {
+                                    justificationContainer += "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>";
                                 }
-                                acordeon +=
-                                    `<td class='frequency-checkbox-student frequency-checkbox-container ${(!this.available ? $("disabled") : $(""))}'>
+                            }
+                            acordeon +=
+                                `<td class='frequency-checkbox-student frequency-checkbox-container ${(!this.available ? $("disabled") : $(""))}'>
                                                         <input class='frequency-checkbox' type='checkbox'
-                                                            ${(!schedule.available ? $('disabled') : $(''))} ${(schedule.fault ? $('checked') : $(''))} 
+                                                            ${(!student.schedules[0].available ? $('disabled') : $(''))} ${(student.schedules[0].fault ? $('checked') : $(''))} 
                                                             classroomId = '${($('#classroom')).val()}' 
-                                                            studentId = ${student.studentId} 
-                                                            day = ${schedule.day} 
+                                                            studentId = ${student.schedules[0].studentId} 
+                                                            day = ${student.schedules[0].day} 
                                                             month = ${$('#month').val()} 
-                                                            schedule = ${schedule.schedule} 
+                                                            schedule = ${student.schedules[0].schedule} 
                                                             fundamentalMaior = ${fundamentalMaior}
                                                         >
                                                     ${justificationContainer}
-                                    </td>`
-                            });
-                            `<tr>`
+                                    </td>`;
+                            // $.each(student.schedules, function (indexSchedule, schedule) {
+                            //     var justificationContainer = "";
 
+                            //     if (schedule.fault) {
+                            //         if (schedule.justification !== null) {
+                            //             justificationContainer += "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon' title='" + schedule.justification + "'><i class='fa fa-file-text-o'></i><i class='fa fa-file-text'></i></a>";
+                            //         } else {
+                            //             justificationContainer += "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>";
+                            //         }
+                            //     }
+
+                            //     acordeon +=
+                            //         `<td class='frequency-checkbox-student frequency-checkbox-container ${(!this.available ? $("disabled") : $(""))}'>
+                            //                             <input class='frequency-checkbox' type='checkbox'
+                            //                                 ${(!schedule.available ? $('disabled') : $(''))} ${(schedule.fault ? $('checked') : $(''))} 
+                            //                                 classroomId = '${($('#classroom')).val()}' 
+                            //                                 studentId = ${student.studentId} 
+                            //                                 day = ${schedule.day} 
+                            //                                 month = ${$('#month').val()} 
+                            //                                 schedule = ${schedule.schedule} 
+                            //                                 fundamentalMaior = ${fundamentalMaior}
+                            //                             >
+                            //                         ${justificationContainer}
+                            //         </td>`;
+                            // });
+                            acordeon += `<tr>`;
                         });
                         acordeon +=
                             `</tbody>
