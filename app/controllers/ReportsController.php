@@ -989,7 +989,7 @@ class ReportsController extends Controller
                     INNER JOIN classroom as c on se.classroom_fk=c.id
                     INNER JOIN student_identification as s on s.id=se.student_fk
                     INNER JOIN school_identification as e on c.school_inep_fk = e.inep_id
-                    LEFT JOIN student_documents_and_address as d on s.inep_id = d.student_fk
+                    LEFT JOIN student_documents_and_address as d on s.id = d.id
 
                 WHERE 
                     c.school_year = :year AND 
