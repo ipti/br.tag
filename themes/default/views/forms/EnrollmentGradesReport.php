@@ -86,12 +86,19 @@ function classroomDisciplineLabelResumeArray($discipline_id)
 $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com a soma do total de disciplinas da matriz
 ?>
 
+<div class="row-fluid hidden-print">
+    <div class="span12">
+        <div class="buttons">
+            <a id="print" onclick="imprimirPagina()" class='btn btn-icon hidden-print' style="padding: 10px;"><img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> <?php echo Yii::t('default', 'Print') ?><i></i></a>
+        </div>
+    </div>
+</div>
+
 <div class="pageA4H">
     <div>
-        <br>
-
         <div id="report">
             <?php $this->renderPartial('head'); ?>
+            <br>
             <div style="margin: 0 0 0 50px; width: calc(100% - 51px); text-align:center">
                 <div style="float: left; text-align: justify;margin: 5px 0 5px -20px;line-height: 14px;">
                     <div class="span9"><b>ALUNO: </b><?= $enrollment->studentFk->name ?></div>
@@ -104,7 +111,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                    class="table table-bordered report-table-empty">
                 <thead>
                     <tr>
-                        <th colspan="18" style="text-align: center">RENDIMENTO ESCOLAR POR ATIVIDADES</th>
+                        <th colspan="<?= $rows+4 ?>" style="text-align: center">RENDIMENTO ESCOLAR POR ATIVIDADES</th>
                     </tr>
                     <tr>
                         <td style="text-align: center; max-width: 90px !important;">PARTES&nbsp;DO&nbsp;CURRÍCULO</td>
@@ -286,9 +293,19 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
             background-position: center center;
             background-size: 100% 100%, auto;
         } 
+
+        .hidden-print {
+            display: none;
+        }
     }
 
     @page {
       size: landscape;
     }
 </style>
+
+<script>
+    function imprimirPagina() {
+      window.print();
+    }
+</script>
