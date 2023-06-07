@@ -42,17 +42,8 @@ class FormsController extends Controller {
 
     private function daysOfCalendarCalculate($classroom_fk, $discipline_id) 
     {
-        $days = [];
         $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and discipline_fk = :discipline_fk", ["classroom_fk" => $classroom_fk, ":discipline_fk" => $discipline_id]);
-        foreach ($schedules as $schedule) {
-            if (!isset($days[$schedule->month])) {
-                $days[$schedule->month] = [];
-            }
-            if (!in_array($schedule->day, $days[$schedule->month])) {
-                array_push($days[$schedule->month], $schedule->day);
-            }
-        }
-        return count($days);
+        return count($schedules);
     }
 
     private function separateBaseDisciplines($discipline_id)
@@ -68,62 +59,72 @@ class FormsController extends Controller {
 
     public function actionEnrollmentGradesReport($enrollment_id) {
         $this->layout = "reports";
-        $result = array();
-        $baseDisciplines = array();
-        $diversifiedDisciplines = array();
+        $result = array(); // array de notas
+        $baseDisciplines = array(); // disciplinas da BNCC
+        $diversifiedDisciplines = array(); //disciplinas diversas
         $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
-        $grades = Grade::model()->findAllByAttributes(["enrollment_fk" => $enrollment_id]);
-        $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $enrollment_id]);
-        $classFaults = ClassFaults::model()->findAllByAttributes(["student_fk" => $enrollment->studentFk->id]);
-        $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]);
-        $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk]);
+        $grades = Grade::model()->findAllByAttributes(["enrollment_fk" => $enrollment_id]); // notas do aluno na turma
+        $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $enrollment_id]); // medias do aluno na turma
+        $classFaults = ClassFaults::model()->findAllByAttributes(["student_fk" => $enrollment->studentFk->id]); // faltas do aluno na turma
+        $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
+        $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk]); // unidades da turma
 
-        // separando os headers
+        // Aqui eu separo as disciplinas da BNCC das disciplinas diversas para montar o cabeçalho 
         foreach ($curricularMatrix as $matrix) {
-            if($this->separateBaseDisciplines($matrix->discipline_fk)) {
+            if($this->separateBaseDisciplines($matrix->discipline_fk)) { // se for disciplina da BNCC
                 array_push($baseDisciplines, $matrix->disciplineFk->id);
-            }else {
+            }else { // se for disciplina diversa
                 array_push($diversifiedDisciplines, $matrix->disciplineFk->id);
             }
         }
+
+        // Junto todas as disciplinas na ordem do cabeçalho
         $totalDisciplines = array_unique(array_merge($baseDisciplines, $diversifiedDisciplines));
 
 
-        foreach ($totalDisciplines as $discipline) {
-            $mediaExists = false;
+        foreach ($totalDisciplines as $discipline) { // aqui eu monto as notas das disciplinas, faltas, dias letivos e cargas horárias
+
+            $mediaExists = false; // verifica se o aluno tem notas para a disciplina
+
+            // cálculo de dias letivos
+            $schoolDays = $this->daysOfCalendarCalculate($enrollment->classroomFk->id, $discipline);
+
+            // pego o registro de matriz curricular da disciplina para verificar a carga horaria da disciplina
+            $disciplineMatrix = array_values(array_filter($curricularMatrix, function ($matrix) use ($discipline) {
+                return $matrix->discipline_fk == $discipline;
+            }));
+
+            // pegando somente as faltas da disciplina
+            $faults = count(array_filter($classFaults, function ($fault) use ($enrollment, $discipline) {
+                return $fault->scheduleFk->discipline_fk == $discipline && $fault->scheduleFk->classroom_fk == $enrollment->classroom_fk;
+            }));
+
             foreach ($gradesResult as $finalMedia) {
+                // se existe notas para essa disciplina
                 if($finalMedia->disciplineFk->id == $discipline) {
-                    $schoolDays = $this->daysOfCalendarCalculate($enrollment->classroomFk->id, $finalMedia->disciplineFk->id);
-                    $disciplineMatrix = array_values(array_filter($curricularMatrix, function ($matrix) use ($finalMedia) {
-                        return $matrix->discipline_fk == $finalMedia->disciplineFk->id;
-                    }));
                     array_push($result, [
                         "discipline_id" => $finalMedia->disciplineFk->id,
-                        "discipline_name" => $finalMedia->disciplineFk->name,
                         "final_media" => $finalMedia->final_media,
                         "grades" => array_values(array_filter($grades, function ($grade) use ($finalMedia) {
                             return $this->compareGradeAndResult($grade, $finalMedia);
                         })),
-                        "faults" => count(array_filter($classFaults, function ($fault) use ($enrollment, $finalMedia) {
-                            return $fault->scheduleFk->discipline_fk == $finalMedia->discipline_fk && $fault->scheduleFk->classroom_fk == $enrollment->classroom_fk;
-                        })),
+                        "faults" => $faults,
                         "workload" => $disciplineMatrix[0]->workload,
                         "school_days" => $schoolDays,
                     ]);
                     $mediaExists = true;
-                    break;
+                    break; // quebro o laço para diminuir a complexidade do algoritmo para O(log n)2
                 }
             }
 
-            // O aluno não tem grade results para essa disciplina
-            if(!$mediaExists) {
+            if(!$mediaExists) { // o aluno não tem notas para a disciplina
                 array_push($result, [
                     "discipline_id" => $discipline,
                     "final_media" => null,
                     "grades" => null,
-                    "faults" => null,
-                    "workload" => null,
-                    "school_days" => null,
+                    "faults" => $faults,
+                    "workload" => $disciplineMatrix[0]->workload,
+                    "school_days" => $schoolDays,
                 ]);
             }
         }
@@ -131,18 +132,14 @@ class FormsController extends Controller {
         // Aqui eu ordeno o array de notas de acordo com a ordem da coluna de disciplinas
         $report = [];
         foreach ($totalDisciplines as $disciplineId) {
+            // eu pego o array de notas para ordenar e garantir que a ordem das notas esteja correta
             foreach ($result as $item) {
                 if ($item['discipline_id'] === $disciplineId) {
                     $report[] = $item;
-                    break;
+                    break; // quebro o laço para diminuir a complexidade do algoritmo para O(log n)2
                 }
             }
         }
-
-        // echo '<pre>';
-        // var_dump($report);
-        // echo '</pre>';
-        // exit;
 
         $this->render('EnrollmentGradesReport', array(
             'enrollment' => $enrollment,

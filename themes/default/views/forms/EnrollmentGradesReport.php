@@ -86,11 +86,12 @@ function classroomDisciplineLabelResumeArray($discipline_id)
 $rows = count($baseDisciplines)+count($diversifiedDisciplines);
 ?>
 
-<div class="pageA4V">
+<div class="pageA4H">
     <div>
         <br>
 
         <div id="report">
+            <?php $this->renderPartial('head'); ?>
             <div style="margin: 0 0 0 50px; width: calc(100% - 51px); text-align:center">
                 <div style="float: left; text-align: justify;margin: 5px 0 5px -20px;line-height: 14px;">
                     <div class="span9"><b>ALUNO: </b><?= $enrollment->studentFk->name ?></div>
@@ -145,7 +146,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines);
                     <?php 
                     for($i=1;$i<=count($unities);$i++) {?>
                         <tr>
-                            <td><?= $i."ª AVALIAÇÃO"?></td>
+                            <td><?= strtoupper($unities[$i-1]->name) ?></td>
                             <?php
                             $school_days = 0;
                             $workload = 0;
@@ -285,6 +286,10 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines);
             background-repeat: no-repeat;
             background-position: center center;
             background-size: 100% 100%, auto;
-        }
+        } 
+    }
+
+    @page {
+      size: landscape;
     }
 </style>
