@@ -107,7 +107,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                 </div>
             </div>
             <br>
-            <table style="margin: 0 0 0 50px; font-size: 8px; width: calc(100% - 51px);"
+            <table style="margin: 0 0 0 25px; font-size: 8px; width: calc(100% - 51px);"
                    class="table table-bordered report-table-empty">
                 <thead>
                     <tr>
@@ -235,20 +235,16 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
 
             <div style="text-align:right;">Resultado Final _____________________________</div>
             <div style="text-align:center">APTO PARA CURSAR O _____________ ANO DO ENSINO FUNDAMENTAL
-                <div>
-                    <div style="text-align: center;line-height: 15px;margin-top:20px;">
-                        _________________________________________________________<br>Local e data
-                        <div>
-                            <div style="float: left;line-height: 15px; width:50%">
-                                _________________________________________________________<br>Assinatura do(a) Secretário
-                                (a)
-                            </div>
-                            <div style="float: right;line-height: 15px;width:50%">
-                                _________________________________________________________<br>Assinatura do(a) Diretor(a)
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <p style="margin-top:20px">
+                    <span>_________________________________________________________</span>
+                    <span style="margin-inline: 16px;">_________________________________________________________</span>
+                    <span>_________________________________________________________</span>
+                </p>
+                <p style="margin-top:10px">
+                    <span>Assinatura do(a) Secretário(a)</span>
+                    <span style="margin-inline: 180px;">Local e data</span>
+                    <span>Assinatura do(a) Diretor(a)</span>
+                </p>
             </div>
         </div>
     </div>
