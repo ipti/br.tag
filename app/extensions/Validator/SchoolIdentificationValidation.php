@@ -184,12 +184,12 @@ class SchoolIdentificationValidation extends Register
     function isSchoolYearValid($initial_date, $final_date)
     {
         if (empty($initial_date) || empty($final_date)) {
-            return array("status" => false, "erro" => "Data de inicio e final do ano letivo não pode ser vazio");
+            return array("status" => false, "erro" => "As datas de início e final do ano letivo não podem ser vazias.");
         }
         $first_result = $this->isDateValid($initial_date);
         $second_result = $this->isDateValid($final_date);
         if (!($first_result['status'] && $second_result['status'])) {
-            return array("status" => false, "erro" => "Data de inicio e final do ano letivo não está em um formato válido");
+            return array("status" => false, "erro" => "As datas de inicio e final do ano letivo não estão em um formato válido.");
         } else {
             $dataInicial = explode('/', $initial_date);
             $diaInicial = $dataInicial[0];

@@ -115,7 +115,7 @@ class CensoController extends Controller
 
         */
         $result = $siv->isSchoolYearValid($collumn['initial_date'], $collumn['final_date']);
-        if (!$result["status"]) array_push($log, array("date" => $result["erro"]));
+        if (!$result["status"]) array_push($log, array("Datas" => $result["erro"]));
 
         //campo 10
         $result = $siv->isSchoolNameValid($collumn['name']);
@@ -602,8 +602,8 @@ class CensoController extends Controller
         if (!$result['status']) array_push($log, array('stage' => $result['erro']));
 
         //campo 39
-        $result = $crv->isValidProfessionalEducation($column['edcenso_professional_education_course_fk'], $column['edcenso_stage_vs_modality_fk']);
-        if (!$result['status']) array_push($log, array('edcenso_professional_education_course' => $result['erro']));
+        $result = $crv->isValidProfessionalEducation($column['course'], $column['edcenso_stage_vs_modality_fk']);
+        if (!$result['status']) array_push($log, array('course' => $result['erro']));
 
         //campos 40 a 65
 //        $disciplinesArray = array($column['discipline_chemistry'], $column['discipline_physics'], $column['discipline_mathematics'], $column['discipline_biology'], $column['discipline_science'],
