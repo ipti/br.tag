@@ -8651,7 +8651,7 @@ input[type="text"] {
 }
 
 textarea,
-input[type="text"]:not(.select2-search input[type="text"]) {
+input[type="text"]:not(.select2-search input) {
     width: 413px;
 }
 

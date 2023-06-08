@@ -6,100 +6,71 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentGradesReport/_initialization.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
-$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
-$disciplines = [];
-$disciplines['base'] = [];
-$disciplines['diversified'] = [];
-$exams = [];
-$finals = [];
-$finals['base'] = [];
-$finals['diversified'] = [];
-$averages = [];
-$averages['base'] = [];
-$averages['diversified'] = [];
-$finalAverage = [];
-$finalAverage['base'] = [];
-$finalAverage['diversified'] = [];
-$schoolDays = [];
-$workingHours = [];
-$faultsCount = [];
-$faultsCount['discipline'] = [];
-$faultsCount['discipline']['base'] = [];
-$faultsCount['discipline']['diversified'] = [];
-$faultsCount['exam'] = [];
-$faultsCount['total'] = 0;;
-$givenClassesByDiscipline = [];
-$givenClassesByDiscipline['base'] = [];
-$givenClassesByDiscipline['diversified'] = [];
-$faultsByDiscipline = [];
-$faultsByDiscipline['base'] = [];
-$faultsByDiscipline['diversified'] = [];
-$frequencyByDiscipline = [];
-$frequencyByDiscipline['base'] = [];
-$frequencyByDiscipline['diversified'] = [];
-$schoolDaysTotal = 0;
-$workingHoursTotal = 0;
-$frequencyTotal = 0;
+function classroomDisciplineLabelResumeArray($id) {
+    $disciplinas = array(
+        1 => 'Química',
+        2 => 'Física',
+        3 => 'Matemática',
+        4 => 'Biologia',
+        5 => 'Ciências',
+        6 => 'Português',
+        7 => 'Inglês',
+        8 => 'Espanhol',
+        9 => 'Outro Idioma',
+        10 => 'Artes',
+        11 => 'Educação Física',
+        12 => 'História',
+        13 => 'Geografia',
+        14 => 'Filosofia',
+        16 => 'Informática',
+        17 => 'Disc. Profissionalizante',
+        20 => 'Educação Especial',
+        21 => 'Sociedade&nbspe Cultura',
+        23 => 'Libras',
+        25 => 'Disciplinas pedagógicas',
+        26 => 'Ensino religioso',
+        27 => 'Língua indígena',
+        28 => 'Estudos Sociais',
+        29 => 'Sociologia',
+        30 => 'Francês',
+        99 => 'Outras Disciplinas',
+        10001 => 'Redação',
+        10002 => 'Linguagem oral e escrita',
+        10003 => 'Natureza e sociedade',
+        10004 => 'Movimento',
+        10005 => 'Música',
+        10006 => 'Artes visuais',
+        10007 => 'Acompanhamento Pedagógico',
+        10008 => 'Teatro',
+        10009 => 'Canteiro Sustentável',
+        10010 => 'Dança',
+        10011 => 'Cordel',
+        10012 => 'Física'
+    );
 
-for ($i = 1; $i <= 4; $i++) {
-    $exams[$i] = [];
-    $exams[$i]['base'] = [];
-    $exams[$i]['diversified'] = [];
-    $schoolDays[$i] = $enrollment->classroomFk->getSchoolDaysByExam($i);
-    $schoolDaysTotal += $schoolDays[$i];
-    $workingHours[$i] = $enrollment->classroomFk->getWorkingHoursByExam($i);
-    $workingHoursTotal += $workingHours[$i];
-}
-
-foreach ($enrollment->grades as $grades) {
-    /* @var $grades Grade */
-    /* @var $discipline EdcensoDiscipline */
-    $discipline = $grades->disciplineFk;
-    $disciplineId = $discipline->id;
-    $type = "";
-    if ($disciplineId < 99) {
-        $type = 'base';
+    if (array_key_exists($id, $disciplinas)) {
+        return $disciplinas[$id];
     } else {
-        $type = 'diversified';
+        return EdcensoDiscipline::model()->findByPk($id)->name;
     }
-
-    $disciplines[$type][$disciplineId] = $discipline->name;
-    $faults = $enrollment->classFaults;
-
-    $exams[1][$type][$disciplineId] = $grades->grade1 != null ? $grades->grade1 : "";
-    $exams[2][$type][$disciplineId] = $grades->grade2 != null ? $grades->grade2 : "";
-    $exams[3][$type][$disciplineId] = $grades->grade3 != null ? $grades->grade3 : "";
-    $exams[4][$type][$disciplineId] = $grades->grade4 != null ? $grades->grade4 : "";
-    $finals[$type][$disciplineId] = $grades->recovery_final_grade != null ? $grades->recovery_final_grade : "";
-    $averages[$type][$disciplineId] = $grades->getAverage();
-    $finalAverage[$type][$disciplineId] = $grades->getFinalAverage();
-
-    $givenClassesByDiscipline[$type][$disciplineId] = count($enrollment->classroomFk->getGivenClassesByDiscipline($disciplineId));
-    $faultsCount['discipline'][$type][$disciplineId] = count($enrollment->getFaultsByDiscipline($disciplineId));
-    $frequencyByDiscipline[$type][$disciplineId] = $givenClassesByDiscipline[$type][$disciplineId] == 0 ? 1 : (($givenClassesByDiscipline[$type][$disciplineId] - $faultsCount['discipline'][$type][$disciplineId]) / $givenClassesByDiscipline[$type][$disciplineId]);
-    $frequencyTotal += $frequencyByDiscipline[$type][$disciplineId];
 }
-
-$faultsCount['exam'][1] = count($enrollment->getFaultsByExam(1));
-$faultsCount['exam'][2] = count($enrollment->getFaultsByExam(2));
-$faultsCount['exam'][3] = count($enrollment->getFaultsByExam(3));
-$faultsCount['exam'][4] = count($enrollment->getFaultsByExam(4));
-$faultsCount['total'] = $faultsCount['exam'][1] + $faultsCount['exam'][2] + $faultsCount['exam'][3] + $faultsCount['exam'][4];
-
-$disciplinesCount = (count($disciplines['base'])+count($disciplines['diversified']));
-$disciplineBaseCount = count($disciplines['base']) + 1;
-$disciplineDiversifiedCount = count($disciplines['diversified']) + 1;
-
-@$frequencyTotal = $frequencyTotal / $disciplinesCount;
-
+$rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com a soma do total de disciplinas da matriz
 ?>
 
-<div class="pageA4V">
-    <div>
-        <br>
+<div class="row-fluid hidden-print">
+    <div class="span12">
+        <div class="buttons">
+            <a id="print" onclick="imprimirPagina()" class='btn btn-icon hidden-print' style="padding: 10px;"><img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> <?php echo Yii::t('default', 'Print') ?><i></i></a>
+        </div>
+    </div>
+</div>
 
+<div class="pageA4H">
+    <div>
         <div id="report">
+            <?php $this->renderPartial('head'); ?>
+            <br>
             <div style="margin: 0 0 0 50px; width: calc(100% - 51px); text-align:center">
                 <div style="float: left; text-align: justify;margin: 5px 0 5px -20px;line-height: 14px;">
                     <div class="span9"><b>ALUNO: </b><?= $enrollment->studentFk->name ?></div>
@@ -108,174 +79,143 @@ $disciplineDiversifiedCount = count($disciplines['diversified']) + 1;
                 </div>
             </div>
             <br>
-            <table style="margin: 0 0 0 50px; font-size: 8px; width: calc(100% - 51px);"
+            <table style="margin: 0 0 0 25px; font-size: 8px; width: calc(100% - 51px);"
                    class="table table-bordered report-table-empty">
-                <tr>
-                    <th colspan="18" style="text-align: center">RENDIMENTO ESCOLAR POR ATIVIDADES</th>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td style="text-align: center; max-width: 90px !important;">PARTES&nbsp;DO&nbsp;CURRÍCULO</td>
-                    <td colspan="<?= $disciplineBaseCount ?>" style="text-align: center; font-weight: bold">BASE
-                        NACIONAL
-                        COMUM
-                    </td>
-                    <td colspan="<?= $disciplineDiversifiedCount ?>" style="text-align: center; font-weight: bold">PARTE
-                        DIVERSIFICADA
-                    </td>
-                    <td rowspan="2" class="vertical-text">
-                        <div>DIAS&nbsp;LETIVOS</div>
-                    </td>
-                    <td rowspan="2" class="vertical-text">
-                        <div>CARGA&nbsp;HORÁRIA</div>
-                    </td>
-                    <td rowspan="2" class="vertical-text">
-                        <div>Nº&nbsp;DE&nbsp;FALTAS</div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="vertical-text">
-                        <div>BIMESTRES</div>
-                    </td>
-                    <td class="vertical-text">
-                        <canvas width="100%" height="100%"></canvas>
-                    </td>
-                    <?php foreach ($disciplines['base'] as $name): ?>
-                        <td class="vertical-text">
-                            <div><?= $name ?></div>
-                        </td>
-                    <?php endforeach; ?>
-                    <td></td>
-                    <?php foreach ($disciplines['diversified'] as $name): ?>
-                        <td class="vertical-text">
-                            <div><?= $name ?></div>
-                        </td>
-                    <?php endforeach; ?>
-                    <td></td>
-                </tr>
-
-                <?php for ($i = 1; $i <= 4; $i++): ?>
+                <thead>
                     <tr>
-                        <td><?= $i ?>º</td>
-                        <td style="text-align: center;">AVALIAÇÃO</td>
-                        <?php
-                        foreach ($exams[$i]['base'] as $grade):?>
-                            <td><?= $grade ?></td>
-                        <?php endforeach; ?>
-                        <td></td>
-                        <?php foreach ($exams[$i]['diversified'] as $grade): ?>
-                            <td><?= $grade ?></td>
-                        <?php endforeach; ?>
-                        <td></td>
-                        <td><?= $schoolDays[$i] ?></td>
-                        <td><?= $workingHours[$i] ?></td>
-                        <td><?= $faultsCount['exam'][$i] ?></td>
+                        <th colspan="<?= $rows+4 ?>" style="text-align: center">RENDIMENTO ESCOLAR POR ATIVIDADES</th>
                     </tr>
-                <?php endfor; ?>
+                    <tr>
+                        <td style="text-align: center; max-width: 90px !important;">PARTES&nbsp;DO&nbsp;CURRÍCULO</td>
+                        <td colspan="<?= count($baseDisciplines) ?>" style="text-align: center; font-weight: bold; min-width:150px;">BASE
+                            NACIONAL
+                            COMUM
+                        </td>
+                        <td colspan="<?= count($diversifiedDisciplines) ?>" style="text-align: center; font-weight: bold; min-width:100px;">PARTE
+                            DIVERSIFICADA
+                        </td>
+                        <td rowspan="2" class="vertical-text">
+                            <div>DIAS&nbsp;LETIVOS</div>
+                        </td>
+                        <td rowspan="2" class="vertical-text">
+                            <div>CARGA&nbsp;HORÁRIA</div>
+                        </td>
+                        <td rowspan="2" class="vertical-text">
+                            <div>Nº&nbsp;DE&nbsp;FALTAS</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="vertical-text">
+                            <div>BIMESTRES</div>
+                        </td>
+                        <?php foreach ($baseDisciplines as $name): ?>
+                            <td class="vertical-text">
+                                <div><?= classroomDisciplineLabelResumeArray($name) ?></div>
+                            </td>
+                        <?php endforeach; ?>
+                        <?php foreach ($diversifiedDisciplines as $name): ?>
+                            <td class="vertical-text">
+                                <div><?= classroomDisciplineLabelResumeArray($name) ?></div>
+                            </td>
+                        <?php endforeach; ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+                    for($i=1;$i<=count($unities);$i++) {?>
+                        <tr>
+                            <td><?= strtoupper($unities[$i-1]->name) ?></td>
+                            <?php
+                            $school_days = 0;
+                            $workload = 0;
+                            $faults = 0;
+                            for($j=0; $j < $rows; $j++) { 
+                                $school_days += $result[$j]['school_days'];
+                                $workload += $result[$j]['workload'];
+                                $faults += $result[$j]['faults'];
+                                ?>
+                                <td style="text-align: center;"><?= $result[$j]['grades'][$i-1]->grade ?></td>
+                            <?php }?>
+                            <td style="text-align: center;"><?= $school_days?></td>
+                            <td style="text-align: center;"><?= $workload?></td>
+                            <td style="text-align: center;"><?= $faults?></td>
+                        </tr>
+                    <?php }?>
+                </tbody>
 
                 <tr>
-                    <td colspan="2">MÉDIA ANUAL</td>
-                    <?php foreach ($averages['base'] as $average): ?>
-                        <td><?= $average ?></td>
-                    <?php endforeach; ?>
-                    <td></td>
-                    <?php foreach ($averages['diversified'] as $average): ?>
-                        <td><?= $average ?></td>
-                    <?php endforeach; ?>
-                    <td></td>
+                    <td colspan="1">MÉDIA ANUAL</td>
+                    <?php for ($i=0; $i < $rows; $i++) { ?>
+                        <td style="text-align: center;"><?= $result[$i]['final_media']?></td>
+                    <?php }?>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td colspan="2">NOTA DA PROVA FINAL</td>
-                    <?php foreach ($finals['base'] as $grade): ?>
-                        <td><?= $grade ?></td>
-                    <?php endforeach; ?>
-                    <td></td>
-                    <?php foreach ($finals['diversified'] as $grade): ?>
-                        <td><?= $grade ?></td>
-                    <?php endforeach; ?>
-                    <td></td>
+                    <td colspan="1">NOTA DA PROVA FINAL</td>
+                    <?php for ($i=0; $i < $rows; $i++) { ?>
+                        <td style="text-align: center;"><?= end($result[$i]['grades'])->grade?></td>
+                    <?php }?>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td colspan="2">MÉDIA FINAL</td>
-                    <?php foreach ($finalAverage['base'] as $average): ?>
-                        <td><?= $average ?></td>
-                    <?php endforeach; ?>
-                    <td></td>
-                    <?php foreach ($finalAverage['diversified'] as $average): ?>
-                        <td><?= $average ?></td>
-                    <?php endforeach; ?>
-                    <td></td>
+                    <td colspan="1">MÉDIA FINAL</td>
+                    <?php for ($i=0; $i < $rows; $i++) { ?>
+                        <td style="text-align: center;"><?= $result[$i]['final_media']?></td>
+                    <?php }?>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td style="text-align:right;" colspan="2">TOTAL DE AULAS DADAS</td>
-                    <?php foreach ($givenClassesByDiscipline['base'] as $given): ?>
-                        <td><?= $given ?></td>
-                    <?php endforeach; ?>
+                    <td style="text-align:right;" colspan="1">TOTAL DE AULAS DADAS</td>
+                    <?php for ($i=0; $i < $rows; $i++) { ?>
+                        <td style="text-align: center;"><?= $result[$i]['total_number_of_classes']?></td>
+                    <?php }?>
                     <td></td>
-                    <?php foreach ($givenClassesByDiscipline['diversified'] as $given): ?>
-                        <td><?= $given ?></td>
-                    <?php endforeach; ?>
                     <td></td>
-                    <td><?= $schoolDaysTotal ?></td>
-                    <td><?= $workingHoursTotal ?></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td style="text-align:right;" colspan="2">TOTAL DE FALTAS</td>
-                    <?php foreach ($faultsCount['discipline']['base'] as $faults): ?>
-                        <td><?= $faults ?></td>
-                    <?php endforeach; ?>
-                    <td></td>
-                    <?php foreach ($faultsCount['discipline']['diversified'] as $faults): ?>
-                        <td><?= $faults ?></td>
-                    <?php endforeach; ?>
+                    <td style="text-align:right;" colspan="1">TOTAL DE FALTAS</td>
+                    <?php for ($i=0; $i < $rows; $i++) { ?>
+                        <td style="text-align: center;"><?= $result[$i]['faults']?></td>
+                    <?php }?>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><?=$faultsCount['total']?></td>
                 </tr>
                 <tr>
-                    <td style="text-align:right;" colspan="2">FREQUÊNCIAS %</td>
-                    <?php foreach ($frequencyByDiscipline['base'] as $frequency): ?>
-                        <td><?= number_format($frequency  * 100,2, ',', '')  ."%"?></td>
-                    <?php endforeach; ?>
+                    <td style="text-align:right;" colspan="1">FREQUÊNCIAS %</td>
+                    <?php for ($i=0; $i < $rows; $i++) { 
+                        $totalDiasAula = $result[$i]['school_days'];
+                        $quantidadeFaltas = $result[$i]['faults'];
+                        $frequencia = (($totalDiasAula - $quantidadeFaltas) / $totalDiasAula) * 100;
+                        $verifyCalc = is_nan($frequencia);
+                        ?>
+                        <td style="text-align: center;"><?= !$verifyCalc ? strval(number_format($frequencia, 2))."%" : "" ?></td>
+                    <?php }?>
                     <td></td>
-                    <?php foreach ($frequencyByDiscipline['diversified'] as $frequency): ?>
-                        <td><?= number_format($frequency  * 100,2, ',', '') ."%"?></td>
-                    <?php endforeach; ?>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td><?= number_format($frequencyTotal  * 100,2, ',', '')  ."%"?></td>
                 </tr>
             </table>
-            <br/>
-
-            <div style="text-align:right;">Resultado Final _____________________________</div>
+            </br>
+            <div style="text-align:right; margin-right:20px;">Resultado Final _____________________________</div>
             <div style="text-align:center">APTO PARA CURSAR O _____________ ANO DO ENSINO FUNDAMENTAL
-                <div>
-                    <div style="text-align: center;line-height: 15px;">
-                        _________________________________________________________<br>Local e data
-                        <div>
-                            <div style="float: left;line-height: 15px; width:50%">
-                                _________________________________________________________<br>Assinatura do(a) Secretário
-                                (a)
-                            </div>
-                            <div style="float: right;line-height: 15px;width:50%">
-                                _________________________________________________________<br>Assinatura do(a) Diretor(a)
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <p style="margin-top:20px">
+                    <span>_________________________________________________________</span>
+                    <span style="margin-inline: 16px;">_____________________________,____________________________</span>
+                    <span>_________________________________________________________</span>
+                </p>
+                <p style="margin-top:10px">
+                    <span>Assinatura do(a) Secretário(a)</span>
+                    <span style="margin-inline: 180px;">Local e data</span>
+                    <span>Assinatura do(a) Diretor(a)</span>
+                </p>
             </div>
         </div>
     </div>
@@ -286,6 +226,7 @@ $disciplineDiversifiedCount = count($disciplines['diversified']) + 1;
         vertical-align: bottom !IMPORTANT;
         max-width: 20px;
         width: 35px;
+        padding-bottom: 10px !important;
     }
 
     .vertical-text div {
@@ -309,9 +250,8 @@ $disciplineDiversifiedCount = count($disciplines['diversified']) + 1;
             border-color: black !important;
         }
 
-        .report-table-empty td {
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
+        table tbody tr td {
+            padding: 10px !important;
         }
 
         #canvas-td {
@@ -319,6 +259,20 @@ $disciplineDiversifiedCount = count($disciplines['diversified']) + 1;
             background-repeat: no-repeat;
             background-position: center center;
             background-size: 100% 100%, auto;
+        } 
+
+        .hidden-print {
+            display: none;
         }
     }
+
+    @page {
+      size: landscape;
+    }
 </style>
+
+<script>
+    function imprimirPagina() {
+      window.print();
+    }
+</script>   
