@@ -472,6 +472,8 @@ class Register30
 
     private static function convertCourseCodes($code) {
         switch($code) {
+            case "145F21":
+                return "0114Q011";
             case "142C01":
                 return "0113P012";
             case "142P01":
