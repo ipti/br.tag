@@ -87,6 +87,9 @@ class Register30
                 } else {
                     $variabledata = InstructorVariableData::model()->findByPk($instructor_inepid_id);
                 }
+                if ($variabledata == null) {
+                    $variabledata = InstructorVariableData::model()->findByPk($teachingData->instructorFk->id);
+                }
                 $variabledata->id = $teachingData->instructorFk->id;
                 $variabledata->inep_id = $teachingData->instructorFk->inep_id;
                 $variabledata->school_inep_id_fk = $school->inep_id;
