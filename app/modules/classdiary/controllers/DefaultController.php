@@ -26,14 +26,17 @@ class DefaultController extends Controller
 		$classrooms = $getClassrooms->exec($isInstructor, $discipline); 
 		 echo json_encode($classrooms, JSON_OBJECT_AS_ARRAY);
 	}
-	public function actionClassDiary($id) 
-	{
-		$this->render('classDiary');
+	public function actionClassDiary($classrom_fk, $stage_fk, $discipline_fk) 
+	{	
+		//var_dump($classrom_fk, $stage_fk, $discipline_fk);
+		//$this->render('classDiary');
 	}
-	public function actionRenderFrequencyElement() 
+	public function actionRenderFrequencyElementMobile() 
 	{
-		$widthWindow = $_POST["widthWindow"];
-		$element = $widthWindow <= 640 ? 'frequencyElementMobile': 'frequencyElementDesktop';
-		$this->renderPartial($element);
+		$this->renderPartial('frequencyElementMobile');
+	}
+	public function actionRenderFrequencyElementDesktop() 
+	{
+		$this->renderPartial('frequencyElementDesktop');
 	}
 }

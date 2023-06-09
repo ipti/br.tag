@@ -16,7 +16,7 @@ $form = $this->beginWidget('CActiveForm', array(
 ?>
 <div class="main">
     <h1>Diário de Classe</h1>
-    <div class="row align-items--center">
+    <div class="row">
         <div class="column is-one-quarter t-field-text clear-margin--bottom">
             <?php echo CHtml::textField('data', '', array(
                 'class' => 't-field-text__input js-date',

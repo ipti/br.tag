@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 );
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/index/functions.js?v=1.1', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/index/functions.js', CClientScript::POS_END);
 ?>
 <div class="main">
 	<h1>Diário de Classe</h1>

@@ -9,12 +9,12 @@ renderFrequencyElement(widthWindow)
 }); */
 
 function renderFrequencyElement(w) {
+
+     const url = w <= 640 ?  `RenderFrequencyElementMobile` : `RenderFrequencyElementDesktop`;
+     console.log(`${window.location.host}?r=classdiary/default/${url}`)
     $.ajax({
-        url: `${window.location.host}?r=classdiary/default/RenderFrequencyElement`,
-        type: "POST",
-        data: {
-            widthWindow: w
-        }
+        url: `${window.location.host}?r=classdiary/default/${url}`,
+        type: "GET",
     }).success(function (response) {
         $(".js-frequency-element").html(response)
     });  
