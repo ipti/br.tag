@@ -6,8 +6,8 @@ $this->breadcrumbs = array(
 );
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/classDiary/_initialization.js?v=1.1', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js?v=1.1', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/classDiary/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js', CClientScript::POS_END);
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'classDiary',
     'enableAjaxValidation' => false,
