@@ -1,7 +1,7 @@
 CREATE TABLE `manager_identification` (
 	`register_type` varchar(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT '30',
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
-	`school_inep_id_fk` INT(11) NOT NULL,
+	`school_inep_id_fk` VARCHAR(8) COLLATE utf8_unicode_ci NOT NULL,
 	`inep_id` VARCHAR(12) NULL,
 	`name` VARCHAR(100) NOT NULL,
 	`email` VARCHAR(100) NULL,
@@ -39,11 +39,10 @@ CREATE TABLE `manager_identification` (
   	CONSTRAINT `manager_identification_ibfk_2` FOREIGN KEY (`edcenso_uf_fk`) REFERENCES `edcenso_uf` (`id`),
   	CONSTRAINT `manager_identification_ibfk_3` FOREIGN KEY (`edcenso_city_fk`) REFERENCES `edcenso_city` (`id`),
   	CONSTRAINT `manager_identification_ibfk_4` FOREIGN KEY (`users_fk`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  	CONSTRAINT `manager_identification_ibfk_5` FOREIGN KEY (`users_fk`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  	CONSTRAINT `manager_identification_ibfk_6` FOREIGN KEY (`users_fk`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-)ENGINE=InnoDB AUTO_INCREMENT=229 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  	CONSTRAINT `manager_identification_ibfk_5` FOREIGN KEY (`school_inep_id_fk`) REFERENCES `school_identification` (`inep_id`) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
-ALTER TABLE `school_identification`
+ALTER TABLE school_identification 
 DROP COLUMN `manager_name`, 
 DROP COLUMN `manager_email`, 
 DROP COLUMN `number_ato`, 

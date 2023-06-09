@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'manager_identification':
  * @property string $register_type
  * @property integer $id
- * @property integer $school_inep_id_fk
+ * @property string $school_inep_id_fk
  * @property string $inep_id
  * @property string $name
  * @property string $email
@@ -61,8 +61,9 @@ class ManagerIdentification extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('school_inep_id_fk, name, birthday_date, sex, color_race, nationality, residence_zone, filiation, edcenso_nation_fk', 'required'),
-			array('school_inep_id_fk, sex, color_race, nationality, role, residence_zone, contract_type, filiation, filiation_1_scholarity, filiation_2_scholarity, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, users_fk', 'numerical', 'integerOnly'=>true),
+			array('sex, color_race, nationality, role, residence_zone, contract_type, filiation, filiation_1_scholarity, filiation_2_scholarity, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, users_fk', 'numerical', 'integerOnly'=>true),
 			array('register_type', 'length', 'max'=>2),
+			array('school_inep_id_fk', 'length', 'max'=>8),
 			array('inep_id', 'length', 'max'=>12),
 			array('name, email, access_criterion, filiation_1, filiation_2', 'length', 'max'=>100),
 			array('birthday_date', 'length', 'max'=>10),
@@ -87,6 +88,7 @@ class ManagerIdentification extends CActiveRecord
 			'edcensoUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'),
 			'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
 			'usersFk' => array(self::BELONGS_TO, 'Users', 'users_fk'),
+			'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
 		);
 	}
 
@@ -96,25 +98,25 @@ class ManagerIdentification extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'register_type' => 'Register Type',
+			'register_type' => Yii::t('default', 'Register Type'),
 			'id' => 'ID',
-			'school_inep_id_fk' => 'School Inep Id Fk',
-			'inep_id' => 'Inep',
-			'name' => 'Name',
-			'email' => 'Email',
-			'birthday_date' => 'Birthday Date',
-			'sex' => 'Sex',
-			'color_race' => 'Color Race',
-			'nationality' => 'Nationality',
-			'role' => 'Role',
+			'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
+			'inep_id' => Yii::t('default', 'Inep'),
+			'name' => Yii::t('default', 'Manager Name'),
+			'email' => Yii::t('default', 'Manager Email'),
+			'birthday_date' => Yii::t('default', 'Birthday Date'),
+			'sex' => Yii::t('default', 'Sex'),
+			'color_race' =>  Yii::t('default', 'Color Race'),
+			'nationality' => Yii::t('default', 'Nationality'),
+			'role' => Yii::t('default', 'Manager Role'),
 			'residence_zone' => 'Residence Zone',
-			'access_criterion' => 'Access Criterion',
-			'contract_type' => 'Contract Type',
-			'cpf' => 'Cpf',
-			'number_ato' => 'Number Ato',
-			'filiation' => 'Filiation',
-			'filiation_1' => 'Filiation 1',
-			'filiation_2' => 'Filiation 2',
+			'access_criterion' => Yii::t('default', 'Manager Access Criterion'),
+			'contract_type' => Yii::t('default', 'Manager Contract Type'),
+			'cpf' => Yii::t('default', 'Manager Cpf'),
+			'number_ato' => Yii::t('default', 'Number Ato'),
+			'filiation' => Yii::t('default', 'Filiation'),
+			'filiation_1' => Yii::t('default', 'Filiation 1'),
+			'filiation_2' =>  Yii::t('default', 'Filiation 2'),
 			'filiation_1_rg' => 'Filiation 1 Rg',
 			'filiation_1_cpf' => 'Filiation 1 Cpf',
 			'filiation_1_scholarity' => 'Filiation 1 Scholarity',
@@ -150,7 +152,7 @@ class ManagerIdentification extends CActiveRecord
 
 		$criteria->compare('register_type',$this->register_type,true);
 		$criteria->compare('id',$this->id);
-		$criteria->compare('school_inep_id_fk',$this->school_inep_id_fk);
+		$criteria->compare('school_inep_id_fk',$this->school_inep_id_fk,true);
 		$criteria->compare('inep_id',$this->inep_id,true);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('email',$this->email,true);
