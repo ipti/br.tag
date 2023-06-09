@@ -14,8 +14,9 @@ $('.js-tab-school li a').click(function () {
     var li2 = 'tab-school-addressContact';
     var li3 = 'tab-school-structure';
     var li4 = 'tab-school-equipment';
-    var li5 = 'tab-school-education';
-    var li6 = 'tab-school-reports';
+    var li5 = 'tab-school-manager';
+    var li6 = 'tab-school-education';
+    var li7 = 'tab-school-reports';
     var tab = '';
     switch ($(this).parent().attr('id')) {
         case li1:
@@ -50,6 +51,11 @@ $('.js-tab-school li a').click(function () {
             break;
         case li6:
             tab = li6;
+            $('.prev').hide();
+            $('.next').hide();
+            $('.last').hide();
+        case li7:
+            tab = li7;
             $('.prev').hide();
             $('.next').hide();
             $('.last').hide();

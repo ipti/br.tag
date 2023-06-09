@@ -72,8 +72,14 @@ $form = $this->beginWidget('CActiveForm', array(
                     </a>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
-                <li id="tab-school-education" class="t-tabs__item"><a class="t-tabs__link" href="#school-education" data-toggle="tab">
+                <li id="tab-school-manager" class="t-tabs__item"><a class="t-tabs__link" href="#school-manager" data-toggle="tab">
                         <span class="t-tabs__numeration">5</span>
+                        <?php echo Yii::t('default', 'manager') ?>
+                    </a>
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                </li>
+                <li id="tab-school-education" class="t-tabs__item"><a class="t-tabs__link" href="#school-education" data-toggle="tab">
+                        <span class="t-tabs__numeration">6</span>
                         <?php echo Yii::t('default', 'Educational Data') ?>
                     </a>
                     <?php if (!$modelSchoolIdentification->isNewRecord) : ?>
@@ -84,7 +90,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <li id="tab-school-reports" class="t-tabs__item hide-responsive">
 
                         <a class="t-tabs__link" href="#school-reports" data-toggle="tab">
-                            <span class="t-tabs__numeration">6</span>
+                            <span class="t-tabs__numeration">7</span>
                             <?php echo Yii::t('default', 'Relatórios') ?>
                         </a>
 
@@ -171,56 +177,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'regulation', array('class' => 'control-label')); ?>
                                 <?php echo $form->dropDownList($modelSchoolIdentification, 'regulation', array(null => 'Selecione a situação de regulamentação', 0 => 'Não', 1 => 'Sim', 2 => 'Em tramitação'), array('class' => 'select-search-off control-input')); ?>
                                 <?php echo $form->error($modelSchoolIdentification, 'regulation'); ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <h3>Dados do Gestor</h3>
-                    </div>
-                    <div class="row-fluid">
-                        <div class=" span5">
-                            <div class="control-group">
-                                    <?php echo $form->labelEx($modelSchoolIdentification, 'manager_name', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelSchoolIdentification, 'manager_name', array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Nome do Gestor')); ?>
-                                    <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Full name of school manager'); ?>"><i></i></span> -->
-                                    <?php echo $form->error($modelSchoolIdentification, 'manager_name'); ?>
-                            </div>
-                            <div class="control-group">
-                                    <?php echo $form->labelEx($modelSchoolIdentification, 'manager_email', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelSchoolIdentification, 'manager_email', array('size' => 50, 'maxlength' => 50, 'placeholder' => 'Digite o E-mail do Gestor')); ?>
-                                    <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'E-mail'); ?>"><i></i></span> -->
-                                    <?php echo $form->error($modelSchoolIdentification, 'manager_email'); ?>
-                            </div>
-            
-                            <div class="control-group">
-                                    <?php echo $form->labelEx($modelSchoolIdentification, 'number_ato', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelSchoolIdentification, 'number_ato', array( 'placeholder' => 'Digite o número ato')); ?>
-                                    <?php echo $form->error($modelSchoolIdentification, 'number_ato'); ?>
-                            </div>
-            
-                            <div class="control-group">
-                                    <?php echo $form->labelEx($modelSchoolIdentification, 'manager_role', array('class' => 'control-label')); ?>
-                                    <?php echo $form->DropDownList($modelSchoolIdentification, 'manager_role', array(null => "Selecione o cargo", "1" => "Diretor", "2" => "Outro Cargo"), array('class' => 'select-search-off control-input')); ?>
-                                    <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Role of the school manager'); ?>"><i></i></span> -->
-                                    <?php echo $form->error($modelSchoolIdentification, 'manager_role'); ?>
-                            </div>
-                        </div>
-                        <div class="span7">
-                            <div class="control-group">
-                                    <?php echo $form->labelEx($modelSchoolIdentification, 'manager_cpf', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelSchoolIdentification, 'manager_cpf', array('size' => 11, 'maxlength' => 11, 'placeholder' => 'Digite o CPF do Gestor')); ?>
-                                    <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'CPF school manager. Numbers only.'); ?>"><i></i></span> -->
-                                    <?php echo $form->error($modelSchoolIdentification, 'manager_cpf'); ?>
-                            </div>
-                            <div class="control-group">
-                                    <?php echo $form->labelEx($modelSchoolIdentification, 'manager_contract_type', array('class' => 'control-label')); ?>
-                                    <?php echo $form->DropDownList($modelSchoolIdentification, 'manager_contract_type', array(null => "Selecione o vínculo", "1" => "Concursado/Efetivo", "2" => "Temporário", "3" => "Terceirizado", "4" => "CLT"), array('class' => 'select-search-off control-input')); ?>
-                                    <?php echo $form->error($modelSchoolIdentification, 'manager_contract_type'); ?>
-                            </div>
-                            <div class="control-group  hide-responsive">
-                                    <?php echo $form->labelEx($modelSchoolIdentification, 'manager_access_criterion', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textArea($modelSchoolIdentification, 'manager_access_criterion', array('placeholder' => 'Digite a Especificação do Critério de Acesso')); ?>
-                                    <?php echo $form->error($modelSchoolIdentification, 'manager_access_criterion'); ?>
                             </div>
                         </div>
                     </div>
@@ -1352,6 +1308,60 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div> -->
                 </div>
+
+                <div class="tab-pane" id="school-manager">
+                    <div>
+                        <h3>Dados do Gestor</h3>
+                    </div>
+                    <div class="row-fluid">
+                        <div class=" span5">
+                            <div class="control-group">
+                                    <?php echo $form->labelEx($modelSchoolIdentification, 'manager_name', array('class' => 'control-label')); ?>
+                                    <?php echo $form->textField($modelSchoolIdentification, 'manager_name', array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Nome do Gestor')); ?>
+                                    <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Full name of school manager'); ?>"><i></i></span> -->
+                                    <?php echo $form->error($modelSchoolIdentification, 'manager_name'); ?>
+                            </div>
+                            <div class="control-group">
+                                    <?php echo $form->labelEx($modelSchoolIdentification, 'manager_email', array('class' => 'control-label')); ?>
+                                    <?php echo $form->textField($modelSchoolIdentification, 'manager_email', array('size' => 50, 'maxlength' => 50, 'placeholder' => 'Digite o E-mail do Gestor')); ?>
+                                    <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'E-mail'); ?>"><i></i></span> -->
+                                    <?php echo $form->error($modelSchoolIdentification, 'manager_email'); ?>
+                            </div>
+            
+                            <div class="control-group">
+                                    <?php echo $form->labelEx($modelSchoolIdentification, 'number_ato', array('class' => 'control-label')); ?>
+                                    <?php echo $form->textField($modelSchoolIdentification, 'number_ato', array( 'placeholder' => 'Digite o número ato')); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'number_ato'); ?>
+                            </div>
+            
+                            <div class="control-group">
+                                    <?php echo $form->labelEx($modelSchoolIdentification, 'manager_role', array('class' => 'control-label')); ?>
+                                    <?php echo $form->DropDownList($modelSchoolIdentification, 'manager_role', array(null => "Selecione o cargo", "1" => "Diretor", "2" => "Outro Cargo"), array('class' => 'select-search-off control-input')); ?>
+                                    <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Role of the school manager'); ?>"><i></i></span> -->
+                                    <?php echo $form->error($modelSchoolIdentification, 'manager_role'); ?>
+                            </div>
+                        </div>
+                        <div class="span7">
+                            <div class="control-group">
+                                    <?php echo $form->labelEx($modelSchoolIdentification, 'manager_cpf', array('class' => 'control-label')); ?>
+                                    <?php echo $form->textField($modelSchoolIdentification, 'manager_cpf', array('size' => 11, 'maxlength' => 11, 'placeholder' => 'Digite o CPF do Gestor')); ?>
+                                    <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'CPF school manager. Numbers only.'); ?>"><i></i></span> -->
+                                    <?php echo $form->error($modelSchoolIdentification, 'manager_cpf'); ?>
+                            </div>
+                            <div class="control-group">
+                                    <?php echo $form->labelEx($modelSchoolIdentification, 'manager_contract_type', array('class' => 'control-label')); ?>
+                                    <?php echo $form->DropDownList($modelSchoolIdentification, 'manager_contract_type', array(null => "Selecione o vínculo", "1" => "Concursado/Efetivo", "2" => "Temporário", "3" => "Terceirizado", "4" => "CLT"), array('class' => 'select-search-off control-input')); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'manager_contract_type'); ?>
+                            </div>
+                            <div class="control-group  hide-responsive">
+                                    <?php echo $form->labelEx($modelSchoolIdentification, 'manager_access_criterion', array('class' => 'control-label')); ?>
+                                    <?php echo $form->textArea($modelSchoolIdentification, 'manager_access_criterion', array('placeholder' => 'Digite a Especificação do Critério de Acesso')); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'manager_access_criterion'); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="tab-pane" id="school-equipment">
                     <div>
                         <h3>Eletrônicos</h3>

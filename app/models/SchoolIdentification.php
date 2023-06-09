@@ -6,10 +6,6 @@
  * The followings are the available columns in table 'school_identification':
  * @property string $register_type
  * @property string $inep_id
- * @property string $manager_cpf
- * @property string $manager_name
- * @property integer $manager_role
- * @property string $manager_email
  * @property integer $situation
  * @property string $initial_date
  * @property string $final_date
@@ -97,12 +93,12 @@ class SchoolIdentification extends AltActiveRecord {
         // will receive user inputs.
         return array(
             array('name, inep_id, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, offer_or_linked_unity, id_difflocation, regulation', 'required'),
-            array('manager_role, situation, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, offer_or_linked_unity, regulation, id_difflocation, linked_mec, linked_army, linked_helth, linked_other, regulation_organ, regulation_organ_federal, regulation_organ_state, regulation_organ_municipal, private_school_organization_civil_society, manager_contract_type', 'numerical', 'integerOnly'=>true),
+            array('situation, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, offer_or_linked_unity, regulation, id_difflocation, linked_mec, linked_army, linked_helth, linked_other, regulation_organ, regulation_organ_federal, regulation_organ_state, regulation_organ_municipal, private_school_organization_civil_society', 'numerical', 'integerOnly'=>true),
             array('register_type, ddd', 'length', 'max'=>2),
             array('inep_id, cep, public_phone_number, fax_number, inep_head_school', 'length', 'max'=>8),
-            array('manager_cpf', 'length', 'max'=>11),
-            array('manager_name, name, address, logo_file_name, manager_access_criterion', 'length', 'max'=>100),
-            array('manager_email, address_neighborhood, email, logo_file_type', 'length', 'max'=>50),
+            array('length', 'max'=>11),
+            array('name, address, logo_file_name', 'length', 'max'=>100),
+            array('address_neighborhood, email, logo_file_type', 'length', 'max'=>50),
             array('initial_date, final_date, address_number', 'length', 'max'=>10),
             array('latitude, longitude, address_complement', 'length', 'max'=>20),
             array('phone_number, other_phone_number', 'length', 'max'=>9),
@@ -111,7 +107,7 @@ class SchoolIdentification extends AltActiveRecord {
             array('logo_file_content, act_of_acknowledgement', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, inep_id, manager_cpf, number_ato, manager_name, manager_role, manager_email, situation, initial_date, final_date, name, latitude, longitude, cep, address, address_number, address_complement, address_neighborhood, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, ddd, phone_number, public_phone_number, other_phone_number, fax_number, email, edcenso_regional_education_organ_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, private_school_maintainer_cnpj, private_school_cnpj, offer_or_linked_unity, inep_head_school, ies_code, regulation, logo_file_name, logo_file_type, logo_file_content, act_of_acknowledgement', 'safe', 'on'=>'search'),
+            array('register_type, inep_id, number_ato, situation, initial_date, final_date, name, latitude, longitude, cep, address, address_number, address_complement, address_neighborhood, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, ddd, phone_number, public_phone_number, other_phone_number, fax_number, email, edcenso_regional_education_organ_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, private_school_maintainer_cnpj, private_school_cnpj, offer_or_linked_unity, inep_head_school, ies_code, regulation, logo_file_name, logo_file_type, logo_file_content, act_of_acknowledgement', 'safe', 'on'=>'search'),
         );
     }
 
@@ -143,10 +139,6 @@ class SchoolIdentification extends AltActiveRecord {
         return array(
             'register_type' => Yii::t('default', 'Register Type'),
             'inep_id' => Yii::t('default', 'Inep'),
-            'manager_cpf' => Yii::t('default', 'Manager Cpf'),
-            'manager_name' => Yii::t('default', 'Manager Name'),
-            'manager_role' => Yii::t('default', 'Manager Role'),
-            'manager_email' => Yii::t('default', 'Manager Email'),
             'situation' => Yii::t('default', 'Situation'),
             'initial_date' => Yii::t('default', 'Initial Date'),
             'final_date' => Yii::t('default', 'Final Date'),
@@ -195,8 +187,6 @@ class SchoolIdentification extends AltActiveRecord {
             'regulation_organ_state' => Yii::t('default', 'Regulation Organ State'),
             'regulation_organ_municipal' => Yii::t('default', 'Regulation Organ Municipal'),
             'private_school_organization_civil_society' => Yii::t('default', 'Organization Civil Society'),
-            'manager_access_criterion' => Yii::t('default', 'Manager Access Criterion'),
-            'manager_contract_type' => Yii::t('default', 'Manager Contract Type'),
             'number_ato' => Yii::t('default', 'Number Ato'),
         );
     }
