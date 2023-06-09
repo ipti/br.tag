@@ -21,12 +21,14 @@ $('#classesSearch').on('click', function () {
                 var data = jQuery.parseJSON(data);
                 if (data.valid) {
                     createTable(data);
-                    $("#print, #save").show();
+                    $("#print").addClass("show").removeClass("hide");
+                    $("#save").addClass("show show-desktop").removeClass("hide");
+                    $("#save-button-mobile").addClass("show show-mobile").removeClass("hide");
                 } else {
                     $('#class-contents > thead').html('<tr><th class="center">' + data.error + '</th></tr>');
                     $('#class-contents > tbody').html('');
                     $('#class-contents').show();
-                    $("#save").hide();
+                    $("#save, #save-button-mobile").hide();
                 }
                 $('#month_text').html($('#month').find('option:selected').text());
                 $('#discipline_text').html($('#disciplines').is(":visible") ? $('#disciplines').find('option:selected').text() : "Todas as Disciplinas");
@@ -40,7 +42,7 @@ $('#classesSearch').on('click', function () {
     } else {
         $(".alert-required-fields").show();
         $("#widget-class-contents").hide();
-        $("#print, #save").hide();
+        $("#print, #save, #save-button-mobile").hide();
     }
 });
 
@@ -80,7 +82,7 @@ $(document).on("click", "#print", function () {
     window.print();
 });
 
-$("#save").on('click', function () {
+$("#save, #save-button-mobile").on('click', function () {
     $(".alert-save").hide();
     var classContents = [];
     $(".day-row").each(function () {

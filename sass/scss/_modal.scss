@@ -1,26 +1,36 @@
 .t-modal-container {
-    padding: $SizeXLarge;
-    .t-modal-content {
-        color: #252A31;
-        .t-modal__header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            .close {
-                opacity: 1;
-            }
+    color: $colorsTextPrimary;
+    box-sizing: border-box;
+    height: 80vh;
+    background: $colorsBaseCloudLight;
+    border-radius: $borderRadiusNormal;
+    overflow-y: scroll;
+    .t-modal__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: $SizeLarge $SizeLarge;
+        .t-title {
+            font-size: $FontSizeHeadingTitle2;
+            color: $colorsTextPrimary;
+            margin: 0;
         }
-        .t-modal__body {
-            label {
-                font-size: $FontSizeTextNormal;
-            }
-        }
-        .t-modal__footer {
-            a, button {
-                flex: 1;
-                padding: $spaceNormal;
-            }
+        .close {
+            opacity: 1;
         }
     }
-    
+    .t-modal__body {
+        padding: $SizeNormal $SizeLarge;
+        
+        label {
+            font-size: $FontSizeTextNormal;
+        }
+    }
+    .t-modal__footer {
+        a, button {
+            flex: 1;
+            padding: $spaceNormal;
+        }
+    }
 }
+    

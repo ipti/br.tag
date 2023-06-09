@@ -9233,10 +9233,6 @@ tbody .details-control:hover {
     margin-bottom: 20px;
 }
 
-#classes-form #print, #classes-form #save {
-    display: none;
-}
-
 #LoginForm_username_em_, #LoginForm_password_em_ {
     margin: -7px 0 10px 0;
     color: red;

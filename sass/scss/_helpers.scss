@@ -53,5 +53,24 @@
 }
 
 
-.hide {display:none;}
-.show {display:block;}
+.hide {
+    display:none;
+}
+.show {
+    display:block;
+
+    &.show-mobile {
+        display: block;
+
+        @include device(mobile) {
+            display: none;
+        }
+    }
+    &.show-desktop {
+        display: none;
+
+        @include device(mobile) {
+            display: block;
+        }
+    }
+}
