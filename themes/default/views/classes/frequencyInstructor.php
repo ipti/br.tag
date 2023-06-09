@@ -11,8 +11,13 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization_instructor.js?v=1.0', CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes'));
 
+
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
+
+
+
+
 <div class="main">
     <?php
     $form = $this->beginWidget('CActiveForm', array(

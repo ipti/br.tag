@@ -49,6 +49,7 @@ if (Yii::app()->user->isGuest) {
 <head>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.min.js"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ba-bbq.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
     <meta charset="UTF-8" />
@@ -78,6 +79,7 @@ if (Yii::app()->user->isGuest) {
     <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/font-awesome.min.css' />
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/home.css?v=1.0" />
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/datatables.min.css" />
+    
 </head>
 
 <body>

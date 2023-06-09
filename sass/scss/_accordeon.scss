@@ -1,6 +1,7 @@
 .t-accordeon {
-    border-bottom: 1px solid;
-    padding-top: 30px;
+    background-color: $colorsBaseInkLighter;
+    // border-bottom: $borderRadiusSmall solid;
+    padding-top: $SizeXLarge;
     position: relative;
 
     .t-accordeon-div{
@@ -9,21 +10,21 @@
         align-items: center;
     }
     &:first-of-type {
-        padding-top: 0;
+        padding-top: $spaceEmpty;
     }
     input.t-accordeon {
         // Hide checkbox
         appearance: none;
-        left: -100%;
+        // left: -100%;
+        // top: -100%;
         position: absolute;
-        top: -100%;
+        
 
         // Style the label text
         &+label {
             cursor: pointer;
-            font-size: 20px;
-            font-weight: bold;
-            padding-left: 25px;
+            font-size: $FontSizeHeadingTitle4;
+            padding-left: $SizeLarge;
         }
         
         // Hide the article if the checkbox is unchecked
@@ -31,10 +32,10 @@
             height: 0px;
             opacity: 0;
             overflow: hidden;
-            padding: 5px;
-            padding-left: 25px;
-            transition: height 700ms ease,
-                opacity 700ms ease;
+            padding: $SizeXXXSmall;
+            padding-left: $SizeXXXSmall;
+            transition: height $durationFast ease,
+                opacity $durationFast ease;
         }
         &:checked {
             // Show the article if the checkbox is checked

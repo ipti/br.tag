@@ -1,4 +1,9 @@
+
+
+
+
 $("#classesSearch").on("click", function () {
+    
     if ($("#classroom").val() !== "" && $("#month").val() !== "" && (!$("#disciplines").is(":visible") || $("#disciplines").val() !== "")) {
         $(".alert-required-fields, .alert-incomplete-data").hide();
         var fundamentalMaior = Number($("#classroom option:selected").attr("fundamentalmaior"));
@@ -17,23 +22,26 @@ $("#classesSearch").on("click", function () {
                 $(".table-frequency").css("opacity", 0.3).css("pointer-events", "none");
                 $("#classroom, #month, #disciplines, #classesSearch").attr("disabled", "disabled");
             },
+
             success: function (response) {
+
+                
+
                 var data = JSON.parse(response);
                 if (data.valid) {
                     var acordeon = '';
-
+                    var item = 0;
                     $.each(data.students[0].schedules, function () {
                         var dia = this.day;
                         var mes = $('#month').val();
+                        item++;
                         acordeon +=
-                            `<div class='t-accordeon'>
-                                        <input type='checkbox' id='item-1' class='t-accordeon'></input>
-                                        <label for='item-1'><span></span>Nome</label>
-                                        <label for='item-1'><span></span>${this.day}/${pad($('#month').val(), 2)}</label>
-                                <article>
+                            `<div id='accordion'>
+                                    <h3>Nome</h3>
+                                    <div>
                                     <table class='table-frequency table table-bordered table-striped table-hover'>
-                                        <thead class='t-accordion__head'></thead>
-                                        <tbody class='t-accordion__body'>`;
+                                        <thead></thead>
+                                        <tbody>`;
                         $.each(data.students, function (indexStudent, student) {
                             acordeon +=
 
@@ -73,10 +81,15 @@ $("#classesSearch").on("click", function () {
                         acordeon +=
                             `</tbody>
                                     </table>
-                                </article>
+                                </div>
                             </div>`;
                     });
                     $("#frequency-container").html(acordeon).show();
+
+                    $( function() {
+                        $( "#accordion" ).accordion();
+                      } );
+                      
                     $(".frequency-checkbox-general").each(function () {
                         var day = $(this).find(".frequency-checkbox").attr("day");
                         $(this).find(".frequency-checkbox").prop("checked", $(".frequency-checkbox-student .frequency-checkbox[day=" + day + "]:checked").length === $(".frequency-checkbox-student .frequency-checkbox[day=" + day + "]").length);
