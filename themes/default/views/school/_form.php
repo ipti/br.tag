@@ -11,9 +11,6 @@ $cs->registerScriptFile($baseUrl . '/js/school/form/_initialization.js', CClient
 $cs->registerScriptFile($baseUrl . '/js/school/form/functions.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/school/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/school/form/pagination.js', CClientScript::POS_END);
-$cs->registerCssFile($themeUrl . '/css/template2.css');
-$cs->registerCssFile($baseUrl . 'sass/css/main.css');
-
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'school',
@@ -1508,6 +1505,12 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_sports', array('value' => 1, 'uncheckValue' => 0)); ?>
                                             <label class="t-field-checkbox">
                                                 <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_sports']; ?>    
+                                            </label>
+                                        </div>
+                                        <div class="t-field-checkbox">
+                                            <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_teachingdeafs', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            <label class="t-field-checkbox">
+                                                <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingdeafs']; ?>
                                             </label>
                                         </div>
                                         <div class="t-field-checkbox">

@@ -1,5 +1,30 @@
 # Atualizações
 
+## [Versão 3.25.64]
+- O relatório de rendimento escolar por atividade agora exibe as informações corretamente
+
+## [Versão 3.25.63]
+- Agora o formulário de matrícula ao atualizar retorna para o formulário com os dados salvos
+
+## [Versão 3.25.62]
+- Na tela de plano de aula os GIFs de loading foram atualizados
+- A cor do botão no card de justificativa quando o mouse passa em cima foi atualizado
+
+## [Versão 3.25.60]
+- O relatório Alunos por Turma foi atualizado
+
+## [Versão 3.25.59]
+- Relatório CNS por Turma
+- Relatório CNS da Escola
+- Relatório CNS de Todas as Escolas (somente para administrador)
+
+## [Versão 3.24.59]
+- Um bug que fazia gerar RA não funcionar corretamente foi corrigido
+
+## [Versão 3.24.58]
+- Adicionamento versão para arquivos css, resolvendo problema
+com cache do style
+
 ## [Versão 3.24.57]
 - Alterado o estilo da tela de aulas ministradas
 - Criação de variações da classe table

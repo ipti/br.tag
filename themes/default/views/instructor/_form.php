@@ -11,7 +11,7 @@ $cs->registerScriptFile($baseUrl . '/js/instructor/form/_initialization.js', CCl
 $cs->registerScriptFile($baseUrl . '/js/instructor/form/functions.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/instructor/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/instructor/form/pagination.js', CClientScript::POS_END);
-$cs->registerCssFile($themeUrl . '/css/template2.css');
+
 $cs->registerScript("VARS", "
     var GET_INSTITUTIONS = '" . $this->createUrl('instructor/getInstitutions') . "';
 ", CClientScript::POS_BEGIN);

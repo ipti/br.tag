@@ -14,7 +14,7 @@
 	$themeUrl = Yii::app()->theme->baseUrl;
 	$cs = Yii::app()->getClientScript();
 	$cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js', CClientScript::POS_END);
-	$cs->registerCssFile($themeUrl . '/css/template2.css'); 
+	 
 
 ?>
 

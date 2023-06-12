@@ -203,6 +203,7 @@ class InstructorIdentification extends AltActiveRecord
 
     public function getDisciplines()
     {
+
         $disciplines = EdcensoDiscipline::model()
         ->with(array(
                 'curricularMatrixes.teachingMatrixes.teachingDataFk' => array(

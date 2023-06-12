@@ -31,8 +31,8 @@ class IdentifyStudentRACode
         $nome = $student_tag->name;
         $data_nascimento = $student_tag->birthday;
         $nome_mae = $student_tag->filiation_1;
-        $aluno_sed = $this->studentSEDDataSource->getStudentRA($nome,$data_nascimento, $nome_mae,$force);
-        
+        $aluno_sed = $this->studentSEDDataSource->getStudentRA($nome,$data_nascimento, $nome_mae, $force);
+  
         return $aluno_sed;
     }
 }

@@ -269,7 +269,63 @@ class StudentDocumentsAndAddressValidation extends Register
         if (substr($value, 10, 4) < substr($birthday, 6, 4)) {
             return array("status" => false, "erro" => "com o ano de registro (dígitos de 11 a 14) anterior ao ano de nascimento.");
         }
+
+        if(!$this->validateCertidao($value)){
+            return array("status" => false, "erro" => "O número da matrícula da certidão inserida é inválido.");
+        }
+        
+
         return array("status" => true, "erro" => "");
+    }
+
+    /**
+     * Valida se a CERTIDÃO é válida (nascimento, casamento, óbito)
+     * @param string $value
+     * @return bool
+     */
+    private function validateCertidao($value)
+    {
+        if (!preg_match("/[0-9]{32}/", $value)) {
+            return false;
+        }
+
+        $num = substr($value, 0, -2);
+
+        $dv = substr($value, -2);
+
+        $dv1 = $this->weightedSumCertidao($num) % 11;
+
+        $dv1 = $dv1 > 9 ? 1 : $dv1;
+
+        $dv2 = $this->weightedSumCertidao($num.$dv1) % 11;
+
+        $dv2 = $dv2 > 9 ? 1 : $dv2;
+
+        // Compara o dv recebido com os dois numeros calculados
+        if ($dv === $dv1.$dv2) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $value
+     * @return int
+     */
+    private function weightedSumCertidao($value): int
+    {
+        $sum = 0;
+
+        $multiplier = 32 - mb_strlen($value);
+
+        for ($i = 0; $i < mb_strlen($value); $i++) {
+            $sum += $value[$i] * $multiplier;
+            $multiplier += 1;
+            $multiplier = $multiplier > 10 ? 0 : $multiplier;
+        }
+
+        return $sum;
     }
 
     //campo 19

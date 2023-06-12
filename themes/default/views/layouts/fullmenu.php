@@ -8,6 +8,10 @@ $schoolurl = yii::app()->createUrl('school');
 
 $select_school = '';
 
+if (Yii::app()->user->isGuest) {
+    $this->redirect(yii::app()->createUrl('site/login'));
+}
+
 if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
     $select_school = CHtml::activeDropDownList(
         SchoolIdentification::model(),
@@ -29,9 +33,34 @@ if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginIn
     );
 }
 
-if (Yii::app()->user->isGuest) {
-    $this->redirect(yii::app()->createUrl('site/login'));
-}
+
+
+$assetManager = Yii::app()->getAssetManager();
+$assetUrl = Yii::app()->theme->baseUrl;
+
+$cs = Yii::app()->getClientScript();
+
+// Base Layout 
+$cs->registerCssFile($assetUrl . "/css/bootstrap.min.css");
+$cs->registerCssFile($assetUrl . "/css/responsive.min.css");
+$cs->registerCssFile($assetUrl . "/css/print.css", "print");
+
+// 3rd party libraries
+$cs->registerCssFile($assetUrl . "/css/select2.css");
+$cs->registerCssFile($assetUrl . "/css/datatables.min.css");
+$cs->registerCssFile($assetUrl . "/css/bootstrap-datepicker.min.css");
+$cs->registerCssFile($assetUrl . '/js/jquery/fullcalendar/fullcalendar.css');
+$cs->registerCssFile($assetUrl . '/js/jquery/fullcalendar/fullcalendar.print.css', 'print');
+$cs->registerCssFile($assetUrl . '/css/jquery-ui-1.9.2.custom.min.css');
+$cs->registerCssFile($assetUrl . "/css/glyphicons.min.css");
+$cs->registerCssFile($assetUrl . '/css/font-awesome.min.css');
+
+// Custom styles
+$cs->registerCssFile($assetUrl . "/css/template.css?v=". TAG_VERSION);
+$cs->registerCssFile($assetUrl . '/css/template2.css?v='. TAG_VERSION);
+$cs->registerCssFile($assetUrl . "/css/admin.css?v=". TAG_VERSION);
+$cs->registerCssFile($assetUrl . "/css/home.css?v=". TAG_VERSION);
+$cs->registerCssFile(Yii::app()->baseUrl. "/sass/css/main.css?v=". TAG_VERSION);
 
 ?>
 <!DOCTYPE html>

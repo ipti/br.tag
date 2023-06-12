@@ -151,9 +151,9 @@ class EnrollmentController extends Controller
     {
         $model = $this->loadModel($id);
 
-
+        $modelStudentIdentification = StudentIdentification::model()->find('inep_id="' . $model->student_inep_id . '"');
         if ($model->student_fk == NULL && $model->classroom_fk == NULL) {
-            $model->student_fk = StudentIdentification::model()->find('inep_id="' . $model->student_inep_id . '"')->id;
+            $model->student_fk = $modelStudentIdentification->id;
             $model->classroom_fk = Classroom::model()->find('inep_id="' . $model->classroom_inep_id . '"')->id;
         }
 
@@ -185,13 +185,14 @@ class EnrollmentController extends Controller
                 if ($model->save()) {
                     Log::model()->saveAction("enrollment", $model->id, "U", $model->studentFk->name . "|" . $model->classroomFk->name);
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Matrícula alterada com sucesso!'));
-                    $this->redirect(array('student/'));
+                    // $this->redirect(array('student/'));
                 }
             }
         }
 
         $this->render('update', array(
             'model' => $model,
+            'modelStudentIdentification' => $modelStudentIdentification,
             'classrooms' => $classrooms
         ));
     }

@@ -87,6 +87,9 @@ class Register30
                 } else {
                     $variabledata = InstructorVariableData::model()->findByPk($instructor_inepid_id);
                 }
+                if ($variabledata == null) {
+                    $variabledata = InstructorVariableData::model()->findByPk($teachingData->instructorFk->id);
+                }
                 $variabledata->id = $teachingData->instructorFk->id;
                 $variabledata->inep_id = $teachingData->instructorFk->inep_id;
                 $variabledata->school_inep_id_fk = $school->inep_id;
@@ -469,6 +472,8 @@ class Register30
 
     private static function convertCourseCodes($code) {
         switch($code) {
+            case "145F21":
+                return "0114Q011";
             case "142C01":
                 return "0113P012";
             case "142P01":
