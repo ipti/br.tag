@@ -29,21 +29,28 @@ $("#classesSearch").on("click", function () {
 
                 var data = JSON.parse(response);
                 if (data.valid) {
-                    var acordeon = '';
+                    var accordion = '';
                     var item = 0;
                     $.each(data.students[0].schedules, function () {
                         var dia = this.day;
                         var mes = $('#month').val();
                         item++;
-                        acordeon +=
+                        accordion +=
                             `<div id='accordion'>
-                                    <h3>Nome</h3>
+                                    <div style='display: flex; flex-direction: row; justify-content:space-around;'>
+                                        <div>
+                                            <h3>Nome</h3>
+                                        </div>  
+                                        <div>
+                                            <h3>Data</h3>
+                                        </div>
+                                    </div>
                                     <div>
                                     <table class='table-frequency table table-bordered table-striped table-hover'>
                                         <thead></thead>
                                         <tbody>`;
                         $.each(data.students, function (indexStudent, student) {
-                            acordeon +=
+                            accordion +=
 
                                 `<tr>
                                             <td class='student-name'>
@@ -61,7 +68,7 @@ $("#classesSearch").on("click", function () {
                                         }
                                     }
 
-                                    acordeon +=
+                                    accordion +=
                                         `<td class='frequency-checkbox-student frequency-checkbox-container ${(!this.available ? $("disabled") : $(""))}'>
                                                             <input class='frequency-checkbox' type='checkbox'
                                                                 ${(!schedule.available ? $('disabled') : $(''))} ${(schedule.fault ? $('checked') : $(''))} 
@@ -76,18 +83,20 @@ $("#classesSearch").on("click", function () {
                                         </td>`;
                                 }
                             });
-                            acordeon += `<tr>`;
+                            accordion += `<tr>`;
                         });
-                        acordeon +=
+                        accordion +=
                             `</tbody>
                                     </table>
                                 </div>
                             </div>`;
                     });
-                    $("#frequency-container").html(acordeon).show();
-
+                    
+                    $("#frequency-container").html(accordion).show();
                     $( function() {
-                        $( "#accordion" ).accordion();
+                        $( "#accordion" ).accordion({
+                          collapsible: true
+                        });
                       } );
                       
                     $(".frequency-checkbox-general").each(function () {
