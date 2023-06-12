@@ -13,6 +13,11 @@ $(document).ready(function() {
         initial_date = stringToDate($(formIdentification+'initial_date').val());    
         final_date = stringToDate($(formIdentification+'final_date').val());
     });
+
+    // MARCAÇÃO
+    $('#ManagerIdentification_cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
+    $('#ManagerIdentification_filiation_1_cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
+    $('#ManagerIdentification_filiation_2_cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
 });
 
 $(document).on("click", ".upload-logo-button", function() {

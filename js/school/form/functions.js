@@ -52,9 +52,10 @@ $('#ManagerIdentification_edcenso_uf_fk').change(function () {
 
 $('#ManagerIdentification_filiation').change(function () {
     var simple = getUrlVars()['simple'];
-    $('.js-disabled-finputs').hide();
+    $('.manager-filiation-container').hide();
     if ($('#ManagerIdentification_filiation').val() == 1) {
-        $('.js-disabled-finputs').show();
+        console.log('dsads')
+        $('.manager-filiation-container').show();
         $('#ManagerIdentification_filiation_1').closest(".js-visibility-fname").show();
         $('#ManagerIdentification_filiation_2').closest(".js-visibility-fname").show();
     } else {
