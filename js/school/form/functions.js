@@ -3,6 +3,53 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+$('#ManagerIdentification_nationality').change(function () {
+    var nationality = ".nationality-sensitive";
+    var br = nationality + ".br";
+    var nobr = nationality + ".no-br";
+    var simple = getUrlVars()['simple'];
+    $(nationality).attr("disabled", "disabled");
+    if ($(this).val() == 3) {
+        $(nobr).removeAttr("disabled");
+        $('#ManagerIdentification_edcenso_nation_fk').val(null).trigger('change').select2('readonly', false);
+        $('#ManagerIdentification_edcenso_uf_fk').val("").trigger("change.select2");
+        $('#ManagerIdentification_edcenso_city_fk').val("").trigger("change.select2");
+        $('#ManagerIdentification_edcenso_uf_fk').closest(".js-change-required").css("display", simple === "1" ? "none" : "block").find("label").removeClass("required").html("Estado");
+        $('#ManagerIdentification_edcenso_city_fk').closest(".js-change-required").css("display", simple === "1" ? "none" : "block").find("label").removeClass("required").html("Cidade");
+    } else if ($(this).val() == "") {
+        $('#ManagerIdentification_edcenso_nation_fk').val(null).trigger('change').attr("disabled", "disabled");
+        $(nationality).attr("disabled", "disabled");
+        $('#ManagerIdentification_edcenso_uf_fk').val("").trigger("change.select2").closest(".js-change-required").css("display", simple == "1" ? "none" : "block").find("label").removeClass("required").html("Estado");
+        $('#ManagerIdentification_edcenso_city_fk').val("").trigger("change.select2").closest(".js-change-required").css("display", simple == "1" ? "none" : "block").find("label").removeClass("required").html("Cidade");
+    } else {
+        $('#ManagerIdentification_edcenso_nation_fk').val(76).trigger('change').removeAttr("disabled").select2('readonly', true);
+        $(br).removeAttr("disabled");
+        if ($(this).val() == "1") {
+            $('#ManagerIdentification_edcenso_uf_fk').removeAttr("disabled").closest(".js-change-required").show().find("label").addClass("required").html("Estado *");
+            $('#ManagerIdentification_edcenso_city_fk').removeAttr("disabled").closest(".js-change-required").show().find("label").addClass("required").html("Cidade *");
+        } else {
+            $('#ManagerIdentification_edcenso_uf_fk').val("").trigger("change.select2").attr("disabled", "disabled").closest(".js-change-required").css("display", simple == "1" ? "none" : "block").find("label").removeClass("required").html("Estado");
+            $('#ManagerIdentification_edcenso_city_fk').val("").trigger("change.select2").attr("disabled", "disabled").closest(".js-change-required").css("display", simple == "1" ? "none" : "block").find("label").removeClass("required").html("Cidade");
+        }
+    }
+});
+
+$('#ManagerIdentification_edcenso_uf_fk').change(function () {
+    var uf = $(this).val();
+    $.ajax({
+        type: "POST",
+        url: `?r=school/getmanagercities`,
+        data: {
+            edcenso_uf_fk: uf
+        },
+        success: function (response) {
+            console.log(response)
+            $("#ManagerIdentification_edcenso_city_fk").append(response);
+        }
+    });
+});
+
+
 $(document).on("click", ".add-fundamental-menor", function () {
     $("#SchoolStructure_stages_concept_grades option[value=14]").prop("selected", true);
     $("#SchoolStructure_stages_concept_grades option[value=15]").prop("selected", true);

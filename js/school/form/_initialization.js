@@ -22,3 +22,11 @@ $(document).on("click", ".upload-logo-button", function() {
 $(document).on("change", "#SchoolIdentification_logo_file_content", function(e) {
     $(".uploaded-logo-name").text(e.target.files[0].name);
 });
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+        vars[key] = value;
+    });
+    return vars;
+}

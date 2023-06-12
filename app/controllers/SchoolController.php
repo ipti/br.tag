@@ -32,7 +32,7 @@ class SchoolController extends Controller
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('edcenso_import', 'configacl', 'index', 'view', 'update', 'create',
-                    'getcities', 'getdistricts', 'getorgans', 'updateufdependencies', 'updatecitydependencies', 'displayLogo', 'RemoveLogo'),
+                    'getcities', 'getmanagercities','getdistricts', 'getorgans', 'updateufdependencies', 'updatecitydependencies', 'displayLogo', 'RemoveLogo'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -134,6 +134,21 @@ class SchoolController extends Controller
         ));
     }
 
+    public function actionGetManagerCities()
+    {
+        $uf = $_POST['edcenso_uf_fk'];
+
+        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => $uf));
+        $data = CHtml::listData($data, 'id', 'name');
+
+        $result = CHtml::tag('option', array('value' => ""), 'Selecione a cidade', true);
+        foreach ($data as $value => $name) {
+            $result .= CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+        }
+
+        return $result;
+    }
+
     /**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -142,6 +157,7 @@ class SchoolController extends Controller
     {
         $modelSchoolIdentification = new SchoolIdentification;
         $modelSchoolStructure = new SchoolStructure;
+        $modelManagerIdentification = new ManagerIdentification;
         $modelSchoolStructure->stages_concept_grades = [14, 15, 16];
 
         // Uncomment the following line if AJAX validation is needed
@@ -193,7 +209,8 @@ class SchoolController extends Controller
 
         $this->render('create', array(
             'modelSchoolIdentification' => $modelSchoolIdentification,
-            'modelSchoolStructure' => $modelSchoolStructure
+            'modelSchoolStructure' => $modelSchoolStructure,
+            'modelManagerIdentification' =>  $modelManagerIdentification
         ));
     }
 
