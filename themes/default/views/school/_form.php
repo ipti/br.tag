@@ -1351,16 +1351,58 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($modelManagerIdentification, 'edcenso_uf_fk'); ?>
                             </div>
                             <div class="control-group">
-                                    <?php echo $form->labelEx($modelManagerIdentification, 'number_ato', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelManagerIdentification, 'number_ato', array( 'placeholder' => 'Digite o número ato')); ?>
-                                    <?php echo $form->error($modelManagerIdentification, 'number_ato'); ?>
+                                <?php echo $form->labelEx($modelManagerIdentification, 'number_ato', array('class' => 'control-label')); ?>
+                                <?php echo $form->textField($modelManagerIdentification, 'number_ato', array( 'placeholder' => 'Digite o número ato')); ?>
+                                <?php echo $form->error($modelManagerIdentification, 'number_ato'); ?>
                             </div>
             
                             <div class="control-group">
-                                    <?php echo $form->labelEx($modelManagerIdentification, 'role', array('class' => 'control-label')); ?>
-                                    <?php echo $form->DropDownList($modelManagerIdentification, 'role', array(null => "Selecione o cargo", "1" => "Diretor", "2" => "Outro Cargo"), array('class' => 'select-search-off control-input')); ?>
-                                    <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Role of the school manager'); ?>"><i></i></span> -->
-                                    <?php echo $form->error($modelManagerIdentification, 'role'); ?>
+                                <?php echo $form->labelEx($modelManagerIdentification, 'role', array('class' => 'control-label')); ?>
+                                <?php echo $form->DropDownList($modelManagerIdentification, 'role', array(null => "Selecione o cargo", "1" => "Diretor", "2" => "Outro Cargo"), array('class' => 'select-search-off control-input')); ?>
+                                <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Role of the school manager'); ?>"><i></i></span> -->
+                                <?php echo $form->error($modelManagerIdentification, 'role'); ?>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelManagerIdentification, 'filiation', array('class' => 'control-label')); ?>
+                                <?php echo $form->DropDownList($modelManagerIdentification, 'filiation', array(null => "Selecione a filiação", "0" => "Não declarado/Ignorado", "1" => "Pai e/ou Mãe"), array('class' => 'select-search-off control-input')); ?>
+                                <?php echo $form->error($modelManagerIdentification, 'filiation'); ?>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelManagerIdentification, 'filiation_1', array('class' => 'control-label')); ?>
+                                <?php echo $form->textField($modelManagerIdentification, 'filiation_1', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear control-input", 'placeholder' => 'Digite o Nome Completo da filiação 1')); ?>
+                                <?php echo $form->error($modelManagerIdentification, 'filiation_1'); ?>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelManagerIdentification, 'filiation_1_cpf', array('class' => 'control-label')); ?>
+                                <?php echo $form->textField($modelManagerIdentification, 'filiation_1_cpf', array('size' => 60, 'maxlength' => 14, "class" => "js-disabled-finputs js-finput-clear control-input")); ?>
+                                <?php echo $form->error($modelManagerIdentification, 'filiation_1_cpf'); ?>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelManagerIdentification, 'filiation_1_rg', array('class' => 'control-label')); ?>
+                                <?php echo $form->textField($modelManagerIdentification, 'filiation_1_rg', array('size' => 60, 'maxlength' => 45, "class" => "js-disabled-finputs js-finput-clear control-input", 'placeholder' => 'Digite o RG da filiação 1')); ?>
+                                <?php echo $form->error($modelManagerIdentification, 'filiation_1_rg'); ?>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelManagerIdentification, 'filiation_1_scholarity', array('class' => 'control-label')); ?>
+                                <?php
+                                echo $form->dropDownList($modelManagerIdentification, 'filiation_1_scholarity', array(
+                                    null => "Selecione a escolaridade da filiação 1",
+                                    0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
+                                    3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
+                                    6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'
+                                ), array('class' => 'select-search-off js-disabled-finputs js-finput-clear control-input'));
+                                ?>
+                                <?php echo $form->error($modelManagerIdentification, 'filiation_1_scholarity'); ?>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelManagerIdentification, 'filiation_1_job', array('class' => 'control-label')); ?>
+                                <?php echo $form->textField($modelManagerIdentification, 'filiation_1_job', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear control-input", 'placeholder' => 'Digite a Profissão da filiação 1')); ?>
+                                <?php echo $form->error($modelManagerIdentification, 'filiation_1_job'); ?>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelManagerIdentification, 'residence_zone', array('class' => 'control-label')); ?>
+                                <?php echo $form->DropDownList($modelManagerIdentification, 'residence_zone', array(null => "Selecione uma zona", "1" => "URBANA", "2" => "RURAL"), array('class' => 'select-search-off control-input')); ?>
+                                <?php echo $form->error($modelManagerIdentification, 'residence_zone'); ?>
                             </div>
                         </div>
                         <div class="span7">
@@ -1388,7 +1430,6 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                     <?php echo $form->labelEx($modelManagerIdentification, 'email', array('class' => 'control-label')); ?>
                                     <?php echo $form->textField($modelManagerIdentification, 'email', array('size' => 50, 'maxlength' => 50, 'placeholder' => 'Digite o E-mail do Gestor')); ?>
-                                    <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'E-mail'); ?>"><i></i></span> -->
                                     <?php echo $form->error($modelManagerIdentification, 'email'); ?>
                             </div>
                             <div class="control-group">
@@ -1410,14 +1451,47 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($modelManagerIdentification, 'edcenso_city_fk'); ?>
                             </div>
                             <div class="control-group">
-                                    <?php echo $form->labelEx($modelManagerIdentification, 'contract_type', array('class' => 'control-label')); ?>
-                                    <?php echo $form->DropDownList($modelManagerIdentification, 'contract_type', array(null => "Selecione o vínculo", "1" => "Concursado/Efetivo", "2" => "Temporário", "3" => "Terceirizado", "4" => "CLT"), array('class' => 'select-search-off control-input')); ?>
-                                    <?php echo $form->error($modelManagerIdentification, 'contract_type'); ?>
+                                <?php echo $form->labelEx($modelManagerIdentification, 'contract_type', array('class' => 'control-label')); ?>
+                                <?php echo $form->DropDownList($modelManagerIdentification, 'contract_type', array(null => "Selecione o vínculo", "1" => "Concursado/Efetivo", "2" => "Temporário", "3" => "Terceirizado", "4" => "CLT"), array('class' => 'select-search-off control-input')); ?>
+                                <?php echo $form->error($modelManagerIdentification, 'contract_type'); ?>
                             </div>
-                            <div class="control-group  hide-responsive">
-                                    <?php echo $form->labelEx($modelManagerIdentification, 'access_criterion', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textArea($modelManagerIdentification, 'access_criterion', array('placeholder' => 'Digite a Especificação do Critério de Acesso')); ?>
-                                    <?php echo $form->error($modelManagerIdentification, 'access_criterion'); ?>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelManagerIdentification, 'access_criterion', array('class' => 'control-label')); ?>
+                                <?php echo $form->textArea($modelManagerIdentification, 'access_criterion', array('placeholder' => 'Digite a Especificação do Critério de Acesso')); ?>
+                                <?php echo $form->error($modelManagerIdentification, 'access_criterion'); ?>
+                            </div>
+                            <div class="control-group" style="height: 60px;"></div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelManagerIdentification, 'filiation_2', array('class' => 'control-label')); ?>
+                                <?php echo $form->textField($modelManagerIdentification, 'filiation_2', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear control-input", 'placeholder' => 'Digite o Nome Completo da filiação 2')); ?>
+                                <?php echo $form->error($modelManagerIdentification, 'filiation_2'); ?>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelManagerIdentification, 'filiation_2_cpf', array('class' => 'control-label')); ?>
+                                <?php echo $form->textField($modelManagerIdentification, 'filiation_2_cpf', array('size' => 60, 'maxlength' => 14, "class" => "js-disabled-finputs js-finput-clear control-input")); ?>
+                                <?php echo $form->error($modelManagerIdentification, 'filiation_2_cpf'); ?>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelManagerIdentification, 'filiation_2_rg', array('class' => 'control-label')); ?>
+                                <?php echo $form->textField($modelManagerIdentification, 'filiation_2_rg', array('size' => 60, 'maxlength' => 45, "class" => "js-disabled-finputs js-finput-clear control-input", 'placeholder' => 'Digite o RG da filiação 2')); ?>
+                                <?php echo $form->error($modelManagerIdentification, 'filiation_2_rg'); ?>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelManagerIdentification, 'filiation_2_scholarity', array('class' => 'control-label')); ?>
+                                <?php
+                                echo $form->dropDownList($modelManagerIdentification, 'filiation_2_scholarity', array(
+                                    null => "Selecione a escolaridade da filiação 2",
+                                    0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
+                                    3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
+                                    6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'
+                                ), array('class' => 'select-search-off js-disabled-finputs js-finput-clear control-input'));
+                                ?>
+                                <?php echo $form->error($modelManagerIdentification, 'filiation_2_scholarity'); ?>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelManagerIdentification, 'filiation_2_job', array('class' => 'control-label')); ?>
+                                <?php echo $form->textField($modelManagerIdentification, 'filiation_2_job', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear control-input", 'placeholder' => 'Digite a Profissão da filiação 2')); ?>
+                                <?php echo $form->error($modelManagerIdentification, 'filiation_2_job'); ?>
                             </div>
                         </div>
                     </div>

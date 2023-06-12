@@ -50,6 +50,22 @@ $('#ManagerIdentification_edcenso_uf_fk').change(function () {
     });
 });
 
+$('#ManagerIdentification_filiation').change(function () {
+    var simple = getUrlVars()['simple'];
+    $('.js-disabled-finputs').hide();
+    if ($('#ManagerIdentification_filiation').val() == 1) {
+        $('.js-disabled-finputs').show();
+        $('#ManagerIdentification_filiation_1').closest(".js-visibility-fname").show();
+        $('#ManagerIdentification_filiation_2').closest(".js-visibility-fname").show();
+    } else {
+        $('.js-finput-clear').val("")
+        $('#ManagerIdentification_filiation_1').closest(".js-visibility-fname").css("display", simple === "1" ? "none" : "block");
+        $('#ManagerIdentification_filiation_2').closest(".js-visibility-fname").css("display", simple === "1" ? "none" : "block");
+
+    }
+});
+$('#ManagerIdentification_filiation').trigger('change');
+
 
 $(document).on("click", ".add-fundamental-menor", function () {
     $("#SchoolStructure_stages_concept_grades option[value=14]").prop("selected", true);
