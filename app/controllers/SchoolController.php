@@ -11,6 +11,7 @@ class SchoolController extends Controller
     public $layout = 'fullmenu';
     private $SCHOOL_IDENTIFICATION = "SchoolIdentification";
     private $SCHOOL_STRUCTURE = "SchoolStructure";
+    private $MANAGER_IDENTIFICATION = "ManagerIdentification";
 
     /**
      * @return array action filters
@@ -163,7 +164,7 @@ class SchoolController extends Controller
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($modelSchoolIdentification);
 
-        if (isset($_POST[$this->SCHOOL_IDENTIFICATION]) && isset($_POST[$this->SCHOOL_STRUCTURE])) {
+        if (isset($_POST[$this->SCHOOL_IDENTIFICATION]) && isset($_POST[$this->SCHOOL_STRUCTURE]) && isset($_POST[$this->MANAGER_IDENTIFICATION])) {
             if (isset($_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"])) {
                 $sharedSchools = $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"];
             }
@@ -176,7 +177,9 @@ class SchoolController extends Controller
 
             $modelSchoolIdentification->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
             $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
+            $modelManagerIdentification->attributes = $_POST[$this->MANAGER_IDENTIFICATION];
 
+            $modelManagerIdentification->school_inep_id_fk = $modelManagerIdentification->inep_id;
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
 
             /*
@@ -187,10 +190,17 @@ class SchoolController extends Controller
              *
              */
 
+            //  var_dump($modelSchoolIdentification->validate());
+            //  var_dump($modelSchoolStructure->validate());
+            echo '<pre>';
+            var_dump( $modelManagerIdentification->attributes);
+            echo '</pre>';
+             var_dump($modelManagerIdentification->validate());
+             exit;
 
-            if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate()) {
+            if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate() && $modelManagerIdentification->validate()) {
                 if ($modelSchoolStructure->operation_location_building || $modelSchoolStructure->operation_location_temple || $modelSchoolStructure->operation_location_businness_room || $modelSchoolStructure->operation_location_instructor_house || $modelSchoolStructure->operation_location_other_school_room || $modelSchoolStructure->operation_location_barracks || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other) {
-                    if ($modelSchoolIdentification->save() && $modelSchoolStructure->save()) {
+                    if ($modelSchoolIdentification->save() && $modelSchoolStructure->save() && $modelManagerIdentification->save()) {
                         foreach ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] as $stage_concept_grade) {
                             $schoolStagesConceptGrades = new SchoolStagesConceptGrades();
                             $schoolStagesConceptGrades->school_fk = $modelSchoolIdentification->inep_id;
@@ -223,11 +233,12 @@ class SchoolController extends Controller
     {
         $modelSchoolIdentification = $this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
         $modelSchoolStructure = $this->loadModel($id, $this->SCHOOL_STRUCTURE);
+        $modelManagerIdentification = $this->loadModel($id, $this->MANAGER_IDENTIFICATION);
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($modelSchoolIdentification);
 
-        if (isset($_POST[$this->SCHOOL_IDENTIFICATION]) && isset($_POST[$this->SCHOOL_STRUCTURE])) {
+        if (isset($_POST[$this->SCHOOL_IDENTIFICATION]) && isset($_POST[$this->SCHOOL_STRUCTURE]) && isset($_POST[$this->MANAGER_IDENTIFICATION])) {
 
             if (isset($_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"])) {
                 $sharedSchools = $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"];
@@ -243,6 +254,7 @@ class SchoolController extends Controller
 
             $modelSchoolIdentification->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
             $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
+            $modelManagerIdentification->attributes = $_POST[$this->MANAGER_IDENTIFICATION];
             
             $modelSchoolIdentification->number_ato = $_POST[$this->SCHOOL_IDENTIFICATION]["number_ato"];
 
@@ -257,10 +269,10 @@ class SchoolController extends Controller
 
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
 
-            if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate()) {
+            if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate() && $modelManagerIdentification->validate()) {
                 if ($modelSchoolStructure->operation_location_building || $modelSchoolStructure->operation_location_other_school_room || $modelSchoolStructure->operation_location_barracks
                     || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other) {
-                    if ($modelSchoolIdentification->save() && $modelSchoolStructure->save()) {
+                    if ($modelSchoolIdentification->save() && $modelSchoolStructure->save() && $modelManagerIdentification->save()) {
 
                         $criteriaStages = new CDbCriteria();
                         $criteriaStages->condition = 'school_fk = :school_fk';
@@ -299,6 +311,7 @@ class SchoolController extends Controller
         $this->render('update', array(
             'modelSchoolIdentification' => $modelSchoolIdentification,
             'modelSchoolStructure' => $modelSchoolStructure,
+            'modelManagerIdentification' => $modelManagerIdentification
         ));
     }
 

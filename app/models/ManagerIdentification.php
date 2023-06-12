@@ -67,7 +67,7 @@ class ManagerIdentification extends CActiveRecord
 			array('inep_id', 'length', 'max'=>12),
 			array('name, email, access_criterion, filiation_1, filiation_2', 'length', 'max'=>100),
 			array('birthday_date', 'length', 'max'=>10),
-			array('cpf, filiation_1_cpf, filiation_2_cpf', 'length', 'max'=>11),
+			array('cpf, filiation_1_cpf, filiation_2_cpf', 'length', 'max'=>14),
 			array('number_ato', 'length', 'max'=>30),
 			array('filiation_1_rg, filiation_1_job, filiation_2_rg, filiation_2_job', 'length', 'max'=>45),
 			// The following rule is used by search().

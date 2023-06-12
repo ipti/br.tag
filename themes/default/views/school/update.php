@@ -15,6 +15,7 @@
             echo $this->renderPartial('_form', array(
                 'modelSchoolIdentification' => $modelSchoolIdentification,
                 'modelSchoolStructure' => $modelSchoolStructure,
+                'modelManagerIdentification' => $modelManagerIdentification,
                 'title' => $title
             ));
             ?>       
