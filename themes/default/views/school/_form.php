@@ -1344,7 +1344,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($modelManagerIdentification, 'nationality'); ?>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelManagerIdentification, 'edcenso_uf_fk', array('class' => 'control-label')); ?>
+                                <label class="control-label">Estado</label>
                                 <?php
                                 echo $form->dropDownList($modelManagerIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'),array('class' => 'select-search-off control-input',"disabled" => "disabled","prompt" => "Selecione uma cidade",));
                                 ?>
@@ -1392,14 +1392,14 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelManagerIdentification, 'email'); ?>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelManagerIdentification, 'edcenso_nation_fk', array('class' => 'control-label')); ?>
+                                <label class="control-label">País de Origem</label>
                                 <?php
                                 echo $form->dropDownList($modelManagerIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma nação", 'class' => 'select-search-on nationality-sensitive no-br t-input__text control-input', 'disabled' => 'disabled'));
                                 ?>
                                 <?php echo $form->error($modelManagerIdentification, 'edcenso_nation_fk'); ?>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelManagerIdentification, 'edcenso_city_fk', array('class' => 'control-label')); ?>
+                                <label class="control-label">Cidade</label>
                                 <?php
                                 echo $form->dropDownList($modelManagerIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelManagerIdentification->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array(
                                     "prompt" => "Selecione uma cidade",
