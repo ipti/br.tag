@@ -141,12 +141,12 @@ class SchoolController extends Controller
         $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => $uf));
         $data = CHtml::listData($data, 'id', 'name');
 
-        $result = CHtml::tag('option', array('value' => ""), 'Selecione a cidade', true);
+        $result = "";
         foreach ($data as $value => $name) {
             $result .= CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
 
-        return $result;
+        echo $result;
     }
 
     /**

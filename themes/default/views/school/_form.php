@@ -1346,7 +1346,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelManagerIdentification, 'edcenso_uf_fk', array('class' => 'control-label')); ?>
                                 <?php
-                                echo $form->dropDownList($modelManagerIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'));
+                                echo $form->dropDownList($modelManagerIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'),array('class' => 'select-search-off control-input',"disabled" => "disabled","prompt" => "Selecione uma cidade",));
                                 ?>
                                 <?php echo $form->error($modelManagerIdentification, 'edcenso_uf_fk'); ?>
                             </div>

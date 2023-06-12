@@ -36,6 +36,7 @@ $('#ManagerIdentification_nationality').change(function () {
 
 $('#ManagerIdentification_edcenso_uf_fk').change(function () {
     var uf = $(this).val();
+    $("#ManagerIdentification_edcenso_city_fk").empty();
     $.ajax({
         type: "POST",
         url: `?r=school/getmanagercities`,
