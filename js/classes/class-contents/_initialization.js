@@ -1,4 +1,4 @@
-$('#classesSearch').on('click', function () {
+$('#classesSearch, #classesSearchMobile').on('click', function () {
     if ($("#classroom").val() !== "" && $("#month").val() !== "" && (!$("#disciplines").is(":visible") || $("#disciplines").val() !== "")) {
         $(".alert-required-fields").hide();
         var fundamentalMaior = Number($("#classroom option:selected").attr("fundamentalmaior"));
@@ -15,7 +15,7 @@ $('#classesSearch').on('click', function () {
             beforeSend: function () {
                 $(".loading-class-contents").css("display", "inline-block");
                 $("#widget-class-contents").css("opacity", 0.3).css("pointer-events", "none");
-                $("#classroom, #month, #disciplines, #classesSearch").attr("disabled", "disabled");
+                $("#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile").attr("disabled", "disabled");
             },
             success: function (data) {
                 var data = jQuery.parseJSON(data);
@@ -23,7 +23,7 @@ $('#classesSearch').on('click', function () {
                     createTable(data);
                     $("#print").addClass("show").removeClass("hide");
                     $("#save").addClass("show show-desktop").removeClass("hide");
-                    $("#save-button-mobile").addClass("show show-mobile").removeClass("hide");
+                    $("#save-button-mobile").addClass("show show-tablet").removeClass("hide");
                 } else {
                     $('#class-contents > thead').html('<tr><th class="center">' + data.error + '</th></tr>');
                     $('#class-contents > tbody').html('');
@@ -36,7 +36,7 @@ $('#classesSearch').on('click', function () {
             complete: function () {
                 $(".loading-class-contents").hide();
                 $("#widget-class-contents").css("opacity", 1).css("pointer-events", "auto").show();
-                $("#classroom, #month, #disciplines, #classesSearch").removeAttr("disabled");
+                $("#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile").removeAttr("disabled");
             }
         });
     } else {
@@ -64,13 +64,16 @@ $("#classroom").on("change", function () {
                         $("#disciplines").html(decodeHtml(response)).trigger("change.select2").show();
                     }
                     $(".disciplines-container").show();
+                    $("#select-container").addClass("tablet-row").removeClass("mobile-row");
                 },
             });
         } else {
             $(".disciplines-container").hide();
+            $("#select-container").addClass("mobile-row").removeClass("tablet-row");
         }
     } else {
         $(".disciplines-container").hide();
+        $("#select-container").addClass("mobile-row").removeClass("tablet-row");
     }
 });
 
@@ -115,7 +118,7 @@ $("#save, #save-button-mobile").on('click', function () {
         beforeSend: function () {
             $(".loading-class-contents").css("display", "inline-block");
             $("#widget-class-contents").css("opacity", 0.3).css("pointer-events", "none");
-            $("#classroom, #month, #disciplines, #classesSearch").attr("disabled", "disabled");
+            $("#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile").attr("disabled", "disabled");
         },
         success: function (response) {
             $(".alert-save").show();
@@ -123,7 +126,7 @@ $("#save, #save-button-mobile").on('click', function () {
         complete: function (response) {
             $(".loading-class-contents").hide();
             $("#widget-class-contents").css("opacity", 1).css("pointer-events", "auto");
-            $("#classroom, #month, #disciplines, #classesSearch").removeAttr("disabled");
+            $("#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile").removeAttr("disabled");
         },
     });
 });

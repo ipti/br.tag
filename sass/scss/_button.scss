@@ -4,6 +4,10 @@
 .t-buttons-container {
     display: flex;
     width: 100%;
+
+    &.auto-width {
+        width: auto;
+    }
     
     @include device(tablet) {
         padding: $spaceXXXSmall 0 $spaceXXXSmall 0;

@@ -25,6 +25,15 @@
     flex-direction: row;
 }
 
+.tablet-row {
+    display: flex;
+    flex-direction: column;
+
+    @include device (tablet) {
+        flex-direction: row;
+    }
+}
+
 .column {
     flex: 1;
     flex-basis: 0;
@@ -38,6 +47,18 @@
 
     &.clearleft {
         margin-left: 0; 
+        
+        &.on-tablet {
+            margin-left: 0;
+
+            @include device(tablet) {
+                margin-left: $spaceXLarge/2;
+            }
+        }
+    }
+
+    &.clearright {
+        margin-right: 0;
     }
 
     &.no-grow {

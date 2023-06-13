@@ -1,7 +1,13 @@
 .align-items {
     &--center {
         display: flex;
-        align-items: center
+        align-items: center;
+    }
+    &--center-on-desktop {
+        @include device (tablet) {
+            display: flex;
+            align-items: center;
+        }
     }
 
     &--baseline {
@@ -59,18 +65,18 @@
 .show {
     display:block;
 
-    &.show-mobile {
-        display: block;
+    &.show-tablet {
+        display: flex;
 
-        @include device(mobile) {
+        @include device(tablet) {
             display: none;
         }
     }
     &.show-desktop {
         display: none;
 
-        @include device(mobile) {
-            display: block;
+        @include device(tablet) {
+            display: flex;
         }
     }
 }

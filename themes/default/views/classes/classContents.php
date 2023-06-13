@@ -26,11 +26,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <div class="row">
         <h1><?php echo Yii::t('default', 'Class Contents'); ?></h1>
     </div>
-    <div class="row justify-content--space-between">
-        <a id="print" class='t-button-secondary hide'>
-            <span class="t-icon-printer"></span>
-            <?php echo Yii::t('default', 'Print') ?>
-        </a>
+    <div class="mobile-row justify-content--space-between">
+        <div class="t-buttons-container auto-width">
+            <a id="print" class='t-button-secondary hide'>
+                <span class="t-icon-printer"></span>
+                <?php echo Yii::t('default', 'Print') ?>
+            </a>
+        </div>
         <a id="save" class='t-button-primary hide'><?php echo Yii::t('default', 'Save') ?></a>
     </div>
     <table class="table table-bordered table-striped visible-print">
@@ -72,8 +74,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <div class="alert-required-fields no-show alert alert-error">
         Os campos com * são obrigatórios.
     </div>
-    <div class="row align-items--center">
-        
+    <div id="select-container" class="mobile-row align-items--center-on-desktop">
+        <div class="mobile-row">
             <div class="column clearleft">
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
@@ -112,8 +114,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     ?>
                 </div>
             </div>
-
-            <div class="column disciplines-container" style="display: none;">
+        </div>   
+        <div class="mobile-row align-items--center"> 
+            <div class="column clearleft on-tablet disciplines-container" style="display: none;">
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label t-field-select__label--required')); ?>
                     <?php
@@ -125,14 +128,16 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </div>
             </div>
             <img class="loading-class-contents"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+            <div class="column no-grow show show-tablet clearright">
+                <a id="classesSearchMobile" class='t-button-primary'><span class="t-icon-search_icon"></span></a>
+            </div>
+        </div>
+        <div class="column"></div>
             <div class="column clearfix">
                 <div class="t-buttons-container justify-content--end">
-                <a id="classesSearch" class='t-button-secondary'>
-                    <?php echo Yii::t('default', 'Search') ?>
-                </a>
+                    <a id="classesSearch" class='t-button-secondary show show-desktop'><?php echo Yii::t('default', 'Search') ?></a>
                 </div>
             </div>
-            
     </div>
     <div class="clear"></div>
     <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">

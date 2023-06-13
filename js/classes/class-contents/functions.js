@@ -24,7 +24,7 @@ function createTable(data) {
                         '</div></div>' +
                         '<div id="collapse-' + this.id + '" class="accordion-body collapse">' +
                         '<div class="accordion-inner">' +
-                        '<textarea class="student-classroom-diary t-field-tarea"></textarea>' +
+                        '<textarea class="t-field-tarea__input "></textarea>' +
                         '</div></div></div>';
                 }
             });
