@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.26.64]
+- Agora existe uma aba para cadastro de gestor escolar no formulário de cadastro de escola
+
 ## [Versão 3.25.64]
 - O relatório de rendimento escolar por atividade agora exibe as informações corretamente
 
