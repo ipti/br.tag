@@ -16,7 +16,6 @@ $('.js-tab-school li a').click(function () {
     var li4 = 'tab-school-equipment';
     var li5 = 'tab-school-manager';
     var li6 = 'tab-school-education';
-    var li7 = 'tab-school-reports';
     var tab = '';
     switch ($(this).parent().attr('id')) {
         case li1:
@@ -46,19 +45,14 @@ $('.js-tab-school li a').click(function () {
         case li5:
             tab = li5;
             $('.prev').show();
-            $('.next').hide();
-            $('.last').show();
+            $('.next').show();
+            $('.last').hide();
             break;
         case li6:
             tab = li6;
-            $('.prev').hide();
+            $('.prev').show();
             $('.next').hide();
-            $('.last').hide();
-        case li7:
-            tab = li7;
-            $('.prev').hide();
-            $('.next').hide();
-            $('.last').hide();
+            $('.last').show();
     }
 
     classActive.removeClass("active");
@@ -79,7 +73,8 @@ $('.next').click(function () {
     var li2 = 'tab-school-addressContact';
     var li3 = 'tab-school-structure';
     var li4 = 'tab-school-equipment';
-    var li5 = 'tab-school-education';
+    var li5 = 'tab-school-manager';
+    var li6 = 'tab-school-education';
     
     var next = '';
 
@@ -98,11 +93,17 @@ $('.next').click(function () {
             break;
         case li4:
             next = li5;
+            break;
+        case li5:
+            next = li6;
+            console.log('hey')
             $('.next').hide();
             $('.last').show();
             break;
-        case li4:
-            next = li4;
+        case li6:
+            next = li7;
+            break;
+        case li7:
             break;
     }
 
@@ -124,7 +125,8 @@ $('.prev').click(function () {
     var li2 = 'tab-school-addressContact';
     var li3 = 'tab-school-structure';
     var li4 = 'tab-school-equipment';
-    var li5 = 'tab-school-education';
+    var li5 = 'tab-school-manager';
+    var li6 = 'tab-school-education';
     
     var previous = '';
     switch (classActive.attr('id')) {
@@ -143,6 +145,9 @@ $('.prev').click(function () {
             break;
         case li5:
             previous = li4;
+            break;
+        case li6:
+            previous = li5;
             $('.last').hide();
             $('.next').show();
             break;
