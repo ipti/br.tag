@@ -30,7 +30,7 @@ $(document).on("change", "#SchoolIdentification_logo_file_content", function(e) 
 
 function getUrlVars() {
     var vars = {};
-    var parts = window.location.href.replace(/[?&]([^=&]+)=([^&]*)/gi, function (m, key, value) {
+    var parts = window.location.href.replace(/[?&]([^=&]{1,50})=([^&]{1,50})/gi, function (m, key, value) {
         vars[key] = value;
     });
     return vars;
