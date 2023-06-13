@@ -1,5 +1,5 @@
 .t-accordeon {
-    background-color: $colorsBaseInkLighter;
+    background-color: $colorsBaseInkLighter !important;
     // border-bottom: $borderRadiusSmall solid;
     padding-top: $SizeXLarge;
     position: relative;
@@ -46,4 +46,7 @@
         }
 
     }
+}
+.ui-accordion-header {
+    background: rgb(151, 223, 240) !important;
 }

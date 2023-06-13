@@ -46,8 +46,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <!-- Mês e componente curricular -->
         <div class="mobile-row">
             <!-- Mês -->
-            <div class="column helper">
-                <div class="t-field-select__helper">
+            <div class="column__is-one-third">
+                <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 't-field-select__label--required')); ?>
                     <?php
                     echo CHtml::dropDownList('month', '', array(
@@ -71,7 +71,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     ?>
                 </div>
                 <!-- diciplina -->
-                <div class="t-field-select__helper">
+                <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 't-field-select__label--required')); ?>
                     <?php
                     echo CHtml::dropDownList('disciplines', '', array(), array(
@@ -81,8 +81,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     ?>
                 </div>
             </div>
-            <div class="column helper">
-                <div class="t-field-select__helper" <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 't-field-select__label--required')); ?> <select class="select-search-on frequency-input t-field-select__input" id="classroom">
+            <div class="column__is-one-third">
+                <div class="t-field-select" <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 't-field-select__label--required')); ?> <select class="select-search-on frequency-input t-field-select__input" id="classroom">
                     <option>Selecione a turma</option>
                     <?php foreach ($classrooms as $classroom) : ?>
                         <option value="<?= $classroom->id ?>" fundamentalMaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>

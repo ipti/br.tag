@@ -52,15 +52,16 @@ $cs->registerCssFile($assetUrl . "/css/bootstrap-datepicker.min.css");
 $cs->registerCssFile($assetUrl . '/js/jquery/fullcalendar/fullcalendar.css');
 $cs->registerCssFile($assetUrl . '/js/jquery/fullcalendar/fullcalendar.print.css', 'print');
 $cs->registerCssFile($assetUrl . '/css/jquery-ui-1.9.2.custom.min.css');
+
 $cs->registerCssFile($assetUrl . "/css/glyphicons.min.css");
 $cs->registerCssFile($assetUrl . '/css/font-awesome.min.css');
 
 // Custom styles
-$cs->registerCssFile($assetUrl . "/css/template.css?v=". TAG_VERSION);
-$cs->registerCssFile($assetUrl . '/css/template2.css?v='. TAG_VERSION);
-$cs->registerCssFile($assetUrl . "/css/admin.css?v=". TAG_VERSION);
-$cs->registerCssFile($assetUrl . "/css/home.css?v=". TAG_VERSION);
-$cs->registerCssFile(Yii::app()->baseUrl. "/sass/css/main.css?v=". TAG_VERSION);
+$cs->registerCssFile($assetUrl . "/css/template.css?v=" . TAG_VERSION);
+$cs->registerCssFile($assetUrl . '/css/template2.css?v=' . TAG_VERSION);
+$cs->registerCssFile($assetUrl . "/css/admin.css?v=" . TAG_VERSION);
+$cs->registerCssFile($assetUrl . "/css/home.css?v=" . TAG_VERSION);
+$cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION);
 
 ?>
 <!DOCTYPE html>
@@ -78,6 +79,9 @@ $cs->registerCssFile(Yii::app()->baseUrl. "/sass/css/main.css?v=". TAG_VERSION);
 <head>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.min.js"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ba-bbq.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
@@ -108,7 +112,7 @@ $cs->registerCssFile(Yii::app()->baseUrl. "/sass/css/main.css?v=". TAG_VERSION);
     <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/font-awesome.min.css' />
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/home.css?v=1.0" />
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/datatables.min.css" />
-    
+
 </head>
 
 <body>
@@ -249,8 +253,8 @@ $cs->registerCssFile(Yii::app()->baseUrl. "/sass/css/main.css?v=". TAG_VERSION);
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ||
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades")
                                                                                 ? 'active' : '' ?>">
-                                                                                <i class="submenu-icon fa fa-chevron-right"></i>
-                                                                                <i class="submenu-icon fa fa-chevron-down"></i>
+                            <i class="submenu-icon fa fa-chevron-right"></i>
+                            <i class="submenu-icon fa fa-chevron-down"></i>
                             <a id="menu-electronic-diary-trigger" data-toggle="collapse" class="t-menu-group__link" href="#submenu-electronic-diary">
                                 <span class="t-icon-schedule t-menu-item__icon t-menu-group__icon"></span>
                                 <!-- <img class="t-menu-group__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/diario_eletronico.svg" /> -->

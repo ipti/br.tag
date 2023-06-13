@@ -3,7 +3,7 @@
 
 
 $("#classesSearch").on("click", function () {
-    
+
     if ($("#classroom").val() !== "" && $("#month").val() !== "" && (!$("#disciplines").is(":visible") || $("#disciplines").val() !== "")) {
         $(".alert-required-fields, .alert-incomplete-data").hide();
         var fundamentalMaior = Number($("#classroom option:selected").attr("fundamentalmaior"));
@@ -25,19 +25,19 @@ $("#classesSearch").on("click", function () {
 
             success: function (response) {
 
-                
+
 
                 var data = JSON.parse(response);
                 if (data.valid) {
                     var accordion = '';
+                    accordion += '<div id="accordion" class"aaaaa">';
                     var item = 0;
                     $.each(data.students[0].schedules, function () {
                         var dia = this.day;
                         var mes = $('#month').val();
                         item++;
                         accordion +=
-                            `<div id='accordion'>
-                                    <div style='display: flex; flex-direction: row; justify-content:space-around;'>
+                            `<div class="t-accordeon" style='display: flex; flex-direction: row; justify-content:space-around;'>
                                         <div>
                                             <h3>Nome</h3>
                                         </div>  
@@ -88,17 +88,17 @@ $("#classesSearch").on("click", function () {
                         accordion +=
                             `</tbody>
                                     </table>
-                                </div>
-                            </div>`;
+                                </div>`;
                     });
-                    
+                    `</div>
+                    </div>`;
                     $("#frequency-container").html(accordion).show();
-                    $( function() {
-                        $( "#accordion" ).accordion({
-                          collapsible: true
+                    $(function () {
+                        $("#accordion").accordion({
+                            collapsible: true
                         });
-                      } );
-                      
+                    });
+
                     $(".frequency-checkbox-general").each(function () {
                         var day = $(this).find(".frequency-checkbox").attr("day");
                         $(this).find(".frequency-checkbox").prop("checked", $(".frequency-checkbox-student .frequency-checkbox[day=" + day + "]:checked").length === $(".frequency-checkbox-student .frequency-checkbox[day=" + day + "]").length);
