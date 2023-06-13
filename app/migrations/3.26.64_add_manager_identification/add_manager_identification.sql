@@ -30,7 +30,7 @@ CREATE TABLE `manager_identification` (
   	`edcenso_uf_fk` INT(11) DEFAULT NULL,
   	`edcenso_city_fk` INT(11) DEFAULT NULL,
   	`users_fk` int(11) DEFAULT NULL,
-  	UNIQUE KEY `id` (`id`),
+  	PRIMARY KEY `id` (`id`),
   	KEY `edcenso_nation_fk` (`edcenso_nation_fk`),
   	KEY `edcenso_uf_fk` (`edcenso_uf_fk`),
   	KEY `edcenso_city_fk` (`edcenso_city_fk`),
@@ -42,6 +42,52 @@ CREATE TABLE `manager_identification` (
   	CONSTRAINT `manager_identification_ibfk_5` FOREIGN KEY (`school_inep_id_fk`) REFERENCES `school_identification` (`inep_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- MIGRANDO OS DADOS DE GESTOR JÁ CADASTRADOS EM SCHOOL_IDENTIFICATION
+BEGIN TRANSACTION
+
+INSERT INTO `manager_identification` (
+	`school_inep_id_fk`, 
+	`name`, 
+	`email`, 
+	`birthday_date`,
+	`sex`,
+	`color_race`,
+	`nationality`,
+	`role`,
+	`residence_zone`,
+	`access_criterion`,
+	`contract_type`,
+	`cpf`,
+	`number_ato`,
+	`filiation`,
+	`edcenso_nation_fk`,
+	`edcenso_uf_fk`,
+	`edcenso_city_fk`
+)
+SELECT 
+s.inep_id as `school_inep_id_fk`, 
+s.manager_name as `name`,
+s.manager_email as `email`,
+'01/01/1998' as `birthday_date`,
+1 as `sex`,
+3 as `color_race`,
+1 as `nationality`,
+s.manager_role as `role`,
+1 as `residence_zone`,
+s.manager_access_criterion as `access_criterion`,
+s.manager_contract_type as `contract_type`,
+s.manager_cpf as `cpf`,
+s.number_ato `number_ato`,
+0 as `filiation`,
+76 as `edcenso_nation_fk`,
+s.edcenso_uf_fk as `edcenso_uf_fk`,
+s.edcenso_city_fk as `edcenso_city_fk`
+FROM `school_identification` s
+WHERE s.manager_name IS NOT NULL;
+
+COMMIT
+
+-- DELETANDO COLUNAS DE SCHOOL_IDENTIFICATION
 ALTER TABLE school_identification 
 DROP COLUMN `manager_name`, 
 DROP COLUMN `manager_email`, 
