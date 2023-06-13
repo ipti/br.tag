@@ -404,6 +404,10 @@ class SchoolStructure extends AltActiveRecord
 
 		$criteria->compare('register_type',$this->register_type,true);
 		$criteria->compare('school_inep_id_fk',$this->school_inep_id_fk,true);
+		$criteria->compare('manager_cpf',$this->manager_cpf,true);
+		$criteria->compare('manager_name',$this->manager_name,true);
+		$criteria->compare('manager_role',$this->manager_role);
+		$criteria->compare('manager_email',$this->manager_email,true);
 		$criteria->compare('operation_location_building',$this->operation_location_building);
 		$criteria->compare('operation_location_temple',$this->operation_location_temple);
 		$criteria->compare('operation_location_businness_room',$this->operation_location_businness_room);
