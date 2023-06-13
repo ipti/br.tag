@@ -16,28 +16,31 @@ class DefaultController extends Controller
 			Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro ao carregar as turmas.'));
 			var_dump($th);
 		}
-		
+
 	}
 	public function actionGetClassrooms()
 	{
 		$getClassrooms = new GetClassrooms();
 		$isInstructor = Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id);
 		$discipline = $_POST["discipline"];
-		$classrooms = $getClassrooms->exec($isInstructor, $discipline); 
-		 echo json_encode($classrooms, JSON_OBJECT_AS_ARRAY);
+		$classrooms = $getClassrooms->exec($isInstructor, $discipline);
+		echo json_encode($classrooms, JSON_OBJECT_AS_ARRAY);
 	}
-	public function actionClassDiary($classrom_fk, $stage_fk, $discipline_fk) 
+	public function actionClassDiary($classrom_fk, $stage_fk, $discipline_fk)
 	{
-		$getFrequency = new GetFrequency();	
+		$this->render('classDiary');
+	}
+	public function actionRenderFrequencyElementMobile($classrom_fk, $stage_fk, $discipline_fk)
+	{
+		$getFrequency = new GetFrequency();
 		$frequency = $getFrequency->exec($classrom_fk, $stage_fk, $discipline_fk, $date = date("d/m/Y"));
-		//$this->render('classDiary');
+
+		$this->renderPartial('frequencyElementMobile', ["frequency" => $frequency]);
 	}
-	public function actionRenderFrequencyElementMobile() 
+	public function actionRenderFrequencyElementDesktop($classrom_fk, $stage_fk, $discipline_fk)
 	{
-		$this->renderPartial('frequencyElementMobile');
-	}
-	public function actionRenderFrequencyElementDesktop() 
-	{
-		$this->renderPartial('frequencyElementDesktop');
+		$getFrequency = new GetFrequency();
+		$frequency = $getFrequency->exec($classrom_fk, $stage_fk, $discipline_fk, $date = date("d/m/Y"));
+		$this->renderPartial('frequencyElementDesktop', ["frequency" => $frequency]);
 	}
 }
