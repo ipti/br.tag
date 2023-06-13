@@ -47,6 +47,7 @@ $('.js-tab-school li a').click(function () {
             $('.prev').show();
             $('.next').show();
             $('.last').hide();
+            window.location.search.includes("update") ? $('.last').show() : $('.last').hide();
             break;
         case li6:
             tab = li6;
@@ -96,7 +97,6 @@ $('.next').click(function () {
             break;
         case li5:
             next = li6;
-            console.log('hey')
             $('.next').hide();
             $('.last').show();
             break;
