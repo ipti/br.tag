@@ -179,7 +179,7 @@ class SchoolController extends Controller
             $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
             $modelManagerIdentification->attributes = $_POST[$this->MANAGER_IDENTIFICATION];
 
-            $modelManagerIdentification->school_inep_id_fk = $modelManagerIdentification->inep_id;
+            $modelManagerIdentification->school_inep_id_fk = $modelSchoolIdentification->inep_id;
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
 
             /*
@@ -189,14 +189,6 @@ class SchoolController extends Controller
              *
              *
              */
-
-            //  var_dump($modelSchoolIdentification->validate());
-            //  var_dump($modelSchoolStructure->validate());
-            echo '<pre>';
-            var_dump( $modelManagerIdentification->attributes);
-            echo '</pre>';
-             var_dump($modelManagerIdentification->validate());
-             exit;
 
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate() && $modelManagerIdentification->validate()) {
                 if ($modelSchoolStructure->operation_location_building || $modelSchoolStructure->operation_location_temple || $modelSchoolStructure->operation_location_businness_room || $modelSchoolStructure->operation_location_instructor_house || $modelSchoolStructure->operation_location_other_school_room || $modelSchoolStructure->operation_location_barracks || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other) {
@@ -322,7 +314,7 @@ class SchoolController extends Controller
      */
     public function actionDelete($id)
     {
-        if ($this->loadModel($id, $this->SCHOOL_STRUCTURE)->delete() && $this->loadModel($id, $this->SCHOOL_IDENTIFICATION)->delete()) {
+        if ($this->loadModel($id, $this->SCHOOL_STRUCTURE)->delete() && $this->loadModel($id, $this->SCHOOL_IDENTIFICATION)->delete() && $this->loadModel($id, $this->MANAGER_IDENTIFICATION)->delete()) {
             Yii::app()->user->setFlash('success', Yii::t('default', 'Escola excluída com sucesso!'));
             $this->redirect(array('index'));
         } else {
@@ -412,6 +404,13 @@ class SchoolController extends Controller
                 array_push($sharedSchoolInedIdArray, $return->shared_school_inep_id_6);
             }
             $return->shared_school_inep_id_1 = $sharedSchoolInedIdArray;
+        } else if ($model == $this->MANAGER_IDENTIFICATION) {
+            $manager = ManagerIdentification::model()->findByAttributes(['school_inep_id_fk' => $id]);
+            if ($manager) {
+                $return = $manager;
+            }else {
+                $return = new ManagerIdentification;
+            }
         }
 
         if ($return === null)
