@@ -1323,7 +1323,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="control-group">
                                     <?php echo $form->labelEx($modelManagerIdentification, 'birthday_date', array('class' => 'control-label')); ?>
-                                    <?php echo $form->textField($modelManagerIdentification, 'birthday_date', array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Nome do Gestor')); ?>
+                                    <?php echo $form->textField($modelManagerIdentification, 'birthday_date', array('size' => 10, 'maxlength' => 10)); ?>
                                     <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Full name of school manager'); ?>"><i></i></span> -->
                                     <?php echo $form->error($modelManagerIdentification, 'birthday_date'); ?>
                             </div>
