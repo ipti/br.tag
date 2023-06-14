@@ -57,8 +57,6 @@ class ManagerIdentification extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('school_inep_id_fk, name, birthday_date, sex, color_race, nationality, residence_zone, filiation, edcenso_nation_fk', 'required'),
 			array('sex, color_race, nationality, role, residence_zone, contract_type, filiation, filiation_1_scholarity, filiation_2_scholarity, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, users_fk', 'numerical', 'integerOnly'=>true),
@@ -67,11 +65,9 @@ class ManagerIdentification extends CActiveRecord
 			array('inep_id', 'length', 'max'=>12),
 			array('name, email, access_criterion, filiation_1, filiation_2', 'length', 'max'=>100),
 			array('birthday_date', 'length', 'max'=>10),
-			array('cpf, filiation_1_cpf, filiation_2_cpf', 'length', 'max'=>14),
+			array('cpf, filiation_1_cpf, filiation_2_cpf', 'length', 'max'=>11),
 			array('number_ato', 'length', 'max'=>30),
 			array('filiation_1_rg, filiation_1_job, filiation_2_rg, filiation_2_job', 'length', 'max'=>45),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('register_type, id, school_inep_id_fk, inep_id, name, email, birthday_date, sex, color_race, nationality, role, residence_zone, access_criterion, contract_type, cpf, number_ato, filiation, filiation_1, filiation_2, filiation_1_rg, filiation_1_cpf, filiation_1_scholarity, filiation_1_job, filiation_2_rg, filiation_2_cpf, filiation_2_scholarity, filiation_2_job, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, users_fk', 'safe', 'on'=>'search'),
 		);
 	}
@@ -81,8 +77,6 @@ class ManagerIdentification extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'edcensoNationFk' => array(self::BELONGS_TO, 'EdcensoNation', 'edcenso_nation_fk'),
 			'edcensoUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'),
