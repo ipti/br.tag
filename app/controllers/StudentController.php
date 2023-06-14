@@ -518,29 +518,35 @@ class StudentController extends Controller
      */
     public function actionDelete($id)
     {
-        $enrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
-        $delete = true;
-        foreach ($enrollment as $e) {
-            if (isset($e->id) && $e->id > 0) {
-                $delete = $delete && $e->delete();
+
+        try {
+            $enrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
+            $delete = true;
+            foreach ($enrollment as $e) {
+                if (isset($e->id) && $e->id > 0) {
+                    $delete = $delete && $e->delete();
+                }
             }
-        }
 
-        $documentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
-        if (isset($documentsAndAddress->id) && $documentsAndAddress->id > 0) {
-            $documentsAndAddress->delete();
-        }
+            $documentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
+            if (isset($documentsAndAddress->id) && $documentsAndAddress->id > 0) {
+                $documentsAndAddress->delete();
+            }
 
-        $identification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
-        if (isset($identification->id) && $identification->id > 0) {
-            $identification->delete();
-        }
+            $identification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
+            if (isset($identification->id) && $identification->id > 0) {
+                $identification->delete();
+            }
 
-        if ($delete) {
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno excluído com sucesso!'));
-            $this->redirect(array('index'));
-        } else {
-            throw new CHttpException(404, 'The requested page does not exist.');
+            if ($delete) {
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno excluído com sucesso!'));
+                $this->redirect(array('index'));
+            } else {
+                throw new CHttpException(404, 'The requested page does not exist.');
+            }
+        } catch (\Throwable $th) {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Esse aluno não pode ser excluído, pois existem dados de frequência, notas ou matrículadas vinculadas a ele!'));
+            $this->redirect('?r=student');
         }
     }
 

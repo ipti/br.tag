@@ -55,7 +55,6 @@
             if (isset($buttons))
                 echo $buttons;
             ?>
-            <br />
         <?php endif ?>
         <div class="widget clearmargin">
             <div class="widget-body">
