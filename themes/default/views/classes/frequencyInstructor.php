@@ -46,8 +46,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <!-- Mês e componente curricular -->
         <div class="mobile-row">
             <!-- Mês -->
-            <div class="column__is-one-third">
-                <div class="t-field-select">
+            <div class="column is-one-fifth">
+                <div class="t-field-select__helper2">
                     <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 't-field-select__label--required')); ?>
                     <?php
                     echo CHtml::dropDownList('month', '', array(
@@ -71,7 +71,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     ?>
                 </div>
                 <!-- diciplina -->
-                <div class="t-field-select">
+                <div class="t-field-select__helper2">
                     <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 't-field-select__label--required')); ?>
                     <?php
                     echo CHtml::dropDownList('disciplines', '', array(), array(
@@ -81,17 +81,18 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     ?>
                 </div>
             </div>
-            <div class="column__is-one-third">
-                <div class="t-field-select" <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 't-field-select__label--required')); ?> <select class="select-search-on frequency-input t-field-select__input" id="classroom">
-                    <option>Selecione a turma</option>
-                    <?php foreach ($classrooms as $classroom) : ?>
-                        <option value="<?= $classroom->id ?>" fundamentalMaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
-                    <?php endforeach; ?>
+            <div class="column is-one-fifth">
+                <div class="t-field-select__helper2"> 
+                    <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 't-field-select__label--required')); ?>
+                    <select class="select-search-on frequency-input t-field-select__input" id="classroom">
+                        <option>Selecione a turma</option>
+                        <?php foreach ($classrooms as $classroom) : ?>
+                            <option value="<?= $classroom->id ?>" fundamentalMaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="">
-                    <a id="classesSearch" class='t-button-primary'><i class="fa-search fa icon-button-tag"></i><?php echo Yii::t('default', 'Search') ?>
-                    </a>
+                <div>
+                    <a id="classesSearch" class='t-button-primary'><i class="fa-search fa icon-button-tag"></i><?php echo Yii::t('default', 'Search') ?></a>
                 </div>
                 <img class="loading-frequency" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
             </div>
