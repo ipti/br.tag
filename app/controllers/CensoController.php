@@ -1192,8 +1192,8 @@ class CensoController extends Controller
 
         if ($civil_certification == 2 && $collumn['civil_register_enrollment_number'] !== "") {
 //            if ($nationality == 1 || $nationality == 2) {
-                $result = $sda->isCivilRegisterNumberValid($collumn['civil_register_enrollment_number'], $studentident['birthday']);
-                if (!$result["status"]) array_push($log, array("civil_register_enrollment_number" => $result["erro"]));
+            $result = $sda->isCivilRegisterNumberValid($collumn['civil_register_enrollment_number'], $studentident['birthday']);
+            if (!$result["status"]) array_push($log, array("civil_register_enrollment_number" => $result["erro"]));
 //            } else if ($collumn['civil_register_enrollment_number'] !== "") {
 //                return array("status" => false, "erro" => "Como foi preenchido o nº de matrícula da certidão nova, a nacionalidade do aluno deveria ser brasileira, nascido no exterior ou não.");
 //            }
@@ -1412,7 +1412,7 @@ class CensoController extends Controller
     {
         Yii::import('ext.Validator.*');
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-        $managerIdentification = ManagerIdentification::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
+        $managerIdentification = ManagerIdentification::model()->findByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
         $schoolstructure = SchoolStructure::model()->findByPk(Yii::app()->user->school);
         $schoolcolumn = $school->attributes;
         $managerIdentificationColumn = $managerIdentification->attributes;
