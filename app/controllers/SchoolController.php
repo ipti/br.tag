@@ -179,6 +179,7 @@ class SchoolController extends Controller
             $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
             $modelManagerIdentification->attributes = $_POST[$this->MANAGER_IDENTIFICATION];
 
+            $modelManagerIdentification->cpf = str_replace([".","-"], "", $modelManagerIdentification->cpf);
             $modelManagerIdentification->school_inep_id_fk = $modelSchoolIdentification->inep_id;
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
 
