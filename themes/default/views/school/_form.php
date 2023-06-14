@@ -41,6 +41,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="widget widget-tabs border-bottom-none">
         <?php echo $form->errorSummary($modelSchoolIdentification); ?>
         <?php echo $form->errorSummary($modelSchoolStructure); ?>
+        <?php echo $form->errorSummary($modelManagerIdentification); ?>
         <div class="alert alert-error school-error no-show"></div>
         <div class="t-tabs">
             <ul class="js-tab-school t-tabs__list">

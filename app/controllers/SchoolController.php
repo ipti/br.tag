@@ -180,6 +180,8 @@ class SchoolController extends Controller
             $modelManagerIdentification->attributes = $_POST[$this->MANAGER_IDENTIFICATION];
 
             $modelManagerIdentification->cpf = str_replace([".","-"], "", $modelManagerIdentification->cpf);
+            $modelManagerIdentification->filiation_1_cpf = str_replace([".","-"], "", $modelManagerIdentification->filiation_1_cpf);
+            $modelManagerIdentification->filiation_2_cpf = str_replace([".","-"], "", $modelManagerIdentification->filiation_2_cpf);
             $modelManagerIdentification->school_inep_id_fk = $modelSchoolIdentification->inep_id;
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
 
@@ -261,6 +263,8 @@ class SchoolController extends Controller
             }
 
             $modelManagerIdentification->cpf = str_replace([".","-"], "", $modelManagerIdentification->cpf);
+            $modelManagerIdentification->filiation_1_cpf = str_replace([".","-"], "", $modelManagerIdentification->filiation_1_cpf);
+            $modelManagerIdentification->filiation_2_cpf = str_replace([".","-"], "", $modelManagerIdentification->filiation_2_cpf);
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
 
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate() && $modelManagerIdentification->validate()) {
