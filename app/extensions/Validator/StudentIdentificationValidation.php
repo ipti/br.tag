@@ -53,12 +53,6 @@ class studentIdentificationValidation extends Register
             return array("status" => false, "erro" => "O aluno não pode ter menos de 08 anos ou mais de 50 anos e estar matriculado em uma turma do 6º Ano do Ensino Fundamental.");
         }
         return array("status" => true, "erro" => "");
-
-        $result = $stiv->checkBirthdayForClassroom($edcenso_svm, $studentIdentification["birthday"]);
-        if (!$result["status"]) array_push($log, array("birthday" => $result["erro"]));
-
-        return array("status" => true, "erro" => "");
-
     }
 
     function specialNeeds($value, $allowedvalues, $requirement)
