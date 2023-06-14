@@ -260,6 +260,7 @@ class SchoolController extends Controller
                 $modelSchoolIdentification->logo_file_content = $file_content_tmp;
             }
 
+            $modelManagerIdentification->cpf = str_replace([".","-"], "", $modelManagerIdentification->cpf);
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
 
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate() && $modelManagerIdentification->validate()) {
