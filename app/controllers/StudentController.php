@@ -145,7 +145,7 @@ class StudentController extends Controller
             $nestedData[] = "<a style='cursor: pointer;' title='Editar'  href='/?r=student/update&id=".$student->id."'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/editar.svg' . "' alt='Editar'></img>
                             </a>&nbsp;"
-                            ."<a style='cursor: pointer;' title='Excluir' href='/?r=student/delete&id=".$student->id."'>
+                            ."<a style='cursor: pointer;' title='Excluir' id='student-delete' href='/?r=student/delete&id=".$student->id."'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/deletar.svg' . "' alt='Excluir'></img>
                             </a>";
             $data[] = $nestedData;

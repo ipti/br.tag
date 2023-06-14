@@ -82,3 +82,13 @@
 </div>
 
 </div>
+
+<script>
+    $(document).on("click", "#student-delete", function (event) {
+        event.preventDefault();
+        var confirmation = confirm("Tem certeza que deseja excluir? Essa ação não pode ser desfeita!");
+        if (confirmation) {
+        window.location.href = event.currentTarget.href;
+        }
+    });
+</script>
