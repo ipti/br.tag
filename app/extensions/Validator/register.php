@@ -167,7 +167,7 @@ class Register
     }
 
     //3005, 6005
-    function isNameValid($value, $target, $cpf)
+    function isNameValid($value, $target, $cpf = null)
     {
 
         $result = $this->isGreaterThan(strlen($value), $target);
@@ -205,7 +205,7 @@ class Register
     {
 
         if ($date == '' || $date == null) {
-            return array("status" => false, "erro" => "Data no formato incorreto");
+            return array("status" => false, "erro" => "Campo obrigatório.");
         }
 
         //separa data em dia, mês e ano
@@ -259,7 +259,7 @@ class Register
             return array("status" => true, "erro" => "");
         }
         $value = $this->ifNull($value);
-        return array("status" => false, "erro" => "Valor $value não está entre as opções");
+        return array("status" => false, "erro" => "Preencha o campo com uma opção válida");
 
     }
 
@@ -270,7 +270,7 @@ class Register
         if (!in_array($value, $allowed_values)) {
             $value = $this->ifNull($value);
             return array("status" => false,
-                "erro" => "Valor $value não está entre as opções");
+                "erro" => "Preencha o campo com uma opção válida");
         }
         return array("status" => true, "erro" => "");
     }
@@ -349,7 +349,7 @@ class Register
     }
 
     //3011, 3012, 3013, 6009.6010, 6011
-    function validateFiliation($filiation, $filiation_mother, $filiation_father, $cpf, $high_limit)
+    function validateFiliation($filiation, $filiation_mother, $filiation_father, $cpf = null, $high_limit = null)
     {
 
         $result = $this->isAllowed($filiation, array("0", "1"));
