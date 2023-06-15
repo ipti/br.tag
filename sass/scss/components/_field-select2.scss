@@ -16,6 +16,7 @@
             .select2-choice {
                 width: 100%;
                 word-wrap: break-word;
+                text-overflow: ellipsis;
             }
         }    
     }
@@ -23,7 +24,7 @@
         max-width: 50% !important;
     }
     &__helper2{
-        max-width: 65% !important;
+        max-width: 65% !important; 
     }
 
     
