@@ -49,7 +49,7 @@
  */
 class InstructorTeachingData extends AltActiveRecord
 {
-	const SCENARIO_IMPORT = "SCENARIO_IMPORT";
+    const SCENARIO_IMPORT = "SCENARIO_IMPORT";
 	public $disciplines;
 
 	/**
