@@ -367,6 +367,14 @@ class StudentController extends Controller
 
         $modelStudentRestrictions = $this->loadModel($id, $this->STUDENT_RESTRICTIONS);
 
+        $notAddEnrollment = false;
+        foreach($modelStudentIdentification->studentEnrollments as $me) {
+            if ($me->classroomFk->school_year == Yii::app()->user->year && $me->status == "1") {
+                $notAddEnrollment = true;
+                break;
+            }
+        }
+
         $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
         $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => $id]]);
         if ($studentVaccinesSaves) {
@@ -457,6 +465,7 @@ class StudentController extends Controller
             'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
             'modelStudentRestrictions' => $modelStudentRestrictions,
             'modelEnrollment' => $modelEnrollment,
+            'notAddEnrollment' => $notAddEnrollment,
             'vaccines' => $vaccines,
             'studentVaccinesSaves' => $studentVaccinesSaves
         ));
