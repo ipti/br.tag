@@ -270,9 +270,7 @@ class DefaultController extends Controller
 			$filter->attributes = $_GET['Question'];
 		}
 		
-		$dataProvider = new CActiveDataProvider('Question', array('pagination' => array(
-				'pageSize' => 12,
-		)));
+		$dataProvider = new CActiveDataProvider('Question', array('pagination' => false));
 		
 		$this->render('question/index', array(
 			'dataProvider' => $dataProvider,
