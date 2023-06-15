@@ -1,5 +1,10 @@
 # Atualizações
 
+## [Versão 3.26.67]
+- Alerta de exclusão de estudante
+- Profissional de apoio agora aparece no relatório de assistente educacional
+- País de origem agora aparece corretamente quando salvo
+
 ## [Versão 3.26.64]
 - Agora existe uma aba para cadastro de gestor escolar no formulário de cadastro de escola
 
