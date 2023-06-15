@@ -15,9 +15,7 @@ class DefaultController extends Controller
             $filter->attributes = $_GET['Quiz'];
 		}
 		
-        $dataProvider = new CActiveDataProvider('Quiz', array('pagination' => array(
-                'pageSize' => 12,
-		)));
+        $dataProvider = new CActiveDataProvider('Quiz', array('pagination' => false));
 		
         $this->render('quiz/quiz', array(
             'dataProvider' => $dataProvider,
@@ -108,9 +106,7 @@ class DefaultController extends Controller
             $filter->attributes = $_GET['QuestionGroup'];
 		}
 		
-        $dataProvider = new CActiveDataProvider('QuestionGroup', array('pagination' => array(
-                'pageSize' => 12,
-		)));
+        $dataProvider = new CActiveDataProvider('QuestionGroup', array('pagination' => false));
 		
         $this->render('group/index', array(
             'dataProvider' => $dataProvider,
@@ -190,9 +186,7 @@ class DefaultController extends Controller
 				$filter->attributes = $_GET['QuestionGroupQuestion'];
 			}
 			
-			$dataProvider = new CActiveDataProvider('QuestionGroupQuestion', array('pagination' => array(
-					'pageSize' => 12,
-			)));
+			$dataProvider = new CActiveDataProvider('QuestionGroupQuestion', array('pagination' => false));
 			
 			$this->render('questiongroup/index', array(
 				'dataProvider' => $dataProvider,
