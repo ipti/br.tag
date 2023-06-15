@@ -203,7 +203,7 @@ $(formIdentification + 'nationality').change(function () {
     $(nationality).attr("disabled", "disabled");
     if ($(this).val() == 3) {
         $(nobr).removeAttr("disabled");
-        // $(formIdentification + 'edcenso_nation_fk').val(null).trigger('change').select2('readonly', false);
+        $(formIdentification + 'edcenso_nation_fk').trigger('change').select2('readonly', false);
         $(formIdentification + 'edcenso_uf_fk').val("").trigger("change.select2");
         $(formIdentification + 'edcenso_city_fk').val("").trigger("change.select2");
         $(formIdentification + 'edcenso_uf_fk').closest(".js-change-required").css("display", simple === "1" ? "none" : "block").find("label").removeClass("required").html("Estado");
