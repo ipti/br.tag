@@ -11,6 +11,19 @@ class DefaultController extends Controller
 		$this->render('index');
 	}
 
+	private function checkSEDToken()
+	{
+		try {
+			if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
+				$uclogin = new LoginUseCase();
+				$uclogin->exec("SME701", "zyd780mhz1s5");
+			}
+		} catch (\Throwable $th) {
+			Yii::app()->user->setFlash('error', Yii::t('default', $this->ERROR_CONNECTION));
+			$this->redirect(array('index'));
+		}
+	}
+
 	public function actionManageRA()
 	{
 		$school_id = Yii::app()->user->school;
@@ -37,15 +50,9 @@ class DefaultController extends Controller
 	public function actionAddStudentWithRA()
 	{
 		$RA = $_POST["ra"];
-		try {
-			if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
-				$uclogin = new LoginUseCase();
-				$uclogin->exec("SME701", "zyd780mhz1s5");
-			}
-		} catch (\Throwable $th) {
-			Yii::app()->user->setFlash('error', Yii::t('default', $this->ERROR_CONNECTION));
-			$this->redirect(array('index'));
-		}
+
+		$this->checkSEDToken();
+
 		try {
 			$createStudent = new CreateStudent();
 			$response = $createStudent->exec($RA);
@@ -93,10 +100,8 @@ class DefaultController extends Controller
 
 	private function addClassroomStudent($RA, $classroomId, $classroomInepId, $classroomStage)
 	{
-		if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
-			$uclogin = new LoginUseCase();
-			$uclogin->exec("SME701", "zyd780mhz1s5");
-		}
+		$this->checkSEDToken();
+
 		$createStudent = new CreateStudent();
 		$response = $createStudent->exec($RA);
 		$modelStudentEnrollment = new StudentEnrollment;
@@ -126,52 +131,58 @@ class DefaultController extends Controller
 
 	public function actionAddClassroom()
 	{
-		$num_classe = $_POST["classroomNum"];
-		$import_students = $_POST["importStudents"];
 		try {
-			if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
-				$uclogin = new LoginUseCase();
-				$uclogin->exec("SME701", "zyd780mhz1s5");
-			}
-		} catch (\Throwable $th) {
-			Yii::app()->user->setFlash('error', Yii::t('default', $this->ERROR_CONNECTION));
-			$this->redirect(array('index'));
-		}
-		try {
-			$createClassroom = new CreateClassroom();
-			$response = $createClassroom->exec($num_classe);
-			$modelClassroom = new Classroom;
-			$modelClassroom = $response["Classroom"];
-			$students = $response["Students"];
+			$this->checkSEDToken();
 
-			// Bloqueio de duplicação por inep id
-			if ($modelClassroom->inep_id != null) {
-				$classroom_test_name = Classroom::model()->find('inep_id=:inep_id', array(':inep_id' => $modelClassroom->inep_id));
-				if (isset($classroom_test_name)) {
-					$msg = "O Cadastro da Turma " . $modelClassroom->name . " já existe!
-					<a href='".Yii::app()->createUrl('classroom/update&id='.$classroom_test_name->id)."' style='color:white;'>
-					Clique aqui para visualizar.</a>";
-					Yii::app()->user->setFlash('error', Yii::t('default', $msg));
-					$this->redirect(array('index'));
+			$importStudents  = isset($_POST["importStudents"]);
+			$registerAllClasses = isset($_POST["registerAllClasses"]);
+	
+			$classNumbers = ["262429087", "262429392", "262429947", "262430184"];
+
+			if($registerAllClasses){
+				foreach ($classNumbers as $classNumber) {
+					$this->registerClassroom($classNumber, $importStudents);
+				}
+			}else{
+				$classroomNum = $_POST["classroomNum"];
+				if ($classroomNum) {
+					$this->registerClassroom($classroomNum, $importStudents);
 				}
 			}
-
-			if ($modelClassroom->validate() && $modelClassroom->save()) {
-				$msg = "O Cadastro da Turma " . $modelClassroom->name . " foi criado com sucesso! 
-				<a href='".Yii::app()->createUrl('classroom/update&id='.$modelClassroom->id)."' style='color:white;'>
-				Clique aqui para visualizar.</a>";
-				if ($import_students) {
-					foreach ($students as $student) {
-						$this->addClassroomStudent($student->outNumRA, $modelClassroom->id, 
-						$modelClassroom->inep_id, $modelClassroom->edcenso_stage_vs_modality_fk);
-					}
-				}
-			}
-			Yii::app()->user->setFlash('success', Yii::t('default', $msg));
+		
 			$this->redirect(array('index'));
+
 		} catch (\Exception $e) {
 			Yii::app()->user->setFlash('error', Yii::t('default', $e->getMessage()));
 			$this->redirect(array('index'));
+		}
+	}
+
+	private function registerClassroom($classroomNum, $importStudents)
+	{
+		$createClassroom = new CreateClassroom();
+		$response = $createClassroom->exec($classroomNum);
+		$modelClassroom = $response["Classroom"];
+		$students = $response["Students"];
+
+		if ($modelClassroom->inep_id != null) {
+			$existingClassroom = Classroom::model()->find('inep_id=:inep_id', array(':inep_id' => $modelClassroom->inep_id));
+			if ($existingClassroom) {
+				$msg = "O Cadastro da Turma " . $modelClassroom->name . " já existe! <a href='".Yii::app()->createUrl('classroom/update&id='.$existingClassroom->id)."' style='color:white;'>Clique aqui para visualizar.</a>";
+				Yii::app()->user->setFlash('error', Yii::t('default', $msg));
+				return;
+			}
+		}
+
+		if ($modelClassroom->validate() && $modelClassroom->save()) {
+			$msg = "O Cadastro da Turma " . $modelClassroom->name . " foi criado com sucesso! <a href='".Yii::app()->createUrl('classroom/update&id='.$modelClassroom->id)."' style='color:white;'>Clique aqui para visualizar.</a>";
+			if ($importStudents) {
+				foreach ($students as $student) {
+					$this->addClassroomStudent($student->outNumRA, $modelClassroom->id, $modelClassroom->inep_id, $modelClassroom->edcenso_stage_vs_modality_fk);
+				}
+			}
+
+			Yii::app()->user->setFlash('success', Yii::t('default', $msg));
 		}
 	}
 
@@ -179,15 +190,8 @@ class DefaultController extends Controller
 	{
 		$school_name = $_POST["schoolName"];
 		$school_mun = $_POST["schoolMun"];
-		try {
-			if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
-				$uclogin = new LoginUseCase();
-				$uclogin->exec("SME701", "zyd780mhz1s5");
-			}
-		} catch (\Throwable $th) {
-			Yii::app()->user->setFlash('error', Yii::t('default', $this->ERROR_CONNECTION));
-			$this->redirect(array('index'));
-		}
+		
+		$this->checkSEDToken();
 
 		try {
 			$createSchool = new CreateSchool;
@@ -245,10 +249,8 @@ class DefaultController extends Controller
 
 	public function actionGenRA($id)
 	{
-		if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
-			$uclogin = new LoginUseCase();
-			$uclogin->exec("SME701", "zyd780mhz1s5");
-		}
+		$this->checkSEDToken();
+
 		$genRA = new GenRA();
 		$msg = $genRA->exec($id);
 		try {
@@ -268,10 +270,8 @@ class DefaultController extends Controller
 	}
 	public function actionCreateRA($id)
 	{
-		if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
-			$uclogin = new LoginUseCase();
-			$uclogin->exec("SME701", "zyd780mhz1s5");
-		}
+		$this->checkSEDToken();
+
 		$createRA = new CreateRA();
 		$msg = $createRA->exec($id);
 
@@ -281,3 +281,4 @@ class DefaultController extends Controller
 		echo $msg;
 	}
 }
+
