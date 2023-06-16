@@ -115,23 +115,24 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </div>
             </div>
         </div>   
-        <div class="mobile-row align-items--center"> 
-            <div class="column clearleft on-tablet disciplines-container" style="display: none;">
-                <div class="t-field-select">
-                    <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label t-field-select__label--required')); ?>
-                    <?php
-                    echo CHtml::dropDownList('disciplines', '', array(), array(
-                        'key' => 'id',
-                        'class' => 'select-search-on t-field-select__input classContents-input',
-                    ));
-                    ?>
-                </div>
-            </div>
-            <img class="loading-class-contents"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
-            <div class="column no-grow show show-tablet clearright">
-                <a id="classesSearchMobile" class='t-button-primary'><span class="t-icon-search_icon"></span></a>
+        <div class="column clearleft on-tablet disciplines-container" style="display: none;">
+            <div class="t-field-select">
+                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label t-field-select__label--required')); ?>
+                <?php
+                echo CHtml::dropDownList('disciplines', '', array(), array(
+                    'key' => 'id',
+                    'class' => 'select-search-on t-field-select__input classContents-input',
+                ));
+                ?>
             </div>
         </div>
+        <div class="mobile-row align-items--center">
+            <div id="search-icon" class="column no-grow show show-tablet clearright">
+                <a id="classesSearchMobile" class='t-button-primary'><span class="t-icon-search_icon"></span></a>
+            </div>
+            <img class="loading-class-contents"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+        </div>
+        
         <div class="column"></div>
             <div class="column clearfix">
                 <div class="t-buttons-container justify-content--end">
@@ -176,7 +177,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         
                         <label>Diário de Aula por Aluno</label>
                         <div class="alert alert-error classroom-diary-no-students no-show">Não há alunos matriculados na turma.</div>
-                        <div class="accordion accordion-students" id="accordion-students"></div>
+                        <div class="accordion-students"></div>
+                        
                     
                         <div class="t-modal__footer row reverse">
                             <div class="t-buttons-container justify-content--center">

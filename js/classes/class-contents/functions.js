@@ -8,8 +8,11 @@ function createTable(data) {
         options += '<option value="' + this.id + '" disciplineid="' + this.edid + '" disciplinename="' + this.edname + '">' + this.cpname + "|" + this.order + "|" + this.objective + "|" + this.edname + '</option>';
     });
 
+    
+
     var accordionBuilt = false;
     var accordionHtml = "";
+    accordionHtml += `<div id='accordion' class='t-accordeon-primary' studentid=' ${this.id} '>`
     $.each(data.classContents, function (day, classContent) {
         var studentInputs = "";
         if (Object.keys(classContent.students).length) {
@@ -17,15 +20,15 @@ function createTable(data) {
                 studentInputs += "<input type='hidden' class='student-diary-of-the-day' studentid='" + this.id + "' value='" + this.diary + "'>";
                 if (!accordionBuilt) {
                     accordionHtml +=
-                        '<div class="accordion-group" studentid="' + this.id + '">' +
-                        '<div class="accordion-heading">' +
-                        '<div class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-students" href="#collapse-' + this.id + '">' +
-                        '<a class="accordion-title"><span class="t-icon-person"></span> ' + this.name + '</a>' +
-                        '</div></div>' +
-                        '<div id="collapse-' + this.id + '" class="accordion-body collapse">' +
-                        '<div class="accordion-inner">' +
-                        '<textarea class="t-field-tarea__input "></textarea>' +
-                        '</div></div></div>';
+                        `<div class='align-items--center'>
+                            <h4 class='t-title'>
+                                <span class='t-icon-person icon-color'></span>
+                                ${this.name} 
+                            </h4>
+                        </div>
+                        <div class='ui-accordion-content'>
+                            <textarea class='t-field-tarea__input'></textarea>
+                        </div>`
                 }
             });
             if (!accordionBuilt) {
@@ -42,7 +45,7 @@ function createTable(data) {
             + '<input type="hidden" class="classroom-diary-of-the-day" value="' + classContent.diary + '">'
             + studentInputs
             + '<span class="t-icon-attendance-note t-icon classroom-diary-button ' + (!classContent.available ? "disabled" : "") + '" data-toggle="tooltip" title="Diário"></span>'
-            + '<select id="day[' + day + ']" name="day[' + day + '][]" class=" course-classes-select vmiddle" ' + (!classContent.available ? "disabled" : "") + ' multiple="yes">'
+            + '<select id="day[' + day + ']" name="day[' + day + '][]" placeholder class=" course-classes-select vmiddle" ' + (!classContent.available ? "disabled" : "") + ' multiple="yes">'
             + options
             + '</select>'
             + '</td>';
@@ -60,6 +63,7 @@ function createTable(data) {
             });
         }
     });
+    accordionHtml += `</div>`
     $('select.course-classes-select').select2({
         width: "calc(100% - 40px)",
         formatSelection: function (state) {
@@ -78,4 +82,39 @@ function createTable(data) {
     $('[data-toggle="tooltip"]').tooltip({container: "body"});
     $('#widget-class-contents').show();
     $('#class-contents').show();
+
+    $(function () {
+        $( "#accordion" ).accordion({
+            active: false,
+            collapsible: true,
+            icons: false
+        });
+    })
+    
 }
+
+/*
+const tableContents = {
+    // data
+    data: {},
+    setData: function (data){
+        this.data = data;
+    }, 
+    // mutate
+    
+    // render
+    renderTable: function () {
+        this.table =  $("<table></table>");        
+    },
+    renderRowContent: function (days, students) {
+        array.forEach(element => {
+            let row =  $("<th></th>");
+            
+            this.table.append() 
+        });
+    },
+    renderListStudents: function () {},
+    renderListItemStudent: function () {},
+    build: function () {}
+};
+*/
