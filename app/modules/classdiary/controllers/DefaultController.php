@@ -43,4 +43,9 @@ class DefaultController extends Controller
 		$frequency = $getFrequency->exec($classrom_fk, $stage_fk, $discipline_fk, $date = date("d/m/Y"));
 		$this->renderPartial('frequencyElementDesktop', ["frequency" => $frequency]);
 	}
+	public function actionsaveFresquency()
+	{
+
+		//var_dump($_POST["schedule"],$_POST["studentId"],$_POST["fault"], $_POST["stage_fk"], $_POST["date"]);
+	}
 }

@@ -22,3 +22,27 @@ function renderFrequencyElement(w) {
         $(".js-frequency-element").html(response)
     });  
 }
+
+$(document).on("change", ".js-frequency-checkbox", function () {
+    $.ajax({
+        type: "POST",
+        url: `${window.location.host}?r=classdiary/default/saveFresquency`,
+        cache: false,
+        data: {
+            classroomId: $(this).attr("classroomId"),
+            date: $(".js-date").val(),
+            schedule: $(this).attr("schedule"),
+            studentId: $(this).attr("studentId"),
+            fault: $(this).is(":checked") ? 1 : 0,
+            stage_fk: $(this).attr("stage_fk")
+        },
+        beforeSend: function () {
+            $(".js-table-frequency").css("opacity", 0.3).css("pointer-events", "none");
+            $(".js-date, .js-search").attr("disabled", "disabled");
+        },
+        complete: function (response) {
+            $(".js-table-frequency").css("opacity", 1).css("pointer-events", "auto");
+            $(".js-date, .js-search").removeAttr("disabled");
+        },
+    })
+});

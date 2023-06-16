@@ -50,4 +50,16 @@ class StudentService
             echo json_encode(["valid" => false, "error" => "No quadro de horário da turma, não existe dia letivo no mês selecionado para este componente curricular/eixo."]);
         }
     }
+
+    public function saveFrequency($schedule, $studentId, $fault, $stage_fk, $date){
+       /*  if ($_POST["fundamentalMaior"] == "1") {
+            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "schedule" => $_POST["schedule"]]);
+            $this->saveFrequency($schedule);
+        } else {
+            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
+            foreach ($schedules as $schedule) {
+                $this->saveFrequency($schedule);
+            }
+        } */
+    }
 }

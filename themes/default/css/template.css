@@ -8651,7 +8651,8 @@ input[type="text"] {
 }
 
 textarea,
-input[type="text"]:not(.select2-search input[type="text"]) {
+.form-school input[type="text"]:not(.select2-search input[type="text"]), 
+.form-instructor input[type="text"]:not(.select2-search input[type="text"]) {
     width: 413px;
 }
 
@@ -9583,4 +9584,11 @@ tbody .details-control:hover {
     background-color: #F5F7F9;
     font-weight: 500;
     color: #252A31;
+}
+.filter-bar {
+    display: flex;
+    align-items: center;
+    height: auto;
+    margin-bottom: 20px;
+    padding: 0 10px;
 }

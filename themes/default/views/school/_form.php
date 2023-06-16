@@ -101,7 +101,7 @@ $form = $this->beginWidget('CActiveForm', array(
             </button>
 
         </div>
-        <div class="widget-body form-horizontal">
+        <div class="widget-body form-school form-horizontal">
             <div class="tab-content">
                 <div class="tab-pane active" id="school-indentify">
                     <div>

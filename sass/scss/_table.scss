@@ -1,4 +1,6 @@
 .tag-table {    
+    border-collapse: initial;
+    margin-top: $SizeMedium;
     td {
         background: $colorsBaseWhiteNormal;
         padding: $spaceMedium;
@@ -71,7 +73,6 @@
 
 .tag-table-secondary {
     @extend .tag-table;
-
     thead {
         tr th {
             font-weight: bold;
@@ -79,6 +80,12 @@
             background-color: $colorsBaseCloudDark;
             padding: $SizeXSmall;
             line-height: normal;
+        }
+    }
+    tbody {
+        tr td {
+            border-radius: none;
+            border-bottom: $borderWidthCard solid $colorsBaseCloudDark;
         }
     }
 }
