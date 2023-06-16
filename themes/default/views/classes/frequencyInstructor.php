@@ -43,7 +43,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <div class="mobile-row">
             <!-- Mês -->
             <div class="column is-one-fifth">
-                <div class="t-field-select__helper">
+                <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 't-field-select__label--required')); ?>
                     <?php
                     echo CHtml::dropDownList('month', '', array(
@@ -68,7 +68,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </div>
             </div>
             <div class="column is-one-fifth">
-                <div class="t-field-select__helper">
+                <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 't-field-select__label--required')); ?>
                     <select class="select-search-on frequency-input t-field-select__input" id="classroom">
                         <option>Selecione a turma</option>

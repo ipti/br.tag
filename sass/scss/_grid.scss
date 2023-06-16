@@ -18,7 +18,7 @@
 
 .column {
     flex: 1;
-    flex-basis: 0;
+    // flex-basis: 0;
     margin-left: $spaceXLarge/2;
     margin-right: $spaceXLarge/2;
 
@@ -90,6 +90,9 @@
     }
     //retirar isso
     &.helper {
+        max-width: 50%;
+    }
+    &.helper2 {
         max-width: 50%;
     }
 }
