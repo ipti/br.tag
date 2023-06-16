@@ -1,0 +1,35 @@
+.t-accordeon {
+    
+    .ui-accordion-header {
+        display: flex !important;
+        background: $colorsBaseCloudLight ;
+        cursor: pointer;
+        padding: $SizeXXXSmall $SizeSmall !important;
+        border-radius: 0;
+        border: none;
+        color: $colorsTextPrimary;
+
+        .t-title {
+            margin: 0 $SizeXSmall;
+            font-weight: $fontWeightRegular;
+            color: $colorsTextPrimary;
+        }
+    }
+
+    .ui-accordion-content {
+        height: auto !important;
+        overflow-x: hidden !important;
+    }
+}
+
+.t-accordeon-primary {
+    @extend .t-accordeon;
+    
+    .ui-accordion-header {
+        background: $colorsBaseCloudLight;
+    }
+
+    .icon-color {
+        color: $colorsBaseInkLight;
+    }
+}
