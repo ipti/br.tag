@@ -881,17 +881,19 @@ class ReportsController extends Controller
     {
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
-        $sql = "select c.*, q.modality,q.stage
-                from classroom as c join classroom_qtd_students as q
-                on c.school_inep_fk = q.school_inep_fk
-                where c.school_year = :year AND q.school_year = :year and c.school_inep_fk = :school AND q.school_inep_fk = :school  AND c.id = q.id
-                order by name";
+        $sql = "SELECT c.*, q.modality,q.stage
+                FROM classroom as c JOIN classroom_qtd_students AS q
+                ON c.school_inep_fk = q.school_inep_fk
+                WHERE c.school_year = :year AND q.school_year = :year AND c.school_inep_fk = :school AND q.school_inep_fk = :school  AND c.id = q.id
+                ORDER BY name";
         $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":school", $_GET['id'])->bindParam(":year", $this->year)->queryAll();
         foreach ($classrooms as &$classroom) {
-            $sql1 = "select DISTINCT c.id as classroomID ,c.name as className,id.inep_id,id.name, id.birthday_date, iv.scholarity
-                from instructor_teaching_data as i join instructor_identification as id on id.id = i.instructor_fk
-                join instructor_variable_data as iv on iv.id = id.id join classroom as c on i.classroom_id_fk = c.id
-                WHERE c.id = :id AND i.role = 2 order by id.name";
+            $sql1 = "SELECT DISTINCT c.id AS classroomID ,c.name AS className,id.inep_id,id.name, id.birthday_date, iv.scholarity
+                FROM instructor_teaching_data AS i 
+                JOIN instructor_identification AS id ON id.id = i.instructor_fk
+                JOIN instructor_variable_data AS iv ON iv.id = id.id 
+                JOIN classroom AS c ON i.classroom_id_fk = c.id
+                WHERE c.id = :id AND (i.role = 8 OR i.role = 2) ORDER BY id.name";
             $classroom["professors"] = Yii::app()->db->createCommand($sql1)->bindParam(":id", $classroom["id"])->queryAll();
         }
 
