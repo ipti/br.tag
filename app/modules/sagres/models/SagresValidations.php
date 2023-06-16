@@ -4,60 +4,144 @@ use Yii;
 
 class SagresValidations
 {
-
-    public function validator($schools, $professionals, $finalClass)
+    public function __construct()
     {
-        $query = "delete from inconsistency_sagres";
-        Yii::app()->db->createCommand($query)->execute();
+        $connection = Yii::app()->db;
+        $transaction = $connection->beginTransaction();
+
+        try {
+            $deleteQuery = "DELETE FROM inconsistency_sagres";
+            $connection->createCommand($deleteQuery)->execute();
+
+            $resetQuery = "ALTER TABLE inconsistency_sagres AUTO_INCREMENT = 1";
+            $connection->createCommand($resetQuery)->execute();
+
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw $e;
+        }
+    }
+
+    public function validator($education, $finalClass)
+    {
+        $managementUnit = $education->getPrestacaoContas();
+        $schools = $education->getEscola();
+        $professionals = $education->getProfissional();
 
         $inconsistencyList = [];
+        $inconsistencyList = array_merge($inconsistencyList, $this->validatorManagementUnit($managementUnit));
 
         foreach ($schools as $school) {
-
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorSchoolDirector($school));
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorMenu($school));
             $inconsistencyList = array_merge($inconsistencyList, $this->validatorClass($school, $finalClass));
-            $inconsistencyList = array_merge($inconsistencyList, $this->validatorProfessionals($professionals, $school));
         }
 
+        $inconsistencyList = array_merge($inconsistencyList, $this->validatorProfessionals($professionals));
+        
         return $inconsistencyList;
     }
 
-    public function validatorProfessionals($professionals, $school)
+    public function validatorManagementUnit($managementUnit)
     {
+
+        $inconsistencies = [];
+
+        if (empty($managementUnit->getCodigoUnidGestora())) {
+            $inconsistencies[] = [
+                "enrollment" => 'UNIDADE GESTORA: ' . $managementUnit->getNomeUnidGestora(),
+                "school" => '',
+                "description" => 'CÓDIGO DA UNIDADE GESTORA NÃO INFORMADO',
+                "action" => 'POR FAVOR, INFORME O CÓDIGO DE IDENTIFICAÇÃO DA UNIDADE GESTORA'
+            ];
+        }
+        
+        if (empty($managementUnit->getNomeUnidGestora())) {
+            $inconsistencies[] = [
+                "enrollment" => 'UNIDADE GESTORA: ' . $managementUnit->getNomeUnidGestora(),
+                "school" => '',
+                "description" => 'NOME DA UNIDADE GESTORA NÃO INFORMADO',
+                "action" => 'POR FAVOR, INFORME UM NOME PARA A UNIDADE GESTORA'
+            ];
+        }
+        
+        if (empty($managementUnit->getCpfResponsavel())) {
+            $inconsistencies[] = [
+                "enrollment" => 'UNIDADE GESTORA: ' . $managementUnit->getNomeUnidGestora(),
+                "school" => '',
+                "description" => 'CPF DO RESPONSÁVEL NÃO INFORMADO',
+                "action" => 'POR FAVOR, INFORME UM CPF VÁLIDO PARA O RESPONSÁVEL'
+            ];
+        }
+        
+        if (empty($managementUnit->getCpfGestor())) {
+            $inconsistencies[] = [
+                "enrollment" => 'UNIDADE GESTORA: ' . $managementUnit->getNomeUnidGestora(),
+                "school" => '',
+                "description" => 'CPF DO GESTOR NÃO INFORMADO',
+                "action" => 'POR FAVOR, INFORME UM CPF VÁLIDO PARA O GESTOR'
+            ];
+        }
+        
+        return $inconsistencies;
+    }
+
+    public function validatorProfessionals($professionals)
+    {
+        $strMaxLength = 50;
         $inconsistencies = [];
 
         foreach ($professionals as $professional) {
             if (!$this->validaCPF($professional->getCpfProfissional())) {
                 $inconsistencies[] = [
-                    "enrollment" => 'PROFESSIONAL',
-                    "school" => $school->getIdEscola(),
+                    "enrollment" => 'PROFISSIONAL',
+                    "school" => $professional->getIdEscola(),
                     "description" => 'CPF INVÁLIDO: ' . $professional->getCpfProfissional(),
                     "action" => 'INFORMAR UM CPF VÁLIDO'
                 ];
             }
 
-            $inconsistencies = array_merge($inconsistencies,$this->validatorAttendance($professional, $school));
+            if (strlen($professional->getEspecialidade()) > $strMaxLength) {
+                $inconsistencies[] = [
+                    "enrollment" => 'PROFISSIONAL',
+                    "school" => $professional->getIdEscola(),
+                    "description" => 'ESPECIALIDADE COM MAIS DE 50 CARACTERES',
+                    "action" => 'INFORMAR UMA DESCRIÇÃO PARA A ESPECIALIDADE COM ATÉ 50 CARACTERES'
+                ];
+            }
+
+            $inconsistencies = array_merge($inconsistencies,$this->validatorAttendance($professional));
         }
 
         return array_unique($inconsistencies);
     }
 
-    public function validatorAttendance($professional, $school)
+    public function validatorAttendance($professional)
     {
+        $strMaxLength = 200;
         $inconsistencies = [];
-        $professionals = $professional->getAtendimento();
+        $attendances = $professional->getAtendimento();
 
-        foreach ($professionals as $professional) {       
-            $dateOfAttendance = intval($professional->getData()->format("Y"));
+        foreach ($attendances as $attendance) {       
+            $dateOfAttendance = intval($attendance->getData()->format("Y"));
             $currentDate = date('Y');
             
             if($dateOfAttendance <= ($currentDate - 3)){
                 $inconsistencies[] = [
                     "enrollment" => 'ATENDIMENTO',
-                    "school" => $school->getIdEscola(),
-                    "description" => 'ANO DO ATENDIMENTO: ' . $professional->getData()->format("d/m/Y"). ' MENOR QUE: ' . ($currentDate - 3),
+                    "school" => $professional->getIdEscola(),
+                    "description" => 'ANO DO ATENDIMENTO: ' . $attendance->getData()->format("d/m/Y"). ' MENOR QUE: ' . ($currentDate - 3),
                     "action" => 'INFORMAR UM ANO PARA O ATENDIMENTO MAIOR QUE: ' . ($currentDate - 3)
+                ];
+            }
+
+            if(strlen($attendance->getLocal()) > $strMaxLength){
+                $inconsistencies[] = [
+                    "enrollment" => 'ATENDIMENTO',
+                    "school" => $professional->getIdEscola(),
+                    "description" => 'NOME DO LOCAL DO ATENDIMENTO COM MAIS DE 200 CARACTERES',
+                    "action" => 'INFORMAR UM NOME PARA O LOCAL DO ATENDIMENTO COM ATÉ 200 CARACTERES'
                 ];
             }
         }
@@ -67,6 +151,7 @@ class SagresValidations
 
     function validatorSchoolDirector($school)
     {
+        $strMaxLength = 100;
         $inconsistencies = [];
 
         if ($school->getDiretor()->getNrAto() == null) {
@@ -75,6 +160,15 @@ class SagresValidations
                 "school" => $school->getIdEscola(),
                 "description" => 'NÚMERO DO ATO DE NOMEAÇÃO NÃO PODE SER VAZIO',
                 "action" => 'INFORMAR UM NÚMERO DO ATO DE NOMEAÇÃO PARA O DIRETOR'
+            ];
+        }
+
+        if (strlen($school->getDiretor()->getNrAto()) > $strMaxLength) {
+            $inconsistencies[] = [
+                "enrollment" => 'DIRETOR',
+                "school" => $school->getIdEscola(),
+                "description" => 'NÚMERO DO ATO DE NOMEAÇÃO COM MAIS DE 100 CARACTERES',
+                "action" => 'INFORMAR UM NÚMERO DO ATO DE NOMEAÇÃO COM ATÉ 100 CARACTERES'
             ];
         }
 
@@ -159,7 +253,7 @@ class SagresValidations
 
     public function validatorClass($school, $finalClass)
     {
-
+        $strMaxLength = 50;
         $strlen = 2;
         $inconsistencies = [];
         $classes = $school->getTurma();
@@ -184,6 +278,15 @@ class SagresValidations
                     "school" => $school->getIdEscola(),
                     "description" => 'DESCRIÇÃO PARA A TURMA MENOR QUE 3 CARACTERES',
                     "action" => 'ADICIONE UMA DESCRIÇÃO MAIS DETALHADA, CONTENDO MAIS DE 5 CARACTERES'
+                ];
+            }
+
+            if (strlen($class->getDescricao()) > $strMaxLength) {
+                $inconsistencies[] = [
+                    "enrollment" => 'TURMA',
+                    "school" => $school->getIdEscola(),
+                    "description" => 'DESCRIÇÃO PARA A TURMA COM MAIS DE 50 CARACTERES',
+                    "action" => 'ADICIONE UMA DESCRIÇÃO MENOS DETALHADA, CONTENDO ATÉ 50 CARACTERES'
                 ];
             }
 
@@ -217,6 +320,7 @@ class SagresValidations
     public function validationSeries($class, $schoolId)
     {
         $strlen = 2;
+        $strMaxLength = 50;
         $inconsistencies = [];
         $series = $class->getSerie();
 
@@ -235,6 +339,15 @@ class SagresValidations
                         "school" => $schoolId,
                         "description" => 'DESCRIÇÃO PARA A SÉRIE MENOR QUE 3 CARACTERES',
                         "action" => 'FORNEÇA UMA DESCRIÇÃO MAIS DETALHADA, CONTENDO MAIS DE 5 CARACTERES'
+                    ];
+                }
+
+                if (strlen($serie->getDescricao()) > $strMaxLength) {
+                    $inconsistencies[] = [
+                        "enrollment" => 'SÉRIE',
+                        "school" => $schoolId,
+                        "description" => 'DESCRIÇÃO PARA A SÉRIE: ' . $class->getDescricao() . ' COM MAIS DE 50 CARACTERES',
+                        "action" => 'FORNEÇA UMA DESCRIÇÃO MENOS DETALHADA, CONTENDO ATÉ 50 CARACTERES'
                     ];
                 }
     
@@ -309,6 +422,7 @@ class SagresValidations
 
     public function validationStudent($student, $schoolId, $class)
     {
+        $strMaxLength = 200;
         $strlen = 5;
         $inconsistencies = [];
 
@@ -337,8 +451,17 @@ class SagresValidations
             $inconsistencies[] = [
                 "enrollment" => 'ESTUDANTE',
                 "school" => $schoolId,
-                "description" => 'TAMANHO DO NOME DO ESTUDANTE MENOR QUE 5 CARACTERES',
+                "description" => 'NOME DO ESTUDANTE COM MENOS DE 5 CARACTERES',
                 "action" => 'ADICIONE UM NOME PARA O ESTUDANTE COM PELO MENOS 5 CARACTERES'
+            ];
+        }
+
+        if(strlen($student->getNome()) > $strMaxLength){
+            $inconsistencies[] = [
+                "enrollment" => 'ESTUDANTE',
+                "school" => $schoolId,
+                "description" => 'NOME DO ESTUDANTE COM MAIS DE 200 CARACTERES',
+                "action" => 'ADICIONE UM NOME PARA O ESTUDANTE COM ATÉ 200 CARACTERES'
             ];
         }
 
@@ -394,7 +517,7 @@ class SagresValidations
                     $inconsistencies[] = [
                         "enrollment" => 'HORÁRIO',
                         "school" => $schoolId,
-                        "description" => 'DIA DA SEMANA INVÁLIDO',
+                        "description" => 'DIA DA SEMANA INVÁLIDO: '.$schedule->getDiaSemana(),
                         "action" => 'ADICIONE UM DIA DA SEMANA VÁLIDO PARA A DISCIPLINA'
                     ];
                 }
@@ -413,7 +536,7 @@ class SagresValidations
                     $inconsistencies[] = [
                         "enrollment" => 'HORÁRIO',
                         "school" => $schoolId,
-                        "description" => 'CPF DO PROFESSOR É INVÁLIDO',
+                        "description" => 'CPF DO PROFESSOR É INVÁLIDO, VINCULADO A TURMA: '.$class->getDescricao(),
                         "action" => 'INFORMAR UM CPF VÁLIDO PARA O PROFESSOR'
                     ];
                 }
@@ -422,7 +545,7 @@ class SagresValidations
                     $inconsistencies[] = [
                         "enrollment" => 'HORÁRIO',
                         "school" => $schoolId,
-                        "description" => 'NOME DA DISCIPLINA MENOR QUE 5 CARACTERES',
+                        "description" => 'NOME DA DISCIPLINA MUITO CURTA',
                         "action" => 'ADICIONE UM NOME PARA A DISCIPLINA COM PELO MENOS 5 CARACTERES'
                     ];
                 }
@@ -431,13 +554,13 @@ class SagresValidations
                     $inconsistencies[] = [
                         "enrollment" => 'HORÁRIO',
                         "school" => $schoolId,
-                        "description" => 'NOME DA DISCIPLINA MAIOR QUE 50 CARACTERES',
+                        "description" => 'NOME DA DISCIPLINA COM MAIS DE 50 CARACTERES - '.$schedule->getDisciplina(),
                         "action" => 'ADICIONE UM NOME PARA A DISCIPLINA COM ATÉ 50 CARACTERES'
                     ];
                 }
             }
         }
-        
+       
         return $inconsistencies;
     }
 

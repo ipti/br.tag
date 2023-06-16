@@ -1,0 +1,8 @@
+ALTER TABLE `school_structure`
+ADD `equipments_material_teachingdeafs` tinyint(1) NULL AFTER `equipments_material_sports`;
+
+update school_structure 
+    set equipments_material_teachingdeafs = 0;
+
+update school_structure 
+    set equipments_material_professional_education = 0;

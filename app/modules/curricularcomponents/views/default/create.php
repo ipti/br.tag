@@ -12,8 +12,8 @@ $this->menu=array(
 	array('label'=>'Manage EdcensoDiscipline', 'url'=>array('admin')),
 );
 
-$this->setPageTitle('TAG - ' . Yii::t('default', 'Add New Student'));
-$title = Yii::t('default', 'Add New Student');
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Adicionar Componente Curricular'));
+$title = Yii::t('default', 'Adicionar Componente Curricular');
 
 ?>
 

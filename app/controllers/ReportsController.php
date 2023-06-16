@@ -22,7 +22,8 @@ class ReportsController extends Controller
                     'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
                     'StudentInstructorNumbersRelationReport', 'StudentPendingDocument',
                     'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood',
-                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 'EvaluationFollowUpStudentsReport'),
+                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 
+                    'EvaluationFollowUpStudentsReport', 'CnsPerClassroomReport', 'CnsSchools', 'CnsPerSchool'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -40,6 +41,91 @@ class ReportsController extends Controller
         $this->year = Yii::app()->user->year;
 
         return true;
+    }
+
+    public function actionCnsPerClassroomReport()
+    {
+        $classroom_id = $_POST['cns_classroom_id'];
+        $sql = "SELECT 
+                si.name, si.birthday, sdaa.cns, c.name AS classroom_name,
+                si.responsable_name, si.responsable_telephone
+                FROM student_enrollment se
+                JOIN classroom c ON se.classroom_fk = c.id
+                JOIN student_identification si ON se.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON si.inep_id = sdaa.student_fk 
+                WHERE c.id = :classroom_id
+                GROUP BY name;";
+
+        $result =  Yii::app()->db->createCommand($sql)
+        ->bindParam(":classroom_id", $classroom_id)
+        ->queryAll();
+
+        $title = "RELATÓRIO CNS DA TURMA";
+        $header = $result[0]['classroom_name'];
+        
+        $this->render('CnsReport', array(
+            "report" => $result,
+            "title" => $title,
+            "header" => $header
+        ));
+    }
+
+    public function actionCnsSchools()
+    {
+        $sql = "SELECT 
+        si2.name AS school_name, si.name, si.birthday, sdaa.cns,
+        si.responsable_name, si.responsable_telephone
+        FROM student_enrollment se 
+        JOIN classroom c ON se.classroom_fk = c.id
+        JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
+        JOIN student_identification si ON se.student_fk = si.id
+        JOIN student_documents_and_address sdaa ON si.inep_id = sdaa.student_fk
+        WHERE c.school_year = :year
+        GROUP BY name
+        ORDER BY si2.inep_id;";
+
+        $result =  Yii::app()->db->createCommand($sql)
+        ->bindParam(":year", Yii::app()->user->year)
+        ->queryAll();
+        $allSchools = true;
+        $countTotal = true;
+        $title = "RELATÓRIO CNS ESCOLAS";
+        $this->render('CnsReport', array(
+            "report" => $result,
+            "title" => $title,
+            "allSchools" => $allSchools,
+            "countTotal" => $countTotal
+        ));
+    }
+
+    public function actionCnsPerSchool()
+    {
+        $sql = "SELECT 
+                sch.name AS school_name, si.name, si.birthday, sdaa.cns,
+                si.responsable_name, si.responsable_telephone
+                FROM school_identification sch
+                JOIN student_enrollment se ON se.school_inep_id_fk = sch.inep_id
+                JOIN classroom c ON se.classroom_fk = c.id
+                JOIN student_identification si ON se.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON si.inep_id = sdaa.student_fk
+                WHERE sch.inep_id = :school_id AND c.school_year = :year
+                GROUP BY name;";
+
+        $result =  Yii::app()->db->createCommand($sql)
+        ->bindParam(":school_id", Yii::app()->user->school)
+        ->bindParam(":year", Yii::app()->user->year)
+        ->queryAll();
+
+        $countTotal = true;
+        $title = "RELATÓRIO CNS DA ESCOLA";
+        $header = $result[0]['school_name'];
+
+        $this->render('CnsReport', array(
+            "report" => $result,
+            "title" => $title,
+            "header" => $header,
+            "countTotal" => $countTotal
+        ));
     }
 
     public function actionQuarterlyReport()
@@ -795,17 +881,19 @@ class ReportsController extends Controller
     {
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
-        $sql = "select c.*, q.modality,q.stage
-                from classroom as c join classroom_qtd_students as q
-                on c.school_inep_fk = q.school_inep_fk
-                where c.school_year = :year AND q.school_year = :year and c.school_inep_fk = :school AND q.school_inep_fk = :school  AND c.id = q.id
-                order by name";
+        $sql = "SELECT c.*, q.modality,q.stage
+                FROM classroom as c JOIN classroom_qtd_students AS q
+                ON c.school_inep_fk = q.school_inep_fk
+                WHERE c.school_year = :year AND q.school_year = :year AND c.school_inep_fk = :school AND q.school_inep_fk = :school  AND c.id = q.id
+                ORDER BY name";
         $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":school", $_GET['id'])->bindParam(":year", $this->year)->queryAll();
         foreach ($classrooms as &$classroom) {
-            $sql1 = "select DISTINCT c.id as classroomID ,c.name as className,id.inep_id,id.name, id.birthday_date, iv.scholarity
-                from instructor_teaching_data as i join instructor_identification as id on id.id = i.instructor_fk
-                join instructor_variable_data as iv on iv.id = id.id join classroom as c on i.classroom_id_fk = c.id
-                WHERE c.id = :id AND i.role = 2 order by id.name";
+            $sql1 = "SELECT DISTINCT c.id AS classroomID ,c.name AS className,id.inep_id,id.name, id.birthday_date, iv.scholarity
+                FROM instructor_teaching_data AS i 
+                JOIN instructor_identification AS id ON id.id = i.instructor_fk
+                JOIN instructor_variable_data AS iv ON iv.id = id.id 
+                JOIN classroom AS c ON i.classroom_id_fk = c.id
+                WHERE c.id = :id AND (i.role = 8 OR i.role = 2) ORDER BY id.name";
             $classroom["professors"] = Yii::app()->db->createCommand($sql1)->bindParam(":id", $classroom["id"])->queryAll();
         }
 
@@ -892,27 +980,32 @@ class ReportsController extends Controller
     {
         $school_year = Yii::app()->user->school;
         $year = Yii::app()->user->year;
-        $condition = '';
 
         if (isset($_GET['id']) && $_GET['id'] != '') {
-            $condition = " AND c.id = $_GET[id] ";
+            $classroom_id = $_GET['id'];
             $sql = "SELECT 
-                    e.name as school_name, c.name as classroom_name, c.id as classroom_id, d.cns,d.rg_number, s.*
+                    e.name as school_name, c.name as classroom_name, 
+                    c.id as classroom_id, d.cpf, d.address, s.*
                 FROM 
                     student_enrollment as se
                     INNER JOIN classroom as c on se.classroom_fk=c.id
                     INNER JOIN student_identification as s on s.id=se.student_fk
                     INNER JOIN school_identification as e on c.school_inep_fk = e.inep_id
-                    LEFT JOIN student_documents_and_address as d on s.id = d.student_fk
+                    LEFT JOIN student_documents_and_address as d on s.id = d.id
 
                 WHERE 
                     c.school_year = :year AND 
-                    c.school_inep_fk = :schoolyear
-                    $condition
-                GROUP BY c.id, s.register_type, s.inep_id, s.id, d.cns
+                    c.school_inep_fk = :schoolyear AND
+                    c.id = :classroom_id
+                GROUP BY s.name
                 ORDER BY c.id";
 
-            $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":schoolyear", $school_year)->queryAll();
+            $classrooms = Yii::app()->db->createCommand($sql)
+            ->bindParam(":year", $year)
+            ->bindParam(":classroom_id", $classroom_id)
+            ->bindParam(":schoolyear", $school_year)
+            ->queryAll();
+
 
             $this->render('StudentByClassroomReport', array(
                 "classroom" => $classrooms

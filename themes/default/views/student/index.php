@@ -7,7 +7,7 @@
     );
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
-    $cs->registerCssFile($themeUrl . '/css/template2.css');
+    
     ?>
 
     <div class="row-fluid">
@@ -55,7 +55,6 @@
             if (isset($buttons))
                 echo $buttons;
             ?>
-            <br />
         <?php endif ?>
         <div class="widget clearmargin">
             <div class="widget-body">
@@ -82,3 +81,13 @@
 </div>
 
 </div>
+
+<script>
+    $(document).on("click", "#student-delete", function (event) {
+        event.preventDefault();
+        var confirmation = confirm("Tem certeza que deseja excluir? Essa ação não pode ser desfeita!");
+        if (confirmation) {
+        window.location.href = event.currentTarget.href;
+        }
+    });
+</script>

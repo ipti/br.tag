@@ -12,25 +12,35 @@ $form = $this->beginWidget('CActiveForm', array(
 ?>
 
 
-<div class="row-fluid">
+<div class="row" style="margin-left: 20px;">
     <div class="span12">
         <h1><?php echo $title; ?>
             <span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h1>
-        <div class="buttons">
-            <button class="btn btn-icon btn-primary last glyphicons circle_ok save-enrollment"
-                    type="button">
-                <i></i> <?= $model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save') ?>
-            </button>
+        <div class="tag-buttons-container buttons hide-responsive">
+            <button class="t-button-primary last  save-enrollment"type="button">
+                <?= $model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save') ?>
+            </button>   
         </div>
     </div>
 </div>
 
-<div class="innerLR">
+<div class="tag-inner">
 
     <div class="widget widget-tabs border-bottom-none">
 
         <?php echo $form->errorSummary($model); ?>
+        <?php if (Yii::app()->user->hasFlash('error')) : ?>
+            <div class="alert alert-error">
+                <?php echo Yii::app()->user->getFlash('error') ?>
+            </div>
+        <?php endif ?>
+        <?php if (Yii::app()->user->hasFlash('success')) : ?>
+            <div class="alert alert-success">
+                <?php echo Yii::app()->user->getFlash('success') ?>
+            </div>
+        <?php endif ?>
         <div class="alert alert-error enrollment-error no-show"></div>
+        <h1 style="margin-left: 20px;"><?php echo $model->studentFk->name ?></h1>
         <div class="t-tabs">
             <ul class="t-tabs__list">
                 <li class="t-tabs__item active"><a href="#enrollment" class="t-tabs__link" data-toggle="tab">

@@ -15,7 +15,13 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 <div class="pageA4H">
     <?php $this->renderPartial('head'); ?>
     <h3><?php echo Yii::t('default', 'Students With Disabilities Relation'); ?></h3>
-
+    <div class="row-fluid hidden-print">
+        <div class="span12">
+            <div class="buttons">
+                <a id="print" onclick="imprimirPagina()" class='btn btn-icon glyphicons print hidden-print' style="padding: 10px;"><img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> <?php echo Yii::t('default', 'Print') ?><i></i></a>
+            </div>
+        </div>
+    </div>
     <?php
 
 if(count($classrooms) == 0){
@@ -158,3 +164,20 @@ if(count($classrooms) == 0){
 
     ?>
 </div>
+
+<style>
+    @media print {
+        .hidden-print {
+            display: none;
+        }
+        @page {
+            size: landscape;
+        }
+    }
+</style>
+
+<script>
+    function imprimirPagina() {
+      window.print();
+    }
+</script>

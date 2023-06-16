@@ -18,6 +18,7 @@
                 'modelStudentRestrictions' => $modelStudentRestrictions,
                 'modelEnrollment' => $modelEnrollment,
                 'vaccines' => $vaccines,
+                'notAddEnrollment' => $notAddEnrollment,
                 'studentVaccinesSaves' => $studentVaccinesSaves,
                 'title' => $modelStudentIdentification->name));
             ?>        

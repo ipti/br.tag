@@ -19,9 +19,7 @@ $cs->registerScriptFile($baseUrl . '/js/student/form/pagination.js', CClientScri
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/functions.js', CClientScript::POS_END);
-$cs->registerCssFile($themeUrl . '/css/template2.css');
-$cs->registerCssFile($baseUrl . 'sass/css/main.css');
-/* */
+
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'student',
     'enableAjaxValidation' => false,
@@ -161,7 +159,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- CPF -->
                         <div class="column">
-                            <div class="t-field-text">
+                        <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf', array('class' => 't-field-text__label control-label')); ?>
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br")); ?>
                                 <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
@@ -760,9 +758,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </h3>
                             </div>
                             <div class="column">
-                                <h3>
-                                    Cadastro de Pessoa Física
-                                </h3>
                             </div>
                         </div>
                     </section>
@@ -776,14 +771,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                         <div class="column">
-                            <div class="t-field-text">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf', array('class' => 't-field-text__label control-label')); ?>
-                                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br")); ?>
-                                <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                                    <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
-                                </span>
-                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'cpf'); ?>
-                            </div>
+
                         </div>
                     </div>
 
@@ -1067,8 +1055,12 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column">
                             <div class="t-buttons-container">
+                                <?php 
+                                // if(!$notAddEnrollment) {
+                                ?>
                                 <a href="#" class="t-button-primary  " id="new-enrollment-button">Adicionar Matrícula</a>
                                 <?php
+                                //}
                                 echo  $modelStudentIdentification->isNewRecord ?  "" : '<a href=' . @Yii::app()->createUrl('student/transfer', array('id' => $modelStudentIdentification->id)) . ' class="t-button-primary" id="transfer-student">Transferir Matrícula</a>'
                                 ?>
                             </div>

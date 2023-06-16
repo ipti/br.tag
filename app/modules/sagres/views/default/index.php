@@ -194,6 +194,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 					$(".alert-error-export").append('Erro ao criar o arquivo zip');
 					$(".alert-error-export").show();
 				}).finally(function() {
+					$("#loading-popup").hide();
 					location.reload();
 				});
 			})

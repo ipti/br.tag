@@ -10,8 +10,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/quiz.js', CClientScript::POS_END);
-$cs->registerCssFile($themeUrl . '/css/template2.css');
-$cs->registerCssFile($baseUrl . 'sass/css/main.css');
+
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Quiz'));
 

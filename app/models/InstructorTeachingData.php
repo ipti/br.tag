@@ -49,7 +49,7 @@
  */
 class InstructorTeachingData extends AltActiveRecord
 {
-	const SCENARIO_IMPORT = "SCENARIO_IMPORT";
+    const SCENARIO_IMPORT = "SCENARIO_IMPORT";
 	public $disciplines;
 
 	/**
@@ -110,20 +110,6 @@ class InstructorTeachingData extends AltActiveRecord
 		return array(
 			'instructorFk' => array(self::BELONGS_TO, 'InstructorIdentification', 'instructor_fk'),
 			'classroomIdFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_id_fk'),
-			'discipline1Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_1_fk'),
-			'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
-			'discipline10Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_10_fk'),
-			'discipline11Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_11_fk'),
-			'discipline12Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_12_fk'),
-			'discipline13Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_13_fk'),
-			'discipline2Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_2_fk'),
-			'discipline3Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_3_fk'),
-			'discipline4Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_4_fk'),
-			'discipline5Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_5_fk'),
-			'discipline6Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_6_fk'),
-			'discipline7Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_7_fk'),
-			'discipline8Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_8_fk'),
-			'discipline9Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_9_fk'),
             'teachingMatrixes' => array(self::HAS_MANY, 'TeachingMatrixes', 'teaching_data_fk')
 		);
 	}

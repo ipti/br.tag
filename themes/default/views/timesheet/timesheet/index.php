@@ -22,7 +22,7 @@ $cs->registerScript(
         "var changeInstructorUrl = '" . $this->createUrl("changeInstructor") . "'; ",
     CClientScript::POS_HEAD
 );
-$cs->registerCssFile($themeUrl . '/css/template2.css');
+
 $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'));
 ?>
 

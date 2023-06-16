@@ -284,6 +284,7 @@ return array(
     'Educational Games' => 'Jogos Educativos',
     'Equipments Material Cultural' => 'Material para Atividades Culturais',
     'Equipments Material Sports' => 'Materiais para Prática Desportiva',
+    'Material Teaching Deafs' => 'Materiais Pedagógicos para a Educação Bilíngue de Surdos',
     'Material Teaching Indian' => 'Materiais Pedagógicos para Educação Indígena',
     'Material Teaching Ethinic' => 'Materiais Pedagógicos para Educação das Relações Étinicos Raciais',
     'Material Teaching Rural' => 'Materiais Pedagógicos para Educação do Campo',
@@ -808,6 +809,7 @@ return array(
     'Configurarion' => 'Configurações',
     'Quarterly Class Council Report' => 'ATA DE CONSELHO DE CLASSE',
     'Quarterly Report' => 'RELATÓRIO TRIMESTRAL INDIVIDUAL DO ALUNO',
+    'Changelog' => 'Atualizações',
     
     //Relatórios
     'Result Board' => 'Quadro de Rendimento',

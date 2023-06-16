@@ -45,7 +45,7 @@ function createTable(data) {
             + '<input type="hidden" class="classroom-diary-of-the-day" value="' + classContent.diary + '">'
             + studentInputs
             + '<span class="t-icon-attendance-note t-icon classroom-diary-button ' + (!classContent.available ? "disabled" : "") + '" data-toggle="tooltip" title="Diário"></span>'
-            + '<select id="day[' + day + ']" name="day[' + day + '][]" placeholder class=" course-classes-select vmiddle" ' + (!classContent.available ? "disabled" : "") + ' multiple="yes">'
+            + '<select id="day[' + day + ']" name="day[' + day + '][]" class=" course-classes-select vmiddle" ' + (!classContent.available ? "disabled" : "") + ' multiple="yes">'
             + options
             + '</select>'
             + '</td>';

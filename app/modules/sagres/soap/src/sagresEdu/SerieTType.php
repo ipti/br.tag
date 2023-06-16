@@ -3,6 +3,7 @@
 namespace SagresEdu;
 
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\XmlElement;
 
 /**
  * Class representing SerieTType
@@ -16,12 +17,14 @@ class SerieTType
     /**
      * @var string $descricao
      * @SerializedName("edu:descricao")
+     * @XmlElement(cdata=false)
      */
     private $descricao = null;
 
     /**
      * @var int $modalidade
      * @SerializedName("edu:modalidade")
+     * @XmlElement(cdata=false)
      */
     private $modalidade = null;
 
