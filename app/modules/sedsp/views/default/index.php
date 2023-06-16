@@ -160,6 +160,10 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                                 <input type="checkbox" name="importStudents" style="margin-right: 10px;">
                                 Importar Matrículas dos Alunos? Isso pode aumentar o tempo de espera.
                             </div>
+                            <div class="checkbox modal-replicate-actions-container"  style="margin-top: 8px;">
+                                <input type="checkbox" name="registerAllClasses" style="margin-right: 10px;">
+                                Cadastrar todas as turmas.
+                            </div>
                         </div>
                     </div>
                 </div>
