@@ -98,7 +98,6 @@ $layout-4xl: calc(64px - 4rem);
 
 
 /* Size */
-
 $SizeLarge: 24px;
 $SizeMedium: 16px;
 $SizeSmall: 12px;
@@ -157,3 +156,12 @@ $fontWeightSemiBold: 600;
 /* Font Family */
 $FontFamilyTextNormal: "Inter", sans-serif;
 
+/* Shadow */
+$ShadowSm: 0 1px 2px 0 rgb(0,0,0.05);
+$Shadow: 0 1px 3px 0 rgb(0,0,0.1), 0 1px 2px -1px rgb(0,0,0.1);
+$Shadow-Md: 0 4px 6px -1px rgb(0, 0, 0.1), 0 2px 4px -2px rgb(0, 0, 0.1);
+$Shadow-Lg: 0 10px 15px -3px rgb(0, 0, 0.1), 0 4px 6px -4px rgb(0, 0, 0.1);
+$Shadow-Xl: 0 20px 25px -5px rgb(0, 0, 0.1), 0 8px 10px -6px rgb(0, 0, 0.1);
+$Shadow-2xl: 0 25px 50px -12px rgb(0, 0, 0.25);
+$Shadow-Inner: inset 0 2px 4px 0 rgb(0, 0, 0.05);
+$Shadow-None: 0 0 #0000;

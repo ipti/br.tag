@@ -1457,6 +1457,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         </thead>
                                         <tbody>
                                             <?php
+                                            
                                             foreach ($modelStudentIdentification->studentEnrollments as $me) {
                                             ?>
                                                 <tr>

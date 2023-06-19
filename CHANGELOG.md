@@ -1,5 +1,12 @@
 # Atualizações
 
+## [Versão 3.27.69]
+- Corrigido o estilo e responsividade da tela de aulas ministradas 
+- Criação do estilo da classe accordeon
+
+## [Versão 3.26.69]
+- select de turmas em matrícula em grupo consertado
+- salvando o nome civil do aluno 
 ## [Versão 3.26.67]
 - Alerta de exclusão de estudante
 - Profissional de apoio agora aparece no relatório de assistente educacional
