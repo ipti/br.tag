@@ -65,7 +65,7 @@ $model = new StudentEnrollment();
                                     <div class="controls">
                                         <?php echo $form->dropDownList($model, 'classroom_fk', CHtml::listData(Classroom::model()->findAll(
                                             "school_year = :sy AND school_inep_fk = :si order by name",
-                                            array("sy" => (Yii::app()->user->year - 1), "si" => yii::app()->user->school)
+                                            array("sy" => (Yii::app()->user->year), "si" => yii::app()->user->school)
                                         ), 'id', 'name'), array("prompt" => "Selecione uma Turma", 'class' => 'select-search-on')); ?>
                                         <?php echo $form->error($model, 'classroom_fk'); ?>
                                     </div>
@@ -104,8 +104,6 @@ $model = new StudentEnrollment();
     }
     .select2-chosen {
         margin-top: 7px !important;
-        color: #999 !important;
-        font-weight: 400;
     }
     .select2-choice .select2-arrow b {
         margin-top: 8px !important;

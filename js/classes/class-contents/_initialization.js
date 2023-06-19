@@ -64,13 +64,19 @@ $("#classroom").on("change", function () {
                         $("#disciplines").html(decodeHtml(response)).trigger("change.select2").show();
                     }
                     $(".disciplines-container").show();
+                    $("#select-container").addClass("tablet-row").removeClass("mobile-row");
+                    $("#search-icon").addClass("clearleft").removeClass("clearright");
                 },
             });
         } else {
             $(".disciplines-container").hide();
+            $("#select-container").addClass("mobile-row").removeClass("tablet-row");
+            $("#search-icon").addClass("clearright").removeClass("clearleft");
         }
     } else {
         $(".disciplines-container").hide();
+        $("#select-container").addClass("mobile-row").removeClass("tablet-row");
+        $("#search-icon").addClass("clearright").removeClass("clearleft");
     }
 });
 

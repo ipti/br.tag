@@ -133,9 +133,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	public function actionIndex()
 	{
 		$dataProvider=new CActiveDataProvider('<?php echo $this->modelClass; ?>',
-                array('pagination' => array(
-                        'pageSize' => 12,
-                        )));
+                array('pagination' => false));
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
