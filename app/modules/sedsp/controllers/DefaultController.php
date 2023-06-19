@@ -142,8 +142,8 @@ class DefaultController extends Controller
 			$aux = count($classNumbers->classrooms);
 
 			if($registerAllClasses){
-				for($i = 0; $i < $aux; $i++) {
-					$this->registerClassroom($classNumbers->classrooms[$i]->outNumClasse, $importStudents);
+				foreach ($classNumbers->classrooms as $classroom) {
+					$this->registerClassroom($classroom->outNumClasse, $importStudents);
 				}
 			}else{
 				$classroomNum = $_POST["classroomNum"];
