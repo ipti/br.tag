@@ -74,7 +74,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <div class="alert-required-fields no-show alert alert-error">
         Os campos com * são obrigatórios.
     </div>
-    <div id="select-container" class="mobile-row align-items--center-on-desktop">
+    <div id="select-container" class="tablet-row align-items--center-on-desktop">
         <div class="mobile-row">
             <div class="column clearleft">
                 <div class="t-field-select">
@@ -127,8 +127,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
         </div>
         <div class="mobile-row align-items--center">
-            <div id="search-icon" class="column no-grow show show-tablet clearright">
-                <a id="classesSearchMobile" class='t-button-primary'><span class="t-icon-search_icon"></span></a>
+            <div id="search-icon" class="column no-grow show show-tablet clearleft">
+                <a id="classesSearchMobile" class='t-button-primary t-button-primary--icon'><span class="t-icon-search_icon"></span></a>
             </div>
             <img class="loading-class-contents"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
