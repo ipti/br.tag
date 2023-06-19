@@ -50,10 +50,30 @@ $("#classesSearch").on("click", function () {
                                         <thead></thead>
                                         <tbody>`;
             $.each(data.students, function (indexStudent, student) {
-              accordion += `<tr>
-                                            <td class='student-name'>
-                                            ${student.studentName}
-                                            </td>`;
+
+
+              var hasFaults = student.schedules.filter((schedule) => dia == schedule.day && mes == $("#month").val() && schedule.fault).length > 0;
+              var x = student.schedules.filter((schedule) => schedule.day);
+              console.log(x);
+              // console.log(student);
+              // console.log("testando");
+              // console.log(hasFaults);
+              if (hasFaults) {
+                accordion += `<tr>
+                <td class='student-name'>
+                  <a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon' title=''>
+                    ${student.studentName}
+                    <i class='fa fa-file-o'></i><i class='fa fa-file'></i>
+                  </a>
+                </td>`;
+
+              } else {
+                accordion += `<tr>
+                   <td class='student-name'>
+                    ${student.studentName}
+                    </td>`;
+              }
+
               $.each(student.schedules, function (indexSchedule, schedule) {
                 if (dia == schedule.day && mes == $("#month").val()) {
                   var justificationContainer = "";
@@ -63,79 +83,46 @@ $("#classesSearch").on("click", function () {
                       justificationContainer +=
                         "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon' title='" +
                         schedule.justification +
-                        "'><i class='fa fa-file-text-o'></i><i class='fa fa-file-text'></i></a>";
+                        "'></a>";
                     } else {
                       justificationContainer +=
-                        "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>";
+                        "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'></a>";
                     }
                   }
-
-                  accordion += `<td class='frequency-checkbox-student frequency-checkbox-container ${
-                    !this.available ? $("disabled") : $("")
-                  }'>
-                                                            <input class='frequency-checkbox' type='checkbox'
-                                                                ${
-                                                                  !schedule.available
-                                                                    ? $(
-                                                                        "disabled"
-                                                                      )
-                                                                    : $("")
-                                                                } ${
-                    schedule.fault ? $("checked") : $("")
-                  } 
-                                                                classroomId = '${$(
-                                                                  "#classroom"
-                                                                ).val()}' 
-                                                                studentId = ${
-                                                                  student.studentId
-                                                                } 
-                                                                day = ${
-                                                                  schedule.day
-                                                                } 
-                                                                month = ${$(
-                                                                  "#month"
-                                                                ).val()} 
-                                                                schedule = ${
-                                                                  schedule.schedule
-                                                                } 
-                                                                fundamentalMaior = ${fundamentalMaior}
-                                                            >
-                                                        ${justificationContainer}
-                                        </td>`;
+                  accordion += 
+                   `<td class='frequency-checkbox-student frequency-checkbox-container ${!this.available ? $("disabled") : $("")}'>
+                      <input class='frequency-checkbox' type='checkbox' ${!schedule.available ? $("disabled") : $("")} ${schedule.fault ? $("checked") : $("")} 
+                         classroomId = '${$("#classroom").val()}' 
+                         studentId = ${student.studentId} 
+                         day = ${schedule.day} 
+                         month = ${$("#month").val()} 
+                         schedule = ${schedule.schedule} 
+                         fundamentalMaior = ${fundamentalMaior}>
+                          ${justificationContainer}
+                    </td>`;
                 }
               });
               accordion += `<tr>`;
             });
-            accordion += `</tbody>
-                                    </table>
-                                </div>`;
+            accordion +=
+              `</tbody>
+                </table>
+              </div>`;
           });
           `</div>
-                    </div>`;
+          </div>`;
           $("#frequency-container").html(accordion).show();
           $(function () {
             $("#accordion").accordion({
               collapsible: true,
             });
           });
-
           $(".frequency-checkbox-general").each(function () {
             var day = $(this).find(".frequency-checkbox").attr("day");
             $(this)
               .find(".frequency-checkbox")
-              .prop(
-                "checked",
-                $(
-                  ".frequency-checkbox-student .frequency-checkbox[day=" +
-                    day +
-                    "]:checked"
-                ).length ===
-                  $(
-                    ".frequency-checkbox-student .frequency-checkbox[day=" +
-                      day +
-                      "]"
-                  ).length
-              );
+              .prop("checked",
+                $(".frequency-checkbox-student .frequency-checkbox[day=" + day + "]:checked").length === $(".frequency-checkbox-student .frequency-checkbox[day=" + day + "]").length);
           });
           $('[data-toggle="tooltip"]').tooltip({ container: "body" });
         } else {
@@ -225,50 +212,20 @@ $(document).on("change", ".frequency-checkbox", function () {
     },
     complete: function (response) {
       if ($(checkbox).attr("studentId") === undefined) {
-        $(
-          ".table-frequency tbody .frequency-checkbox[day=" +
-            $(checkbox).attr("day") +
-            "][schedule=" +
-            $(checkbox).attr("schedule") +
-            "]"
-        ).prop("checked", $(checkbox).is(":checked"));
+        $(".table-frequency tbody .frequency-checkbox[day=" + $(checkbox).attr("day") + "][schedule=" + $(checkbox).attr("schedule") + "]").prop("checked", $(checkbox).is(":checked"));
         if ($(checkbox).is(":checked")) {
-          $(
-            ".table-frequency tbody .frequency-checkbox[day=" +
-              $(checkbox).attr("day") +
-              "][schedule=" +
-              $(checkbox).attr("schedule") +
-              "]"
-          ).each(function () {
-            if (
-              !$(this).parent().find(".frequency-justification-icon").length
+          $(".table-frequency tbody .frequency-checkbox[day=" + $(checkbox).attr("day") + "][schedule=" + $(checkbox).attr("schedule") + "]").each(function () {
+            if (!$(this).parent().find(".frequency-justification-icon").length
             ) {
-              $(this)
-                .parent()
-                .append(
-                  "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>"
-                );
+              $(this).parent().append("<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>");
             }
           });
         } else {
-          $(
-            ".table-frequency tbody .frequency-checkbox[day=" +
-              $(checkbox).attr("day") +
-              "][schedule=" +
-              $(checkbox).attr("schedule") +
-              "]"
-          )
-            .parent()
-            .find(".frequency-justification-icon")
-            .remove();
+          $(".table-frequency tbody .frequency-checkbox[day=" + $(checkbox).attr("day") + "][schedule=" + $(checkbox).attr("schedule") + "]").parent().find(".frequency-justification-icon").remove();
         }
       } else {
         if ($(checkbox).is(":checked")) {
-          $(checkbox)
-            .parent()
-            .append(
-              "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>"
-            );
+          $(checkbox).parent().append("<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>");
         } else {
           $(checkbox).parent().find(".frequency-justification-icon").remove();
         }
@@ -313,47 +270,25 @@ $(document).on("click", ".btn-save-justification", function () {
       justification: $(".justification-text").val(),
     },
     beforeSend: function () {
-      $("#save-justification-modal")
-        .find(".modal-body")
-        .css("opacity", 0.3)
-        .css("pointer-events", "none");
-      $("#save-justification-modal")
-        .find("button")
-        .attr("disabled", "disabled");
+      $("#save-justification-modal").find(".modal-body").css("opacity", 0.3).css("pointer-events", "none");
+      $("#save-justification-modal").find("button").attr("disabled", "disabled");
       $("#save-justification-modal").find(".centered-loading-gif").show();
     },
     success: function (data) {
-      var justification = $(
-        ".table-frequency tbody .frequency-checkbox[studentid=" +
-          $("#justification-studentid").val() +
-          "][day=" +
-          $("#justification-day").val() +
-          "][month=" +
-          $("#justification-month").val() +
-          "]"
-      )
-        .parent()
-        .find(".frequency-justification-icon");
+      console.log($("#justification-studentid").val());
+      var justification = $(".table-frequency tbody .frequency-checkbox[studentid=" + $("#justification-studentid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "]").parent().find(".frequency-justification-icon");
+      // console.log(justification);
       if ($(".justification-text").val() == "") {
-        justification.html(
-          "<i class='fa fa-file-o'></i><i class='fa fa-file'></i>"
-        );
+        justification.html("<i class='fa fa-file-o'></i><i class='fa fa-file'></i>");
         justification.attr("data-original-title", "").tooltip("hide");
       } else {
-        justification.html(
-          "<i class='fa fa-file-text-o'></i><i class='fa fa-file-text'></i>"
-        );
-        justification
-          .attr("data-original-title", $(".justification-text").val())
-          .tooltip({ container: "body" });
+        justification.html("<i class='fa fa-file-o'></i><i class='fa fa-file'></i>");
+        justification.attr("data-original-title", $(".justification-text").val()).tooltip({ container: "body" });
       }
       $("#save-justification-modal").modal("hide");
     },
     complete: function (response) {
-      $("#save-justification-modal")
-        .find(".modal-body")
-        .css("opacity", 1)
-        .css("pointer-events", "auto");
+      $("#save-justification-modal").find(".modal-body").css("opacity", 1).css("pointer-events", "auto");
       $("#save-justification-modal").find("button").removeAttr("disabled");
       $("#save-justification-modal").find(".centered-loading-gif").hide();
     },

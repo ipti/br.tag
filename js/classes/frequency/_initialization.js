@@ -25,7 +25,7 @@ $("#classesSearch").on("click", function () {
                         "<table class=' table-frequency table table-bordered table-striped table-hover'>" +
                         "<thead class='t-accordion__head'>" +
                         "<tr>"
-                        "</tr>";
+                    "</tr>";
                     var daynameRow = "";
                     var dayRow = "";
                     var scheduleRow = "";
