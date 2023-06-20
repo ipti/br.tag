@@ -240,6 +240,7 @@ $(document).on("change", ".frequency-checkbox", function () {
 });
 
 $(document).on("click", ".frequency-justification-icon", function () {
+  
   var checkbox = $(this).parent().find(".frequency-checkbox");
   $("#justification-classroomid").val(checkbox.attr("classroomid"));
   $("#justification-studentid").val(checkbox.attr("studentid"));
@@ -275,14 +276,13 @@ $(document).on("click", ".btn-save-justification", function () {
       $("#save-justification-modal").find(".centered-loading-gif").show();
     },
     success: function (data) {
-      console.log($("#justification-studentid").val());
       var justification = $(".table-frequency tbody .frequency-checkbox[studentid=" + $("#justification-studentid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "]").parent().find(".frequency-justification-icon");
       // console.log(justification);
       if ($(".justification-text").val() == "") {
-        justification.html("<i class='fa fa-file-o'></i><i class='fa fa-file'></i>");
+        justification.html("");
         justification.attr("data-original-title", "").tooltip("hide");
       } else {
-        justification.html("<i class='fa fa-file-o'></i><i class='fa fa-file'></i>");
+        justification.html("");
         justification.attr("data-original-title", $(".justification-text").val()).tooltip({ container: "body" });
       }
       $("#save-justification-modal").modal("hide");
