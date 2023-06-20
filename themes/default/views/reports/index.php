@@ -371,6 +371,18 @@ $this->breadcrumbs = array(
                         <span class="subtitle">Listagem de CNS dos alunos de todas as escolas</span>
                     </div>
                 </button>
+
+                <a href="<?php echo Yii::app()->createUrl('reports/TeachersBySchool') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">    
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-icon-column_graphi t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Número de Professores por Escola</span><br>
+                            <span class="subtitle">Quantidade de professores por escola</span>
+                        </div>
+                    </button>
+                </a>
             </div>
             <?php } ?>
         </div>
