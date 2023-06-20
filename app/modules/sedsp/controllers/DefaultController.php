@@ -136,12 +136,14 @@ class DefaultController extends Controller
 
 			$importStudents  = isset($_POST["importStudents"]);
 			$registerAllClasses = isset($_POST["registerAllClasses"]);
-	
-			$classNumbers = ["262429087", "262429392", "262429947", "262430184"];
+
+			$classes =  new IdentifyAllClassroomRABySchool();
+			$classNumbers = $classes->exec("26587597", "2023");
+			$aux = count($classNumbers->classrooms);
 
 			if($registerAllClasses){
-				foreach ($classNumbers as $classNumber) {
-					$this->registerClassroom($classNumber, $importStudents);
+				foreach ($classNumbers->classrooms as $classroom) {
+					$this->registerClassroom($classroom->outNumClasse, $importStudents);
 				}
 			}else{
 				$classroomNum = $_POST["classroomNum"];
