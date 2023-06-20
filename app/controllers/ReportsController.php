@@ -70,7 +70,8 @@ class ReportsController extends Controller
                 ivd.scholarity,
                 ii.school_inep_id_fk
             FROM instructor_identification ii
-            JOIN instructor_variable_data ivd ON ii.id = ivd.id;";
+            JOIN instructor_variable_data ivd ON ii.id = ivd.id
+            ORDER BY ii.name;";
         $instructors = Yii::app()->db->createCommand($sql)->queryAll();
 
         $schools = SchoolIdentification::model()->findAll();
@@ -81,7 +82,7 @@ class ReportsController extends Controller
             });
             array_push($result, ["school" => $school, "instructors" => $instructorBySchool]);
         }
-        
+
         $this->render('TeachersBySchool', array(
             "report" => $result
         ));
