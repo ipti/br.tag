@@ -74,11 +74,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <div class="alert-required-fields no-show alert alert-error">
         Os campos com * são obrigatórios.
     </div>
-<<<<<<< HEAD
-    <div id="select-container" class="tablet-row align-items--center-on-desktop">
-=======
     <div id="select-container" class="mobile-row align-items--center-on-desktop">
->>>>>>> dev
         <div class="mobile-row">
             <div class="column clearleft">
                 <div class="t-field-select">
