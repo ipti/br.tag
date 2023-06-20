@@ -46,15 +46,27 @@ class ReportsController extends Controller
 
     public function actionTeachersByStage()
     {
-        $stage = $_POST['stage'];
-        $sql = "SELECT esvm.name as stage_name, ii.name as instructor_name FROM instructor_teaching_data itd 
+        $sql = "SELECT 
+                ii.name,
+                ii.birthday_date,
+                ii.inep_id,
+                ivd.scholarity,
+                ii.school_inep_id_fk,
+                c.edcenso_stage_vs_modality_fk AS stage
+                FROM instructor_teaching_data itd 
                 JOIN instructor_identification ii on ii.id = itd.instructor_fk 
-                JOIN classroom c ON itd.classroom_id_fk = c.id 
-                JOIN edcenso_stage_vs_modality esvm on c.edcenso_stage_vs_modality_fk = esvm.id
-                WHERE esvm.id = :stage;";
-        $result = Yii::app()->db->createCommand($sql)
-        ->bindParam(":stage", $stage)
-        ->queryAll();
+                JOIN instructor_variable_data ivd ON ii.id = ivd.id
+                JOIN classroom c ON itd.classroom_id_fk = c.id;";
+        $instructors = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $stages = EdcensoStageVsModality::model()->findAll();
+        $result = [];
+        foreach ($stages as $stage) {
+            $instructorByStage = array_filter($instructors, function ($instructor) use ($stage) {
+                return $instructor['stage'] == $stage->id;
+            });
+            array_push($result, ["stage" => $stage, "instructors" => $instructorByStage]);
+        }
 
         $this->render('TeachersByStage', array(
             "report" => $result

@@ -233,6 +233,18 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
+                <a href="<?php echo Yii::app()->createUrl('reports/TeachersByStage') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">    
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-icon-graduation-cap t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Número de Professores por Etapa</span><br>
+                            <span class="subtitle">Quantidade de professores por etapa</span>
+                        </div>
+                    </button>
+                </a>
+
                 <a href="<?php echo Yii::app()->createUrl('reports/disciplineandinstructorrelationreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
