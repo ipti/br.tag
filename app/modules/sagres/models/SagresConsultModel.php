@@ -536,12 +536,12 @@ class SagresConsultModel
     {
 
         $query = "SELECT 
-                    manager_cpf AS cpfDiretor, 
+                    cpf AS cpfDiretor, 
                     number_ato AS nrAto 
                 FROM 
-                    school_identification 
+                    manager_identification 
                 WHERE 
-                    inep_id = :idSchool;";
+                    school_inep_id_fk = :idSchool;";
 
         $director = Yii::app()->db->createCommand($query)
             ->bindValue(':idSchool', $idSchool)
