@@ -308,6 +308,7 @@ class ClassesController extends Controller
             $this->saveFrequency($schedule);
         } else {
             $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
+            exit();
             foreach ($schedules as $schedule) {
                 $this->saveFrequency($schedule);
             }

@@ -8,11 +8,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/classDiary/_initialization.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js', CClientScript::POS_END);
-$form = $this->beginWidget('CActiveForm', array(
-    'id' => 'classDiary',
-    'enableAjaxValidation' => false,
-)
-);
+
 ?>
 <div class="main">
     <h1>Diário de Classe</h1>
@@ -25,11 +21,10 @@ $form = $this->beginWidget('CActiveForm', array(
             ); ?>
         </div>
         <div class="t-filters">
-            <a class="clear-margin--all t-button-primary js-search">Pesquisar</a>
+            <a class="clear-margin--all t-button-primary js-change-date">Pesquisar</a>
         </div>
     </div>
     <div class="row js-frequency-element">
 
     </div>
-    <?php $this->endWidget(); ?>
 </div>

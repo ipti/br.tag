@@ -13,9 +13,9 @@
         <?php
         foreach ($frequency as $f) {
            echo "<tr>
-                    <td><label class='clear-margin--bottom' for=".$f["studentId"].">".$f["studentName"]."</td>
+                    <td> <span class='js-justification' href=''>".$f["studentName"]."</span></td>
                     <td class='justify-content--end' " . (!$f["schedule"]["available"] ? "disabled" : "") . " ><input class='js-frequency-checkbox' id=".$f["studentId"]." type='checkbox' " .(!$f["schedule"]["available"] ? "disabled" : ""). " " . ( $f["schedule"]["fault"] ? "checked" : "") . "
-                    studentId='" . $f["studentId"] . "' classrom_fk='".$_GET["classrom_fk"]."' stage_fk='".$_GET["stage_fk"]."' schedule='" . $f["schedule"]["schedule"] ."' /></td>
+                    studentId='" . $f["studentId"] . "' classrom_id='".$_GET["classrom_fk"]."' stage_fk='".$_GET["stage_fk"]."' schedule='" . $f["schedule"]["schedule"] ."' /></td>
                 </tr>";
             };
         ?>

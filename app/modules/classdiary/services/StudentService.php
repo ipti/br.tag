@@ -3,8 +3,9 @@
 class StudentService
 {
     public function getFrequency($classrom_fk, $stage_fk, $discipline_fk, $date) {
-        
-        if ($stage_fk >= 14 && $stage_fk <= 16) 
+        // Fundamental menor
+        $is_minor_schooling = $stage_fk >= 14 && $stage_fk <= 16;
+        if ($is_minor_schooling) 
         {
             $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and 
             unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $classrom_fk, 
@@ -51,15 +52,37 @@ class StudentService
         }
     }
 
-    public function saveFrequency($schedule, $studentId, $fault, $stage_fk, $date){
-       /*  if ($_POST["fundamentalMaior"] == "1") {
-            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "schedule" => $_POST["schedule"]]);
-            $this->saveFrequency($schedule);
-        } else {
-            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
+    public function getSechedulesToSaveFrequency($schedule, $student_id, $fault, $stage_fk, $date, $classroom_id){
+        // Fundamental menor
+        $is_minor_schooling = $stage_fk >= 14 && $stage_fk <= 16;
+        if ($is_minor_schooling) {
+            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $classroom_id,
+            "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"),
+            "month" => DateTime::createFromFormat("d/m/Y", $date)->format("m")]);
             foreach ($schedules as $schedule) {
-                $this->saveFrequency($schedule);
+                $this->saveFrequency($schedule, $student_id, $fault);
             }
-        } */
+        } else {
+            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" =>$classroom_id, 
+            "day" =>DateTime::createFromFormat("d/m/Y", $date)->format("d"), 
+            "month" => DateTime::createFromFormat("d/m/Y", $date)->format("m"),
+             "schedule" => $schedule]);
+            $this->saveFrequency($schedule, $student_id, $fault);
+        }
+    }
+
+    private function saveFrequency($schedule, $student_id, $fault)
+    {  
+            if ($fault == "1") {
+                $classFault = new ClassFaults();
+                $classFault->student_fk = $student_id;
+                $classFault->schedule_fk = $schedule->id;
+                $classFault->save();
+            } else {
+                ClassFaults::model()->deleteAll("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $student_id]);
+            }
+    }
+    public function saveJustification(){
+        var_dump("AAAAAAA");
     }
 }

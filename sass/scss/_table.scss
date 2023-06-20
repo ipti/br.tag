@@ -9,9 +9,6 @@
             color: $colorsBaseInkLight;
         }
 
-        a {
-            color: $colorsBaseProductNormalActive;
-        }
     }
 
     thead {
@@ -67,6 +64,12 @@
             background-color: $colorsBaseProductDarkActive;
             padding: $SizeXSmall;
             line-height: normal;
+        }
+    }
+    td {
+        
+        a {
+            color: $colorsBaseProductNormalActive;
         }
     }
 }
