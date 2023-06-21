@@ -82,6 +82,10 @@
     cursor: pointer;
     align-self: center;
 
+    &--icon {
+        padding: $spaceSmall $spaceXLarge;
+    }
+
     &:hover,
     &--active {
         color: $colorsBaseWhiteNormal;

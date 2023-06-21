@@ -34,7 +34,7 @@ function age($date){
             <th> <b>Aluno </b></th>
             <th> <b>CPF </b></th>
             <th> <b>ID INEP</b></th>
-            <th> <b>Idade </b></th>
+            <th> <b>Data de Nascimento </b></th>
             <th> <b>Mãe </b></th>
             <th> <b>RG Mãe </b></th>
             <th> <b>Pai</b> </th>
@@ -51,7 +51,7 @@ function age($date){
                 <td><?= $c['name'] ?></td>
                 <td><?= $c['cpf'] ?></td>
                 <td><?= $c['inep_id'] ?></td>
-                <td><?= age($c['birthday']) ?></td>
+                <td><?= $c['birthday'] ?></td>
                 <td><?= $c['filiation_1'] ?></td>
                 <td><?= $c['filiation_1_rg'] ?></td>
                 <td><?= $c['filiation_2'] ?></td>
