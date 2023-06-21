@@ -144,6 +144,39 @@ class SchoolIdentificationValidation extends Register
 
     }
 
+    function isManagerBirthdayValid($date, $currentYear)
+    {
+
+        $result = $this->validateDateformart($date);
+        if (!$result['status']) {
+            return array("status" => false, "erro" => $result['erro']);
+        }
+
+        $mdy = explode('/', $date);
+
+        $result = $this->isGreaterThan($mdy[2], 1910);
+        if (!$result['status']) {
+            return array("status" => false, "erro" => $date . ": O ano de nascimento do gestor escolar foi preenchido incorretamente.");
+        }
+
+        $result = $this->isNotGreaterThan($mdy[2], $currentYear);
+        if (!$result['status']) {
+            return array("status" => false, "erro" => $result['erro']);
+        }
+
+        if ($mdy[2] == date("Y")) {
+            return array("status" => false, "erro" => $date . ": o ano de nascimento do gestor escolar não pode ser o ano atual.");
+        }
+
+        $currentDate = new DateTime("now");
+        $birthdayDate = DateTime::createFromFormat('d/m/Y', $date);
+        $interval = $birthdayDate->diff($currentDate);
+        if ($interval->y < 18 || $interval->y > 95) {
+            return array("status" => false, "erro" => "O gestor escolar não pode ter menos de 18 anos ou mais de 95 anos.");
+        }
+        return array("status" => true, "erro" => "");
+    }
+
     //situacao de funcionamento campo 7
     function isSituationValid($situation)
     {

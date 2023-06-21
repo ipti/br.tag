@@ -5,6 +5,15 @@
 .row {
     display: flex;
     flex-direction: column;
+
+    &.reverse {
+        flex-direction: column-reverse;
+        
+        @include device(mobile) {
+            flex-direction: row;
+        }
+    }
+
     @include device(mobile) {
 
         flex-direction: row;
@@ -14,6 +23,15 @@
 .mobile-row {
     display: flex;
     flex-direction: row;
+}
+
+.tablet-row {
+    display: flex;
+    flex-direction: column;
+
+    @include device (tablet) {
+        flex-direction: row;
+    }
 }
 
 .column {
@@ -28,7 +46,15 @@
     }
 
     &.clearleft {
-        margin-left: 0;
+        margin-left: 0; 
+        
+        &.on-tablet {
+            margin-left: 0;
+
+            @include device(tablet) {
+                margin-left: $spaceXLarge/2;
+            }
+        }
     }
 
     &.no-grow {

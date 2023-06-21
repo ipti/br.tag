@@ -40,7 +40,7 @@ $form = $this->beginWidget('CActiveForm', array(
             </div>
         <?php endif ?>
         <div class="alert alert-error enrollment-error no-show"></div>
-        <h1 style="margin-left: 20px;"><?php echo $modelStudentIdentification->name ?></h1>
+        <h1 style="margin-left: 20px;"><?php echo $model->studentFk->name ?></h1>
         <div class="t-tabs">
             <ul class="t-tabs__list">
                 <li class="t-tabs__item active"><a href="#enrollment" class="t-tabs__link" data-toggle="tab">

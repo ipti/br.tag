@@ -146,7 +146,9 @@ $(formIdentification + 'email').focusout(function () {
     }
 });
 
-$(formIdentification + 'manager_cpf').focusout(function () {
+initDateFieldMaskAndValidation('#ManagerIdentification_birthday_date');
+
+$('#ManagerIdentification_cpf').focusout(function () {
     var id = '#' + $(this).attr("id");
     const validationState = validateCpf($(id).cleanVal());
     if (!validationState.valid) {
@@ -156,7 +158,7 @@ $(formIdentification + 'manager_cpf').focusout(function () {
     }
 });
 
-$(formIdentification + 'manager_name').focusout(function () {
+$('#ManagerIdentification_name').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
     validateNamePerson(($(id).val()), function (ret) {
@@ -169,7 +171,7 @@ $(formIdentification + 'manager_name').focusout(function () {
     });
 });
 
-$(formIdentification + 'manager_email').focusout(function () {
+$('#ManagerIdentification_email').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
     if (!validateEmail($(id).val())) {

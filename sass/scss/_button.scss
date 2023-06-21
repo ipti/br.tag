@@ -2,9 +2,13 @@
 @import '_functions.scss';
 
 .t-buttons-container {
-    display: inline-block;
+    display: flex;
     width: 100%;
 
+    &.auto-width {
+        width: auto;
+    }
+    
     @include device(tablet) {
         padding: $spaceXXXSmall 0 $spaceXXXSmall 0;
         font-size: $FontSizeTextNormal;
@@ -22,12 +26,11 @@
     text-decoration: none;
     align-self: center;
     justify-content: center;
-    margin-right: $spaceMedium;
     cursor: pointer;
 
     span {
         margin: $spaceEmpty $spaceXXXSmall $spaceEmpty $spaceEmpty;
-        font-size: $FontSizeHeadingTitle1;
+        font-size: $FontSizeHeadingTitle4;
     }
 
     &:hover,
@@ -35,13 +38,22 @@
         text-decoration: none;
     }
 
+    @include device (mobile) {
+        flex: 0 auto;
+        margin-right: $spaceMedium;
+        padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
+        font-size: $FontSizeTextNormal;
+    }
+
     @include device(tablet) {
         flex: 0 auto;
+        margin-right: $spaceMedium;
         padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
         font-size: $FontSizeTextNormal;
     }
 
     @include device(desktop) {
+        margin-right: $spaceMedium;
         padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
     }
 
@@ -71,6 +83,10 @@
     cursor: pointer;
     align-self: center;
 
+    &--icon {
+        padding: $spaceSmall $spaceXLarge;
+    }
+
     &:hover,
     &--active {
         color: $colorsBaseWhiteNormal;
@@ -90,6 +106,7 @@
     @extend .t-button;
     background-color: $colorsBaseCloudNormal;
     color: $colorsBaseInkNormal;
+    border: 0;
 
     &:hover,
     &--active,

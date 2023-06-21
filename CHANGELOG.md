@@ -1,5 +1,24 @@
 # Atualizações
 
+## [Versão 3.27.70]
+- Corrigido o tamanho e a posição do botão de pesquisa em aulas ministradas
+
+## [Versão 3.27.69]
+- Corrigido o estilo e responsividade da tela de aulas ministradas 
+- Criação do estilo da classe accordeon
+
+## [Versão 3.26.69]
+- select de turmas em matrícula em grupo consertado
+- salvando o nome civil do aluno 
+
+## [Versão 3.26.67]
+- Alerta de exclusão de estudante
+- Profissional de apoio agora aparece no relatório de assistente educacional
+- País de origem agora aparece corretamente quando salvo
+
+## [Versão 3.26.64]
+- Agora existe uma aba para cadastro de gestor escolar no formulário de cadastro de escola
+
 ## [Versão 3.25.64]
 - O relatório de rendimento escolar por atividade agora exibe as informações corretamente
 

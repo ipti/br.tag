@@ -145,7 +145,7 @@ class StudentController extends Controller
             $nestedData[] = "<a style='cursor: pointer;' title='Editar'  href='/?r=student/update&id=".$student->id."'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/editar.svg' . "' alt='Editar'></img>
                             </a>&nbsp;"
-                            ."<a style='cursor: pointer;' title='Excluir' href='/?r=student/delete&id=".$student->id."'>
+                            ."<a style='cursor: pointer;' title='Excluir' id='student-delete' href='/?r=student/delete&id=".$student->id."'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/deletar.svg' . "' alt='Excluir'></img>
                             </a>";
             $data[] = $nestedData;
@@ -367,6 +367,14 @@ class StudentController extends Controller
 
         $modelStudentRestrictions = $this->loadModel($id, $this->STUDENT_RESTRICTIONS);
 
+        $notAddEnrollment = false;
+        foreach($modelStudentIdentification->studentEnrollments as $me) {
+            if ($me->classroomFk->school_year == Yii::app()->user->year && $me->status == "1") {
+                $notAddEnrollment = true;
+                break;
+            }
+        }
+
         $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
         $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => $id]]);
         if ($studentVaccinesSaves) {
@@ -457,6 +465,7 @@ class StudentController extends Controller
             'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
             'modelStudentRestrictions' => $modelStudentRestrictions,
             'modelEnrollment' => $modelEnrollment,
+            'notAddEnrollment' => $notAddEnrollment,
             'vaccines' => $vaccines,
             'studentVaccinesSaves' => $studentVaccinesSaves
         ));
@@ -518,29 +527,35 @@ class StudentController extends Controller
      */
     public function actionDelete($id)
     {
-        $enrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
-        $delete = true;
-        foreach ($enrollment as $e) {
-            if (isset($e->id) && $e->id > 0) {
-                $delete = $delete && $e->delete();
+
+        try {
+            $enrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
+            $delete = true;
+            foreach ($enrollment as $e) {
+                if (isset($e->id) && $e->id > 0) {
+                    $delete = $delete && $e->delete();
+                }
             }
-        }
 
-        $documentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
-        if (isset($documentsAndAddress->id) && $documentsAndAddress->id > 0) {
-            $documentsAndAddress->delete();
-        }
+            $documentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
+            if (isset($documentsAndAddress->id) && $documentsAndAddress->id > 0) {
+                $documentsAndAddress->delete();
+            }
 
-        $identification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
-        if (isset($identification->id) && $identification->id > 0) {
-            $identification->delete();
-        }
+            $identification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
+            if (isset($identification->id) && $identification->id > 0) {
+                $identification->delete();
+            }
 
-        if ($delete) {
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno excluído com sucesso!'));
-            $this->redirect(array('index'));
-        } else {
-            throw new CHttpException(404, 'The requested page does not exist.');
+            if ($delete) {
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno excluído com sucesso!'));
+                $this->redirect(array('index'));
+            } else {
+                throw new CHttpException(404, 'The requested page does not exist.');
+            }
+        } catch (\Throwable $th) {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Esse aluno não pode ser excluído, pois existem dados de frequência, notas ou matrículadas vinculadas a ele!'));
+            $this->redirect('?r=student');
         }
     }
 

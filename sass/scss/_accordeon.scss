@@ -1,52 +1,35 @@
 .t-accordeon {
-    background-color: $colorsBaseInkLighter !important;
-    // border-bottom: $borderRadiusSmall solid;
-    padding-top: $SizeXLarge;
-    position: relative;
+    
+    .ui-accordion-header {
+        display: flex !important;
+        background: $colorsBaseCloudLight ;
+        cursor: pointer;
+        padding: $SizeXXXSmall $SizeSmall !important;
+        border-radius: 0;
+        border: none;
+        color: $colorsTextPrimary;
 
-    .t-accordeon-div{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
+        .t-title {
+            margin: 0 $SizeXSmall;
+            font-weight: $fontWeightRegular;
+            color: $colorsTextPrimary;
+        }
     }
-    &:first-of-type {
-        padding-top: $spaceEmpty;
-    }
-    input.t-accordeon {
-        // Hide checkbox
-        appearance: none;
-        // left: -100%;
-        // top: -100%;
-        position: absolute;
-        
 
-        // Style the label text
-        &+label {
-            cursor: pointer;
-            font-size: $FontSizeHeadingTitle4;
-            padding-left: $SizeLarge;
-        }
-        
-        // Hide the article if the checkbox is unchecked
-        &~article {
-            height: 0px;
-            opacity: 0;
-            overflow: hidden;
-            padding: $SizeXXXSmall;
-            padding-left: $SizeXXXSmall;
-            transition: height $durationFast ease,
-                opacity $durationFast ease;
-        }
-        &:checked {
-            // Show the article if the checkbox is checked
-            &~article {
-                height: 100%;
-                opacity: 1;
-            }
-        }
-
+    .ui-accordion-content {
+        height: auto !important;
+        overflow-x: hidden !important;
     }
 }
-.ui-accordion-header {
-    background: rgb(11, 67, 80) !important;
+
+.t-accordeon-primary {
+    @extend .t-accordeon;
+    
+    .ui-accordion-header {
+        background: $colorsBaseCloudLight;
+    }
+
+    .icon-color {
+        color: $colorsBaseInkLight;
+    }
 }
