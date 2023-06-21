@@ -501,6 +501,8 @@ class Register30
                 return "0111C012";
             case "421C01":
                 return "0511B012";
+            case "145F02":
+                return "0114C021";
             case "999990":
                 return "0114E061";
         }

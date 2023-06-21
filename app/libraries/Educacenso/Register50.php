@@ -87,6 +87,11 @@ class Register50
                         $register[$edcensoAlias->corder] = $teaching[$edcensoAlias["attr"]];
                     }
                 }
+                
+                // ignora professor de apoio
+                if($teaching['role'] == '8'){
+                    continue;
+                }
 
                 array_push($registers, implode('|', $register));
             }
