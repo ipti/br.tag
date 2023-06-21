@@ -137,10 +137,13 @@ class DefaultController extends Controller
 			$importStudents  = isset($_POST["importStudents"]);
 			$registerAllClasses = isset($_POST["registerAllClasses"]);
 
-			$classes =  new IdentifyAllClassroomRABySchool();
-			$classNumbers = $classes->exec("26587597", "2023");
-			$aux = count($classNumbers->classrooms);
+			$inep_id = Yii::app()->user->school;
+			$year = date('Y');
 
+			$classes =  new IdentifyAllClassroomRABySchool();
+			$classNumbers = $classes->exec($inep_id, $year);
+			$aux = count($classNumbers->classrooms);
+			
 			if($registerAllClasses){
 				foreach ($classNumbers->classrooms as $classroom) {
 					$this->registerClassroom($classroom->outNumClasse, $importStudents);
