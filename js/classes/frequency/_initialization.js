@@ -57,7 +57,6 @@ $("#classesSearch").on("click", function () {
                     $(".frequency-checkbox-general").each(function () {
                         var day = $(this).find(".frequency-checkbox").attr("day");
                         $(this).find(".frequency-checkbox").prop("checked", $(".frequency-checkbox-student .frequency-checkbox[day=" + day + "]:checked").length === $(".frequency-checkbox-student .frequency-checkbox[day=" + day + "]").length);
-
                     });
                     $('[data-toggle="tooltip"]').tooltip({ container: "body" });
                 } else {

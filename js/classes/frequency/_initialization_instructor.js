@@ -54,7 +54,7 @@ $("#classesSearch").on("click", function () {
 
               var hasFaults = student.schedules.filter((schedule) => dia == schedule.day && mes == $("#month").val() && schedule.fault).length > 0;
               var x = student.schedules.filter((schedule) => schedule.day);
-              console.log(x);
+              // console.log(x);
               // console.log(student);
               // console.log("testando");
               // console.log(hasFaults);
@@ -215,19 +215,19 @@ $(document).on("change", ".frequency-checkbox", function () {
         $(".table-frequency tbody .frequency-checkbox[day=" + $(checkbox).attr("day") + "][schedule=" + $(checkbox).attr("schedule") + "]").prop("checked", $(checkbox).is(":checked"));
         if ($(checkbox).is(":checked")) {
           $(".table-frequency tbody .frequency-checkbox[day=" + $(checkbox).attr("day") + "][schedule=" + $(checkbox).attr("schedule") + "]").each(function () {
-            if (!$(this).parent().find(".frequency-justification-icon").length
+            if (!$(this).parent().parent().find(".frequency-justification-icon").length
             ) {
-              $(this).parent().append("<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>");
+              $(this).parent().parent().append(`<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon' title=''><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>`);
             }
           });
         } else {
-          $(".table-frequency tbody .frequency-checkbox[day=" + $(checkbox).attr("day") + "][schedule=" + $(checkbox).attr("schedule") + "]").parent().find(".frequency-justification-icon").remove();
+          $(".table-frequency tbody .frequency-checkbox[day=" + $(checkbox).attr("day") + "][schedule=" + $(checkbox).attr("schedule") + "]").parent().parent().find(".frequency-justification-icon").remove();
         }
       } else {
         if ($(checkbox).is(":checked")) {
-          $(checkbox).parent().append("<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>");
+          $(checkbox).parent().parent().append(`<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon' title=''><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>`);
         } else {
-          $(checkbox).parent().find(".frequency-justification-icon").remove();
+          $(checkbox).parent().parent().find(".frequency-justification-icon").remove();
         }
       }
       $(".loading-frequency").hide();
@@ -241,9 +241,11 @@ $(document).on("change", ".frequency-checkbox", function () {
 
 $(document).on("click", ".frequency-justification-icon", function () {
   
-  var checkbox = $(this).parent().find(".frequency-checkbox");
+  var checkbox = $(this).parent().parent().find(".frequency-checkbox");
   $("#justification-classroomid").val(checkbox.attr("classroomid"));
+  // console.log($("#justification-classroomid").val());
   $("#justification-studentid").val(checkbox.attr("studentid"));
+
   $("#justification-day").val(checkbox.attr("day"));
   $("#justification-month").val(checkbox.attr("month"));
   $("#justification-schedule").val(checkbox.attr("schedule"));
@@ -276,8 +278,8 @@ $(document).on("click", ".btn-save-justification", function () {
       $("#save-justification-modal").find(".centered-loading-gif").show();
     },
     success: function (data) {
-      var justification = $(".table-frequency tbody .frequency-checkbox[studentid=" + $("#justification-studentid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "]").parent().find(".frequency-justification-icon");
-      // console.log(justification);
+      var justification = $(".table-frequency tbody .frequency-checkbox[studentid=" + $("#justification-studentid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "]").parent().parent().find(".frequency-justification-icon");
+      console.log(justification);
       if ($(".justification-text").val() == "") {
         justification.html("");
         justification.attr("data-original-title", "").tooltip("hide");
