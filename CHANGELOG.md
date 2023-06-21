@@ -1,5 +1,9 @@
 # Atualizações
 
+## [Versão 3.29.70]
+- Relatório de Professores por Escola (somente para administrador)
+- Relatório de Professores por Etapa
+
 ## [Versão 3.27.70]
 - Corrigido o tamanho e a posição do botão de pesquisa em aulas ministradas
 
