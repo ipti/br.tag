@@ -35,7 +35,7 @@ class DefaultController extends Controller
 		$getFrequency = new GetFrequency();
 		$frequency = $getFrequency->exec($classrom_fk, $stage_fk, $discipline_fk, $date);
 
-		$this->renderPartial('frequencyElementMobile', ["frequency" => $frequency]);
+		$this->renderPartial('frequencyElementMobile', ["frequency" => $frequency, "date"=> $date]);
 	}
 	public function actionRenderFrequencyElementDesktop($classrom_fk, $stage_fk, $discipline_fk, $date)
 	{
@@ -48,11 +48,13 @@ class DefaultController extends Controller
 		$saveFrequency = new SaveFrequency();
 		$frequency = $saveFrequency->exec($_POST["schedule"], $_POST["studentId"],$_POST["fault"], $_POST["stage_fk"], $_POST["date"], $_POST["classroom_id"]);
 	}
-	public function actionStudentClassDiary()
+	public function actionStudentClassDiary($student_id, $stage_fk, $classrom_id, $schedule, $date)
 	{
-		var_dump($_POST["name"], $_POST["classroomId"], $_POST["stageFk"], $_POST["date"],$_POST["schedule"], $_POST["studentId"]);
 		
 		
-		// $this->render('studentClassDiary');
+		$getStudent = new GetStudent();
+		$student = $getStudent->exec($student_id);
+		
+		$this->render('studentClassDiary', ["student" => $student, "stage_fk" => $stage_fk, "classrom_id" => $classrom_id, "schedule" => $schedule, "date" =>$date]);
 	}
 }

@@ -53,25 +53,3 @@ $(".js-change-date").on("click", function () {
     renderFrequencyElement(widthWindow)
 });
 
-$(document).on("click", ".js-justification", function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const classrom_fk = urlParams.get("classrom_fk")
-    const stage_fk = urlParams.get("stage_fk")
-    const date = $('.js-date').val()
-    console.log($(this).val());
-    return;
-    // checkbox atributes
-    const checkbox = $(this).parent().parent().children("td").children();
-    $.ajax({
-        type:"POST",
-        url: `${window.location.host}/?r=classdiary/default/StudentClassDiary`,
-        data:  {
-            name: $(this).innerHTML,
-            classroomId: classrom_fk,
-            stageFk: stage_fk,
-            date : date,
-            schedule: checkbox.attr("schedule"),
-            studentId :checkbox.attr("studentId")
-        }
-    })
-});

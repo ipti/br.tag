@@ -85,4 +85,8 @@ class StudentService
     public function saveJustification(){
         var_dump("AAAAAAA");
     }
+    public function getStudent($student_id){
+        $student = StudentIdentification::model()->findByPk($student_id);
+        return $student;
+    }
 }
