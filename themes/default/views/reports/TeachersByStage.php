@@ -6,14 +6,14 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/TeachersBySchool/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/TeachersByStage/_initialization.js', CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 ?>
 
 <div class="pageA4H">
     <?php $this->renderPartial('head'); ?>
-    <h3><?php echo Yii::t('default', 'Teachers By School'); ?></h3>
+    <h3><?php echo Yii::t('default', 'Teachers By Stage'); ?></h3>
     <div class="row-fluid hidden-print">
         <div class="span12">
             <div class="buttons">
