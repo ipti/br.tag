@@ -7,6 +7,7 @@ use Datetime;
 use ErrorException;
 use Exception;
 
+use fileManager;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
 use JMS\Serializer\SerializerBuilder;
 
@@ -22,6 +23,7 @@ use ValidationSagresModel;
 use SagresEdu\SagresValidations;
 
 use Yii;
+use ZipArchive;
 
 /**
  * Summary of SagresConsultModel
@@ -396,7 +398,7 @@ class SagresConsultModel
      * Summary of EscolaTType
      * @return AtendimentoTType[]
      */
-    public function getAttendances($professionalId)
+    public function getAttendances($professionalId, $month)
     {
         $attendanceList = [];
 
@@ -406,7 +408,8 @@ class SagresConsultModel
                 FROM 
                     attendance
                 WHERE 
-                    professional_fk = :professionalId;";
+                    professional_fk = :professionalId 
+                    and MONTH(`date`) = ".$month.";";
 
         $attendances = Yii::app()->db->createCommand($query)->bindValue(":professionalId", $professionalId)->queryAll();
 
@@ -589,7 +592,7 @@ class SagresConsultModel
                 ->setEspecialidade($professional['especialidade'])
                 ->setIdEscola($professional['idEscola'])
                 ->setFundeb($professional['fundeb'])
-                ->setAtendimento($this->getAttendances($professional['id_professional']));
+                ->setAtendimento($this->getAttendances($professional['id_professional'], $month));
 
             $professionalList[] = $professionalType;
         }
@@ -712,7 +715,6 @@ class SagresConsultModel
             $serializerBuilder->addDefaultHandlers();
             $handler->registerSubscribingHandler(new BaseTypesHandler()); // XMLSchema List handling
             $handler->registerSubscribingHandler(new XmlSchemaDateHandler()); // XMLSchema date handling
-            // $handler->registerSubscribingHandler(new YourhandlerHere());
         });
         $serializer = $serializerBuilder->build();
 
@@ -721,28 +723,26 @@ class SagresConsultModel
     }
 
     public function actionExportSagresXML($xml)
-    {
-        $memory_limit = ini_get('memory_limit');
+    {       
+        $fileName = "Educacao.xml";
+        $fileDir = "./app/export/SagresEdu/" . $fileName;
 
-        try {
-            ini_set('memory_limit', '2048M');
-            $fileName = "Educacao.xml";
-            $fileDir = "./app/export/SagresEdu/" . $fileName;
-
-            // Escreve o conteúdo no arquivo
-            $result = file_put_contents($fileDir, $xml);
-            
-            ini_set('memory_limit', $memory_limit);
-
-            if ($result !== false) {
-                return file_get_contents($fileDir);
-            } else {
-                throw new ErrorException("Ocorreu um erro ao exportar o arquivo XML.");
-            }
-        } catch (\Throwable $e) {
-            ini_set('memory_limit', $memory_limit);
+        Yii::import('ext.FileManager.fileManager');
+        $fm = new fileManager();
+        $result = $fm->write($fileDir, $xml);
+        
+        if ($result == false) {                    
             throw new ErrorException("Ocorreu um erro ao exportar o arquivo XML.");
         }
+        
+        $content = file_get_contents($fileDir);
+        
+        $zipName = './app/export/SagresEdu/Educacao.zip';
+        $tempArchiveZip = new ZipArchive;
+        $tempArchiveZip->open($zipName, ZipArchive::CREATE);
+        $tempArchiveZip->addFromString(pathinfo ($fileDir, PATHINFO_BASENAME), $content);
+        $tempArchiveZip->close();
+       
     }
 
 
