@@ -33,7 +33,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <?php echo Yii::t('default', 'Print') ?>
             </a>
         </div>
-        <a id="save" class='t-button-primary hide'><?php echo Yii::t('default', 'Save') ?></a>
+        <a id="save" class='t-button-secondary hide'><?php echo Yii::t('default', 'Save') ?></a>
     </div>
     <table class="table table-bordered table-striped visible-print">
         <tr>
@@ -74,11 +74,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <div class="alert-required-fields no-show alert alert-error">
         Os campos com * são obrigatórios.
     </div>
-<<<<<<< HEAD
     <div id="select-container" class="tablet-row align-items--center-on-desktop">
-=======
-    <div id="select-container" class="mobile-row align-items--center-on-desktop">
->>>>>>> dev
         <div class="mobile-row">
             <div class="column clearleft">
                 <div class="t-field-select">
@@ -138,11 +134,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </div>
         
         <div class="column"></div>
-            <div class="column clearfix">
-                <div class="t-buttons-container justify-content--end">
-                    <a id="classesSearch" class='t-button-secondary show show-desktop'><?php echo Yii::t('default', 'Search') ?></a>
-                </div>
+        <div class="column clearfix">
+            <div class="t-buttons-container justify-content--end">
+                <a id="classesSearch" class='t-button-primary show show-desktop'><?php echo Yii::t('default', 'Search') ?></a>
             </div>
+        </div>
     </div>
     <div class="clear"></div>
     <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
@@ -156,6 +152,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </tbody>
         </table>
     </div>
+    <div id="error-badge"></div>
 </div>
     <div class="row">
         <div class="t-buttons-container">
@@ -176,7 +173,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <div class="t-modal__body">
                         <div class="t-field-tarea">
                             <label class="t-field-tarea__label">Diário de Aula Geral</label>
-                            <textarea class="t-field-tarea__input js-classroom-diary" placeholder="Digite"></textarea>
+                            <textarea class="t-field-tarea__input large classroom-diary-textarea" placeholder="Digite"></textarea>
                         </div>
                         
                         <label>Diário de Aula por Aluno</label>

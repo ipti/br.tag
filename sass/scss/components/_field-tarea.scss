@@ -10,5 +10,13 @@
     }
     &__input, textarea {
         width: 100%;
+        padding: $SizeXXXSmall;
+        box-sizing: border-box;
+
+        &.large {
+            height: 100%;
+            min-height: 100px;
+            max-height: 100px;
+        }
     }
 }

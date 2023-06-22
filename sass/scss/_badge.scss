@@ -9,28 +9,11 @@
     
     &__icon {
         color: $colorsBaseInkLightHover;
-        font-size: $SizeXSmall;
+        font-size: $SizeSmall;
     }
     &__label {
         color: $colorsBaseInkLightHover;
         font-weight: $fontWeightRegular;
-    }
-
-    &-critical {
-        // background-color: $colorsAlertInfoBackground;
-        // color: $colorsAlertInfoText;
-    }
-    &-info {
-        background-color: $colorsAlertInfoBackground;
-        color: $colorsAlertInfoText;
-    }
-    &-success {
-        background-color: $colorsAlertSuccessBackground;
-        color: $colorsAlertSuccessText;
-    }
-    &-warning {
-        background-color: $colorsAlertWarningBackground;
-        color: $colorsAlertWarningText;
     }
 
     &:link,
@@ -40,4 +23,39 @@
     &:active {
         text-decoration: none !important;
     }
+}
+
+.t-badge-info {
+    @extend .t-badge;
+
+    &__icon {
+        color: $colorsAlertInfoText;
+        font-size: $SizeNormal;
+        margin: 0 $SizeXXSmall;
+    }
+    width: fit-content;
+    font-weight: $fontWeightRegular;
+    background-color: $colorsAlertInfoBackground;
+    color: $colorsAlertInfoText;
+    border: none;
+    padding: 0 $SizeXXSmall;
+}
+.t-badge-critical {
+    @extend .t-badge;
+
+    background-color: $colorsAlertInfoBackground;
+    color: $colorsAlertInfoText;
+}
+
+.t-badge-success {
+    @extend .t-badge;
+
+    background-color: $colorsAlertSuccessBackground;
+    color: $colorsAlertSuccessText;
+}
+.t-badge-warning {
+    @extend .t-badge;
+
+    background-color: $colorsAlertWarningBackground;
+    color: $colorsAlertWarningText;
 }
