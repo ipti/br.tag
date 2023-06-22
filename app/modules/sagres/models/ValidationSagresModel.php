@@ -5,6 +5,7 @@
  * @property string $school;
  * @property string $description;
  * @property string $action;
+ * @property string $inep_id;
  */
 class ValidationSagresModel extends CActiveRecord
 {
@@ -16,7 +17,7 @@ class ValidationSagresModel extends CActiveRecord
     public function rules()
     {
         return array(
-            array('enrollment, school, description, action', 'required'),
+            array('enrollment, school, description, action, inep_id', 'required'),
         );
     }
 

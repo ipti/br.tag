@@ -18,14 +18,14 @@ class EscolaTurmas
         $classrooms = array();
         foreach ($json["outClasses"] as $classJson) {
             
-            $classroom = new Classroom($classJson);
+            $classroom = new OutClassroom($classJson);
             array_push($classrooms, $classroom);
         }
         $this->classrooms = $classrooms;
     }
 }
 
-class Classroom
+class OutClassroom
 {
     public $outNumClasse;
     public $outCodUnidade;
