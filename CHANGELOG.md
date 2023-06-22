@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.28.70]
+- Campos de data de nascimento de filiação do aluno adicionados
+
 ## [Versão 3.27.70]
 - Corrigido o tamanho e a posição do botão de pesquisa em aulas ministradas
 
