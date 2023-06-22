@@ -285,9 +285,9 @@ $form = $this->beginWidget('CActiveForm', array(
                     <!--Gov ID-->
                     <div class="row">
                         <div class="column">
-                            <div class="t-field-text js-hide-not-required" style="width: 120%;">
+                            <div class="t-field-text js-hide-not-required">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'gov_id', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'gov_id', array('size' => 60, 'maxlength' => 12, 'class' => 't-field-text__input', 'placeholder' => 'Não possui', 'disabled' => 'disabled', 'style' => 'width:82.95%;')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'gov_id', array('size' => 60, 'maxlength' => 12, 'class' => 't-field-text__input', 'placeholder' => 'Não possui', 'disabled' => 'disabled')); ?>
                                 <button type="button" id="copy-gov-id" class="t-button-icon">
                                     <span class="t-icon-copy"></span>
                                 </button>
@@ -402,7 +402,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                             <div class="t-field-text js-hide-not-required  js-disabled-finputs">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o Nome Completo da filiação 1')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o Nome Completo da Mãe')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1'); ?>
                             </div>
                         </div>
@@ -412,6 +412,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_cpf', array('class' => 'control-label t-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'filiation_1_cpf', array('size' => 60, 'maxlength' => 14, "class" => "js-disabled-finputs js-finput-clear t-field-text__input")); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_cpf'); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Data de Nascimento da Mãe -->
+                        <div class="column">
+                            <div class="t-field-text js-hide-not-required js-disabled-finputs">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_birthday', array('class' => 'control-label t-field-text__label')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1_birthday', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->error($modelStudentIdentification, 'filiation_1_birthday'); ?>
                             </div>
                         </div>
                     </div>
@@ -477,7 +487,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                             <div class="t-field-text js-hide-not-required js-disabled-finputs">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'filiation_2', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o Nome Completo da filiação 2')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'filiation_2', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o Nome Completo do Pai')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_2'); ?>
                             </div>
                         </div>
@@ -487,6 +497,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_cpf', array('class' => 'control-label t-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'filiation_2_cpf', array('size' => 60, 'maxlength' => 14, "class" => "js-disabled-finputs js-finput-clear t-field-text__input")); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_2_cpf'); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Data de Nascimento do Pai -->
+                        <div class="column">
+                            <div class="t-field-text js-hide-not-required js-disabled-finputs">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_birthday', array('class' => 'control-label t-field-text__label')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'filiation_2_birthday', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->error($modelStudentIdentification, 'filiation_2_birthday'); ?>
                             </div>
                         </div>
                     </div>
@@ -1856,6 +1876,16 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
     $this->widget('application.widgets.AlertCensoWidget', array('prefix' => 'student', 'dataId' => $_GET['id']));
 }
 ?>
+
+<style>
+    .row .t-field-select .select2-choice {
+        width: 413px !important;
+    }
+
+    .row .t-field-select {
+        width: 423px !important;
+    }
+</style>
 
 <script type="text/javascript">
     var formIdentification = '#StudentIdentification_';
