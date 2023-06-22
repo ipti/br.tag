@@ -61,19 +61,22 @@ $("#classesSearch").on("click", function () {
               if (hasFaults) {
                 accordion += `<tr>
                 <td class='student-name'>
-                  <a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon' title=''>
+                 
                     ${student.studentName}
-                    <i class='fa fa-file-o'></i><i class='fa fa-file'></i>
-                  </a>
-                </td>`;
+              
+                  <a href='javascript:;' studentId=${student.studentId} data-toggle='tooltip' class=' frequency-justification-icon' title=''><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>
+                </td>
+              `;
 
               } else {
                 accordion += `<tr>
                    <td class='student-name'>
                     ${student.studentName}
-                    </td>`;
+                    <a href='javascript:;' studentId=${student.studentId} data-toggle='tooltip' class=' frequency-justification-icon' title=''><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>
+                  </td>
+                  `;
               }
-
+              
               $.each(student.schedules, function (indexSchedule, schedule) {
                 if (dia == schedule.day && mes == $("#month").val()) {
                   var justificationContainer = "";
@@ -112,6 +115,7 @@ $("#classesSearch").on("click", function () {
           `</div>
           </div>`;
           $("#frequency-container").html(accordion).show();
+          $('.frequency-justification-icon').hide();
           $(function () {
             $("#accordion").accordion({
               collapsible: true,
@@ -211,25 +215,16 @@ $(document).on("change", ".frequency-checkbox", function () {
       );
     },
     complete: function (response) {
-      if ($(checkbox).attr("studentId") === undefined) {
-        $(".table-frequency tbody .frequency-checkbox[day=" + $(checkbox).attr("day") + "][schedule=" + $(checkbox).attr("schedule") + "]").prop("checked", $(checkbox).is(":checked"));
         if ($(checkbox).is(":checked")) {
-          $(".table-frequency tbody .frequency-checkbox[day=" + $(checkbox).attr("day") + "][schedule=" + $(checkbox).attr("schedule") + "]").each(function () {
-            if (!$(this).parent().parent().find(".frequency-justification-icon").length
-            ) {
-              $(this).parent().parent().append(`<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon' title=''><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>`);
-            }
-          });
+
+          $('[studentid='+$(checkbox).attr('studentid')+'].frequency-justification-icon').show();
+
         } else {
-          $(".table-frequency tbody .frequency-checkbox[day=" + $(checkbox).attr("day") + "][schedule=" + $(checkbox).attr("schedule") + "]").parent().parent().find(".frequency-justification-icon").remove();
+          
+          $('[studentid='+$(checkbox).attr('studentid')+'].frequency-justification-icon').hide();
+
         }
-      } else {
-        if ($(checkbox).is(":checked")) {
-          $(checkbox).parent().parent().append(`<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon' title=''><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>`);
-        } else {
-          $(checkbox).parent().parent().find(".frequency-justification-icon").remove();
-        }
-      }
+    
       $(".loading-frequency").hide();
       $(".table-frequency").css("opacity", 1).css("pointer-events", "auto");
       $("#classroom, #month, #disciplines, #classesSearch").removeAttr(
@@ -240,10 +235,8 @@ $(document).on("change", ".frequency-checkbox", function () {
 });
 
 $(document).on("click", ".frequency-justification-icon", function () {
-  
-  var checkbox = $(this).parent().parent().find(".frequency-checkbox");
+  var checkbox =  $(this).parent().find(".frequency-checkbox");
   $("#justification-classroomid").val(checkbox.attr("classroomid"));
-  // console.log($("#justification-classroomid").val());
   $("#justification-studentid").val(checkbox.attr("studentid"));
 
   $("#justification-day").val(checkbox.attr("day"));
@@ -294,7 +287,7 @@ $(document).on("click", ".btn-save-justification", function () {
       $("#save-justification-modal").find("button").removeAttr("disabled");
       $("#save-justification-modal").find(".centered-loading-gif").hide();
     },
-  });
+  }); 
 });
 
 $(document).on("keyup", ".justification-text", function (e) {
