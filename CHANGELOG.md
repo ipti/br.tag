@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.29.71]
+- Agora é possível visualizar a senha digitada no login, alteração de senha e edição de usuário
+
 ## [Versão 3.27.70]
 - Corrigido o tamanho e a posição do botão de pesquisa em aulas ministradas
 
