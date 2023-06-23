@@ -130,8 +130,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->passwordField($model, 'password', array('size' => 32, 'maxlength' => 32, 'style' => 'width: 412px;')); ?>
                                     <br><br>
-                                    <span class="t-icon-eye" id="showPassword" style="margin-right:5px;cursor:pointer;font-size:20px;"></span>
-                                    <span id="show-password-text">Mostrar Senha</span>
+                                    <span class="t-icon-eye show-password-icon" id="showPassword"></span>
                                     <?php echo $form->error($model, 'password'); ?>
                                 </div>
                             </div>
@@ -156,5 +155,13 @@ $form = $this->beginWidget('CActiveForm', array(
 
     input[type="checkbox"] {
         height: 30px !important;
+    }
+
+    .show-password-icon {
+        cursor: pointer;
+        font-size: 18px;
+        position: relative;
+        left: 395px;
+        bottom: 45px;
     }
 </style>

@@ -12,11 +12,18 @@ $(document).ready(function() {
             value: senhaInput.val(),
             style: `width:${width}`
         });
-        
-        // Confirm  
+        if(senhaInputType === "password") {
+            $(this).removeClass('t-icon-eye').addClass('t-icon-eye_hash');
+        }else {
+            $(this).removeClass('t-icon-eye_hash').addClass('t-icon-eye');
+        }
+
         senhaInput.replaceWith(senhaInputNovo);
         senhaInputNovo.focus();
+    });
 
+    $("#showPasswordConfirm").click(function () {
+        // Confirmar Senha
         var senhaInputConfirm = $("#Confirm");
         var senhaInputTypeConfirm = senhaInputConfirm.attr("type");
     
@@ -27,17 +34,17 @@ $(document).ready(function() {
             value: senhaInputConfirm.val(),
             style: "width:230px;margin-bottom:20px;"
         });
-    
-        senhaInputConfirm.replaceWith(senhaInputNovoConfirm);
-        senhaInputNovoConfirm.focus();
 
-        if($(this).attr('class') === "t-icon-eye") {
+        if(senhaInputTypeConfirm === "password") {
             $(this).removeClass('t-icon-eye').addClass('t-icon-eye_hash');
             $("#show-password-text").text('Ocultar Senha');
         }else {
             $(this).removeClass('t-icon-eye_hash').addClass('t-icon-eye');
             $("#show-password-text").text('Mostrar Senha');
         }
+
+        senhaInputConfirm.replaceWith(senhaInputNovoConfirm);
+        senhaInputNovoConfirm.focus();
     });
 });
   
