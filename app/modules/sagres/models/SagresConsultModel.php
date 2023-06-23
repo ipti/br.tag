@@ -176,38 +176,21 @@ class SagresConsultModel
     {
         $classList = [];
 
-        $query = "SELECT * FROM (
-                        SELECT DATE(
-                                COALESCE(
-                                    c.create_date, 
-                                    (
-                                        SELECT date 
-                                        FROM log 
-                                        WHERE reference_ids = c.id 
-                                        AND crud = 'C' 
-                                        AND reference = 'classroom' 
-                                        ORDER BY reference_ids 
-                                        LIMIT 1
-                                    )
-                                )
-                            ) AS createDate,
-                            c.initial_hour AS initialHour,
-                            c.school_inep_fk AS schoolInepFk,
-                            c.id AS classroomId,
-                            c.name AS classroomName,
-                            c.turn AS classroomTurn
-                        FROM 
-                            classroom c
-                        WHERE 
-                            c.school_inep_fk = :schoolInepFk 
-                            AND c.school_year = :referenceYear
-                    ) AS subquery
-                    WHERE MONTH(subquery.createDate) <= :month";
+        $query = "SELECt
+                    c.initial_hour AS initialHour,
+                    c.school_inep_fk AS schoolInepFk,
+                    c.id AS classroomId,
+                    c.name AS classroomName,
+                    c.turn AS classroomTurn
+                FROM 
+                    classroom c
+                WHERE 
+                    c.school_inep_fk = :schoolInepFk 
+                    AND c.school_year = :referenceYear";
 
         $params = [
             ':schoolInepFk' => $inepId,
-            ':referenceYear' => $referenceYear,
-            ':month' => $month
+            ':referenceYear' => $referenceYear
         ];
 
         $turmas = $this->dbCommand->setText($query)
@@ -629,7 +612,7 @@ class SagresConsultModel
                         left join schedule s on cf.schedule_fk = s.id
                   WHERE 
                         se.classroom_fk  =  :classId AND 
-                        c.school_year = :referenceYear     
+                        c.school_year = :referenceYear
                   GROUP BY se.id;
                 ";
 
@@ -637,7 +620,6 @@ class SagresConsultModel
         $command->bindValues([
             ':classId' => $classId,
             ':referenceYear' => $referenceYear,
-            ':month' => $month
         ]);
 
         $enrollments = $command->queryAll();
@@ -740,7 +722,9 @@ class SagresConsultModel
         $tempArchiveZip = new ZipArchive;
         $tempArchiveZip->open($zipName, ZipArchive::CREATE);
         $tempArchiveZip->addFromString(pathinfo ($fileDir, PATHINFO_BASENAME), $content);
-        $tempArchiveZip->close();        
+        $tempArchiveZip->close();
+        $content = null;
+          
     }
 
 
