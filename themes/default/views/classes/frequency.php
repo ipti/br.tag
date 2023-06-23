@@ -120,7 +120,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
         </div>
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>
-        <div id="frequency-container" class="table-responsive"></div>
+        <div id="frequency-container" class="table-responsive frequecy-container"></div>
     </div>
     <?php $this->endWidget(); ?>
 

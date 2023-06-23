@@ -31,13 +31,13 @@ $("#classesSearch").on("click", function () {
         var data = JSON.parse(response);
         if (data.valid) {
           var accordion = "";
-          accordion += '<div id="accordion" class"aaaaa">';
+          accordion += '<div id="accordion" class="t-accordeon">';
           var item = 0;
           $.each(data.students[0].schedules, function () {
             var dia = this.day;
             var mes = $("#month").val();
             item++;
-            accordion += `<div class="t-accordeon" style='display: flex; flex-direction: row; justify-content:space-around;'>
+            accordion += `<div class="ui-accordion-content" style='display: flex; flex-direction: row; justify-content:space-around;'>
                                         <div>
                                             <h3>Nome</h3>
                                         </div>  
@@ -54,29 +54,22 @@ $("#classesSearch").on("click", function () {
 
               var hasFaults = student.schedules.filter((schedule) => dia == schedule.day && mes == $("#month").val() && schedule.fault).length > 0;
               var x = student.schedules.filter((schedule) => schedule.day);
-              // console.log(x);
-              // console.log(student);
-              // console.log("testando");
-              // console.log(hasFaults);
               if (hasFaults) {
                 accordion += `<tr>
                 <td class='student-name'>
-                 
                     ${student.studentName}
-              
-                  <a href='javascript:;' studentId=${student.studentId} data-toggle='tooltip' class=' frequency-justification-icon' title=''><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>
+                  <a href='javascript:;' studentId=${student.studentId} data-toggle='tooltip' class='frequency-justification-icon' title=''><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>
                 </td>
               `;
-
               } else {
                 accordion += `<tr>
                    <td class='student-name'>
                     ${student.studentName}
-                    <a href='javascript:;' studentId=${student.studentId} data-toggle='tooltip' class=' frequency-justification-icon' title=''><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>
+                    <a href='javascript:;' studentId=${student.studentId} data-toggle='tooltip' class='frequency-justification-icon' title=''><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>
                   </td>
                   `;
               }
-              
+
               $.each(student.schedules, function (indexSchedule, schedule) {
                 if (dia == schedule.day && mes == $("#month").val()) {
                   var justificationContainer = "";
@@ -92,10 +85,11 @@ $("#classesSearch").on("click", function () {
                         "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'></a>";
                     }
                   }
-                  accordion += 
-                   `<td class='frequency-checkbox-student frequency-checkbox-container ${!this.available ? $("disabled") : $("")}'>
-                      <input class='frequency-checkbox' type='checkbox' ${!schedule.available ? $("disabled") : $("")} ${schedule.fault ? $("checked") : $("")} 
-                         classroomId = '${$("#classroom").val()}' 
+                  
+                  accordion +=
+                    `<td class='frequency-checkbox-student frequency-checkbox-container ${!this.available ? $("disabled") : $("")}'>
+                      <input class='frequency-checkbox' type='checkbox' ${!schedule.available ? "disabled" : ""} ${schedule.fault ? "checked" : ""} 
+                      classroomId = '${$("#classroom").val()}' 
                          studentId = ${student.studentId} 
                          day = ${schedule.day} 
                          month = ${$("#month").val()} 
@@ -104,6 +98,8 @@ $("#classesSearch").on("click", function () {
                           ${justificationContainer}
                     </td>`;
                 }
+
+
               });
               accordion += `<tr>`;
             });
@@ -115,7 +111,10 @@ $("#classesSearch").on("click", function () {
           `</div>
           </div>`;
           $("#frequency-container").html(accordion).show();
-          $('.frequency-justification-icon').hide();
+          // $('.frequency-justification-icon').hide();
+         
+
+
           $(function () {
             $("#accordion").accordion({
               collapsible: true,
@@ -125,8 +124,7 @@ $("#classesSearch").on("click", function () {
             var day = $(this).find(".frequency-checkbox").attr("day");
             $(this)
               .find(".frequency-checkbox")
-              .prop("checked",
-                $(".frequency-checkbox-student .frequency-checkbox[day=" + day + "]:checked").length === $(".frequency-checkbox-student .frequency-checkbox[day=" + day + "]").length);
+              .prop("checked", $(".frequency-checkbox-student .frequency-checkbox[day=" + day + "]:checked").length === $(".frequency-checkbox-student .frequency-checkbox[day=" + day + "]").length);
           });
           $('[data-toggle="tooltip"]').tooltip({ container: "body" });
         } else {
@@ -215,16 +213,12 @@ $(document).on("change", ".frequency-checkbox", function () {
       );
     },
     complete: function (response) {
-        if ($(checkbox).is(":checked")) {
+      if ($(checkbox).is(":checked")) {
+        $('[studentid=' + $(checkbox).attr('studentid') + '].frequency-justification-icon').show();
+      } else {
+        $('[studentid=' + $(checkbox).attr('studentid') + '].frequency-justification-icon').hide();
+      }
 
-          $('[studentid='+$(checkbox).attr('studentid')+'].frequency-justification-icon').show();
-
-        } else {
-          
-          $('[studentid='+$(checkbox).attr('studentid')+'].frequency-justification-icon').hide();
-
-        }
-    
       $(".loading-frequency").hide();
       $(".table-frequency").css("opacity", 1).css("pointer-events", "auto");
       $("#classroom, #month, #disciplines, #classesSearch").removeAttr(
@@ -235,7 +229,8 @@ $(document).on("change", ".frequency-checkbox", function () {
 });
 
 $(document).on("click", ".frequency-justification-icon", function () {
-  var checkbox =  $(this).parent().find(".frequency-checkbox");
+  var checkbox = $('[studentid=' + $(this).attr('studentid') + '].frequency-checkbox');
+
   $("#justification-classroomid").val(checkbox.attr("classroomid"));
   $("#justification-studentid").val(checkbox.attr("studentid"));
 
@@ -272,12 +267,10 @@ $(document).on("click", ".btn-save-justification", function () {
     },
     success: function (data) {
       var justification = $(".table-frequency tbody .frequency-checkbox[studentid=" + $("#justification-studentid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "]").parent().parent().find(".frequency-justification-icon");
-      console.log(justification);
+
       if ($(".justification-text").val() == "") {
-        justification.html("");
         justification.attr("data-original-title", "").tooltip("hide");
       } else {
-        justification.html("");
         justification.attr("data-original-title", $(".justification-text").val()).tooltip({ container: "body" });
       }
       $("#save-justification-modal").modal("hide");
@@ -287,7 +280,7 @@ $(document).on("click", ".btn-save-justification", function () {
       $("#save-justification-modal").find("button").removeAttr("disabled");
       $("#save-justification-modal").find(".centered-loading-gif").hide();
     },
-  }); 
+  });
 });
 
 $(document).on("keyup", ".justification-text", function (e) {
