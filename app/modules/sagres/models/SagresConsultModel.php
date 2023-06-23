@@ -629,8 +629,7 @@ class SagresConsultModel
                         left join schedule s on cf.schedule_fk = s.id
                   WHERE 
                         se.classroom_fk  =  :classId AND 
-                        c.school_year = :referenceYear AND
-                        MONTH(se.create_date) <= :month
+                        c.school_year = :referenceYear     
                   GROUP BY se.id;
                 ";
 
@@ -741,8 +740,7 @@ class SagresConsultModel
         $tempArchiveZip = new ZipArchive;
         $tempArchiveZip->open($zipName, ZipArchive::CREATE);
         $tempArchiveZip->addFromString(pathinfo ($fileDir, PATHINFO_BASENAME), $content);
-        $tempArchiveZip->close();
-       
+        $tempArchiveZip->close();        
     }
 
 
