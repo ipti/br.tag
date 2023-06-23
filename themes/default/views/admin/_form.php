@@ -129,7 +129,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->passwordField($model, 'password', array('size' => 32, 'maxlength' => 32, 'style' => 'width: 412px;')); ?>
-                                    <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Min length') . "6"; ?>"><i></i></span> -->
+                                    <br><br>
+                                    <span class="t-icon-eye" id="showPassword" style="margin-right:5px;cursor:pointer;font-size:20px;"></span>
+                                    <span id="show-password-text">Mostrar Senha</span>
                                     <?php echo $form->error($model, 'password'); ?>
                                 </div>
                             </div>

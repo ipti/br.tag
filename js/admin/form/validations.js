@@ -1,4 +1,48 @@
-$(form+'name').focusout(function() {
+$(document).ready(function() {
+    $("#showPassword").click(function() {
+        var senhaInput = $("#Users_password");
+        var senhaInputType = senhaInput.attr("type");
+
+        var width = window.location.search.includes('update') ? "413px" : "230px"
+    
+        var senhaInputNovo = $("<input>").attr({
+            type: (senhaInputType === "password") ? "text" : "password",
+            id: senhaInput.attr("id"),
+            placeholder: senhaInput.attr("placeholder"),
+            value: senhaInput.val(),
+            style: `width:${width}`
+        });
+        
+        // Confirm  
+        senhaInput.replaceWith(senhaInputNovo);
+        senhaInputNovo.focus();
+
+        var senhaInputConfirm = $("#Confirm");
+        var senhaInputTypeConfirm = senhaInputConfirm.attr("type");
+    
+        var senhaInputNovoConfirm = $("<input>").attr({
+            type: (senhaInputTypeConfirm === "password") ? "text" : "password",
+            id: senhaInputConfirm.attr("id"),
+            placeholder: senhaInputConfirm.attr("placeholder"),
+            value: senhaInputConfirm.val(),
+            style: "width:230px;margin-bottom:20px;"
+        });
+    
+        senhaInputConfirm.replaceWith(senhaInputNovoConfirm);
+        senhaInputNovoConfirm.focus();
+
+        if($(this).attr('class') === "t-icon-eye") {
+            $(this).removeClass('t-icon-eye').addClass('t-icon-eye_hash');
+            $("#show-password-text").text('Ocultar Senha');
+        }else {
+            $(this).removeClass('t-icon-eye_hash').addClass('t-icon-eye');
+            $("#show-password-text").text('Mostrar Senha');
+        }
+    });
+});
+  
+
+$(form + 'name').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
     if (!validateSchoolName($(id).val())) {
@@ -9,7 +53,7 @@ $(form+'name').focusout(function() {
     }
 });
 
-$(form + 'username').focusout(function() {
+$(form + 'username').focusout(function () {
     var id = '#' + $(this).attr("id");
     if (!validateLogin($(id).val())) {
         $(id).attr('value', '');
@@ -19,7 +63,7 @@ $(form + 'username').focusout(function() {
     }
 });
 
-$(form + 'password').focusout(function() {
+$(form + 'password').focusout(function () {
     var id = '#' + $(this).attr("id");
     if (!validatePassword($(id).val())) {
         $(id).attr('value', '');
@@ -29,7 +73,7 @@ $(form + 'password').focusout(function() {
     }
 });
 
-$('#Confirm').focusout(function() {
+$('#Confirm').focusout(function () {
     var id = '#' + $(this).attr("id");
     var passId = form + 'password';
 
