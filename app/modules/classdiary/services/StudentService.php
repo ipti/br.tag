@@ -45,10 +45,10 @@ class StudentService
                 }   
                 return $students;
             } else {
-                echo json_encode(["valid" => false, "error" => "Matricule alunos nesta turma para trazer o quadro de frequência."]);
+                return  ["valid" => false, "error" => "Matricule alunos nesta turma para trazer o quadro de frequência."];
             }
         }else {
-            echo json_encode(["valid" => false, "error" => "No quadro de horário da turma, não existe dia letivo no mês selecionado para este componente curricular/eixo."]);
+            return ["valid" => false, "error" => "No quadro de horário da turma, não existe dia letivo para este componente curricular/eixo na data selecionada."];
         }
     }
 

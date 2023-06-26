@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.30.71]
+- adicionado módulo de diário de classe para professores
+
 ## [Versão 3.27.70]
 - Corrigido o tamanho e a posição do botão de pesquisa em aulas ministradas
 

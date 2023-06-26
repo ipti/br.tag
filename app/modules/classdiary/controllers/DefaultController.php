@@ -35,7 +35,14 @@ class DefaultController extends Controller
 		$getFrequency = new GetFrequency();
 		$frequency = $getFrequency->exec($classrom_fk, $stage_fk, $discipline_fk, $date);
 
-		$this->renderPartial('frequencyElementMobile', ["frequency" => $frequency, "date"=> $date,  "discipline_fk" => $discipline_fk]);
+		header('Content-Type: application/json; charset="UTF-8"');
+		$vaild = json_encode($frequency["valid"]);
+		
+		if ($vaild == 'false'){
+			echo json_encode($frequency["error"]);
+		} else  {
+			$this->renderPartial('frequencyElementMobile', ["frequency" => $frequency, "date"=> $date,  "discipline_fk" => $discipline_fk]);
+		}
 	}
 	public function actionRenderFrequencyElementDesktop($classrom_fk, $stage_fk, $discipline_fk, $date)
 	{
