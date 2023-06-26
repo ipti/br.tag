@@ -82,8 +82,27 @@ class StudentService
                 ClassFaults::model()->deleteAll("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $student_id]);
             }
     }
-    public function saveJustification(){
-        var_dump("AAAAAAA");
+    public function saveJustification($student_id, $stage_fk, $classrom_id, $schedule, $date, $justification){
+         // Fundamental menor
+         $is_minor_schooling = $stage_fk >= 14 && $stage_fk <= 16;
+        if ($is_minor_schooling) {    
+            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $classrom_id, 
+            "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"), 
+            "month" => DateTime::createFromFormat("d/m/Y", $date)->format("m")]);
+            foreach ($schedules as $schedule) {
+                $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $student_id]);
+                $classFault->justification = $justification == "" ? null : $justification;
+                $classFault->save();
+            }
+        }  else {
+            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" =>  $classrom_id, 
+            "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"),
+            "month" => DateTime::createFromFormat("d/m/Y", $date)->format("m"),
+            "schedule" => $schedule]);
+            $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $student_id]);
+            $classFault->justification = $justification == "" ? null : $justification;
+            $classFault->save();
+        } 
     }
     public function getStudent($student_id){
         $student = StudentIdentification::model()->findByPk($student_id);

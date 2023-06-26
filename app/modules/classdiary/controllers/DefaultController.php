@@ -35,7 +35,7 @@ class DefaultController extends Controller
 		$getFrequency = new GetFrequency();
 		$frequency = $getFrequency->exec($classrom_fk, $stage_fk, $discipline_fk, $date);
 
-		$this->renderPartial('frequencyElementMobile', ["frequency" => $frequency, "date"=> $date]);
+		$this->renderPartial('frequencyElementMobile', ["frequency" => $frequency, "date"=> $date,  "discipline_fk" => $discipline_fk]);
 	}
 	public function actionRenderFrequencyElementDesktop($classrom_fk, $stage_fk, $discipline_fk, $date)
 	{
@@ -48,13 +48,23 @@ class DefaultController extends Controller
 		$saveFrequency = new SaveFrequency();
 		$frequency = $saveFrequency->exec($_POST["schedule"], $_POST["studentId"],$_POST["fault"], $_POST["stage_fk"], $_POST["date"], $_POST["classroom_id"]);
 	}
-	public function actionStudentClassDiary($student_id, $stage_fk, $classrom_id, $schedule, $date)
+	public function actionStudentClassDiary($student_id, $stage_fk, $classrom_id, $schedule, $date, $discipline_fk, $justification)
 	{
 		
 		
 		$getStudent = new GetStudent();
 		$student = $getStudent->exec($student_id);
+
+		if(isset($_POST["justification"])) {
+			$justification = $_POST["justification"];
+			$saveJustification = new SaveJustification();
+			$saveJustification->exec($student_id, $stage_fk, $classrom_id, $schedule, $date, $justification);
+			$this->redirect(['classDiary', 'classrom_fk' => $classrom_id, 'stage_fk' => $stage_fk, 'discipline_fk' => $discipline_fk]);
+		} else {
+			$this->render('studentClassDiary', ["student" => $student, "stage_fk" => $stage_fk, "classrom_id" => $classrom_id, "schedule" => $schedule, "date" =>$date, "justification" => $justification]);
+		}
 		
-		$this->render('studentClassDiary', ["student" => $student, "stage_fk" => $stage_fk, "classrom_id" => $classrom_id, "schedule" => $schedule, "date" =>$date]);
+		
+		
 	}
 }
