@@ -33,3 +33,39 @@
         color: $colorsBaseInkLight;
     }
 }
+.t-accordeon-secondary {
+    @extend .t-accordeon;
+
+    .ui-accordion-header {
+        padding: 0 0 !important;
+
+        .t-title {
+            margin: 0 $SizeXSmall;
+            font-weight: $fontWeightRegular;
+            color: $colorsTextPrimary;
+        }
+    }
+
+    .ui-accordion-content {
+        height: auto !important;
+        overflow-x: hidden !important;
+    }
+    .ui-accordion-header {
+        background: $colorsBaseCloudDark;
+    }
+    .t-accordeon-container {
+        display: flex; 
+        flex-direction: row;
+        .column{
+            .t-accordeon-container-nome {
+                margin-left: $SizeLarge;
+            }
+            .t-accordeon-container-data {
+                margin-left: $SizeXXXLarge;
+                margin-right: $SizeSmall;
+            }  
+        }
+        
+    }
+    
+}
