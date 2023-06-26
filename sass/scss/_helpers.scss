@@ -1,7 +1,13 @@
 .align-items {
     &--center {
         display: flex;
-        align-items: center
+        align-items: center;
+    }
+    &--center-on-desktop {
+        @include device (tablet) {
+            display: flex;
+            align-items: center;
+        }
     }
 
     &--baseline {
@@ -80,10 +86,27 @@
     }
 }
 
-
-.hide {display:none;}
-.show {display:block;}
-
 .wrap {
     flex-wrap: wrap;
+}
+.hide {
+    display:none;
+}
+.show {
+    display:block;
+
+    &.show-tablet {
+        display: flex;
+
+        @include device(tablet) {
+            display: none;
+        }
+    }
+    &.show-desktop {
+        display: none;
+
+        @include device(tablet) {
+            display: flex;
+        }
+    }
 }

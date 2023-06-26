@@ -256,9 +256,7 @@ class SchoolIdentification extends AltActiveRecord {
                             'name' => CSort::SORT_ASC
                         ),
                     ),
-                    'pagination' => array(
-                        'pageSize' => 15,
-                    ),
+                    'pagination' => false
                 ));
     }
 

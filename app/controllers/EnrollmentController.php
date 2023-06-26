@@ -149,7 +149,7 @@ class EnrollmentController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->loadModel($id);
+        $model = $this->loadModel($id);        
 
         $modelStudentIdentification = StudentIdentification::model()->find('inep_id="' . $model->student_inep_id . '"');
         if ($model->student_fk == NULL && $model->classroom_fk == NULL) {
@@ -633,7 +633,7 @@ class EnrollmentController extends Controller
      */
     public function loadModel($id)
     {
-        $model = StudentEnrollment::model()->findByPk($id);
+        $model = StudentEnrollment::model()->with("studentFk")->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;

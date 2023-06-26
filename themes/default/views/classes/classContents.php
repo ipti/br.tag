@@ -26,12 +26,14 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <div class="row">
         <h1><?php echo Yii::t('default', 'Class Contents'); ?></h1>
     </div>
-    <div class="row justify-content--space-between">
-        <a id="print" class=' t-button-secondary'>
-            <span class="t-icon-printer"></span>
-            <?php echo Yii::t('default', 'Print') ?>
-        </a>
-        <a id="save" class='t-button-primary'><?php echo Yii::t('default', 'Save') ?></a>
+    <div class="mobile-row justify-content--space-between">
+        <div class="t-buttons-container auto-width">
+            <a id="print" class='t-button-secondary hide'>
+                <span class="t-icon-printer"></span>
+                <?php echo Yii::t('default', 'Print') ?>
+            </a>
+        </div>
+        <a id="save" class='t-button-primary hide'><?php echo Yii::t('default', 'Save') ?></a>
     </div>
     <table class="table table-bordered table-striped visible-print">
         <tr>
@@ -72,8 +74,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <div class="alert-required-fields no-show alert alert-error">
         Os campos com * são obrigatórios.
     </div>
-    <div class="row align-items--center">
-        
+    <div id="select-container" class="mobile-row align-items--center-on-desktop">
+        <div class="mobile-row">
             <div class="column clearleft">
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
@@ -112,28 +114,31 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     ?>
                 </div>
             </div>
-
-            <div class="column disciplines-container" style="display: none;">
-                <div class="t-field-select">
-                    <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label t-field-select__label--required')); ?>
-                    <?php
-                    echo CHtml::dropDownList('disciplines', '', array(), array(
-                        'key' => 'id',
-                        'class' => 'select-search-on t-field-select__input classContents-input',
-                    ));
-                    ?>
-                </div>
+        </div>   
+        <div class="column clearleft on-tablet disciplines-container" style="display: none;">
+            <div class="t-field-select">
+                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label t-field-select__label--required')); ?>
+                <?php
+                echo CHtml::dropDownList('disciplines', '', array(), array(
+                    'key' => 'id',
+                    'class' => 'select-search-on t-field-select__input classContents-input',
+                ));
+                ?>
             </div>
-            <img class="loading-class-contents" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+        </div>
+        <div class="mobile-row align-items--center">
+            <div id="search-icon" class="column no-grow show show-tablet clearleft">
+                <a id="classesSearchMobile" class='t-button-primary t-button-primary--icon'><span class="t-icon-search_icon"></span></a>
+            </div>
+            <img class="loading-class-contents"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+        </div>
+        
+        <div class="column"></div>
             <div class="column clearfix">
                 <div class="t-buttons-container justify-content--end">
-                <a id="classesSearch" class='t-button-primary'>
-                    <i class="fa-search fa icon-button-tag"></i>
-                    <?php echo Yii::t('default', 'Search') ?>
-                </a>
+                    <a id="classesSearch" class='t-button-secondary show show-desktop'><?php echo Yii::t('default', 'Search') ?></a>
                 </div>
             </div>
-            
     </div>
     <div class="clear"></div>
     <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
@@ -148,30 +153,40 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </table>
     </div>
 </div>
+    <div class="row">
+        <div class="t-buttons-container">
+            <a id="save-button-mobile" class='t-button-primary align-items--center hide'><?php echo Yii::t('default', 'Save') ?></a>  
+        </div>        
+    </div>
 
-    <div class="modal-container modal fade modal-content" id="js-classroomdiary" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">           
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">Diário de Aula</h4>           
+    <div class="modal fade t-modal-container" id="js-classroomdiary" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">      
+                <div class="t-modal__header">
+                    <h4 class="t-title" id="myModalLabel">Diário de Aula</h4>   
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="">
+                    </button>             
                 </div>
                 <form method="post">
                 <input type="hidden" class="classroom-diary-day">
-                    <div class="modal-body">
+                    <div class="t-modal__body">
                         <div class="t-field-tarea">
                             <label class="t-field-tarea__label">Diário de Aula Geral</label>
-                            <textarea class="t-field-tarea__input js-classroom-diary"></textarea>
+                            <textarea class="t-field-tarea__input js-classroom-diary" placeholder="Digite"></textarea>
                         </div>
                         
                         <label>Diário de Aula por Aluno</label>
                         <div class="alert alert-error classroom-diary-no-students no-show">Não há alunos matriculados na turma.</div>
-                        <div class="accordion accordion-students" id="accordion-students"></div>
+                        <div class="accordion-students"></div>
+                        
                     
-                        <div class="modal-footer mobile-row">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary js-add-classroom-diary" data-dismiss="modal">Salvar</button>
+                        <div class="t-modal__footer row reverse">
+                            <div class="t-buttons-container justify-content--center">
+                                <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
+                            </div>
+                            <div class="t-buttons-container justify-content--center">
+                                <button type="button" class="t-button-primary clear-margin--right js-add-classroom-diary" data-dismiss="modal">Salvar</button>
+                            </div>
                         </div>
                     </div>
                 </form>

@@ -275,9 +275,7 @@ class StudentEnrollment extends AltActiveRecord
                     'studentFk.name' => CSort::SORT_ASC
                 ),
             ),
-            'pagination' => array(
-                'pageSize' => 12,
-            ),
+            'pagination' => false
         )
         );
     }

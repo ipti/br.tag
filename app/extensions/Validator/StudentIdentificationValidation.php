@@ -24,12 +24,16 @@ class studentIdentificationValidation extends Register
 
         $result = $this->isGreaterThan($mdy[2], 1910);
         if (!$result['status']) {
-            return array("status" => false, "erro" => "O ano de nascimento '$mdy[2]' foi preenchido incorretamente.");
+            return array("status" => false, "erro" => $date . ": O ano de nascimento foi preenchido incorretamente.");
         }
 
         $result = $this->isNotGreaterThan($mdy[2], $currentyear);
         if (!$result['status']) {
             return array("status" => false, "erro" => $result['erro']);
+        }
+
+        if ($mdy[2] == date("Y")) {
+            return array("status" => false, "erro" => $date . ": o ano de nascimento do aluno não pode ser o ano atual.");
         }
 
         $currentDate = new DateTime("now");
@@ -45,14 +49,10 @@ class studentIdentificationValidation extends Register
             return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 94 anos e estar matriculado em uma turma FIC Integrado à Modalidade EJA do Ensino Fundamental.");
         } else if ($classroomStage == 68 && ($interval->y < 12 || $interval->y > 94)) {
             return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 94 anos e estar matriculado em uma turma FIC Concomitante.");
+        } else if ($classroomStage == 19 && ($interval->y < 8 || $interval->y > 50)) {
+            return array("status" => false, "erro" => "O aluno não pode ter menos de 08 anos ou mais de 50 anos e estar matriculado em uma turma do 6º Ano do Ensino Fundamental.");
         }
         return array("status" => true, "erro" => "");
-
-        $result = $stiv->checkBirthdayForClassroom($edcenso_svm, $studentIdentification["birthday"]);
-        if (!$result["status"]) array_push($log, array("birthday" => $result["erro"]));
-
-        return array("status" => true, "erro" => "");
-
     }
 
     function specialNeeds($value, $allowedvalues, $requirement)
