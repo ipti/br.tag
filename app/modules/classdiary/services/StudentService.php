@@ -43,7 +43,7 @@ class StudentService
                     ];
                     array_push($students, $array);
                 }   
-                return $students;
+                return ["valid" => true, "students" => $students];
             } else {
                 return  ["valid" => false, "error" => "Matricule alunos nesta turma para trazer o quadro de frequência."];
             }

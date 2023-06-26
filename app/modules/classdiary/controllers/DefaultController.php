@@ -35,10 +35,10 @@ class DefaultController extends Controller
 		$getFrequency = new GetFrequency();
 		$frequency = $getFrequency->exec($classrom_fk, $stage_fk, $discipline_fk, $date);
 
-		header('Content-Type: application/json; charset="UTF-8"');
 		$vaild = json_encode($frequency["valid"]);
 		
 		if ($vaild == 'false'){
+			header('Content-Type: application/json; charset="UTF-8"');
 			echo json_encode($frequency["error"]);
 		} else  {
 			$this->renderPartial('frequencyElementMobile', ["frequency" => $frequency, "date"=> $date,  "discipline_fk" => $discipline_fk]);
