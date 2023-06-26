@@ -564,41 +564,33 @@ class AdminController extends Controller
             ini_set('memory_limit', '-1');
             set_time_limit(0);
             ignore_user_abort();
-            Yii::app()->db2;
-            $sql = "SELECT DISTINCT `TABLE_SCHEMA` FROM `information_schema`.`TABLES` WHERE TABLE_SCHEMA LIKE 'io.escola.%';";
-            $dbs = Yii::app()->db2->createCommand($sql)->queryAll();
+            
             $loads = array();
-            $priority['TABLE_SCHEMA'] = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();
-            array_unshift($dbs, $priority);
-            foreach ($dbs as $db) {
-                //if($db['TABLE_SCHEMA'] != 'io.escola.demo' && $db['TABLE_SCHEMA'] != 'io.escola.geminiano'){
-                if ($db['TABLE_SCHEMA'] == 'io.escola.geminiano') {
-                    $dbname = $db['TABLE_SCHEMA'];
-                    echo $dbname;
-                    Yii::app()->db->setActive(false);
-                    Yii::app()->db->connectionString = "mysql:host=ipti.org.br;dbname=$dbname";
-                    Yii::app()->db->setActive(true);
 
-                    $loads = $this->prepareExport();
-                    $datajson = serialize($loads);
-                    ini_set('memory_limit', '288M');
-                    $fileName = "./app/export/" . $dbname . ".json";
-                    $file = fopen($fileName, "w");
-                    fwrite($file, $datajson);
-                    fclose($file);
-                    header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
-                    header("Content-Type: application/force-download");
-                    header("Content-Length: " . filesize($fileName));
-                    header("Connection: close");
-                    $file = fopen($fileName, "r");
-                    fpassthru($file);
-                    fclose($file);
-                    unlink($fileName);
-                    //$this->loadMaster($loads);
-                }
-            }
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
-            $this->redirect(['index']);
+            $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();          
+                
+            Yii::app()->db->setActive(false);
+            Yii::app()->db->connectionString = "mysql:host=mysql;dbname=$databaseName";
+            var_dump(Yii::app()->db->connectionString);
+            Yii::app()->db->setActive(true);
+
+            $loads = $this->prepareExport();
+            $datajson = serialize($loads);
+            ini_set('memory_limit', '288M');
+            $fileName = "./app/export/" . $databaseName . ".json";
+            $file = fopen($fileName, "w");
+            fwrite($file, $datajson);
+            fclose($file);
+            header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
+            header("Content-Type: application/force-download");
+            header("Content-Length: " . filesize($fileName));
+            header("Connection: close");
+            $file = fopen($fileName, "r");
+            fpassthru($file);
+            fclose($file);
+            unlink($fileName);
+            //$this->loadMaster($loads);
+           
         } catch (Exception $e) {
             //echo
             //var_dump($e);exit;
