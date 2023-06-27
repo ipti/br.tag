@@ -37,8 +37,8 @@ $("#classesSearch").on("click", function () {
             var dia = this.day;
             var mes = $("#month").val();
             item++;
-            accordion += 
-            `<div  class='t-accordeon-container ui-accordion-header'>
+            accordion +=
+              `<div  class='t-accordeon-container ui-accordion-header'>
               <div class='column is-four-fifths'>
                 <div class='t-accordeon-container-nome'>
                   <h3>Nome</h3>
@@ -46,7 +46,7 @@ $("#classesSearch").on("click", function () {
               </div>  
               <div class='column is-one-fifth'>
                 <div class='t-accordeon-container-data'>
-                  <h3>Data</h3>
+                  <h3>${this.day}/${mes}</h3>
                 </div>
               </div>
             </div>
@@ -55,36 +55,24 @@ $("#classesSearch").on("click", function () {
                 <thead></thead>
                   <tbody>`;
             $.each(data.students, function (indexStudent, student) {
-
-
               var hasFaults = student.schedules.filter((schedule) => dia == schedule.day && mes == $("#month").val() && schedule.fault).length > 0;
               var x = student.schedules.filter((schedule) => schedule.day);
-              if (hasFaults) {
-                accordion += 
-                `<tr>
-                  <td class='student-name'>
-                    <div>
-                      ${student.studentName}
-                      <a href='javascript:;' studentId=${student.studentId} data-toggle='tooltip' class='frequency-justification-icon' title=''><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>
-                    </div>
-                      </td>
-                `;
-              } else {
-                accordion += 
-                `<tr>
-                  <td class='student-name'>
-                    <div style='display:flex; justify-content: space-between'>
-                      ${student.studentName}
-                      <a href='javascript:;' studentId=${student.studentId} data-toggle='tooltip' class='frequency-justification-icon' title=''><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>
-                    </div>
-                      </td>
-                `;
-              }
 
+
+              accordion +=
+                `<tr>
+                  <td class='student-name'>
+                    <div class='t-accordeon-container-table'>
+                      ${student.studentName}
+                      <a href='javascript:;' studentId=${student.studentId} data-toggle='tooltip' class='frequency-justification-icon ${!hasFaults ? 'hide' : 'show'}' title=''>
+                        <span class='t-icon-annotation icon-color'></span>
+                      </a>
+                    </div>
+                      </td>
+                `;
               $.each(student.schedules, function (indexSchedule, schedule) {
                 if (dia == schedule.day && mes == $("#month").val()) {
-                  var justificationContainer = "";
-
+                  var justificationContainer = ""; 
                   if (schedule.fault) {
                     if (schedule.justification !== null) {
                       justificationContainer +=
@@ -122,7 +110,8 @@ $("#classesSearch").on("click", function () {
           `</div>
           </div>`;
           $("#frequency-container").html(accordion).show();
-          // $('.frequency-justification-icon').hide();
+
+
 
 
 
@@ -225,9 +214,9 @@ $(document).on("change", ".frequency-checkbox", function () {
     },
     complete: function (response) {
       if ($(checkbox).is(":checked")) {
-        $('[studentid=' + $(checkbox).attr('studentid') + '].frequency-justification-icon').show();
+        $('[studentid=' + $(checkbox).attr('studentid') + '].frequency-justification-icon').removeClass("hide").addClass("show");
       } else {
-        $('[studentid=' + $(checkbox).attr('studentid') + '].frequency-justification-icon').hide();
+        $('[studentid=' + $(checkbox).attr('studentid') + '].frequency-justification-icon').removeClass("show").addClass("hide");
       }
 
       $(".loading-frequency").hide();

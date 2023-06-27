@@ -1,5 +1,5 @@
 .t-accordeon {
-    
+
     .ui-accordion-header {
         display: flex !important;
         background: $colorsBaseCloudLight ;
@@ -24,7 +24,7 @@
 
 .t-accordeon-primary {
     @extend .t-accordeon;
-    
+
     .ui-accordion-header {
         background: $colorsBaseCloudLight;
     }
@@ -33,6 +33,7 @@
         color: $colorsBaseInkLight;
     }
 }
+
 .t-accordeon-secondary {
     @extend .t-accordeon;
 
@@ -46,26 +47,40 @@
         }
     }
 
+    .icon-color {
+        color: $colorsBaseInkLight;
+        font-size: $FontSizeIcons;
+        margin-right: $SizeSmall;
+    }
+
     .ui-accordion-content {
         height: auto !important;
         overflow-x: hidden !important;
     }
+
     .ui-accordion-header {
         background: $colorsBaseCloudDark;
     }
+
     .t-accordeon-container {
-        display: flex; 
+        display: flex;
         flex-direction: row;
-        .column{
+
+        .column {
             .t-accordeon-container-nome {
                 margin-left: $SizeLarge;
             }
+
             .t-accordeon-container-data {
                 margin-left: $SizeXXXLarge;
                 margin-right: $SizeSmall;
-            }  
+            }
         }
-        
     }
-    
+    .t-accordeon-container-table {
+        justify-content: space-between;
+        display: flex;
+        flex-direction: row;
+    }
+
 }
