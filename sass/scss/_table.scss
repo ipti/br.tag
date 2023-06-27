@@ -7,6 +7,9 @@
 
         .t-icon {
             color: $colorsBaseInkLight;
+            font-size: $SizeMedium;
+            cursor: pointer;
+            margin-right: $SizeNormal;
         }
 
     }
@@ -76,6 +79,7 @@
 
 .tag-table-secondary {
     @extend .tag-table;
+    border-collapse: collapse;
     thead {
         tr th {
             font-weight: bold;
@@ -86,7 +90,7 @@
         }
     }
     tbody {
-        tr td {
+        tr {
             border-radius: none;
             border-bottom: $borderWidthCard solid $colorsBaseCloudDark;
         }

@@ -26,9 +26,9 @@ class DefaultController extends Controller
 		$classrooms = $getClassrooms->exec($isInstructor, $discipline);
 		echo json_encode($classrooms, JSON_OBJECT_AS_ARRAY);
 	}
-	public function actionClassDiary($classrom_fk, $stage_fk, $discipline_fk)
+	public function actionClassDiary($classrom_fk, $stage_fk, $discipline_fk, $discipline_name)
 	{
-		$this->render('classDiary');
+		$this->render('classDiary', ["discipline_name"=> $discipline_name]);
 	}
 	public function actionRenderFrequencyElementMobile($classrom_fk, $stage_fk, $discipline_fk, $date)
 	{

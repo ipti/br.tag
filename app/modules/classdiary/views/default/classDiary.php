@@ -11,7 +11,7 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js', CClientScri
 
 ?>
 <div class="main">
-    <h1>Diário de Classe</h1>
+    <h1><?php echo $discipline_name ?></h1>
     <div class="t-filter-bar">
         <div class="t-filters is-one-quarter t-field-text clear-margin--bottom">
             <?php echo CHtml::textField('data', '', array(
