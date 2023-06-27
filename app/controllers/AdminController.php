@@ -323,22 +323,17 @@ class AdminController extends Controller
         set_time_limit(0);
         ini_set('memory_limit', '-1');
         ignore_user_abort();
-        $time1 = time();
-        $path = Yii::app()->basePath;
-        $uploadfile = $path . '/import/28031610.json';
-        $fileDir = $uploadfile;
-        $mode = 'r';
 
-        $fileImport = fopen($fileDir, $mode);
+        $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();   
+        $pathFileJSON = "./app/export/InfoTagJSON/".$databaseName.".json";
+
+        $fileImport = fopen($pathFileJSON, 'r');
         if ($fileImport == false) {
             die('O arquivo não existe.');
         }
 
-        $jsonSyncTag = "";
-        while (!feof($fileImport)) {
-            $linha = fgets($fileImport, filesize($uploadfile));
-            $jsonSyncTag .= $linha;
-        }
+        $jsonSyncTag = file_get_contents($pathFileJSON);
+
         fclose($fileImport);
         $json = unserialize($jsonSyncTag);
         $this->loadMaster($json);
@@ -460,6 +455,7 @@ class AdminController extends Controller
                 JOIN classroom b ON(a.`classroom_fk`=b.id)
                 WHERE
                 b.`school_year`=$year";
+                
         //$sql = "SELECT inep_id as school_inep_id_fk  FROM school_identification where situation='1'";
         $schools = Yii::app()->db->createCommand($sql)->queryAll();
         $istudent = new StudentIdentification();
@@ -559,56 +555,57 @@ class AdminController extends Controller
 
     public function actionExportMaster()
     {
+        $file = null;
+        $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();
+        $pathFileJSON = "./app/export/InfoTagJSON/$databaseName.json";
+
         try {
             ini_set('max_execution_time', 0);
             ini_set('memory_limit', '-1');
             set_time_limit(0);
             ignore_user_abort();
-            
-            $loads = array();
-
-            $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();          
-                
+                         
+            $host = getenv("HOST_DB_TAG");
             Yii::app()->db->setActive(false);
-            Yii::app()->db->connectionString = "mysql:host=mysql;dbname=$databaseName";
-            var_dump(Yii::app()->db->connectionString);
+            Yii::app()->db->connectionString = "mysql:host=$host;dbname=$databaseName";
             Yii::app()->db->setActive(true);
 
-            $loads = $this->prepareExport();
-            $datajson = serialize($loads);
-            ini_set('memory_limit', '288M');
-            $fileName = "./app/export/" . $databaseName . ".json";
-            $file = fopen($fileName, "w");
+            // Prepara os dados para exportação
+            $exportData = array();
+            $exportData = $this->prepareExport();
+            $datajson = serialize($exportData);
+
+            // Grava os dados no arquivo JSON
+            $file = fopen($pathFileJSON, "w");      
             fwrite($file, $datajson);
             fclose($file);
-            header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
+
+            // Envia o arquivo JSON como download
+            header("Content-Disposition: attachment; filename=\"" . basename($pathFileJSON) . "\"");
             header("Content-Type: application/force-download");
-            header("Content-Length: " . filesize($fileName));
-            header("Connection: close");
-            $file = fopen($fileName, "r");
+            header("Content-Length: " . filesize($pathFileJSON));
+            header("Connection: close"); 
+            $file = fopen($pathFileJSON, "r");
             fpassthru($file);
-            fclose($file);
-            unlink($fileName);
-            //$this->loadMaster($loads);
-           
+            fclose($file); 
+            
         } catch (Exception $e) {
-            //echo
-            //var_dump($e);exit;
-            $loads = $this->prepareExport();
-            $datajson = serialize($loads);
-            ini_set('memory_limit', '288M');
-            $fileName = "./app/export/" . Yii::app()->user->school . ".json";
-            $file = fopen($fileName, "w");
-            fwrite($file, $datajson);
+            echo "Ocorreu um erro durante o processamento: " . $e->getMessage();
+        
+            if (file_exists($pathFileJSON)) {
+                unlink($pathFileJSON);
+            }
+        } finally {
             fclose($file);
-            header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
-            header("Content-Type: application/force-download");
-            header("Content-Length: " . filesize($fileName));
-            header("Connection: close");
-            $file = fopen($fileName, "r");
-            fpassthru($file);
-            fclose($file);
-            unlink($fileName);
+            ini_set('memory_limit', ini_get('memory_limit'));
+        }
+    }
+
+    function printTestStatus($objTest, $desc) {
+        if($objTest){
+            echo $desc.": \033[32m.....TRUE\033[0m\n";
+        }else{  
+            echo $desc.": \033[31m.....FALSE\033[0m\n";
         }
     }
 
