@@ -236,7 +236,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/TeachersByStage') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">    
                         <div class="pull-left" style="margin-right: 20px;">
-                            <img class="t-reports_icons" src="<?php echo Yii::app()->theme->baseUrl . '/img/reportsIcon/stage_teachers.svg'?>"></img>
+                            <img class="t-reports_icons" src="<?php echo Yii::app()->theme->baseUrl . '/img/reportsIcon/stage_teachers.svg'?>" alt="Stage Teachers"></img>
                         </div>
                         <div class="pull-left">
                             <span class="title">Professores por Etapa</span><br>
@@ -387,7 +387,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/TeachersBySchool') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">    
                         <div class="pull-left" style="margin-right: 20px;">
-                            <img class="t-reports_icons" src="<?php echo Yii::app()->theme->baseUrl . '/img/reportsIcon/school_teacher.svg'?>"></img>
+                            <img class="t-reports_icons" src="<?php echo Yii::app()->theme->baseUrl . '/img/reportsIcon/school_teacher.svg'?>" alt="School Teachers"></img>
                         </div>
                         <div class="pull-left">
                             <span class="title">Professores por Escola</span><br>
