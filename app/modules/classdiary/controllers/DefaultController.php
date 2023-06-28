@@ -41,7 +41,7 @@ class DefaultController extends Controller
 			header('Content-Type: application/json; charset="UTF-8"');
 			echo json_encode($frequency["error"]);
 		} else  {
-			$this->renderPartial('frequencyElementMobile', ["frequency" => $frequency, "date"=> $date,  "discipline_fk" => $discipline_fk]);
+			$this->renderPartial('_frequencyElementMobile', ["frequency" => $frequency, "date"=> $date,  "discipline_fk" => $discipline_fk, "stage_fk" => $stage_fk, "classrom_fk" => $classrom_fk]);
 		}
 	}
 	public function actionRenderFrequencyElementDesktop($classrom_fk, $stage_fk, $discipline_fk, $date)
@@ -66,7 +66,10 @@ class DefaultController extends Controller
 			$justification = $_POST["justification"];
 			$saveJustification = new SaveJustification();
 			$saveJustification->exec($student_id, $stage_fk, $classrom_id, $schedule, $date, $justification);
-			$this->redirect(['classDiary', 'classrom_fk' => $classrom_id, 'stage_fk' => $stage_fk, 'discipline_fk' => $discipline_fk]);
+
+			$getDiscipline = new GetDiscipline();
+			$discipline = $getDiscipline->exec($discipline_fk)->name;
+			$this->redirect(['classDiary', 'classrom_fk' => $classrom_id, 'stage_fk' => $stage_fk, 'discipline_fk' => $discipline_fk, 'discipline_name' => $discipline]);
 		} else {
 			$this->render('studentClassDiary', ["student" => $student, "stage_fk" => $stage_fk, "classrom_id" => $classrom_id, "schedule" => $schedule, "date" =>$date, "justification" => $justification]);
 		}
