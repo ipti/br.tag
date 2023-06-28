@@ -9,6 +9,7 @@
  * @property string $id
  * @property string $name
  * @property string $degree
+ * @property string $cine_id
  *
  * The followings are the available model relations:
  * @property InstructorVariableData[] $instructorVariableDatas
@@ -49,9 +50,10 @@ class EdcensoCourseOfHigherEducation extends CActiveRecord
 			array('id', 'length', 'max'=>6),
 			array('name', 'length', 'max'=>100),
 			array('degree', 'length', 'max'=>12),
+			array('cine_id', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('cod, area, id, name, degree', 'safe', 'on'=>'search'),
+			array('cod, area, id, name, degree, cine_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -80,6 +82,7 @@ class EdcensoCourseOfHigherEducation extends CActiveRecord
 			'id' => Yii::t('default', 'ID'),
 			'name' => Yii::t('default', 'Name'),
 			'degree' => Yii::t('default', 'Degree'),
+			'cine_id' => Yii::t('default', 'CINE ID'),
 		);
 	}
 
@@ -99,6 +102,7 @@ class EdcensoCourseOfHigherEducation extends CActiveRecord
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('degree',$this->degree,true);
+		$criteria->compare('cine_id',$this->degree,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

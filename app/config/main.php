@@ -4,6 +4,27 @@
 // Yii::setPathOfAlias('local','path/to/local-folder');
 // This is the main Web application configuration. Any writable
 // CWebApplication propeties can be configured here.
+
+
+$log_config = array(
+    'class' => 'CLogRouter',
+    'routes' => array(
+        array(
+            'class' => 'CFileLogRoute',
+            'levels' => 'error, warning',
+        ),
+    ),
+);
+
+if(YII_DEBUG){
+    array_push($log_config['routes'], array(
+        'class'=>'CWebLogRoute',
+      )
+    );
+}
+
+
+
 return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => 'TAG',
@@ -128,21 +149,7 @@ return array(
             // use 'site/error' action to display errors
             'errorAction' => 'site/error',
         ),
-        'log' => array(
-            'class' => 'CLogRouter',
-            'routes' => array(
-                array(
-                    'class' => 'CFileLogRoute',
-                    'levels' => 'error, warning',
-                ),
-                // uncomment the following to show log messages on web pages
-                
-                  /* array(
-                  'class'=>'CWebLogRoute',
-                  ), */
-                
-            ),
-        ),
+        'log' => $log_config
     ),
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
