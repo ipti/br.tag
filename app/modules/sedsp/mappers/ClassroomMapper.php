@@ -14,7 +14,7 @@ class ClassroomMapper
         $tempo_fim = explode(":", $outClasse->outHorarioFim);
 
 
-        $classroom_tag = new Classroom;
+        $classroom_tag = new Classroom($response);
         
         // Classroom
         $classroom_tag->inep_id = $outClasse->outNumClasse;
