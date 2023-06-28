@@ -36,6 +36,8 @@ $("#classesSearch").on("click", function () {
           $.each(data.students[0].schedules, function () {
             var dia = this.day;
             var mes = $("#month").val();
+            fault = this.fault;
+            console.log(fault);
             item++;
             accordion +=
               `<div  class='t-accordeon-container ui-accordion-header'>
@@ -55,9 +57,27 @@ $("#classesSearch").on("click", function () {
                 <thead></thead>
                   <tbody>`;
             $.each(data.students, function (indexStudent, student) {
-              var hasFaults = student.schedules.filter((schedule) => dia == schedule.day && mes == $("#month").val() && schedule.fault).length > 0;
-              var x = student.schedules.filter((schedule) => schedule.day);
+              var hasFaults = student.schedules.filter((schedule) => dia == schedule.day && mes == $("#month").val() && fault == schedule.fault).length > 0;
+              console.log(student.schedules[0].day);
+              console.log(student.schedules[0].fault);
 
+              // console.log(dia);
+              // console.log(mes);
+              // console.log(fault);
+              // console.log("falta");
+              // console.log(schedule.fault);
+              // var x = student.schedules.filter((schedule) => schedule.day);
+              // var hasFault ='';
+              // console.log(schedule.day);
+              // console.log($("#month").val());
+              // if(dia == schedule.day && mes == $("#month").val() && fault == true){
+              //    hasFault = true;
+              //    console.log(hasFault+"entrou no if como verdadeiro")
+              // } else {
+              //    hasFault = false;
+              //    console.log(hasFault+"entrou no if como false")
+              // }
+              // console.log(hasFaults);
 
               accordion +=
                 `<tr>
