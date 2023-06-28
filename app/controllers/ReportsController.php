@@ -56,7 +56,8 @@ class ReportsController extends Controller
                 FROM instructor_teaching_data itd 
                 JOIN instructor_identification ii on ii.id = itd.instructor_fk 
                 JOIN instructor_variable_data ivd ON ii.id = ivd.id
-                JOIN classroom c ON itd.classroom_id_fk = c.id;";
+                JOIN classroom c ON itd.classroom_id_fk = c.id
+                GROUP BY ii.name;";
         $instructors = Yii::app()->db->createCommand($sql)->queryAll();
 
         $stages = EdcensoStageVsModality::model()->findAll();
@@ -83,6 +84,7 @@ class ReportsController extends Controller
                 ii.school_inep_id_fk
             FROM instructor_identification ii
             JOIN instructor_variable_data ivd ON ii.id = ivd.id
+            GROUP BY ii.name
             ORDER BY ii.name;";
         $instructors = Yii::app()->db->createCommand($sql)->queryAll();
 
