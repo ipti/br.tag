@@ -2,7 +2,7 @@
 // defined('YII_DEBUG') or define('YII_DEBUG', true);
 defined('YII_DEBUG') or define('YII_DEBUG', false);
 
-define("TAG_VERSION", '3.32.71');
+define("TAG_VERSION", '3.33.71');
 
 
 define("YII_VERSION", Yii::getVersion());

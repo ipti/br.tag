@@ -1,6 +1,6 @@
 # Atualizações
 
-## [Versão 3.32.71]
+## [Versão 3.33.71]
 - Relatório de Professores por Escola (somente para administrador)
 - Relatório de Professores por Etapa
 
