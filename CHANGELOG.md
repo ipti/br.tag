@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.31.71]
+- Na aba de matrícula a informação de turno da turma foi adicionada
+
 ## [Versão 3.27.70]
 - Corrigido o tamanho e a posição do botão de pesquisa em aulas ministradas
 
