@@ -542,7 +542,7 @@ class ReportsController extends Controller
                 FROM (student_identification as si join student_enrollment as se on si.id = se.student_fk)
                 join classroom as c on se.classroom_fk = c.id
                 join student_documents_and_address as sd on si.id = sd.id
-                where (se.public_transport = 1 or se.vehicle_type_bus=1) and si.school_inep_id_fk = :school_inep_id
+                where (se.public_transport = 1 or se.vehicle_type_bus=1) and se.school_inep_id_fk = :school_inep_id
                 AND c.school_year = :year AND (se.status = 1 OR se.status IS NULL) order by si.name";
 
         $students = Yii::app()->db->createCommand($sql)
