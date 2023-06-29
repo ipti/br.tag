@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.33.72]
+- Um bug que fazia alguns alunos não aparecerem no relatório de transporte foi corrigido
+
 ## [Versão 3.27.70]
 - Corrigido o tamanho e a posição do botão de pesquisa em aulas ministradas
 

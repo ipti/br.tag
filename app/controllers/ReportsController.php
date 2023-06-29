@@ -535,23 +535,31 @@ class ReportsController extends Controller
 
     public function actionStudentsUsingSchoolTransportationRelationReport()
     {
-        $_GET['id'] = Yii::app()->user->school;
+        $school_inep_id = Yii::app()->user->school;
+        $year = Yii::app()->user->year;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
         $sql = "SELECT DISTINCT si.inep_id,si.name,si.birthday,sd.residence_zone, sd.neighborhood, sd.address , se.*
                 FROM (student_identification as si join student_enrollment as se on si.id = se.student_fk)
                 join classroom as c on se.classroom_fk = c.id
                 join student_documents_and_address as sd on si.id = sd.id
-                where (se.public_transport = 1 or se.vehicle_type_bus=1) and si.school_inep_id_fk = " . $_GET['id'] . " AND se.school_inep_id_fk =  " . $_GET['id'] . "
-                AND c.school_year = " . $this->year . " AND (se.status = 1 OR se.status IS NULL) order by si.name";
+                where (se.public_transport = 1 or se.vehicle_type_bus=1) and si.school_inep_id_fk = :school_inep_id
+                AND c.school_year = :year AND (se.status = 1 OR se.status IS NULL) order by si.name";
 
-        $students = Yii::app()->db->createCommand($sql)->queryAll();
+        $students = Yii::app()->db->createCommand($sql)
+            ->bindParam(":school_inep_id", $school_inep_id)
+            ->bindParam(":year", $year)
+            ->queryAll();
 
         $sql1 = "select c.*, q.modality,q.stage
                 from classroom as c join classroom_qtd_students as q
                 on c.school_inep_fk = q.school_inep_fk
-                where c.school_year = " . $this->year . " AND q.school_year = " . $this->year . " and c.school_inep_fk = " . $_GET['id'] . " AND q.school_inep_fk = " . $_GET['id'] . "  AND c.id = q.id
+                where c.school_year = :year AND q.school_year = :year and c.school_inep_fk = :school_inep_id AND q.school_inep_fk = :school_inep_id  AND c.id = q.id
                 order by name";
-        $classrooms = Yii::app()->db->createCommand($sql1)->queryAll();
+
+        $classrooms = Yii::app()->db->createCommand($sql1)
+            ->bindParam(":school_inep_id", $school_inep_id)
+            ->bindParam(":year", $year)
+            ->queryAll();
 
         $this->render('StudentsUsingSchoolTransportationRelationReport', array(
             'school' => $school,
