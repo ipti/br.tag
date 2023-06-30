@@ -39,6 +39,17 @@ $("#classesSearch").on("click", function () {
             var mes = $("#month").val();
             fault = this.fault;
             item++;
+            // <div class='column is-four-fifths'>
+            //     <div class='t-accordeon-container-nome'>
+            //       <h3>Nome</h3>
+            //     </div>
+            //   </div>  
+            //   <div class='column is-one-fifth'>
+            //     <div class='t-accordeon-container-data'>
+            //       <h3>${this.day}/${mes}</h3>
+            //     </div>
+            //   </div>
+            // tabela dentro do header do accodeon?
             accordion +=
           `
             <div  class='t-accordeon-container ui-accordion-header'>
