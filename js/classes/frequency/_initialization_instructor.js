@@ -31,104 +31,89 @@ $("#classesSearch").on("click", function () {
         var data = JSON.parse(response);
         if (data.valid) {
           var accordion = "";
-          accordion += '<div id="accordion" class="t-accordeon-secondary">';
+          accordion +=
+            '<div id="accordion" class="t-accordeon-secondary">';
           var item = 0;
           $.each(data.students[0].schedules, function () {
             var dia = this.day;
             var mes = $("#month").val();
             fault = this.fault;
-            console.log(fault);
             item++;
             accordion +=
-              `<div  class='t-accordeon-container ui-accordion-header'>
-              <div class='column is-four-fifths'>
-                <div class='t-accordeon-container-nome'>
-                  <h3>Nome</h3>
-                </div>
-              </div>  
-              <div class='column is-one-fifth'>
-                <div class='t-accordeon-container-data'>
-                  <h3>${this.day}/${mes}</h3>
-                </div>
-              </div>
+          `
+            <div  class='t-accordeon-container ui-accordion-header'>
+              <table class='table-frequency table'>
+                <thead>
+                  <tr>
+                    <th>
+                      <div class="column is-half">
+                        Nome
+                      </div>
+                    </th>
+                    <th>
+                      <div class="column is-four-fifths" style="">
+                        ${this.day}/${mes}
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+              </table>
             </div>
-            <div class='ui-accordion-content'>
-              <table class='table-frequency table table-bordered table-striped table-hover'>
-                <thead></thead>
-                  <tbody>`;
-            $.each(data.students, function (indexStudent, student) {
-              var hasFaults = student.schedules.filter((schedule) => dia == schedule.day && mes == $("#month").val() && fault == schedule.fault).length > 0;
-              console.log(student.schedules[0].day);
-              console.log(student.schedules[0].fault);
+            <div class='ui-accordion-content'>  
+              <table class='table-frequency table'>
+                <tbody>`;
+                  $.each(data.students, function (indexStudent, student) {
+                    var hasFaults = student.schedules.filter((schedule) => dia == schedule.day && mes == $("#month").val() && schedule.fault == true).length > 0;
+                    accordion +=
+                      `<tr>
+                        <td class='student-name'>
+                          <div class='t-accordeon-container-table'>
+                            ${student.studentName}
+                            <a href='javascript:;' studentId=${student.studentId} day=${dia} data-toggle='tooltip' class='frequency-justification-icon ${!hasFaults ? 'hide' : 'show'}' title=''>
+                              <span class='t-icon-annotation icon-color'></span>
+                            </a>
+                          </div>
+                            </td>
+                      `;
+                    $.each(student.schedules, function (indexSchedule, schedule) {
+                      if (dia == schedule.day && mes == $("#month").val()) {
+                        var justificationContainer = "";
+                        if (schedule.fault) {
+                          if (schedule.justification !== null) {
+                            justificationContainer +=
+                              "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon' title='" +
+                              schedule.justification +
+                              "'></a>";
+                          } else {
+                            justificationContainer +=
+                              "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'></a>";
+                          }
+                        }
 
-              // console.log(dia);
-              // console.log(mes);
-              // console.log(fault);
-              // console.log("falta");
-              // console.log(schedule.fault);
-              // var x = student.schedules.filter((schedule) => schedule.day);
-              // var hasFault ='';
-              // console.log(schedule.day);
-              // console.log($("#month").val());
-              // if(dia == schedule.day && mes == $("#month").val() && fault == true){
-              //    hasFault = true;
-              //    console.log(hasFault+"entrou no if como verdadeiro")
-              // } else {
-              //    hasFault = false;
-              //    console.log(hasFault+"entrou no if como false")
-              // }
-              // console.log(hasFaults);
+                        accordion +=
+                          `<td class='frequency-checkbox-student frequency-checkbox-container ${!this.available ? $("disabled") : $("")}'>
+                            <input class='frequency-checkbox' type='checkbox' ${!schedule.available ? "disabled" : ""} ${schedule.fault ? "checked" : ""} 
+                            classroomId = '${$("#classroom").val()}' 
+                              studentId = ${student.studentId} 
+                              day = ${schedule.day} 
+                              month = ${$("#month").val()} 
+                              schedule = ${schedule.schedule} 
+                              fundamentalMaior = ${fundamentalMaior}>
+                                ${justificationContainer}
+                          </td>`;
+                      }
 
-              accordion +=
-                `<tr>
-                  <td class='student-name'>
-                    <div class='t-accordeon-container-table'>
-                      ${student.studentName}
-                      <a href='javascript:;' studentId=${student.studentId} data-toggle='tooltip' class='frequency-justification-icon ${!hasFaults ? 'hide' : 'show'}' title=''>
-                        <span class='t-icon-annotation icon-color'></span>
-                      </a>
-                    </div>
-                      </td>
-                `;
-              $.each(student.schedules, function (indexSchedule, schedule) {
-                if (dia == schedule.day && mes == $("#month").val()) {
-                  var justificationContainer = ""; 
-                  if (schedule.fault) {
-                    if (schedule.justification !== null) {
-                      justificationContainer +=
-                        "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon' title='" +
-                        schedule.justification +
-                        "'></a>";
-                    } else {
-                      justificationContainer +=
-                        "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'></a>";
-                    }
-                  }
 
+                    });
+                    accordion += `</tr>`;
+                  });
                   accordion +=
-                    `<td class='frequency-checkbox-student frequency-checkbox-container ${!this.available ? $("disabled") : $("")}'>
-                      <input class='frequency-checkbox' type='checkbox' ${!schedule.available ? "disabled" : ""} ${schedule.fault ? "checked" : ""} 
-                      classroomId = '${$("#classroom").val()}' 
-                         studentId = ${student.studentId} 
-                         day = ${schedule.day} 
-                         month = ${$("#month").val()} 
-                         schedule = ${schedule.schedule} 
-                         fundamentalMaior = ${fundamentalMaior}>
-                          ${justificationContainer}
-                    </td>`;
-                }
-
-
-              });
-              accordion += `<tr>`;
-            });
-            accordion +=
-              `</tbody>
-                </table>
-              </div>`;
+                `</tbody>
+              </table>
+            </div>`;
           });
-          `</div>
-          </div>`;
+        `
+        </div>`;
           $("#frequency-container").html(accordion).show();
 
 
@@ -152,7 +137,7 @@ $("#classesSearch").on("click", function () {
           $(".alert-incomplete-data").html(data.error).show();
         }
       },
-      complete: function (response) {
+      complete: function () {
         $(".loading-frequency").hide();
         $(".table-frequency").css("opacity", 1).css("pointer-events", "auto");
         $("#classroom, #month, #disciplines, #classesSearch").removeAttr(
@@ -211,6 +196,8 @@ $("#classroom").on("change", function () {
 
 $(document).on("change", ".frequency-checkbox", function () {
   var checkbox = this;
+  // console.log($(checkbox).attr('day') == "14");
+  // console.log($(checkbox));
   $.ajax({
     type: "POST",
     url: "?r=classes/saveFrequency",
@@ -224,6 +211,7 @@ $(document).on("change", ".frequency-checkbox", function () {
       fault: $(this).is(":checked") ? 1 : 0,
       fundamentalMaior: $(this).attr("fundamentalMaior"),
     },
+
     beforeSend: function () {
       $(".loading-frequency").css("display", "inline-block");
       $(".table-frequency").css("opacity", 0.3).css("pointer-events", "none");
@@ -232,11 +220,11 @@ $(document).on("change", ".frequency-checkbox", function () {
         "disabled"
       );
     },
-    complete: function (response) {
+    complete: function () {
       if ($(checkbox).is(":checked")) {
-        $('[studentid=' + $(checkbox).attr('studentid') + '].frequency-justification-icon').removeClass("hide").addClass("show");
+        $('[studentid=' + $(checkbox).attr('studentid') + '][day=' + $(checkbox).attr('day') + '].frequency-justification-icon').removeClass("hide").addClass("show");
       } else {
-        $('[studentid=' + $(checkbox).attr('studentid') + '].frequency-justification-icon').removeClass("show").addClass("hide");
+        $('[studentid=' + $(checkbox).attr('studentid') + '][day=' + $(checkbox).attr('day') + '].frequency-justification-icon').removeClass("show").addClass("hide");
       }
 
       $(".loading-frequency").hide();
@@ -295,7 +283,7 @@ $(document).on("click", ".btn-save-justification", function () {
       }
       $("#save-justification-modal").modal("hide");
     },
-    complete: function (response) {
+    complete: function () {
       $("#save-justification-modal").find(".modal-body").css("opacity", 1).css("pointer-events", "auto");
       $("#save-justification-modal").find("button").removeAttr("disabled");
       $("#save-justification-modal").find(".centered-loading-gif").hide();
