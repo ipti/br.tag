@@ -358,6 +358,7 @@ class AdminController extends Controller
             
             $this->loadInstructorsTeachingData($datajson['instructorsteachingdata']);
             $this->loadInstructorIdentification($datajson['instructors']);
+            $this->loadInstructorDocumentsAndAddress($datajson['studentdocumentsandaddress']);
             
             
             $transaction->commit();
@@ -584,6 +585,33 @@ class AdminController extends Controller
             $newInstructorIdentification->save();
         }
     }
+
+    function loadInstructorDocumentsAndAddress($jsonInstructorDocumentsAndAddress)
+    {
+        foreach ($jsonInstructorDocumentsAndAddress as $instructorDocumentsAndAddress) {
+            $newInstructorDocumentsAndAddress = new InstructorDocumentsAndAddress();
+            $newInstructorDocumentsAndAddress->setScenario('search');
+            $newInstructorDocumentsAndAddress->setDb2Connection(true);
+            $newInstructorDocumentsAndAddress->refreshMetaData();
+    
+            $existingInstructorDocumentsAndAddress = $newInstructorDocumentsAndAddress->findByAttributes(
+                array(
+                    'hash' => $instructorDocumentsAndAddress['documents']['hash']
+                )
+            );
+    
+            if (!isset($existingInstructorDocumentsAndAddress)) {
+                $newInstructorDocumentsAndAddress = new InstructorDocumentsAndAddress();
+                $newInstructorDocumentsAndAddress->setScenario('search');
+                $newInstructorDocumentsAndAddress->setDb2Connection(true);
+                $newInstructorDocumentsAndAddress->refreshMetaData();
+            }
+
+            $newInstructorDocumentsAndAddress->attributes = $instructorDocumentsAndAddress['documents'];
+
+            $newInstructorDocumentsAndAddress->save();
+        }
+    }
     
 
     public function actionExportMaster()
@@ -712,8 +740,8 @@ class AdminController extends Controller
                         $loads['instructors'][$hash_instructor]['identification'] = $teachingData->instructorFk->attributes;
                         $loads['instructors'][$hash_instructor]['identification']['hash'] = $hash_instructor;
                         
-                        $loads['idocuments'][$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
-                        $loads['idocuments'][$teachingData->instructor_fk]['documents']['hash'] = $hash_instructor;
+                        $loads['studentdocumentsandaddress'][$hash_instructor]['documents'] = $teachingData->instructorFk->documents->attributes;
+                        $loads['studentdocumentsandaddress'][$hash_instructor]['documents']['hash'] = $hash_instructor;
                     }
 
                     if(!isset($loads['instructorsvariabledata'][$teachingData->instructor_fk])) {
