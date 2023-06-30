@@ -33,6 +33,102 @@
            
             return $classrooms;
         }
+
+        /**
+         * Summary of getClassContents
+         * @param mixed $classroom_fk
+         * @param mixed $stage_fk
+         * @param mixed $date
+         * @param mixed $discipline_fk
+         * @return array
+         */
+        public function getClassContents($classroom_fk, $stage_fk, $date, $discipline_fk) {
+            // Fundamental menor
+            $is_minor_schooling = $stage_fk >= 14 && $stage_fk <= 16;
+            if ($is_minor_schooling) 
+            {
+                $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and day = :day and unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $classroom_fk,
+                "month" => DateTime::createFromFormat("d/m/Y", $date)->format("m"),
+                "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d")]);
+            } else {
+                $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and day = :day  and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule", ["classroom_fk" => $classroom_fk, 
+                "month" => DateTime::createFromFormat("d/m/Y", $date)->format("m"),
+                "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"),
+                "discipline_fk" => $discipline_fk]);
+            }
+             if (!empty($schedules)) {
+                if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+                    if ($is_minor_schooling) {
+                        $courseClasses = Yii::app()->db->createCommand(
+                            "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc 
+                            join course_plan cp on cp.id = cc.course_plan_fk
+                            join edcenso_discipline ed on cp.discipline_fk = ed.id
+                            where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk
+                            order by ed.name, cp.name"
+                        )
+                            ->bindParam(":school_inep_fk", Yii::app()->user->school)
+                            ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                            ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
+                            ->queryAll();
+                    } else {
+                        $courseClasses = Yii::app()->db->createCommand(
+                            "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc 
+                            join course_plan cp on cp.id = cc.course_plan_fk
+                            join edcenso_discipline ed on cp.discipline_fk = ed.id
+                            where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk = :discipline_fk and cp.users_fk = :users_fk
+                            order by ed.name, cp.name"
+                        )
+                            ->bindParam(":school_inep_fk", Yii::app()->user->school)
+                            ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                            ->bindParam(":discipline_fk",  $discipline_fk)
+                            ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
+                            ->queryAll();
+                    }
+                }
+                return [
+                    "valid" => true,
+                    "courseClasses" => $courseClasses,
+                ];
+            } else {
+                return ["valid" => false, "error" => "Não existe quadro de horário com dias letivos para o mês selecionado."];
+            } 
+        }
+
+        /**
+         * Summary of SaveClassContents
+         * @param mixed $classContent
+         * @param mixed $stage_fk
+         * @param mixed $date
+         * @param mixed $discipline_fk
+         * @param mixed $classroom_fk
+         * @return void
+         */
+        public function SaveClassContents($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent)
+        {
+             // Fundamental menor
+             $is_minor_schooling = $stage_fk >= 14 && $stage_fk <= 16;
+             if ($is_minor_schooling) 
+             {
+                 $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and month = :month and day = :day and unavailable = 0 group by day order by day, schedule", 
+                 ["classroom_fk" => $classroom_fk,
+                 "month" => DateTime::createFromFormat("d/m/Y", $date)->format("m"),
+                 "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d")]);
+             } else {
+                 $schedule = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and day = :day and discipline_fk = :discipline_fk group by day order by day, schedule",
+                  ["classroom_fk" => $classroom_fk, "month" => DateTime::createFromFormat("d/m/Y", $date)->format("m"),
+                   "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"), "discipline_fk" => $discipline_fk]);
+             }
+
+            ClassContents::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
         
-        
+            foreach ($classContent as $content) {
+                $classHasContent = new ClassContents();
+                $classHasContent->schedule_fk = $schedule->id;
+                $classHasContent->course_class_fk = $content;
+                $classHasContent->save();
+            }
+
+        }
     }
+
+   

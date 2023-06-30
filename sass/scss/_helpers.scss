@@ -84,6 +84,14 @@
     &--all {
         margin: 0;
     }
+    &--x {
+        margin-right: 0;
+        margin-left: 0;
+    }
+    &--y {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
 }
 
 .wrap {
@@ -94,17 +102,20 @@
 }
 .show {
     display:block;
-
-    &.show-tablet {
+    &--mobile {
         display: flex;
-
         @include device(tablet) {
             display: none;
         }
     }
-    &.show-desktop {
+    &--tablet {
+        display: flex;
+        @include device(tablet) {
+            display: none;
+        }
+    }
+    &--desktop {
         display: none;
-
         @include device(tablet) {
             display: flex;
         }

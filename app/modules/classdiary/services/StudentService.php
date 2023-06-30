@@ -2,19 +2,19 @@
 
 class StudentService
 {
-    public function getFrequency($classrom_fk, $stage_fk, $discipline_fk, $date) {
+    public function getFrequency($classroom_fk, $stage_fk, $discipline_fk, $date) {
         // Fundamental menor
         $is_minor_schooling = $stage_fk >= 14 && $stage_fk <= 16;
         if ($is_minor_schooling) 
         {
             $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and 
-            unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $classrom_fk, 
+            unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $classroom_fk, 
             "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"), 
             "month"=>DateTime::createFromFormat("d/m/Y", $date)->format("m")]);
         } else 
         {
             $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and discipline_fk = :discipline_fk
-             and month = :month and unavailable = 0 order by day, schedule", ["classroom_fk" => $classrom_fk, 
+             and month = :month and unavailable = 0 order by day, schedule", ["classroom_fk" => $classroom_fk, 
              "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"), "discipline_fk" => $discipline_fk,
              "month"=>DateTime::createFromFormat("d/m/Y", $date)->format("m")]);
         }
@@ -23,7 +23,8 @@ class StudentService
         $criteria->with = array('studentFk');
         $criteria->together = true;
         $criteria->order = 'name';
-        $enrollments = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $classrom_fk), $criteria);
+        $enrollments = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $classroom_fk), $criteria);
+        
         if ($schedule != null) 
         {
             if ($enrollments != null) 

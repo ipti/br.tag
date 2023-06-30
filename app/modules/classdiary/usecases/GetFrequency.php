@@ -10,8 +10,8 @@
         {
             $this->studentService = $studentService ?? new StudentService();
         }
-        public function exec($classrom_fk, $stage_fk, $discipline_fk, $date){
-                $response = $this->studentService->getFrequency($classrom_fk, $stage_fk, $discipline_fk, $date);
+        public function exec($classroom_fk, $stage_fk, $discipline_fk, $date){
+                $response = $this->studentService->getFrequency($classroom_fk, $stage_fk, $discipline_fk, $date);
                 return  $response; 
         }
     }

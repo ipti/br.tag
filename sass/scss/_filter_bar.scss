@@ -6,7 +6,7 @@
         flex-direction: row;
      }
     .t-filters {
-        display: inline-block;
+        display: flex;
         margin-bottom: $SizeSmall;
         @include device(tablet) {
            margin-bottom: 0;

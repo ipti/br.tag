@@ -8709,14 +8709,6 @@ textarea,
     vertical-align: middle !important;
 }
 
-.classroom-diary-button {
-    padding: 8px;
-    font-size: 18px !important;
-    width: 14px;
-    cursor: pointer;
-    vertical-align: middle;
-    margin-right: 5px;
-}
 
 .classroom-diary-button:hover {
     color: #3F45EA;
