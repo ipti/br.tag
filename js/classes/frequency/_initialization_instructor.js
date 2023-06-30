@@ -31,7 +31,8 @@ $("#classesSearch").on("click", function () {
         var data = JSON.parse(response);
         if (data.valid) {
           var accordion = "";
-          accordion += '<div id="accordion" class="t-accordeon-secondary">';
+          accordion += 
+          '<div id="accordion" class="t-accordeon-secondary">';
           var item = 0;
           $.each(data.students[0].schedules, function () {
             var dia = this.day;
@@ -39,27 +40,35 @@ $("#classesSearch").on("click", function () {
             fault = this.fault;
             console.log(fault);
             item++;
+            // <div class='column is-four-fifths'>
+            //     <div class='t-accordeon-container-nome'>
+            //       <h3>Nome</h3>
+            //     </div>
+            //   </div>  
+            //   <div class='column is-one-fifth'>
+            //     <div class='t-accordeon-container-data'>
+            //       <h3>${this.day}/${mes}</h3>
+            //     </div>
+            //   </div>
+            // tabela dentro do header do accodeon?
             accordion +=
-              `<div  class='t-accordeon-container ui-accordion-header'>
-              <div class='column is-four-fifths'>
-                <div class='t-accordeon-container-nome'>
-                  <h3>Nome</h3>
-                </div>
-              </div>  
-              <div class='column is-one-fifth'>
-                <div class='t-accordeon-container-data'>
-                  <h3>${this.day}/${mes}</h3>
-                </div>
-              </div>
+            `<table class='table-frequency table table-bordered table-striped table-hover'>
+               
+           <div  class='t-accordeon-container ui-accordion-header'>
+           <thead>
+           <tr>
+           <th>Nome</th>
+           <th>${this.day}/${mes}</th>
+         </tr>
+           </thead>
             </div>
             <div class='ui-accordion-content'>
-              <table class='table-frequency table table-bordered table-striped table-hover'>
-                <thead></thead>
+              
                   <tbody>`;
             $.each(data.students, function (indexStudent, student) {
-              var hasFaults = student.schedules.filter((schedule) => dia == schedule.day && mes == $("#month").val() && fault == schedule.fault).length > 0;
-              console.log(student.schedules[0].day);
-              console.log(student.schedules[0].fault);
+              var hasFaults = student.schedules.filter((schedule) => dia == schedule.day && mes == $("#month").val() &&   schedule.fault == true).lenth > 0;
+              // console.log(student.schedules[0].day);
+              // console.log(student.schedules[0].fault);
 
               // console.log(dia);
               // console.log(mes);
@@ -120,14 +129,15 @@ $("#classesSearch").on("click", function () {
 
 
               });
-              accordion += `<tr>`;
+              accordion += `</tr>`;
             });
             accordion +=
               `</tbody>
-                </table>
+               
               </div>`;
           });
-          `</div>
+          `
+          </table>
           </div>`;
           $("#frequency-container").html(accordion).show();
 
