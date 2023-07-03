@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.33.73]
+- Correção na altura da caixa de seleção de escolas no formulário de usuário
+
 ## [Versão 3.27.70]
 - Corrigido o tamanho e a posição do botão de pesquisa em aulas ministradas
 
