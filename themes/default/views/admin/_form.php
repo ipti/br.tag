@@ -155,4 +155,12 @@ $form = $this->beginWidget('CActiveForm', array(
     input[type="checkbox"] {
         height: 30px !important;
     }
+
+    .select2-container .select2-choices {
+        max-height: 500px !important;
+    }
+
+    .select2-drop {
+        width:428px !important;
+    }
 </style>
