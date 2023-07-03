@@ -21,6 +21,7 @@ $("#classesSearch").on("click", function () {
       beforeSend: function () {
         $(".loading-frequency").css("display", "inline-block");
         $(".table-frequency").css("opacity", 0.3).css("pointer-events", "none");
+        $(".table-frequency-head").css("opacity", 0.3).css("pointer-events", "none");
         $("#classroom, #month, #disciplines, #classesSearch").attr(
           "disabled",
           "disabled"
@@ -53,19 +54,16 @@ $("#classesSearch").on("click", function () {
             accordion +=
           `
             <div  class='t-accordeon-container ui-accordion-header'>
-              <table class='table-frequency table'>
+              <table class='table-frequency-head table'>
                 <thead>
                   <tr>
                     <th>
-                      <div style='display: flex;
-                      margin-left: 32px;'>
+                      <div style='display:flex;'>
                         Nome
                       </div>
                     </th>
-                    <th>
-                      <div style='display: block; justify-content: end; padding-right: 64px;'>
+                    <th class='justify-content--end' style='padding-right:35px;'>
                         ${this.day}/${mes}
-                      </div>
                     </th>
                   </tr>
                 </thead>
@@ -103,7 +101,7 @@ $("#classesSearch").on("click", function () {
                         }
 
                         accordion +=
-                          `<td class='frequency-checkbox-student frequency-checkbox-container ${!this.available ? $("disabled") : $("")}'>
+                          `<td class='frequency-checkbox-student justify-content--end frequency-checkbox-container ${!this.available ? $("disabled") : $("")}'>
                             <input class='frequency-checkbox' type='checkbox' ${!schedule.available ? "disabled" : ""} ${schedule.fault ? "checked" : ""} 
                             classroomId = '${$("#classroom").val()}' 
                               studentId = ${student.studentId} 
@@ -151,7 +149,8 @@ $("#classesSearch").on("click", function () {
       },
       complete: function () {
         $(".loading-frequency").hide();
-        $(".table-frequency").css("opacity", 1).css("pointer-events", "auto");
+        $(".table-frequency").css("opacity", 1).css("pointer-events", "auto").css("background-color", "white");
+        $(".table-frequency-head").css("opacity", 1).css("pointer-events", "auto");
         $("#classroom, #month, #disciplines, #classesSearch").removeAttr(
           "disabled"
         );
@@ -227,6 +226,7 @@ $(document).on("change", ".frequency-checkbox", function () {
     beforeSend: function () {
       $(".loading-frequency").css("display", "inline-block");
       $(".table-frequency").css("opacity", 0.3).css("pointer-events", "none");
+      $(".table-frequency-head").css("opacity", 0.3).css("pointer-events", "none");
       $("#classroom, #month, #disciplines, #classesSearch").attr(
         "disabled",
         "disabled"
@@ -241,6 +241,7 @@ $(document).on("change", ".frequency-checkbox", function () {
 
       $(".loading-frequency").hide();
       $(".table-frequency").css("opacity", 1).css("pointer-events", "auto");
+      $(".table-frequency-head").css("opacity", 1).css("pointer-events", "auto");
       $("#classroom, #month, #disciplines, #classesSearch").removeAttr(
         "disabled"
       );

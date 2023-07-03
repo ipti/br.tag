@@ -95,12 +95,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
         </div>
         <div class="mobile-row">
-                <div class="column no-grow">
-                    <a id="classesSearch" class='t-button-icon secondary'>
-                        <span class="t-icon-search_icon"></span> 
-                         <!-- <?php echo Yii::t('default', 'Search') ?> -->
-                    </a>
-                </div>
+            <div class="column no-grow">
+                <a id="classesSearch" class='t-button-icon secondary'>
+                    <span class="t-icon-search_icon"></span>
+                    <!-- <?php echo Yii::t('default', 'Search') ?> -->
+                </a>
+            </div>
         </div>
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>
         <div id="frequency-container" class="table-frequency">

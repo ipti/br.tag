@@ -19,6 +19,7 @@
     .ui-accordion-content {
         height: auto !important;
         overflow-x: hidden !important;
+
     }
 }
 
@@ -39,12 +40,24 @@
 
     .ui-accordion-header {
         padding: 0 0 !important;
+        background: $colorsBaseCloudDark;
+        color: $colorsBaseInkLight;
 
         .t-title {
             margin: 0 $SizeXSmall;
             font-weight: $fontWeightRegular;
             color: $colorsTextPrimary;
         }
+    }
+    .ui-accordion-content {
+        height: auto !important;
+        overflow-x: hidden !important;
+        background-color: $colorsBaseWhiteNormal;
+        padding: $spaceEmpty !important;
+    }
+    .ui-widget-content{
+        background-color: $colorsBaseWhiteNormal !important;
+        background: none !important;
     }
 
     .icon-color {
@@ -53,38 +66,10 @@
         margin-right: $SizeSmall;
     }
 
-    .ui-accordion-content {
-        height: auto !important;
-        overflow-x: hidden !important;
-    }
 
-    .ui-accordion-header {
-        background: $colorsBaseCloudDark;
-    }
-
-    .t-accordeon-container {
-        display: flex;
-        flex-direction: row;
-
-        .column {
-            .t-accordeon-container-nome {
-                margin-left: $SizeLarge;
-            }
-
-            .t-accordeon-container-data {
-                margin-left: $SizeXXXLarge;
-                margin-right: $SizeSmall;
-            }
-        }
-    }
     .t-accordeon-container-table {
         justify-content: space-between;
         display: flex;
         flex-direction: row;
     }
-    .t-accordeon-container-div{
-        display: flex;
-        margin-left: $SizeXLarge;
-    }
-
 }
