@@ -43,6 +43,31 @@ class ReportsController extends Controller
         return true;
     }
 
+    public function actionClassroomTransferReport()
+    {
+        $classroom_id = $_POST['classroom'];
+        $sql = "SELECT si.name, c.name AS classroom_name, si2.name AS school_name, 
+                sdaa.cpf, si.responsable_name, si.responsable_telephone, se.transfer_date  
+                FROM student_enrollment se 
+                JOIN student_identification si ON se.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id
+                JOIN classroom c ON se.classroom_fk = c.id
+                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
+                WHERE c.id = :classroom_id AND se.transfer_date IS NOT NULL;";
+        $result =  Yii::app()->db->createCommand($sql)
+        ->bindParam(":classroom_id", $classroom_id)
+        ->queryAll();
+
+        $title = "RELATÓRIO TRANSFERÊNCIA DA TURMA";
+        $header = $result[0]['classroom_name'];
+
+        $this->render('TransferReport', array(
+            "report" => $result,
+            "title" => $title,
+            "header" => $header
+        ));
+    }
+
     public function actionCnsPerClassroomReport()
     {
         $classroom_id = $_POST['cns_classroom_id'];
