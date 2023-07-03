@@ -57,12 +57,13 @@ $("#classesSearch").on("click", function () {
                 <thead>
                   <tr>
                     <th>
-                      <div class="column is-half">
+                      <div style='display: flex;
+                      margin-left: 32px;'>
                         Nome
                       </div>
                     </th>
                     <th>
-                      <div class="column is-four-fifths" style="">
+                      <div style='display: block; justify-content: end; padding-right: 64px;'>
                         ${this.day}/${mes}
                       </div>
                     </th>

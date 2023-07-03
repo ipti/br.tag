@@ -82,5 +82,9 @@
         display: flex;
         flex-direction: row;
     }
+    .t-accordeon-container-div{
+        display: flex;
+        margin-left: $SizeXLarge;
+    }
 
 }
