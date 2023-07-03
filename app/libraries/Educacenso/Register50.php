@@ -36,6 +36,11 @@ class Register50
 
             foreach ($instructor['teaching'] as $teaching) {
                 $register = [];
+                
+                // ignora professor de apoio
+                if($teaching['role'] == '8'){
+                    continue;
+                }
 
                 $teaching['register_type'] = '50';
                 $teaching['instructor_fk'] = $id;
@@ -87,6 +92,8 @@ class Register50
                         $register[$edcensoAlias->corder] = $teaching[$edcensoAlias["attr"]];
                     }
                 }
+                
+                
 
                 array_push($registers, implode('|', $register));
             }

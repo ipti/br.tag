@@ -178,30 +178,11 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 		$("#loading-popup").show();
 
 		$.get(url, function(data) {
-				const zip = new JSZip();
-				zip.file(filename, data);
-				zip.generateAsync({
-					type: "blob"
-				}).then(function(blob) {
-					var url = URL.createObjectURL(blob);
-					var link = document.createElement('a');
-					link.href = url;
-					link.download = 'Educacao.zip';
-					link.click();
-					URL.revokeObjectURL(url);
-				}).catch(function(err) {
-					console.error(err);
-					$(".alert-error-export").append('Erro ao criar o arquivo zip');
-					$(".alert-error-export").show();
-				}).finally(function() {
-					$("#loading-popup").hide();
+			$("#loading-popup").hide();
 					location.reload();
-				});
-			})
+		})
 			.fail(function() {
-
 				$("#loading-popup").hide();
-
 				$(".alert-error-export").append('Erro ao realizar o download do arquivo ');
 				$(".alert-error-export").show();
 			})
