@@ -22,22 +22,35 @@ function updateClassesContents()
     const stage_fk = urlParams.get("stage_fk")
     const date = $('.js-date').val();
     $.ajax({
+        type:'GET',
         url:  `${window.location.host}?r=classdiary/default/GetClassesContents&classroom_fk=${classroom_fk}&stage_fk=${stage_fk}&date=${date}&discipline_fk=${discipline_fk}`
     }).success((response) => {
-        var options = response["courseClasses"].map((item) => {
-            return $(`<option value=${item.id} >${item.cpname}</option>`)
-        });
-        $("#coursePlan").html(options);
+        
+        if(response.valid==true){
+            var options = response["courseClasses"].map((item) => {
+                return $(`<option value=${item.id} >${item.cpname}</option>`)
+            });
+            $("#coursePlan").html(options);
+            $("#coursePlan").select2("val", response["classContents"]);
+        } else {
+            $(".js-hide-is-not-valid").hide()
+            $(".js-save-course-plan").hide()
+        }
     });
 }
 
 $(".js-save-course-plan").on("click", function () {
     const urlParams = new URLSearchParams(window.location.search);
     const classroom_fk = urlParams.get("classroom_fk")  
-    const discipline_fk = urlParams.get("discipline_fk")
     const stage_fk = urlParams.get("stage_fk")
-    $.ajax({
-        url:`${window.location.host}?r=classdiary/default/SaveClassesContents`
+    const date = $('.js-date').val();
+    const discipline_fk = urlParams.get("discipline_fk")
+    const classContent = $('#coursePlan').val();
+   
+
+     $.ajax({
+        type:'GET',
+        url:`${window.location.host}?r=classdiary/default/SaveClassContents&stage_fk=${stage_fk}&date=${date}&discipline_fk=${discipline_fk}&classroom_fk=${classroom_fk}&classContent=${classContent}`
     })
 });
 

@@ -11,12 +11,10 @@ class DefaultController extends Controller
 			$this->render('index', [
 				'disciplines' => $disciplines
 			]);
-
 		} catch (\Throwable $th) {
 			Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro ao carregar as turmas.'));
 			var_dump($th);
 		}
-
 	}
 	public function actionGetClassrooms()
 	{
@@ -36,7 +34,7 @@ class DefaultController extends Controller
 		header('Content-Type: application/json; charset="UTF-8"');
 	    echo json_encode($classContent, JSON_OBJECT_AS_ARRAY);
 	}
-	public function actionSaveClassesContents($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent)
+	public function actionSaveClassContents($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent)
 	{
 		$saveClassContent = new SaveClassContents();
 		$saveClassContent->exec($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent);
@@ -46,15 +44,8 @@ class DefaultController extends Controller
 	{
 		$getFrequency = new GetFrequency();
 		$frequency = $getFrequency->exec($classroom_fk, $stage_fk, $discipline_fk, $date);
-
-		$vaild = json_encode($frequency["valid"]);
 		
-		if ($vaild == 'false'){
-			header('Content-Type: application/json; charset="UTF-8"');
-			echo json_encode($frequency["error"]);
-		} else  {
 			$this->renderPartial('_frequencyElementMobile', ["frequency" => $frequency, "date"=> $date,  "discipline_fk" => $discipline_fk, "stage_fk" => $stage_fk, "classroom_fk" => $classroom_fk]);
-		}
 	}
 	public function actionRenderFrequencyElementDesktop($classroom_fk, $stage_fk, $discipline_fk, $date)
 	{

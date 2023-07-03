@@ -1,4 +1,6 @@
-<table aria-label="Tabela de alunos" class="column tag-table-secondary js-table-frequency">
+<?php if($frequency["valid"] == true): ?>
+<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span>Para justificar falta e avaliação de Aluno clique no ícone </div>
+<table aria-label="Tabela de alunos" class="column clearfix tag-table-secondary js-table-frequency">
     <thead>
         <tr>
             <th class="text-align--left">
@@ -23,3 +25,6 @@
     <?php endforeach ?>
     </tbody>
 </table>
+<?php else :?>
+    <div class="t-badge-critical"><span class="t-info_positive t-badge-critical__icon"></span><?= $frequency["error"];?> </div>
+<?php endif?>
