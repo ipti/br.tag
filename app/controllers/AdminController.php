@@ -356,8 +356,9 @@ class AdminController extends Controller
 
             $transaction = Yii::app()->db->beginTransaction();
 
-            /* $this->loadSchools($datajson['schools']);
-            $this->loadSchoolsStructures($datajson['schools_structure']);
+            $this->loadEdcensoNations($datajson['edcensonations']);
+            #$this->loadSchools($datajson['schools']);
+            /*$this->loadSchoolsStructures($datajson['schools_structure']);
             
             $this->loadClassrooms($datajson['classrooms']);
 
@@ -368,8 +369,8 @@ class AdminController extends Controller
             $this->loadInstructorsTeachingData($datajson['instructorsteachingdata']); */
 
             #$this->saveUsersDB($datajson['users']);
-            $this->saveInstructorIdentificationDB($datajson['instructors']);
-            $this->saveInstructorDocumentsAndAddressDB($datajson['instructorDocumentsAndAddress']); 
+            #$this->saveInstructorIdentificationDB($datajson['instructors']);
+            #$this->saveInstructorDocumentsAndAddressDB($datajson['instructorDocumentsAndAddress']); 
                    
             $transaction->commit();
             Yii::app()->user->setFlash('success', Yii::t('default', 'Importação realizada com sucesso!'));
@@ -383,27 +384,44 @@ class AdminController extends Controller
         }
     }
 
+    function loadEdcensoNations($jsonEdcensoNations)
+    {
+        foreach ($jsonEdcensoNations as $edcensoNation) {     
+            $edcenso = EdcensoNation::model()->findByAttributes(['name' => $edcensoNation['name'], 'acronym' => $edcensoNation['acronym']]);
+            $hash = hexdec(hash('crc32', $edcenso['name'].$edcenso['acronym']));
+
+            if($hash !== $edcensoNation['hash']){
+                $edcensoNationModel = new EdcensoNation();
+                $edcensoNationModel->setDbCriteria(true);
+                $edcensoNationModel->refreshMetaData();
+                
+                $edcensoNationModel->attributes = $edcensoNation;
+                $edcensoNationModel->save();
+            }
+        }
+    }
+
 
     function loadSchools($jsonSchools) {
         foreach ($jsonSchools as $school) {
-            $schoolIdentification = new SchoolIdentification();
-            $schoolIdentification->setDb2Connection(true);
-            $schoolIdentification->refreshMetaData();
+            $schoolIdentificationModel = new SchoolIdentification();
+            $schoolIdentificationModel->setDb2Connection(true);
+            $schoolIdentificationModel->refreshMetaData();
 
-            $schoolIdentification = $schoolIdentification->findByAttributes(
+            $existingInepId = $schoolIdentificationModel->findByAttributes(
                 array(
                     'inep_id' => $school['inep_id']
                 )
             );
 
-            if (!isset($schoolIdentification)) {
-                $schoolIdentification = new SchoolIdentification();
-                $schoolIdentification->setDb2Connection(true);
-                $schoolIdentification->refreshMetaData();
+            if (!isset($existingInepId)) {
+                $schoolIdentificationModel = new SchoolIdentification();
+                $schoolIdentificationModel->setDb2Connection(true);
+                $schoolIdentificationModel->refreshMetaData();
             }
 
-            $schoolIdentification->attributes = $school;
-            $schoolIdentification->save();
+            $schoolIdentificationModel->attributes = $school;
+            $schoolIdentificationModel->save();
         }
     }
 
@@ -508,7 +526,8 @@ class AdminController extends Controller
         }
     }
 
-    function loadStudentEnrollment($jsonEnrollments){
+    function loadStudentEnrollment($jsonEnrollments)
+    {
         foreach ($jsonEnrollments as $enrollment) {
             $studentEnrollment = new StudentEnrollment();
             $studentEnrollment->setScenario('search');
@@ -651,6 +670,9 @@ class AdminController extends Controller
             $file = fopen($pathFileJSON, "r");
             fpassthru($file);
             fclose($file); 
+
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação realizada com sucesso!'));
+            $this->redirect(array('index'));
             
         } catch (Exception $e) {
             echo "Ocorreu um erro durante o processamento: " . $e->getMessage();
@@ -674,16 +696,16 @@ class AdminController extends Controller
         $year = Yii::app()->user->year; 
         $loads = array();
 
-        $query = "SELECT DISTINCT school_inep_id_fk FROM student_enrollment se
+/*         $query = "SELECT DISTINCT school_inep_id_fk FROM student_enrollment se
                     JOIN classroom c ON(c.id = se.classroom_fk)
                     WHERE c.school_year = :year";
 
-        $schools = Yii::app()->db->createCommand($query)->bindValue(":year", $year)->queryAll();
+        $schools = Yii::app()->db->createCommand($query)->bindValue(":year", $year)->queryAll(); */
 
-        $istudent = new StudentIdentification();
+/*         $istudent = new StudentIdentification();
         $istudent->setDb2Connection(false);
-        $istudent->refreshMetaData();
-               
+        $istudent->refreshMetaData(); */
+        /*        
         foreach ($schools as $schll) {
             $ischool = new SchoolIdentification();
             $ischool->setDb2Connection(false);
@@ -698,6 +720,7 @@ class AdminController extends Controller
             
             $loads['schools'][$hash_school] = $school->attributes;
             $loads['schools'][$hash_school]['hash'] = $hash_school;       
+            
             $loads['schools_structure'][$hash_school] = $school->structure->attributes;
             $loads['schools_structure'][$hash_school]['hash'] = $hash_school;
             
@@ -747,10 +770,12 @@ class AdminController extends Controller
                     }
                 }
             }
-        }  
+        }   */
 
-        $loads = array_merge($loads, $this->getUsersToJsonFile());
-        $loads = array_merge($loads, $this->getInstructorsToJsonFile());
+        $loads = array_merge($loads, $this->getEdcensoNationToJsonFile());
+
+        #$loads = array_merge($loads, $this->getUsersToJsonFile());
+        #$loads = array_merge($loads, $this->getInstructorsToJsonFile());
 
         return $loads;
     }
@@ -775,6 +800,42 @@ class AdminController extends Controller
         }
 
         return $instructorsData;
+    }
+
+    function getSchoolIdentificationToJsonFile() 
+    {
+        $query = "SELECT * FROM school_identification";
+        $schools = Yii::app()->db->createCommand($query)->queryAll();
+
+        $schoolIdentificationModel = new SchoolIdentification();
+        $schoolIdentificationModel->setDb2Connection(false);
+        $schoolIdentificationModel->refreshMetaData();
+
+        $schoolsData = [];
+        foreach ($schools as $school) {
+            $school['hash'] = hexdec(hash('crc32', $school['inep_id']));
+            $schoolsData['schools'][] = $school;
+        }
+
+        return $schoolsData;
+    }
+
+    function getEdcensoNationToJsonFile() 
+    {
+        $query = "SELECT * FROM edcenso_nation";
+        $edcensoNations = Yii::app()->db->createCommand($query)->queryAll();
+
+        $edcensoNationModel = new EdcensoNation();
+        $edcensoNationModel->setDb2Connection(false);
+        $edcensoNationModel->refreshMetaData();
+
+        $edcensoNationData = [];
+        foreach ($edcensoNations as $edcensoNation) {
+            $edcensoNation['hash'] = hexdec(hash('crc32', $edcensoNation['name'].$edcensoNation['acronym']));
+            $edcensoNationData['edcensonations'][] = $edcensoNation;
+        }
+
+        return $edcensoNationData;
     }
 
     function getUsersToJsonFile()
