@@ -295,6 +295,18 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
+                <a href="<?php echo Yii::app()->createUrl('reports/SchoolTransferReport') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-icon-weather-report t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Relatório de Transferência da Escola</span><br>
+                            <span class="subtitle">Informações de alunos tranferidos da escola atual</span>
+                        </div>
+                    </button>
+                </a>
+
                 <a href="<?php echo Yii::app()->createUrl('reports/educationalassistantperclassroomreport', array('id' => Yii::app()->user->school)) ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
@@ -381,6 +393,18 @@ $this->breadcrumbs = array(
                         <span class="subtitle">Listagem de CNS dos alunos de todas as escolas</span>
                     </div>
                 </button>
+
+                <a href="<?php echo Yii::app()->createUrl('reports/AllSchoolsTransferReport') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">    
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-doctor t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Relatório de Transferência de todas as escolas</span><br>
+                            <span class="subtitle">Informações de alunos tranferidos das escola</span>
+                        </div>
+                    </button>
+                </a>
             </div>
             <?php } ?>
         </div>
