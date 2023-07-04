@@ -40,17 +40,6 @@ $("#classesSearch").on("click", function () {
             var mes = $("#month").val();
             fault = this.fault;
             item++;
-            // <div class='column is-four-fifths'>
-            //     <div class='t-accordeon-container-nome'>
-            //       <h3>Nome</h3>
-            //     </div>
-            //   </div>  
-            //   <div class='column is-one-fifth'>
-            //     <div class='t-accordeon-container-data'>
-            //       <h3>${this.day}/${mes}</h3>
-            //     </div>
-            //   </div>
-            // tabela dentro do header do accodeon?
             accordion +=
           `
             <div  class='t-accordeon-container ui-accordion-header'>
@@ -58,11 +47,11 @@ $("#classesSearch").on("click", function () {
                 <thead>
                   <tr>
                     <th>
-                      <div style='display:flex;'>
+                      <div class="" style='display:flex;'>
                         Nome
                       </div>
                     </th>
-                    <th class='justify-content--end' style='padding-right:35px;'>
+                    <th class='justify-content--end column is-three-quarters'  style='display:flex;'>
                         ${this.day}/${mes}
                     </th>
                   </tr>
@@ -101,7 +90,7 @@ $("#classesSearch").on("click", function () {
                         }
 
                         accordion +=
-                          `<td class='frequency-checkbox-student justify-content--end frequency-checkbox-container ${!this.available ? $("disabled") : $("")}'>
+                          `<td  style='justify-content:flex-start' class='frequency-checkbox-student justify-content--end frequency-checkbox-container ${!this.available ? $("disabled") : $("")}'>
                             <input class='frequency-checkbox' type='checkbox' ${!schedule.available ? "disabled" : ""} ${schedule.fault ? "checked" : ""} 
                             classroomId = '${$("#classroom").val()}' 
                               studentId = ${student.studentId} 
@@ -133,6 +122,7 @@ $("#classesSearch").on("click", function () {
           $(function () {
             $("#accordion").accordion({
               collapsible: true,
+              icons: null,
             });
           });
           $(".frequency-checkbox-general").each(function () {
@@ -207,8 +197,6 @@ $("#classroom").on("change", function () {
 
 $(document).on("change", ".frequency-checkbox", function () {
   var checkbox = this;
-  // console.log($(checkbox).attr('day') == "14");
-  // console.log($(checkbox));
   $.ajax({
     type: "POST",
     url: "?r=classes/saveFrequency",
