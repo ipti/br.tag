@@ -42,9 +42,9 @@ $form = $this->beginWidget('CActiveForm', array(
                         <?php echo $form->textField($model, 'username', array('class' => 'input-block-level', 'placeholder' => 'Digite o usuário' )); ?>
                         <?php echo $form->error($model, 'username'); ?>
                         <label >Senha</label>   
+                        <span class="t-icon-eye" id="showPassword" style="position:absolute;right:15px;margin-top:10px;cursor:pointer;font-size:20px;"></span>
                         <?php echo $form->passwordField($model, 'password', array('class' => 'input-block-level', 'placeholder' => 'Digite sua senha')); ?>
                         <?php echo $form->error($model, 'password'); ?>
-                        <span class="t-icon-eye" id="showPassword" style="position:absolute;right:15px;margin-top:10px;cursor:pointer;font-size:20px;"></span>
                         <label>Ano Letivo</label>
                         <?php
                         $rightbrowser = FALSE;
