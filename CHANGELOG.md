@@ -1,5 +1,10 @@
 # Atualizações
 
+## [Versão 3.34.73]
+- Relatório de transferência da turma
+- Relatório de transferência da escola
+- Relatório de transferência de todas as escolas (somente administrador)
+
 ## [Versão 3.27.70]
 - Corrigido o tamanho e a posição do botão de pesquisa em aulas ministradas
 
