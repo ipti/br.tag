@@ -66,6 +66,7 @@ return array(
         'sagres',
         'professional',
         'sedsp',
+        'classdiary',
         'curricularcomponents'
     ),
     // application components
