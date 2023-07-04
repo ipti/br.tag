@@ -1,8 +1,10 @@
 <?php
-// defined('YII_DEBUG') or define('YII_DEBUG', true);
-$debug = getenv("YII_DEBUG");
 
-define("TAG_VERSION", '3.28.71');
+
+$debug = getenv("YII_DEBUG");
+defined('YII_DEBUG') or define('YII_DEBUG', $debug);
+
+define("TAG_VERSION", '3.33.73');
 
 
 

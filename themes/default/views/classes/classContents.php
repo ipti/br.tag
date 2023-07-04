@@ -127,16 +127,17 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
         </div>
         <div class="mobile-row align-items--center">
-            <div id="search-icon" class="column no-grow show show-tablet clearleft">
+            <div id="search-icon" class="column no-grow show--tablet clearleft">
                 <a id="classesSearchMobile" class='t-button-primary t-button-primary--icon'><span class="t-icon-search_icon"></span></a>
             </div>
             <img class="loading-class-contents"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
         
         <div class="column"></div>
-        <div class="column clearfix">
-            <div class="t-buttons-container justify-content--end">
-                <a id="classesSearch" class='t-button-primary show show-desktop'><?php echo Yii::t('default', 'Search') ?></a>
+            <div class="column clearfix">
+                <div class="t-buttons-container justify-content--end">
+                    <a id="classesSearch" class='t-button-secondary show--desktop'><?php echo Yii::t('default', 'Search') ?></a>
+                </div>
             </div>
         </div>
     </div>

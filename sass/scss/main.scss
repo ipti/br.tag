@@ -12,8 +12,8 @@
 @import 'components/field-section';
 @import '_functions.scss';
 @import '_tabs.scss';
-@import '_cards.scss';
 @import '_table.scss';
+@import '_cards.scss';
 @import '_topbar.scss';
 @import '_accordion.scss';
 @import '_accordeon.scss';
@@ -27,6 +27,7 @@
 @import 'icons';
 @import '_reports';
 @import '_sortable';
+@import '_tag';
 
 // place imports before that
 @import '_helpers.scss';

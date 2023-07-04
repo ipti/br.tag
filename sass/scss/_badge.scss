@@ -2,20 +2,18 @@
     display: flex;
     gap: $SizeXXXXSmall;
     align-items: center;
-    border: 0.1rem solid #94A8BE;
     border-radius: $borderRadiusBadge;
     padding: 0 4px 0 4px;
     background-color: $colorsBaseCloudNormal;
-    
     &__icon {
         color: $colorsBaseInkLightHover;
         font-size: $SizeSmall;
+        margin-right: $SizeXXSmall;
     }
     &__label {
         color: $colorsBaseInkLightHover;
         font-weight: $fontWeightRegular;
     }
-
     &:link,
     &:focus,
     &:hover,
