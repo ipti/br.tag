@@ -1,7 +1,7 @@
 @import './field-select2';
 
 .t-multiselect{
-
+    margin-top: $SizeNormal;
     @extend .t-field-select;
     
     .select2-search-choice {
@@ -22,11 +22,13 @@
             background-image: url('../../../themes/default/img/botao-cancelar-multiselect.svg')!important;
             width: $SizeNormal !important;
             height: $SizeNormal !important;
+            background-position: unset !important;
         }
     }
     .select2-choices {
         overflow: auto !important;
         max-height: 42px;
+        width: 100% !important;
     }
     
 }

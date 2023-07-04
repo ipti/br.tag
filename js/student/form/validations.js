@@ -136,6 +136,8 @@ $(formDocumentsAndAddress + 'cns').focusout(function () {
 });
 
 initDateFieldMaskAndValidation(formIdentification + 'birthday');
+initDateFieldMaskAndValidation(formIdentification + 'filiation_1_birthday');
+initDateFieldMaskAndValidation(formIdentification + 'filiation_2_birthday');
 
 $(formIdentification + 'filiation').change(function () {
     var simple = getUrlVars()['simple'];

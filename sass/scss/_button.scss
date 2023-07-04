@@ -83,6 +83,7 @@
     align-self: center;
 
     &--icon {
+        flex: 0;
         padding: $spaceSmall $spaceXLarge;
     }
 

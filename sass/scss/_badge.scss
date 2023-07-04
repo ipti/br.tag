@@ -2,37 +2,18 @@
     display: flex;
     gap: $SizeXXXXSmall;
     align-items: center;
-    border: 0.1rem solid #94A8BE;
     border-radius: $borderRadiusBadge;
     padding: 0 4px 0 4px;
     background-color: $colorsBaseCloudNormal;
-    
     &__icon {
         color: $colorsBaseInkLightHover;
-        font-size: $SizeXSmall;
+        font-size: $SizeSmall;
+        margin-right: $SizeXXSmall;
     }
     &__label {
         color: $colorsBaseInkLightHover;
         font-weight: $fontWeightRegular;
     }
-
-    &-critical {
-        // background-color: $colorsAlertInfoBackground;
-        // color: $colorsAlertInfoText;
-    }
-    &-info {
-        background-color: $colorsAlertInfoBackground;
-        color: $colorsAlertInfoText;
-    }
-    &-success {
-        background-color: $colorsAlertSuccessBackground;
-        color: $colorsAlertSuccessText;
-    }
-    &-warning {
-        background-color: $colorsAlertWarningBackground;
-        color: $colorsAlertWarningText;
-    }
-
     &:link,
     &:focus,
     &:hover,
@@ -40,4 +21,37 @@
     &:active {
         text-decoration: none !important;
     }
+}
+
+.t-badge-info {
+    @extend .t-badge;
+    &__icon {
+        color: $colorsAlertInfoText;
+        font-size: $SizeNormal;
+    }
+    width: fit-content;
+    border: 0.1rem solid #94A8BE;
+    font-weight: $fontWeightRegular;
+    background-color: $colorsAlertInfoBackground;
+    color: $colorsAlertInfoText;
+    border: none;
+    padding: 0 $SizeXXSmall;
+}
+
+.t-badge-critical {
+    @extend .t-badge;
+    border: 0.1rem solid $colorsTextError;
+    background-color: $colorsTextError;
+    color: $colorsBaseWhiteNormal;
+}
+.t-badge-success {
+    @extend .t-badge;
+    background-color: $colorsAlertSuccessBackground;
+    color: $colorsAlertSuccessText;
+}
+
+.t-badge-warning {
+    @extend .t-badge;
+    background-color: $colorsAlertWarningBackground;
+    color: $colorsAlertWarningText;
 }

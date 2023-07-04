@@ -129,7 +129,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->passwordField($model, 'password', array('size' => 32, 'maxlength' => 32, 'style' => 'width: 412px;')); ?>
-                                    <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Min length') . "6"; ?>"><i></i></span> -->
+                                    <br><br>
+                                    <span class="t-icon-eye show-password-icon" id="showPassword"></span>
                                     <?php echo $form->error($model, 'password'); ?>
                                 </div>
                             </div>
@@ -162,5 +163,13 @@ $form = $this->beginWidget('CActiveForm', array(
 
     .select2-drop {
         width:428px !important;
+    }  
+  
+    .show-password-icon {
+        cursor: pointer;
+        font-size: 18px;
+        position: relative;
+        left: 395px;
+        bottom: 45px;
     }
 </style>
