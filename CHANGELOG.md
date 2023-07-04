@@ -1,7 +1,24 @@
 # Atualizações
 
-## [Versão 3.33.72]
+## [Versão 3.33.73]
 - Um bug que fazia alguns alunos não aparecerem no relatório de transporte foi corrigido
+
+## [Versão 3.33.72]
+- Relatório de Professores por Escola (somente para administrador)
+- Relatório de Professores por Etapa
+
+## [Versão 3.31.72]
+- Na aba de matrícula a informação de turno da turma foi adicionada
+
+## [Versão 3.30.72]
+- adicionado módulo de diário de classe para professores
+
+## [Versão 3.29.72]
+- Agora é possível visualizar a senha digitada no login, alteração de senha e edição de usuário
+
+## [Versão 3.28.70]
+- Campos de data de nascimento de filiação do aluno adicionados
+
 
 ## [Versão 3.27.70]
 - Corrigido o tamanho e a posição do botão de pesquisa em aulas ministradas

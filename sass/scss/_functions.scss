@@ -1,5 +1,4 @@
 /* mixin */
-
 @mixin device($device) {
     @if $device == mobile {
         @media (min-width: 640px) {

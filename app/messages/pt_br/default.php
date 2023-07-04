@@ -442,7 +442,9 @@ return array(
     'Id Email' => 'E-mail',
     'Scholarity' => 'Escolaridade',
     'Mother Name' => 'Nome da Mãe',
+    'Mother Birthday' => 'Data de Nascimento da Mãe',
     'Father Name' => 'Nome do Pai',
+    'Father Birthday' => 'Data de Nascimento do Pai',
     'Nationality' => 'Nacionalidade do aluno',
     'Edcenso Nation Fk' => 'País de origem',
     'Estado' => 'Estado',
@@ -809,6 +811,8 @@ return array(
     'Configurarion' => 'Configurações',
     'Quarterly Class Council Report' => 'ATA DE CONSELHO DE CLASSE',
     'Quarterly Report' => 'RELATÓRIO TRIMESTRAL INDIVIDUAL DO ALUNO',
+    'Teachers By School' => 'Professores por Escola',
+    'Teachers By Stage' => 'Professores por Etapa',
     'Changelog' => 'Atualizações',
     
     //Relatórios

@@ -23,7 +23,8 @@ class ReportsController extends Controller
                     'StudentInstructorNumbersRelationReport', 'StudentPendingDocument',
                     'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood',
                     'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 
-                    'EvaluationFollowUpStudentsReport', 'CnsPerClassroomReport', 'CnsSchools', 'CnsPerSchool'),
+                    'EvaluationFollowUpStudentsReport', 'CnsPerClassroomReport', 'CnsSchools', 'CnsPerSchool',
+                    'TeachersByStage', 'TeachersBySchool'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -43,6 +44,64 @@ class ReportsController extends Controller
         return true;
     }
 
+    public function actionTeachersByStage()
+    {
+        $sql = "SELECT 
+                ii.name,
+                ii.birthday_date,
+                ii.inep_id,
+                ivd.scholarity,
+                ii.school_inep_id_fk,
+                c.edcenso_stage_vs_modality_fk AS stage
+                FROM instructor_teaching_data itd 
+                JOIN instructor_identification ii on ii.id = itd.instructor_fk 
+                JOIN instructor_variable_data ivd ON ii.id = ivd.id
+                JOIN classroom c ON itd.classroom_id_fk = c.id
+                GROUP BY ii.name;";
+        $instructors = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $stages = EdcensoStageVsModality::model()->findAll();
+        $result = [];
+        foreach ($stages as $stage) {
+            $instructorByStage = array_filter($instructors, function ($instructor) use ($stage) {
+                return $instructor['stage'] == $stage->id;
+            });
+            array_push($result, ["stage" => $stage, "instructors" => $instructorByStage]);
+        }
+
+        $this->render('TeachersByStage', array(
+            "report" => $result
+        ));
+    }
+
+    public function actionTeachersBySchool()
+    {
+        $sql = "SELECT 
+                ii.name,
+                ii.birthday_date,
+                ii.inep_id,
+                ivd.scholarity,
+                ii.school_inep_id_fk
+            FROM instructor_identification ii
+            JOIN instructor_variable_data ivd ON ii.id = ivd.id
+            GROUP BY ii.name
+            ORDER BY ii.name;";
+        $instructors = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $schools = SchoolIdentification::model()->findAll();
+        $result = [];
+        foreach ($schools as $school) {
+            $instructorBySchool = array_filter($instructors, function ($instructor) use ($school) {
+                return $instructor['school_inep_id_fk'] == $school->inep_id;
+            });
+            array_push($result, ["school" => $school, "instructors" => $instructorBySchool]);
+        }
+
+        $this->render('TeachersBySchool', array(
+            "report" => $result
+        ));
+    }
+
     public function actionCnsPerClassroomReport()
     {
         $classroom_id = $_POST['cns_classroom_id'];
@@ -56,7 +115,7 @@ class ReportsController extends Controller
                 WHERE c.id = :classroom_id
                 GROUP BY name;";
 
-        $result =  Yii::app()->db->createCommand($sql)
+        $result = Yii::app()->db->createCommand($sql)
         ->bindParam(":classroom_id", $classroom_id)
         ->queryAll();
 
@@ -1285,7 +1344,11 @@ class ReportsController extends Controller
             'order' => 'name'
         ));
 
-        $this->render('index', ['classrooms' => $classrooms, 'students' => $students]);
+        $schools = SchoolIdentification::model()->findAll();
+
+        $stages = EdcensoStageVsModality::model()->findAll();
+
+        $this->render('index', ['classrooms' => $classrooms, 'students' => $students, 'schools' => $schools, 'stages' => $stages]);
     }
 
     public function actionElectronicDiary()
