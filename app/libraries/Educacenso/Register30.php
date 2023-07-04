@@ -361,7 +361,7 @@ class Register30
         return $register;
     }
 
-    private static function exportInstructorVariable($instructor, $register, $year)
+    private static function exportInstructorVariable($instructor, $register, $year, $highEducationCourses)
     {
         $instructor['register_type'] = '30';
 
@@ -450,13 +450,13 @@ class Register30
         }
 
         if ($instructor['high_education_course_code_1_fk'] !== null && $instructor['high_education_course_code_1_fk'] !== "") {
-            $instructor['high_education_course_code_1_fk'] = self::convertCourseCodes($instructor['high_education_course_code_1_fk']);
+            $instructor['high_education_course_code_1_fk'] = self::convertCourseCodes($instructor['high_education_course_code_1_fk'], $highEducationCourses);
         }
         if ($instructor['high_education_course_code_2_fk'] !== null && $instructor['high_education_course_code_2_fk'] !== "") {
-            $instructor['high_education_course_code_2_fk'] = self::convertCourseCodes($instructor['high_education_course_code_2_fk']);
+            $instructor['high_education_course_code_2_fk'] = self::convertCourseCodes($instructor['high_education_course_code_2_fk'], $highEducationCourses);
         }
         if ($instructor['high_education_course_code_3_fk'] !== null && $instructor['high_education_course_code_3_fk'] !== "") {
-            $instructor['high_education_course_code_3_fk'] = self::convertCourseCodes($instructor['high_education_course_code_3_fk']);
+            $instructor['high_education_course_code_3_fk'] = self::convertCourseCodes($instructor['high_education_course_code_3_fk'], $highEducationCourses);
         }
 
         foreach ($instructor as $key => $attr) {
@@ -472,38 +472,10 @@ class Register30
         return $register;
     }
 
-    private static function convertCourseCodes($code)
+    private static function convertCourseCodes($code, $highEducationCourses)
     {
-        switch ($code) {
-            case "145F21":
-                return "0114Q011";
-            case "142C01":
-                return "0113P012";
-            case "142P01":
-                return "0113P011";
-            case "145F01":
-                return "0114B011";
-            case "145F10":
-                return "0114G011";
-            case "145F11":
-                return "0114H011";
-            case "145F14":
-                return "0115L081";
-            case "145F15":
-                return "0115L131";
-            case "145F17":
-                return "0115L191";
-            case "145F18":
-                return "0114M011";
-            case "146F15":
-                return "0114E031";
-            case "146P01":
-                return "0111C012";
-            case "421C01":
-                return "0511B012";
-            case "999990":
-                return "0114E061";
-        }
+        $found_key = array_search($code, array_column($highEducationCourses, 'id'));
+        return $highEducationCourses[$found_key]['cine_id'];
     }
 
     public static function export($year)
@@ -512,6 +484,7 @@ class Register30
 
         $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
         $managerIdentification = ManagerIdentification::model()->findByAttributes(['school_inep_id_fk' => yii::app()->user->school]);
+        $highEducationCourses = EdcensoCourseOfHigherEducation::model()->findAll(); 
         $instructors = [];
         $students = [];
 
@@ -547,7 +520,7 @@ class Register30
 
             $register = self::exportInstructorIdentification($instructor['identification'], $register, $year, $resetEmail);
             $register = self::exportInstructorDocuments($instructor['documents'], $register, $year);
-            $register = self::exportInstructorVariable($instructor['variable'], $register, $year);
+            $register = self::exportInstructorVariable($instructor['variable'], $register, $year, $highEducationCourses);
 
             ksort($register);
             array_push($registers, implode('|', $register));
