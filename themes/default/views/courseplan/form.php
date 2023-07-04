@@ -60,7 +60,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             <?php echo Yii::t('default', 'Class') ?></a>
                     </li>
                 </ul>
-                <div   class="row">
+                <div class="row">
                     <a 
                     data-toggle="tab" class='t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?>
                     </a>
@@ -76,37 +76,37 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <input type="hidden" class="js-course-plan-id" value="<?= $coursePlan->id ?>">
                 <div class="tab-content">
                     <div class="tab-pane active" id="create-plan">
-                    <div class="row">
-                                <div class="column">
-                                    <div>
-                                            <?php echo CHtml::label(yii::t('default', 'Name') . "*", 'name', array(
-                                                'class' => 'control-label required', 'style' => 'display: contents;',
-
-                                )); ?>
-                                <?php
-                                echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'placeholder' => 'Digite o Nome do Plano', 'style' => 'display:block;margin: 10px 0;width: 399px;'));
-                                ?>
+                        <div class="row">
+                            <div class="column flex is-two-fifths">
+                                <div class="t-field-text">
+                                    <?php echo CHtml::label(yii::t('default', 'Name') . "*", 'name', array('class' => 'control-label t-field-text__label--required')); ?>
+                                    <?php echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Plano')); ?>
+                                </div>
                             </div>
-                            <div>
-                                <?php echo CHtml::label(yii::t('default', 'Stage') . "*", 'modality_fk', array('class' => 'control-label required', 'style' => 'display: contents;')); ?>
-                                <div>
+                        </div>
+                        <div class="row">
+                            <div class="column flex is-two-fifths">
+                                <div class="t-field-select">
+                                    <?php echo CHtml::label(yii::t('default', 'Stage') . "*", 'modality_fk', array('class' => 'control-label t-field-select__label--required')); ?>
                                     <?php
                                     echo $form->dropDownList($coursePlan, 'modality_fk', CHtml::listData($stages, 'id', 'name'), array(
                                         'key' => 'id',
-                                        'class' => 'select-search-on control-input',
-                                        'prompt' => 'Selecione o estágio...',
-
+                                        'class' => 'select-search-on t-field-select__input',
+                                        'prompt' => 'Selecione a etapa...',
                                     ));
                                     ?>
                                     <img class="js-course-plan-loading-disciplines"  style="margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
                                 </div>
                             </div>
-                            <div>
-                                <?php echo CHtml::label(yii::t('default', 'Discipline') . "*", 'discipline_fk', array('class' => 'control-label required', 'style' => 'display: contents;')); ?>
-                                <div class="coursePlan-input"><?php
-                                    echo $form->dropDownList($coursePlan, 'discipline_fk', array(), array(
+                        </div>
+                        
+                        <div class="row">
+                            <div class="column flex is-two-fifths">
+                                <div class="t-field-select">
+                                    <?php echo CHtml::label(yii::t('default', 'Discipline') . "*", 'discipline_fk', array('class' => 'control-label t-field-select__label--required')); ?>
+                                    <?php echo $form->dropDownList($coursePlan, 'discipline_fk', array(), array(
                                         'key' => 'id',
-                                        'class' => 'select-search-on control-input',
+                                        'class' => 'select-search-on t-field-select__input',
                                         'initVal' => $coursePlan->discipline_fk,
                                         'prompt' => 'Selecione o componente curricular/eixo...',
                                     ));
@@ -115,7 +115,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                 </div>
                             </div>
                         </div>
-                    </div>
 
                 </div>
                 <div class="tab-pane" id="class">
