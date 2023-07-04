@@ -1,15 +1,17 @@
 .tag-table {    
+    border-collapse: initial;
+    margin-top: $SizeMedium;
     td {
         background: $colorsBaseWhiteNormal;
         padding: $spaceMedium;
 
         .t-icon {
             color: $colorsBaseInkLight;
+            font-size: $SizeMedium;
+            cursor: pointer;
+            margin-right: $SizeNormal;
         }
 
-        a {
-            color: $colorsBaseProductNormalActive;
-        }
     }
 
     thead {
@@ -67,11 +69,17 @@
             line-height: normal;
         }
     }
+    td {
+        
+        a {
+            color: $colorsBaseProductNormalActive;
+        }
+    }
 }
 
 .tag-table-secondary {
     @extend .tag-table;
-
+    border-collapse: collapse;
     thead {
         tr th {
             font-weight: bold;
@@ -79,6 +87,12 @@
             background-color: $colorsBaseCloudDark;
             padding: $SizeXSmall;
             line-height: normal;
+        }
+    }
+    tbody {
+        tr {
+            border-radius: none;
+            border-bottom: $borderWidthCard solid $colorsBaseCloudDark;
         }
     }
 }
