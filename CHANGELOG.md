@@ -1,5 +1,7 @@
 # Atualizações
 
+## [Versão 3.33.73]
+- Um bug que fazia alguns alunos não aparecerem no relatório de transporte foi corrigido
 
 ## [Versão 3.33.72]
 - Relatório de Professores por Escola (somente para administrador)
@@ -16,6 +18,7 @@
 
 ## [Versão 3.28.70]
 - Campos de data de nascimento de filiação do aluno adicionados
+
 
 ## [Versão 3.27.70]
 - Corrigido o tamanho e a posição do botão de pesquisa em aulas ministradas
