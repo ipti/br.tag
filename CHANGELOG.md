@@ -1,5 +1,10 @@
 # Atualizações
 
+
+## [Versão 3.33.72]
+- Relatório de Professores por Escola (somente para administrador)
+- Relatório de Professores por Etapa
+
 ## [Versão 3.31.72]
 - Na aba de matrícula a informação de turno da turma foi adicionada
 
