@@ -1,8 +1,13 @@
 # Atualizações
 
+
 ## [Versão 3.28.71]
 - Corrigido o estilo do alerta de quadro de horários em aulas ministradas
 - Corrigido o tamanho do campo de texto no modal diário de aula
+
+## [Versão 3.28.70]
+- Campos de data de nascimento de filiação do aluno adicionados
+
 
 ## [Versão 3.27.70]
 - Corrigido o tamanho e a posição do botão de pesquisa em aulas ministradas
