@@ -64,15 +64,15 @@
                                 <div class="span3">
                                     <div class="t-field-text">
                                         <?php echo $form->labelEx($model, 'password', array('class' => 't-field-text__label--required')); ?>
-                                        <?php echo $form->passwordField($model, 'password', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input',)); ?>
-                                        <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Min length') . "6"; ?>"><i></i></span> -->
+                                        <?php echo $form->passwordField($model, 'password', array('size' =>     32, 'maxlength' => 32, 'class' => 't-field-text__input password-input',)); ?>
+                                        <span class="t-icon-eye show-password-icon" id="showPassword"></span>
                                         <?php echo $form->error($model, 'password'); ?>
                                     </div>
 
                                     <div class="t-field-text">
                                         <?php echo CHtml::label(Yii::t('default', 'Confirm'), 'Confirm', array('class' => 't-field-text__label--required')); ?>
-                                        <?php echo CHtml::passwordField('Confirm', '', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input',)); ?>
-                                        <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Confirm Password'); ?>"><i></i></span> -->
+                                        <?php echo CHtml::passwordField('Confirm', '', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input password-input', 'style' => 'margin-bottom:20px;')); ?>
+                                        <span class="t-icon-eye show-password-icon" id="showPasswordConfirm" style="bottom:45px;"></span>
                                     </div>
                                 </div>
                             </div>
@@ -90,3 +90,18 @@
     </script>
 
 </div>
+
+<style>
+    .show-password-icon {
+        cursor: pointer;
+        font-size: 17px;
+        position: relative;
+        left: 210px;
+        bottom: 25px;
+    }
+
+    input[type="password"] {
+        width: 223px !important;
+        height: 22px;
+    }
+</style>

@@ -89,7 +89,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
             </ul>
         </div>
 
-        <div class="widget-body form-horizontal">
+        <div class="widget-body form-instructor form-horizontal">
             <div class="tab-content">
 
                 <!-- Tab content -->
