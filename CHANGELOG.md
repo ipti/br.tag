@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.31.72]
+- Na aba de matrícula a informação de turno da turma foi adicionada
+
 ## [Versão 3.30.72]
 - adicionado módulo de diário de classe para professores
 

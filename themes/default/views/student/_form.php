@@ -1454,7 +1454,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <tr>
                                                 <th style="text-align: center !important;">Escola</th>
                                                 <th style="text-align: center">Atualizar Ficha de Matrícula</th>
-                                                <th style="text-align: center">situação</th>
+                                                <th style="text-align: center">Turno</th>
+                                                <th style="text-align: center">Situação</th>
                                                 <th style="text-align: center">Ano</th>
                                                 <th style="text-align: center">Formulários</th>
                                                 <th style="text-align: center; width: 15%;">Cancelar Matrícula</th>
@@ -1466,7 +1467,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             foreach ($modelStudentIdentification->studentEnrollments as $me) {
                                             ?>
                                                 <tr>
-                                                    <td><?php echo $me->schoolInepIdFk->name ?></td>
+                                                    <td style="text-align: center"><?php echo $me->schoolInepIdFk->name ?></td>
                                                     <td style="text-align: center">
                                                         <?php if ($me->classroomFk->school_year >=  Yii::app()->user->year) {  ?>
                                                             <a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)); ?>'>
@@ -1481,7 +1482,27 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             </p>
                                                         <?php } ?>
                                                     </td>
-                                                    <td style="text-align: center">
+                                                    <td style="text-align: center;min-width: 100px;">
+                                                        <?php
+                                                            switch ($me->classroomFk->turn) {
+                                                                case "M":
+                                                                    echo "Matutino";
+                                                                    break;
+                                                                case "T":
+                                                                    echo "Vespertino";
+                                                                    break;
+                                                                case "N":
+                                                                    echo "Noturno";
+                                                                    break;
+                                                                case "I":
+                                                                    echo "Integral";
+                                                                    break;
+                                                                default:
+                                                                    echo "-";
+                                                            }
+                                                        ?>
+                                                    </td>
+                                                    <td style="text-align: center;min-width: 100px;">
                                                         <?php
                                                         switch ($me->status) {
                                                             case "1":
@@ -1505,7 +1526,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         }
                                                         ?>
                                                     </td>
-                                                    <td style="text-align: center"><?php echo $me->classroomFk->school_year ?></td>
+                                                    <td style="text-align: center;min-width: 100px;"><?php echo $me->classroomFk->school_year ?></td>
                                                     <?php
                                                     $type;
                                                     if (@isset($me->classroomFk->edcensoStageVsModalityFk->stage)) {
