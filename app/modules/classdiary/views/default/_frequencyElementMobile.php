@@ -18,9 +18,9 @@
         $is_disabled = (!$f["schedule"]["available"] ? "disabled" : "");
     ?>
             <tr>
-                <td> <a class='js-justification' href='<?= $url_link ?>'><span class="t-icon-attendance-note t-icon "></span><?php echo $f["studentName"]; ?></a></td>
-                <td class='justify-content--end' <?= $is_disabled ?>><input class='js-frequency-checkbox' id="<?php echo $f["studentId"] ?>" type='checkbox' <?php echo (!$f["schedule"]["available"] ? "disabled" : "") ?> <?php echo ( $f["schedule"]["fault"] ? "checked" : "") ?> 
-                studentId='<?php echo $f["studentId"] ?>' classrom_id='<?php echo $classroom_fk ?>' stage_fk='<?php echo $stage_fk ?>' schedule='<?php echo $f["schedule"]["schedule"]?>'/></td>
+                <td> <a class='js-justification'  href='<?= $url_link ?>'><span class="t-icon-attendance-note t-icon "></span><?php echo $f["studentName"]; ?></a></td>
+                <td class='justify-content--end' <?= $is_disabled ?>><input class='js-frequency-checkbox' id="<?php echo $f["studentId"] ?>" type='checkbox' <?= $is_disabled ?> <?php echo ( $f["schedule"]["fault"] ? "checked" : "") ?> 
+                data-studentId='<?php echo $f["studentId"] ?>' data-classrom_id='<?php echo $classroom_fk ?>' data-stage_fk='<?php echo $stage_fk ?>' data-schedule='<?php echo $f["schedule"]["schedule"]?>'/></td>
             </tr>
     <?php endforeach ?>
     </tbody>

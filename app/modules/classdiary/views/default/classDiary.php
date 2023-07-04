@@ -33,6 +33,7 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js', CClientScri
             </div>
         </div>
         </div>
-    <div class="row js-frequency-element">       
+    <div class="row">   
+        <div class="column js-frequency-element"></div>    
     </div>
 </div>
