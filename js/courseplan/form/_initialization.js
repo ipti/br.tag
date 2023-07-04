@@ -78,7 +78,7 @@ $(document).on("change", "#CoursePlan_modality_fk", function (evt, loadingData) 
             },
             success: function (data) {
                 data = JSON.parse(data);
-                var option = "<option value=''>Selecione a disciplina...</option>";
+                var option = "<option value=''>Selecione o componente curricular/eixo...</option>";
                 $.each(data, function () {
                     var selectedValue = loadingData !== undefined && $("#CoursePlan_discipline_fk").attr("initval") !== "" && $("#CoursePlan_discipline_fk").attr("initval") === this.id ? "selected" : "";
                     option += "<option value='" + this.id + "' " + selectedValue + ">" + this.name + "</option>";
@@ -91,7 +91,7 @@ $(document).on("change", "#CoursePlan_modality_fk", function (evt, loadingData) 
             },
         });
     } else {
-        $("#CoursePlan_discipline_fk").html("<option value=''>Selecione a disciplina...</option>").trigger("change").show();
+        $("#CoursePlan_discipline_fk").html("<option value=''>Selecione o componente curricular/eixo...</option>").trigger("change").show();
     }
 });
 $("#CoursePlan_modality_fk").trigger("change", [true]);
