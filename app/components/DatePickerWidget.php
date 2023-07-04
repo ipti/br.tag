@@ -51,7 +51,7 @@ class DatePickerWidget
                 'changeMonth' => true,
                 'yearRange' => '1930:'. $year,
                 'showOn' => 'focus',
-                'maxDate' => '31/12/'. $year,
+                'maxDate' => '31/12/'. ($year +1),
                 'monthNamesShort' => [
                     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
                     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'

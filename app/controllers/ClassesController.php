@@ -272,7 +272,6 @@ class ClassesController extends Controller
     {
         $studentArray = [];
         foreach ($students as $student) {
-
             $studentData = [
                 "id" => $student["id"],
                 "name" => $student["name"],
