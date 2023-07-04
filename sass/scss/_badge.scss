@@ -25,33 +25,35 @@
 
 .t-badge-info {
     @extend .t-badge;
+
     &__icon {
         color: $colorsAlertInfoText;
         font-size: $SizeNormal;
+        margin: 0 $SizeXXSmall;
     }
     width: fit-content;
-    border: 0.1rem solid #94A8BE;
     font-weight: $fontWeightRegular;
     background-color: $colorsAlertInfoBackground;
     color: $colorsAlertInfoText;
     border: none;
     padding: 0 $SizeXXSmall;
 }
-
 .t-badge-critical {
     @extend .t-badge;
-    border: 0.1rem solid $colorsTextError;
-    background-color: $colorsTextError;
-    color: $colorsBaseWhiteNormal;
+
+    background-color: $colorsAlertInfoBackground;
+    color: $colorsAlertInfoText;
 }
+
 .t-badge-success {
     @extend .t-badge;
+
     background-color: $colorsAlertSuccessBackground;
     color: $colorsAlertSuccessText;
 }
-
 .t-badge-warning {
     @extend .t-badge;
+
     background-color: $colorsAlertWarningBackground;
     color: $colorsAlertWarningText;
 }
