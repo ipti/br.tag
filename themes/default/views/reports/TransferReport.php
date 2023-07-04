@@ -19,7 +19,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         </div>
     </div>
     <h4 style="text-align: center;"><?php echo $header?></h4>
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped" aria-labelledby="Transfer Report Table">
         <thead>
             <tr>
                 <th scope="col">Nome do Aluno</th>
