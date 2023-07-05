@@ -41,7 +41,7 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
     <?php endif ?>
     <div class="widget widget-tabs border-bottom-none">
-    <span class="t-school-transfer"></span>
+    <span class="t-transfer-all-school"></span>
 
         <?php echo $form->errorSummary($modelClassroom); ?>
         <div class="alert alert-error classroom-error no-show"></div>
