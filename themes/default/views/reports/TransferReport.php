@@ -22,6 +22,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     <table class="table table-bordered table-striped" aria-labelledby="Transfer Report Table">
         <thead>
             <tr>
+                <th scope="col">Ordem</th>
                 <th scope="col">Nome do Aluno</th>
                 <th scope="col">CPF</th>
                 <th scope="col">Turma</th>
@@ -32,8 +33,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($report as $r) {?>
+            <?php
+            $ordem = 1;
+            foreach ($report as $r) {?>
                 <tr>
+                    <td><?= $ordem <= 9 ? "0".$ordem : $ordem ?></td>
                     <td><?= $r['name']?></td>
                     <td><?= $r['cpf']?></td>
                     <td><?= $r['classroom_name']?></td>
@@ -42,7 +46,20 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     <td><?= $r['responsable_telephone']?></td>
                     <td><?= date('d/m/Y', strtotime($r['transfer_date']))?></td>
                 </tr>
-            <?php }?>
+            <?php
+            $ordem++;
+            }?>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: right"><b>TOTAL:</b></td>
+                <td><b><?= count($r)-1 ?></b></td>
+            </tr>
         </tbody>
     </table>
     <?php $this->renderPartial('footer'); ?>
