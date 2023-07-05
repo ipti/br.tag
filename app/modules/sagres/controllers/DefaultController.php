@@ -54,12 +54,40 @@ class DefaultController extends Controller
 
 	public function actionExport($year, $month, $finalClass)
 	{
+		$memory_limit = ini_get('memory_limit');
+
 		try {
+
 			$sagres = new SagresConsultModel;
+			ini_set('memory_limit', '2048M');
 			$sagresEduXML = $sagres->generatesSagresEduXML($sagres->getSagresEdu($year, $month, $finalClass));
-			echo $sagres->actionExportSagresXML($sagresEduXML);
+			$sagres->actionExportSagresXML($sagresEduXML);
+			Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="'.Yii::app()->createUrl("sagres/default/download").'" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));							
+			ini_set('memory_limit', $memory_limit);
+
 		} catch (Exception $e) {
 			Yii::app()->user->setFlash('error', Yii::t('default', $e->getMessage()));
-		}
+            ini_set('memory_limit', $memory_limit);
+		}		
+	}
+
+	public function actionDownload(){
+
+		
+		$fileDir = "./app/export/SagresEdu/Educacao.zip";
+        if (file_exists($fileDir)) {
+            header('Content-Description: File Transfer');
+            header('Content-type: application/zip');
+            header('Content-Disposition: attachment; filename="' . basename($fileDir) . '"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($fileDir));
+            readfile($fileDir);			
+			unlink($fileDir);
+        } else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado!!! Tente exportar novamente.'));
+            $this->render('index');
+        }
 	}
 }

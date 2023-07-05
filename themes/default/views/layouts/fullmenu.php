@@ -296,6 +296,14 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                 </li>
                             </ul>
                         </li>
+                        <?php if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) : ?>
+                            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=classdiary/default/") ? 'active' : '' ?>">
+                                <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('classdiary/default/') ?> ">
+                                    <span class="t-classdiary t-menu-item__icon"></span>
+                                    <span class="t-menu-item__text">Diario de Classe</span>
+                                </a>
+                            </li>
+                         <?php endif ?>   
                         <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=reports") ? 'active' : '' ?> hide-responsive">
                             <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('reports') ?>">
                                 <span class="t-icon-column_graphi t-menu-item__icon"></span>

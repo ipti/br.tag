@@ -24,8 +24,10 @@ $('#classesSearch, #classesSearchMobile').on('click', function () {
                     $("#print").addClass("show").removeClass("hide");
                     $("#save").addClass("show show-desktop").removeClass("hide");
                     $("#save-button-mobile").addClass("show show-tablet").removeClass("hide");
+                    $('#error-badge').html('')
                 } else {
-                    $('#class-contents > thead').html('<tr><th class="center">' + data.error + '</th></tr>');
+                    $('#error-badge').html('<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span>' + data.error + '</div>')
+                    $('#class-contents > thead').html('');
                     $('#class-contents > tbody').html('');
                     $('#class-contents').show();
                     $("#save, #save-button-mobile").hide();
@@ -64,19 +66,13 @@ $("#classroom").on("change", function () {
                         $("#disciplines").html(decodeHtml(response)).trigger("change.select2").show();
                     }
                     $(".disciplines-container").show();
-                    $("#select-container").addClass("tablet-row").removeClass("mobile-row");
-                    $("#search-icon").addClass("clearleft").removeClass("clearright");
                 },
             });
         } else {
             $(".disciplines-container").hide();
-            $("#select-container").addClass("mobile-row").removeClass("tablet-row");
-            $("#search-icon").addClass("clearright").removeClass("clearleft");
         }
     } else {
         $(".disciplines-container").hide();
-        $("#select-container").addClass("mobile-row").removeClass("tablet-row");
-        $("#search-icon").addClass("clearright").removeClass("clearleft");
     }
 });
 
@@ -139,7 +135,7 @@ $('.heading-buttons').css('width', $('#content').width());
 $(document).on("click", ".classroom-diary-button", function () {
     var button = this;
     $(".classroom-diary-day").val($(button).closest("tr").attr("day"));
-    $(".js-classroom-diary").val($(button).parent().find(".classroom-diary-of-the-day").val());
+    $(".classroom-diary-textarea").val($(button).parent().find(".classroom-diary-of-the-day").val());
     $(".accordion-students").find(".accordion-group").each(function () {
         var value = $(button).parent().find(".student-diary-of-the-day[studentid=" + $(this).closest(".accordion-group").attr("studentid") + "]").val();
         $(this).find(".student-classroom-diary").val(value);
@@ -152,13 +148,13 @@ $(document).on("click", ".classroom-diary-button", function () {
 
 $(document).on("click", ".js-add-classroom-diary", function () {
     var tr = $("#class-contents tbody").find("tr[day=" + $(".classroom-diary-day").val() + "]");
-    tr.find(".classroom-diary-of-the-day").val($(".js-classroom-diary").val());
+    tr.find(".classroom-diary-of-the-day").val($(".classroom-diary-textarea").val());
     $(".student-classroom-diary").each(function () {
         tr.find(".student-diary-of-the-day[studentid=" + $(this).closest(".accordion-group").attr("studentid") + "]").val($(this).val());
     });
 });
 
-$(document).on("keypress", ".js-classroom-diary, .student-classroom-diary", function (event) {
+$(document).on("keypress", ".classroom-diary-textarea, .student-classroom-diary", function (event) {
     if (event.which === 13) {
         event.preventDefault();
         this.value = this.value + "\n";

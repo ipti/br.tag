@@ -2,7 +2,7 @@
 @import '_functions.scss';
 
 .t-buttons-container {
-    display: flex;
+    display: inline-block;
     width: 100%;
 
     &.auto-width {
@@ -84,6 +84,7 @@
     align-self: center;
 
     &--icon {
+        flex: 0;
         padding: $spaceSmall $spaceXLarge;
     }
 
