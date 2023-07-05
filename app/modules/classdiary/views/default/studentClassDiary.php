@@ -23,6 +23,14 @@ $form = $this->beginWidget('CActiveForm', array(
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="column is-half clear-margin--all">
+            <div class="t-field-tarea">
+                        <?= chtml::label("observação", "title"); ?>
+                        <?php echo CHtml::textArea("observation", $observation, array('maxlength' => 500)); ?>
+            </div>
+        </div>
+    </div>
         <div class="mobile-row">
             <?php echo CHtml::submitButton('Salvar', array('class' => 't-button-primary clear-margin--all')); ?>
         </div>

@@ -25,14 +25,16 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js', CClientScri
             <a class=" clear-margin--all t-button-primary t-button-primary--icon show--tablet js-change-date"><span class="t-icon-search_icon"></span></a>
         </div>
     </div>
+    
     <div class="row">
-        <div class="column t-multiselect clear-margin--x js-hide-is-not-valid">
-            <?php echo CHtml::dropDownList('coursePlan', '',  [], array('multiple' => 'multiple', 'class' => 'select-search-on t-multiselect multiselect', 'id' => 'coursePlan', 'style' => 'width: 100%')); ?>
-            <div class="row-mobile">
-                <a class="clear-margin--all t-button-primary js-save-course-plan">Salvar Plano de Aula</a>
-            </div>
+        <div class="column is-two-fifths t-multiselect clear-margin--x js-hide-is-not-valid">
+            <?php echo CHtml::dropDownList('coursePlan', '',  [], array('multiple' => 'multiple', 'class' => 'select-search-on t-multiselect multiselect', 'id' => 'coursePlan', 'style' => 'width: 100%')); ?> 
         </div>
+         <div class="column t-buttons-container clearleft--on-mobile">
+            <a class="clear-margin--all t-button-primary js-save-course-plan">Salvar Plano de Aula</a>
         </div>
+    </div>
+    
     <div class="row">   
         <div class="column js-frequency-element"></div>    
     </div>
