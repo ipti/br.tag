@@ -270,6 +270,7 @@ class AdminController extends Controller
             delete from instructor_variable_data;
 
             delete from classroom;
+            delete from edcenso_nation;
 
             delete from school_identification;
             delete from school_structure;";
@@ -291,8 +292,9 @@ class AdminController extends Controller
         $admin_login = 'admin';
         $admin_password = md5('p@s4ipti');
 
-        $command = "INSERT INTO `users`VALUES
-                        (1, 'Administrador', '$admin_login', '$admin_password', 1);";
+        $hash = hexdec(hash('crc32', 'Administrador'.$admin_login.$admin_password));
+        $command = "INSERT INTO users VALUES (1, 'Administrador', '$admin_login', '$admin_password', 1, $hash);";
+        Yii::app()->db->createCommand("ALTER TABLE users AUTO_INCREMENT = 2;")->execute();
         Yii::app()->db->createCommand($command)->query();
 
         $auth = Yii::app()->authManager;
@@ -350,18 +352,20 @@ class AdminController extends Controller
 
             $this->loadEdcensoNations($datajson['edcensonations']);
             $this->loadSchools($datajson['schools']);
-            /*$this->loadSchoolsStructures($datajson['schools_structure']);
-            
             $this->loadClassrooms($datajson['classrooms']);
-
+            $this->saveUsersDB($datajson['users']);
+            $this->saveInstructorIdentificationDB($datajson['instructors']);
+            $this->saveStudentIdentificationDB($datajson['students']);
+            $this->saveSchoolStructureDB($datajson['schoolstructures']);
+           
+            /*$this->loadSchoolsStructures($datajson['schools_structure']);
             $this->loadStudentIdentification($datajson['students']);
             $this->loadStudentDocumentsAndAddress($datajson['documentsaddress']);
             $this->loadStudentEnrollment($datajson['enrollments']);
             
             $this->loadInstructorsTeachingData($datajson['instructorsteachingdata']); */
 
-            #$this->saveUsersDB($datajson['users']);
-            $this->saveInstructorIdentificationDB($datajson['instructors']);
+            
             #$this->saveInstructorDocumentsAndAddressDB($datajson['instructorDocumentsAndAddress']); 
                    
             $transaction->commit();
@@ -401,6 +405,17 @@ class AdminController extends Controller
         }
     }
 
+    function saveSchoolStructureDB($schoolStructures) 
+    {
+        foreach ($schoolStructures as $schoolStructure) {
+            $schoolStructureModel =  new SchoolStructure();
+            $schoolStructureModel->setDb2Connection(true);
+            $schoolStructureModel->refreshMetaData();
+            $schoolStructureModel->attributes = $schoolStructure;
+            $schoolStructureModel->save();
+        }
+    }
+
     function loadSchoolsStructures($jsonSchoolsStructures) {
         foreach ($jsonSchoolsStructures as $structure) {
             $schoolStructure = new SchoolStructure();
@@ -425,28 +440,13 @@ class AdminController extends Controller
     }
 
     function loadClassrooms($jsonClassrooms) {
-        foreach ($jsonClassrooms as  $class) {
-            $classroom = new Classroom();
-            $classroom->setScenario('search');
-            $classroom->setDb2Connection(true);
-            $classroom->refreshMetaData();
-            
-            $classroom = $classroom->findByAttributes(
-                array(
-                    'hash' => $class['hash']
-                )
-            );
-
-            if (!isset($classroom)) {
-                $classroom = new Classroom();
-                $classroom->setScenario('search');
-                $classroom->setDb2Connection(true);
-                $classroom->refreshMetaData();
-            }
-
-            $classroom->attributes = $class;
-            $classroom->hash = $class['hash'];
-            $classroom->save();
+        foreach ($jsonClassrooms as  $classroom) {
+            $classroomModel = new Classroom();
+            $classroomModel->setScenario('search');
+            $classroomModel->setDb2Connection(true);
+            $classroomModel->refreshMetaData();
+            $classroomModel->attributes = $classroom;
+            $classroomModel->save();
         }
     }
 
@@ -550,6 +550,7 @@ class AdminController extends Controller
             $usersModel->setDb2Connection(true);
             $usersModel->refreshMetaData();
             $usersModel->attributes = $user;
+            $usersModel->id = $user['id'];
             $usersModel->save();
         }
     }
@@ -574,6 +575,17 @@ class AdminController extends Controller
             $instructorDocumentsAndAddressModel->refreshMetaData();
             $instructorDocumentsAndAddressModel->attributes = $instructorDocumentsAndAddress;
             $instructorDocumentsAndAddressModel->save();
+        }
+    }
+
+    function saveStudentIdentificationDB($studentIdentifications)
+    {
+        foreach ($studentIdentifications as $studentIdentification) {
+            $studentIdentificationMode = new StudentIdentification();
+            $studentIdentificationMode->setDb2Connection(true);
+            $studentIdentificationMode->refreshMetaData();
+            $studentIdentificationMode->attributes = $studentIdentification;
+            $studentIdentificationMode->save();
         }
     }
     
@@ -716,12 +728,14 @@ class AdminController extends Controller
         }   */
 
 
-        $loads = array_merge($loads, $this->getEdcensoNationToJsonFile());
         $loads = array_merge($loads, $this->getUsersToJsonFile());
+        $loads = array_merge($loads, $this->getEdcensoNationToJsonFile());
         $loads = array_merge($loads, $this->getInstructorsToJsonFile());
         $loads = array_merge($loads, $this->getSchoolIdentificationToJsonFile());
+        $loads = array_merge($loads, $this->getClassrooms());
+        $loads = array_merge($loads, $this->getStudentIdentification());
+        $loads = array_merge($loads, $this->getSchoolStructure());
         
-
         return $loads;
     }
 
@@ -761,6 +775,24 @@ class AdminController extends Controller
         return $schoolsData;
     }
 
+    function getSchoolStructure()
+    {
+        $query = "SELECT * FROM school_structure";
+        $schoolStructures = Yii::app()->db->createCommand($query)->queryAll();
+
+        $schoolStructureModel = new SchoolStructure();
+        $schoolStructureModel->setDb2Connection(false);
+        $schoolStructureModel->refreshMetaData();
+
+        $schoolStructuresData = [];
+        foreach ($schoolStructures as $schoolStructure) {
+           $schoolStructure['hash'] = hexdec(hash('crc32', $schoolStructure['school_inep_id_fk']));
+           $schoolStructuresData['schoolstructures'][] = $schoolStructure;
+        }
+
+        return $schoolStructuresData;
+    }
+
     function getEdcensoNationToJsonFile() 
     {
         $query = "SELECT * FROM edcenso_nation";
@@ -781,7 +813,7 @@ class AdminController extends Controller
 
     function getUsersToJsonFile()
     {
-        $query = "SELECT * FROM users";
+        $query = "SELECT * FROM users WHERE id > 1";
         $users = Yii::app()->db->createCommand($query)->queryAll();
 
         $userModel = new Users;
@@ -790,11 +822,47 @@ class AdminController extends Controller
 
         $usersData = [];
         foreach ($users as $user) {
-            $user['hash'] = hexdec(hash('crc32', $user['name'].$user['username']));
+            $user['hash'] = hexdec(hash('crc32', $user['name'].$user['username'].$user['password']));
             $usersData['users'][] = $user;
         }
 
         return $usersData;
+    }
+
+    function getClassrooms() 
+    {
+        $query = "SELECT * FROM classroom";
+        $classrooms = Yii::app()->db->createCommand($query)->queryAll();
+
+        $classroomsModel = new Classroom();
+        $classroomsModel->setDb2Connection(false);
+        $classroomsModel->refreshMetaData();
+
+        $classroomsData = [];
+        foreach ($classrooms as $classroom) {
+            $classroom['hash'] = hexdec(hash('crc32', $classroom['name']));
+            $classroomsData['classrooms'][] = $classroom;
+        }
+
+        return $classroomsData;
+    }
+
+    function getStudentIdentification() 
+    {
+        $query = "SELECT * FROM student_identification";
+        $students = Yii::app()->db->createCommand($query)->queryAll();
+
+        $studentIdentificationModel = new StudentIdentification();
+        $studentIdentificationModel->setDb2Connection(false);
+        $studentIdentificationModel->refreshMetaData();
+
+        $studentsData = [];
+        foreach ($students as $student) {
+            $student['hash'] = hexdec(hash('crc32', $student['name'].$student['birthday']));
+            $studentsData['students'][] = $student;
+        }
+
+        return $studentsData;
     }
     
 
