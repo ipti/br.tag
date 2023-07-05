@@ -53,7 +53,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 <tr>
                     <td></td>
                     <td></td>
-                    <td></td
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
