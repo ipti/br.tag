@@ -27,7 +27,7 @@ function createTable(data) {
                             </h4>
                         </div>
                         <div class='ui-accordion-content'>
-                            <textarea class='t-field-tarea__input'></textarea>
+                            <textarea class='t-field-tarea__input student-classroom-diary'></textarea>
                         </div>`
                 }
             });
