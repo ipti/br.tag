@@ -111,7 +111,7 @@ $("#classesSearch").on("click", function () {
               </table>
             </div>`;
           });
-        `</div>`;
+          accordion += `</div>`;
           $("#frequency-container").html(accordion).show();
 
 
