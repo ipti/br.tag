@@ -243,6 +243,18 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
+                <a href="<?php echo Yii::app()->createUrl('reports/TeachersByStage') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">    
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <img class="t-reports_icons" src="<?php echo Yii::app()->theme->baseUrl . '/img/reportsIcon/stage_teachers.svg'?>" alt="Stage Teachers"></img>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Professores por Etapa</span><br>
+                            <span class="subtitle">Listagem e total de professores por etapa</span>
+                        </div>
+                    </button>
+                </a>
+
                 <a href="<?php echo Yii::app()->createUrl('reports/disciplineandinstructorrelationreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
@@ -402,6 +414,14 @@ $this->breadcrumbs = array(
                         <div class="pull-left">
                             <span class="title">Relatório de Transferência de todas as escolas</span><br>
                             <span class="subtitle">Informações de alunos tranferidos das escola</span>
+                <a href="<?php echo Yii::app()->createUrl('reports/TeachersBySchool') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">    
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <img class="t-reports_icons" src="<?php echo Yii::app()->theme->baseUrl . '/img/reportsIcon/school_teacher.svg'?>" alt="School Teachers"></img>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Professores por Escola</span><br>
+                            <span class="subtitle">Listagem e total de professores por escola</span>
                         </div>
                     </button>
                 </a>

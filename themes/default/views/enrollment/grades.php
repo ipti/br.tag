@@ -30,7 +30,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Grades'));
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Grades'); ?></h1>
             <div class="buttons row grades-buttons">
-                <button class='t-button-primary calculate-media'>Calcular Média</button>
+                <!--<button class='t-button-primary calculate-media'>Calcular Média</button>-->
                 <button id="save"
                    class='t-button-primary  hidden-print no-show'><?php echo Yii::t('default', 'Save') ?>
                 </button>
