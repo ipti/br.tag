@@ -21,11 +21,11 @@ $("#classesSearch").on("click", function () {
                 var data = JSON.parse(response);
                 if (data.valid) {
                     var html = "";
-                    html += "" +
-                        "<table class=' table-frequency table table-bordered table-striped table-hover'>" +
-                        "<thead class='t-accordion__head'>" +
-                        "<tr>"
-                    "</tr>";
+                    html += 
+                        `<table class='table-frequency table table-bordered table-striped table-hover'> 
+                        <thead class='t-accordion__head'>
+                        <tr>
+                        </tr>`;
                     var daynameRow = "";
                     var dayRow = "";
                     var scheduleRow = "";
@@ -48,8 +48,8 @@ $("#classesSearch").on("click", function () {
                                     justificationContainer += "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>";
                                 }
                             }
-                            html += "<td class='frequency-checkbox-student frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!schedule.available ? "disabled" : "") + " " + (schedule.fault ? "checked" : "") + " classroomId='" + $("#classroom").val() + 
-                            "' studentId='" + student.studentId + "' day='" + schedule.day + "' month='" + $("#month").val() + "' schedule='" + schedule.schedule + "' fundamentalMaior='" + fundamentalMaior + "'>" + justificationContainer + "</td>";
+                            html += "<td class='frequency-checkbox-student frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!schedule.available ? "disabled" : "") + " " + (schedule.fault ? "checked" : "") + " classroomId='" + $("#classroom").val() +
+                                "' studentId='" + student.studentId + "' day='" + schedule.day + "' month='" + $("#month").val() + "' schedule='" + schedule.schedule + "' fundamentalMaior='" + fundamentalMaior + "'>" + justificationContainer + "</td>";
                         });
                         html += "</tr>";
                     });
