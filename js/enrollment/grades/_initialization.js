@@ -162,23 +162,23 @@ $(document).on("keyup", "input.grade", function (e) {
     this.value = val;
 });
 
-$(document).on("click", ".calculate-media", function (e) {
-    e.preventDefault();
-    $(".js-grades-alert").hide();
-    $.ajax({
-        type: "POST",
-        url: "?r=enrollment/calculateFinalMedia",
-        cache: false,
-        data: {
-            classroom: $("#classroom").val(),
-            discipline: $("#discipline").val(),
-        },
-        beforeSend: function () {
-            $(".js-grades-loading").css("display", "inline-block");
-            $(".js-grades-container, .grades-buttons").css("opacity", "0.4").css("pointer-events", "none");
-        },
-        success: function (data) {
-            $("#discipline").trigger("change");
-        },
-    });
-});
+// $(document).on("click", ".calculate-media", function (e) {
+//     e.preventDefault();
+//     $(".js-grades-alert").hide();
+//     $.ajax({
+//         type: "POST",
+//         url: "?r=enrollment/calculateFinalMedia",
+//         cache: false,
+//         data: {
+//             classroom: $("#classroom").val(),
+//             discipline: $("#discipline").val(),
+//         },
+//         beforeSend: function () {
+//             $(".js-grades-loading").css("display", "inline-block");
+//             $(".js-grades-container, .grades-buttons").css("opacity", "0.4").css("pointer-events", "none");
+//         },
+//         success: function (data) {
+//             $("#discipline").trigger("change");
+//         },
+//     });
+// });
