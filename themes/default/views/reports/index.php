@@ -72,7 +72,7 @@ $this->breadcrumbs = array(
 
                 <button type="button" class="report-box-container" data-toggle="modal" data-target="#classroom-transfer-report" target="_blank">
                     <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-icon-group-people t-reports_icons"></span>
+                        <span class="t-class-transfer t-reports_icons"></span>
                     </div>
                     <div class="pull-left">
                         <span class="title">Relatório de Transferência da Turma</span><br>
@@ -246,7 +246,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/TeachersByStage') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">    
                         <div class="pull-left" style="margin-right: 20px;">
-                            <img class="t-reports_icons" src="<?php echo Yii::app()->theme->baseUrl . '/img/reportsIcon/stage_teachers.svg'?>" alt="Stage Teachers"></img>
+                            <span class="t-stage-teachers t-reports_icons"></span>
                         </div>
                         <div class="pull-left">
                             <span class="title">Professores por Etapa</span><br>
@@ -310,7 +310,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/SchoolTransferReport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
-                            <span class="t-icon-weather-report t-reports_icons"></span>
+                            <span class="t-school-transfer t-reports_icons"></span>
                         </div>
                         <div class="pull-left">
                             <span class="title">Relatório de Transferência da Escola</span><br>
@@ -409,7 +409,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/AllSchoolsTransferReport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">    
                         <div class="pull-left" style="margin-right: 20px;">
-                            <span class="t-doctor t-reports_icons"></span>
+                            <span class="t-transfer-all-school t-reports_icons"></span>
                         </div>
                         <div class="pull-left">
                             <span class="title">Relatório de Transferência de todas as escolas</span><br>
@@ -417,7 +417,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/TeachersBySchool') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">    
                         <div class="pull-left" style="margin-right: 20px;">
-                            <img class="t-reports_icons" src="<?php echo Yii::app()->theme->baseUrl . '/img/reportsIcon/school_teacher.svg'?>" alt="School Teachers"></img>
+                            <span class="t-school-teacher t-reports_icons"></span>
                         </div>
                         <div class="pull-left">
                             <span class="title">Professores por Escola</span><br>

@@ -24,7 +24,7 @@ class ReportsController extends Controller
                     'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood',
                     'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 
                     'EvaluationFollowUpStudentsReport', 'CnsPerClassroomReport', 'CnsSchools', 'CnsPerSchool',
-                    'ClassroomTransferReport', 'SchoolTransferReport', 'AllSchoolsTransferReport'),
+                    'ClassroomTransferReport', 'SchoolTransferReport', 'AllSchoolsTransferReport',
                     'TeachersByStage', 'TeachersBySchool'),
                 'users' => array('@'),
             ),
@@ -113,6 +113,8 @@ class ReportsController extends Controller
             "report" => $result,
             "title" => $title,
             "header" => $header
+        ));
+    }
     public function actionTeachersByStage()
     {
         $sql = "SELECT 
