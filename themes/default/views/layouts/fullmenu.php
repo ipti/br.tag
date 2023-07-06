@@ -345,6 +345,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                             <span class="t-menu-item__text">Educacenso</span>
                                         </a>
                                     </li>
+                                    <?php if (INSTANCE != "BUZIOS") { ?>
                                     <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=sagres") ? 'active' : '' ?>">
                                         <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('sagres') ?> ">
                                             <span class="t-icon-sagres t-menu-item__icon"></span>
@@ -352,6 +353,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                             <span class="t-menu-item__text">Sagres</span>
                                         </a>
                                     </li>
+                                    <?php } ?>
                                     <?php if (INSTANCE == "UBATUBA" || INSTANCE == "TREINAMENTO" || INSTANCE == "LOCALHOST" || INSTANCE == "DEMO") { ?>
                                         <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=sedsp") ? 'active' : '' ?>">
                                             <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('sedsp') ?>">
