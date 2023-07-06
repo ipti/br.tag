@@ -1,5 +1,7 @@
 # Atualizações
 
+## [Versão 3.34.74]
+- O botão inoperante de calcular média na página de notas foi removido
 
 ## [Versão 3.28.71]
 - Corrigido o estilo do alerta de quadro de horários em aulas ministradas
