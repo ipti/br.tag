@@ -75,6 +75,18 @@
  * @property StudentDocumentsAndAddress $documentsFk
  */
 class StudentIdentification extends AltActiveRecord {
+        
+
+    protected function afterSave()
+    {
+        parent::afterSave();
+        if ($this->isNewRecord) {
+            Yii::app()->studentManager->create($this);
+        } else {
+            Yii::app()->studentManager->update($this);
+        }
+
+    }
 
     /**
      * Returns the static model of the specified AR class.

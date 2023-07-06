@@ -50,6 +50,22 @@ class StudentController extends Controller
         );
     }
 
+
+
+    public function __construct($id, $module = null)
+    {                
+        Yii::app()->studentManager->attachSubscribers(array(
+            UpdateStudentEvent::NAME => function ($event){
+                Yii::app()->logger->logUpdate("student", $event->student->id, $event->student->name);
+            },
+            CreateStudentEvent::NAME => function ($event){
+                Yii::app()->logger->logCreate("student", $event->student->id, $event->student->name);
+            }
+        ));
+
+        parent::__construct($id, $module);                
+    }
+
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
@@ -451,7 +467,6 @@ class StudentController extends Controller
                         }
 
                         if ($saved) {
-                            Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
                             $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!';
                             Yii::app()->user->setFlash('success', Yii::t('default', $msg));
                             $this->redirect(array('index', 'sid' => $modelStudentIdentification->id));

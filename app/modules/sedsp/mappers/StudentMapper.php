@@ -8,6 +8,14 @@ class StudentMapper
             StudentDocumentsAndAddress $student_docs_tag
         )
         {
+
+            // Aluno
+            $in_aluno = new InAluno(
+                $student_tag->gov_id,
+                null,
+                "SP"
+            );
+
             // Dados Pessoais
             $in_dados_pessoais = new InDadosPessoais();
             $in_dados_pessoais->setInNomeAluno($student_tag->name);
@@ -36,11 +44,11 @@ class StudentMapper
             $in_documents->setInCodigoInep($student_tag->inep_id);
             $in_documents->setInCpf($student_docs_tag->cpf);
             $in_documents->setInNumNis($student_docs_tag->nis);
-            $in_documents->setInNumDoctoCivil($student_docs_tag->rg_number);
-            $in_documents->setInDigitoDoctoCivil($student_docs_tag->rg_number);
+            $in_documents->setInNumDoctoCivil(substr($student_docs_tag->rg_number, 0, -1));
+            $in_documents->setInDigitoDoctoCivil(substr($student_docs_tag->rg_number, -1));
             $in_documents->setInUfDoctoCivil($student_docs_tag->rgNumberEdcensoUfFk->acronym);
             $in_documents->setInDataEmissaoDoctoCivil($student_docs_tag->rg_number_expediction_date);
-            $in_documents->setInDataEmissaoDoctoCivil($student_docs_tag->civil_certification_date);
+            // $in_documents->setInDataEmissaoDoctoCivil($student_docs_tag->civil_certification_date);
 
             // Endereco
             $in_endereco_residencial = new InEnderecoResidencial();
@@ -74,6 +82,7 @@ class StudentMapper
             // $in_rastreio = new InRastreio();
 
             $student_register = new AlunoFicha(
+                $in_aluno,
                 $in_dados_pessoais,
                 $in_deficiencia,
                 $in_recurso_avaliacao,

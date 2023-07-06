@@ -11,7 +11,7 @@ $log_config = array(
     'routes' => array(
         array(
             'class' => 'CFileLogRoute',
-            'levels' => 'error, warning',
+            'levels' => 'error, warning, info',
         ),
     ),
 );
@@ -71,6 +71,12 @@ return array(
     ),
     // application components
     'components' => array(
+        'studentManager' => array(
+            'class' => 'application.components.eventmanagers.enrollment.StudentManager',            
+        ),
+        'logger' => array(
+            'class' => 'application.components.eventmanagers.logger.LoggerManager',            
+        ),
         'assetManager' => array(
             'forceCopy' => YII_DEBUG
         ),

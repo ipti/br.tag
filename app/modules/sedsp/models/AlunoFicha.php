@@ -2,6 +2,7 @@
 
 class AlunoFicha implements JsonSerializable
 {
+	private $inAluno;
 	private $inDadosPessoais;
 
 	private $inDeficiencia;
@@ -29,6 +30,7 @@ class AlunoFicha implements JsonSerializable
 	 * @param InRastreio|null $inRastreio
 	 */
 	public function __construct(
+		?InAluno $inAluno,
 		?InDadosPessoais $inDadosPessoais,
 		?InDeficiencia $inDeficiencia,
 		?InRecursoAvaliacao $inRecursoAvaliacao,
@@ -38,6 +40,7 @@ class AlunoFicha implements JsonSerializable
 		?InEnderecoResidencial $inEnderecoResidencial,
 		?InRastreio $inRastreio
 	) {
+		$this->inAluno = $inAluno;
 		$this->inDadosPessoais = $inDadosPessoais;
 		$this->inDeficiencia = $inDeficiencia;
 		$this->inRecursoAvaliacao = $inRecursoAvaliacao;

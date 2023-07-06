@@ -42,6 +42,13 @@ class StudentSEDDataSource extends SedDataSource
         return $promise;
     }
 
+    public function updateStudent($student_sed){
+        $promise = $this->client->request('POST', '/ncaapi/api/Aluno/Manutencao', [
+            'body' => json_encode($student_sed)
+        ]);
+        return $promise;
+    }
+
     public function getStudentWithRA($RA)
     {
         $body['inAluno'] = array("inNumRA" => $RA,
