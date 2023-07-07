@@ -7,12 +7,9 @@ function createTable(data) {
     $.each(data.courseClasses, function () {
         options += '<option value="' + this.id + '" disciplineid="' + this.edid + '" disciplinename="' + this.edname + '">' + this.cpname + "|" + this.order + "|" + this.objective + "|" + this.edname + '</option>';
     });
-
-    
-
     var accordionBuilt = false;
     var accordionHtml = "";
-    accordionHtml += `<div id='accordion' class='t-accordeon-primary' studentid=' ${this.id} '>`
+    accordionHtml += `<div id='accordion' class='t-accordeon-primary'>`
     $.each(data.classContents, function (day, classContent) {
         var studentInputs = "";
         if (Object.keys(classContent.students).length) {
@@ -27,7 +24,7 @@ function createTable(data) {
                             </h4>
                         </div>
                         <div class='ui-accordion-content'>
-                            <textarea class='t-field-tarea__input student-classroom-diary'></textarea>
+                            <textarea class='t-field-tarea__input js-student-classroom-diary' studentid='${this.id}'>${this.diary}</textarea>
                         </div>`
                 }
             });

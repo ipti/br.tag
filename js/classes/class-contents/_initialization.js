@@ -142,7 +142,7 @@ $(document).on("click", ".classroom-diary-button", function () {
     $(".js-classroom-diary").val($(button).parent().find(".classroom-diary-of-the-day").val());
     $(".accordion-students").find(".accordion-group").each(function () {
         var value = $(button).parent().find(".student-diary-of-the-day[studentid=" + $(this).closest(".accordion-group").attr("studentid") + "]").val();
-        $(this).find(".student-classroom-diary").val(value);
+        $(this).find(".js-student-classroom-diary").val(value);
         value !== ""
             ? $(this).find(".accordion-title").find(".fa").removeClass("fa-file-o").addClass("fa-file-text-o")
             : $(this).find(".accordion-title").find(".fa").removeClass("fa-file-text-o").addClass("fa-file-o");
@@ -152,20 +152,22 @@ $(document).on("click", ".classroom-diary-button", function () {
 
 $(document).on("click", ".js-add-classroom-diary", function () {
     var tr = $("#class-contents tbody").find("tr[day=" + $(".classroom-diary-day").val() + "]");
+    
     tr.find(".classroom-diary-of-the-day").val($(".js-classroom-diary").val());
-    $(".student-classroom-diary").each(function () {
-        tr.find(".student-diary-of-the-day[studentid=" + $(this).closest(".accordion-group").attr("studentid") + "]").val($(this).val());
+    $(".js-student-classroom-diary").each(function () {
+         tr.find(".student-diary-of-the-day[studentid=" + $(this).attr
+         ("studentid") + "]").val($(this).val())
     });
 });
 
-$(document).on("keypress", ".js-classroom-diary, .student-classroom-diary", function (event) {
+$(document).on("keypress", ".js-classroom-diary, .js-student-classroom-diary", function (event) {
     if (event.which === 13) {
         event.preventDefault();
         this.value = this.value + "\n";
     }
 });
 
-$(document).on("input", ".student-classroom-diary", function () {
+$(document).on("input", ".js-student-classroom-diary", function () {
     $(this).val() === ""
         ? $(this).closest(".accordion-group").find(".accordion-title").find(".fa").removeClass("fa-file-text-o").addClass("fa-file-o")
         : $(this).closest(".accordion-group").find(".accordion-title").find(".fa").removeClass("fa-file-o").addClass("fa-file-text-o");
