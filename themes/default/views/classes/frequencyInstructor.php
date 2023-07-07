@@ -68,7 +68,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </div>
             </div>
             <div class="column is-one-fifth">
-                <div class="t-field-select">
+                <div class="t-field-select  ">
                     <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 't-field-select__label--required')); ?>
                     <select class="select-search-on frequency-input t-field-select__input" id="classroom">
                         <option>Selecione a turma</option>
@@ -81,7 +81,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <img class="loading-frequency" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
             </div>
         </div>
-        <div class="mobile-row">
+        <div class="mobile-row disciplines-container">
             <div class="column is-one-fifth">
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 't-field-select__label--required')); ?>

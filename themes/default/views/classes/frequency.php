@@ -105,8 +105,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     </select>
                 </div>
                 <!-- diciplina -->
-                <img class="loading-frequency" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
             </div>
+        </div>
+        <div class="mobile-row  disciplines-container">
             <div class="column is-one-fifth">
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 't-field-select__label--required')); ?>
@@ -120,15 +121,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
         </div>
         <div class="mobile-row">
-
-        </div>
-        <div class="mobile-row">
             <div class="column no-grow">
                 <a id="classesSearch" class='t-button-icon secondary'>
                     <span class="t-icon-search_icon"></span>
                     <!-- <?php echo Yii::t('default', 'Search') ?> -->
                 </a>
             </div>
+            <img class="loading-frequency" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>
         <div id="frequency-container" class="table-responsive frequecy-container"></div>
