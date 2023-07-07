@@ -354,7 +354,8 @@ class AdminController extends Controller
             $this->saveClassroomsDB($datajson['classrooms']);
             
             $this->saveInstructorIdentificationDB($datajson['instructor_identification']);  
-            $this->saveInstructorsTeachingDataDB($datajson['instructor_teaching_data']); 
+            $this->saveInstructorsTeachingDataDB($datajson['instructor_teaching_data']);
+            $this->saveInstructorVariableDataDB($datajson['instructorvariabledata']);
             $this->saveInstructorDocumentsAndAddressDB($datajson['instructor_documents_and_address']); 
             $this->saveTeachingMatrixes($datajson['teaching_matrixes']);
 
@@ -440,6 +441,17 @@ class AdminController extends Controller
             $instructorTeachingData->attributes = $instructorsTeachingData;
             $instructorTeachingData->save();
          }
+    }
+
+    function saveInstructorVariableDataDB($instructorVariableDatas)
+    {
+        foreach ($instructorVariableDatas as $instructorVariableData) {
+            $instructorVariableDataModel = new InstructorVariableData();
+            $instructorVariableDataModel->setDb2Connection(true);
+            $instructorVariableDataModel->refreshMetaData();
+            $instructorVariableDataModel->attributes = $instructorVariableData;
+            $instructorVariableDataModel->save();
+        }
     }
 
     function saveInstructorIdentificationDB($instructorIdentifications) 
@@ -632,6 +644,7 @@ class AdminController extends Controller
         $loads = array_merge($loads, $this->getInstructorsIdentification());
         $loads = array_merge($loads, $this->getInstructorsTeachingData());
         $loads = array_merge($loads, $this->getInstructorDocumentsAndAddress());
+        $loads = array_merge($loads, $this->getInstructorVariableData());
         $loads = array_merge($loads, $this->getTeachingMatrixes());
 
         $loads = array_merge($loads, $this->getStudentIdentification());
@@ -674,6 +687,23 @@ class AdminController extends Controller
         }
 
         return $instructorDocumentsData;
+    }
+
+    function getInstructorVariableData()
+    {
+        $query = "SELECT * FROM instructor_variable_data";
+        $instructorVariableDatas = Yii::app()->db->createCommand($query)->queryAll();
+
+        $instructorVariableDataModel = new InstructorVariableData();
+        $instructorVariableDataModel->setDb2Connection(false);
+        $instructorVariableDataModel->refreshMetaData();
+
+        $instructorData = [];
+        foreach ($instructorVariableDatas as $instructorVariableData) {
+            $instructorData['instructorvariabledata'] = $instructorVariableData;
+        }
+
+        return $instructorData;
     }
 
     function getInstructorsTeachingData()
