@@ -49,7 +49,9 @@
  * @property integer $other_courses_ethnic_education
  * @property integer $other_courses_other
  * @property integer $other_courses_none
- * @property string $fkid
+ * @property integer $hash
+ * 
+ * 
  *
  * The followings are the available model relations:
  * @property EdcensoCourseOfHigherEducation $highEducationCourseCode1Fk
