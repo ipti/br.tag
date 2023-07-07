@@ -1,4 +1,5 @@
 <?php
+
 /**  
  * @var ClassesController $this ClassesController
  * @var CActiveDataProvider $dataProvider CActiveDataProvider
@@ -50,24 +51,27 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <tr>
         <tr>
             <th>Localização:</th>
-            <td colspan="2"><?php echo($school->location == 1 ? "URBANA" : "RURAL") ?></td>
+            <td colspan="2"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
             <th>Dependência Administrativa:</th>
             <td colspan="4"><?php
-                $ad = $school->administrative_dependence;
-                echo($ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
-                    "PRIVADA")));
-                ?></td>
+                            $ad = $school->administrative_dependence;
+                            echo ($ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
+                                "PRIVADA")));
+                            ?></td>
         <tr>
     </table>
     <br>
 
     <!-- <div class="innerLR"> -->
     <div>
-    <?php if (Yii::app()->user->hasFlash('success')) : ?>
-        <div class="alert alert-success">
-            <?php echo Yii::app()->user->getFlash('success') ?>
+        <?php if (Yii::app()->user->hasFlash('success')) : ?>
+            <div class="alert alert-success">
+                <?php echo Yii::app()->user->getFlash('success') ?>
+            </div>
+        <?php endif ?>
+        <div class="alert-save no-show alert alert-success">
+            Aulas ministradas atualizadas com sucesso!
         </div>
-    <?php endif ?>
     <div class="alert-save no-show alert alert-success">
         Aulas ministradas atualizadas com sucesso!
     </div>
@@ -82,8 +86,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <select class="select-search-on t-field-select__input classContents-input" id="classroom" name="classroom">
                         <option>Selecione a turma</option>
                         <?php foreach ($classrooms as $classroom) : ?>
-                            <option value="<?= $classroom->id ?>"
-                                    fundamentalmaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
+                            <option value="<?= $classroom->id ?>" fundamentalmaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -191,7 +194,17 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             </div>
                         </div>
                     </div>
-                </form>
+
+                    <label>Diário de Aula por Aluno</label>
+                    <div class="alert alert-error classroom-diary-no-students no-show">Não há alunos matriculados na turma.</div>
+                    <div class="accordion accordion-students" id="accordion-students"></div>
+
+                    <div class="modal-footer mobile-row">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary js-add-classroom-diary" data-dismiss="modal">Salvar</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     <?php $this->endWidget(); ?>

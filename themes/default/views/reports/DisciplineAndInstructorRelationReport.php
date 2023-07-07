@@ -28,7 +28,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
     foreach($classroom as $c) {
         $html = "";
-
         echo "<b>Nome da turma: </b>" . $c['name'] . "<br>" ;
         echo "<b>C&oacute;digo da Turma: </b>" . $c['inep_id'] . "<br>";
         echo "<b>Etapa: </b>" . $c['stage'].  "<br>";

@@ -8,12 +8,13 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization.js?v=1.0', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization_instructor.js?v=1.0', CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes'));
 
-$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
+$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
+
 <div class="main">
     <?php
     $form = $this->beginWidget('CActiveForm', array(
@@ -29,35 +30,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <h5> Marcar apenas faltas.</h5>
         </div>
     </div>
-
-    <table class="table table-bordered table-striped visible-print">
-        <tr>
-            <th>Escola:</th>
-            <td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>
-        <tr>
-        <tr>
-            <th>Estado:</th>
-            <td colspan="2"><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
-            <th>Municipio:</th>
-            <td colspan="2"><?php echo $school->edcensoCityFk->name ?></td>
-            <th>Endereço:</th>
-            <td colspan="2"><?php echo $school->address ?></td>
-        <tr>
-        <tr>
-            <th>Localização:</th>
-            <td colspan="2"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
-            <th>Dependência Administrativa:</th>
-            <td colspan="4"><?php
-                            $ad = $school->administrative_dependence;
-                            echo ($ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
-                                "PRIVADA")));
-                            ?></td>
-        <tr>
-    </table>
-    <br>
-
     <div class="tag-inner">
-
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">
                 <?php echo Yii::app()->user->getFlash('success') ?>
@@ -69,8 +42,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <!-- Mês e componente curricular -->
         <div class="mobile-row">
             <!-- Mês -->
-            <div class="column helper">
-                <div class="t-field-select__helper">
+            <div class="column is-one-fifth">
+                <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 't-field-select__label--required')); ?>
                     <?php
                     echo CHtml::dropDownList('month', '', array(
@@ -93,8 +66,24 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     ));
                     ?>
                 </div>
+            </div>
+            <div class="column is-one-fifth">
+                <div class="t-field-select">
+                    <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 't-field-select__label--required')); ?>
+                    <select class="select-search-on frequency-input t-field-select__input" id="classroom">
+                        <option>Selecione a turma</option>
+                        <?php foreach ($classrooms as $classroom) : ?>
+                            <option value="<?= $classroom->id ?>" fundamentalMaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
                 <!-- diciplina -->
-                <div class="t-field-select__helper">
+                <img class="loading-frequency" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+            </div>
+        </div>
+        <div class="mobile-row">
+            <div class="column is-one-fifth">
+                <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 't-field-select__label--required')); ?>
                     <?php
                     echo CHtml::dropDownList('disciplines', '', array(), array(
@@ -104,41 +93,36 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     ?>
                 </div>
             </div>
-            <div class="column helper">
-                <div class="t-field-select__helper" <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 't-field-select__label--required')); ?> <select class="select-search-on frequency-input t-field-select__input" id="classroom">
-                    <option>Selecione a turma</option>
-                    <?php foreach ($classrooms as $classroom) : ?>
-                        <option value="<?= $classroom->id ?>" fundamentalMaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
-                    <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="">
-                    <a id="classesSearch" class='t-button-primary'><i class="fa-search fa icon-button-tag"></i><?php echo Yii::t('default', 'Search') ?>
-                    </a>
-                </div>
-                <img class="loading-frequency" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+        </div>
+        <div class="mobile-row">
+            <div class="column no-grow">
+                <a id="classesSearch" class='t-button-icon secondary'>
+                    <span class="t-icon-search_icon"></span>
+                    <!-- <?php echo Yii::t('default', 'Search') ?> -->
+                </a>
             </div>
         </div>
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>
-        <div id="frequency-container" class="table-responsive frequecy-container"></div>
+        <div id="frequency-container" class="table-frequency">
+        </div>
     </div>
     <?php $this->endWidget(); ?>
 
 </div>
 
-<div class="modal fade modal-content" id="save-justification-modal" tabindex="-1" role="dialog" aria-labelledby="Save Justification">
+<div class="modal fade t-modal-container helper" id="save-justification-modal" tabindex="-1" role="dialog" aria-labelledby="Save Justification">
     <div class="modal-dialog" role="document">
-        <div class="modal-header">
+        <div class="t-modal__header">
+            <h4 class="modal-title" id="myModalLabel">Justificativa</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
             </button>
-            <h4 class="modal-title" id="myModalLabel">Justificativa</h4>
         </div>
         <div class="centered-loading-gif">
             <i class="fa fa-spin fa-spinner"></i>
         </div>
         <form method="post">
-            <div class="modal-body">
+            <div class="t-modal__body">
                 <div class="row-fluid">
                     <div class="span12">
                         <?= chtml::label("Justificativa", "title", array('class' => 'control-label')); ?>
@@ -154,9 +138,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="cancel-save-justifiaction btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary btn-save-justification">Adicionar</button>
+                <div class="t-modal__footer mobile-row">
+                    <button type="button" class="t-button-primary btn-save-justification">Adicionar</button>
                 </div>
             </div>
         </form>

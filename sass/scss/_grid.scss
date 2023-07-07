@@ -1,7 +1,6 @@
 @import '_functions.scss';
+
 @import '_tokens.scss';
-
-
 
 .row {
     display: flex;
@@ -16,6 +15,7 @@
     }
 
     @include device(mobile) {
+
         flex-direction: row;
     }
 }
@@ -118,7 +118,6 @@
             max-width: 20%;
         }
     }
-
     //retirar isso
     &.helper {
         max-width: 50%;

@@ -1,5 +1,5 @@
 .t-accordeon {
-    
+
     .ui-accordion-header {
         display: flex !important;
         background: $colorsBaseCloudLight ;
@@ -19,17 +19,56 @@
     .ui-accordion-content {
         height: auto !important;
         overflow-x: hidden !important;
+
     }
 }
 
 .t-accordeon-primary {
     @extend .t-accordeon;
-    
+
     .ui-accordion-header {
         background: $colorsBaseCloudLight;
     }
 
     .icon-color {
         color: $colorsBaseInkLight;
+    }
+}
+
+.t-accordeon-secondary {
+    @extend .t-accordeon;
+
+    .ui-accordion-header {
+        padding: 0 0 !important;
+        background: $colorsBaseCloudDark;
+        color: $colorsBaseInkLight;
+
+        .t-title {
+            margin: 0 $SizeXSmall;
+            font-weight: $fontWeightRegular;
+            color: $colorsTextPrimary;
+        }
+    }
+    .ui-accordion-content {
+        height: auto !important;
+        overflow-x: hidden !important;
+        background-color: $colorsBaseWhiteNormal;
+        padding: $spaceEmpty !important;
+    }
+    .ui-widget-content{
+        background: none !important;
+    }
+
+    .icon-color {
+        color: $colorsBaseInkLight;
+        font-size: $FontSizeIcons;
+        margin-right: $SizeSmall;
+    }
+
+
+    .t-accordeon-container-table {
+        justify-content: space-between;
+        display: flex;
+        flex-direction: row;
     }
 }
