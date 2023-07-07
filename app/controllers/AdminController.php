@@ -273,7 +273,11 @@ class AdminController extends Controller
             delete from edcenso_nation;
 
             delete from school_identification;
-            delete from school_structure;";
+            delete from school_structure;
+
+            delete from curricular_matrix;
+            delete from schedule;
+        ";
 
         set_time_limit(0);
         ignore_user_abort();
@@ -357,16 +361,15 @@ class AdminController extends Controller
             $this->saveInstructorIdentificationDB($datajson['instructors']);
             $this->saveStudentIdentificationDB($datajson['students']);
             $this->saveSchoolStructureDB($datajson['schoolstructures']);
+            $this->saveInstructorDocumentsAndAddressDB($datajson['instructordocumentsandAddress']);
+            $this->saveScheduleDB($datajson['schedules']);
+            $this->saveCurricularMatrix($datajson['curricularmatrix']);
            
-            /*$this->loadSchoolsStructures($datajson['schools_structure']);
-            $this->loadStudentIdentification($datajson['students']);
+            /*
             $this->loadStudentDocumentsAndAddress($datajson['documentsaddress']);
             $this->loadStudentEnrollment($datajson['enrollments']);
             
-            $this->loadInstructorsTeachingData($datajson['instructorsteachingdata']); */
-
-            
-            #$this->saveInstructorDocumentsAndAddressDB($datajson['instructorDocumentsAndAddress']); 
+            $this->loadInstructorsTeachingData($datajson['instructorsteachingdata']); */ 
                    
             $transaction->commit();
             Yii::app()->user->setFlash('success', Yii::t('default', 'Importação realizada com sucesso!'));
@@ -589,6 +592,28 @@ class AdminController extends Controller
         }
     }
     
+    function saveScheduleDB($schedules)
+    {
+        foreach ($schedules as $schedule) {
+            $scheduleModel = new Schedule();
+            $scheduleModel->setDb2Connection(true);
+            $scheduleModel->refreshMetaData();
+            $scheduleModel->attributes = $schedule;
+            $scheduleModel->save();
+        }
+    }
+
+    function saveCurricularMatrix($curricularMatrix)
+    {
+        foreach ($curricularMatrix as $matrix) {
+            $curricularMatrixModel = new CurricularMatrix();
+            $curricularMatrixModel->setDb2Connection(true);
+            $curricularMatrixModel->refreshMetaData();
+            $curricularMatrixModel->attributes = $matrix;
+            $curricularMatrixModel->save();
+        }
+    }
+
 
     public function actionExportMaster()
     {
@@ -727,7 +752,6 @@ class AdminController extends Controller
             }
         }   */
 
-
         $loads = array_merge($loads, $this->getUsersToJsonFile());
         $loads = array_merge($loads, $this->getEdcensoNationToJsonFile());
         $loads = array_merge($loads, $this->getInstructorsToJsonFile());
@@ -735,7 +759,12 @@ class AdminController extends Controller
         $loads = array_merge($loads, $this->getClassrooms());
         $loads = array_merge($loads, $this->getStudentIdentification());
         $loads = array_merge($loads, $this->getSchoolStructure());
+        $loads = array_merge($loads, $this->getInstructorDocumentsAndAddressDB()); 
         
+        $loads = array_merge($loads, $this->getSchedule());
+        $loads = array_merge($loads, $this->getCurricularMatrix());
+        $loads = array_merge($loads, $this->getClassFaults());
+
         return $loads;
     }
 
@@ -755,6 +784,23 @@ class AdminController extends Controller
         }
 
         return $instructorsData;
+    }
+
+    function getInstructorDocumentsAndAddressDB()
+    {
+        $query = "SELECT * FROM instructor_documents_and_address";
+        $instructorsDocuments = Yii::app()->db->createCommand($query)->queryAll();
+
+        $instructorDocumentsModel = new InstructorDocumentsAndAddress();
+        $instructorDocumentsModel->setDb2Connection(false);
+        $instructorDocumentsModel->refreshMetaData();
+
+        $instructorDocumentsData = [];
+        foreach ($instructorsDocuments as $instructorsDocument) {
+            $instructorDocumentsData['instructordocumentsandAddress'][] = $instructorsDocument;
+        }
+
+        return $instructorDocumentsData;
     }
 
     function getSchoolIdentificationToJsonFile() 
@@ -863,6 +909,330 @@ class AdminController extends Controller
         }
 
         return $studentsData;
+    }
+
+    function getSchedule()
+    {
+        $query = "SELECT * FROM schedule";
+        $schedules = Yii::app()->db->createCommand($query)->queryAll();
+
+        $scheduleModel = new Schedule();
+        $scheduleModel->setDb2Connection(false);
+        $scheduleModel->refreshMetaData();
+
+        $schedulesData = [];
+        foreach ($schedules as $schedule) {
+            $schedulesData['schedules'][] = $schedule;
+        }
+
+        return $schedulesData;
+    }
+
+    function getCurricularMatrix()
+    {
+        $query = "SELECT * FROM curricular_matrix";
+        $curricularMatrix = Yii::app()->db->createCommand($query)->queryAll();
+
+        $curricularMatrixModel = new CurricularMatrix();
+        $curricularMatrixModel->setDb2Connection(false);
+        $curricularMatrixModel->refreshMetaData();
+
+        $curricularMatrixData = [];
+        foreach ($curricularMatrix as $matrix) {
+            $curricularMatrixData['curricularmatrix'][] = $matrix;
+        }
+
+        return $curricularMatrixData;
+    }
+
+    function getClassFaults()
+    {
+        $query = "SELECT * FROM class_faults";
+        $classFaults = Yii::app()->db->createCommand($query)->queryAll();
+    
+        $classFaultsModel = new ClassFaults();
+        $classFaultsModel->setDb2Connection(false);
+        $classFaultsModel->refreshMetaData();
+    
+        $classFaultsData = [];
+        foreach ($classFaults as $fault) {
+            $classFaultsData['classfaults'][] = $fault;
+        }
+    
+        return $classFaultsData;
+    }
+
+    
+    function getEdcensoBaseDisciplines()
+    {
+        $query = "SELECT * FROM edcenso_base_disciplines";
+        $baseDisciplines = Yii::app()->db->createCommand($query)->queryAll();
+    
+        $baseDisciplinesModel = new EdcensoBaseDisciplines();
+        $baseDisciplinesModel->setDb2Connection(false);
+        $baseDisciplinesModel->refreshMetaData();
+    
+        $baseDisciplinesData = [];
+        foreach ($baseDisciplines as $discipline) {
+            $baseDisciplinesData['edcenso_base_disciplines'][] = $discipline;
+        }
+    
+        return $baseDisciplinesData;
+    }
+
+    function getEdcensoDiscipline()
+    {
+        $query = "SELECT * FROM edcenso_discipline";
+        $disciplines = Yii::app()->db->createCommand($query)->queryAll();
+    
+        $disciplineModel = new EdcensoDiscipline();
+        $disciplineModel->setDb2Connection(false);
+        $disciplineModel->refreshMetaData();
+    
+        $disciplinesData = [];
+        foreach ($disciplines as $discipline) {
+            $disciplinesData['edcenso_discipline'][] = $discipline;
+        }
+    
+        return $disciplinesData;
+    }
+
+    function getEdcensoDistrict()
+    {
+        $query = "SELECT * FROM edcenso_district";
+        $districts = Yii::app()->db->createCommand($query)->queryAll();
+    
+        $districtModel = new EdcensoDistrict();
+        $districtModel->setDb2Connection(false);
+        $districtModel->refreshMetaData();
+    
+        $districtsData = [];
+        foreach ($districts as $district) {
+            $districtsData['edcenso_district'][] = $district;
+        }
+    
+        return $districtsData;
+    }
+
+    function getEdcensoIes()
+    {
+        $query = "SELECT * FROM edcenso_ies";
+        $ies = Yii::app()->db->createCommand($query)->queryAll();
+    
+        $iesModel = new EdcensoIES();
+        $iesModel->setDb2Connection(false);
+        $iesModel->refreshMetaData();
+    
+        $iesData = [];
+        foreach ($ies as $ie) {
+            $iesData['edcenso_ies'][] = $ie;
+        }
+    
+        return $iesData;
+    }
+       
+    function getInstructorTeachingData()
+    {
+        $query = "SELECT * FROM instructor_teaching_data";
+        $teachingData = Yii::app()->db->createCommand($query)->queryAll();
+    
+        $teachingDataModel = new InstructorTeachingData();
+        $teachingDataModel->setDb2Connection(false);
+        $teachingDataModel->refreshMetaData();
+    
+        $teachingDataArray = [];
+        foreach ($teachingData as $data) {
+            $teachingDataArray['instructor_teaching_data'][] = $data;
+        }
+    
+        return $teachingDataArray;
+    }
+
+    function getInstructorVariableData()
+    {
+        $query = "SELECT * FROM instructor_variable_data";
+        $variableData = Yii::app()->db->createCommand($query)->queryAll();
+    
+        $variableDataModel = new InstructorVariableData();
+        $variableDataModel->setDb2Connection(false);
+        $variableDataModel->refreshMetaData();
+    
+        $variableDataArray = [];
+        foreach ($variableData as $data) {
+            $variableDataArray['instructor_variable_data'][] = $data;
+        }
+    
+        return $variableDataArray;
+    }
+    
+    function getProfessional()
+    {
+        $query = "SELECT * FROM professional";
+        $professionals = Yii::app()->db->createCommand($query)->queryAll();
+    
+        $professionalModel = new Professional();
+        $professionalModel->setDb2Connection(false);
+        $professionalModel->refreshMetaData();
+    
+        $professionalData = [];
+        foreach ($professionals as $professional) {
+            $professionalData['professional'][] = $professional;
+        }
+    
+        return $professionalData;
+    }
+               
+    function getProvisionAccounts()
+    {
+        $query = "SELECT * FROM provision_accounts";
+        $accounts = Yii::app()->db->createCommand($query)->queryAll();
+    
+        $accountModel = new ProvisionAccounts();
+        $accountModel->setDb2Connection(false);
+        $accountModel->refreshMetaData();
+    
+        $accountsData = [];
+        foreach ($accounts as $account) {
+            $accountsData['provision_accounts'][] = $account;
+        }
+    
+        return $accountsData;
+    }
+            
+    function getStudentEnrollment()
+    {
+        $query = "SELECT * FROM student_enrollment";
+        $enrollments = Yii::app()->db->createCommand($query)->queryAll();
+    
+        $enrollmentModel = new StudentEnrollment();
+        $enrollmentModel->setDb2Connection(false);
+        $enrollmentModel->refreshMetaData();
+    
+        $enrollmentsData = [];
+        foreach ($enrollments as $enrollment) {
+            $enrollmentsData['student_enrollment'][] = $enrollment;
+        }
+    
+        return $enrollmentsData;
+    }
+
+    function getStudentDocumentsAndAddress()
+    {
+        $query = "SELECT * FROM student_documents_and_address";
+        $documentsAndAddress = Yii::app()->db->createCommand($query)->queryAll();
+    
+        $studentDocumentsAndAddressData = [];
+        $studentModel = new StudentDocumentsAndAddress();
+        $studentModel->setDb2Connection(false);
+        $studentModel->refreshMetaData();
+    
+        foreach ($documentsAndAddress as $document) {
+            $studentDocumentsAndAddressData['student_documents_and_address'][] = $document;
+        }
+    
+        return $studentDocumentsAndAddressData;
+    }
+    
+    function getStudentRestrictions()
+    {
+        $query = "SELECT * FROM student_restrictions";
+        $restrictions = Yii::app()->db->createCommand($query)->queryAll();
+    
+        $restrictionModel = new StudentRestrictions();
+        $restrictionModel->setDb2Connection(false);
+        $restrictionModel->refreshMetaData();
+    
+        $restrictionsData = [];
+        foreach ($restrictions as $restriction) {
+            $restrictionsData['student_restrictions'][] = $restriction;
+        }
+    
+        return $restrictionsData;
+    }
+    
+    function getStudentVaccine()
+    {
+        $query = "SELECT * FROM student_vaccine";
+        $vaccines = Yii::app()->db->createCommand($query)->queryAll();
+    
+        $vaccineModel = new StudentVaccine();
+        $vaccineModel->setDb2Connection(false);
+        $vaccineModel->refreshMetaData();
+    
+        $vaccinesData = [];
+        foreach ($vaccines as $vaccine) {
+            $vaccinesData['student_vaccine'][] = $vaccine;
+        }
+    
+        return $vaccinesData;
+    }
+            
+    function getTeachingMatrixes()
+    {
+        $query = "SELECT * FROM teaching_matrixes";
+        $matrixes = Yii::app()->db->createCommand($query)->queryAll();
+    
+        $matrixModel = new TeachingMatrixes();
+        $matrixModel->setDb2Connection(false);
+        $matrixModel->refreshMetaData();
+    
+        $matrixesData = [];
+        foreach ($matrixes as $matrix) {
+            $matrixesData['teaching_matrixes'][] = $matrix;
+        }
+    
+        return $matrixesData;
+    }
+
+    function getUsersSchool()
+    {
+        $query = "SELECT * FROM users_school";
+        $users = Yii::app()->db->createCommand($query)->queryAll();
+    
+        $userModel = new UsersSchool();
+        $userModel->setDb2Connection(false);
+        $userModel->refreshMetaData();
+    
+        $usersData = [];
+        foreach ($users as $user) {
+            $usersData['users_school'][] = $user;
+        }
+    
+        return $usersData;
+    }
+
+    function getWorkByExam()
+    {
+        $query = "SELECT * FROM work_by_exam";
+        $works = Yii::app()->db->createCommand($query)->queryAll();
+    
+        $workModel = new WorkByExam();
+        $workModel->setDb2Connection(false);
+        $workModel->refreshMetaData();
+    
+        $worksData = [];
+        foreach ($works as $work) {
+            $worksData['work_by_exam'][] = $work;
+        }
+    
+        return $worksData;
+    }
+    
+    function getAttendance()
+    {
+        $query = "SELECT * FROM attendance";
+        $attendance = Yii::app()->db->createCommand($query)->queryAll();
+    
+        $attendanceModel = new Attendance();
+        $attendanceModel->setDb2Connection(false);
+        $attendanceModel->refreshMetaData();
+    
+        $attendanceData = [];
+        foreach ($attendance as $record) {
+            $attendanceData['attendance'][] = $record;
+        }
+    
+        return $attendanceData;
     }
     
 
