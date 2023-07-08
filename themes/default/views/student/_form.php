@@ -285,9 +285,9 @@ $form = $this->beginWidget('CActiveForm', array(
                     <!--Gov ID-->
                     <div class="row">
                         <div class="column">
-                            <div class="t-field-text js-hide-not-required" style="width: 120%;">
+                            <div class="t-field-text js-hide-not-required">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'gov_id', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'gov_id', array('size' => 60, 'maxlength' => 12, 'class' => 't-field-text__input', 'placeholder' => 'Não possui', 'disabled' => 'disabled', 'style' => 'width:82.95%;')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'gov_id', array('size' => 60, 'maxlength' => 12, 'class' => 't-field-text__input', 'placeholder' => 'Não possui', 'disabled' => 'disabled')); ?>
                                 <button type="button" id="copy-gov-id" class="t-button-icon">
                                     <span class="t-icon-copy"></span>
                                 </button>
@@ -320,18 +320,27 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($modelStudentIdentification, 'filiation'); ?>
                             </div>
                         </div>
+                        <!-- Responsavel pelo aluno -->
+                        <div class="column">
+                            <div class="t-field-select">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable', array('class' => 'control-label t-field-select__label')); ?>
+                                <?php
+                                echo $form->dropDownList($modelStudentIdentification, 'responsable', array(null => "Selecione o responsável", 0 => 'Pai', 1 => 'Mãe', 2 => 'Outro',), array('class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%'));
+                                ?>
+                                <?php echo $form->error($modelStudentIdentification, 'responsable'); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Profissão do responsável e email do Responsável -->
+                    <div class="row">
                         <!-- Telefone do responsavel -->
                         <div class="column">
-
                             <div class="t-field-text js-hide-not-required">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_telephone', array('class' => 'control-label t-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'responsable_telephone', array('size' => 60, 'maxlength' => 15, 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'responsable_telephone'); ?>
                             </div>
                         </div>
-                    </div>
-                    <!-- Profissão do responsável e email do Responsável -->
-                    <div class="row">
                         <!-- nome do responsével -->
                         <div class="column">
                             <div class="t-field-text js-hide-not-required">
@@ -340,6 +349,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($modelStudentIdentification, 'responsable_name'); ?>
                             </div>
                         </div>
+                    </div>
+                    <!-- Nome do responsável e Escolaridade do resposável -->
+                    <div class="row">
                         <!-- Email responsável -->
                         <div class="column">
                             <div class=" t-field-text js-hide-not-required">
@@ -348,9 +360,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($modelStudentIdentification, 'id_email'); ?>
                             </div>
                         </div>
-                    </div>
-                    <!-- Nome do responsável e Escolaridade do resposável -->
-                    <div class="row">
                         <!-- Profissião do responsavel -->
                         <div class="column">
                             <div class="t-field-text js-hide-not-required">
@@ -359,6 +368,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($modelStudentIdentification, 'responsable_job'); ?>
                             </div>
                         </div>
+                    </div>
+                    <!-- Rg e cpf do responsável -->
+                    <div class="row">
                         <!-- Escolaridade do responsavel -->
                         <div class="column">
                             <div class="t-field-select js-hide-not-required">
@@ -367,9 +379,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($modelStudentIdentification, 'scholarity'); ?>
                             </div>
                         </div>
-                    </div>
-                    <!-- Rg e cpf do responsável -->
-                    <div class="row">
                         <!-- rg responsavel -->
                         <div class="column">
                             <div class="t-field-text js-hide-not-required">
@@ -378,11 +387,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($modelStudentIdentification, 'responsable_rg'); ?>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <!-- cpf responsavel -->
                         <div class="column">
                             <div class="t-field-text js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable_cpf', array('class' => 'control-label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 14)); ?>
+                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable_cpf', array('class' => 'control-label t-field-text__label')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 14, 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'responsable_cpf'); ?>
                             </div>
                         </div>
@@ -402,7 +413,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                             <div class="t-field-text js-hide-not-required  js-disabled-finputs">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o Nome Completo da filiação 1')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o Nome Completo da Mãe')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1'); ?>
                             </div>
                         </div>
@@ -415,16 +426,26 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-                    <!-- RG e Escolaridade filiação 1 -->
                     <div class="row">
+                        <!-- Data de Nascimento da Mãe -->
+                        <div class="column">
+                            <div class="t-field-text js-hide-not-required js-disabled-finputs">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_birthday', array('class' => 'control-label t-field-text__label')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1_birthday', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->error($modelStudentIdentification, 'filiation_1_birthday'); ?>
+                            </div>
+                        </div>
                         <!-- RG da Mãe -->
                         <div class="column">
                             <div class="t-field-text  js-hide-not-required js-disabled-finputs">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_rg', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1_rg', array('size' => 60, 'maxlength' => 45, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o RG da filiação 1')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1_rg', array('size' => 60, 'maxlength' => 45, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o RG da Mãe')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_rg'); ?>
                             </div>
                         </div>
+                    </div>
+                    <!-- RG e Escolaridade filiação 1 -->
+                    <div class="row">
                         <!-- Escolaridade da Mãe -->
                         <div class="column">
                             <div class="t-field-select js-hide-not-required js-disabled-finputs">
@@ -440,25 +461,12 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_scholarity'); ?>
                             </div>
                         </div>
-                    </div>
-                    <!-- Profissão e Responsável filiação 1 -->
-                    <div class="row">
                         <!-- Profissão filiação 1 -->
                         <div class="column">
                             <div class="t-field-text js-hide-not-required js-disabled-finputs">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_job', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1_job', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite a Profissão da filiação 1')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1_job', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite a Profissão da Mãe')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_job'); ?>
-                            </div>
-                        </div>
-                        <!-- Responsável  filiação 1-->
-                        <div class="column">
-                            <div class="t-field-select js-hide-not-required js-disabled-finputs">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable', array('class' => 'control-label t-field-select__label')); ?>
-                                <?php
-                                echo $form->dropDownList($modelStudentIdentification, 'responsable', array(null => "Selecione o responsável", 0 => 'Pai', 1 => 'Mãe', 2 => 'Outro',), array('class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%'));
-                                ?>
-                                <?php echo $form->error($modelStudentIdentification, 'responsable'); ?>
                             </div>
                         </div>
                     </div>
@@ -477,7 +485,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                             <div class="t-field-text js-hide-not-required js-disabled-finputs">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'filiation_2', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o Nome Completo da filiação 2')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'filiation_2', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o Nome Completo do Pai')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_2'); ?>
                             </div>
                         </div>
@@ -490,16 +498,26 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-                    <!-- RG e escolaridade filiação 2 -->
                     <div class="row">
+                        <!-- Data de Nascimento do Pai -->
+                        <div class="column">
+                            <div class="t-field-text js-hide-not-required js-disabled-finputs">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_birthday', array('class' => 'control-label t-field-text__label')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'filiation_2_birthday', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->error($modelStudentIdentification, 'filiation_2_birthday'); ?>
+                            </div>
+                        </div>
                         <!-- Rg filiação 2 -->
                         <div class="column">
                             <div class="t-field-text js-hide-not-required js-disabled-finputs">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_rg', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'filiation_2_rg', array('size' => 60, 'maxlength' => 45, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o RG da filiação 2')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'filiation_2_rg', array('size' => 60, 'maxlength' => 45, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o RG do Pai')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_2_rg'); ?>
                             </div>
                         </div>
+                    </div>
+                    <!-- RG e escolaridade filiação 2 -->
+                    <div class="row">
                         <!-- Escolaridade do pai -->
                         <div class="column">
                             <div class="t-field-select js-hide-not-required js-disabled-finputs">
@@ -515,25 +533,12 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_2_scholarity'); ?>
                             </div>
                         </div>
-                    </div>
-                    <!-- Profissão e responsável filiação 2 -->
-                    <div class="row">
                         <!-- Trabalho filiação 2 -->
                         <div class="column">
                             <div class="t-field-text js-hide-not-required js-disabled-finputs">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_job', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'filiation_2_job', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite a Profissão da filiação 2')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'filiation_2_job', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite a Profissão do Pai')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_2_job'); ?>
-                            </div>
-                        </div>
-                        <!-- responsável filiação 2 -->
-                        <div class="column">
-                            <div class="t-field-select js-hide-not-required js-disabled-finputs">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable', array('class' => 'control-label t-field-select__label')); ?>
-                                <?php
-                                echo $form->dropDownList($modelStudentIdentification, 'responsable', array(null => "Selecione o responsável", 0 => 'Pai', 1 => 'Mãe', 2 => 'Outro',), array('class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%'));
-                                ?>
-                                <?php echo $form->error($modelStudentIdentification, 'responsable'); ?>
                             </div>
                         </div>
                     </div>
@@ -1449,7 +1454,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <tr>
                                                 <th style="text-align: center !important;">Escola</th>
                                                 <th style="text-align: center">Atualizar Ficha de Matrícula</th>
-                                                <th style="text-align: center">situação</th>
+                                                <th style="text-align: center">Turno</th>
+                                                <th style="text-align: center">Situação</th>
                                                 <th style="text-align: center">Ano</th>
                                                 <th style="text-align: center">Formulários</th>
                                                 <th style="text-align: center; width: 15%;">Cancelar Matrícula</th>
@@ -1461,7 +1467,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             foreach ($modelStudentIdentification->studentEnrollments as $me) {
                                             ?>
                                                 <tr>
-                                                    <td><?php echo $me->schoolInepIdFk->name ?></td>
+                                                    <td style="text-align: center"><?php echo $me->schoolInepIdFk->name ?></td>
                                                     <td style="text-align: center">
                                                         <?php if ($me->classroomFk->school_year >=  Yii::app()->user->year) {  ?>
                                                             <a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)); ?>'>
@@ -1476,7 +1482,27 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             </p>
                                                         <?php } ?>
                                                     </td>
-                                                    <td style="text-align: center">
+                                                    <td style="text-align: center;min-width: 100px;">
+                                                        <?php
+                                                            switch ($me->classroomFk->turn) {
+                                                                case "M":
+                                                                    echo "Matutino";
+                                                                    break;
+                                                                case "T":
+                                                                    echo "Vespertino";
+                                                                    break;
+                                                                case "N":
+                                                                    echo "Noturno";
+                                                                    break;
+                                                                case "I":
+                                                                    echo "Integral";
+                                                                    break;
+                                                                default:
+                                                                    echo "-";
+                                                            }
+                                                        ?>
+                                                    </td>
+                                                    <td style="text-align: center;min-width: 100px;">
                                                         <?php
                                                         switch ($me->status) {
                                                             case "1":
@@ -1500,7 +1526,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         }
                                                         ?>
                                                     </td>
-                                                    <td style="text-align: center"><?php echo $me->classroomFk->school_year ?></td>
+                                                    <td style="text-align: center;min-width: 100px;"><?php echo $me->classroomFk->school_year ?></td>
                                                     <?php
                                                     $type;
                                                     if (@isset($me->classroomFk->edcensoStageVsModalityFk->stage)) {
@@ -1856,6 +1882,16 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
     $this->widget('application.widgets.AlertCensoWidget', array('prefix' => 'student', 'dataId' => $_GET['id']));
 }
 ?>
+
+<style>
+    .row .t-field-select .select2-choice {
+        width: 413px !important;
+    }
+
+    .row .t-field-select {
+        width: 423px !important;
+    }
+</style>
 
 <script type="text/javascript">
     var formIdentification = '#StudentIdentification_';

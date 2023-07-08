@@ -52,15 +52,16 @@ $cs->registerCssFile($assetUrl . "/css/bootstrap-datepicker.min.css");
 $cs->registerCssFile($assetUrl . '/js/jquery/fullcalendar/fullcalendar.css');
 $cs->registerCssFile($assetUrl . '/js/jquery/fullcalendar/fullcalendar.print.css', 'print');
 $cs->registerCssFile($assetUrl . '/css/jquery-ui-1.9.2.custom.min.css');
+
 $cs->registerCssFile($assetUrl . "/css/glyphicons.min.css");
 $cs->registerCssFile($assetUrl . '/css/font-awesome.min.css');
 
 // Custom styles
-$cs->registerCssFile($assetUrl . "/css/template.css?v=". TAG_VERSION);
-$cs->registerCssFile($assetUrl . '/css/template2.css?v='. TAG_VERSION);
-$cs->registerCssFile($assetUrl . "/css/admin.css?v=". TAG_VERSION);
-$cs->registerCssFile($assetUrl . "/css/home.css?v=". TAG_VERSION);
-$cs->registerCssFile(Yii::app()->baseUrl. "/sass/css/main.css?v=". TAG_VERSION);
+$cs->registerCssFile($assetUrl . "/css/template.css?v=" . TAG_VERSION);
+$cs->registerCssFile($assetUrl . '/css/template2.css?v=' . TAG_VERSION);
+$cs->registerCssFile($assetUrl . "/css/admin.css?v=" . TAG_VERSION);
+$cs->registerCssFile($assetUrl . "/css/home.css?v=" . TAG_VERSION);
+$cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION);
 
 ?>
 <!DOCTYPE html>
@@ -78,6 +79,7 @@ $cs->registerCssFile(Yii::app()->baseUrl. "/sass/css/main.css?v=". TAG_VERSION);
 <head>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.min.js"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ba-bbq.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css">
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
     <meta charset="UTF-8" />
@@ -90,6 +92,23 @@ $cs->registerCssFile(Yii::app()->baseUrl. "/sass/css/main.css?v=". TAG_VERSION);
     <meta name="referrer" content="no-referrer" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+
+    <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/responsive.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.css?v=1.2" rel="stylesheet" type="text/css" />
+    <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template2.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo Yii::app()->baseUrl; ?>/sass/css/main.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/glyphicons.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/select2.css" rel="stylesheet" />
+    <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/print.css" media="print" rel="stylesheet" type="text/css" />
+    <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/admin.css" rel="stylesheet" type="text/css" />
+    <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.css' />
+    <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.print.css' media='print' />
+    <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/jquery-ui-1.9.2.custom.min.css' />
+    <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/font-awesome.min.css' />
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/home.css?v=1.0" />
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/datatables.min.css" />
 
 </head>
 
@@ -231,8 +250,8 @@ $cs->registerCssFile(Yii::app()->baseUrl. "/sass/css/main.css?v=". TAG_VERSION);
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ||
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades")
                                                                                 ? 'active' : '' ?>">
-                                                                                <i class="submenu-icon fa fa-chevron-right"></i>
-                                                                                <i class="submenu-icon fa fa-chevron-down"></i>
+                            <i class="submenu-icon fa fa-chevron-right"></i>
+                            <i class="submenu-icon fa fa-chevron-down"></i>
                             <a id="menu-electronic-diary-trigger" data-toggle="collapse" class="t-menu-group__link" href="#submenu-electronic-diary">
                                 <span class="t-icon-schedule t-menu-item__icon t-menu-group__icon"></span>
                                 <!-- <img class="t-menu-group__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/diario_eletronico.svg" /> -->
@@ -274,6 +293,14 @@ $cs->registerCssFile(Yii::app()->baseUrl. "/sass/css/main.css?v=". TAG_VERSION);
                                 </li>
                             </ul>
                         </li>
+                        <?php if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) : ?>
+                            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=classdiary/default/") ? 'active' : '' ?>">
+                                <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('classdiary/default/') ?> ">
+                                    <span class="t-classdiary t-menu-item__icon"></span>
+                                    <span class="t-menu-item__text">Diario de Classe</span>
+                                </a>
+                            </li>
+                         <?php endif ?>   
                         <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=reports") ? 'active' : '' ?> hide-responsive">
                             <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('reports') ?>">
                                 <span class="t-icon-column_graphi t-menu-item__icon"></span>
@@ -318,6 +345,7 @@ $cs->registerCssFile(Yii::app()->baseUrl. "/sass/css/main.css?v=". TAG_VERSION);
                                             <span class="t-menu-item__text">Educacenso</span>
                                         </a>
                                     </li>
+                                    <?php if (INSTANCE != "BUZIOS") { ?>
                                     <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=sagres") ? 'active' : '' ?>">
                                         <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('sagres') ?> ">
                                             <span class="t-icon-sagres t-menu-item__icon"></span>
@@ -325,6 +353,7 @@ $cs->registerCssFile(Yii::app()->baseUrl. "/sass/css/main.css?v=". TAG_VERSION);
                                             <span class="t-menu-item__text">Sagres</span>
                                         </a>
                                     </li>
+                                    <?php } ?>
                                     <?php if (INSTANCE == "UBATUBA" || INSTANCE == "TREINAMENTO" || INSTANCE == "LOCALHOST" || INSTANCE == "DEMO") { ?>
                                         <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=sedsp") ? 'active' : '' ?>">
                                             <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('sedsp') ?>">

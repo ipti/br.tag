@@ -75,7 +75,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				<div id="loading-popup" style="display: none;">
 					<div class="loading-content">
 						<div class="loading-spinner"></div>
-						<div class="loading-text">Aguarde equanto o arquivo é gerado...</div>
+						<div class="loading-text">Aguarde enquanto o arquivo é gerado...</div>
 					</div>
 				</div>
 			</button>

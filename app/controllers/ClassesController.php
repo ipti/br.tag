@@ -183,44 +183,75 @@ class ClassesController extends Controller
     /**
      * Save the contents for each class.
      */
-    public function actionSaveClassContents()
-    {
-        if ($_POST["fundamentalMaior"] == "1") {
-            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk group by day order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"], "discipline_fk" => $_POST["discipline"]]);
-        } else {
-            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month group by day order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"]]);
+    
+     public function actionSaveClassContents()
+     {
+        $is_minor_degree = $_POST["fundamentalMaior"];
+        $classContents = $_POST["classContents"];
+        $classroom = $_POST["classroom"];
+        $month = $_POST["month"];
+        $discipline = $_POST["discipline"];
+
+        $schedules = $this->loadScheduleByStage($is_minor_degree, $classroom, $month, $discipline);
+ 
+         foreach ($classContents as $classContent) {
+             $schedule_key = array_search($classContent["day"], array_column($schedules, 'day'));
+             $this->saveSchedule($schedules[$schedule_key], $classContent);
+         }
+     }
+ 
+     private function loadScheduleByStage($is_minor_education, $classroom, $month, $discipline){
+         if ($is_minor_education == "1") {
+             return Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk group by day order by day, schedule", ["classroom_fk" => $classroom, "month" => $month, "discipline_fk" => $discipline]);
+         } 
+            
+         return Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month group by day order by day, schedule", ["classroom_fk" => $classroom, "month" => $month]);
+         
+     }
+ 
+     /**
+      * Summary of saveSchedule
+      * @param Schedule $schedule 
+      * @param mixed $classContent
+      * @return void
+      */
+     private function saveSchedule($schedule, $classContent){        
+        
+        $schedule->diary = $classContent["diary"] === "" ? null : $classContent["diary"];
+        $schedule->save();
+        
+        foreach($classContent["students"] as $student) {
+            $this->saveClassDiary($student, $schedule);
         }
-        foreach ($_POST["classContents"] as $classContent) {
-            foreach ($schedules as $schedule) {
-                if ($schedule->day == $classContent["day"]) {
-                    $schedule->diary = $classContent["diary"] === "" ? null : $classContent["diary"];
-                    $schedule->save();
-                    foreach($classContent["students"] as $student) {
-                        if ($student["diary"] != "") {
-                            $classDiary = ClassDiaries::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", [":schedule_fk" => $schedule->id, ":student_fk" => $student["id"]]);
-                            if ($classDiary == null) {
-                                $classDiary = new ClassDiaries();
-                                $classDiary->schedule_fk = $schedule->id;
-                                $classDiary->student_fk = $student["id"];
-                            }
-                            $classDiary->diary = $student["diary"] === "" ? null : $student["diary"];
-                            $classDiary->save();
-                        } else {
-                            ClassDiaries::model()->deleteAll("schedule_fk = :schedule_fk and student_fk = :student_fk", [":schedule_fk" => $schedule->id, ":student_fk" => $student["id"]]);
-                        }
-                    }
-                    ClassContents::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
-                    foreach ($classContent["contents"] as $content) {
-                        $classHasContent = new ClassContents();
-                        $classHasContent->schedule_fk = $schedule->id;
-                        $classHasContent->course_class_fk = $content;
-                        $classHasContent->save();
-                    }
-                    break;
-                }
-            }
+
+        ClassContents::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
+        
+        foreach ($classContent["contents"] as $content) {
+            $this->saveClassContents($content, $schedule);
         }
-    }
+         
+     }
+     private function saveClassContents($content, $schedule){        
+         $classHasContent = new ClassContents();
+         $classHasContent->schedule_fk = $schedule->id;
+         $classHasContent->course_class_fk = $content;
+         $classHasContent->save();
+     }
+ 
+     private function saveClassDiary($student, $schedule){
+         if ($student["diary"] != "") {
+             $classDiary = ClassDiaries::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", [":schedule_fk" => $schedule->id, ":student_fk" => $student["id"]]);
+             if ($classDiary == null) {
+                 $classDiary = new ClassDiaries();
+                 $classDiary->schedule_fk = $schedule->id;
+                 $classDiary->student_fk = $student["id"];
+             }
+             $classDiary->diary = $student["diary"] === "" ? null : $student["diary"];
+             $classDiary->save();
+         } else {
+             ClassDiaries::model()->deleteAll("schedule_fk = :schedule_fk and student_fk = :student_fk", [":schedule_fk" => $schedule->id, ":student_fk" => $student["id"]]);
+         }
+     }
 
     ////////////
     //FREQUÊNCIA
@@ -241,14 +272,19 @@ class ClassesController extends Controller
             $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
             $criteria->order = "name";
             $criteria->params = array(':school_year' => Yii::app()->user->year, ':school_inep_fk' => Yii::app()->user->school, ':users_fk' => Yii::app()->user->loginInfos->id);
-
             $classrooms = Classroom::model()->findAll($criteria);
+            $this->render('frequencyInstructor', array(
+                'classrooms' => $classrooms
+            ));
         } else {
             $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
+            $this->render('frequency', array(
+                'classrooms' => $classrooms
+            ));
         }
-        $this->render('frequency', array(
-            'classrooms' => $classrooms
-        ));
+        // $this->render('frequency', array(
+        //     'classrooms' => $classrooms
+        // ));
     }
 
     /**
@@ -309,6 +345,7 @@ class ClassesController extends Controller
             $this->saveFrequency($schedule);
         } else {
             $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
+            exit();
             foreach ($schedules as $schedule) {
                 $this->saveFrequency($schedule);
             }
@@ -318,18 +355,22 @@ class ClassesController extends Controller
     private
     function saveFrequency($schedule)
     {
+       
+
         if ($_POST["studentId"] != null) {
             if ($_POST["fault"] == "1") {
                 $classFault = new ClassFaults();
                 $classFault->student_fk = $_POST["studentId"];
                 $classFault->schedule_fk = $schedule->id;
-                $classFault->save();
+               $classFault->save();
             } else {
                 ClassFaults::model()->deleteAll("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
             }
+          
         } else {
             if ($_POST["fault"] == "1") {
                 $enrollments = StudentEnrollment::model()->findAll("classroom_fk = :classroom_fk", ["classroom_fk" => $_POST["classroomId"]]);
+                
                 foreach ($enrollments as $enrollment) {
                     $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
                     if ($classFault == null) {
@@ -347,17 +388,21 @@ class ClassesController extends Controller
 
     public function actionSaveJustification()
     {
+       
         if ($_POST["fundamentalMaior"] == "1") {
             $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "schedule" => $_POST["schedule"]]);
             $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
             $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
             $classFault->save();
+         
+
         } else {
             $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
             foreach ($schedules as $schedule) {
                 $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
                 $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
                 $classFault->save();
+                
             }
         }
     }
