@@ -100,7 +100,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <select class="select-search-on frequency-input t-field-select__input" id="classroom">
                         <option>Selecione a turma</option>
                         <?php foreach ($classrooms as $classroom) : ?>
-                            <option value="<?= $classroom->id ?>" fundamentalMaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
+                            <option value="<?= $classroom->id ?>" fundamentalMaior="<?=  !TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk) ?>"><?= $classroom->name ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
