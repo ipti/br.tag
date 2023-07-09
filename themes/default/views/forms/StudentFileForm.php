@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @var ReportsController $this ReportsController 
+* @var FormsController $this FormsController 
 * @var $report mixed 
 */
 $baseUrl = Yii::app()->baseUrl;
@@ -9,12 +9,8 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/StudentsFileReport/_initialization.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
-$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-$enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
 
-$turns = ['M'=>'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
-
-
+    $turns = ['M'=>'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
 
 ?>
 
@@ -22,7 +18,7 @@ $turns = ['M'=>'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
 <div id="body-students-file-form" class="pageA4V">
     <?php
         $this->renderPartial('head');
-        $data = $enrollment->getFileInformation($enrollment_id);
+        $data = StudentEnrollment::getFileInformation($enrollment->id);
         $birth_uf = $enrollment->studentFk->edcensoUfFk->acronym;
     ?>
     <br>
