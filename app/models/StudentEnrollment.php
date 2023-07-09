@@ -62,6 +62,11 @@
 class StudentEnrollment extends AltActiveRecord
 {
 
+    const STATUS_ACTIVE = "MATRICULADO";
+    const STATUS_CANCELLED = "CANCELADO";
+    const STATUS_TRANSFERRED = "TRANSFERIDO";
+    const STATUS_EVADED = "EVADIDO";
+
     public $school_year;
 
     /**
@@ -356,7 +361,7 @@ class StudentEnrollment extends AltActiveRecord
 
     public static function getFileInformation($enrollment_id)
     {
-        $sql = "SELECT * FROM studentsfile WHERE enrollment_id = :enrollment_id AND (status = 1 OR status IS NULL);";
+        $sql = "SELECT * FROM studentsfile WHERE enrollment_id = :enrollment_id";
         return Yii::app()->db->createCommand($sql)
             ->bindParam(":enrollment_id", $enrollment_id)
             ->queryRow();
@@ -554,5 +559,16 @@ class StudentEnrollment extends AltActiveRecord
         return $result;
     }
 
+    public function getCurrentStatus(){
+        $status  = [
+            null => "",
+            "1" => StudentEnrollment::STATUS_ACTIVE,
+            "2" => StudentEnrollment::STATUS_TRANSFERRED,
+            "3" => StudentEnrollment::STATUS_CANCELLED,
+            "4" => StudentEnrollment::STATUS_EVADED,
+        ];
 
+        return $status[$this->status];
+
+    }
 }

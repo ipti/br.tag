@@ -1060,13 +1060,9 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column">
                             <div class="t-buttons-container">
-                                <?php 
-                                // if(!$notAddEnrollment) {
-                                ?>
                                 <a href="#" class="t-button-primary  " id="new-enrollment-button">Adicionar Matrícula</a>
                                 <?php
-                                //}
-                                echo  $modelStudentIdentification->isNewRecord ?  "" : '<a href=' . @Yii::app()->createUrl('student/transfer', array('id' => $modelStudentIdentification->id)) . ' class="t-button-primary" id="transfer-student">Transferir Matrícula</a>'
+                                echo  $modelStudentIdentification->isNewRecord ?  "" : '<a href=' . @Yii::app()->createUrl('student/transfer', array('id' => $modelStudentIdentification->id)) . ' class="t-button-secondary" id="transfer-student">Transferir Matrícula</a>'
                                 ?>
                             </div>
                         </div>
@@ -1463,6 +1459,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         </thead>
                                         <tbody>
                                             <?php
+                                            
                                             
                                             foreach ($modelStudentIdentification->studentEnrollments as $me) {
                                             ?>

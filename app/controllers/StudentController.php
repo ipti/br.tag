@@ -364,16 +364,7 @@ class StudentController extends Controller
     {
         $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
         $modelStudentDocumentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
-
         $modelStudentRestrictions = $this->loadModel($id, $this->STUDENT_RESTRICTIONS);
-
-        $notAddEnrollment = false;
-        foreach($modelStudentIdentification->studentEnrollments as $me) {
-            if ($me->classroomFk->school_year == Yii::app()->user->year && $me->status == "1") {
-                $notAddEnrollment = true;
-                break;
-            }
-        }
 
         $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
         $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => $id]]);
@@ -382,11 +373,7 @@ class StudentController extends Controller
                 return $item->vaccine_id;
             }, $studentVaccinesSaves);
         }
-        //$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
         $modelEnrollment = new StudentEnrollment();
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($modelStudentIdentification);
-        //$modelEnrollment = NULL;
 
         if (
             isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])
@@ -429,10 +416,7 @@ class StudentController extends Controller
 
                             if ($hasDuplicate) {
                                 Yii::app()->user->setFlash('error', Yii::t('default', 'Aluno já está matriculado nessa turma.'));
-                                // Yii::app()->user->setFlash('success', Yii::t('default', "adasdsasd"));
                             }
-
-                            //$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
                         }
 
                         if (isset($_POST['Vaccine']['vaccine_id'])) {
@@ -460,12 +444,12 @@ class StudentController extends Controller
                 }
             }
         }
+
         $this->render('update', array(
             'modelStudentIdentification' => $modelStudentIdentification,
             'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
             'modelStudentRestrictions' => $modelStudentRestrictions,
             'modelEnrollment' => $modelEnrollment,
-            'notAddEnrollment' => $notAddEnrollment,
             'vaccines' => $vaccines,
             'studentVaccinesSaves' => $studentVaccinesSaves
         ));
@@ -476,7 +460,7 @@ class StudentController extends Controller
         $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
         $modelEnrollment = new StudentEnrollment;
         if (isset($_POST['StudentEnrollment'])) {
-            $currentEnrollment = StudentEnrollment::model()->findByPk($modelStudentIdentification->studentEnrollment->id);
+            $currentEnrollment = StudentEnrollment::model()->findByPk($modelStudentIdentification->lastEnrollment->id);
             if ($currentEnrollment->validate()) {
                 $currentEnrollment->status = 2;
                 $currentEnrollment->transfer_date = date_create_from_format('d/m/Y', $_POST['StudentEnrollment']['transfer_date'])->format('Y-m-d');
@@ -647,15 +631,10 @@ class StudentController extends Controller
         if ($model == $this->STUDENT_IDENTIFICATION) {
             $return = StudentIdentification::model()->findByPk($id);
         } else if ($model == $this->STUDENT_DOCUMENTS_AND_ADDRESS) {
-            $student_inep_id = StudentIdentification::model()->findByPk($id)->inep_id;
             $return = StudentDocumentsAndAddress::model()->findByAttributes(array('id' => $id));
             if ($return === null) {
                 $return = new StudentDocumentsAndAddress;
             }
-            //mudança agora só busca pelo pk, não mais pelo inep_id
-            /*$return = ($student_inep_id === 'null' || empty($student_inep_id))
-                    ? StudentDocumentsAndAddress::model()->findByPk($id)
-                    : StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk' => $student_inep_id));*/
         } else if ($model == $this->STUDENT_ENROLLMENT) {
             $return = StudentEnrollment::model()->findAllByAttributes(array('student_fk' => $id));
             array_push($return, new StudentEnrollment);
