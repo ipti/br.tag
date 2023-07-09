@@ -44,7 +44,7 @@ $('#discipline').change(function (e, triggerEvent) {
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.valid) {
-                    var tableColspan = Object.keys(data.modalityColumns).length + (!data.isUnityConcept ? 2 : 1);
+                    var tableColspan = Object.keys(data.modalityColumns).length + (!data.isUnityConcept ? 3 : 2);
                     var html = "<table class='grades-table table table-bordered table-striped' concept='" + (data.isUnityConcept ? "1" : "0") + "'><thead><tr><th colspan='" + tableColspan + "' class='table-title'>Notas</th></tr><tr><th></th>";
                     $.each(data.unityColumns, function () {
                         html += "<th colspan='" + this.colspan + "'>" + this.name + "</th>";
@@ -54,7 +54,8 @@ $('#discipline').change(function (e, triggerEvent) {
                     $.each(data.modalityColumns, function () {
                         html += "<th>" + this + "</th>";
                     });
-                    html += !data.isUnityConcept ? '<th>Média Final</th>' : '';
+                    html += !data.isUnityConcept ? '<th>Média</th>' : '';
+                    html += '<th>Situação</th>';
                     html += "</tr></thead><tbody>";
                     $.each(data.students, function () {
                         html += "<tr><td class='grade-student-name'><input type='hidden' class='enrollment-id' value='" + this.enrollmentId + "'>" + $.trim(this.studentName) + "</td>";
@@ -77,6 +78,7 @@ $('#discipline').change(function (e, triggerEvent) {
                             html += "</td>";
                         });
                         html += !data.isUnityConcept ? "<td class='final-media'>" + this.finalMedia + "</td>" : "";
+                        html += "<td class='final-media'>" + this.situation + "</td>";
                         html += "</tr>";
                     });
                     html += "</tbody></table>";

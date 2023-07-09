@@ -1574,6 +1574,7 @@ class ReportsController extends Controller
                 }
 
                 $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
+                $arr["situation"] = $gradeResult != null ? ($gradeResult->situation != null ? $gradeResult->situation : "") : "";
                 array_push($result["rows"], $arr);
             }
             $result["valid"] = true;
