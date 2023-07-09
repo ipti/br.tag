@@ -54,8 +54,8 @@ $('#discipline').change(function (e, triggerEvent) {
                     $.each(data.modalityColumns, function () {
                         html += "<th>" + this + "</th>";
                     });
-                    html += !data.isUnityConcept ? '<th>Média</th>' : '';
-                    html += '<th>Situação</th>';
+                    html += !data.isUnityConcept ? '<th>Média Anual</th>' : '';
+                    html += '<th>Resultado</th>';
                     html += "</tr></thead><tbody>";
                     $.each(data.students, function () {
                         html += "<tr><td class='grade-student-name'><input type='hidden' class='enrollment-id' value='" + this.enrollmentId + "'>" + $.trim(this.studentName) + "</td>";

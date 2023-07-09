@@ -541,11 +541,13 @@ class EnrollmentController extends Controller
                                 $media = $sums / $sumsCount;
                                 array_push($arr["semesterMedias"], $media);
                             }
-                            $finalMedia = array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]);
-                            $finalRecoverMedia = ($finalMedia + $grade["unityGrade"]) / 2;
-                            $finalMedia = number_format($finalMedia > $finalRecoverMedia ? $finalMedia : $finalRecoverMedia, 2);
 
-                            if ($grade["unityGrade"] == "") {
+                            $finalMedia = array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]);
+                            if ($grade["unityGrade"] != "") {
+                                $finalRecoverMedia = ($finalMedia + $grade["unityGrade"]) / 2;
+                                $finalMedia = number_format($finalRecoverMedia, 2);
+                            } else {
+                                $finalMedia = number_format($finalMedia, 2);
                                 $rfFilled = false;
                             }
 
@@ -562,14 +564,19 @@ class EnrollmentController extends Controller
                 }
 
                 //traz a situação do aluno (se null, aprovado, recuperação ou reprovado)
+                $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $gradeUnitiesByClassroom[0]->edcenso_stage_vs_modality_fk]);
                 $situation = null;
                 if ($allNormalUnitiesFilled) {
-                    if ($finalMedia >= 5) {
+                    if ($finalMedia >= $gradeRules->approvation_media) {
                         $situation = "Aprovado(a)";
                     } else {
                         if ($hasRF) {
                             if ($rfFilled) {
-                                $situation = "Reprovado(a)";
+                                if ($finalMedia >= $gradeRules->final_recover_media) {
+                                    $situation = "Aprovado(a)";
+                                } else {
+                                    $situation = "Reprovado(a)";
+                                }
                             } else {
                                 $situation = "Recuperação";
                             }

@@ -36,24 +36,24 @@ class AdminController extends Controller
             $model->attributes = $_POST['Users'];
             if ($model->validate()) {
                 $password = md5($_POST['Users']['password']);
-                
-                    $model->password = $password;
-                    // form inputs are valid, do something here
-                    if ($model->save()) {
-                        $save = true;
-                        foreach ($_POST['schools'] as $school) {
-                            $userSchool = new UsersSchool();
-                            $userSchool->user_fk = $model->id;
-                            $userSchool->school_fk = $school;
-                            $save = $save && $userSchool->validate() && $userSchool->save();
-                        }
-                        if ($save) {
-                            $auth = Yii::app()->authManager;
-                            $auth->assign($_POST['Role'], $model->id);
-                            Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
-                            $this->redirect(['index']);
-                        }
+
+                $model->password = $password;
+                // form inputs are valid, do something here
+                if ($model->save()) {
+                    $save = true;
+                    foreach ($_POST['schools'] as $school) {
+                        $userSchool = new UsersSchool();
+                        $userSchool->user_fk = $model->id;
+                        $userSchool->school_fk = $school;
+                        $save = $save && $userSchool->validate() && $userSchool->save();
                     }
+                    if ($save) {
+                        $auth = Yii::app()->authManager;
+                        $auth->assign($_POST['Role'], $model->id);
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
+                        $this->redirect(['index']);
+                    }
+                }
             }
         }
         $this->render('createUser', ['model' => $model]);
@@ -102,6 +102,9 @@ class AdminController extends Controller
             }
             array_push($result["unities"], $arr);
         }
+        $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $_POST["stage"]]);
+        $result["approvalMedia"] = $gradeRules->approvation_media;
+        $result["finalRecoverMedia"] = $gradeRules->final_recover_media;
         echo json_encode($result);
     }
 
@@ -133,6 +136,16 @@ class AdminController extends Controller
                         $modality->save();
                     }
                 }
+
+                $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $_POST["stage"]]);
+                if ($gradeRules == null) {
+                    $gradeRules = new GradeRules();
+                    $gradeRules->edcenso_stage_vs_modality_fk = $_POST["stage"];
+                }
+                $gradeRules->approvation_media = $_POST["approvalMedia"];
+                $gradeRules->final_recover_media = $_POST["finalRecoverMedia"];
+                $gradeRules->save();
+
                 $valid = true;
             }
         } else {
@@ -176,6 +189,15 @@ class AdminController extends Controller
                             $modality->save();
                         }
                     }
+
+                    $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $curricularMatrix["stage_fk"]]);
+                    if ($gradeRules == null) {
+                        $gradeRules = new GradeRules();
+                        $gradeRules->edcenso_stage_vs_modality_fk = $curricularMatrix["stage_fk"];
+                    }
+                    $gradeRules->approvation_media = $_POST["approvalMedia"];
+                    $gradeRules->final_recover_media = $_POST["finalRecoverMedia"];
+                    $gradeRules->save();
                 }
                 $valid = true;
             }

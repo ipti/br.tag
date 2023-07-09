@@ -56,7 +56,17 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             </div>
             <img class="js-grades-structure-loading"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
-        
+
+        <div class="grades-rules-container js-grades-rules-container">
+            <div class="control-group form-inline">
+                <label class="control-label">Média de Aprovação <span class="red">*</span></label>
+                <input type="text" class="approval-media">
+            </div>
+            <div class="control-group form-inline">
+                <label class="control-label">Média de Rec. Final <span class="red">*</span></label>
+                <input type="text" class="final-recover-media">
+            </div>
+        </div>
         <div class="grades-structure-container js-grades-structure-container">
             <div class="row">
                 <a href="#new-unity" id="new-unity" class="js-new-unity t-button-primary">

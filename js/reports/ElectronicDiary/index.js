@@ -233,8 +233,8 @@ function loadReport() {
                     html += !data.isUnityConcept ? "<th class='center'></th><th></th>" : "<th></th>";
                     html += "</tr>";
                     html += "<tr><th>Disciplina</th>" + subunityRow;
-                    html += !data.isUnityConcept ? "<th class='center'>Média</th>" : "";
-                    html += "<th class='center'>Situação</th>";
+                    html += !data.isUnityConcept ? "<th class='center'>Média Anual</th>" : "";
+                    html += "<th class='center'>Resultado</th>";
                     html += "</tr></thead><tbody>";
                     $.each(data.rows, function () {
                         html += "<tr><td>" + this.disciplineName + "</td>";

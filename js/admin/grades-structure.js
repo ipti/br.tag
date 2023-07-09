@@ -17,6 +17,8 @@ $(document).on("change", "#GradeUnity_edcenso_stage_vs_modality_fk", function ()
                 $(".stagemodalityname").text(data.stageName);
                 $(".stagename").text($("#GradeUnity_edcenso_stage_vs_modality_fk").select2('data').text);
                 $(".js-grades-structure-container").children(".unity").remove();
+                $(".approval-media").val(data.approvalMedia);
+                $(".final-recover-media").val(data.finalRecoverMedia);
                 if (Object.keys(data.unities).length) {
                     $.each(data.unities, function () {
                         $(".js-new-unity").trigger("click");
@@ -46,13 +48,13 @@ $(document).on("change", "#GradeUnity_edcenso_stage_vs_modality_fk", function ()
                     });
                 }
                 $(".grades-buttons").css("display", "flex");
-                $(".js-grades-structure-container").show();
+                $(".js-grades-structure-container, .js-grades-rules-container").show();
                 $(".js-grades-structure-loading").hide();
                 $(".js-grades-structure-container").css("pointer-events", "auto").css("opacity", "1");
             },
         });
     } else {
-        $(".js-grades-structure-container, .grades-buttons").hide();
+        $(".js-grades-structure-container, .grades-buttons,  .js-grades-rules-container").hide();
     }
 });
 
@@ -208,6 +210,8 @@ function saveUnities(reply) {
         data: {
             stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),
             unities: unities,
+            approvalMedia: $(".approval-media").val(),
+            finalRecoverMedia: $(".final-recover-media").val(),
             reply: reply ? $(".reply-option:checked").val() : ""
         },
         beforeSend: function () {
@@ -234,83 +238,114 @@ function checkValidInputs() {
     $(".alert-required-fields").hide();
     var valid = true;
     var message = "";
-    if ($(".unity").length) {
-        var ucCount = 0;
-        var rsCount = 0;
-        var rsIndexes = [];
-        $(".unity").each(function (index) {
-            if ($(this).find(".unity-name").val() === "") {
-                valid = false;
-                message = "Preencha o nome das unidades.";
-                return false;
-            }
-            $(this).find(".modality").each(function () {
-                if ($(this).find(".modality-name").val() === "") {
+    if ($(".approval-media").val() === "" || $(".final-recover-media").val() === "") {
+        valid = false;
+        message = "Os campos de média são obrigatórios.";
+    } else if ($(".approval-media").val() < $(".final-recover-media").val()) {
+        valid = false;
+        message = "A média de recuperação final não pode ser superior à de aprovação.";
+    }
+    if (valid) {
+        if ($(".unity").length) {
+            var ucCount = 0;
+            var rsCount = 0;
+            var rsIndexes = [];
+            $(".unity").each(function (index) {
+                if ($(this).find(".unity-name").val() === "") {
                     valid = false;
-                    message = "Preencha o nome das modalidades.";
+                    message = "Preencha o nome das unidades.";
                     return false;
                 }
-                if ($(this).find(".weight").val() === "") {
+                $(this).find(".modality").each(function () {
+                    if ($(this).find(".modality-name").val() === "") {
+                        valid = false;
+                        message = "Preencha o nome das modalidades.";
+                        return false;
+                    }
+                    if ($(this).find(".weight").val() === "") {
+                        valid = false;
+                        message = "Preencha o peso das modalidades.";
+                        return false;
+                    }
+                });
+                if ($(this).find("select.type-select").val() === "UC") {
+                    ucCount++;
+                }
+                if ($(this).find("select.type-select").val() === "UR") {
+                    if (!$(this).find(".modality-name[modalitytype=C]").length) {
+                        valid = false;
+                        message = 'Unidades do modelo "Unidade com recuperação" requer duas ou mais modalidades.';
+                        return false;
+                    }
+                } else {
+                    if (!$(this).find(".modality-name").length) {
+                        valid = false;
+                        message = "Não se pode cadastrar unidades sem modalidade.";
+                        return false;
+                    }
+                }
+                if (index === 0 && ($(this).find("select.type-select").val() === "RF" || $(this).find("select.type-select").val() === "RS")) {
                     valid = false;
-                    message = "Preencha o peso das modalidades.";
+                    message = "Uma unidade de recuperação semestral ou final não podem ser a primeira.";
                     return false;
+                }
+                if ($(this).find("select.type-select").val() === "RF" && index !== $(".unity").length - 1) {
+                    valid = false;
+                    message = "A unidade de recuperação final, quando utilizada, deve haver apenas 01, sendo a última unidade.";
+                    return false;
+                }
+                if (rsCount === 2 && $(this).find("select.type-select").val() !== "RF") {
+                    valid = false;
+                    message = "Não pode haver unidades após a 2ª recuperação semestral.";
+                    return false;
+                }
+                if ($(this).find("select.type-select").val() === "RS") {
+                    rsCount++;
+                    rsIndexes.push(index);
                 }
             });
-            if ($(this).find("select.type-select").val() === "UC") {
-                ucCount++;
-            }
-            if ($(this).find("select.type-select").val() === "UR") {
-                if (!$(this).find(".modality-name[modalitytype=C]").length) {
-                    valid = false;
-                    message = 'Unidades do modelo "Unidade com recuperação" requer duas ou mais modalidades.';
-                    return false;
-                }
-            } else {
-                if (!$(this).find(".modality-name").length) {
-                    valid = false;
-                    message = "Não se pode cadastrar unidades sem modalidade.";
-                    return false;
-                }
-            }
-            if (index === 0 && ($(this).find("select.type-select").val() === "RF" || $(this).find("select.type-select").val() === "RS")) {
+            if (rsIndexes.length && rsIndexes[1] - rsIndexes[0] === 1) {
                 valid = false;
-                message = "Uma unidade de recuperação semestral ou final não podem ser a primeira.";
-                return false;
+                message = "Não pode haver 02 recuperações semestrais seguidas.";
             }
-            if ($(this).find("select.type-select").val() === "RF" && index !== $(".unity").length - 1) {
+            if (rsCount !== 0 && rsCount !== 2) {
                 valid = false;
-                message = "A unidade de recuperação final, quando utilizada, deve haver apenas 01, sendo a última unidade.";
-                return false;
+                message = "Quando utilizadas, devem haver 02 recuperações semestrais.";
             }
-            if (rsCount === 2 && $(this).find("select.type-select").val() !== "RF") {
+            if (ucCount > 0 && ucCount !== $(".unity").length) {
                 valid = false;
-                message = "Não pode haver unidades após a 2ª recuperação semestral.";
-                return false;
+                message = "Quando uma unidade por conceito for utilizada, nenhum outro modelo pode ser utilizado.";
             }
-            if ($(this).find("select.type-select").val() === "RS") {
-                rsCount++;
-                rsIndexes.push(index);
-            }
-        });
-        if (rsIndexes.length && rsIndexes[1] - rsIndexes[0] === 1) {
+        } else {
             valid = false;
-            message = "Não pode haver 02 recuperações semestrais seguidas.";
+            message = "Não se pode cadastrar uma estrutura de notas sem unidade.";
         }
-        if (rsCount !== 0 && rsCount !== 2) {
-            valid = false;
-            message = "Quando utilizadas, devem haver 02 recuperações semestrais.";
-        }
-        if (ucCount > 0 && ucCount !== $(".unity").length) {
-            valid = false;
-            message = "Quando uma unidade por conceito for utilizada, nenhum outro modelo pode ser utilizado.";
-        }
-    } else {
-        valid = false;
-        message = "Não se pode cadastrar uma estrutura de notas sem unidade.";
     }
+
     if (!valid) {
         $(".alert-required-fields").addClass("alert-error").removeClass("alert-success").text(message).show();
         $("html, body").animate({scrollTop: 0}, "fast");
     }
     return valid;
 }
+
+$(document).on("keyup", ".approval-media, .final-recover-media", function (e) {
+    var val = this.value;
+    if (!$.isNumeric(val)) {
+        e.preventDefault();
+        val = "";
+    } else {
+        grade = /^(10|\d)(?:(\.|\,)\d{0,1}){0,1}$/;
+        if (val.match(grade) === null) {
+            val = "";
+        } else {
+            if (val > 10) {
+                val = 10;
+            } else if (val == 0) {
+                val = "";
+            }
+
+        }
+    }
+    this.value = val;
+});

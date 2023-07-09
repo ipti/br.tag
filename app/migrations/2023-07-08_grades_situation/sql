@@ -1,2 +1,16 @@
 ALTER TABLE `grade_results`
 ADD `situation` varchar(50) COLLATE 'utf8_unicode_ci' NULL AFTER `grade_concept_8`;
+
+CREATE TABLE `grade_rules` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `edcenso_stage_vs_modality_fk` int NOT NULL,
+  `approvation_media` int NOT NULL,
+  `final_recover_media` int NOT NULL,
+) ENGINE='InnoDB' COLLATE 'utf8_unicode_ci';
+
+ALTER TABLE `grade_rules`
+ADD FOREIGN KEY (`edcenso_stage_vs_modality_fk`) REFERENCES `edcenso_stage_vs_modality` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `grade_rules`
+CHANGE `approvation_media` `approvation_media` float NOT NULL AFTER `edcenso_stage_vs_modality_fk`,
+CHANGE `final_recover_media` `final_recover_media` float NOT NULL AFTER `approvation_media`;
