@@ -140,8 +140,8 @@ $(document).on("click", ".classroom-diary-button", function () {
     var button = this;
     $(".classroom-diary-day").val($(button).closest("tr").attr("day"));
     $(".js-classroom-diary").val($(button).parent().find(".classroom-diary-of-the-day").val());
-    $(".accordion-students").find(".accordion-group").each(function () {
-        var value = $(button).parent().find(".student-diary-of-the-day[studentid=" + $(this).closest(".accordion-group").attr("studentid") + "]").val();
+    $(".js-std-classroom-diaries").each(function () {
+        var value = $(button).parent().find(".student-diary-of-the-day[studentid=" + $(this).find(".js-student-classroom-diary").attr("studentid") + "]").val();
         $(this).find(".js-student-classroom-diary").val(value);
         value !== ""
             ? $(this).find(".accordion-title").find(".fa").removeClass("fa-file-o").addClass("fa-file-text-o")

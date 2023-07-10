@@ -59,7 +59,7 @@ $(document).on("change", ".js-frequency-checkbox", function () {
         url: `${window.location.host}?r=classdiary/default/saveFresquency`,
         cache: false,
         data: {
-            classroom_id: $(this).attr("data-classrom_id"),
+            classroom_id: $(this).attr("data-classroom_id"),
             date: $(".js-date").val(),
             schedule: $(this).attr("data-schedule"),
             studentId: $(this).attr("data-studentId"),

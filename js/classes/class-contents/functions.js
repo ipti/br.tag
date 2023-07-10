@@ -23,8 +23,8 @@ function createTable(data) {
                                 ${this.name} 
                             </h4>
                         </div>
-                        <div class='ui-accordion-content'>
-                            <textarea class='t-field-tarea__input js-student-classroom-diary' studentid='${this.id}'>${this.diary}</textarea>
+                        <div class='ui-accordion-content js-std-classroom-diaries'>
+                            <textarea class='t-field-tarea__input js-student-classroom-diary' studentid='${this.id}'></textarea>
                         </div>`
                 }
             });
