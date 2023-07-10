@@ -8,12 +8,13 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization.js?v=1.0', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization_instructor.js?v=1.0', CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes'));
 
-$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
+$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
+
 <div class="main">
     <?php
     $form = $this->beginWidget('CActiveForm', array(
@@ -29,35 +30,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <h5> Marcar apenas faltas.</h5>
         </div>
     </div>
-
-    <table class="table table-bordered table-striped visible-print">
-        <tr>
-            <th>Escola:</th>
-            <td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>
-        <tr>
-        <tr>
-            <th>Estado:</th>
-            <td colspan="2"><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
-            <th>Municipio:</th>
-            <td colspan="2"><?php echo $school->edcensoCityFk->name ?></td>
-            <th>Endereço:</th>
-            <td colspan="2"><?php echo $school->address ?></td>
-        <tr>
-        <tr>
-            <th>Localização:</th>
-            <td colspan="2"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
-            <th>Dependência Administrativa:</th>
-            <td colspan="4"><?php
-                            $ad = $school->administrative_dependence;
-                            echo ($ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
-                                "PRIVADA")));
-                            ?></td>
-        <tr>
-    </table>
-    <br>
-
     <div class="tag-inner">
-
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">
                 <?php echo Yii::app()->user->getFlash('success') ?>
@@ -95,7 +68,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </div>
             </div>
             <div class="column is-one-fifth">
-                <div class="t-field-select">
+                <div class="t-field-select  ">
                     <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 't-field-select__label--required')); ?>
                     <select class="select-search-on frequency-input t-field-select__input" id="classroom">
                         <option>Selecione a turma</option>
@@ -105,9 +78,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     </select>
                 </div>
                 <!-- diciplina -->
+                <img class="loading-frequency" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
             </div>
         </div>
-        <div class="mobile-row  disciplines-container">
+        <div class="mobile-row disciplines-container">
             <div class="column is-one-fifth">
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 't-field-select__label--required')); ?>
@@ -127,10 +101,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <!-- <?php echo Yii::t('default', 'Search') ?> -->
                 </a>
             </div>
-            <img class="loading-frequency" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>
-        <div id="frequency-container" class="table-responsive frequecy-container"></div>
+        <div id="frequency-container" class="table-frequency">
+        </div>
     </div>
     <?php $this->endWidget(); ?>
 

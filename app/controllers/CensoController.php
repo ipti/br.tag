@@ -1420,7 +1420,7 @@ class CensoController extends Controller
         $log['school']['info'] = $school->attributes;
         $log['school']['validate']['identification'] = $this->validateSchool($schoolcolumn, $managerIdentificationColumn);
         $log['school']['validate']['structure'] = $this->validateSchoolStructure($schoolstructurecolumn, $schoolcolumn);
-        $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+        $classrooms = Classroom::model()->with("activeStudentEnrollments")->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
         foreach ($classrooms as $iclass => $classroom) {
             $log['classroom'][$iclass]['info'] = $classroom->attributes;
             $log['classroom'][$iclass]['validate']['identification'] = $this->validateClassroom($classroom, $schoolcolumn, $schoolstructure);
@@ -1434,7 +1434,7 @@ class CensoController extends Controller
                 $log['instructor'][$teachingData->instructor_fk]['validate']['variabledata'][$iteaching]['turma'] = $teachingData->classroomIdFk->name;
                 $log['instructor'][$teachingData->instructor_fk]['validate']['variabledata'][$iteaching]['errors'] = $this->validateInstructorData($teachingData->attributes);
             }
-            foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
+            foreach ($classroom->activeStudentEnrollments as $ienrollment => $enrollment) {
                 if (!isset($log['student'][$enrollment->student_fk]['info'])) {
                     $log['student'][$enrollment->student_fk]['info'] = $enrollment->studentFk->attributes;
                     $log['student'][$enrollment->student_fk]['validate']['identification'] = $this->validateStudentIdentification($enrollment->studentFk->attributes, $enrollment->studentFk->documentsFk->attributes, $enrollment->classroomFk->attributes);
@@ -2472,7 +2472,7 @@ class CensoController extends Controller
                     }
                 }
 
-                if (isset($classroom) && (count($classroom->instructorTeachingDatas) < 1 && count($classroom->studentEnrollments) < 1)) {
+                if (isset($classroom) && (count($classroom->instructorTeachingDatas) < 1 && count($classroom->activeStudentEnrollments) < 1)) {
                     $attributes = [];
                 }
 
@@ -2552,7 +2552,7 @@ class CensoController extends Controller
 //                $teachingData->school_inep_id_fk = $school->inep_id;
 //                $log['instructors'][$teachingData->instructor_fk]['teaching'][$classroom->id] = $teachingData->attributes;
 //            }
-//            foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
+//            foreach ($classroom->activeStudentEnrollments as $ienrollment => $enrollment) {
 //                if (!isset($log['students'][$enrollment->student_fk])) {
 //                    $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
 //                    $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
@@ -2700,7 +2700,7 @@ class CensoController extends Controller
                     $student->documentsFk->student_fk = $line[8];
                     $student->documentsFk->update(array('student_fk'));
                     $student->inep_id = $line[8];
-                    $enrollments = $student->studentEnrollments;
+                    $enrollments = $student->activeStudentEnrollments;
 
                     if (count($enrollments) > 0) {
                         foreach ($enrollments as $enrollment) {
@@ -2774,7 +2774,7 @@ class CensoController extends Controller
                         $student->documentsFk->student_fk = $line[8];
                         $student->documentsFk->update(array('student_fk'));
                         $student->inep_id = $line[8];
-                        $enrollments = $student->studentEnrollments;
+                        $enrollments = $student->activeStudentEnrollments;
 
                         if (count($enrollments) > 0) {
                             foreach ($enrollments as $enrollment) {

@@ -16,8 +16,15 @@
             .select2-choice {
                 width: 100%;
                 word-wrap: break-word;
+                text-overflow: ellipsis;
             }
         }    
+    }
+    &__helper{
+        max-width: 50% !important;
+    }
+    &__helper2{
+        max-width: 65% !important; 
     }
 
     

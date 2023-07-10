@@ -7,7 +7,11 @@ class Register50
         $registers = [];
 
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-        $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
+        $classrooms = Classroom::model()->with([
+            "instructorTeachingDatas.instructorFk.instructorVariableData",
+            "instructorTeachingDatas.teachingMatrixes.curricularMatrixFk"
+
+        ])->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
         $instructors = [];
 
         foreach ($classrooms as $iclass => $classroom) {
