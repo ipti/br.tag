@@ -85,6 +85,7 @@ class ImportModel
             $instructorIdentificationModel->setDb2Connection(true);
             $instructorIdentificationModel->refreshMetaData();
             $instructorIdentificationModel->attributes = $instructorIdentification;
+            $instructorIdentificationModel->id = $instructorIdentification['id'];
             $instructorIdentificationModel->save();
         }
     }
@@ -96,6 +97,7 @@ class ImportModel
             $instructorDocumentsAndAddressModel->setDb2Connection(true);
             $instructorDocumentsAndAddressModel->refreshMetaData();
             $instructorDocumentsAndAddressModel->attributes = $instructorDocumentsAndAddress;
+            $instructorDocumentsAndAddressModel->id = $instructorDocumentsAndAddress['id'];
             $instructorDocumentsAndAddressModel->save();
         }
     }

@@ -26,10 +26,8 @@ class ExportModel
             $instructorDocumentsModel->setDb2Connection(false);
             $instructorDocumentsModel->refreshMetaData();
 
-            $instructorsDocuments = $this->getInstructorDocumentsAndAddress($instructor['id']);
-            foreach ($instructorsDocuments as $instructorsDocument) {
-                $instructorDocumentsData['instructor_documents_and_address'][] = $instructorsDocument;
-            }
+            $instructorsDocument = $this->getInstructorDocumentsAndAddress($instructor['id']);
+            $instructorDocumentsData['instructor_documents_and_address'][] = $instructorsDocument;
             
             $instructorsData['instructor_identification'][] = $instructor;
         }
@@ -49,9 +47,7 @@ class ExportModel
     function getInstructorDocumentsAndAddress($instructor)
     {
         $query = "SELECT * FROM instructor_documents_and_address WHERE id = " . $instructor['id'];
-        $instructorsDocuments = Yii::app()->db->createCommand($query)->queryAll();
-
-        return $instructorsDocuments;
+        return Yii::app()->db->createCommand($query)->queryRow();
     }
 
 
