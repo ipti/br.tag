@@ -235,6 +235,7 @@ class Register30
     private static function exportStudentDocuments($student, $register, $year, $aliases)
     {
         $student['register_type'] = '30';
+        
 
         if (empty($student['cep']) && isset($student['edcenso_city_fk'])) {
             $student['edcenso_city_fk'] = '';
@@ -258,8 +259,10 @@ class Register30
         $student["id_email"] = '';
 
         foreach ($student as $key => $attr) {
+            
             $alias_index = array_search($key, array_column($aliases, 'attr'));
             $alias = $aliases[$alias_index];
+            
             if (isset($alias->corder)) {
                 if ($key == 'edcenso_city_fk') {
                     $register[43] = $attr;
@@ -268,6 +271,7 @@ class Register30
                 }
             }
         }
+        
 
         return $register;
     }
@@ -524,7 +528,7 @@ class Register30
             $register = self::exportStudentDocuments($student['documents'], $register, $year, $aliasesStudent);
 
             ksort($register);
-            array_push($registers, implode('|', $register));
+            array_push($registers, '30' . implode('|', $register));
         }
 
         $managerIsAnInstructor = false;
@@ -547,7 +551,7 @@ class Register30
             $register = self::exportInstructorVariable($instructor['variable'], $register, $highEducationCourses, $aliasesInstructor);
 
             ksort($register);
-            array_push($registers, implode('|', $register));
+            array_push($registers, '30' . implode('|', $register));
         }
 
         if (!$managerIsAnInstructor) {
