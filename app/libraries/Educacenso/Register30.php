@@ -229,6 +229,7 @@ class Register30
             }
         }
 
+        $register[1] = '30';
         return $register;
     }
 
@@ -333,6 +334,8 @@ class Register30
             }
         }
 
+        $register[1] = '30';
+        
         return $register;
     }
 
@@ -526,9 +529,11 @@ class Register30
 
             $register = self::exportStudentIdentification($student['identification'], $register, $year, $aliasesStudent);
             $register = self::exportStudentDocuments($student['documents'], $register, $year, $aliasesStudent);
-
+            
+            $register[1] = '30';
+            
             ksort($register);
-            array_push($registers, '30' . implode('|', $register));
+            array_push($registers, implode('|', $register));
         }
 
         $managerIsAnInstructor = false;
@@ -550,8 +555,9 @@ class Register30
             $register = self::exportInstructorDocuments($instructor['documents'], $register, $aliasesInstructor);
             $register = self::exportInstructorVariable($instructor['variable'], $register, $highEducationCourses, $aliasesInstructor);
 
+            $register[1] = '30';
             ksort($register);
-            array_push($registers, '30' . implode('|', $register));
+            array_push($registers, implode('|', $register));
         }
 
         if (!$managerIsAnInstructor) {
