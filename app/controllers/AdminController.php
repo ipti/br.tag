@@ -1,6 +1,6 @@
 <?php
 
-class AdminController extends Controller
+class AdminController extends Controller 
 {
     public $layout = 'fullmenu';
 
@@ -26,6 +26,49 @@ class AdminController extends Controller
     public function actionIndex()
     {
         $this->render('index');
+    }
+
+    function actionExportMaster() {
+
+        $adapter = new Adapter;
+        $exportModel = new ExportModel;
+        $loadedData = [];
+
+        $loadedData = array_merge($loadedData, $exportModel->getSchoolIdentification());
+        $loadedData = array_merge($loadedData, $exportModel->getClassrooms());
+        $loadedData = array_merge($loadedData, $exportModel->getSchoolStructure());
+
+        $loadedData = array_merge($loadedData, $exportModel->getInstructorsIdentification());
+        $loadedData = array_merge($loadedData, $exportModel->getInstructorsTeachingData());
+        $loadedData = array_merge($loadedData, $exportModel->getInstructorDocumentsAndAddress());
+        $loadedData = array_merge($loadedData, $exportModel->getInstructorVariableData());
+        $loadedData = array_merge($loadedData, $exportModel->getTeachingMatrixes());
+
+        $loadedData = array_merge($loadedData, $exportModel->getStudentIdentification());
+        $loadedData = array_merge($loadedData, $exportModel->getStudentDocumentsAndAddress());
+        $loadedData = array_merge($loadedData, $exportModel->getStudentEnrollment());
+
+        $adapter->export($loadedData);
+    }
+
+    function actionImportMaster() {
+        $adapter = new Adapter;
+        $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();   
+        $pathFileJson = "./app/export/InfoTagJSON/$databaseName.json";
+
+        if (!file_exists($pathFileJson)) {
+            Yii::app()->user->setFlash('error', 'O arquivo não existe na pasta de importação.');
+            $this->redirect(array('index'));
+        }   
+
+        try{
+            $adapter->import($pathFileJson);
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Importação realizada com sucesso!'));
+            $this->redirect(array('index'));
+        } catch (Exception $e) {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Error na importação: '.$e->getMessage()));
+            $this->redirect(array('index'));
+        }
     }
 
     public function actionCreateUser()
@@ -317,530 +360,6 @@ class AdminController extends Controller
         $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
 
         return str_replace($search, $replace, $value);
-    }
-
-    public function actionImportMaster()
-    {
-        set_time_limit(0);
-        ini_set('memory_limit', '-1');
-        ignore_user_abort();
-
-        $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();   
-        $pathFileJSON = "./app/export/InfoTagJSON/$databaseName.json";
-
-        $fileImport = fopen($pathFileJSON, 'r');
-        if ($fileImport == false) {
-            die('O arquivo não existe na pasta import.');
-        }
-        fclose($fileImport);
-
-        $json = unserialize(file_get_contents($pathFileJSON));   
-
-        $this->loadMaster($json);
-    }
-
-    public function loadMaster($datajson)
-    {
-        try{      
-            ini_set('max_execution_time', 0);
-            ini_set('memory_limit', '-1');
-            set_time_limit(0);
-
-            $transaction = Yii::app()->db->beginTransaction();
-            Yii::app()->db->createCommand('SET FOREIGN_KEY_CHECKS=0')->execute();
-
-            $this->saveSchoolIdentificationsDB($datajson['school_identification']);
-            $this->saveSchoolStructureDB($datajson['schoolstructures']);
-            $this->saveClassroomsDB($datajson['classrooms']);
-            
-            $this->saveInstructorIdentificationDB($datajson['instructor_identification']);  
-            $this->saveInstructorsTeachingDataDB($datajson['instructor_teaching_data']);
-            $this->saveInstructorVariableDataDB($datajson['instructorvariabledata']);
-            $this->saveInstructorDocumentsAndAddressDB($datajson['instructor_documents_and_address']); 
-            $this->saveTeachingMatrixes($datajson['teaching_matrixes']);
-
-            $this->saveStudentIdentificationDB($datajson['student_identification']);
-            $this->saveStudentDocumentsAndAddressDB($datajson['student_documents_and_address']);
-            $this->saveStudentEnrollmentDB($datajson['studentenrollments']);
-                 
-            $transaction->commit();
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Importação realizada com sucesso!'));
-            $this->redirect(array('index'));
-
-            Yii::app()->db->createCommand('SET FOREIGN_KEY_CHECKS=1')->execute();
-
-        } catch (Exception $e){
-            $transaction->rollback();
-            
-            Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro ao importar os dados: '. $e->getMessage()));
-            $this->redirect(array('index'));
-        }
-    }
-
-    function saveSchoolIdentificationsDB($jsonSchools) 
-    {
-        foreach ($jsonSchools as $school) {
-            $schoolIdentificationModel = new SchoolIdentification();
-            $schoolIdentificationModel->setDb2Connection(true);
-            $schoolIdentificationModel->refreshMetaData();
-            $schoolIdentificationModel->attributes = $school;
-            $schoolIdentificationModel->save();        
-        }
-    }
-
-
-    function saveSchoolStructureDB($schoolStructures) 
-    {
-        foreach ($schoolStructures as $schoolStructure) {
-            $schoolStructureModel =  new SchoolStructure();
-            $schoolStructureModel->setDb2Connection(true);
-            $schoolStructureModel->refreshMetaData();
-            $schoolStructureModel->attributes = $schoolStructure;
-            $schoolStructureModel->save();
-        }
-    }
-
-    function saveClassroomsDB($jsonClassrooms) {
-        foreach ($jsonClassrooms as  $classroom) {
-            $classroomModel = new Classroom();
-            $classroomModel->setScenario('search');
-            $classroomModel->setDb2Connection(true);
-            $classroomModel->refreshMetaData();
-            $classroomModel->attributes = $classroom;
-            $classroomModel->save();
-        }
-    }
-
-    function saveStudentDocumentsAndAddressDB($jsonDocumentsAddress) {
-        foreach ($jsonDocumentsAddress as $documentsaddress) {
-            $studentDocumentsAndAddress = new StudentDocumentsAndAddress();
-            $studentDocumentsAndAddress->setDb2Connection(true);
-            $studentDocumentsAndAddress->refreshMetaData();
-            $studentDocumentsAndAddress->attributes = $documentsaddress;
-            $studentDocumentsAndAddress->save();
-        }
-    }
-
-    function saveStudentEnrollmentDB($jsonEnrollments)
-    {
-        foreach ($jsonEnrollments as $enrollment) {
-            $studentEnrollment = new StudentEnrollment();
-            $studentEnrollment->setDb2Connection(true);
-            $studentEnrollment->refreshMetaData();
-            $studentEnrollment->attributes = $enrollment;
-            $studentEnrollment->save();
-        }
-    }
-
-    function saveInstructorsTeachingDataDB($jsonInstructorsTeachingDatas)
-    {
-        foreach ($jsonInstructorsTeachingDatas as $instructorsTeachingData) {
-            $instructorTeachingData = new InstructorTeachingData();
-            $instructorTeachingData->setDb2Connection(true);
-            $instructorTeachingData->refreshMetaData();
-            $instructorTeachingData->attributes = $instructorsTeachingData;
-            $instructorTeachingData->save();
-         }
-    }
-
-    function saveInstructorVariableDataDB($instructorVariableDatas)
-    {
-        foreach ($instructorVariableDatas as $instructorVariableData) {
-            $instructorVariableDataModel = new InstructorVariableData();
-            $instructorVariableDataModel->setDb2Connection(true);
-            $instructorVariableDataModel->refreshMetaData();
-            $instructorVariableDataModel->attributes = $instructorVariableData;
-            $instructorVariableDataModel->save();
-        }
-    }
-
-    function saveInstructorIdentificationDB($instructorIdentifications) 
-    {
-        foreach ($instructorIdentifications as $instructorIdentification) {
-            $instructorIdentificationModel = new InstructorIdentification();
-            $instructorIdentificationModel->setDb2Connection(true);
-            $instructorIdentificationModel->refreshMetaData();
-            $instructorIdentificationModel->attributes = $instructorIdentification;
-            $instructorIdentificationModel->save();
-        }
-    }
-    
-
-    function saveInstructorDocumentsAndAddressDB($instructorDocumentsAndAddresses)
-    {
-        foreach ($instructorDocumentsAndAddresses as $instructorDocumentsAndAddress) {
-            $instructorDocumentsAndAddressModel = new InstructorDocumentsAndAddress();
-            $instructorDocumentsAndAddressModel->setDb2Connection(true);
-            $instructorDocumentsAndAddressModel->refreshMetaData();
-            $instructorDocumentsAndAddressModel->attributes = $instructorDocumentsAndAddress;
-            $instructorDocumentsAndAddressModel->save();
-        }
-    }
-
-    function saveTeachingMatrixes($teachingMatrixes)  
-    {
-        foreach ($teachingMatrixes as $teachingMatrixe) {
-            $teachingMatrixeModel = new TeachingMatrixes();
-            $teachingMatrixeModel->setDb2Connection(true);
-            $teachingMatrixeModel->refreshMetaData();
-            $teachingMatrixeModel->attributes = $teachingMatrixe;
-            $teachingMatrixeModel->save();
-        }
-    }
-
-    function saveStudentIdentificationDB($studentIdentifications)
-    {
-        foreach ($studentIdentifications as $studentIdentification) {
-            $studentIdentificationMode = new StudentIdentification();
-            $studentIdentificationMode->setDb2Connection(true);
-            $studentIdentificationMode->refreshMetaData();
-            $studentIdentificationMode->attributes = $studentIdentification;
-            $studentIdentificationMode->save();
-        }
-    }
-    
-
-    public function actionExportMaster()
-    {
-        $file = null;
-        $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();
-        $pathFileJSON = "./app/export/InfoTagJSON/$databaseName.json";
-
-        try {
-            ini_set('max_execution_time', 0);
-            ini_set('memory_limit', '-1');
-            set_time_limit(0);
-            ignore_user_abort();
-                         
-            $host = getenv("HOST_DB_TAG");
-            Yii::app()->db->setActive(false);
-            Yii::app()->db->connectionString = "mysql:host=$host;dbname=$databaseName";
-            Yii::app()->db->setActive(true);
-
-            // Prepara os dados para exportação
-            $exportData = array();
-            $exportData = $this->prepareExport();
-            $datajson = serialize($exportData);
-
-            // Grava os dados no arquivo JSON
-            $file = fopen($pathFileJSON, "w");      
-            fwrite($file, $datajson);
-            fclose($file);
-
-            // Envia o arquivo JSON como download
-            header("Content-Disposition: attachment; filename=\"" . basename($pathFileJSON) . "\"");
-            header("Content-Type: application/force-download");
-            header("Content-Length: " . filesize($pathFileJSON));
-            header("Connection: close"); 
-            $file = fopen($pathFileJSON, "r");
-            fpassthru($file);
-            fclose($file); 
-
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação realizada com sucesso!'));
-            $this->redirect(array('index'));
-            
-        } catch (Exception $e) {
-            echo "Ocorreu um erro durante o processamento: " . $e->getMessage();
-
-            if (file_exists($pathFileJSON)) {
-                unlink($pathFileJSON);
-            }
-        } finally {
-            fclose($file);
-            ini_set('memory_limit', ini_get('memory_limit'));
-        }
-    }
-
-    public function prepareExport()
-    {
-        ini_set('max_execution_time', 0);
-        ini_set('memory_limit', '-1');
-        set_time_limit(0);
-        ignore_user_abort();
-  
-        $year = Yii::app()->user->year; 
-        $loads = array();
-
-/*         $query = "SELECT DISTINCT school_inep_id_fk FROM student_enrollment se
-                    JOIN classroom c ON(c.id = se.classroom_fk)
-                    WHERE c.school_year = :year";
-
-        $schools = Yii::app()->db->createCommand($query)->bindValue(":year", $year)->queryAll(); */
-
-/*         $istudent = new StudentIdentification();
-        $istudent->setDb2Connection(false);
-        $istudent->refreshMetaData(); */
-        /*        
-        foreach ($schools as $schll) {
-            $ischool = new SchoolIdentification();
-            $ischool->setDb2Connection(false);
-            $ischool->refreshMetaData();
-            $school = $ischool->findByPk($schll['school_inep_id_fk']);
-
-            $iclass = new Classroom();
-            $iclass->setDb2Connection(false);
-            $iclass->refreshMetaData();
-            $classrooms = $iclass->findAllByAttributes(["school_inep_fk" => $schll['school_inep_id_fk']]);
-            $hash_school = hexdec(crc32($school->inep_id . $school->name));
-            
-            $loads['schools'][$hash_school] = $school->attributes;
-            $loads['schools'][$hash_school]['hash'] = $hash_school;       
-            
-            $loads['schools_structure'][$hash_school] = $school->structure->attributes;
-            $loads['schools_structure'][$hash_school]['hash'] = $hash_school;
-            
-            foreach ($classrooms as $iclass => $classroom) {
-                $hash_classroom = hexdec(crc32($school->inep_id . $classroom->id . $classroom->school_year));       
-                $loads['classrooms'][$hash_classroom] = $classroom->attributes;
-                $loads['classrooms'][$hash_classroom]['hash'] = $hash_classroom;
-                
-                foreach ($classroom->studentEnrollments as $enrollment) {
-                    $enrollment->setDb2Connection(false);
-                    $enrollment->refreshMetaData();
-
-                    $hash_student = hexdec(crc32($enrollment->studentFk->name . $enrollment->studentFk->birthday));
-                    if (!isset($loads['students'][$hash_student])) {
-                        $loads['students'][$hash_student] = $enrollment->studentFk->attributes;
-                        $loads['students'][$hash_student]['hash'] = $hash_student;
-                    }
-                    if (!isset($loads['documentsaddress'][$hash_student])) {
-                        $loads['documentsaddress'][$hash_student] = $enrollment->studentFk->documentsFk->attributes;
-                        $loads['documentsaddress'][$hash_student]['hash'] = $hash_student;
-                    }
-                    $hash_enrollment = hexdec(crc32($hash_classroom . $hash_student));
-                    $loads['enrollments'][$hash_enrollment] = $enrollment->attributes;
-                    $loads['enrollments'][$hash_enrollment]['hash'] = $hash_enrollment;
-                    $loads['enrollments'][$hash_enrollment]['hash_classroom'] = $hash_classroom;
-                    $loads['enrollments'][$hash_enrollment]['hash_student'] = $hash_student;
-                }
-                
-                foreach ($classroom->instructorTeachingDatas as $teachingData) {
-                    $teachingData->setDb2Connection(false);
-                    $teachingData->refreshMetaData();
-
-                    $hash_instructor = hexdec(crc32($teachingData->instructorFk->name.$teachingData->instructorFk->birthday_date));
-                    $hash_teachingdata = hexdec(crc32($hash_classroom.$hash_instructor));
-
-                    $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id] = $teachingData->attributes;
-                    $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash_instructor'] = $hash_instructor;
-                    $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash_classroom'] = $hash_classroom;
-                    $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash'] = $hash_teachingdata;
-
-                    $loads['instructorDocumentsAndAddress'][$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
-                    $loads['instructorDocumentsAndAddress'][$teachingData->instructor_fk]['documents']['hash'] = $hash_instructor;
-                    
-                    if(!isset($loads['instructorsvariabledata'][$teachingData->instructor_fk])) {
-                        $loads['instructorsvariabledata'][$teachingData->instructor_fk] = $teachingData->instructorFk->instructorVariableData->attributes;
-                        $loads['instructorsvariabledata'][$teachingData->instructor_fk]['hash'] = $hash_instructor;
-                    }
-                }
-            }
-        }   */
-
-        $loads = array_merge($loads, $this->getSchoolIdentification());
-        $loads = array_merge($loads, $this->getClassrooms());
-        $loads = array_merge($loads, $this->getSchoolStructure());
-
-        $loads = array_merge($loads, $this->getInstructorsIdentification());
-        $loads = array_merge($loads, $this->getInstructorsTeachingData());
-        $loads = array_merge($loads, $this->getInstructorDocumentsAndAddress());
-        $loads = array_merge($loads, $this->getInstructorVariableData());
-        $loads = array_merge($loads, $this->getTeachingMatrixes());
-
-        $loads = array_merge($loads, $this->getStudentIdentification());
-        $loads = array_merge($loads, $this->getStudentDocumentsAndAddress());
-        $loads = array_merge($loads, $this->getStudentEnrollment());
-        
-        return $loads;
-    }
-
-    function getInstructorsIdentification() 
-    {
-        $query = "SELECT * FROM instructor_identification";
-        $instructors = Yii::app()->db->createCommand($query)->queryAll();
-
-        $instructorModel = new InstructorIdentification();
-        $instructorModel->setDb2Connection(false);
-        $instructorModel->refreshMetaData();
-
-        $instructorsData = [];
-        foreach ($instructors as $instructor) {           
-            $instructor['hash'] = hexdec(hash('crc32', $instructor['name'].$instructor['birthday_date']));
-            $instructorsData['instructor_identification'][] = $instructor;
-        }
-
-        return $instructorsData;
-    }
-
-    function getInstructorDocumentsAndAddress()
-    {
-        $query = "SELECT * FROM instructor_documents_and_address";
-        $instructorsDocuments = Yii::app()->db->createCommand($query)->queryAll();
-
-        $instructorDocumentsModel = new InstructorDocumentsAndAddress();
-        $instructorDocumentsModel->setDb2Connection(false);
-        $instructorDocumentsModel->refreshMetaData();
-
-        $instructorDocumentsData = [];
-        foreach ($instructorsDocuments as $instructorsDocument) {
-            $instructorDocumentsData['instructor_documents_and_address'][] = $instructorsDocument;
-        }
-
-        return $instructorDocumentsData;
-    }
-
-    function getInstructorVariableData()
-    {
-        $query = "SELECT * FROM instructor_variable_data";
-        $instructorVariableDatas = Yii::app()->db->createCommand($query)->queryAll();
-
-        $instructorVariableDataModel = new InstructorVariableData();
-        $instructorVariableDataModel->setDb2Connection(false);
-        $instructorVariableDataModel->refreshMetaData();
-
-        $instructorData = [];
-        foreach ($instructorVariableDatas as $instructorVariableData) {
-            $instructorData['instructorvariabledata'] = $instructorVariableData;
-        }
-
-        return $instructorData;
-    }
-
-    function getInstructorsTeachingData()
-    {
-        $query = "SELECT * FROM instructor_teaching_data";
-        $teachingData = Yii::app()->db->createCommand($query)->queryAll();
-    
-        $teachingDataModel = new InstructorTeachingData();
-        $teachingDataModel->setDb2Connection(false);
-        $teachingDataModel->refreshMetaData();
-    
-        $teachingDataData = [];
-        foreach ($teachingData as $data) {
-            $teachingDataData['instructor_teaching_data'][] = $data;
-        }
-    
-        return $teachingDataData;
-    }
-
-    function getTeachingMatrixes()
-    {
-        $query = "SELECT * FROM teaching_matrixes";
-        $matrixes = Yii::app()->db->createCommand($query)->queryAll();
-    
-        $matrixModel = new TeachingMatrixes();
-        $matrixModel->setDb2Connection(false);
-        $matrixModel->refreshMetaData();
-    
-        $matrixesData = [];
-        foreach ($matrixes as $matrix) {
-            $matrixesData['teaching_matrixes'][] = $matrix;
-        }
-    
-        return $matrixesData;
-    }
-
-    function getSchoolIdentification() 
-    {
-        $query = "SELECT * FROM school_identification";
-        $schools = Yii::app()->db->createCommand($query)->queryAll();
-
-        $schoolIdentificationModel = new SchoolIdentification();
-        $schoolIdentificationModel->setDb2Connection(false);
-        $schoolIdentificationModel->refreshMetaData();
-
-        $schoolsData = [];
-        foreach ($schools as $school) {
-            $school['hash'] = hexdec(hash('crc32', $school['inep_id']));
-            $schoolsData['school_identification'][] = $school;
-        }
-
-        return $schoolsData;
-    }
-    
-
-    function getSchoolStructure()
-    {
-        $query = "SELECT * FROM school_structure";
-        $schoolStructures = Yii::app()->db->createCommand($query)->queryAll();
-
-        $schoolStructureModel = new SchoolStructure();
-        $schoolStructureModel->setDb2Connection(false);
-        $schoolStructureModel->refreshMetaData();
-
-        $schoolStructuresData = [];
-        foreach ($schoolStructures as $schoolStructure) {
-           $schoolStructure['hash'] = hexdec(hash('crc32', $schoolStructure['school_inep_id_fk']));
-           $schoolStructuresData['schoolstructures'][] = $schoolStructure;
-        }
-
-        return $schoolStructuresData;
-    }
-
-    function getClassrooms() 
-    {
-        $query = "SELECT * FROM classroom";
-        $classrooms = Yii::app()->db->createCommand($query)->queryAll();
-
-        $classroomsModel = new Classroom();
-        $classroomsModel->setDb2Connection(false);
-        $classroomsModel->refreshMetaData();
-
-        $classroomsData = [];
-        foreach ($classrooms as $classroom) {
-            $classroom['hash'] = hexdec(hash('crc32', $classroom['name']));
-            $classroomsData['classrooms'][] = $classroom;
-        }
-
-        return $classroomsData;
-    }
-
-    function getStudentIdentification() 
-    {
-        $query = "SELECT * FROM student_identification";
-        $students = Yii::app()->db->createCommand($query)->queryAll();
-
-        $studentIdentificationModel = new StudentIdentification();
-        $studentIdentificationModel->setDb2Connection(false);
-        $studentIdentificationModel->refreshMetaData();
-
-        $studentsData = [];
-        foreach ($students as $student) {
-            $student['hash'] = hexdec(hash('crc32', $student['name'].$student['birthday']));
-            $studentsData['student_identification'][] = $student;
-        }
-
-        return $studentsData;
-    }
-
-    function getStudentDocumentsAndAddress()
-    {
-        $query = "SELECT * FROM student_documents_and_address";
-        $documentsAndAddress = Yii::app()->db->createCommand($query)->queryAll();
-    
-        $studentModel = new StudentDocumentsAndAddress();
-        $studentModel->setDb2Connection(false);
-        $studentModel->refreshMetaData();
-    
-        $studentDocumentsAndAddressData = [];
-        foreach ($documentsAndAddress as $document) {
-            $studentDocumentsAndAddressData['student_documents_and_address'][] = $document;
-        }
-    
-        return $studentDocumentsAndAddressData;
-    }
-
-    function getStudentEnrollment()  
-    {
-        $query = "SELECT * FROM student_enrollment";
-        $studentEnrollments = Yii::app()->db->createCommand($query)->queryAll();
-
-        $studentEnrollmentsData = [];
-        foreach ($studentEnrollments as $studentEnrollment) {
-            $studentEnrollmentsData['studentenrollments'] = $studentEnrollment;
-        }
-
-        return $studentEnrollmentsData;
     }
 
     public function actionManageUsers()
