@@ -1,5 +1,9 @@
 # Atualizações
 
+## [Versão 3.34.75]
+- Corrigidos os erros de estilo 
+- Retirado o botão de pesquisa do formulário de aulas ministradas
+
 ## [Versão 3.34.74]
 - O botão inoperante de calcular média na página de notas foi removido
 
