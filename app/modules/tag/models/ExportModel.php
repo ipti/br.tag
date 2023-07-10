@@ -19,7 +19,18 @@ class ExportModel
         $instructorModel->refreshMetaData();
 
         $instructorsData = [];
-        foreach ($instructors as $instructor) {           
+        foreach ($instructors as $instructor) { 
+            
+            $query = "SELECT * FROM instructor_documents_and_address WHERE id = " . $instructor['id'];
+            $docs = Yii::app()->db->createCommand($query)->queryAll();
+
+            echo "<pre>";
+            echo($instructor['id'] ." ");
+            foreach ($docs as $doc) {
+                echo $doc['cpf'];
+            }
+            echo "</pre>";
+            
             $instructor['hash'] = hexdec(hash('crc32', $instructor['name'].$instructor['birthday_date']));
             $instructorsData['instructor_identification'][] = $instructor;
         }
@@ -64,7 +75,7 @@ class ExportModel
 
         $instructorData = [];
         foreach ($instructorVariableDatas as $instructorVariableData) {
-            $instructorData['instructorvariabledata'] = $instructorVariableData;
+            $instructorData['instructor_variable_data'][] = $instructorVariableData;
         }
 
         return $instructorData;

@@ -39,8 +39,8 @@ class Adapter implements ExportableInterface, ImportableInterface
     function import($pathFileJson) {
         try { 
             $data = json_decode(file_get_contents($pathFileJson), true);  
-            $importModel = new ImportModel();  
-            
+            $importModel = new ImportModel(); 
+
             $transaction = Yii::app()->db->beginTransaction();
             Yii::app()->db->createCommand('SET FOREIGN_KEY_CHECKS=0')->execute();
 
@@ -50,8 +50,8 @@ class Adapter implements ExportableInterface, ImportableInterface
             
             $importModel->saveInstructorIdentificationDB($data['instructor_identification']);  
             $importModel->saveInstructorsTeachingDataDB($data['instructor_teaching_data']);
-            $importModel->saveInstructorVariableDataDB($data['instructorvariabledata']);
             $importModel->saveInstructorDocumentsAndAddressDB($data['instructor_documents_and_address']); 
+            $importModel->saveInstructorVariableDataDB($data['instructor_variable_data']);
             $importModel->saveTeachingMatrixes($data['teaching_matrixes']);
 
             $importModel->saveStudentIdentificationDB($data['student_identification']);
