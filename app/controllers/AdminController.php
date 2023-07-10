@@ -29,6 +29,8 @@ class AdminController extends Controller
     }
 
     function actionExportMaster() {
+        $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();   
+        $pathFileJson = "./app/export/InfoTagJSON/$databaseName.json";
 
         $adapter = new Adapter;
         $exportModel = new ExportModel;
@@ -40,7 +42,6 @@ class AdminController extends Controller
 
         $loadedData = array_merge($loadedData, $exportModel->getInstructorsIdentification());
         $loadedData = array_merge($loadedData, $exportModel->getInstructorsTeachingData());
-        $loadedData = array_merge($loadedData, $exportModel->getInstructorDocumentsAndAddress());
         $loadedData = array_merge($loadedData, $exportModel->getInstructorVariableData());
         $loadedData = array_merge($loadedData, $exportModel->getTeachingMatrixes());
 
@@ -48,7 +49,21 @@ class AdminController extends Controller
         $loadedData = array_merge($loadedData, $exportModel->getStudentDocumentsAndAddress());
         $loadedData = array_merge($loadedData, $exportModel->getStudentEnrollment());
 
-        $adapter->export($loadedData);
+    
+        $host = getenv("HOST_DB_TAG");
+        Yii::app()->db->setActive(false);
+        Yii::app()->db->connectionString = "mysql:host=$host;dbname=$databaseName";
+        Yii::app()->db->setActive(true);
+
+        $dataEncoded = $adapter->export($loadedData);
+        file_put_contents($pathFileJson, $dataEncoded);
+        
+        // Envia o arquivo JSON como download
+        header("Content-Disposition: attachment; filename=\"" . basename($pathFileJson) . "\"");
+        header("Content-Type: application/force-download");
+        header("Content-Length: " . filesize($pathFileJson));
+        header("Connection: close"); 
+        readfile($pathFileJson);
     }
 
     function actionImportMaster() {
@@ -62,10 +77,33 @@ class AdminController extends Controller
         }   
 
         try{
-            $adapter->import($pathFileJson);
+
+            $dataDecoded = $adapter->import(file_get_contents($pathFileJson));
+            $importModel = new ImportModel(); 
+            $transaction = Yii::app()->db->beginTransaction();
+            Yii::app()->db->createCommand('SET FOREIGN_KEY_CHECKS=0')->execute();
+
+            $importModel->saveSchoolIdentificationsDB($dataDecoded['school_identification']);
+            $importModel->saveSchoolStructureDB($dataDecoded['schoolstructures']);
+            $importModel->saveClassroomsDB($dataDecoded['classrooms']);
+            
+            $importModel->saveInstructorIdentificationDB($dataDecoded['instructor_identification']);  
+            $importModel->saveInstructorsTeachingDataDB($dataDecoded['instructor_teaching_data']);
+            $importModel->saveInstructorDocumentsAndAddressDB($dataDecoded['instructor_documents_and_address']); 
+            $importModel->saveInstructorVariableDataDB($dataDecoded['instructor_variable_data']);
+            $importModel->saveTeachingMatrixes($dataDecoded['teaching_matrixes']);
+
+            $importModel->saveStudentIdentificationDB($dataDecoded['student_identification']);
+            $importModel->saveStudentDocumentsAndAddressDB($dataDecoded['student_documents_and_address']);
+            $importModel->saveStudentEnrollmentDB($dataDecoded['studentenrollments']);
+            
+            Yii::app()->db->createCommand('SET FOREIGN_KEY_CHECKS=1')->execute(); 
+            $transaction->commit(); 
+
             Yii::app()->user->setFlash('success', Yii::t('default', 'Importação realizada com sucesso!'));
             $this->redirect(array('index'));
         } catch (Exception $e) {
+            $transaction->rollback();
             Yii::app()->user->setFlash('error', Yii::t('default', 'Error na importação: '.$e->getMessage()));
             $this->redirect(array('index'));
         }
