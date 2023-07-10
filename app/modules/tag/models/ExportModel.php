@@ -18,45 +18,40 @@ class ExportModel
         $instructorModel->setDb2Connection(false);
         $instructorModel->refreshMetaData();
 
+        $arrayData = [];
         $instructorsData = [];
+        $instructorDocumentsData = [];
         foreach ($instructors as $instructor) { 
-            
-            $query = "SELECT * FROM instructor_documents_and_address WHERE id = " . $instructor['id'];
-            $docs = Yii::app()->db->createCommand($query)->queryAll();
+            $instructorDocumentsModel = new InstructorDocumentsAndAddress();
+            $instructorDocumentsModel->setDb2Connection(false);
+            $instructorDocumentsModel->refreshMetaData();
 
-            echo "<pre>";
-            echo($instructor['id'] ." ");
-            foreach ($docs as $doc) {
-                echo $doc['cpf'];
+            $instructorsDocuments = $this->getInstructorDocumentsAndAddress($instructor['id']);
+            foreach ($instructorsDocuments as $instructorsDocument) {
+                $instructorDocumentsData['instructor_documents_and_address'][] = $instructorsDocument;
             }
-            echo "</pre>";
             
-            $instructor['hash'] = hexdec(hash('crc32', $instructor['name'].$instructor['birthday_date']));
             $instructorsData['instructor_identification'][] = $instructor;
         }
 
-        return $instructorsData;
+        $arrayData = array_merge($arrayData, $instructorsData);
+        $arrayData = array_merge($arrayData, $instructorDocumentsData);
+        
+        var_dump($arrayData);
+
+        return $arrayData;
     }
 
     /**
      * Summary of getInstructorDocumentsAndAddress
      * @return array<array>
      */
-    function getInstructorDocumentsAndAddress()
+    function getInstructorDocumentsAndAddress($instructor)
     {
-        $query = "SELECT * FROM instructor_documents_and_address";
+        $query = "SELECT * FROM instructor_documents_and_address WHERE id = " . $instructor['id'];
         $instructorsDocuments = Yii::app()->db->createCommand($query)->queryAll();
 
-        $instructorDocumentsModel = new InstructorDocumentsAndAddress();
-        $instructorDocumentsModel->setDb2Connection(false);
-        $instructorDocumentsModel->refreshMetaData();
-
-        $instructorDocumentsData = [];
-        foreach ($instructorsDocuments as $instructorsDocument) {
-            $instructorDocumentsData['instructor_documents_and_address'][] = $instructorsDocument;
-        }
-
-        return $instructorDocumentsData;
+        return $instructorsDocuments;
     }
 
 
