@@ -39,6 +39,24 @@ class CensoController extends Controller
         $this->render('index');
     }
 
+    public function actionImportDegreeCodes(){
+        $fileDir = Yii::app()->basePath . '/seeds/de_para_cursos_educacenso_2020.csv';
+        $file = file($fileDir);
+
+        foreach ($file as $line) {
+            $data = str_getcsv($line);
+
+            if (empty($data[3] || $data[4])) {
+                continue;
+            }
+
+            $degree = EdcensoCourseOfHigherEducation::model()->findByPk($data[1]);
+            $degree->cine_id = $data[3];
+
+            $degree->save();
+        }
+    }
+
     public function areThereByModalitie($sql)
     {
         $people_by_modalitie = Yii::app()->db->createCommand($sql)->queryAll();
