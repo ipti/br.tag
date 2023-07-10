@@ -57,7 +57,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
                     <td style="text-align: right"><b>TOTAL:</b></td>
                     <td><b><?= count($report) ?></b></td>
                 </tr>
