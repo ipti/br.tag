@@ -841,7 +841,7 @@ return array(
     'Update Management Unit' => 'Atualizar Unidade Gestora',
     
     //Transferir
-    'Transfer Student' => 'Transferir Aluno',
+    'Transfer Student' => 'Transferir Aluno(a)',
     'transferred enrollment' => 'Matrícula transferida com sucesso!',
     //Erros
     'already enrolled in this classroom.' =>'já matriculado na turma.',
