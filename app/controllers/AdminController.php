@@ -136,21 +136,22 @@ class AdminController extends Controller
                         $modality->save();
                     }
                 }
-
-                $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $_POST["stage"]]);
-                if ($gradeRules == null) {
-                    $gradeRules = new GradeRules();
-                    $gradeRules->edcenso_stage_vs_modality_fk = $_POST["stage"];
-                }
-                $gradeRules->approvation_media = $_POST["approvalMedia"];
-                $gradeRules->final_recover_media = $_POST["finalRecoverMedia"];
-                $gradeRules->save();
-
                 $valid = true;
             }
+
+            $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $_POST["stage"]]);
+            if ($gradeRules == null) {
+                $gradeRules = new GradeRules();
+                $gradeRules->edcenso_stage_vs_modality_fk = $_POST["stage"];
+            }
+            $gradeRules->approvation_media = $_POST["approvalMedia"];
+            $gradeRules->final_recover_media = $_POST["finalRecoverMedia"];
+            $gradeRules->save();
+
         } else {
             if ($_POST["reply"] == "A") {
                 $grades = Yii::app()->db->createCommand("select * from grade")->queryAll();
+                $curricularMatrixes = Yii::app()->db->createCommand("select * from curricular_matrix cm where school_year = :year")->bindParam(":year", Yii::app()->user->year)->queryAll();
             } else if ($_POST["reply"] == "S") {
                 $stage = EdcensoStageVsModality::model()->find("id = :id", [":id" => $_POST["stage"]])->stage;
                 $grades = Yii::app()->db->createCommand("
@@ -160,18 +161,14 @@ class AdminController extends Controller
                     join edcenso_stage_vs_modality esvm on esvm.id = gu.edcenso_stage_vs_modality_fk
                     where esvm.stage = :stage
                 ")->bindParam(":stage", $stage)->queryAll();
-            }
-            if ($grades == null) {
-                if ($_POST["reply"] == "A") {
-                    $curricularMatrixes = Yii::app()->db->createCommand("select * from curricular_matrix cm where school_year = :year")->bindParam(":year", Yii::app()->user->year)->queryAll();
-                } else if ($_POST["reply"] == "S") {
-                    $curricularMatrixes = Yii::app()->db->createCommand("
+                $curricularMatrixes = Yii::app()->db->createCommand("
                     select * from curricular_matrix cm 
                     join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
                     where school_year = :year and esvm.stage = :stage
                   ")->bindParam(":year", Yii::app()->user->year)->bindParam(":stage", $stage)->queryAll();
-                }
-                foreach ($curricularMatrixes as $curricularMatrix) {
+            }
+            foreach ($curricularMatrixes as $curricularMatrix) {
+                if ($grades == null) {
                     GradeUnity::model()->deleteAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $curricularMatrix["stage_fk"]]);
                     foreach ($_POST["unities"] as $u) {
                         $unity = new GradeUnity();
@@ -189,23 +186,24 @@ class AdminController extends Controller
                             $modality->save();
                         }
                     }
-
-                    $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $curricularMatrix["stage_fk"]]);
-                    if ($gradeRules == null) {
-                        $gradeRules = new GradeRules();
-                        $gradeRules->edcenso_stage_vs_modality_fk = $curricularMatrix["stage_fk"];
-                    }
-                    $gradeRules->approvation_media = $_POST["approvalMedia"];
-                    $gradeRules->final_recover_media = $_POST["finalRecoverMedia"];
-                    $gradeRules->save();
+                    $valid = true;
                 }
-                $valid = true;
+
+                $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $curricularMatrix["stage_fk"]]);
+                if ($gradeRules == null) {
+                    $gradeRules = new GradeRules();
+                    $gradeRules->edcenso_stage_vs_modality_fk = $curricularMatrix["stage_fk"];
+                }
+                $gradeRules->approvation_media = $_POST["approvalMedia"];
+                $gradeRules->final_recover_media = $_POST["finalRecoverMedia"];
+                $gradeRules->save();
             }
         }
         echo json_encode(["valid" => $valid]);
     }
 
-    public function actionActiveDisableUser()
+    public
+    function actionActiveDisableUser()
     {
         $filter = new Users('search');
         if (isset($_GET['Users'])) {
@@ -220,7 +218,8 @@ class AdminController extends Controller
         $this->render('activeDisableUser', ['dataProvider' => $dataProvider, 'filter' => $filter]);
     }
 
-    public function actionDisableUser($id)
+    public
+    function actionDisableUser($id)
     {
         $model = Users::model()->findByPk($id);
 
@@ -232,7 +231,8 @@ class AdminController extends Controller
         }
     }
 
-    public function actionActiveUser($id)
+    public
+    function actionActiveUser($id)
     {
         $model = Users::model()->findByPk($id);
 
@@ -244,7 +244,8 @@ class AdminController extends Controller
         }
     }
 
-    public function actionEditPassword($id)
+    public
+    function actionEditPassword($id)
     {
         $model = Users::model()->findByPk($id);
 
@@ -265,7 +266,8 @@ class AdminController extends Controller
     }
 
 
-    public function actionClearDB()
+    public
+    function actionClearDB()
     {
         //delete from users_school;
         //delete from users;
@@ -306,7 +308,8 @@ class AdminController extends Controller
         $this->redirect(array('index'));
     }
 
-    public function addTestUsers()
+    public
+    function addTestUsers()
     {
         set_time_limit(0);
         ignore_user_abort();
@@ -332,7 +335,8 @@ class AdminController extends Controller
         //        /*         * ************************************************************************************************ */
     }
 
-    public function mres($value)
+    public
+    function mres($value)
     {
         $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
         $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
@@ -340,7 +344,8 @@ class AdminController extends Controller
         return str_replace($search, $replace, $value);
     }
 
-    public function actionImportMaster()
+    public
+    function actionImportMaster()
     {
         set_time_limit(0);
         ini_set('memory_limit', '-1');
@@ -366,7 +371,8 @@ class AdminController extends Controller
         $this->loadMaster($json);
     }
 
-    public function loadMaster($loads)
+    public
+    function loadMaster($loads)
     {
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '-1');
@@ -470,7 +476,8 @@ class AdminController extends Controller
         //@TODO FAZER A PARTE DE PROFESSORES A PARTIR DAQUI
     }
 
-    public function prepareExport()
+    public
+    function prepareExport()
     {
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '-1');
@@ -579,7 +586,8 @@ class AdminController extends Controller
         return $loads;
     }
 
-    public function actionExportMaster()
+    public
+    function actionExportMaster()
     {
         try {
             ini_set('max_execution_time', 0);
@@ -642,7 +650,8 @@ class AdminController extends Controller
         }
     }
 
-    public function actionManageUsers()
+    public
+    function actionManageUsers()
     {
         $filter = new Users('search');
         $filter->unsetAttributes();
@@ -662,7 +671,8 @@ class AdminController extends Controller
         ));
     }
 
-    public function actionUpdate($id)
+    public
+    function actionUpdate($id)
     {
         $model = Users::model()->findByPk($id);
         $actual_role = $model->getRole();
@@ -704,7 +714,8 @@ class AdminController extends Controller
         $this->render('editUser', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result]);
     }
 
-    public function actionChangelog()
+    public
+    function actionChangelog()
     {
         $this->render('changelog');
     }

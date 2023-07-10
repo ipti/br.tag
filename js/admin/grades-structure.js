@@ -1,5 +1,5 @@
 $(document).on("change", "#GradeUnity_edcenso_stage_vs_modality_fk", function () {
-    $(".alert-required-fields").hide();
+    $(".alert-required-fields, .alert-media-fields").hide();
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
@@ -226,6 +226,7 @@ function saveUnities(reply) {
             } else {
                 $(".alert-required-fields").addClass("alert-error").removeClass("alert-success").text("Não se pode alterar a estrutura quando já existe nota preechida em alguma turma desta etapa e disciplina.").show();
             }
+            $(".alert-media-fields").show();
             $("html, body").animate({scrollTop: 0}, "fast");
             $(".buttons a, .js-grades-structure-container").css("opacity", "1").css("pointer-events", "auto");
             $("#GradeUnity_edcenso_stage_vs_modality_fk").removeAttr("disabled");
@@ -235,7 +236,7 @@ function saveUnities(reply) {
 }
 
 function checkValidInputs() {
-    $(".alert-required-fields").hide();
+    $(".alert-required-fields, .alert-media-fields").hide();
     var valid = true;
     var message = "";
     if ($(".approval-media").val() === "" || $(".final-recover-media").val() === "") {

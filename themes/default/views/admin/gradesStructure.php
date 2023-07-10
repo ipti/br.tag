@@ -40,6 +40,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <?php echo Yii::app()->user->getFlash('success') ?>
             </div>
         <?php endif ?>
+        <div class="alert-media-fields no-show alert alert-success">Médias atualizadas com sucesso!</div>
         <div class="alert-required-fields no-show alert alert-error"></div>
         <div class="row filter-bar margin-bottom-none">
             <div>
@@ -54,7 +55,8 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                     ?>
                 </div>
             </div>
-            <img class="js-grades-structure-loading"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+            <img class="js-grades-structure-loading" style="display:none;margin: 10px 20px;" height="30px" width="30px"
+                 src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
 
         <div class="grades-rules-container js-grades-rules-container">
