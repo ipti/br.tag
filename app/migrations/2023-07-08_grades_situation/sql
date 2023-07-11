@@ -5,7 +5,7 @@ CREATE TABLE `grade_rules` (
   `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `edcenso_stage_vs_modality_fk` int NOT NULL,
   `approvation_media` int NOT NULL,
-  `final_recover_media` int NOT NULL,
+  `final_recover_media` int NOT NULL
 ) ENGINE='InnoDB' COLLATE 'utf8_unicode_ci';
 
 ALTER TABLE `grade_rules`
