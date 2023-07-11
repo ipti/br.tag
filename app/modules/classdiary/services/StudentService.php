@@ -137,13 +137,24 @@ class StudentService
              "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"), 
              "month"=>DateTime::createFromFormat("d/m/Y", $date)->format("m")]);
         } else { 
-            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule", ["classroom_fk" => $classroom_fk,
-            "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"),
-            "month"=>DateTime::createFromFormat("d/m/Y", $date)->format("m"), "discipline_fk" => $discipline_fk]);
+            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and 
+            day = :day and 
+            month = :month and 
+            discipline_fk = :discipline_fk 
+            and unavailable = 0
+            group by day
+            order by day, schedule", 
+            [
+                "classroom_fk" => $classroom_fk,
+                "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"),
+                "month"=>DateTime::createFromFormat("d/m/Y", $date)->format("m"), 
+                "discipline_fk" => $discipline_fk
+            ]);
         }
         if (!empty($schedule)) {
             
                 $classDiary_key = array_search($student_fk, array_column($schedule->classDiaries, 'student_fk'));
+                
                 
                 if(is_numeric($classDiary_key)){
                     return $schedule->classDiaries[$classDiary_key]->diary;
@@ -157,11 +168,11 @@ class StudentService
          // Fundamental menor
          $is_minor_schooling = $stage_fk >= 14 &&  $stage_fk <= 16;
         if ($is_minor_schooling == "1") {
-             $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $classroom_fk, 
+             $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and unavailable = 0 group by day order by schedule, schedule", ["classroom_fk" => $classroom_fk, 
              "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"), 
              "month"=>DateTime::createFromFormat("d/m/Y", $date)->format("m")]);
         } else { 
-            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule", ["classroom_fk" => $classroom_fk,
+            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by schedule, schedule", ["classroom_fk" => $classroom_fk,
             "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"),
             "month"=>DateTime::createFromFormat("d/m/Y", $date)->format("m"), "discipline_fk" => $discipline_fk]);
         }
