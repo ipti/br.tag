@@ -87,11 +87,12 @@ $('#discipline').change(function (e, triggerEvent) {
                     if (triggerEvent === "saveGrades") {
                         $(".js-grades-alert").removeClass("alert-error").addClass("alert-success").text("Notas registradas com sucesso!").show();
                     }
+                    $(".js-grades-container, .grades-buttons").show();
                 } else {
                     $(".js-grades-alert").addClass("alert-error").removeClass("alert-success").text(data.message).show();
                 }
                 $(".js-grades-loading").hide();
-                $(".js-grades-container, .grades-buttons").css("opacity", "1").css("pointer-events", "auto").show();
+                $(".js-grades-container, .grades-buttons").css("opacity", "1").css("pointer-events", "auto");
             },
         });
     } else {

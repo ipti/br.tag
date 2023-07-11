@@ -148,6 +148,7 @@ class AdminController extends Controller
             $gradeRules->final_recover_media = $_POST["finalRecoverMedia"];
             $gradeRules->save();
 
+            $this->refreshResults($_POST["stage"]);
         } else {
             if ($_POST["reply"] == "A") {
                 $grades = Yii::app()->db->createCommand("select * from grade")->queryAll();
@@ -197,9 +198,21 @@ class AdminController extends Controller
                 $gradeRules->approvation_media = $_POST["approvalMedia"];
                 $gradeRules->final_recover_media = $_POST["finalRecoverMedia"];
                 $gradeRules->save();
+
+                $this->refreshResults($curricularMatrix["stage_fk"]);
             }
         }
         echo json_encode(["valid" => $valid]);
+    }
+
+    private function refreshResults($stage) {
+        $classrooms = Classroom::model()->findAll("edcenso_stage_vs_modality_fk = :stage", ["stage" => $stage]);
+        $curricularMatrixes = CurricularMatrix::model()->findAll("stage_fk = :stage", ["stage" => $stage]);
+        foreach($classrooms as $classroom) {
+            foreach($curricularMatrixes as $curricularMatrix) {
+                EnrollmentController::saveGradeResults($classroom->id, $curricularMatrix->discipline_fk);
+            }
+        }
     }
 
     public
