@@ -67,7 +67,44 @@ class ImportModel
          }
     }
 
-    function saveInstructorVariableDataDB($instructorVariableDatas)
+    function saveInstructorDataDB($instructorIdentificationDatas, $instructorDocumentsAndAddressDatas, $instructorVariableDatas)
+    {
+        $instructorIdentificationModels = [];
+        $instructorDocumentsAndAddressModels = [];
+    
+        // Criar instâncias dos modelos e associar os dados corretos
+        foreach ($instructorIdentificationDatas as $instructorIdentificationData) {
+            $instructorIdentificationModel = new InstructorIdentification();
+            $instructorIdentificationModel->setDb2Connection(true);
+            $instructorIdentificationModel->refreshMetaData();
+            $instructorIdentificationModel->attributes = $instructorIdentificationData;
+    
+            $instructorIdentificationModels[$instructorIdentificationData['id']] = $instructorIdentificationModel;
+        }
+    
+        foreach ($instructorDocumentsAndAddressDatas as $instructorDocumentsAndAddressData) {
+            $instructorDocumentsAndAddressModel = new InstructorDocumentsAndAddress();
+            $instructorDocumentsAndAddressModel->setDb2Connection(true);
+            $instructorDocumentsAndAddressModel->refreshMetaData();
+            $instructorDocumentsAndAddressModel->attributes = $instructorDocumentsAndAddressData;
+    
+            $instructorDocumentsAndAddressModels[$instructorDocumentsAndAddressData['id']] = $instructorDocumentsAndAddressModel;
+        }
+    
+        // Associar os modelos corretos e salvar no banco de dados
+        foreach ($instructorIdentificationModels as $id => $instructorIdentificationModel) {
+            if (isset($instructorDocumentsAndAddressModels[$id])) {
+                $instructorDocumentsAndAddressModel = $instructorDocumentsAndAddressModels[$id];
+                $instructorIdentificationModel->hash = $instructorDocumentsAndAddressModel->hash; // Exemplo de associação entre os modelos
+    
+                // Salvar os dados no banco de dados
+                $instructorIdentificationModel->save();
+                $instructorDocumentsAndAddressModel->save();
+            }
+        }
+    }
+
+/*     function saveInstructorVariableDataDB($instructorVariableDatas)
     {
         foreach ($instructorVariableDatas as $instructorVariableData) {
             $instructorVariableDataModel = new InstructorVariableData();
@@ -76,31 +113,8 @@ class ImportModel
             $instructorVariableDataModel->attributes = $instructorVariableData;
             $instructorVariableDataModel->save();
         }
-    }
+    } */
 
-    function saveInstructorIdentificationDB($instructorIdentifications) 
-    {
-        foreach ($instructorIdentifications as $instructorIdentification) {
-            $instructorIdentificationModel = new InstructorIdentification();
-            $instructorIdentificationModel->setDb2Connection(true);
-            $instructorIdentificationModel->refreshMetaData();
-            $instructorIdentificationModel->attributes = $instructorIdentification;
-            $instructorIdentificationModel->id = $instructorIdentification['id'];
-            $instructorIdentificationModel->save();
-        }
-    }
-    
-    function saveInstructorDocumentsAndAddressDB($instructorDocumentsAndAddresses)
-    {
-        foreach ($instructorDocumentsAndAddresses as $instructorDocumentsAndAddress) {
-            $instructorDocumentsAndAddressModel = new InstructorDocumentsAndAddress();
-            $instructorDocumentsAndAddressModel->setDb2Connection(true);
-            $instructorDocumentsAndAddressModel->refreshMetaData();
-            $instructorDocumentsAndAddressModel->attributes = $instructorDocumentsAndAddress;
-            $instructorDocumentsAndAddressModel->id = $instructorDocumentsAndAddress['id'];
-            $instructorDocumentsAndAddressModel->save();
-        }
-    }
 
     function saveTeachingMatrixes($teachingMatrixes)  
     {
