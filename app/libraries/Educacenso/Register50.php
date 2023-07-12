@@ -32,7 +32,7 @@ class Register50
         }
 
         foreach ($instructors as $instructor) {
-            $id = (String)'90' . $instructor['identification']['id'];
+            $id = (String)'II' . $instructor['identification']['id'];
 
             foreach ($instructor['teaching'] as $teaching) {
                 $register = [];
