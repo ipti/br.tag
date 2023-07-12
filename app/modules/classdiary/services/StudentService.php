@@ -176,9 +176,8 @@ class StudentService
             "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"),
             "month"=>DateTime::createFromFormat("d/m/Y", $date)->format("m"), "discipline_fk" => $discipline_fk]);
         }
-        $classDiary_key = array_search($student_fk, array_column($schedule->classDiaries, 'student_fk'));
 
-        if ($schedule->classDiaries[$classDiary_key]->diary != "") {
+        if ($student_observation != "") {
             $classDiary = ClassDiaries::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", [":schedule_fk" => $schedule->id, ":student_fk" => $student_fk]);
             if ($classDiary == null) {
                 $classDiary = new ClassDiaries();

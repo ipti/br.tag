@@ -70,6 +70,8 @@ class DefaultController extends Controller
 
 		$getStudentDiary = new GetStudentDiary();
 		$student_observation = $getStudentDiary->exec($stage_fk, $classroom_id, $discipline_fk, $date, $student_id);
+		/* var_dump($student_observation);
+		exit(); */
 
 		if(isset($_POST["justification"])) {
 			$justification = $_POST["justification"];

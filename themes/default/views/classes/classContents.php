@@ -194,15 +194,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             </div>
                         </div>
                     </div>
-
-                    <label>Diário de Aula por Aluno</label>
-                    <div class="alert alert-error classroom-diary-no-students no-show">Não há alunos matriculados na turma.</div>
-                    <div class="accordion accordion-students" id="accordion-students"></div>
-
-                    <div class="modal-footer mobile-row">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary js-add-classroom-diary" data-dismiss="modal">Salvar</button>
-                    </div>
                 </div>
             </form>
         </div>
