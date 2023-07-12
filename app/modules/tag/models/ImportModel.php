@@ -70,6 +70,7 @@ class ImportModel
     function saveInstructorDataDB($instructorIdentificationDatas, $instructorDocumentsAndAddressDatas, $instructorVariableDatas)
     {
         $instructorIdentificationModels = [];
+        $instructorVariableDataModels = [];
         $instructorDocumentsAndAddressModels = [];
     
         // Criar instâncias dos modelos e associar os dados corretos
@@ -95,16 +96,27 @@ class ImportModel
         foreach ($instructorIdentificationModels as $id => $instructorIdentificationModel) {
             if (isset($instructorDocumentsAndAddressModels[$id])) {
                 $instructorDocumentsAndAddressModel = $instructorDocumentsAndAddressModels[$id];
-                $instructorIdentificationModel->hash = $instructorDocumentsAndAddressModel->hash; // Exemplo de associação entre os modelos
+                $instructorIdentificationModel->hash = $instructorDocumentsAndAddressModel->hash;
     
                 // Salvar os dados no banco de dados
                 $instructorIdentificationModel->save();
                 $instructorDocumentsAndAddressModel->save();
             }
         }
+
+        // Salvar os dados da tabela instructor_variable_data no banco de dados
+        foreach ($instructorVariableDatas as $instructorVariableData) {
+            $instructorVariableDataModel = new InstructorVariableData();
+            $instructorVariableDataModel->setDb2Connection(true);
+            $instructorVariableDataModel->refreshMetaData();
+            $instructorVariableDataModel->attributes = $instructorVariableData;
+
+            // Salvar o dado no banco de dados
+            $instructorVariableDataModel->save();
+        }
     }
 
-/*     function saveInstructorVariableDataDB($instructorVariableDatas)
+    /* function saveInstructorVariableDataDB($instructorVariableDatas)
     {
         foreach ($instructorVariableDatas as $instructorVariableData) {
             $instructorVariableDataModel = new InstructorVariableData();
