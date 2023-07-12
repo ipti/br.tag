@@ -18,24 +18,27 @@ class ExportModel
         $instructorModel->setDb2Connection(false);
         $instructorModel->refreshMetaData();
 
+        $instructorDocumentsModel = new InstructorDocumentsAndAddress();
+        $instructorDocumentsModel->setDb2Connection(false);
+        $instructorDocumentsModel->refreshMetaData();
+
+        $instructorVariableDataModel = new InstructorVariableData();
+        $instructorVariableDataModel->setDb2Connection(false);
+        $instructorVariableDataModel->refreshMetaData();
+
         $arrayData = [];
         $instructorsData = [];
         $instructorDocumentsData = [];
+        $instructorVarData = [];
         foreach ($instructors as $instructor) { 
-            $instructorDocumentsModel = new InstructorDocumentsAndAddress();
-            $instructorDocumentsModel->setDb2Connection(false);
-            $instructorDocumentsModel->refreshMetaData();
-
-            $instructorsDocument = $this->getInstructorDocumentsAndAddress($instructor['id']);
-            $instructorDocumentsData['instructor_documents_and_address'][] = $instructorsDocument;
-            
+            $instructorDocumentsData['instructor_documents_and_address'][] = $this->getInstructorDocumentsAndAddress($instructor['id']);  
+            $instructorVarData['instructor_variable_data'][] = $this->getInstructorVariableData($instructor['id']);
             $instructorsData['instructor_identification'][] = $instructor;
         }
 
         $arrayData = array_merge($arrayData, $instructorsData);
         $arrayData = array_merge($arrayData, $instructorDocumentsData);
-        
-        var_dump($arrayData);
+        $arrayData = array_merge($arrayData, $instructorVarData);
 
         return $arrayData;
     }
@@ -46,7 +49,7 @@ class ExportModel
      */
     function getInstructorDocumentsAndAddress($instructor)
     {
-        $query = "SELECT * FROM instructor_documents_and_address WHERE id = " . $instructor['id'];
+        $query = "SELECT * FROM instructor_documents_and_address WHERE id = " . $instructor;
         return Yii::app()->db->createCommand($query)->queryRow();
     }
 
@@ -55,21 +58,10 @@ class ExportModel
      * Summary of getInstructorVariableData
      * @return array<array>
      */
-    function getInstructorVariableData()
+    function getInstructorVariableData($id)
     {
-        $query = "SELECT * FROM instructor_variable_data";
-        $instructorVariableDatas = Yii::app()->db->createCommand($query)->queryAll();
-
-        $instructorVariableDataModel = new InstructorVariableData();
-        $instructorVariableDataModel->setDb2Connection(false);
-        $instructorVariableDataModel->refreshMetaData();
-
-        $instructorData = [];
-        foreach ($instructorVariableDatas as $instructorVariableData) {
-            $instructorData['instructor_variable_data'][] = $instructorVariableData;
-        }
-
-        return $instructorData;
+        $query = "SELECT * FROM instructor_variable_data WHERE id = " . $id;
+        return Yii::app()->db->createCommand($query)->queryRow();
     }
 
     /**
