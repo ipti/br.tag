@@ -36,17 +36,17 @@ class AdminController extends Controller
         $exportModel = new ExportModel;
         $loadedData = [];
 
-/*         $loadedData = array_merge($loadedData, $exportModel->getSchoolIdentification());
+        $loadedData = array_merge($loadedData, $exportModel->getSchoolIdentification());
+        $loadedData = array_merge($loadedData, $exportModel->getSchoolStructure());
         $loadedData = array_merge($loadedData, $exportModel->getClassrooms());
-        $loadedData = array_merge($loadedData, $exportModel->getSchoolStructure()); */
-
+         
         $loadedData = array_merge($loadedData, $exportModel->getInstructorsIdentification());
-/*         $loadedData = array_merge($loadedData, $exportModel->getInstructorsTeachingData());
+        $loadedData = array_merge($loadedData, $exportModel->getInstructorsTeachingData());
         $loadedData = array_merge($loadedData, $exportModel->getTeachingMatrixes());
 
         $loadedData = array_merge($loadedData, $exportModel->getStudentIdentification());
         $loadedData = array_merge($loadedData, $exportModel->getStudentDocumentsAndAddress());
-        $loadedData = array_merge($loadedData, $exportModel->getStudentEnrollment()); */
+        $loadedData = array_merge($loadedData, $exportModel->getStudentEnrollment()); 
 
     
         $host = getenv("HOST_DB_TAG");
@@ -76,27 +76,22 @@ class AdminController extends Controller
         }   
 
         try{
-
             $dataDecoded = $adapter->import(file_get_contents($pathFileJson));
             $importModel = new ImportModel(); 
             $transaction = Yii::app()->db->beginTransaction();
             Yii::app()->db->createCommand('SET FOREIGN_KEY_CHECKS=0')->execute();
-/* 
+
             $importModel->saveSchoolIdentificationsDB($dataDecoded['school_identification']);
-            $importModel->saveSchoolStructureDB($dataDecoded['schoolstructures']);
-            $importModel->saveClassroomsDB($dataDecoded['classrooms']); */
+            $importModel->saveSchoolStructureDB($dataDecoded['school_structure']);
+            $importModel->saveClassroomsDB($dataDecoded['classrooms']);
             
             $importModel->saveInstructorDataDB($dataDecoded['instructor_identification'], $dataDecoded['instructor_documents_and_address'], $dataDecoded['instructor_variable_data']);
-
-            #$importModel->saveInstructorIdentificationDB($dataDecoded['instructor_identification']);  
-/*             $importModel->saveInstructorsTeachingDataDB($dataDecoded['instructor_teaching_data']);
-            #$importModel->saveInstructorDocumentsAndAddressDB($dataDecoded['instructor_documents_and_address']); 
-            #$importModel->saveInstructorVariableDataDB($dataDecoded['instructor_variable_data']);
+            $importModel->saveInstructorsTeachingDataDB($dataDecoded['instructor_teaching_data']);
             $importModel->saveTeachingMatrixes($dataDecoded['teaching_matrixes']);
 
             $importModel->saveStudentIdentificationDB($dataDecoded['student_identification']);
             $importModel->saveStudentDocumentsAndAddressDB($dataDecoded['student_documents_and_address']);
-            $importModel->saveStudentEnrollmentDB($dataDecoded['studentenrollments']); */
+            $importModel->saveStudentEnrollmentDB($dataDecoded['student_enrollment']); 
             
             Yii::app()->db->createCommand('SET FOREIGN_KEY_CHECKS=1')->execute(); 
             $transaction->commit(); 
@@ -350,6 +345,7 @@ class AdminController extends Controller
             delete from instructor_identification;
             delete from instructor_documents_and_address;
             delete from instructor_variable_data;
+            delete from teaching_matrixes;
 
             delete from classroom;
 
