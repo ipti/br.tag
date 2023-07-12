@@ -145,7 +145,7 @@ class ExportModel
         $schoolStructuresData = [];
         foreach ($schoolStructures as $schoolStructure) {
            $schoolStructure['hash'] = hexdec(hash('crc32', $schoolStructure['school_inep_id_fk']));
-           $schoolStructuresData['schoolstructures'][] = $schoolStructure;
+           $schoolStructuresData['school_structure'][] = $schoolStructure;
         }
 
         return $schoolStructuresData;
@@ -227,7 +227,7 @@ class ExportModel
 
         $studentEnrollmentsData = [];
         foreach ($studentEnrollments as $studentEnrollment) {
-            $studentEnrollmentsData['studentenrollments'] = $studentEnrollment;
+            $studentEnrollmentsData['student_enrollment'][] = $studentEnrollment;
         }
 
         return $studentEnrollmentsData;
