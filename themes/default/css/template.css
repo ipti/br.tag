@@ -9301,9 +9301,9 @@ tbody .details-control:hover {
     min-width: 50px;
 }
 
-.table-frequency .student-name {
+/* .table-frequency .student-name {
     font-style: italic;
-}
+} */
 
 .frequency-checkbox-container {
     vertical-align: middle !important;

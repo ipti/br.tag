@@ -1,8 +1,11 @@
 <?php
-// defined('YII_DEBUG') or define('YII_DEBUG', true);
-$debug = getenv("YII_DEBUG");
 
-define("TAG_VERSION", '3.30.71');
+
+$debug = getenv("YII_DEBUG");
+defined('YII_DEBUG') or define('YII_DEBUG', $debug);
+
+define("TAG_VERSION", '3.34.74');
+
 
 define("YII_VERSION", Yii::getVersion());
 define("BOARD_MSG", '<div class="alert alert-success">Novas atualizações no TAG. Confira clicando <a class="changelog-link" href="?r=admin/changelog">aqui</a>.</div>');

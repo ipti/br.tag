@@ -24,8 +24,10 @@ $('#classesSearch, #classesSearchMobile').on('click', function () {
                     $("#print").addClass("show").removeClass("hide");
                     $("#save").addClass("show show-desktop").removeClass("hide");
                     $("#save-button-mobile").addClass("show show-tablet").removeClass("hide");
+                    $('#error-badge').html('')
                 } else {
-                    $('#class-contents > thead').html('<tr><th class="center">' + data.error + '</th></tr>');
+                    $('#error-badge').html('<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span>' + data.error + '</div>')
+                    $('#class-contents > thead').html('');
                     $('#class-contents > tbody').html('');
                     $('#class-contents').show();
                     $("#save, #save-button-mobile").hide();
@@ -64,19 +66,13 @@ $("#classroom").on("change", function () {
                         $("#disciplines").html(decodeHtml(response)).trigger("change.select2").show();
                     }
                     $(".disciplines-container").show();
-                    $("#select-container").addClass("tablet-row").removeClass("mobile-row");
-                    $("#search-icon").addClass("clearleft").removeClass("clearright");
                 },
             });
         } else {
             $(".disciplines-container").hide();
-            $("#select-container").addClass("mobile-row").removeClass("tablet-row");
-            $("#search-icon").addClass("clearright").removeClass("clearleft");
         }
     } else {
         $(".disciplines-container").hide();
-        $("#select-container").addClass("mobile-row").removeClass("tablet-row");
-        $("#search-icon").addClass("clearright").removeClass("clearleft");
     }
 });
 

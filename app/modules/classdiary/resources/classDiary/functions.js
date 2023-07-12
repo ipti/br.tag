@@ -25,6 +25,7 @@ function updateClassesContents()
         type:'GET',
         url:  `${window.location.host}?r=classdiary/default/GetClassesContents&classroom_fk=${classroom_fk}&stage_fk=${stage_fk}&date=${date}&discipline_fk=${discipline_fk}`
     }).success((response) => {
+        
         if(response.valid==true){
             var options = response["courseClasses"].map((item) => {
                 return $(`<option value=${item.id} >${item.cpname}</option>`)

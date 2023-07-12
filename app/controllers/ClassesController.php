@@ -273,12 +273,18 @@ class ClassesController extends Controller
             $criteria->order = "name";
             $criteria->params = array(':school_year' => Yii::app()->user->year, ':school_inep_fk' => Yii::app()->user->school, ':users_fk' => Yii::app()->user->loginInfos->id);
             $classrooms = Classroom::model()->findAll($criteria);
+            $this->render('frequencyInstructor', array(
+                'classrooms' => $classrooms
+            ));
         } else {
             $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
+            $this->render('frequency', array(
+                'classrooms' => $classrooms
+            ));
         }
-        $this->render('frequency', array(
-            'classrooms' => $classrooms
-        ));
+        // $this->render('frequency', array(
+        //     'classrooms' => $classrooms
+        // ));
     }
 
     /**
@@ -339,6 +345,7 @@ class ClassesController extends Controller
             $this->saveFrequency($schedule);
         } else {
             $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
+            exit();
             foreach ($schedules as $schedule) {
                 $this->saveFrequency($schedule);
             }
@@ -348,18 +355,22 @@ class ClassesController extends Controller
     private
     function saveFrequency($schedule)
     {
+       
+
         if ($_POST["studentId"] != null) {
             if ($_POST["fault"] == "1") {
                 $classFault = new ClassFaults();
                 $classFault->student_fk = $_POST["studentId"];
                 $classFault->schedule_fk = $schedule->id;
-                $classFault->save();
+               $classFault->save();
             } else {
                 ClassFaults::model()->deleteAll("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
             }
+          
         } else {
             if ($_POST["fault"] == "1") {
                 $enrollments = StudentEnrollment::model()->findAll("classroom_fk = :classroom_fk", ["classroom_fk" => $_POST["classroomId"]]);
+                
                 foreach ($enrollments as $enrollment) {
                     $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
                     if ($classFault == null) {
@@ -377,17 +388,21 @@ class ClassesController extends Controller
 
     public function actionSaveJustification()
     {
+       
         if ($_POST["fundamentalMaior"] == "1") {
             $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "schedule" => $_POST["schedule"]]);
             $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
             $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
             $classFault->save();
+         
+
         } else {
             $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
             foreach ($schedules as $schedule) {
                 $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
                 $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
                 $classFault->save();
+                
             }
         }
     }

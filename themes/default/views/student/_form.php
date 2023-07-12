@@ -452,7 +452,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_scholarity', array('class' => 'control-label t-field-select__label')); ?>
                                 <?php
                                 echo $form->dropDownList($modelStudentIdentification, 'filiation_1_scholarity', array(
-                                    null => "Selecione a escolaridade da filiação 1",
+                                    null => "Não declarado",
                                     0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
                                     3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
                                     6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'
@@ -524,7 +524,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_scholarity', array('class' => 'control-label t-field-select__label')); ?>
                                 <?php
                                 echo $form->dropDownList($modelStudentIdentification, 'filiation_2_scholarity', array(
-                                    null => "Selecione a escolaridade da filiação 2",
+                                    null => "Não declarado",
                                     0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
                                     3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
                                     6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'
@@ -1060,13 +1060,9 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column">
                             <div class="t-buttons-container">
-                                <?php 
-                                // if(!$notAddEnrollment) {
-                                ?>
                                 <a href="#" class="t-button-primary  " id="new-enrollment-button">Adicionar Matrícula</a>
                                 <?php
-                                //}
-                                echo  $modelStudentIdentification->isNewRecord ?  "" : '<a href=' . @Yii::app()->createUrl('student/transfer', array('id' => $modelStudentIdentification->id)) . ' class="t-button-primary" id="transfer-student">Transferir Matrícula</a>'
+                                echo  $modelStudentIdentification->isNewRecord ?  "" : '<a href=' . @Yii::app()->createUrl('student/transfer', array('id' => $modelStudentIdentification->id)) . ' class="t-button-secondary" id="transfer-student">Transferir Matrícula</a>'
                                 ?>
                             </div>
                         </div>
@@ -1454,7 +1450,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <tr>
                                                 <th style="text-align: center !important;">Escola</th>
                                                 <th style="text-align: center">Atualizar Ficha de Matrícula</th>
-                                                <th style="text-align: center">situação</th>
+                                                <th style="text-align: center">Turno</th>
+                                                <th style="text-align: center">Situação</th>
                                                 <th style="text-align: center">Ano</th>
                                                 <th style="text-align: center">Formulários</th>
                                                 <th style="text-align: center; width: 15%;">Cancelar Matrícula</th>
@@ -1463,10 +1460,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <tbody>
                                             <?php
                                             
+                                            
                                             foreach ($modelStudentIdentification->studentEnrollments as $me) {
                                             ?>
                                                 <tr>
-                                                    <td><?php echo $me->schoolInepIdFk->name ?></td>
+                                                    <td style="text-align: center"><?php echo $me->schoolInepIdFk->name ?></td>
                                                     <td style="text-align: center">
                                                         <?php if ($me->classroomFk->school_year >=  Yii::app()->user->year) {  ?>
                                                             <a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)); ?>'>
@@ -1481,7 +1479,27 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             </p>
                                                         <?php } ?>
                                                     </td>
-                                                    <td style="text-align: center">
+                                                    <td style="text-align: center;min-width: 100px;">
+                                                        <?php
+                                                            switch ($me->classroomFk->turn) {
+                                                                case "M":
+                                                                    echo "Matutino";
+                                                                    break;
+                                                                case "T":
+                                                                    echo "Vespertino";
+                                                                    break;
+                                                                case "N":
+                                                                    echo "Noturno";
+                                                                    break;
+                                                                case "I":
+                                                                    echo "Integral";
+                                                                    break;
+                                                                default:
+                                                                    echo "-";
+                                                            }
+                                                        ?>
+                                                    </td>
+                                                    <td style="text-align: center;min-width: 100px;">
                                                         <?php
                                                         switch ($me->status) {
                                                             case "1":
@@ -1505,7 +1523,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         }
                                                         ?>
                                                     </td>
-                                                    <td style="text-align: center"><?php echo $me->classroomFk->school_year ?></td>
+                                                    <td style="text-align: center;min-width: 100px;"><?php echo $me->classroomFk->school_year ?></td>
                                                     <?php
                                                     $type;
                                                     if (@isset($me->classroomFk->edcensoStageVsModalityFk->stage)) {

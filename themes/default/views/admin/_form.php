@@ -157,6 +157,14 @@ $form = $this->beginWidget('CActiveForm', array(
         height: 30px !important;
     }
 
+    .select2-container .select2-choices {
+        max-height: 500px !important;
+    }
+
+    .select2-drop {
+        width:428px !important;
+    }  
+  
     .show-password-icon {
         cursor: pointer;
         font-size: 18px;

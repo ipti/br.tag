@@ -2,7 +2,7 @@
 @import '_functions.scss';
 
 .t-buttons-container {
-    display: flex;
+    display: inline-block;
     width: 100%;
 
     &.auto-width {
@@ -28,10 +28,11 @@
     justify-content: center;
     cursor: pointer;
 
-    span{
+    span {
         margin: $spaceEmpty $spaceXXXSmall $spaceEmpty $spaceEmpty;
         font-size: $FontSizeHeadingTitle4;
     }
+
     &:hover,
     &--active {
         text-decoration: none;
@@ -109,7 +110,8 @@
     border: 0;
 
     &:hover,
-    &--active, &:focus {
+    &--active,
+    &:focus {
         color: $colorsBaseInkNormal;
         background-color: $colorsBaseCloudLightHover;
     }
@@ -136,31 +138,60 @@
     @extend .t-button;
     color: $colorsBaseWhiteNormal;
     background-color: $colorsTextError;
+
     &--disabled {
         background-color: $colorsBaseCloudNormal;
         color: $colorsBaseInkLighterActive;
         cursor: not-allowed !important;
     }
- 
+
     &:hover {
         color: $colorsBaseWhiteNormal;
     }
-       
+
     &--disabled:hover {
         color: $colorsBaseInkLighterActive;
     }
 }
-.t-button-icon{
+
+.t-button-icon {
     @extend .t-button;
-    padding: $spaceXXSmall $spaceXXSmall $spaceXXSmall $spaceXXSmall;
-    display: contents;
-    background: none;
-    border: none;
-    span{
-        margin: $spaceEmpty $spaceXXXSmall $spaceEmpty $spaceEmpty;
-        font-size: $FontSizeIcons;
-        color: $colorsBaseInkLight;
-        // background: none; 
-        // border:none;
-    } 
+    &.secondary {
+        padding: $spaceXXSmall $spaceLarge $spaceXXSmall $spaceLarge;
+        background-color: $colorsBaseProductNormal;
+        color: $colorsBaseWhiteNormal;
+        cursor: pointer;
+        align-self: center;
+        font-size: $FontSizeIcons2 !important;
+
+
+        &:hover,
+        &--active {
+            color: $colorsBaseWhiteNormal;
+            background-color: $colorsBaseProductNormalActive;
+        }
+        &:link,
+        &:focus,
+        &:hover,
+        &--active,
+        &:active {
+            color: $colorsBaseWhiteNormal;
+        }
+        span{
+            font-size: $FontSizeIcons2 !important; 
+        }
+    }
 }
+
+// .t-button-icon-primary {
+//     padding: $spaceXXSmall $spaceXXSmall $spaceXXSmall $spaceXXSmall;
+//     display: contents;
+//     background: none;
+//     border: none;
+
+//     span {
+//         margin: $spaceEmpty $spaceXXXSmall $spaceEmpty $spaceEmpty;
+//         font-size: $FontSizeIcons;
+//         color: $colorsBaseInkLight;
+//     }
+// }

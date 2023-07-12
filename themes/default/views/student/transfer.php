@@ -13,7 +13,7 @@
     ));
 ?>
 
-<h1><?php echo Yii::t('default', 'Transfer Student'); ?></h1>
+<h1><?php echo Yii::t('default', 'Transfer Student') .': '. $modelStudentIdentification->name; ?></h1>
 
 <div class="form-content">
 <div>
@@ -30,15 +30,17 @@
                         <th style="text-align: center">Aluno</th>
                         <th style="text-align: center;">Escola</th>
                         <th style="text-align: center">Turma</th>
-                        <th style="text-align: center">Ano</th>                     
+                        <th style="text-align: center">Ano</th>
+                        <th style="text-align: center">Status</th>                     
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td><?php echo $modelStudentIdentification->name ?></td>
-                        <td><?php echo $modelStudentIdentification->studentEnrollment->schoolInepIdFk->name ?></td>
-                        <td><?php echo $modelStudentIdentification->studentEnrollment->classroomFk->name?></td>
-                        <td><?php echo $modelStudentIdentification->studentEnrollment->classroomFk->school_year?></td>
+                        <td><?php echo $modelStudentIdentification->lastEnrollment->schoolInepIdFk->name ?></td>
+                        <td><?php echo $modelStudentIdentification->lastEnrollment->classroomFk->name ?></td>
+                        <td><?php echo $modelStudentIdentification->lastEnrollment->classroomFk->school_year ?></td>
+                        <td><?php echo $modelStudentIdentification->lastEnrollment->getCurrentStatus() ?></td>
                     </tr>
                 </tbody>
             </table>

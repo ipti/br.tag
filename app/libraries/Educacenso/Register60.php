@@ -7,11 +7,15 @@ class Register60
         $registers = [];
 
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-        $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
+        $classrooms = Classroom::model()
+            ->with("activeStudentEnrollments.studentFk.documentsFk")
+            ->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
         $students = [];
 
+        $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 60 order by corder', [":year" => $year]);
+                
         foreach ($classrooms as $iclass => $classroom) {
-            foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
+            foreach ($classroom->activeStudentEnrollments as $ienrollment => $enrollment) {
                 if (!isset($students[$enrollment->student_fk])) {
                     $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
                     $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
@@ -32,8 +36,8 @@ class Register60
 
                 $classroom = Classroom::model()->findByPk($enrollment['classroom_fk']);
 
-                if ($classroom->schooling == 0 || ($classroom->edcensoStageVsModalityFk->id != 3 && $classroom->edcensoStageVsModalityFk->id != 22 && $classroom->edcensoStageVsModalityFk->id != 23
-                    && $classroom->edcensoStageVsModalityFk->id != 72 && $classroom->edcensoStageVsModalityFk->id != 56 && $classroom->edcensoStageVsModalityFk->id != 64)) {
+                if ($classroom->schooling == 0 || ($classroom->edcenso_stage_vs_modality_fk != 3 && $classroom->edcenso_stage_vs_modality_fk != 22 && $classroom->edcenso_stage_vs_modality_fk != 23
+                    && $classroom->edcenso_stage_vs_modality_fk != 72 && $classroom->edcenso_stage_vs_modality_fk != 56 && $classroom->edcenso_stage_vs_modality_fk != 64)) {
                     $enrollment['edcenso_stage_vs_modality_fk'] = '';
                 }
 
@@ -220,7 +224,6 @@ class Register60
                     $enrollment['student_inep_id'] = $student->inep_id;
                 }
 
-                $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 60 order by corder', [":year" => $year]);
                 foreach ($edcensoAliases as $edcensoAlias) {
                     $register[$edcensoAlias->corder] = $edcensoAlias->default;
                     if ($edcensoAlias["attr"] != null && $enrollment[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
