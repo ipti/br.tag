@@ -27,10 +27,10 @@ class ImportModel
     function saveClassroomsDB($jsonClassrooms) {
         foreach ($jsonClassrooms as  $classroom) {
             $classroomModel = new Classroom();
-            $classroomModel->setScenario('search');
             $classroomModel->setDb2Connection(true);
             $classroomModel->refreshMetaData();
             $classroomModel->attributes = $classroom;
+            $classroomModel->id =  $classroom['id'];
             $classroomModel->save();
         }
     }
@@ -41,6 +41,7 @@ class ImportModel
             $studentDocumentsAndAddress->setDb2Connection(true);
             $studentDocumentsAndAddress->refreshMetaData();
             $studentDocumentsAndAddress->attributes = $documentsaddress;
+            $studentDocumentsAndAddress->id = $documentsaddress['id'];
             $studentDocumentsAndAddress->save();
         }
     }
@@ -52,7 +53,20 @@ class ImportModel
             $studentEnrollment->setDb2Connection(true);
             $studentEnrollment->refreshMetaData();
             $studentEnrollment->attributes = $enrollment;
+            $studentEnrollment->id = $enrollment['id'];
             $studentEnrollment->save();
+        }
+    }
+
+    function saveStudentIdentificationDB($studentIdentifications)
+    {
+        foreach ($studentIdentifications as $studentIdentification) {
+            $studentIdentificationMode = new StudentIdentification();
+            $studentIdentificationMode->setDb2Connection(true);
+            $studentIdentificationMode->refreshMetaData();
+            $studentIdentificationMode->attributes = $studentIdentification;
+            $studentIdentificationMode->id = $studentIdentification['id'];
+            $studentIdentificationMode->save();
         }
     }
 
@@ -63,6 +77,7 @@ class ImportModel
             $instructorTeachingData->setDb2Connection(true);
             $instructorTeachingData->refreshMetaData();
             $instructorTeachingData->attributes = $instructorsTeachingData;
+            $instructorTeachingData->id = $instructorsTeachingData['id'];
             $instructorTeachingData->save();
          }
     }
@@ -128,18 +143,8 @@ class ImportModel
             $teachingMatrixeModel->setDb2Connection(true);
             $teachingMatrixeModel->refreshMetaData();
             $teachingMatrixeModel->attributes = $teachingMatrixe;
+            $teachingMatrixeModel->id = $teachingMatrixe['id'];
             $teachingMatrixeModel->save();
-        }
-    }
-
-    function saveStudentIdentificationDB($studentIdentifications)
-    {
-        foreach ($studentIdentifications as $studentIdentification) {
-            $studentIdentificationMode = new StudentIdentification();
-            $studentIdentificationMode->setDb2Connection(true);
-            $studentIdentificationMode->refreshMetaData();
-            $studentIdentificationMode->attributes = $studentIdentification;
-            $studentIdentificationMode->save();
         }
     }
 }
