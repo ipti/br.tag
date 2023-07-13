@@ -14,9 +14,7 @@ class Register20
     {
         $teachingDataDisciplines = [];
 
-        $teachingDatasOfClassroom = Classroom::model()
-            ->with('instructorTeachingDatas.teachingMatrixes.curricularMatrixFk')
-            ->findByPk($id)->instructorTeachingDatas;
+        $teachingDatasOfClassroom = Classroom::model()->findByPk($id)->instructorTeachingDatas;
         foreach ($teachingDatasOfClassroom as $key => $teachingData) {
             foreach($teachingData->teachingMatrixes as $teachingMatrix) {
                 if ($teachingMatrix->curricularMatrixFk->discipline_fk > 99 || $teachingMatrix->curricularMatrixFk->discipline_fk == 20 || $teachingMatrix->curricularMatrixFk->discipline_fk == 21) {
@@ -68,8 +66,7 @@ class Register20
         $registers = [];
 
         $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
-        $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 20 order by corder', [":year" => $year]);
-                
+
         foreach ($classrooms as $iclass => $attributes) {
             if (count($attributes->instructorTeachingDatas) >= 1 && count($attributes->studentEnrollments) >= 1) {
 
@@ -170,6 +167,7 @@ class Register20
                     $attributes["complementary_activity_type_6"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_6"]);
                 }
 
+                $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 20 order by corder', [":year" => $year]);
                 foreach ($edcensoAliases as $edcensoAlias) {
                     $register[$edcensoAlias->corder] = $edcensoAlias->default;
                     if ($edcensoAlias->corder == 21 || $edcensoAlias->corder == 22 || $edcensoAlias->corder == 23) {
