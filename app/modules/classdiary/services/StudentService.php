@@ -83,11 +83,11 @@ class StudentService
                 ClassFaults::model()->deleteAll("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $student_id]);
             }
     }
-    public function saveJustification($student_id, $stage_fk, $classrom_id, $schedule, $date, $justification){
+    public function saveJustification($student_id, $stage_fk, $classroom_id, $schedule, $date, $justification){
          // Fundamental menor
          $is_minor_schooling = $stage_fk >= 14 && $stage_fk <= 16;
         if ($is_minor_schooling) {    
-            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $classrom_id, 
+            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $classroom_id, 
             "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"), 
             "month" => DateTime::createFromFormat("d/m/Y", $date)->format("m")]);
             foreach ($schedules as $schedule) {
@@ -96,7 +96,7 @@ class StudentService
                 $classFault->save();
             }
         }  else {
-            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" =>  $classrom_id, 
+            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" =>  $classroom_id, 
             "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"),
             "month" => DateTime::createFromFormat("d/m/Y", $date)->format("m"),
             "schedule" => $schedule]);
@@ -109,4 +109,93 @@ class StudentService
         $student = StudentIdentification::model()->findByPk($student_id);
         return $student;
     }
+    public function getStudentFault($stage_fk, $classroom_fk, $discipline_fk, $date, $student_fk){
+        // Fundamental menor
+        $is_minor_schooling = $stage_fk >= 14 &&  $stage_fk <= 16;
+        if ($is_minor_schooling) 
+        {
+            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and 
+            unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $classroom_fk, 
+            "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"), 
+            "month"=>DateTime::createFromFormat("d/m/Y", $date)->format("m")]);
+        } else 
+        {
+            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and discipline_fk = :discipline_fk
+             and month = :month and unavailable = 0 order by day, schedule", ["classroom_fk" => $classroom_fk, 
+             "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"), "discipline_fk" => $discipline_fk,
+             "month"=>DateTime::createFromFormat("d/m/Y", $date)->format("m")]);
+        }
+
+        $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $student_fk]);
+        return  $classFault;
+    }
+    public function getStudentDiary($stage_fk, $classroom_fk, $discipline_fk, $date, $student_fk) {
+         // Fundamental menor
+         $is_minor_schooling = $stage_fk >= 14 &&  $stage_fk <= 16;
+        if ($is_minor_schooling == "1") {
+             $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $classroom_fk, 
+             "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"), 
+             "month"=>DateTime::createFromFormat("d/m/Y", $date)->format("m")]);
+        } else { 
+            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and 
+            day = :day and 
+            month = :month and 
+            discipline_fk = :discipline_fk 
+            and unavailable = 0
+            group by day
+            order by day, schedule", 
+            [
+                "classroom_fk" => $classroom_fk,
+                "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"),
+                "month"=>DateTime::createFromFormat("d/m/Y", $date)->format("m"), 
+                "discipline_fk" => $discipline_fk
+            ]);
+        }
+        if (!empty($schedule)) {
+            
+                $classDiary_key = array_search($student_fk, array_column($schedule->classDiaries, 'student_fk'));
+                
+                
+                if(is_numeric($classDiary_key)){
+                    return $schedule->classDiaries[$classDiary_key]->diary;
+                } else {
+                    return "";
+                }   
+        }
+    }
+
+      public function saveStudentDiary($stage_fk, $classroom_fk, $date, $discipline_fk, $student_fk, $student_observation) {
+         // Fundamental menor
+         $is_minor_schooling = $stage_fk >= 14 &&  $stage_fk <= 16;
+        if ($is_minor_schooling == "1") {
+             $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and unavailable = 0 group by day order by schedule, schedule", ["classroom_fk" => $classroom_fk, 
+             "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"), 
+             "month"=>DateTime::createFromFormat("d/m/Y", $date)->format("m")]);
+        } else { 
+            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by schedule, schedule", ["classroom_fk" => $classroom_fk,
+            "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"),
+            "month"=>DateTime::createFromFormat("d/m/Y", $date)->format("m"), "discipline_fk" => $discipline_fk]);
+        }
+
+        if ($student_observation != "") {
+            $classDiary = ClassDiaries::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", [":schedule_fk" => $schedule->id, ":student_fk" => $student_fk]);
+            if ($classDiary == null) {
+                $classDiary = new ClassDiaries();
+                $classDiary->schedule_fk = $schedule->id;
+                $classDiary->student_fk = $student_fk;
+            }
+            $classDiary->diary = $student_observation === "" ? null : $student_observation;
+            if ($classDiary->save()) {
+                // Atualização bem-sucedida
+            } else {
+                // Erro ao atualizar
+                $errors = $classDiary->getErrors();
+                var_dump($errors);
+                exit();
+            }
+           
+        } else {
+            ClassDiaries::model()->deleteAll("schedule_fk = :schedule_fk and student_fk = :student_fk", [":schedule_fk" => $schedule->id, ":student_fk" => $student_fk]);
+        }
+      }
 }
