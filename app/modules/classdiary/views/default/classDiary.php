@@ -13,10 +13,13 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js', CClientScri
 <div class="main">
     <h1><?php echo $discipline_name ?></h1>
     <div class="t-filter-bar">
+         <?php echo CHtml::label('Data', 'date', array('class' => 't-field-select__label')); ?>
         <div class="t-filters is-one-quarter t-field-text clear-margin--bottom">
+           
             <?php echo CHtml::textField('data', '', array(
                 'class' => 't-field-text__input js-date',
-                'placeholder' => 'data'
+                'placeholder' => 'data',
+                'id' => 'date'
             )
             ); ?>
         </div>
@@ -25,16 +28,20 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js', CClientScri
             <a class=" clear-margin--all t-button-primary t-button-primary--icon show--tablet js-change-date"><span class="t-icon-search_icon"></span></a>
         </div>
     </div>
-    
+    <hr class="row t-separator">
     <div class="row">
-        <div class="column is-two-fifths t-multiselect clear-margin--x js-hide-is-not-valid">
-            <?php echo CHtml::dropDownList('coursePlan', '',  [], array('multiple' => 'multiple', 'class' => 'select-search-on t-multiselect multiselect', 'id' => 'coursePlan', 'style' => 'width: 100%')); ?> 
+        <div class="column is-two-fifths t-field-select clear-margin--x js-hide-is-not-valid">
+            <?php echo CHtml::label('Conteúdo', 'coursePlan', array('class' => 't-field-select__label')); ?>
+            <?php echo CHtml::dropDownList('coursePlan', '',  [], array( 'class' => 'select-search-on t-field-select__input', 'id' => 'coursePlan', 'style' => 'width: 100%')); ?> 
         </div>
-         <div class="column t-buttons-container clearleft--on-mobile">
+         <div class="column hidden t-buttons-container clearleft--on-mobile">
             <a class="clear-margin--all t-button-primary js-save-course-plan">Salvar Plano de Aula</a>
         </div>
     </div>
-    
+    <hr class="row t-separator">
+    <div class="row js-accordion">
+
+    </div>
     <div class="row">   
         <div class="column js-frequency-element"></div>    
     </div>
