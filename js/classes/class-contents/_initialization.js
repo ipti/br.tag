@@ -1,19 +1,18 @@
-$('#classesSearch, #classesSearchMobile').on('click', function () {
+function loadClassContents() {
     if ($("#classroom").val() !== "" && $("#month").val() !== "" && (!$("#disciplines").is(":visible") || $("#disciplines").val() !== "")) {
-        $(".alert-required-fields").hide();
-        var fundamentalMaior = Number($("#classroom option:selected").attr("fundamentalmaior"));
+        
+        
         jQuery.ajax({
             type: 'POST',
             url: "?r=classes/getClassContents",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
-                fundamentalMaior: fundamentalMaior,
                 month: $("#month").val(),
                 discipline: $("#disciplines").val()
             },
             beforeSend: function () {
-                $(".loading-class-contents").css("display", "inline-block");
+                $(".loading-class-contents").css("display", "flex");
                 $("#widget-class-contents").css("opacity", 0.3).css("pointer-events", "none");
                 $("#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile").attr("disabled", "disabled");
             },
@@ -22,15 +21,15 @@ $('#classesSearch, #classesSearchMobile').on('click', function () {
                 if (data.valid) {
                     createTable(data);
                     $("#print").addClass("show").removeClass("hide");
-                    $("#save").addClass("show show-desktop").removeClass("hide");
-                    $("#save-button-mobile").addClass("show show-tablet").removeClass("hide");
+                    $("#save").addClass("show--desktop").removeClass("hide");
+                    $("#save-button-mobile").addClass("show--tablet").removeClass("hide");
                     $('#error-badge').html('')
                 } else {
                     $('#error-badge').html('<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span>' + data.error + '</div>')
                     $('#class-contents > thead').html('');
                     $('#class-contents > tbody').html('');
                     $('#class-contents').show();
-                    $("#save, #save-button-mobile").hide();
+                    $("#save, #save-button-mobile").addClass("hide");
                 }
                 $('#month_text').html($('#month').find('option:selected').text());
                 $('#discipline_text').html($('#disciplines').is(":visible") ? $('#disciplines').find('option:selected').text() : "Todas as Disciplinas");
@@ -42,11 +41,13 @@ $('#classesSearch, #classesSearchMobile').on('click', function () {
             }
         });
     } else {
-        $(".alert-required-fields").show();
         $("#widget-class-contents").hide();
-        $("#print, #save, #save-button-mobile").hide();
+        $("#print, #save, #save-button-mobile").addClass("hide");
     }
-});
+}
+
+
+$('#classesSearch, #classesSearchMobile').on('click', loadClassContents);
 
 $("#classroom").on("change", function () {
     $("#disciplines").val("").trigger("change.select2");
@@ -76,6 +77,11 @@ $("#classroom").on("change", function () {
     }
 });
 
+$("#month").on("change", loadClassContents);
+
+
+$("#disciplines").on("change", loadClassContents);
+
 $(document).ready(function () {
     $('#class-contents').hide();
 });
@@ -102,7 +108,6 @@ $("#save, #save-button-mobile").on('click', function () {
             students: students
         });
     });
-
     $.ajax({
         type: "POST",
         url: "?r=classes/saveClassContents",
@@ -115,7 +120,7 @@ $("#save, #save-button-mobile").on('click', function () {
             classContents: classContents
         },
         beforeSend: function () {
-            $(".loading-class-contents").css("display", "inline-block");
+            $(".loading-class-contents").css("display", "flex");
             $("#widget-class-contents").css("opacity", 0.3).css("pointer-events", "none");
             $("#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile").attr("disabled", "disabled");
         },
