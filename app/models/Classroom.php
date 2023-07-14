@@ -147,7 +147,7 @@ class Classroom extends AltActiveRecord
             'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
             'edcensoProfessionalEducationCourseFk' => array(self::BELONGS_TO, 'EdcensoProfessionalEducationCourse', 'edcenso_professional_education_course_fk'),
             'instructorTeachingDatas' => array(self::HAS_MANY, 'InstructorTeachingData', 'classroom_id_fk'),
-            'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'classroom_fk', 'order' => 'daily_order ASC, name', 'join' => 'JOIN student_identification ON student_identification.id=studentEnrollments.student_fk'),
+            'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'classroom_fk', 'order' => 'daily_order ASC, student_identification.name', 'join' => 'JOIN student_identification ON student_identification.id=studentEnrollments.student_fk'),
             'enrollmentsCount'=>array(self::STAT, 'StudentEnrollment', 'classroom_fk'),
         );
     }

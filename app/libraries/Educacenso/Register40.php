@@ -15,7 +15,7 @@ class Register40
           JOIN instructor_documents_and_address idaa on idaa.id = ii.id
           WHERE si.inep_id = :inep_id and mi.cpf = idaa.cpf"
         )->bindParam(":inep_id", Yii::app()->user->school)->queryRow();
-        $inepId = "90999";
+        $inepId = "II90999";
         if ($instructor != null) {
             $inepId = $instructor["inep_id"];
         }

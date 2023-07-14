@@ -32,7 +32,7 @@ class Register50
         }
 
         foreach ($instructors as $instructor) {
-            $id = (String)'90' . $instructor['identification']['id'];
+            $id = (String)'II' . $instructor['identification']['id'];
 
             foreach ($instructor['teaching'] as $teaching) {
                 $register = [];
@@ -91,10 +91,12 @@ class Register50
                     else if ($edcensoAlias["attr"] != null && $teaching[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
                         $register[$edcensoAlias->corder] = $teaching[$edcensoAlias["attr"]];
                     }
+
+                    if ($classroom->aee == 1 && $edcensoAlias->corder >= 9 && $edcensoAlias->corder <= 41   ){
+                        $register[$edcensoAlias->corder] = '';
+                    }
                 }
                 
-                
-
                 array_push($registers, implode('|', $register));
             }
         }
