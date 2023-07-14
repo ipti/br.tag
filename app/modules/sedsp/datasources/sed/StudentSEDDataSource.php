@@ -74,4 +74,69 @@ class StudentSEDDataSource extends SedDataSource
 
         return $data;
     }
+
+
+
+    /**
+     * Summary of getListStudents
+     * @param ?string $inNomeAluno
+     * @param ?string $inNomeSocial
+     * @param ?string $inNomeMae
+     * @param ?string $inNomePai
+     * @param ?string $inDataNascimento
+     * @return mixed
+     */
+    function getListStudents($inNomeAluno, $inNomeSocial, $inNomeMae, $inNomePai, $inDataNascimento) {
+        
+        $body['inFiltrosNomes'] = [
+            "inNomeAluno" => $inNomeAluno,
+            "inNomeSocial" => $inNomeSocial,
+            "inNomeMae" => $inNomeMae,
+            "inNomePai" => $inNomePai,
+            "inDataNascimento" => $inDataNascimento
+        ];
+
+        try {
+            $response = $this->client->request('GET', '/ncaapi/api/Aluno/ListarAlunos', [
+                'body' => json_encode($body)
+            ]);
+            return $response;
+        }
+        catch (GuzzleHttp\Exception\ClientException $e) {
+            return new OutErro($e);
+        } 
+    }
+
+    /**
+     * Summary of getViewStudentSheet
+     * @param ?array $viewStudentSheet
+     * @return mixed
+     */
+    function getViewStudentSheet($viewStudentSheet)
+    {
+        $body['inAluno'] = [
+            'inNumRA' => $viewStudentSheet['$inNumRA'],
+            'inDigitoRA' => $viewStudentSheet['$inDigitoRA'],
+            'InSiglaUFRA' => $viewStudentSheet['$inSiglaUFRA']
+        ];
+
+        $body['inDocumentos'] = [
+             "inNumRG" => $viewStudentSheet['inNumRG'],
+             "inDigitoRG" => $viewStudentSheet['inDigitoRG'],
+             "inUFRG" => $viewStudentSheet['inUFRG'],
+             "inCPF" => $viewStudentSheet['inCPF'],
+             "inNumNIS" => $viewStudentSheet['inNumNIS'],
+             "inNumINEP" => $viewStudentSheet['inNumINEP'],
+             "inNumCertidaoNova" => $viewStudentSheet['inNumCertidaoNova'],
+        ];
+
+        try {
+            $response = $this->client->request('GET', '/ncaapi/api/Aluno/ExibirFichaAluno', [
+                'body' => json_encode($body)
+            ]);
+            return ($response->getBody()->getContents());
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            return new OutErro($e);
+        }
+    }
 }
