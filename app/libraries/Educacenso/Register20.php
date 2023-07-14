@@ -226,7 +226,9 @@ class Register20
                         }
                     } else if ($edcensoAlias["attr"] != null && $attributes[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
                         $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
-                    } else if ($attributes["aee"] == '1' && $edcensoAlias->corder >= 49 && $edcensoAlias->corder <= 75){
+                    } 
+                    
+                    if ($attributes["aee"] == '1' && $edcensoAlias->corder >= 49 && $edcensoAlias->corder <= 75){
                         $register[$edcensoAlias->corder] = '';
                     }
                 }

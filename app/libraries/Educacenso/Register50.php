@@ -91,10 +91,12 @@ class Register50
                     else if ($edcensoAlias["attr"] != null && $teaching[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
                         $register[$edcensoAlias->corder] = $teaching[$edcensoAlias["attr"]];
                     }
+
+                    if ($classroom->aee == 1 && $edcensoAlias->corder >= 9 && $edcensoAlias->corder <= 41   ){
+                        $register[$edcensoAlias->corder] = '';
+                    }
                 }
                 
-                
-
                 array_push($registers, implode('|', $register));
             }
         }
