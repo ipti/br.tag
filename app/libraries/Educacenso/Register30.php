@@ -122,7 +122,7 @@ class Register30
         return $students;
     }
 
-    private static function exportStudentIdentification($student, $register, $aliases)
+    private static function exportStudentIdentification($student, $register, $school, $aliases)
     {
         $student['register_type'] = '30';
 
@@ -208,7 +208,6 @@ class Register30
         }
 
         if ($student['nationality'] == '1' && !isset($student['edcenso_city_fk'])) {
-            $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             $student['edcenso_city_fk'] = $school->edcenso_city_fk;
         }
 
@@ -228,7 +227,7 @@ class Register30
         return $register;
     }
 
-    private static function exportStudentDocuments($student, $register, $aliases)
+    private static function exportStudentDocuments($student, $register, $school, $aliases)
     {
         $student['register_type'] = '30';
 
@@ -238,7 +237,6 @@ class Register30
         }
 
         if (!empty($student['cep']) && !isset($student['edcenso_city_fk'])) {
-            $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             $student['edcenso_city_fk'] = $school->edcenso_city_fk;
         }
 
@@ -272,7 +270,7 @@ class Register30
         return $register;
     }
 
-    private static function exportInstructorIdentification($instructor, $register, $resetEmail, $aliases)
+    private static function exportInstructorIdentification($instructor, $register, $school, $resetEmail, $aliases)
     {
         $instructor['register_type'] = '30';
 
@@ -310,7 +308,6 @@ class Register30
         }
 
         if ($instructor['nationality'] == '1' && !isset($instructor['edcenso_city_fk'])) {
-            $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             $instructor['edcenso_city_fk'] = $school->edcenso_city_fk;
         }
 
@@ -333,7 +330,7 @@ class Register30
         return $register;
     }
 
-    private static function exportInstructorDocuments($instructor, $register, $aliases)
+    private static function exportInstructorDocuments($instructor, $register, $school, $aliases)
     {
         $instructor['register_type'] = '30';
 
@@ -342,7 +339,6 @@ class Register30
         }
 
         if (!empty($instructor['cep']) && !isset($instructor['edcenso_city_fk'])) {
-            $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             $instructor['edcenso_city_fk'] = $school->edcenso_city_fk;
         }
 
@@ -514,9 +510,9 @@ class Register30
         foreach ($students as $student) {
             $register = [];
 
+            $register = self::exportStudentIdentification($student['identification'], $register, $school, $aliasesStudent);
+            $register = self::exportStudentDocuments($student['documents'], $register, $school, $aliasesStudent);
 
-            $register = self::exportStudentIdentification($student['identification'], $register, $aliasesStudent);
-            $register = self::exportStudentDocuments($student['documents'], $register, $aliasesStudent);
             ksort($register);
             array_push($registers, implode('|', $register));
         }
@@ -536,8 +532,8 @@ class Register30
 
             $register = [];
 
-            $register = self::exportInstructorIdentification($instructor['identification'], $register, $resetEmail, $aliasesInstructor);
-            $register = self::exportInstructorDocuments($instructor['documents'], $register, $aliasesInstructor);
+            $register = self::exportInstructorIdentification($instructor['identification'], $register, $school, $resetEmail, $aliasesInstructor);
+            $register = self::exportInstructorDocuments($instructor['documents'], $register, $school, $aliasesInstructor);
             $register = self::exportInstructorVariable($instructor['variable'], $register, $highEducationCourses, $aliasesInstructor);
 
             $register[1] = '30';
