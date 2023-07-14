@@ -1,3 +1,31 @@
+$('.js-add-course-classes-accordion').on("change", function (){
+    var optionSelected = $(this).val();
+     var PlanName = $(this).find('option[value="' + optionSelected + '"]').text();
+   
+   
+    $.ajax({
+        type:'POST',
+        data: {
+            plan_name: PlanName
+        },
+        url:`?r=classdiary/default/RenderAccordion`
+    }).success(function (response){
+        $('.js-course-classes-accordion').append(response)
+        $(function () {
+            if($(".js-course-classes-accordion").data('uiAccordion')){
+                $(".js-course-classes-accordion").accordion('destroy');
+            }
+            $( ".js-course-classes-accordion").accordion({
+                active: false,
+                collapsible: true,
+                icons: false,
+            });
+        });
+
+        // Remover a opção selecionada
+        // $(this).find('option[value="' + optionSelected + '"]').remove();
+    })
+})
 function renderFrequencyElement(w) {
     const urlParams = new URLSearchParams(window.location.search);
     const classroom_fk = urlParams.get("classroom_fk")
@@ -32,9 +60,7 @@ function updateClassesContents()
             });
             $("#coursePlan").html(options);
             $("#coursePlan").select2("val", response["classContents"]);
-        } else {
-            $(".js-hide-is-not-valid").hide()
-            $(".js-save-course-plan").hide()
+            $(".js-hide-is-not-valid").show()
         }
     });
 }

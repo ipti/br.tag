@@ -28,18 +28,22 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js', CClientScri
             <a class=" clear-margin--all t-button-primary t-button-primary--icon show--tablet js-change-date"><span class="t-icon-search_icon"></span></a>
         </div>
     </div>
-    <hr class="row t-separator">
-    <div class="row">
-        <div class="column is-two-fifths t-field-select clear-margin--x js-hide-is-not-valid">
-            <?php echo CHtml::label('Conteúdo', 'coursePlan', array('class' => 't-field-select__label')); ?>
-            <?php echo CHtml::dropDownList('coursePlan', '',  [], array( 'class' => 'select-search-on t-field-select__input', 'id' => 'coursePlan', 'style' => 'width: 100%')); ?> 
-        </div>
-         <div class="column hidden t-buttons-container clearleft--on-mobile">
-            <a class="clear-margin--all t-button-primary js-save-course-plan">Salvar Plano de Aula</a>
+    <div class="row js-hide-is-not-valid" style="display:none;">
+        <div class="column">
+            <hr class="t-separator">
+            <div class="row">
+                <div class="column is-two-fifths t-field-select clear-margin--x">
+                    <?php echo CHtml::label('Conteúdo', 'coursePlan', array('class' => 't-field-select__label')); ?>
+                    <?php echo CHtml::dropDownList('coursePlan', '',  [], array('class' => 'select-search-on t-field-select__input js-add-course-classes-accordion', 'id' => 'coursePlan', 'style' => 'width: 100%')); ?> 
+                </div>
+                <div class="column hidden t-buttons-container clearleft--on-mobile" style="display:none;">
+                    <a class="clear-margin--all t-button-primary js-save-course-plan">Salvar Plano de Aula</a>
+                </div>
+            </div>
+            <hr class="t-separator">
         </div>
     </div>
-    <hr class="row t-separator">
-    <div class="row js-accordion">
+    <div class="row t-accordeon-primary js-course-classes-accordion">
 
     </div>
     <div class="row">   

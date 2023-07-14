@@ -39,7 +39,11 @@ class DefaultController extends Controller
 		$saveClassContent = new SaveClassContents();
 		$saveClassContent->exec($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent);
 	}
-	
+	public function actionRenderAccordion()
+	{
+			$plan_name = $_POST["plan_name"];
+			$this->renderPartial('_accordion', ["plan_name"=>$plan_name]);
+	}
 	public function actionRenderFrequencyElementMobile($classroom_fk, $stage_fk, $discipline_fk, $date)
 	{
 		$getFrequency = new GetFrequency();
@@ -70,8 +74,6 @@ class DefaultController extends Controller
 
 		$getStudentDiary = new GetStudentDiary();
 		$student_observation = $getStudentDiary->exec($stage_fk, $classroom_id, $discipline_fk, $date, $student_id);
-		/* var_dump($student_observation);
-		exit(); */
 
 		if(isset($_POST["justification"])) {
 			$justification = $_POST["justification"];
