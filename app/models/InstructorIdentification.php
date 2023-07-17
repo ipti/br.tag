@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "instructor_identification".
+ * This is the model class for table "student".
  *
- * The followings are the available columns in table 'instructor_identification':
+ * The followings are the available columns in table 'student':
  * @property string $register_type
  * @property string $school_inep_id_fk
  * @property string $inep_id
@@ -15,26 +15,26 @@
  * @property string $birthday_date
  * @property integer $sex
  * @property integer $color_race
- * @property integer $filiation
+ * @property boolean $filiation
  * @property string $filiation_1
  * @property string $filiation_2
  * @property integer $nationality
  * @property integer $edcenso_nation_fk
  * @property integer $edcenso_uf_fk
  * @property integer $edcenso_city_fk
- * @property integer $deficiency
- * @property integer $deficiency_type_blindness
- * @property integer $deficiency_type_low_vision
- * @property integer $deficiency_type_monocular_vision
- * @property integer $deficiency_type_deafness
- * @property integer $deficiency_type_disability_hearing
- * @property integer $deficiency_type_deafblindness
- * @property integer $deficiency_type_phisical_disability
- * @property integer $deficiency_type_intelectual_disability
- * @property integer $deficiency_type_multiple_disabilities
- * @property integer $deficiency_type_autism
- * @property integer $deficiency_type_gifted
- * @property string $fkid
+ * @property boolean $deficiency
+ * @property boolean $deficiency_type_blindness
+ * @property boolean $deficiency_type_low_vision
+ * @property boolean $deficiency_type_monocular_vision
+ * @property boolean $deficiency_type_deafness
+ * @property boolean $deficiency_type_disability_hearing
+ * @property boolean $deficiency_type_deafblindness
+ * @property boolean $deficiency_type_phisical_disability
+ * @property boolean $deficiency_type_intelectual_disability
+ * @property boolean $deficiency_type_multiple_disabilities
+ * @property boolean $deficiency_type_autism
+ * @property boolean $deficiency_type_gifted
+ * @property integer $hash
  * @property integer $users_fk
  *
  * The followings are the available model relations:
