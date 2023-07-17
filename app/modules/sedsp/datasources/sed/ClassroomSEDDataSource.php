@@ -55,7 +55,7 @@ class ClassroomSEDDataSource extends SedDataSource
     /**
      * Summary of getConsultClass
      * @param array $consultClass
-     * @return string
+     * @return Class|OutErro
      */
     function getConsultClass(array $consultClass) 
     {
@@ -68,9 +68,9 @@ class ClassroomSEDDataSource extends SedDataSource
             $consultClassResponse = $this->client->request('GET', 'ncaapi/api/TurmaClasse/ConsultaTurmaClasse', [
                 'body' => json_encode($consultClassBody)
             ]);
-            
-            return $consultClassResponse->getBody()->getContents();
-            
+
+            $data = $consultClassResponse->getBody()->getContents();    
+            return json_decode($data, JSON_PRETTY_PRINT);       
         } catch (GuzzleHttp\Exception\ClientException $e) {
             return new OutErro($e);
         }

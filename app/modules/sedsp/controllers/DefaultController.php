@@ -287,19 +287,17 @@ class DefaultController extends Controller
 	}
 
 	function actionTest() {
-		$studentSheetData = [
+		$arrayData = [
 			'inNumRA' => "000124464761",
-			'inDigitoRA' => "5",
-			'inSiglaUFRA' => "SP",
-		  ];
+			'inSiglaUFRA' => "SP"
+		];
 
-		  $studentSEDDataSource = new StudentSEDDataSource();
-		  $studentSheet = $studentSEDDataSource->getViewStudentSheet($studentSheetData);
-		  
-		  
-		  echo "<pre>";
-		  print_r(json_decode($studentSheet, JSON_PRETTY_PRINT));
-		  echo "</pre>";
+		$dataSource = new StudentSEDDataSource();
+		$data = $dataSource->getViewStudentSheet($arrayData);
+		    
+		echo "<pre>";
+		var_export($data);
+		echo "</pre>";
 	}
 }
 
