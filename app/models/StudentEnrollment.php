@@ -11,8 +11,9 @@
  * @property string $classroom_inep_id
  * @property integer $classroom_fk
  * @property string $enrollment_id
- * @property integer $unified_class
+ * @property string $unified_class
  * @property integer $edcenso_stage_vs_modality_fk
+ * @property integer $multi
  * @property integer $another_scholarization_place
  * @property integer $public_transport
  * @property integer $transport_responsable_government
@@ -30,11 +31,14 @@
  * @property integer $student_entry_form
  * @property integer $id
  * @property string $create_date
- * @property string $fkid
+ * @property integer $hash
  * @property string $school_admission_date
  * @property integer $current_stage_situation
  * @property integer $previous_stage_situation
  * @property integer $admission_type
+ * @property integer $hash_classroom
+ * @property integer $hash_student
+ * @property string $date_cancellation_enrollment
  * @property integer $aee_cognitive_functions
  * @property integer $aee_autonomous_life
  * @property integer $aee_curriculum_enrichment
@@ -61,6 +65,11 @@
  */
 class StudentEnrollment extends AltActiveRecord
 {
+
+    const STATUS_ACTIVE = "MATRICULADO";
+    const STATUS_CANCELLED = "CANCELADO";
+    const STATUS_TRANSFERRED = "TRANSFERIDO";
+    const STATUS_EVADED = "EVADIDO";
 
     public $school_year;
 
@@ -354,9 +363,9 @@ class StudentEnrollment extends AltActiveRecord
         return $faults;
     }
 
-    public function getFileInformation($enrollment_id)
+    public static function getFileInformation($enrollment_id)
     {
-        $sql = "SELECT * FROM studentsfile WHERE enrollment_id = :enrollment_id AND (status = 1 OR status IS NULL);";
+        $sql = "SELECT * FROM studentsfile WHERE enrollment_id = :enrollment_id";
         return Yii::app()->db->createCommand($sql)
             ->bindParam(":enrollment_id", $enrollment_id)
             ->queryRow();
@@ -554,5 +563,16 @@ class StudentEnrollment extends AltActiveRecord
         return $result;
     }
 
+    public function getCurrentStatus(){
+        $status  = [
+            null => "",
+            "1" => StudentEnrollment::STATUS_ACTIVE,
+            "2" => StudentEnrollment::STATUS_TRANSFERRED,
+            "3" => StudentEnrollment::STATUS_CANCELLED,
+            "4" => StudentEnrollment::STATUS_EVADED,
+        ];
 
+        return $status[$this->status];
+
+    }
 }

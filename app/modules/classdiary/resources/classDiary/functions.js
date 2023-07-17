@@ -60,12 +60,12 @@ $(document).on("change", ".js-frequency-checkbox", function () {
         url: `${window.location.host}?r=classdiary/default/saveFresquency`,
         cache: false,
         data: {
-            classroom_id: $(this).attr("classrom_id"),
+            classroom_id: $(this).attr("data-classroom_id"),
             date: $(".js-date").val(),
-            schedule: $(this).attr("schedule"),
-            studentId: $(this).attr("studentId"),
+            schedule: $(this).attr("data-schedule"),
+            studentId: $(this).attr("data-studentId"),
             fault: $(this).is(":checked") ? 1 : 0,
-            stage_fk: $(this).attr("stage_fk")
+            stage_fk: $(this).attr("data-stage_fk")
         },
         beforeSend: function () {
             $(".js-table-frequency").css("opacity", 0.3).css("pointer-events", "none");
@@ -81,7 +81,7 @@ $(document).on("change", ".js-frequency-checkbox", function () {
 
 $(".js-change-date").on("click", function () {
     renderFrequencyElement(widthWindow)
-    
+    updateClassesContents();
 });
 
 var widthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;

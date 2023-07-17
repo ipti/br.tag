@@ -319,20 +319,36 @@ class FormsController extends Controller {
     }
 
     public function actionStudentFileForm($enrollment_id) {
+        $enrollment = StudentEnrollment::model()->with("studentFk.edcensoUfFk")->findByPk($enrollment_id);
+        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+
         $this->layout = "reports";
-        $this->render('StudentFileForm', array('enrollment_id'=>$enrollment_id,'studentinfo'=>$result));
+        $this->render('StudentFileForm', array(
+            'enrollment' => $enrollment,
+            'school' => $school, 
+        ));
     }
 
     public function actionStudentsFileForm($classroom_id) {
         $this->layout = "reports";
-        $this->render('StudentsFileForm', array('classroom_id'=>$classroom_id));
+        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+        $classroom = Classroom::model()->with("studentEnrollments.studentFk.edcensoUfFk")->findByPk($classroom_id);
+        $enrollments = $classroom->studentEnrollments;
+        $this->render('StudentsFileForm', array(
+            'classroom_id' => $classroom_id,
+            'enrollments' => $enrollments,
+            'school' => $school 
+        ));
     }
 
     public function actionTransferForm($enrollment_id){
         $this->layout = 'reports';
         $sql = "SELECT si.nationality FROM student_identification si JOIN student_enrollment se ON se.student_fk = si.id WHERE se.id = " . $enrollment_id . ";";
         $result = Yii::app()->db->createCommand($sql)->queryRow();
-        $this->render('TransferForm', array('enrollment_id'=>$enrollment_id, 'nationality'=>$result['nationality']));
+        $this->render('TransferForm', array(
+            'enrollment_id'=>$enrollment_id, 
+            'nationality'=>$result['nationality']
+        ));
     }
 
     public function actionGetTransferFormInformation($enrollment_id){

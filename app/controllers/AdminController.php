@@ -1,6 +1,6 @@
 <?php
 
-class AdminController extends Controller
+class AdminController extends Controller 
 {
     public $layout = 'fullmenu';
 
@@ -26,6 +26,83 @@ class AdminController extends Controller
     public function actionIndex()
     {
         $this->render('index');
+    }
+
+    function actionExportMaster() {
+        $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();   
+        $pathFileJson = "./app/export/InfoTagJSON/$databaseName.json";
+
+        $adapter = new Adapter;
+        $exportModel = new ExportModel;
+        $loadedData = [];
+
+        $loadedData = array_merge($loadedData, $exportModel->getSchoolIdentification());
+        $loadedData = array_merge($loadedData, $exportModel->getSchoolStructure());
+        $loadedData = array_merge($loadedData, $exportModel->getClassrooms());
+         
+        $loadedData = array_merge($loadedData, $exportModel->getInstructorsIdentification());
+        $loadedData = array_merge($loadedData, $exportModel->getInstructorsTeachingData());
+        $loadedData = array_merge($loadedData, $exportModel->getTeachingMatrixes());
+
+        $loadedData = array_merge($loadedData, $exportModel->getStudentIdentification());
+        $loadedData = array_merge($loadedData, $exportModel->getStudentDocumentsAndAddress());
+        $loadedData = array_merge($loadedData, $exportModel->getStudentEnrollment()); 
+
+    
+        $host = getenv("HOST_DB_TAG");
+        Yii::app()->db->setActive(false);
+        Yii::app()->db->connectionString = "mysql:host=$host;dbname=$databaseName";
+        Yii::app()->db->setActive(true);
+
+        $dataEncoded = $adapter->export($loadedData);
+        file_put_contents($pathFileJson, $dataEncoded);
+        
+        // Envia o arquivo JSON como download
+        header("Content-Disposition: attachment; filename=\"" . basename($pathFileJson) . "\"");
+        header("Content-Type: application/force-download");
+        header("Content-Length: " . filesize($pathFileJson));
+        header("Connection: close"); 
+        readfile($pathFileJson);
+    }
+
+    function actionImportMaster() {
+        $adapter = new Adapter;
+        $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();   
+        $pathFileJson = "./app/export/InfoTagJSON/$databaseName.json";
+
+        if (!file_exists($pathFileJson)) {
+            Yii::app()->user->setFlash('error', 'O arquivo não existe na pasta de importação.');
+            $this->redirect(array('index'));
+        }   
+
+        try{
+            $dataDecoded = $adapter->import(file_get_contents($pathFileJson));
+            $importModel = new ImportModel(); 
+            $transaction = Yii::app()->db->beginTransaction();
+            Yii::app()->db->createCommand('SET FOREIGN_KEY_CHECKS=0')->execute();
+
+            $importModel->saveSchoolIdentificationsDB($dataDecoded['school_identification']);
+            $importModel->saveSchoolStructureDB($dataDecoded['school_structure']);
+            $importModel->saveClassroomsDB($dataDecoded['classrooms']);
+            
+            $importModel->saveInstructorDataDB($dataDecoded['instructor_identification'], $dataDecoded['instructor_documents_and_address'], $dataDecoded['instructor_variable_data']);
+            $importModel->saveInstructorsTeachingDataDB($dataDecoded['instructor_teaching_data']);
+            $importModel->saveTeachingMatrixes($dataDecoded['teaching_matrixes']);
+
+            $importModel->saveStudentIdentificationDB($dataDecoded['student_identification']);
+            $importModel->saveStudentDocumentsAndAddressDB($dataDecoded['student_documents_and_address']);
+            $importModel->saveStudentEnrollmentDB($dataDecoded['student_enrollment']); 
+            
+            Yii::app()->db->createCommand('SET FOREIGN_KEY_CHECKS=1')->execute(); 
+            $transaction->commit(); 
+
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Importação realizada com sucesso!'));
+            $this->redirect(array('index'));
+        } catch (Exception $e) {
+            $transaction->rollback();
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Error na importação: '.$e->getMessage()));
+            $this->redirect(array('index'));
+        }
     }
 
     public function actionCreateUser()
@@ -305,6 +382,7 @@ class AdminController extends Controller
             delete from instructor_identification;
             delete from instructor_documents_and_address;
             delete from instructor_variable_data;
+            delete from teaching_matrixes;
 
             delete from classroom;
 
@@ -317,7 +395,7 @@ class AdminController extends Controller
 
         $this->addTestUsers();
 
-        Yii::app()->user->setFlash('success', Yii::t('default', 'Banco limpado com sucesso. <br/>Faça o login novamente para atualizar os dados.'));
+        Yii::app()->user->setFlash('success', Yii::t('default', 'Limpeza do banco de dados concluída com sucesso! <br/>Faça o login novamente para atualizar os dados.'));
         $this->redirect(array('index'));
     }
 
@@ -329,8 +407,9 @@ class AdminController extends Controller
         $admin_login = 'admin';
         $admin_password = md5('p@s4ipti');
 
-        $command = "INSERT INTO `users`VALUES
-                        (1, 'Administrador', '$admin_login', '$admin_password', 1);";
+        $hash = hexdec(hash('crc32', 'Administrador'.$admin_login.$admin_password));
+        $command = "INSERT INTO users VALUES (1, 'Administrador', '$admin_login', '$admin_password', 1, $hash);";
+        Yii::app()->db->createCommand("ALTER TABLE users AUTO_INCREMENT = 2;")->execute();
         Yii::app()->db->createCommand($command)->query();
 
         $auth = Yii::app()->authManager;
@@ -356,7 +435,7 @@ class AdminController extends Controller
 
         return str_replace($search, $replace, $value);
     }
-
+  
     public
     function actionImportMaster()
     {
@@ -663,8 +742,7 @@ class AdminController extends Controller
         }
     }
 
-    public
-    function actionManageUsers()
+    public function actionManageUsers()
     {
         $filter = new Users('search');
         $filter->unsetAttributes();
