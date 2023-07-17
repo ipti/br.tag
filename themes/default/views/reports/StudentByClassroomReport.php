@@ -18,7 +18,7 @@ function age($date){
 
 
 ?>
-<div class="pageA4H" style="width: 1080px;">
+<div class="pageA4H">
     <?php $this->renderPartial('head'); ?>
     <h3><?php echo Yii::t('default', 'Student By Classroom'); ?></h3>
     <div class="row-fluid hidden-print">
@@ -83,7 +83,7 @@ function age($date){
             display: none;
         }
         @page {
-            size: portrait;
+            size: landscape;
         }
     }
 </style>
