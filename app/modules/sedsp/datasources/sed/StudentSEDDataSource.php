@@ -125,16 +125,16 @@ class StudentSEDDataSource extends SedDataSource
      * Summary of getViewStudentSheet
      *
      * @param array $studentSheetData
-     * @return mixed
+     * @return string
      */
     function getViewStudentSheet(array $studentSheetData)
     {
         try {
             $studentSheetRequestBody = [
                 'inAluno' => [
-                    'inNumRA' => $studentSheetData['inNumRA'] ?? null,
+                    'inNumRA' => $studentSheetData['inNumRA'],
                     'inDigitoRA' => $studentSheetData['inDigitoRA'] ?? null,
-                    'InSiglaUFRA' => $studentSheetData['inSiglaUFRA'] ?? null
+                    'InSiglaUFRA' => $studentSheetData['inSiglaUFRA']
                 ]
             ];
     
