@@ -42,6 +42,7 @@ return array(
         'application.modules.calendar.models.*',
         'application.modules.curricularmatrix.models.*',
         'application.modules.quiz.models.*',
+        'application.modules.sedsp.datasources.sed.*',
         'application.modules.sagres.soap.src.sagresEdu.*',
         'application.components.utils.TagUtils'
     ),
