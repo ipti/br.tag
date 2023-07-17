@@ -1,7 +1,6 @@
 @import '_functions.scss';
+
 @import '_tokens.scss';
-
-
 
 .row {
     display: flex;
@@ -16,6 +15,7 @@
     }
 
     @include device(mobile) {
+
         flex-direction: row;
     }
 }
@@ -37,8 +37,8 @@
 .column {
     flex: 1;
     flex-basis: 0;
-    margin-left: calc($spaceXLarge / 2);
-    margin-right: calc($spaceXLarge / 2);
+    margin-left: $spaceXLarge / 2;
+    margin-right:$spaceXLarge / 2;
 
     &.flex {
         display: flex;
@@ -52,11 +52,18 @@
     &.clearleft {
         margin-left: 0; 
         
-        &.on-tablet {
+        &--on-tablet {
             margin-left: 0;
 
             @include device(tablet) {
-                margin-left: calc($spaceXLarge / 2);
+                margin-left: $spaceXLarge / 2;
+            }
+        }
+        &--on-mobile {
+            margin-left: 0;
+
+            @include device(mobile) {
+                margin-left: $spaceXLarge/2;
             }
         }
     }
@@ -118,7 +125,6 @@
             max-width: 20%;
         }
     }
-
     //retirar isso
     &.helper {
         max-width: 50%;
@@ -175,4 +181,3 @@
         }
     }
 }
-

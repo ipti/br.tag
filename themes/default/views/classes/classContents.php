@@ -1,4 +1,5 @@
 <?php
+
 /**  
  * @var ClassesController $this ClassesController
  * @var CActiveDataProvider $dataProvider CActiveDataProvider
@@ -50,24 +51,24 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <tr>
         <tr>
             <th>Localização:</th>
-            <td colspan="2"><?php echo($school->location == 1 ? "URBANA" : "RURAL") ?></td>
+            <td colspan="2"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
             <th>Dependência Administrativa:</th>
             <td colspan="4"><?php
-                $ad = $school->administrative_dependence;
-                echo($ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
-                    "PRIVADA")));
-                ?></td>
+                            $ad = $school->administrative_dependence;
+                            echo ($ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
+                                "PRIVADA")));
+                            ?></td>
         <tr>
     </table>
     <br>
 
     <!-- <div class="innerLR"> -->
     <div>
-    <?php if (Yii::app()->user->hasFlash('success')) : ?>
-        <div class="alert alert-success">
-            <?php echo Yii::app()->user->getFlash('success') ?>
-        </div>
-    <?php endif ?>
+        <?php if (Yii::app()->user->hasFlash('success')) : ?>
+            <div class="alert alert-success">
+                <?php echo Yii::app()->user->getFlash('success') ?>
+            </div>
+        <?php endif ?>
     <div class="alert-save no-show alert alert-success">
         Aulas ministradas atualizadas com sucesso!
     </div>
@@ -79,11 +80,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <div class="column clearleft">
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
-                    <select class="select-search-on t-field-select__input classContents-input" id="classroom" name="classroom">
+                    <select class="select-search-on t-field-select__input " id="classroom" name="classroom">
                         <option>Selecione a turma</option>
                         <?php foreach ($classrooms as $classroom) : ?>
-                            <option value="<?= $classroom->id ?>"
-                                    fundamentalmaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
+                            <option value="<?= $classroom->id ?>" fundamentalmaior="<?= !TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk) ?>"><?= $classroom->name ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -108,37 +108,29 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         12 => 'Dezembro'
                     ), array(
                         'key' => 'id',
-                        'class' => 'select-search-on t-field-select__input classContents-input',
+                        'class' => 'select-search-on t-field-select__input ',
                         'prompt' => 'Selecione o mês',
                     ));
                     ?>
                 </div>
+                
             </div>
         </div>   
-        <div class="column clearleft on-tablet disciplines-container" style="display: none;">
-            <div class="t-field-select">
-                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label t-field-select__label--required')); ?>
-                <?php
-                echo CHtml::dropDownList('disciplines', '', array(), array(
-                    'key' => 'id',
-                    'class' => 'select-search-on t-field-select__input classContents-input',
-                ));
-                ?>
-            </div>
-        </div>
-        <div class="mobile-row align-items--center">
-            <div id="search-icon" class="column no-grow show--tablet clearleft">
-                <a id="classesSearchMobile" class='t-button-primary t-button-primary--icon'><span class="t-icon-search_icon"></span></a>
-            </div>
-            <img class="loading-class-contents"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
-        </div>
-        
-        <div class="column"></div>
-            <div class="column clearfix">
-                <div class="t-buttons-container justify-content--end">
-                    <a id="classesSearch" class='t-button-secondary show--desktop'><?php echo Yii::t('default', 'Search') ?></a>
+        <div class="mobile-row">
+            <div class="column clearleft on-tablet disciplines-container" style="display: none;">
+                <div class="t-field-select">
+                    <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label t-field-select__label--required')); ?>
+                    <?php
+                    echo CHtml::dropDownList('disciplines', '', array(), array(
+                        'key' => 'id',
+                        'class' => 'select-search-on t-field-select__input ',
+                    ));
+                    ?>
                 </div>
             </div>
+        </div>
+        <div class="column clearleft on-tablet align-items--center ">
+            <img class="loading-class-contents"  height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
     </div>
     <div class="clear"></div>
@@ -191,7 +183,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             </div>
                         </div>
                     </div>
-                </form>
+                </div>
+            </form>
         </div>
     </div>
     <?php $this->endWidget(); ?>

@@ -1,89 +1,89 @@
 /* Color */
-    /* Product */
-    $colorsBaseProductLightActive: #ccd0ee;
-    $colorsBaseProductlightHover: #e2e5f2;
-    $colorsBaseProductLight: #eaeaf8;
-    $colorsBaseProductLighter: #fafafe;
-    $colorsBaseProductNormal: #3f45ea;
-    $colorsBaseProductNormalHover: #2e33b7;
-    $colorsBaseProductNormalActive: #272B96;
-    $colorsBaseProductDark: #26298d;
-    $colorsBaseProductDarkHover: #1c1f7f;
-    $colorsBaseProductDarkActive: #18204e;
-    $colorsBaseProductLogo: #16205b;
-    /* Ink */
-    $colorsBaseInkNormalActive: #0b0c0f;
-    $colorsBaseInkNormalHover: #181b20;
-    $colorsBaseInkNormal: #252A31;
-    $colorsBaseInkLightActive: #465567;
-    $colorsBaseInkLightHover: #52647a;
-    $colorsBaseInkLight: #5F738C;
-    $colorsBaseInkLighterActive: #94a8be;
-    $colorsBaseInkLighterHover: #a6b6c8;
-    $colorsBaseInkLighter: #bac7d5;
-    /* Text */
-    $colorsTextPrimary: #252A31;
-    $colorsTextSecondary: #5F738C;
-    $colorsTextError: #D21C1C;
-    $colorsTextInfo: #0172CB;
-    $colorsTextSuccess: #28a138;
-    $colorsTextWarning: #e98305;
-    /* Alert1 */
-    $colorsAlertInfoIcon: #0172CB;
-    $colorsAlertInfoText: #005AA3;
-    $colorsAlertInfoBackground: #E8F4FD;
-    $colorsAlertInfoBorder: #d0e9fb;
-    /* Cloud */
-    $colorsBaseCloudDark: #e8edf1;
-    $colorsBaseCloudNormalActive: #cad4de;
-    $colorsBaseCloudNormalHover: #dce3e9;
-    $colorsBaseCloudNormal: #eff2f5;
-    $colorsBaseCloudLightActive: #d6dee6;
-    $colorsBaseCloudLightHover: #e5eaef;
-    $colorsBaseCloudLight: #f5f7f9;
-    /* White */
-    $colorsBaseWhiteNormalActive: #e7ecf1;
-    $colorsBaseWhiteNormalHover:#f1f4f7;
-    $colorsBaseWhiteNormal: #FFFFFF;
-    /* Alert2 */
-    $colorsAlertSuccessIcon: #28a138;
-    $colorsAlertSuccessText: #2B7336;
-    $colorsAlertSuccessBackground: #EBF4EC;
-    $colorsAlertSuccessBorder: #d7ead9;
-    /* Alert3 */
-    $colorsAlertWarningIcon: #e98305;
-    $colorsAlertWarningText: #a25100;
-    $colorsAlertWarningBackground: #fdf0e3;
-    $colorsAlertWarningBorder: #fae2c7;
+
+/* Product */
+$colorsBaseProductLightActive: #ccd0ee;
+$colorsBaseProductlightHover: #e2e5f2;
+$colorsBaseProductLight: #eaeaf8;
+$colorsBaseProductLighter: #fafafe;
+$colorsBaseProductNormal: #3f45ea;
+$colorsBaseProductNormalHover: #2e33b7;
+$colorsBaseProductNormalActive: #272B96;
+$colorsBaseProductDark: #26298d;
+$colorsBaseProductDarkHover: #1c1f7f;
+$colorsBaseProductDarkActive: #18204e;
+$colorsBaseProductLogo: #16205b;
+/* Ink */
+$colorsBaseInkNormalActive: #0b0c0f;
+$colorsBaseInkNormalHover: #181b20;
+$colorsBaseInkNormal: #252A31;
+$colorsBaseInkLightActive: #465567;
+$colorsBaseInkLightHover: #52647a;
+$colorsBaseInkLight: #5F738C;
+$colorsBaseInkLighterActive: #94a8be;
+$colorsBaseInkLighterHover: #a6b6c8;
+$colorsBaseInkLighter: #bac7d5;
+/* Text */
+$colorsTextPrimary: #252A31;
+$colorsTextSecondary: #5F738C;
+$colorsTextError: #D21C1C;
+$colorsTextInfo: #0172CB;
+$colorsTextSuccess: #28a138;
+$colorsTextWarning: #e98305;
+/* Alert1 */
+$colorsAlertInfoIcon: #0172CB;
+$colorsAlertInfoText: #004680;
+$colorsAlertInfoBackground: #B4DBF8;
+$colorsAlertInfoBorder: #d0e9fb;
+/* Cloud */
+$colorsBaseCloudDark: #e8edf1;
+$colorsBaseCloudNormalActive: #cad4de;
+$colorsBaseCloudNormalHover: #dce3e9;
+$colorsBaseCloudNormal: #eff2f5;
+$colorsBaseCloudLightActive: #d6dee6;
+$colorsBaseCloudLightHover: #e5eaef;
+$colorsBaseCloudLight: #f5f7f9;
+/* White */
+$colorsBaseWhiteNormalActive: #e7ecf1;
+$colorsBaseWhiteNormalHover: #f1f4f7;
+$colorsBaseWhiteNormal: #FFFFFF;
+/* Alert2 */
+$colorsAlertSuccessIcon: #28a138;
+$colorsAlertSuccessText: #2B7336;
+$colorsAlertSuccessBackground: #EBF4EC;
+$colorsAlertSuccessBorder: #d7ead9;
+/* Alert3 */
+$colorsAlertWarningIcon: #e98305;
+$colorsAlertWarningText: #a25100;
+$colorsAlertWarningBackground: #fdf0e3;
+$colorsAlertWarningBorder: #fae2c7;
 
 
-/* Space */    
-$spaceLarge: 1.5em;
-$spaceMedium: 1em;
-$spaceSmall: 0.75em;
-$spaceXLarge: 2em;
+/* Space */
+$spaceEmpty: 0.0em;
+$spaceXXSmall: 0.375em;
+$spaceXXXXSmall: 0.12em;
+$spaceXXXSmall: 0.25em;
 $spaceXSmall: 0.5em;
+$spaceSmall: 0.75em;
+$spaceNormal: 0.875em;
+$spaceMedium: 1em;
+$spaceLarge: 1.5em;
+$spaceXLarge: 2em;
 $spaceXXLarge: 2.5em;
 $spaceXXXLarge: 3.25em;
-$spaceXXXSmall: 0.25em;
-$spaceXXXXSmall: 0.12em;
-$spaceNormal: 0.875em;
-$spaceXXSmall: 0.375em;
-$spaceEmpty: 0.0em;
-
-
 
 /* Font size */
 $FontSizeHeadingTitle1: 24px;
-$FontSizeHeadingTitle2: 16px;
-$FontSizeHeadingTitle3: 16px;  
-$FontSizeHeadingTitle4: 14px;
-$FontSizeFormLabel: 16px;
-$FontSizeTextNormal: 14px;
 $FontSizeTextSmall: 12px;
+$FontSizeTextNormal: 14px;
 $FontSizeButtonSmall: 14px;
-$FontSizeIcons:18px;
-$FontSizeIconsTitle2:28px;
+$FontSizeHeadingTitle4: 14px;
+$FontSizeHeadingTitle2: 16px;
+$FontSizeHeadingTitle3: 16px;
+$FontSizeFormLabel: 16px;
+$FontSizeIcons2: 16px;
+$FontSizeIcons: 18px;
+$FontSizeIconsTitle2: 28px;
 
 /* Grid */
 $layout-2xs: calc(4px - 0.25rem);
@@ -96,30 +96,28 @@ $layout-2xl: calc(40px - 2.5rem);
 $layout-3xl: calc(48px - 3rem);
 $layout-4xl: calc(64px - 4rem);
 
-
 /* Size */
-$SizeLarge: 24px;
-$SizeMedium: 16px;
-$SizeSmall: 12px;
-$SizeXLarge: 32px;
+$SizeXXXXSmall: 2px;
+$SizeXXXSmall: 4px;
+$SizeXXSmall: 6px;
 $SizeXSmall: 8px;
+$SizeSmall: 12px;
+$SizeNormal: 14px;
+$SizeMedium: 16px;
+$SizeLarge: 24px;
+$SizeXLarge: 32px;
 $SizeXXLarge: 40px;
 $SizeXXXLarge: 52px;
-$SizeXXXSmall: 4px;
-$SizeXXXXSmall: 2px;
-$SizeNormal: 14px;
-$SizeXXSmall: 6px;
-$sizeHeader: 118px;
-
+$SizeHeader: 118px;
 
 /* Border Radius */
 $borderRadiusSmall: 2px;
 $borderRadiusNormal: 3px;
-$borderRadiusLarge: 6px; 
+$borderRadiusLarge: 6px;
 $borderRadiusCircle: 50%;
 $borderRadiusBadge: 12px;
 $borderRadiusLeft: $borderRadiusNormal 0 0 $borderRadiusNormal;
-$borderRadiusRight:  0 $borderRadiusNormal $borderRadiusNormal 0;
+$borderRadiusRight: 0 $borderRadiusNormal $borderRadiusNormal 0;
 
 /* Border width */
 $borderWidthCard: 1px;
@@ -130,32 +128,37 @@ $borderWidthInputFocus: 2px;
 /* Opacity */
 $opacityButtonDisabled: 0.3;
 $opacityCheckboxDisabled: 0.5;
-$opacityOverlay: 0.8;
 $opacityRadioButtonDisabled: 0.5;
+$opacityOverlay: 0.8;
+
 
 /* Line Height */
 $lineHeightHeading: 1.2;
-$lineHeightHeadingDisplay: 44px;
-$lineHeightHeadingDisplaySubtitle: 28px;
-$lineHeightHeadingTitle1: 36px;
-$lineHeightHeadingTitle2: 28px;
-$lineHeightHeadingTitle3: 24px;
 $lineHeightText: 1.4px;
 $lineHeightTextSmall: 16px;
 $lineHeightTextNormal: 20px;
 $lineHeightTextLarge: 24px;
+$lineHeightHeadingTitle3: 24px;
+$lineHeightHeadingTitle2: 28px;
+$lineHeightHeadingDisplaySubtitle: 28px;
+$lineHeightHeadingTitle1: 36px;
+$lineHeightHeadingDisplay: 44px;
 
 /*Font Weight*/
-$fontWeightBold: 700;
-$fontWeightHeadingDisplay: 700;
-$fontWeightHeadingDisplaySubtitle: 400;
 $fontWeightSemiRegular: 400;
+$fontWeightHeadingDisplaySubtitle: 400;
 $fontWeightRegular: 500;
 $fontWeightSemiBold: 600;
+$fontWeightBold: 700;
+$fontWeightHeadingDisplay: 700;
 
 /* Font Family */
 $FontFamilyTextNormal: "Inter", sans-serif;
 
+/*Duration*/
+$durationFast: 150ms;
+$durationNormal: 300ms;
+$durationSlow: 400ms;
 /* Shadow */
 $ShadowSm: 0 1px 2px 0 rgb(0,0,0.05);
 $Shadow: 0 1px 3px 0 rgb(0,0,0.1), 0 1px 2px -1px rgb(0,0,0.1);

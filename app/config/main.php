@@ -42,7 +42,8 @@ return array(
         'application.modules.calendar.models.*',
         'application.modules.curricularmatrix.models.*',
         'application.modules.quiz.models.*',
-        'application.modules.sagres.soap.src.sagresEdu.*'
+        'application.modules.sagres.soap.src.sagresEdu.*',
+        'application.components.utils.TagUtils'
     ),
     'modules' => array(
         // uncomment the following to enable the Gii tool
@@ -71,6 +72,9 @@ return array(
     ),
     // application components
     'components' => array(
+        'utils' => array(
+            'class' => 'application.components.utils.TagUtils'
+        ),
         'assetManager' => array(
             'forceCopy' => YII_DEBUG
         ),

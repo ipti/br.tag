@@ -473,7 +473,7 @@ class SagresConsultModel
                 ->setData(new DateTime($menu['data']))
                 ->setTurno($this->convertTurn($menu['turno']))
                 ->setDescricaoMerenda(str_replace("ª", "", $menu['descricaoMerenda']))
-                ->setAjustado($menu['ajustado']);
+                ->setAjustado(isset($menu['ajustado'])? $menu['ajustado']: false);
 
             $menuList[] = $menuType;
         }
