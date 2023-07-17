@@ -285,5 +285,21 @@ class DefaultController extends Controller
 		}
 		echo $msg;
 	}
+
+	function actionTest() {
+		$studentSheetData = [
+			'inNumRA' => "000124464761",
+			'inDigitoRA' => "5",
+			'inSiglaUFRA' => "SP",
+		  ];
+
+		  $studentSEDDataSource = new StudentSEDDataSource();
+		  $studentSheet = $studentSEDDataSource->getViewStudentSheet($studentSheetData);
+		  
+		  
+		  echo "<pre>";
+		  print_r(json_decode($studentSheet, JSON_PRETTY_PRINT));
+		  echo "</pre>";
+	}
 }
 
