@@ -13,15 +13,17 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js', CClientScri
 <div class="main">
     <h1><?php echo $discipline_name ?></h1>
     <div class="t-filter-bar">
-         <?php echo CHtml::label('Data', 'date', array('class' => 't-field-select__label')); ?>
+        
         <div class="t-filters is-one-quarter t-field-text clear-margin--bottom">
-           
-            <?php echo CHtml::textField('data', '', array(
-                'class' => 't-field-text__input js-date',
-                'placeholder' => 'data',
-                'id' => 'date'
-            )
-            ); ?>
+            <div class="t-field-select">
+                <?php echo CHtml::label('Data', 'date', array('class' => 't-field-select__label')); ?>
+                <?php echo CHtml::textField('data', '', array(
+                    'class' => 't-field-text__input js-date',
+                    'placeholder' => 'data',
+                    'id' => 'date'
+                )
+                ); ?>
+            </div>
         </div>
         <div class="t-filters">
             <a class="clear-margin--all t-button-primary show--desktop js-change-date">Pesquisar</a>
@@ -43,7 +45,7 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js', CClientScri
             <hr class="t-separator">
         </div>
     </div>
-    <div class="row t-accordeon-primary js-course-classes-accordion">
+    <div class="t-accordeon-primary js-course-classes-accordion">
 
     </div>
     <div class="row">   

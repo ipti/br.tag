@@ -6,7 +6,8 @@ $('.js-add-course-classes-accordion').on("change", function (){
     $.ajax({
         type:'POST',
         data: {
-            plan_name: PlanName
+            plan_name: PlanName,
+            id: optionSelected
         },
         url:`?r=classdiary/default/RenderAccordion`
     }).success(function (response){
