@@ -51,6 +51,7 @@
  * @property string $logo_file_content
  * @property string $act_of_acknowledgement
  * @property string $number_ato
+ * @property integer $hash
  *
  * The followings are the available model relations:
  * @property Calendar[] $calendars

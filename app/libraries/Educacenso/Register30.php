@@ -68,9 +68,8 @@ class Register30
         return $return;
     }
 
-    private static function getInstructors($instructorsTeachingDatas, $instructors, $classroom)
+    private static function getInstructors($instructorsTeachingDatas, $instructors, $classroom, $school)
     {
-        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
         foreach ($instructorsTeachingDatas as $iteaching => $teachingData) {
             if (!isset($instructors[$teachingData->instructor_fk])) {
@@ -105,10 +104,8 @@ class Register30
     }
 
     private static function getStudents($classroom, $students, $school)
-    {
-        
-
-        foreach ($classroom->activeStudentEnrollments as $ienrollment => $enrollment) {
+    {        
+        foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
             if (!isset($students[$enrollment->student_fk])) {
                 $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
                 $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
@@ -124,13 +121,12 @@ class Register30
         return $students;
     }
 
-    private static function exportStudentIdentification($student, $register, $year, $aliases)
+    private static function exportStudentIdentification($student, $register, $school, $aliases)
     {
         $student['register_type'] = '30';
 
-        
         foreach ($aliases as $kord => $ord) {
-            $register[$ord->corder] = $ord->default;
+            $register[$ord["corder"]] = $ord["default"];
         }
 
         if (!empty($student['inep_id'])) {
@@ -211,41 +207,34 @@ class Register30
         }
 
         if ($student['nationality'] == '1' && !isset($student['edcenso_city_fk'])) {
-            $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             $student['edcenso_city_fk'] = $school->edcenso_city_fk;
         }
 
         foreach ($student as $key => $attr) {
-            
             $alias_index = array_search($key, array_column($aliases, 'attr'));
-            $alias = $aliases[$alias_index];
+            $alias = $alias_index !== false ? $aliases[$alias_index] : null;
 
-            if (isset($alias->corder)) {
+            if (isset($alias["corder"])) {
                 if ($key == 'edcenso_city_fk') {
                     $register[15] = $attr;
                 } else {
-                    $register[$alias->corder] = $attr;
+                    $register[$alias["corder"]] = $attr;
                 }
             }
         }
-
+        $register[1] = '30';
         return $register;
     }
 
-    private static function exportStudentDocuments($student, $register, $year, $aliases)
+    private static function exportStudentDocuments($student, $register, $school, $aliases)
     {
         $student['register_type'] = '30';
+
 
         if (empty($student['cep']) && isset($student['edcenso_city_fk'])) {
             $student['edcenso_city_fk'] = '';
         }
 
-        if (!empty($student['cep']) && !isset($student['edcenso_city_fk'])) {
-            $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-            $student['edcenso_city_fk'] = $school->edcenso_city_fk;
-        }
-
-        $student['civil_register_enrollment_number'] = strtoupper($student['civil_register_enrollment_number']);
 
         if ($student['civil_certification'] != 2) {
             $student['civil_register_enrollment_number'] = '';
@@ -259,26 +248,27 @@ class Register30
 
         foreach ($student as $key => $attr) {
             $alias_index = array_search($key, array_column($aliases, 'attr'));
-            $alias = $aliases[$alias_index];
-            if (isset($alias->corder)) {
+            $alias = $alias_index !== false ? $aliases[$alias_index] : null;
+
+            if (isset($alias["corder"])) {
                 if ($key == 'edcenso_city_fk') {
                     $register[43] = $attr;
                 } else {
-                    $register[$alias->corder] = $attr;
+                    $register[$alias["corder"]] = $attr;
                 }
             }
         }
 
+
         return $register;
     }
 
-    private static function exportInstructorIdentification($instructor, $register, $resetEmail, $aliases)
+    private static function exportInstructorIdentification($instructor, $register, $school, $resetEmail, $aliases)
     {
         $instructor['register_type'] = '30';
 
-        
         foreach ($aliases as $kord => $ord) {
-            $register[$ord->corder] = $ord->default;
+            $register[$ord["corder"]] = $ord["default"];
         }
 
         $instructor['name'] = trim(strtoupper(self::fixName($instructor['name'])));
@@ -311,28 +301,29 @@ class Register30
         }
 
         if ($instructor['nationality'] == '1' && !isset($instructor['edcenso_city_fk'])) {
-            $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             $instructor['edcenso_city_fk'] = $school->edcenso_city_fk;
         }
 
         foreach ($instructor as $key => $attr) {
-            
+
             $alias_index = array_search($key, array_column($aliases, 'attr'));
-            $alias = $aliases[$alias_index];
-            
-            if (isset($alias->corder)) {
+            $alias = $alias_index !== false ? $aliases[$alias_index] : null;
+
+            if (isset($alias["corder"])) {
                 if ($key == 'edcenso_city_fk') {
                     $register[15] = $attr;
                 } else {
-                    $register[$alias->corder] = $attr;
+                    $register[$alias["corder"]] = $attr;
                 }
             }
         }
 
+        $register[1] = '30';
+
         return $register;
     }
 
-    private static function exportInstructorDocuments($instructor, $register, $aliases)
+    private static function exportInstructorDocuments($instructor, $register, $school, $aliases)
     {
         $instructor['register_type'] = '30';
 
@@ -341,7 +332,6 @@ class Register30
         }
 
         if (!empty($instructor['cep']) && !isset($instructor['edcenso_city_fk'])) {
-            $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             $instructor['edcenso_city_fk'] = $school->edcenso_city_fk;
         }
 
@@ -355,15 +345,14 @@ class Register30
         }
 
         foreach ($instructor as $key => $attr) {
-
             $alias_index = array_search($key, array_column($aliases, 'attr'));
-            $alias = $aliases[$alias_index];
-            
-            if (isset($alias->corder)) {
+            $alias = $alias_index !== false ? $aliases[$alias_index] : null;
+
+            if (isset($alias["corder"])) {
                 if ($key == 'edcenso_city_fk') {
                     $register[43] = $attr;
                 } else {
-                    $register[$alias->corder] = $attr;
+                    $register[$alias["corder"]] = $attr;
                 }
             }
         }
@@ -470,12 +459,11 @@ class Register30
         }
 
         foreach ($instructor as $key => $attr) {
-            
             $alias_index = array_search($key, array_column($aliases, 'attr'));
-            $alias = $aliases[$alias_index];
-            
-            if (isset($alias->corder)) {
-                $register[$alias->corder] = $attr;
+            $alias = $alias_index !== false ? $aliases[$alias_index] : null;
+
+            if (isset($alias["corder"])) {
+                $register[$alias["corder"]] = $attr;
             }
             if ($key == 'scholarity' && $attr == '7') {
                 $register[47] = '1';
@@ -494,34 +482,28 @@ class Register30
     public static function export($year)
     {
         $registers = [];
-        
-        
-        $classrooms = Classroom::model()->with([
-            "activeStudentEnrollments.studentFk.documentsFk",
-            "instructorTeachingDatas.instructorFk.instructorVariableData"
-            
-        ])->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
+
+        $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
         $managerIdentification = ManagerIdentification::model()->findByAttributes(['school_inep_id_fk' => yii::app()->user->school]);
         $highEducationCourses = EdcensoCourseOfHigherEducation::model()->findAll();
-        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school); 
 
-        $aliasesStudent = EdcensoAlias::model()->findAllByAttributes(['register' => '301', 'year' => $year]);
-        $aliasesInstructor = EdcensoAlias::model()->findAllByAttributes(['register' => '302', 'year' => $year]);
+        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+        $aliasesStudent = Yii::app()->db->createCommand("select * from edcenso_alias where register = 301 and year = :year")->bindParam(":year", $year)->queryAll();
+        $aliasesInstructor = Yii::app()->db->createCommand("select * from edcenso_alias where register = 302 and year = :year")->bindParam(":year", $year)->queryAll();
 
         $instructors = [];
         $students = [];
 
         foreach ($classrooms as $iclass => $attributes) {
             $students = self::getStudents($attributes, $students, $school);
-            $instructors = self::getInstructors($attributes->instructorTeachingDatas, $instructors, $attributes);
-            
+            $instructors = self::getInstructors($attributes->instructorTeachingDatas, $instructors, $attributes, $school);
         }
 
         foreach ($students as $student) {
             $register = [];
 
-            $register = self::exportStudentIdentification($student['identification'], $register, $year, $aliasesStudent);
-            $register = self::exportStudentDocuments($student['documents'], $register, $year, $aliasesStudent);
+            $register = self::exportStudentIdentification($student['identification'], $register, $school, $aliasesStudent);
+            $register = self::exportStudentDocuments($student['documents'], $register, $school, $aliasesStudent);
 
             ksort($register);
             array_push($registers, implode('|', $register));
@@ -529,7 +511,7 @@ class Register30
 
         $managerIsAnInstructor = false;
         foreach ($instructors as $instructor) {
-            $id = (String)'90' . $instructor['identification']['id'];
+            $id = (String)'II' . $instructor['identification']['id'];
             $instructor['identification']['id'] = $id;
             $instructor['documents']['id'] = $id;
             $instructor['variable']['id'] = $id;
@@ -542,10 +524,11 @@ class Register30
 
             $register = [];
 
-            $register = self::exportInstructorIdentification($instructor['identification'], $register, $resetEmail, $aliasesInstructor);
-            $register = self::exportInstructorDocuments($instructor['documents'], $register, $aliasesInstructor);
+            $register = self::exportInstructorIdentification($instructor['identification'], $register, $school, $resetEmail, $aliasesInstructor);
+            $register = self::exportInstructorDocuments($instructor['documents'], $register, $school, $aliasesInstructor);
             $register = self::exportInstructorVariable($instructor['variable'], $register, $highEducationCourses, $aliasesInstructor);
 
+            $register[1] = '30';
             ksort($register);
             array_push($registers, implode('|', $register));
         }
@@ -562,7 +545,7 @@ class Register30
                 $managerIdentification['filiation_2'] = '';
             }
 
-            array_push($registers, '30|' . Yii::app()->user->school . '|90999||' // 1 a 4
+            array_push($registers, '30|' . Yii::app()->user->school . '|II90999||' // 1 a 4
                 . $managerIdentification["cpf"] . '|' . $managerIdentification["name"] . '|' . $managerIdentification["birthday_date"] . '|' . $managerIdentification["filiation"] . '|' // 5 a 8
                 . $managerIdentification["filiation_1"] . '|' . $managerIdentification["filiation_2"] . '|' . $managerIdentification["sex"] . '|' . $managerIdentification["color_race"] . '|' // 9 a 12
                 . $managerIdentification["nationality"] . '|' . $managerIdentification["edcenso_nation_fk"] . '|' . $managerIdentification["edcenso_city_fk"] . '|' // 13 a 15

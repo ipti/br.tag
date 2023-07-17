@@ -4,20 +4,27 @@
  * This is the model class for table "users".
  *
  * The followings are the available columns in table 'users':
+ * 
  * @property integer $id
  * @property string $name
  * @property string $username
  * @property string $password
  * @property integer $active
+ * @property integer $hash
  *
  * The followings are the available model relations:
  * @property AuthItem[] $authItems
  * @property CoursePlan[] $coursePlans
  * @property InstructorIdentification[] $instructorIdentifications
  * @property UsersSchool[] $usersSchools
+ * 
  */
-class Users extends CActiveRecord
+
+class Users extends AltActiveRecord
 {
+
+	public $hash;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -37,6 +44,7 @@ class Users extends CActiveRecord
 			array('name, username, password', 'required'),
 			array('name, username', 'unique', 'className' => 'Users'),
 			array('active', 'numerical', 'integerOnly'=>true),
+			array('hash', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>150),
 			array('username', 'length', 'max'=>32),
 			array('password', 'length', 'max'=>45),
@@ -72,6 +80,7 @@ class Users extends CActiveRecord
 			'username' => Yii::t('default', 'Username'),
 			'password' => Yii::t('default', 'Password'),
 			'active' => Yii::t('default', 'Active'),
+			'hash' => Yii::t('default', 'Hash')
 		);
 	}
 

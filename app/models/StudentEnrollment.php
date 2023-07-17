@@ -11,8 +11,9 @@
  * @property string $classroom_inep_id
  * @property integer $classroom_fk
  * @property string $enrollment_id
- * @property integer $unified_class
+ * @property string $unified_class
  * @property integer $edcenso_stage_vs_modality_fk
+ * @property integer $multi
  * @property integer $another_scholarization_place
  * @property integer $public_transport
  * @property integer $transport_responsable_government
@@ -30,11 +31,14 @@
  * @property integer $student_entry_form
  * @property integer $id
  * @property string $create_date
- * @property string $fkid
+ * @property integer $hash
  * @property string $school_admission_date
  * @property integer $current_stage_situation
  * @property integer $previous_stage_situation
  * @property integer $admission_type
+ * @property integer $hash_classroom
+ * @property integer $hash_student
+ * @property string $date_cancellation_enrollment
  * @property integer $aee_cognitive_functions
  * @property integer $aee_autonomous_life
  * @property integer $aee_curriculum_enrichment

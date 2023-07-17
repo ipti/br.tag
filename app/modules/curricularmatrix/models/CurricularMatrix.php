@@ -16,7 +16,7 @@
 	 * @property EdcensoStageVsModality $stageFk
      * @property TeachingMatrixes[] $teachingMatrixes
 	 */
-	class CurricularMatrix extends CActiveRecord {
+	class CurricularMatrix extends AltActiveRecord {
 		/**
 		 * @return string the associated database table name
 		 */
