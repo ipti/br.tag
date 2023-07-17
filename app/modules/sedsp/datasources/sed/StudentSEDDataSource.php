@@ -87,28 +87,34 @@ class StudentSEDDataSource extends SedDataSource
 
     /**
      * Summary of getListStudents
-     * @param ?string $inNomeAluno
-     * @param ?string $inNomeSocial
-     * @param ?string $inNomeMae
-     * @param ?string $inNomePai
-     * @param ?string $inDataNascimento
+     * @param array $listStudentsData
      * @return mixed
      */
-    function getListStudents($inNomeAluno, $inNomeSocial, $inNomeMae, $inNomePai, $inDataNascimento) {
-        
-        $body['inFiltrosNomes'] = [
-            "inNomeAluno" => $inNomeAluno,
-            "inNomeSocial" => $inNomeSocial,
-            "inNomeMae" => $inNomeMae,
-            "inNomePai" => $inNomePai,
-            "inDataNascimento" => $inDataNascimento
-        ];
-
+    function getListStudents(array $listStudentsData) {
         try {
-            $response = $this->client->request('GET', '/ncaapi/api/Aluno/ListarAlunos', [
-                'body' => json_encode($body)
+            $listStudentsRequestBody = [
+                'inFiltrosNomes' => [
+                    'inNomeAluno' => $listStudentsData['inNomeAluno'] ?? null,
+                    'inNomeSocial' => $listStudentsData['inNomeSocial'] ?? null,
+                    'inNomeMae' => $listStudentsData['inNomeMae'] ?? null,
+                    'inNomePai' => $listStudentsData['inNomePai'] ?? null,
+                    'inDataNascimento' => $listStudentsData['inDataNascimento'] ?? null
+                ],
+                'inDocumentos' => [
+                    'inNumRG' => $listStudentsData['inNumRG'] ?? null,
+                    'inDigitoRG' => $listStudentsData['inDigitoRG'] ?? null,
+                    'inUFRG' => $listStudentsData['inUFRG'] ?? null,
+                    'inCPF' => $listStudentsData['inCPF'] ?? null,
+                    'inNumNIS' => $listStudentsData['inNumNIS'] ?? null,
+                    'inNumINEP' => $listStudentsData['inNumINEP'] ?? null
+                ],
+            ];
+
+            $listStudentsResponse = $this->client->request('GET', '/ncaapi/api/Aluno/ListarAlunos', [
+                'body' => json_encode($listStudentsRequestBody)
             ]);
-            return $response;
+            
+            return $listStudentsResponse->getBody()->getContents();
         }
         catch (GuzzleHttp\Exception\ClientException $e) {
             return new OutErro($e);
@@ -129,15 +135,6 @@ class StudentSEDDataSource extends SedDataSource
                     'inNumRA' => $studentSheetData['inNumRA'] ?? null,
                     'inDigitoRA' => $studentSheetData['inDigitoRA'] ?? null,
                     'InSiglaUFRA' => $studentSheetData['inSiglaUFRA'] ?? null
-                ],
-                'inDocumentos' => [
-                    'inNumRG' => $studentSheetData['inNumRG'] ?? null,
-                    'inDigitoRG' => $studentSheetData['inDigitoRG'] ?? null,
-                    'inUFRG' => $studentSheetData['inUFRG'] ?? null,
-                    'inCPF' => $studentSheetData['inCPF'] ?? null,
-                    'inNumNIS' => $studentSheetData['inNumNIS'] ?? null,
-                    'inNumINEP' => $studentSheetData['inNumINEP'] ?? null,
-                    'inNumCertidaoNova' => $studentSheetData['inNumCertidaoNova'] ?? null,
                 ]
             ];
     
