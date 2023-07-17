@@ -35,6 +35,7 @@
  * @property string $grade_concept_6
  * @property string $grade_concept_7
  * @property string $grade_concept_8
+ * @property string $situation
  * @property integer $enrollment_fk
  * @property integer $discipline_fk
  *
@@ -63,10 +64,10 @@ class GradeResults extends CActiveRecord
 			array('enrollment_fk, discipline_fk', 'required'),
 			array('enrollment_fk, discipline_fk', 'numerical', 'integerOnly'=>true),
 			array('grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, rec_bim_1, rec_bim_2, rec_bim_3, rec_bim_4, rec_bim_5, rec_bim_6, rec_bim_7, rec_bim_8, rec_sem_1, rec_sem_2, rec_sem_3, rec_sem_4, rec_final, final_media', 'numerical'),
-			array('grade_concept_1, grade_concept_2, grade_concept_3, grade_concept_4, grade_concept_5, grade_concept_6, grade_concept_7, grade_concept_8', 'length', 'max'=>50),
+			array('grade_concept_1, grade_concept_2, grade_concept_3, grade_concept_4, grade_concept_5, grade_concept_6, grade_concept_7, grade_concept_8, situation', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, rec_bim_1, rec_bim_2, rec_bim_3, rec_bim_4, rec_bim_5, rec_bim_6, rec_bim_7, rec_bim_8, rec_sem_1, rec_sem_2, rec_sem_3, rec_sem_4, rec_final, final_media, grade_concept_1, grade_concept_2, grade_concept_3, grade_concept_4, grade_concept_5, grade_concept_6, grade_concept_7, grade_concept_8, enrollment_fk, discipline_fk', 'safe', 'on'=>'search'),
+			array('id, grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, rec_bim_1, rec_bim_2, rec_bim_3, rec_bim_4, rec_bim_5, rec_bim_6, rec_bim_7, rec_bim_8, rec_sem_1, rec_sem_2, rec_sem_3, rec_sem_4, rec_final, final_media, grade_concept_1, grade_concept_2, grade_concept_3, grade_concept_4, grade_concept_5, grade_concept_6, grade_concept_7, grade_concept_8, situation, enrollment_fk, discipline_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -120,6 +121,7 @@ class GradeResults extends CActiveRecord
 			'grade_concept_6' => 'Grade Concept 6',
 			'grade_concept_7' => 'Grade Concept 7',
 			'grade_concept_8' => 'Grade Concept 8',
+			'situation' => 'Situation',
 			'enrollment_fk' => 'Enrollment Fk',
 			'discipline_fk' => 'Discipline Fk',
 		);
@@ -174,6 +176,7 @@ class GradeResults extends CActiveRecord
 		$criteria->compare('grade_concept_6',$this->grade_concept_6,true);
 		$criteria->compare('grade_concept_7',$this->grade_concept_7,true);
 		$criteria->compare('grade_concept_8',$this->grade_concept_8,true);
+		$criteria->compare('situation',$this->situation,true);
 		$criteria->compare('enrollment_fk',$this->enrollment_fk);
 		$criteria->compare('discipline_fk',$this->discipline_fk);
 

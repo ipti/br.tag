@@ -113,24 +113,24 @@ class AdminController extends Controller
             $model->attributes = $_POST['Users'];
             if ($model->validate()) {
                 $password = md5($_POST['Users']['password']);
-                
-                    $model->password = $password;
-                    // form inputs are valid, do something here
-                    if ($model->save()) {
-                        $save = true;
-                        foreach ($_POST['schools'] as $school) {
-                            $userSchool = new UsersSchool();
-                            $userSchool->user_fk = $model->id;
-                            $userSchool->school_fk = $school;
-                            $save = $save && $userSchool->validate() && $userSchool->save();
-                        }
-                        if ($save) {
-                            $auth = Yii::app()->authManager;
-                            $auth->assign($_POST['Role'], $model->id);
-                            Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
-                            $this->redirect(['index']);
-                        }
+
+                $model->password = $password;
+                // form inputs are valid, do something here
+                if ($model->save()) {
+                    $save = true;
+                    foreach ($_POST['schools'] as $school) {
+                        $userSchool = new UsersSchool();
+                        $userSchool->user_fk = $model->id;
+                        $userSchool->school_fk = $school;
+                        $save = $save && $userSchool->validate() && $userSchool->save();
                     }
+                    if ($save) {
+                        $auth = Yii::app()->authManager;
+                        $auth->assign($_POST['Role'], $model->id);
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
+                        $this->redirect(['index']);
+                    }
+                }
             }
         }
         $this->render('createUser', ['model' => $model]);
@@ -179,6 +179,9 @@ class AdminController extends Controller
             }
             array_push($result["unities"], $arr);
         }
+        $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $_POST["stage"]]);
+        $result["approvalMedia"] = $gradeRules->approvation_media;
+        $result["finalRecoverMedia"] = $gradeRules->final_recover_media;
         echo json_encode($result);
     }
 
@@ -212,9 +215,21 @@ class AdminController extends Controller
                 }
                 $valid = true;
             }
+
+            $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $_POST["stage"]]);
+            if ($gradeRules == null) {
+                $gradeRules = new GradeRules();
+                $gradeRules->edcenso_stage_vs_modality_fk = $_POST["stage"];
+            }
+            $gradeRules->approvation_media = $_POST["approvalMedia"];
+            $gradeRules->final_recover_media = $_POST["finalRecoverMedia"];
+            $gradeRules->save();
+
+            $this->refreshResults($_POST["stage"]);
         } else {
             if ($_POST["reply"] == "A") {
                 $grades = Yii::app()->db->createCommand("select * from grade")->queryAll();
+                $curricularMatrixes = Yii::app()->db->createCommand("select * from curricular_matrix cm where school_year = :year")->bindParam(":year", Yii::app()->user->year)->queryAll();
             } else if ($_POST["reply"] == "S") {
                 $stage = EdcensoStageVsModality::model()->find("id = :id", [":id" => $_POST["stage"]])->stage;
                 $grades = Yii::app()->db->createCommand("
@@ -224,18 +239,14 @@ class AdminController extends Controller
                     join edcenso_stage_vs_modality esvm on esvm.id = gu.edcenso_stage_vs_modality_fk
                     where esvm.stage = :stage
                 ")->bindParam(":stage", $stage)->queryAll();
-            }
-            if ($grades == null) {
-                if ($_POST["reply"] == "A") {
-                    $curricularMatrixes = Yii::app()->db->createCommand("select * from curricular_matrix cm where school_year = :year")->bindParam(":year", Yii::app()->user->year)->queryAll();
-                } else if ($_POST["reply"] == "S") {
-                    $curricularMatrixes = Yii::app()->db->createCommand("
+                $curricularMatrixes = Yii::app()->db->createCommand("
                     select * from curricular_matrix cm 
                     join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
                     where school_year = :year and esvm.stage = :stage
                   ")->bindParam(":year", Yii::app()->user->year)->bindParam(":stage", $stage)->queryAll();
-                }
-                foreach ($curricularMatrixes as $curricularMatrix) {
+            }
+            foreach ($curricularMatrixes as $curricularMatrix) {
+                if ($grades == null) {
                     GradeUnity::model()->deleteAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $curricularMatrix["stage_fk"]]);
                     foreach ($_POST["unities"] as $u) {
                         $unity = new GradeUnity();
@@ -253,14 +264,36 @@ class AdminController extends Controller
                             $modality->save();
                         }
                     }
+                    $valid = true;
                 }
-                $valid = true;
+
+                $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $curricularMatrix["stage_fk"]]);
+                if ($gradeRules == null) {
+                    $gradeRules = new GradeRules();
+                    $gradeRules->edcenso_stage_vs_modality_fk = $curricularMatrix["stage_fk"];
+                }
+                $gradeRules->approvation_media = $_POST["approvalMedia"];
+                $gradeRules->final_recover_media = $_POST["finalRecoverMedia"];
+                $gradeRules->save();
+
+                $this->refreshResults($curricularMatrix["stage_fk"]);
             }
         }
         echo json_encode(["valid" => $valid]);
     }
 
-    public function actionActiveDisableUser()
+    private function refreshResults($stage) {
+        $classrooms = Classroom::model()->findAll("edcenso_stage_vs_modality_fk = :stage", ["stage" => $stage]);
+        $curricularMatrixes = CurricularMatrix::model()->findAll("stage_fk = :stage", ["stage" => $stage]);
+        foreach($classrooms as $classroom) {
+            foreach($curricularMatrixes as $curricularMatrix) {
+                EnrollmentController::saveGradeResults($classroom->id, $curricularMatrix->discipline_fk);
+            }
+        }
+    }
+
+    public
+    function actionActiveDisableUser()
     {
         $filter = new Users('search');
         if (isset($_GET['Users'])) {
@@ -275,7 +308,8 @@ class AdminController extends Controller
         $this->render('activeDisableUser', ['dataProvider' => $dataProvider, 'filter' => $filter]);
     }
 
-    public function actionDisableUser($id)
+    public
+    function actionDisableUser($id)
     {
         $model = Users::model()->findByPk($id);
 
@@ -287,7 +321,8 @@ class AdminController extends Controller
         }
     }
 
-    public function actionActiveUser($id)
+    public
+    function actionActiveUser($id)
     {
         $model = Users::model()->findByPk($id);
 
@@ -299,7 +334,8 @@ class AdminController extends Controller
         }
     }
 
-    public function actionEditPassword($id)
+    public
+    function actionEditPassword($id)
     {
         $model = Users::model()->findByPk($id);
 
@@ -320,7 +356,8 @@ class AdminController extends Controller
     }
 
 
-    public function actionClearDB()
+    public
+    function actionClearDB()
     {
         //delete from users_school;
         //delete from users;
@@ -362,7 +399,8 @@ class AdminController extends Controller
         $this->redirect(array('index'));
     }
 
-    public function addTestUsers()
+    public
+    function addTestUsers()
     {
         set_time_limit(0);
         ignore_user_abort();
@@ -389,12 +427,319 @@ class AdminController extends Controller
         //        /*         * ************************************************************************************************ */
     }
 
-    public function mres($value)
+    public
+    function mres($value)
     {
         $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
         $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
 
         return str_replace($search, $replace, $value);
+    }
+  
+    public
+    function actionImportMaster()
+    {
+        set_time_limit(0);
+        ini_set('memory_limit', '-1');
+        ignore_user_abort();
+        $time1 = time();
+        $path = Yii::app()->basePath;
+        $uploadfile = $path . '/import/28031610.json';
+        $fileDir = $uploadfile;
+        $mode = 'r';
+
+        $fileImport = fopen($fileDir, $mode);
+        if ($fileImport == false) {
+            die('O arquivo não existe.');
+        }
+
+        $jsonSyncTag = "";
+        while (!feof($fileImport)) {
+            $linha = fgets($fileImport, filesize($uploadfile));
+            $jsonSyncTag .= $linha;
+        }
+        fclose($fileImport);
+        $json = unserialize($jsonSyncTag);
+        $this->loadMaster($json);
+    }
+
+    public
+    function loadMaster($loads)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', '-1');
+        set_time_limit(0);
+        //ignore_user_abort();
+        foreach ($loads['schools'] as $index => $scholl) {
+            $saveschool = new SchoolIdentification();
+            $saveschool->setDb2Connection(true);
+            $saveschool->refreshMetaData();
+            $saveschool = $saveschool->findByAttributes(array('inep_id' => $scholl['inep_id']));
+            if (!isset($saveschool)) {
+                $saveschool = new SchoolIdentification();
+                $saveschool->setDb2Connection(true);
+                $saveschool->refreshMetaData();
+            }
+            $saveschool->attributes = $scholl;
+            $saveschool->save();
+        }
+        foreach ($loads['schools_structure'] as $index => $structure) {
+            $saveschool = new SchoolStructure();
+            $saveschool->setDb2Connection(true);
+            $saveschool->refreshMetaData();
+            $saveschool = $saveschool->findByAttributes(array('school_inep_id_fk' => $structure['school_inep_id_fk']));
+            if (!isset($saveschool)) {
+                $saveschool = new SchoolStructure();
+                $saveschool->setDb2Connection(true);
+                $saveschool->refreshMetaData();
+            }
+            $saveschool->attributes = $structure;
+            $saveschool->save();
+        }
+        foreach ($loads['classrooms'] as $index => $class) {
+            $saveclass = new Classroom();
+            $saveclass->setScenario('search');
+            $saveclass->setDb2Connection(true);
+            $saveclass->refreshMetaData();
+            $saveclass = $saveclass->findByAttributes(array('hash' => $class['hash']));
+            if (!isset($saveclass)) {
+                $saveclass = new Classroom();
+                $saveclass->setScenario('search');
+                $saveclass->setDb2Connection(true);
+                $saveclass->refreshMetaData();
+            }
+            $saveclass->attributes = $class;
+            $saveclass->hash = $class['hash'];
+            $saveclass->save();
+        }
+
+        foreach ($loads['students'] as $i => $student) {
+            $savestudent = new StudentIdentification();
+            $savestudent->setScenario('search');
+            $savestudent->setDb2Connection(true);
+            $savestudent->refreshMetaData();
+            $savestudent = $savestudent->findByAttributes(array('hash' => $student['hash']));
+            if (!isset($savestudent)) {
+                $savestudent = new StudentIdentification();
+                $savestudent->setScenario('search');
+                $savestudent->setDb2Connection(true);
+                $savestudent->refreshMetaData();
+            }
+            $savestudent->attributes = $student;
+            $savestudent->hash = $student['hash'];
+            $savestudent->save();
+        }
+
+        foreach ($loads['documentsaddress'] as $i => $documentsaddress) {
+            $savedocument = new StudentDocumentsAndAddress();
+            $savedocument->setScenario('search');
+            $savedocument->setDb2Connection(true);
+            $savedocument->refreshMetaData();
+            $savedocument = $savedocument->findByAttributes(array('hash' => $documentsaddress['hash']));
+            if (!isset($exist)) {
+                $savedocument = new StudentDocumentsAndAddress();
+                $savedocument->setScenario('search');
+                $savedocument->setDb2Connection(true);
+                $savedocument->refreshMetaData();
+            }
+            $savedocument->attributes = $documentsaddress;
+            $savedocument->hash = $documentsaddress['hash'];
+            $savedocument->save();
+        }
+
+        foreach ($loads['enrollments'] as $index => $enrollment) {
+            $saveenrollment = new StudentEnrollment();
+            $saveenrollment->setScenario('search');
+            $saveenrollment->setDb2Connection(true);
+            $saveenrollment->refreshMetaData();
+            $saveenrollment = $saveenrollment->findByAttributes(array('hash' => $enrollment['hash']));
+            if (!isset($exist)) {
+                $saveenrollment = new StudentEnrollment();
+                $saveenrollment->setScenario('search');
+                $saveenrollment->setDb2Connection(true);
+                $saveenrollment->refreshMetaData();
+            }
+            $saveenrollment->attributes = $enrollment;
+            $saveenrollment->hash = $enrollment['hash'];
+            $saveenrollment->hash_classroom = $enrollment['hash_classroom'];
+            $saveenrollment->hash_student = $enrollment['hash_student'];
+            $saveenrollment->save();
+        }
+        //@TODO FAZER A PARTE DE PROFESSORES A PARTIR DAQUI
+    }
+
+    public
+    function prepareExport()
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', '-1');
+        set_time_limit(0);
+        ignore_user_abort();
+        $year = Yii::app()->user->year;
+        $loads = array();
+        $sql = "SELECT DISTINCT(school_inep_id_fk) FROM student_enrollment a
+                JOIN classroom b ON(a.`classroom_fk`=b.id)
+                WHERE
+                b.`school_year`=$year";
+        //$sql = "SELECT inep_id as school_inep_id_fk  FROM school_identification where situation='1'";
+        $schools = Yii::app()->db->createCommand($sql)->queryAll();
+        $istudent = new StudentIdentification();
+        $istudent->setDb2Connection(false);
+        $istudent->refreshMetaData();
+        $studentAll = $istudent->findAll();
+        try {
+            Yii::app()->db2;
+            $conn = true;
+        } catch (Exception $ex) {
+            $conn = false;
+        }
+        if ($conn) {
+            /*
+            foreach ($studentAll as $index => $student) {
+                $hash_student = hexdec(crc32($student->name.$student->birthday));
+                if(!isset($loads['students'][$hash_student])){
+                    $loads['students'][$hash_student] = $student->attributes;
+                    $loads['students'][$hash_student]['hash'] = $hash_student;
+                }
+                if(!isset($loads['documentsaddress'][$hash_student])){
+                    $idocs = new StudentDocumentsAndAddress();
+                    $idocs->setDb2Connection(false);
+                    $idocs->refreshMetaData();
+                    $loads['documentsaddress'][$hash_student] = $idocs->findByPk($student->id)->attributes;
+                    $loads['documentsaddress'][$hash_student]['hash'] = $hash_student;
+                }
+            }*/
+        }
+        foreach ($schools as $index => $schll) {
+            $ischool = new SchoolIdentification();
+            $ischool->setDb2Connection(false);
+            $ischool->refreshMetaData();
+            $school = $ischool->findByPk($schll['school_inep_id_fk']);
+
+            $iclass = new Classroom();
+            $iclass->setDb2Connection(false);
+            $iclass->refreshMetaData();
+            $classrooms = $iclass->findAllByAttributes(["school_inep_fk" => $schll['school_inep_id_fk'], "school_year" => Yii::app()->user->year]);
+            $hash_school = hexdec(crc32($school->inep_id . $school->name));
+            $loads['schools'][$hash_school] = $school->attributes;
+            $loads['schools'][$hash_school]['hash'] = $hash_school;
+            //@todo adicionado load na tabela de schoolstructure
+            $loads['schools_structure'][$hash_school] = $school->structure->attributes;
+            $loads['schools_structure'][$hash_school]['hash'] = $hash_school;
+            foreach ($classrooms as $iclass => $classroom) {
+                $hash_classroom = hexdec(crc32($school->inep_id . $classroom->id . $classroom->school_year));
+                $loads['classrooms'][$hash_classroom] = $classroom->attributes;
+                $loads['classrooms'][$hash_classroom]['hash'] = $hash_classroom;
+                foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
+                    $enrollment->setDb2Connection(false);
+                    $enrollment->refreshMetaData();
+                    $hash_student = hexdec(crc32($enrollment->studentFk->name . $enrollment->studentFk->birthday));
+                    if (!isset($loads['students'][$hash_student])) {
+                        $loads['students'][$hash_student] = $enrollment->studentFk->attributes;
+                        $loads['students'][$hash_student]['hash'] = $hash_student;
+                    }
+                    if (!isset($loads['documentsaddress'][$hash_student])) {
+                        $loads['documentsaddress'][$hash_student] = $enrollment->studentFk->documentsFk->attributes;
+                        $loads['documentsaddress'][$hash_student]['hash'] = $hash_student;
+                    }
+                    $hash_enrollment = hexdec(crc32($hash_classroom . $hash_student));
+                    $loads['enrollments'][$hash_enrollment] = $enrollment->attributes;
+                    $loads['enrollments'][$hash_enrollment]['hash'] = $hash_enrollment;
+                    $loads['enrollments'][$hash_enrollment]['hash_classroom'] = $hash_classroom;
+                    $loads['enrollments'][$hash_enrollment]['hash_student'] = $hash_student;
+                }
+                /*
+                foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
+                    //CARREGAR AS INFORMAÇÕES DE TEACHING DATA;
+                    $hash_instructor = hexdec(crc32($teachingData->instructorFk->name.$teachingData->instructorFk->birthday_date));
+                    $hash_teachingdata = hexdec(crc32($hash_classroom.$hash_instructor));
+                    $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id] = $teachingData->attributes;
+                    $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash_instructor'] = $hash_instructor;
+                    $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash_classroom'] = $hash_classroom;
+                    $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash'] = $hash_teachingdata;
+
+                    //CARREGAR AS INFORMAÇÕES DE TEACHING DATA;
+                    if(!isset($loads['instructors'][$teachingData->instructor_fk])){
+                        $loads['instructors'][$teachingData->instructor_fk]['identification'] = $teachingData->instructorFk->attributes;
+                        $loads['instructors'][$teachingData->instructor_fk]['identification']['hash'] = $hash_instructor;
+                        $loads['idocuments'][$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
+                        $loads['idocuments'][$teachingData->instructor_fk]['documents']['hash'] = $hash_instructor;
+
+                    }
+                    if(!isset($loads['instructorsvariabledata'][$teachingData->instructor_fk])) {
+                        $loads['instructorsvariabledata'][$teachingData->instructor_fk] = $teachingData->instructorFk->instructorVariableData->attributes;
+                        $loads['instructorsvariabledata'][$teachingData->instructor_fk]['hash'] = $hash_instructor;
+                    }
+                }*/
+            }
+        }
+        //var_dump($loads);exit;
+        //apc_store('loads', $bar);
+        return $loads;
+    }
+
+    public
+    function actionExportMaster()
+    {
+        try {
+            ini_set('max_execution_time', 0);
+            ini_set('memory_limit', '-1');
+            set_time_limit(0);
+            ignore_user_abort();
+            Yii::app()->db2;
+            $sql = "SELECT DISTINCT `TABLE_SCHEMA` FROM `information_schema`.`TABLES` WHERE TABLE_SCHEMA LIKE 'io.escola.%';";
+            $dbs = Yii::app()->db2->createCommand($sql)->queryAll();
+            $loads = array();
+            $priority['TABLE_SCHEMA'] = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();
+            array_unshift($dbs, $priority);
+            foreach ($dbs as $db) {
+                //if($db['TABLE_SCHEMA'] != 'io.escola.demo' && $db['TABLE_SCHEMA'] != 'io.escola.geminiano'){
+                if ($db['TABLE_SCHEMA'] == 'io.escola.geminiano') {
+                    $dbname = $db['TABLE_SCHEMA'];
+                    echo $dbname;
+                    Yii::app()->db->setActive(false);
+                    Yii::app()->db->connectionString = "mysql:host=ipti.org.br;dbname=$dbname";
+                    Yii::app()->db->setActive(true);
+
+                    $loads = $this->prepareExport();
+                    $datajson = serialize($loads);
+                    ini_set('memory_limit', '288M');
+                    $fileName = "./app/export/" . $dbname . ".json";
+                    $file = fopen($fileName, "w");
+                    fwrite($file, $datajson);
+                    fclose($file);
+                    header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
+                    header("Content-Type: application/force-download");
+                    header("Content-Length: " . filesize($fileName));
+                    header("Connection: close");
+                    $file = fopen($fileName, "r");
+                    fpassthru($file);
+                    fclose($file);
+                    unlink($fileName);
+                    //$this->loadMaster($loads);
+                }
+            }
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
+            $this->redirect(['index']);
+        } catch (Exception $e) {
+            //echo
+            //var_dump($e);exit;
+            $loads = $this->prepareExport();
+            $datajson = serialize($loads);
+            ini_set('memory_limit', '288M');
+            $fileName = "./app/export/" . Yii::app()->user->school . ".json";
+            $file = fopen($fileName, "w");
+            fwrite($file, $datajson);
+            fclose($file);
+            header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
+            header("Content-Type: application/force-download");
+            header("Content-Length: " . filesize($fileName));
+            header("Connection: close");
+            $file = fopen($fileName, "r");
+            fpassthru($file);
+            fclose($file);
+            unlink($fileName);
+        }
     }
 
     public function actionManageUsers()
@@ -417,7 +762,8 @@ class AdminController extends Controller
         ));
     }
 
-    public function actionUpdate($id)
+    public
+    function actionUpdate($id)
     {
         $model = Users::model()->findByPk($id);
         $actual_role = $model->getRole();
@@ -459,7 +805,8 @@ class AdminController extends Controller
         $this->render('editUser', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result]);
     }
 
-    public function actionChangelog()
+    public
+    function actionChangelog()
     {
         $this->render('changelog');
     }
