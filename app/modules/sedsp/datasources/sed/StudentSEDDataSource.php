@@ -1,8 +1,6 @@
 <?php
 require 'app/vendor/autoload.php';
 
-Yii::import('application.modules.sedsp.*');
-
 /**
  * Summary of StudentSEDDataSource
  */
@@ -42,6 +40,11 @@ class StudentSEDDataSource extends SedDataSource
         return $promise;
     }
 
+    /**
+     * Summary of getStudentWithRA
+     * @param mixed $RA
+     * @return mixed
+     */
     public function getStudentWithRA($RA)
     {
         $body['inAluno'] = array("inNumRA" => $RA,
@@ -57,6 +60,11 @@ class StudentSEDDataSource extends SedDataSource
         }
     }
 
+    /**
+     * Summary of getAllStudentsRA
+     * @param mixed $students
+     * @return mixed
+     */
     public function getAllStudentsRA($students){
         
         $promises = [];
@@ -109,34 +117,37 @@ class StudentSEDDataSource extends SedDataSource
 
     /**
      * Summary of getViewStudentSheet
-     * @param ?array $viewStudentSheet
+     *
+     * @param array $studentSheetData
      * @return mixed
      */
-    function getViewStudentSheet($viewStudentSheet)
+    function getViewStudentSheet(array $studentSheetData)
     {
-        $body['inAluno'] = [
-            'inNumRA' => $viewStudentSheet['$inNumRA'],
-            'inDigitoRA' => $viewStudentSheet['$inDigitoRA'],
-            'InSiglaUFRA' => $viewStudentSheet['$inSiglaUFRA']
-        ];
-
-        $body['inDocumentos'] = [
-             "inNumRG" => $viewStudentSheet['inNumRG'],
-             "inDigitoRG" => $viewStudentSheet['inDigitoRG'],
-             "inUFRG" => $viewStudentSheet['inUFRG'],
-             "inCPF" => $viewStudentSheet['inCPF'],
-             "inNumNIS" => $viewStudentSheet['inNumNIS'],
-             "inNumINEP" => $viewStudentSheet['inNumINEP'],
-             "inNumCertidaoNova" => $viewStudentSheet['inNumCertidaoNova'],
-        ];
-
         try {
-            $response = $this->client->request('GET', '/ncaapi/api/Aluno/ExibirFichaAluno', [
-                'body' => json_encode($body)
+            $studentSheetRequestBody = [
+                'inAluno' => [
+                    'inNumRA' => $studentSheetData['inNumRA'] ?? null,
+                    'inDigitoRA' => $studentSheetData['inDigitoRA'] ?? null,
+                    'InSiglaUFRA' => $studentSheetData['inSiglaUFRA'] ?? null
+                ],
+                'inDocumentos' => [
+                    'inNumRG' => $studentSheetData['inNumRG'] ?? null,
+                    'inDigitoRG' => $studentSheetData['inDigitoRG'] ?? null,
+                    'inUFRG' => $studentSheetData['inUFRG'] ?? null,
+                    'inCPF' => $studentSheetData['inCPF'] ?? null,
+                    'inNumNIS' => $studentSheetData['inNumNIS'] ?? null,
+                    'inNumINEP' => $studentSheetData['inNumINEP'] ?? null,
+                    'inNumCertidaoNova' => $studentSheetData['inNumCertidaoNova'] ?? null,
+                ]
+            ];
+    
+            $studentSheetResponse = $this->client->request('GET', '/ncaapi/api/Aluno/ExibirFichaAluno', [
+                'body' => json_encode($studentSheetRequestBody)
             ]);
-            return ($response->getBody()->getContents());
+    
+            return $studentSheetResponse->getBody()->getContents();
         } catch (GuzzleHttp\Exception\ClientException $e) {
             return new OutErro($e);
         }
-    }
+    }   
 }
