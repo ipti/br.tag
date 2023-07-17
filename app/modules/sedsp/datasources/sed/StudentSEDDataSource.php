@@ -88,7 +88,7 @@ class StudentSEDDataSource extends SedDataSource
     /**
      * Summary of getListStudents
      * @param array $listStudentsData
-     * @return mixed
+     * @return InAluno|OutErro
      */
     function getListStudents(array $listStudentsData) {
         try {
@@ -113,8 +113,9 @@ class StudentSEDDataSource extends SedDataSource
             $listStudentsResponse = $this->client->request('GET', '/ncaapi/api/Aluno/ListarAlunos', [
                 'body' => json_encode($listStudentsRequestBody)
             ]);
-            
-            return $listStudentsResponse->getBody()->getContents();
+
+            $data = $listStudentsResponse->getBody()->getContents();  
+            return json_decode($data, JSON_PRETTY_PRINT);
         }
         catch (GuzzleHttp\Exception\ClientException $e) {
             return new OutErro($e);
@@ -125,7 +126,7 @@ class StudentSEDDataSource extends SedDataSource
      * Summary of getViewStudentSheet
      *
      * @param array $studentSheetData
-     * @return string
+     * @return InAluno|OutErro
      */
     function getViewStudentSheet(array $studentSheetData)
     {
@@ -141,8 +142,8 @@ class StudentSEDDataSource extends SedDataSource
             $studentSheetResponse = $this->client->request('GET', '/ncaapi/api/Aluno/ExibirFichaAluno', [
                 'body' => json_encode($studentSheetRequestBody)
             ]);
-    
-            return $studentSheetResponse->getBody()->getContents();
+            $data = json_decode($studentSheetResponse->getBody()->getContents(), JSON_PRETTY_PRINT);
+            return new InAluno($data->inNumRA, $data->inDigitoRA, $data->inSiglaUFRA);
         } catch (GuzzleHttp\Exception\ClientException $e) {
             return new OutErro($e);
         }
