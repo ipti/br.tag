@@ -51,4 +51,28 @@ class ClassroomSEDDataSource extends SedDataSource
             return new OutErro($e);
         }
     }
+
+    /**
+     * Summary of getConsultClass
+     * @param array $consultClass
+     * @return string
+     */
+    function getConsultClass(array $consultClass) 
+    {
+        try {
+            $consultClassBody = [
+                'inNumRA' => $consultClass['inAnoLetivo'],
+                'inNumClasse' => $consultClass['inNumClasse']
+            ];
+
+            $consultClassResponse = $this->client->request('GET', 'ncaapi/api/TurmaClasse/ConsultaTurmaClasse', [
+                'body' => json_encode($consultClassBody)
+            ]);
+            
+            return $consultClassResponse->getBody()->getContents();
+            
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            return new OutErro($e);
+        }
+    }
 }
