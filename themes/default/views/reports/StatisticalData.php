@@ -3,7 +3,7 @@
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
 
-<div class="pageA4H">
+<div class="pageA4H" style="width:1080px;">
     <?php $this->renderPartial('head'); ?>
     <h3><?php echo Yii::t('default', 'Statistical Data'); ?></h3>
     <div class="row-fluid hidden-print">
@@ -72,7 +72,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             display: none;
         }
         @page {
-            size: landscape;
+            size: portrait;
         }
     }
 </style>
