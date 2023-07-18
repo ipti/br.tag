@@ -47,7 +47,37 @@ class ReportsController extends Controller
 
     public function actionStatisticalData()
     {
-        
+        $sql = "SELECT
+                si.name,
+                si.inep_id,
+                sdaa.cpf,
+                sdaa.rg_number,
+                si.birthday,
+                si.school_inep_id_fk,
+                c.edcenso_stage_vs_modality_fk AS stage
+                FROM student_identification si 
+                JOIN student_documents_and_address sdaa ON sdaa.id = si.id
+                JOIN student_enrollment se ON se.student_fk = si.id
+                JOIN classroom c ON se.classroom_fk = c.id 
+                WHERE c.school_year = :school_year
+                GROUP BY si.id
+                ORDER BY si.name;";
+        $students = Yii::app()->db->createCommand($sql)
+        ->bindParam(":school_year", Yii::app()->user->year)
+        ->queryAll();
+
+        $stages = EdcensoStageVsModality::model()->findAll();
+        $result = [];
+        foreach ($stages as $stage) {
+            $studentsByStage = array_filter($students, function ($student) use ($stage) {
+                return $student['stage'] == $stage->id;
+            });
+            array_push($result, ["stage" => $stage, "students" => $studentsByStage]);
+        }
+
+        $this->render('StatisticalData', array(
+            "report" => $result
+        ));
     }
 
     public function actionClassroomTransferReport()
