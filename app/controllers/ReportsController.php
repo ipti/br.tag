@@ -25,7 +25,7 @@ class ReportsController extends Controller
                     'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 
                     'EvaluationFollowUpStudentsReport', 'CnsPerClassroomReport', 'CnsSchools', 'CnsPerSchool',
                     'ClassroomTransferReport', 'SchoolTransferReport', 'AllSchoolsTransferReport',
-                    'TeachersByStage', 'TeachersBySchool'),
+                    'TeachersByStage', 'TeachersBySchool', 'StatisticalData'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -43,6 +43,11 @@ class ReportsController extends Controller
         $this->year = Yii::app()->user->year;
 
         return true;
+    }
+
+    public function actionStatisticalData()
+    {
+        
     }
 
     public function actionClassroomTransferReport()
