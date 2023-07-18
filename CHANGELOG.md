@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.37.75]
+- Adicionado o campo pcd no relatório de matrícula
+
 ## [Versão 3.36.75]
 - O botão inoperante de calcular média na página de notas foi removido
 
