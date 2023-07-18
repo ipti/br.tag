@@ -42,8 +42,8 @@ class DefaultController extends Controller
 	public function actionRenderAccordion()
 	{
 			$course_class_id = $_POST["id"];
-			$GetHasClassType = new  GetHasClassType();
-			$types = $GetHasClassType->exec($course_class_id);
+			$getCourseClasses = new  GetCourseClasses();
+			$types = $getCourseClasses->exec($course_class_id);
 			$plan_name = $_POST["plan_name"];
 			$this->renderPartial('_accordion', ["plan_name"=>$plan_name]);
 	}
