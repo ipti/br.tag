@@ -1631,7 +1631,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <!-- Deficiência -->
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelStudentIdentification, 'deficiency', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
-                                <?php echo $form->labelEx($modelStudentIdentification, 'deficiency', array('class' => 'control-label t-field-checkbox__label--required')); ?>
+                                <?php echo $form->labelEx($modelStudentIdentification, 'deficiency', array('class' => 'control-label t-field-checkbox__label')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'deficiency'); ?>
                             </div>
                             <!-- Tipos de deficiência -->
