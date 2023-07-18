@@ -810,6 +810,7 @@ return array(
     'Inconsistency Sagres' => 'Inconsistências Sagres',
     'Configurarion' => 'Configurações',
     'Quarterly Class Council Report' => 'ATA DE CONSELHO DE CLASSE',
+    'Teacher Training' => 'ATA FORMAÇÃO DE PROFESSORES',
     'Quarterly Report' => 'RELATÓRIO TRIMESTRAL INDIVIDUAL DO ALUNO',
     'Teachers By School' => 'Professores por Escola',
     'Teachers By Stage' => 'Professores por Etapa',

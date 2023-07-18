@@ -24,7 +24,7 @@ class ReportsController extends Controller
                     'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood',
                     'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 
                     'EvaluationFollowUpStudentsReport', 'CnsPerClassroomReport', 'CnsSchools', 'CnsPerSchool',
-                    'TeachersByStage', 'TeachersBySchool'),
+                    'TeachersByStage', 'TeachersBySchool', 'TeacherTrainingReport'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -42,6 +42,63 @@ class ReportsController extends Controller
         $this->year = Yii::app()->user->year;
 
         return true;
+    }
+
+    public function actionTeacherTrainingReport()
+    {
+        $classroom = $_POST['classroom'];
+        $day = $_POST['count_days'];
+        $hour = $_POST['hour'];
+        $year = $_POST['year'];
+        $mounth = $_POST['mounth'];
+        $quarterly = $_POST['quarterly'];
+        $model_report = $_POST['model_report'];
+        $school_inep_id = Yii::app()->user->school;
+        
+        $sql = "SELECT 
+                    e.name as school_name, c.name as classroom_name, c.id as classroom_id,
+                    s.*, se.status, se.create_date, ii.name as prof_name, ed.name as discipline,
+                    c.turn as turno, esvm.stage as stage_id ,esvm.name as class_stage, se.date_cancellation_enrollment as date_cancellation
+                FROM
+                    student_enrollment as se
+                    INNER JOIN classroom as c on se.classroom_fk=c.id
+                    INNER JOIN student_identification as s on s.id=se.student_fk
+                    INNER JOIN school_identification as e on c.school_inep_fk = e.inep_id
+                    INNER JOIN instructor_teaching_data as itd on c.id = itd.classroom_id_fk
+                    INNER JOIN teaching_matrixes as tm on itd.id = tm.teaching_data_fk 
+                    INNER JOIN curricular_matrix as cm on tm.curricular_matrix_fk = cm.id 
+                    INNER JOIN edcenso_discipline as ed on cm.discipline_fk = ed.id 
+                    INNER JOIN instructor_identification as ii on itd.instructor_fk = ii.id
+                    INNER JOIN edcenso_stage_vs_modality as esvm on c.edcenso_stage_vs_modality_fk = esvm.id 
+                WHERE
+                    c.school_year = :year AND
+                    c.school_inep_fk = :school_inep_id AND
+                    c.id = :classroom
+                ORDER BY c.id, se.daily_order";
+        $result = Yii::app()->db->createCommand($sql)
+        ->bindParam(":year", $year)
+        ->bindParam(":school_inep_id", $school_inep_id)
+        ->bindParam(":classroom", $classroom)
+        ->queryAll();
+
+        $disciplines = array();
+        foreach ($result as $r) {
+            array_push($disciplines, $r['discipline']);
+        }
+        $disciplines = array_unique($disciplines);
+
+        $title = $model_report."º Ano - Formação de Professores na Modalidade Normal, em Nível Médio";
+
+        $this->render('buzios/TeacherTraining', array(
+            "classroom" => $result,
+            "count_days" => $day,
+            "mounth" => $mounth,
+            "hour" => $hour,
+            "quarterly" => $quarterly,
+            "year" => $year,
+            "title" => $title,
+            "disciplines" => $disciplines
+        ));
     }
 
     public function actionTeachersByStage()
