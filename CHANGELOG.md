@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.38.76]
+- Ata de Formação de Professores
+
 ## [Versão 3.36.75]
 - O botão inoperante de calcular média na página de notas foi removido
 
