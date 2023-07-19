@@ -287,17 +287,11 @@ class DefaultController extends Controller
 	}
 
 	function actionTest() {
-		$arrayData = [
-			'inNumRA' => "000124464761",
-			'inSiglaUFRA' => "SP"
-		];
 
+		$inAluno = new InAluno("000124464761", null, "SP");
 		$dataSource = new StudentSEDDataSource();
-		$data = $dataSource->getViewStudentSheet($arrayData);
-		    
-		echo "<pre>";
-		var_export($data);
-		echo "</pre>";
+		$dataSource->getViewStudentSheet($inAluno);
+		
 	}
 }
 
