@@ -518,6 +518,7 @@ class Register30
         }
 
         $managerIsAnInstructor = false;
+        $managerIsAnInstructorId = 'II90999';
         foreach ($instructors as $instructor) {
             $id = (String)'II' . $instructor['identification']['id'];
             $instructor['identification']['id'] = $id;
@@ -527,7 +528,9 @@ class Register30
             $resetEmail = true;
             if ($instructor["documents"]["cpf"] == $managerIdentification["cpf"]) {
                 $managerIsAnInstructor = true;
+                $managerIsAnInstructorId = $id;
                 $resetEmail = false;
+
             }
 
             $register = [];
@@ -553,7 +556,7 @@ class Register30
                 $managerIdentification['filiation_2'] = '';
             }
 
-            array_push($registers, '30|' . Yii::app()->user->school . '|II90999||' // 1 a 4
+            array_push($registers, '30|' . Yii::app()->user->school . '|'.$managerIsAnInstructorId.'||' // 1 a 4
                 . $managerIdentification["cpf"] . '|' . $managerIdentification["name"] . '|' . $managerIdentification["birthday_date"] . '|' . $managerIdentification["filiation"] . '|' // 5 a 8
                 . $managerIdentification["filiation_1"] . '|' . $managerIdentification["filiation_2"] . '|' . $managerIdentification["sex"] . '|' . $managerIdentification["color_race"] . '|' // 9 a 12
                 . $managerIdentification["nationality"] . '|' . $managerIdentification["edcenso_nation_fk"] . '|' . $managerIdentification["edcenso_city_fk"] . '|' // 13 a 15
