@@ -125,25 +125,33 @@ class StudentSEDDataSource extends SedDataSource
     /**
      * Summary of getViewStudentSheet
      *
-     * @param array $studentSheetData
-     * @return InAluno|OutErro
+     * @param InAluno $student
+     * @return OutAluno|OutErro
+     * 
      */
-    function getViewStudentSheet(array $studentSheetData)
+    function getViewStudentSheet(InAluno $student)
     {
         try {
             $studentSheetRequestBody = [
                 'inAluno' => [
-                    'inNumRA' => $studentSheetData['inNumRA'],
-                    'inDigitoRA' => $studentSheetData['inDigitoRA'] ?? null,
-                    'InSiglaUFRA' => $studentSheetData['inSiglaUFRA']
+                    'inNumRA' => $student->inNumRa, 
+                    'inDigitoRA' => $student->inDigitoRa ?? null, 
+                    'InSiglaUFRA' => $student->inSiglaUfra
                 ]
             ];
     
             $studentSheetResponse = $this->client->request('GET', '/ncaapi/api/Aluno/ExibirFichaAluno', [
                 'body' => json_encode($studentSheetRequestBody)
             ]);
-            $data = json_decode($studentSheetResponse->getBody()->getContents(), JSON_PRETTY_PRINT);
-            return new InAluno($data->inNumRA, $data->inDigitoRA, $data->inSiglaUFRA);
+            $data = json_decode($studentSheetResponse->getBody()->getContents(), JSON_PRETTY_PRINT);	
+            
+            $inNumRA = $data['outDadosPessoais']['outNumRA'];
+            $inDigitoRA = $data['outDadosPessoais']['outDigitoRA'];
+            $inSiglaUFRA = $data['outDadosPessoais']['outSiglaUFRA'];  
+            new InAluno($inNumRA, $inDigitoRA, $inSiglaUFRA);
+
+            $outAluno = new OutAluno($data);
+            return $outAluno;
         } catch (GuzzleHttp\Exception\ClientException $e) {
             return new OutErro($e);
         }
