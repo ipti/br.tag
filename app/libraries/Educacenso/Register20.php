@@ -72,7 +72,7 @@ class Register20
 
                 $register = [];
 
-                $attributes["edcenso_stage_vs_modality_fk"] = ["edcenso_stage_vs_modality_fk"] % 10000;
+                $attributes["edcenso_stage_vs_modality_fk"] = $attributes["edcenso_stage_vs_modality_fk"] % 10000;
 
                 $attributes['name'] = trim(strtoupper(self::sanitizeString($attributes['name'])));
 
