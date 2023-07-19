@@ -3,11 +3,11 @@
 
 class InAluno implements JsonSerializable
 {
-    private $inNumRa;
+    public $inNumRa;
 
-    private $inDigitoRa;
+    public $inDigitoRa;
 
-    private $inSiglaUfra;
+    public $inSiglaUfra;
 
     /**
      * @param string|null $inNumRa
@@ -34,6 +34,11 @@ class InAluno implements JsonSerializable
         return $this;
     }
 
+    function getInNumRA(): string
+    {
+        return $this->inNumRa;
+    }
+
     /**
      * @param string|null $inDigitoRa
      * @return self
@@ -44,6 +49,11 @@ class InAluno implements JsonSerializable
         return $this;
     }
 
+    function getInDigitoRA() : ?string
+    {
+        return $this->inDigitoRa;
+    }
+
     /**
      * @param string|null $inSiglaUfra
      * @return self
@@ -52,6 +62,11 @@ class InAluno implements JsonSerializable
     {
         $this->inSiglaUfra = $inSiglaUfra;
         return $this;
+    }
+
+    public function getInSiglaUFRA() : string  
+    {
+        return $this->inSiglaUfra;
     }
 
     /**
