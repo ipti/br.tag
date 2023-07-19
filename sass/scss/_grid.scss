@@ -52,11 +52,18 @@
     &.clearleft {
         margin-left: 0; 
         
-        &.on-tablet {
+        &--on-tablet {
             margin-left: 0;
 
             @include device(tablet) {
                 margin-left: $spaceXLarge / 2;
+            }
+        }
+        &--on-mobile {
+            margin-left: 0;
+
+            @include device(mobile) {
+                margin-left: $spaceXLarge/2;
             }
         }
     }
@@ -174,4 +181,3 @@
         }
     }
 }
-

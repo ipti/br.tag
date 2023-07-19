@@ -1,0 +1,2 @@
+INSERT INTO `calendar_event_type` (`id`, `name`, `icon`, `color`, `unique_day`)
+VALUES ('104', 'Facultative Point', 'fa-square', 'blue', '0');

@@ -2,29 +2,30 @@
 
 /**
  * This is the model class for table "instructor_documents_and_address".
- *
+ * 
  * The followings are the available columns in table 'instructor_documents_and_address':
- * @property string $register_type
+ * @property string $register_type    
  * @property string $school_inep_id_fk
- * @property string $inep_id
- * @property integer $id
- * @property string $cpf
+ * @property string $inep_id          
+ * @property integer $id               
+ * @property string $cpf              
  * @property integer $area_of_residence
- * @property string $cep
- * @property string $address
- * @property string $address_number
- * @property string $complement
- * @property string $neighborhood
- * @property integer $edcenso_uf_fk
- * @property integer $edcenso_city_fk
- * @property string $fkid
- * @property integer $diff_location
+ * @property integer $diff_location    
+ * @property string $cep              
+ * @property string $address          
+ * @property string $address_number   
+ * @property string $complement       
+ * @property string $neighborhood     
+ * @property integer $edcenso_uf_fk    
+ * @property integer $edcenso_city_fk  
+ * @property integer $hash             
  *
  * The followings are the available model relations:
  * @property SchoolIdentification $schoolInepIdFk
  * @property EdcensoUf $edcensoUfFk
  * @property EdcensoCity $edcensoCityFk
  */
+
 class InstructorDocumentsAndAddress extends AltActiveRecord
 {
 	const SCENARIO_IMPORT = "SCENARIO_IMPORT";

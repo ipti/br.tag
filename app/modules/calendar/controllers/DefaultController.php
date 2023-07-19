@@ -121,7 +121,7 @@ class DefaultController extends Controller
             join calendar c on cs.calendar_fk = c.id
             where c.id = :id")->bindParam(":id", $_POST["calendarFk"])->queryRow();
             $isHardUnavailableEvent = $_POST["eventTypeFk"] == 1000 || $_POST["eventTypeFk"] == 1001 || $_POST["eventTypeFk"] == 102;
-            $isSoftUnavailableEvent = $_POST["eventTypeFk"] == 101;
+            $isSoftUnavailableEvent = $_POST["eventTypeFk"] == 101 || $_POST["eventTypeFk"] == 104;
             $isPreviousDate = strtotime($_POST["startDate"]) < strtotime('now');
 
             if ($event == null) {
@@ -129,7 +129,7 @@ class DefaultController extends Controller
                 $event->school_fk = Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ? null : Yii::app()->user->school;
             } else {
                 $isHardUnavailableEvent = !$isHardUnavailableEvent ? $event->calendar_event_type_fk == 1000 || $event->calendar_event_type_fk == 1001 || $event->calendar_event_type_fk == 102 : $isHardUnavailableEvent;
-                $isSoftUnavailableEvent = !$isSoftUnavailableEvent ? $event->calendar_event_type_fk == 101 : $isSoftUnavailableEvent;
+                $isSoftUnavailableEvent = !$isSoftUnavailableEvent ? $event->calendar_event_type_fk == 101 || $event->calendar_event_type_fk == 104 : $isSoftUnavailableEvent;
                 $isPreviousDate = !$isPreviousDate ? strtotime($event->start_date) < strtotime('now') : $isPreviousDate;
             }
             if (!$_POST["confirm"] && (int)$result["qtd"] > 0 && $isHardUnavailableEvent) {
@@ -229,12 +229,12 @@ class DefaultController extends Controller
             join calendar c on cs.calendar_fk = c.id
             where c.id = :id")->bindParam(":id", $_POST["calendarId"])->queryRow();
             $isHardUnavailableEvent = $event->calendar_event_type_fk == 1000 || $event->calendar_event_type_fk == 1001 || $event->calendar_event_type_fk == 102;
-            $isSoftUnavailableEvent = $event->calendar_event_type_fk == 101;
+            $isSoftUnavailableEvent = $event->calendar_event_type_fk == 101 || $event->calendar_event_type_fk == 104;
             $isPreviousDate = strtotime($event->start_date) < strtotime('now');
             if (!$_POST["confirm"] && (int)$result["qtd"] > 0 && $isHardUnavailableEvent) {
                 echo json_encode(["valid" => false, "alert" => "primary", "error" => "ATENÇÃO: remover eventos de <b>férias</b>, <b>início</b> ou <b>fim de ano escolar</b>, poderá refletir no quadro de horário, aulas ministradas e frequência das escolas que a utilizam.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-delete-event'>aqui</span> para confirmar."]);
             } else if (!$_POST["confirm"] && (int)$result["qtd"] > 0 && $isSoftUnavailableEvent && $isPreviousDate) {
-                echo json_encode(["valid" => false, "alert" => "primary", "error" => "ATENÇÃO: remover eventos de <b>feriados</b> com <b>datas anteriores à atual</b> poderá refletir nas aulas ministradas e frequência das escolas que a utilizam.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-delete-event'>aqui</span> para confirmar."]);
+                echo json_encode(["valid" => false, "alert" => "primary", "error" => "ATENÇÃO: remover eventos de <b>feriado</b> ou <b>ponto facultativo</b> com <b>datas anteriores à atual</b> poderá refletir nas aulas ministradas e frequência das escolas que a utilizam.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-delete-event'>aqui</span> para confirmar."]);
             } else {
 
                 $start = new DateTime($event->start_date);

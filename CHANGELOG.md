@@ -1,11 +1,24 @@
 # Atualizações
 
+## [Versão 3.36.75]
+- O botão inoperante de calcular média na página de notas foi removido
+
+## [Versão 3.36.75]
+- Relatório de transferência da turma
+- Relatório de transferência da escola
+- Relatório de transferência de todas as escolas (somente administrador)
+
+## [Versão 3.35.75]
+- criado campo de observação de aula por aluno e adicionada validação no campo de justificativa de falta para desativa-lo quando
+o aluno não tiver uma falta cadastrada nesse dia
+
+## [Versão 3.34.75]
+- Corrigidos os erros de estilo 
+- Retirado o botão de pesquisa do formulário de aulas ministradas
+
 ## [Versão 3.34.74]
 - O botão inoperante de calcular média na página de notas foi removido
 
-## [Versão 3.28.71]
-- Corrigido o estilo do alerta de quadro de horários em aulas ministradas
-- Corrigido o tamanho do campo de texto no modal diário de aula
 ## [Versão 3.33.73]
 - Correção na altura da caixa de seleção de escolas no formulário de usuário
 - Um bug que fazia alguns alunos não aparecerem no relatório de transporte foi corrigido
@@ -22,6 +35,10 @@
 
 ## [Versão 3.29.72]
 - Agora é possível visualizar a senha digitada no login, alteração de senha e edição de usuário
+
+## [Versão 3.28.71]
+- Corrigido o estilo do alerta de quadro de horários em aulas ministradas
+- Corrigido o tamanho do campo de texto no modal diário de aula
 
 ## [Versão 3.28.70]
 - Campos de data de nascimento de filiação do aluno adicionados

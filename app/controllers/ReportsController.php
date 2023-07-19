@@ -24,7 +24,8 @@ class ReportsController extends Controller
                     'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood',
                     'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 
                     'EvaluationFollowUpStudentsReport', 'CnsPerClassroomReport', 'CnsSchools', 'CnsPerSchool',
-                    'TeachersByStage', 'TeachersBySchool', 'TeacherTrainingReport'),
+                    'TeacherTrainingReport','ClassroomTransferReport', 'SchoolTransferReport', 'AllSchoolsTransferReport',
+                    'TeachersByStage', 'TeachersBySchool'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -101,6 +102,76 @@ class ReportsController extends Controller
         ));
     }
 
+    public function actionClassroomTransferReport()
+    {
+        $classroom_id = $_POST['classroom'];
+        $sql = "SELECT si.name, c.name AS classroom_name, si2.name AS school_name, 
+                sdaa.cpf, si.responsable_name, si.responsable_telephone, se.transfer_date  
+                FROM student_enrollment se 
+                JOIN student_identification si ON se.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id
+                JOIN classroom c ON se.classroom_fk = c.id
+                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
+                WHERE c.id = :classroom_id AND se.transfer_date IS NOT NULL;";
+        $result =  Yii::app()->db->createCommand($sql)
+        ->bindParam(":classroom_id", $classroom_id)
+        ->queryAll();
+
+        $title = "RELATÓRIO TRANSFERÊNCIA DA TURMA";
+        $header = $result[0]['classroom_name'];
+
+        $this->render('TransferReport', array(
+            "report" => $result,
+            "title" => $title,
+            "header" => $header
+        ));
+    }
+
+    public function actionSchoolTransferReport()
+    {
+        $sql = "SELECT si.name, c.name AS classroom_name, si2.name AS school_name, 
+                sdaa.cpf, si.responsable_name, si.responsable_telephone, se.transfer_date  
+                FROM student_enrollment se 
+                JOIN student_identification si ON se.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id
+                JOIN classroom c ON se.classroom_fk = c.id
+                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
+                WHERE si2.inep_id = :school_inep_id AND se.transfer_date IS NOT NULL;";
+        $result =  Yii::app()->db->createCommand($sql)
+        ->bindParam(":school_inep_id", Yii::app()->user->school)
+        ->queryAll();
+
+        $title = "RELATÓRIO TRANSFERÊNCIA DA ESCOLA";
+        $header = $result[0]['school_name'];
+
+        $this->render('TransferReport', array(
+            "report" => $result,
+            "title" => $title,
+            "header" => $header
+        ));
+    }
+
+    public function actionAllSchoolsTransferReport()
+    {
+        $sql = "SELECT si.name, c.name AS classroom_name, si2.name AS school_name, 
+                sdaa.cpf, si.responsable_name, si.responsable_telephone, se.transfer_date  
+                FROM student_enrollment se 
+                JOIN student_identification si ON se.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id
+                JOIN classroom c ON se.classroom_fk = c.id
+                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
+                WHERE se.transfer_date IS NOT NULL;";
+        $result =  Yii::app()->db->createCommand($sql)->queryAll();
+
+        $title = "RELATÓRIO TRANSFERÊNCIA DE TODAS AS ESCOLAS";
+        $header = '';
+
+        $this->render('TransferReport', array(
+            "report" => $result,
+            "title" => $title,
+            "header" => $header
+        ));
+    }
     public function actionTeachersByStage()
     {
         $sql = "SELECT 
@@ -1631,6 +1702,7 @@ class ReportsController extends Controller
                 }
 
                 $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
+                $arr["situation"] = $gradeResult != null ? ($gradeResult->situation != null ? $gradeResult->situation : "") : "";
                 array_push($result["rows"], $arr);
             }
             $result["valid"] = true;
