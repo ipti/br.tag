@@ -38,8 +38,8 @@ if ($turno == 'M') {
         <?php echo $classroom[0]['school_name']?>, Turma <?php echo $classroom[0]['classroom_name']?>, do turno <?php echo $turno?>, presidido por _____________________________________________&nbsp,&nbsp_____________________
         deste Estabelecimento de Ensino
     </p>
-    <p style="font-weight:bold;margin-top:10px;font-size: 16px;margin-top:30px;">1. ALUNOS COM BAIXO RENDIMENTO, FALTOSOS E COM PROBLEMAS DE ATITUDE:</p>
-    <table>
+    <p style="font-weight:bold;font-size: 16px;margin-top:30px;">1. ALUNOS COM BAIXO RENDIMENTO, FALTOSOS E COM PROBLEMAS DE ATITUDE:</p>
+    <table aria-labelledby="Students List">
         <thead>
             <tr>
                 <th scope="col" rowspan="2">Nº</th>
@@ -172,7 +172,7 @@ if ($turno == 'M') {
 
         <p class="container-box" style="font-weight:bold;margin-top:30px;">Sem mais para o momento, lavro a presente ata que vai assinada por todos envolvidos nesta reunião:</p>
 
-        <table class="instructors-list-table container-box"  aria-labelledby="Instructors List">
+        <table class="instructors-list-table container-box" aria-labelledby="Instructors List">
             <thead>
                 <tr>
                     <th scope="col">Componente curricular/eixo</th>
