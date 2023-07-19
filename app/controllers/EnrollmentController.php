@@ -319,13 +319,15 @@ class EnrollmentController extends Controller
             }
         }
     }
-
+//////////
     public function actionSaveGrades()
     {
         // $hasFinalMediaCalculated = false;
         foreach ($_POST["students"] as $student) {
+            $allGradesEmpty = true;
             foreach ($student["grades"] as $grade) {
                 if ($grade["value"] != "" || ($_POST["isConcept"] == "1" && $grade["concept"] != "")) {
+                    $allGradesEmpty = false;
 
                     $gradeObject = Grade::model()->find("enrollment_fk = :enrollment and grade_unity_modality_fk = :modality and discipline_fk = :discipline_fk", [":enrollment" => $student["enrollmentId"], ":modality" => $grade["modalityId"], ":discipline_fk" => $_POST["discipline"]]);
                     if ($gradeObject == null) {
@@ -348,6 +350,9 @@ class EnrollmentController extends Controller
             // if ($gradeResult != null) {
             //     $hasFinalMediaCalculated = true;
             // }
+            if($allGradesEmpty){
+                GradeResults::model()->deleteAll("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $student["enrollmentId"], "discipline_fk" => $_POST["discipline"]]);
+            }
         }
         // if ($hasFinalMediaCalculated) {
         //     $this->calculateFinalMedia();

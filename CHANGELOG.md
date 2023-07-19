@@ -1,5 +1,7 @@
 # Atualizações
 
+##  [Versão 3.36.76]
+- A média final é excluída quando todas as notas do aluno são excluídas
 ## [Versão 3.36.75]
 - O botão inoperante de calcular média na página de notas foi removido
 

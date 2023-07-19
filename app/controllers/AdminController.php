@@ -436,7 +436,7 @@ class AdminController extends Controller
         return str_replace($search, $replace, $value);
     }
   
-    public
+    /* public
     function actionImportMaster()
     {
         set_time_limit(0);
@@ -461,7 +461,7 @@ class AdminController extends Controller
         fclose($fileImport);
         $json = unserialize($jsonSyncTag);
         $this->loadMaster($json);
-    }
+    } */
 
     public
     function loadMaster($loads)
@@ -678,7 +678,7 @@ class AdminController extends Controller
         return $loads;
     }
 
-    public
+    /* public
     function actionExportMaster()
     {
         try {
@@ -740,7 +740,7 @@ class AdminController extends Controller
             fclose($file);
             unlink($fileName);
         }
-    }
+    } */
 
     public function actionManageUsers()
     {
