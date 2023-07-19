@@ -41,6 +41,8 @@ class Register60
                         $enrollment['edcenso_stage_vs_modality_fk'] = '';
                     }
 
+                    $enrollment['edcenso_stage_vs_modality_fk'] = $enrollment['edcenso_stage_vs_modality_fk'] % 10000;
+
                     if ($classroom->aee == 0) {
                         foreach ($enrollment as $i => $attr) {
                             $pos = strstr($i, 'aee_');
