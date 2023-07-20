@@ -700,13 +700,27 @@ class ReportsController extends Controller
     }
 
     public function actionStudentsWithDisabilitiesPerClassroom() {
-        /* $sql = "SELECT si.*, se.classroom_fk
-                FROM student_identification as si join student_enrollment as se
-                WHERE si.deficiency = 1 and se.classroom_fk = $id";
+        $classroomId = $_POST['classroom'];
 
-        $students = Yii::app()->db->createCommand($sql)->queryAll(); */
+        $sql = "SELECT si.*, se.classroom_fk
+        FROM student_identification as si 
+        JOIN student_enrollment as se on si.id = se.student_fk
+        JOIN classroom as c on se.classroom_fk = c.id
+        WHERE si.deficiency = 1 and c.id = $classroomId";
 
-        var_dump("SOCORRO");
+        $sql1 = "SELECT c.*
+                FROM classroom as c 
+                WHERE c.id = $classroomId";
+
+        $students = Yii::app()->db->createCommand($sql)->queryAll();
+        $classroom = Yii::app()->db->createCommand($sql1)->queryAll();
+
+        /* var_dump($students); */
+
+        $this->render('StudentsWithDisabilitiesPerClassroom', array(
+            'students' => $students,
+            'classroom' => $classroom
+        ));
     }
 
     public function actionStudentsWithDisabilitiesRelationReport()

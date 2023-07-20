@@ -532,6 +532,7 @@ $this->breadcrumbs = array(
             </form>
         </div>
     </div>
+    
     <div class="row">
         <div class="modal fade t-modal-container" id="studentswithdisabilitiesperclassroom" tabindex="-1" role="dialog">
             <div class="t-modal__header">
@@ -567,6 +568,7 @@ $this->breadcrumbs = array(
             </form>
         </div>
     </div>
+
     <div class="row">
         <div class="modal fade modal-content" id="studentperclassroom" tabindex="-1" role="dialog">
             <div class="modal-header">
