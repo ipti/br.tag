@@ -545,9 +545,9 @@ class EnrollmentController extends Controller
                             $finalMedia = array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]);
                             if ($grade["unityGrade"] != "") {
                                 $finalRecoverMedia = ($finalMedia + $grade["unityGrade"]) / 2;
-                                $finalMedia = number_format($finalRecoverMedia, 2);
+                                $finalMedia = number_format($finalRecoverMedia, 1);
                             } else {
-                                $finalMedia = number_format($finalMedia, 2);
+                                $finalMedia = number_format($finalMedia, 1);
                                 $rfFilled = false;
                             }
 
@@ -560,7 +560,7 @@ class EnrollmentController extends Controller
                         $media = $sums / $sumsCount;
                         array_push($arr["semesterMedias"], $media);
                     }
-                    $finalMedia = number_format(array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]), 2);
+                    $finalMedia = number_format(array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]), 1);
                 }
 
                 //traz a situação do aluno (se null, aprovado, recuperação ou reprovado)
