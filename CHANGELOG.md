@@ -1,6 +1,6 @@
 # Atualizações
 
-## [Versão 3.37.75]
+## [Versão 3.37.77]
 - Adicionado o campo pcd no relatório de matrícula
 
 ## [Versão 3.36.75]
