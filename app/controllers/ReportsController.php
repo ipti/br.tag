@@ -16,6 +16,7 @@ class ReportsController extends Controller
                     'StatisticalDataReport', 'StudentsDeclarationReport',
                     'EnrollmentPerClassroomReport', 'AtaSchoolPerformance',
                     'EnrollmentDeclarationReport', 'TransferForm',
+                    'StudentsWithDisabilitiesPerClassroom',
                     'EnrollmentNotification', 'TransferRequirement',
                     'EnrollmentComparativeAnalysisReport', 'SchoolProfessionalNumberByClassroomReport',
                     'ComplementarActivityAssistantByClassroomReport', 'EducationalAssistantPerClassroomReport',
@@ -696,6 +697,16 @@ class ReportsController extends Controller
             'students' => $students,
             'classrooms' => $classrooms
         ));
+    }
+
+    public function actionStudentsWithDisabilitiesPerClassroom() {
+        /* $sql = "SELECT si.*, se.classroom_fk
+                FROM student_identification as si join student_enrollment as se
+                WHERE si.deficiency = 1 and se.classroom_fk = $id";
+
+        $students = Yii::app()->db->createCommand($sql)->queryAll(); */
+
+        var_dump("SOCORRO");
     }
 
     public function actionStudentsWithDisabilitiesRelationReport()
