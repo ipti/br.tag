@@ -463,6 +463,20 @@ table.dataTable.no-footer {
     margin-top: 1px;
 }
 
+.grades-rules-container {
+    margin-top: 40px;
+    display: none;
+}
+
+.grades-rules-container label {
+    width: 140px;
+}
+
+.approval-media, .final-recover-media {
+    width: 25px;
+    margin-left: 5px;
+}
+
 .grades-structure-container {
     margin-top: 40px;
     display: none;

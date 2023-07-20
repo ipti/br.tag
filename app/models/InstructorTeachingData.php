@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "instructor_teaching_data".
+ * This is the model class for table "student_enrollment".
  *
- * The followings are the available columns in table 'instructor_teaching_data':
+ * The followings are the available columns in table 'student_enrollment':
  * @property string $register_type
  * @property string $school_inep_id_fk
  * @property string $instructor_inep_id
@@ -25,8 +25,13 @@
  * @property integer $discipline_11_fk
  * @property integer $discipline_12_fk
  * @property integer $discipline_13_fk
+ * @property integer $discipline_14_fk
+ * @property integer $discipline_15_fk
  * @property integer $id
- * @property string $hash
+ * @property integer $hash
+ * @property integer $hash_instructor
+ * @property integer $hash_classroom
+ * @property integer $regent
  *
  * The followings are the available model relations:
  * @property InstructorIdentification $instructorFk

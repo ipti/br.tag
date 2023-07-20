@@ -105,7 +105,7 @@ class TimesheetController extends Controller
                 }
             }
         } else if ($level == "soft") {
-            $unavailableEvents = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) join calendar_stages as cs on cs.calendar_fk = c.id join classroom cr on cr.edcenso_stage_vs_modality_fk = cs.stage_fk where cr.id = :id and ce.calendar_event_type_fk = 101 and YEAR(c.start_date) = :year and (ce.school_fk is null or ce.school_fk = :school);")->bindParam(":id", $classroomId)->bindParam(":year", Yii::app()->user->year)->bindParam(":school", Yii::app()->user->school)->queryAll();
+            $unavailableEvents = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) join calendar_stages as cs on cs.calendar_fk = c.id join classroom cr on cr.edcenso_stage_vs_modality_fk = cs.stage_fk where cr.id = :id and (ce.calendar_event_type_fk = 101 or ce.calendar_event_type_fk = 104) and YEAR(c.start_date) = :year and (ce.school_fk is null or ce.school_fk = :school);")->bindParam(":id", $classroomId)->bindParam(":year", Yii::app()->user->year)->bindParam(":school", Yii::app()->user->school)->queryAll();
             foreach ($unavailableEvents as $unavailableEvent) {
                 $startDate = new DateTime($unavailableEvent["start_date"]);
                 $endDate = new DateTime($unavailableEvent["end_date"]);
@@ -420,7 +420,7 @@ class TimesheetController extends Controller
                     }
 
                     if ($discipline !== null) {
-                        $unavailableEvents = Yii::app()->db->createCommand("select ce.start_date, ce.end_date, ce.calendar_event_type_fk from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) join calendar_stages as cs on cs.calendar_fk = c.id join classroom cr on cr.edcenso_stage_vs_modality_fk = cs.stage_fk where cr.id = :id and (ce.calendar_event_type_fk = 101 or ce.calendar_event_type_fk = 102) and YEAR(c.start_date) = :year and (ce.school_fk is null or ce.school_fk = :school);")->bindParam(":id", $classroomId)->bindParam(":year", Yii::app()->user->year)->bindParam(":school", Yii::app()->user->school)->queryAll();
+                        $unavailableEvents = Yii::app()->db->createCommand("select ce.start_date, ce.end_date, ce.calendar_event_type_fk from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) join calendar_stages as cs on cs.calendar_fk = c.id join classroom cr on cr.edcenso_stage_vs_modality_fk = cs.stage_fk where cr.id = :id and (ce.calendar_event_type_fk = 101 or ce.calendar_event_type_fk = 102 or ce.calendar_event_type_fk = 104) and YEAR(c.start_date) = :year and (ce.school_fk is null or ce.school_fk = :school);")->bindParam(":id", $classroomId)->bindParam(":year", Yii::app()->user->year)->bindParam(":school", Yii::app()->user->school)->queryAll();
                         $hardUnavailableDaysArray = [];
                         $softUnavailableDaysArray = [];
                         foreach ($unavailableEvents as $unavailableEvent) {
