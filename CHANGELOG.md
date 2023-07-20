@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.38.78]
+- Correções foram efetuadas no relatório de rendimento escolar por atividades
+
 ## [Versão 3.36.75]
 - O botão inoperante de calcular média na página de notas foi removido
 
