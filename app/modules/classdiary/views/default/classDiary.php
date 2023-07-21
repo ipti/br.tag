@@ -34,11 +34,10 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js', CClientScri
         <div class="column">
             <hr class="t-separator">
             <div class="row">
-                <div class="column is-two-fifths t-field-select clear-margin--x">
-                    <?php echo CHtml::label('Conteúdo', 'coursePlan', array('class' => 't-field-select__label')); ?>
-                    <?php echo CHtml::dropDownList('coursePlan', '',  [], array('class' => 'select-search-on t-field-select__input js-add-course-classes-accordion', 'id' => 'coursePlan', 'style' => 'width: 100%')); ?> 
+                <div class="column is-two-fifths t-multiselect clear-margin--x js-hide-is-not-valid">
+                    <?php echo CHtml::dropDownList('coursePlan', '',  [], array('multiple' => 'multiple', 'class' => 'select-search-on t-multiselect multiselect', 'id' => 'coursePlan', 'style' => 'width: 100%')); ?> 
                 </div>
-                <div class="column hidden t-buttons-container clearleft--on-mobile" style="display:none;">
+                <div class="column t-buttons-container clearleft--on-mobile">
                     <a class="clear-margin--all t-button-primary js-save-course-plan">Salvar Plano de Aula</a>
                 </div>
             </div>
