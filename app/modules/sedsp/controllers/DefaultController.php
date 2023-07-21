@@ -288,10 +288,23 @@ class DefaultController extends Controller
 
 	function actionTest() {
 
-		$inAluno = new InAluno("000124464761", null, "SP");
+		/* $inAluno = new InAluno("000124464761", null, "SP");
 		$dataSource = new StudentSEDDataSource();
-		$dataSource->getViewStudentSheet($inAluno);
-		
+		$dataSource->exibirFichaAluno($inAluno);
+		echo "<pre>";
+		var_export($dataSource->exibirFichaAluno($inAluno));
+		echo "</pre>"; */
+
+		$inClassroom = new InClassroom("262429087");
+		$dataSource = new ClassroomSEDDataSource();
+		echo "<pre>";
+		var_export($dataSource->getClassroom($inClassroom));
+		echo "</pre>"; 
+
+		$inConsult = new InConsultClass("2022", "262429087");
+		$dataSource = new ClassroomSEDDataSource();
+		echo "<pre>";
+		var_export($dataSource->getConsultClass($inConsult));
+		echo "</pre>";
 	}
 }
-
