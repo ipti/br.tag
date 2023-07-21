@@ -436,6 +436,17 @@ $this->breadcrumbs = array(
                         </div>
                     </button>
                 </a>
+                <a href="<?php echo Yii::app()->createUrl('reports/StudentsWithDisabilitiesPerSchool') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">  
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-icon-wheelchair t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Relação acessibilidade de todas as escolas</span><br>
+                            <span class="subtitle">Relação de alunos que possuem deficiência em todas as escolas</span>
+                        </div>
+                    </button>
+                </a>
             </div>
             <?php } ?>
         </div>

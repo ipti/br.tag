@@ -16,7 +16,7 @@ class ReportsController extends Controller
                     'StatisticalDataReport', 'StudentsDeclarationReport',
                     'EnrollmentPerClassroomReport', 'AtaSchoolPerformance',
                     'EnrollmentDeclarationReport', 'TransferForm',
-                    'StudentsWithDisabilitiesPerClassroom',
+                    'StudentsWithDisabilitiesPerClassroom', 'StudentsWithDisabilitiesPerSchool',
                     'EnrollmentNotification', 'TransferRequirement',
                     'EnrollmentComparativeAnalysisReport', 'SchoolProfessionalNumberByClassroomReport',
                     'ComplementarActivityAssistantByClassroomReport', 'EducationalAssistantPerClassroomReport',
@@ -721,6 +721,55 @@ class ReportsController extends Controller
             'students' => $students,
             'classroom' => $classroom
         ));
+    }
+
+    public function actionStudentsWithDisabilitiesPerSchool() {
+
+        $sql = "SELECT si.*
+                FROM student_identification si
+                WHERE si.deficiency = 1";
+
+        $students = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $schools = SchoolIdentification::model()->findAll();
+        $result = [];
+        foreach ($schools as $school) {
+            $studentsBySchool = array_filter($students, function ($students) use ($school) {
+                return $students['school_inep_id_fk'] == $school->inep_id;
+            });
+            array_push($result, ["school" => $school, "students" => $studentsBySchool]);
+        }
+       
+        $this->render('StudentsWithDisabilitiesPerSchool', array(
+            'students' => $students,
+            'schools' => $schools,
+            'report' => $result
+        ));
+
+        /* $sql = "SELECT 
+                ii.name,
+                ii.birthday_date,
+                ii.inep_id,
+                ivd.scholarity,
+                ii.school_inep_id_fk
+            FROM instructor_identification ii
+            JOIN instructor_variable_data ivd ON ii.id = ivd.id
+            GROUP BY ii.name
+            ORDER BY ii.name;";
+        $instructors = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $schools = SchoolIdentification::model()->findAll();
+        $result = [];
+        foreach ($schools as $school) {
+            $instructorBySchool = array_filter($instructors, function ($instructor) use ($school) {
+                return $instructor['school_inep_id_fk'] == $school->inep_id;
+            });
+            array_push($result, ["school" => $school, "instructors" => $instructorBySchool]);
+        }
+
+        $this->render('TeachersBySchool', array(
+            "report" => $result
+        )); */
     }
 
     public function actionStudentsWithDisabilitiesRelationReport()
