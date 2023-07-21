@@ -35,10 +35,7 @@ class OutDadosPessoais
     private $outCodBolsaFamilia;
     private $outDoadorOrgaos;
 
-	/**
-	 * Summary of __construct
-	 * @param OutDadosPessoais $dadosPessoais
-	 */
+
 	public function __construct($dadosPessoais) {
 		$this->outNumRA = $dadosPessoais->outNumRA;
 		$this->outDigitoRA = $dadosPessoais->outDigitoRA;
