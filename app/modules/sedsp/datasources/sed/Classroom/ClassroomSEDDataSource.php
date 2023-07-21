@@ -84,7 +84,7 @@ class ClassroomSEDDataSource extends SedDataSource
     function getConsultClass($inConsultClass) 
     {
         try {
-            if (empty($consultClass->inAnoLetivo) || empty($consultClass->inNumClasse)) {
+            if (empty($inConsultClass->inAnoLetivo) || empty($inConsultClass->inNumClasse)) {
                 throw new InvalidArgumentException("Entrada inválida: dados incompletos.");
             }
 
@@ -110,5 +110,18 @@ class ClassroomSEDDataSource extends SedDataSource
         } catch (Exception $e) {
             return new OutErro($e);
         }
+    }
+
+    /**
+     * Summary of incluirTurmaClassePOST
+     * @param InClassroom $inClassroom
+     * @return void
+     */
+    function incluirTurmaClassePOST($inClassroom)
+    {
+        $apiResponse = $this->client->request('POST', '/ncaapi/api/TurmaClasse/IncluirTurmaClasse', [
+            'body' => json_encode($inClassroom)
+        ]);
+        return $apiResponse;
     }
 }
