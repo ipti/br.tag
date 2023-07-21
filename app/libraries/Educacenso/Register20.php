@@ -98,6 +98,7 @@ class Register20
                 if ($attributes["aee"] == '1') {
                     $attributes["schooling"] = '0';
                     $attributes["complementary_activity"] = '0';
+
                 }
 
                 if ($attributes["complementary_activity_type_1"] == null && $attributes["complementary_activity_type_2"] == null && $attributes["complementary_activity_type_3"] == null
@@ -169,7 +170,9 @@ class Register20
 
                 $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 20 order by corder', [":year" => $year]);
                 foreach ($edcensoAliases as $edcensoAlias) {
-                    $register[$edcensoAlias->corder] = $edcensoAlias->default;
+                    
+                    $register[$edcensoAlias->corder] = $edcensoAlias->default;                  
+
                     if ($edcensoAlias->corder == 21 || $edcensoAlias->corder == 22 || $edcensoAlias->corder == 23) {
                         if ($attributes["schooling"] == '0') {
                             $register[$edcensoAlias->corder] = '';
@@ -223,6 +226,10 @@ class Register20
                         }
                     } else if ($edcensoAlias["attr"] != null && $attributes[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
                         $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
+                    } 
+                    
+                    if ($attributes["aee"] == '1' && $edcensoAlias->corder >= 49 && $edcensoAlias->corder <= 75){
+                        $register[$edcensoAlias->corder] = '';
                     }
                 }
 

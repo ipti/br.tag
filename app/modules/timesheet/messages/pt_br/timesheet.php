@@ -10,6 +10,7 @@ return [
     "Change" => "Trocar",
 
     'Holyday' => 'Feriado',
+    'Facultative Point' => 'Ponto Facultativo',
     'Saturday School'=>'Sabado Letivo',
     'Semester Recovery'=>'Recuperação Semestral',
     'Admnistrative Meeting'=>'Reunião Administrativa',

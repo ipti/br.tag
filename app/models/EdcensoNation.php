@@ -7,12 +7,13 @@
  * @property integer $id
  * @property string $acronym
  * @property string $name
+ * @property integer $hash
  *
  * The followings are the available model relations:
  * @property InstructorIdentification[] $instructorIdentifications
  * @property StudentIdentification[] $studentIdentifications
  */
-class EdcensoNation extends CActiveRecord
+class EdcensoNation extends AltActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
