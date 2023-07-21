@@ -128,13 +128,16 @@
 
             ClassContents::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
 
-             $classContent = explode(",", $classContent);
-
+            // $classContent = explode(",", $classContent);
+            echo "<pre>";
+                var_dump($classContent);
+            echo "<pre>";                   
             foreach ($classContent as $content) {
                 $classHasContent = new ClassContents();
                 $classHasContent->schedule_fk = $schedule->id;
                 $classHasContent->course_class_fk = $content;
-                $classHasContent->save();
+                
+               // $classHasContent->save();
             }
 
         }

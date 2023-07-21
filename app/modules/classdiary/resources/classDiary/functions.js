@@ -56,11 +56,26 @@ function updateClassesContents()
     }).success((response) => {
         
         if(response.valid==true){
-            var options = response["courseClasses"].map((item) => {
-                return $(`<option value=${item.id} >${item.cpname}</option>`)
+            var options = "";
+            $.each(response["courseClasses"], function () {
+                options += '<option value="' + this.id + '" disciplineid="' + this.edid + '" disciplinename="' + this.edname + '">' + this.cpname + "|" + this.order + "|" + this.objective + "|" + this.edname + '</option>';
             });
             $("#coursePlan").html(options);
             $("#coursePlan").select2("val", response["classContents"]);
+            $('#coursePlan').select2({
+                formatSelection: function (state) {
+                    var textArray = state.text.split("|");
+                    return 'Plano de Aula "' + textArray[0] + '": Aula ' + textArray[1];
+                },
+                formatResult: function (data, container) {
+                    var textArray = data.text.split("|");
+                    if (textArray.length === 1) {
+                        return "<div class='course-classes-optgroup'><b>" + textArray[0] + "</b></div>";
+                    } else {
+                        return "<div class='course-classes-option'><div><b>Plano de Aula:</b> <span>" + textArray[0] + "</span></div><div><b>Aula " + textArray[1] + "</b> - " + textArray[2] + "</div></div>";
+                    }
+                },
+            });
             $(".js-hide-is-not-valid").show()
         }
     });
