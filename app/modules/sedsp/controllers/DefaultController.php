@@ -288,23 +288,30 @@ class DefaultController extends Controller
 
 	function actionTest() {
 
-		/* $inAluno = new InAluno("000124464761", null, "SP");
-		$dataSource = new StudentSEDDataSource();
-		$dataSource->exibirFichaAluno($inAluno);
-		echo "<pre>";
-		var_export($dataSource->exibirFichaAluno($inAluno));
-		echo "</pre>"; */
-
-		$inClassroom = new InClassroom("262429087");
-		$dataSource = new ClassroomSEDDataSource();
-		echo "<pre>";
-		var_export($dataSource->getClassroom($inClassroom));
-		echo "</pre>"; 
-
-		$inConsult = new InConsultClass("2022", "262429087");
-		$dataSource = new ClassroomSEDDataSource();
-		echo "<pre>";
-		var_export($dataSource->getConsultClass($inConsult));
-		echo "</pre>";
+		$opt = 3;
+		switch ($opt) {
+			case 1:
+				$inAluno = new InAluno("000124464761", null, "SP");
+				$dataSource = new StudentSEDDataSource();
+				$dataSource->exibirFichaAluno($inAluno);
+				echo "<pre>";
+				var_export($dataSource->exibirFichaAluno($inAluno));
+				echo "</pre>";
+				break;
+			case 2:
+				$inClassroom = new InClassroom("262429087");
+				$dataSource = new ClassroomSEDDataSource();
+				echo "<pre>";
+				var_export($dataSource->getClassroom($inClassroom));
+				echo "</pre>";
+			case 3:
+				$inConsult = new InConsultClass("2022", "262429087");
+				$dataSource = new ClassroomSEDDataSource();
+				echo "<pre>";
+				var_export($dataSource->getConsultClass($inConsult));
+				echo "</pre>";
+			default:
+				break;
+		}
 	}
 }
