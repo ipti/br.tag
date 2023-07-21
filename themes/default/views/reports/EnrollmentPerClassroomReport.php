@@ -270,7 +270,7 @@ $subtitle = "
             <th rowspan="2" style="text-align: center;">Nº</th>
             <th rowspan="2" style="text-align: center;">ID INEP</th>
             <th rowspan="2" style="text-align: center;">ALUNO</th>
-            <th rowspan="2" style="text-align: center;">PCD</th>
+            <th rowspan="2" style="text-align: center;" scope="col">PCD</th>
             <th rowspan="2" style="text-align: center;">SITUAÇÃO DO ALUNO</th>
             <th colspan="2" style="text-align: center;">GÊNERO</th>
             <th rowspan="2" style="text-align: center;">DATA DE NASCIMENTO</th>
@@ -301,7 +301,7 @@ $subtitle = "
                 <th rowspan="2" style="text-align: center;">Nº</th>
                 <th rowspan="2" style="text-align: center;">ID INEP</th>
                 <th rowspan="2" style="text-align: center;">ALUNO</th>
-                <th rowspan="2" style="text-align: center;">PCD</th>
+                <th rowspan="2" style="text-align: center;" scope="col">PCD</th>
                 <th rowspan="2" style="text-align: center;">SITUAÇÃO DO ALUNO</th>
                 <th colspan="2" style="text-align: center;">GÊNERO</th>
                 <th rowspan="2" style="text-align: center;">DATA DE NASCIMENTO</th>
