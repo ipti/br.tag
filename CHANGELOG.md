@@ -1,6 +1,6 @@
 # Atualizações
 
-## [Versão 3.38.78]
+## [Versão 3.39.78]
 - Criado os relatórios de alunos com deficiência por turma e por escola
 
 ## [Versão 3.37.75]
