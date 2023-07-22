@@ -60,16 +60,23 @@
  * @property Classroom $classroomFk
  * @property SchoolIdentification $schoolInepIdFk
  * @property EdcensoStageVsModality $edcensoStageVsModalityFk
+ * @property GradeResults[] $gradeResults
  * @property ClassFaults[] $classFaults
  * @property Grade[] $grades
  */
 class StudentEnrollment extends AltActiveRecord
 {
 
-    const STATUS_ACTIVE = "MATRICULADO";
-    const STATUS_CANCELLED = "CANCELADO";
+    const STATUS_ACTIVE = "EM ANDAMENTO";
+    const STATUS_DECEASED = "FALECIDO";
     const STATUS_TRANSFERRED = "TRANSFERIDO";
-    const STATUS_EVADED = "EVADIDO";
+    const STATUS_ABANDONED = "DEIXOU DE FREQUENTAR";
+    const STATUS_RESTORED = "REMANEJADO";
+    const STATUS_APPROVED = "APROVADO";
+    const STATUS_APPROVEDBYCOUNCIL = "APROVADO PELO CONSELHO";
+    const STATUS_DISAPPROVED = "REPROVADO";
+    const STATUS_CONCLUDED = "CONCLUINTE";
+    const STATUS_INDETERMINED = "INDETERMINADO";
 
     public $school_year;
 
@@ -170,6 +177,7 @@ class StudentEnrollment extends AltActiveRecord
             'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
             'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
             'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
+            'gradeResults' => array(self::HAS_MANY, 'GradeResults', 'enrollment_fk'),
             'classFaults' => array(self::HAS_MANY, 'ClassFaults', 'student_fk'),
             'grades' => array(self::HAS_MANY, 'Grade', 'enrollment_fk'),
         );
@@ -568,8 +576,14 @@ class StudentEnrollment extends AltActiveRecord
             null => "",
             "1" => StudentEnrollment::STATUS_ACTIVE,
             "2" => StudentEnrollment::STATUS_TRANSFERRED,
-            "3" => StudentEnrollment::STATUS_CANCELLED,
-            "4" => StudentEnrollment::STATUS_EVADED,
+            "3" => StudentEnrollment::STATUS_DECEASED,
+            "4" => StudentEnrollment::STATUS_ABANDONED,
+            "5" => StudentEnrollment::STATUS_RESTORED,
+            "6" => StudentEnrollment::STATUS_APPROVED,
+            "7" => StudentEnrollment::STATUS_APPROVEDBYCOUNCIL,
+            "8" => StudentEnrollment::STATUS_DISAPPROVED,
+            "9" => StudentEnrollment::STATUS_CONCLUDED,
+            "10" => StudentEnrollment::STATUS_INDETERMINED,
         ];
 
         return $status[$this->status];
