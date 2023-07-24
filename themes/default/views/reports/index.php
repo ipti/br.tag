@@ -425,6 +425,18 @@ $this->breadcrumbs = array(
                         </div>
                     </button>
                 </a>
+
+                <a href="<?php echo Yii::app()->createUrl('reports/StatisticalData') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">    
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-statistic-data t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Dados Estatísticos</span><br>
+                            <span class="subtitle">Quantidade alunos por etapa de ensino</span>
+                        </div>
+                    </button>
+                </a>
             </div>
             <?php } ?>
         </div>
