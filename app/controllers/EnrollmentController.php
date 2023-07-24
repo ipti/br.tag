@@ -453,8 +453,17 @@ class EnrollmentController extends Controller
 
         $studentEnrollments = StudentEnrollment::model()->findAll("classroom_fk = :classroom_fk", ["classroom_fk" => $classroom]);
         foreach ($studentEnrollments as $studentEnrollment) {
+
+            $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $discipline]);
+            if ($gradeResult == null) {
+                $gradeResult = new GradeResults();
+                $gradeResult->enrollment_fk = $studentEnrollment->id;
+                $gradeResult->discipline_fk = $discipline;
+            }
+
             if ($gradeUnitiesByClassroom[0]->type != "UC") {
                 //notas sem ser conceito
+
                 $arr["grades"] = [];
                 foreach ($gradeUnitiesByClassroom as $gradeUnity) {
                     array_push($arr["grades"], $gradeUnity->type == "UR"
@@ -474,13 +483,6 @@ class EnrollmentController extends Controller
                 foreach ($gradeUnitiesByDiscipline as $gradeUnity) {
                     $key = array_search($gradeUnity->id, array_column($arr["grades"], 'unityId'));
                     $arr["grades"][$key] = self::getUnidadeValues($gradeUnity, $studentEnrollment->id, $discipline);
-                }
-
-                $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $discipline]);
-                if ($gradeResult == null) {
-                    $gradeResult = new GradeResults();
-                    $gradeResult->enrollment_fk = $studentEnrollment->id;
-                    $gradeResult->discipline_fk = $discipline;
                 }
 
                 //Cálculo da média final
@@ -545,9 +547,9 @@ class EnrollmentController extends Controller
                             $finalMedia = array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]);
                             if ($grade["unityGrade"] != "") {
                                 $finalRecoverMedia = ($finalMedia + $grade["unityGrade"]) / 2;
-                                $finalMedia = number_format($finalRecoverMedia, 2);
+                                $finalMedia = number_format($finalRecoverMedia, 1);
                             } else {
-                                $finalMedia = number_format($finalMedia, 2);
+                                $finalMedia = number_format($finalMedia, 1);
                                 $rfFilled = false;
                             }
 
@@ -560,7 +562,7 @@ class EnrollmentController extends Controller
                         $media = $sums / $sumsCount;
                         array_push($arr["semesterMedias"], $media);
                     }
-                    $finalMedia = number_format(array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]), 2);
+                    $finalMedia = number_format(array_sum($arr["semesterMedias"]) / count($arr["semesterMedias"]), 1);
                 }
 
                 //traz a situação do aluno (se null, aprovado, recuperação ou reprovado)
@@ -568,26 +570,26 @@ class EnrollmentController extends Controller
                 $situation = null;
                 if ($allNormalUnitiesFilled) {
                     if ($finalMedia >= $gradeRules->approvation_media) {
-                        $situation = "Aprovado(a)";
+                        $situation = "Aprovado";
                     } else {
                         if ($hasRF) {
                             if ($rfFilled) {
                                 if ($finalMedia >= $gradeRules->final_recover_media) {
-                                    $situation = "Aprovado(a)";
+                                    $situation = "Aprovado";
                                 } else {
-                                    $situation = "Reprovado(a)";
+                                    $situation = "Reprovado";
                                 }
                             } else {
                                 $situation = "Recuperação";
                             }
                         } else if ($recSemIndex > 0) {
                             if ($lastRSFilledGrade !== "") {
-                                $situation = "Reprovado(a)";
+                                $situation = "Reprovado";
                             } else {
                                 $situation = "Recuperação";
                             }
                         } else {
-                            $situation = "Reprovado(a)";
+                            $situation = "Reprovado";
                         }
                     }
                 }
@@ -597,12 +599,6 @@ class EnrollmentController extends Controller
                 $gradeResult->save();
             } else {
                 //notas por conceito
-                $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $discipline]);
-                if ($gradeResult == null) {
-                    $gradeResult = new GradeResults();
-                    $gradeResult->enrollment_fk = $studentEnrollment->id;
-                    $gradeResult->discipline_fk = $discipline;
-                }
                 $index = 0;
                 foreach ($gradeUnitiesByClassroom as $gradeUnity) {
                     foreach ($gradeUnity->gradeUnityModalities as $gradeUnityModality) {
@@ -620,9 +616,37 @@ class EnrollmentController extends Controller
                         }
                     }
                 }
-                $gradeResult->situation = "Aprovado(a)";
+                $gradeResult->situation = "Aprovado";
                 $gradeResult->save();
             }
+
+
+            //Mudar status da matrícula
+            //1 = Em andamento; 6 = Aprovado; 8 = Reprovado
+            if ($studentEnrollment->status == "1" || $studentEnrollment->status == "6" || $studentEnrollment->status == "8") {
+                $allGradesFilled = true;
+                $situation = "Aprovado";
+                foreach ($studentEnrollment->gradeResults as $gradeResult) {
+                    if ($gradeResult->situation == null) {
+                        $allGradesFilled = false;
+                    } else if ($gradeResult->situation == "Reprovado") {
+                        $situation = "Reprovado";
+                        break;
+                    } else if ($gradeResult->situation == "Recuperação") {
+                        $situation = "Em Andamento";
+                        break;
+                    }
+                }
+                if ($allGradesFilled && $situation == "Aprovado") {
+                    $studentEnrollment->status = 6;
+                } else if ($situation == "Reprovado") {
+                    $studentEnrollment->status = 8;
+                } else {
+                    $studentEnrollment->status = 1;
+                }
+                $studentEnrollment->save();
+            }
+
         }
     }
 
