@@ -453,8 +453,17 @@ class EnrollmentController extends Controller
 
         $studentEnrollments = StudentEnrollment::model()->findAll("classroom_fk = :classroom_fk", ["classroom_fk" => $classroom]);
         foreach ($studentEnrollments as $studentEnrollment) {
+
+            $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $discipline]);
+            if ($gradeResult == null) {
+                $gradeResult = new GradeResults();
+                $gradeResult->enrollment_fk = $studentEnrollment->id;
+                $gradeResult->discipline_fk = $discipline;
+            }
+
             if ($gradeUnitiesByClassroom[0]->type != "UC") {
                 //notas sem ser conceito
+
                 $arr["grades"] = [];
                 foreach ($gradeUnitiesByClassroom as $gradeUnity) {
                     array_push($arr["grades"], $gradeUnity->type == "UR"
@@ -474,13 +483,6 @@ class EnrollmentController extends Controller
                 foreach ($gradeUnitiesByDiscipline as $gradeUnity) {
                     $key = array_search($gradeUnity->id, array_column($arr["grades"], 'unityId'));
                     $arr["grades"][$key] = self::getUnidadeValues($gradeUnity, $studentEnrollment->id, $discipline);
-                }
-
-                $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $discipline]);
-                if ($gradeResult == null) {
-                    $gradeResult = new GradeResults();
-                    $gradeResult->enrollment_fk = $studentEnrollment->id;
-                    $gradeResult->discipline_fk = $discipline;
                 }
 
                 //Cálculo da média final
@@ -597,12 +599,6 @@ class EnrollmentController extends Controller
                 $gradeResult->save();
             } else {
                 //notas por conceito
-                $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $discipline]);
-                if ($gradeResult == null) {
-                    $gradeResult = new GradeResults();
-                    $gradeResult->enrollment_fk = $studentEnrollment->id;
-                    $gradeResult->discipline_fk = $discipline;
-                }
                 $index = 0;
                 foreach ($gradeUnitiesByClassroom as $gradeUnity) {
                     foreach ($gradeUnity->gradeUnityModalities as $gradeUnityModality) {
@@ -623,6 +619,8 @@ class EnrollmentController extends Controller
                 $gradeResult->situation = "Aprovado";
                 $gradeResult->save();
             }
+
+
             //Mudar status da matrícula
             //1 = Em andamento; 6 = Aprovado; 8 = Reprovado
             if ($studentEnrollment->status == "1" || $studentEnrollment->status == "6" || $studentEnrollment->status == "8") {
