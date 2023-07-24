@@ -1,5 +1,7 @@
 # Atualizações
 
+## [Versão 3.40.78]
+- Criado multiselect para os planos de aula no módulo de diário de classe
 ## [Versão 3.39.78]
 - Criado os relatórios de alunos com deficiência por turma e por escola
 
