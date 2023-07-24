@@ -11,7 +11,7 @@ $('.js-add-course-classes-accordion').on("change", function (){
         },
         url:`?r=classdiary/default/RenderAccordion`
     }).success(function (response){
-        $('.js-course-classes-accordion').append(response)
+        $('.js-course-classes-accordion').append(DOMPurify.sanitize(response))
         $(function () {
             if($(".js-course-classes-accordion").data('uiAccordion')){
                 $(".js-course-classes-accordion").accordion('destroy');
