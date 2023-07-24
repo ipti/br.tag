@@ -4,7 +4,8 @@
 $debug = getenv("YII_DEBUG");
 defined('YII_DEBUG') or define('YII_DEBUG', $debug);
 
-define("TAG_VERSION", '3.37.76');
+define("TAG_VERSION", '3.39.78');
+
 
 
 define("YII_VERSION", Yii::getVersion());
