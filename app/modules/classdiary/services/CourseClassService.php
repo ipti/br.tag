@@ -4,10 +4,6 @@
 		public function getCourseClasses($course_plan_id)
 		{
 			$coursePlan = CoursePlan::model()->findByPk($course_plan_id);
-			echo "<pre>";
-			var_dump($course_plan_id);
-			echo "</pre>";
-			exit();
 			$courseClasses = [];
 			foreach ($coursePlan->courseClasses as $courseClass) {
 				$order = $courseClass->order - 1;
@@ -36,10 +32,6 @@
 				}
 					$courseClasses[$order]["deleteButton"] = empty($courseClass->classContents) ? "" : "js-unavailable";
 				}
-			//echo json_encode(["data" => $courseClasses]);
-			echo "<pre>";
-			var_dump($courseClasses);
-			echo "</pre>";
-			exit();
+			echo json_encode(["data" => $courseClasses]);
 		}
 	}

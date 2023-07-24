@@ -61,7 +61,7 @@
                 if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
                     if ($is_minor_schooling) {
                         $courseClasses = Yii::app()->db->createCommand(
-                            "select cp.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc 
+                            "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc 
                             join course_plan cp on cp.id = cc.course_plan_fk
                             join edcenso_discipline ed on cp.discipline_fk = ed.id
                             where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk
@@ -73,7 +73,7 @@
                             ->queryAll();
                     } else {
                         $courseClasses = Yii::app()->db->createCommand(
-                            "select cp.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc 
+                            "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc 
                             join course_plan cp on cp.id = cc.course_plan_fk
                             join edcenso_discipline ed on cp.discipline_fk = ed.id
                             where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk = :discipline_fk and cp.users_fk = :users_fk
@@ -128,16 +128,13 @@
 
             ClassContents::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
 
-            // $classContent = explode(",", $classContent);
-            echo "<pre>";
-                var_dump($classContent);
-            echo "<pre>";                   
+            $classContent = explode(",", $classContent);                
             foreach ($classContent as $content) {
                 $classHasContent = new ClassContents();
                 $classHasContent->schedule_fk = $schedule->id;
                 $classHasContent->course_class_fk = $content;
                 
-               // $classHasContent->save();
+                $classHasContent->save();
             }
 
         }
