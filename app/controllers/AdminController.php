@@ -188,6 +188,7 @@ class AdminController extends Controller
     public function actionSaveUnities()
     {
         set_time_limit(0);
+        ignore_user_abort();
         $valid = false;
         if ($_POST["reply"] == "") {
             $grades = Yii::app()->db->createCommand("
@@ -284,11 +285,11 @@ class AdminController extends Controller
     }
 
     private function refreshResults($stage) {
-        $classrooms = Classroom::model()->findAll("edcenso_stage_vs_modality_fk = :stage", ["stage" => $stage]);
+        $classrooms = Classroom::model()->findAll("edcenso_stage_vs_modality_fk = :stage and school_year = :year", ["stage" => $stage, "year" => Yii::app()->user->year]);
         $curricularMatrixes = CurricularMatrix::model()->findAll("stage_fk = :stage", ["stage" => $stage]);
         foreach($classrooms as $classroom) {
             foreach($curricularMatrixes as $curricularMatrix) {
-                EnrollmentController::saveGradeResults($classroom->id, $curricularMatrix->discipline_fk);
+                EnrollmentController::saveGradeResults($classroom, $curricularMatrix->discipline_fk);
             }
         }
     }
