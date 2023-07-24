@@ -814,6 +814,7 @@ return array(
     'Quarterly Report' => 'RELATÓRIO TRIMESTRAL INDIVIDUAL DO ALUNO',
     'Teachers By School' => 'Professores por Escola',
     'Teachers By Stage' => 'Professores por Etapa',
+    'Statistical Data' => 'Dados Estatísticos',
     'Changelog' => 'Atualizações',
     
     //Relatórios

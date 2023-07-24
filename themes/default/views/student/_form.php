@@ -1141,7 +1141,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                             <div class="control-group js-hide-not-required">
                                 <?php echo $form->labelEx($modelEnrollment, 'status', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->DropDownList($modelEnrollment, 'status', array("1" => "Matriculado", "2" => "Transferido", "3" => "Cancelado", "4" => "Evadido"), array('options' => array('1' => array('selected' => true)), "prompt" => "Selecione", 'class' => 'select-search-off control-input t-field-select__input')); ?>
+                                <?php echo $form->DropDownList($modelEnrollment, 'status', array("1" => "Em Andamento", "2" => "Transferido", "3" => "Falecido", "4" => "Deixou de Frequentar", "5" => "Remanejado", "6" => "Aprovado", "7" => "Aprovado pelo Conselho", "8" => "Reprovado", "9" => "Concluinte", "10" => "Indeterminado"), array('options' => array('1' => array('selected' => true)), "prompt" => "Selecione", 'class' => 'select-search-off control-input t-field-select__input')); ?>
                                 <?php echo $form->error($modelEnrollment, 'status'); ?>
                             </div>
                         </div>
@@ -1459,8 +1459,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                         </thead>
                                         <tbody>
                                             <?php
-                                            
-                                            
+
+
                                             foreach ($modelStudentIdentification->studentEnrollments as $me) {
                                             ?>
                                                 <tr>
@@ -1503,7 +1503,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         <?php
                                                         switch ($me->status) {
                                                             case "1":
-                                                                echo "Matriculado";
+                                                                echo "Em Andamento";
                                                                 break;
                                                             case "2":
                                                                 $transfer_date = "";
@@ -1513,10 +1513,28 @@ $form = $this->beginWidget('CActiveForm', array(
                                                                 echo "Transferido </br>" . $transfer_date;
                                                                 break;
                                                             case "3":
-                                                                echo "Cancelado";
+                                                                echo "Falecido";
                                                                 break;
                                                             case "4":
-                                                                echo "Evadido";
+                                                                echo "Deixou de Frequentar";
+                                                                break;
+                                                            case "5":
+                                                                echo "Remanejado";
+                                                                break;
+                                                            case "6":
+                                                                echo "Aprovado";
+                                                                break;
+                                                            case "7":
+                                                                echo "Aprovado pelo Conselho";
+                                                                break;
+                                                            case "8":
+                                                                echo "Reprovado";
+                                                                break;
+                                                            case "9":
+                                                                echo "Concluinte";
+                                                                break;
+                                                            case "10":
+                                                                echo "Indeterminado";
                                                                 break;
                                                             default:
                                                                 echo "";

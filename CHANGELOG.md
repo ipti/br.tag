@@ -3,7 +3,10 @@
 ## [Versão 3.38.77]
 - Ata de Formação de Professores
 
-## [Versão 3.36.75]
+## [Versão 3.37.76]
+- Relatório Dados Estatísticos
+
+## [Versão 3.36.76]
 - O botão inoperante de calcular média na página de notas foi removido
 
 ## [Versão 3.36.75]
