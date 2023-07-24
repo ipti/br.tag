@@ -26,10 +26,7 @@ class ReportsController extends Controller
                     'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 
                     'EvaluationFollowUpStudentsReport', 'CnsPerClassroomReport', 'CnsSchools', 'CnsPerSchool',
                     'TeacherTrainingReport','ClassroomTransferReport', 'SchoolTransferReport', 'AllSchoolsTransferReport',
-                    'TeachersByStage', 'TeachersBySchool'),
-                    'ClassroomTransferReport', 'SchoolTransferReport', 'AllSchoolsTransferReport',
                     'TeachersByStage', 'TeachersBySchool', 'StatisticalData'),
-          
                 'users' => array('@'),
             ),
             array('deny', // deny all users

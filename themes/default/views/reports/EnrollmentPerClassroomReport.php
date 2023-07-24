@@ -1,7 +1,7 @@
 <?php
-/* @var $this ReportsController */
-/* @var $report mixed */
-/* @var $classroom Classroom*/
+/** @var ReportsController $this ReportsController */
+/** @var $report mixed */
+/** @var $classroom Classroom*/
 Yii::app()->clientScript->registerCoreScript('jquery');
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
