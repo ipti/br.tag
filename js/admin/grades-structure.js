@@ -215,6 +215,7 @@ function saveUnities(reply) {
             reply: reply ? $(".reply-option:checked").val() : ""
         },
         beforeSend: function () {
+            $(".alert-media-fields").addClass("alert-warning").removeClass("alert-success").text("Atualizando resultados dos alunos, o processo pode demorar...").show();
             $(".buttons a, .js-grades-structure-container").css("opacity", "0.4").css("pointer-events", "none");
             $("#GradeUnity_edcenso_stage_vs_modality_fk").attr("disabled", "disabled");
             $(".save-unity-loading-gif").css("display", "inline-block");
@@ -226,7 +227,7 @@ function saveUnities(reply) {
             } else {
                 $(".alert-required-fields").addClass("alert-error").removeClass("alert-success").text("Não se pode alterar a estrutura quando já existe nota preechida em alguma turma desta etapa e disciplina.").show();
             }
-            $(".alert-media-fields").show();
+            $(".alert-media-fields").removeClass("alert-warning").addClass("alert-success").text("Médias atualizadas com sucesso!");
             $("html, body").animate({scrollTop: 0}, "fast");
             $(".buttons a, .js-grades-structure-container").css("opacity", "1").css("pointer-events", "auto");
             $("#GradeUnity_edcenso_stage_vs_modality_fk").removeAttr("disabled");
