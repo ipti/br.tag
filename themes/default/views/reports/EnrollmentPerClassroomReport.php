@@ -24,7 +24,9 @@ $subtitle = "
 <br>
 <br>
 <div class="pageA4H" style="width: 1075px;">
-    <?php $this->renderPartial('head'); ?>
+    <?php $this->renderPartial('head', [
+        "school" => $school
+    ]); ?>
     <h3>RELATÓRIO DE MATRÍCULA / <?= $classroom->school_year?></h3>
     
 <table class="table">
@@ -172,6 +174,7 @@ $subtitle = "
                 $status = "";
         }
 
+
         if($key <= 20){
             $r20 .= "<tr>". "<td style='text-align: center;'>" . ($key + 1) . "</td>"
                 . "<td style='text-align: center;'>" . $r['inep_id'] . "</td>"
@@ -190,7 +193,7 @@ $subtitle = "
                 . "<td style='text-align: center;'>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
                 . "<td>" . $r['address'] . (strlen($r['number']) != 0 ? ", " . $r['number'] : '') . "</td>"
                 . "</tr>";
-        }else if($key >20 && $key <40){
+        } else if($key > 20 && $key < 40){            
             $r40 .= "<tr>". "<td style='text-align: center;'>" . ($key + 1) . "</td>"
                 . "<td style='text-align: center;'>" . $r['inep_id'] . "</td>"
                 . "<td style='text-align: center;'>" . $r['name'] . "</td>"
@@ -293,6 +296,7 @@ $subtitle = "
     <br>
     <br>
     <?php if(isset($r40)){ ?>
+        <div style="page-break-after: always;"></div>
         <table class="table table-bordered table-striped" style="font-size: 11px;">
             <tr>
                 <th rowspan="2" style="text-align: center;">Nº</th>
