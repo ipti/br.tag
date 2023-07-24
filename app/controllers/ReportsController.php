@@ -1046,16 +1046,39 @@ class ReportsController extends Controller
         $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
-        $sql = "select * from classroom_qtd_students
-                where school_year = " . $this->year . " and school_inep_fk = " . $_GET['id'] . " order by name ";
+        $sql_classrooms =
+            "SELECT 
+	            c.name, 
+                esvm.name stage
+            from classroom c
+            left join instructor_teaching_data itd on itd.classroom_id_fk = c.id
+            LEFT JOIN edcenso_stage_vs_modality esvm on c.edcenso_stage_vs_modality_fk = esvm.id 
+            WHERE school_inep_fk = :school_id and c.school_year = :school_year
+            GROUP by c.id 
+            HAVING count(itd.id) = 0
+            ORDER BY c.id";
 
-        $classroom = Yii::app()->db->createCommand($sql)->queryAll();
+        $classroom = Yii::app()->db->createCommand($sql_classrooms)
+        ->bindParam(":school_year", $this->year)
+        ->bindParam(":school_id", $school->inep_id)
+        ->queryAll();
 
-        $sql1 = "SELECT ca.* , c.*, ed.name as discipline_name FROM class_board as ca join classroom_qtd_students as c on ca.classroom_fk = c.id join edcenso_discipline ed on ed.id = ca.discipline_fk
-                  where c.school_year =  " . $this->year . " and c.school_inep_fk = " . $this->year . " and ca.instructor_fk is null
-                  order by c.name";
+        $sql_discipline = 
+                "SELECT 
+                    GROUP_CONCAT(ed.name) `Disciplina`
+                FROM classroom c 
+                LEFT JOIN instructor_teaching_data itd ON itd.classroom_id_fk = c.id
+                LEFT JOIN curricular_matrix cm ON cm.stage_fk = c.edcenso_stage_vs_modality_fk 
+                LEFT JOIN edcenso_discipline ed ON cm.discipline_fk  = ed.id 
+                WHERE school_inep_fk = :school_id AND c.school_year = :school_year
+                GROUP by c.id 
+                HAVING count(itd.id) = 0
+                ORDER BY c.id";
 
-        $disciplina = Yii::app()->db->createCommand($sql1)->queryAll();
+        $disciplina = Yii::app()->db->createCommand($sql_discipline)
+          ->bindParam(":school_year", $this->year)
+          ->bindParam(":school_id", $school->inep_id)
+        ->queryAll();
 
         $this->render('ClassroomWithoutInstructorRelationReport', array(
             'school' => $school,
