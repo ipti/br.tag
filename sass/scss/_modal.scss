@@ -1,7 +1,8 @@
 .t-modal-container {
     color: $colorsTextPrimary;
     box-sizing: border-box;
-    height: 80vh;
+    height: auto;
+    max-height: 80vh;
     background: $colorsBaseWhiteNormal;
     border-radius: $borderRadiusNormal;
     overflow-y: scroll;
@@ -32,8 +33,13 @@
             padding: $spaceNormal;
         }
     }
-    & .helper{
-        height: 60vh!important ;
+    &.height {
+        &--is-four-fifths {
+            height: 80vh;
+        }
+        &--is-three-fifths {
+            height: 60vh;
+        }
     }
 }
     

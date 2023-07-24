@@ -1,7 +1,13 @@
 # Atualizações
 
-## [Versão 3.38.77]
-- Ata de Formação de Professores
+## [Versão 3.39.78]
+- Criado os relatórios de alunos com deficiência por turma e por escola
+
+## [Versão 3.38.78]
+- Correções foram efetuadas no relatório de rendimento escolar por atividades
+
+## [Versão 3.37.75]
+- Adicionado o campo pcd no relatório de matrícula
 
 ## [Versão 3.37.76]
 - Relatório Dados Estatísticos

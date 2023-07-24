@@ -895,6 +895,8 @@ return array(
     'Students By Classroom' => 'Alunos Por Turma',
     'Students In Alphabetical Order Relation' => 'Relaçao de Alunos em ordem Alfabética',
     'Students With Disabilities Relation' => 'Relação de Estudantes com Deficiências',
+    'Students With Disabilities Per Classroom Relation' => 'Relação por Turma de Estudantes com Deficiências',
+    'Students With Disabilities Per School Relation' => 'Relação por Escolas de Estudantes com Deficiências',
     'Students Using School Transportation Relation' => 'Relação de Estudantes que utilizam Transporte Escolar',
     'Incompatible Student Age By Classroom' => 'Alunos com Idade Incompatível por Turma',
     'Students Between 5 And 14 Years Old' => 'Alunos com Idade Entre 5 e 14 Anos',

@@ -4,6 +4,8 @@
 /* @var $students mixed */
 /* @var $classrooms mixed */
 
+use Symfony\Component\Validator\Constraints\Length;
+
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/StudentsWithDisabilitiesRelationReport/_initialization.js', CClientScript::POS_END);
@@ -35,6 +37,8 @@ if(count($classrooms) == 0){
         echo "<b>C&oacute;digo da Turma: </b>" . $c['inep_id'] . "<br>";
         echo "<b>Etapa: </b>" . $c['stage'] . "<br>";
         echo "<b>Modalidade: </b>" . $c['modality'] . "<br>";
+        echo "<b>Turno: </b>" . ($c['turn'] == 'M' ? 'Matutino' : "") . ($c['turn'] == 'T' ? 'Vespertino' : "") . 
+            ($c['turn'] == 'N' ? 'Noturno' : "") . ($c['turn'] == 'I' ? 'Integral' : "") . "<br>";
         echo "<b>Hor&aacute;rio de Funcionamento: </b>" . $c['initial_hour'] . ":" . $c['initial_minute'] . "-" . $c['final_hour'] . ":" . $c['final_minute'] . "<br>";
         echo "<b>Dias da Semana: </b>" . ($c['week_days_sunday'] == 1 ? "Domingo - " : "") . ($c['week_days_monday'] == 1 ? "Segunda - " : "") .
             ($c['week_days_tuesday'] == 1 ? "Terca - " : "") . ($c['week_days_wednesday'] == 1 ? "Quarta - " : "") .
@@ -47,6 +51,7 @@ if(count($classrooms) == 0){
         $i = 0;
         $j = 0;
         $ordem = 1;
+        $total = 0;
 
 
         $html = "";
@@ -99,13 +104,13 @@ if(count($classrooms) == 0){
                         $student_aid[0] = "N&atilde;o informado";
                 } else {
                     if ($s['resource_aid_lector'] == 1) {
-                        $student_aid[$j++] = 'Aux�lio ledor';
+                        $student_aid[$j++] = 'Auxílio ledor';
                     } else if ($s['resource_aid_transcription'] == 1) {
-                        $student_aid[$j++] = 'Aux�lio transcri��o';
+                        $student_aid[$j++] = 'Auxílio transcrição';
                     } else if ($s['resource_interpreter_guide'] == 1) {
-                        $student_aid[$j++] = 'Guia-Int�rprete';
+                        $student_aid[$j++] = 'Guia-Intérprete';
                     } else if ($s['resource_interpreter_libras'] == 1) {
-                        $student_aid[$j++] = 'Int�rprete de Libras';
+                        $student_aid[$j++] = 'Intérprete de Libras';
                     } else if ($s['resource_lip_reading'] == 1) {
                         $student_aid[$j++] = 'Leitura Labial';
                     } else if ($s['resource_zoomed_test_16'] == 1) {
@@ -153,10 +158,17 @@ if(count($classrooms) == 0){
 
                 $i = 0;
                 $j = 0;
+                $total ++;
                 $ordem++;
+
             }
             $html = "";
         }
+        $html .= "<tr>"
+            . "<th><b>Total</b></th>" 
+            . "<td colspan='5'>$total</td>"
+            . "</tr>";
+            
         $html .= "</table></div>";
         echo $html;
     }

@@ -14,9 +14,6 @@ function classroomDisciplineLabelResumeArray($id) {
         3 => 'Matemática',
         4 => 'Biologia',
         5 => 'Ciências',
-        6 => 'Português',
-        7 => 'Inglês',
-        8 => 'Espanhol',
         9 => 'Outro Idioma',
         10 => 'Artes',
         11 => 'Educação Física',
@@ -110,7 +107,11 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                     </tr>
                     <tr>
                         <td class="vertical-text">
-                            <div>BIMESTRES</div>
+                            <?php if (INSTANCE == "BUZIOS") { ?>
+                                <div>TRIMESTRES</div>
+                            <?php }else {?>
+                                <div>BIMESTRES</div>
+                            <?php }?>
                         </td>
                         <?php foreach ($baseDisciplines as $name): ?>
                             <td class="vertical-text">
@@ -168,7 +169,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                 <tr>
                     <td colspan="1">MÉDIA FINAL</td>
                     <?php for ($i=0; $i < $rows; $i++) { ?>
-                        <td style="text-align: center;"><?= $result[$i]['final_media']?></td>
+                        <td style="text-align: center;font-weight:bold;"><?= $result[$i]['final_media']?></td>
                     <?php }?>
                     <td></td>
                     <td></td>
