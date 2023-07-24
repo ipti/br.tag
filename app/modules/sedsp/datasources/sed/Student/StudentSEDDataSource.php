@@ -171,4 +171,45 @@ class StudentSEDDataSource extends SedDataSource
             return new OutErro($e);
         }
     }   
+
+    /**
+     * Summary of getConsultarResponsavelAluno
+     * @throws \InvalidArgumentException
+     * @return OutAluno|OutErro
+     */
+    function getConsultarResponsavelAluno()
+    {
+        try {
+            if (empty($inAluno->inNumRa) || empty($inAluno->inSiglaUfra)) {
+                throw new InvalidArgumentException("Entrada inválida: dados incompletos.");
+            }
+
+            if (strlen($inAluno->inNumRa) > self::LENGTH_IN_NUM_RA || 
+                isset($inAluno->inSiglaUfra) ? (strlen($inAluno->inSiglaUfra) > self::LENGTH_IN_SIGLA_UFRA) : false || 
+                strlen($inAluno->inDigitoRa) > self::LENGTH_IN_DIGITO_RA) {
+                throw new InvalidArgumentException("Entrada inválida: tamanho máximo excedido.");
+            }
+
+            $alunoRequestBody = [
+                'inAluno' => [
+                    'inNumRA' => $inAluno->inNumRa, 
+                    'inDigitoRA' => $inAluno->inDigitoRa ?? null, 
+                    'InSiglaUFRA' => $inAluno->inSiglaUfra
+                ]
+            ];
+    
+            $apiResponse = $this->client->request('GET', '/ncaapi/api/Aluno/ExibirFichaAluno', [
+                'body' => json_encode($alunoRequestBody)
+            ]);
+            
+            $aluno = json_decode($apiResponse->getBody()->getContents());
+            return new OutAluno($aluno);
+        } catch (InvalidArgumentException $e) {
+            return new OutErro($e);
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            return new OutErro($e);
+        } catch (Exception $e) {
+            return new OutErro($e);
+        }
+    }
 }
