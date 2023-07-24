@@ -101,6 +101,7 @@ $("#save, #save-button-mobile").on('click', function () {
                 diary: $(this).val()
             })
         });
+        console.log($(this).find("select.course-classes-select").val())
         classContents.push({
             day: $(this).attr("day"),
             diary: $(this).find(".classroom-diary-of-the-day").val(),
