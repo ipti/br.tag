@@ -444,6 +444,18 @@ $this->breadcrumbs = array(
                         <div class="pull-left">
                             <span class="title">Relação acessibilidade de todas as escolas</span><br>
                             <span class="subtitle">Relação de alunos que possuem deficiência em todas as escolas</span>
+                         </div>
+                    </button>
+                </a>
+
+                <a href="<?php echo Yii::app()->createUrl('reports/StatisticalData') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">    
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-statistic-data t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Dados Estatísticos</span><br>
+                            <span class="subtitle">Quantidade alunos por etapa de ensino</span>
                         </div>
                     </button>
                 </a>

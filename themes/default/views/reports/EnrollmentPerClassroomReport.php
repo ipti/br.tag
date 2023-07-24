@@ -157,16 +157,34 @@ $subtitle = "
 
         switch ($r['status']) {
             case "1":
-                $status = "Matriculado";
+                $status = "Em Andamento";
                 break;
             case "2":
                 $status = "Transferido";
                 break;
             case "3":
-                $status = "Cancelado";
+                $status = "Falecido";
                 break;
             case "4":
-                $status = "Evadido";
+                $status = "Deixou de Frequentar";
+                break;
+            case "5":
+                $status = "Remanejado";
+                break;
+            case "6":
+                $status = "Aprovado";
+                break;
+            case "7":
+                $status = "Aprovado pelo Conselho";
+                break;
+            case "8":
+                $status = "Reprovado";
+                break;
+            case "9":
+                $status = "Concluinte";
+                break;
+            case "10":
+                $status = "Indeterminado";
                 break;
             default:
                 $status = "";
