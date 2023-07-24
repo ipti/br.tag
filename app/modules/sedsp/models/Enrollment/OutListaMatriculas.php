@@ -28,57 +28,35 @@ class OutListaMatriculas
 	public $outDescHabilitacao;
 	public $outDescSitTranspEscolar;
 
-	public function __construct(
-		?string $outAnoLetivo,
-		?string $outMunicipio,
-		?string $outRedeEnsino,
-		?string $outCodEscola,
-		?string $outCodUnidade,
-		?string $outDescNomeAbrevEscola,
-		?string $outNumClasse,
-		?string $outNumAluno,
-		?string $outCodTurno,
-		?string $outDescricaoTurno,
-		?string $outCodTipoEnsino,
-		?string $outDescTipoEnsino,
-		?string $outCodSerieAno,
-		?string $outDescSerieAno,
-		?string $outGrauNivel,
-		?string $outSerieNivel,
-		?string $outTurma,
-		?string $outDescTurma,
-		?string $outDataInicioMatricula,
-		?string $outDataFimMatricula,
-		?string $outDataInclusaoMatricula,
-		?string $outCodSitMatricula,
-		?string $outDescSitMatricula,
-		?string $outDescHabilitacao,
-		?string $outDescSitTranspEscolar
-	) {
-		$this->outAnoLetivo = $outAnoLetivo;
-		$this->outMunicipio = $outMunicipio;
-		$this->outRedeEnsino = $outRedeEnsino;
-		$this->outCodEscola = $outCodEscola;
-		$this->outCodUnidade = $outCodUnidade;
-		$this->outDescNomeAbrevEscola = $outDescNomeAbrevEscola;
-		$this->outNumClasse = $outNumClasse;
-		$this->outNumAluno = $outNumAluno;
-		$this->outCodTurno = $outCodTurno;
-		$this->outDescricaoTurno = $outDescricaoTurno;
-		$this->outCodTipoEnsino = $outCodTipoEnsino;
-		$this->outDescTipoEnsino = $outDescTipoEnsino;
-		$this->outCodSerieAno = $outCodSerieAno;
-		$this->outDescSerieAno = $outDescSerieAno;
-		$this->outGrauNivel = $outGrauNivel;
-		$this->outSerieNivel = $outSerieNivel;
-		$this->outTurma = $outTurma;
-		$this->outDescTurma = $outDescTurma;
-		$this->outDataInicioMatricula = $outDataInicioMatricula;
-		$this->outDataFimMatricula = $outDataFimMatricula;
-		$this->outDataInclusaoMatricula = $outDataInclusaoMatricula;
-		$this->outCodSitMatricula = $outCodSitMatricula;
-		$this->outDescSitMatricula = $outDescSitMatricula;
-		$this->outDescHabilitacao = $outDescHabilitacao;
-		$this->outDescSitTranspEscolar = $outDescSitTranspEscolar;
-	}
+	/**
+	 * Summary of __construct
+	 * @return OutListaMatriculas[]
+	 */
+	public function __construct($outListaMatricula) {
+		$this->outAnoLetivo = $outListaMatricula[0]->outAnoLetivo;
+		$this->outMunicipio = $outListaMatricula[0]->outMunicipio;
+		$this->outRedeEnsino = $outListaMatricula[0]->outRedeEnsino;
+		$this->outCodEscola = $outListaMatricula[0]->outCodEscola;
+		$this->outCodUnidade = $outListaMatricula[0]->outCodUnidade;
+		$this->outDescNomeAbrevEscola = $outListaMatricula[0]->outDescNomeAbrevEscola;
+		$this->outNumClasse = $outListaMatricula[0]->outNumClasse;
+		$this->outNumAluno = $outListaMatricula[0]->outNumAluno;
+		$this->outCodTurno = $outListaMatricula[0]->outCodTurno;
+		$this->outDescricaoTurno = $outListaMatricula[0]->outDescricaoTurno;
+		$this->outCodTipoEnsino = $outListaMatricula[0]->outCodTipoEnsino;
+		$this->outDescTipoEnsino = $outListaMatricula[0]->outDescTipoEnsino;
+		$this->outCodSerieAno = $outListaMatricula[0]->outCodSerieAno;
+		$this->outDescSerieAno = $outListaMatricula[0]->outDescSerieAno;
+		$this->outGrauNivel = $outListaMatricula[0]->outGrauNivel;
+		$this->outSerieNivel = $outListaMatricula[0]->outSerieNivel;
+		$this->outTurma = $outListaMatricula[0]->outTurma;
+		$this->outDescTurma = $outListaMatricula[0]->outDescTurma;
+		$this->outDataInicioMatricula = $outListaMatricula[0]->outDataInicioMatricula;
+		$this->outDataFimMatricula = $outListaMatricula[0]->outDataFimMatricula;
+		$this->outDataInclusaoMatricula = $outListaMatricula[0]->outDataInclusaoMatricula;
+		$this->outCodSitMatricula = $outListaMatricula[0]->outCodSitMatricula;
+		$this->outDescSitMatricula = $outListaMatricula[0]->outDescSitMatricula;
+		$this->outDescHabilitacao = $outListaMatricula[0]->outDescHabilitacao;
+		$this->outDescSitTranspEscolar = $outListaMatricula[0]->outDescSitTranspEscolar;
+	}	
 }
