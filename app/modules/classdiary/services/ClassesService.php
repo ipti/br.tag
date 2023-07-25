@@ -86,7 +86,6 @@
                             ->queryAll();
                     }
                 }
-
                 $classContents = [];
                 foreach ($schedule->classContents as $classContent) {
                     array_push($classContents, $classContent->courseClassFk->id);
@@ -129,12 +128,12 @@
 
             ClassContents::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
 
-             $classContent = explode(",", $classContent);
-
+            $classContent = explode(",", $classContent);                
             foreach ($classContent as $content) {
                 $classHasContent = new ClassContents();
                 $classHasContent->schedule_fk = $schedule->id;
                 $classHasContent->course_class_fk = $content;
+                
                 $classHasContent->save();
             }
 

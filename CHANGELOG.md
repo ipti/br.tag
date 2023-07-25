@@ -1,6 +1,20 @@
 # Atualizações
 
-## [Versão 3.36.75]
+## [Versão 3.40.78]
+- Criado multiselect para os planos de aula no módulo de diário de classe
+## [Versão 3.39.78]
+- Criado os relatórios de alunos com deficiência por turma e por escola
+
+## [Versão 3.38.78]
+- Correções foram efetuadas no relatório de rendimento escolar por atividades
+
+## [Versão 3.37.75]
+- Adicionado o campo pcd no relatório de matrícula
+
+## [Versão 3.37.76]
+- Relatório Dados Estatísticos
+
+## [Versão 3.36.76]
 - O botão inoperante de calcular média na página de notas foi removido
 
 ## [Versão 3.36.75]

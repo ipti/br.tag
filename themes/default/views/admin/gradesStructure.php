@@ -40,7 +40,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <?php echo Yii::app()->user->getFlash('success') ?>
             </div>
         <?php endif ?>
-        <div class="alert-media-fields no-show alert alert-success">Médias atualizadas com sucesso!</div>
+        <div class="alert-media-fields no-show alert"></div>
         <div class="alert-required-fields no-show alert alert-error"></div>
         <div class="row filter-bar margin-bottom-none">
             <div>

@@ -72,3 +72,24 @@
         flex-direction: row;
     }
 }
+.t-accordeon-tertiary {
+    @extend .t-accordeon;
+
+    .ui-accordion-header {
+        padding: $SizeSmall 0 !important;
+        background: $colorsBaseCloudLight;
+
+        &:hover,
+        &--active {
+            background-color: $colorsBaseCloudLightHover;
+        }
+    }
+
+    .ui-accordion-content {
+        background-color: $colorsBaseWhiteNormal;
+        background: none !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        height: auto;
+    }
+}
