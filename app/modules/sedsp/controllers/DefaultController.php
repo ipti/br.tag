@@ -288,7 +288,7 @@ class DefaultController extends Controller
 
 	function actionTest() {
 
-		$opt = 4;
+		$opt = 5;
 		switch ($opt) {
 			case 1:
 				$inAluno = new InAluno("000124464761", null, "SP");
@@ -315,7 +315,22 @@ class DefaultController extends Controller
 					$dataSource = new EnrollmentSEDDataSource();
 					echo "<pre>";
 					var_export($dataSource->getListarMatriculasRA($inConsult));
-					echo "</pre>";	
+					echo "</pre>";
+			case 5:
+
+				$search = [
+					'InDadosPessoais' => [
+						'inNomeAluno' => 'IGOR GONÇALVES'
+					],
+					'InDocumentos' => []
+				];
+
+				$inConsult = new InListarAlunos($search);
+				$dataSource = new StudentSEDDataSource();
+				echo "<pre>";
+				var_export($dataSource->getListStudents($inConsult));
+				echo "</pre>";		
+
 			default:
 				break;
 		}
