@@ -1,7 +1,7 @@
 <?php
 
 
-class InAluno implements JsonSerializable
+class InAluno
 {
     public $inNumRa;
 
@@ -69,22 +69,4 @@ class InAluno implements JsonSerializable
         return $this->inSiglaUfra;
     }
 
-    /**
-     * @param array $data
-     * @return self
-     */
-    public static function fromJson(array $data): self
-    {
-        return new self(
-            $data['outNumRA'],
-            $data['outDigitoRA'] ?? null,
-            $data['outSiglaUFRA']
-        );
-    }
-
-    public function jsonSerialize()
-    {
-        $vars = get_object_vars($this);
-        return $vars;
-    }
 }
