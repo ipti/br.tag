@@ -148,18 +148,20 @@ $("#save").on("click", function (e) {
     });
 });
 
+var valorInputFocus = "";
+
+$(document).on("focus", "input.grade", function (e) {
+    valorInputFocus = this.value
+});
 $(document).on("keyup", "input.grade", function (e) {
     var val = this.value;
     if (!$.isNumeric(val)) {
         e.preventDefault();
-        val = "";
+        val = val === "" ? "" : valorInputFocus;
     } else {
         grade = /^(10|\d)(?:(\.|\,)\d{0,1}){0,1}$/;
         if (val.match(grade) === null) {
-            val = "";
-        } else {
-            if (val > 10)
-                val = 10;
+            val = valorInputFocus;
         }
     }
     this.value = val;
