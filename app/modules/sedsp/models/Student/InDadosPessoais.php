@@ -3,126 +3,86 @@
 
 class InDadosPessoais implements JsonSerializable
 {
-    private $inNomeAluno;
-
-    private $inNomeMae;
-
-    private $inNomePai;
-
-    private $inNomeSocial;
-
-    private $inNomeAfetivo;
-
-    private $inDataNascimento;
-
-    private $inCorRaca;
-
-    private $inSexo;
-
-    private $inBolsaFamilia;
-
-    private $inQuilombola;
-
-    private $inPossuiInternet;
-
-    private $inPossuiNotebookSmartphoneTablet;
-
-    private $inTipoSanguineo;
-
-    private $inDoadorOrgaos;
-
-    private $inNumeroCns;
-
-    private $inEmail;
-
-    private $inNacionalidade;
-
-    private $inNomeMunNascto;
-
-    private $inUfMunNascto;
-
-    private $inCodMunNasctoDne;
-
-    private $inDataEntradaPais;
-
-    private $inCodPaisOrigem;
-
-    private $inPaisOrigem;
+    public $inNomeAluno;
+    public $inNomeMae;
+    public $inNomePai;
+    public $inNomeSocial;
+    public $inNomeAfetivo;
+    public $inDataNascimento;
+    public $inCorRaca;
+    public $inSexo;
+    public $inBolsaFamilia;
+    public $inQuilombola;
+    public $inPossuiInternet;
+    public $inPossuiNotebookSmartphoneTablet;
+    public $inTipoSanguineo;
+    public $inDoadorOrgaos;
+    public $inNumeroCns;
+    public $inEmail;
+    public $inNacionalidade;
+    public $inNomeMunNascto;
+    public $inUfMunNascto;
+    public $inCodMunNasctoDne;
+    public $inDataEntradaPais;
+    public $inCodPaisOrigem;
+    public $inPaisOrigem;
 
     /**
-     * @param string|null $inNomeAluno
-     * @param string|null $inNomeMae
-     * @param string|null $inNomePai
-     * @param string|null $inNomeSocial
-     * @param string|null $inNomeAfetivo
-     * @param string|null $inDataNascimento
-     * @param string|null $inCorRaca
-     * @param string|null $inSexo
-     * @param string|null $inBolsaFamilia
-     * @param string|null $inQuilombola
-     * @param string|null $inPossuiInternet
-     * @param string|null $inPossuiNotebookSmartphoneTablet
-     * @param string|null $inTipoSanguineo
-     * @param string|null $inDoadorOrgaos
-     * @param string|null $inNumeroCns
-     * @param string|null $inEmail
-     * @param string|null $inNacionalidade
-     * @param string|null $inNomeMunNascto
-     * @param string|null $inUfMunNascto
-     * @param string|null $inCodMunNasctoDne
-     * @param string|null $inDataEntradaPais
-     * @param string|null $inCodPaisOrigem
-     * @param string|null $inPaisOrigem
+     * Summary of __construct
+     *
+     * @param ?string $inNomeAluno
+     * @param ?string $inNomeMae
+     * @param ?string $inNomePai
+     * @param ?string $inNomeSocial
+     * @param ?string $inNomeAfetivo
+     * @param ?string $inDataNascimento
+     * @param ?string $inCorRaca
+     * @param ?string $inSexo
+     * @param ?string $inBolsaFamilia
+     * @param ?string $inQuilombola
+     * @param ?string $inPossuiInternet
+     * @param ?string $inPossuiNotebookSmartphoneTablet
+     * @param ?string $inTipoSanguineo
+     * @param ?string $inDoadorOrgaos
+     * @param ?string $inNumeroCns
+     * @param ?string $inEmail
+     * @param ?string $inNacionalidade
+     * @param ?string $inNomeMunNascto
+     * @param ?string $inUfMunNascto
+     * @param ?string $inCodMunNasctoDne
+     * @param ?string $inDataEntradaPais
+     * @param ?string $inCodPaisOrigem
+     * @param ?string $inPaisOrigem
+     * 
      */
-    public function __construct(
-        ?string $inNomeAluno = null,
-        ?string $inNomeMae = null,
-        ?string $inNomePai = null,
-        ?string $inNomeSocial = null,
-        ?string $inNomeAfetivo = null,
-        ?string $inDataNascimento = null,
-        ?string $inCorRaca = null,
-        ?string $inSexo = null,
-        ?string $inBolsaFamilia = null,
-        ?string $inQuilombola = null,
-        ?string $inPossuiInternet = null,
-        ?string $inPossuiNotebookSmartphoneTablet = null,
-        ?string $inTipoSanguineo = null,
-        ?string $inDoadorOrgaos = null,
-        ?string $inNumeroCns = null,
-        ?string $inEmail = null,
-        ?string $inNacionalidade = null,
-        ?string $inNomeMunNascto = null,
-        ?string $inUfMunNascto = null,
-        ?string $inCodMunNasctoDne = null,
-        ?string $inDataEntradaPais = null,
-        ?string $inCodPaisOrigem = null,
-        ?string $inPaisOrigem = null
-    ) {
-        $this->inNomeAluno = $inNomeAluno;
-        $this->inNomeMae = $inNomeMae;
-        $this->inNomePai = $inNomePai;
-        $this->inNomeSocial = $inNomeSocial;
-        $this->inNomeAfetivo = $inNomeAfetivo;
-        $this->inDataNascimento = $inDataNascimento;
-        $this->inCorRaca = $inCorRaca;
-        $this->inSexo = $inSexo;
-        $this->inBolsaFamilia = $inBolsaFamilia;
-        $this->inQuilombola = $inQuilombola;
-        $this->inPossuiInternet = $inPossuiInternet;
-        $this->inPossuiNotebookSmartphoneTablet = $inPossuiNotebookSmartphoneTablet;
-        $this->inTipoSanguineo = $inTipoSanguineo;
-        $this->inDoadorOrgaos = $inDoadorOrgaos;
-        $this->inNumeroCns = $inNumeroCns;
-        $this->inEmail = $inEmail;
-        $this->inNacionalidade = $inNacionalidade;
-        $this->inNomeMunNascto = $inNomeMunNascto;
-        $this->inUfMunNascto = $inUfMunNascto;
-        $this->inCodMunNasctoDne = $inCodMunNasctoDne;
-        $this->inDataEntradaPais = $inDataEntradaPais;
-        $this->inCodPaisOrigem = $inCodPaisOrigem;
-        $this->inPaisOrigem = $inPaisOrigem;
+     
+    public function __construct($InDadosPessoais)
+    {
+        $this->inNomeAluno = $InDadosPessoais->inNomeAluno;
+        $this->inNomeMae = $InDadosPessoais->inNomeMae;
+        $this->inNomePai = $InDadosPessoais->inNomePai;
+        $this->inNomeSocial = $InDadosPessoais->inNomeSocial;
+        $this->inNomeAfetivo = $InDadosPessoais->inNomeAfetivo;
+        $this->inDataNascimento = $InDadosPessoais->inDataNascimento;
+        $this->inCorRaca = $InDadosPessoais->inCorRaca;
+        $this->inSexo = $InDadosPessoais->inSexo;
+        $this->inBolsaFamilia = $InDadosPessoais->inBolsaFamilia;
+        $this->inQuilombola = $InDadosPessoais->inQuilombola;
+        $this->inPossuiInternet = $InDadosPessoais->inPossuiInternet;
+        $this->inPossuiNotebookSmartphoneTablet = $InDadosPessoais->inPossuiNotebookSmartphoneTablet;
+        $this->inTipoSanguineo = $InDadosPessoais->inTipoSanguineo;
+        $this->inDoadorOrgaos = $InDadosPessoais->inDoadorOrgaos;
+        $this->inNumeroCns = $InDadosPessoais->inNumeroCns;
+        $this->inEmail = $InDadosPessoais->inEmail;
+        $this->inNacionalidade = $InDadosPessoais->inNacionalidade;
+        $this->inNomeMunNascto = $InDadosPessoais->inNomeMunNascto;
+        $this->inUfMunNascto = $InDadosPessoais->inUfMunNascto;
+        $this->inCodMunNasctoDne = $InDadosPessoais->inCodMunNasctoDne;
+        $this->inDataEntradaPais = $InDadosPessoais->inDataEntradaPais;
+        $this->inCodPaisOrigem = $InDadosPessoais->inCodPaisOrigem;
+        $this->inPaisOrigem = $InDadosPessoais->inPaisOrigem;
     }
+
 
     /**
      * @param string|null $inNomeAluno
@@ -352,39 +312,6 @@ class InDadosPessoais implements JsonSerializable
     {
         $this->inPaisOrigem = $inPaisOrigem;
         return $this;
-    }
-
-    /**
-     * @param array $data
-     * @return self
-     */
-    public static function fromJson(array $data): self
-    {
-        return new self(
-            $data['outNomeAluno'] ?? null,
-            $data['outNomeMae'] ?? null,
-            $data['outNomePai'] ?? null,
-            $data['outNomeSocial'] ?? null,
-            $data['outNomeAfetivo'] ?? null,
-            $data['outDataNascimento'] ?? null,
-            $data['outCorRaca'] ?? null,
-            $data['outSexo'] ?? null,
-            $data['outBolsaFamilia'] ?? null,
-            $data['outQuilombola'] ?? null,
-            $data['outPossuiInternet'] ?? null,
-            $data['outPossuiNotebookSmartphoneTablet'] ?? null,
-            $data['outTipoSanguineo'] ?? null,
-            $data['outDoadorOrgaos'] ?? null,
-            $data['outNumeroCNS'] ?? null,
-            $data['outEmail'] ?? null,
-            $data['outNacionalidade'] ?? null,
-            $data['outNomeMunNascto'] ?? null,
-            $data['outUFMunNascto'] ?? null,
-            $data['outCodMunNasctoDNE'] ?? null,
-            $data['outDataEntradaPais'] ?? null,
-            $data['outCodPaisOrigem'] ?? null,
-            $data['outPaisOrigem'] ?? null
-        );
     }
 
     public function jsonSerialize()
