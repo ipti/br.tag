@@ -197,24 +197,24 @@ class StudentSEDDataSource extends SedDataSource
     /**
      * 
      * Summary of getConsultarResponsavelAluno
-     * @param InConsultarResponsavelAluno
-     * @return OutConsultarResponsavelAluno|OutErro
+     * @param InResponsavelAluno
+     * @return OutResponsaveis|OutErro
      * 
      */
-    function getConsultarResponsavelAluno(InConsultarResponsavelAluno $inConsultarResponsavelAluno)
+    function getConsultarResponsavelAluno(InResponsavelAluno $inConsultarResponsavelAluno)
     {
         try {
             $responsavelRequestBody = [
-                'inAluno' => [
-                    'inNumRA' => $inConsultarResponsavelAluno->inAluno->inNumRA ?? null,
-                    'inDigitoRa' => isset($inConsultarResponsavelAluno->inAluno->inNumRA) ? $inConsultarResponsavelAluno->inAluno->inDigitoRa: null,
-                    'inSiglaUFRa' => isset($inConsultarResponsavelAluno->inAluno->inDigitoRa) ? $inConsultarResponsavelAluno->inAluno->inSiglaUFRa : null
-                ],
                 'InDocumentosAluno' => [
-                    'inCPF' => $inConsultarResponsavelAluno->InDocumentosAluno->inCPF ?? null,
-                    'inNRRG' => $inConsultarResponsavelAluno->InDocumentosAluno->inNRRG ?? null,
-                    'inUFRG' => isset($inConsultarResponsavelAluno->InDocumentosAluno->inNRRG) ? $inConsultarResponsavelAluno->InDocumentosAluno->inUFRG: null
-                ]
+                    'inCPF' => $inConsultarResponsavelAluno->inDocumentosAluno->inCPF ?? null,
+                    'inNRRG' => $inConsultarResponsavelAluno->inDocumentosAluno->inNumRG ?? null,
+                    'inUFRG' => isset($inConsultarResponsavelAluno->inDocumentosAluno->inUFRG) ? $inConsultarResponsavelAluno->inDocumentosAluno->inUFRG : null
+                ],
+                'inAluno' => [
+                    'inNumRA' => $inConsultarResponsavelAluno->inAluno->inNumRa ?? null,
+                    'inDigitoRA' => isset($inConsultarResponsavelAluno->inAluno->inNumRa) ? $inConsultarResponsavelAluno->inAluno->inDigitoRa : null,
+                    'inSiglaUFRA' => isset($inConsultarResponsavelAluno->inAluno->inNumRa) ? $inConsultarResponsavelAluno->inAluno->inSiglaUfra : null
+                ],
             ];
     
             $apiResponse = $this->client->request('GET', '/ncaapi/api/Aluno/ConsultarResponsavelAluno', [
@@ -222,7 +222,8 @@ class StudentSEDDataSource extends SedDataSource
             ]);
             
             $responsavelAluno = json_decode($apiResponse->getBody()->getContents());
-            return new OutConsultarResponsavelAluno($responsavelAluno);
+
+            return new OutResponsaveis($responsavelAluno);
         } catch (InvalidArgumentException $e) {
             return new OutErro($e);
         } catch (GuzzleHttp\Exception\ClientException $e) {
