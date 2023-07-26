@@ -753,3 +753,19 @@ li[instructor]:hover {
 .widthfull {
     width: 100% !important;
 }
+
+
+.dataTables_length {
+    margin: 10px;
+}
+
+.dataTables_length label{
+    display: flex;
+    align-content: center;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.dataTables_length select{
+   max-width: 50px;
+}

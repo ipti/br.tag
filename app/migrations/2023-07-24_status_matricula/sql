@@ -1,0 +1,1 @@
+update student_enrollment set status = 10 where status = 3;

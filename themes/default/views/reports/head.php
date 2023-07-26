@@ -2,8 +2,11 @@
 /* @var $this ReportsController
 @var $school SchoolIdentification
  */
-$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-//$school = new SchoolIdentification;
+
+if(!isset($school)){
+    $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+}
+
 ?>
 <style>
     #info li {text-align:center;}
