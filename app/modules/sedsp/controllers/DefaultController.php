@@ -288,7 +288,7 @@ class DefaultController extends Controller
 
 	function actionTest() {
 
-		$opt = 5;
+		$opt = 6;
 		switch ($opt) {
 			case 1:
 				$inAluno = new InAluno("000124464761", null, "SP");
@@ -329,7 +329,27 @@ class DefaultController extends Controller
 				$dataSource = new StudentSEDDataSource();
 				echo "<pre>";
 				var_export($dataSource->getListStudents($inConsult));
-				echo "</pre>";		
+				echo "</pre>";
+				
+			case 6:
+				$search = [
+					'inAluno' => [
+						'inNumRA' => "000124464761",
+						'inDigitoRA' => "5",
+						'inSiglaUFRA' => "SP" 
+					],
+					'inDocumentosAluno' => [
+						'inCPF' =>  null,
+						'inNRRG' => null,
+						'inUFRG' => null
+					]
+				];
+
+				$inConsult = new InResponsavelAluno($search);
+				$dataSource = new StudentSEDDataSource();
+				echo "<pre>";
+				var_export($dataSource->getConsultarResponsavelAluno($inConsult));
+				echo "</pre>";
 
 			default:
 				break;
