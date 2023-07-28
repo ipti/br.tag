@@ -1,8 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
-class InDocumentos
+class InDocumentos implements JsonSerializable
 {
     /**
      * @var ?string $inNumRG
@@ -29,6 +27,12 @@ class InDocumentos
      */
     public $inNumNIS;
 
+    /** @var string */
+    public $inDataEmissaoDoctoCivil;
+
+    /** @var string */
+    public $inJustificativaDocumentos;
+
     /**
      * @var ?string $inNumINEP
      */
@@ -41,15 +45,11 @@ class InDocumentos
 
 
 
+
+
     /**
-     * InListarAlunos constructor.
-     * @param ?string $inNumRG
-     * @param ?string $inDigitoRG
-     * @param ?string $inUFRG
-     * @param ?string $inCPF
-     * @param ?string $inNumNIS
-     * @param ?string $inNumINEP
-     * @param ?string $inNumCertidaoNova
+     * Summary of __construct
+     * @param mixed $inDocumentos
      */
     public function __construct($inDocumentos) {
         $this->inNumRG = $inDocumentos->inNumRG;
@@ -57,7 +57,18 @@ class InDocumentos
         $this->inUFRG = $inDocumentos->inUFRG;
         $this->inCPF = $inDocumentos->inCPF;
         $this->inNumNIS = $inDocumentos->inNumNIS;
+        $this->inDataEmissaoDoctoCivil = $inDocumentos->inDataEmissaoDoctoCivil;
+        $this->inJustificativaDocumentos = $inDocumentos->inJustificativaDocumentos;
         $this->inNumINEP = $inDocumentos->inNumINEP;
         $this->inNumCertidaoNova = $inDocumentos->inNumCertidaoNova;
     } 
+
+    function jsonSerialize()
+    {
+        $filteredProps = array_filter(get_object_vars($this), function ($value) {
+            return $value !== null;
+        });
+
+        return $filteredProps;
+    }
 }
