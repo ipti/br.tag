@@ -55,9 +55,10 @@ class InDadosPessoais implements JsonSerializable
      * @param ?string $inPaisOrigem
      * 
      */
-     
+
     public function __construct($InDadosPessoais)
     {
+        $InDadosPessoais = (object) $InDadosPessoais;
         $this->inNomeAluno = $InDadosPessoais->inNomeAluno;
         $this->inNomeMae = $InDadosPessoais->inNomeMae;
         $this->inNomePai = $InDadosPessoais->inNomePai;
@@ -316,7 +317,10 @@ class InDadosPessoais implements JsonSerializable
 
     public function jsonSerialize()
     {
-        $vars = get_object_vars($this);
-        return $vars;
+        $filteredProps = array_filter(get_object_vars($this), function ($value) {
+            return $value !== null;
+        });
+
+        return $filteredProps;
     }
 }
