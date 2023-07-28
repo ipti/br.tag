@@ -13,7 +13,7 @@ $cs->registerScriptFile($baseScriptUrl . '/index/functions.js', CClientScript::P
 	<div class="row">
 		<div class="column no-grow">
 			<div class="t-field-select">
-				<?php echo CHtml::dropDownList('discipline', null, $disciplines,  array('prompt' => 'Selecione a matéria', 'class' => 'select-search-on t-field-select__input js-select-disciplines',)); ?>
+				<?php echo CHtml::dropDownList('discipline', null, $disciplines,  array('prompt' => 'Selecione a componente/eixo', 'class' => 'select-search-on t-field-select__input js-select-disciplines',)); ?>
 			</div> 
 		</div>
 	</div>
