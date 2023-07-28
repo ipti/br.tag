@@ -1,7 +1,7 @@
 <?php
 
 
-class InAluno
+class InAluno implements JsonSerializable
 {
     public $inNumRA;
 
@@ -69,4 +69,12 @@ class InAluno
         return $this->inSiglaUFRA;
     }
 
+    function jsonSerialize()
+    {
+        $filteredProps = array_filter(get_object_vars($this), function ($value) {
+            return $value !== null;
+        });
+
+        return $filteredProps;
+    }
 }
