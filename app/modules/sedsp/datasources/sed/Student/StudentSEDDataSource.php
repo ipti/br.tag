@@ -1,5 +1,7 @@
 <?php
 
+use GuzzleHttp\Exception\ClientException;
+
 
 require 'app/vendor/autoload.php';
 
@@ -15,28 +17,41 @@ class StudentSEDDataSource extends SedDataSource
     /**
      * 
      * Summary of getStudentRA
-     * @param string $name
-     * @param string $birthday
-     * @param string $mothersName
-     * @return DadosAluno|OutErro
+     * @param ?string $inCodEscola
+     * @param InDadosPessoais $inAluno
+     * @return OutDadosPessoais|OutErro
+     * 
+     * @throws InvalidArgumentException Se os dados de entrada forem inválidos.
+     * @throws Exception Se ocorrer um erro desconhecido.
      * 
      */
-    public function getStudentRA($name, $birthday, $mothersName,$force)
+    public function getStudentRA($inCodEscola, $inAluno)
     {
-        if($force){
-            $name = '';
-        }
-        $body = array("inNomeAluno" => $name,
-        "inNomeMae" => $mothersName,
-        "inDataNascimento" => $birthday);
         try {
-            $response = $this->client->request('GET', '/ncaapi/api/Aluno/ConsultaRA', [
-                'body' => json_encode($body)
+            foreach ($inAluno as $key) {
+               if (!isset($key)) {
+                throw new InvalidArgumentException("Entrada inválida: dados incompletos.");             
+               }
+            }
+
+            $studentRequestBody = [
+                'inCodEscola' => $inCodEscola, 
+                'inNomeAluno' => $inAluno->inNomeAluno, 
+                'inNomeMae' => $inAluno->inNomeMae,
+                'inDataNascimento' => $inAluno->inDataNascimento
+            ];
+    
+            $apiResponse = $this->client->request('GET', '/ncaapi/api/Aluno/ConsultaRA', [
+                'body' => json_encode($studentRequestBody)
             ]);
-            return new DadosAluno($name, $response->getBody()->getContents());
-        }
-        catch (GuzzleHttp\Exception\ClientException $e) {
+        
+            return new OutDadosPessoais(json_decode($apiResponse->getBody()->getContents()));
+        } catch (InvalidArgumentException $invalidArgumentException) {
+            throw $invalidArgumentException;
+        } catch (ClientException $e) {
             return new OutErro($e);
+        } catch (Exception $exception) {
+            throw $exception;
         }
     }
 
@@ -47,27 +62,6 @@ class StudentSEDDataSource extends SedDataSource
         return $promise;
     }
 
-    /**
-     * 
-     * Summary of getStudentWithRA
-     * @param mixed $RA
-     * @return mixed
-     * 
-     */
-    public function getStudentWithRA($RA)
-    {
-        $body['inAluno'] = array("inNumRA" => $RA,
-        "inSiglaUFRA" => "SP");
-        try {
-            $response = $this->client->request('GET', '/ncaapi/api/Aluno/ExibirFichaAluno', [
-                'body' => json_encode($body)
-            ]);
-            return $response;
-        }
-        catch (GuzzleHttp\Exception\ClientException $e) {
-            return new OutErro($e);
-        }
-    }
 
     /**
      * 
@@ -101,6 +95,9 @@ class StudentSEDDataSource extends SedDataSource
      * Summary of getListStudents
      * @param InListarAlunos $inListarAlunos
      * @return array<OutListarAlunos>|OutErro
+     * 
+     * @throws InvalidArgumentException Se os dados de entrada forem inválidos.
+     * @throws Exception Se ocorrer um erro desconhecido.
      * 
      */
     function getListStudents(InListarAlunos $inListarAlunos)
@@ -138,19 +135,17 @@ class StudentSEDDataSource extends SedDataSource
             }
 
             return $outListaAlunos;
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $invalidArgumentException) {
+            throw $invalidArgumentException;
+        } catch (ClientException $e) {
             return new OutErro($e);
-        } catch (GuzzleHttp\Exception\ClientException $e) {
-            return new OutErro($e);
-        } catch (Exception $e) {
-            return new OutErro($e);
+        } catch (Exception $exception) {
+            throw $exception;
         }
     }
 
     /**
      * 
-     * Obtém informações de um aluno através da API.
-     *
      * @param InAluno $inAluno Objeto contendo informações do aluno.
      * @return OutAluno|OutErro Retorna um objeto OutAluno em caso de sucesso ou OutErro em caso de erro.
      * 
@@ -161,21 +156,21 @@ class StudentSEDDataSource extends SedDataSource
     function exibirFichaAluno(InAluno $inAluno)
     {
         try {
-            if (empty($inAluno->inNumRa) || empty($inAluno->inSiglaUfra)) {
+            if (empty($inAluno->inNumRA) || empty($inAluno->inSiglaUFRA)) {
                 throw new InvalidArgumentException("Entrada inválida: dados incompletos.");
             }
 
-            if (strlen($inAluno->inNumRa) > self::LENGTH_IN_NUM_RA || 
-                isset($inAluno->inSiglaUfra) ? (strlen($inAluno->inSiglaUfra) > self::LENGTH_IN_SIGLA_UFRA) : false || 
-                strlen($inAluno->inDigitoRa) > self::LENGTH_IN_DIGITO_RA) {
+            if (strlen($inAluno->inNumRA) > self::LENGTH_IN_NUM_RA || 
+                isset($inAluno->inSiglaUFRA) ? (strlen($inAluno->inSiglaUFRA) > self::LENGTH_IN_SIGLA_UFRA) : false || 
+                strlen($inAluno->inDigitoRA) > self::LENGTH_IN_DIGITO_RA) {
                 throw new InvalidArgumentException("Entrada inválida: tamanho máximo excedido.");
             }
 
             $alunoRequestBody = [
                 'inAluno' => [
-                    'inNumRA' => $inAluno->inNumRa, 
-                    'inDigitoRA' => $inAluno->inDigitoRa ?? null, 
-                    'InSiglaUFRA' => $inAluno->inSiglaUfra
+                    'inNumRA' => $inAluno->inNumRA, 
+                    'inDigitoRA' => $inAluno->inDigitoRA ?? null, 
+                    'InSiglaUFRA' => $inAluno->inSiglaUFRA
                 ]
             ];
     
@@ -185,20 +180,22 @@ class StudentSEDDataSource extends SedDataSource
             
             $aluno = json_decode($apiResponse->getBody()->getContents());
             return new OutAluno($aluno);
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $invalidArgumentException) {
+            throw $invalidArgumentException;
+        } catch (ClientException $e) {
             return new OutErro($e);
-        } catch (GuzzleHttp\Exception\ClientException $e) {
-            return new OutErro($e);
-        } catch (Exception $e) {
-            return new OutErro($e);
+        } catch (Exception $exception) {
+            throw $exception;
         }
     }   
 
     /**
-     * 
      * Summary of getConsultarResponsavelAluno
      * @param InResponsavelAluno
      * @return OutResponsaveis|OutErro
+     * 
+     * @throws InvalidArgumentException Se os dados de entrada forem inválidos.
+     * @throws Exception Se ocorrer um erro desconhecido.
      * 
      */
     function getConsultarResponsavelAluno(InResponsavelAluno $inConsultarResponsavelAluno)
@@ -211,9 +208,9 @@ class StudentSEDDataSource extends SedDataSource
                     'inUFRG' => isset($inConsultarResponsavelAluno->inDocumentosAluno->inUFRG) ? $inConsultarResponsavelAluno->inDocumentosAluno->inUFRG : null
                 ],
                 'inAluno' => [
-                    'inNumRA' => $inConsultarResponsavelAluno->inAluno->inNumRa ?? null,
-                    'inDigitoRA' => isset($inConsultarResponsavelAluno->inAluno->inNumRa) ? $inConsultarResponsavelAluno->inAluno->inDigitoRa : null,
-                    'inSiglaUFRA' => isset($inConsultarResponsavelAluno->inAluno->inNumRa) ? $inConsultarResponsavelAluno->inAluno->inSiglaUfra : null
+                    'inNumRA' => $inConsultarResponsavelAluno->inAluno->inNumRA ?? null,
+                    'inDigitoRA' => isset($inConsultarResponsavelAluno->inAluno->inNumRA) ? $inConsultarResponsavelAluno->inAluno->inDigitoRA : null,
+                    'inSiglaUFRA' => isset($inConsultarResponsavelAluno->inAluno->inNumRA) ? $inConsultarResponsavelAluno->inAluno->inSiglaUFRA : null
                 ],
             ];
     
@@ -222,14 +219,13 @@ class StudentSEDDataSource extends SedDataSource
             ]);
             
             $responsavelAluno = json_decode($apiResponse->getBody()->getContents());
-
             return new OutResponsaveis($responsavelAluno);
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $invalidArgumentException) {
+            throw $invalidArgumentException;
+        } catch (ClientException $e) {
             return new OutErro($e);
-        } catch (GuzzleHttp\Exception\ClientException $e) {
-            return new OutErro($e);
-        } catch (Exception $e) {
-            return new OutErro($e);
+        } catch (Exception $exception) {
+            throw $exception;
         }
     }
 }
