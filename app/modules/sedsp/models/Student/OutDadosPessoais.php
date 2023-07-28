@@ -1,6 +1,6 @@
 <?php
 
-class OutDadosPessoais
+class OutDadosPessoais implements JsonSerializable
 {
 	private $outNumRA;
     private $outDigitoRA;
@@ -37,39 +37,40 @@ class OutDadosPessoais
 
 
 	public function __construct($dadosPessoais) {
-		$this->outNumRA = $dadosPessoais->outNumRA;
-		$this->outDigitoRA = $dadosPessoais->outDigitoRA;
-		$this->outSiglaUFRA = $dadosPessoais->outSiglaUFRA;
-		$this->outNomeAluno = $dadosPessoais->outNomeAluno;
-		$this->outDataNascimento = $dadosPessoais->outDataNascimento;
-		$this->outCorRaca = $dadosPessoais->outCorRaca;
-		$this->outDescCorRaca = $dadosPessoais->outDescCorRaca;
-		$this->outCodSexo = $dadosPessoais->outCodSexo;
-		$this->outSexo = $dadosPessoais->outSexo;
-		$this->outNomeMae = $dadosPessoais->outNomeMae;
-		$this->outNomePai = $dadosPessoais->outNomePai;
-		$this->outNomeSocial = $dadosPessoais->outNomeSocial;
-		$this->outNomeAfetivo = $dadosPessoais->outNomeAfetivo;
-		$this->outEmail = $dadosPessoais->outEmail;
-		$this->outEmailGoogle = $dadosPessoais->outEmailGoogle;
-		$this->outEmailMicrosoft = $dadosPessoais->outEmailMicrosoft;
-		$this->outNacionalidade = $dadosPessoais->outNacionalidade;
-		$this->outDescNacionalidade = $dadosPessoais->outDescNacionalidade;
-		$this->outCodPaisOrigem = $dadosPessoais->outCodPaisOrigem;
-		$this->outNomePaisOrigem = $dadosPessoais->outNomePaisOrigem;
-		$this->outDataEntradaPais = $dadosPessoais->outDataEntradaPais;
-		$this->outBolsaFamilia = $dadosPessoais->outBolsaFamilia;
-		$this->outQuilombola = $dadosPessoais->outQuilombola;
-		$this->outPossuiInternet = $dadosPessoais->outPossuiInternet;
-		$this->outPossuiNotebookSmartphoneTablet = $dadosPessoais->outPossuiNotebookSmartphoneTablet;
-		$this->outNomeMunNascto = $dadosPessoais->outNomeMunNascto;
-		$this->outUFMunNascto = $dadosPessoais->outUFMunNascto;
-		$this->outAlunoFalecido = $dadosPessoais->outAlunoFalecido;
-		$this->outDataFalecimento = $dadosPessoais->outDataFalecimento;
-		$this->outCodMunNasctoDNE = $dadosPessoais->outCodMunNasctoDNE;
-		$this->outCodBolsaFamilia = $dadosPessoais->outCodBolsaFamilia;
-		$this->outDoadorOrgaos = $dadosPessoais->outDoadorOrgaos;
+		$this->outNumRA = $dadosPessoais->outAluno->outNumRA;
+		$this->outDigitoRA = $dadosPessoais->outAluno->outDigitoRA;
+		$this->outSiglaUFRA = $dadosPessoais->outAluno->outSiglaUFRA;
+		$this->outNomeAluno = $dadosPessoais->outAluno->outNomeAluno;
+		$this->outDataNascimento = $dadosPessoais->outAluno->outDataNascimento;
+		$this->outCorRaca = $dadosPessoais->outAluno->outCorRaca;
+		$this->outDescCorRaca = $dadosPessoais->outAluno->outDescCorRaca;
+		$this->outCodSexo = $dadosPessoais->outAluno->outCodSexo;
+		$this->outSexo = $dadosPessoais->outAluno->outSexo;
+		$this->outNomeMae = $dadosPessoais->outAluno->outNomeMae;
+		$this->outNomePai = $dadosPessoais->outAluno->outNomePai;
+		$this->outNomeSocial = $dadosPessoais->outAluno->outNomeSocial;
+		$this->outNomeAfetivo = $dadosPessoais->outAluno->outNomeAfetivo;
+		$this->outEmail = $dadosPessoais->outAluno->outEmail;
+		$this->outEmailGoogle = $dadosPessoais->outAluno->outEmailGoogle;
+		$this->outEmailMicrosoft = $dadosPessoais->outAluno->outEmailMicrosoft;
+		$this->outNacionalidade = $dadosPessoais->outAluno->outNacionalidade;
+		$this->outDescNacionalidade = $dadosPessoais->outAluno->outDescNacionalidade;
+		$this->outCodPaisOrigem = $dadosPessoais->outAluno->outCodPaisOrigem;
+		$this->outNomePaisOrigem = $dadosPessoais->outAluno->outNomePaisOrigem;
+		$this->outDataEntradaPais = $dadosPessoais->outAluno->outDataEntradaPais;
+		$this->outBolsaFamilia = $dadosPessoais->outAluno->outBolsaFamilia;
+		$this->outQuilombola = $dadosPessoais->outAluno->outQuilombola;
+		$this->outPossuiInternet = $dadosPessoais->outAluno->outPossuiInternet;
+		$this->outPossuiNotebookSmartphoneTablet = $dadosPessoais->outAluno->outPossuiNotebookSmartphoneTablet;
+		$this->outNomeMunNascto = $dadosPessoais->outAluno->outNomeMunNascto;
+		$this->outUFMunNascto = $dadosPessoais->outAluno->outUFMunNascto;
+		$this->outAlunoFalecido = $dadosPessoais->outAluno->outAlunoFalecido;
+		$this->outDataFalecimento = $dadosPessoais->outAluno->outDataFalecimento;
+		$this->outCodMunNasctoDNE = $dadosPessoais->outAluno->outCodMunNasctoDNE;
+		$this->outCodBolsaFamilia = $dadosPessoais->outAluno->outCodBolsaFamilia;
+		$this->outDoadorOrgaos = $dadosPessoais->outAluno->outDoadorOrgaos;
 	}
+	
 	
 	public function getOutNumRa(): string
 	{
@@ -230,4 +231,13 @@ class OutDadosPessoais
 	{
 		return $this->outDoadorOrgaos;
 	}
+
+	public function jsonSerialize()
+    {
+		$filteredProps = array_filter(get_object_vars($this), function ($value) {
+            return $value !== null;
+        });
+
+        return $filteredProps;
+    }
 }
