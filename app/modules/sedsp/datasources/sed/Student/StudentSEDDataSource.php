@@ -14,6 +14,15 @@ class StudentSEDDataSource extends SedDataSource
     const LENGTH_IN_DIGITO_RA = 2;
     const LENGTH_IN_SIGLA_UFRA = 2;
 
+
+
+    /**
+     * ===========================
+     * GET REQUEST METHODS
+     * ===========================
+     */
+
+
     /**
      * 
      * Summary of getStudentRA
@@ -54,14 +63,6 @@ class StudentSEDDataSource extends SedDataSource
             throw $exception;
         }
     }
-
-    public function addStudent($student_sed){
-        $promise = $this->client->request('POST', '/ncaapi/api/Aluno/FichaAluno', [
-            'body' => json_encode($student_sed)
-        ]);
-        return $promise;
-    }
-
 
     /**
      * 
@@ -227,5 +228,28 @@ class StudentSEDDataSource extends SedDataSource
         } catch (Exception $exception) {
             throw $exception;
         }
+    }
+
+
+
+
+
+    /**
+     * ===========================
+     * POST REQUEST METHODS
+     * ===========================
+     */
+
+    
+    /**
+     * Summary of addStudent
+     * @param InDadosPessoais $inDadosPessoais
+     * @return Psr\Http\Message\ResponseInterface
+     */
+    function addStudent(InDadosPessoais $inDadosPessoais){
+        $promise = $this->client->request('POST', '/ncaapi/api/Aluno/FichaAluno', [
+            'body' => json_encode()
+        ]);
+        return $promise;
     }
 }
