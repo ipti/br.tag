@@ -113,29 +113,13 @@ class InDeficiencia implements JsonSerializable
 		return $this;
 	}
 
-	/**
-	 * @param array $data
-	 * @return self
-	 */
-	public static function fromJson(array $data): self
-	{
-		return new self(
-			$data['outCodNecessidade'] ?? null,
-			$data['outMobilidadeReduzida'] ?? null,
-			$data['outTipoMobilidadeReduzida'] ?? null,
-			$data['outCuidador'] ?? null,
-			$data['outTipoCuidador'] ?? null,
-			$data['outProfSaude'] ?? null,
-			$data['outTipoProfSaude'] ?? null
-		);
-	}
-
-	public function jsonSerialize()
+	function jsonSerialize()
     {
-        $vars = get_object_vars($this);
-        return $vars;
+        $filteredProps = array_filter(get_object_vars($this), function ($value) {
+            return $value !== null;
+        });
+
+        return $filteredProps;
     }
 }
 
-
-?>
