@@ -143,7 +143,7 @@ class DefaultController extends Controller
 			$classes =  new IdentifyAllClassroomRABySchool();
 			$classNumbers = $classes->exec($inep_id, $year);
 			$aux = count($classNumbers->classrooms);
-			
+
 			if($registerAllClasses){
 				foreach ($classNumbers->classrooms as $classroom) {
 					$this->registerClassroom($classroom->outNumClasse, $importStudents);
@@ -154,7 +154,7 @@ class DefaultController extends Controller
 					$this->registerClassroom($classroomNum, $importStudents);
 				}
 			}
-		
+
 			$this->redirect(array('index'));
 
 		} catch (\Exception $e) {
@@ -195,7 +195,7 @@ class DefaultController extends Controller
 	{
 		$school_name = $_POST["schoolName"];
 		$school_mun = $_POST["schoolMun"];
-		
+
 		$this->checkSEDToken();
 
 		try {
@@ -266,9 +266,9 @@ class DefaultController extends Controller
 		} catch (\Throwable $th) {
 			header('Content-Type: application/json', true, 400);
 			echo CJSON::encode(array(
-				'success' => false,
-				'message' => 'Bad Request',
-				'id' => $id,
+					'success' => false,
+					'message' => 'Bad Request',
+					'id' => $id,
 			)); // Set the HTTP response code to 400
 			Yii::app()->end();
 		}
@@ -288,7 +288,7 @@ class DefaultController extends Controller
 
 	function actionTest() {
 
-		$opt = 6;
+		$opt = 7;
 		switch ($opt) {
 			case 1:
 				$inAluno = new InAluno("000124464761", null, "SP");
@@ -311,11 +311,11 @@ class DefaultController extends Controller
 				var_export($dataSource->getConsultClass($inConsult));
 				echo "</pre>";
 			case 4:
-					$inConsult = new InAluno("000124464761", "5", "SP");
-					$dataSource = new EnrollmentSEDDataSource();
-					echo "<pre>";
-					var_export($dataSource->getListarMatriculasRA($inConsult));
-					echo "</pre>";
+				$inConsult = new InAluno("000124464761", "5", "SP");
+				$dataSource = new EnrollmentSEDDataSource();
+				echo "<pre>";
+				var_export($dataSource->getListarMatriculasRA($inConsult));
+				echo "</pre>";
 			case 5:
 
 				$search = [
@@ -330,13 +330,13 @@ class DefaultController extends Controller
 				echo "<pre>";
 				var_export($dataSource->getListStudents($inConsult));
 				echo "</pre>";
-				
+
 			case 6:
 				$search = [
 					'inAluno' => [
 						'inNumRA' => "000124464761",
 						'inDigitoRA' => "5",
-						'inSiglaUFRA' => "SP" 
+						'inSiglaUFRA' => "SP"
 					],
 					'inDocumentosAluno' => [
 						'inCPF' =>  null,
@@ -350,7 +350,18 @@ class DefaultController extends Controller
 				echo "<pre>";
 				var_export($dataSource->getConsultarResponsavelAluno($inConsult));
 				echo "</pre>";
+			case 7:
+				$search = [ 
+					'inNomeAluno' => 'EDUARDA LUCAS BERNARDES', 
+					'inNomeMae' => 'BRUNA LUCAS FAGANELLI',
+					'inDataNascimento' => '22/01/2019'
+				];
 
+				$inConsult = json_encode(new InDadosPessoais($search));
+				$dataSource = new StudentSEDDataSource();
+				echo "<pre>";
+				var_export(json_decode(json_encode($dataSource->getStudentRA(null, json_decode($inConsult)))));
+				echo "</pre>";
 			default:
 				break;
 		}

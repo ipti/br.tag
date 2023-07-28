@@ -17,21 +17,21 @@ class EnrollmentSEDDataSource extends SedDataSource
     function getListarMatriculasRA($inAluno)
     {
         try {
-            if (empty($inAluno->inNumRa) || empty($inAluno->inSiglaUfra)) {
+            if (empty($inAluno->inNumRA) || empty($inAluno->inSiglaUFRA)) {
                 throw new InvalidArgumentException("Entrada inválida: dados incompletos.");
             }
 
-            if (strlen($inAluno->inNumRa) > self::LENGTH_IN_NUM_RA || 
-                isset($inAluno->inSiglaUfra) ? (strlen($inAluno->inSiglaUfra) > self::LENGTH_IN_SIGLA_UFRA) : false || 
-                strlen($inAluno->inDigitoRa) > self::LENGTH_IN_DIGITO_RA) {
+            if (strlen($inAluno->inNumRA) > self::LENGTH_IN_NUM_RA || 
+                isset($inAluno->inSiglaUFRA) ? (strlen($inAluno->inSiglaUFRA) > self::LENGTH_IN_SIGLA_UFRA) : false || 
+                strlen($inAluno->inDigitoRA) > self::LENGTH_IN_DIGITO_RA) {
                 throw new InvalidArgumentException("Entrada inválida: tamanho máximo excedido.");
             }
 
             $alunoRequestBody = [
                 'inAluno' => [
-                    'inNumRA' => $inAluno->inNumRa, 
-                    'inDigitoRA' => $inAluno->inDigitoRa ?? null, 
-                    'InSiglaUFRA' => $inAluno->inSiglaUfra
+                    'inNumRA' => $inAluno->inNumRA, 
+                    'inDigitoRA' => $inAluno->inDigitoRA ?? null, 
+                    'InSiglaUFRA' => $inAluno->inSiglaUFRA
                 ]
             ];
     

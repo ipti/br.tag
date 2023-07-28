@@ -3,70 +3,70 @@
 
 class InAluno
 {
-    public $inNumRa;
+    public $inNumRA;
 
-    public $inDigitoRa;
+    public $inDigitoRA;
 
-    public $inSiglaUfra;
+    public $inSiglaUFRA;
 
     /**
-     * @param string $inNumRa
-     * @param ?string $inDigitoRa
-     * @param string $inSiglaUfra
+     * @param string $inNumRA
+     * @param ?string $inDigitoRA
+     * @param string $inSiglaUFRA
      */
     public function __construct(
-        string $inNumRa,
-        ?string $inDigitoRa,
-        string $inSiglaUfra
+        string $inNumRA,
+        ?string $inDigitoRA,
+        string $inSiglaUFRA
     ) {
-        $this->inNumRa = $inNumRa;
-        $this->inDigitoRa = $inDigitoRa;
-        $this->inSiglaUfra = $inSiglaUfra;
+        $this->inNumRA = $inNumRA;
+        $this->inDigitoRA = $inDigitoRA;
+        $this->inSiglaUFRA = $inSiglaUFRA;
     }
 
     /**
      * @param string|null $inNumRa
      * @return self
      */
-    public function setInNumRa(?string $inNumRa): self
+    public function setInNumRa(?string $inNumRA): self
     {
-        $this->inNumRa = $inNumRa;
+        $this->inNumRA = $inNumRA;
         return $this;
     }
 
     function getInNumRA(): string
     {
-        return $this->inNumRa;
+        return $this->inNumRA;
     }
 
     /**
-     * @param string|null $inDigitoRa
+     * @param string|null $inDigitoRA
      * @return self
      */
-    public function setInDigitoRa(?string $inDigitoRa): self
+    public function setInDigitoRa(?string $inDigitoRA): self
     {
-        $this->inDigitoRa = $inDigitoRa;
+        $this->inDigitoRA = $inDigitoRA;
         return $this;
     }
 
     function getInDigitoRA() : ?string
     {
-        return $this->inDigitoRa;
+        return $this->inDigitoRA;
     }
 
     /**
-     * @param string|null $inSiglaUfra
+     * @param string|null $inSiglaUFRA
      * @return self
      */
-    public function setInSiglaUfra(?string $inSiglaUfra): self
+    public function setInSiglaUfra(?string $inSiglaUFRA): self
     {
-        $this->inSiglaUfra = $inSiglaUfra;
+        $this->inSiglaUFRA = $inSiglaUFRA;
         return $this;
     }
 
     public function getInSiglaUFRA() : string  
     {
-        return $this->inSiglaUfra;
+        return $this->inSiglaUFRA;
     }
 
 }
