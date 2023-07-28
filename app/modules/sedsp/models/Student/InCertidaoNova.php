@@ -2,60 +2,42 @@
 
 class InCertidaoNova implements JsonSerializable
 {
-	private $inCertMatr01;
+	public $inCertMatr01;
+	public $inCertMatr02;
+	public $inCertMatr03;
+	public $inCertMatr04;
+	public $inCertMatr05;
+	public $inCertMatr06;
+	public $inCertMatr07;
+	public $inCertMatr08;
+	public $inCertMatr09;
+	public $inDataEmissaoCertidao;
 
-	private $inCertMatr02;
-
-	private $inCertMatr03;
-
-	private $inCertMatr04;
-
-	private $inCertMatr05;
-
-	private $inCertMatr06;
-
-	private $inCertMatr07;
-
-	private $inCertMatr08;
-
-	private $inCertMatr09;
-
-	private $inDataEmissaoCertidao;
 
 	/**
-	 * @param string|null $inCertMatr01
-	 * @param string|null $inCertMatr02
-	 * @param string|null $inCertMatr03
-	 * @param string|null $inCertMatr04
-	 * @param string|null $inCertMatr05
-	 * @param string|null $inCertMatr06
-	 * @param string|null $inCertMatr07
-	 * @param string|null $inCertMatr08
-	 * @param string|null $inCertMatr09
-	 * @param string|null $inDataEmissaoCertidao
+	 * @param ?string $inCertMatr01
+	 * @param ?string $inCertMatr02
+	 * @param ?string $inCertMatr03
+	 * @param ?string $inCertMatr04
+	 * @param ?string $inCertMatr05
+	 * @param ?string $inCertMatr06
+	 * @param ?string $inCertMatr07
+	 * @param ?string $inCertMatr08
+	 * @param ?string $inCertMatr09
+	 * @param ?string $inDataEmissaoCertidao
 	 */
-	public function __construct(
-		?string $inCertMatr01,
-		?string $inCertMatr02,
-		?string $inCertMatr03,
-		?string $inCertMatr04,
-		?string $inCertMatr05,
-		?string $inCertMatr06,
-		?string $inCertMatr07,
-		?string $inCertMatr08,
-		?string $inCertMatr09,
-		?string $inDataEmissaoCertidao
-	) {
-		$this->inCertMatr01 = $inCertMatr01;
-		$this->inCertMatr02 = $inCertMatr02;
-		$this->inCertMatr03 = $inCertMatr03;
-		$this->inCertMatr04 = $inCertMatr04;
-		$this->inCertMatr05 = $inCertMatr05;
-		$this->inCertMatr06 = $inCertMatr06;
-		$this->inCertMatr07 = $inCertMatr07;
-		$this->inCertMatr08 = $inCertMatr08;
-		$this->inCertMatr09 = $inCertMatr09;
-		$this->inDataEmissaoCertidao = $inDataEmissaoCertidao;
+	public function __construct($inCertidaoNova) {
+		$inCertidaoNova = (object) $inCertidaoNova;
+		$this->inCertMatr01 = $inCertidaoNova->inCertMatr01;
+		$this->inCertMatr02 = $inCertidaoNova->inCertMatr02;
+		$this->inCertMatr03 = $inCertidaoNova->inCertMatr03;
+		$this->inCertMatr04 = $inCertidaoNova->inCertMatr04;
+		$this->inCertMatr05 = $inCertidaoNova->inCertMatr05;
+		$this->inCertMatr06 = $inCertidaoNova->inCertMatr06;
+		$this->inCertMatr07 = $inCertidaoNova->inCertMatr07;
+		$this->inCertMatr08 = $inCertidaoNova->inCertMatr08;
+		$this->inCertMatr09 = $inCertidaoNova->inCertMatr09;
+		$this->inDataEmissaoCertidao = $inCertidaoNova->inDataEmissaoCertidao;
 	}
 
 	/**
@@ -158,30 +140,12 @@ class InCertidaoNova implements JsonSerializable
 		return $this;
 	}
 
-	/**
-	 * @param array $data
-	 * @return self
-	 */
-	public static function fromJson(array $data): self
-	{
-		return new self(
-			$data['outCertMatr01'] ?? null,
-			$data['outCertMatr02'] ?? null,
-			$data['outCertMatr03'] ?? null,
-			$data['outCertMatr04'] ?? null,
-			$data['outCertMatr05'] ?? null,
-			$data['outCertMatr06'] ?? null,
-			$data['outCertMatr07'] ?? null,
-			$data['outCertMatr08'] ?? null,
-			$data['outCertMatr09'] ?? null,
-			$data['outDataEmissaoCertidao'] ?? null
-		);
-	}
-
 	public function jsonSerialize()
     {
-        $vars = get_object_vars($this);
-        return $vars;
+        $filteredProps = array_filter(get_object_vars($this), function ($value) {
+            return $value !== null;
+        });
+
+        return $filteredProps;
     }
 }
-?>
