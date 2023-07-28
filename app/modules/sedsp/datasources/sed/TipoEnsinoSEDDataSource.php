@@ -18,7 +18,8 @@ class TipoEnsinoSEDDataSource extends SedDataSource
         
         try {
             $response = $this->client->request('GET', '/ncaapi/api/DadosBasicos/TipoEnsino');
-            $json_data = json_decode($response->getBody()->getContents());
+            $json_data = json_decode($response->getBody()->getContents(), true);
+
             return OutListaTiposEnsino::fromJson($json_data);
         }
         catch (GuzzleHttp\Exception\ClientException $e) {

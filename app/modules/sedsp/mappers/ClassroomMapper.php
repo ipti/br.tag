@@ -6,14 +6,15 @@ class ClassroomMapper
 {
     public static function parseToTAGFormacaoClasse($content)
     {
-        $response = json_decode($content);
+        $response = json_decode($content, true);        
         $result = [];
 
         $tipos_datasource =  new TipoEnsinoSEDDataSource();
 
         $tipos_ensino = $tipos_datasource->getTipos();
-
+        
         $outClasse = OutClasse::fromJson($response);
+        
         $outAlunos = $outClasse->getOutAlunos();
         $tempo_inicio = explode(":", $outClasse->outHorarioInicio);
         $tempo_fim = explode(":", $outClasse->outHorarioFim);
@@ -26,8 +27,9 @@ class ClassroomMapper
         
         // Classroom
         $classroom_tag->inep_id = $outClasse->outNumClasse;
-        $classroom_tag->name = $serie." ".$outClasse->outTurma;
+        $classroom_tag->name = $serie->getOutDescSerieAno()." ".$outClasse->outTurma;
         $classroom_tag->edcenso_stage_vs_modality_fk = $stage;
+        $classroom_tag->schooling = 1;
         $classroom_tag->assistance_type = 0;
         $classroom_tag->modality = 1;
         $classroom_tag->school_inep_fk = Yii::app()->user->school;
@@ -101,6 +103,8 @@ class ClassroomMapper
      * @return OutSerieAno
      */
     private static function getSerieFromClasse($outClasse, $tipos_ensino) {
+
+     
         $tipo_ensino_index = array_search($outClasse->getOutCodTipoEnsino(), array_column($tipos_ensino->getOutTipoEnsino(), "outCodTipoEnsino"));  
         $tipo = $tipos_ensino->getOutTipoEnsino()[$tipo_ensino_index];
         $serie_index = array_search($outClasse->getOutCodSerieAno(), array_column($tipo->getOutSerieAno(), "outCodSerieAno"));
