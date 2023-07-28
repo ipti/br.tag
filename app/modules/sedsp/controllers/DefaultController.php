@@ -288,7 +288,7 @@ class DefaultController extends Controller
 
 	function actionTest() {
 
-		$opt = 7;
+		$opt = 8;
 		switch ($opt) {
 			case 1:
 				$inAluno = new InAluno("000124464761", null, "SP");
@@ -362,6 +362,116 @@ class DefaultController extends Controller
 				echo "<pre>";
 				var_export(json_decode(json_encode($dataSource->getStudentRA(null, json_decode($inConsult)))));
 				echo "</pre>";
+			case 8:
+				$search = [
+					'inDadosPessoais' => [
+						'inNomeAluno' => 'Nathan Santos',
+						'inNomeMae' => 'Maria',
+						'inNomePai' => NULL,
+						'inNomeSocial' => NULL,
+						'inNomeAfetivo' => NULL,
+						'inDataNascimento' => '22/04/1999',
+						'inCorRaca' => 1, // Cor / Raça: 1 Branca | 2 Preta | 3 Parda | 4 Amarela | 5 Indígena | 6 Não Declarada
+						'inSexo' => 1, // 1 – Masculino | 2 – Feminino
+						'inBolsaFamilia' => NULL,
+						'inQuilombola' => NULL,
+						'inPossuiInternet' => 'S',
+						'inPossuiNotebookSmartphoneTablet' => 'S',
+						'inTipoSanguineo' => NULL,
+						'inDoadorOrgaos' => NULL,
+						'inNumeroCns' => NULL,
+						'inEmail' => NULL,
+						'inNacionalidade' => '1',
+						'inNomeMunNascto' => 'Porto da Folha', // Opcional. Obrigatório quando inNacionalidade = 1
+						'inUfMunNascto' => 'SE', // Opcional. Obrigatório quando inNacionalidade = 1
+						'inCodMunNasctoDne' => NULL,
+						'inDataEntradaPais' => '22/04/2018', // Opcional. Obrigatório quando inNacionalidade = 2
+						'inCodPaisOrigem' => '76',
+						'inPaisOrigem' => 'Brasil',
+					],
+					'inDocumentos' => [
+						'inNumRG' => null,
+						'inDigitoRG' => null, // Opcional. Obrigatório quando o documento civil for o RG, maior ou igual a 24.000.000 e inUFDoctoCivil = SP
+						'inUFRG' => null,
+						'inCPF' => null,
+						'inNumNIS' => null,
+						'inDataEmissaoDoctoCivil' => null,
+						'inJustificativaDocumentos' => null,
+						'inNumINEP' => null,
+						'inNumCertidaoNova' => null,
+					],					
+					'inCertidaoNova' => [
+						'inCertMatr01' => '999999',
+						'inCertMatr02' => '99',
+						'inCertMatr03' => '99',
+						'inCertMatr04' => '9999',
+						'inCertMatr05' => '9',
+						'inCertMatr06' => '99999',
+						'inCertMatr07' => '999',
+						'inCertMatr08' => '9999999',
+						'inCertMatr09' => '99',
+						'inDataEmissaoCertidao' => '22/05/2023',                
+					],
+					'inCertidaoAntiga' => [
+						'inNumCertidao' => '999999',
+						'inLivro' => '2343',
+						'inFolha' => '4343',
+						'inDistritoCertidao' => 'Aracaju',
+						'inMunicipioComarca' => 'Aracaju',
+						'inUfComarca' => 'SE',
+						'inDataEmissaoCertidao' => '22/05/2022',               
+					],
+					'inEnderecoResidencial' => [
+						'inLogradouro' => NULL,
+						'inNumero' => NULL,
+						'inBairro' => NULL,
+						'inNomeCidade' => NULL,
+						'inUfCidade' => NULL,
+						'inComplemento' => NULL,
+						'inCep' => NULL,
+						'inAreaLogradouro' => NULL,
+						'inCodLocalizacaoDiferenciada' => NULL,
+						'inCodMunicipioDne' => NULL,
+						'inLatitude' => NULL,
+						'inLongitude' => NULL,                
+					],
+					'inDeficiencia' => [
+						'inCodNecessidade' => NULL,
+						'inMobilidadeReduzida' => 0,
+						'inTipoMobilidadeReduzida' => NULL,
+						'inCuidador' => 0,
+						'inTipoCuidador' => NULL,
+						'inProfSaude' => 0,
+						'inTipoProfSaude' => NULL,                
+					],
+					'inRecursoAvaliacao' => [
+						'inNenhum' => NULL,
+						'inAuxilioLeitor' => NULL,
+						'inAuxilioTranscricao' => NULL,
+						'inGuiaInterprete' => NULL,
+						'inInterpreteLibras' => NULL,
+						'inLeituraLabial' => NULL,
+						'inProvaBraile' => NULL,
+						'inProvaAmpliada' => NULL,
+						'inFonteProva' => NULL,
+						'inProvaVideoLibras' => NULL,
+						'inCdAudioDefVisual' => NULL,
+						'inProvaLinguaPortuguesa' => NULL,                
+					],
+					'inRastreio' => [
+						'inUsuarioRemoto' => NULL,
+						'inNomeUsuario' => NULL,
+						'inNumCpf' => NULL,
+						'inLocalPerfilAcesso' => NULL,
+					]
+				];	
+	
+				$inConsult = new InFichaAluno($search);
+				$dataSource = new StudentSEDDataSource();
+				echo "<pre>";
+				$dataSource->addStudent($inConsult);
+				echo "</pre>";
+
 			default:
 				break;
 		}
