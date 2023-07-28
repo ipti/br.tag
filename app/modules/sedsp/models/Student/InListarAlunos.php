@@ -32,6 +32,10 @@ class InListarAlunos implements JsonSerializable
      */
     function jsonSerialize()
     {
-        return get_object_vars($this);
+        $filteredProps = array_filter(get_object_vars($this), function ($value) {
+            return $value !== null;
+        });
+
+        return $filteredProps;
     }
 }
