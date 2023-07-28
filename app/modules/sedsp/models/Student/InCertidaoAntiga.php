@@ -2,45 +2,37 @@
 
 class InCertidaoAntiga implements JsonSerializable
 {
-	private $inNumCertidao;
+	public $inNumCertidao;
 
-	private $inLivro;
+	public $inLivro;
 
-	private $inFolha;
+	public $inFolha;
 
-	private $inDistritoCertidao;
+	public $inDistritoCertidao;
 
-	private $inMunicipioComarca;
+	public $inMunicipioComarca;
 
-	private $inUfComarca;
+	public $inUfComarca;
 
-	private $inDataEmissaoCertidao;
+	public $inDataEmissaoCertidao;
 
 	/**
-	 * @param string|null $inNumCertidao
-	 * @param string|null $inLivro
-	 * @param string|null $inFolha
-	 * @param string|null $inDistritoCertidao
-	 * @param string|null $inMunicipioComarca
-	 * @param string|null $inUfComarca
-	 * @param string|null $inDataEmissaoCertidao
+	 * @param ?string $inNumCertidao
+	 * @param ?string $inLivro
+	 * @param ?string $inFolha
+	 * @param ?string $inDistritoCertidao
+	 * @param ?string $inMunicipioComarca
+	 * @param ?string $inUfComarca
+	 * @param ?string $inDataEmissaoCertidao
 	 */
-	public function __construct(
-		?string $inNumCertidao,
-		?string $inLivro,
-		?string $inFolha,
-		?string $inDistritoCertidao,
-		?string $inMunicipioComarca,
-		?string $inUfComarca,
-		?string $inDataEmissaoCertidao
-	) {
-		$this->inNumCertidao = $inNumCertidao;
-		$this->inLivro = $inLivro;
-		$this->inFolha = $inFolha;
-		$this->inDistritoCertidao = $inDistritoCertidao;
-		$this->inMunicipioComarca = $inMunicipioComarca;
-		$this->inUfComarca = $inUfComarca;
-		$this->inDataEmissaoCertidao = $inDataEmissaoCertidao;
+	public function __construct($inCertidaoAntiga) {
+		$this->inNumCertidao = $inCertidaoAntiga->inNumCertidao;
+		$this->inLivro = $inCertidaoAntiga->inLivro;
+		$this->inFolha = $inCertidaoAntiga->inFolha;
+		$this->inDistritoCertidao = $inCertidaoAntiga->inDistritoCertidao;
+		$this->inMunicipioComarca = $inCertidaoAntiga->inMunicipioComarca;
+		$this->inUfComarca = $inCertidaoAntiga->inUfComarca;
+		$this->inDataEmissaoCertidao = $inCertidaoAntiga->inDataEmissaoCertidao;
 	}
 
 	/**
@@ -113,28 +105,12 @@ class InCertidaoAntiga implements JsonSerializable
 		return $this;
 	}
 
-	/**
-	 * @param array $data
-	 * @return self
-	 */
-	public static function fromJson(array $data): self
-	{
-		return new self(
-			$data['outNumCertidao'] ?? null,
-			$data['outLivro'] ?? null,
-			$data['outFolha'] ?? null,
-			$data['outDistritoCertidao'] ?? null,
-			$data['outMunicipioComarca'] ?? null,
-			$data['outUFComarca'] ?? null,
-			$data['outDataEmissaoCertidao'] ?? null
-		);
-	}
-
-    public function jsonSerialize()
+	function jsonSerialize()
     {
-        $vars = get_object_vars($this);
-        return $vars;
+        $filteredProps = array_filter(get_object_vars($this), function ($value) {
+            return $value !== null;
+        });
+
+        return $filteredProps;
     }
 }
-
-?>
