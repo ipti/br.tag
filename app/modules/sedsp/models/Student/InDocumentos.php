@@ -3,27 +3,27 @@
 class InDocumentos implements JsonSerializable
 {
     /**
-     * @var ?string $inNumRG
+     * @var string $inNumRG
      */
     public $inNumRG;
 
     /**
-     * @var ?string $inDigitoRG
+     * @var string $inDigitoRG
      */
     public $inDigitoRG;
 
     /**
-     * @var ?string $inUFRG
+     * @var string $inUFRG
      */
     public $inUFRG;
 
     /**
-     * @var ?string $inCPF
+     * @var string $inCPF
      */
     public $inCPF;
 
     /**
-     * @var ?string $inNumNIS
+     * @var string $inNumNIS
      */
     public $inNumNIS;
 
@@ -34,12 +34,12 @@ class InDocumentos implements JsonSerializable
     public $inJustificativaDocumentos;
 
     /**
-     * @var ?string $inNumINEP
+     * @var string $inNumINEP
      */
     public $inNumINEP;
 
     /**
-     * @var ?string $inNumCertidaoNova
+     * @var string $inNumCertidaoNova
      */
     public $inNumCertidaoNova;
 
@@ -52,6 +52,7 @@ class InDocumentos implements JsonSerializable
      * @param mixed $inDocumentos
      */
     public function __construct($inDocumentos) {
+        $inDocumentos = (object) $inDocumentos;
         $this->inNumRG = $inDocumentos->inNumRG;
         $this->inDigitoRG = $inDocumentos->inDigitoRG;
         $this->inUFRG = $inDocumentos->inUFRG;
