@@ -10,13 +10,12 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
 
 $subtitle = "
 <div class='subtitle-enrollments'>
-<span>MI - Matrícula Inicial</span>
-<span>MC - Matrícula Confirmada</span>
-<span>MR - Matrícula Renovada</span>
-<span>MT - Matrícula por Transferência</span>
-<span>N - Não informado</span>
+<span>RM - Rematrícula</span>
+<span>MTI - Matrícula por Transferência Interna</span>
+<span>MTE - Matrícula por Transferência Externa</span>
+<span>PM - Primeira Matrícula no Curso</span>
 <span>P - Promovido</span>
-<span>R - Transferido</span>
+<span>R - Repetente</span>
 </div>
 ";
 
@@ -192,6 +191,12 @@ $subtitle = "
                 $status = "";
         }
 
+        if($r['city'] && $r['uf']) {
+            $citySpace = '/';
+        }else {
+            $citySpace = '';
+        }
+
 
         if($key <= 20){
             $r20 .= "<tr>". "<td style='text-align: center;'>" . ($key + 1) . "</td>"
@@ -202,11 +207,10 @@ $subtitle = "
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
-                . "<td style='text-align: center;'>" . $r['city'] .'/'.@$r['uf']."</td>"
-                . "<td style='text-align: center;'>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . $r['city'] .$citySpace.@$r['uf']."</td>"
                 . "<td style='text-align: center;'>" . ($r['admission_type'] == '1' ? 'X' : '') . "</td>"
-                . "<td style='text-align: center;'>" . ($r['admission_type'] == '4' ? 'X' : '') . "</td>"
-                . "<td style='text-align: center;'>" . (($r['admission_type'] == '2' || $r['admission_type'] == '3') ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '2' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '3' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['situation'] == '0' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['situation'] == '1' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
@@ -221,11 +225,10 @@ $subtitle = "
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
-                . "<td style='text-align: center;'>" . $r['city'] .'/'.@$r['uf']."</td>"
-                . "<td style='text-align: center;'>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . $r['city'] .$citySpace.@$r['uf']."</td>"
                 . "<td style='text-align: center;'>" . ($r['admission_type'] == '1' ? 'X' : '') . "</td>"
-                . "<td style='text-align: center;'>" . ($r['admission_type'] == '4' ? 'X' : '') . "</td>"
-                . "<td style='text-align: center;'>" . (($r['admission_type'] == '2' || $r['admission_type'] == '3') ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '2' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '3' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['situation'] == '0' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['situation'] == '1' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
@@ -238,11 +241,10 @@ $subtitle = "
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
-                . "<td style='text-align: center;'>" . $r['city'] .'/'.@$r['uf']."</td>"
-                . "<td style='text-align: center;'>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . $r['city'] .$citySpace.@$r['uf']."</td>"
                 . "<td style='text-align: center;'>" . ($r['admission_type'] == '1' ? 'X' : '') . "</td>"
-                . "<td style='text-align: center;'>" . ($r['admission_type'] == '4' ? 'X' : '') . "</td>"
-                . "<td style='text-align: center;'>" . (($r['admission_type'] == '2' || $r['admission_type'] == '3') ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '2' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '3' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['situation'] == '0' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['situation'] == '1' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
@@ -255,11 +257,10 @@ $subtitle = "
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
-                . "<td style='text-align: center;'>" . $r['city'] .'/'.@$r['uf']."</td>"
-                . "<td style='text-align: center;'>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . $r['city'] .$citySpace.@$r['uf']."</td>"
                 . "<td style='text-align: center;'>" . ($r['admission_type'] == '1' ? 'X' : '') . "</td>"
-                . "<td style='text-align: center;'>" . ($r['admission_type'] == '4' ? 'X' : '') . "</td>"
-                . "<td style='text-align: center;'>" . (($r['admission_type'] == '2' || $r['admission_type'] == '3') ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '2' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '3' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['situation'] == '0' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['situation'] == '1' ? 'X' : '') . "</td>"
                 . "<td style='text-align: center;'>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
@@ -296,18 +297,17 @@ $subtitle = "
             <th colspan="2" style="text-align: center;">GÊNERO</th>
             <th rowspan="2" style="text-align: center;">DATA DE NASCIMENTO</th>
             <th rowspan="2" style="text-align: center;">NATURALIDADE</th>
-            <th colspan="4" style="text-align: center;">TIPO DE MATRÍCULA</th>
+            <th colspan="3" style="text-align: center;">TIPO DE MATRÍCULA</th>
             <th colspan="3" style="text-align: center;">SITUAÇÃO NA SÉRIE</th>
             <th rowspan="2" style="text-align: center;">ENDEREÇO</th>
         </tr>
         <tr>
             <th style="text-align: center;">M</th>
             <th style="text-align: center;">F</th>
-            <th style="text-align: center;">MI</th>
-            <th style="text-align: center;">MC</th>
-            <th style="text-align: center;">MR</th>
-            <th style="text-align: center;">MT</th>
-            <th style="text-align: center;">N</th>
+            <th style="text-align: center;">RM</th>
+            <th style="text-align: center;">MTI</th>
+            <th style="text-align: center;">MTE</th>
+            <th style="text-align: center;">PM</th>
             <th style="text-align: center;">P</th>
             <th style="text-align: center;">R</th>
         </tr>
@@ -328,18 +328,17 @@ $subtitle = "
                 <th colspan="2" style="text-align: center;">GÊNERO</th>
                 <th rowspan="2" style="text-align: center;">DATA DE NASCIMENTO</th>
                 <th rowspan="2" style="text-align: center;">NATURALIDADE</th>
-                <th colspan="4" style="text-align: center;">TIPO DE MATRÍCULA</th>
+                <th colspan="3" style="text-align: center;">TIPO DE MATRÍCULA</th>
                 <th colspan="3" style="text-align: center;">SITUAÇÃO NA SÉRIE</th>
                 <th rowspan="2" style="text-align: center;">ENDEREÇO</th>
             </tr>
             <tr>
                 <th style="text-align: center;">M</th>
                 <th style="text-align: center;">F</th>
-                <th style="text-align: center;">MI</th>
-                <th style="text-align: center;">MC</th>
-                <th style="text-align: center;">MR</th>
-                <th style="text-align: center;">MT</th>
-                <th style="text-align: center;">N</th>
+                <th style="text-align: center;">RM</th>
+                <th style="text-align: center;">MTI</th>
+                <th style="text-align: center;">MTE</th>
+                <th style="text-align: center;">PM</th>
                 <th style="text-align: center;">P</th>
                 <th style="text-align: center;">R</th>
             </tr>
