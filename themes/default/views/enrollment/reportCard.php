@@ -14,7 +14,7 @@ $script = "var getGradesUrl = '" . Yii::app()->createUrl('enrollment/getGrades')
 
 $cs->registerScript('variables', $script, CClientScript::POS_END);
 $cs->registerCssFile($baseUrl . '/css/grades.css');
-$this->setPageTitle('TAG - ' . Yii::t('default', 'Grades'));
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
 
 ?>
 
@@ -28,7 +28,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Grades'));
     ?>
     <div class="row-fluid hidden-print">
         <div class="span12">
-            <h1><?php echo Yii::t('default', 'Grades'); ?></h1>
+            <h1><?php echo Yii::t('default', 'Report Card'); ?></h1>
             <div class="buttons row grades-buttons">
                 <!--<button class='t-button-primary calculate-media'>Calcular Média</button>-->
                 <button id="save"

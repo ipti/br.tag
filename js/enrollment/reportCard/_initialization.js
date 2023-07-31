@@ -44,7 +44,7 @@ $('#discipline').change(function (e, triggerEvent) {
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.valid) {
-                    var html = "<table class='grades-table table table-bordered table-striped'><thead><tr><th colspan=6' class='table-title'>Notas</th></tr>";
+                    var html = "<table class='grades-table table table-bordered table-striped'><thead><tr><th colspan=6' class='table-title'>Boletim</th></tr>";
                     html += "<th></th>";
                     html += "<th>Unidade 1</th>";
                     html += "<th>Unidade 2</th>";
