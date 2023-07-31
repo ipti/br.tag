@@ -60,6 +60,7 @@ $('#discipline').change(function (e, triggerEvent) {
                     $.each(data.students, function () {
                         html += "<tr><td class='grade-student-name'><input type='hidden' class='enrollment-id' value='" + this.enrollmentId + "'>" + $.trim(this.studentName) + "</td>";
                         $.each(this.grades, function () {
+
                             if (this.value == "") {
                                 valueGrade = "";
                             } else {
@@ -77,7 +78,12 @@ $('#discipline').change(function (e, triggerEvent) {
                             }
                             html += "</td>";
                         });
-                        html += !data.isUnityConcept ? "<td class='final-media'>" + this.finalMedia + "</td>" : "";
+                        if (this.finalMedia == "") {
+                            valueFinalMedia = "";
+                        } else {
+                            valueFinalMedia = parseFloat(this.finalMedia).toFixed(1);
+                        }
+                        html += !data.isUnityConcept ? "<td class='final-media'>" + valueFinalMedia + "</td>" : "";
                         html += "<td class='final-media'>" + this.situation + "</td>";
                         html += "</tr>";
                     });
@@ -94,11 +100,14 @@ $('#discipline').change(function (e, triggerEvent) {
                 $(".js-grades-loading").hide();
                 $(".js-grades-container, .grades-buttons").css("opacity", "1").css("pointer-events", "auto");
             },
+            complete: function(){
+                initializeGradesMask();
+            }
         });
     } else {
         $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
     }
-});
+}, );
 
 $("#save").on("click", function (e) {
     e.preventDefault();
@@ -148,22 +157,12 @@ $("#save").on("click", function (e) {
     });
 });
 
-$(document).on("keyup", "input.grade", function (e) {
-    var val = this.value;
-    if (!$.isNumeric(val)) {
-        e.preventDefault();
-        val = "";
-    } else {
-        grade = /^(10|\d)(?:(\.|\,)\d{0,1}){0,1}$/;
-        if (val.match(grade) === null) {
-            val = "";
-        } else {
-            if (val > 10)
-                val = 10;
-        }
-    }
-    this.value = val;
-});
+// var lastValidValue = "";
+
+// $(document).on("focus", "input.grade", function (e) {
+//     lastValidValue = this.value
+// });
+
 
 // $(document).on("click", ".calculate-media", function (e) {
 //     e.preventDefault();

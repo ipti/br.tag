@@ -239,12 +239,33 @@ function loadReport() {
                     $.each(data.rows, function () {
                         html += "<tr><td>" + this.disciplineName + "</td>";
                         $.each(this.grades, function () {
-                            html += "<td class='center'>" + this.unityGrade + "</td>";
+                            
+                            if (this.unityGrade == "") {
+                                valueUnityGrade = "";
+                            } else {
+                                valueUnityGrade = parseFloat(this.unityGrade).toFixed(1);
+                            }
+
+                            if (this.unityRecoverGrade == "") {
+                                valueunityRecoverGrade = "";
+                            } else {
+                                valueunityRecoverGrade = parseFloat(this.unityRecoverGrade).toFixed(1);
+                            }
+ 
+
+                            html += "<td class='center'>" + valueUnityGrade + "</td>";
                             if (this.gradeUnityType === "UR") {
-                                html += "<td class='center'>" + this.unityRecoverGrade + "</td>";
+                                html += "<td class='center'>" + valueunityRecoverGrade + "</td>";
                             }
                         });
-                        html += !data.isUnityConcept ? "<td class='center'>" + this.finalMedia + "</td>" : "";
+
+                        if (this.finalMedia == "") {
+                            valueFinalMedia = "";
+                        } else {
+                            valueFinalMedia = parseFloat(this.finalMedia).toFixed(1);
+                        }
+
+                        html += !data.isUnityConcept ? "<td class='center'>" + valueFinalMedia + "</td>" : "";
                         html += "<td class='center'>" + this.situation + "</td></tr>";
                     });
                     html += "</tbody></table>";
