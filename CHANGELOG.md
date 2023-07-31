@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.41.80]
+- Módulo de Boletim adicionado
+
 ## [Versão 3.40.80]
 - As colunas de situação na série e tipo de matrícula foram modificadas no relatório de matrícula.
 
