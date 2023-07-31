@@ -366,7 +366,7 @@ class EnrollmentController extends Controller
             try {
                 $gradeResult->save();
             } catch (\Throwable $th) {
-                echo $th;
+                //throw $th;
             }
         }
         echo json_encode(["valid" => true]);
