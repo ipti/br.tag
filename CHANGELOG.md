@@ -3,6 +3,9 @@
 ## [Versão 3.40.80]
 - As colunas de situação na série e tipo de matrícula foram modificadas no relatório de matrícula.
 
+## [Versão 3.40.79]
+- Alterada a validação nos inputs de notas na tela de Notas 
+- 
 ## [Versão 3.40.78]
 - Criado multiselect para os planos de aula no módulo de diário de classe
 ## [Versão 3.39.78]

@@ -25,25 +25,25 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         echo "<br><span class='alert alert-primary'>Não há etapas cadastradas.</span>";
     } else {
         $ordem = 1;
+        $html = "";
+        $html .= "<table class='table table-bordered table-striped' >"
+                ."<tr>"
+                ."<th style ='width:10%;'> <b>Ordem </b> </th>"
+                ."<th style ='width:70%;'> <b>Nome da etapa </b></th>"
+                ."<th style ='width:20%;'> <b>Quantidade de Alunos </b></th>"
+                ."</tr>";
         foreach ($report as $r) {
             $ordemStr = $ordem < 10 ? "0".$ordem : $ordem;
-            $html = "";
-            $html .= "<table class='table table-bordered table-striped' >";
+            
+            
             $html .= "<tr>"
-                . "<th style ='width:10%;'> <b>Ordem </b> </th>"
-                . "<th style ='width:70%;'> <b>Nome da etapa </b></th>"
-                . "<th style ='width:20%;'> <b>Quantidade de Alunos </b></th>"
-                . "</tr>"
-                . "<tr>"
                 . "<td>" . $ordemStr . "</td>"
                 . "<td>" . $r['stage']->name . "</td>"
                 . "<td>" . count($r["students"]) . "</td>"
-                . "</tr>"
-                ."</table>";
+                . "</tr>";
 
             $ordem++;
-            echo $html;
-            $html = "";
+            
 
             /* código a ser descomentado de acordo com a demanda
             echo "<h5><b>Nome da etapa: </b>" . $r['stage']->name . "</h5><br>";
@@ -84,6 +84,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             $ordem = 1;
             $html = "";*/
         }
+        $html .= "</table>";
+        echo $html;
     }
 
     ?>
