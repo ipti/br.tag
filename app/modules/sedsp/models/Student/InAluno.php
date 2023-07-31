@@ -11,12 +11,12 @@ class InAluno implements JsonSerializable
 
     /**
      * @param string $inNumRA
-     * @param ?string $inDigitoRA
+     * @param string $inDigitoRA
      * @param string $inSiglaUFRA
      */
     public function __construct(
         string $inNumRA,
-        ?string $inDigitoRA,
+        string $inDigitoRA,
         string $inSiglaUFRA
     ) {
         $this->inNumRA = $inNumRA;
@@ -25,10 +25,10 @@ class InAluno implements JsonSerializable
     }
 
     /**
-     * @param string|null $inNumRa
+     * @param string $inNumRA
      * @return self
      */
-    public function setInNumRa(?string $inNumRA): self
+    public function setInNumRa(string $inNumRA): self
     {
         $this->inNumRA = $inNumRA;
         return $this;
@@ -40,22 +40,22 @@ class InAluno implements JsonSerializable
     }
 
     /**
-     * @param string|null $inDigitoRA
+     * @param string $inDigitoRA
      * @return self
      */
-    public function setInDigitoRa(?string $inDigitoRA): self
+    public function setInDigitoRa(string $inDigitoRA): self
     {
         $this->inDigitoRA = $inDigitoRA;
         return $this;
     }
 
-    function getInDigitoRA() : ?string
+    function getInDigitoRA() : string
     {
         return $this->inDigitoRA;
     }
 
     /**
-     * @param string|null $inSiglaUFRA
+     * @param string $inSiglaUFRA
      * @return self
      */
     public function setInSiglaUfra(?string $inSiglaUFRA): self

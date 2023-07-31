@@ -422,26 +422,26 @@ class DefaultController extends Controller
 						'inDataEmissaoCertidao' => '22/05/2022',               
 					],
 					'inEnderecoResidencial' => [
-						'inLogradouro' => NULL,
-						'inNumero' => NULL,
-						'inBairro' => NULL,
-						'inNomeCidade' => NULL,
-						'inUfCidade' => NULL,
+						'inLogradouro' => 'Rua Francisco',
+						'inNumero' => '67',
+						'inBairro' => 'Centro',
+						'inNomeCidade' => 'Itabaiana',
+						'inUFCidade' => 'SE',
 						'inComplemento' => NULL,
-						'inCep' => NULL,
-						'inAreaLogradouro' => NULL,
+						'inCep' => '49500190',
+						'inAreaLogradouro' => '0',
 						'inCodLocalizacaoDiferenciada' => NULL,
-						'inCodMunicipioDne' => NULL,
-						'inLatitude' => NULL,
-						'inLongitude' => NULL,                
+						'inCodMunicipioDNE' => NULL,
+						'inLatitude' => '242423432',
+						'inLongitude' => '542354325',                
 					],
 					'inDeficiencia' => [
 						'inCodNecessidade' => NULL,
-						'inMobilidadeReduzida' => 0,
+						'inMobilidadeReduzida' => '0',
 						'inTipoMobilidadeReduzida' => NULL,
-						'inCuidador' => 0,
+						'inCuidador' => NULL,
 						'inTipoCuidador' => NULL,
-						'inProfSaude' => 0,
+						'inProfSaude' => NULL,
 						'inTipoProfSaude' => NULL,                
 					],
 					'inRecursoAvaliacao' => [
@@ -461,7 +461,7 @@ class DefaultController extends Controller
 					'inRastreio' => [
 						'inUsuarioRemoto' => NULL,
 						'inNomeUsuario' => NULL,
-						'inNumCpf' => NULL,
+						'inNumCPF' => NULL,
 						'inLocalPerfilAcesso' => NULL,
 					]
 				];	
@@ -469,7 +469,7 @@ class DefaultController extends Controller
 				$inConsult = new InFichaAluno($search);
 				$dataSource = new StudentSEDDataSource();
 				echo "<pre>";
-				$dataSource->addStudent($inConsult);
+				var_export($dataSource->addStudent($inConsult));
 				echo "</pre>";
 
 			default:

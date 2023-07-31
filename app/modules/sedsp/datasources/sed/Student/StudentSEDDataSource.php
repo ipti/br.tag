@@ -1,6 +1,7 @@
 <?php
 
 use GuzzleHttp\Exception\ClientException;
+use Psr\Http\Message\ResponseInterface;
 
 
 require 'app/vendor/autoload.php';
@@ -245,49 +246,49 @@ class StudentSEDDataSource extends SedDataSource
     /**
      * Summary of addStudent
      * @param InFichaAluno $inFichaAluno
-     * @return OutErro|Psr\Http\Message\ResponseInterface
+     * @return OutErro|ResponseInterface
      * 
      * @throws InvalidArgumentException
      * @throws Exception
      */
     function addStudent(InFichaAluno $inFichaAluno)
     {
-        var_export($inFichaAluno);
+        try{
             $inFichaAlunoBody = [
                 'inDadosPessoais' => [
                     'inNomeAluno' => $inFichaAluno->inDadosPessoais->inNomeAluno,
                     'inNomeMae' => $inFichaAluno->inDadosPessoais->inNomeMae,
-                    'inNomePai' => $inFichaAluno->inDadosPessoais->inNomePai,
-                    'inNomeSocial' => $inFichaAluno->inDadosPessoais->inNomeSocial,
-                    'inNomeAfetivo' => $inFichaAluno->inDadosPessoais->inNomeAfetivo,
+                    'inNomePai' => isset($inFichaAluno->inDadosPessoais->inNomePai) ? $inFichaAluno->inDadosPessoais->inNomePai: null,
+                    'inNomeSocial' => isset($inFichaAluno->inDadosPessoais->inNomeSocial) ? $inFichaAluno->inDadosPessoais->inNomeSocial : null,
+                    'inNomeAfetivo' => isset($inFichaAluno->inDadosPessoais->inNomeAfetivo) ? $inFichaAluno->inDadosPessoais->inNomeAfetivo : null,
                     'inDataNascimento' => $inFichaAluno->inDadosPessoais->inDataNascimento,
                     'inCorRaca' => $inFichaAluno->inDadosPessoais->inCorRaca,
                     'inSexo' => $inFichaAluno->inDadosPessoais->inSexo,
-                    'inBolsaFamilia' => $inFichaAluno->inDadosPessoais->inBolsaFamilia,
-                    'inQuilombola' => $inFichaAluno->inDadosPessoais->inQuilombola,
+                    'inBolsaFamilia' => isset($inFichaAluno->inDadosPessoais->inBolsaFamilia) ? $inFichaAluno->inDadosPessoais->inBolsaFamilia : null,
+                    'inQuilombola' => isset($inFichaAluno->inDadosPessoais->inQuilombola) ? $inFichaAluno->inDadosPessoais->inQuilombola : null,
                     'inPossuiInternet' => $inFichaAluno->inDadosPessoais->inPossuiInternet,
                     'inPossuiNotebookSmartphoneTablet' => $inFichaAluno->inDadosPessoais->inPossuiNotebookSmartphoneTablet,
-                    'inTipoSanguineo' => $inFichaAluno->inDadosPessoais->inTipoSanguineo,
-                    'inDoadorOrgaos' => $inFichaAluno->inDadosPessoais->inDoadorOrgaos,
-                    'inNumeroCns' => $inFichaAluno->inDadosPessoais->inNumeroCns,
-                    'inEmail' => $inFichaAluno->inDadosPessoais->inEmail,
+                    'inTipoSanguineo' => isset($inFichaAluno->inDadosPessoais->inTipoSanguineo) ? $inFichaAluno->inDadosPessoais->inTipoSanguineo : null,
+                    'inDoadorOrgaos' => isset($inFichaAluno->inDadosPessoais->inDoadorOrgaos) ? $inFichaAluno->inDadosPessoais->inDoadorOrgaos : null,
+                    'inNumeroCNS' => isset($inFichaAluno->inDadosPessoais->inNumeroCns) ? $inFichaAluno->inDadosPessoais->inNumeroCns : null,
+                    'inEmail' => isset($inFichaAluno->inDadosPessoais->inEmail) ? $inFichaAluno->inDadosPessoais->inEmail : null,
                     'inNacionalidade' => $inFichaAluno->inDadosPessoais->inNacionalidade,
                     'inNomeMunNascto' => $inFichaAluno->inDadosPessoais->inNomeMunNascto,
-                    'inUfMunNascto' => $inFichaAluno->inDadosPessoais->inUfMunNascto,
-                    'inCodMunNasctoDne' => $inFichaAluno->inDadosPessoais->inCodMunNasctoDne,
+                    'inUFMunNascto' => ($inFichaAluno->inDadosPessoais->inNacionalidade == 1) ? $inFichaAluno->inDadosPessoais->inUfMunNascto: null,
+                    'inCodMunNasctoDNE' => isset($inFichaAluno->inDadosPessoais->inCodMunNasctoDne) ? $inFichaAluno->inDadosPessoais->inCodMunNasctoDne : null,
                     'inDataEntradaPais' => $inFichaAluno->inDadosPessoais->inDataEntradaPais,
                     'inCodPaisOrigem' => $inFichaAluno->inDadosPessoais->inCodPaisOrigem,
                     'inPaisOrigem' => $inFichaAluno->inDadosPessoais->inPaisOrigem,
                 ],            
                 'inDocumentos' => [
-                    'inCPF' => $inFichaAluno->inDocumentos->inCPF,
-                    'inNumNIS' => $inFichaAluno->inDocumentos->inNumNIS,
-                    'inNumDoctoCivil' => $inFichaAluno->inDocumentos->inNumRG,
+                    'inCPF' => $inFichaAluno->inDocumentos->inCPF ?? null,
+                    'inNumNIS' => $inFichaAluno->inDocumentos->inNumNIS ?? null,
+                    'inNumDoctoCivil' => $inFichaAluno->inDocumentos->inNumRG ?? null,
                     'inDigitoDoctoCivil' => $inFichaAluno->inDocumentos->inDigitoRG,
-                    'inUFDoctoCivil' => $inFichaAluno->inDocumentos->inUFRG,
+                    'inUFDoctoCivil' => $inFichaAluno->inDocumentos->inUFRG ?? null,
                     'inDataEmissaoDoctoCivil' => $inFichaAluno->inDocumentos->inDataEmissaoDoctoCivil,
                     'inJustificativaDocumentos' => $inFichaAluno->inDocumentos->inJustificativaDocumentos,
-                    'inCodigoINEP' => $inFichaAluno->inDocumentos->inNumINEP,
+                    'inCodigoINEP' => $inFichaAluno->inDocumentos->inNumINEP ?? null,
                 ],                
                 'inCertidaoNova' => [
                     'inCertMatr01' => $inFichaAluno->inCertidaoNova->inCertMatr01,
@@ -311,63 +312,63 @@ class StudentSEDDataSource extends SedDataSource
                     'inDataEmissaoCertidao' => $inFichaAluno->inCertidaoAntiga->inDataEmissaoCertidao,               
                 ],
                 'inEnderecoResidencial' => [
-                    'inLogradouro' => NULL,
-                    'inNumero' => NULL,
-                    'inBairro' => NULL,
-                    'inNomeCidade' => NULL,
-                    'inUfCidade' => NULL,
-                    'inComplemento' => NULL,
-                    'inCep' => NULL,
-                    'inAreaLogradouro' => NULL,
-                    'inCodLocalizacaoDiferenciada' => NULL,
-                    'inCodMunicipioDne' => NULL,
-                    'inLatitude' => NULL,
-                    'inLongitude' => NULL,                
+                    'inLogradouro' => $inFichaAluno->inEnderecoResidencial->inLogradouro,
+                    'inNumero' => $inFichaAluno->inEnderecoResidencial->inNumero,
+                    'inBairro' => $inFichaAluno->inEnderecoResidencial->inBairro,
+                    'inNomeCidade' => $inFichaAluno->inEnderecoResidencial->inNomeCidade,
+                    'inUFCidade' => $inFichaAluno->inEnderecoResidencial->inUFCidade,
+                    'inComplemento' => $inFichaAluno->inEnderecoResidencial->inComplemento ?? null,
+                    'inCep' => $inFichaAluno->inEnderecoResidencial->inCep,
+                    'inAreaLogradouro' => $inFichaAluno->inEnderecoResidencial->inAreaLogradouro,
+                    'inCodLocalizacaoDiferenciada' => $inFichaAluno->inEnderecoResidencial->inCodLocalizacaoDiferenciada ?? null,
+                    'inCodMunicipioDNE' => $inFichaAluno->inEnderecoResidencial->inCodMunicipioDNE ?? null,
+                    'inLatitude' => $inFichaAluno->inEnderecoResidencial->inLatitude,
+                    'inLongitude' => $inFichaAluno->inEnderecoResidencial->inLongitude,                
                 ],
                 'inDeficiencia' => [
-                    'inCodNecessidade' => NULL,
-                    'inMobilidadeReduzida' => 0,
-                    'inTipoMobilidadeReduzida' => NULL,
-                    'inCuidador' => 0,
-                    'inTipoCuidador' => NULL,
-                    'inProfSaude' => 0,
-                    'inTipoProfSaude' => NULL,                
+                    'inCodNecessidade' => $inFichaAluno->inDeficiencia->inCodNecessidade ?? null,
+                    'inMobilidadeReduzida' => $inFichaAluno->inDeficiencia->inMobilidadeReduzida,
+                    'inTipoMobilidadeReduzida' => $inFichaAluno->inDeficiencia->inTipoMobilidadeReduzida ?? null,
+                    'inCuidador' => $inFichaAluno->inDeficiencia->inCuidador ?? null,
+                    'inTipoCuidador' => $inFichaAluno->inDeficiencia->inTipoCuidador ?? null,
+                    'inProfSaude' => $inFichaAluno->inDeficiencia->inProfSaude ?? null,
+                    'inTipoProfSaude' => $inFichaAluno->inDeficiencia->inTipoProfSaude ?? null,                
                 ],
                 'inRecursoAvaliacao' => [
-                    'inNenhum' => NULL,
-                    'inAuxilioLeitor' => NULL,
-                    'inAuxilioTranscricao' => NULL,
-                    'inGuiaInterprete' => NULL,
-                    'inInterpreteLibras' => NULL,
-                    'inLeituraLabial' => NULL,
-                    'inProvaBraile' => NULL,
-                    'inProvaAmpliada' => NULL,
-                    'inFonteProva' => NULL,
-                    'inProvaVideoLibras' => NULL,
-                    'inCdAudioDefVisual' => NULL,
-                    'inProvaLinguaPortuguesa' => NULL,                
+                    'inNenhum' => $inFichaAluno->inRecursoAvaliacao->inNenhum ?? null,
+                    'inAuxilioLeitor' => $inFichaAluno->inRecursoAvaliacao->inAuxilioLeitor ?? null,
+                    'inAuxilioTranscricao' => $inFichaAluno->inRecursoAvaliacao->inAuxilioTranscricao ?? null,
+                    'inGuiaInterprete' => $inFichaAluno->inRecursoAvaliacao->inGuiaInterprete ?? null,
+                    'inInterpreteLibras' => $inFichaAluno->inRecursoAvaliacao->inInterpreteLibras ?? null,
+                    'inLeituraLabial' => $inFichaAluno->inRecursoAvaliacao->inLeituraLabial ?? null,
+                    'inProvaBraile' => $inFichaAluno->inRecursoAvaliacao->inProvaBraile ?? null,
+                    'inProvaAmpliada' => $inFichaAluno->inRecursoAvaliacao->inProvaAmpliada ?? null,
+                    'inFonteProva' => $inFichaAluno->inRecursoAvaliacao->inFonteProva ?? null,
+                    'inProvaVideoLibras' => $inFichaAluno->inRecursoAvaliacao->inProvaVideoLibras ?? null,
+                    'inCdAudioDefVisual' => $inFichaAluno->inRecursoAvaliacao->inCdAudioDefVisual ?? null,
+                    'inProvaLinguaPortuguesa' => $inFichaAluno->inRecursoAvaliacao->inProvaLinguaPortuguesa ?? null,                
                 ],
                 'inRastreio' => [
-                    'inUsuarioRemoto' => NULL,
-                    'inNomeUsuario' => NULL,
-                    'inNumCpf' => NULL,
-                    'inLocalPerfilAcesso' => NULL,
+                    'inUsuarioRemoto' => $inFichaAluno->inRastreio->inUsuarioRemoto ?? null,
+                    'inNomeUsuario' => $inFichaAluno->inRastreio->inNomeUsuario ?? null,
+                    'inNumCPF' => $inFichaAluno->inRastreio->inNumCPF ?? null,
+                    'inLocalPerfilAcesso' => $inFichaAluno->inRastreio->inLocalPerfilAcesso ?? null,
                 ]
             ];
 
-            var_export($inFichaAlunoBody);
-         /* catch(InvalidArgumentException $invalidArgumentException) {
+        }catch(InvalidArgumentException $invalidArgumentException) {
             throw $invalidArgumentException;
         }catch(ClientException $clienteException) {
             return new OutErro($clienteException);
-        }catch(Exception $exception){
+        }catch(Exception $exception) {
             throw $exception;
         }
+        
 
-        $apiRequest = $this->client->request('POST', '/ncaapi/api/Aluno/FichaAluno', [
+        $apiResponse = $this->client->request('POST', '/ncaapi/api/Aluno/FichaAluno', [
             'body' => json_encode($inFichaAlunoBody)
         ]);
 
-        return $apiRequest; */
+        return $apiResponse;
     }
 }

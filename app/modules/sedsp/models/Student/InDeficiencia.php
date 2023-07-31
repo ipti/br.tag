@@ -2,19 +2,19 @@
 
 class InDeficiencia implements JsonSerializable
 {
-	private $inCodNecessidade;
+	public $inCodNecessidade;
 
-	private $inMobilidadeReduzida;
+	public $inMobilidadeReduzida;
 
-	private $inTipoMobilidadeReduzida;
+	public $inTipoMobilidadeReduzida;
 
-	private $inCuidador;
+	public $inCuidador;
 
-	private $inTipoCuidador;
+	public $inTipoCuidador;
 
-	private $inProfSaude;
+	public $inProfSaude;
 
-	private $inTipoProfSaude;
+	public $inTipoProfSaude;
 
 	/**
 	 * @param string|null $inCodNecessidade
