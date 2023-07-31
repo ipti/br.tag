@@ -356,11 +356,11 @@ class StudentSEDDataSource extends SedDataSource
                 ]
             ];
 
-            $apiResponse = $this->client->request('POST', '/ncaapi/api/Aluno/FichaAluno', [
+            $apiResponse = json_decode($this->client->request('POST', '/ncaapi/api/Aluno/FichaAluno', [
                 'body' => json_encode($inFichaAlunoBody)
-            ])->getBody()->getContents();
+            ])->getBody()->getContents());
 
-            return json_decode($apiResponse);
+            return $apiResponse;
 
         }catch(InvalidArgumentException $invalidArgumentException) {
             throw $invalidArgumentException;
