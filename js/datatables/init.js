@@ -168,7 +168,7 @@ function initDatatable() {
                     select: {
                         items: 'cell'
                     },
-                    "bLengthChange": false,
+                    // "bLengthChange": false,
                     columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
                     searching: true,
                 });
@@ -176,23 +176,23 @@ function initDatatable() {
                 $(".stock-items-table").dataTable({
                     language: getLanguagePtbr(),
                     responsive: true,
-                    pageLength: 20,
+                    // pageLength: 20,
                     select: {
                         items: 'cell'
                     },
                     ordering: false,
-                    "bLengthChange": false,
+                    // "bLengthChange": false,
                     columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
                 });
                 $(".transactions-table").dataTable({
                     language: getLanguagePtbr(),
                     responsive: true,
-                    pageLength: 10,
+                    // pageLength: 10,
                     select: {
                         items: 'cell'
                     },
                     ordering: false,
-                    "bLengthChange": false,
+                    // "bLengthChange": false,
                     columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
                 });
             }else {
@@ -202,7 +202,7 @@ function initDatatable() {
                     select: {
                         items: 'cell'
                     },
-                    "bLengthChange": false,
+                    // "bLengthChange": false,
                     columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
                 });
             }

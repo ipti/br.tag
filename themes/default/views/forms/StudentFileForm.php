@@ -260,16 +260,34 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                               
                                 switch ($enrollment->status) {
                                     case "1":
-                                        echo "Matriculado";
+                                        echo "Em Andamento";
                                         break;
                                     case "2":
                                         echo "Transferido";
                                         break;
                                     case "3":
-                                        echo "Cancelado";
+                                        echo "Falecido";
                                         break;
                                     case "4":
-                                        echo "Evadido";
+                                        echo "Deixou de Frequentar";
+                                        break;
+                                    case "5":
+                                        echo "Remanejado";
+                                        break;
+                                    case "6":
+                                        echo "Aprovado";
+                                        break;
+                                    case "7":
+                                        echo "Aprovado pelo Conselho";
+                                        break;
+                                    case "8":
+                                        echo "Reprovado";
+                                        break;
+                                    case "9":
+                                        echo "Concluinte";
+                                        break;
+                                    case "10":
+                                        echo "Indeterminado";
                                         break;
                                     default:
                                        echo '';

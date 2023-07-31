@@ -72,6 +72,8 @@ class Register20
 
                 $register = [];
 
+                $attributes["edcenso_stage_vs_modality_fk"] = $attributes["edcenso_stage_vs_modality_fk"] % 10000;
+
                 $attributes['name'] = trim(strtoupper(self::sanitizeString($attributes['name'])));
 
                 if ($attributes["pedagogical_mediation_type"] == null) {
@@ -228,9 +230,11 @@ class Register20
                         $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
                     } 
                     
-                    if ($attributes["aee"] == '1' && $edcensoAlias->corder >= 49 && $edcensoAlias->corder <= 75){
-                        $register[$edcensoAlias->corder] = '';
-                    }
+                    if ($edcensoAlias->corder >= 49 && $edcensoAlias->corder <= 75){
+                        if($attributes["aee"] == '1' || ($attributes["complementary_activity"] == '1' && $attributes["schooling"] == '0')){
+                            $register[$edcensoAlias->corder] = '';
+                        }
+                    }                   
                 }
 
                 array_push($registers, implode('|', $register));

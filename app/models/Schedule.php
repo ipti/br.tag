@@ -26,7 +26,7 @@
  * @property EdcensoDiscipline $disciplineFk
  * @property InstructorIdentification $instructorFk
  */
-class Schedule extends CActiveRecord
+class Schedule extends AltActiveRecord
 {
 	/**
 	 * @return string the associated database table name

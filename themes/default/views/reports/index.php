@@ -70,6 +70,27 @@ $this->breadcrumbs = array(
                     </div>
                 </button>
 
+                
+                <button type="button" class="report-box-container" data-toggle="modal" data-target="#studentswithdisabilitiesperclassroom" target="_blank">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <span class="t-icon-wheelchair t-reports_icons"></span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">Relação acessibilidade por turma</span><br>
+                        <span class="subtitle">Alunos que possuem deficiência de uma turma</span>
+                    </div>
+                </button>
+
+                <button type="button" class="report-box-container" data-toggle="modal" data-target="#classroom-transfer-report" target="_blank">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <span class="t-class-transfer t-reports_icons"></span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">Relatório de Transferência da Turma</span><br>
+                        <span class="subtitle">Informações de alunos tranferidos de uma turma</span>
+                    </div>
+                </button>
+
                 <button type="button" class="report-box-container" data-toggle="modal" data-target="#reportFamilyBag" target="_blank">
                     <div class="pull-left" style="margin-right: 20px;">
                         <span class="t-icon-identity t-reports_icons"></span>
@@ -236,7 +257,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/TeachersByStage') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">    
                         <div class="pull-left" style="margin-right: 20px;">
-                            <img class="t-reports_icons" src="<?php echo Yii::app()->theme->baseUrl . '/img/reportsIcon/stage_teachers.svg'?>" alt="Stage Teachers"></img>
+                            <span class="t-stage-teachers t-reports_icons"></span>
                         </div>
                         <div class="pull-left">
                             <span class="title">Professores por Etapa</span><br>
@@ -280,6 +301,16 @@ $this->breadcrumbs = array(
                         </div>
                     </button>
                 </a>
+
+                <button type="button" class="report-box-container" data-toggle="modal" data-target="#teacher-training" target="_blank" style="padding-left: 35px;">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <span class="t-monitoring_report t-reports_icons"></span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">ATA Formação de Professores</span><br>
+                        <span class="subtitle">Matrícula e avaliações da turma de professores</span>
+                    </div>
+                </button>
             </div>
             <div class="container-box">
 
@@ -293,6 +324,18 @@ $this->breadcrumbs = array(
                         <div class="pull-left">
                             <span class="title">Relação transporte escolar</span><br>
                             <span class="subtitle">Alunos que utilizam transporte escolar</span>
+                        </div>
+                    </button>
+                </a>
+
+                <a href="<?php echo Yii::app()->createUrl('reports/SchoolTransferReport') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-school-transfer t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Relatório de Transferência da Escola</span><br>
+                            <span class="subtitle">Informações de alunos tranferidos da escola atual</span>
                         </div>
                     </button>
                 </a>
@@ -384,14 +427,45 @@ $this->breadcrumbs = array(
                     </div>
                 </button>
 
+                <a href="<?php echo Yii::app()->createUrl('reports/AllSchoolsTransferReport') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">    
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-transfer-all-school t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Relatório de Transferência de todas as escolas</span><br>
+                            <span class="subtitle">Informações de alunos tranferidos das escola</span>
                 <a href="<?php echo Yii::app()->createUrl('reports/TeachersBySchool') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">    
                         <div class="pull-left" style="margin-right: 20px;">
-                            <img class="t-reports_icons" src="<?php echo Yii::app()->theme->baseUrl . '/img/reportsIcon/school_teacher.svg'?>" alt="School Teachers"></img>
+                            <span class="t-school-teacher t-reports_icons"></span>
                         </div>
                         <div class="pull-left">
                             <span class="title">Professores por Escola</span><br>
                             <span class="subtitle">Listagem e total de professores por escola</span>
+                        </div>
+                    </button>
+                </a>
+                <a href="<?php echo Yii::app()->createUrl('reports/StudentsWithDisabilitiesPerSchool') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">  
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-icon-wheelchair t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Relação acessibilidade de todas as escolas</span><br>
+                            <span class="subtitle">Relação de alunos que possuem deficiência em todas as escolas</span>
+                         </div>
+                    </button>
+                </a>
+
+                <a href="<?php echo Yii::app()->createUrl('reports/StatisticalData') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">    
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-statistic-data t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Dados Estatísticos</span><br>
+                            <span class="subtitle">Quantidade alunos por etapa de ensino</span>
                         </div>
                     </button>
                 </a>
@@ -400,6 +474,135 @@ $this->breadcrumbs = array(
         </div>
     </div>
     <!-- Modais -->
+    <div class="row">
+        <div class="modal fade modal-content" id="teacher-training" tabindex="-1" role="dialog" style="height: auto !important;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Ata de Formação de Professores - Escolha a Turma</h4>
+            </div>
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/TeacherTrainingReport'); ?>" method="post" target="_blank">
+                <div class="modal-body" style="max-height: none !important;overflow: visible !important;">
+                    <div class="row-fluid">
+                        <div class=" span12">
+                            <?php
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
+                            ?>
+                            <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
+                                <?php
+                                echo "<option value='' selected>Selecione a turma</option>";
+                                foreach ($classrooms as $classroom) {
+                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                                }
+                                ?>
+                            </select>
+                            <div class="model-quarterly-container" style="display: flex;">
+                                <div style="display:block;width:65%;margin-right:5%;">
+                                    <label for="count_days" class="control-label" style="width: 100%;"> Dia da reunião de conselho de classe</label>
+                                    <input type="number" name="count_days" placeholder="Digite o dia das reuniões" style="width: 100%;height:35px;" min="1" max="31" required>
+                                </div>
+                                <div style="display:block;width:30%;">
+                                    <label for="hour" class="control-label" style="width: 100%;">Horário das reuniões</label>
+                                    <input type="time" id="hour" name="hour" min="00:00" max="23:59" style="width: 92%;height:35px;" required>
+                                </div>
+                            </div>
+
+                            <div class="model-quarterly-container" style="display: flex;">
+                                <div style="display:block;width:45%;margin-right:5%;">
+                                    <label for="year" class="control-label" style="width: 100%;">Ano das reuniões</label>
+                                    <select name="year" id="year" placeholder="Selecione o ano" style="width:100%" required>
+                                        <?php
+                                        $years = range(date('Y'), 2014);
+                                        echo "<option value='' selected>Selecione o ano</option>";
+                                        for ($i = 0; $i < count($years); $i++) {
+                                            echo "<option value=" . $years[$i] . ">" . $years[$i] . "</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div style="display:block;width:50%;">
+                                    <label for="mounth" class="control-label" style="width: 100%;">Mês das reuniões</label>
+                                    <select id="mounth" name="mounth" style="width:100%" required>
+                                        <option value='' selected>Selecione o mês</option>
+                                        <option value="Janeiro">Janeiro</option>
+                                        <option value="Fevereiro">Fevereiro</option>
+                                        <option value="Março">Março</option>
+                                        <option value="Abril">Abril</option>
+                                        <option value="Maio">Maio</option>
+                                        <option value="Junho">Junho</option>
+                                        <option value="Julho">Julho</option>
+                                        <option value="Agosto">Agosto</option>
+                                        <option value="Setembro">Setembro</option>
+                                        <option value="Outubro">Outubro</option>
+                                        <option value="Novembro">Novembro</option>
+                                        <option value="Dezembro">Dezembro</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="model-quarterly-container" style="display: flex;">
+                                <div style="display:block;width:70%;padding-right:10px;">
+                                    <label for="quarterly" class="control-label" style="width: 30%;">Trimestre</label>
+                                    <select name="quarterly" id="quarterly" style="width:100%" required>
+                                        <option value='' selected>Selecione o trimestre</option>
+                                        <option value="1º">1º Trimestre</option>
+                                        <option value="2º">2º Trimestre</option>
+                                        <option value="3º">3º Trimestre</option>
+                                        <option value="4º">4º Trimestre</option>
+                                    </select>
+                                </div>
+                                <div style="display:block;width:30%;">
+                                    <label for="model_report" class="control-label" style="width: 100%;">Modelo de Eixos</label>
+                                    <select name="model_report" id="model_report" style="width: 100%;" required>
+                                        <option value="">Selecione o modelo</option>
+                                        <option value="1">1º Ano</option>
+                                        <option value="2">2º Ano</option>
+                                        <option value="3">3º Ano</option>
+                                        <option value="4">4º Ano</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                        <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;">Gerar</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="modal fade modal-content" id="classroom-transfer-report" tabindex="-1" role="dialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
+            </div>
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/classroomTransferReport'); ?>" method="post" target="_blank">
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class=" span12">
+                            <?php
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
+                            ?>
+                            <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
+                                <?php
+                                echo "<option value='' selected>Selecione a turma</option>";
+                                foreach ($classrooms as $classroom) {
+                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                        <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
+                    </div>
+            </form>
+        </div>
+    </div>
     <div class="row">
         <div class="modal fade modal-content" id="loading-warning" tabindex="-1" role="dialog" aria-labelledby="Generate Another Timesheet">
             <div class="modal-dialog" role="document">
@@ -459,6 +662,43 @@ $this->breadcrumbs = array(
             </form>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="modal fade t-modal-container" id="studentswithdisabilitiesperclassroom" tabindex="-1" role="dialog">
+            <div class="t-modal__header">
+                <h4 class="t-title" id="myModalLabel">Selecione a turma</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
+            </div>
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/studentswithdisabilitiesperclassroom'); ?>" method="post" target="_blank">
+                <div class="t-modal__body">
+                    <div class="t-field-select">
+                        <?php
+                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 't-field-select__label'));
+                        ?>
+                        <select name="classroom" id="classroom" class="t-field-select__input select2-container" placeholder="Selecione a turma">
+                            <?php
+                            echo "<option value='' selected>Selecione a turma</option>";
+                            foreach ($classrooms as $classroom) {
+                                echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="t-modal__footer row reverse">
+                        <div class="t-buttons-container justify-content--center">
+                            <button type="button" class="t-button-secondary" data-dismiss="modal" >Voltar</button>
+                        </div>
+                        <div class="t-buttons-container justify-content--center">
+                            <button class="t-button-primary clear-margin--right" type="submit"> Selecionar turma </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="row">
         <div class="modal fade modal-content" id="studentperclassroom" tabindex="-1" role="dialog">
             <div class="modal-header">
@@ -802,6 +1042,7 @@ $this->breadcrumbs = array(
     containerFollowUp.appendTo('.student-report-container');
     containerEvaluation.appendTo('.student-report-container');
     containerBoxOut.appendTo('.main');
+    $('')
 </script>
 <?php
 

@@ -225,25 +225,48 @@ function loadReport() {
                     $.each(data.subunityNames, function () {
                         subunityRow += "<th class='center'>" + this + "</th>"
                     });
-                    totalColSpan += (!data.isUnityConcept ? 2 : 1);
+                    totalColSpan += (!data.isUnityConcept ? 3 : 2);
                     html += "<tr><th class='table-title' colspan='" + totalColSpan + "'>Notas</th></tr>";
                     html += "<tr><th class='center' colspan='" + totalColSpan + "'>" + $('#student').select2('data').text + "</th></tr>";
                     html += "<tr><th class='center' colspan='" + totalColSpan + "'>" + $('#classroom').select2('data').text + "</th></tr>";
                     html += "<tr><th></th>" + unityRow;
-                    html += !data.isUnityConcept ? "<th class='center'></th>" : "";
+                    html += !data.isUnityConcept ? "<th class='center'></th><th></th>" : "<th></th>";
                     html += "</tr>";
                     html += "<tr><th>Disciplina</th>" + subunityRow;
-                    html += !data.isUnityConcept ? "<th class='center'>Média Final</th>" : "";
+                    html += !data.isUnityConcept ? "<th class='center'>Média Anual</th>" : "";
+                    html += "<th class='center'>Resultado</th>";
                     html += "</tr></thead><tbody>";
                     $.each(data.rows, function () {
                         html += "<tr><td>" + this.disciplineName + "</td>";
                         $.each(this.grades, function () {
-                            html += "<td class='center'>" + this.unityGrade + "</td>";
+                            
+                            if (this.unityGrade == "") {
+                                valueUnityGrade = "";
+                            } else {
+                                valueUnityGrade = parseFloat(this.unityGrade).toFixed(1);
+                            }
+
+                            if (this.unityRecoverGrade == "") {
+                                valueunityRecoverGrade = "";
+                            } else {
+                                valueunityRecoverGrade = parseFloat(this.unityRecoverGrade).toFixed(1);
+                            }
+ 
+
+                            html += "<td class='center'>" + valueUnityGrade + "</td>";
                             if (this.gradeUnityType === "UR") {
-                                html += "<td class='center'>" + this.unityRecoverGrade + "</td>";
+                                html += "<td class='center'>" + valueunityRecoverGrade + "</td>";
                             }
                         });
-                        html += !data.isUnityConcept ? "<td class='center'>" + this.finalMedia + "</td></tr>" : "";
+
+                        if (this.finalMedia == "") {
+                            valueFinalMedia = "";
+                        } else {
+                            valueFinalMedia = parseFloat(this.finalMedia).toFixed(1);
+                        }
+
+                        html += !data.isUnityConcept ? "<td class='center'>" + valueFinalMedia + "</td>" : "";
+                        html += "<td class='center'>" + this.situation + "</td></tr>";
                     });
                     html += "</tbody></table>";
                     $(".report-container").html(html);

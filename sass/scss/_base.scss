@@ -21,7 +21,16 @@ a:hover {
     text-decoration: none;
 }
 
-
+hr {
+    margin: 0;
+    border: none;
+}
+select[multiple]  {
+    height: 30px;
+}
+input[type="number"] {
+    margin: 0px ;
+}
 // select,
 // select[multiple],
 // textarea,

@@ -46,6 +46,9 @@ class Register50
                 $teaching['instructor_fk'] = $id;
 
                 $classroom = Classroom::model()->findByPk($teaching['classroom_id_fk']);
+
+                $classroom->edcenso_stage_vs_modality_fk = $classroom->edcenso_stage_vs_modality_fk % 10000;
+                
                 $codigos = [];
                 $alreadyHave99 = false;
                 $n = 0;
