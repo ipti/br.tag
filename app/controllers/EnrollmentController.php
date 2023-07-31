@@ -33,7 +33,7 @@ class EnrollmentController extends Controller
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'view', 'create', 'update', "updatedependencies",
                     'delete', 'getmodalities', 'grades', 'getGrades', 'saveGrades', 
-                    'getDisciplines', 'calculateFinalMedia', 'reportCard', 'getReportCardGrades'),
+                    'getDisciplines', 'calculateFinalMedia', 'reportCard', 'getReportCardGrades', 'saveGradesReportCard'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -346,6 +346,32 @@ class EnrollmentController extends Controller
         }
     }
 
+    public function actionSaveGradesReportCard()
+    {
+        $discipline = $_POST['discipline'];
+        $students = $_POST['students'];
+        foreach($students as $std) {
+            $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $std['enrollmentId'], "discipline_fk" => $discipline]);
+            $gradeResult->grade_1 = $std['grades'][0]['value'];
+            $gradeResult->grade_2 = $std['grades'][1]['value'];
+            $gradeResult->grade_3 = $std['grades'][2]['value'];
+            $gradeResult->grade_4 = $std['grades'][3]['value'];
+            $gradeResult->grade_faults_1 = $std['grades'][0]['faults'];
+            $gradeResult->grade_faults_2 = $std['grades'][1]['faults'];
+            $gradeResult->grade_faults_3 = $std['grades'][2]['faults'];
+            $gradeResult->grade_faults_4 = $std['grades'][3]['faults'];
+            $mediaFinal = ( floatval($gradeResult->grade_1) + floatval($gradeResult->grade_2) + 
+            floatval($gradeResult->grade_3) + floatval($gradeResult->grade_4)) / 4;
+            $gradeResult->final_media = number_format($mediaFinal, 1);
+            try {
+                $gradeResult->save();
+            } catch (\Throwable $th) {
+                echo $th;
+            }
+        }
+        echo json_encode(["valid" => true]);
+    }
+
     public function actionSaveGrades()
     {
         // $hasFinalMediaCalculated = false;
@@ -393,68 +419,27 @@ class EnrollmentController extends Controller
         $studentEnrollments = StudentEnrollment::model()->findAll($criteria);
 
         if ($studentEnrollments != null) {
-            $criteria = new CDbCriteria;
-            $criteria->alias = "gum";
-            $criteria->join = "join grade_unity gu on gu.id = gum.grade_unity_fk";
-            $criteria->condition = "edcenso_stage_vs_modality_fk = :stage";
-            $criteria->params = array(':stage' => $studentEnrollments[0]->classroomFk->edcenso_stage_vs_modality_fk);
-            $gradeModalities = GradeUnityModality::model()->findAll($criteria);
+            $result["students"] = [];
+            foreach ($studentEnrollments as $studentEnrollment) {
+                $arr["enrollmentId"] = $studentEnrollment->id;
+                $arr["studentName"] = $studentEnrollment->studentFk->name;
+                $arr["grades"] = [];
+                $arr["faults"] = [];
 
-            if ($gradeModalities != null) {
-                $conceptOptions = GradeConcept::model()->findAll();
-                foreach ($conceptOptions as $conceptOption) {
-                    $result["conceptOptions"][$conceptOption->id] = $conceptOption->name;
-                }
-                $result["isUnityConcept"] = $gradeModalities[0]->gradeUnityFk->type == "UC";
-                $unityName = $gradeModalities[0]->gradeUnityFk->name;
-                $unityColspan = 0;
-                $result["unityColumns"] = [];
-                $result["modalityColumns"] = [];
-                foreach ($gradeModalities as $index => $gradeModality) {
-                    array_push($result["modalityColumns"], $gradeModality->name);
-                    if ($unityName == $gradeModality->gradeUnityFk->name) {
-                        $unityColspan++;
-                    } else {
-                        array_push($result["unityColumns"], ["name" => $unityName, "colspan" => $unityColspan]);
-                        $unityName = $gradeModality->gradeUnityFk->name;
-                        $unityColspan = 1;
-                    }
-                    if ($index == count($gradeModalities) - 1) {
-                        array_push($result["unityColumns"], ["name" => $unityName, "colspan" => $unityColspan]);
-                    }
-                }
+                $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", 
+                ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $_POST["discipline"]]);
+                
+                array_push($arr["grades"], ["value" => $gradeResult->grade_1,"faults" => $gradeResult->grade_faults_1]);
+                array_push($arr["grades"], ["value" => $gradeResult->grade_2,"faults" => $gradeResult->grade_faults_2]);
+                array_push($arr["grades"], ["value" => $gradeResult->grade_3,"faults" => $gradeResult->grade_faults_3]);
+                array_push($arr["grades"], ["value" => $gradeResult->grade_4,"faults" => $gradeResult->grade_faults_4]);
 
-                $result["students"] = [];
-                foreach ($studentEnrollments as $studentEnrollment) {
-                    $arr["enrollmentId"] = $studentEnrollment->id;
-                    $arr["studentName"] = $studentEnrollment->studentFk->name;
-                    $arr["grades"] = [];
-                    foreach ($gradeModalities as $gradeModality) {
-                        $gradeValue = "";
-                        $gradeConcept = "";
-                        $modalityId = $gradeModality->id;
-                        foreach ($gradeModality->grades as $grade) {
-                            if ($grade->enrollment_fk == $studentEnrollment->id && $grade->discipline_fk == $_POST["discipline"]) {
-                                $gradeValue = $grade->grade;
-                                $gradeConcept = $grade->grade_concept_fk;
-                                break;
-                            }
-                        }
-                        array_push($arr["grades"], ["value" => $gradeValue, "concept" => $gradeConcept, "modalityId" => $modalityId]);
-                    }
-                    $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $_POST["discipline"]]);
-                    if (!$result["isUnityConcept"]) {
-                        $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
-                    }
-                    $arr["situation"] = $gradeResult != null ? ($gradeResult->situation != null ? $gradeResult->situation : "") : "";
-                    array_push($result["students"], $arr);
-                }
 
-                $result["valid"] = true;
-            } else {
-                $result["valid"] = false;
-                $result["message"] = "Ainda não foi construída uma estrutura de unidades e avaliações para esta turma.";
+                $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
+                array_push($result["students"], $arr);
             }
+
+            $result["valid"] = true;
         } else {
             $result["valid"] = false;
             $result["message"] = "Não há estudantes matriculados na turma.";

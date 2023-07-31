@@ -31,7 +31,7 @@ $('#discipline').change(function (e, triggerEvent) {
         $(".js-grades-alert").hide();
         $.ajax({
             type: "POST",
-            url: "?r=enrollment/getGrades",
+            url: "?r=enrollment/getReportCardGrades",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -44,46 +44,40 @@ $('#discipline').change(function (e, triggerEvent) {
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.valid) {
-                    var tableColspan = Object.keys(data.modalityColumns).length + (!data.isUnityConcept ? 3 : 2);
-                    var html = "<table class='grades-table table table-bordered table-striped' concept='" + (data.isUnityConcept ? "1" : "0") + "'><thead><tr><th colspan='" + tableColspan + "' class='table-title'>Notas</th></tr><tr><th></th>";
-                    $.each(data.unityColumns, function () {
-                        html += "<th colspan='" + this.colspan + "'>" + this.name + "</th>";
-                    });
-                    html += !data.isUnityConcept ? '<th></th>' : '';
-                    html += "</tr><tr class='modality-row'><th></th>";
-                    $.each(data.modalityColumns, function () {
-                        html += "<th>" + this + "</th>";
-                    });
-                    html += !data.isUnityConcept ? '<th>Média Anual</th>' : '';
-                    html += '<th>Resultado</th>';
+                    var html = "<table class='grades-table table table-bordered table-striped'><thead><tr><th colspan=6' class='table-title'>Notas</th></tr>";
+                    html += "<th></th>";
+                    html += "<th>Unidade 1</th>";
+                    html += "<th>Unidade 2</th>";
+                    html += "<th>Unidade 3</th>";
+                    html += "<th>Unidade 4</th>";
+                    html += '<th>Média Final</th>';
                     html += "</tr></thead><tbody>";
                     $.each(data.students, function () {
+                        console.log(this.grades);
                         html += "<tr><td class='grade-student-name'><input type='hidden' class='enrollment-id' value='" + this.enrollmentId + "'>" + $.trim(this.studentName) + "</td>";
                         $.each(this.grades, function () {
-                            if (this.value == "") {
+                            if (this.value == "" || this.value == null) {
                                 valueGrade = "";
                             } else {
                                 valueGrade = parseFloat(this.value).toFixed(1);
                             }
-                            html += "<td class='grade-td'>";
-                            if (!data.isUnityConcept) {
-                                html += "<input type='text' class='grade' modalityid='" + this.modalityId + "' value='" + valueGrade + "'>";
-                            } else {
-                                html += "<select class='grade-concept' modalityid='" + this.modalityId + "'><option value=''></option>";
-                                var concept = this.concept;
-                                $.each(data.conceptOptions, function (index, value) {
-                                    html += "<option value='" + index + "' " + (index === concept ? "selected" : "") + ">" + value + "</option>";
-                                });
+                            if(this.faults == null) {
+                                faults = ""
+                            }else {
+                                faults = this.faults
                             }
+                            html += "<td class='grade-td'>";
+                            html += "<p style='margin-top:10px;'>Nota</p>";
+                            html += "<input type='text' class='grade' value='" + valueGrade + "'>";
+                            html += "<p style='margin-top:10px;'>Faltas</p>";
+                            html += "<input type='text' class='faults' style='width:50px;text-align:center;' value='" + faults + "'>";
                             html += "</td>";
                         });
-                        html += !data.isUnityConcept ? "<td class='final-media'>" + this.finalMedia + "</td>" : "";
-                        html += "<td class='final-media'>" + this.situation + "</td>";
+                        html += "<td style='font-weight: bold;font-size: 16px;' class='final-media'>" + this.finalMedia + "</td>";
                         html += "</tr>";
                     });
                     html += "</tbody></table>";
                     $(".js-grades-container").html(html);
-                    $(".grade-concept").select2();
                     if (triggerEvent === "saveGrades") {
                         $(".js-grades-alert").removeClass("alert-error").addClass("alert-success").text("Notas registradas com sucesso!").show();
                     }
@@ -107,21 +101,12 @@ $("#save").on("click", function (e) {
     var students = [];
     $('.grades-table tbody tr').each(function () {
         var grades = [];
-        if ($(".grades-table").attr("concept") === "1") {
-            $(this).find(".grade-concept").each(function () {
-                grades.push({
-                    modalityId: $(this).attr("modalityid"),
-                    concept: $(this).val()
-                });
+        $(this).find(".grade").each(function () {
+            grades.push({
+                value: $(this).val(),
+                faults: $(this).next().next().val()
             });
-        } else {
-            $(this).find(".grade").each(function () {
-                grades.push({
-                    modalityId: $(this).attr("modalityid"),
-                    value: $(this).val()
-                });
-            });
-        }
+        });
         students.push({
             enrollmentId: $(this).find(".enrollment-id").val(),
             grades: grades
@@ -130,13 +115,12 @@ $("#save").on("click", function (e) {
 
     $.ajax({
         type: "POST",
-        url: "?r=enrollment/saveGrades",
+        url: "?r=enrollment/saveGradesReportCard",
         cache: false,
         data: {
             classroom: $("#classroom").val(),
             discipline: $("#discipline").val(),
-            students: students,
-            isConcept: $(".grades-table").attr("concept")
+            students: students
         },
         beforeSend: function () {
             $(".js-grades-loading").css("display", "inline-block");
@@ -146,6 +130,15 @@ $("#save").on("click", function (e) {
             $("#discipline").trigger("change", ["saveGrades"]);
         },
     });
+});
+
+$(document).on("keyup", "input.faults", function (e) {
+    var val = this.value;
+    if (!$.isNumeric(val)) {
+        e.preventDefault();
+        val = "";
+    }
+    this.value = val;
 });
 
 $(document).on("keyup", "input.grade", function (e) {
