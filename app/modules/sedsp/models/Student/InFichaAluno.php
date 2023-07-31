@@ -31,11 +31,11 @@ class InFichaAluno implements JsonSerializable
         $this->inDadosPessoais = new InDadosPessoais($fichaAluno->inDadosPessoais);
         $this->inDocumentos = new InDocumentos($fichaAluno->inDocumentos);
         $this->inCertidaoNova = new InCertidaoNova($fichaAluno->inCertidaoNova);
-        $this->inCertidaoAntiga = new InCertidaoAntiga($fichaAluno->InCertidaoAntiga);
-        $this->inEnderecoResidencial = new InEnderecoResidencial($fichaAluno->InEnderecoResidencial);
+        $this->inCertidaoAntiga = new InCertidaoAntiga($fichaAluno->inCertidaoAntiga);
+        $this->inEnderecoResidencial = new InEnderecoResidencial($fichaAluno->inEnderecoResidencial);
         $this->inDeficiencia = new InDeficiencia($fichaAluno->InDeficiencia);
-        $this->inRecursoAvaliacao = new InRecursoAvaliacao($fichaAluno->InRecursoAvaliacao);
-        $this->inRastreio = new InRastreio($fichaAluno->InRastreio);
+        $this->inRecursoAvaliacao = new InRecursoAvaliacao($fichaAluno->inRecursoAvaliacao);
+        $this->inRastreio = new InRastreio($fichaAluno->inRastreio);
     }
 
 	public function jsonSerialize()
