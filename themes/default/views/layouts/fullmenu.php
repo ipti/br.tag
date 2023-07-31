@@ -291,6 +291,12 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                         <span class="t-menu-item__text">Notas</span>
                                     </a>
                                 </li>
+                                <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=enrollment/reportCard") ? 'active' : '' ?>">
+                                    <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('enrollment/reportCard') ?> ">
+                                        <span class="t-icon-edition t-menu-item__icon"></span>
+                                        <span class="t-menu-item__text">Boletim</span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <?php if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) : ?>
