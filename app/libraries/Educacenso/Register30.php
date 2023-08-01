@@ -104,8 +104,7 @@ class Register30
     }
 
     private static function getStudents($classroom, $students, $school)
-    {
-
+    {        
         foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
             if (!isset($students[$enrollment->student_fk])) {
                 $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
@@ -236,11 +235,6 @@ class Register30
             $student['edcenso_city_fk'] = '';
         }
 
-        if (!empty($student['cep']) && !isset($student['edcenso_city_fk'])) {
-            $student['edcenso_city_fk'] = $school->edcenso_city_fk;
-        }
-
-        $student['civil_register_enrollment_number'] = strtoupper($student['civil_register_enrollment_number']);
 
         if ($student['civil_certification'] != 2) {
             $student['civil_register_enrollment_number'] = '';
@@ -253,7 +247,6 @@ class Register30
         $student["id_email"] = '';
 
         foreach ($student as $key => $attr) {
-
             $alias_index = array_search($key, array_column($aliases, 'attr'));
             $alias = $alias_index !== false ? $aliases[$alias_index] : null;
 
@@ -352,7 +345,6 @@ class Register30
         }
 
         foreach ($instructor as $key => $attr) {
-
             $alias_index = array_search($key, array_column($aliases, 'attr'));
             $alias = $alias_index !== false ? $aliases[$alias_index] : null;
 
@@ -467,7 +459,6 @@ class Register30
         }
 
         foreach ($instructor as $key => $attr) {
-
             $alias_index = array_search($key, array_column($aliases, 'attr'));
             $alias = $alias_index !== false ? $aliases[$alias_index] : null;
 
@@ -499,6 +490,7 @@ class Register30
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         $aliasesStudent = Yii::app()->db->createCommand("select * from edcenso_alias where register = 301 and year = :year")->bindParam(":year", $year)->queryAll();
         $aliasesInstructor = Yii::app()->db->createCommand("select * from edcenso_alias where register = 302 and year = :year")->bindParam(":year", $year)->queryAll();
+
         $instructors = [];
         $students = [];
 

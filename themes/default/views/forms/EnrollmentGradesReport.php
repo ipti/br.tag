@@ -110,7 +110,11 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                     </tr>
                     <tr>
                         <td class="vertical-text">
-                            <div>BIMESTRES</div>
+                            <?php if (INSTANCE == "BUZIOS") { ?>
+                                <div>TRIMESTRES</div>
+                            <?php }else {?>
+                                <div>UNIDADES</div>
+                            <?php }?>
                         </td>
                         <?php foreach ($baseDisciplines as $name): ?>
                             <td class="vertical-text">
@@ -147,7 +151,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                     <?php }?>
                 </tbody>
 
-                <tr>
+                <!-- <tr>
                     <td colspan="1">MÉDIA ANUAL</td>
                     <?php for ($i=0; $i < $rows; $i++) { ?>
                         <td style="text-align: center;"><?= $result[$i]['final_media']?></td>
@@ -155,8 +159,8 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                     <td></td>
                     <td></td>
                     <td></td>
-                </tr>
-                <tr>
+                </tr> -->
+                <!-- <tr>
                     <td colspan="1">NOTA DA PROVA FINAL</td>
                     <?php for ($i=0; $i < $rows; $i++) { ?>
                         <td style="text-align: center;"><?= end($result[$i]['grades'])->grade?></td>
@@ -164,11 +168,11 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                     <td></td>
                     <td></td>
                     <td></td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td colspan="1">MÉDIA FINAL</td>
                     <?php for ($i=0; $i < $rows; $i++) { ?>
-                        <td style="text-align: center;"><?= $result[$i]['final_media']?></td>
+                        <td style="text-align: center;font-weight:bold;"><?= $result[$i]['final_media']?></td>
                     <?php }?>
                     <td></td>
                     <td></td>

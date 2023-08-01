@@ -44,7 +44,6 @@ $('#ManagerIdentification_edcenso_uf_fk').change(function () {
             edcenso_uf_fk: uf
         },
         success: function (response) {
-            console.log(response)
             $("#ManagerIdentification_edcenso_city_fk").append(response);
         }
     });
@@ -54,7 +53,6 @@ $('#ManagerIdentification_filiation').change(function () {
     var simple = getUrlVars()['simple'];
     $('.manager-filiation-container').hide();
     if ($('#ManagerIdentification_filiation').val() == 1) {
-        console.log('dsads')
         $('.manager-filiation-container').show();
         $('#ManagerIdentification_filiation_1').closest(".js-visibility-fname").show();
         $('#ManagerIdentification_filiation_2').closest(".js-visibility-fname").show();
