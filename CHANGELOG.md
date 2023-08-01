@@ -1,5 +1,7 @@
 # Atualizações
 
+## [Versão 3.40.79]
+-  tirado filtro de disciplinas na tela de  diário de classe
 ## [Versão 3.40.78]
 - Criado multiselect para os planos de aula no módulo de diário de classe
 ## [Versão 3.39.78]

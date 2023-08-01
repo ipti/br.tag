@@ -11,9 +11,9 @@
             return $classrooms;
         }
 
-        public function getClassroomsInstructor($discipline) {
+        public function getClassroomsInstructor($discipline) {      
              if ($discipline != "") {
-                $sql = "SELECT itd.id, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk, ed.name as discipline_name, esvm.name as stage_name, c.name  
+                $sql = "SELECT c.id, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk, ed.name as discipline_name, esvm.name as stage_name, c.name  
                 from instructor_teaching_data itd 
                 join teaching_matrixes tm ON itd.id = tm.teaching_data_fk 
                 join instructor_identification ii on itd.instructor_fk = ii.id 
@@ -29,7 +29,7 @@
                 ->bindValue(':discipline_id', $discipline, PDO::PARAM_INT)
                 ->bindValue(':user_year', Yii::app()->user->year, PDO::PARAM_INT);
             } else {
-                $sql = "SELECT itd.id, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk, ed.name as discipline_name, esvm.name as stage_name, c.name  
+                $sql = "SELECT c.id, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk, ed.name as discipline_name, esvm.name as stage_name, c.name  
                 from instructor_teaching_data itd 
                 join teaching_matrixes tm ON itd.id = tm.teaching_data_fk 
                 join instructor_identification ii on itd.instructor_fk = ii.id 
@@ -47,9 +47,7 @@
             
             $classrooms = $command->queryAll(); 
             $minorSchoolingClassroom = $this->getMinorSchoolingClassrooms();
-            /* echo "<pre>";
-            var_dump($minorSchoolingClassroom[0]["turma"]["name"]);
-            echo "</pre>"; */
+
             return [
                 "valid" => true,
                 "classrooms" => $classrooms,
@@ -57,43 +55,20 @@
             ] ;
         }
         public function getMinorSchoolingClassrooms() {
-            $criteria = new CDbCriteria;
-            $criteria->alias = "c";
-            $criteria->select = "c.id, c.name, c.edcenso_stage_vs_modality_fk, esvm.name"; 
-            $criteria->join = ""
-                . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
-                . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id "
-                ."  Join edcenso_stage_vs_modality esvm on esvm.id = c.edcenso_stage_vs_modality_fk";
-            $criteria->condition = "c.school_year = :school_year and instructor_identification.users_fk = :users_fk";
-            $criteria->order = "name";
-            $criteria->addCondition('esvm.id BETWEEN :start_id AND :end_id');
-            $criteria->params = array(':school_year' => Yii::app()->user->year, ':users_fk' => Yii::app()->user->loginInfos->id, 'start_id' =>14,'end_id' => 16);
-            $minorSchoolingClassroom = Classroom::model()->findAll($criteria);
+            $sql = "SELECT c.id, esvm.name as stage_name, c.name, c.edcenso_stage_vs_modality_fk as stage_fk
+            from classroom c 
+            join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id
+            join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id
+            join edcenso_stage_vs_modality esvm on esvm.id = c.edcenso_stage_vs_modality_fk
+            where c.school_year = :school_year and instructor_identification.users_fk = :users_fk and esvm.id BETWEEN 14 AND 16";
+             $command = Yii::app()->db->createCommand($sql);
+             $command->bindValue(':school_year', Yii::app()->user->year, PDO::PARAM_INT)
+             ->bindValue(':users_fk', Yii::app()->user->loginInfos->id, PDO::PARAM_INT);
+             $minorSchoolingClassroom = $command->queryAll(); 
 
-            // $results = array();
-            foreach ($minorSchoolingClassroom as $c) {
-                $disciplines = Yii::app()->db->createCommand(
-                    "select ed.id, ed.name as discipline_name from teaching_matrixes tm 
-                    join instructor_teaching_data itd on itd.id = tm.teaching_data_fk 
-                    join instructor_identification ii on ii.id = itd.instructor_fk
-                    join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
-                    join edcenso_discipline ed on ed.id = cm.discipline_fk
-                    where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name")
-                    ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $c->id)->queryAll();
-                    echo "<pre>";
-                    var_dump($c);
-                    echo "</pre>";
-                    exit();
-                    $result["turma"]["name"] = $c->name;
-                    $result["turma"]["stage_name"] = $c->stage_name;
-                    $result["disciplines"] = $disciplines;
-                    // array_push($results[$c->id], $result);
-                    $results[] = $result;
-            }
-            
             
            
-            return $results;
+            return $minorSchoolingClassroom;
         }
 
         /**
