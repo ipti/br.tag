@@ -44,13 +44,26 @@ $('#discipline').change(function (e, triggerEvent) {
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.valid) {
-                    var html = "<table class='grades-table table table-bordered table-striped'><thead><tr><th colspan=6' class='table-title'>Boletim</th></tr>";
-                    html += "<th></th>";
-                    html += "<th>Unidade 1</th>";
-                    html += "<th>Unidade 2</th>";
-                    html += "<th>Unidade 3</th>";
-                    html += "<th>Unidade 4</th>";
-                    html += '<th>Média Final</th>';
+                    var html = "<table class='grades-table table table-bordered table-striped'><thead><tr><th colspan=10' class='table-title'>Boletim</th></tr>";
+
+                    html += "<tr>";
+                    html += "<th rowspan='2' style='width:10%;'></th>";
+                    html += "<th colspan='2' style='width:20%;'>Unidade 1</th>";
+                    html += "<th colspan='2' style='width:20%;'>Unidade 2</th>";
+                    html += "<th colspan='2' style='width:20%;'>Unidade 3</th>";
+                    html += "<th colspan='2' style='width:20%;'>Unidade 4</th>";
+                    html += "<th rowspan='2' style='width:10%;vertical-align:middle;'>Média Final</th>";
+                    html += "</tr>";
+
+                    html += "<th>Nota</th>";
+                    html += "<th>Faltas</th>";
+                    html += "<th>Nota</th>";
+                    html += "<th>Faltas</th>";
+                    html += "<th>Nota</th>";
+                    html += "<th>Faltas</th>";
+                    html += "<th>Nota</th>";
+                    html += "<th>Faltas</th>";
+                    // html += "<th></th>";
                     html += "</tr></thead><tbody>";
                     $.each(data.students, function () {
                         console.log(this.grades);
@@ -67,9 +80,9 @@ $('#discipline').change(function (e, triggerEvent) {
                                 faults = this.faults
                             }
                             html += "<td class='grade-td'>";
-                            html += "<p style='margin-top:10px;'>Nota</p>";
                             html += "<input type='text' class='grade' value='" + valueGrade + "'>";
-                            html += "<p style='margin-top:10px;'>Faltas</p>";
+                            html += "</td>";
+                            html += "<td class='grade-td'>";
                             html += "<input type='text' class='faults' style='width:50px;text-align:center;' value='" + faults + "'>";
                             html += "</td>";
                         });
@@ -104,7 +117,7 @@ $("#save").on("click", function (e) {
         $(this).find(".grade").each(function () {
             grades.push({
                 value: $(this).val(),
-                faults: $(this).next().next().val()
+                faults: $(this).parent().next().children().val()
             });
         });
         students.push({
