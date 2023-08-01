@@ -7,12 +7,9 @@ function createTable(data) {
     $.each(data.courseClasses, function () {
         options += '<option value="' + this.id + '" disciplineid="' + this.edid + '" disciplinename="' + this.edname + '">' + this.cpname + "|" + this.order + "|" + this.objective + "|" + this.edname + '</option>';
     });
-
-    
-
     var accordionBuilt = false;
     var accordionHtml = "";
-    accordionHtml += `<div id='accordion' class='t-accordeon-primary' studentid=' ${this.id} '>`
+    accordionHtml += `<div id='accordion' class='t-accordeon-primary'>`
     $.each(data.classContents, function (day, classContent) {
         var studentInputs = "";
         if (Object.keys(classContent.students).length) {
@@ -26,8 +23,8 @@ function createTable(data) {
                                 ${this.name} 
                             </h4>
                         </div>
-                        <div class='ui-accordion-content'>
-                            <textarea class='t-field-tarea__input'></textarea>
+                        <div class='ui-accordion-content js-std-classroom-diaries'>
+                            <textarea class='t-field-tarea__input js-student-classroom-diary' studentid='${this.id}'></textarea>
                         </div>`
                 }
             });
@@ -44,7 +41,7 @@ function createTable(data) {
         var body = '<td class="t-multiselect">'
             + '<input type="hidden" class="classroom-diary-of-the-day" value="' + classContent.diary + '">'
             + studentInputs
-            + '<span class="t-icon-attendance-note t-icon classroom-diary-button ' + (!classContent.available ? "disabled" : "") + '" data-toggle="tooltip" title="Diário"></span>'
+            + '<span class="t-icon-annotation t-icon classroom-diary-button ' + (!classContent.available ? "disabled" : "") + '" data-toggle="tooltip" title="Diário"></span>'
             + '<select id="day[' + day + ']" name="day[' + day + '][]" class=" course-classes-select vmiddle" ' + (!classContent.available ? "disabled" : "") + ' multiple="yes">'
             + options
             + '</select>'

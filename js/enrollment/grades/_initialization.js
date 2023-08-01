@@ -44,7 +44,7 @@ $('#discipline').change(function (e, triggerEvent) {
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.valid) {
-                    var tableColspan = Object.keys(data.modalityColumns).length + (!data.isUnityConcept ? 2 : 1);
+                    var tableColspan = Object.keys(data.modalityColumns).length + (!data.isUnityConcept ? 3 : 2);
                     var html = "<table class='grades-table table table-bordered table-striped' concept='" + (data.isUnityConcept ? "1" : "0") + "'><thead><tr><th colspan='" + tableColspan + "' class='table-title'>Notas</th></tr><tr><th></th>";
                     $.each(data.unityColumns, function () {
                         html += "<th colspan='" + this.colspan + "'>" + this.name + "</th>";
@@ -54,11 +54,13 @@ $('#discipline').change(function (e, triggerEvent) {
                     $.each(data.modalityColumns, function () {
                         html += "<th>" + this + "</th>";
                     });
-                    html += !data.isUnityConcept ? '<th>Média Final</th>' : '';
+                    html += !data.isUnityConcept ? '<th>Média Anual</th>' : '';
+                    html += '<th>Resultado</th>';
                     html += "</tr></thead><tbody>";
                     $.each(data.students, function () {
                         html += "<tr><td class='grade-student-name'><input type='hidden' class='enrollment-id' value='" + this.enrollmentId + "'>" + $.trim(this.studentName) + "</td>";
                         $.each(this.grades, function () {
+
                             if (this.value == "") {
                                 valueGrade = "";
                             } else {
@@ -76,7 +78,13 @@ $('#discipline').change(function (e, triggerEvent) {
                             }
                             html += "</td>";
                         });
-                        html += !data.isUnityConcept ? "<td class='final-media'>" + this.finalMedia + "</td>" : "";
+                        if (this.finalMedia == "") {
+                            valueFinalMedia = "";
+                        } else {
+                            valueFinalMedia = parseFloat(this.finalMedia).toFixed(1);
+                        }
+                        html += !data.isUnityConcept ? "<td class='final-media'>" + valueFinalMedia + "</td>" : "";
+                        html += "<td class='final-media'>" + this.situation + "</td>";
                         html += "</tr>";
                     });
                     html += "</tbody></table>";
@@ -85,17 +93,21 @@ $('#discipline').change(function (e, triggerEvent) {
                     if (triggerEvent === "saveGrades") {
                         $(".js-grades-alert").removeClass("alert-error").addClass("alert-success").text("Notas registradas com sucesso!").show();
                     }
+                    $(".js-grades-container, .grades-buttons").show();
                 } else {
                     $(".js-grades-alert").addClass("alert-error").removeClass("alert-success").text(data.message).show();
                 }
                 $(".js-grades-loading").hide();
-                $(".js-grades-container, .grades-buttons").css("opacity", "1").css("pointer-events", "auto").show();
+                $(".js-grades-container, .grades-buttons").css("opacity", "1").css("pointer-events", "auto");
             },
+            complete: function(){
+                initializeGradesMask();
+            }
         });
     } else {
         $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
     }
-});
+}, );
 
 $("#save").on("click", function (e) {
     e.preventDefault();
@@ -145,22 +157,12 @@ $("#save").on("click", function (e) {
     });
 });
 
-$(document).on("keyup", "input.grade", function (e) {
-    var val = this.value;
-    if (!$.isNumeric(val)) {
-        e.preventDefault();
-        val = "";
-    } else {
-        grade = /^(10|\d)(?:(\.|\,)\d{0,1}){0,1}$/;
-        if (val.match(grade) === null) {
-            val = "";
-        } else {
-            if (val > 10)
-                val = 10;
-        }
-    }
-    this.value = val;
-});
+// var lastValidValue = "";
+
+// $(document).on("focus", "input.grade", function (e) {
+//     lastValidValue = this.value
+// });
+
 
 // $(document).on("click", ".calculate-media", function (e) {
 //     e.preventDefault();

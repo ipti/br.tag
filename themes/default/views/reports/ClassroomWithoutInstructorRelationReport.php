@@ -26,8 +26,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     </div>
 
     <?php
-
-
+    // Caso para quando não há turmas sem instrutor para a escola selecionada
     if (count($classroom) == 0) {
         echo "<br><span class='alert alert-primary'>N&atilde;o h&aacute; turmas para esta escola.</span>";
     } else { ?>
@@ -42,44 +41,45 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <?php
 
             $ordem = 1;
+        
+            $classroom_number = count($classroom);
 
-            foreach ($classroom as $c) {
-
-                $disciplinas = array();
-
-                $count = 0;
-                foreach ($disciplina as $d) {
-                    if ($d['id'] == $c['id']) {
-                        $disciplinas[$count++] = $d['discipline_name'];
-                    }
+            // Laço para percorrer o vetor $classroom e preencher a tabela
+            // Nesse caso, as duas tabelas já estão obedecendo a uma mesma ordem, portanto há a garantia
+            // de que as linhas estão de acordo para as duas consultas $classroom e $disciplinas
+            for ($i = 0; $i < $classroom_number; $i++) {
+                
+                // Colunas que serão apresentadas na tabela
+                // $classroom[linha]['name'];
+                // $classroom[linha]['stage'];
+                // $disciplina[linha]['discipline'];
+                
+                // Criando tabela que será adicionada ao HTML na página
+                $html = "";
+                $html .= "<tr>"
+                    . "<td>" . $ordem . "</td>"
+                    . "<td>" . $classroom[$i]['name'] . "</td>"
+                    . "<td>" . $classroom[$i]['stage'] . "</td>";
+                    
+                // Verificando caso em que não há componentes curriculares cadastradas na matriz curricular da etapa de ensino
+                if($disciplina[$i]['Disciplina'] == null){
+                    $html .= "<td>Não há componentes curriculares cadastradas na matriz curricular para essa etapa de ensino </td>";
+                }else{
+                    $html .= "<td>" . $disciplina[$i]['Disciplina'] . "</td>";
                 }
 
-                if (count($disciplinas) > 0) {
-                    $html = "";
-                    $html .= "<tr>"
-                        . "<td>" . $ordem . "</td>"
-                        . "<td>" . $c['name'] . "</td>"
-                        . "<td>" . $c['stage'] . "</td>"
-                        . "<td>";
-                    $hasDiscipline = false;
-                    for ($i = 0; $i < 13; $i++) {
-                        if ($disciplinas[$i] != null) {
-                            $hasDiscipline = true;
-                            $html .= $disciplinas[$i] . ", ";
-                        }
-                    }
-                    if ($hasDiscipline) {
-                        $html = substr($html, 0, -2);
-                    }
-                    $html .= "</td></tr>";
-                    $ordem++;
-                    echo $html;
-                }
-            }
+                $html .= "</tr>";
+                $ordem++;
+                
+                echo $html;
+            } 
+
             ?>
         </table>
-    <?php } ?>
-    <?php $this->renderPartial('footer'); ?>
+    <?php 
+        }; // Fechando o else 
+        $this->renderPartial('footer'); 
+    ?>
 </div>
 
 <style>

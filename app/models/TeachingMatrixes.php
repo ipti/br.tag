@@ -12,7 +12,7 @@
  * @property InstructorTeachingData $teachingDataFk
  * @property CurricularMatrix $curricularMatrixFk
  */
-class TeachingMatrixes extends CActiveRecord
+class TeachingMatrixes extends AltActiveRecord
 {
 	/**
 	 * @return string the associated database table name

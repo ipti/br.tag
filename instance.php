@@ -8,11 +8,14 @@ $_FORMS[5] = array('name'=>'Formulário de Transferência','action'=>'TransferFo
 $_FORMS[6] = array('name'=>'Requerimento de Transferência','action'=>'TransferRequirement');
 $_FORMS[8] = array('name'=>'Declaração de Cursou','action'=>'StatementAttended');
 $_FORMS[8] = array('name'=>'Termo de Advertência','action'=>'WarningTerm');
-$domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
+
+$host_array = explode(".",$_SERVER['HTTP_HOST']);
+$domain = array_shift($host_array);
+
 $newdb = $domain.'.tag.ong.br';
 
 if($domain == "localhost"){
-    $newdb = 'nossasenhoradagloria.tag.ong.br';
+    $newdb = 'demo.tag.ong.br';
 }
 
 $_GLOBALGROUP = 0;

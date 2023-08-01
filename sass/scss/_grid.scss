@@ -52,71 +52,24 @@
     &.clearleft {
         margin-left: 0; 
         
-        &.on-tablet {
+        &--on-tablet {
             margin-left: 0;
 
             @include device(tablet) {
                 margin-left: $spaceXLarge / 2;
             }
         }
+        &--on-mobile {
+            margin-left: 0;
+
+            @include device(mobile) {
+                margin-left: $spaceXLarge/2;
+            }
+        }
     }
 
     &.no-grow {
         flex-grow: 0;
-    }
-
-    &.is-half {
-        @include device(mobile) {
-            max-width: 50%;
-        }
-    }
-
-    &.is-four-fifths {
-        @include device(mobile) {
-            max-width: 80%;
-        }
-    }
-
-    &.is-three-quarters {
-        @include device(mobile) {
-            max-width: 75%;
-        }
-    }
-
-    &.is-two-thirds {
-        @include device(mobile) {
-            max-width: 66.6666%;
-        }
-    }
-
-    &.is-three-fifths {
-        @include device(mobile) {
-            max-width: 60%;
-        }
-    }
-
-    &.is-two-fifths {
-        @include device(mobile) {
-            max-width: 40%;
-        }
-    }
-
-    &.is-one-third {
-        @include device(mobile) {
-            max-width: 33.3333%;
-        }
-    }
-
-    &.is-one-quarter {
-        @include device(mobile) {
-            max-width: 25%;
-        }
-    }
-
-    &.is-one-fifth {
-        @include device(mobile) {
-            max-width: 20%;
-        }
     }
     //retirar isso
     &.helper {
@@ -133,6 +86,9 @@
         @include device(mobile) {
             max-width: 80%;
         }
+        &--mobile {
+            max-width: 80%;
+        }
     }
 
     &.is-three-quarters {
@@ -173,5 +129,12 @@
             max-width: 20%;
         }
     }
+    &.is-one-tenth {
+        @include device(mobile) {
+            max-width: 10%;
+        }
+        &--mobile {
+            max-width: 10%;
+        }
+    }
 }
-
