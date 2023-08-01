@@ -15,7 +15,6 @@
     }
 
     @include device(mobile) {
-
         flex-direction: row;
     }
 }
@@ -74,6 +73,10 @@
     //retirar isso
     &.helper {
         max-width: 50%;
+    }
+
+    &.width-1{
+        flex-basis: 453px;
     }
 
     &.is-half {

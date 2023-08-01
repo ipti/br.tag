@@ -28,41 +28,48 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
     <div class="column">
         <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) : ?>
             <form onsubmit="return false">
-                <div class="row align-items--end justify-content--space-between">
-                    <div class="column clear-margin--left">
+                <div class="row align-items--start justify-content--space-between">
+                
+                <div class="row wrap" style="flex:2">
+
+                    <div class="column clear-margin--left width-1">
                         <div class="t-multiselect">
                             <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Stage'), 'stages', ['class' => "control-label"]) ?>
                             <?= CHtml::dropDownList("stages", [], CHtml::listData(EdcensoStageVsModality::model()->findAll(), "id", "name"), [
-                                "multiple" => "multiple", "class" => "t-field-select__input select-search-on control-input multiselect"
+                                "multiple" => "multiple", "class" => "select-search-on control-input multiselect select3-choices"
                             ]) ?>
                         </div>
                     </div>
-                    <div class="column">
+                    <div class="column width-1">
                         <div class="t-multiselect">
                             <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Disciplines'), 'disciplines', ['class' => "control-label"]) ?>
                             <?= CHtml::dropDownList("disciplines", [], CHtml::listData(EdcensoDiscipline::model()->findAll(), "id", "name"), [
-                                "multiple" => "multiple", "class" => "t-field-select__input select-search-on control-input multiselect"
+                                "multiple" => "multiple", "class" => "select-search-on control-input multiselect select3-choices"
                             ]) ?>
                         </div>
                     </div>
-                    <div class="column">
+                    <div class="column clear-margin--left width-1">
                         <div class="t-field-number">
                             <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Workload'), 'workload', ['class' => "t-field-number__label control-label"]) ?>
-                            <?= CHtml::numberField("workload", "0", ["min" => "0", "max" => "9999", "class" => "t-field-number__input", 'style' => 'height: 23px; border: 1px solid #aaa;']) ?>
+                            <?= CHtml::numberField("workload", "0", ["min" => "0", "max" => "9999", "class" => "select3-choices", 'style' => 'border: 1px solid #aaa;']) ?>
                         </div>
                     </div>
-                    <div class="column">
+                    <div class="column width-1">
                         <div class="t-field-number">
                             <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Credits'), 'credits', ['class' => "t-field-number__label control-label"]) ?>
-                            <?= CHtml::numberField("credits", "0", ["min" => "0", "max" => "99", "class" => "t-field-text__input", 'style' => 'height: 23px; border: 1px solid #aaa;']) ?>
+                            <?= CHtml::numberField("credits", "0", ["min" => "0", "max" => "99", "class" => "select3-choices", 'style' => 'border: 1px solid #aaa;']) ?>
                         </div>
                     </div>
-                    <div class="column">
-                        <?= CHtml::button(Yii::t('curricularMatrixModule.index', 'Add'), [
-                            "id" => "add-matrix", "class" => "t-button-primary", "style" => "margin: 1.5em 0 !important;"
-                        ]) ?>
-                    </div>
+
                 </div>
+
+                
+            </div>
+            <div class="row reverse">
+                <?= CHtml::button(Yii::t('curricularMatrixModule.index', 'Add'), [
+                    "id" => "add-matrix", "class" => "t-button-primary", "style" => "margin: 1.5em 0 !important;padding: 8px 6px"
+                ]) ?>
+            </div>
             </form>
             <hr>
         <?php endif ?>

@@ -30,6 +30,12 @@
         max-height: 42px;
         width: 100% !important;
     }
+    .select3-choices {
+        max-height: 57px;
+        width: 100% !important;
+        word-wrap: break-word;
+        text-overflow: ellipsis;
+    }
     
 }
 // botao-cancelar-multiselect
