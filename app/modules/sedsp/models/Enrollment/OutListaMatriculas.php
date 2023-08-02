@@ -4,7 +4,7 @@ class OutListaMatriculas
 {
 	public $outAnoLetivo;
 	public $outMunicipio;
-	public $outRedeEnsino;
+	public $outNomeRedeEnsino;
 	public $outCodEscola;
 	public $outCodUnidade;
 	public $outDescNomeAbrevEscola;
@@ -20,493 +20,401 @@ class OutListaMatriculas
 	public $outSerieNivel;
 	public $outTurma;
 	public $outDescTurma;
+	public $outCodHabilitacao;
+	public $outDescHabilitacao;
 	public $outDataInicioMatricula;
 	public $outDataFimMatricula;
 	public $outDataInclusaoMatricula;
 	public $outCodSitMatricula;
 	public $outDescSitMatricula;
-	public $outDescHabilitacao;
-	public $outDescSitTranspEscolar;
+	public $outCodSitTranspEscolar;
+	public $outDescSitTranspEscolar ;
 
-	/**
-	 * Summary of __construct
-	 * @return OutListaMatriculas[]
-	 */
-	public function __construct($outListaMatricula) {
-		$this->outAnoLetivo = $outListaMatricula[0]->outAnoLetivo;
-		$this->outMunicipio = $outListaMatricula[0]->outMunicipio;
-		$this->outRedeEnsino = $outListaMatricula[0]->outRedeEnsino;
-		$this->outCodEscola = $outListaMatricula[0]->outCodEscola;
-		$this->outCodUnidade = $outListaMatricula[0]->outCodUnidade;
-		$this->outDescNomeAbrevEscola = $outListaMatricula[0]->outDescNomeAbrevEscola;
-		$this->outNumClasse = $outListaMatricula[0]->outNumClasse;
-		$this->outNumAluno = $outListaMatricula[0]->outNumAluno;
-		$this->outCodTurno = $outListaMatricula[0]->outCodTurno;
-		$this->outDescricaoTurno = $outListaMatricula[0]->outDescricaoTurno;
-		$this->outCodTipoEnsino = $outListaMatricula[0]->outCodTipoEnsino;
-		$this->outDescTipoEnsino = $outListaMatricula[0]->outDescTipoEnsino;
-		$this->outCodSerieAno = $outListaMatricula[0]->outCodSerieAno;
-		$this->outDescSerieAno = $outListaMatricula[0]->outDescSerieAno;
-		$this->outGrauNivel = $outListaMatricula[0]->outGrauNivel;
-		$this->outSerieNivel = $outListaMatricula[0]->outSerieNivel;
-		$this->outTurma = $outListaMatricula[0]->outTurma;
-		$this->outDescTurma = $outListaMatricula[0]->outDescTurma;
-		$this->outDataInicioMatricula = $outListaMatricula[0]->outDataInicioMatricula;
-		$this->outDataFimMatricula = $outListaMatricula[0]->outDataFimMatricula;
-		$this->outDataInclusaoMatricula = $outListaMatricula[0]->outDataInclusaoMatricula;
-		$this->outCodSitMatricula = $outListaMatricula[0]->outCodSitMatricula;
-		$this->outDescSitMatricula = $outListaMatricula[0]->outDescSitMatricula;
-		$this->outDescHabilitacao = $outListaMatricula[0]->outDescHabilitacao;
-		$this->outDescSitTranspEscolar = $outListaMatricula[0]->outDescSitTranspEscolar;
-	}	
+	public function __construct(
+		?string $outAnoLetivo,
+		?string $outMunicipio,
+		?string $outNomeRedeEnsino,
+		?string $outCodEscola,
+		?string $outCodUnidade,
+		?string $outDescNomeAbrevEscola,
+		?string $outNumClasse,
+		?string $outNumAluno,
+		?string $outCodTurno,
+		?string $outDescricaoTurno,
+		?string $outCodTipoEnsino,
+		?string $outDescTipoEnsino,
+		?string $outCodSerieAno,
+		?string $outDescSerieAno,
+		?string $outGrauNivel,
+		?string $outSerieNivel,
+		?string $outTurma,
+		?string $outDescTurma,
+		?string $outCodHabilitacao,
+		?string $outDescHabilitacao,
+		?string $outDataInicioMatricula,
+		?string $outDataFimMatricula,
+		?string $outDataInclusaoMatricula,
+		?string $outCodSitMatricula,
+		?string $outDescSitMatricula,
+		?string $outCodSitTranspEscolar,
+		?string $outDescSitTranspEscolar 
+	) {
+		$this->outAnoLetivo = $outAnoLetivo;
+		$this->outMunicipio = $outMunicipio;
+		$this->outNomeRedeEnsino = $outNomeRedeEnsino;
+		$this->outCodEscola = $outCodEscola;
+		$this->outCodUnidade = $outCodUnidade;
+		$this->outDescNomeAbrevEscola = $outDescNomeAbrevEscola;
+		$this->outNumClasse = $outNumClasse;
+		$this->outNumAluno = $outNumAluno;
+		$this->outCodTurno = $outCodTurno;
+		$this->outDescricaoTurno = $outDescricaoTurno;
+		$this->outCodTipoEnsino = $outCodTipoEnsino;
+		$this->outDescTipoEnsino = $outDescTipoEnsino;
+		$this->outCodSerieAno = $outCodSerieAno;
+		$this->outDescSerieAno = $outDescSerieAno;
+		$this->outGrauNivel = $outGrauNivel;
+		$this->outSerieNivel = $outSerieNivel;
+		$this->outTurma = $outTurma;
+		$this->outDescTurma = $outDescTurma;
+		$this->outCodHabilitacao = $outCodHabilitacao;
+		$this->outDescHabilitacao = $outDescHabilitacao;
+		$this->outDataInicioMatricula = $outDataInicioMatricula;
+		$this->outDataFimMatricula = $outDataFimMatricula;
+		$this->outDataInclusaoMatricula = $outDataInclusaoMatricula;
+		$this->outCodSitMatricula = $outCodSitMatricula;
+		$this->outDescSitMatricula = $outDescSitMatricula;
+		$this->outCodSitTranspEscolar = $outCodSitTranspEscolar;
+		$this->outDescSitTranspEscolar  = $outDescSitTranspEscolar ;
+	}
 
-	/**
-	 * Get the value of outAnoLetivo
-	 */
-	public function getOutAnoLetivo()
+	public function getOutAnoLetivo(): ?string
 	{
 		return $this->outAnoLetivo;
 	}
 
-	/**
-	 * Set the value of outAnoLetivo
-	 */
-	public function setOutAnoLetivo($outAnoLetivo): self
-	{
-		$this->outAnoLetivo = $outAnoLetivo;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outMunicipio
-	 */
-	public function getOutMunicipio()
+	public function getOutMunicipio(): ?string
 	{
 		return $this->outMunicipio;
 	}
 
-	/**
-	 * Set the value of outMunicipio
-	 */
-	public function setOutMunicipio($outMunicipio): self
+	public function getOutNomeRedeEnsino(): ?string
 	{
-		$this->outMunicipio = $outMunicipio;
-
-		return $this;
+		return $this->outNomeRedeEnsino;
 	}
 
-	/**
-	 * Get the value of outRedeEnsino
-	 */
-	public function getOutRedeEnsino()
-	{
-		return $this->outRedeEnsino;
-	}
-
-	/**
-	 * Set the value of outRedeEnsino
-	 */
-	public function setOutRedeEnsino($outRedeEnsino): self
-	{
-		$this->outRedeEnsino = $outRedeEnsino;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodEscola
-	 */
-	public function getOutCodEscola()
+	public function getOutCodEscola(): ?string
 	{
 		return $this->outCodEscola;
 	}
 
-	/**
-	 * Set the value of outCodEscola
-	 */
-	public function setOutCodEscola($outCodEscola): self
-	{
-		$this->outCodEscola = $outCodEscola;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodUnidade
-	 */
-	public function getOutCodUnidade()
+	public function getOutCodUnidade(): ?string
 	{
 		return $this->outCodUnidade;
 	}
 
-	/**
-	 * Set the value of outCodUnidade
-	 */
-	public function setOutCodUnidade($outCodUnidade): self
-	{
-		$this->outCodUnidade = $outCodUnidade;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDescNomeAbrevEscola
-	 */
-	public function getOutDescNomeAbrevEscola()
+	public function getOutDescNomeAbrevEscola(): ?string
 	{
 		return $this->outDescNomeAbrevEscola;
 	}
 
-	/**
-	 * Set the value of outDescNomeAbrevEscola
-	 */
-	public function setOutDescNomeAbrevEscola($outDescNomeAbrevEscola): self
-	{
-		$this->outDescNomeAbrevEscola = $outDescNomeAbrevEscola;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNumClasse
-	 */
-	public function getOutNumClasse()
+	public function getOutNumClasse(): ?string
 	{
 		return $this->outNumClasse;
 	}
 
-	/**
-	 * Set the value of outNumClasse
-	 */
-	public function setOutNumClasse($outNumClasse): self
-	{
-		$this->outNumClasse = $outNumClasse;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNumAluno
-	 */
-	public function getOutNumAluno()
+	public function getOutNumAluno(): ?string
 	{
 		return $this->outNumAluno;
 	}
 
-	/**
-	 * Set the value of outNumAluno
-	 */
-	public function setOutNumAluno($outNumAluno): self
-	{
-		$this->outNumAluno = $outNumAluno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodTurno
-	 */
-	public function getOutCodTurno()
+	public function getOutCodTurno(): ?string
 	{
 		return $this->outCodTurno;
 	}
 
-	/**
-	 * Set the value of outCodTurno
-	 */
-	public function setOutCodTurno($outCodTurno): self
-	{
-		$this->outCodTurno = $outCodTurno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDescricaoTurno
-	 */
-	public function getOutDescricaoTurno()
+	public function getOutDescricaoTurno(): ?string
 	{
 		return $this->outDescricaoTurno;
 	}
 
-	/**
-	 * Set the value of outDescricaoTurno
-	 */
-	public function setOutDescricaoTurno($outDescricaoTurno): self
-	{
-		$this->outDescricaoTurno = $outDescricaoTurno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodTipoEnsino
-	 */
-	public function getOutCodTipoEnsino()
+	public function getOutCodTipoEnsino(): ?string
 	{
 		return $this->outCodTipoEnsino;
 	}
 
-	/**
-	 * Set the value of outCodTipoEnsino
-	 */
-	public function setOutCodTipoEnsino($outCodTipoEnsino): self
-	{
-		$this->outCodTipoEnsino = $outCodTipoEnsino;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDescTipoEnsino
-	 */
-	public function getOutDescTipoEnsino()
+	public function getOutDescTipoEnsino(): ?string
 	{
 		return $this->outDescTipoEnsino;
 	}
 
-	/**
-	 * Set the value of outDescTipoEnsino
-	 */
-	public function setOutDescTipoEnsino($outDescTipoEnsino): self
-	{
-		$this->outDescTipoEnsino = $outDescTipoEnsino;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodSerieAno
-	 */
-	public function getOutCodSerieAno()
+	public function getOutCodSerieAno(): ?string
 	{
 		return $this->outCodSerieAno;
 	}
 
-	/**
-	 * Set the value of outCodSerieAno
-	 */
-	public function setOutCodSerieAno($outCodSerieAno): self
-	{
-		$this->outCodSerieAno = $outCodSerieAno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDescSerieAno
-	 */
-	public function getOutDescSerieAno()
+	public function getOutDescSerieAno(): ?string
 	{
 		return $this->outDescSerieAno;
 	}
 
-	/**
-	 * Set the value of outDescSerieAno
-	 */
-	public function setOutDescSerieAno($outDescSerieAno): self
-	{
-		$this->outDescSerieAno = $outDescSerieAno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outGrauNivel
-	 */
-	public function getOutGrauNivel()
+	public function getOutGrauNivel(): ?string
 	{
 		return $this->outGrauNivel;
 	}
 
-	/**
-	 * Set the value of outGrauNivel
-	 */
-	public function setOutGrauNivel($outGrauNivel): self
-	{
-		$this->outGrauNivel = $outGrauNivel;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outSerieNivel
-	 */
-	public function getOutSerieNivel()
+	public function getOutSerieNivel(): ?string
 	{
 		return $this->outSerieNivel;
 	}
 
-	/**
-	 * Set the value of outSerieNivel
-	 */
-	public function setOutSerieNivel($outSerieNivel): self
-	{
-		$this->outSerieNivel = $outSerieNivel;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outTurma
-	 */
-	public function getOutTurma()
+	public function getOutTurma(): ?string
 	{
 		return $this->outTurma;
 	}
 
-	/**
-	 * Set the value of outTurma
-	 */
-	public function setOutTurma($outTurma): self
-	{
-		$this->outTurma = $outTurma;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDescTurma
-	 */
-	public function getOutDescTurma()
+	public function getOutDescTurma(): ?string
 	{
 		return $this->outDescTurma;
 	}
 
-	/**
-	 * Set the value of outDescTurma
-	 */
-	public function setOutDescTurma($outDescTurma): self
+	public function getOutCodHabilitacao(): ?string
 	{
-		$this->outDescTurma = $outDescTurma;
-
-		return $this;
+		return $this->outCodHabilitacao;
 	}
 
-	/**
-	 * Get the value of outDataInicioMatricula
-	 */
-	public function getOutDataInicioMatricula()
-	{
-		return $this->outDataInicioMatricula;
-	}
-
-	/**
-	 * Set the value of outDataInicioMatricula
-	 */
-	public function setOutDataInicioMatricula($outDataInicioMatricula): self
-	{
-		$this->outDataInicioMatricula = $outDataInicioMatricula;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDataFimMatricula
-	 */
-	public function getOutDataFimMatricula()
-	{
-		return $this->outDataFimMatricula;
-	}
-
-	/**
-	 * Set the value of outDataFimMatricula
-	 */
-	public function setOutDataFimMatricula($outDataFimMatricula): self
-	{
-		$this->outDataFimMatricula = $outDataFimMatricula;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDataInclusaoMatricula
-	 */
-	public function getOutDataInclusaoMatricula()
-	{
-		return $this->outDataInclusaoMatricula;
-	}
-
-	/**
-	 * Set the value of outDataInclusaoMatricula
-	 */
-	public function setOutDataInclusaoMatricula($outDataInclusaoMatricula): self
-	{
-		$this->outDataInclusaoMatricula = $outDataInclusaoMatricula;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodSitMatricula
-	 */
-	public function getOutCodSitMatricula()
-	{
-		return $this->outCodSitMatricula;
-	}
-
-	/**
-	 * Set the value of outCodSitMatricula
-	 */
-	public function setOutCodSitMatricula($outCodSitMatricula): self
-	{
-		$this->outCodSitMatricula = $outCodSitMatricula;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDescSitMatricula
-	 */
-	public function getOutDescSitMatricula()
-	{
-		return $this->outDescSitMatricula;
-	}
-
-	/**
-	 * Set the value of outDescSitMatricula
-	 */
-	public function setOutDescSitMatricula($outDescSitMatricula): self
-	{
-		$this->outDescSitMatricula = $outDescSitMatricula;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDescHabilitacao
-	 */
-	public function getOutDescHabilitacao()
+	public function getOutDescHabilitacao(): ?string
 	{
 		return $this->outDescHabilitacao;
 	}
 
-	/**
-	 * Set the value of outDescHabilitacao
-	 */
-	public function setOutDescHabilitacao($outDescHabilitacao): self
+	public function getOutDataInicioMatricula(): ?string
+	{
+		return $this->outDataInicioMatricula;
+	}
+
+	public function getOutDataFimMatricula(): ?string
+	{
+		return $this->outDataFimMatricula;
+	}
+
+	public function getOutDataInclusaoMatricula(): ?string
+	{
+		return $this->outDataInclusaoMatricula;
+	}
+
+	public function getOutCodSitMatricula(): ?string
+	{
+		return $this->outCodSitMatricula;
+	}
+
+	public function getOutDescSitMatricula(): ?string
+	{
+		return $this->outDescSitMatricula;
+	}
+
+	public function getOutCodSitTranspEscolar(): ?string
+	{
+		return $this->outCodSitTranspEscolar;
+	}
+
+	public function getOutDescSitTranspEscolar(): ?string
+	{
+		return $this->outDescSitTranspEscolar ;
+	}
+
+	public function setOutAnoLetivo(?string $outAnoLetivo): self
+	{
+		$this->outAnoLetivo = $outAnoLetivo;
+		return $this;
+	}
+
+	public function setOutMunicipio(?string $outMunicipio): self
+	{
+		$this->outMunicipio = $outMunicipio;
+		return $this;
+	}
+
+	public function setOutNomeRedeEnsino(?string $outNomeRedeEnsino): self
+	{
+		$this->outNomeRedeEnsino = $outNomeRedeEnsino;
+		return $this;
+	}
+
+	public function setOutCodEscola(?string $outCodEscola): self
+	{
+		$this->outCodEscola = $outCodEscola;
+		return $this;
+	}
+
+	public function setOutCodUnidade(?string $outCodUnidade): self
+	{
+		$this->outCodUnidade = $outCodUnidade;
+		return $this;
+	}
+
+	public function setOutDescNomeAbrevEscola(?string $outDescNomeAbrevEscola): self
+	{
+		$this->outDescNomeAbrevEscola = $outDescNomeAbrevEscola;
+		return $this;
+	}
+
+	public function setOutNumClasse(?string $outNumClasse): self
+	{
+		$this->outNumClasse = $outNumClasse;
+		return $this;
+	}
+
+	public function setOutNumAluno(?string $outNumAluno): self
+	{
+		$this->outNumAluno = $outNumAluno;
+		return $this;
+	}
+
+	public function setOutCodTurno(?string $outCodTurno): self
+	{
+		$this->outCodTurno = $outCodTurno;
+		return $this;
+	}
+
+	public function setOutDescricaoTurno(?string $outDescricaoTurno): self
+	{
+		$this->outDescricaoTurno = $outDescricaoTurno;
+		return $this;
+	}
+
+	public function setOutCodTipoEnsino(?string $outCodTipoEnsino): self
+	{
+		$this->outCodTipoEnsino = $outCodTipoEnsino;
+		return $this;
+	}
+
+	public function setOutDescTipoEnsino(?string $outDescTipoEnsino): self
+	{
+		$this->outDescTipoEnsino = $outDescTipoEnsino;
+		return $this;
+	}
+
+	public function setOutCodSerieAno(?string $outCodSerieAno): self
+	{
+		$this->outCodSerieAno = $outCodSerieAno;
+		return $this;
+	}
+
+	public function setOutDescSerieAno(?string $outDescSerieAno): self
+	{
+		$this->outDescSerieAno = $outDescSerieAno;
+		return $this;
+	}
+
+	public function setOutGrauNivel(?string $outGrauNivel): self
+	{
+		$this->outGrauNivel = $outGrauNivel;
+		return $this;
+	}
+
+	public function setOutSerieNivel(?string $outSerieNivel): self
+	{
+		$this->outSerieNivel = $outSerieNivel;
+		return $this;
+	}
+
+	public function setOutTurma(?string $outTurma): self
+	{
+		$this->outTurma = $outTurma;
+		return $this;
+	}
+
+	public function setOutDescTurma(?string $outDescTurma): self
+	{
+		$this->outDescTurma = $outDescTurma;
+		return $this;
+	}
+
+	public function setOutCodHabilitacao(?string $outCodHabilitacao): self
+	{
+		$this->outCodHabilitacao = $outCodHabilitacao;
+		return $this;
+	}
+
+	public function setOutDescHabilitacao(?string $outDescHabilitacao): self
 	{
 		$this->outDescHabilitacao = $outDescHabilitacao;
-
 		return $this;
 	}
 
-	/**
-	 * Get the value of outDescSitTranspEscolar
-	 */
-	public function getOutDescSitTranspEscolar()
+	public function setOutDataInicioMatricula(?string $outDataInicioMatricula): self
 	{
-		return $this->outDescSitTranspEscolar;
-	}
-
-	/**
-	 * Set the value of outDescSitTranspEscolar
-	 */
-	public function setOutDescSitTranspEscolar($outDescSitTranspEscolar): self
-	{
-		$this->outDescSitTranspEscolar = $outDescSitTranspEscolar;
-
+		$this->outDataInicioMatricula = $outDataInicioMatricula;
 		return $this;
 	}
+
+	public function setOutDataFimMatricula(?string $outDataFimMatricula): self
+	{
+		$this->outDataFimMatricula = $outDataFimMatricula;
+		return $this;
+	}
+
+	public function setOutDataInclusaoMatricula(?string $outDataInclusaoMatricula): self
+	{
+		$this->outDataInclusaoMatricula = $outDataInclusaoMatricula;
+		return $this;
+	}
+
+	public function setOutCodSitMatricula(?string $outCodSitMatricula): self
+	{
+		$this->outCodSitMatricula = $outCodSitMatricula;
+		return $this;
+	}
+
+	public function setOutDescSitMatricula(?string $outDescSitMatricula): self
+	{
+		$this->outDescSitMatricula = $outDescSitMatricula;
+		return $this;
+	}
+
+	public function setOutCodSitTranspEscolar(?string $outCodSitTranspEscolar): self
+	{
+		$this->outCodSitTranspEscolar = $outCodSitTranspEscolar;
+		return $this;
+	}
+
+	public function setOutDescSitTranspEscolar(?string $outDescSitTranspEscolar ): self
+	{
+		$this->outDescSitTranspEscolar  = $outDescSitTranspEscolar ;
+		return $this;
+	}
+
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			$data['outAnoLetivo'] ?? null,
+			$data['outMunicipio'] ?? null,
+			$data['outNomeRedeEnsino'] ?? null,
+			$data['outCodEscola'] ?? null,
+			$data['outCodUnidade'] ?? null,
+			$data['outDescNomeAbrevEscola'] ?? null,
+			$data['outNumClasse'] ?? null,
+			$data['outNumAluno'] ?? null,
+			$data['outCodTurno'] ?? null,
+			$data['outDescricaoTurno'] ?? null,
+			$data['outCodTipoEnsino'] ?? null,
+			$data['outDescTipoEnsino'] ?? null,
+			$data['outCodSerieAno'] ?? null,
+			$data['outDescSerieAno'] ?? null,
+			$data['outGrauNivel'] ?? null,
+			$data['outSerieNivel'] ?? null,
+			$data['outTurma'] ?? null,
+			$data['outDescTurma'] ?? null,
+			$data['outCodHabilitacao'] ?? null,
+			$data['outDescHabilitacao'] ?? null,
+			$data['outDataInicioMatricula'] ?? null,
+			$data['outDataFimMatricula'] ?? null,
+			$data['outDataInclusaoMatricula'] ?? null,
+			$data['outCodSitMatricula'] ?? null,
+			$data['outDescSitMatricula'] ?? null,
+			$data['outCodSitTranspEscolar'] ?? null,
+			$data['outDescSitTranspEscolar'] ?? null
+		);
+	}	
 }
