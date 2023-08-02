@@ -2,234 +2,96 @@
 
 class OutDadosPessoais implements JsonSerializable
 {
-	private $outNumRA;
-    private $outDigitoRA;
-    private $outSiglaUFRA;
-    private $outNomeAluno;
-    private $outDataNascimento;
-    private $outCorRaca;
-    private $outDescCorRaca;
-    private $outCodSexo;
-    private $outSexo;
-    private $outNomeMae;
-    private $outNomePai;
-    private $outNomeSocial;
-    private $outNomeAfetivo;
-    private $outEmail;
-    private $outEmailGoogle;
-    private $outEmailMicrosoft;
-    private $outNacionalidade;
-    private $outDescNacionalidade;
-    private $outCodPaisOrigem;
-    private $outNomePaisOrigem;
-    private $outDataEntradaPais;
-    private $outBolsaFamilia;
-    private $outQuilombola;
-    private $outPossuiInternet;
-    private $outPossuiNotebookSmartphoneTablet;
-    private $outNomeMunNascto;
-    private $outUFMunNascto;
-    private $outAlunoFalecido;
-    private $outDataFalecimento;
-    private $outCodMunNasctoDNE;
-    private $outCodBolsaFamilia;
-    private $outDoadorOrgaos;
+	public $outNumRA;
+	public $outDigitoRA;
+	public $outSiglaUFRA;
+	public $outNomeAluno;
+	public $outDataNascimento;
+	public $outCorRaca;
+	public $outDescCorRaca;
+	public $outSexo;
+	public $outNomeMae;
+	public $outNomePai;
+	public $outNomeSocial;
+	public $outNomeAfetivo;
+	public $outEmail;
+	public $outNacionalidade;
+	public $outDescNacionalidade;
+	public $outDataEntradaPais;
+	public $outCodPaisOrigem;
+	public $outNomePaisOrigem;
+	public $outCodBolsaFamilia;
+	public $outPossuiInternet;
+	public $outPossuiNotebookSmartphoneTablet ;
+	public $outBolsaFamilia;
+	public $outQuilombola;
+	public $outTipoSanguineo;
+	public $outDoadorOrgaos;
+	public $outNumeroCNS;
+	public $outNomeMunNascto;
+	public $outUFMunNascto;
+	public $outCodMunNasctoDNE;
 
-
-	public function __construct($dadosPessoais) {
-		$this->outNumRA = $dadosPessoais->outAluno->outNumRA;
-		$this->outDigitoRA = $dadosPessoais->outAluno->outDigitoRA;
-		$this->outSiglaUFRA = $dadosPessoais->outAluno->outSiglaUFRA;
-		$this->outNomeAluno = $dadosPessoais->outAluno->outNomeAluno;
-		$this->outDataNascimento = $dadosPessoais->outAluno->outDataNascimento;
-		$this->outCorRaca = $dadosPessoais->outAluno->outCorRaca;
-		$this->outDescCorRaca = $dadosPessoais->outAluno->outDescCorRaca;
-		$this->outCodSexo = $dadosPessoais->outAluno->outCodSexo;
-		$this->outSexo = $dadosPessoais->outAluno->outSexo;
-		$this->outNomeMae = $dadosPessoais->outAluno->outNomeMae;
-		$this->outNomePai = $dadosPessoais->outAluno->outNomePai;
-		$this->outNomeSocial = $dadosPessoais->outAluno->outNomeSocial;
-		$this->outNomeAfetivo = $dadosPessoais->outAluno->outNomeAfetivo;
-		$this->outEmail = $dadosPessoais->outAluno->outEmail;
-		$this->outEmailGoogle = $dadosPessoais->outAluno->outEmailGoogle;
-		$this->outEmailMicrosoft = $dadosPessoais->outAluno->outEmailMicrosoft;
-		$this->outNacionalidade = $dadosPessoais->outAluno->outNacionalidade;
-		$this->outDescNacionalidade = $dadosPessoais->outAluno->outDescNacionalidade;
-		$this->outCodPaisOrigem = $dadosPessoais->outAluno->outCodPaisOrigem;
-		$this->outNomePaisOrigem = $dadosPessoais->outAluno->outNomePaisOrigem;
-		$this->outDataEntradaPais = $dadosPessoais->outAluno->outDataEntradaPais;
-		$this->outBolsaFamilia = $dadosPessoais->outAluno->outBolsaFamilia;
-		$this->outQuilombola = $dadosPessoais->outAluno->outQuilombola;
-		$this->outPossuiInternet = $dadosPessoais->outAluno->outPossuiInternet;
-		$this->outPossuiNotebookSmartphoneTablet = $dadosPessoais->outAluno->outPossuiNotebookSmartphoneTablet;
-		$this->outNomeMunNascto = $dadosPessoais->outAluno->outNomeMunNascto;
-		$this->outUFMunNascto = $dadosPessoais->outAluno->outUFMunNascto;
-		$this->outAlunoFalecido = $dadosPessoais->outAluno->outAlunoFalecido;
-		$this->outDataFalecimento = $dadosPessoais->outAluno->outDataFalecimento;
-		$this->outCodMunNasctoDNE = $dadosPessoais->outAluno->outCodMunNasctoDNE;
-		$this->outCodBolsaFamilia = $dadosPessoais->outAluno->outCodBolsaFamilia;
-		$this->outDoadorOrgaos = $dadosPessoais->outAluno->outDoadorOrgaos;
-	}
-	
-	
-	public function getOutNumRa(): string
-	{
-		return $this->outNumRA;
-	}
-
-	public function getOutDigitoRa(): string
-	{
-		return $this->outDigitoRA;
-	}
-
-	public function getOutSiglaUfra(): string
-	{
-		return $this->outSiglaUFRA;
-	}
-
-	public function getOutNomeAluno(): string
-	{
-		return $this->outNomeAluno;
-	}
-
-	public function getOutDataNascimento(): string
-	{
-		return $this->outDataNascimento;
-	}
-
-	public function getOutCorRaca(): string
-	{
-		return $this->outCorRaca;
-	}
-
-	public function getOutDescCorRaca(): string
-	{
-		return $this->outDescCorRaca;
-	}
-
-	public function getOutCodSexo(): string
-	{
-		return $this->outCodSexo;
-	}
-
-	public function getOutSexo(): string
-	{
-		return $this->outSexo;
-	}
-
-	public function getOutNomeMae(): string
-	{
-		return $this->outNomeMae;
-	}
-
-	public function getOutNomePai(): string
-	{
-		return $this->outNomePai;
-	}
-
-	public function getOutNomeSocial(): string
-	{
-		return $this->outNomeSocial;
-	}
-
-	public function getOutNomeAfetivo(): string
-	{
-		return $this->outNomeAfetivo;
-	}
-
-	public function getOutEmail(): string
-	{
-		return $this->outEmail;
-	}
-
-	public function getOutEmailGoogle(): string
-	{
-		return $this->outEmailGoogle;
-	}
-
-	public function getOutEmailMicrosoft(): string
-	{
-		return $this->outEmailMicrosoft;
-	}
-
-	public function getOutNacionalidade(): string
-	{
-		return $this->outNacionalidade;
-	}
-
-	public function getOutDescNacionalidade(): string
-	{
-		return $this->outDescNacionalidade;
-	}
-
-	public function getOutCodPaisOrigem(): string
-	{
-		return $this->outCodPaisOrigem;
-	}
-
-	public function getOutNomePaisOrigem(): string
-	{
-		return $this->outNomePaisOrigem;
-	}
-
-	public function getOutDataEntradaPais(): string
-	{
-		return $this->outDataEntradaPais;
-	}
-
-	public function getOutBolsaFamilia(): string
-	{
-		return $this->outBolsaFamilia;
-	}
-
-	public function getOutQuilombola(): string
-	{
-		return $this->outQuilombola;
-	}
-
-	public function getOutPossuiInternet(): string
-	{
-		return $this->outPossuiInternet;
-	}
-
-	public function getOutPossuiNotebookSmartphoneTablet(): string
-	{
-		return $this->outPossuiNotebookSmartphoneTablet;
-	}
-
-	public function getOutNomeMunNascto(): string
-	{
-		return $this->outNomeMunNascto;
-	}
-
-	public function getOutUfMunNascto(): string
-	{
-		return $this->outUFMunNascto;
-	}
-
-	public function getOutAlunoFalecido(): string
-	{
-		return $this->outAlunoFalecido;
-	}
-
-	public function getOutDataFalecimento(): string
-	{
-		return $this->outDataFalecimento;
-	}
-
-	public function getOutCodMunNasctoDne(): string
-	{
-		return $this->outCodMunNasctoDNE;
-	}
-
-	public function getOutCodBolsaFamilia(): string
-	{
-		return $this->outCodBolsaFamilia;
-	}
-
-	public function getOutDoadorOrgaos(): string
-	{
-		return $this->outDoadorOrgaos;
+	public function __construct(
+		string $outNumRA,
+		string $outDigitoRA,
+		string $outSiglaUFRA,
+		string $outNomeAluno,
+		string $outDataNascimento,
+		string $outCorRaca,
+		string $outDescCorRaca,
+		string $outSexo,
+		string $outNomeMae,
+		string $outNomePai,
+		string $outNomeSocial,
+		string $outNomeAfetivo,
+		string $outEmail,
+		string $outNacionalidade,
+		string $outDescNacionalidade,
+		string $outDataEntradaPais,
+		string $outCodPaisOrigem,
+		string $outNomePaisOrigem,
+		string $outCodBolsaFamilia,
+		string $outPossuiInternet,
+		string $outPossuiNotebookSmartphoneTablet,
+		string $outBolsaFamilia,
+		string $outQuilombola,
+		string $outTipoSanguineo,
+		string $outDoadorOrgaos,
+		string $outNumeroCNS,
+		string $outNomeMunNascto,
+		string $outUFMunNascto,
+		string $outCodMunNasctoDNE
+	) {
+		$this->outNumRA = $outNumRA;
+		$this->outDigitoRA = $outDigitoRA;
+		$this->outSiglaUFRA = $outSiglaUFRA;
+		$this->outNomeAluno = $outNomeAluno;
+		$this->outDataNascimento = $outDataNascimento;
+		$this->outCorRaca = $outCorRaca;
+		$this->outDescCorRaca = $outDescCorRaca;
+		$this->outSexo = $outSexo;
+		$this->outNomeMae = $outNomeMae;
+		$this->outNomePai = $outNomePai;
+		$this->outNomeSocial = $outNomeSocial;
+		$this->outNomeAfetivo = $outNomeAfetivo;
+		$this->outEmail = $outEmail;
+		$this->outNacionalidade = $outNacionalidade;
+		$this->outDescNacionalidade = $outDescNacionalidade;
+		$this->outDataEntradaPais = $outDataEntradaPais;
+		$this->outCodPaisOrigem = $outCodPaisOrigem;
+		$this->outNomePaisOrigem = $outNomePaisOrigem;
+		$this->outCodBolsaFamilia = $outCodBolsaFamilia;
+		$this->outPossuiInternet = $outPossuiInternet;
+		$this->outPossuiNotebookSmartphoneTablet  = $outPossuiNotebookSmartphoneTablet ;
+		$this->outBolsaFamilia = $outBolsaFamilia;
+		$this->outQuilombola = $outQuilombola;
+		$this->outTipoSanguineo = $outTipoSanguineo;
+		$this->outDoadorOrgaos = $outDoadorOrgaos;
+		$this->outNumeroCNS = $outNumeroCNS;
+		$this->outNomeMunNascto = $outNomeMunNascto;
+		$this->outUFMunNascto = $outUFMunNascto;
+		$this->outCodMunNasctoDNE = $outCodMunNasctoDNE;
 	}
 
 	public function jsonSerialize()
@@ -240,4 +102,526 @@ class OutDadosPessoais implements JsonSerializable
 
         return $filteredProps;
     }
+
+	/**
+	 * Get the value of outNumRA
+	 */
+	public function getOutNumRA()
+	{
+		return $this->outNumRA;
+	}
+
+	/**
+	 * Set the value of outNumRA
+	 */
+	public function setOutNumRA($outNumRA): self
+	{
+		$this->outNumRA = $outNumRA;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outDigitoRA
+	 */
+	public function getOutDigitoRA()
+	{
+		return $this->outDigitoRA;
+	}
+
+	/**
+	 * Set the value of outDigitoRA
+	 */
+	public function setOutDigitoRA($outDigitoRA): self
+	{
+		$this->outDigitoRA = $outDigitoRA;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outSiglaUFRA
+	 */
+	public function getOutSiglaUFRA()
+	{
+		return $this->outSiglaUFRA;
+	}
+
+	/**
+	 * Set the value of outSiglaUFRA
+	 */
+	public function setOutSiglaUFRA($outSiglaUFRA): self
+	{
+		$this->outSiglaUFRA = $outSiglaUFRA;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outNomeAluno
+	 */
+	public function getOutNomeAluno()
+	{
+		return $this->outNomeAluno;
+	}
+
+	/**
+	 * Set the value of outNomeAluno
+	 */
+	public function setOutNomeAluno($outNomeAluno): self
+	{
+		$this->outNomeAluno = $outNomeAluno;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outDataNascimento
+	 */
+	public function getOutDataNascimento()
+	{
+		return $this->outDataNascimento;
+	}
+
+	/**
+	 * Set the value of outDataNascimento
+	 */
+	public function setOutDataNascimento($outDataNascimento): self
+	{
+		$this->outDataNascimento = $outDataNascimento;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outCorRaca
+	 */
+	public function getOutCorRaca()
+	{
+		return $this->outCorRaca;
+	}
+
+	/**
+	 * Set the value of outCorRaca
+	 */
+	public function setOutCorRaca($outCorRaca): self
+	{
+		$this->outCorRaca = $outCorRaca;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outDescCorRaca
+	 */
+	public function getOutDescCorRaca()
+	{
+		return $this->outDescCorRaca;
+	}
+
+	/**
+	 * Set the value of outDescCorRaca
+	 */
+	public function setOutDescCorRaca($outDescCorRaca): self
+	{
+		$this->outDescCorRaca = $outDescCorRaca;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outSexo
+	 */
+	public function getOutSexo()
+	{
+		return $this->outSexo;
+	}
+
+	/**
+	 * Set the value of outSexo
+	 */
+	public function setOutSexo($outSexo): self
+	{
+		$this->outSexo = $outSexo;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outNomeMae
+	 */
+	public function getOutNomeMae()
+	{
+		return $this->outNomeMae;
+	}
+
+	/**
+	 * Set the value of outNomeMae
+	 */
+	public function setOutNomeMae($outNomeMae): self
+	{
+		$this->outNomeMae = $outNomeMae;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outNomePai
+	 */
+	public function getOutNomePai()
+	{
+		return $this->outNomePai;
+	}
+
+	/**
+	 * Set the value of outNomePai
+	 */
+	public function setOutNomePai($outNomePai): self
+	{
+		$this->outNomePai = $outNomePai;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outNomeSocial
+	 */
+	public function getOutNomeSocial()
+	{
+		return $this->outNomeSocial;
+	}
+
+	/**
+	 * Set the value of outNomeSocial
+	 */
+	public function setOutNomeSocial($outNomeSocial): self
+	{
+		$this->outNomeSocial = $outNomeSocial;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outNomeAfetivo
+	 */
+	public function getOutNomeAfetivo()
+	{
+		return $this->outNomeAfetivo;
+	}
+
+	/**
+	 * Set the value of outNomeAfetivo
+	 */
+	public function setOutNomeAfetivo($outNomeAfetivo): self
+	{
+		$this->outNomeAfetivo = $outNomeAfetivo;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outEmail
+	 */
+	public function getOutEmail()
+	{
+		return $this->outEmail;
+	}
+
+	/**
+	 * Set the value of outEmail
+	 */
+	public function setOutEmail($outEmail): self
+	{
+		$this->outEmail = $outEmail;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outNacionalidade
+	 */
+	public function getOutNacionalidade()
+	{
+		return $this->outNacionalidade;
+	}
+
+	/**
+	 * Set the value of outNacionalidade
+	 */
+	public function setOutNacionalidade($outNacionalidade): self
+	{
+		$this->outNacionalidade = $outNacionalidade;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outDescNacionalidade
+	 */
+	public function getOutDescNacionalidade()
+	{
+		return $this->outDescNacionalidade;
+	}
+
+	/**
+	 * Set the value of outDescNacionalidade
+	 */
+	public function setOutDescNacionalidade($outDescNacionalidade): self
+	{
+		$this->outDescNacionalidade = $outDescNacionalidade;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outDataEntradaPais
+	 */
+	public function getOutDataEntradaPais()
+	{
+		return $this->outDataEntradaPais;
+	}
+
+	/**
+	 * Set the value of outDataEntradaPais
+	 */
+	public function setOutDataEntradaPais($outDataEntradaPais): self
+	{
+		$this->outDataEntradaPais = $outDataEntradaPais;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outCodPaisOrigem
+	 */
+	public function getOutCodPaisOrigem()
+	{
+		return $this->outCodPaisOrigem;
+	}
+
+	/**
+	 * Set the value of outCodPaisOrigem
+	 */
+	public function setOutCodPaisOrigem($outCodPaisOrigem): self
+	{
+		$this->outCodPaisOrigem = $outCodPaisOrigem;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outNomePaisOrigem
+	 */
+	public function getOutNomePaisOrigem()
+	{
+		return $this->outNomePaisOrigem;
+	}
+
+	/**
+	 * Set the value of outNomePaisOrigem
+	 */
+	public function setOutNomePaisOrigem($outNomePaisOrigem): self
+	{
+		$this->outNomePaisOrigem = $outNomePaisOrigem;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outCodBolsaFamilia
+	 */
+	public function getOutCodBolsaFamilia()
+	{
+		return $this->outCodBolsaFamilia;
+	}
+
+	/**
+	 * Set the value of outCodBolsaFamilia
+	 */
+	public function setOutCodBolsaFamilia($outCodBolsaFamilia): self
+	{
+		$this->outCodBolsaFamilia = $outCodBolsaFamilia;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outPossuiInternet
+	 */
+	public function getOutPossuiInternet()
+	{
+		return $this->outPossuiInternet;
+	}
+
+	/**
+	 * Set the value of outPossuiInternet
+	 */
+	public function setOutPossuiInternet($outPossuiInternet): self
+	{
+		$this->outPossuiInternet = $outPossuiInternet;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outPossuiNotebookSmartphoneTablet
+	 */
+	public function getOutPossuiNotebookSmartphoneTablet()
+	{
+		return $this->outPossuiNotebookSmartphoneTablet;
+	}
+
+	/**
+	 * Set the value of outPossuiNotebookSmartphoneTablet
+	 */
+	public function setOutPossuiNotebookSmartphoneTablet($outPossuiNotebookSmartphoneTablet): self
+	{
+		$this->outPossuiNotebookSmartphoneTablet = $outPossuiNotebookSmartphoneTablet;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outBolsaFamilia
+	 */
+	public function getOutBolsaFamilia()
+	{
+		return $this->outBolsaFamilia;
+	}
+
+	/**
+	 * Set the value of outBolsaFamilia
+	 */
+	public function setOutBolsaFamilia($outBolsaFamilia): self
+	{
+		$this->outBolsaFamilia = $outBolsaFamilia;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outQuilombola
+	 */
+	public function getOutQuilombola()
+	{
+		return $this->outQuilombola;
+	}
+
+	/**
+	 * Set the value of outQuilombola
+	 */
+	public function setOutQuilombola($outQuilombola): self
+	{
+		$this->outQuilombola = $outQuilombola;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outTipoSanguineo
+	 */
+	public function getOutTipoSanguineo()
+	{
+		return $this->outTipoSanguineo;
+	}
+
+	/**
+	 * Set the value of outTipoSanguineo
+	 */
+	public function setOutTipoSanguineo($outTipoSanguineo): self
+	{
+		$this->outTipoSanguineo = $outTipoSanguineo;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outDoadorOrgaos
+	 */
+	public function getOutDoadorOrgaos()
+	{
+		return $this->outDoadorOrgaos;
+	}
+
+	/**
+	 * Set the value of outDoadorOrgaos
+	 */
+	public function setOutDoadorOrgaos($outDoadorOrgaos): self
+	{
+		$this->outDoadorOrgaos = $outDoadorOrgaos;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outNumeroCNS
+	 */
+	public function getOutNumeroCNS()
+	{
+		return $this->outNumeroCNS;
+	}
+
+	/**
+	 * Set the value of outNumeroCNS
+	 */
+	public function setOutNumeroCNS($outNumeroCNS): self
+	{
+		$this->outNumeroCNS = $outNumeroCNS;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outNomeMunNascto
+	 */
+	public function getOutNomeMunNascto()
+	{
+		return $this->outNomeMunNascto;
+	}
+
+	/**
+	 * Set the value of outNomeMunNascto
+	 */
+	public function setOutNomeMunNascto($outNomeMunNascto): self
+	{
+		$this->outNomeMunNascto = $outNomeMunNascto;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outUFMunNascto
+	 */
+	public function getOutUFMunNascto()
+	{
+		return $this->outUFMunNascto;
+	}
+
+	/**
+	 * Set the value of outUFMunNascto
+	 */
+	public function setOutUFMunNascto($outUFMunNascto): self
+	{
+		$this->outUFMunNascto = $outUFMunNascto;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outCodMunNasctoDNE
+	 */
+	public function getOutCodMunNasctoDNE()
+	{
+		return $this->outCodMunNasctoDNE;
+	}
+
+	/**
+	 * Set the value of outCodMunNasctoDNE
+	 */
+	public function setOutCodMunNasctoDNE($outCodMunNasctoDNE): self
+	{
+		$this->outCodMunNasctoDNE = $outCodMunNasctoDNE;
+
+		return $this;
+	}
 }
