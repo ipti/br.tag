@@ -20,28 +20,94 @@ class OutDocumentos
 		$this->outNumeroCNS = $documentos->outNumeroCNS;
 	}
 	
-	public function getOutCodInep(): string
-	{
-		return $this->outCodINEP;
-	}
 
-	public function getOutCpf(): string
-	{
-		return $this->outCPF;
-	}
+    /**
+     * Get the value of outCodINEP
+     */
+    public function getOutCodINEP()
+    {
+        return $this->outCodINEP;
+    }
 
-	public function getOutDataEmissaoDoctoCivil(): string
-	{
-		return $this->outDataEmissaoDoctoCivil;
-	}
+    /**
+     * Set the value of outCodINEP
+     */
+    public function setOutCodINEP($outCodINEP): self
+    {
+        $this->outCodINEP = $outCodINEP;
 
-	public function getOutDataEmissaoCertidao(): string
-	{
-		return $this->outDataEmissaoCertidao;
-	}
+        return $this;
+    }
 
-	public function getOutNumeroCns(): string
-	{
-		return $this->outNumeroCNS;
-	}
+    /**
+     * Get the value of outCPF
+     */
+    public function getOutCPF()
+    {
+        return $this->outCPF;
+    }
+
+    /**
+     * Set the value of outCPF
+     */
+    public function setOutCPF($outCPF): self
+    {
+        $this->outCPF = $outCPF;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of outDataEmissaoDoctoCivil
+     */
+    public function getOutDataEmissaoDoctoCivil()
+    {
+        return $this->outDataEmissaoDoctoCivil;
+    }
+
+    /**
+     * Set the value of outDataEmissaoDoctoCivil
+     */
+    public function setOutDataEmissaoDoctoCivil($outDataEmissaoDoctoCivil): self
+    {
+        $this->outDataEmissaoDoctoCivil = $outDataEmissaoDoctoCivil;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of outDataEmissaoCertidao
+     */
+    public function getOutDataEmissaoCertidao()
+    {
+        return $this->outDataEmissaoCertidao;
+    }
+
+    /**
+     * Set the value of outDataEmissaoCertidao
+     */
+    public function setOutDataEmissaoCertidao($outDataEmissaoCertidao): self
+    {
+        $this->outDataEmissaoCertidao = $outDataEmissaoCertidao;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of outNumeroCNS
+     */
+    public function getOutNumeroCNS()
+    {
+        return $this->outNumeroCNS;
+    }
+
+    /**
+     * Set the value of outNumeroCNS
+     */
+    public function setOutNumeroCNS($outNumeroCNS): self
+    {
+        $this->outNumeroCNS = $outNumeroCNS;
+
+        return $this;
+    }
 }
