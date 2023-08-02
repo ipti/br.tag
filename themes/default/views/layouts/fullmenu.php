@@ -248,7 +248,8 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                                                             strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ||
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ||
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ||
-                                                                                strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades")
+                                                                                strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades") ||
+                                                                                strpos($_SERVER['REQUEST_URI'], "?r=enrollment/reportCard")
                                                                                 ? 'active' : '' ?>">
                             <i class="submenu-icon fa fa-chevron-right"></i>
                             <i class="submenu-icon fa fa-chevron-down"></i>
@@ -261,7 +262,8 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                                 strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ||
                                                     strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ||
                                                     strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ||
-                                                    strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades") ? 'in' : '' ?>" id="submenu-electronic-diary">
+                                                    strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades") ||
+                                                    strpos($_SERVER['REQUEST_URI'], "?r=enrollment/reportCard") ? 'in' : '' ?>" id="submenu-electronic-diary">
 
                                 <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ? 'active' : '' ?>">
                                     <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('courseplan') ?>">
@@ -289,6 +291,12 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                         <span class="t-icon-edition t-menu-item__icon"></span>
                                         <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/notas.svg" /> -->
                                         <span class="t-menu-item__text">Notas</span>
+                                    </a>
+                                </li>
+                                <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=enrollment/reportCard") ? 'active' : '' ?>">
+                                    <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('enrollment/reportCard') ?> ">
+                                        <span class="t-report_card t-menu-item__icon"></span>
+                                        <span class="t-menu-item__text">Boletim</span>
                                     </a>
                                 </li>
                             </ul>

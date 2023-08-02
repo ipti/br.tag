@@ -22,47 +22,54 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
 <div class="main">
     <div class="row-fluid">
         <div class="span12">
-            <h1><?= yii::t('curricularMatrixModule.index', 'Curricular Matrix') ?></h1>
+            <h1 style="margin:0 35px"><?= yii::t('curricularMatrixModule.index', 'Curricular Matrix') ?></h1>
         </div>
     </div>
     <div class="column">
         <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) : ?>
             <form onsubmit="return false">
-                <div class="row align-items--end justify-content--space-between">
-                    <div class="column clear-margin--left">
-                        <div class="t-multiselect">
-                            <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Stage'), 'stages', ['class' => "control-label"]) ?>
-                            <?= CHtml::dropDownList("stages", [], CHtml::listData(EdcensoStageVsModality::model()->findAll(), "id", "name"), [
-                                "multiple" => "multiple", "class" => "t-field-select__input select-search-on control-input multiselect"
-                            ]) ?>
+                    <div class="column" style="flex:4">
+                        <div class="row clear-margin--left">
+                            <div class="column">
+                                <div class="t-multiselect">
+                                    <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Stage'), 'stages', ['class' => "control-label"]) ?>
+                                    <?= CHtml::dropDownList("stages", [], CHtml::listData(EdcensoStageVsModality::model()->findAll(), "id", "name"), [
+                                        "multiple" => "multiple", "class" => "select-search-on control-input multiselect select3-choices"
+                                    ]) ?>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="t-multiselect">
+                                    <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Disciplines'), 'disciplines', ['class' => "control-label", 'style' => 'white-space: nowrap;']) ?>
+                                    <?= CHtml::dropDownList("disciplines", [], CHtml::listData(EdcensoDiscipline::model()->findAll(), "id", "name"), [
+                                        "multiple" => "multiple", "class" => "select-search-on control-input multiselect select3-choices"
+                                    ]) ?>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row clear-margin--left">
+                            <div class="column">
+                                <div class="t-field-number">
+                                    <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Workload'), 'workload', ['class' => "t-field-number__label control-label"]) ?>
+                                    <?= CHtml::numberField("workload", "0", ["min" => "0", "max" => "9999", 'style' => 'border: 1px solid #aaa;width: 95%']) ?>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="t-field-number">
+                                    <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Credits'), 'credits', ['class' => "t-field-number__label control-label"]) ?>
+                                    <?= CHtml::numberField("credits", "0", ["min" => "0", "max" => "99", 'style' => 'border: 1px solid #aaa;width: 95%']) ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="column">
-                        <div class="t-multiselect">
-                            <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Disciplines'), 'disciplines', ['class' => "control-label"]) ?>
-                            <?= CHtml::dropDownList("disciplines", [], CHtml::listData(EdcensoDiscipline::model()->findAll(), "id", "name"), [
-                                "multiple" => "multiple", "class" => "t-field-select__input select-search-on control-input multiselect"
-                            ]) ?>
-                        </div>
-                    </div>
-                    <div class="column">
-                        <div class="t-field-number">
-                            <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Workload'), 'workload', ['class' => "t-field-number__label control-label"]) ?>
-                            <?= CHtml::numberField("workload", "0", ["min" => "0", "max" => "9999", "class" => "t-field-number__input", 'style' => 'height: 23px; border: 1px solid #aaa;']) ?>
-                        </div>
-                    </div>
-                    <div class="column">
-                        <div class="t-field-number">
-                            <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Credits'), 'credits', ['class' => "t-field-number__label control-label"]) ?>
-                            <?= CHtml::numberField("credits", "0", ["min" => "0", "max" => "99", "class" => "t-field-text__input", 'style' => 'height: 23px; border: 1px solid #aaa;']) ?>
-                        </div>
-                    </div>
-                    <div class="column">
+
+                    <div class="column justify-content--start">
                         <?= CHtml::button(Yii::t('curricularMatrixModule.index', 'Add'), [
-                            "id" => "add-matrix", "class" => "t-button-primary", "style" => "margin: 1.5em 0 !important;"
+                            "id" => "add-matrix", "class" => "t-button-primary", "style" => "padding: 15px 10px;margin:0px 15px"
                         ]) ?>
                     </div>
-                </div>
+
             </form>
             <hr>
         <?php endif ?>
