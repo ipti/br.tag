@@ -35,6 +35,14 @@
  * @property string $grade_concept_6
  * @property string $grade_concept_7
  * @property string $grade_concept_8
+ * @property double $grade_faults_1
+ * @property double $grade_faults_2
+ * @property double $grade_faults_3
+ * @property double $grade_faults_4
+ * @property double $grade_faults_5
+ * @property double $grade_faults_6
+ * @property double $grade_faults_7
+ * @property double $grade_faults_8
  * @property string $situation
  * @property integer $enrollment_fk
  * @property integer $discipline_fk
@@ -63,11 +71,11 @@ class GradeResults extends CActiveRecord
 		return array(
 			array('enrollment_fk, discipline_fk', 'required'),
 			array('enrollment_fk, discipline_fk', 'numerical', 'integerOnly'=>true),
-			array('grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, rec_bim_1, rec_bim_2, rec_bim_3, rec_bim_4, rec_bim_5, rec_bim_6, rec_bim_7, rec_bim_8, rec_sem_1, rec_sem_2, rec_sem_3, rec_sem_4, rec_final, final_media', 'numerical'),
+			array('grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, grade_faults_1, grade_faults_2, grade_faults_3, grade_faults_4, grade_faults_5, grade_faults_6, grade_faults_7, grade_faults_8, rec_bim_1, rec_bim_2, rec_bim_3, rec_bim_4, rec_bim_5, rec_bim_6, rec_bim_7, rec_bim_8, rec_sem_1, rec_sem_2, rec_sem_3, rec_sem_4, rec_final, final_media', 'numerical'),
 			array('grade_concept_1, grade_concept_2, grade_concept_3, grade_concept_4, grade_concept_5, grade_concept_6, grade_concept_7, grade_concept_8, situation', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, rec_bim_1, rec_bim_2, rec_bim_3, rec_bim_4, rec_bim_5, rec_bim_6, rec_bim_7, rec_bim_8, rec_sem_1, rec_sem_2, rec_sem_3, rec_sem_4, rec_final, final_media, grade_concept_1, grade_concept_2, grade_concept_3, grade_concept_4, grade_concept_5, grade_concept_6, grade_concept_7, grade_concept_8, situation, enrollment_fk, discipline_fk', 'safe', 'on'=>'search'),
+			array('id, grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, grade_faults_1, grade_faults_2, grade_faults_3, grade_faults_4, grade_faults_5, grade_faults_6, grade_faults_7, grade_faults_8, rec_bim_1, rec_bim_2, rec_bim_3, rec_bim_4, rec_bim_5, rec_bim_6, rec_bim_7, rec_bim_8, rec_sem_1, rec_sem_2, rec_sem_3, rec_sem_4, rec_final, final_media, grade_concept_1, grade_concept_2, grade_concept_3, grade_concept_4, grade_concept_5, grade_concept_6, grade_concept_7, grade_concept_8, situation, enrollment_fk, discipline_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -99,6 +107,14 @@ class GradeResults extends CActiveRecord
 			'grade_6' => 'Grade 6',
 			'grade_7' => 'Grade 7',
 			'grade_8' => 'Grade 8',
+			'grade_faults_1' => 'Grade Faults 1',
+			'grade_faults_2' => 'Grade Faults 2',
+			'grade_faults_3' => 'Grade Faults 3',
+			'grade_faults_4' => 'Grade Faults 4',
+			'grade_faults_5' => 'Grade Faults 5',
+			'grade_faults_6' => 'Grade Faults 6',
+			'grade_faults_7' => 'Grade Faults 7',
+			'grade_faults_8' => 'Grade Faults 8',
 			'rec_bim_1' => 'Rec Bim 1',
 			'rec_bim_2' => 'Rec Bim 2',
 			'rec_bim_3' => 'Rec Bim 3',
@@ -154,6 +170,14 @@ class GradeResults extends CActiveRecord
 		$criteria->compare('grade_6',$this->grade_6);
 		$criteria->compare('grade_7',$this->grade_7);
 		$criteria->compare('grade_8',$this->grade_8);
+		$criteria->compare('grade_faults_1',$this->grade_faults_1);
+		$criteria->compare('grade_faults_2',$this->grade_faults_2);
+		$criteria->compare('grade_faults_3',$this->grade_faults_3);
+		$criteria->compare('grade_faults_4',$this->grade_faults_4);
+		$criteria->compare('grade_faults_5',$this->grade_faults_5);
+		$criteria->compare('grade_faults_6',$this->grade_faults_6);
+		$criteria->compare('grade_faults_7',$this->grade_faults_7);
+		$criteria->compare('grade_faults_8',$this->grade_faults_8);
 		$criteria->compare('rec_bim_1',$this->rec_bim_1);
 		$criteria->compare('rec_bim_2',$this->rec_bim_2);
 		$criteria->compare('rec_bim_3',$this->rec_bim_3);
