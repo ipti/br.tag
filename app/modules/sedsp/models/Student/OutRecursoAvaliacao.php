@@ -2,96 +2,260 @@
 
 class OutRecursoAvaliacao
 {
-    private $outGuiaInterprete;
-    private $outInterpreteLibras;
-    private $outLeituraLabial;
-    private $outNenhum;
-    private $outProvaAmpliada;
-    private $outTamanhoFonte;
-    private $outProvaBraile;
-    private $outAuxilioTranscricao;
-    private $outAuxilioLeitor;
-    private $outProvaVideoLibras;
-    private $outCdAudioDefVisual;
-    private $outProvaLinguaPortuguesa;
+    public $outGuiaInterprete;
+	public $outInterpreteLibras;
+	public $outLeituraLabial;
+	public $outNenhum;
+	public $outProvaAmpliada;
+	public $outTamanhoFonte;
+	public $outProvaBraile;
+	public $outAuxilioTranscricao;
+	public $outAuxilioLeitor;
+	public $outProvaVideoLibras;
+	public $outCdAudioDefVisual;
+	public $outProvaLinguaPortuguesa;
+
+	public function __construct(
+		string $outGuiaInterprete,
+		string $outInterpreteLibras,
+		string $outLeituraLabial,
+		string $outNenhum,
+		string $outProvaAmpliada,
+		string $outTamanhoFonte,
+		string $outProvaBraile,
+		string $outAuxilioTranscricao,
+		string $outAuxilioLeitor,
+		string $outProvaVideoLibras,
+		string $outCdAudioDefVisual,
+		string $outProvaLinguaPortuguesa
+	) {
+		$this->outGuiaInterprete = $outGuiaInterprete;
+		$this->outInterpreteLibras = $outInterpreteLibras;
+		$this->outLeituraLabial = $outLeituraLabial;
+		$this->outNenhum = $outNenhum;
+		$this->outProvaAmpliada = $outProvaAmpliada;
+		$this->outTamanhoFonte = $outTamanhoFonte;
+		$this->outProvaBraile = $outProvaBraile;
+		$this->outAuxilioTranscricao = $outAuxilioTranscricao;
+		$this->outAuxilioLeitor = $outAuxilioLeitor;
+		$this->outProvaVideoLibras = $outProvaVideoLibras;
+		$this->outCdAudioDefVisual = $outCdAudioDefVisual;
+		$this->outProvaLinguaPortuguesa = $outProvaLinguaPortuguesa;
+	}
+
+    /**
+     * Get the value of outGuiaInterprete
+     */
+    public function getOutGuiaInterprete()
+    {
+        return $this->outGuiaInterprete;
+    }
+
+    /**
+     * Set the value of outGuiaInterprete
+     */
+    public function setOutGuiaInterprete($outGuiaInterprete): self
+    {
+        $this->outGuiaInterprete = $outGuiaInterprete;
+
+        return $this;
+    }
 
 	/**
-	 * Summary of __construct
-	 * @param OutRecursoAvaliacao $recursoAvaliacao
+	 * Get the value of outInterpreteLibras
 	 */
-	public function __construct($recursoAvaliacao) {
-		$this->outGuiaInterprete = $recursoAvaliacao->outGuiaInterprete;
-		$this->outInterpreteLibras = $recursoAvaliacao->outInterpreteLibras;
-		$this->outLeituraLabial = $recursoAvaliacao->outLeituraLabial;
-		$this->outNenhum = $recursoAvaliacao->outNenhum;
-		$this->outProvaAmpliada = $recursoAvaliacao->outProvaAmpliada;
-		$this->outTamanhoFonte = $recursoAvaliacao->outTamanhoFonte;
-		$this->outProvaBraile = $recursoAvaliacao->outProvaBraile;
-		$this->outAuxilioTranscricao = $recursoAvaliacao->outAuxilioTranscricao;
-		$this->outAuxilioLeitor = $recursoAvaliacao->outAuxilioLeitor;
-		$this->outProvaVideoLibras = $recursoAvaliacao->outProvaVideoLibras;
-		$this->outCdAudioDefVisual = $recursoAvaliacao->outCdAudioDefVisual;
-		$this->outProvaLinguaPortuguesa = $recursoAvaliacao->outProvaLinguaPortuguesa;
-	}
-	
-
-	public function getOutGuiaInterprete(): string
-	{
-		return $this->outGuiaInterprete;
-	}
-
-	public function getOutInterpreteLibras(): string
+	public function getOutInterpreteLibras()
 	{
 		return $this->outInterpreteLibras;
 	}
 
-	public function getOutLeituraLabial(): string
+	/**
+	 * Set the value of outInterpreteLibras
+	 */
+	public function setOutInterpreteLibras($outInterpreteLibras): self
+	{
+		$this->outInterpreteLibras = $outInterpreteLibras;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outLeituraLabial
+	 */
+	public function getOutLeituraLabial()
 	{
 		return $this->outLeituraLabial;
 	}
 
-	public function getOutNenhum(): string
+	/**
+	 * Set the value of outLeituraLabial
+	 */
+	public function setOutLeituraLabial($outLeituraLabial): self
+	{
+		$this->outLeituraLabial = $outLeituraLabial;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outNenhum
+	 */
+	public function getOutNenhum()
 	{
 		return $this->outNenhum;
 	}
 
-	public function getOutProvaAmpliada(): string
+	/**
+	 * Set the value of outNenhum
+	 */
+	public function setOutNenhum($outNenhum): self
+	{
+		$this->outNenhum = $outNenhum;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outProvaAmpliada
+	 */
+	public function getOutProvaAmpliada()
 	{
 		return $this->outProvaAmpliada;
 	}
 
-	public function getOutTamanhoFonte(): string
+	/**
+	 * Set the value of outProvaAmpliada
+	 */
+	public function setOutProvaAmpliada($outProvaAmpliada): self
+	{
+		$this->outProvaAmpliada = $outProvaAmpliada;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outTamanhoFonte
+	 */
+	public function getOutTamanhoFonte()
 	{
 		return $this->outTamanhoFonte;
 	}
 
-	public function getOutProvaBraile(): string
+	/**
+	 * Set the value of outTamanhoFonte
+	 */
+	public function setOutTamanhoFonte($outTamanhoFonte): self
+	{
+		$this->outTamanhoFonte = $outTamanhoFonte;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outProvaBraile
+	 */
+	public function getOutProvaBraile()
 	{
 		return $this->outProvaBraile;
 	}
 
-	public function getOutAuxilioTranscricao(): string
+	/**
+	 * Set the value of outProvaBraile
+	 */
+	public function setOutProvaBraile($outProvaBraile): self
+	{
+		$this->outProvaBraile = $outProvaBraile;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outAuxilioTranscricao
+	 */
+	public function getOutAuxilioTranscricao()
 	{
 		return $this->outAuxilioTranscricao;
 	}
 
-	public function getOutAuxilioLeitor(): string
+	/**
+	 * Set the value of outAuxilioTranscricao
+	 */
+	public function setOutAuxilioTranscricao($outAuxilioTranscricao): self
+	{
+		$this->outAuxilioTranscricao = $outAuxilioTranscricao;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outAuxilioLeitor
+	 */
+	public function getOutAuxilioLeitor()
 	{
 		return $this->outAuxilioLeitor;
 	}
 
-	public function getOutProvaVideoLibras(): string
+	/**
+	 * Set the value of outAuxilioLeitor
+	 */
+	public function setOutAuxilioLeitor($outAuxilioLeitor): self
+	{
+		$this->outAuxilioLeitor = $outAuxilioLeitor;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outProvaVideoLibras
+	 */
+	public function getOutProvaVideoLibras()
 	{
 		return $this->outProvaVideoLibras;
 	}
 
-	public function getOutCdAudioDefVisual(): string
+	/**
+	 * Set the value of outProvaVideoLibras
+	 */
+	public function setOutProvaVideoLibras($outProvaVideoLibras): self
+	{
+		$this->outProvaVideoLibras = $outProvaVideoLibras;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outCdAudioDefVisual
+	 */
+	public function getOutCdAudioDefVisual()
 	{
 		return $this->outCdAudioDefVisual;
 	}
 
-	public function getOutProvaLinguaPortuguesa(): string
+	/**
+	 * Set the value of outCdAudioDefVisual
+	 */
+	public function setOutCdAudioDefVisual($outCdAudioDefVisual): self
+	{
+		$this->outCdAudioDefVisual = $outCdAudioDefVisual;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outProvaLinguaPortuguesa
+	 */
+	public function getOutProvaLinguaPortuguesa()
 	{
 		return $this->outProvaLinguaPortuguesa;
+	}
+
+	/**
+	 * Set the value of outProvaLinguaPortuguesa
+	 */
+	public function setOutProvaLinguaPortuguesa($outProvaLinguaPortuguesa): self
+	{
+		$this->outProvaLinguaPortuguesa = $outProvaLinguaPortuguesa;
+
+		return $this;
 	}
 }
