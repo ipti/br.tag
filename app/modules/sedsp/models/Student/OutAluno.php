@@ -2,107 +2,113 @@
 
 class OutAluno
 {
-	private $outSucesso;
-    private $outProcessoID;
-    private $outDataAlteracaoFicha;
-    private $outOperador;
-    private $outDadosPessoais;
-    private $outDocumentos;
-    private $outJustificativaDocumentos;
-    private $outCertidaoNova;
-    private $outCertidaoAntiga;
-    private $outEnderecoResidencial;
-    private $outEnderecoIndicativo;
-    private $outTelefones;
-    private $outDeficiencia;
-    private $outRecursoAvaliacao;
+	public $outNumRA;
+	public $outDigitoRA;
+	public $outSiglaUFRA;
+	public $outNomeAluno;
+	public $outNomeMae;
+
+	public function __construct(
+		string $outNumRA,
+		string $outDigitoRA,
+		string $outSiglaUFRA,
+		string $outNomeAluno,
+		string $outNomeMae
+	) {
+		$this->outNumRA = $outNumRA;
+		$this->outDigitoRA = $outDigitoRA;
+		$this->outSiglaUFRA = $outSiglaUFRA;
+		$this->outNomeAluno = $outNomeAluno;
+		$this->outNomeMae = $outNomeMae;
+	}
 
 	/**
-	 * Summary of __construct
-	 * @param OutAluno $aluno
-	 *
+	 * Get the value of outNumRA
 	 */
-	public function __construct($aluno) 
+	public function getOutNumRA()
 	{
-		$this->outSucesso = $aluno->outSucesso;
-		$this->outProcessoID = $aluno->outProcessoID;
-		$this->outDataAlteracaoFicha = $aluno->outDataAlteracaoFicha;
-		$this->outOperador = $aluno->outOperador;
-		$this->outDadosPessoais = new OutDadosPessoais($aluno->outDadosPessoais);
-		$this->outDocumentos = new OutDocumentos($aluno->outDocumentos);
-		$this->outCertidaoNova = new OutCertidaoNova($aluno->outCertidaoNova);
-		$this->outEnderecoResidencial = new OutEnderecoResidencial($aluno->outEnderecoResidencial);
-		$this->outEnderecoIndicativo = new OutEnderecoIndicativo($aluno->outEnderecoIndicativo);
-		$this->outDeficiencia = new OutDeficiencia($aluno->outDeficiencia);
-		$this->outDocumentos = new OutDocumentos($aluno->outDocumentos);
-		$this->outRecursoAvaliacao = new OutRecursoAvaliacao($aluno->outRecursoAvaliacao);
-		$this->outJustificativaDocumentos = $aluno->outJustificativaDocumentos;
-		$this->outCertidaoAntiga = $aluno->outCertidaoAntiga;
-		$this->outTelefones = $aluno->outTelefones;
-	}
-	
-	public function getOutSucesso(): string
-	{
-		return $this->outSucesso;
+		return $this->outNumRA;
 	}
 
-	public function getOutProcessoId(): string
+	/**
+	 * Set the value of outNumRA
+	 */
+	public function setOutNumRA($outNumRA): self
 	{
-		return $this->outProcessoID;
+		$this->outNumRA = $outNumRA;
+
+		return $this;
 	}
 
-	public function getOutDataAlteracaoFicha(): string
+	/**
+	 * Get the value of outDigitoRA
+	 */
+	public function getOutDigitoRA()
 	{
-		return $this->outDataAlteracaoFicha;
+		return $this->outDigitoRA;
 	}
 
-	public function getOutOperador(): string
+	/**
+	 * Set the value of outDigitoRA
+	 */
+	public function setOutDigitoRA($outDigitoRA): self
 	{
-		return $this->outOperador;
+		$this->outDigitoRA = $outDigitoRA;
+
+		return $this;
 	}
 
-	public function getOutDadosPessoais(): OutDadosPessoais
+	/**
+	 * Get the value of outSiglaUFRA
+	 */
+	public function getOutSiglaUFRA()
 	{
-		return $this->outDadosPessoais;
+		return $this->outSiglaUFRA;
 	}
 
-	public function getOutDocumentos(): OutDocumentos
+	/**
+	 * Set the value of outSiglaUFRA
+	 */
+	public function setOutSiglaUFRA($outSiglaUFRA): self
 	{
-		return $this->outDocumentos;
+		$this->outSiglaUFRA = $outSiglaUFRA;
+
+		return $this;
 	}
 
-	public function getOutJustificativaDocumentos(): string
+	/**
+	 * Get the value of outNomeAluno
+	 */
+	public function getOutNomeAluno()
 	{
-		return $this->outJustificativaDocumentos;
+		return $this->outNomeAluno;
 	}
 
-	public function getOutCertidaoNova(): OutCertidaoNova
+	/**
+	 * Set the value of outNomeAluno
+	 */
+	public function setOutNomeAluno($outNomeAluno): self
 	{
-		return $this->outCertidaoNova;
+		$this->outNomeAluno = $outNomeAluno;
+
+		return $this;
 	}
 
-	public function getOutEnderecoResidencial(): OutEnderecoResidencial
+	/**
+	 * Get the value of outNomeMae
+	 */
+	public function getOutNomeMae()
 	{
-		return $this->outEnderecoResidencial;
+		return $this->outNomeMae;
 	}
 
-	public function getOutEnderecoIndicativo(): OutEnderecoIndicativo
+	/**
+	 * Set the value of outNomeMae
+	 */
+	public function setOutNomeMae($outNomeMae): self
 	{
-		return $this->outEnderecoIndicativo;
-	}
+		$this->outNomeMae = $outNomeMae;
 
-	public function getOutTelefones(): array
-	{
-		return $this->outTelefones;
-	}
-
-	public function getOutDeficiencia(): OutDeficiencia
-	{
-		return $this->outDeficiencia;
-	}
-
-	public function getOutRecursoAvaliacao(): OutRecursoAvaliacao
-	{
-		return $this->outRecursoAvaliacao;
+		return $this;
 	}
 }
