@@ -1,6 +1,6 @@
 <?php
 
-class OutDadosPessoais implements JsonSerializable
+class OutDadosPessoais
 {
 	public $outNumRA;
 	public $outDigitoRA;
@@ -33,35 +33,35 @@ class OutDadosPessoais implements JsonSerializable
 	public $outCodMunNasctoDNE;
 
 	public function __construct(
-		string $outNumRA,
-		string $outDigitoRA,
-		string $outSiglaUFRA,
-		string $outNomeAluno,
-		string $outDataNascimento,
-		string $outCorRaca,
-		string $outDescCorRaca,
-		string $outSexo,
-		string $outNomeMae,
-		string $outNomePai,
-		string $outNomeSocial,
-		string $outNomeAfetivo,
-		string $outEmail,
-		string $outNacionalidade,
-		string $outDescNacionalidade,
-		string $outDataEntradaPais,
-		string $outCodPaisOrigem,
-		string $outNomePaisOrigem,
-		string $outCodBolsaFamilia,
-		string $outPossuiInternet,
-		string $outPossuiNotebookSmartphoneTablet,
-		string $outBolsaFamilia,
-		string $outQuilombola,
-		string $outTipoSanguineo,
-		string $outDoadorOrgaos,
-		string $outNumeroCNS,
-		string $outNomeMunNascto,
-		string $outUFMunNascto,
-		string $outCodMunNasctoDNE
+		?string $outNumRA,
+		?string $outDigitoRA,
+		?string $outSiglaUFRA,
+		?string $outNomeAluno,
+		?string $outDataNascimento,
+		?string $outCorRaca,
+		?string $outDescCorRaca,
+		?string $outSexo,
+		?string $outNomeMae,
+		?string $outNomePai,
+		?string $outNomeSocial,
+		?string $outNomeAfetivo,
+		?string $outEmail,
+		?string $outNacionalidade,
+		?string $outDescNacionalidade,
+		?string $outDataEntradaPais,
+		?string $outCodPaisOrigem,
+		?string $outNomePaisOrigem,
+		?string $outCodBolsaFamilia,
+		?string $outPossuiInternet,
+		?string $outPossuiNotebookSmartphoneTablet,
+		?string $outBolsaFamilia,
+		?string $outQuilombola,
+		?string $outTipoSanguineo,
+		?string $outDoadorOrgaos,
+		?string $outNumeroCNS,
+		?string $outNomeMunNascto,
+		?string $outUFMunNascto,
+		?string $outCodMunNasctoDNE
 	) {
 		$this->outNumRA = $outNumRA;
 		$this->outDigitoRA = $outDigitoRA;
@@ -83,7 +83,7 @@ class OutDadosPessoais implements JsonSerializable
 		$this->outNomePaisOrigem = $outNomePaisOrigem;
 		$this->outCodBolsaFamilia = $outCodBolsaFamilia;
 		$this->outPossuiInternet = $outPossuiInternet;
-		$this->outPossuiNotebookSmartphoneTablet  = $outPossuiNotebookSmartphoneTablet ;
+		$this-> outPossuiNotebookSmartphoneTablet  = $outPossuiNotebookSmartphoneTablet ;
 		$this->outBolsaFamilia = $outBolsaFamilia;
 		$this->outQuilombola = $outQuilombola;
 		$this->outTipoSanguineo = $outTipoSanguineo;
@@ -94,534 +94,357 @@ class OutDadosPessoais implements JsonSerializable
 		$this->outCodMunNasctoDNE = $outCodMunNasctoDNE;
 	}
 
-	public function jsonSerialize()
-    {
-		$filteredProps = array_filter(get_object_vars($this), function ($value) {
-            return $value !== null;
-        });
-
-        return $filteredProps;
-    }
-
-	/**
-	 * Get the value of outNumRA
-	 */
-	public function getOutNumRA()
+	public function getOutNumRa(): ?string
 	{
 		return $this->outNumRA;
 	}
 
-	/**
-	 * Set the value of outNumRA
-	 */
-	public function setOutNumRA($outNumRA): self
-	{
-		$this->outNumRA = $outNumRA;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDigitoRA
-	 */
-	public function getOutDigitoRA()
+	public function getOutDigitoRa(): ?string
 	{
 		return $this->outDigitoRA;
 	}
 
-	/**
-	 * Set the value of outDigitoRA
-	 */
-	public function setOutDigitoRA($outDigitoRA): self
-	{
-		$this->outDigitoRA = $outDigitoRA;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outSiglaUFRA
-	 */
-	public function getOutSiglaUFRA()
+	public function getOutSiglaUfra(): ?string
 	{
 		return $this->outSiglaUFRA;
 	}
 
-	/**
-	 * Set the value of outSiglaUFRA
-	 */
-	public function setOutSiglaUFRA($outSiglaUFRA): self
-	{
-		$this->outSiglaUFRA = $outSiglaUFRA;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNomeAluno
-	 */
-	public function getOutNomeAluno()
+	public function getOutNomeAluno(): ?string
 	{
 		return $this->outNomeAluno;
 	}
 
-	/**
-	 * Set the value of outNomeAluno
-	 */
-	public function setOutNomeAluno($outNomeAluno): self
-	{
-		$this->outNomeAluno = $outNomeAluno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDataNascimento
-	 */
-	public function getOutDataNascimento()
+	public function getOutDataNascimento(): ?string
 	{
 		return $this->outDataNascimento;
 	}
 
-	/**
-	 * Set the value of outDataNascimento
-	 */
-	public function setOutDataNascimento($outDataNascimento): self
-	{
-		$this->outDataNascimento = $outDataNascimento;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCorRaca
-	 */
-	public function getOutCorRaca()
+	public function getOutCorRaca(): ?string
 	{
 		return $this->outCorRaca;
 	}
 
-	/**
-	 * Set the value of outCorRaca
-	 */
-	public function setOutCorRaca($outCorRaca): self
-	{
-		$this->outCorRaca = $outCorRaca;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDescCorRaca
-	 */
-	public function getOutDescCorRaca()
+	public function getOutDescCorRaca(): ?string
 	{
 		return $this->outDescCorRaca;
 	}
 
-	/**
-	 * Set the value of outDescCorRaca
-	 */
-	public function setOutDescCorRaca($outDescCorRaca): self
-	{
-		$this->outDescCorRaca = $outDescCorRaca;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outSexo
-	 */
-	public function getOutSexo()
+	public function getOutSexo(): ?string
 	{
 		return $this->outSexo;
 	}
 
-	/**
-	 * Set the value of outSexo
-	 */
-	public function setOutSexo($outSexo): self
-	{
-		$this->outSexo = $outSexo;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNomeMae
-	 */
-	public function getOutNomeMae()
+	public function getOutNomeMae(): ?string
 	{
 		return $this->outNomeMae;
 	}
 
-	/**
-	 * Set the value of outNomeMae
-	 */
-	public function setOutNomeMae($outNomeMae): self
-	{
-		$this->outNomeMae = $outNomeMae;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNomePai
-	 */
-	public function getOutNomePai()
+	public function getOutNomePai(): ?string
 	{
 		return $this->outNomePai;
 	}
 
-	/**
-	 * Set the value of outNomePai
-	 */
-	public function setOutNomePai($outNomePai): self
-	{
-		$this->outNomePai = $outNomePai;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNomeSocial
-	 */
-	public function getOutNomeSocial()
+	public function getOutNomeSocial(): ?string
 	{
 		return $this->outNomeSocial;
 	}
 
-	/**
-	 * Set the value of outNomeSocial
-	 */
-	public function setOutNomeSocial($outNomeSocial): self
-	{
-		$this->outNomeSocial = $outNomeSocial;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNomeAfetivo
-	 */
-	public function getOutNomeAfetivo()
+	public function getOutNomeAfetivo(): ?string
 	{
 		return $this->outNomeAfetivo;
 	}
 
-	/**
-	 * Set the value of outNomeAfetivo
-	 */
-	public function setOutNomeAfetivo($outNomeAfetivo): self
-	{
-		$this->outNomeAfetivo = $outNomeAfetivo;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outEmail
-	 */
-	public function getOutEmail()
+	public function getOutEmail(): ?string
 	{
 		return $this->outEmail;
 	}
 
-	/**
-	 * Set the value of outEmail
-	 */
-	public function setOutEmail($outEmail): self
-	{
-		$this->outEmail = $outEmail;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNacionalidade
-	 */
-	public function getOutNacionalidade()
+	public function getOutNacionalidade(): ?string
 	{
 		return $this->outNacionalidade;
 	}
 
-	/**
-	 * Set the value of outNacionalidade
-	 */
-	public function setOutNacionalidade($outNacionalidade): self
-	{
-		$this->outNacionalidade = $outNacionalidade;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDescNacionalidade
-	 */
-	public function getOutDescNacionalidade()
+	public function getOutDescNacionalidade(): ?string
 	{
 		return $this->outDescNacionalidade;
 	}
 
-	/**
-	 * Set the value of outDescNacionalidade
-	 */
-	public function setOutDescNacionalidade($outDescNacionalidade): self
-	{
-		$this->outDescNacionalidade = $outDescNacionalidade;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDataEntradaPais
-	 */
-	public function getOutDataEntradaPais()
+	public function getOutDataEntradaPais(): ?string
 	{
 		return $this->outDataEntradaPais;
 	}
 
-	/**
-	 * Set the value of outDataEntradaPais
-	 */
-	public function setOutDataEntradaPais($outDataEntradaPais): self
-	{
-		$this->outDataEntradaPais = $outDataEntradaPais;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodPaisOrigem
-	 */
-	public function getOutCodPaisOrigem()
+	public function getOutCodPaisOrigem(): ?string
 	{
 		return $this->outCodPaisOrigem;
 	}
 
-	/**
-	 * Set the value of outCodPaisOrigem
-	 */
-	public function setOutCodPaisOrigem($outCodPaisOrigem): self
-	{
-		$this->outCodPaisOrigem = $outCodPaisOrigem;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNomePaisOrigem
-	 */
-	public function getOutNomePaisOrigem()
+	public function getOutNomePaisOrigem(): ?string
 	{
 		return $this->outNomePaisOrigem;
 	}
 
-	/**
-	 * Set the value of outNomePaisOrigem
-	 */
-	public function setOutNomePaisOrigem($outNomePaisOrigem): self
-	{
-		$this->outNomePaisOrigem = $outNomePaisOrigem;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodBolsaFamilia
-	 */
-	public function getOutCodBolsaFamilia()
+	public function getOutCodBolsaFamilia(): ?string
 	{
 		return $this->outCodBolsaFamilia;
 	}
 
-	/**
-	 * Set the value of outCodBolsaFamilia
-	 */
-	public function setOutCodBolsaFamilia($outCodBolsaFamilia): self
-	{
-		$this->outCodBolsaFamilia = $outCodBolsaFamilia;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outPossuiInternet
-	 */
-	public function getOutPossuiInternet()
+	public function getOutPossuiInternet(): ?string
 	{
 		return $this->outPossuiInternet;
 	}
 
-	/**
-	 * Set the value of outPossuiInternet
-	 */
-	public function setOutPossuiInternet($outPossuiInternet): self
+	public function getOutPossuiNotebookSmartphoneTablet(): ?string
 	{
-		$this->outPossuiInternet = $outPossuiInternet;
-
-		return $this;
+		return $this-> outPossuiNotebookSmartphoneTablet ;
 	}
 
-	/**
-	 * Get the value of outPossuiNotebookSmartphoneTablet
-	 */
-	public function getOutPossuiNotebookSmartphoneTablet()
-	{
-		return $this->outPossuiNotebookSmartphoneTablet;
-	}
-
-	/**
-	 * Set the value of outPossuiNotebookSmartphoneTablet
-	 */
-	public function setOutPossuiNotebookSmartphoneTablet($outPossuiNotebookSmartphoneTablet): self
-	{
-		$this->outPossuiNotebookSmartphoneTablet = $outPossuiNotebookSmartphoneTablet;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outBolsaFamilia
-	 */
-	public function getOutBolsaFamilia()
+	public function getOutBolsaFamilia(): ?string
 	{
 		return $this->outBolsaFamilia;
 	}
 
-	/**
-	 * Set the value of outBolsaFamilia
-	 */
-	public function setOutBolsaFamilia($outBolsaFamilia): self
-	{
-		$this->outBolsaFamilia = $outBolsaFamilia;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outQuilombola
-	 */
-	public function getOutQuilombola()
+	public function getOutQuilombola(): ?string
 	{
 		return $this->outQuilombola;
 	}
 
-	/**
-	 * Set the value of outQuilombola
-	 */
-	public function setOutQuilombola($outQuilombola): self
-	{
-		$this->outQuilombola = $outQuilombola;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outTipoSanguineo
-	 */
-	public function getOutTipoSanguineo()
+	public function getOutTipoSanguineo(): ?string
 	{
 		return $this->outTipoSanguineo;
 	}
 
-	/**
-	 * Set the value of outTipoSanguineo
-	 */
-	public function setOutTipoSanguineo($outTipoSanguineo): self
-	{
-		$this->outTipoSanguineo = $outTipoSanguineo;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDoadorOrgaos
-	 */
-	public function getOutDoadorOrgaos()
+	public function getOutDoadorOrgaos(): ?string
 	{
 		return $this->outDoadorOrgaos;
 	}
 
-	/**
-	 * Set the value of outDoadorOrgaos
-	 */
-	public function setOutDoadorOrgaos($outDoadorOrgaos): self
-	{
-		$this->outDoadorOrgaos = $outDoadorOrgaos;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNumeroCNS
-	 */
-	public function getOutNumeroCNS()
+	public function getOutNumeroCns(): ?string
 	{
 		return $this->outNumeroCNS;
 	}
 
-	/**
-	 * Set the value of outNumeroCNS
-	 */
-	public function setOutNumeroCNS($outNumeroCNS): self
-	{
-		$this->outNumeroCNS = $outNumeroCNS;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNomeMunNascto
-	 */
-	public function getOutNomeMunNascto()
+	public function getOutNomeMunNascto(): ?string
 	{
 		return $this->outNomeMunNascto;
 	}
 
-	/**
-	 * Set the value of outNomeMunNascto
-	 */
-	public function setOutNomeMunNascto($outNomeMunNascto): self
-	{
-		$this->outNomeMunNascto = $outNomeMunNascto;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outUFMunNascto
-	 */
-	public function getOutUFMunNascto()
+	public function getOutUfMunNascto(): ?string
 	{
 		return $this->outUFMunNascto;
 	}
 
-	/**
-	 * Set the value of outUFMunNascto
-	 */
-	public function setOutUFMunNascto($outUFMunNascto): self
-	{
-		$this->outUFMunNascto = $outUFMunNascto;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodMunNasctoDNE
-	 */
-	public function getOutCodMunNasctoDNE()
+	public function getOutCodMunNasctoDne(): ?string
 	{
 		return $this->outCodMunNasctoDNE;
 	}
 
-	/**
-	 * Set the value of outCodMunNasctoDNE
-	 */
-	public function setOutCodMunNasctoDNE($outCodMunNasctoDNE): self
+	public function setOutNumRa(?string $outNumRA): self
+	{
+		$this->outNumRA = $outNumRA;
+		return $this;
+	}
+
+	public function setOutDigitoRa(?string $outDigitoRA): self
+	{
+		$this->outDigitoRA = $outDigitoRA;
+		return $this;
+	}
+
+	public function setOutSiglaUfra(?string $outSiglaUFRA): self
+	{
+		$this->outSiglaUFRA = $outSiglaUFRA;
+		return $this;
+	}
+
+	public function setOutNomeAluno(?string $outNomeAluno): self
+	{
+		$this->outNomeAluno = $outNomeAluno;
+		return $this;
+	}
+
+	public function setOutDataNascimento(?string $outDataNascimento): self
+	{
+		$this->outDataNascimento = $outDataNascimento;
+		return $this;
+	}
+
+	public function setOutCorRaca(?string $outCorRaca): self
+	{
+		$this->outCorRaca = $outCorRaca;
+		return $this;
+	}
+
+	public function setOutDescCorRaca(?string $outDescCorRaca): self
+	{
+		$this->outDescCorRaca = $outDescCorRaca;
+		return $this;
+	}
+
+	public function setOutSexo(?string $outSexo): self
+	{
+		$this->outSexo = $outSexo;
+		return $this;
+	}
+
+	public function setOutNomeMae(?string $outNomeMae): self
+	{
+		$this->outNomeMae = $outNomeMae;
+		return $this;
+	}
+
+	public function setOutNomePai(?string $outNomePai): self
+	{
+		$this->outNomePai = $outNomePai;
+		return $this;
+	}
+
+	public function setOutNomeSocial(?string $outNomeSocial): self
+	{
+		$this->outNomeSocial = $outNomeSocial;
+		return $this;
+	}
+
+	public function setOutNomeAfetivo(?string $outNomeAfetivo): self
+	{
+		$this->outNomeAfetivo = $outNomeAfetivo;
+		return $this;
+	}
+
+	public function setOutEmail(?string $outEmail): self
+	{
+		$this->outEmail = $outEmail;
+		return $this;
+	}
+
+	public function setOutNacionalidade(?string $outNacionalidade): self
+	{
+		$this->outNacionalidade = $outNacionalidade;
+		return $this;
+	}
+
+	public function setOutDescNacionalidade(?string $outDescNacionalidade): self
+	{
+		$this->outDescNacionalidade = $outDescNacionalidade;
+		return $this;
+	}
+
+	public function setOutDataEntradaPais(?string $outDataEntradaPais): self
+	{
+		$this->outDataEntradaPais = $outDataEntradaPais;
+		return $this;
+	}
+
+	public function setOutCodPaisOrigem(?string $outCodPaisOrigem): self
+	{
+		$this->outCodPaisOrigem = $outCodPaisOrigem;
+		return $this;
+	}
+
+	public function setOutNomePaisOrigem(?string $outNomePaisOrigem): self
+	{
+		$this->outNomePaisOrigem = $outNomePaisOrigem;
+		return $this;
+	}
+
+	public function setOutCodBolsaFamilia(?string $outCodBolsaFamilia): self
+	{
+		$this->outCodBolsaFamilia = $outCodBolsaFamilia;
+		return $this;
+	}
+
+	public function setOutPossuiInternet(?string $outPossuiInternet): self
+	{
+		$this->outPossuiInternet = $outPossuiInternet;
+		return $this;
+	}
+
+	public function setOutPossuiNotebookSmartphoneTablet(?string $outPossuiNotebookSmartphoneTablet ): self
+	{
+		$this-> outPossuiNotebookSmartphoneTablet  = $outPossuiNotebookSmartphoneTablet ;
+		return $this;
+	}
+
+	public function setOutBolsaFamilia(?string $outBolsaFamilia): self
+	{
+		$this->outBolsaFamilia = $outBolsaFamilia;
+		return $this;
+	}
+
+	public function setOutQuilombola(?string $outQuilombola): self
+	{
+		$this->outQuilombola = $outQuilombola;
+		return $this;
+	}
+
+	public function setOutTipoSanguineo(?string $outTipoSanguineo): self
+	{
+		$this->outTipoSanguineo = $outTipoSanguineo;
+		return $this;
+	}
+
+	public function setOutDoadorOrgaos(?string $outDoadorOrgaos): self
+	{
+		$this->outDoadorOrgaos = $outDoadorOrgaos;
+		return $this;
+	}
+
+	public function setOutNumeroCns(?string $outNumeroCNS): self
+	{
+		$this->outNumeroCNS = $outNumeroCNS;
+		return $this;
+	}
+
+	public function setOutNomeMunNascto(?string $outNomeMunNascto): self
+	{
+		$this->outNomeMunNascto = $outNomeMunNascto;
+		return $this;
+	}
+
+	public function setOutUfMunNascto(?string $outUFMunNascto): self
+	{
+		$this->outUFMunNascto = $outUFMunNascto;
+		return $this;
+	}
+
+	public function setOutCodMunNasctoDne(?string $outCodMunNasctoDNE): self
 	{
 		$this->outCodMunNasctoDNE = $outCodMunNasctoDNE;
-
 		return $this;
+	}
+
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			$data['outNumRA'] ?? null,
+			$data['outDigitoRA'] ?? null,
+			$data['outSiglaUFRA'] ?? null,
+			$data['outNomeAluno'] ?? null,
+			$data['outDataNascimento'] ?? null,
+			$data['outCorRaca'] ?? null,
+			$data['outDescCorRaca'] ?? null,
+			$data['outSexo'] ?? null,
+			$data['outNomeMae'] ?? null,
+			$data['outNomePai'] ?? null,
+			$data['outNomeSocial'] ?? null,
+			$data['outNomeAfetivo'] ?? null,
+			$data['outEmail'] ?? null,
+			$data['outNacionalidade'] ?? null,
+			$data['outDescNacionalidade'] ?? null,
+			$data['outDataEntradaPais'] ?? null,
+			$data['outCodPaisOrigem'] ?? null,
+			$data['outNomePaisOrigem'] ?? null,
+			$data['outCodBolsaFamilia'] ?? null,
+			$data['outPossuiInternet'] ?? null,
+			$data['outPossuiNotebookSmartphoneTablet'] ?? null,
+			$data['outBolsaFamilia'] ?? null,
+			$data['outQuilombola'] ?? null,
+			$data['outTipoSanguineo'] ?? null,
+			$data['outDoadorOrgaos'] ?? null,
+			$data['outNumeroCNS'] ?? null,
+			$data['outNomeMunNascto'] ?? null,
+			$data['outUFMunNascto'] ?? null,
+			$data['outCodMunNasctoDNE'] ?? null
+		);
 	}
 }
