@@ -67,8 +67,8 @@
 class StudentEnrollment extends AltActiveRecord
 {
 
-    const STATUS_ACTIVE = "EM ANDAMENTO";
-    const STATUS_DECEASED = "FALECIDO";
+    const STATUS_ACTIVE = "MATRICULADO";
+    const STATUS_CANCELED = "CANCELADO";
     const STATUS_TRANSFERRED = "TRANSFERIDO";
     const STATUS_ABANDONED = "DEIXOU DE FREQUENTAR";
     const STATUS_RESTORED = "REMANEJADO";
@@ -77,6 +77,7 @@ class StudentEnrollment extends AltActiveRecord
     const STATUS_DISAPPROVED = "REPROVADO";
     const STATUS_CONCLUDED = "CONCLUINTE";
     const STATUS_INDETERMINED = "INDETERMINADO";
+    const STATUS_DEATH = "OBITO";
 
     public $school_year;
 
@@ -571,12 +572,11 @@ class StudentEnrollment extends AltActiveRecord
         return $result;
     }
 
-    public function getCurrentStatus(){
+    public static function getListStatus(){
         $status  = [
-            null => "",
             "1" => StudentEnrollment::STATUS_ACTIVE,
             "2" => StudentEnrollment::STATUS_TRANSFERRED,
-            "3" => StudentEnrollment::STATUS_DECEASED,
+            "3" => StudentEnrollment::STATUS_CANCELED,
             "4" => StudentEnrollment::STATUS_ABANDONED,
             "5" => StudentEnrollment::STATUS_RESTORED,
             "6" => StudentEnrollment::STATUS_APPROVED,
@@ -584,9 +584,28 @@ class StudentEnrollment extends AltActiveRecord
             "8" => StudentEnrollment::STATUS_DISAPPROVED,
             "9" => StudentEnrollment::STATUS_CONCLUDED,
             "10" => StudentEnrollment::STATUS_INDETERMINED,
+            "11" => StudentEnrollment::STATUS_DEATH,
+        ];
+
+        return $status;
+    }
+
+    public function getCurrentStatus(){
+        $status  = [
+            null => "",
+            "1" => StudentEnrollment::STATUS_ACTIVE,
+            "2" => StudentEnrollment::STATUS_TRANSFERRED,
+            "3" => StudentEnrollment::STATUS_CANCELED,
+            "4" => StudentEnrollment::STATUS_ABANDONED,
+            "5" => StudentEnrollment::STATUS_RESTORED,
+            "6" => StudentEnrollment::STATUS_APPROVED,
+            "7" => StudentEnrollment::STATUS_APPROVEDBYCOUNCIL,
+            "8" => StudentEnrollment::STATUS_DISAPPROVED,
+            "9" => StudentEnrollment::STATUS_CONCLUDED,
+            "10" => StudentEnrollment::STATUS_INDETERMINED,
+            "11" => StudentEnrollment::STATUS_DEATH,
         ];
 
         return $status[$this->status];
-
     }
 }

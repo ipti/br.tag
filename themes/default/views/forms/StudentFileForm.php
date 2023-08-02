@@ -257,42 +257,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     <div class="span5"><b>Turma: </b><span><?= $enrollment->classroomFk->name ?></span></div>
                     <div class="span9"><b>Situação do aluno: </b><span>
                         <?php 
-                              
-                                switch ($enrollment->status) {
-                                    case "1":
-                                        echo "Em Andamento";
-                                        break;
-                                    case "2":
-                                        echo "Transferido";
-                                        break;
-                                    case "3":
-                                        echo "Falecido";
-                                        break;
-                                    case "4":
-                                        echo "Deixou de Frequentar";
-                                        break;
-                                    case "5":
-                                        echo "Remanejado";
-                                        break;
-                                    case "6":
-                                        echo "Aprovado";
-                                        break;
-                                    case "7":
-                                        echo "Aprovado pelo Conselho";
-                                        break;
-                                    case "8":
-                                        echo "Reprovado";
-                                        break;
-                                    case "9":
-                                        echo "Concluinte";
-                                        break;
-                                    case "10":
-                                        echo "Indeterminado";
-                                        break;
-                                    default:
-                                       echo '';
-                                }
-                    
+                           echo $enrollment->getCurrentStatus();                    
                         ?>
                     </span></div>
                     <div class="span3"><b>Turno: </b><span> <?php echo $turns[$enrollment->classroomFk->turn]; ?></span></div>
