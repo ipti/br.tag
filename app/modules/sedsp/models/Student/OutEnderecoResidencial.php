@@ -2,109 +2,302 @@
 
 class OutEnderecoResidencial
 {
-	private $outLogradouro;
-    private $outNumero;
-    private $outAreaLogradouro;
-    private $outComplemento;
-    private $outBairro;
-    private $outNomeCidade;
-    private $outUFCidade;
-    private $outLatitude;
-    private $outLongitude;
-    private $outCep;
-    private $outCodMunicipioDNE;
-    private $outCodArea;
-    private $outCodLocalizacao;
-    private $outLocalizacaoDiferenciada;
+	public $outLogradouro;
+	public $outNumero;
+	public $outCodArea;
+	public $outAreaLogradouro;
+	public $outComplemento;
+	public $outBairro;
+	public $outNomeCidade;
+	public $outUFCidade;
+	public $outCodMunicipioDNE;
+	public $outLatitude;
+	public $outLongitude;
+	public $outCep;
+	public $outCodLocalizacao;
+	public $outLocalizacaoDiferenciada;
 
-	/**
-	 * Summary of __construct
-	 * @param OutEnderecoResidencial $enderecoResidencial
-	 */
-	public function __construct($enderecoResidencial) {
-		$this->outLogradouro = $enderecoResidencial->outLogradouro;
-		$this->outNumero = $enderecoResidencial->outNumero;
-		$this->outAreaLogradouro = $enderecoResidencial->outAreaLogradouro;
-		$this->outComplemento = $enderecoResidencial->outComplemento;
-		$this->outBairro = $enderecoResidencial->outBairro;
-		$this->outNomeCidade = $enderecoResidencial->outNomeCidade;
-		$this->outUFCidade = $enderecoResidencial->outUFCidade;
-		$this->outLatitude = $enderecoResidencial->outLatitude;
-		$this->outLongitude = $enderecoResidencial->outLongitude;
-		$this->outCep = $enderecoResidencial->outCep;
-		$this->outCodMunicipioDNE = $enderecoResidencial->outCodMunicipioDNE;
-		$this->outCodArea = $enderecoResidencial->outCodArea;
-		$this->outCodLocalizacao = $enderecoResidencial->outCodLocalizacao;
-		$this->outLocalizacaoDiferenciada = $enderecoResidencial->outLocalizacaoDiferenciada;
+	public function __construct(
+		string $outLogradouro,
+		string $outNumero,
+		string $outCodArea,
+		string $outAreaLogradouro,
+		string $outComplemento,
+		string $outBairro,
+		string $outNomeCidade,
+		string $outUFCidade,
+		string $outCodMunicipioDNE,
+		string $outLatitude,
+		string $outLongitude,
+		string $outCep,
+		string $outCodLocalizacao,
+		string $outLocalizacaoDiferenciada
+	) {
+		$this->outLogradouro = $outLogradouro;
+		$this->outNumero = $outNumero;
+		$this->outCodArea = $outCodArea;
+		$this->outAreaLogradouro = $outAreaLogradouro;
+		$this->outComplemento = $outComplemento;
+		$this->outBairro = $outBairro;
+		$this->outNomeCidade = $outNomeCidade;
+		$this->outUFCidade = $outUFCidade;
+		$this->outCodMunicipioDNE = $outCodMunicipioDNE;
+		$this->outLatitude = $outLatitude;
+		$this->outLongitude = $outLongitude;
+		$this->outCep = $outCep;
+		$this->outCodLocalizacao = $outCodLocalizacao;
+		$this->outLocalizacaoDiferenciada = $outLocalizacaoDiferenciada;
 	}
 
-	public function getOutLogradouro(): string
+	/**
+	 * Get the value of outLogradouro
+	 */
+	public function getOutLogradouro()
 	{
 		return $this->outLogradouro;
 	}
 
-	public function getOutNumero(): string
+	/**
+	 * Set the value of outLogradouro
+	 */
+	public function setOutLogradouro($outLogradouro): self
+	{
+		$this->outLogradouro = $outLogradouro;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outNumero
+	 */
+	public function getOutNumero()
 	{
 		return $this->outNumero;
 	}
 
-	public function getOutAreaLogradouro(): string
+	/**
+	 * Set the value of outNumero
+	 */
+	public function setOutNumero($outNumero): self
 	{
-		return $this->outAreaLogradouro;
+		$this->outNumero = $outNumero;
+
+		return $this;
 	}
 
-	public function getOutComplemento(): string
-	{
-		return $this->outComplemento;
-	}
-
-	public function getOutBairro(): string
-	{
-		return $this->outBairro;
-	}
-
-	public function getOutNomeCidade(): string
-	{
-		return $this->outNomeCidade;
-	}
-
-	public function getOutUfCidade(): string
-	{
-		return $this->outUFCidade;
-	}
-
-	public function getOutLatitude(): string
-	{
-		return $this->outLatitude;
-	}
-
-	public function getOutLongitude(): string
-	{
-		return $this->outLongitude;
-	}
-
-	public function getOutCep(): string
-	{
-		return $this->outCep;
-	}
-
-	public function getOutCodMunicipioDne(): string
-	{
-		return $this->outCodMunicipioDNE;
-	}
-
-	public function getOutCodArea(): string
+	/**
+	 * Get the value of outCodArea
+	 */
+	public function getOutCodArea()
 	{
 		return $this->outCodArea;
 	}
 
-	public function getOutCodLocalizacao(): string
+	/**
+	 * Set the value of outCodArea
+	 */
+	public function setOutCodArea($outCodArea): self
+	{
+		$this->outCodArea = $outCodArea;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outAreaLogradouro
+	 */
+	public function getOutAreaLogradouro()
+	{
+		return $this->outAreaLogradouro;
+	}
+
+	/**
+	 * Set the value of outAreaLogradouro
+	 */
+	public function setOutAreaLogradouro($outAreaLogradouro): self
+	{
+		$this->outAreaLogradouro = $outAreaLogradouro;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outComplemento
+	 */
+	public function getOutComplemento()
+	{
+		return $this->outComplemento;
+	}
+
+	/**
+	 * Set the value of outComplemento
+	 */
+	public function setOutComplemento($outComplemento): self
+	{
+		$this->outComplemento = $outComplemento;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outBairro
+	 */
+	public function getOutBairro()
+	{
+		return $this->outBairro;
+	}
+
+	/**
+	 * Set the value of outBairro
+	 */
+	public function setOutBairro($outBairro): self
+	{
+		$this->outBairro = $outBairro;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outNomeCidade
+	 */
+	public function getOutNomeCidade()
+	{
+		return $this->outNomeCidade;
+	}
+
+	/**
+	 * Set the value of outNomeCidade
+	 */
+	public function setOutNomeCidade($outNomeCidade): self
+	{
+		$this->outNomeCidade = $outNomeCidade;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outUFCidade
+	 */
+	public function getOutUFCidade()
+	{
+		return $this->outUFCidade;
+	}
+
+	/**
+	 * Set the value of outUFCidade
+	 */
+	public function setOutUFCidade($outUFCidade): self
+	{
+		$this->outUFCidade = $outUFCidade;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outCodMunicipioDNE
+	 */
+	public function getOutCodMunicipioDNE()
+	{
+		return $this->outCodMunicipioDNE;
+	}
+
+	/**
+	 * Set the value of outCodMunicipioDNE
+	 */
+	public function setOutCodMunicipioDNE($outCodMunicipioDNE): self
+	{
+		$this->outCodMunicipioDNE = $outCodMunicipioDNE;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outLatitude
+	 */
+	public function getOutLatitude()
+	{
+		return $this->outLatitude;
+	}
+
+	/**
+	 * Set the value of outLatitude
+	 */
+	public function setOutLatitude($outLatitude): self
+	{
+		$this->outLatitude = $outLatitude;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outLongitude
+	 */
+	public function getOutLongitude()
+	{
+		return $this->outLongitude;
+	}
+
+	/**
+	 * Set the value of outLongitude
+	 */
+	public function setOutLongitude($outLongitude): self
+	{
+		$this->outLongitude = $outLongitude;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outCep
+	 */
+	public function getOutCep()
+	{
+		return $this->outCep;
+	}
+
+	/**
+	 * Set the value of outCep
+	 */
+	public function setOutCep($outCep): self
+	{
+		$this->outCep = $outCep;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outCodLocalizacao
+	 */
+	public function getOutCodLocalizacao()
 	{
 		return $this->outCodLocalizacao;
 	}
 
-	public function getOutLocalizacaoDiferenciada(): string
+	/**
+	 * Set the value of outCodLocalizacao
+	 */
+	public function setOutCodLocalizacao($outCodLocalizacao): self
+	{
+		$this->outCodLocalizacao = $outCodLocalizacao;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outLocalizacaoDiferenciada
+	 */
+	public function getOutLocalizacaoDiferenciada()
 	{
 		return $this->outLocalizacaoDiferenciada;
+	}
+
+	/**
+	 * Set the value of outLocalizacaoDiferenciada
+	 */
+	public function setOutLocalizacaoDiferenciada($outLocalizacaoDiferenciada): self
+	{
+		$this->outLocalizacaoDiferenciada = $outLocalizacaoDiferenciada;
+
+		return $this;
 	}
 }
