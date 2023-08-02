@@ -14,16 +14,16 @@ class OutAlunos
 	public $outDescSitMatricula;
 
 	public function __construct(
-		string $outNumRA,
-		string $outDigitoRA,
-		string $outSiglaUFRA,
-		string $outNomeAluno,
-		string $outNumAluno,
-		string $outDataNascimento,
-		string $outGrauNivel,
-		string $outSerieNivel,
-		string $outCodSitMatricula,
-		string $outDescSitMatricula
+		?string $outNumRA,
+		?string $outDigitoRA,
+		?string $outSiglaUFRA,
+		?string $outNomeAluno,
+		?string $outNumAluno,
+		?string $outDataNascimento,
+		?string $outGrauNivel,
+		?string $outSerieNivel,
+		?string $outCodSitMatricula,
+		?string $outDescSitMatricula
 	) {
 		$this->outNumRA = $outNumRA;
 		$this->outDigitoRA = $outDigitoRA;
@@ -37,183 +37,129 @@ class OutAlunos
 		$this->outDescSitMatricula = $outDescSitMatricula;
 	}
 
-	/**
-	 * Get the value of outNumRA
-	 */
-	public function getOutNumRA()
+	public function getOutNumRa(): ?string
 	{
 		return $this->outNumRA;
 	}
 
-	/**
-	 * Set the value of outNumRA
-	 */
-	public function setOutNumRA($outNumRA): self
-	{
-		$this->outNumRA = $outNumRA;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDigitoRA
-	 */
-	public function getOutDigitoRA()
+	public function getOutDigitoRa(): ?string
 	{
 		return $this->outDigitoRA;
 	}
 
-	/**
-	 * Set the value of outDigitoRA
-	 */
-	public function setOutDigitoRA($outDigitoRA): self
-	{
-		$this->outDigitoRA = $outDigitoRA;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outSiglaUFRA
-	 */
-	public function getOutSiglaUFRA()
+	public function getOutSiglaUfra(): ?string
 	{
 		return $this->outSiglaUFRA;
 	}
 
-	/**
-	 * Set the value of outSiglaUFRA
-	 */
-	public function setOutSiglaUFRA($outSiglaUFRA): self
-	{
-		$this->outSiglaUFRA = $outSiglaUFRA;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNomeAluno
-	 */
-	public function getOutNomeAluno()
+	public function getOutNomeAluno(): ?string
 	{
 		return $this->outNomeAluno;
 	}
 
-	/**
-	 * Set the value of outNomeAluno
-	 */
-	public function setOutNomeAluno($outNomeAluno): self
-	{
-		$this->outNomeAluno = $outNomeAluno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNumAluno
-	 */
-	public function getOutNumAluno()
+	public function getOutNumAluno(): ?string
 	{
 		return $this->outNumAluno;
 	}
 
-	/**
-	 * Set the value of outNumAluno
-	 */
-	public function setOutNumAluno($outNumAluno): self
-	{
-		$this->outNumAluno = $outNumAluno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDataNascimento
-	 */
-	public function getOutDataNascimento()
+	public function getOutDataNascimento(): ?string
 	{
 		return $this->outDataNascimento;
 	}
 
-	/**
-	 * Set the value of outDataNascimento
-	 */
-	public function setOutDataNascimento($outDataNascimento): self
-	{
-		$this->outDataNascimento = $outDataNascimento;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outGrauNivel
-	 */
-	public function getOutGrauNivel()
+	public function getOutGrauNivel(): ?string
 	{
 		return $this->outGrauNivel;
 	}
 
-	/**
-	 * Set the value of outGrauNivel
-	 */
-	public function setOutGrauNivel($outGrauNivel): self
-	{
-		$this->outGrauNivel = $outGrauNivel;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outSerieNivel
-	 */
-	public function getOutSerieNivel()
+	public function getOutSerieNivel(): ?string
 	{
 		return $this->outSerieNivel;
 	}
 
-	/**
-	 * Set the value of outSerieNivel
-	 */
-	public function setOutSerieNivel($outSerieNivel): self
-	{
-		$this->outSerieNivel = $outSerieNivel;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodSitMatricula
-	 */
-	public function getOutCodSitMatricula()
+	public function getOutCodSitMatricula(): ?string
 	{
 		return $this->outCodSitMatricula;
 	}
 
-	/**
-	 * Set the value of outCodSitMatricula
-	 */
-	public function setOutCodSitMatricula($outCodSitMatricula): self
-	{
-		$this->outCodSitMatricula = $outCodSitMatricula;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDescSitMatricula
-	 */
-	public function getOutDescSitMatricula()
+	public function getOutDescSitMatricula(): ?string
 	{
 		return $this->outDescSitMatricula;
 	}
 
-	/**
-	 * Set the value of outDescSitMatricula
-	 */
-	public function setOutDescSitMatricula($outDescSitMatricula): self
+	public function setOutNumRa(?string $outNumRA): self
 	{
-		$this->outDescSitMatricula = $outDescSitMatricula;
-
+		$this->outNumRA = $outNumRA;
 		return $this;
 	}
+
+	public function setOutDigitoRa(?string $outDigitoRA): self
+	{
+		$this->outDigitoRA = $outDigitoRA;
+		return $this;
+	}
+
+	public function setOutSiglaUfra(?string $outSiglaUFRA): self
+	{
+		$this->outSiglaUFRA = $outSiglaUFRA;
+		return $this;
+	}
+
+	public function setOutNomeAluno(?string $outNomeAluno): self
+	{
+		$this->outNomeAluno = $outNomeAluno;
+		return $this;
+	}
+
+	public function setOutNumAluno(?string $outNumAluno): self
+	{
+		$this->outNumAluno = $outNumAluno;
+		return $this;
+	}
+
+	public function setOutDataNascimento(?string $outDataNascimento): self
+	{
+		$this->outDataNascimento = $outDataNascimento;
+		return $this;
+	}
+
+	public function setOutGrauNivel(?string $outGrauNivel): self
+	{
+		$this->outGrauNivel = $outGrauNivel;
+		return $this;
+	}
+
+	public function setOutSerieNivel(?string $outSerieNivel): self
+	{
+		$this->outSerieNivel = $outSerieNivel;
+		return $this;
+	}
+
+	public function setOutCodSitMatricula(?string $outCodSitMatricula): self
+	{
+		$this->outCodSitMatricula = $outCodSitMatricula;
+		return $this;
+	}
+
+	public function setOutDescSitMatricula(?string $outDescSitMatricula): self
+	{
+		$this->outDescSitMatricula = $outDescSitMatricula;
+		return $this;
+	}
+
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			$data['outNumRA'] ?? null,
+			$data['outDigitoRA'] ?? null,
+			$data['outSiglaUFRA'] ?? null,
+			$data['outNomeAluno'] ?? null,
+			$data['outNumAluno'] ?? null,
+			$data['outDataNascimento'] ?? null,
+			$data['outGrauNivel'] ?? null,
+			$data['outSerieNivel'] ?? null,
+			$data['outCodSitMatricula'] ?? null,
+			$data['outDescSitMatricula'] ?? null
+		);
+	}	
 }
