@@ -7,19 +7,25 @@ class OutAluno
 	public $outSiglaUFRA;
 	public $outNomeAluno;
 	public $outNomeMae;
+	public $outNomePai;
+	public $outDataNascimento;
 
 	public function __construct(
 		?string $outNumRA,
 		?string $outDigitoRA,
 		?string $outSiglaUFRA,
 		?string $outNomeAluno,
-		?string $outNomeMae
+		?string $outNomeMae,
+		?string $outNomePai,
+		?string $outDataNascimento
 	) {
 		$this->outNumRA = $outNumRA;
 		$this->outDigitoRA = $outDigitoRA;
 		$this->outSiglaUFRA = $outSiglaUFRA;
 		$this->outNomeAluno = $outNomeAluno;
 		$this->outNomeMae = $outNomeMae;
+		$this->outNomePai = $outNomePai;
+		$this->outDataNascimento = $outDataNascimento;
 	}
 
 	public function getOutNumRa(): ?string
@@ -45,6 +51,16 @@ class OutAluno
 	public function getOutNomeMae(): ?string
 	{
 		return $this->outNomeMae;
+	}
+
+	public function getOutNomePai(): ?string
+	{
+		return $this->outNomePai;
+	}
+
+	public function getOutDataNascimento(): ?string
+	{
+		return $this->outDataNascimento;
 	}
 
 	public function setOutNumRa(?string $outNumRA): self
@@ -77,12 +93,18 @@ class OutAluno
 		return $this;
 	}
 
+	public function setOutNomePai(?string $outNomePai): self
+	{
+		$this->outNomePai = $outNomePai;
+		return $this;
+	}
 
+	public function setOutDataNascimento(?string $outDataNascimento): self
+	{
+		$this->outDataNascimento = $outDataNascimento;
+		return $this;
+	}
 
-	/**
-	 * @param array $data
-	 * @return self
-	 */
 	public static function fromJson(array $data): self
 	{
 		return new self(
@@ -90,7 +112,9 @@ class OutAluno
 			$data['outDigitoRA'] ?? null,
 			$data['outSiglaUFRA'] ?? null,
 			$data['outNomeAluno'] ?? null,
-			$data['outNomeMae'] ?? null
+			$data['outNomeMae'] ?? null,
+			$data['outNomePai'] ?? null,
+			$data['outDataNascimento'] ?? null
 		);
-	}
+	}	
 }
