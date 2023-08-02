@@ -1455,9 +1455,8 @@ class ReportsController extends Controller
         //FUNDAMENTAL MENOR
         $arrFields = [":year" => $year, ":school" => Yii::app()->user->school];
         $conditions = " AND c.school_inep_fk = :school";
-        if (isset($_GET['id']) && $_GET['id'] != '') {
             $conditions .= " AND c.id = :id_classroom ";
-            $arrFields[':id_classroom'] = $_GET['id'];
+            $arrFields[':id_classroom'] = $_POST['classroom'];
             $criteria = new CDbCriteria;
             $criteria->alias = "c";
             $criteria->join = "join edcenso_stage_vs_modality svm on svm.id = c.edcenso_stage_vs_modality_fk";
@@ -1499,10 +1498,8 @@ class ReportsController extends Controller
             //FUNDAMENTAL MAIOR
             $arrFields = [":year" => $year, ":monthI" => $monthI, ":monthF" => $monthF, ":school" => Yii::app()->user->school];
             $conditions = " AND t.month >= :monthI AND t.month <= :monthF AND t.unavailable = 0 AND c.school_inep_fk = :school";
-            if (isset($_GET['id']) && !empty($_GET['id'])) {
-                $conditions .= " AND c.id = :id_classroom ";
-                $arrFields[':id_classroom'] = $_GET['id'];
-            }
+            $conditions .= " AND c.id = :id_classroom ";
+            $arrFields[':id_classroom'] = $_POST['classroom'];
 
             /* EXEMPLO
             select c.name classroom, si.name student, sd.nis nis, si.birthday, t.month, count(*) count , cf.faults
@@ -1561,9 +1558,6 @@ class ReportsController extends Controller
             $this->render('BFReport', array(
                 'reports' => $groupByClassroom,
             ));
-        }
-        Yii::app()->user->setFlash('error', Yii::t('default', 'Selecione ao menos uma opção'));
-        return $this->redirect(array('index'));
     }
 
 

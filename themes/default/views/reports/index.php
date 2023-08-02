@@ -638,14 +638,14 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Frequência Bolsa Família - Escolha a Turma</h4>
             </div>
-            <form class="form-vertical" action="" method="post">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/BFReport'); ?>" method="post" target="_blank">
                 <div class="modal-body">
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
                             echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
                             ?>
-                            <select name="classroom2" id="classroom2" placeholder="Selecione a turma" style="width:100%">
+                            <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
                                 echo "<option value='' selected>Selecione a turma</option>";
                                 foreach ($classrooms as $classroom) {
@@ -657,7 +657,7 @@ $this->breadcrumbs = array(
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                        <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('reports/BFReport'); ?>" type="button" value="Gerar" id="buildReportBF" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
+                        <button class="btn btn-primary" type="submit" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
                     </div>
             </form>
         </div>
@@ -1042,23 +1042,3 @@ $this->breadcrumbs = array(
     containerBoxOut.appendTo('.main');
     $('')
 </script>
-<?php
-
-$cs = Yii::app()->getClientScript();
-$cs->registerScript('buildReport', "  
-    $('#buildReport').on('click', function(event) {
-        var url = $(this).attr('url');
-        var id = $('#classroom').val();
-        $(this).attr('url', url + '&id='+ id);
-    });
-    registerAndOpenTab('#buildReport');", CClientScript::POS_END);
-
-$cs->registerScript('buildReportBF', "  
-    $('#buildReportBF').on('click', function(event) {
-        var url = $(this).attr('url');
-        var id = $('#classroom2').val();
-        $(this).attr('url', url + '&id='+ id);
-    });
-    registerAndOpenTab('#buildReportBF');", CClientScript::POS_END);
-
-?>
