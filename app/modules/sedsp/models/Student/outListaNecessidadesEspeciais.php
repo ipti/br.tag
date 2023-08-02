@@ -5,45 +5,43 @@ class OutListaNecessidadesEspeciais
 	public $outCodNecesEspecial;
 	public $outNomeNecesEspecial;
 
-	public function __construct(string $outCodNecesEspecial, string $outNomeNecesEspecial)
+	public function __construct(?string $outCodNecesEspecial, ?string $outNomeNecesEspecial)
 	{
 		$this->outCodNecesEspecial = $outCodNecesEspecial;
 		$this->outNomeNecesEspecial = $outNomeNecesEspecial;
 	}
 
-	/**
-	 * Get the value of outCodNecesEspecial
-	 */
-	public function getOutCodNecesEspecial()
+	public function getOutCodNecesEspecial(): ?string
 	{
 		return $this->outCodNecesEspecial;
 	}
 
-	/**
-	 * Set the value of outCodNecesEspecial
-	 */
-	public function setOutCodNecesEspecial($outCodNecesEspecial): self
-	{
-		$this->outCodNecesEspecial = $outCodNecesEspecial;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNomeNecesEspecial
-	 */
-	public function getOutNomeNecesEspecial()
+	public function getOutNomeNecesEspecial(): ?string
 	{
 		return $this->outNomeNecesEspecial;
 	}
 
-	/**
-	 * Set the value of outNomeNecesEspecial
-	 */
-	public function setOutNomeNecesEspecial($outNomeNecesEspecial): self
+	public function setOutCodNecesEspecial(?string $outCodNecesEspecial): self
+	{
+		$this->outCodNecesEspecial = $outCodNecesEspecial;
+		return $this;
+	}
+
+	public function setOutNomeNecesEspecial(?string $outNomeNecesEspecial): self
 	{
 		$this->outNomeNecesEspecial = $outNomeNecesEspecial;
-
 		return $this;
+	}
+
+	/**
+	 * @param array $data
+	 * @return self
+	 */
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			$data['outCodNecesEspecial'] ?? null,
+			$data['outNomeNecesEspecial'] ?? null
+		);
 	}
 }
