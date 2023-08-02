@@ -664,35 +664,33 @@ $this->breadcrumbs = array(
     </div>
     
     <div class="row">
-        <div class="modal fade t-modal-container" id="studentswithdisabilitiesperclassroom" tabindex="-1" role="dialog">
-            <div class="t-modal__header">
-                <h4 class="t-title" id="myModalLabel">Selecione a turma</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <div class="modal fade modal-content" id="studentswithdisabilitiesperclassroom" tabindex="-1" role="dialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
                 </button>
+                <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
             </div>
             <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/studentswithdisabilitiesperclassroom'); ?>" method="post" target="_blank">
-                <div class="t-modal__body">
-                    <div class="t-field-select">
-                        <?php
-                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 't-field-select__label'));
-                        ?>
-                        <select name="classroom" id="classroom" class="t-field-select__input select2-container" placeholder="Selecione a turma">
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class=" span12">
                             <?php
-                            echo "<option value='' selected>Selecione a turma</option>";
-                            foreach ($classrooms as $classroom) {
-                                echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
-                            }
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 't-field-select__label'));
                             ?>
-                        </select>
+                            <select name="classroom" id="classroom" class="t-field-select__input select2-container" placeholder="Selecione a turma">
+                                <?php
+                                echo "<option value='' selected>Selecione a turma</option>";
+                                foreach ($classrooms as $classroom) {
+                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
                     </div>
-                    <div class="t-modal__footer row reverse">
-                        <div class="t-buttons-container justify-content--center">
-                            <button type="button" class="t-button-secondary" data-dismiss="modal" >Voltar</button>
-                        </div>
-                        <div class="t-buttons-container justify-content--center">
-                            <button class="t-button-primary clear-margin--right" type="submit"> Selecionar turma </button>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                        <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
                     </div>
                 </div>
             </form>
