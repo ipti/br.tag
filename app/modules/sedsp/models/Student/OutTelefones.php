@@ -10,12 +10,12 @@ class OutTelefones
 	public $outSMS;
 
 	public function __construct(
-		string $outDDDNumero,
-		string $outNumero,
-		string $outTipoTelefone,
-		string $outDescTipoTelefone,
-		string $outComplemento,
-		string $outSMS
+		?string $outDDDNumero,
+		?string $outNumero,
+		?string $outTipoTelefone,
+		?string $outDescTipoTelefone,
+		?string $outComplemento,
+		?string $outSMS
 	) {
 		$this->outDDDNumero = $outDDDNumero;
 		$this->outNumero = $outNumero;
@@ -25,111 +25,86 @@ class OutTelefones
 		$this->outSMS = $outSMS;
 	}
 
-	/**
-	 * Get the value of outDDDNumero
-	 */
-	public function getOutDDDNumero()
+	public function getOutDddNumero(): ?string
 	{
 		return $this->outDDDNumero;
 	}
 
-	/**
-	 * Set the value of outDDDNumero
-	 */
-	public function setOutDDDNumero($outDDDNumero): self
-	{
-		$this->outDDDNumero = $outDDDNumero;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNumero
-	 */
-	public function getOutNumero()
+	public function getOutNumero(): ?string
 	{
 		return $this->outNumero;
 	}
 
-	/**
-	 * Set the value of outNumero
-	 */
-	public function setOutNumero($outNumero): self
-	{
-		$this->outNumero = $outNumero;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outTipoTelefone
-	 */
-	public function getOutTipoTelefone()
+	public function getOutTipoTelefone(): ?string
 	{
 		return $this->outTipoTelefone;
 	}
 
-	/**
-	 * Set the value of outTipoTelefone
-	 */
-	public function setOutTipoTelefone($outTipoTelefone): self
-	{
-		$this->outTipoTelefone = $outTipoTelefone;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDescTipoTelefone
-	 */
-	public function getOutDescTipoTelefone()
+	public function getOutDescTipoTelefone(): ?string
 	{
 		return $this->outDescTipoTelefone;
 	}
 
-	/**
-	 * Set the value of outDescTipoTelefone
-	 */
-	public function setOutDescTipoTelefone($outDescTipoTelefone): self
-	{
-		$this->outDescTipoTelefone = $outDescTipoTelefone;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outComplemento
-	 */
-	public function getOutComplemento()
+	public function getOutComplemento(): ?string
 	{
 		return $this->outComplemento;
 	}
 
-	/**
-	 * Set the value of outComplemento
-	 */
-	public function setOutComplemento($outComplemento): self
-	{
-		$this->outComplemento = $outComplemento;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outSMS
-	 */
-	public function getOutSMS()
+	public function getOutSms(): ?string
 	{
 		return $this->outSMS;
 	}
 
-	/**
-	 * Set the value of outSMS
-	 */
-	public function setOutSMS($outSMS): self
+	public function setOutDddNumero(?string $outDDDNumero): self
 	{
-		$this->outSMS = $outSMS;
-
+		$this->outDDDNumero = $outDDDNumero;
 		return $this;
 	}
+
+	public function setOutNumero(?string $outNumero): self
+	{
+		$this->outNumero = $outNumero;
+		return $this;
+	}
+
+	public function setOutTipoTelefone(?string $outTipoTelefone): self
+	{
+		$this->outTipoTelefone = $outTipoTelefone;
+		return $this;
+	}
+
+	public function setOutDescTipoTelefone(?string $outDescTipoTelefone): self
+	{
+		$this->outDescTipoTelefone = $outDescTipoTelefone;
+		return $this;
+	}
+
+	public function setOutComplemento(?string $outComplemento): self
+	{
+		$this->outComplemento = $outComplemento;
+		return $this;
+	}
+
+	public function setOutSms(?string $outSMS): self
+	{
+		$this->outSMS = $outSMS;
+		return $this;
+	}
+
+	/**
+	 * Summary of fromJson
+	 * @param array $data
+	 * @return OutTelefones
+	 */
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			$data['outDDDNumero'] ?? null,
+			$data['outNumero'] ?? null,
+			$data['outTipoTelefone'] ?? null,
+			$data['outDescTipoTelefone'] ?? null,
+			$data['outComplemento'] ?? null,
+			$data['outSMS'] ?? null
+		);
+	}	
 }
