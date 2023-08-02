@@ -10,12 +10,12 @@ class OutCertidaoAntiga
 	public $outDistritoNasc;
 
 	public function __construct(
-		string $outNumCertidao,
-		string $outNumLivroReg,
-		string $outFolhaRegNum,
-		string $outNomeMunComarca,
-		string $outUFComarca,
-		string $outDistritoNasc
+		?string $outNumCertidao,
+		?string $outNumLivroReg,
+		?string $outFolhaRegNum,
+		?string $outNomeMunComarca,
+		?string $outUFComarca,
+		?string $outDistritoNasc
 	) {
 		$this->outNumCertidao = $outNumCertidao;
 		$this->outNumLivroReg = $outNumLivroReg;
@@ -25,111 +25,86 @@ class OutCertidaoAntiga
 		$this->outDistritoNasc = $outDistritoNasc;
 	}
 
-	/**
-	 * Get the value of outNumCertidao
-	 */
-	public function getOutNumCertidao()
+	public function getOutNumCertidao(): ?string
 	{
 		return $this->outNumCertidao;
 	}
 
-	/**
-	 * Set the value of outNumCertidao
-	 */
-	public function setOutNumCertidao($outNumCertidao): self
-	{
-		$this->outNumCertidao = $outNumCertidao;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNumLivroReg
-	 */
-	public function getOutNumLivroReg()
+	public function getOutNumLivroReg(): ?string
 	{
 		return $this->outNumLivroReg;
 	}
 
-	/**
-	 * Set the value of outNumLivroReg
-	 */
-	public function setOutNumLivroReg($outNumLivroReg): self
-	{
-		$this->outNumLivroReg = $outNumLivroReg;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outFolhaRegNum
-	 */
-	public function getOutFolhaRegNum()
+	public function getOutFolhaRegNum(): ?string
 	{
 		return $this->outFolhaRegNum;
 	}
 
-	/**
-	 * Set the value of outFolhaRegNum
-	 */
-	public function setOutFolhaRegNum($outFolhaRegNum): self
-	{
-		$this->outFolhaRegNum = $outFolhaRegNum;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNomeMunComarca
-	 */
-	public function getOutNomeMunComarca()
+	public function getOutNomeMunComarca(): ?string
 	{
 		return $this->outNomeMunComarca;
 	}
 
-	/**
-	 * Set the value of outNomeMunComarca
-	 */
-	public function setOutNomeMunComarca($outNomeMunComarca): self
-	{
-		$this->outNomeMunComarca = $outNomeMunComarca;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outUFComarca
-	 */
-	public function getOutUFComarca()
+	public function getOutUfComarca(): ?string
 	{
 		return $this->outUFComarca;
 	}
 
-	/**
-	 * Set the value of outUFComarca
-	 */
-	public function setOutUFComarca($outUFComarca): self
-	{
-		$this->outUFComarca = $outUFComarca;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDistritoNasc
-	 */
-	public function getOutDistritoNasc()
+	public function getOutDistritoNasc(): ?string
 	{
 		return $this->outDistritoNasc;
 	}
 
-	/**
-	 * Set the value of outDistritoNasc
-	 */
-	public function setOutDistritoNasc($outDistritoNasc): self
+	public function setOutNumCertidao(?string $outNumCertidao): self
 	{
-		$this->outDistritoNasc = $outDistritoNasc;
-
+		$this->outNumCertidao = $outNumCertidao;
 		return $this;
 	}
+
+	public function setOutNumLivroReg(?string $outNumLivroReg): self
+	{
+		$this->outNumLivroReg = $outNumLivroReg;
+		return $this;
+	}
+
+	public function setOutFolhaRegNum(?string $outFolhaRegNum): self
+	{
+		$this->outFolhaRegNum = $outFolhaRegNum;
+		return $this;
+	}
+
+	public function setOutNomeMunComarca(?string $outNomeMunComarca): self
+	{
+		$this->outNomeMunComarca = $outNomeMunComarca;
+		return $this;
+	}
+
+	public function setOutUfComarca(?string $outUFComarca): self
+	{
+		$this->outUFComarca = $outUFComarca;
+		return $this;
+	}
+
+	public function setOutDistritoNasc(?string $outDistritoNasc): self
+	{
+		$this->outDistritoNasc = $outDistritoNasc;
+		return $this;
+	}
+
+ /**
+  * Summary of fromJson
+  * @param array $data
+  * @return self
+  */
+	public static function fromJson(array $data): self
+    {
+        return new self(
+            $data['outNumCertidao'] ?? null,
+            $data['outNumLivroReg'] ?? null,
+            $data['outFolhaRegNum'] ?? null,
+            $data['outNomeMunComarca'] ?? null,
+            $data['outUFComarca'] ?? null,
+            $data['outDistritoNasc'] ?? null
+        );
+    }
 }
