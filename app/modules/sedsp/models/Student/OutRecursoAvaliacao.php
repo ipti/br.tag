@@ -2,7 +2,7 @@
 
 class OutRecursoAvaliacao
 {
-    public $outGuiaInterprete;
+	public $outGuiaInterprete;
 	public $outInterpreteLibras;
 	public $outLeituraLabial;
 	public $outNenhum;
@@ -16,18 +16,18 @@ class OutRecursoAvaliacao
 	public $outProvaLinguaPortuguesa;
 
 	public function __construct(
-		string $outGuiaInterprete,
-		string $outInterpreteLibras,
-		string $outLeituraLabial,
-		string $outNenhum,
-		string $outProvaAmpliada,
-		string $outTamanhoFonte,
-		string $outProvaBraile,
-		string $outAuxilioTranscricao,
-		string $outAuxilioLeitor,
-		string $outProvaVideoLibras,
-		string $outCdAudioDefVisual,
-		string $outProvaLinguaPortuguesa
+		?string $outGuiaInterprete,
+		?string $outInterpreteLibras,
+		?string $outLeituraLabial,
+		?string $outNenhum,
+		?string $outProvaAmpliada,
+		?string $outTamanhoFonte,
+		?string $outProvaBraile,
+		?string $outAuxilioTranscricao,
+		?string $outAuxilioLeitor,
+		?string $outProvaVideoLibras,
+		?string $outCdAudioDefVisual,
+		?string $outProvaLinguaPortuguesa
 	) {
 		$this->outGuiaInterprete = $outGuiaInterprete;
 		$this->outInterpreteLibras = $outInterpreteLibras;
@@ -43,219 +43,157 @@ class OutRecursoAvaliacao
 		$this->outProvaLinguaPortuguesa = $outProvaLinguaPortuguesa;
 	}
 
-    /**
-     * Get the value of outGuiaInterprete
-     */
-    public function getOutGuiaInterprete()
-    {
-        return $this->outGuiaInterprete;
-    }
+	public function getOutGuiaInterprete(): ?string
+	{
+		return $this->outGuiaInterprete;
+	}
 
-    /**
-     * Set the value of outGuiaInterprete
-     */
-    public function setOutGuiaInterprete($outGuiaInterprete): self
-    {
-        $this->outGuiaInterprete = $outGuiaInterprete;
-
-        return $this;
-    }
-
-	/**
-	 * Get the value of outInterpreteLibras
-	 */
-	public function getOutInterpreteLibras()
+	public function getOutInterpreteLibras(): ?string
 	{
 		return $this->outInterpreteLibras;
 	}
 
-	/**
-	 * Set the value of outInterpreteLibras
-	 */
-	public function setOutInterpreteLibras($outInterpreteLibras): self
-	{
-		$this->outInterpreteLibras = $outInterpreteLibras;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outLeituraLabial
-	 */
-	public function getOutLeituraLabial()
+	public function getOutLeituraLabial(): ?string
 	{
 		return $this->outLeituraLabial;
 	}
 
-	/**
-	 * Set the value of outLeituraLabial
-	 */
-	public function setOutLeituraLabial($outLeituraLabial): self
-	{
-		$this->outLeituraLabial = $outLeituraLabial;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNenhum
-	 */
-	public function getOutNenhum()
+	public function getOutNenhum(): ?string
 	{
 		return $this->outNenhum;
 	}
 
-	/**
-	 * Set the value of outNenhum
-	 */
-	public function setOutNenhum($outNenhum): self
-	{
-		$this->outNenhum = $outNenhum;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outProvaAmpliada
-	 */
-	public function getOutProvaAmpliada()
+	public function getOutProvaAmpliada(): ?string
 	{
 		return $this->outProvaAmpliada;
 	}
 
-	/**
-	 * Set the value of outProvaAmpliada
-	 */
-	public function setOutProvaAmpliada($outProvaAmpliada): self
-	{
-		$this->outProvaAmpliada = $outProvaAmpliada;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outTamanhoFonte
-	 */
-	public function getOutTamanhoFonte()
+	public function getOutTamanhoFonte(): ?string
 	{
 		return $this->outTamanhoFonte;
 	}
 
-	/**
-	 * Set the value of outTamanhoFonte
-	 */
-	public function setOutTamanhoFonte($outTamanhoFonte): self
-	{
-		$this->outTamanhoFonte = $outTamanhoFonte;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outProvaBraile
-	 */
-	public function getOutProvaBraile()
+	public function getOutProvaBraile(): ?string
 	{
 		return $this->outProvaBraile;
 	}
 
-	/**
-	 * Set the value of outProvaBraile
-	 */
-	public function setOutProvaBraile($outProvaBraile): self
-	{
-		$this->outProvaBraile = $outProvaBraile;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outAuxilioTranscricao
-	 */
-	public function getOutAuxilioTranscricao()
+	public function getOutAuxilioTranscricao(): ?string
 	{
 		return $this->outAuxilioTranscricao;
 	}
 
-	/**
-	 * Set the value of outAuxilioTranscricao
-	 */
-	public function setOutAuxilioTranscricao($outAuxilioTranscricao): self
-	{
-		$this->outAuxilioTranscricao = $outAuxilioTranscricao;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outAuxilioLeitor
-	 */
-	public function getOutAuxilioLeitor()
+	public function getOutAuxilioLeitor(): ?string
 	{
 		return $this->outAuxilioLeitor;
 	}
 
-	/**
-	 * Set the value of outAuxilioLeitor
-	 */
-	public function setOutAuxilioLeitor($outAuxilioLeitor): self
-	{
-		$this->outAuxilioLeitor = $outAuxilioLeitor;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outProvaVideoLibras
-	 */
-	public function getOutProvaVideoLibras()
+	public function getOutProvaVideoLibras(): ?string
 	{
 		return $this->outProvaVideoLibras;
 	}
 
-	/**
-	 * Set the value of outProvaVideoLibras
-	 */
-	public function setOutProvaVideoLibras($outProvaVideoLibras): self
-	{
-		$this->outProvaVideoLibras = $outProvaVideoLibras;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCdAudioDefVisual
-	 */
-	public function getOutCdAudioDefVisual()
+	public function getOutCdAudioDefVisual(): ?string
 	{
 		return $this->outCdAudioDefVisual;
 	}
 
-	/**
-	 * Set the value of outCdAudioDefVisual
-	 */
-	public function setOutCdAudioDefVisual($outCdAudioDefVisual): self
-	{
-		$this->outCdAudioDefVisual = $outCdAudioDefVisual;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outProvaLinguaPortuguesa
-	 */
-	public function getOutProvaLinguaPortuguesa()
+	public function getOutProvaLinguaPortuguesa(): ?string
 	{
 		return $this->outProvaLinguaPortuguesa;
 	}
 
-	/**
-	 * Set the value of outProvaLinguaPortuguesa
-	 */
-	public function setOutProvaLinguaPortuguesa($outProvaLinguaPortuguesa): self
+	public function setOutGuiaInterprete(?string $outGuiaInterprete): self
+	{
+		$this->outGuiaInterprete = $outGuiaInterprete;
+		return $this;
+	}
+
+	public function setOutInterpreteLibras(?string $outInterpreteLibras): self
+	{
+		$this->outInterpreteLibras = $outInterpreteLibras;
+		return $this;
+	}
+
+	public function setOutLeituraLabial(?string $outLeituraLabial): self
+	{
+		$this->outLeituraLabial = $outLeituraLabial;
+		return $this;
+	}
+
+	public function setOutNenhum(?string $outNenhum): self
+	{
+		$this->outNenhum = $outNenhum;
+		return $this;
+	}
+
+	public function setOutProvaAmpliada(?string $outProvaAmpliada): self
+	{
+		$this->outProvaAmpliada = $outProvaAmpliada;
+		return $this;
+	}
+
+	public function setOutTamanhoFonte(?string $outTamanhoFonte): self
+	{
+		$this->outTamanhoFonte = $outTamanhoFonte;
+		return $this;
+	}
+
+	public function setOutProvaBraile(?string $outProvaBraile): self
+	{
+		$this->outProvaBraile = $outProvaBraile;
+		return $this;
+	}
+
+	public function setOutAuxilioTranscricao(?string $outAuxilioTranscricao): self
+	{
+		$this->outAuxilioTranscricao = $outAuxilioTranscricao;
+		return $this;
+	}
+
+	public function setOutAuxilioLeitor(?string $outAuxilioLeitor): self
+	{
+		$this->outAuxilioLeitor = $outAuxilioLeitor;
+		return $this;
+	}
+
+	public function setOutProvaVideoLibras(?string $outProvaVideoLibras): self
+	{
+		$this->outProvaVideoLibras = $outProvaVideoLibras;
+		return $this;
+	}
+
+	public function setOutCdAudioDefVisual(?string $outCdAudioDefVisual): self
+	{
+		$this->outCdAudioDefVisual = $outCdAudioDefVisual;
+		return $this;
+	}
+
+	public function setOutProvaLinguaPortuguesa(?string $outProvaLinguaPortuguesa): self
 	{
 		$this->outProvaLinguaPortuguesa = $outProvaLinguaPortuguesa;
-
 		return $this;
+	}
+
+	/**
+	 * @param array $data
+	 * @return self
+	 */
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			$data['outGuiaInterprete'] ?? null,
+			$data['outInterpreteLibras'] ?? null,
+			$data['outLeituraLabial'] ?? null,
+			$data['outNenhum'] ?? null,
+			$data['outProvaAmpliada'] ?? null,
+			$data['outTamanhoFonte'] ?? null,
+			$data['outProvaBraile'] ?? null,
+			$data['outAuxilioTranscricao'] ?? null,
+			$data['outAuxilioLeitor'] ?? null,
+			$data['outProvaVideoLibras'] ?? null,
+			$data['outCdAudioDefVisual'] ?? null,
+			$data['outProvaLinguaPortuguesa'] ?? null
+		);
 	}
 }
