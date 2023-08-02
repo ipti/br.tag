@@ -75,10 +75,6 @@
         max-width: 50%;
     }
 
-    &.width-1{
-        flex-basis: 453px;
-    }
-
     &.is-half {
         @include device(mobile) {
             max-width: 50%;
