@@ -4,70 +4,18 @@
 class InAluno implements JsonSerializable
 {
     public $inNumRA;
+	public $inDigitoRA;
+	public $inSiglaUFRA;
 
-    public $inDigitoRA;
-
-    public $inSiglaUFRA;
-
-    /**
-     * @param string $inNumRA
-     * @param string $inDigitoRA
-     * @param string $inSiglaUFRA
-     */
-    public function __construct(
-        string $inNumRA,
-        string $inDigitoRA,
-        string $inSiglaUFRA
-    ) {
-        $this->inNumRA = $inNumRA;
-        $this->inDigitoRA = $inDigitoRA;
-        $this->inSiglaUFRA = $inSiglaUFRA;
-    }
-
-    /**
-     * @param string $inNumRA
-     * @return self
-     */
-    public function setInNumRa(string $inNumRA): self
-    {
-        $this->inNumRA = $inNumRA;
-        return $this;
-    }
-
-    function getInNumRA(): string
-    {
-        return $this->inNumRA;
-    }
-
-    /**
-     * @param string $inDigitoRA
-     * @return self
-     */
-    public function setInDigitoRa(string $inDigitoRA): self
-    {
-        $this->inDigitoRA = $inDigitoRA;
-        return $this;
-    }
-
-    function getInDigitoRA() : string
-    {
-        return $this->inDigitoRA;
-    }
-
-    /**
-     * @param string $inSiglaUFRA
-     * @return self
-     */
-    public function setInSiglaUfra(?string $inSiglaUFRA): self
-    {
-        $this->inSiglaUFRA = $inSiglaUFRA;
-        return $this;
-    }
-
-    public function getInSiglaUFRA() : string  
-    {
-        return $this->inSiglaUFRA;
-    }
+	public function __construct(
+		string $inNumRA,
+		string $inDigitoRA,
+		string $inSiglaUFRA
+	) {
+		$this->inNumRA = $inNumRA;
+		$this->inDigitoRA = $inDigitoRA;
+		$this->inSiglaUFRA = $inSiglaUFRA;
+	}
 
     function jsonSerialize()
     {
@@ -77,4 +25,59 @@ class InAluno implements JsonSerializable
 
         return $filteredProps;
     }
+
+    /**
+     * Get the value of inNumRA
+     */
+    public function getInNumRA()
+    {
+        return $this->inNumRA;
+    }
+
+    /**
+     * Set the value of inNumRA
+     */
+    public function setInNumRA($inNumRA): self
+    {
+        $this->inNumRA = $inNumRA;
+
+        return $this;
+    }
+
+	/**
+	 * Get the value of inDigitoRA
+	 */
+	public function getInDigitoRA()
+	{
+		return $this->inDigitoRA;
+	}
+
+	/**
+	 * Set the value of inDigitoRA
+	 */
+	public function setInDigitoRA($inDigitoRA): self
+	{
+		$this->inDigitoRA = $inDigitoRA;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of inSiglaUFRA
+	 */
+	public function getInSiglaUFRA()
+	{
+		return $this->inSiglaUFRA;
+	}
+
+	/**
+	 * Set the value of inSiglaUFRA
+	 */
+	public function setInSiglaUFRA($inSiglaUFRA): self
+	{
+		$this->inSiglaUFRA = $inSiglaUFRA;
+
+		return $this;
+	}
+	
 }
