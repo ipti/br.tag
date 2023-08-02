@@ -9,11 +9,11 @@ class OutAluno
 	public $outNomeMae;
 
 	public function __construct(
-		string $outNumRA,
-		string $outDigitoRA,
-		string $outSiglaUFRA,
-		string $outNomeAluno,
-		string $outNomeMae
+		?string $outNumRA,
+		?string $outDigitoRA,
+		?string $outSiglaUFRA,
+		?string $outNomeAluno,
+		?string $outNomeMae
 	) {
 		$this->outNumRA = $outNumRA;
 		$this->outDigitoRA = $outDigitoRA;
@@ -22,93 +22,75 @@ class OutAluno
 		$this->outNomeMae = $outNomeMae;
 	}
 
-	/**
-	 * Get the value of outNumRA
-	 */
-	public function getOutNumRA()
+	public function getOutNumRa(): ?string
 	{
 		return $this->outNumRA;
 	}
 
-	/**
-	 * Set the value of outNumRA
-	 */
-	public function setOutNumRA($outNumRA): self
-	{
-		$this->outNumRA = $outNumRA;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDigitoRA
-	 */
-	public function getOutDigitoRA()
+	public function getOutDigitoRa(): ?string
 	{
 		return $this->outDigitoRA;
 	}
 
-	/**
-	 * Set the value of outDigitoRA
-	 */
-	public function setOutDigitoRA($outDigitoRA): self
-	{
-		$this->outDigitoRA = $outDigitoRA;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outSiglaUFRA
-	 */
-	public function getOutSiglaUFRA()
+	public function getOutSiglaUfra(): ?string
 	{
 		return $this->outSiglaUFRA;
 	}
 
-	/**
-	 * Set the value of outSiglaUFRA
-	 */
-	public function setOutSiglaUFRA($outSiglaUFRA): self
-	{
-		$this->outSiglaUFRA = $outSiglaUFRA;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNomeAluno
-	 */
-	public function getOutNomeAluno()
+	public function getOutNomeAluno(): ?string
 	{
 		return $this->outNomeAluno;
 	}
 
-	/**
-	 * Set the value of outNomeAluno
-	 */
-	public function setOutNomeAluno($outNomeAluno): self
-	{
-		$this->outNomeAluno = $outNomeAluno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNomeMae
-	 */
-	public function getOutNomeMae()
+	public function getOutNomeMae(): ?string
 	{
 		return $this->outNomeMae;
 	}
 
-	/**
-	 * Set the value of outNomeMae
-	 */
-	public function setOutNomeMae($outNomeMae): self
+	public function setOutNumRa(?string $outNumRA): self
+	{
+		$this->outNumRA = $outNumRA;
+		return $this;
+	}
+
+	public function setOutDigitoRa(?string $outDigitoRA): self
+	{
+		$this->outDigitoRA = $outDigitoRA;
+		return $this;
+	}
+
+	public function setOutSiglaUfra(?string $outSiglaUFRA): self
+	{
+		$this->outSiglaUFRA = $outSiglaUFRA;
+		return $this;
+	}
+
+	public function setOutNomeAluno(?string $outNomeAluno): self
+	{
+		$this->outNomeAluno = $outNomeAluno;
+		return $this;
+	}
+
+	public function setOutNomeMae(?string $outNomeMae): self
 	{
 		$this->outNomeMae = $outNomeMae;
-
 		return $this;
+	}
+
+
+
+	/**
+	 * @param array $data
+	 * @return self
+	 */
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			$data['outNumRA'] ?? null,
+			$data['outDigitoRA'] ?? null,
+			$data['outSiglaUFRA'] ?? null,
+			$data['outNomeAluno'] ?? null,
+			$data['outNomeMae'] ?? null
+		);
 	}
 }
