@@ -2,54 +2,134 @@
 
 class OutDeficiencia
 {
-	private $outMobilidadeReduzida;
-    private $outTipoMobilidadeReduzida;
-    private $outCuidador;
-    private $outTipoCuidador;
-    private $outProfSaude;
-    private $outTipoProfSaude;
+	public $outMobilidadeReduzida;
+	public $outDescMobilidadeReduzida;
+	public $outCuidador;
+	public $outDescCuidador;
+	public $outProfSaude;
+	public $outDescProfSaude;
+
+	public function __construct(
+		string $outMobilidadeReduzida,
+		string $outDescMobilidadeReduzida,
+		string $outCuidador,
+		string $outDescCuidador,
+		string $outProfSaude,
+		string $outDescProfSaude
+	) {
+		$this->outMobilidadeReduzida = $outMobilidadeReduzida;
+		$this->outDescMobilidadeReduzida = $outDescMobilidadeReduzida;
+		$this->outCuidador = $outCuidador;
+		$this->outDescCuidador = $outDescCuidador;
+		$this->outProfSaude = $outProfSaude;
+		$this->outDescProfSaude = $outDescProfSaude;
+	}
 
 	/**
-	 * Summary of __construct
-	 * @param OutDeficiencia $deficiencia
+	 * Get the value of outMobilidadeReduzida
 	 */
-	public function __construct($deficiencia) {
-		$this->outMobilidadeReduzida = $deficiencia->outMobilidadeReduzida;
-		$this->outTipoMobilidadeReduzida = $deficiencia->outTipoMobilidadeReduzida;
-		$this->outCuidador = $deficiencia->outCuidador;
-		$this->outTipoCuidador = $deficiencia->outTipoCuidador;
-		$this->outProfSaude = $deficiencia->outProfSaude;
-		$this->outTipoProfSaude = $deficiencia->outTipoProfSaude;
-	}
-	
-
-	public function getOutMobilidadeReduzida(): string
+	public function getOutMobilidadeReduzida()
 	{
 		return $this->outMobilidadeReduzida;
 	}
 
-	public function getOutTipoMobilidadeReduzida(): string
+	/**
+	 * Set the value of outMobilidadeReduzida
+	 */
+	public function setOutMobilidadeReduzida($outMobilidadeReduzida): self
 	{
-		return $this->outTipoMobilidadeReduzida;
+		$this->outMobilidadeReduzida = $outMobilidadeReduzida;
+
+		return $this;
 	}
 
-	public function getOutCuidador(): string
+	/**
+	 * Get the value of outDescMobilidadeReduzida
+	 */
+	public function getOutDescMobilidadeReduzida()
+	{
+		return $this->outDescMobilidadeReduzida;
+	}
+
+	/**
+	 * Set the value of outDescMobilidadeReduzida
+	 */
+	public function setOutDescMobilidadeReduzida($outDescMobilidadeReduzida): self
+	{
+		$this->outDescMobilidadeReduzida = $outDescMobilidadeReduzida;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outCuidador
+	 */
+	public function getOutCuidador()
 	{
 		return $this->outCuidador;
 	}
 
-	public function getOutTipoCuidador(): string
+	/**
+	 * Set the value of outCuidador
+	 */
+	public function setOutCuidador($outCuidador): self
 	{
-		return $this->outTipoCuidador;
+		$this->outCuidador = $outCuidador;
+
+		return $this;
 	}
 
-	public function getOutProfSaude(): string
+	/**
+	 * Get the value of outDescCuidador
+	 */
+	public function getOutDescCuidador()
+	{
+		return $this->outDescCuidador;
+	}
+
+	/**
+	 * Set the value of outDescCuidador
+	 */
+	public function setOutDescCuidador($outDescCuidador): self
+	{
+		$this->outDescCuidador = $outDescCuidador;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outProfSaude
+	 */
+	public function getOutProfSaude()
 	{
 		return $this->outProfSaude;
 	}
 
-	public function getOutTipoProfSaude(): string
+	/**
+	 * Set the value of outProfSaude
+	 */
+	public function setOutProfSaude($outProfSaude): self
 	{
-		return $this->outTipoProfSaude;
+		$this->outProfSaude = $outProfSaude;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of outDescProfSaude
+	 */
+	public function getOutDescProfSaude()
+	{
+		return $this->outDescProfSaude;
+	}
+
+	/**
+	 * Set the value of outDescProfSaude
+	 */
+	public function setOutDescProfSaude($outDescProfSaude): self
+	{
+		$this->outDescProfSaude = $outDescProfSaude;
+
+		return $this;
 	}
 }
