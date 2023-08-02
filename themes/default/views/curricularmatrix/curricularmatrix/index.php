@@ -22,7 +22,7 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
 <div class="main">
     <div class="row-fluid">
         <div class="span12">
-            <h1><?= yii::t('curricularMatrixModule.index', 'Curricular Matrix') ?></h1>
+            <h1 style="margin:0 35px"><?= yii::t('curricularMatrixModule.index', 'Curricular Matrix') ?></h1>
         </div>
     </div>
     <div class="column">
