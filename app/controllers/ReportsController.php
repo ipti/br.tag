@@ -947,14 +947,17 @@ class ReportsController extends Controller
 
     public function actionStudentPerClassroom()
     {
-        $id = $_POST['classroom'];
+        $classroom_id = $_POST['classroom'];
         $this->layout = "reports";
         $sql = "SELECT * FROM classroom_enrollment
-                    where `year`  = " . $this->year . ""
-            . " AND classroom_id = $id"
+                    where `year`  = :year"
+            . " AND classroom_id = :classroom_id"
             . " AND (status = 1 OR status IS NULL) ORDER BY name;";
 
-        $result = Yii::app()->db->createCommand($sql)->queryAll();
+        $result = Yii::app()->db->createCommand($sql)
+                ->bindParam(':year', $this->year)
+                ->bindParam(':classroom_id', $classroom_id)
+                ->queryAll();
 
         $classroom = Classroom::model()->findByPk($id);
 
