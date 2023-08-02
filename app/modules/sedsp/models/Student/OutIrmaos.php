@@ -10,12 +10,12 @@ class OutIrmaos
 	public $outGemeo;
 
 	public function __construct(
-		string $outNomeAluno,
-		string $outDataNascimento,
-		string $outNumRA,
-		string $outDigitoRA,
-		string $outSiglaUFRA,
-		string $outGemeo
+		?string $outNomeAluno,
+		?string $outDataNascimento,
+		?string $outNumRA,
+		?string $outDigitoRA,
+		?string $outSiglaUFRA,
+		?string $outGemeo
 	) {
 		$this->outNomeAluno = $outNomeAluno;
 		$this->outDataNascimento = $outDataNascimento;
@@ -25,111 +25,86 @@ class OutIrmaos
 		$this->outGemeo = $outGemeo;
 	}
 
-	/**
-	 * Get the value of outNomeAluno
-	 */
-	public function getOutNomeAluno()
+	public function getOutNomeAluno(): ?string
 	{
 		return $this->outNomeAluno;
 	}
 
-	/**
-	 * Set the value of outNomeAluno
-	 */
-	public function setOutNomeAluno($outNomeAluno): self
-	{
-		$this->outNomeAluno = $outNomeAluno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDataNascimento
-	 */
-	public function getOutDataNascimento()
+	public function getOutDataNascimento(): ?string
 	{
 		return $this->outDataNascimento;
 	}
 
-	/**
-	 * Set the value of outDataNascimento
-	 */
-	public function setOutDataNascimento($outDataNascimento): self
-	{
-		$this->outDataNascimento = $outDataNascimento;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNumRA
-	 */
-	public function getOutNumRA()
+	public function getOutNumRa(): ?string
 	{
 		return $this->outNumRA;
 	}
 
-	/**
-	 * Set the value of outNumRA
-	 */
-	public function setOutNumRA($outNumRA): self
-	{
-		$this->outNumRA = $outNumRA;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDigitoRA
-	 */
-	public function getOutDigitoRA()
+	public function getOutDigitoRa(): ?string
 	{
 		return $this->outDigitoRA;
 	}
 
-	/**
-	 * Set the value of outDigitoRA
-	 */
-	public function setOutDigitoRA($outDigitoRA): self
-	{
-		$this->outDigitoRA = $outDigitoRA;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outSiglaUFRA
-	 */
-	public function getOutSiglaUFRA()
+	public function getOutSiglaUfra(): ?string
 	{
 		return $this->outSiglaUFRA;
 	}
 
-	/**
-	 * Set the value of outSiglaUFRA
-	 */
-	public function setOutSiglaUFRA($outSiglaUFRA): self
-	{
-		$this->outSiglaUFRA = $outSiglaUFRA;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outGemeo
-	 */
-	public function getOutGemeo()
+	public function getOutGemeo(): ?string
 	{
 		return $this->outGemeo;
 	}
 
-	/**
-	 * Set the value of outGemeo
-	 */
-	public function setOutGemeo($outGemeo): self
+	public function setOutNomeAluno(?string $outNomeAluno): self
 	{
-		$this->outGemeo = $outGemeo;
-
+		$this->outNomeAluno = $outNomeAluno;
 		return $this;
 	}
+
+	public function setOutDataNascimento(?string $outDataNascimento): self
+	{
+		$this->outDataNascimento = $outDataNascimento;
+		return $this;
+	}
+
+	public function setOutNumRa(?string $outNumRA): self
+	{
+		$this->outNumRA = $outNumRA;
+		return $this;
+	}
+
+	public function setOutDigitoRa(?string $outDigitoRA): self
+	{
+		$this->outDigitoRA = $outDigitoRA;
+		return $this;
+	}
+
+	public function setOutSiglaUfra(?string $outSiglaUFRA): self
+	{
+		$this->outSiglaUFRA = $outSiglaUFRA;
+		return $this;
+	}
+
+	public function setOutGemeo(?string $outGemeo): self
+	{
+		$this->outGemeo = $outGemeo;
+		return $this;
+	}
+
+ /**
+  * Summary of fromJson
+  * @param array $data
+  * @return OutIrmaos
+  */
+	public static function fromJson(array $data): self
+    {
+        return new self(
+            $data['outNomeAluno'] ?? null,
+            $data['outDataNascimento'] ?? null,
+            $data['outNumRA'] ?? null,
+            $data['outDigitoRA'] ?? null,
+            $data['outSiglaUFRA'] ?? null,
+            $data['outGemeo'] ?? null
+        );
+    }
 }
