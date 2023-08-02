@@ -11,13 +11,13 @@ class OutEnderecoIndicativo
 	public $outCep;
 
 	public function __construct(
-		string $outLogradouro,
-		string $outNumero,
-		string $outBairro,
-		string $outNomeCidade,
-		string $outLatitude,
-		string $outLongitude,
-		string $outCep
+		?string $outLogradouro,
+		?string $outNumero,
+		?string $outBairro,
+		?string $outNomeCidade,
+		?string $outLatitude,
+		?string $outLongitude,
+		?string $outCep
 	) {
 		$this->outLogradouro = $outLogradouro;
 		$this->outNumero = $outNumero;
@@ -28,129 +28,97 @@ class OutEnderecoIndicativo
 		$this->outCep = $outCep;
 	}
 
-	/**
-	 * Get the value of outLogradouro
-	 */
-	public function getOutLogradouro()
+	public function getOutLogradouro(): ?string
 	{
 		return $this->outLogradouro;
 	}
 
-	/**
-	 * Set the value of outLogradouro
-	 */
-	public function setOutLogradouro($outLogradouro): self
-	{
-		$this->outLogradouro = $outLogradouro;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNumero
-	 */
-	public function getOutNumero()
+	public function getOutNumero(): ?string
 	{
 		return $this->outNumero;
 	}
 
-	/**
-	 * Set the value of outNumero
-	 */
-	public function setOutNumero($outNumero): self
-	{
-		$this->outNumero = $outNumero;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outBairro
-	 */
-	public function getOutBairro()
+	public function getOutBairro(): ?string
 	{
 		return $this->outBairro;
 	}
 
-	/**
-	 * Set the value of outBairro
-	 */
-	public function setOutBairro($outBairro): self
-	{
-		$this->outBairro = $outBairro;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNomeCidade
-	 */
-	public function getOutNomeCidade()
+	public function getOutNomeCidade(): ?string
 	{
 		return $this->outNomeCidade;
 	}
 
-	/**
-	 * Set the value of outNomeCidade
-	 */
-	public function setOutNomeCidade($outNomeCidade): self
-	{
-		$this->outNomeCidade = $outNomeCidade;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outLatitude
-	 */
-	public function getOutLatitude()
+	public function getOutLatitude(): ?string
 	{
 		return $this->outLatitude;
 	}
 
-	/**
-	 * Set the value of outLatitude
-	 */
-	public function setOutLatitude($outLatitude): self
-	{
-		$this->outLatitude = $outLatitude;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outLongitude
-	 */
-	public function getOutLongitude()
+	public function getOutLongitude(): ?string
 	{
 		return $this->outLongitude;
 	}
 
-	/**
-	 * Set the value of outLongitude
-	 */
-	public function setOutLongitude($outLongitude): self
-	{
-		$this->outLongitude = $outLongitude;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCep
-	 */
-	public function getOutCep()
+	public function getOutCep(): ?string
 	{
 		return $this->outCep;
 	}
 
-	/**
-	 * Set the value of outCep
-	 */
-	public function setOutCep($outCep): self
+	public function setOutLogradouro(?string $outLogradouro): self
+	{
+		$this->outLogradouro = $outLogradouro;
+		return $this;
+	}
+
+	public function setOutNumero(?string $outNumero): self
+	{
+		$this->outNumero = $outNumero;
+		return $this;
+	}
+
+	public function setOutBairro(?string $outBairro): self
+	{
+		$this->outBairro = $outBairro;
+		return $this;
+	}
+
+	public function setOutNomeCidade(?string $outNomeCidade): self
+	{
+		$this->outNomeCidade = $outNomeCidade;
+		return $this;
+	}
+
+	public function setOutLatitude(?string $outLatitude): self
+	{
+		$this->outLatitude = $outLatitude;
+		return $this;
+	}
+
+	public function setOutLongitude(?string $outLongitude): self
+	{
+		$this->outLongitude = $outLongitude;
+		return $this;
+	}
+
+	public function setOutCep(?string $outCep): self
 	{
 		$this->outCep = $outCep;
-
 		return $this;
+	}
+
+	/**
+	 * @param array $data
+	 * @return self
+	 */
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			$data['outLogradouro'] ?? null,
+			$data['outNumero'] ?? null,
+			$data['outBairro'] ?? null,
+			$data['outNomeCidade'] ?? null,
+			$data['outLatitude'] ?? null,
+			$data['outLongitude'] ?? null,
+			$data['outCep'] ?? null
+		);
 	}
 }
