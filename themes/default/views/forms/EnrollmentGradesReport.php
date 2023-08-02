@@ -14,6 +14,9 @@ function classroomDisciplineLabelResumeArray($id) {
         3 => 'Matemática',
         4 => 'Biologia',
         5 => 'Ciências',
+        6 => 'Português',
+        7 => 'Inglês',
+        8 => 'Espanhol',
         9 => 'Outro Idioma',
         10 => 'Artes',
         11 => 'Educação Física',
@@ -110,7 +113,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                             <?php if (INSTANCE == "BUZIOS") { ?>
                                 <div>TRIMESTRES</div>
                             <?php }else {?>
-                                <div>BIMESTRES</div>
+                                <div>UNIDADES</div>
                             <?php }?>
                         </td>
                         <?php foreach ($baseDisciplines as $name): ?>
@@ -148,7 +151,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                     <?php }?>
                 </tbody>
 
-                <tr>
+                <!-- <tr>
                     <td colspan="1">MÉDIA ANUAL</td>
                     <?php for ($i=0; $i < $rows; $i++) { ?>
                         <td style="text-align: center;"><?= $result[$i]['final_media']?></td>
@@ -156,8 +159,8 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                     <td></td>
                     <td></td>
                     <td></td>
-                </tr>
-                <tr>
+                </tr> -->
+                <!-- <tr>
                     <td colspan="1">NOTA DA PROVA FINAL</td>
                     <?php for ($i=0; $i < $rows; $i++) { ?>
                         <td style="text-align: center;"><?= end($result[$i]['grades'])->grade?></td>
@@ -165,7 +168,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                     <td></td>
                     <td></td>
                     <td></td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td colspan="1">MÉDIA FINAL</td>
                     <?php for ($i=0; $i < $rows; $i++) { ?>

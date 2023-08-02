@@ -1,7 +1,10 @@
 # Atualizações
 
-## [Versão 3.40.81]
+## [Versão 3.41.81]
 -  tirado filtro de disciplinas na tela de  diário de classe
+## [Versão 3.41.80]
+- Módulo de Boletim adicionado
+
 ## [Versão 3.40.80]
 - As colunas de situação na série e tipo de matrícula foram modificadas no relatório de matrícula.
 
