@@ -638,14 +638,14 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Frequência Bolsa Família - Escolha a Turma</h4>
             </div>
-            <form class="form-vertical" action="" method="post">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/BFReport'); ?>" method="post" target="_blank">
                 <div class="modal-body">
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
                             echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
                             ?>
-                            <select name="classroom2" id="classroom2" placeholder="Selecione a turma" style="width:100%">
+                            <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
                                 echo "<option value='' selected>Selecione a turma</option>";
                                 foreach ($classrooms as $classroom) {
@@ -657,42 +657,40 @@ $this->breadcrumbs = array(
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                        <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('reports/BFReport'); ?>" type="button" value="Gerar" id="buildReportBF" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
+                        <button class="btn btn-primary" type="submit" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
                     </div>
             </form>
         </div>
     </div>
     
     <div class="row">
-        <div class="modal fade t-modal-container" id="studentswithdisabilitiesperclassroom" tabindex="-1" role="dialog">
-            <div class="t-modal__header">
-                <h4 class="t-title" id="myModalLabel">Selecione a turma</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <div class="modal fade modal-content" id="studentswithdisabilitiesperclassroom" tabindex="-1" role="dialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
                 </button>
+                <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
             </div>
             <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/studentswithdisabilitiesperclassroom'); ?>" method="post" target="_blank">
-                <div class="t-modal__body">
-                    <div class="t-field-select">
-                        <?php
-                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 't-field-select__label'));
-                        ?>
-                        <select name="classroom" id="classroom" class="t-field-select__input select2-container" placeholder="Selecione a turma">
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class=" span12">
                             <?php
-                            echo "<option value='' selected>Selecione a turma</option>";
-                            foreach ($classrooms as $classroom) {
-                                echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
-                            }
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 't-field-select__label'));
                             ?>
-                        </select>
+                            <select name="classroom" id="classroom" class="t-field-select__input select2-container" placeholder="Selecione a turma">
+                                <?php
+                                echo "<option value='' selected>Selecione a turma</option>";
+                                foreach ($classrooms as $classroom) {
+                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
                     </div>
-                    <div class="t-modal__footer row reverse">
-                        <div class="t-buttons-container justify-content--center">
-                            <button type="button" class="t-button-secondary" data-dismiss="modal" >Voltar</button>
-                        </div>
-                        <div class="t-buttons-container justify-content--center">
-                            <button class="t-button-primary clear-margin--right" type="submit"> Selecionar turma </button>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                        <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
                     </div>
                 </div>
             </form>
@@ -707,14 +705,14 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
             </div>
-            <form class="form-vertical" action="" method="post">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/StudentByClassroomReport'); ?>" method="post" target="_blank">
                 <div class="modal-body">
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
                             echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
                             ?>
-                            <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%">
+                            <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
                                 echo "<option value='' selected>Selecione a turma</option>";
                                 foreach ($classrooms as $classroom) {
@@ -726,7 +724,7 @@ $this->breadcrumbs = array(
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                        <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('reports/studentbyclassroomreport'); ?>" type="button" value="Gerar" id="buildReport" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
+                        <button class="btn btn-primary" type="submit" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
                     </div>
             </form>
         </div>
@@ -1044,23 +1042,3 @@ $this->breadcrumbs = array(
     containerBoxOut.appendTo('.main');
     $('')
 </script>
-<?php
-
-$cs = Yii::app()->getClientScript();
-$cs->registerScript('buildReport', "  
-    $('#buildReport').on('click', function(event) {
-        var url = $(this).attr('url');
-        var id = $('#classroom').val();
-        $(this).attr('url', url + '&id='+ id);
-    });
-    registerAndOpenTab('#buildReport');", CClientScript::POS_END);
-
-$cs->registerScript('buildReportBF', "  
-    $('#buildReportBF').on('click', function(event) {
-        var url = $(this).attr('url');
-        var id = $('#classroom2').val();
-        $(this).attr('url', url + '&id='+ id);
-    });
-    registerAndOpenTab('#buildReportBF');", CClientScript::POS_END);
-
-?>
