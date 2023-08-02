@@ -5,9 +5,45 @@ class InResponsavelAluno
     public $inDocumentosAluno;
     public $inAluno;
 
-    public function __construct($inResponsavelAluno)
+    public function __construct(InDocumentos $inDocumentosAluno, InAluno $inAluno)
     {
-        $this->inDocumentosAluno = new InDocumentos((object) $inResponsavelAluno['inDocumentosAluno']); 
-        $this->inAluno = new InAluno($inResponsavelAluno['inAluno']['inNumRA'], $inResponsavelAluno['inAluno']['inDigitoRA'], $inResponsavelAluno['inAluno']['inSiglaUFRA']);
+        $this->inDocumentosAluno = $inDocumentosAluno; 
+        $this->inAluno = $inAluno;
+    }
+
+    /**
+     * Get the value of inDocumentosAluno
+     */
+    public function getInDocumentosAluno()
+    {
+        return $this->inDocumentosAluno;
+    }
+
+    /**
+     * Set the value of inDocumentosAluno
+     */
+    public function setInDocumentosAluno($inDocumentosAluno): self
+    {
+        $this->inDocumentosAluno = $inDocumentosAluno;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of inAluno
+     */
+    public function getInAluno()
+    {
+        return $this->inAluno;
+    }
+
+    /**
+     * Set the value of inAluno
+     */
+    public function setInAluno($inAluno): self
+    {
+        $this->inAluno = $inAluno;
+
+        return $this;
     }
 }
