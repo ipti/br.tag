@@ -29,41 +29,43 @@ class OutFormacaoClasse
 	public $outCapacidadeFisicaMax;
 	public $outDataInicioAula;
 	public $outDataFimAula;
-	/** @var OutAlunos[] */
+	/** @var OutAlunos[]|null */
 	public $outAlunos;
+	public $outProcessoID;
 
 	/**
-	 * @param OutAlunos[] $outAlunos
+	 * @param OutAlunos[]|null $outAlunos
 	 */
 	public function __construct(
-		string $outCodEscola,
-		string $outDescNomeAbrevEscola,
-		string $outCodTipoEnsino,
-		string $outDescTipoEnsino,
-		string $outAnoLetivo,
-		string $outNumClasse,
-		string $outCodSerieAno,
-		string $outTurma,
-		string $outCodTurno,
-		string $outDescricaoTurno,
-		string $outCodHabilitacao,
-		string $outCodTipoClasse,
-		string $outNumSala,
-		string $outHorarioInicio,
-		string $outHorarioFim,
-		string $outQtdAtual,
-		string $outQtdDigitados,
-		string $outQtdEvadidos,
-		string $outQtdNCom,
-		string $outQtdOutros,
-		string $outQtdTransferidos,
-		string $outQtdRemanejados,
-		string $outQtdCessados,
-		string $outQtdReclassificados,
-		string $outCapacidadeFisicaMax,
-		string $outDataInicioAula,
-		string $outDataFimAula,
-		array $outAlunos
+		?string $outCodEscola,
+		?string $outDescNomeAbrevEscola,
+		?string $outCodTipoEnsino,
+		?string $outDescTipoEnsino,
+		?string $outAnoLetivo,
+		?string $outNumClasse,
+		?string $outCodSerieAno,
+		?string $outTurma,
+		?string $outCodTurno,
+		?string $outDescricaoTurno,
+		?string $outCodHabilitacao,
+		?string $outCodTipoClasse,
+		?string $outNumSala,
+		?string $outHorarioInicio,
+		?string $outHorarioFim,
+		?string $outQtdAtual,
+		?string $outQtdDigitados,
+		?string $outQtdEvadidos,
+		?string $outQtdNCom,
+		?string $outQtdOutros,
+		?string $outQtdTransferidos,
+		?string $outQtdRemanejados,
+		?string $outQtdCessados,
+		?string $outQtdReclassificados,
+		?string $outCapacidadeFisicaMax,
+		?string $outDataInicioAula,
+		?string $outDataFimAula,
+		?array $outAlunos,
+		?string $outProcessoID
 	) {
 		$this->outCodEscola = $outCodEscola;
 		$this->outDescNomeAbrevEscola = $outDescNomeAbrevEscola;
@@ -93,509 +95,370 @@ class OutFormacaoClasse
 		$this->outDataInicioAula = $outDataInicioAula;
 		$this->outDataFimAula = $outDataFimAula;
 		$this->outAlunos = $outAlunos;
+		$this->outProcessoID = $outProcessoID;
 	}
 
-	/**
-	 * Get the value of outCodEscola
-	 */
-	public function getOutCodEscola()
+	public function getOutCodEscola(): ?string
 	{
 		return $this->outCodEscola;
 	}
 
-	/**
-	 * Set the value of outCodEscola
-	 */
-	public function setOutCodEscola($outCodEscola): self
-	{
-		$this->outCodEscola = $outCodEscola;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDescNomeAbrevEscola
-	 */
-	public function getOutDescNomeAbrevEscola()
+	public function getOutDescNomeAbrevEscola(): ?string
 	{
 		return $this->outDescNomeAbrevEscola;
 	}
 
-	/**
-	 * Set the value of outDescNomeAbrevEscola
-	 */
-	public function setOutDescNomeAbrevEscola($outDescNomeAbrevEscola): self
-	{
-		$this->outDescNomeAbrevEscola = $outDescNomeAbrevEscola;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodTipoEnsino
-	 */
-	public function getOutCodTipoEnsino()
+	public function getOutCodTipoEnsino(): ?string
 	{
 		return $this->outCodTipoEnsino;
 	}
 
-	/**
-	 * Set the value of outCodTipoEnsino
-	 */
-	public function setOutCodTipoEnsino($outCodTipoEnsino): self
-	{
-		$this->outCodTipoEnsino = $outCodTipoEnsino;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDescTipoEnsino
-	 */
-	public function getOutDescTipoEnsino()
+	public function getOutDescTipoEnsino(): ?string
 	{
 		return $this->outDescTipoEnsino;
 	}
 
-	/**
-	 * Set the value of outDescTipoEnsino
-	 */
-	public function setOutDescTipoEnsino($outDescTipoEnsino): self
-	{
-		$this->outDescTipoEnsino = $outDescTipoEnsino;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outAnoLetivo
-	 */
-	public function getOutAnoLetivo()
+	public function getOutAnoLetivo(): ?string
 	{
 		return $this->outAnoLetivo;
 	}
 
-	/**
-	 * Set the value of outAnoLetivo
-	 */
-	public function setOutAnoLetivo($outAnoLetivo): self
-	{
-		$this->outAnoLetivo = $outAnoLetivo;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNumClasse
-	 */
-	public function getOutNumClasse()
+	public function getOutNumClasse(): ?string
 	{
 		return $this->outNumClasse;
 	}
 
-	/**
-	 * Set the value of outNumClasse
-	 */
-	public function setOutNumClasse($outNumClasse): self
-	{
-		$this->outNumClasse = $outNumClasse;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodSerieAno
-	 */
-	public function getOutCodSerieAno()
+	public function getOutCodSerieAno(): ?string
 	{
 		return $this->outCodSerieAno;
 	}
 
-	/**
-	 * Set the value of outCodSerieAno
-	 */
-	public function setOutCodSerieAno($outCodSerieAno): self
-	{
-		$this->outCodSerieAno = $outCodSerieAno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outTurma
-	 */
-	public function getOutTurma()
+	public function getOutTurma(): ?string
 	{
 		return $this->outTurma;
 	}
 
-	/**
-	 * Set the value of outTurma
-	 */
-	public function setOutTurma($outTurma): self
-	{
-		$this->outTurma = $outTurma;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodTurno
-	 */
-	public function getOutCodTurno()
+	public function getOutCodTurno(): ?string
 	{
 		return $this->outCodTurno;
 	}
 
-	/**
-	 * Set the value of outCodTurno
-	 */
-	public function setOutCodTurno($outCodTurno): self
-	{
-		$this->outCodTurno = $outCodTurno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDescricaoTurno
-	 */
-	public function getOutDescricaoTurno()
+	public function getOutDescricaoTurno(): ?string
 	{
 		return $this->outDescricaoTurno;
 	}
 
-	/**
-	 * Set the value of outDescricaoTurno
-	 */
-	public function setOutDescricaoTurno($outDescricaoTurno): self
-	{
-		$this->outDescricaoTurno = $outDescricaoTurno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodHabilitacao
-	 */
-	public function getOutCodHabilitacao()
+	public function getOutCodHabilitacao(): ?string
 	{
 		return $this->outCodHabilitacao;
 	}
 
-	/**
-	 * Set the value of outCodHabilitacao
-	 */
-	public function setOutCodHabilitacao($outCodHabilitacao): self
-	{
-		$this->outCodHabilitacao = $outCodHabilitacao;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodTipoClasse
-	 */
-	public function getOutCodTipoClasse()
+	public function getOutCodTipoClasse(): ?string
 	{
 		return $this->outCodTipoClasse;
 	}
 
-	/**
-	 * Set the value of outCodTipoClasse
-	 */
-	public function setOutCodTipoClasse($outCodTipoClasse): self
-	{
-		$this->outCodTipoClasse = $outCodTipoClasse;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNumSala
-	 */
-	public function getOutNumSala()
+	public function getOutNumSala(): ?string
 	{
 		return $this->outNumSala;
 	}
 
-	/**
-	 * Set the value of outNumSala
-	 */
-	public function setOutNumSala($outNumSala): self
-	{
-		$this->outNumSala = $outNumSala;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outHorarioInicio
-	 */
-	public function getOutHorarioInicio()
+	public function getOutHorarioInicio(): ?string
 	{
 		return $this->outHorarioInicio;
 	}
 
-	/**
-	 * Set the value of outHorarioInicio
-	 */
-	public function setOutHorarioInicio($outHorarioInicio): self
-	{
-		$this->outHorarioInicio = $outHorarioInicio;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outHorarioFim
-	 */
-	public function getOutHorarioFim()
+	public function getOutHorarioFim(): ?string
 	{
 		return $this->outHorarioFim;
 	}
 
-	/**
-	 * Set the value of outHorarioFim
-	 */
-	public function setOutHorarioFim($outHorarioFim): self
-	{
-		$this->outHorarioFim = $outHorarioFim;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outQtdAtual
-	 */
-	public function getOutQtdAtual()
+	public function getOutQtdAtual(): ?string
 	{
 		return $this->outQtdAtual;
 	}
 
-	/**
-	 * Set the value of outQtdAtual
-	 */
-	public function setOutQtdAtual($outQtdAtual): self
-	{
-		$this->outQtdAtual = $outQtdAtual;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outQtdDigitados
-	 */
-	public function getOutQtdDigitados()
+	public function getOutQtdDigitados(): ?string
 	{
 		return $this->outQtdDigitados;
 	}
 
-	/**
-	 * Set the value of outQtdDigitados
-	 */
-	public function setOutQtdDigitados($outQtdDigitados): self
-	{
-		$this->outQtdDigitados = $outQtdDigitados;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outQtdEvadidos
-	 */
-	public function getOutQtdEvadidos()
+	public function getOutQtdEvadidos(): ?string
 	{
 		return $this->outQtdEvadidos;
 	}
 
-	/**
-	 * Set the value of outQtdEvadidos
-	 */
-	public function setOutQtdEvadidos($outQtdEvadidos): self
-	{
-		$this->outQtdEvadidos = $outQtdEvadidos;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outQtdNCom
-	 */
-	public function getOutQtdNCom()
+	public function getOutQtdNCom(): ?string
 	{
 		return $this->outQtdNCom;
 	}
 
-	/**
-	 * Set the value of outQtdNCom
-	 */
-	public function setOutQtdNCom($outQtdNCom): self
-	{
-		$this->outQtdNCom = $outQtdNCom;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outQtdOutros
-	 */
-	public function getOutQtdOutros()
+	public function getOutQtdOutros(): ?string
 	{
 		return $this->outQtdOutros;
 	}
 
-	/**
-	 * Set the value of outQtdOutros
-	 */
-	public function setOutQtdOutros($outQtdOutros): self
-	{
-		$this->outQtdOutros = $outQtdOutros;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outQtdTransferidos
-	 */
-	public function getOutQtdTransferidos()
+	public function getOutQtdTransferidos(): ?string
 	{
 		return $this->outQtdTransferidos;
 	}
 
-	/**
-	 * Set the value of outQtdTransferidos
-	 */
-	public function setOutQtdTransferidos($outQtdTransferidos): self
-	{
-		$this->outQtdTransferidos = $outQtdTransferidos;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outQtdRemanejados
-	 */
-	public function getOutQtdRemanejados()
+	public function getOutQtdRemanejados(): ?string
 	{
 		return $this->outQtdRemanejados;
 	}
 
-	/**
-	 * Set the value of outQtdRemanejados
-	 */
-	public function setOutQtdRemanejados($outQtdRemanejados): self
-	{
-		$this->outQtdRemanejados = $outQtdRemanejados;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outQtdCessados
-	 */
-	public function getOutQtdCessados()
+	public function getOutQtdCessados(): ?string
 	{
 		return $this->outQtdCessados;
 	}
 
-	/**
-	 * Set the value of outQtdCessados
-	 */
-	public function setOutQtdCessados($outQtdCessados): self
-	{
-		$this->outQtdCessados = $outQtdCessados;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outQtdReclassificados
-	 */
-	public function getOutQtdReclassificados()
+	public function getOutQtdReclassificados(): ?string
 	{
 		return $this->outQtdReclassificados;
 	}
 
-	/**
-	 * Set the value of outQtdReclassificados
-	 */
-	public function setOutQtdReclassificados($outQtdReclassificados): self
-	{
-		$this->outQtdReclassificados = $outQtdReclassificados;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCapacidadeFisicaMax
-	 */
-	public function getOutCapacidadeFisicaMax()
+	public function getOutCapacidadeFisicaMax(): ?string
 	{
 		return $this->outCapacidadeFisicaMax;
 	}
 
-	/**
-	 * Set the value of outCapacidadeFisicaMax
-	 */
-	public function setOutCapacidadeFisicaMax($outCapacidadeFisicaMax): self
-	{
-		$this->outCapacidadeFisicaMax = $outCapacidadeFisicaMax;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDataInicioAula
-	 */
-	public function getOutDataInicioAula()
+	public function getOutDataInicioAula(): ?string
 	{
 		return $this->outDataInicioAula;
 	}
 
-	/**
-	 * Set the value of outDataInicioAula
-	 */
-	public function setOutDataInicioAula($outDataInicioAula): self
-	{
-		$this->outDataInicioAula = $outDataInicioAula;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDataFimAula
-	 */
-	public function getOutDataFimAula()
+	public function getOutDataFimAula(): ?string
 	{
 		return $this->outDataFimAula;
 	}
 
 	/**
-	 * Set the value of outDataFimAula
+	 * @return OutAlunos[]|null
 	 */
-	public function setOutDataFimAula($outDataFimAula): self
-	{
-		$this->outDataFimAula = $outDataFimAula;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outAlunos
-	 */
-	public function getOutAlunos()
+	public function getOutAlunos(): ?array
 	{
 		return $this->outAlunos;
 	}
 
+
+	public function getOutProcessoId(): ?string
+	{
+		return $this->outProcessoID;
+	}
+
+	public function setOutCodEscola(?string $outCodEscola): self
+	{
+		$this->outCodEscola = $outCodEscola;
+		return $this;
+	}
+
+	public function setOutDescNomeAbrevEscola(?string $outDescNomeAbrevEscola): self
+	{
+		$this->outDescNomeAbrevEscola = $outDescNomeAbrevEscola;
+		return $this;
+	}
+
+	public function setOutCodTipoEnsino(?string $outCodTipoEnsino): self
+	{
+		$this->outCodTipoEnsino = $outCodTipoEnsino;
+		return $this;
+	}
+
+	public function setOutDescTipoEnsino(?string $outDescTipoEnsino): self
+	{
+		$this->outDescTipoEnsino = $outDescTipoEnsino;
+		return $this;
+	}
+
+	public function setOutAnoLetivo(?string $outAnoLetivo): self
+	{
+		$this->outAnoLetivo = $outAnoLetivo;
+		return $this;
+	}
+
+	public function setOutNumClasse(?string $outNumClasse): self
+	{
+		$this->outNumClasse = $outNumClasse;
+		return $this;
+	}
+
+	public function setOutCodSerieAno(?string $outCodSerieAno): self
+	{
+		$this->outCodSerieAno = $outCodSerieAno;
+		return $this;
+	}
+
+	public function setOutTurma(?string $outTurma): self
+	{
+		$this->outTurma = $outTurma;
+		return $this;
+	}
+
+	public function setOutCodTurno(?string $outCodTurno): self
+	{
+		$this->outCodTurno = $outCodTurno;
+		return $this;
+	}
+
+	public function setOutDescricaoTurno(?string $outDescricaoTurno): self
+	{
+		$this->outDescricaoTurno = $outDescricaoTurno;
+		return $this;
+	}
+
+	public function setOutCodHabilitacao(?string $outCodHabilitacao): self
+	{
+		$this->outCodHabilitacao = $outCodHabilitacao;
+		return $this;
+	}
+
+	public function setOutCodTipoClasse(?string $outCodTipoClasse): self
+	{
+		$this->outCodTipoClasse = $outCodTipoClasse;
+		return $this;
+	}
+
+	public function setOutNumSala(?string $outNumSala): self
+	{
+		$this->outNumSala = $outNumSala;
+		return $this;
+	}
+
+	public function setOutHorarioInicio(?string $outHorarioInicio): self
+	{
+		$this->outHorarioInicio = $outHorarioInicio;
+		return $this;
+	}
+
+	public function setOutHorarioFim(?string $outHorarioFim): self
+	{
+		$this->outHorarioFim = $outHorarioFim;
+		return $this;
+	}
+
+	public function setOutQtdAtual(?string $outQtdAtual): self
+	{
+		$this->outQtdAtual = $outQtdAtual;
+		return $this;
+	}
+
+	public function setOutQtdDigitados(?string $outQtdDigitados): self
+	{
+		$this->outQtdDigitados = $outQtdDigitados;
+		return $this;
+	}
+
+	public function setOutQtdEvadidos(?string $outQtdEvadidos): self
+	{
+		$this->outQtdEvadidos = $outQtdEvadidos;
+		return $this;
+	}
+
+	public function setOutQtdNCom(?string $outQtdNCom): self
+	{
+		$this->outQtdNCom = $outQtdNCom;
+		return $this;
+	}
+
+	public function setOutQtdOutros(?string $outQtdOutros): self
+	{
+		$this->outQtdOutros = $outQtdOutros;
+		return $this;
+	}
+
+	public function setOutQtdTransferidos(?string $outQtdTransferidos): self
+	{
+		$this->outQtdTransferidos = $outQtdTransferidos;
+		return $this;
+	}
+
+	public function setOutQtdRemanejados(?string $outQtdRemanejados): self
+	{
+		$this->outQtdRemanejados = $outQtdRemanejados;
+		return $this;
+	}
+
+	public function setOutQtdCessados(?string $outQtdCessados): self
+	{
+		$this->outQtdCessados = $outQtdCessados;
+		return $this;
+	}
+
+	public function setOutQtdReclassificados(?string $outQtdReclassificados): self
+	{
+		$this->outQtdReclassificados = $outQtdReclassificados;
+		return $this;
+	}
+
+	public function setOutCapacidadeFisicaMax(?string $outCapacidadeFisicaMax): self
+	{
+		$this->outCapacidadeFisicaMax = $outCapacidadeFisicaMax;
+		return $this;
+	}
+
+	public function setOutDataInicioAula(?string $outDataInicioAula): self
+	{
+		$this->outDataInicioAula = $outDataInicioAula;
+		return $this;
+	}
+
+	public function setOutDataFimAula(?string $outDataFimAula): self
+	{
+		$this->outDataFimAula = $outDataFimAula;
+		return $this;
+	}
+
 	/**
-	 * Set the value of outAlunos
+	 * @param OutAlunos[]|null $outAlunos
 	 */
-	public function setOutAlunos($outAlunos): self
+	public function setOutAlunos(?array $outAlunos): self
 	{
 		$this->outAlunos = $outAlunos;
-
 		return $this;
+	}
+
+	public function setOutProcessoId(?string $outProcessoID): self
+	{
+		$this->outProcessoID = $outProcessoID;
+		return $this;
+	}
+
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			$data['outCodEscola'] ?? null,
+			$data['outDescNomeAbrevEscola'] ?? null,
+			$data['outCodTipoEnsino'] ?? null,
+			$data['outDescTipoEnsino'] ?? null,
+			$data['outAnoLetivo'] ?? null,
+			$data['outNumClasse'] ?? null,
+			$data['outCodSerieAno'] ?? null,
+			$data['outTurma'] ?? null,
+			$data['outCodTurno'] ?? null,
+			$data['outDescricaoTurno'] ?? null,
+			$data['outCodHabilitacao'] ?? null,
+			$data['outCodTipoClasse'] ?? null,
+			$data['outNumSala'] ?? null,
+			$data['outHorarioInicio'] ?? null,
+			$data['outHorarioFim'] ?? null,
+			$data['outQtdAtual'] ?? null,
+			$data['outQtdDigitados'] ?? null,
+			$data['outQtdEvadidos'] ?? null,
+			$data['outQtdNCom'] ?? null,
+			$data['outQtdOutros'] ?? null,
+			$data['outQtdTransferidos'] ?? null,
+			$data['outQtdRemanejados'] ?? null,
+			$data['outQtdCessados'] ?? null,
+			$data['outQtdReclassificados'] ?? null,
+			$data['outCapacidadeFisicaMax'] ?? null,
+			$data['outDataInicioAula'] ?? null,
+			$data['outDataFimAula'] ?? null,
+			$data['outProcessoID'] ?? null,
+			($data['outAlunos'] ?? null) !== null ? array_map(static function($data) {
+				return OutAlunos::fromJson($data);
+			}, 
+			$data['outAlunos']) : null,
+		);
 	}
 }
