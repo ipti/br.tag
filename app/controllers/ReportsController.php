@@ -945,8 +945,9 @@ class ReportsController extends Controller
         ));
     }
 
-    public function actionStudentPerClassroom($id)
+    public function actionStudentPerClassroom()
     {
+        $id = $_POST['classroom'];
         $this->layout = "reports";
         $sql = "SELECT * FROM classroom_enrollment
                     where `year`  = " . $this->year . ""
@@ -1308,39 +1309,32 @@ class ReportsController extends Controller
     {
         $school_year = Yii::app()->user->school;
         $year = Yii::app()->user->year;
+        $classroom_id = $_POST['classroom'];
+        $sql = "SELECT 
+                e.name as school_name, c.name as classroom_name, 
+                c.id as classroom_id, d.cpf, d.address, s.*
+            FROM 
+                student_enrollment as se
+                INNER JOIN classroom as c on se.classroom_fk=c.id
+                INNER JOIN student_identification as s on s.id=se.student_fk
+                INNER JOIN school_identification as e on c.school_inep_fk = e.inep_id
+                LEFT JOIN student_documents_and_address as d on s.id = d.id
+            WHERE 
+                c.school_year = :year AND 
+                c.school_inep_fk = :schoolyear AND
+                c.id = :classroom_id
+            GROUP BY s.name
+            ORDER BY c.id";
 
-        if (isset($_GET['id']) && $_GET['id'] != '') {
-            $classroom_id = $_GET['id'];
-            $sql = "SELECT 
-                    e.name as school_name, c.name as classroom_name, 
-                    c.id as classroom_id, d.cpf, d.address, s.*
-                FROM 
-                    student_enrollment as se
-                    INNER JOIN classroom as c on se.classroom_fk=c.id
-                    INNER JOIN student_identification as s on s.id=se.student_fk
-                    INNER JOIN school_identification as e on c.school_inep_fk = e.inep_id
-                    LEFT JOIN student_documents_and_address as d on s.id = d.id
+        $classrooms = Yii::app()->db->createCommand($sql)
+                    ->bindParam(":year", $year)
+                    ->bindParam(":classroom_id", $classroom_id)
+                    ->bindParam(":schoolyear", $school_year)
+                    ->queryAll();
 
-                WHERE 
-                    c.school_year = :year AND 
-                    c.school_inep_fk = :schoolyear AND
-                    c.id = :classroom_id
-                GROUP BY s.name
-                ORDER BY c.id";
-
-            $classrooms = Yii::app()->db->createCommand($sql)
-            ->bindParam(":year", $year)
-            ->bindParam(":classroom_id", $classroom_id)
-            ->bindParam(":schoolyear", $school_year)
-            ->queryAll();
-
-
-            $this->render('StudentByClassroomReport', array(
-                "classroom" => $classrooms
-            ));
-        }
-        Yii::app()->user->setFlash('error', Yii::t('default', 'Selecione ao menos uma opção'));
-        return $this->redirect(array('index'));
+        $this->render('StudentByClassroomReport', array(
+            "classroom" => $classrooms
+        ));
     }
 
     public function actionEnrollmentComparativeAnalysisReport()
