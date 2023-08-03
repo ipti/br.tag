@@ -17,8 +17,8 @@
       */
      public function __construct(?string $outCodSerieAno, ?string $outDescSerieAno)
      {
-         $this->outCodSerieAno = $outCodSerieAno;
-         $this->outDescSerieAno = $outDescSerieAno;
+        $this->outCodSerieAno = $outCodSerieAno;
+        $this->outDescSerieAno = $outDescSerieAno;
      }
  
      /**
