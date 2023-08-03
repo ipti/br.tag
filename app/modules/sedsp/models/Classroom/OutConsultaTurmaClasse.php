@@ -2,7 +2,7 @@
 
 class OutConsultaTurmaClasse
 {
-    public $outAnoLetivo;
+	public $outAnoLetivo;
 	public $outCodEscola;
 	public $outNomeEscola;
 	public $outCodUnidade;
@@ -26,34 +26,32 @@ class OutConsultaTurmaClasse
 	public $outCodSerieAno;
 	public $outDescricaoSerieAno;
 	public $outDiasSemana;
-	public $outProcessoID;
 
 	public function __construct(
-		int $outAnoLetivo,
-		int $outCodEscola,
-		string $outNomeEscola,
-		int $outCodUnidade,
-		int $outCodTipoClasse,
-		int $outCodTurno,
-		string $outDescricaoTurno,
-		int $outTurma,
-		string $outDescricaoTurma,
-		int $outNrCapacidadeFisicaMaxima,
-		int $outNrAlunosAtivos,
-		string $outDataInicioAula,
-		string $outDataFimAula,
-		string $outHorarioInicioAula,
-		string $outHorarioFimAula,
-		int $outCodDuracao,
-		int $outCodHabilitacao,
-		array $outAtividadesComplementar,
-		int $outCodTipoEnsino,
-		string $outNomeTipoEnsino,
-		string $outNumeroSala,
-		int $outCodSerieAno,
-		string $outDescricaoSerieAno,
-		OutDiasSemana $outDiasSemana,
-		string $outProcessoID
+		?int $outAnoLetivo,
+		?int $outCodEscola,
+		?string $outNomeEscola,
+		?int $outCodUnidade,
+		?int $outCodTipoClasse,
+		?int $outCodTurno,
+		?string $outDescricaoTurno,
+		?int $outTurma,
+		?string $outDescricaoTurma,
+		?int $outNrCapacidadeFisicaMaxima,
+		?int $outNrAlunosAtivos,
+		?string $outDataInicioAula,
+		?string $outDataFimAula,
+		?string $outHorarioInicioAula,
+		?string $outHorarioFimAula,
+		?int $outCodDuracao,
+		?int $outCodHabilitacao,
+		?array $outAtividadesComplementar,
+		?int $outCodTipoEnsino,
+		?string $outNomeTipoEnsino,
+		?string $outNumeroSala,
+		?int $outCodSerieAno,
+		?string $outDescricaoSerieAno,
+		?OutDiasSemana $outDiasSemana
 	) {
 		$this->outAnoLetivo = $outAnoLetivo;
 		$this->outCodEscola = $outCodEscola;
@@ -79,456 +77,299 @@ class OutConsultaTurmaClasse
 		$this->outCodSerieAno = $outCodSerieAno;
 		$this->outDescricaoSerieAno = $outDescricaoSerieAno;
 		$this->outDiasSemana = $outDiasSemana;
-		$this->outProcessoID = $outProcessoID;
 	}
 
-    /**
-     * Get the value of outAnoLetivo
-     */
-    public function getOutAnoLetivo()
-    {
-        return $this->outAnoLetivo;
-    }
+	public function getOutAnoLetivo(): ?int
+	{
+		return $this->outAnoLetivo;
+	}
 
-    /**
-     * Set the value of outAnoLetivo
-     */
-    public function setOutAnoLetivo($outAnoLetivo): self
-    {
-        $this->outAnoLetivo = $outAnoLetivo;
-
-        return $this;
-    }
-
-	/**
-	 * Get the value of outCodEscola
-	 */
-	public function getOutCodEscola()
+	public function getOutCodEscola(): ?int
 	{
 		return $this->outCodEscola;
 	}
 
-	/**
-	 * Set the value of outCodEscola
-	 */
-	public function setOutCodEscola($outCodEscola): self
-	{
-		$this->outCodEscola = $outCodEscola;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNomeEscola
-	 */
-	public function getOutNomeEscola()
+	public function getOutNomeEscola(): ?string
 	{
 		return $this->outNomeEscola;
 	}
 
-	/**
-	 * Set the value of outNomeEscola
-	 */
-	public function setOutNomeEscola($outNomeEscola): self
-	{
-		$this->outNomeEscola = $outNomeEscola;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodUnidade
-	 */
-	public function getOutCodUnidade()
+	public function getOutCodUnidade(): ?int
 	{
 		return $this->outCodUnidade;
 	}
 
-	/**
-	 * Set the value of outCodUnidade
-	 */
-	public function setOutCodUnidade($outCodUnidade): self
-	{
-		$this->outCodUnidade = $outCodUnidade;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodTipoClasse
-	 */
-	public function getOutCodTipoClasse()
+	public function getOutCodTipoClasse(): ?int
 	{
 		return $this->outCodTipoClasse;
 	}
 
-	/**
-	 * Set the value of outCodTipoClasse
-	 */
-	public function setOutCodTipoClasse($outCodTipoClasse): self
-	{
-		$this->outCodTipoClasse = $outCodTipoClasse;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodTurno
-	 */
-	public function getOutCodTurno()
+	public function getOutCodTurno(): ?int
 	{
 		return $this->outCodTurno;
 	}
 
-	/**
-	 * Set the value of outCodTurno
-	 */
-	public function setOutCodTurno($outCodTurno): self
-	{
-		$this->outCodTurno = $outCodTurno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDescricaoTurno
-	 */
-	public function getOutDescricaoTurno()
+	public function getOutDescricaoTurno(): ?string
 	{
 		return $this->outDescricaoTurno;
 	}
 
-	/**
-	 * Set the value of outDescricaoTurno
-	 */
-	public function setOutDescricaoTurno($outDescricaoTurno): self
-	{
-		$this->outDescricaoTurno = $outDescricaoTurno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outTurma
-	 */
-	public function getOutTurma()
+	public function getOutTurma(): ?int
 	{
 		return $this->outTurma;
 	}
 
-	/**
-	 * Set the value of outTurma
-	 */
-	public function setOutTurma($outTurma): self
-	{
-		$this->outTurma = $outTurma;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDescricaoTurma
-	 */
-	public function getOutDescricaoTurma()
+	public function getOutDescricaoTurma(): ?string
 	{
 		return $this->outDescricaoTurma;
 	}
 
-	/**
-	 * Set the value of outDescricaoTurma
-	 */
-	public function setOutDescricaoTurma($outDescricaoTurma): self
-	{
-		$this->outDescricaoTurma = $outDescricaoTurma;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNrCapacidadeFisicaMaxima
-	 */
-	public function getOutNrCapacidadeFisicaMaxima()
+	public function getOutNrCapacidadeFisicaMaxima(): ?int
 	{
 		return $this->outNrCapacidadeFisicaMaxima;
 	}
 
-	/**
-	 * Set the value of outNrCapacidadeFisicaMaxima
-	 */
-	public function setOutNrCapacidadeFisicaMaxima($outNrCapacidadeFisicaMaxima): self
-	{
-		$this->outNrCapacidadeFisicaMaxima = $outNrCapacidadeFisicaMaxima;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNrAlunosAtivos
-	 */
-	public function getOutNrAlunosAtivos()
+	public function getOutNrAlunosAtivos(): ?int
 	{
 		return $this->outNrAlunosAtivos;
 	}
 
-	/**
-	 * Set the value of outNrAlunosAtivos
-	 */
-	public function setOutNrAlunosAtivos($outNrAlunosAtivos): self
-	{
-		$this->outNrAlunosAtivos = $outNrAlunosAtivos;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDataInicioAula
-	 */
-	public function getOutDataInicioAula()
+	public function getOutDataInicioAula(): ?string
 	{
 		return $this->outDataInicioAula;
 	}
 
-	/**
-	 * Set the value of outDataInicioAula
-	 */
-	public function setOutDataInicioAula($outDataInicioAula): self
-	{
-		$this->outDataInicioAula = $outDataInicioAula;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDataFimAula
-	 */
-	public function getOutDataFimAula()
+	public function getOutDataFimAula(): ?string
 	{
 		return $this->outDataFimAula;
 	}
 
-	/**
-	 * Set the value of outDataFimAula
-	 */
-	public function setOutDataFimAula($outDataFimAula): self
-	{
-		$this->outDataFimAula = $outDataFimAula;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outHorarioInicioAula
-	 */
-	public function getOutHorarioInicioAula()
+	public function getOutHorarioInicioAula(): ?string
 	{
 		return $this->outHorarioInicioAula;
 	}
 
-	/**
-	 * Set the value of outHorarioInicioAula
-	 */
-	public function setOutHorarioInicioAula($outHorarioInicioAula): self
-	{
-		$this->outHorarioInicioAula = $outHorarioInicioAula;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outHorarioFimAula
-	 */
-	public function getOutHorarioFimAula()
+	public function getOutHorarioFimAula(): ?string
 	{
 		return $this->outHorarioFimAula;
 	}
 
-	/**
-	 * Set the value of outHorarioFimAula
-	 */
-	public function setOutHorarioFimAula($outHorarioFimAula): self
-	{
-		$this->outHorarioFimAula = $outHorarioFimAula;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodDuracao
-	 */
-	public function getOutCodDuracao()
+	public function getOutCodDuracao(): ?int
 	{
 		return $this->outCodDuracao;
 	}
 
-	/**
-	 * Set the value of outCodDuracao
-	 */
-	public function setOutCodDuracao($outCodDuracao): self
-	{
-		$this->outCodDuracao = $outCodDuracao;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodHabilitacao
-	 */
-	public function getOutCodHabilitacao()
+	public function getOutCodHabilitacao(): ?int
 	{
 		return $this->outCodHabilitacao;
 	}
 
-	/**
-	 * Set the value of outCodHabilitacao
-	 */
-	public function setOutCodHabilitacao($outCodHabilitacao): self
-	{
-		$this->outCodHabilitacao = $outCodHabilitacao;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outAtividadesComplementar
-	 */
-	public function getOutAtividadesComplementar()
+	public function getOutAtividadesComplementar(): ?array
 	{
 		return $this->outAtividadesComplementar;
 	}
 
-	/**
-	 * Set the value of outAtividadesComplementar
-	 */
-	public function setOutAtividadesComplementar($outAtividadesComplementar): self
-	{
-		$this->outAtividadesComplementar = $outAtividadesComplementar;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodTipoEnsino
-	 */
-	public function getOutCodTipoEnsino()
+	public function getOutCodTipoEnsino(): ?int
 	{
 		return $this->outCodTipoEnsino;
 	}
 
-	/**
-	 * Set the value of outCodTipoEnsino
-	 */
-	public function setOutCodTipoEnsino($outCodTipoEnsino): self
-	{
-		$this->outCodTipoEnsino = $outCodTipoEnsino;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNomeTipoEnsino
-	 */
-	public function getOutNomeTipoEnsino()
+	public function getOutNomeTipoEnsino(): ?string
 	{
 		return $this->outNomeTipoEnsino;
 	}
 
-	/**
-	 * Set the value of outNomeTipoEnsino
-	 */
-	public function setOutNomeTipoEnsino($outNomeTipoEnsino): self
-	{
-		$this->outNomeTipoEnsino = $outNomeTipoEnsino;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outNumeroSala
-	 */
-	public function getOutNumeroSala()
+	public function getOutNumeroSala(): ?string
 	{
 		return $this->outNumeroSala;
 	}
 
-	/**
-	 * Set the value of outNumeroSala
-	 */
-	public function setOutNumeroSala($outNumeroSala): self
-	{
-		$this->outNumeroSala = $outNumeroSala;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outCodSerieAno
-	 */
-	public function getOutCodSerieAno()
+	public function getOutCodSerieAno(): ?int
 	{
 		return $this->outCodSerieAno;
 	}
 
-	/**
-	 * Set the value of outCodSerieAno
-	 */
-	public function setOutCodSerieAno($outCodSerieAno): self
-	{
-		$this->outCodSerieAno = $outCodSerieAno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDescricaoSerieAno
-	 */
-	public function getOutDescricaoSerieAno()
+	public function getOutDescricaoSerieAno(): ?string
 	{
 		return $this->outDescricaoSerieAno;
 	}
 
-	/**
-	 * Set the value of outDescricaoSerieAno
-	 */
-	public function setOutDescricaoSerieAno($outDescricaoSerieAno): self
-	{
-		$this->outDescricaoSerieAno = $outDescricaoSerieAno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of outDiasSemana
-	 */
-	public function getOutDiasSemana()
+	public function getOutDiasSemana(): ?OutDiasSemana
 	{
 		return $this->outDiasSemana;
 	}
 
-	/**
-	 * Set the value of outDiasSemana
-	 */
-	public function setOutDiasSemana($outDiasSemana): self
+	public function setOutAnoLetivo(?int $outAnoLetivo): self
+	{
+		$this->outAnoLetivo = $outAnoLetivo;
+		return $this;
+	}
+
+	public function setOutCodEscola(?int $outCodEscola): self
+	{
+		$this->outCodEscola = $outCodEscola;
+		return $this;
+	}
+
+	public function setOutNomeEscola(?string $outNomeEscola): self
+	{
+		$this->outNomeEscola = $outNomeEscola;
+		return $this;
+	}
+
+	public function setOutCodUnidade(?int $outCodUnidade): self
+	{
+		$this->outCodUnidade = $outCodUnidade;
+		return $this;
+	}
+
+	public function setOutCodTipoClasse(?int $outCodTipoClasse): self
+	{
+		$this->outCodTipoClasse = $outCodTipoClasse;
+		return $this;
+	}
+
+	public function setOutCodTurno(?int $outCodTurno): self
+	{
+		$this->outCodTurno = $outCodTurno;
+		return $this;
+	}
+
+	public function setOutDescricaoTurno(?string $outDescricaoTurno): self
+	{
+		$this->outDescricaoTurno = $outDescricaoTurno;
+		return $this;
+	}
+
+	public function setOutTurma(?int $outTurma): self
+	{
+		$this->outTurma = $outTurma;
+		return $this;
+	}
+
+	public function setOutDescricaoTurma(?string $outDescricaoTurma): self
+	{
+		$this->outDescricaoTurma = $outDescricaoTurma;
+		return $this;
+	}
+
+	public function setOutNrCapacidadeFisicaMaxima(?int $outNrCapacidadeFisicaMaxima): self
+	{
+		$this->outNrCapacidadeFisicaMaxima = $outNrCapacidadeFisicaMaxima;
+		return $this;
+	}
+
+	public function setOutNrAlunosAtivos(?int $outNrAlunosAtivos): self
+	{
+		$this->outNrAlunosAtivos = $outNrAlunosAtivos;
+		return $this;
+	}
+
+	public function setOutDataInicioAula(?string $outDataInicioAula): self
+	{
+		$this->outDataInicioAula = $outDataInicioAula;
+		return $this;
+	}
+
+	public function setOutDataFimAula(?string $outDataFimAula): self
+	{
+		$this->outDataFimAula = $outDataFimAula;
+		return $this;
+	}
+
+	public function setOutHorarioInicioAula(?string $outHorarioInicioAula): self
+	{
+		$this->outHorarioInicioAula = $outHorarioInicioAula;
+		return $this;
+	}
+
+	public function setOutHorarioFimAula(?string $outHorarioFimAula): self
+	{
+		$this->outHorarioFimAula = $outHorarioFimAula;
+		return $this;
+	}
+
+	public function setOutCodDuracao(?int $outCodDuracao): self
+	{
+		$this->outCodDuracao = $outCodDuracao;
+		return $this;
+	}
+
+	public function setOutCodHabilitacao(?int $outCodHabilitacao): self
+	{
+		$this->outCodHabilitacao = $outCodHabilitacao;
+		return $this;
+	}
+
+	public function setOutAtividadesComplementar(?array $outAtividadesComplementar): self
+	{
+		$this->outAtividadesComplementar = $outAtividadesComplementar;
+		return $this;
+	}
+
+	public function setOutCodTipoEnsino(?int $outCodTipoEnsino): self
+	{
+		$this->outCodTipoEnsino = $outCodTipoEnsino;
+		return $this;
+	}
+
+	public function setOutNomeTipoEnsino(?string $outNomeTipoEnsino): self
+	{
+		$this->outNomeTipoEnsino = $outNomeTipoEnsino;
+		return $this;
+	}
+
+	public function setOutNumeroSala(?string $outNumeroSala): self
+	{
+		$this->outNumeroSala = $outNumeroSala;
+		return $this;
+	}
+
+	public function setOutCodSerieAno(?int $outCodSerieAno): self
+	{
+		$this->outCodSerieAno = $outCodSerieAno;
+		return $this;
+	}
+
+	public function setOutDescricaoSerieAno(?string $outDescricaoSerieAno): self
+	{
+		$this->outDescricaoSerieAno = $outDescricaoSerieAno;
+		return $this;
+	}
+
+	public function setOutDiasSemana(?OutDiasSemana $outDiasSemana): self
 	{
 		$this->outDiasSemana = $outDiasSemana;
-
 		return $this;
 	}
 
-	/**
-	 * Get the value of outProcessoID
-	 */
-	public function getOutProcessoID()
+	public static function fromJson(array $data): self
 	{
-		return $this->outProcessoID;
-	}
-
-	/**
-	 * Set the value of outProcessoID
-	 */
-	public function setOutProcessoID($outProcessoID): self
-	{
-		$this->outProcessoID = $outProcessoID;
-
-		return $this;
+		return new self(
+			$data['outAnoLetivo'] ?? null,
+			$data['outCodEscola'] ?? null,
+			$data['outNomeEscola'] ?? null,
+			$data['outCodUnidade'] ?? null,
+			$data['outCodTipoClasse'] ?? null,
+			$data['outCodTurno'] ?? null,
+			$data['outDescricaoTurno'] ?? null,
+			$data['outTurma'] ?? null,
+			$data['outDescricaoTurma'] ?? null,
+			$data['outNrCapacidadeFisicaMaxima'] ?? null,
+			$data['outNrAlunosAtivos'] ?? null,
+			$data['outDataInicioAula'] ?? null,
+			$data['outDataFimAula'] ?? null,
+			$data['outHorarioInicioAula'] ?? null,
+			$data['outHorarioFimAula'] ?? null,
+			$data['outCodDuracao'] ?? null,
+			$data['outCodHabilitacao'] ?? null,
+			$data['outAtividadesComplementar'] ?? null,
+			$data['outCodTipoEnsino'] ?? null,
+			$data['outNomeTipoEnsino'] ?? null,
+			$data['outNumeroSala'] ?? null,
+			$data['outCodSerieAno'] ?? null,
+			$data['outDescricaoSerieAno'] ?? null,
+			$data['outDiasSemana'] ?? null
+		);
 	}
 }
