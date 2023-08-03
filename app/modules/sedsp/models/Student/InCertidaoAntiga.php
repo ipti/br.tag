@@ -27,15 +27,6 @@ class InCertidaoAntiga implements JsonSerializable
 		$this->inUFComarca = $inUFComarca;
 		$this->inDataEmissaoCertidao = $inDataEmissaoCertidao;
 	}
-	function jsonSerialize()
-    {
-        $filteredProps = array_filter(get_object_vars($this), function ($value) {
-            return $value !== null;
-        });
-
-        return $filteredProps;
-    }
-
 	/**
 	 * Get the value of inNumCertidao
 	 */
@@ -160,5 +151,10 @@ class InCertidaoAntiga implements JsonSerializable
 		$this->inDataEmissaoCertidao = $inDataEmissaoCertidao;
 
 		return $this;
+	}
+
+	function jsonSerialize()
+	{
+		return get_object_vars($this);
 	}
 }

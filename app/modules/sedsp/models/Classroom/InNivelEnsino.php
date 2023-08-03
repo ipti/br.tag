@@ -1,6 +1,6 @@
 <?php
 
-class InNivelEnsino
+class InNivelEnsino implements JsonSerializable
 {
 	public $inCodSerieAno;
 	public $inCodTipoEnsino;
@@ -47,4 +47,8 @@ class InNivelEnsino
 
 		return $this;
 	}
+
+	function jsonSerialize() {
+        return get_object_vars($this);
+    }
 }

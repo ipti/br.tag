@@ -1,6 +1,6 @@
 <?php
 
-class InResponsavelAluno 
+class InResponsavelAluno implements JsonSerializable
 {
     public $inDocumentosAluno;
     public $inAluno;
@@ -45,5 +45,9 @@ class InResponsavelAluno
         $this->inAluno = $inAluno;
 
         return $this;
+    }
+
+    function jsonSerialize() {
+        return get_object_vars($this);
     }
 }

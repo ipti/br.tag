@@ -31,15 +31,6 @@ class InDocumentos implements JsonSerializable
 		$this->outDataEmissaoCertidao = $outDataEmissaoCertidao;
 	}
 
-    function jsonSerialize()
-    {
-        $filteredProps = array_filter(get_object_vars($this), function ($value) {
-            return $value !== null;
-        });
-
-        return $filteredProps;
-    }
-
     /**
      * Get the value of outCodINEP
      */
@@ -182,5 +173,10 @@ class InDocumentos implements JsonSerializable
 		$this->outDataEmissaoCertidao = $outDataEmissaoCertidao;
 
 		return $this;
+	}
+
+	function jsonSerialize()
+	{
+		return get_object_vars($this);
 	}
 }

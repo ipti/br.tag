@@ -43,15 +43,6 @@ class InRecursoAvaliacao
 		$this->inProvaLinguaPortuguesa = $inProvaLinguaPortuguesa;
 	}
 
-    function jsonSerialize()
-    {
-        $filteredProps = array_filter(get_object_vars($this), function ($value) {
-            return $value !== null;
-        });
-
-        return $filteredProps;
-    }
-
 	/**
 	 * Get the value of inNenhum
 	 */
@@ -266,5 +257,10 @@ class InRecursoAvaliacao
 		$this->inProvaLinguaPortuguesa = $inProvaLinguaPortuguesa;
 
 		return $this;
+	}
+
+	function jsonSerialize()
+	{
+		return get_object_vars($this);
 	}
 }

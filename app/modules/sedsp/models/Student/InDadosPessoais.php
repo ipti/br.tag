@@ -76,15 +76,6 @@ class InDadosPessoais implements JsonSerializable
 		$this->inCodPaisOrigem = $inCodPaisOrigem;
 		$this->inPaisOrigem = $inPaisOrigem;
 	}
-    
-    public function jsonSerialize()
-    {
-        $filteredProps = array_filter(get_object_vars($this), function ($value) {
-            return $value !== null;
-        });
-
-        return $filteredProps;
-    }
 
     /**
      * Get the value of inNomeAluno
@@ -498,5 +489,10 @@ class InDadosPessoais implements JsonSerializable
 		$this->inPaisOrigem = $inPaisOrigem;
 
 		return $this;
+	}
+
+	function jsonSerialize()
+	{
+		return get_object_vars($this);
 	}
 }

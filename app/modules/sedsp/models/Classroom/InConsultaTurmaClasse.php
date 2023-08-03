@@ -1,6 +1,6 @@
 <?php
 
-class InConsultaTurmaClasse
+class InConsultaTurmaClasse implements JsonSerializable
 {
     public $inAnoLetivo;
 	public $inNumClasse;
@@ -46,4 +46,8 @@ class InConsultaTurmaClasse
 
 		return $this;
 	}
+
+	function jsonSerialize() {
+        return get_object_vars($this);
+    }
 }

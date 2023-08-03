@@ -1,6 +1,6 @@
 <?php
 
-class InDiasDaSemana
+class InDiasDaSemana implements JsonSerializable
 {
 	public $inFlagSegunda;
 	public $inHoraIniAulaSegunda;
@@ -384,4 +384,8 @@ class InDiasDaSemana
 
 		return $this;
 	}
+
+	function jsonSerialize() {
+        return get_object_vars($this);
+    }
 }

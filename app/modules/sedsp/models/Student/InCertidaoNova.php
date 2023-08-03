@@ -37,15 +37,6 @@ class InCertidaoNova implements JsonSerializable
 		$this->inDataEmissaoCertidao = $inDataEmissaoCertidao;
 	}
 	
-	public function jsonSerialize()
-    {
-        $filteredProps = array_filter(get_object_vars($this), function ($value) {
-            return $value !== null;
-        });
-
-        return $filteredProps;
-    }
-
 	/**
 	 * Get the value of inCertMatr01
 	 */
@@ -224,5 +215,10 @@ class InCertidaoNova implements JsonSerializable
 		$this->inDataEmissaoCertidao = $inDataEmissaoCertidao;
 
 		return $this;
+	}
+
+	function jsonSerialize()
+	{
+		return get_object_vars($this);
 	}
 }

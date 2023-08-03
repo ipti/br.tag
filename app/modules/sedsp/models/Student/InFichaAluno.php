@@ -31,15 +31,6 @@ class InFichaAluno implements JsonSerializable
         $this->inRastreio = $inRastreio;
     }
 
-    public function jsonSerialize()
-    {
-        $filteredProps = array_filter(get_object_vars($this), function ($value) {
-            return $value !== null;
-        });
-
-        return $filteredProps;
-    }
-
     /**
      * Get the value of inDadosPessoais
      */
@@ -183,4 +174,9 @@ class InFichaAluno implements JsonSerializable
 
         return $this;
     }
+
+    function jsonSerialize()
+	{
+		return get_object_vars($this);
+	}
 }

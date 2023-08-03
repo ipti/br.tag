@@ -42,14 +42,6 @@ class InEnderecoResidencial implements JsonSerializable
 		$this->inLatitude = $inLatitude;
 		$this->inLongitude = $inLongitude;
 	}
-    public function jsonSerialize()
-    {
-		$filteredProps = array_filter(get_object_vars($this), function ($value) {
-            return $value !== null;
-        });
-
-        return $filteredProps;
-    }
 
 	/**
 	 * Get the value of inLogradouro
@@ -265,5 +257,10 @@ class InEnderecoResidencial implements JsonSerializable
 		$this->inLongitude = $inLongitude;
 
 		return $this;
+	}
+
+	function jsonSerialize()
+	{
+		return get_object_vars($this);
 	}
 }

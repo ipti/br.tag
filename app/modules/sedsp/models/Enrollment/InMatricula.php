@@ -1,6 +1,6 @@
 <?php
 
-class InMatricula
+class InMatricula implements JsonSerializable
 {
 	public $inAnoLetivo;
 	public $inDataTroca;
@@ -111,4 +111,8 @@ class InMatricula
 
 		return $this;
 	}
+
+	function jsonSerialize() {
+        return get_object_vars($this);
+    }
 }

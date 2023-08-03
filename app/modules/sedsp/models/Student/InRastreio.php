@@ -19,15 +19,6 @@ class InRastreio implements JsonSerializable
 		$this->inLocalPerfilAcesso = $inLocalPerfilAcesso;
 	}
 
-    function jsonSerialize()
-    {
-        $filteredProps = array_filter(get_object_vars($this), function ($value) {
-            return $value !== null;
-        });
-
-        return $filteredProps;
-    }
-
     /**
      * Get the value of inUsuarioRemoto
      */
@@ -98,5 +89,10 @@ class InRastreio implements JsonSerializable
 		$this->inLocalPerfilAcesso = $inLocalPerfilAcesso;
 
 		return $this;
+	}
+
+	function jsonSerialize()
+	{
+		return get_object_vars($this);
 	}
 }

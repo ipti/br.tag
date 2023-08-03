@@ -28,15 +28,6 @@ class InDeficiencia implements JsonSerializable
 		$this->inTipoProfSaude = $inTipoProfSaude;
 	}
 
-	function jsonSerialize()
-    {
-        $filteredProps = array_filter(get_object_vars($this), function ($value) {
-            return $value !== null;
-        });
-
-        return $filteredProps;
-    }
-
 	/**
 	 * Get the value of inCodNecessidade
 	 */
@@ -161,6 +152,11 @@ class InDeficiencia implements JsonSerializable
 		$this->inTipoProfSaude = $inTipoProfSaude;
 
 		return $this;
+	}
+
+	function jsonSerialize()
+	{
+		return get_object_vars($this);
 	}
 }
 

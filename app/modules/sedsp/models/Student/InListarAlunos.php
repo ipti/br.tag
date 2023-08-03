@@ -18,15 +18,6 @@ class InListarAlunos implements JsonSerializable
         $this->inDocumentos = $inDocumentos;
     }
 
-    function jsonSerialize()
-    {
-        $filteredProps = array_filter(get_object_vars($this), function ($value) {
-            return $value !== null;
-        });
-
-        return $filteredProps;
-    }
-
     /**
      * Get the value of inDadosPessoais
      */
@@ -62,4 +53,9 @@ class InListarAlunos implements JsonSerializable
 
         return $this;
     }
+
+    function jsonSerialize()
+	{
+		return get_object_vars($this);
+	}
 }

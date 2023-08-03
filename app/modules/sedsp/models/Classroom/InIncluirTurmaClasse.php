@@ -1,6 +1,6 @@
 <?php
 
-class InIncluirTurmaClasse
+class InIncluirTurmaClasse implements JsonSerializable
 {
     public $inAnoLetivo;
 	public $inCodEscola;
@@ -388,4 +388,8 @@ class InIncluirTurmaClasse
 
 		return $this;
 	}
+
+	function jsonSerialize() {
+        return get_object_vars($this);
+    }
 }
