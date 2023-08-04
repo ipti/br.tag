@@ -457,8 +457,7 @@ class OutFormacaoClasse
 			$data['outProcessoID'] ?? null,
 			($data['outAlunos'] ?? null) !== null ? array_map(static function($data) {
 				return OutAlunos::fromJson($data);
-			}, 
-			$data['outAlunos']) : null,
+			}, $data['outAlunos']) : null
 		);
 	}
 }
