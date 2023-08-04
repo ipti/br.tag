@@ -175,6 +175,20 @@ class InDocumentos implements JsonSerializable
 		return $this;
 	}
 
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			$data['inNumRG'] ?? null,
+			$data['inDigitoRG'] ?? null,
+			$data['inUFRG'] ?? null,
+			$data['inCPF'] ?? null,
+			$data['inNumNIS'] ?? null,
+			$data['inNumINEP'] ?? null,
+			$data['inNumCertidaoNova'] ?? null,
+			($data['CertidaoNasc'] ?? null) !== null ? CertidaoNasc::fromJson($data['CertidaoNasc']) : null
+		);
+	}
+
 	function jsonSerialize()
 	{
 		return get_object_vars($this);
