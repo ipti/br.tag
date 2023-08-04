@@ -292,31 +292,33 @@ class OutExibirFichaAluno
      */
     public static function fromJson(array $data): self
     {
+
+
         return new self(
-            $data['outDataAlteracaoFicha'] ?? null,
-            $data['outOperador'] ?? null,
-            $data['outDadosPessoais'] ?? null,
-            isset($data['outIrmaos']) ? array_map(static function($item) {
-                return OutAlunos::fromJson($item);
-            }, $data['outIrmaos']) : null,
-            $data['outDocumentos'] ?? null,
-            $data['outCodJustificativa'] ?? null,
-            $data['outJustificativaDocumento'] ?? null,
-            $data['outCertidaoNova'] ?? null,
-            $data['outCertidaoAntiga'] ?? null,
-            $data['outEnderecoResidencial'] ?? null,
-            $data['outEnderecoIndicativo'] ?? null,
-            isset($data['outTelefones']) ? array_map(static function($item) {
-                return OutAlunos::fromJson($item);
-            }, $data['outTelefones']) : null,
-            $data['outDeficiencia'] ?? null,
-            isset($data['outListaNecessidadesEspeciais']) ? array_map(static function($item) {
-                return OutAlunos::fromJson($item);
-            }, $data['outListaNecessidadesEspeciais']) : null,
-            $data['outRecursoAvaliacao'] ?? null,
-            $data['outSucesso'] ?? null,
-            $data['outErro'] ?? null,
-            $data['outProcessoID'] ?? null
-        );
+			$data['outDataAlteracaoFicha'] ?? null,
+			$data['outOperador'] ?? null,
+			($data['outDadosPessoais'] ?? null) !== null ? OutDadosPessoais::fromJson($data['outDadosPessoais']) : null,
+			($data['outIrmaos'] ?? null) !== null ? array_map(static function($data) {
+				return OutIrmaos::fromJson($data);
+			}, $data['outIrmaos']) : null,
+			($data['outDocumentos'] ?? null) !== null ? OutDocumentos::fromJson($data['outDocumentos']) : null,
+			$data['outCodJustificativa'] ?? null,
+			$data['outJustificativaDocumento'] ?? null,
+			($data['outCertidaoNova'] ?? null) !== null ? OutCertidaoNova::fromJson($data['outCertidaoNova']) : null,
+			($data['outCertidaoAntiga'] ?? null) !== null ? OutCertidaoAntiga::fromJson($data['outCertidaoAntiga']) : null,
+			($data['outEnderecoResidencial'] ?? null) !== null ? OutEnderecoResidencial::fromJson($data['outEnderecoResidencial']) : null,
+			($data['outEnderecoIndicativo'] ?? null) !== null ? OutEnderecoIndicativo::fromJson($data['outEnderecoIndicativo']) : null,
+			($data['outTelefones'] ?? null) !== null ? array_map(static function($data) {
+				return OutTelefones::fromJson($data);
+			}, $data['outTelefones']) : null,
+			($data['outDeficiencia'] ?? null) !== null ? OutDeficiencia::fromJson($data['outDeficiencia']) : null,
+			($data['outListaNecessidadesEspeciais'] ?? null) !== null ? array_map(static function($data) {
+				return OutListaNecessidadesEspeciais::fromJson($data);
+			}, $data['outListaNecessidadesEspeciais']) : null,
+			($data['outRecursoAvaliacao'] ?? null) !== null ? OutRecursoAvaliacao::fromJson($data['outRecursoAvaliacao']) : null,
+			$data['outSucesso'] ?? null,
+			$data['outErro'] ?? null,
+			$data['outProcessoID'] ?? null
+		);
     }
 }
