@@ -2,57 +2,61 @@
 
 class InListarAlunos implements JsonSerializable
 {
-    public $inDadosPessoais;
-    public $inDocumentos;
+    public $inFiltrosNomes;
+	public $inDataNascimento;
+	public $inDocumentos;
 
-    /**
-     * Summary of __construct
-     * @param InDadosPessoais $inDadosPessoais
-     * @param InDocumentos $inDocumentos
-     * 
-     * @return InListarAlunos
-     */
-    public function __construct(InDadosPessoais $inDadosPessoais, InDocumentos $inDocumentos)
-    {
-        $this->inDadosPessoais = $inDadosPessoais;
-        $this->inDocumentos = $inDocumentos;
-    }
+	public function __construct(
+		?InFiltrosNomes $inFiltrosNomes,
+		?string $inDataNascimento,
+		?InDocumentos $inDocumentos
+	) {
+		$this->inFiltrosNomes = $inFiltrosNomes;
+		$this->inDataNascimento = $inDataNascimento;
+		$this->inDocumentos = $inDocumentos;
+	}
 
-    /**
-     * Get the value of inDadosPessoais
-     */
-    public function getInDadosPessoais()
-    {
-        return $this->inDadosPessoais;
-    }
+	public function getInFiltrosNomes(): ?InFiltrosNomes
+	{
+		return $this->inFiltrosNomes;
+	}
 
-    /**
-     * Set the value of inDadosPessoais
-     */
-    public function setInDadosPessoais($inDadosPessoais): self
-    {
-        $this->inDadosPessoais = $inDadosPessoais;
+	public function getInDataNascimento(): ?string
+	{
+		return $this->inDataNascimento;
+	}
 
-        return $this;
-    }
+	public function getInDocumentos(): ?InDocumentos
+	{
+		return $this->inDocumentos;
+	}
 
-    /**
-     * Get the value of inDocumentos
-     */
-    public function getInDocumentos()
-    {
-        return $this->inDocumentos;
-    }
+	public function setInFiltrosNomes(?InFiltrosNomes $inFiltrosNomes): self
+	{
+		$this->inFiltrosNomes = $inFiltrosNomes;
+		return $this;
+	}
 
-    /**
-     * Set the value of inDocumentos
-     */
-    public function setInDocumentos($inDocumentos): self
-    {
-        $this->inDocumentos = $inDocumentos;
+	public function setInDataNascimento(?string $inDataNascimento): self
+	{
+		$this->inDataNascimento = $inDataNascimento;
+		return $this;
+	}
 
-        return $this;
-    }
+	public function setInDocumentos(?InDocumentos $inDocumentos): self
+	{
+		$this->inDocumentos = $inDocumentos;
+		return $this;
+	}
+
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			($data['inFiltrosNomes'] ?? null) !== null ? InFiltrosNomes::fromJson($data['inFiltrosNomes']) : null,
+			$data['inDataNascimento'] ?? null,
+			($data['inDocumentos'] ?? null) !== null ? InDocumentos::fromJson($data['inDocumentos']) : null
+		);
+	}
 
     function jsonSerialize()
 	{
