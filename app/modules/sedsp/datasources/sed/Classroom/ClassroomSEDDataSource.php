@@ -118,8 +118,8 @@ class ClassroomSEDDataSource extends SedDataSource
 
     /**
      * Summary of getConsultClass
-     * @param InConsultClass $inConsultClass
-     * @return OutConsultClass|OutErro
+     * @param InConsultaTurmaClasse $inConsultClass
+     * @return OutConsultaTurmaClasse|OutErro
      */
     function getConsultClass($inConsultClass) 
     {
@@ -132,17 +132,53 @@ class ClassroomSEDDataSource extends SedDataSource
                 throw new InvalidArgumentException("Entrada inválida: tamanho máximo excedido.");
             };
 
-            $consultClassRequestBody = [
-                'inAnoLetivo' => $inConsultClass->inAnoLetivo,
-                'inNumClasse' => $inConsultClass->inNumClasse
-            ];
-
-            $apiResponse = $this->client->request('GET', 'ncaapi/api/TurmaClasse/ConsultaTurmaClasse', [
-                'body' => json_encode($consultClassRequestBody)
-            ]);
+            $apiResponse = json_decode($this->client->request('GET', 'ncaapi/api/TurmaClasse/ConsultaTurmaClasse', [
+                'body' => json_encode($inConsultClass)
+            ])->getBody()->getContents());
    
-            $consultClass = json_decode($apiResponse->getBody()->getContents());  
-            return new OutConsultClass($consultClass);          
+            return new OutConsultaTurmaClasse(
+                intval($apiResponse->outAnoLetivo),
+                intval($apiResponse->outCodEscola),
+                $apiResponse->outNomeEscola,
+                intval($apiResponse->outCodUnidade),
+                intval($apiResponse->outCodTipoClasse),
+                intval($apiResponse->outCodTurno),
+                $apiResponse->outDescricaoTurno,
+                intval($apiResponse->outTurma),
+                $apiResponse->outDescricaoTurma,
+                intval($apiResponse->outNrCapacidadeFisicaMaxima),
+                intval($apiResponse->outNrAlunosAtivos),
+                $apiResponse->outDataInicioAula,
+                $apiResponse->outDataFimAula,
+                $apiResponse->outHorarioInicioAula,
+                $apiResponse->outHorarioFimAula,
+                intval($apiResponse->outCodDuracao),
+                intval($apiResponse->outCodHabilitacao),
+                $apiResponse->outAtividadesComplementar,
+                intval($apiResponse->outCodTipoEnsino),
+                $apiResponse->outNomeTipoEnsino,
+                $apiResponse->outNumeroSala,
+                intval($apiResponse->outCodSerieAno),
+                $apiResponse->outDescricaoSerieAno,
+                new OutDiasSemana(
+                    $apiResponse->outDiasSemana->outFlagSegunda,
+                    $apiResponse->outDiasSemana->outHoraIniAulaSegunda,
+                    $apiResponse->outDiasSemana->outHoraFimAulaSegunda,
+                    $apiResponse->outDiasSemana->outFlagTerca,
+                    $apiResponse->outDiasSemana->outHoraIniAulaTerca,
+                    $apiResponse->outDiasSemana->outHoraFimAulaTerca,
+                    $apiResponse->outDiasSemana->outFlagQuarta,
+                    $apiResponse->outDiasSemana->outHoraIniAulaQuarta,
+                    $apiResponse->outDiasSemana->outHoraFimAulaQuarta,
+                    $apiResponse->outDiasSemana->outFlagQuinta,
+                    $apiResponse->outDiasSemana->outHoraIniAulaQuinta,
+                    $apiResponse->outDiasSemana->outHoraFimAulaQuinta,
+                    $apiResponse->outDiasSemana->outFlagSexta,
+                    $apiResponse->outDiasSemana->outHoraIniAulaSexta,
+                    $apiResponse->outDiasSemana->outHoraFimAulaSexta,
+                    $apiResponse->outDiasSemana->outFlagSabado
+                ) 
+            );          
         } catch (InvalidArgumentException $e) {
             return new OutErro($e);
         } catch (GuzzleHttp\Exception\ClientException $e) {
