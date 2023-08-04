@@ -43,8 +43,8 @@ class ClassroomSEDDataSource extends SedDataSource
 
     /**
      * Summary of getClassroom
-     * @param InClassroom $inClassroom
-     * @return OutClassroom|OutErro
+     * @param InFormacaoClasse $inClassroom
+     * @return OutFormacaoClasse|OutErro
      */
     public function getClassroom($inClassroom)
     {
@@ -56,17 +56,57 @@ class ClassroomSEDDataSource extends SedDataSource
             if (strlen($inClassroom->inNumClasse) > self::LENGTH_IN_NUM_CLASS) {
                 throw new InvalidArgumentException("Entrada inválida: tamanho máximo excedido.");
             };
-
-            $classroomRequestBody = [
-                'inNumClasse' => $inClassroom->inNumClasse
-            ];
     
-            $apiResponse = $this->client->request('GET', '/ncaapi/api/RelacaoAlunosClasse/FormacaoClasse', [
-                'body' => json_encode($classroomRequestBody)
-            ]);
-            
-            $classroom = json_decode($apiResponse->getBody()->getContents());
-            return new OutClassroom($classroom);
+            $apiResponse = json_decode($this->client->request('GET', '/ncaapi/api/RelacaoAlunosClasse/FormacaoClasse', [
+                'body' => json_encode($inClassroom)
+            ])->getBody()->getContents());
+
+            foreach ($apiResponse->outAlunos as $aluno) {
+                $outAlunosObj[] = new OutAlunos(
+                    $aluno->outNumRA,
+                    $aluno->outDigitoRA,
+                    $aluno->outSiglaUFRA,
+                    $aluno->outNomeAluno,
+                    $aluno->outNumAluno,
+                    $aluno->outDataNascimento,
+                    $aluno->outGrauNivel,
+                    $aluno->outSerieNivel,
+                    $aluno->outCodSitMatricula,
+                    $aluno->outDescSitMatricula
+                );
+            }
+
+            return new OutFormacaoClasse(
+                $apiResponse->outCodEscola,
+                $apiResponse->outDescNomeAbrevEscola,
+                $apiResponse->outCodTipoEnsino,
+                $apiResponse->outDescTipoEnsino,
+                $apiResponse->outAnoLetivo,
+                $apiResponse->outNumClasse,
+                $apiResponse->outCodSerieAno,
+                $apiResponse->outTurma,
+                $apiResponse->outCodTurno,
+                $apiResponse->outDescricaoTurno,
+                $apiResponse->outCodHabilitacao,
+                $apiResponse->outCodTipoClasse,
+                $apiResponse->outNumSala,
+                $apiResponse->outHorarioInicio,
+                $apiResponse->outHorarioFim,
+                $apiResponse->outQtdAtual,
+                $apiResponse->outQtdDigitados,
+                $apiResponse->outQtdEvadidos,
+                $apiResponse->outQtdNCom,
+                $apiResponse->outQtdOutros,
+                $apiResponse->outQtdTransferidos,
+                $apiResponse->outQtdRemanejados,
+                $apiResponse->outQtdCessados,
+                $apiResponse->outQtdReclassificados,
+                $apiResponse->outCapacidadeFisicaMax,
+                $apiResponse->outDataInicioAula,
+                $apiResponse->outDataFimAula,
+                $outAlunosObj,
+                $apiResponse->outProcessoID
+            );
         } catch (InvalidArgumentException $e) {
             return new OutErro($e);
         } catch (GuzzleHttp\Exception\ClientException $e) {
