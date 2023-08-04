@@ -22,6 +22,7 @@
  * @property integer $week_days_friday
  * @property integer $week_days_saturday
  * @property integer $assistance_type
+ * @property integer $schooling
  * @property integer $mais_educacao_participator
  * @property integer $complementary_activity_type_1
  * @property integer $complementary_activity_type_2

@@ -30,6 +30,20 @@
         max-height: 42px;
         width: 100% !important;
     }
+    .select3-choices {
+        min-width: 200px;
+        max-height: 57px;
+        width: 100% !important;
+        word-wrap: break-word;
+        text-overflow: ellipsis;
+        
+        @include device(tablet){
+            max-height: 60px;
+        }
+        @include device(mobile){
+            max-height: 60px;
+        }
+    }
     
 }
 // botao-cancelar-multiselect

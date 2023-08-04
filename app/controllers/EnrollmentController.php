@@ -32,7 +32,8 @@ class EnrollmentController extends Controller
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'view', 'create', 'update', "updatedependencies",
-                    'delete', 'getmodalities', 'grades', 'getGrades', 'saveGrades', 'getDisciplines', 'calculateFinalMedia'),
+                    'delete', 'getmodalities', 'grades', 'getGrades', 'saveGrades', 
+                    'getDisciplines', 'calculateFinalMedia', 'reportCard', 'getReportCardGrades', 'saveGradesReportCard'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -259,6 +260,31 @@ class EnrollmentController extends Controller
         ));
     }
 
+    public function actionReportCard()
+    {
+        $year = Yii::app()->user->year;
+        $school = Yii::app()->user->school;
+
+        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            $criteria = new CDbCriteria;
+            $criteria->alias = "c";
+            $criteria->join = ""
+                . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
+                . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
+            $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
+            $criteria->order = "name";
+            $criteria->params = array(':school_year' => $year, ':school_inep_fk' => $school, ':users_fk' => Yii::app()->user->loginInfos->id);
+
+            $classroom = Classroom::model()->findAll($criteria);
+            $classroom = CHtml::listData($classroom, 'id', 'name');
+        } else {
+            $classroom = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $year, 'school_inep_fk' => $school]);
+            $classroom = CHtml::listData($classroom, 'id', 'name');
+        }
+
+        $this->render('reportCard', ['classrooms' => $classroom]);
+    }
+
     /**
      * Show the view
      */
@@ -320,6 +346,32 @@ class EnrollmentController extends Controller
         }
     }
 
+    public function actionSaveGradesReportCard()
+    {
+        $discipline = $_POST['discipline'];
+        $students = $_POST['students'];
+        foreach($students as $std) {
+            $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $std['enrollmentId'], "discipline_fk" => $discipline]);
+            $gradeResult->grade_1 = $std['grades'][0]['value'];
+            $gradeResult->grade_2 = $std['grades'][1]['value'];
+            $gradeResult->grade_3 = $std['grades'][2]['value'];
+            $gradeResult->grade_4 = $std['grades'][3]['value'];
+            $gradeResult->grade_faults_1 = $std['grades'][0]['faults'];
+            $gradeResult->grade_faults_2 = $std['grades'][1]['faults'];
+            $gradeResult->grade_faults_3 = $std['grades'][2]['faults'];
+            $gradeResult->grade_faults_4 = $std['grades'][3]['faults'];
+            $mediaFinal = ( floatval($gradeResult->grade_1) + floatval($gradeResult->grade_2) + 
+            floatval($gradeResult->grade_3) + floatval($gradeResult->grade_4)) / 4;
+            $gradeResult->final_media = number_format($mediaFinal, 1);
+            try {
+                $gradeResult->save();
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+        }
+        echo json_encode(["valid" => true]);
+    }
+
     public function actionSaveGrades()
     {
         // $hasFinalMediaCalculated = false;
@@ -354,6 +406,45 @@ class EnrollmentController extends Controller
         // }
         self::saveGradeResults($_POST["classroom"], $_POST["discipline"]);
         echo json_encode(["valid" => true]);
+    }
+
+    public function actionGetReportCardGrades()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = "se";
+        $criteria->join = "join student_identification si on si.id = se.student_fk";
+        $criteria->condition = "classroom_fk = :classroom_fk";
+        $criteria->params = array(':classroom_fk' => $_POST["classroom"]);
+        $criteria->order = "si.name";
+        $studentEnrollments = StudentEnrollment::model()->findAll($criteria);
+
+        if ($studentEnrollments != null) {
+            $result["students"] = [];
+            foreach ($studentEnrollments as $studentEnrollment) {
+                $arr["enrollmentId"] = $studentEnrollment->id;
+                $arr["studentName"] = $studentEnrollment->studentFk->name;
+                $arr["grades"] = [];
+                $arr["faults"] = [];
+
+                $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", 
+                ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $_POST["discipline"]]);
+                
+                array_push($arr["grades"], ["value" => $gradeResult->grade_1,"faults" => $gradeResult->grade_faults_1]);
+                array_push($arr["grades"], ["value" => $gradeResult->grade_2,"faults" => $gradeResult->grade_faults_2]);
+                array_push($arr["grades"], ["value" => $gradeResult->grade_3,"faults" => $gradeResult->grade_faults_3]);
+                array_push($arr["grades"], ["value" => $gradeResult->grade_4,"faults" => $gradeResult->grade_faults_4]);
+
+
+                $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
+                array_push($result["students"], $arr);
+            }
+
+            $result["valid"] = true;
+        } else {
+            $result["valid"] = false;
+            $result["message"] = "Não há estudantes matriculados na turma.";
+        }
+        echo json_encode($result);
     }
 
     public function actionGetGrades()

@@ -732,6 +732,7 @@ return array(
     'Add Resource' => 'Adicionar Recurso',
     'Description' => 'Descrição',
     'Classes' => 'Aulas',
+    'Report Card' => 'Boletim',
     
     //Grades
     'Grades' => 'Notas',
