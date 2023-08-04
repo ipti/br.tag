@@ -149,7 +149,7 @@ class StudentSEDDataSource extends SedDataSource
     /**
      * 
      * @param InAluno $inAluno Objeto contendo informações do aluno.
-     * @return OutAluno|OutErro Retorna um objeto OutAluno em caso de sucesso ou OutErro em caso de erro.
+     * @return OutExibirFichaAluno|OutErro Retorna um objeto OutAluno em caso de sucesso ou OutErro em caso de erro.
      * 
      * @throws InvalidArgumentException Se os dados de entrada forem inválidos.
      * @throws Exception Se ocorrer um erro desconhecido.
@@ -167,21 +167,130 @@ class StudentSEDDataSource extends SedDataSource
                 strlen($inAluno->inDigitoRA) > self::LENGTH_IN_DIGITO_RA) {
                 throw new InvalidArgumentException("Entrada inválida: tamanho máximo excedido.");
             }
-
-            $alunoRequestBody = [
-                'inAluno' => [
-                    'inNumRA' => $inAluno->inNumRA, 
-                    'inDigitoRA' => $inAluno->inDigitoRA ?? null, 
-                    'InSiglaUFRA' => $inAluno->inSiglaUFRA
-                ]
-            ];
     
-            $apiResponse = $this->client->request('GET', '/ncaapi/api/Aluno/ExibirFichaAluno', [
-                'body' => json_encode($alunoRequestBody)
-            ]);
-            
-            $aluno = json_decode($apiResponse->getBody()->getContents());
-            return new OutAluno($aluno);
+            $apiResponse = json_decode($this->client->request('GET', '/ncaapi/api/Aluno/ExibirFichaAluno', [
+                'body' => json_encode(["inAluno" => $inAluno], JSON_UNESCAPED_UNICODE)
+            ])->getBody()->getContents());
+          
+            return new OutExibirFichaAluno(
+                $apiResponse->outDataAlteracaoFicha,
+                $apiResponse->outOperador,
+                new OutDadosPessoais(
+                    $apiResponse->outDadosPessoais->outNumRA,
+                    $apiResponse->outDadosPessoais->outDigitoRA,
+                    $apiResponse->outDadosPessoais->outSiglaUFRA,
+                    $apiResponse->outDadosPessoais->outNomeAluno,
+                    $apiResponse->outDadosPessoais->outDataNascimento,
+                    $apiResponse->outDadosPessoais->outCorRaca,
+                    $apiResponse->outDadosPessoais->outDescCorRaca,
+                    $apiResponse->outDadosPessoais->outSexo,
+                    $apiResponse->outDadosPessoais->outNomeMae,
+                    $apiResponse->outDadosPessoais->outNomePai,
+                    $apiResponse->outDadosPessoais->outNomeSocial,
+                    $apiResponse->outDadosPessoais->outNomeAfetivo,
+                    $apiResponse->outDadosPessoais->outEmail,
+                    $apiResponse->outDadosPessoais->outNacionalidade,
+                    $apiResponse->outDadosPessoais->outDescNacionalidade,
+                    $apiResponse->outDadosPessoais->outDataEntradaPais,
+                    $apiResponse->outDadosPessoais->outCodPaisOrigem,
+                    $apiResponse->outDadosPessoais->outNomePaisOrigem,
+                    $apiResponse->outDadosPessoais->outCodBolsaFamilia,
+                    $apiResponse->outDadosPessoais->outPossuiInternet,
+                    $apiResponse->outDadosPessoais->outPossuiNotebookSmartphoneTablet,
+                    $apiResponse->outDadosPessoais->outBolsaFamilia,
+                    $apiResponse->outDadosPessoais->outQuilombola,
+                    $apiResponse->outDadosPessoais->outTipoSanguineo,
+                    $apiResponse->outDadosPessoais->outDoadorOrgaos,
+                    $apiResponse->outDadosPessoais->outNumeroCNS,
+                    $apiResponse->outDadosPessoais->outNomeMunNascto,
+                    $apiResponse->outDadosPessoais->outUFMunNascto,
+                    $apiResponse->outDadosPessoais->outCodMunNasctoDNE
+                ),
+                $apiResponse->outIrmaos ?? [],
+                new OutDocumentos(
+                    $apiResponse->outDocumentos->outCodINEP,
+                    $apiResponse->outDocumentos->outCPF,
+                    $apiResponse->outDocumentos->outNumNIS,
+                    $apiResponse->outDocumentos->outNumDoctoCivil,
+                    $apiResponse->outDocumentos->outDigitoDoctoCivil,
+                    $apiResponse->outDocumentos->outUFDoctoCivil,
+                    $apiResponse->outDocumentos->outDataEmissaoDoctoCivil,
+                    $apiResponse->outDocumentos->outDataEmissaoCertidao
+                ),
+                $apiResponse->outCodJustificativa,
+                $apiResponse->outJustificativaDocumento,
+                new OutCertidaoNova(
+                    $apiResponse->outCertidaoNova->outCertMatr01,
+                    $apiResponse->outCertidaoNova->outCertMatr02,
+                    $apiResponse->outCertidaoNova->outCertMatr03,
+                    $apiResponse->outCertidaoNova->outCertMatr04,
+                    $apiResponse->outCertidaoNova->outCertMatr05,
+                    $apiResponse->outCertidaoNova->outCertMatr06,
+                    $apiResponse->outCertidaoNova->outCertMatr07,
+                    $apiResponse->outCertidaoNova->outCertMatr08,
+                    $apiResponse->outCertidaoNova->outCertMatr09
+                ),
+                new OutCertidaoAntiga(
+                    $apiResponse->outCertidaoAntiga->outNumCertidao,
+                    $apiResponse->outCertidaoAntiga->outNumLivroReg,
+                    $apiResponse->outCertidaoAntiga->outFolhaRegNum,
+                    $apiResponse->outCertidaoAntiga->outNomeMunComarca,
+                    $apiResponse->outCertidaoAntiga->outUFComarca,
+                    $apiResponse->outCertidaoAntiga->outDistritoNasc
+                ),
+                new OutEnderecoResidencial(
+                    $apiResponse->outEnderecoResidencial->outLogradouro,
+                    $apiResponse->outEnderecoResidencial->outNumero,
+                    $apiResponse->outEnderecoResidencial->outCodArea,
+                    $apiResponse->outEnderecoResidencial->outAreaLogradouro,
+                    $apiResponse->outEnderecoResidencial->outComplemento,
+                    $apiResponse->outEnderecoResidencial->outBairro,
+                    $apiResponse->outEnderecoResidencial->outNomeCidade,
+                    $apiResponse->outEnderecoResidencial->outUFCidade,
+                    $apiResponse->outEnderecoResidencial->outCodMunicipioDNE,
+                    $apiResponse->outEnderecoResidencial->outLatitude,
+                    $apiResponse->outEnderecoResidencial->outLongitude,
+                    $apiResponse->outEnderecoResidencial->outCep,
+                    $apiResponse->outEnderecoResidencial->outCodLocalizacao,
+                    $apiResponse->outEnderecoResidencial->outLocalizacaoDiferenciada
+                ),
+                new OutEnderecoIndicativo(
+                    $apiResponse->outEnderecoIndicativo->outLogradouro,
+                    $apiResponse->outEnderecoIndicativo->outNumero,
+                    $apiResponse->outEnderecoIndicativo->outBairro,
+                    $apiResponse->outEnderecoIndicativo->outNomeCidade,
+                    $apiResponse->outEnderecoIndicativo->outLatitude,
+                    $apiResponse->outEnderecoIndicativo->outLongitude,
+                    $apiResponse->outEnderecoIndicativo->outCep
+                ),
+                $apiResponse->outTelefones ?? [],
+                new OutDeficiencia(
+                    $apiResponse->outDeficiencia->outMobilidadeReduzida,
+                    $apiResponse->outDeficiencia->outDescMobilidadeReduzida,
+                    $apiResponse->outDeficiencia->outCuidador,
+                    $apiResponse->outDeficiencia->outDescCuidador,
+                    $apiResponse->outDeficiencia->outProfSaude,
+                    $apiResponse->outDeficiencia->outDescProfSaude
+                ),
+                $apiResponse->outListaNecessidadesEspeciais ?? [],
+                new OutRecursoAvaliacao(
+                    $apiResponse->outRecursoAvaliacao->outGuiaInterprete,
+                    $apiResponse->outRecursoAvaliacao->outInterpreteLibras,
+                    $apiResponse->outRecursoAvaliacao->outLeituraLabial,
+                    $apiResponse->outRecursoAvaliacao->outNenhum,
+                    $apiResponse->outRecursoAvaliacao->outProvaAmpliada,
+                    $apiResponse->outRecursoAvaliacao->outTamanhoFonte,
+                    $apiResponse->outRecursoAvaliacao->outProvaBraile,
+                    $apiResponse->outRecursoAvaliacao->outAuxilioTranscricao,
+                    $apiResponse->outRecursoAvaliacao->outAuxilioLeitor,
+                    $apiResponse->outRecursoAvaliacao->outProvaVideoLibras,
+                    $apiResponse->outRecursoAvaliacao->outCdAudioDefVisual,
+                    $apiResponse->outRecursoAvaliacao->outProvaLinguaPortuguesa
+                ),
+                $apiResponse->outSucesso,
+                $apiResponse->outErro,
+                $apiResponse->outProcessoID
+            );
         } catch (InvalidArgumentException $invalidArgumentException) {
             throw $invalidArgumentException;
         } catch (ClientException $e) {

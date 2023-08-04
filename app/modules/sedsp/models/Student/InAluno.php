@@ -8,9 +8,9 @@ class InAluno implements JsonSerializable
 	public $inSiglaUFRA;
 
 	public function __construct(
-		string $inNumRA,
-		string $inDigitoRA,
-		string $inSiglaUFRA
+		?string $inNumRA,
+		?string $inDigitoRA,
+		?string $inSiglaUFRA
 	) {
 		$this->inNumRA = $inNumRA;
 		$this->inDigitoRA = $inDigitoRA;
