@@ -651,7 +651,7 @@ $(".save-instructor").click(function () {
     }
     if ($("#InstructorIdentification_filiation").val() === '1' && ($("#InstructorIdentification_filiation_1").val() === "" && $("#InstructorIdentification_filiation_2").val() === "")) {
         error = true;
-        message += "Quando o campo <b>Filiação</b> é selecionado como 'Declarado', pelo menos um dos campos <b>Nome Completo da Mãe</b> ou <b>Nome Completo do Pai</b> devem ser preenchidos.<br>";
+        message += "Quando o campo <b>Filiação</b> é selecionado como 'Declarado', pelo menos um dos campos <b>Nome Completo da Filiação</b> ou <b>Nome Completo do Pai</b> devem ser preenchidos.<br>";
     }
     var variableData1Filled = false;
     if (($("#InstructorVariableData_high_education_situation_1").val() === "1" && ($("#InstructorVariableData_high_education_course_code_1_fk").val() === "" || $("#InstructorVariableData_high_education_final_year_1").val() === "" || $("#InstructorVariableData_high_education_institution_code_1_fk").val() === ""))

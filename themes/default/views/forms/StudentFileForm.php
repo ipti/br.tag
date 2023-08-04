@@ -85,7 +85,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <tr>
                 <td>DATA: _______/_______/_________</td>
                 <td colspan="2"  style="font-size: 10px;line-height: 11px;padding-top: 12px;">__________________________________________________________________________________
-                    <br>Pai, Mãe ou Responsável
+                    <br>Filiação ou Responsável
                 </td>
             </tr>
             <tr style="border-top: 1px solid black;">
@@ -154,7 +154,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         </tr>
         <tr>
             <td>
-                <div class="span12"><b>06 - Mãe</b></div>
+                <div class="span12"><b>06 - Filiação 1</b></div>
                 <div class="span12"><b>Nome: </b><span class="mother"><?= $data['mother'] ?></span></div>
                 <div class="span4"><b>RG: </b><span class="cc_number"><?= $data['mother_rg'] ?></div>
                 <div class="span8"><b>CPF: </b><span class="cc_number"><?= $data['mother_cpf'] ?><span class="father"></span></div>
