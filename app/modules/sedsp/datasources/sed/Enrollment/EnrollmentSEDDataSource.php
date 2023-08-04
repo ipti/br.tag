@@ -26,21 +26,57 @@ class EnrollmentSEDDataSource extends SedDataSource
                 strlen($inAluno->inDigitoRA) > self::LENGTH_IN_DIGITO_RA) {
                 throw new InvalidArgumentException("Entrada inválida: tamanho máximo excedido.");
             }
-
-            $alunoRequestBody = [
-                'inAluno' => [
-                    'inNumRA' => $inAluno->inNumRA, 
-                    'inDigitoRA' => $inAluno->inDigitoRA ?? null, 
-                    'InSiglaUFRA' => $inAluno->inSiglaUFRA
-                ]
-            ];
     
-            $apiResponse = $this->client->request('GET', '/ncaapi/api/Matricula/ListarMatriculasRA', [
-                'body' => json_encode($alunoRequestBody)
-            ]);
+            $apiResponse = json_decode($this->client->request('GET', '/ncaapi/api/Matricula/ListarMatriculasRA', [
+                'body' => json_encode($inAluno)
+            ])->getBody()->getContents());
             
-            $alunoListEnrollment = json_decode($apiResponse->getBody()->getContents());
-            return new OutListaMatriculaRA($alunoListEnrollment);
+            $outListMatricula = [];
+            foreach ($apiResponse->outListaMatriculas as $matricula) {
+                $outListMatricula[] = new OutListaMatriculas(
+                    $matricula->outAnoLetivo,
+                    $matricula->outMunicipio,
+                    $matricula->outNomeRedeEnsino,
+                    $matricula->outCodEscola,
+                    $matricula->outCodUnidade,
+                    $matricula->outDescNomeAbrevEscola,
+                    $matricula->outNumClasse,
+                    $matricula->outNumAluno,
+                    $matricula->outCodTurno,
+                    $matricula->outDescricaoTurno,
+                    $matricula->outCodTipoEnsino,
+                    $matricula->outDescTipoEnsino,
+                    $matricula->outCodSerieAno,
+                    $matricula->outDescSerieAno,
+                    $matricula->outGrauNivel,
+                    $matricula->outSerieNivel,
+                    $matricula->outTurma,
+                    $matricula->outDescTurma,
+                    $matricula->outCodHabilitacao,
+                    $matricula->outDescHabilitacao,
+                    $matricula->outDataInicioMatricula,
+                    $matricula->outDataFimMatricula,
+                    $matricula->outDataInclusaoMatricula,
+                    $matricula->outCodSitMatricula,
+                    $matricula->outDescSitMatricula,
+                    $matricula->outCodSitTranspEscolar,
+                    $matricula->outDescSitTranspEscolar
+               );
+            }
+            
+            return new OutListaMatriculaRA(
+                new OutAluno(
+                    $apiResponse->outNumRA,
+                    $apiResponse->outDigitoRA,
+                    $apiResponse->outSiglaUFRA,
+                    $apiResponse->outNomeAluno,
+                    $apiResponse->outNomeMae,
+                    $apiResponse->outNomePai,
+                    $apiResponse->outDataNascimento
+                ),
+                $outListMatricula,
+                $apiResponse->outProcessoID
+            );
         } catch (InvalidArgumentException $e) {
             return new OutErro($e);
         } catch (GuzzleHttp\Exception\ClientException $e) {
