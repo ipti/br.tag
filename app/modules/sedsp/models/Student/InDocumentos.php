@@ -2,176 +2,120 @@
 
 class InDocumentos implements JsonSerializable
 {
-    public $outCodINEP;
-	public $outCPF;
-	public $outNumNIS;
-	public $outNumDoctoCivil;
-	public $outDigitoDoctoCivil;
-	public $outUFDoctoCivil;
-	public $outDataEmissaoDoctoCivil;
-	public $outDataEmissaoCertidao;
+    public $inNumRG;
+	public $inDigitoRG;
+	public $inUFRG;
+	public $inCPF;
+	public $inNumNIS;
+	public $inNumINEP;
+	public $inNumCertidaoNova;
+	public $CertidaoNasc;
 
 	public function __construct(
-		string $outCodINEP,
-		string $outCPF,
-		string $outNumNIS,
-		string $outNumDoctoCivil,
-		string $outDigitoDoctoCivil,
-		string $outUFDoctoCivil,
-		string $outDataEmissaoDoctoCivil,
-		string $outDataEmissaoCertidao
+		?string $inNumRG,
+		?string $inDigitoRG,
+		?string $inUFRG,
+		?string $inCPF,
+		?string $inNumNIS,
+		?string $inNumINEP,
+		?string $inNumCertidaoNova,
+		?CertidaoNasc $CertidaoNasc
 	) {
-		$this->outCodINEP = $outCodINEP;
-		$this->outCPF = $outCPF;
-		$this->outNumNIS = $outNumNIS;
-		$this->outNumDoctoCivil = $outNumDoctoCivil;
-		$this->outDigitoDoctoCivil = $outDigitoDoctoCivil;
-		$this->outUFDoctoCivil = $outUFDoctoCivil;
-		$this->outDataEmissaoDoctoCivil = $outDataEmissaoDoctoCivil;
-		$this->outDataEmissaoCertidao = $outDataEmissaoCertidao;
+		$this->inNumRG = $inNumRG;
+		$this->inDigitoRG = $inDigitoRG;
+		$this->inUFRG = $inUFRG;
+		$this->inCPF = $inCPF;
+		$this->inNumNIS = $inNumNIS;
+		$this->inNumINEP = $inNumINEP;
+		$this->inNumCertidaoNova = $inNumCertidaoNova;
+		$this->CertidaoNasc = $CertidaoNasc;
 	}
 
-    /**
-     * Get the value of outCodINEP
-     */
-    public function getOutCodINEP()
-    {
-        return $this->outCodINEP;
-    }
-
-    /**
-     * Set the value of outCodINEP
-     */
-    public function setOutCodINEP($outCodINEP): self
-    {
-        $this->outCodINEP = $outCodINEP;
-
-        return $this;
-    }
-
-	/**
-	 * Get the value of outCPF
-	 */
-	public function getOutCPF()
+	public function getInNumRg(): ?string
 	{
-		return $this->outCPF;
+		return $this->inNumRG;
 	}
 
-	/**
-	 * Set the value of outCPF
-	 */
-	public function setOutCPF($outCPF): self
+	public function getInDigitoRg(): ?string
 	{
-		$this->outCPF = $outCPF;
+		return $this->inDigitoRG;
+	}
 
+	public function getInUfrg(): ?string
+	{
+		return $this->inUFRG;
+	}
+
+	public function getInCpf(): ?string
+	{
+		return $this->inCPF;
+	}
+
+	public function getInNumNis(): ?string
+	{
+		return $this->inNumNIS;
+	}
+
+	public function getInNumInep(): ?string
+	{
+		return $this->inNumINEP;
+	}
+
+	public function getInNumCertidaoNova(): ?string
+	{
+		return $this->inNumCertidaoNova;
+	}
+
+	public function getCertidaoNasc(): ?CertidaoNasc
+	{
+		return $this->CertidaoNasc;
+	}
+
+	public function setInNumRg(?string $inNumRG): self
+	{
+		$this->inNumRG = $inNumRG;
 		return $this;
 	}
 
-	/**
-	 * Get the value of outNumNIS
-	 */
-	public function getOutNumNIS()
+	public function setInDigitoRg(?string $inDigitoRG): self
 	{
-		return $this->outNumNIS;
-	}
-
-	/**
-	 * Set the value of outNumNIS
-	 */
-	public function setOutNumNIS($outNumNIS): self
-	{
-		$this->outNumNIS = $outNumNIS;
-
+		$this->inDigitoRG = $inDigitoRG;
 		return $this;
 	}
 
-	/**
-	 * Get the value of outNumDoctoCivil
-	 */
-	public function getOutNumDoctoCivil()
+	public function setInUfrg(?string $inUFRG): self
 	{
-		return $this->outNumDoctoCivil;
-	}
-
-	/**
-	 * Set the value of outNumDoctoCivil
-	 */
-	public function setOutNumDoctoCivil($outNumDoctoCivil): self
-	{
-		$this->outNumDoctoCivil = $outNumDoctoCivil;
-
+		$this->inUFRG = $inUFRG;
 		return $this;
 	}
 
-	/**
-	 * Get the value of outDigitoDoctoCivil
-	 */
-	public function getOutDigitoDoctoCivil()
+	public function setInCpf(?string $inCPF): self
 	{
-		return $this->outDigitoDoctoCivil;
-	}
-
-	/**
-	 * Set the value of outDigitoDoctoCivil
-	 */
-	public function setOutDigitoDoctoCivil($outDigitoDoctoCivil): self
-	{
-		$this->outDigitoDoctoCivil = $outDigitoDoctoCivil;
-
+		$this->inCPF = $inCPF;
 		return $this;
 	}
 
-	/**
-	 * Get the value of outUFDoctoCivil
-	 */
-	public function getOutUFDoctoCivil()
+	public function setInNumNis(?string $inNumNIS): self
 	{
-		return $this->outUFDoctoCivil;
-	}
-
-	/**
-	 * Set the value of outUFDoctoCivil
-	 */
-	public function setOutUFDoctoCivil($outUFDoctoCivil): self
-	{
-		$this->outUFDoctoCivil = $outUFDoctoCivil;
-
+		$this->inNumNIS = $inNumNIS;
 		return $this;
 	}
 
-	/**
-	 * Get the value of outDataEmissaoDoctoCivil
-	 */
-	public function getOutDataEmissaoDoctoCivil()
+	public function setInNumInep(?string $inNumINEP): self
 	{
-		return $this->outDataEmissaoDoctoCivil;
-	}
-
-	/**
-	 * Set the value of outDataEmissaoDoctoCivil
-	 */
-	public function setOutDataEmissaoDoctoCivil($outDataEmissaoDoctoCivil): self
-	{
-		$this->outDataEmissaoDoctoCivil = $outDataEmissaoDoctoCivil;
-
+		$this->inNumINEP = $inNumINEP;
 		return $this;
 	}
 
-	/**
-	 * Get the value of outDataEmissaoCertidao
-	 */
-	public function getOutDataEmissaoCertidao()
+	public function setInNumCertidaoNova(?string $inNumCertidaoNova): self
 	{
-		return $this->outDataEmissaoCertidao;
+		$this->inNumCertidaoNova = $inNumCertidaoNova;
+		return $this;
 	}
 
-	/**
-	 * Set the value of outDataEmissaoCertidao
-	 */
-	public function setOutDataEmissaoCertidao($outDataEmissaoCertidao): self
+	public function setCertidaoNasc(?CertidaoNasc $CertidaoNasc): self
 	{
-		$this->outDataEmissaoCertidao = $outDataEmissaoCertidao;
-
+		$this->CertidaoNasc = $CertidaoNasc;
 		return $this;
 	}
 
