@@ -3,42 +3,33 @@
 class InCertidaoAntiga implements JsonSerializable
 {
 	public $inNumCertidao;
-
 	public $inLivro;
-
 	public $inFolha;
-
 	public $inDistritoCertidao;
-
 	public $inMunicipioComarca;
-
 	public $inUFComarca;
-
 	public $inDataEmissaoCertidao;
 
-	/**
-	 * @param string $inNumCertidao
-	 * @param string $inLivro
-	 * @param string $inFolha
-	 * @param string $inDistritoCertidao
-	 * @param string $inMunicipioComarca
-	 * @param string $inUFComarca
-	 * @param string $inDataEmissaoCertidao
-	 */
-	public function __construct($inCertidaoAntiga) {
-		$inCertidaoAntiga = (object) $inCertidaoAntiga;
-		$this->inNumCertidao = $inCertidaoAntiga->inNumCertidao;
-		$this->inLivro = $inCertidaoAntiga->inLivro;
-		$this->inFolha = $inCertidaoAntiga->inFolha;
-		$this->inDistritoCertidao = $inCertidaoAntiga->inDistritoCertidao;
-		$this->inMunicipioComarca = $inCertidaoAntiga->inMunicipioComarca;
-		$this->inUFComarca = $inCertidaoAntiga->inUfComarca;
-		$this->inDataEmissaoCertidao = $inCertidaoAntiga->inDataEmissaoCertidao;
+	public function __construct(
+		string $inNumCertidao,
+		string $inLivro,
+		string $inFolha,
+		string $inDistritoCertidao,
+		string $inMunicipioComarca,
+		string $inUFComarca,
+		string $inDataEmissaoCertidao
+	) {
+		$this->inNumCertidao = $inNumCertidao;
+		$this->inLivro = $inLivro;
+		$this->inFolha = $inFolha;
+		$this->inDistritoCertidao = $inDistritoCertidao;
+		$this->inMunicipioComarca = $inMunicipioComarca;
+		$this->inUFComarca = $inUFComarca;
+		$this->inDataEmissaoCertidao = $inDataEmissaoCertidao;
 	}
-
 	/**
 	 * Get the value of inNumCertidao
-	 */ 
+	 */
 	public function getInNumCertidao()
 	{
 		return $this->inNumCertidao;
@@ -46,10 +37,8 @@ class InCertidaoAntiga implements JsonSerializable
 
 	/**
 	 * Set the value of inNumCertidao
-	 *
-	 * @return  self
-	 */ 
-	public function setInNumCertidao($inNumCertidao)
+	 */
+	public function setInNumCertidao($inNumCertidao): self
 	{
 		$this->inNumCertidao = $inNumCertidao;
 
@@ -58,7 +47,7 @@ class InCertidaoAntiga implements JsonSerializable
 
 	/**
 	 * Get the value of inLivro
-	 */ 
+	 */
 	public function getInLivro()
 	{
 		return $this->inLivro;
@@ -66,10 +55,8 @@ class InCertidaoAntiga implements JsonSerializable
 
 	/**
 	 * Set the value of inLivro
-	 *
-	 * @return  self
-	 */ 
-	public function setInLivro($inLivro)
+	 */
+	public function setInLivro($inLivro): self
 	{
 		$this->inLivro = $inLivro;
 
@@ -78,7 +65,7 @@ class InCertidaoAntiga implements JsonSerializable
 
 	/**
 	 * Get the value of inFolha
-	 */ 
+	 */
 	public function getInFolha()
 	{
 		return $this->inFolha;
@@ -86,10 +73,8 @@ class InCertidaoAntiga implements JsonSerializable
 
 	/**
 	 * Set the value of inFolha
-	 *
-	 * @return  self
-	 */ 
-	public function setInFolha($inFolha)
+	 */
+	public function setInFolha($inFolha): self
 	{
 		$this->inFolha = $inFolha;
 
@@ -98,7 +83,7 @@ class InCertidaoAntiga implements JsonSerializable
 
 	/**
 	 * Get the value of inDistritoCertidao
-	 */ 
+	 */
 	public function getInDistritoCertidao()
 	{
 		return $this->inDistritoCertidao;
@@ -106,10 +91,8 @@ class InCertidaoAntiga implements JsonSerializable
 
 	/**
 	 * Set the value of inDistritoCertidao
-	 *
-	 * @return  self
-	 */ 
-	public function setInDistritoCertidao($inDistritoCertidao)
+	 */
+	public function setInDistritoCertidao($inDistritoCertidao): self
 	{
 		$this->inDistritoCertidao = $inDistritoCertidao;
 
@@ -118,7 +101,7 @@ class InCertidaoAntiga implements JsonSerializable
 
 	/**
 	 * Get the value of inMunicipioComarca
-	 */ 
+	 */
 	public function getInMunicipioComarca()
 	{
 		return $this->inMunicipioComarca;
@@ -126,10 +109,8 @@ class InCertidaoAntiga implements JsonSerializable
 
 	/**
 	 * Set the value of inMunicipioComarca
-	 *
-	 * @return  self
-	 */ 
-	public function setInMunicipioComarca($inMunicipioComarca)
+	 */
+	public function setInMunicipioComarca($inMunicipioComarca): self
 	{
 		$this->inMunicipioComarca = $inMunicipioComarca;
 
@@ -137,28 +118,26 @@ class InCertidaoAntiga implements JsonSerializable
 	}
 
 	/**
-	 * Get the value of inUfComarca
-	 */ 
-	public function getInUfComarca()
+	 * Get the value of inUFComarca
+	 */
+	public function getInUFComarca()
 	{
 		return $this->inUFComarca;
 	}
 
 	/**
-	 * Set the value of inUfComarca
-	 *
-	 * @return  self
-	 */ 
-	public function setInUfComarca($inUfComarca)
+	 * Set the value of inUFComarca
+	 */
+	public function setInUFComarca($inUFComarca): self
 	{
-		$this->inUFComarca = $inUfComarca;
+		$this->inUFComarca = $inUFComarca;
 
 		return $this;
 	}
 
 	/**
 	 * Get the value of inDataEmissaoCertidao
-	 */ 
+	 */
 	public function getInDataEmissaoCertidao()
 	{
 		return $this->inDataEmissaoCertidao;
@@ -166,23 +145,16 @@ class InCertidaoAntiga implements JsonSerializable
 
 	/**
 	 * Set the value of inDataEmissaoCertidao
-	 *
-	 * @return  self
-	 */ 
-	public function setInDataEmissaoCertidao($inDataEmissaoCertidao)
+	 */
+	public function setInDataEmissaoCertidao($inDataEmissaoCertidao): self
 	{
 		$this->inDataEmissaoCertidao = $inDataEmissaoCertidao;
 
 		return $this;
 	}
 
-	
 	function jsonSerialize()
-    {
-        $filteredProps = array_filter(get_object_vars($this), function ($value) {
-            return $value !== null;
-        });
-
-        return $filteredProps;
-    }
+	{
+		return get_object_vars($this);
+	}
 }

@@ -3,44 +3,96 @@
 class InRastreio implements JsonSerializable
 {
     public $inUsuarioRemoto;
-    public $inNomeUsuario;
-    public $inNumCPF;
-    public $inLocalPerfilAcesso;
+	public $inNomeUsuario;
+	public $inNumCPF;
+	public $inLocalPerfilAcesso;
 
-    public function __construct($inRastreio) {
-        $inRastreio = (object) $inRastreio;
-        $this->inUsuarioRemoto = $inRastreio->inUsuarioRemoto;
-        $this->inNomeUsuario = $inRastreio->inNomeUsuario;
-        $this->inNumCPF = $inRastreio->inNumCPF;
-        $this->inLocalPerfilAcesso = $inRastreio->inLocalPerfilAcesso;
-    }
+	public function __construct(
+		string $inUsuarioRemoto,
+		string $inNomeUsuario,
+		string $inNumCPF,
+		string $inLocalPerfilAcesso
+	) {
+		$this->inUsuarioRemoto = $inUsuarioRemoto;
+		$this->inNomeUsuario = $inNomeUsuario;
+		$this->inNumCPF = $inNumCPF;
+		$this->inLocalPerfilAcesso = $inLocalPerfilAcesso;
+	}
 
-    public function getInUsuarioRemoto(): string
+    /**
+     * Get the value of inUsuarioRemoto
+     */
+    public function getInUsuarioRemoto()
     {
         return $this->inUsuarioRemoto;
     }
 
-    public function getInNomeUsuario(): string
+    /**
+     * Set the value of inUsuarioRemoto
+     */
+    public function setInUsuarioRemoto($inUsuarioRemoto): self
     {
-        return $this->inNomeUsuario;
+        $this->inUsuarioRemoto = $inUsuarioRemoto;
+
+        return $this;
     }
 
-    public function getInNumCpf(): string
-    {
-        return $this->inNumCPF;
-    }
+	/**
+	 * Get the value of inNomeUsuario
+	 */
+	public function getInNomeUsuario()
+	{
+		return $this->inNomeUsuario;
+	}
 
-    public function getInLocalPerfilAcesso(): string
-    {
-        return $this->inLocalPerfilAcesso;
-    }
+	/**
+	 * Set the value of inNomeUsuario
+	 */
+	public function setInNomeUsuario($inNomeUsuario): self
+	{
+		$this->inNomeUsuario = $inNomeUsuario;
 
-    function jsonSerialize()
-    {
-        $filteredProps = array_filter(get_object_vars($this), function ($value) {
-            return $value !== null;
-        });
+		return $this;
+	}
 
-        return $filteredProps;
-    }
+	/**
+	 * Get the value of inNumCPF
+	 */
+	public function getInNumCPF()
+	{
+		return $this->inNumCPF;
+	}
+
+	/**
+	 * Set the value of inNumCPF
+	 */
+	public function setInNumCPF($inNumCPF): self
+	{
+		$this->inNumCPF = $inNumCPF;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of inLocalPerfilAcesso
+	 */
+	public function getInLocalPerfilAcesso()
+	{
+		return $this->inLocalPerfilAcesso;
+	}
+
+	/**
+	 * Set the value of inLocalPerfilAcesso
+	 */
+	public function setInLocalPerfilAcesso($inLocalPerfilAcesso): self
+	{
+		$this->inLocalPerfilAcesso = $inLocalPerfilAcesso;
+
+		return $this;
+	}
+
+	function jsonSerialize()
+	{
+		return get_object_vars($this);
+	}
 }

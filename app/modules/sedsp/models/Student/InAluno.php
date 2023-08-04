@@ -4,77 +4,75 @@
 class InAluno implements JsonSerializable
 {
     public $inNumRA;
+	public $inDigitoRA;
+	public $inSiglaUFRA;
 
-    public $inDigitoRA;
-
-    public $inSiglaUFRA;
-
-    /**
-     * @param string $inNumRA
-     * @param string $inDigitoRA
-     * @param string $inSiglaUFRA
-     */
-    public function __construct(
-        string $inNumRA,
-        string $inDigitoRA,
-        string $inSiglaUFRA
-    ) {
-        $this->inNumRA = $inNumRA;
-        $this->inDigitoRA = $inDigitoRA;
-        $this->inSiglaUFRA = $inSiglaUFRA;
-    }
+	public function __construct(
+		?string $inNumRA,
+		?string $inDigitoRA,
+		?string $inSiglaUFRA
+	) {
+		$this->inNumRA = $inNumRA;
+		$this->inDigitoRA = $inDigitoRA;
+		$this->inSiglaUFRA = $inSiglaUFRA;
+	}
 
     /**
-     * @param string $inNumRA
-     * @return self
+     * Get the value of inNumRA
      */
-    public function setInNumRa(string $inNumRA): self
-    {
-        $this->inNumRA = $inNumRA;
-        return $this;
-    }
-
-    function getInNumRA(): string
+    public function getInNumRA()
     {
         return $this->inNumRA;
     }
 
     /**
-     * @param string $inDigitoRA
-     * @return self
+     * Set the value of inNumRA
      */
-    public function setInDigitoRa(string $inDigitoRA): self
+    public function setInNumRA($inNumRA): self
     {
-        $this->inDigitoRA = $inDigitoRA;
+        $this->inNumRA = $inNumRA;
+
         return $this;
     }
 
-    function getInDigitoRA() : string
-    {
-        return $this->inDigitoRA;
-    }
+	/**
+	 * Get the value of inDigitoRA
+	 */
+	public function getInDigitoRA()
+	{
+		return $this->inDigitoRA;
+	}
 
-    /**
-     * @param string $inSiglaUFRA
-     * @return self
-     */
-    public function setInSiglaUfra(?string $inSiglaUFRA): self
-    {
-        $this->inSiglaUFRA = $inSiglaUFRA;
-        return $this;
-    }
+	/**
+	 * Set the value of inDigitoRA
+	 */
+	public function setInDigitoRA($inDigitoRA): self
+	{
+		$this->inDigitoRA = $inDigitoRA;
 
-    public function getInSiglaUFRA() : string  
-    {
-        return $this->inSiglaUFRA;
-    }
+		return $this;
+	}
 
-    function jsonSerialize()
-    {
-        $filteredProps = array_filter(get_object_vars($this), function ($value) {
-            return $value !== null;
-        });
+	/**
+	 * Get the value of inSiglaUFRA
+	 */
+	public function getInSiglaUFRA()
+	{
+		return $this->inSiglaUFRA;
+	}
 
-        return $filteredProps;
-    }
+	/**
+	 * Set the value of inSiglaUFRA
+	 */
+	public function setInSiglaUFRA($inSiglaUFRA): self
+	{
+		$this->inSiglaUFRA = $inSiglaUFRA;
+
+		return $this;
+	}
+
+	function jsonSerialize()
+	{
+		return get_object_vars($this);
+	}
 }

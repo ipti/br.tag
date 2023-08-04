@@ -3,7 +3,7 @@
 /**
  * Summary of inNumClasse
  */
-class InClassroom implements JsonSerializable
+class InFormacaoClasse implements JsonSerializable
 {
     public $inNumClasse;
 

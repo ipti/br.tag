@@ -1,87 +1,84 @@
 <?php
 
-class OutListaMatriculas
+class OutMatricula
 {
 	public $outAnoLetivo;
-	public $outMunicipio;
-	public $outNomeRedeEnsino;
 	public $outCodEscola;
-	public $outCodUnidade;
 	public $outDescNomeAbrevEscola;
 	public $outNumClasse;
-	public $outNumAluno;
-	public $outCodTurno;
-	public $outDescricaoTurno;
 	public $outCodTipoEnsino;
 	public $outDescTipoEnsino;
 	public $outCodSerieAno;
 	public $outDescSerieAno;
 	public $outGrauNivel;
 	public $outSerieNivel;
-	public $outTurma;
-	public $outDescTurma;
+	public $outCodTurno;
+	public $outDescricaoTurno;
+	public $outNumAluno;
 	public $outCodHabilitacao;
 	public $outDescHabilitacao;
-	public $outDataInicioMatricula;
-	public $outDataFimMatricula;
+	public $outTurma;
+	public $outDescTurma;
 	public $outDataInclusaoMatricula;
+	public $outDataFimMatricula;
+	public $outDataInicioMatricula;
+	public $outHoraFinal;
+	public $outHoraInicial;
 	public $outCodSitMatricula;
 	public $outDescSitMatricula;
 	public $outCodSitTranspEscolar;
-	public $outDescSitTranspEscolar ;
+	public $outDescSitTranspEscolar;
 
 	public function __construct(
 		?string $outAnoLetivo,
-		?string $outMunicipio,
-		?string $outNomeRedeEnsino,
 		?string $outCodEscola,
-		?string $outCodUnidade,
 		?string $outDescNomeAbrevEscola,
 		?string $outNumClasse,
-		?string $outNumAluno,
-		?string $outCodTurno,
-		?string $outDescricaoTurno,
 		?string $outCodTipoEnsino,
 		?string $outDescTipoEnsino,
 		?string $outCodSerieAno,
 		?string $outDescSerieAno,
 		?string $outGrauNivel,
 		?string $outSerieNivel,
-		?string $outTurma,
-		?string $outDescTurma,
+		?string $outCodTurno,
+		?string $outDescricaoTurno,
+		?string $outNumAluno,
 		?string $outCodHabilitacao,
 		?string $outDescHabilitacao,
-		?string $outDataInicioMatricula,
-		?string $outDataFimMatricula,
+		?string $outTurma,
+		?string $outDescTurma,
 		?string $outDataInclusaoMatricula,
+		?string $outDataFimMatricula,
+		?string $outDataInicioMatricula,
+		?string $outHoraFinal,
+		?string $outHoraInicial,
 		?string $outCodSitMatricula,
 		?string $outDescSitMatricula,
 		?string $outCodSitTranspEscolar,
 		?string $outDescSitTranspEscolar 
 	) {
 		$this->outAnoLetivo = $outAnoLetivo;
-		$this->outMunicipio = $outMunicipio;
-		$this->outNomeRedeEnsino = $outNomeRedeEnsino;
 		$this->outCodEscola = $outCodEscola;
-		$this->outCodUnidade = $outCodUnidade;
 		$this->outDescNomeAbrevEscola = $outDescNomeAbrevEscola;
 		$this->outNumClasse = $outNumClasse;
-		$this->outNumAluno = $outNumAluno;
-		$this->outCodTurno = $outCodTurno;
-		$this->outDescricaoTurno = $outDescricaoTurno;
 		$this->outCodTipoEnsino = $outCodTipoEnsino;
 		$this->outDescTipoEnsino = $outDescTipoEnsino;
 		$this->outCodSerieAno = $outCodSerieAno;
 		$this->outDescSerieAno = $outDescSerieAno;
 		$this->outGrauNivel = $outGrauNivel;
 		$this->outSerieNivel = $outSerieNivel;
-		$this->outTurma = $outTurma;
-		$this->outDescTurma = $outDescTurma;
+		$this->outCodTurno = $outCodTurno;
+		$this->outDescricaoTurno = $outDescricaoTurno;
+		$this->outNumAluno = $outNumAluno;
 		$this->outCodHabilitacao = $outCodHabilitacao;
 		$this->outDescHabilitacao = $outDescHabilitacao;
-		$this->outDataInicioMatricula = $outDataInicioMatricula;
-		$this->outDataFimMatricula = $outDataFimMatricula;
+		$this->outTurma = $outTurma;
+		$this->outDescTurma = $outDescTurma;
 		$this->outDataInclusaoMatricula = $outDataInclusaoMatricula;
+		$this->outDataFimMatricula = $outDataFimMatricula;
+		$this->outDataInicioMatricula = $outDataInicioMatricula;
+		$this->outHoraFinal = $outHoraFinal;
+		$this->outHoraInicial = $outHoraInicial;
 		$this->outCodSitMatricula = $outCodSitMatricula;
 		$this->outDescSitMatricula = $outDescSitMatricula;
 		$this->outCodSitTranspEscolar = $outCodSitTranspEscolar;
@@ -93,24 +90,9 @@ class OutListaMatriculas
 		return $this->outAnoLetivo;
 	}
 
-	public function getOutMunicipio(): ?string
-	{
-		return $this->outMunicipio;
-	}
-
-	public function getOutNomeRedeEnsino(): ?string
-	{
-		return $this->outNomeRedeEnsino;
-	}
-
 	public function getOutCodEscola(): ?string
 	{
 		return $this->outCodEscola;
-	}
-
-	public function getOutCodUnidade(): ?string
-	{
-		return $this->outCodUnidade;
 	}
 
 	public function getOutDescNomeAbrevEscola(): ?string
@@ -121,21 +103,6 @@ class OutListaMatriculas
 	public function getOutNumClasse(): ?string
 	{
 		return $this->outNumClasse;
-	}
-
-	public function getOutNumAluno(): ?string
-	{
-		return $this->outNumAluno;
-	}
-
-	public function getOutCodTurno(): ?string
-	{
-		return $this->outCodTurno;
-	}
-
-	public function getOutDescricaoTurno(): ?string
-	{
-		return $this->outDescricaoTurno;
 	}
 
 	public function getOutCodTipoEnsino(): ?string
@@ -168,14 +135,19 @@ class OutListaMatriculas
 		return $this->outSerieNivel;
 	}
 
-	public function getOutTurma(): ?string
+	public function getOutCodTurno(): ?string
 	{
-		return $this->outTurma;
+		return $this->outCodTurno;
 	}
 
-	public function getOutDescTurma(): ?string
+	public function getOutDescricaoTurno(): ?string
 	{
-		return $this->outDescTurma;
+		return $this->outDescricaoTurno;
+	}
+
+	public function getOutNumAluno(): ?string
+	{
+		return $this->outNumAluno;
 	}
 
 	public function getOutCodHabilitacao(): ?string
@@ -188,9 +160,19 @@ class OutListaMatriculas
 		return $this->outDescHabilitacao;
 	}
 
-	public function getOutDataInicioMatricula(): ?string
+	public function getOutTurma(): ?string
 	{
-		return $this->outDataInicioMatricula;
+		return $this->outTurma;
+	}
+
+	public function getOutDescTurma(): ?string
+	{
+		return $this->outDescTurma;
+	}
+
+	public function getOutDataInclusaoMatricula(): ?string
+	{
+		return $this->outDataInclusaoMatricula;
 	}
 
 	public function getOutDataFimMatricula(): ?string
@@ -198,9 +180,19 @@ class OutListaMatriculas
 		return $this->outDataFimMatricula;
 	}
 
-	public function getOutDataInclusaoMatricula(): ?string
+	public function getOutDataInicioMatricula(): ?string
 	{
-		return $this->outDataInclusaoMatricula;
+		return $this->outDataInicioMatricula;
+	}
+
+	public function getOutHoraFinal(): ?string
+	{
+		return $this->outHoraFinal;
+	}
+
+	public function getOutHoraInicial(): ?string
+	{
+		return $this->outHoraInicial;
 	}
 
 	public function getOutCodSitMatricula(): ?string
@@ -229,27 +221,9 @@ class OutListaMatriculas
 		return $this;
 	}
 
-	public function setOutMunicipio(?string $outMunicipio): self
-	{
-		$this->outMunicipio = $outMunicipio;
-		return $this;
-	}
-
-	public function setOutNomeRedeEnsino(?string $outNomeRedeEnsino): self
-	{
-		$this->outNomeRedeEnsino = $outNomeRedeEnsino;
-		return $this;
-	}
-
 	public function setOutCodEscola(?string $outCodEscola): self
 	{
 		$this->outCodEscola = $outCodEscola;
-		return $this;
-	}
-
-	public function setOutCodUnidade(?string $outCodUnidade): self
-	{
-		$this->outCodUnidade = $outCodUnidade;
 		return $this;
 	}
 
@@ -262,24 +236,6 @@ class OutListaMatriculas
 	public function setOutNumClasse(?string $outNumClasse): self
 	{
 		$this->outNumClasse = $outNumClasse;
-		return $this;
-	}
-
-	public function setOutNumAluno(?string $outNumAluno): self
-	{
-		$this->outNumAluno = $outNumAluno;
-		return $this;
-	}
-
-	public function setOutCodTurno(?string $outCodTurno): self
-	{
-		$this->outCodTurno = $outCodTurno;
-		return $this;
-	}
-
-	public function setOutDescricaoTurno(?string $outDescricaoTurno): self
-	{
-		$this->outDescricaoTurno = $outDescricaoTurno;
 		return $this;
 	}
 
@@ -319,15 +275,21 @@ class OutListaMatriculas
 		return $this;
 	}
 
-	public function setOutTurma(?string $outTurma): self
+	public function setOutCodTurno(?string $outCodTurno): self
 	{
-		$this->outTurma = $outTurma;
+		$this->outCodTurno = $outCodTurno;
 		return $this;
 	}
 
-	public function setOutDescTurma(?string $outDescTurma): self
+	public function setOutDescricaoTurno(?string $outDescricaoTurno): self
 	{
-		$this->outDescTurma = $outDescTurma;
+		$this->outDescricaoTurno = $outDescricaoTurno;
+		return $this;
+	}
+
+	public function setOutNumAluno(?string $outNumAluno): self
+	{
+		$this->outNumAluno = $outNumAluno;
 		return $this;
 	}
 
@@ -343,9 +305,21 @@ class OutListaMatriculas
 		return $this;
 	}
 
-	public function setOutDataInicioMatricula(?string $outDataInicioMatricula): self
+	public function setOutTurma(?string $outTurma): self
 	{
-		$this->outDataInicioMatricula = $outDataInicioMatricula;
+		$this->outTurma = $outTurma;
+		return $this;
+	}
+
+	public function setOutDescTurma(?string $outDescTurma): self
+	{
+		$this->outDescTurma = $outDescTurma;
+		return $this;
+	}
+
+	public function setOutDataInclusaoMatricula(?string $outDataInclusaoMatricula): self
+	{
+		$this->outDataInclusaoMatricula = $outDataInclusaoMatricula;
 		return $this;
 	}
 
@@ -355,9 +329,21 @@ class OutListaMatriculas
 		return $this;
 	}
 
-	public function setOutDataInclusaoMatricula(?string $outDataInclusaoMatricula): self
+	public function setOutDataInicioMatricula(?string $outDataInicioMatricula): self
 	{
-		$this->outDataInclusaoMatricula = $outDataInclusaoMatricula;
+		$this->outDataInicioMatricula = $outDataInicioMatricula;
+		return $this;
+	}
+
+	public function setOutHoraFinal(?string $outHoraFinal): self
+	{
+		$this->outHoraFinal = $outHoraFinal;
+		return $this;
+	}
+
+	public function setOutHoraInicial(?string $outHoraInicial): self
+	{
+		$this->outHoraInicial = $outHoraInicial;
 		return $this;
 	}
 
@@ -389,28 +375,27 @@ class OutListaMatriculas
 	{
 		return new self(
 			$data['outAnoLetivo'] ?? null,
-			$data['outMunicipio'] ?? null,
-			$data['outNomeRedeEnsino'] ?? null,
 			$data['outCodEscola'] ?? null,
-			$data['outCodUnidade'] ?? null,
 			$data['outDescNomeAbrevEscola'] ?? null,
 			$data['outNumClasse'] ?? null,
-			$data['outNumAluno'] ?? null,
-			$data['outCodTurno'] ?? null,
-			$data['outDescricaoTurno'] ?? null,
 			$data['outCodTipoEnsino'] ?? null,
 			$data['outDescTipoEnsino'] ?? null,
 			$data['outCodSerieAno'] ?? null,
 			$data['outDescSerieAno'] ?? null,
 			$data['outGrauNivel'] ?? null,
 			$data['outSerieNivel'] ?? null,
-			$data['outTurma'] ?? null,
-			$data['outDescTurma'] ?? null,
+			$data['outCodTurno'] ?? null,
+			$data['outDescricaoTurno'] ?? null,
+			$data['outNumAluno'] ?? null,
 			$data['outCodHabilitacao'] ?? null,
 			$data['outDescHabilitacao'] ?? null,
-			$data['outDataInicioMatricula'] ?? null,
-			$data['outDataFimMatricula'] ?? null,
+			$data['outTurma'] ?? null,
+			$data['outDescTurma'] ?? null,
 			$data['outDataInclusaoMatricula'] ?? null,
+			$data['outDataFimMatricula'] ?? null,
+			$data['outDataInicioMatricula'] ?? null,
+			$data['outHoraFinal'] ?? null,
+			$data['outHoraInicial'] ?? null,
 			$data['outCodSitMatricula'] ?? null,
 			$data['outDescSitMatricula'] ?? null,
 			$data['outCodSitTranspEscolar'] ?? null,

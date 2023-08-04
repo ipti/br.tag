@@ -4,323 +4,495 @@
 class InDadosPessoais implements JsonSerializable
 {
     public $inNomeAluno;
-    public $inNomeMae;
-    public $inNomePai;
-    public $inNomeSocial;
-    public $inNomeAfetivo;
-    public $inDataNascimento;
-    public $inCorRaca;
-    public $inSexo;
-    public $inBolsaFamilia;
-    public $inQuilombola;
-    public $inPossuiInternet;
-    public $inPossuiNotebookSmartphoneTablet;
-    public $inTipoSanguineo;
-    public $inDoadorOrgaos;
-    public $inNumeroCns;
-    public $inEmail;
-    public $inNacionalidade;
-    public $inNomeMunNascto;
-    public $inUfMunNascto;
-    public $inCodMunNasctoDne;
-    public $inDataEntradaPais;
-    public $inCodPaisOrigem;
-    public $inPaisOrigem;
+	public $inNomeMae;
+	public $inNomePai;
+	public $inNomeSocial;
+	public $inNomeAfetivo;
+	public $inDataNascimento;
+	public $inCorRaca;
+	public $inSexo;
+	public $inBolsaFamilia;
+	public $inQuilombola;
+	public $inPossuiInternet;
+	public $inPossuiNotebookSmartphoneTablet;
+	public $inTipoSanguineo;
+	public $inDoadorOrgaos;
+	public $inNumeroCNS;
+	public $inEmail;
+	public $inNacionalidade;
+	public $inNomeMunNascto;
+	public $inUFMunNascto;
+	public $inCodMunNasctoDNE;
+	public $inDataEntradaPais;
+	public $inCodPaisOrigem;
+	public $inPaisOrigem;
+
+	public function __construct(
+		string $inNomeAluno,
+		string $inNomeMae,
+		string $inNomePai,
+		string $inNomeSocial,
+		string $inNomeAfetivo,
+		string $inDataNascimento,
+		string $inCorRaca,
+		string $inSexo,
+		string $inBolsaFamilia,
+		string $inQuilombola,
+		string $inPossuiInternet,
+		string $inPossuiNotebookSmartphoneTablet,
+		string $inTipoSanguineo,
+		string $inDoadorOrgaos,
+		string $inNumeroCNS,
+		string $inEmail,
+		string $inNacionalidade,
+		string $inNomeMunNascto,
+		string $inUFMunNascto,
+		string $inCodMunNasctoDNE,
+		string $inDataEntradaPais,
+		string $inCodPaisOrigem,
+		string $inPaisOrigem
+	) {
+		$this->inNomeAluno = $inNomeAluno;
+		$this->inNomeMae = $inNomeMae;
+		$this->inNomePai = $inNomePai;
+		$this->inNomeSocial = $inNomeSocial;
+		$this->inNomeAfetivo = $inNomeAfetivo;
+		$this->inDataNascimento = $inDataNascimento;
+		$this->inCorRaca = $inCorRaca;
+		$this->inSexo = $inSexo;
+		$this->inBolsaFamilia = $inBolsaFamilia;
+		$this->inQuilombola = $inQuilombola;
+		$this->inPossuiInternet = $inPossuiInternet;
+		$this->inPossuiNotebookSmartphoneTablet = $inPossuiNotebookSmartphoneTablet;
+		$this->inTipoSanguineo = $inTipoSanguineo;
+		$this->inDoadorOrgaos = $inDoadorOrgaos;
+		$this->inNumeroCNS = $inNumeroCNS;
+		$this->inEmail = $inEmail;
+		$this->inNacionalidade = $inNacionalidade;
+		$this->inNomeMunNascto = $inNomeMunNascto;
+		$this->inUFMunNascto = $inUFMunNascto;
+		$this->inCodMunNasctoDNE = $inCodMunNasctoDNE;
+		$this->inDataEntradaPais = $inDataEntradaPais;
+		$this->inCodPaisOrigem = $inCodPaisOrigem;
+		$this->inPaisOrigem = $inPaisOrigem;
+	}
 
     /**
-     * Summary of __construct
-     *
-     * @param string $inNomeAluno
-     * @param string $inNomeMae
-     * @param string $inNomePai
-     * @param string $inNomeSocial
-     * @param string $inNomeAfetivo
-     * @param string $inDataNascimento
-     * @param string $inCorRaca
-     * @param string $inSexo
-     * @param string $inBolsaFamilia
-     * @param string $inQuilombola
-     * @param string $inPossuiInternet
-     * @param string $inPossuiNotebookSmartphoneTablet
-     * @param string $inTipoSanguineo
-     * @param string $inDoadorOrgaos
-     * @param string $inNumeroCns
-     * @param string $inEmail
-     * @param string $inNacionalidade
-     * @param string $inNomeMunNascto
-     * @param string $inUfMunNascto
-     * @param string $inCodMunNasctoDne
-     * @param string $inDataEntradaPais
-     * @param string $inCodPaisOrigem
-     * @param string $inPaisOrigem
-     * 
+     * Get the value of inNomeAluno
      */
-
-    public function __construct($InDadosPessoais)
+    public function getInNomeAluno()
     {
-        $InDadosPessoais = (object) $InDadosPessoais;
-        $this->inNomeAluno = $InDadosPessoais->inNomeAluno;
-        $this->inNomeMae = $InDadosPessoais->inNomeMae;
-        $this->inNomePai = $InDadosPessoais->inNomePai;
-        $this->inNomeSocial = $InDadosPessoais->inNomeSocial;
-        $this->inNomeAfetivo = $InDadosPessoais->inNomeAfetivo;
-        $this->inDataNascimento = $InDadosPessoais->inDataNascimento;
-        $this->inCorRaca = $InDadosPessoais->inCorRaca;
-        $this->inSexo = $InDadosPessoais->inSexo;
-        $this->inBolsaFamilia = $InDadosPessoais->inBolsaFamilia;
-        $this->inQuilombola = $InDadosPessoais->inQuilombola;
-        $this->inPossuiInternet = $InDadosPessoais->inPossuiInternet;
-        $this->inPossuiNotebookSmartphoneTablet = $InDadosPessoais->inPossuiNotebookSmartphoneTablet;
-        $this->inTipoSanguineo = $InDadosPessoais->inTipoSanguineo;
-        $this->inDoadorOrgaos = $InDadosPessoais->inDoadorOrgaos;
-        $this->inNumeroCns = $InDadosPessoais->inNumeroCns;
-        $this->inEmail = $InDadosPessoais->inEmail;
-        $this->inNacionalidade = $InDadosPessoais->inNacionalidade;
-        $this->inNomeMunNascto = $InDadosPessoais->inNomeMunNascto;
-        $this->inUfMunNascto = $InDadosPessoais->inUFMunNascto;
-        $this->inCodMunNasctoDne = $InDadosPessoais->inCodMunNasctoDne;
-        $this->inDataEntradaPais = $InDadosPessoais->inDataEntradaPais;
-        $this->inCodPaisOrigem = $InDadosPessoais->inCodPaisOrigem;
-        $this->inPaisOrigem = $InDadosPessoais->inPaisOrigem;
+        return $this->inNomeAluno;
     }
 
-
     /**
-     * @param string $inNomeAluno
-     * @return self
+     * Set the value of inNomeAluno
      */
-    public function setInNomeAluno(string $inNomeAluno): self
+    public function setInNomeAluno($inNomeAluno): self
     {
         $this->inNomeAluno = $inNomeAluno;
+
         return $this;
     }
 
-    /**
-     * @param string $inNomeMae
-     * @return self
-     */
-    public function setInNomeMae(string $inNomeMae): self
-    {
-        $this->inNomeMae = $inNomeMae;
-        return $this;
-    }
+	/**
+	 * Get the value of inNomeMae
+	 */
+	public function getInNomeMae()
+	{
+		return $this->inNomeMae;
+	}
 
-    /**
-     * @param string $inNomePai
-     * @return self
-     */
-    public function setInNomePai(string $inNomePai): self
-    {
-        $this->inNomePai = $inNomePai;
-        return $this;
-    }
+	/**
+	 * Set the value of inNomeMae
+	 */
+	public function setInNomeMae($inNomeMae): self
+	{
+		$this->inNomeMae = $inNomeMae;
 
-    /**
-     * @param string $inNomeSocial
-     * @return self
-     */
-    public function setInNomeSocial(string $inNomeSocial): self
-    {
-        $this->inNomeSocial = $inNomeSocial;
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * @param string $inNomeAfetivo
-     * @return self
-     */
-    public function setInNomeAfetivo(string $inNomeAfetivo): self
-    {
-        $this->inNomeAfetivo = $inNomeAfetivo;
-        return $this;
-    }
+	/**
+	 * Get the value of inNomePai
+	 */
+	public function getInNomePai()
+	{
+		return $this->inNomePai;
+	}
 
-    /**
-     * @param string $inDataNascimento
-     * @return self
-     */
-    public function setInDataNascimento(string $inDataNascimento): self
-    {
-        $this->inDataNascimento = $inDataNascimento;
-        return $this;
-    }
+	/**
+	 * Set the value of inNomePai
+	 */
+	public function setInNomePai($inNomePai): self
+	{
+		$this->inNomePai = $inNomePai;
 
-    /**
-     * @param string $inCorRaca
-     * @return self
-     */
-    public function setInCorRaca(string $inCorRaca): self
-    {
-        $this->inCorRaca = $inCorRaca;
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * @param string $inSexo
-     * @return self
-     */
-    public function setInSexo(string $inSexo): self
-    {
-        $this->inSexo = $inSexo;
-        return $this;
-    }
+	/**
+	 * Get the value of inNomeSocial
+	 */
+	public function getInNomeSocial()
+	{
+		return $this->inNomeSocial;
+	}
 
-    /**
-     * @param string $inBolsaFamilia
-     * @return self
-     */
-    public function setInBolsaFamilia(string $inBolsaFamilia): self
-    {
-        $this->inBolsaFamilia = $inBolsaFamilia;
-        return $this;
-    }
+	/**
+	 * Set the value of inNomeSocial
+	 */
+	public function setInNomeSocial($inNomeSocial): self
+	{
+		$this->inNomeSocial = $inNomeSocial;
 
-    /**
-     * @param string $inQuilombola
-     * @return self
-     */
-    public function setInQuilombola(string $inQuilombola): self
-    {
-        $this->inQuilombola = $inQuilombola;
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * @param string $inPossuiInternet
-     * @return self
-     */
-    public function setInPossuiInternet(string $inPossuiInternet): self
-    {
-        $this->inPossuiInternet = $inPossuiInternet;
-        return $this;
-    }
+	/**
+	 * Get the value of inNomeAfetivo
+	 */
+	public function getInNomeAfetivo()
+	{
+		return $this->inNomeAfetivo;
+	}
 
-    /**
-     * @param string $inPossuiNotebookSmartphoneTablet
-     * @return self
-     */
-    public function setInPossuiNotebookSmartphoneTablet(string $inPossuiNotebookSmartphoneTablet): self
-    {
-        $this->inPossuiNotebookSmartphoneTablet = $inPossuiNotebookSmartphoneTablet;
-        return $this;
-    }
+	/**
+	 * Set the value of inNomeAfetivo
+	 */
+	public function setInNomeAfetivo($inNomeAfetivo): self
+	{
+		$this->inNomeAfetivo = $inNomeAfetivo;
 
-    /**
-     * @param string $inTipoSanguineo
-     * @return self
-     */
-    public function setInTipoSanguineo(string $inTipoSanguineo): self
-    {
-        $this->inTipoSanguineo = $inTipoSanguineo;
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * @param string $inDoadorOrgaos
-     * @return self
-     */
-    public function setInDoadorOrgaos(string $inDoadorOrgaos): self
-    {
-        $this->inDoadorOrgaos = $inDoadorOrgaos;
-        return $this;
-    }
+	/**
+	 * Get the value of inDataNascimento
+	 */
+	public function getInDataNascimento()
+	{
+		return $this->inDataNascimento;
+	}
 
-    /**
-     * @param string $inNumeroCns
-     * @return self
-     */
-    public function setInNumeroCns(string $inNumeroCns): self
-    {
-        $this->inNumeroCns = $inNumeroCns;
-        return $this;
-    }
+	/**
+	 * Set the value of inDataNascimento
+	 */
+	public function setInDataNascimento($inDataNascimento): self
+	{
+		$this->inDataNascimento = $inDataNascimento;
 
-    /**
-     * @param string $inEmail
-     * @return self
-     */
-    public function setInEmail(string $inEmail): self
-    {
-        $this->inEmail = $inEmail;
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * @param string $inNacionalidade
-     * @return self
-     */
-    public function setInNacionalidade(string $inNacionalidade): self
-    {
-        $this->inNacionalidade = $inNacionalidade;
-        return $this;
-    }
+	/**
+	 * Get the value of inCorRaca
+	 */
+	public function getInCorRaca()
+	{
+		return $this->inCorRaca;
+	}
 
-    /**
-     * @param string $inNomeMunNascto
-     * @return self
-     */
-    public function setInNomeMunNascto(string $inNomeMunNascto): self
-    {
-        $this->inNomeMunNascto = $inNomeMunNascto;
-        return $this;
-    }
+	/**
+	 * Set the value of inCorRaca
+	 */
+	public function setInCorRaca($inCorRaca): self
+	{
+		$this->inCorRaca = $inCorRaca;
 
-    /**
-     * @param string $inUfMunNascto
-     * @return self
-     */
-    public function setInUfMunNascto(string $inUfMunNascto): self
-    {
-        $this->inUfMunNascto = $inUfMunNascto;
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * @param string $inCodMunNasctoDne
-     * @return self
-     */
-    public function setInCodMunNasctoDne(string $inCodMunNasctoDne): self
-    {
-        $this->inCodMunNasctoDne = $inCodMunNasctoDne;
-        return $this;
-    }
+	/**
+	 * Get the value of inSexo
+	 */
+	public function getInSexo()
+	{
+		return $this->inSexo;
+	}
 
-    /**
-     * @param string $inDataEntradaPais
-     * @return self
-     */
-    public function setInDataEntradaPais(string $inDataEntradaPais): self
-    {
-        $this->inDataEntradaPais = $inDataEntradaPais;
-        return $this;
-    }
+	/**
+	 * Set the value of inSexo
+	 */
+	public function setInSexo($inSexo): self
+	{
+		$this->inSexo = $inSexo;
 
-    /**
-     * @param string $inCodPaisOrigem
-     * @return self
-     */
-    public function setInCodPaisOrigem(string $inCodPaisOrigem): self
-    {
-        $this->inCodPaisOrigem = $inCodPaisOrigem;
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * @param string $inPaisOrigem
-     * @return self
-     */
-    public function setInPaisOrigem(string $inPaisOrigem): self
-    {
-        $this->inPaisOrigem = $inPaisOrigem;
-        return $this;
-    }
+	/**
+	 * Get the value of inBolsaFamilia
+	 */
+	public function getInBolsaFamilia()
+	{
+		return $this->inBolsaFamilia;
+	}
 
-    public function jsonSerialize()
-    {
-        $filteredProps = array_filter(get_object_vars($this), function ($value) {
-            return $value !== null;
-        });
+	/**
+	 * Set the value of inBolsaFamilia
+	 */
+	public function setInBolsaFamilia($inBolsaFamilia): self
+	{
+		$this->inBolsaFamilia = $inBolsaFamilia;
 
-        return $filteredProps;
-    }
+		return $this;
+	}
+
+	/**
+	 * Get the value of inQuilombola
+	 */
+	public function getInQuilombola()
+	{
+		return $this->inQuilombola;
+	}
+
+	/**
+	 * Set the value of inQuilombola
+	 */
+	public function setInQuilombola($inQuilombola): self
+	{
+		$this->inQuilombola = $inQuilombola;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of inPossuiInternet
+	 */
+	public function getInPossuiInternet()
+	{
+		return $this->inPossuiInternet;
+	}
+
+	/**
+	 * Set the value of inPossuiInternet
+	 */
+	public function setInPossuiInternet($inPossuiInternet): self
+	{
+		$this->inPossuiInternet = $inPossuiInternet;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of inPossuiNotebookSmartphoneTablet
+	 */
+	public function getInPossuiNotebookSmartphoneTablet()
+	{
+		return $this->inPossuiNotebookSmartphoneTablet;
+	}
+
+	/**
+	 * Set the value of inPossuiNotebookSmartphoneTablet
+	 */
+	public function setInPossuiNotebookSmartphoneTablet($inPossuiNotebookSmartphoneTablet): self
+	{
+		$this->inPossuiNotebookSmartphoneTablet = $inPossuiNotebookSmartphoneTablet;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of inTipoSanguineo
+	 */
+	public function getInTipoSanguineo()
+	{
+		return $this->inTipoSanguineo;
+	}
+
+	/**
+	 * Set the value of inTipoSanguineo
+	 */
+	public function setInTipoSanguineo($inTipoSanguineo): self
+	{
+		$this->inTipoSanguineo = $inTipoSanguineo;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of inDoadorOrgaos
+	 */
+	public function getInDoadorOrgaos()
+	{
+		return $this->inDoadorOrgaos;
+	}
+
+	/**
+	 * Set the value of inDoadorOrgaos
+	 */
+	public function setInDoadorOrgaos($inDoadorOrgaos): self
+	{
+		$this->inDoadorOrgaos = $inDoadorOrgaos;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of inNumeroCNS
+	 */
+	public function getInNumeroCNS()
+	{
+		return $this->inNumeroCNS;
+	}
+
+	/**
+	 * Set the value of inNumeroCNS
+	 */
+	public function setInNumeroCNS($inNumeroCNS): self
+	{
+		$this->inNumeroCNS = $inNumeroCNS;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of inEmail
+	 */
+	public function getInEmail()
+	{
+		return $this->inEmail;
+	}
+
+	/**
+	 * Set the value of inEmail
+	 */
+	public function setInEmail($inEmail): self
+	{
+		$this->inEmail = $inEmail;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of inNacionalidade
+	 */
+	public function getInNacionalidade()
+	{
+		return $this->inNacionalidade;
+	}
+
+	/**
+	 * Set the value of inNacionalidade
+	 */
+	public function setInNacionalidade($inNacionalidade): self
+	{
+		$this->inNacionalidade = $inNacionalidade;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of inNomeMunNascto
+	 */
+	public function getInNomeMunNascto()
+	{
+		return $this->inNomeMunNascto;
+	}
+
+	/**
+	 * Set the value of inNomeMunNascto
+	 */
+	public function setInNomeMunNascto($inNomeMunNascto): self
+	{
+		$this->inNomeMunNascto = $inNomeMunNascto;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of inUFMunNascto
+	 */
+	public function getInUFMunNascto()
+	{
+		return $this->inUFMunNascto;
+	}
+
+	/**
+	 * Set the value of inUFMunNascto
+	 */
+	public function setInUFMunNascto($inUFMunNascto): self
+	{
+		$this->inUFMunNascto = $inUFMunNascto;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of inCodMunNasctoDNE
+	 */
+	public function getInCodMunNasctoDNE()
+	{
+		return $this->inCodMunNasctoDNE;
+	}
+
+	/**
+	 * Set the value of inCodMunNasctoDNE
+	 */
+	public function setInCodMunNasctoDNE($inCodMunNasctoDNE): self
+	{
+		$this->inCodMunNasctoDNE = $inCodMunNasctoDNE;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of inDataEntradaPais
+	 */
+	public function getInDataEntradaPais()
+	{
+		return $this->inDataEntradaPais;
+	}
+
+	/**
+	 * Set the value of inDataEntradaPais
+	 */
+	public function setInDataEntradaPais($inDataEntradaPais): self
+	{
+		$this->inDataEntradaPais = $inDataEntradaPais;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of inCodPaisOrigem
+	 */
+	public function getInCodPaisOrigem()
+	{
+		return $this->inCodPaisOrigem;
+	}
+
+	/**
+	 * Set the value of inCodPaisOrigem
+	 */
+	public function setInCodPaisOrigem($inCodPaisOrigem): self
+	{
+		$this->inCodPaisOrigem = $inCodPaisOrigem;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of inPaisOrigem
+	 */
+	public function getInPaisOrigem()
+	{
+		return $this->inPaisOrigem;
+	}
+
+	/**
+	 * Set the value of inPaisOrigem
+	 */
+	public function setInPaisOrigem($inPaisOrigem): self
+	{
+		$this->inPaisOrigem = $inPaisOrigem;
+
+		return $this;
+	}
+
+	function jsonSerialize()
+	{
+		return get_object_vars($this);
+	}
 }
