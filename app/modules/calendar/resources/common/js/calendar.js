@@ -40,42 +40,64 @@ $(document).on("click", ".create-calendar", function () {
     }
 });
 
-$(document).on("click", ".edit-calendar-title", function (e) {
+$(document).on("click", ".edit-calendar", function (e) {
+    var icon = this;
     e.stopPropagation();
-    $("#edit-calendar-title-modal").find("#Calendar_id").val($(this).attr("data-id"));
-    $("#edit-calendar-title-modal").find("#Calendar_title").val($(this).closest(".accordion-group").find(".accordion-title").text().trim());
-    $("#edit-calendar-title-modal").modal("show");
+    $.ajax({
+        url: "?r=calendar/default/loadCalendarData",
+        type: "POST",
+        data: {
+            id: $(icon).attr("data-id")
+        },
+        beforeSend: function () {
+            $(icon).css("pointer-events", "none").find("i").addClass("fa-spin").addClass("fa-spinner").removeClass("fa-edit");
+        },
+    }).success(function (data) {
+        data = JSON.parse(data);
+        $("#edit-calendar-modal").find("#Calendar_id").val(data.id);
+        $("#edit-calendar-modal").find("#Calendar_title").val(data.title);
+        var selectedStages = [];
+        $.each(data.stages, function() {
+            selectedStages.push(this);
+        });
+        $("#edit-calendar-modal").find("#stages").val(selectedStages).trigger("change.select2");
+        $("#edit-calendar-modal").modal("show");
+    }).complete(function () {
+        $(icon).css("pointer-events", "auto").find("i").removeClass("fa-spin").removeClass("fa-spinner").addClass("fa-edit");
+
+    });
 });
 
-$(document).on("click", ".edit-calendar-title-button", function () {
-    if ($("#edit-calendar-title-modal").find("#Calendar_title").val() === "") {
-        $("#edit-calendar-title-modal").find(".alert").html("Preencha o campo abaixo.").show();
+$(document).on("click", ".edit-calendar-button", function () {
+    if ($("#edit-calendar-modal").find("#Calendar_title").val() === "") {
+        $("#edit-calendar-modal").find(".alert").html("Preencha o campo abaixo.").show();
     } else {
-        $("#edit-calendar-title-modal").find(".alert").hide();
+        $("#edit-calendar-modal").find(".alert").hide();
         $.ajax({
-            url: "?r=calendar/default/editCalendarTitle",
+            url: "?r=calendar/default/editCalendar",
             type: "POST",
             data: {
-                id: $("#edit-calendar-title-modal").find("#Calendar_id").val(),
-                title: $("#edit-calendar-title-modal").find("#Calendar_title").val()
+                id: $("#edit-calendar-modal").find("#Calendar_id").val(),
+                title: $("#edit-calendar-modal").find("#Calendar_title").val(),
+                stages: $("#edit-calendar-modal").find("#stages").val()
             },
             beforeSend: function () {
-                $("#edit-calendar-title-modal").find(".modal-body").css("opacity", 0.3).css("pointer-events", "none");
-                $("#edit-calendar-title-modal").find("button").attr("disabled", "disabled");
-                $("#edit-calendar-title-modal").find(".centered-loading-gif").show();
+                $("#edit-calendar-modal").find(".modal-body").css("opacity", 0.3).css("pointer-events", "none");
+                $("#edit-calendar-modal").find("button").attr("disabled", "disabled");
+                $("#edit-calendar-modal").find(".centered-loading-gif").show();
             },
         }).success(function (data) {
             data = JSON.parse(data);
             if (data.valid) {
-                $(".calendar-container[data-id=" + $("#edit-calendar-title-modal").find("#Calendar_id").val() + "]").closest(".accordion-group").find(".accordion-title").text($("#edit-calendar-title-modal").find("#Calendar_title").val());
-                $("#edit-calendar-title-modal").modal("hide");
+                $(".calendar-container[data-id=" + $("#edit-calendar-modal").find("#Calendar_id").val() + "]").closest(".accordion-group").find(".accordion-title").text($("#edit-calendar-modal").find("#Calendar_title").val());
+                $("#edit-calendar-modal").modal("hide");
             } else {
-                $("#edit-calendar-title-modal").find(".alert").html(DOMPurify.sanitize(data.error)).show();
+                $("#edit-calendar-modal").find(".alert").html(DOMPurify.sanitize(data.error)).show();
             }
         }).complete(function () {
-            $("#edit-calendar-title-modal").find(".modal-body").css("opacity", 1).css("pointer-events", "auto");
-            $("#edit-calendar-title-modal").find("button").removeAttr("disabled");
-            $("#edit-calendar-title-modal").find(".centered-loading-gif").hide();
+            $("#edit-calendar-modal").find(".modal-body").css("opacity", 1).css("pointer-events", "auto");
+            $("#edit-calendar-modal").find("button").removeAttr("disabled");
+            $("#edit-calendar-modal").find(".centered-loading-gif").hide();
         });
     }
 });
@@ -342,25 +364,25 @@ $(document).on("click", ".change-calendar-status-button", function () {
 });
 
 $(document).on("click", ".add-fundamental-menor", function () {
-    $("#stages option[value=14]").prop("selected", true);
-    $("#stages option[value=15]").prop("selected", true);
-    $("#stages option[value=16]").prop("selected", true);
-    $("#stages").trigger("change.select2");
+    $(this).closest(".stages-container").find("#stages option[value=14]").prop("selected", true);
+    $(this).closest(".stages-container").find("#stages option[value=15]").prop("selected", true);
+    $(this).closest(".stages-container").find("#stages option[value=16]").prop("selected", true);
+    $(this).closest(".stages-container").find("#stages").trigger("change.select2");
 });
 
 $(document).on("click", ".add-fundamental-maior", function () {
-    $("#stages option[value=17]").prop("selected", true);
-    $("#stages option[value=18]").prop("selected", true);
-    $("#stages option[value=19]").prop("selected", true);
-    $("#stages option[value=20]").prop("selected", true);
-    $("#stages option[value=21]").prop("selected", true);
-    $("#stages option[value=41]").prop("selected", true);
-    $("#stages").trigger("change.select2");
+    $(this).closest(".stages-container").find("#stages option[value=17]").prop("selected", true);
+    $(this).closest(".stages-container").find("#stages option[value=18]").prop("selected", true);
+    $(this).closest(".stages-container").find("#stages option[value=19]").prop("selected", true);
+    $(this).closest(".stages-container").find("#stages option[value=20]").prop("selected", true);
+    $(this).closest(".stages-container").find("#stages option[value=21]").prop("selected", true);
+    $(this).closest(".stages-container").find("#stages option[value=41]").prop("selected", true);
+    $(this).closest(".stages-container").find("#stages").trigger("change.select2");
 });
 
 $(document).on("click", ".remove-stages", function () {
-    $("#stages option").prop("selected", false);
-    $("#stages").trigger("change.select2");
+    $(this).closest(".stages-container").find("#stages option").prop("selected", false);
+    $(this).closest(".stages-container").find("#stages").trigger("change.select2");
 });
 
 function pad(num, size) {
