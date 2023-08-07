@@ -83,14 +83,15 @@ class StudentSEDDataSource extends SedDataSource
     function getListStudents(InListarAlunos $inListarAlunos)
     {
         try {
-            $apiResponse = json_decode($this->client->request('GET', '/ncaapi/api/Aluno/ListarAlunos', [
-                'body' => json_encode([
-                    "inFiltrosNomes" => $inListarAlunos->getInFiltrosNomes(),
-                    "inDocumentos" => $inListarAlunos->getInDocumentos()
-                ])
-            ])->getBody()->getContents(), true);
+            $url = '/ncaapi/api/Aluno/ListarAlunos';
+            $data = [
+                "inFiltrosNomes" => $inListarAlunos->getInFiltrosNomes(),
+                "inDocumentos" => $inListarAlunos->getInDocumentos()
+            ];
 
-            return OutListarAluno::fromJson($apiResponse);
+            $response = $this->getAndDecodeApiResponse('GET', $url, $data);
+            return OutListarAluno::fromJson($response);
+
         } catch (InvalidArgumentException $invalidArgumentException) {
             throw $invalidArgumentException;
         } catch (ClientException $e) {
@@ -119,12 +120,11 @@ class StudentSEDDataSource extends SedDataSource
                 strlen($inAluno->inDigitoRA) > self::LENGTH_IN_DIGITO_RA) {
                 throw new InvalidArgumentException("Entrada inválida: tamanho máximo excedido.");
             }
-    
-            $apiResponse = json_decode($this->client->request('GET', '/ncaapi/api/Aluno/ExibirFichaAluno', [
-                'body' => json_encode(["inAluno" => $inAluno], JSON_UNESCAPED_UNICODE)
-            ])->getBody()->getContents(), true);
+
+            $url = '/ncaapi/api/Aluno/ExibirFichaAluno';
+            $response = $this->getAndDecodeApiResponse('GET', $url, ["inAluno" => $inAluno]);
           
-            return outExibirFichaAluno::fromJson($apiResponse);
+            return outExibirFichaAluno::fromJson($response);
         } catch (InvalidArgumentException $invalidArgumentException) {
             throw $invalidArgumentException;
         } catch (ClientException $e) {
@@ -196,5 +196,20 @@ class StudentSEDDataSource extends SedDataSource
         }catch(Exception $exception) {
             throw $exception;
         }
+    }
+
+
+    /**
+     * @param mixed $httpMethod
+     * @param mixed $url
+     * @param mixed $data
+     * @return mixed
+     */
+    function getAndDecodeApiResponse($HTTPMetho, $url, $data) {
+        $response = $this->client->request($HTTPMetho, $url, [
+            'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
+        ]);
+    
+        return json_decode($response->getBody()->getContents(), true);
     }
 }
