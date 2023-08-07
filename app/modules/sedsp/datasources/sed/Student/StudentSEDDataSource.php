@@ -1,8 +1,6 @@
 <?php
 
 use GuzzleHttp\Exception\ClientException;
-use Psr\Http\Message\ResponseInterface;
-
 
 require 'app/vendor/autoload.php';
 
@@ -25,14 +23,12 @@ class StudentSEDDataSource extends SedDataSource
 
 
     /**
-     * 
      * Summary of getStudentRA
      * @param InConsultaRA $inAluno
      * @return OutConsultaRA|OutErro
      * 
      * @throws InvalidArgumentException Se os dados de entrada forem inválidos.
      * @throws Exception Se ocorrer um erro desconhecido.
-     * 
      */
     public function getStudentRA($inConsultaRA)
     {
@@ -52,11 +48,9 @@ class StudentSEDDataSource extends SedDataSource
     }
 
     /**
-     * 
      * Summary of getAllStudentsRA
      * @param mixed $students
      * @return mixed
-     * 
      */
     public function getAllStudentsRA($students){
         
@@ -79,14 +73,12 @@ class StudentSEDDataSource extends SedDataSource
 
 
     /**
-     * 
      * Summary of getListStudents
      * @param InListarAlunos $inListarAlunos
      * @return OutListarAluno|OutErro
      * 
      * @throws InvalidArgumentException Se os dados de entrada forem inválidos.
      * @throws Exception Se ocorrer um erro desconhecido.
-     * 
      */
     function getListStudents(InListarAlunos $inListarAlunos)
     {
@@ -109,13 +101,11 @@ class StudentSEDDataSource extends SedDataSource
     }
 
     /**
-     * 
      * @param InAluno $inAluno Objeto contendo informações do aluno.
      * @return OutExibirFichaAluno|OutErro Retorna um objeto OutAluno em caso de sucesso ou OutErro em caso de erro.
      * 
      * @throws InvalidArgumentException Se os dados de entrada forem inválidos.
      * @throws Exception Se ocorrer um erro desconhecido.
-     * 
      */
     function exibirFichaAluno(InAluno $inAluno)
     {
@@ -142,16 +132,15 @@ class StudentSEDDataSource extends SedDataSource
         } catch (Exception $exception) {
             throw $exception;
         }
-    }   
-
+    }  
+     
     /**
      * Summary of getConsultarResponsavelAluno
      * @param InResponsavelAluno
      * @return OutConsultarResponsavelAluno|OutErro
      * 
      * @throws InvalidArgumentException Se os dados de entrada forem inválidos.
-     * @throws Exception Se ocorrer um erro desconhecido.
-     * 
+     * @throws Exception Se ocorrer um erro desconhecido. 
      */
     function getConsultarResponsavelAluno(InResponsavelAluno $inConsultarResponsavelAluno)
     {  
@@ -183,8 +172,6 @@ class StudentSEDDataSource extends SedDataSource
      * ===========================
      */
 
-    
-
     /**
      * Summary of addStudent
      * @param InFichaAluno $inFichaAluno
@@ -195,7 +182,6 @@ class StudentSEDDataSource extends SedDataSource
      */
     function addStudent(InFichaAluno $inFichaAluno)
     {
-        CVarDumper::dump( $inFichaAluno, 10, true);
         try{
             $apiResponse = json_decode($this->client->request('POST', '/ncaapi/api/Aluno/FichaAluno', [
                 'body' => json_encode($inFichaAluno)
