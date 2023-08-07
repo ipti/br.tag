@@ -28,55 +28,10 @@ class EnrollmentSEDDataSource extends SedDataSource
             }
     
             $apiResponse = json_decode($this->client->request('GET', '/ncaapi/api/Matricula/ListarMatriculasRA', [
-                'body' => json_encode($inAluno)
-            ])->getBody()->getContents());
+                'body' => json_encode(["inAluno" => $inAluno])
+            ])->getBody()->getContents(), true);
             
-            $outListMatricula = [];
-            foreach ($apiResponse->outListaMatriculas as $matricula) {
-                $outListMatricula[] = new OutListaMatriculas(
-                    $matricula->outAnoLetivo,
-                    $matricula->outMunicipio,
-                    $matricula->outNomeRedeEnsino,
-                    $matricula->outCodEscola,
-                    $matricula->outCodUnidade,
-                    $matricula->outDescNomeAbrevEscola,
-                    $matricula->outNumClasse,
-                    $matricula->outNumAluno,
-                    $matricula->outCodTurno,
-                    $matricula->outDescricaoTurno,
-                    $matricula->outCodTipoEnsino,
-                    $matricula->outDescTipoEnsino,
-                    $matricula->outCodSerieAno,
-                    $matricula->outDescSerieAno,
-                    $matricula->outGrauNivel,
-                    $matricula->outSerieNivel,
-                    $matricula->outTurma,
-                    $matricula->outDescTurma,
-                    $matricula->outCodHabilitacao,
-                    $matricula->outDescHabilitacao,
-                    $matricula->outDataInicioMatricula,
-                    $matricula->outDataFimMatricula,
-                    $matricula->outDataInclusaoMatricula,
-                    $matricula->outCodSitMatricula,
-                    $matricula->outDescSitMatricula,
-                    $matricula->outCodSitTranspEscolar,
-                    $matricula->outDescSitTranspEscolar
-               );
-            }
-            
-            return new OutListaMatriculaRA(
-                new OutAluno(
-                    $apiResponse->outNumRA,
-                    $apiResponse->outDigitoRA,
-                    $apiResponse->outSiglaUFRA,
-                    $apiResponse->outNomeAluno,
-                    $apiResponse->outNomeMae,
-                    $apiResponse->outNomePai,
-                    $apiResponse->outDataNascimento
-                ),
-                $outListMatricula,
-                $apiResponse->outProcessoID
-            );
+            return OutListaMatriculaRA::fromJson($apiResponse);
         } catch (InvalidArgumentException $e) {
             return new OutErro($e);
         } catch (GuzzleHttp\Exception\ClientException $e) {
