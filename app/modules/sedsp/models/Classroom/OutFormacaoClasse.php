@@ -31,6 +31,7 @@ class OutFormacaoClasse
 	public $outDataFimAula;
 	/** @var OutAlunos[]|null */
 	public $outAlunos;
+	public $outErro;
 	public $outProcessoID;
 
 	/**
@@ -65,6 +66,7 @@ class OutFormacaoClasse
 		?string $outDataInicioAula,
 		?string $outDataFimAula,
 		?array $outAlunos,
+		?string $outErro,
 		?string $outProcessoID
 	) {
 		$this->outCodEscola = $outCodEscola;
@@ -95,6 +97,7 @@ class OutFormacaoClasse
 		$this->outDataInicioAula = $outDataInicioAula;
 		$this->outDataFimAula = $outDataFimAula;
 		$this->outAlunos = $outAlunos;
+		$this->outErro = $outErro;
 		$this->outProcessoID = $outProcessoID;
 	}
 
@@ -241,6 +244,10 @@ class OutFormacaoClasse
 		return $this->outAlunos;
 	}
 
+	public function getOutErro(): ?string
+	{
+		return $this->outErro;
+	}
 
 	public function getOutProcessoId(): ?string
 	{
@@ -418,6 +425,12 @@ class OutFormacaoClasse
 		return $this;
 	}
 
+	public function setOutErro(?string $outErro): self
+	{
+		$this->outErro = $outErro;
+		return $this;
+	}
+
 	public function setOutProcessoId(?string $outProcessoID): self
 	{
 		$this->outProcessoID = $outProcessoID;
@@ -454,10 +467,11 @@ class OutFormacaoClasse
 			$data['outCapacidadeFisicaMax'] ?? null,
 			$data['outDataInicioAula'] ?? null,
 			$data['outDataFimAula'] ?? null,
-			$data['outProcessoID'] ?? null,
 			($data['outAlunos'] ?? null) !== null ? array_map(static function($data) {
 				return OutAlunos::fromJson($data);
-			}, $data['outAlunos']) : null
+			}, $data['outAlunos']) : null,
+			$data['outErro'] ?? null,
+			$data['outProcessoID'] ?? null
 		);
 	}
 }
