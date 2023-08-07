@@ -286,82 +286,61 @@ class DefaultController extends Controller
 		echo $msg;
 	}
 
-	function actionTest() {
+	function actionTest()
+	{
 
-		$opt = 3;
+		$opt = 7;
 		switch ($opt) {
+
 			case 1:
 				$inAluno = new InAluno("000124661430", '3', "SP");
 				$dataSource = new StudentSEDDataSource();
 				$dataSource->exibirFichaAluno($inAluno);
-				echo "<pre>";
-				var_export($dataSource->exibirFichaAluno($inAluno));
-				echo "</pre>";
-				break;
+				CVarDumper::dump($dataSource->exibirFichaAluno($inAluno), 10, true);
+
+
 			case 2:
 				$inClassroom = new InFormacaoClasse("262429087");
 				$dataSource = new ClassroomSEDDataSource();
-				echo "<pre>";
-				var_export($dataSource->getClassroom($inClassroom));
-				echo "</pre>";
+				CVarDumper::dump($dataSource->getClassroom($inClassroom), 10, true);
+
+
 			case 3:
 				$inConsult = new InConsultaTurmaClasse("2022", "262429087");
 				$dataSource = new ClassroomSEDDataSource();
-				echo "<pre>";
-				var_export($dataSource->getConsultClass($inConsult));
-				echo "</pre>";
+				CVarDumper::dump($dataSource->getConsultClass($inConsult), 10, true);
+
+
 			case 4:
 				$inConsult = new InAluno("000124464761", "5", "SP");
 				$dataSource = new EnrollmentSEDDataSource();
-				echo "<pre>";
-				var_export($dataSource->getListarMatriculasRA($inConsult));
-				echo "</pre>";
+				CVarDumper::dump($dataSource->getListarMatriculasRA($inConsult), 10, true);
+
+
 			case 5:
-
-				$search = [
-					'InDadosPessoais' => [
-						'inNomeAluno' => 'IGOR GONÇALVES'
-					],
-					'InDocumentos' => []
-				];
-
-				$inConsult = new InListarAlunos($search);
+				$inConsult = new InListarAlunos(
+					new InFiltrosNomes("NATHAN SANTOS JOSE",null,"BRUNA LUCAS FAG",null),
+					"22/01/2019",
+					new InDocumentos(null,null,null,null,null,null,null,null)
+				);
 				$dataSource = new StudentSEDDataSource();
-				echo "<pre>";
-				var_export($dataSource->getListStudents($inConsult));
-				echo "</pre>";
+				CVarDumper::dump($dataSource->getListStudents($inConsult), 10, true);
+				break;
 
 			case 6:
-				$search = [
-					'inAluno' => [
-						'inNumRA' => "000124464761",
-						'inDigitoRA' => "5",
-						'inSiglaUFRA' => "SP"
-					],
-					'inDocumentosAluno' => [
-						'inCPF' =>  null,
-						'inNRRG' => null,
-						'inUFRG' => null
-					]
-				];
-
-				$inConsult = new InResponsavelAluno($search);
+				$inConsult = new InResponsavelAluno(
+					new InDocumentos(null, null, null, '07765328557', null, null, null, null),
+					new InAluno("000124672356", "6", "SP")
+				);
 				$dataSource = new StudentSEDDataSource();
-				echo "<pre>";
-				var_export($dataSource->getConsultarResponsavelAluno($inConsult));
-				echo "</pre>";
+				CVarDumper::dump($dataSource->getConsultarResponsavelAluno($inConsult), 10, true);
+
+
 			case 7:
-				$search = [ 
-					'inNomeAluno' => 'EDUARDA LUCAS BERNARDES', 
-					'inNomeMae' => 'BRUNA LUCAS FAGANELLI',
-					'inDataNascimento' => '22/01/2019'
-				];
-
-				$inConsult = json_encode(new InDadosPessoais($search));
+				$inConsult = new InConsultaRA("587597", "AGHATA VITORIA DOS SANTOS MARQUES", "ANA GABRIELE DOS SANTOS LEMES", "31/12/2018");
 				$dataSource = new StudentSEDDataSource();
-				echo "<pre>";
-				var_export(json_decode(json_encode($dataSource->getStudentRA(null, json_decode($inConsult)))));
-				echo "</pre>";
+				CVarDumper::dump($dataSource->getStudentRA($inConsult), 10, true);
+		
 			case 8:
 				$search = [
 					'inDadosPessoais' => [
