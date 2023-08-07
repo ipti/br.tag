@@ -58,11 +58,13 @@ $(document).on("click", ".edit-calendar", function (e) {
         $("#edit-calendar-modal").find("#Calendar_id").val(data.id);
         $("#edit-calendar-modal").find("#Calendar_title").val(data.title);
         var selectedStages = [];
-        $.each(data.stages, function() {
+        $.each(data.stages, function () {
             selectedStages.push(this);
         });
         $("#edit-calendar-modal").find("#stages").val(selectedStages).trigger("change.select2");
         $("#edit-calendar-modal").modal("show");
+        $(".select2-choices").css('width', '100%');
+        $(".select2-choices").css('border-color', '#d8d9da');
     }).complete(function () {
         $(icon).css("pointer-events", "auto").find("i").removeClass("fa-spin").removeClass("fa-spinner").addClass("fa-edit");
 
@@ -70,8 +72,8 @@ $(document).on("click", ".edit-calendar", function (e) {
 });
 
 $(document).on("click", ".edit-calendar-button", function () {
-    if ($("#edit-calendar-modal").find("#Calendar_title").val() === "") {
-        $("#edit-calendar-modal").find(".alert").html("Preencha o campo abaixo.").show();
+    if ($("#edit-calendar-modal").find("#Calendar_title").val() === "" || $("#edit-calendar-modal").find("#stages").val() === null) {
+        $("#edit-calendar-modal").find(".alert").html("Preencha os campos abaixo.").show();
     } else {
         $("#edit-calendar-modal").find(".alert").hide();
         $.ajax({

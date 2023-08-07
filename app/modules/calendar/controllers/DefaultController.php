@@ -303,40 +303,45 @@ class DefaultController extends Controller
         $error = "";
         $stagesToRemove = [];
         $stagesToInsert = [];
-        //Valida stages que estão sendo usados em outros calendários
-        foreach ($_POST["stages"] as $stage) {
-            $calendar = Yii::app()->db->createCommand("select c.title from calendar_stages cs inner join calendar c on (cs.calendar_fk = c.id) where YEAR(c.start_date) = :year and c.id != :calendarId and stage_fk = :stage")
+        if (empty($_POST["stages"])) {
+            $error .= "Calendário deve conter etapas.";
+        } else {
+            //Valida stages que estão sendo usados em outros calendários
+            foreach ($_POST["stages"] as $stage) {
+                $calendar = Yii::app()->db->createCommand("select c.title from calendar_stages cs inner join calendar c on (cs.calendar_fk = c.id) where YEAR(c.start_date) = :year and c.id != :calendarId and stage_fk = :stage")
+                    ->bindParam(":year", Yii::app()->user->year)
+                    ->bindParam(":calendarId", $_POST["id"])
+                    ->bindParam(":stage", $stage)
+                    ->queryRow();
+                if ($calendar != null) {
+                    if ($error == "") {
+                        $error .= "Já existe outro calendário com a(s) seguinte(s) etapa(s) selecionada(s):<br><br>";
+                    }
+                    $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($stage);
+                    $error .= "• <b>" . $edcensoStageVsModality->name . "</b> no Calendário <b>" . $calendar["title"] . "</b><br>";
+                }
+            }
+
+            //Recupera stages previamente no calendario
+            $stagesResult = Yii::app()->db->createCommand("select cs.* from calendar_stages cs inner join calendar c on (cs.calendar_fk = c.id) left join edcenso_stage_vs_modality esvm on (esvm.id = cs.stage_fk) where YEAR(c.start_date) = :year and c.id = :calendarId")
                 ->bindParam(":year", Yii::app()->user->year)
                 ->bindParam(":calendarId", $_POST["id"])
-                ->bindParam(":stage", $stage)
-                ->queryRow();
-            if ($calendar != null) {
-                if ($error == "") {
-                    $error .= "Já existe outro calendário com a(s) seguinte(s) etapa(s) selecionada(s):<br><br>";
-                }
-                $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($stage);
-                $error .= "• <b>" . $edcensoStageVsModality->name . "</b> no Calendário <b>" . $calendar["title"] . "</b><br>";
-            }
-        }
-        //Recupera stages previamente no calendario
-        $stagesResult = Yii::app()->db->createCommand("select cs.* from calendar_stages cs inner join calendar c on (cs.calendar_fk = c.id) left join edcenso_stage_vs_modality esvm on (esvm.id = cs.stage_fk) where YEAR(c.start_date) = :year and c.id = :calendarId")
-            ->bindParam(":year", Yii::app()->user->year)
-            ->bindParam(":calendarId", $_POST["id"])
-            ->queryAll();
-        if ($error == "") {
-            //Lista stages que estão sendo removidos
-            foreach ($stagesResult as $rowStage) {
-                if (!in_array($rowStage["stage_fk"], $_POST["stages"])) {
-                    $result = Yii::app()->db->createCommand("select count(*) qtd from schedule s join classroom cr on s.classroom_fk = cr.id join calendar_stages cs on cs.stage_fk = cr.edcenso_stage_vs_modality_fk where cs.stage_fk = :stage")
-                        ->bindParam(":stage", $rowStage["stage_fk"])
-                        ->queryRow();
-                    if ((int)$result["qtd"] == 0) {
-                        array_push($stagesToRemove, $rowStage["stage_fk"]);
-                    } else {
-                        $error .= "Etapa(s) com quadro de horário preenchido não pode(m) ser removido(s).:<br><br>";
-                        $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($rowStage["stage_fk"]);
-                        $error .= "• <b>" . $edcensoStageVsModality->name . "</b><br>";
-                        break;
+                ->queryAll();
+            if ($error == "") {
+                //Lista stages que estão sendo removidos
+                foreach ($stagesResult as $rowStage) {
+                    if (!in_array($rowStage["stage_fk"], $_POST["stages"])) {
+                        $result = Yii::app()->db->createCommand("select count(*) qtd from schedule s join classroom cr on s.classroom_fk = cr.id join calendar_stages cs on cs.stage_fk = cr.edcenso_stage_vs_modality_fk where cs.stage_fk = :stage")
+                            ->bindParam(":stage", $rowStage["stage_fk"])
+                            ->queryRow();
+                        if ((int)$result["qtd"] == 0) {
+                            array_push($stagesToRemove, $rowStage["stage_fk"]);
+                        } else {
+                            $error .= "Etapa(s) com quadro de horário preenchido não pode(m) ser removido(s):<br><br>";
+                            $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($rowStage["stage_fk"]);
+                            $error .= "• <b>" . $edcensoStageVsModality->name . "</b><br>";
+                            break;
+                        }
                     }
                 }
             }
