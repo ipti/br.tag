@@ -289,7 +289,7 @@ class DefaultController extends Controller
 	function actionTest()
 	{
 
-		$opt = 7;
+		$opt = 8;
 		switch ($opt) {
 
 			case 1:
@@ -297,24 +297,28 @@ class DefaultController extends Controller
 				$dataSource = new StudentSEDDataSource();
 				$dataSource->exibirFichaAluno($inAluno);
 				CVarDumper::dump($dataSource->exibirFichaAluno($inAluno), 10, true);
+				break;
 
 
 			case 2:
 				$inClassroom = new InFormacaoClasse("262429087");
 				$dataSource = new ClassroomSEDDataSource();
 				CVarDumper::dump($dataSource->getClassroom($inClassroom), 10, true);
+				break;
 
 
 			case 3:
 				$inConsult = new InConsultaTurmaClasse("2022", "262429087");
 				$dataSource = new ClassroomSEDDataSource();
 				CVarDumper::dump($dataSource->getConsultClass($inConsult), 10, true);
+				break;
 
 
 			case 4:
 				$inConsult = new InAluno("000124464761", "5", "SP");
 				$dataSource = new EnrollmentSEDDataSource();
 				CVarDumper::dump($dataSource->getListarMatriculasRA($inConsult), 10, true);
+				break;
 
 
 			case 5:
@@ -327,6 +331,7 @@ class DefaultController extends Controller
 				CVarDumper::dump($dataSource->getListStudents($inConsult), 10, true);
 				break;
 
+
 			case 6:
 				$inConsult = new InResponsavelAluno(
 					new InDocumentos(null, null, null, '07765328557', null, null, null, null),
@@ -334,122 +339,67 @@ class DefaultController extends Controller
 				);
 				$dataSource = new StudentSEDDataSource();
 				CVarDumper::dump($dataSource->getConsultarResponsavelAluno($inConsult), 10, true);
+				break;
 
 
 			case 7:
 				$inConsult = new InConsultaRA("587597", "AGHATA VITORIA DOS SANTOS MARQUES", "ANA GABRIELE DOS SANTOS LEMES", "31/12/2018");
 				$dataSource = new StudentSEDDataSource();
 				CVarDumper::dump($dataSource->getStudentRA($inConsult), 10, true);
-		
+				break;
+
+
 			case 8:
-				$search = [
-					'inDadosPessoais' => [
-						'inNomeAluno' => 'NATHAN MATOS',
-						'inNomeMae' => 'BRUNA LUCAS',
-						'inNomePai' => NULL,
-						'inNomeSocial' => NULL,
-						'inNomeAfetivo' => NULL,
-						'inDataNascimento' => '22/01/2019',
-						'inCorRaca' => '1', // Cor / Raça: 1 Branca | 2 Preta | 3 Parda | 4 Amarela | 5 Indígena | 6 Não Declarada
-						'inSexo' => '1', // 1 – Masculino | 2 – Feminino
-						'inBolsaFamilia' => NULL,
-						'inQuilombola' => NULL,
-						'inPossuiInternet' => 'S',
-						'inPossuiNotebookSmartphoneTablet' => 'S',
-						'inTipoSanguineo' => NULL,
-						'inDoadorOrgaos' => NULL,
-						'inNumeroCns' => NULL,
-						'inEmail' => NULL,
-						'inNacionalidade' => '1',
-						'inNomeMunNascto' => 'SAO PAULO', // Opcional. Obrigatório quando inNacionalidade = 1
-						'inUFMunNascto' => 'SP', // Opcional. Obrigatório quando inNacionalidade = 1
-						'inCodMunNasctoDne' => NULL,
-						'inDataEntradaPais' => '22/04/2018', // Opcional. Obrigatório quando inNacionalidade = 2
-						'inCodPaisOrigem' => '76',
-						'inPaisOrigem' => 'Brasil',
-					],
-					'inDocumentos' => [
-						'inNumRG' => null,
-						'inDigitoRG' => null, // Opcional. Obrigatório quando o documento civil for o RG, maior ou igual a 24.000.000 e inUFDoctoCivil = SP
-						'inUFRG' => null,
-						'inCPF' => null,
-						'inNumNIS' => null,
-						'inDataEmissaoDoctoCivil' => null,
-						'inJustificativaDocumentos' => null,
-						'inNumINEP' => null,
-						'inNumCertidaoNova' => null,
-					],					
-					'inCertidaoNova' => [
-						'inCertMatr01' => null,
-						'inCertMatr02' => null,
-						'inCertMatr03' => null,
-						'inCertMatr04' => null,
-						'inCertMatr05' => null,
-						'inCertMatr06' => null,
-						'inCertMatr07' => null,
-						'inCertMatr08' => null,
-						'inCertMatr09' => null,
-						'inDataEmissaoCertidao' => null,                
-					],
-					'inCertidaoAntiga' => [
-						'inNumCertidao' => null,
-						'inLivro' => null,
-						'inFolha' => null,
-						'inDistritoCertidao' => null,
-						'inMunicipioComarca' => null,
-						'inUfComarca' => null,
-						'inDataEmissaoCertidao' => null,               
-					],					 
-					'inEnderecoResidencial' => [
-						'inLogradouro' => 'RUA EUGÊNIO BOSSE',
-						'inNumero' => '48',
-						'inBairro' => 'URBANA',
-						'inNomeCidade' => 'SAO PAULO',
-						'inUFCidade' => 'SP',
-						'inComplemento' => '',
-						'inCep' => '03929080',
-						'inAreaLogradouro' => '0',
-						'inCodLocalizacaoDiferenciada' => NULL,
-						'inCodMunicipioDNE' => '9668',
-						'inLatitude' => '-23.6042611',
-						'inLongitude' => '-46.49262299999999',                
-					],
-					'inDeficiencia' => [
-						'inCodNecessidade' => NULL,
-						'inMobilidadeReduzida' => 0,
-						'inTipoMobilidadeReduzida' => NULL,
-						'inCuidador' => NULL,
-						'inTipoCuidador' => NULL,
-						'inProfSaude' => NULL,
-						'inTipoProfSaude' => NULL,                
-					],
-					'inRecursoAvaliacao' => [
-						'inNenhum' => NULL,
-						'inAuxilioLeitor' => NULL,
-						'inAuxilioTranscricao' => NULL,
-						'inGuiaInterprete' => NULL,
-						'inInterpreteLibras' => NULL,
-						'inLeituraLabial' => NULL,
-						'inProvaBraile' => NULL,
-						'inProvaAmpliada' => NULL,
-						'inFonteProva' => NULL,
-						'inProvaVideoLibras' => NULL,
-						'inCdAudioDefVisual' => NULL,
-						'inProvaLinguaPortuguesa' => NULL,                
-					],
-					'inRastreio' => [
-						'inUsuarioRemoto' => NULL,
-						'inNomeUsuario' => NULL,
-						'inNumCPF' => NULL,
-						'inLocalPerfilAcesso' => NULL,
-					]
-				];	
-	
-				$inConsult = new InFichaAluno($search);
+				$inConsult = new InFichaAluno(
+					new InDadosPessoais(
+						'NATHAN MATOS',
+						'BRUNA LUCAS',
+						NULL,
+						NULL,
+						NULL,
+						'22/01/2019',
+						'1', // Cor / Raça: 1 Branca | 2 Preta | 3 Parda | 4 Amarela | 5 Indígena | 6 Não Declarada
+						'1', // 1 – Masculino | 2 – Feminino
+						NULL,
+						NULL,
+						'S',
+						'S',
+						NULL,
+						NULL,
+						NULL,
+						NULL,
+						'1',
+						'SAO PAULO', // Opcional. Obrigatório quando inNacionalidade = 1
+						'SP', // Opcional. Obrigatório quando inNacionalidade = 1
+						NULL,
+						'22/04/2018', // Opcional. Obrigatório quando inNacionalidade = 2
+						'76',
+						'Brasil'
+					),
+					null,
+					null,
+					null,
+					null,
+					null,
+					new InEnderecoResidencial(
+						'RUA EUGÊNIO BOSSE',
+						'48',
+						'URBANA',
+						'SAO PAULO',
+						'SP',
+						'',
+						'03929080',
+						'0',
+						NULL,
+						'9668',
+						'-23.6042611',
+						'-46.49262299999999'
+					),
+					null
+				);
 				$dataSource = new StudentSEDDataSource();
-				echo "<pre>";
-				var_export($dataSource->addStudent($inConsult));
-				echo "</pre>";
+				CVarDumper::dump($dataSource->addStudent($inConsult), 10, true);
+				break;
 
 			default:
 				break;
