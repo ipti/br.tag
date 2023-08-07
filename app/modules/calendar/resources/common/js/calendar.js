@@ -41,6 +41,7 @@ $(document).on("click", ".create-calendar", function () {
 });
 
 $(document).on("click", ".edit-calendar", function (e) {
+    $("#edit-calendar-modal").find(".alert").hide();
     var icon = this;
     e.stopPropagation();
     $.ajax({

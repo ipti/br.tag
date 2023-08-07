@@ -334,6 +334,8 @@ class DefaultController extends Controller
                         array_push($stagesToRemove, $rowStage["stage_fk"]);
                     } else {
                         $error .= "Etapa(s) com quadro de horário preenchido não pode(m) ser removido(s).:<br><br>";
+                        $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($rowStage["stage_fk"]);
+                        $error .= "• <b>" . $edcensoStageVsModality->name . "</b><br>";
                         break;
                     }
                 }
