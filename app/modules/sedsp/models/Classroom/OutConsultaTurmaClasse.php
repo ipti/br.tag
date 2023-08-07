@@ -26,6 +26,7 @@ class OutConsultaTurmaClasse
 	public $outCodSerieAno;
 	public $outDescricaoSerieAno;
 	public $outDiasSemana;
+	public $outProcessoID;
 
 	public function __construct(
 		?int $outAnoLetivo,
@@ -51,7 +52,8 @@ class OutConsultaTurmaClasse
 		?string $outNumeroSala,
 		?int $outCodSerieAno,
 		?string $outDescricaoSerieAno,
-		?OutDiasSemana $outDiasSemana
+		?OutDiasSemana $outDiasSemana,
+		?int $outProcessoID
 	) {
 		$this->outAnoLetivo = $outAnoLetivo;
 		$this->outCodEscola = $outCodEscola;
@@ -77,6 +79,7 @@ class OutConsultaTurmaClasse
 		$this->outCodSerieAno = $outCodSerieAno;
 		$this->outDescricaoSerieAno = $outDescricaoSerieAno;
 		$this->outDiasSemana = $outDiasSemana;
+		$this->outProcessoID = $outProcessoID;
 	}
 
 	public function getOutAnoLetivo(): ?int
@@ -197,6 +200,11 @@ class OutConsultaTurmaClasse
 	public function getOutDiasSemana(): ?OutDiasSemana
 	{
 		return $this->outDiasSemana;
+	}
+
+	public function getOutProcessoId(): ?string
+	{
+		return $this->outProcessoID;
 	}
 
 	public function setOutAnoLetivo(?int $outAnoLetivo): self
@@ -343,6 +351,12 @@ class OutConsultaTurmaClasse
 		return $this;
 	}
 
+	public function setOutProcessoId(?int $outProcessoID): self
+	{
+		$this->outProcessoID = $outProcessoID;
+		return $this;
+	}
+
 	public static function fromJson(array $data): self
 	{
 		return new self(
@@ -353,7 +367,7 @@ class OutConsultaTurmaClasse
 			$data['outCodTipoClasse'] ?? null,
 			$data['outCodTurno'] ?? null,
 			$data['outDescricaoTurno'] ?? null,
-			$data['outTurma'] ?? null,
+			intval($data['outTurma']) ?? null,
 			$data['outDescricaoTurma'] ?? null,
 			$data['outNrCapacidadeFisicaMaxima'] ?? null,
 			$data['outNrAlunosAtivos'] ?? null,
@@ -369,7 +383,8 @@ class OutConsultaTurmaClasse
 			$data['outNumeroSala'] ?? null,
 			$data['outCodSerieAno'] ?? null,
 			$data['outDescricaoSerieAno'] ?? null,
-			$data['outDiasSemana'] ?? null
+			($data['outDiasSemana'] ?? null) !== null ? OutDiasSemana::fromJson($data['outDiasSemana']) : null,
+			intval($data['outProcessoID']) ?? null
 		);
 	}
 }
