@@ -2,7 +2,7 @@
 
 class OutResponsaveis
 {
-    public $outNome;
+	public $outNome;
 	public $outResponsabilidade;
 	public $outCodTipoResponsabilidade;
 	public $outLogin;
@@ -20,7 +20,12 @@ class OutResponsaveis
 	public $outUFNascimento;
 	public $outNomePaisNascimento;
 	public $outEnderecoResidencial;
+	/** @var OutLstTelefone[]|null */
+	public $outLstTelefone;
 
+	/**
+	 * @param OutLstTelefone[]|null $outLstTelefone
+	 */
 	public function __construct(
 		?string $outNome,
 		?string $outResponsabilidade,
@@ -39,7 +44,8 @@ class OutResponsaveis
 		?string $outCidadeNascimento,
 		?string $outUFNascimento,
 		?string $outNomePaisNascimento,
-		?OutEnderecoResidencial $outEnderecoResidencial
+		?OutEnderecoResidencial $outEnderecoResidencial,
+		?array $outLstTelefone
 	) {
 		$this->outNome = $outNome;
 		$this->outResponsabilidade = $outResponsabilidade;
@@ -59,6 +65,7 @@ class OutResponsaveis
 		$this->outUFNascimento = $outUFNascimento;
 		$this->outNomePaisNascimento = $outNomePaisNascimento;
 		$this->outEnderecoResidencial = $outEnderecoResidencial;
+		$this->outLstTelefone = $outLstTelefone;
 	}
 
 	public function getOutNome(): ?string
@@ -149,6 +156,14 @@ class OutResponsaveis
 	public function getOutEnderecoResidencial(): ?OutEnderecoResidencial
 	{
 		return $this->outEnderecoResidencial;
+	}
+
+	/**
+	 * @return OutLstTelefone[]|null
+	 */
+	public function getOutLstTelefone(): ?array
+	{
+		return $this->outLstTelefone;
 	}
 
 	public function setOutNome(?string $outNome): self
@@ -259,5 +274,39 @@ class OutResponsaveis
 		return $this;
 	}
 
-    
+	/**
+	 * @param OutLstTelefone[]|null $outLstTelefone
+	 */
+	public function setOutLstTelefone(?array $outLstTelefone): self
+	{
+		$this->outLstTelefone = $outLstTelefone;
+		return $this;
+	}
+
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			$data['outNome'] ?? null,
+			$data['outResponsabilidade'] ?? null,
+			$data['outCodTipoResponsabilidade'] ?? null,
+			$data['outLogin'] ?? null,
+			$data['outCPF'] ?? null,
+			$data['outRGRNM'] ?? null,
+			$data['outTipoOrigem'] ?? null,
+			$data['outNRRG'] ?? null,
+			$data['outDigitoRG'] ?? null,
+			$data['outUFRG'] ?? null,
+			$data['outCodSexo'] ?? null,
+			$data['outCodEstadoCivil'] ?? null,
+			$data['outEmailResponsavel'] ?? null,
+			$data['outDataNascimento'] ?? null,
+			$data['outCidadeNascimento'] ?? null,
+			$data['outUFNascimento'] ?? null,
+			$data['outNomePaisNascimento'] ?? null,
+			($data['outEnderecoResidencial'] ?? null) !== null ? OutEnderecoResidencial::fromJson($data['outEnderecoResidencial']) : null,
+			($data['outLstTelefone'] ?? null) !== null ? array_map(static function($data) {
+				return OutLstTelefone::fromJson($data);
+			}, $data['outLstTelefone']) : null
+		);
+	}
 }
