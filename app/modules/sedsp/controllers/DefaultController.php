@@ -288,7 +288,7 @@ class DefaultController extends Controller
 
 	function actionTest() {
 
-		$opt = 2;
+		$opt = 3;
 		switch ($opt) {
 			case 1:
 				$inAluno = new InAluno("000124661430", '3', "SP");
@@ -305,7 +305,7 @@ class DefaultController extends Controller
 				var_export($dataSource->getClassroom($inClassroom));
 				echo "</pre>";
 			case 3:
-				$inConsult = new InConsultClass("2022", "262429087");
+				$inConsult = new InConsultaTurmaClasse("2022", "262429087");
 				$dataSource = new ClassroomSEDDataSource();
 				echo "<pre>";
 				var_export($dataSource->getConsultClass($inConsult));
