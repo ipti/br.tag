@@ -188,121 +188,20 @@ class StudentSEDDataSource extends SedDataSource
     /**
      * Summary of addStudent
      * @param InFichaAluno $inFichaAluno
-     * @return OutErro|ResponseInterface
+     * @return OutFichaAluno|OutErro
      * 
      * @throws InvalidArgumentException
      * @throws Exception
      */
     function addStudent(InFichaAluno $inFichaAluno)
     {
+        CVarDumper::dump( $inFichaAluno, 10, true);
         try{
-            $inFichaAlunoBody = [
-                'inDadosPessoais' => [
-                    'inNomeAluno' => $inFichaAluno->inDadosPessoais->inNomeAluno,
-                    'inNomeMae' => $inFichaAluno->inDadosPessoais->inNomeMae,
-                    'inNomePai' => $inFichaAluno->inDadosPessoais->inNomePai,
-                    'inNomeSocial' => $inFichaAluno->inDadosPessoais->inNomeSocial,
-                    'inNomeAfetivo' => $inFichaAluno->inDadosPessoais->inNomeAfetivo,
-                    'inDataNascimento' => $inFichaAluno->inDadosPessoais->inDataNascimento,
-                    'inCorRaca' => $inFichaAluno->inDadosPessoais->inCorRaca,
-                    'inSexo' => $inFichaAluno->inDadosPessoais->inSexo,
-                    'inBolsaFamilia' => $inFichaAluno->inDadosPessoais->inBolsaFamilia,
-                    'inQuilombola' => $inFichaAluno->inDadosPessoais->inQuilombola,
-                    'inPossuiInternet' => $inFichaAluno->inDadosPessoais->inPossuiInternet,
-                    'inPossuiNotebookSmartphoneTablet' => $inFichaAluno->inDadosPessoais->inPossuiNotebookSmartphoneTablet,
-                    'inTipoSanguineo' => $inFichaAluno->inDadosPessoais->inTipoSanguineo,
-                    'inDoadorOrgaos' => $inFichaAluno->inDadosPessoais->inDoadorOrgaos,
-                    'inNumeroCNS' => $inFichaAluno->inDadosPessoais->inNumeroCns,
-                    'inEmail' => $inFichaAluno->inDadosPessoais->inEmail,
-                    'inNacionalidade' => $inFichaAluno->inDadosPessoais->inNacionalidade,
-                    'inNomeMunNascto' => $inFichaAluno->inDadosPessoais->inNomeMunNascto,
-                    'inUFMunNascto' => $inFichaAluno->inDadosPessoais->inUfMunNascto,
-                    'inCodMunNasctoDNE' => $inFichaAluno->inDadosPessoais->inCodMunNasctoDne,
-                    'inDataEntradaPais' => $inFichaAluno->inDadosPessoais->inDataEntradaPais,
-                    'inCodPaisOrigem' => $inFichaAluno->inDadosPessoais->inCodPaisOrigem,
-                    'inPaisOrigem' => $inFichaAluno->inDadosPessoais->inPaisOrigem,
-                ],            
-                'inDocumentos' => [
-                    'inCPF' => $inFichaAluno->inDocumentos->inCPF,
-                    'inNumNIS' => $inFichaAluno->inDocumentos->inNumNIS,
-                    'inNumDoctoCivil' => $inFichaAluno->inDocumentos->inNumRG,
-                    'inDigitoDoctoCivil' => $inFichaAluno->inDocumentos->inDigitoRG,
-                    'inUFDoctoCivil' => $inFichaAluno->inDocumentos->inUFRG,
-                    'inDataEmissaoDoctoCivil' => $inFichaAluno->inDocumentos->inDataEmissaoDoctoCivil,
-                    'inJustificativaDocumentos' => $inFichaAluno->inDocumentos->inJustificativaDocumentos,
-                    'inCodigoINEP' => $inFichaAluno->inDocumentos->inNumINEP,
-                ],                
-                'inCertidaoNova' => [
-                    'inCertMatr01' => $inFichaAluno->inCertidaoNova->inCertMatr01,
-                    'inCertMatr02' => $inFichaAluno->inCertidaoNova->inCertMatr02,
-                    'inCertMatr03' => $inFichaAluno->inCertidaoNova->inCertMatr03,
-                    'inCertMatr04' => $inFichaAluno->inCertidaoNova->inCertMatr04,
-                    'inCertMatr05' => $inFichaAluno->inCertidaoNova->inCertMatr05,
-                    'inCertMatr06' => $inFichaAluno->inCertidaoNova->inCertMatr06,
-                    'inCertMatr07' => $inFichaAluno->inCertidaoNova->inCertMatr07,
-                    'inCertMatr08' => $inFichaAluno->inCertidaoNova->inCertMatr08,
-                    'inCertMatr09' => $inFichaAluno->inCertidaoNova->inCertMatr09,
-                    'inDataEmissaoCertidao' => $inFichaAluno->inCertidaoNova->inDataEmissaoCertidao,
-                ],                
-                'inCertidaoAntiga' => [
-                    'inNumCertidao' => $inFichaAluno->inCertidaoAntiga->inNumCertidao,
-                    'inNumLivroReg' => $inFichaAluno->inCertidaoAntiga->inLivro,
-                    'inFolhaRegNum' => $inFichaAluno->inCertidaoAntiga->inFolha,
-                    'inNomeMunComarca' => $inFichaAluno->inCertidaoAntiga->inMunicipioComarca,
-                    'inDistritoNasc' => $inFichaAluno->inCertidaoAntiga->inDistritoCertidao,
-                    'inUFComarca' => $inFichaAluno->inCertidaoAntiga->inUFComarca,
-                    'inDataEmissaoCertidao' => $inFichaAluno->inCertidaoAntiga->inDataEmissaoCertidao,               
-                ],
-                'inEnderecoResidencial' => [
-                    'inLogradouro' => $inFichaAluno->inEnderecoResidencial->inLogradouro,
-                    'inNumero' => $inFichaAluno->inEnderecoResidencial->inNumero,
-                    'inBairro' => $inFichaAluno->inEnderecoResidencial->inBairro,
-                    'inNomeCidade' => $inFichaAluno->inEnderecoResidencial->inNomeCidade,
-                    'inUFCidade' => $inFichaAluno->inEnderecoResidencial->inUFCidade,
-                    'inComplemento' => $inFichaAluno->inEnderecoResidencial->inComplemento,
-                    'inCep' => $inFichaAluno->inEnderecoResidencial->inCep,
-                    'inAreaLogradouro' => $inFichaAluno->inEnderecoResidencial->inAreaLogradouro,
-                    'inCodLocalizacaoDiferenciada' => $inFichaAluno->inEnderecoResidencial->inCodLocalizacaoDiferenciada ?? null,
-                    'inCodMunicipioDNE' => $inFichaAluno->inEnderecoResidencial->inCodMunicipioDNE,
-                    'inLatitude' => $inFichaAluno->inEnderecoResidencial->inLatitude,
-                    'inLongitude' => $inFichaAluno->inEnderecoResidencial->inLongitude,                
-                ],
-                'inDeficiencia' => [
-                    'inCodNecessidade' => $inFichaAluno->inDeficiencia->inCodNecessidade,
-                    'inMobilidadeReduzida' => $inFichaAluno->inDeficiencia->inMobilidadeReduzida,
-                    'inTipoMobilidadeReduzida' => $inFichaAluno->inDeficiencia->inTipoMobilidadeReduzida,
-                    'inCuidador' => $inFichaAluno->inDeficiencia->inCuidador,
-                    'inTipoCuidador' => $inFichaAluno->inDeficiencia->inTipoCuidador,
-                    'inProfSaude' => $inFichaAluno->inDeficiencia->inProfSaude,
-                    'inTipoProfSaude' => $inFichaAluno->inDeficiencia->inTipoProfSaude,                
-                ],
-                'inRecursoAvaliacao' => [
-                    'inNenhum' => $inFichaAluno->inRecursoAvaliacao->inNenhum,
-                    'inAuxilioLeitor' => $inFichaAluno->inRecursoAvaliacao->inAuxilioLeitor,
-                    'inAuxilioTranscricao' => $inFichaAluno->inRecursoAvaliacao->inAuxilioTranscricao,
-                    'inGuiaInterprete' => $inFichaAluno->inRecursoAvaliacao->inGuiaInterprete,
-                    'inInterpreteLibras' => $inFichaAluno->inRecursoAvaliacao->inInterpreteLibras,
-                    'inLeituraLabial' => $inFichaAluno->inRecursoAvaliacao->inLeituraLabial,
-                    'inProvaBraile' => $inFichaAluno->inRecursoAvaliacao->inProvaBraile,
-                    'inProvaAmpliada' => $inFichaAluno->inRecursoAvaliacao->inProvaAmpliada,
-                    'inFonteProva' => $inFichaAluno->inRecursoAvaliacao->inFonteProva,
-                    'inProvaVideoLibras' => $inFichaAluno->inRecursoAvaliacao->inProvaVideoLibras,
-                    'inCdAudioDefVisual' => $inFichaAluno->inRecursoAvaliacao->inCdAudioDefVisual,
-                    'inProvaLinguaPortuguesa' => $inFichaAluno->inRecursoAvaliacao->inProvaLinguaPortuguesa,                
-                ],
-                'inRastreio' => [
-                    'inUsuarioRemoto' => $inFichaAluno->inRastreio->inUsuarioRemoto,
-                    'inNomeUsuario' => $inFichaAluno->inRastreio->inNomeUsuario,
-                    'inNumCPF' => $inFichaAluno->inRastreio->inNumCPF,
-                    'inLocalPerfilAcesso' => $inFichaAluno->inRastreio->inLocalPerfilAcesso,
-                ]
-            ];
-
             $apiResponse = json_decode($this->client->request('POST', '/ncaapi/api/Aluno/FichaAluno', [
-                'body' => json_encode($inFichaAlunoBody)
-            ])->getBody()->getContents());
+                'body' => json_encode($inFichaAluno)
+            ])->getBody()->getContents(), true);
 
-            return $apiResponse;
+            return OutFichaAluno::fromJson($apiResponse);
 
         }catch(InvalidArgumentException $invalidArgumentException) {
             throw $invalidArgumentException;
