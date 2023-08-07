@@ -175,94 +175,98 @@ class FormsController extends Controller {
     
     public function actionIndividualRecord($enrollment_id)
     {
-        $this->layout = "reports";
-        $result = array(); // array de notas
+        $this->layout = "reports";                                             
         $disciplines = array();
         $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
-        $grades = Grade::model()->findAllByAttributes(["enrollment_fk" => $enrollment_id]); // notas do aluno na turma
         $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $enrollment_id]); // medias do aluno na turma
-        $classFaults = ClassFaults::model()->findAllByAttributes(["student_fk" => $enrollment->studentFk->id]); // faltas do aluno na turma
         $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
-        $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk]); // unidades da turma
+        $portuguese = array();
+        $history = array();
+        $geography = array();
+        $mathematics = array();
+        $sciences = array();
 
-        // Aqui eu separo as disciplinas da BNCC das disciplinas diversas para depois montar o cabeçalho 
-        foreach ($curricularMatrix as $matrix) {
-            array_push($disciplines, $matrix->disciplineFk->name);
+        foreach ($curricularMatrix as $c) {
+            foreach ($gradesResult as $g) {
+                if($c->disciplineFk->id == $g->discipline_fk) {
+                    if($c->disciplineFk->id == 6) {
+                        array_push($portuguese, [
+                            "grade1" => $g->grade_1,
+                            "grade2" => $g->grade_2,
+                            "grade3" => $g->grade_3,
+                            "grade4" => $g->grade_4,
+                            "final_media" => $g->final_media
+                        ]);
+                    }else if ($c->disciplineFk->id == 12) {
+                        array_push($history, [
+                            "grade1" => $g->grade_1,
+                            "grade2" => $g->grade_2,
+                            "grade3" => $g->grade_3,
+                            "grade4" => $g->grade_4,
+                            "final_media" => $g->final_media
+                        ]);
+                    }else if ($c->disciplineFk->id == 13) {
+                        array_push($geography, [
+                            "grade1" => $g->grade_1,
+                            "grade2" => $g->grade_2,
+                            "grade3" => $g->grade_3,
+                            "grade4" => $g->grade_4,
+                            "final_media" => $g->final_media
+                        ]);
+                    }else if ($c->disciplineFk->id == 3) {
+                        array_push($mathematics, [
+                            "grade1" => $g->grade_1,
+                            "grade2" => $g->grade_2,
+                            "grade3" => $g->grade_3,
+                            "grade4" => $g->grade_4,
+                            "final_media" => $g->final_media
+                        ]);
+                    }else if ($c->disciplineFk->id == 5) {
+                        array_push($sciences, [
+                            "grade1" => $g->grade_1,
+                            "grade2" => $g->grade_2,
+                            "grade3" => $g->grade_3,
+                            "grade4" => $g->grade_4,
+                            "final_media" => $g->final_media
+                        ]);
+                    }
+                }
+            } 
         }
 
-        // Junto todas as disciplinas na ordem do cabeçalho
-        $totalDisciplines = array_unique($disciplines);
-
-
-        foreach ($totalDisciplines as $discipline) { // aqui eu monto as notas das disciplinas, faltas, dias letivos e cargas horárias
-
-            $mediaExists = false; // verifica se o aluno tem notas para a disciplina
-
-            // cálculo de dias letivos
-            $schoolDays = $this->schoolDaysCalculate($enrollment->classroomFk->id, $discipline);
-
-            // cálculo de aulas dadas
-            $totaNumberOfClasses = $this->daysOfClassContentsCalculate($enrollment->classroomFk->id, $discipline);
-
-            // pego o registro de matriz curricular da disciplina para verificar a carga horaria da disciplina
-            $disciplineMatrix = array_values(array_filter($curricularMatrix, function ($matrix) use ($discipline) {
-                return $matrix->discipline_fk == $discipline;
-            }));
-
-            // pegando somente as faltas da disciplina
-            $faults = count(array_filter($classFaults, function ($fault) use ($enrollment, $discipline) {
-                return $fault->scheduleFk->discipline_fk == $discipline && $fault->scheduleFk->classroom_fk == $enrollment->classroom_fk;
-            }));
-
-            foreach ($gradesResult as $finalMedia) {
-                // se existe notas para essa disciplina
-                if($finalMedia->disciplineFk->id == $discipline) {
-                    array_push($result, [
-                        "discipline_id" => $finalMedia->disciplineFk->id,
-                        "final_media" => $finalMedia->final_media,
-                        "grades" => array_values(array_filter($grades, function ($grade) use ($finalMedia) {
-                            return $this->compareGradeAndResult($grade, $finalMedia);
-                        })),
-                        "faults" => $faults,
-                        "workload" => $disciplineMatrix[0]->workload,
-                        "total_number_of_classes" => $totaNumberOfClasses,
-                        "school_days" => $schoolDays,
+        foreach ($curricularMatrix as $c) {
+            foreach ($gradesResult as $g) {
+                if($c->disciplineFk->id == $g->discipline_fk) {
+                    array_push($disciplines, [
+                        "name" => $c->disciplineFk->name,
+                        "grade1" => $g->grade_1,
+                        "faults1" => $g->grade_faults_1,
+                        "classesguiven1" => null,
+                        "grade2" => $g->grade_2,
+                        "faults2" => $g->grade_faults_2,
+                        "classesguiven2" => null,
+                        "grade3" => $g->grade_3,
+                        "faults3" => $g->grade_faults_3,
+                        "classesguiven3" => null,
+                        "grade4" => $g->grade_4,
+                        "faults4" => $g->grade_faults_4,
+                        "classesguiven4" => null,
+                        "final_media" => $g->final_media
                     ]);
-                    $mediaExists = true;
-                    break; // quebro o laço para diminuir a complexidade do algoritmo para O(log n)2
                 }
-            }
-
-            if(!$mediaExists) { // o aluno não tem notas para a disciplina
-                array_push($result, [
-                    "discipline_id" => $discipline,
-                    "final_media" => null,
-                    "grades" => null,
-                    "faults" => $faults,
-                    "workload" => $disciplineMatrix[0]->workload,
-                    "total_number_of_classes" => $totaNumberOfClasses,
-                    "school_days" => $schoolDays,
-                ]);
-            }
+            } 
         }
 
-        // Aqui eu ordeno o array de notas de acordo com a ordem da coluna de disciplinas
-        $report = [];
-        foreach ($totalDisciplines as $disciplineId) {
-            // eu pego o array de notas para ordenar e garantir que a ordem das notas esteja correta
-            foreach ($result as $item) {
-                if ($item['discipline_id'] === $disciplineId) {
-                    $report[] = $item;
-                    break; // quebro o laço para diminuir a complexidade do algoritmo para O(log n)2
-                }
-            }
-        }
+        
 
         $this->render('IndividualReport', array(
             'enrollment' => $enrollment,
-            'result' => $report,
-            'disciplines' => array_unique($disciplines),
-            'unities' => $unities
+            'disciplines' => $disciplines,
+            'portuguese' => $portuguese,
+            'history' => $history,
+            'geography' => $geography,
+            'mathematics' => $mathematics,
+            'sciences' => $sciences
         ));
     }
 
