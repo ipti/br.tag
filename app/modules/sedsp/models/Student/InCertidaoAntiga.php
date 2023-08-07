@@ -11,13 +11,13 @@ class InCertidaoAntiga implements JsonSerializable
 	public $inDataEmissaoCertidao;
 
 	public function __construct(
-		string $inNumCertidao,
-		string $inLivro,
-		string $inFolha,
-		string $inDistritoCertidao,
-		string $inMunicipioComarca,
-		string $inUFComarca,
-		string $inDataEmissaoCertidao
+		?string $inNumCertidao,
+		?string $inLivro,
+		?string $inFolha,
+		?string $inDistritoCertidao,
+		?string $inMunicipioComarca,
+		?string $inUFComarca,
+		?string $inDataEmissaoCertidao
 	) {
 		$this->inNumCertidao = $inNumCertidao;
 		$this->inLivro = $inLivro;
@@ -27,132 +27,96 @@ class InCertidaoAntiga implements JsonSerializable
 		$this->inUFComarca = $inUFComarca;
 		$this->inDataEmissaoCertidao = $inDataEmissaoCertidao;
 	}
-	/**
-	 * Get the value of inNumCertidao
-	 */
-	public function getInNumCertidao()
+
+	public function getInNumCertidao(): ?string
 	{
 		return $this->inNumCertidao;
 	}
 
-	/**
-	 * Set the value of inNumCertidao
-	 */
-	public function setInNumCertidao($inNumCertidao): self
-	{
-		$this->inNumCertidao = $inNumCertidao;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inLivro
-	 */
-	public function getInLivro()
+	public function getInLivro(): ?string
 	{
 		return $this->inLivro;
 	}
 
-	/**
-	 * Set the value of inLivro
-	 */
-	public function setInLivro($inLivro): self
-	{
-		$this->inLivro = $inLivro;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inFolha
-	 */
-	public function getInFolha()
+	public function getInFolha(): ?string
 	{
 		return $this->inFolha;
 	}
 
-	/**
-	 * Set the value of inFolha
-	 */
-	public function setInFolha($inFolha): self
-	{
-		$this->inFolha = $inFolha;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inDistritoCertidao
-	 */
-	public function getInDistritoCertidao()
+	public function getInDistritoCertidao(): ?string
 	{
 		return $this->inDistritoCertidao;
 	}
 
-	/**
-	 * Set the value of inDistritoCertidao
-	 */
-	public function setInDistritoCertidao($inDistritoCertidao): self
-	{
-		$this->inDistritoCertidao = $inDistritoCertidao;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inMunicipioComarca
-	 */
-	public function getInMunicipioComarca()
+	public function getInMunicipioComarca(): ?string
 	{
 		return $this->inMunicipioComarca;
 	}
 
-	/**
-	 * Set the value of inMunicipioComarca
-	 */
-	public function setInMunicipioComarca($inMunicipioComarca): self
-	{
-		$this->inMunicipioComarca = $inMunicipioComarca;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inUFComarca
-	 */
-	public function getInUFComarca()
+	public function getInUfComarca(): ?string
 	{
 		return $this->inUFComarca;
 	}
 
-	/**
-	 * Set the value of inUFComarca
-	 */
-	public function setInUFComarca($inUFComarca): self
-	{
-		$this->inUFComarca = $inUFComarca;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inDataEmissaoCertidao
-	 */
-	public function getInDataEmissaoCertidao()
+	public function getInDataEmissaoCertidao(): ?string
 	{
 		return $this->inDataEmissaoCertidao;
 	}
 
-	/**
-	 * Set the value of inDataEmissaoCertidao
-	 */
-	public function setInDataEmissaoCertidao($inDataEmissaoCertidao): self
+	public function setInNumCertidao(?string $inNumCertidao): self
 	{
-		$this->inDataEmissaoCertidao = $inDataEmissaoCertidao;
-
+		$this->inNumCertidao = $inNumCertidao;
 		return $this;
 	}
 
+	public function setInLivro(?string $inLivro): self
+	{
+		$this->inLivro = $inLivro;
+		return $this;
+	}
+
+	public function setInFolha(?string $inFolha): self
+	{
+		$this->inFolha = $inFolha;
+		return $this;
+	}
+
+	public function setInDistritoCertidao(?string $inDistritoCertidao): self
+	{
+		$this->inDistritoCertidao = $inDistritoCertidao;
+		return $this;
+	}
+
+	public function setInMunicipioComarca(?string $inMunicipioComarca): self
+	{
+		$this->inMunicipioComarca = $inMunicipioComarca;
+		return $this;
+	}
+
+	public function setInUfComarca(?string $inUFComarca): self
+	{
+		$this->inUFComarca = $inUFComarca;
+		return $this;
+	}
+
+	public function setInDataEmissaoCertidao(?string $inDataEmissaoCertidao): self
+	{
+		$this->inDataEmissaoCertidao = $inDataEmissaoCertidao;
+		return $this;
+	}
+
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			$data['inNumCertidao'] ?? null,
+			$data['inLivro'] ?? null,
+			$data['inFolha'] ?? null,
+			$data['inDistritoCertidao'] ?? null,
+			$data['inMunicipioComarca'] ?? null,
+			$data['inUFComarca'] ?? null,
+			$data['inDataEmissaoCertidao'] ?? null
+		);
+	}
 	function jsonSerialize()
 	{
 		return get_object_vars($this);

@@ -16,18 +16,18 @@ class InRecursoAvaliacao
 	public $inProvaLinguaPortuguesa;
 
 	public function __construct(
-		string $inNenhum,
-		string $inAuxilioLeitor,
-		string $inAuxilioTranscricao,
-		string $inGuiaInterprete,
-		string $inInterpreteLibras,
-		string $inLeituraLabial,
-		string $inProvaBraile,
-		string $inProvaAmpliada,
-		string $inFonteProva,
-		string $inProvaVideoLibras,
-		string $inCdAudioDefVisual,
-		string $inProvaLinguaPortuguesa
+		?string $inNenhum,
+		?string $inAuxilioLeitor,
+		?string $inAuxilioTranscricao,
+		?string $inGuiaInterprete,
+		?string $inInterpreteLibras,
+		?string $inLeituraLabial,
+		?string $inProvaBraile,
+		?string $inProvaAmpliada,
+		?string $inFonteProva,
+		?string $inProvaVideoLibras,
+		?string $inCdAudioDefVisual,
+		?string $inProvaLinguaPortuguesa
 	) {
 		$this->inNenhum = $inNenhum;
 		$this->inAuxilioLeitor = $inAuxilioLeitor;
@@ -43,220 +43,154 @@ class InRecursoAvaliacao
 		$this->inProvaLinguaPortuguesa = $inProvaLinguaPortuguesa;
 	}
 
-	/**
-	 * Get the value of inNenhum
-	 */
-	public function getInNenhum()
+	public function getInNenhum(): ?string
 	{
 		return $this->inNenhum;
 	}
 
-	/**
-	 * Set the value of inNenhum
-	 */
-	public function setInNenhum($inNenhum): self
-	{
-		$this->inNenhum = $inNenhum;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inAuxilioLeitor
-	 */
-	public function getInAuxilioLeitor()
+	public function getInAuxilioLeitor(): ?string
 	{
 		return $this->inAuxilioLeitor;
 	}
 
-	/**
-	 * Set the value of inAuxilioLeitor
-	 */
-	public function setInAuxilioLeitor($inAuxilioLeitor): self
-	{
-		$this->inAuxilioLeitor = $inAuxilioLeitor;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inAuxilioTranscricao
-	 */
-	public function getInAuxilioTranscricao()
+	public function getInAuxilioTranscricao(): ?string
 	{
 		return $this->inAuxilioTranscricao;
 	}
 
-	/**
-	 * Set the value of inAuxilioTranscricao
-	 */
-	public function setInAuxilioTranscricao($inAuxilioTranscricao): self
-	{
-		$this->inAuxilioTranscricao = $inAuxilioTranscricao;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inGuiaInterprete
-	 */
-	public function getInGuiaInterprete()
+	public function getInGuiaInterprete(): ?string
 	{
 		return $this->inGuiaInterprete;
 	}
 
-	/**
-	 * Set the value of inGuiaInterprete
-	 */
-	public function setInGuiaInterprete($inGuiaInterprete): self
-	{
-		$this->inGuiaInterprete = $inGuiaInterprete;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inInterpreteLibras
-	 */
-	public function getInInterpreteLibras()
+	public function getInInterpreteLibras(): ?string
 	{
 		return $this->inInterpreteLibras;
 	}
 
-	/**
-	 * Set the value of inInterpreteLibras
-	 */
-	public function setInInterpreteLibras($inInterpreteLibras): self
-	{
-		$this->inInterpreteLibras = $inInterpreteLibras;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inLeituraLabial
-	 */
-	public function getInLeituraLabial()
+	public function getInLeituraLabial(): ?string
 	{
 		return $this->inLeituraLabial;
 	}
 
-	/**
-	 * Set the value of inLeituraLabial
-	 */
-	public function setInLeituraLabial($inLeituraLabial): self
-	{
-		$this->inLeituraLabial = $inLeituraLabial;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inProvaBraile
-	 */
-	public function getInProvaBraile()
+	public function getInProvaBraile(): ?string
 	{
 		return $this->inProvaBraile;
 	}
 
-	/**
-	 * Set the value of inProvaBraile
-	 */
-	public function setInProvaBraile($inProvaBraile): self
-	{
-		$this->inProvaBraile = $inProvaBraile;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inProvaAmpliada
-	 */
-	public function getInProvaAmpliada()
+	public function getInProvaAmpliada(): ?string
 	{
 		return $this->inProvaAmpliada;
 	}
 
-	/**
-	 * Set the value of inProvaAmpliada
-	 */
-	public function setInProvaAmpliada($inProvaAmpliada): self
-	{
-		$this->inProvaAmpliada = $inProvaAmpliada;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inFonteProva
-	 */
-	public function getInFonteProva()
+	public function getInFonteProva(): ?string
 	{
 		return $this->inFonteProva;
 	}
 
-	/**
-	 * Set the value of inFonteProva
-	 */
-	public function setInFonteProva($inFonteProva): self
-	{
-		$this->inFonteProva = $inFonteProva;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inProvaVideoLibras
-	 */
-	public function getInProvaVideoLibras()
+	public function getInProvaVideoLibras(): ?string
 	{
 		return $this->inProvaVideoLibras;
 	}
 
-	/**
-	 * Set the value of inProvaVideoLibras
-	 */
-	public function setInProvaVideoLibras($inProvaVideoLibras): self
-	{
-		$this->inProvaVideoLibras = $inProvaVideoLibras;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inCdAudioDefVisual
-	 */
-	public function getInCdAudioDefVisual()
+	public function getInCdAudioDefVisual(): ?string
 	{
 		return $this->inCdAudioDefVisual;
 	}
 
-	/**
-	 * Set the value of inCdAudioDefVisual
-	 */
-	public function setInCdAudioDefVisual($inCdAudioDefVisual): self
-	{
-		$this->inCdAudioDefVisual = $inCdAudioDefVisual;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inProvaLinguaPortuguesa
-	 */
-	public function getInProvaLinguaPortuguesa()
+	public function getInProvaLinguaPortuguesa(): ?string
 	{
 		return $this->inProvaLinguaPortuguesa;
 	}
 
-	/**
-	 * Set the value of inProvaLinguaPortuguesa
-	 */
-	public function setInProvaLinguaPortuguesa($inProvaLinguaPortuguesa): self
+	public function setInNenhum(?string $inNenhum): self
+	{
+		$this->inNenhum = $inNenhum;
+		return $this;
+	}
+
+	public function setInAuxilioLeitor(?string $inAuxilioLeitor): self
+	{
+		$this->inAuxilioLeitor = $inAuxilioLeitor;
+		return $this;
+	}
+
+	public function setInAuxilioTranscricao(?string $inAuxilioTranscricao): self
+	{
+		$this->inAuxilioTranscricao = $inAuxilioTranscricao;
+		return $this;
+	}
+
+	public function setInGuiaInterprete(?string $inGuiaInterprete): self
+	{
+		$this->inGuiaInterprete = $inGuiaInterprete;
+		return $this;
+	}
+
+	public function setInInterpreteLibras(?string $inInterpreteLibras): self
+	{
+		$this->inInterpreteLibras = $inInterpreteLibras;
+		return $this;
+	}
+
+	public function setInLeituraLabial(?string $inLeituraLabial): self
+	{
+		$this->inLeituraLabial = $inLeituraLabial;
+		return $this;
+	}
+
+	public function setInProvaBraile(?string $inProvaBraile): self
+	{
+		$this->inProvaBraile = $inProvaBraile;
+		return $this;
+	}
+
+	public function setInProvaAmpliada(?string $inProvaAmpliada): self
+	{
+		$this->inProvaAmpliada = $inProvaAmpliada;
+		return $this;
+	}
+
+	public function setInFonteProva(?string $inFonteProva): self
+	{
+		$this->inFonteProva = $inFonteProva;
+		return $this;
+	}
+
+	public function setInProvaVideoLibras(?string $inProvaVideoLibras): self
+	{
+		$this->inProvaVideoLibras = $inProvaVideoLibras;
+		return $this;
+	}
+
+	public function setInCdAudioDefVisual(?string $inCdAudioDefVisual): self
+	{
+		$this->inCdAudioDefVisual = $inCdAudioDefVisual;
+		return $this;
+	}
+
+	public function setInProvaLinguaPortuguesa(?string $inProvaLinguaPortuguesa): self
 	{
 		$this->inProvaLinguaPortuguesa = $inProvaLinguaPortuguesa;
-
 		return $this;
+	}
+
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			$data['inNenhum'] ?? null,
+			$data['inAuxilioLeitor'] ?? null,
+			$data['inAuxilioTranscricao'] ?? null,
+			$data['inGuiaInterprete'] ?? null,
+			$data['inInterpreteLibras'] ?? null,
+			$data['inLeituraLabial'] ?? null,
+			$data['inProvaBraile'] ?? null,
+			$data['inProvaAmpliada'] ?? null,
+			$data['inFonteProva'] ?? null,
+			$data['inProvaVideoLibras'] ?? null,
+			$data['inCdAudioDefVisual'] ?? null,
+			$data['inProvaLinguaPortuguesa'] ?? null
+		);
 	}
 
 	function jsonSerialize()

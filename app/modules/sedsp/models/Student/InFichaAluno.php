@@ -3,178 +3,135 @@
 class InFichaAluno implements JsonSerializable
 {
     public $inDadosPessoais;
-    public $inDocumentos;
-    public $inCertidaoNova;
-    public $inCertidaoAntiga;
-    public $inEnderecoResidencial;
-    public $inDeficiencia;
-    public $inRecursoAvaliacao;
-    public $inRastreio;
+	public $inDeficiencia;
+	public $inRecursoAvaliacao;
+	public $inDocumentos;
+	public $inCertidaoAntiga;
+	public $inCertidaoNova;
+	public $inEnderecoResidencial;
+	public $inRastreio;
 
-    function __construct( 
-        InDadosPessoais $inDadosPessoais,
-        InDocumentos $inDocumentos,
-        ?InCertidaoNova $inCertidaoNova,
-        ?InCertidaoAntiga $inCertidaoAntiga,
-        InEnderecoResidencial $inEnderecoResidencial,
-        InDeficiencia $inDeficiencia,
-        InRecursoAvaliacao $inRecursoAvaliacao,
-        InRastreio $inRastreio
-    ) {
-        $this->inDadosPessoais = $inDadosPessoais;
-        $this->inDocumentos = $inDocumentos;
-        $this->inCertidaoNova = $inCertidaoNova;
-        $this->inCertidaoAntiga = $inCertidaoAntiga;
-        $this->inEnderecoResidencial = $inEnderecoResidencial;
-        $this->inDeficiencia = $inDeficiencia;
-        $this->inRecursoAvaliacao = $inRecursoAvaliacao;
-        $this->inRastreio = $inRastreio;
-    }
+	public function __construct(
+		?InDadosPessoais $inDadosPessoais,
+		?InDeficiencia $inDeficiencia,
+		?InRecursoAvaliacao $inRecursoAvaliacao,
+		?InDocumentos $inDocumentos,
+		?InCertidaoAntiga $inCertidaoAntiga,
+		?InCertidaoNova $inCertidaoNova,
+		?InEnderecoResidencial $inEnderecoResidencial,
+		?InRastreio $inRastreio
+	) {
+		$this->inDadosPessoais = $inDadosPessoais;
+		$this->inDeficiencia = $inDeficiencia;
+		$this->inRecursoAvaliacao = $inRecursoAvaliacao;
+		$this->inDocumentos = $inDocumentos;
+		$this->inCertidaoAntiga = $inCertidaoAntiga;
+		$this->inCertidaoNova = $inCertidaoNova;
+		$this->inEnderecoResidencial = $inEnderecoResidencial;
+		$this->inRastreio = $inRastreio;
+	}
 
-    /**
-     * Get the value of inDadosPessoais
-     */
-    public function getInDadosPessoais()
-    {
-        return $this->inDadosPessoais;
-    }
+	public function getInDadosPessoais(): ?InDadosPessoais
+	{
+		return $this->inDadosPessoais;
+	}
 
-    /**
-     * Set the value of inDadosPessoais
-     */
-    public function setInDadosPessoais($inDadosPessoais): self
-    {
-        $this->inDadosPessoais = $inDadosPessoais;
+	public function getInDeficiencia(): ?InDeficiencia
+	{
+		return $this->inDeficiencia;
+	}
 
-        return $this;
-    }
+	public function getInRecursoAvaliacao(): ?InRecursoAvaliacao
+	{
+		return $this->inRecursoAvaliacao;
+	}
 
-    /**
-     * Get the value of inDocumentos
-     */
-    public function getInDocumentos()
-    {
-        return $this->inDocumentos;
-    }
+	public function getInDocumentos(): ?InDocumentos
+	{
+		return $this->inDocumentos;
+	}
 
-    /**
-     * Set the value of inDocumentos
-     */
-    public function setInDocumentos($inDocumentos): self
-    {
-        $this->inDocumentos = $inDocumentos;
+	public function getInCertidaoAntiga(): ?InCertidaoAntiga
+	{
+		return $this->inCertidaoAntiga;
+	}
 
-        return $this;
-    }
+	public function getInCertidaoNova(): ?InCertidaoNova
+	{
+		return $this->inCertidaoNova;
+	}
 
-    /**
-     * Get the value of inCertidaoNova
-     */
-    public function getInCertidaoNova()
-    {
-        return $this->inCertidaoNova;
-    }
+	public function getInEnderecoResidencial(): ?InEnderecoResidencial
+	{
+		return $this->inEnderecoResidencial;
+	}
 
-    /**
-     * Set the value of inCertidaoNova
-     */
-    public function setInCertidaoNova($inCertidaoNova): self
-    {
-        $this->inCertidaoNova = $inCertidaoNova;
+	public function getInRastreio(): ?InRastreio
+	{
+		return $this->inRastreio;
+	}
 
-        return $this;
-    }
+	public function setInDadosPessoais(?InDadosPessoais $inDadosPessoais): self
+	{
+		$this->inDadosPessoais = $inDadosPessoais;
+		return $this;
+	}
 
-    /**
-     * Get the value of inCertidaoAntiga
-     */
-    public function getInCertidaoAntiga()
-    {
-        return $this->inCertidaoAntiga;
-    }
+	public function setInDeficiencia(?InDeficiencia $inDeficiencia): self
+	{
+		$this->inDeficiencia = $inDeficiencia;
+		return $this;
+	}
 
-    /**
-     * Set the value of inCertidaoAntiga
-     */
-    public function setInCertidaoAntiga($inCertidaoAntiga): self
-    {
-        $this->inCertidaoAntiga = $inCertidaoAntiga;
+	public function setInRecursoAvaliacao(?InRecursoAvaliacao $inRecursoAvaliacao): self
+	{
+		$this->inRecursoAvaliacao = $inRecursoAvaliacao;
+		return $this;
+	}
 
-        return $this;
-    }
+	public function setInDocumentos(?InDocumentos $inDocumentos): self
+	{
+		$this->inDocumentos = $inDocumentos;
+		return $this;
+	}
 
-    /**
-     * Get the value of inEnderecoResidencial
-     */
-    public function getInEnderecoResidencial()
-    {
-        return $this->inEnderecoResidencial;
-    }
+	public function setInCertidaoAntiga(?InCertidaoAntiga $inCertidaoAntiga): self
+	{
+		$this->inCertidaoAntiga = $inCertidaoAntiga;
+		return $this;
+	}
 
-    /**
-     * Set the value of inEnderecoResidencial
-     */
-    public function setInEnderecoResidencial($inEnderecoResidencial): self
-    {
-        $this->inEnderecoResidencial = $inEnderecoResidencial;
+	public function setInCertidaoNova(?InCertidaoNova $inCertidaoNova): self
+	{
+		$this->inCertidaoNova = $inCertidaoNova;
+		return $this;
+	}
 
-        return $this;
-    }
+	public function setInEnderecoResidencial(?InEnderecoResidencial $inEnderecoResidencial): self
+	{
+		$this->inEnderecoResidencial = $inEnderecoResidencial;
+		return $this;
+	}
 
-    /**
-     * Get the value of inDeficiencia
-     */
-    public function getInDeficiencia()
-    {
-        return $this->inDeficiencia;
-    }
+	public function setInRastreio(?InRastreio $inRastreio): self
+	{
+		$this->inRastreio = $inRastreio;
+		return $this;
+	}
 
-    /**
-     * Set the value of inDeficiencia
-     */
-    public function setInDeficiencia($inDeficiencia): self
-    {
-        $this->inDeficiencia = $inDeficiencia;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of inRecursoAvaliacao
-     */
-    public function getInRecursoAvaliacao()
-    {
-        return $this->inRecursoAvaliacao;
-    }
-
-    /**
-     * Set the value of inRecursoAvaliacao
-     */
-    public function setInRecursoAvaliacao($inRecursoAvaliacao): self
-    {
-        $this->inRecursoAvaliacao = $inRecursoAvaliacao;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of inRastreio
-     */
-    public function getInRastreio()
-    {
-        return $this->inRastreio;
-    }
-
-    /**
-     * Set the value of inRastreio
-     */
-    public function setInRastreio($inRastreio): self
-    {
-        $this->inRastreio = $inRastreio;
-
-        return $this;
-    }
-
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			($data['inDadosPessoais'] ?? null) !== null ? InDadosPessoais::fromJson($data['inDadosPessoais']) : null,
+			($data['inDeficiencia'] ?? null) !== null ? InDeficiencia::fromJson($data['inDeficiencia']) : null,
+			($data['inRecursoAvaliacao'] ?? null) !== null ? InRecursoAvaliacao::fromJson($data['inRecursoAvaliacao']) : null,
+			($data['inDocumentos'] ?? null) !== null ? InDocumentos::fromJson($data['inDocumentos']) : null,
+			($data['inCertidaoAntiga'] ?? null) !== null ? InCertidaoAntiga::fromJson($data['inCertidaoAntiga']) : null,
+			($data['inCertidaoNova'] ?? null) !== null ? InCertidaoNova::fromJson($data['inCertidaoNova']) : null,
+			($data['inEnderecoResidencial'] ?? null) !== null ? InEnderecoResidencial::fromJson($data['inEnderecoResidencial']) : null,
+			($data['inRastreio'] ?? null) !== null ? InRastreio::fromJson($data['inRastreio']) : null
+		);
+	}
     function jsonSerialize()
 	{
 		return get_object_vars($this);

@@ -11,13 +11,13 @@ class InDeficiencia implements JsonSerializable
 	public $inTipoProfSaude;
 
 	public function __construct(
-		string $inCodNecessidade,
-		int $inMobilidadeReduzida,
-		string $inTipoMobilidadeReduzida,
-		int $inCuidador,
-		string $inTipoCuidador,
-		int $inProfSaude,
-		string $inTipoProfSaude
+		?string $inCodNecessidade,
+		?int $inMobilidadeReduzida,
+		?string $inTipoMobilidadeReduzida,
+		?int $inCuidador,
+		?string $inTipoCuidador,
+		?int $inProfSaude,
+		?string $inTipoProfSaude
 	) {
 		$this->inCodNecessidade = $inCodNecessidade;
 		$this->inMobilidadeReduzida = $inMobilidadeReduzida;
@@ -28,130 +28,94 @@ class InDeficiencia implements JsonSerializable
 		$this->inTipoProfSaude = $inTipoProfSaude;
 	}
 
-	/**
-	 * Get the value of inCodNecessidade
-	 */
-	public function getInCodNecessidade()
+	public function getInCodNecessidade(): ?string
 	{
 		return $this->inCodNecessidade;
 	}
 
-	/**
-	 * Set the value of inCodNecessidade
-	 */
-	public function setInCodNecessidade($inCodNecessidade): self
-	{
-		$this->inCodNecessidade = $inCodNecessidade;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inMobilidadeReduzida
-	 */
-	public function getInMobilidadeReduzida()
+	public function getInMobilidadeReduzida(): ?int
 	{
 		return $this->inMobilidadeReduzida;
 	}
 
-	/**
-	 * Set the value of inMobilidadeReduzida
-	 */
-	public function setInMobilidadeReduzida($inMobilidadeReduzida): self
-	{
-		$this->inMobilidadeReduzida = $inMobilidadeReduzida;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inTipoMobilidadeReduzida
-	 */
-	public function getInTipoMobilidadeReduzida()
+	public function getInTipoMobilidadeReduzida(): ?string
 	{
 		return $this->inTipoMobilidadeReduzida;
 	}
 
-	/**
-	 * Set the value of inTipoMobilidadeReduzida
-	 */
-	public function setInTipoMobilidadeReduzida($inTipoMobilidadeReduzida): self
-	{
-		$this->inTipoMobilidadeReduzida = $inTipoMobilidadeReduzida;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inCuidador
-	 */
-	public function getInCuidador()
+	public function getInCuidador(): ?int
 	{
 		return $this->inCuidador;
 	}
 
-	/**
-	 * Set the value of inCuidador
-	 */
-	public function setInCuidador($inCuidador): self
-	{
-		$this->inCuidador = $inCuidador;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inTipoCuidador
-	 */
-	public function getInTipoCuidador()
+	public function getInTipoCuidador(): ?string
 	{
 		return $this->inTipoCuidador;
 	}
 
-	/**
-	 * Set the value of inTipoCuidador
-	 */
-	public function setInTipoCuidador($inTipoCuidador): self
-	{
-		$this->inTipoCuidador = $inTipoCuidador;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inProfSaude
-	 */
-	public function getInProfSaude()
+	public function getInProfSaude(): ?int
 	{
 		return $this->inProfSaude;
 	}
 
-	/**
-	 * Set the value of inProfSaude
-	 */
-	public function setInProfSaude($inProfSaude): self
-	{
-		$this->inProfSaude = $inProfSaude;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inTipoProfSaude
-	 */
-	public function getInTipoProfSaude()
+	public function getInTipoProfSaude(): ?string
 	{
 		return $this->inTipoProfSaude;
 	}
 
-	/**
-	 * Set the value of inTipoProfSaude
-	 */
-	public function setInTipoProfSaude($inTipoProfSaude): self
+	public function setInCodNecessidade(?string $inCodNecessidade): self
+	{
+		$this->inCodNecessidade = $inCodNecessidade;
+		return $this;
+	}
+
+	public function setInMobilidadeReduzida(?int $inMobilidadeReduzida): self
+	{
+		$this->inMobilidadeReduzida = $inMobilidadeReduzida;
+		return $this;
+	}
+
+	public function setInTipoMobilidadeReduzida(?string $inTipoMobilidadeReduzida): self
+	{
+		$this->inTipoMobilidadeReduzida = $inTipoMobilidadeReduzida;
+		return $this;
+	}
+
+	public function setInCuidador(?int $inCuidador): self
+	{
+		$this->inCuidador = $inCuidador;
+		return $this;
+	}
+
+	public function setInTipoCuidador(?string $inTipoCuidador): self
+	{
+		$this->inTipoCuidador = $inTipoCuidador;
+		return $this;
+	}
+
+	public function setInProfSaude(?int $inProfSaude): self
+	{
+		$this->inProfSaude = $inProfSaude;
+		return $this;
+	}
+
+	public function setInTipoProfSaude(?string $inTipoProfSaude): self
 	{
 		$this->inTipoProfSaude = $inTipoProfSaude;
-
 		return $this;
+	}
+
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			$data['inCodNecessidade'] ?? null,
+			$data['inMobilidadeReduzida'] ?? null,
+			$data['inTipoMobilidadeReduzida'] ?? null,
+			$data['inCuidador'] ?? null,
+			$data['inTipoCuidador'] ?? null,
+			$data['inProfSaude'] ?? null,
+			$data['inTipoProfSaude'] ?? null
+		);
 	}
 
 	function jsonSerialize()

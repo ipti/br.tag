@@ -16,18 +16,18 @@ class InEnderecoResidencial implements JsonSerializable
 	public $inLongitude;
 
 	public function __construct(
-		string $inLogradouro,
-		string $inNumero,
-		string $inBairro,
-		string $inNomeCidade,
-		string $inUFCidade,
-		string $inComplemento,
-		string $inCep,
-		string $inAreaLogradouro,
-		string $inCodLocalizacaoDiferenciada,
-		string $inCodMunicipioDNE,
-		string $inLatitude,
-		string $inLongitude
+		?string $inLogradouro,
+		?string $inNumero,
+		?string $inBairro,
+		?string $inNomeCidade,
+		?string $inUFCidade,
+		?string $inComplemento,
+		?string $inCep,
+		?string $inAreaLogradouro,
+		?string $inCodLocalizacaoDiferenciada,
+		?string $inCodMunicipioDNE,
+		?string $inLatitude,
+		?string $inLongitude
 	) {
 		$this->inLogradouro = $inLogradouro;
 		$this->inNumero = $inNumero;
@@ -43,222 +43,155 @@ class InEnderecoResidencial implements JsonSerializable
 		$this->inLongitude = $inLongitude;
 	}
 
-	/**
-	 * Get the value of inLogradouro
-	 */
-	public function getInLogradouro()
+	public function getInLogradouro(): ?string
 	{
 		return $this->inLogradouro;
 	}
 
-	/**
-	 * Set the value of inLogradouro
-	 */
-	public function setInLogradouro($inLogradouro): self
-	{
-		$this->inLogradouro = $inLogradouro;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inNumero
-	 */
-	public function getInNumero()
+	public function getInNumero(): ?string
 	{
 		return $this->inNumero;
 	}
 
-	/**
-	 * Set the value of inNumero
-	 */
-	public function setInNumero($inNumero): self
-	{
-		$this->inNumero = $inNumero;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inBairro
-	 */
-	public function getInBairro()
+	public function getInBairro(): ?string
 	{
 		return $this->inBairro;
 	}
 
-	/**
-	 * Set the value of inBairro
-	 */
-	public function setInBairro($inBairro): self
-	{
-		$this->inBairro = $inBairro;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inNomeCidade
-	 */
-	public function getInNomeCidade()
+	public function getInNomeCidade(): ?string
 	{
 		return $this->inNomeCidade;
 	}
 
-	/**
-	 * Set the value of inNomeCidade
-	 */
-	public function setInNomeCidade($inNomeCidade): self
-	{
-		$this->inNomeCidade = $inNomeCidade;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inUFCidade
-	 */
-	public function getInUFCidade()
+	public function getInUfCidade(): ?string
 	{
 		return $this->inUFCidade;
 	}
 
-	/**
-	 * Set the value of inUFCidade
-	 */
-	public function setInUFCidade($inUFCidade): self
-	{
-		$this->inUFCidade = $inUFCidade;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inComplemento
-	 */
-	public function getInComplemento()
+	public function getInComplemento(): ?string
 	{
 		return $this->inComplemento;
 	}
 
-	/**
-	 * Set the value of inComplemento
-	 */
-	public function setInComplemento($inComplemento): self
-	{
-		$this->inComplemento = $inComplemento;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inCep
-	 */
-	public function getInCep()
+	public function getInCep(): ?string
 	{
 		return $this->inCep;
 	}
 
-	/**
-	 * Set the value of inCep
-	 */
-	public function setInCep($inCep): self
-	{
-		$this->inCep = $inCep;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inAreaLogradouro
-	 */
-	public function getInAreaLogradouro()
+	public function getInAreaLogradouro(): ?string
 	{
 		return $this->inAreaLogradouro;
 	}
 
-	/**
-	 * Set the value of inAreaLogradouro
-	 */
-	public function setInAreaLogradouro($inAreaLogradouro): self
-	{
-		$this->inAreaLogradouro = $inAreaLogradouro;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inCodLocalizacaoDiferenciada
-	 */
-	public function getInCodLocalizacaoDiferenciada()
+	public function getInCodLocalizacaoDiferenciada(): ?string
 	{
 		return $this->inCodLocalizacaoDiferenciada;
 	}
 
-	/**
-	 * Set the value of inCodLocalizacaoDiferenciada
-	 */
-	public function setInCodLocalizacaoDiferenciada($inCodLocalizacaoDiferenciada): self
-	{
-		$this->inCodLocalizacaoDiferenciada = $inCodLocalizacaoDiferenciada;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inCodMunicipioDNE
-	 */
-	public function getInCodMunicipioDNE()
+	public function getInCodMunicipioDne(): ?string
 	{
 		return $this->inCodMunicipioDNE;
 	}
 
-	/**
-	 * Set the value of inCodMunicipioDNE
-	 */
-	public function setInCodMunicipioDNE($inCodMunicipioDNE): self
-	{
-		$this->inCodMunicipioDNE = $inCodMunicipioDNE;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inLatitude
-	 */
-	public function getInLatitude()
+	public function getInLatitude(): ?string
 	{
 		return $this->inLatitude;
 	}
 
-	/**
-	 * Set the value of inLatitude
-	 */
-	public function setInLatitude($inLatitude): self
-	{
-		$this->inLatitude = $inLatitude;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inLongitude
-	 */
-	public function getInLongitude()
+	public function getInLongitude(): ?string
 	{
 		return $this->inLongitude;
 	}
 
-	/**
-	 * Set the value of inLongitude
-	 */
-	public function setInLongitude($inLongitude): self
+	public function setInLogradouro(?string $inLogradouro): self
 	{
-		$this->inLongitude = $inLongitude;
-
+		$this->inLogradouro = $inLogradouro;
 		return $this;
 	}
 
+	public function setInNumero(?string $inNumero): self
+	{
+		$this->inNumero = $inNumero;
+		return $this;
+	}
+
+	public function setInBairro(?string $inBairro): self
+	{
+		$this->inBairro = $inBairro;
+		return $this;
+	}
+
+	public function setInNomeCidade(?string $inNomeCidade): self
+	{
+		$this->inNomeCidade = $inNomeCidade;
+		return $this;
+	}
+
+	public function setInUfCidade(?string $inUFCidade): self
+	{
+		$this->inUFCidade = $inUFCidade;
+		return $this;
+	}
+
+	public function setInComplemento(?string $inComplemento): self
+	{
+		$this->inComplemento = $inComplemento;
+		return $this;
+	}
+
+	public function setInCep(?string $inCep): self
+	{
+		$this->inCep = $inCep;
+		return $this;
+	}
+
+	public function setInAreaLogradouro(?string $inAreaLogradouro): self
+	{
+		$this->inAreaLogradouro = $inAreaLogradouro;
+		return $this;
+	}
+
+	public function setInCodLocalizacaoDiferenciada(?string $inCodLocalizacaoDiferenciada): self
+	{
+		$this->inCodLocalizacaoDiferenciada = $inCodLocalizacaoDiferenciada;
+		return $this;
+	}
+
+	public function setInCodMunicipioDne(?string $inCodMunicipioDNE): self
+	{
+		$this->inCodMunicipioDNE = $inCodMunicipioDNE;
+		return $this;
+	}
+
+	public function setInLatitude(?string $inLatitude): self
+	{
+		$this->inLatitude = $inLatitude;
+		return $this;
+	}
+
+	public function setInLongitude(?string $inLongitude): self
+	{
+		$this->inLongitude = $inLongitude;
+		return $this;
+	}
+
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			$data['inLogradouro'] ?? null,
+			$data['inNumero'] ?? null,
+			$data['inBairro'] ?? null,
+			$data['inNomeCidade'] ?? null,
+			$data['inUFCidade'] ?? null,
+			$data['inComplemento'] ?? null,
+			$data['inCep'] ?? null,
+			$data['inAreaLogradouro'] ?? null,
+			$data['inCodLocalizacaoDiferenciada'] ?? null,
+			$data['inCodMunicipioDNE'] ?? null,
+			$data['inLatitude'] ?? null,
+			$data['inLongitude'] ?? null
+		);
+	}
 	function jsonSerialize()
 	{
 		return get_object_vars($this);
