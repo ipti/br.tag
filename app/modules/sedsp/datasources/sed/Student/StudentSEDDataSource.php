@@ -27,35 +27,21 @@ class StudentSEDDataSource extends SedDataSource
     /**
      * 
      * Summary of getStudentRA
-     * @param ?string $inCodEscola
-     * @param InDadosPessoais $inAluno
-     * @return OutDadosPessoais|OutErro
+     * @param InConsultaRA $inAluno
+     * @return OutConsultaRA|OutErro
      * 
      * @throws InvalidArgumentException Se os dados de entrada forem inválidos.
      * @throws Exception Se ocorrer um erro desconhecido.
      * 
      */
-    public function getStudentRA($inCodEscola, $inAluno)
+    public function getStudentRA($inConsultaRA)
     {
         try {
-            foreach ($inAluno as $key) {
-               if (!isset($key)) {
-                throw new InvalidArgumentException("Entrada inválida: dados incompletos.");             
-               }
-            }
-
-            $studentRequestBody = [
-                'inCodEscola' => $inCodEscola, 
-                'inNomeAluno' => $inAluno->inNomeAluno, 
-                'inNomeMae' => $inAluno->inNomeMae,
-                'inDataNascimento' => $inAluno->inDataNascimento
-            ];
-    
-            $apiResponse = $this->client->request('GET', '/ncaapi/api/Aluno/ConsultaRA', [
-                'body' => json_encode($studentRequestBody)
-            ]);
+            $apiResponse = json_decode($this->client->request('GET', '/ncaapi/api/Aluno/ConsultaRA', [
+                'body' => json_encode($inConsultaRA)
+            ])->getBody()->getContents(), true);
         
-            return new OutDadosPessoais(json_decode($apiResponse->getBody()->getContents()));
+            return OutConsultaRA::fromJson($apiResponse);
         } catch (InvalidArgumentException $invalidArgumentException) {
             throw $invalidArgumentException;
         } catch (ClientException $e) {
@@ -96,7 +82,7 @@ class StudentSEDDataSource extends SedDataSource
      * 
      * Summary of getListStudents
      * @param InListarAlunos $inListarAlunos
-     * @return array<OutListarAlunos>|OutErro
+     * @return OutListarAluno|OutErro
      * 
      * @throws InvalidArgumentException Se os dados de entrada forem inválidos.
      * @throws Exception Se ocorrer um erro desconhecido.
@@ -104,39 +90,15 @@ class StudentSEDDataSource extends SedDataSource
      */
     function getListStudents(InListarAlunos $inListarAlunos)
     {
-
         try {
-            $listaRequestBody = [
-                'inFiltrosNomes' => [
-                    'inNomeAluno' => $inListarAlunos->inDadosPessoais->inNomeAluno ?? null, 
-                    'inNomeSocial' => $inListarAlunos->inDadosPessoais->inNomeSocial ?? null, 
-                    'inNomeMae' => $inListarAlunos->inDadosPessoais->inNomeMae ?? null,
-                    'inNomePai' => $inListarAlunos->inDadosPessoais->inNomePai ?? null,
-                    'inDataNascimento' => $inListarAlunos->inDadosPessoais->inDataNascimento ?? null
-                ],
-                'inDocumentos' => [
-                    'inNumRG' => $inListarAlunos->inDocumentos->inNumRG ?? null,
-                    'inDigitoRG' => $inListarAlunos->inDocumentos->inDigitoRG ?? null,
-                    'inUFRG' => $inListarAlunos->inDocumentos->inUFRG ?? null,
-                    'inCPF' => $inListarAlunos->inDocumentos->inCPF ?? null,
-                    'inNumNIS' => $inListarAlunos->inDocumentos->inNumNIS ?? null,
-                    'inNumINEP' => $inListarAlunos->inDocumentos->inNumINEP ?? null, 
-                    'inNumCertidaoNova' => $inListarAlunos->inDocumentos->inNumCertidaoNova ?? null
-                ]
-            ];
-    
-            $apiResponse = $this->client->request('GET', '/ncaapi/api/Aluno/ListarAlunos', [
-                'body' => json_encode($listaRequestBody)
-            ]);
-            
-            $inListaAlunos = json_decode($apiResponse->getBody()->getContents());
+            $apiResponse = json_decode($this->client->request('GET', '/ncaapi/api/Aluno/ListarAlunos', [
+                'body' => json_encode([
+                    "inFiltrosNomes" => $inListarAlunos->getInFiltrosNomes(),
+                    "inDocumentos" => $inListarAlunos->getInDocumentos()
+                ])
+            ])->getBody()->getContents(), true);
 
-            $outListaAlunos = [];
-            foreach ($inListaAlunos->outListaAlunos as $inListaAluno) { 
-                $outListaAlunos[] = new OutListarAlunos($inListaAluno);           
-            }
-
-            return $outListaAlunos;
+            return OutListarAluno::fromJson($apiResponse);
         } catch (InvalidArgumentException $invalidArgumentException) {
             throw $invalidArgumentException;
         } catch (ClientException $e) {
@@ -185,34 +147,23 @@ class StudentSEDDataSource extends SedDataSource
     /**
      * Summary of getConsultarResponsavelAluno
      * @param InResponsavelAluno
-     * @return OutResponsaveis|OutErro
+     * @return OutConsultarResponsavelAluno|OutErro
      * 
      * @throws InvalidArgumentException Se os dados de entrada forem inválidos.
      * @throws Exception Se ocorrer um erro desconhecido.
      * 
      */
     function getConsultarResponsavelAluno(InResponsavelAluno $inConsultarResponsavelAluno)
-    {
+    {  
         try {
-            $responsavelRequestBody = [
-                'InDocumentosAluno' => [
-                    'inCPF' => $inConsultarResponsavelAluno->inDocumentosAluno->inCPF ?? null,
-                    'inNRRG' => $inConsultarResponsavelAluno->inDocumentosAluno->inNumRG ?? null,
-                    'inUFRG' => isset($inConsultarResponsavelAluno->inDocumentosAluno->inUFRG) ? $inConsultarResponsavelAluno->inDocumentosAluno->inUFRG : null
-                ],
-                'inAluno' => [
-                    'inNumRA' => $inConsultarResponsavelAluno->inAluno->inNumRA ?? null,
-                    'inDigitoRA' => isset($inConsultarResponsavelAluno->inAluno->inNumRA) ? $inConsultarResponsavelAluno->inAluno->inDigitoRA : null,
-                    'inSiglaUFRA' => isset($inConsultarResponsavelAluno->inAluno->inNumRA) ? $inConsultarResponsavelAluno->inAluno->inSiglaUFRA : null
-                ],
-            ];
-    
-            $apiResponse = $this->client->request('GET', '/ncaapi/api/Aluno/ConsultarResponsavelAluno', [
-                'body' => json_encode($responsavelRequestBody)
-            ]);
+            $apiResponse = json_decode($this->client->request('GET', '/ncaapi/api/Aluno/ConsultarResponsavelAluno', [
+                'body' => json_encode([
+                        "InDocumentosAluno" => $inConsultarResponsavelAluno->getInDocumentosAluno(),
+                        "inAluo" => $inConsultarResponsavelAluno->getInAluno()
+                    ], JSON_UNESCAPED_UNICODE)
+                ])->getBody()->getContents(), true);
             
-            $responsavelAluno = json_decode($apiResponse->getBody()->getContents());
-            return new OutResponsaveis($responsavelAluno);
+            return OutConsultarResponsavelAluno::fromJson($apiResponse);
         } catch (InvalidArgumentException $invalidArgumentException) {
             throw $invalidArgumentException;
         } catch (ClientException $e) {
