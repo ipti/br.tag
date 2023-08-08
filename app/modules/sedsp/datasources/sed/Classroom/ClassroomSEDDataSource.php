@@ -53,35 +53,6 @@ class ClassroomSEDDataSource extends SedDataSource
      */
 
     /**
-     * Summary of getClassroom
-     * @param InFormacaoClasse $inClassroom
-     * @return OutFormacaoClasse|OutErro
-     */
-    public function getClassroom(InFormacaoClasse $inClassroom)
-    {
-        try {
-            if (empty($inClassroom->inNumClasse)) {
-                throw new InvalidArgumentException("Entrada inválida: dado incompleto.");
-            }
-
-            if (strlen($inClassroom->inNumClasse) > self::LENGTH_IN_NUM_CLASS) {
-                throw new InvalidArgumentException("Entrada inválida: tamanho máximo excedido.");
-            };
-
-            $url = '/ncaapi/api/RelacaoAlunosClasse/FormacaoClasse';
-            $response = $this->getApiResponse('GET', $url, $inClassroom);
-            return OutFormacaoClasse::fromJson($response);
-
-        } catch (InvalidArgumentException $e) {
-            return new OutErro($e);
-        } catch (ClientException $e) {
-            return new OutErro($e);
-        } catch (Exception $e) {
-            return new OutErro($e);
-        }
-    }
-
-    /**
      * Summary of getConsultClass
      * @param InConsultaTurmaClasse $inConsultClass
      * @return OutConsultaTurmaClasse|OutErro
