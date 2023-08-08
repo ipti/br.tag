@@ -289,7 +289,7 @@ class DefaultController extends Controller
 	function actionTest()
 	{
 
-		$opt = 8;
+		$opt = 10;
 		switch ($opt) {
 
 			case 1:
@@ -349,11 +349,11 @@ class DefaultController extends Controller
 				break;
 
 
-			case 8:
+			case 9:
 				$inConsult = new InFichaAluno(
 					new InDadosPessoais(
-						'NATHAN MATOS',
-						'BRUNA LUCAS',
+						'NATHAN MATOS CA',
+						'BRUNA LUCAS CA',
 						NULL,
 						NULL,
 						NULL,
@@ -399,6 +399,50 @@ class DefaultController extends Controller
 				);
 				$dataSource = new StudentSEDDataSource();
 				CVarDumper::dump($dataSource->addStudent($inConsult), 10, true);
+				break;
+
+			case 10:
+				$inConsult = new InIncluirTurmaClasse(
+					"2023",
+					"57277",
+					"31875",
+					"14",
+					"1",
+					"0",
+					"1",
+					"0",
+					"a",
+					"001",
+					"35",
+					"20/01/2023",
+					"08/08/2023",
+					"07:30",
+					"12:00",
+					null,
+					[""],
+					new InDiasDaSemana(
+						"1",
+						"07:30",
+						"12:00",
+						"2",
+						"07:30",
+						"12:00",
+						"3",
+						"07:30",
+						"12:00",
+						"4",
+						"07:30",
+						"12:00",
+						"5",
+						"07:30",
+						"12:00",
+						"6",
+						"",
+						""
+					)
+				);
+				$dataSource = new ClassroomSEDDataSource();
+				CVarDumper::dump($dataSource->addIncluirTurmaClasse($inConsult), 10, true);
 				break;
 
 			default:
