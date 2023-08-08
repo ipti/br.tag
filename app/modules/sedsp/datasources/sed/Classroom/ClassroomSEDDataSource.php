@@ -1,4 +1,5 @@
 <?php
+use GuzzleHttp\Exception\ClientException;
 require_once 'app/vendor/autoload.php';
 
 class ClassroomSEDDataSource extends SedDataSource
@@ -46,7 +47,7 @@ class ClassroomSEDDataSource extends SedDataSource
      * @param InFormacaoClasse $inClassroom
      * @return OutFormacaoClasse|OutErro
      */
-    public function getClassroom($inClassroom)
+    public function getClassroom(InFormacaoClasse $inClassroom)
     {
         try {
             if (empty($inClassroom->inNumClasse)) {
@@ -56,15 +57,14 @@ class ClassroomSEDDataSource extends SedDataSource
             if (strlen($inClassroom->inNumClasse) > self::LENGTH_IN_NUM_CLASS) {
                 throw new InvalidArgumentException("Entrada inválida: tamanho máximo excedido.");
             };
-    
-            $apiResponse = json_decode($this->client->request('GET', '/ncaapi/api/RelacaoAlunosClasse/FormacaoClasse', [
-                'body' => json_encode($inClassroom)
-            ])->getBody()->getContents(), true);
 
-            return OutFormacaoClasse::fromJson($apiResponse);
+            $url = '/ncaapi/api/RelacaoAlunosClasse/FormacaoClasse';
+            $response = $this->getApiResponse('GET', $url, $inClassroom);
+            return OutFormacaoClasse::fromJson($response);
+
         } catch (InvalidArgumentException $e) {
             return new OutErro($e);
-        } catch (GuzzleHttp\Exception\ClientException $e) {
+        } catch (ClientException $e) {
             return new OutErro($e);
         } catch (Exception $e) {
             return new OutErro($e);
@@ -90,27 +90,38 @@ class ClassroomSEDDataSource extends SedDataSource
             $url = 'ncaapi/api/TurmaClasse/ConsultaTurmaClasse';
             $response = $this->getApiResponse('GET', $url, $inConsultClass);
             return OutConsultaTurmaClasse::fromJson($response);
-            
+
         } catch (InvalidArgumentException $e) {
             return new OutErro($e);
-        } catch (GuzzleHttp\Exception\ClientException $e) {
+        } catch (ClientException $e) {
             return new OutErro($e);
         } catch (Exception $e) {
             return new OutErro($e);
         }
     }
 
+
+
+
+
+
+    /**
+     * ===========================
+     * POST REQUEST METHODS
+     * ===========================
+     */
+
     /**
      * Summary of incluirTurmaClassePOST
-     * @param InClassroom $inClassroom
-     * @return void
+     * @param InIncluirTurmaClasse $inIncluirTurmaClasse
+     * @return OutIncluirTurmaClasse
      */
-    function incluirTurmaClassePOST($inClassroom)
+    function addIncluirTurmaClasse($inIncluirTurmaClasse)
     {
-        $apiResponse = $this->client->request('POST', '/ncaapi/api/TurmaClasse/IncluirTurmaClasse', [
-            'body' => json_encode($inClassroom)
-        ]);
-        return $apiResponse;
+        $url = '/ncaapi/api/TurmaClasse/IncluirTurmaClasse';
+        $response = $this->getApiResponse('POST', $url, $inIncluirTurmaClasse);
+       
+        return OutIncluirTurmaClasse::fromJson($response);
     }
 
         /**
