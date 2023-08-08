@@ -33,11 +33,9 @@ class StudentSEDDataSource extends SedDataSource
     public function getStudentRA($inConsultaRA)
     {
         try {
-            $apiResponse = json_decode($this->client->request('GET', '/ncaapi/api/Aluno/ConsultaRA', [
-                'body' => json_encode($inConsultaRA)
-            ])->getBody()->getContents(), true);
-        
-            return OutConsultaRA::fromJson($apiResponse);
+            $url = '/ncaapi/api/Aluno/ConsultaRA';
+            $response = $this->getApiResponse('GET', $url, $inConsultaRA);
+            return OutConsultaRA::fromJson($response);  
         } catch (InvalidArgumentException $invalidArgumentException) {
             throw $invalidArgumentException;
         } catch (ClientException $e) {
@@ -89,7 +87,7 @@ class StudentSEDDataSource extends SedDataSource
                 "inDocumentos" => $inListarAlunos->getInDocumentos()
             ];
 
-            $response = $this->getAndDecodeApiResponse('GET', $url, $data);
+            $response = $this->getApiResponse('GET', $url, $data);
             return OutListarAluno::fromJson($response);
 
         } catch (InvalidArgumentException $invalidArgumentException) {
@@ -122,7 +120,7 @@ class StudentSEDDataSource extends SedDataSource
             }
 
             $url = '/ncaapi/api/Aluno/ExibirFichaAluno';
-            $response = $this->getAndDecodeApiResponse('GET', $url, ["inAluno" => $inAluno]);
+            $response = $this->getApiResponse('GET', $url, ["inAluno" => $inAluno]);
           
             return outExibirFichaAluno::fromJson($response);
         } catch (InvalidArgumentException $invalidArgumentException) {
@@ -145,14 +143,15 @@ class StudentSEDDataSource extends SedDataSource
     function getConsultarResponsavelAluno(InResponsavelAluno $inConsultarResponsavelAluno)
     {  
         try {
-            $apiResponse = json_decode($this->client->request('GET', '/ncaapi/api/Aluno/ConsultarResponsavelAluno', [
-                'body' => json_encode([
-                        "InDocumentosAluno" => $inConsultarResponsavelAluno->getInDocumentosAluno(),
-                        "inAluo" => $inConsultarResponsavelAluno->getInAluno()
-                    ], JSON_UNESCAPED_UNICODE)
-                ])->getBody()->getContents(), true);
-            
-            return OutConsultarResponsavelAluno::fromJson($apiResponse);
+            $url = '/ncaapi/api/Aluno/ConsultarResponsavelAluno';
+            $data = [
+                "InDocumentosAluno" => $inConsultarResponsavelAluno->getInDocumentosAluno(),
+                "inAluo" => $inConsultarResponsavelAluno->getInAluno()
+            ];
+
+            $response = $this->getApiResponse('GET', $url,  $data);     
+            return OutConsultarResponsavelAluno::fromJson($response);
+
         } catch (InvalidArgumentException $invalidArgumentException) {
             throw $invalidArgumentException;
         } catch (ClientException $e) {
@@ -183,11 +182,10 @@ class StudentSEDDataSource extends SedDataSource
     function addStudent(InFichaAluno $inFichaAluno)
     {
         try{
-            $apiResponse = json_decode($this->client->request('POST', '/ncaapi/api/Aluno/FichaAluno', [
-                'body' => json_encode($inFichaAluno)
-            ])->getBody()->getContents(), true);
+            $url = '/ncaapi/api/Aluno/FichaAluno';
+            $response = $this->getApiResponse('POST', $url, $inFichaAluno);
 
-            return OutFichaAluno::fromJson($apiResponse);
+            return OutFichaAluno::fromJson($response);
 
         }catch(InvalidArgumentException $invalidArgumentException) {
             throw $invalidArgumentException;
@@ -205,7 +203,7 @@ class StudentSEDDataSource extends SedDataSource
      * @param mixed $data
      * @return mixed
      */
-    function getAndDecodeApiResponse($HTTPMetho, $url, $data) {
+    function getApiResponse($HTTPMetho, $url, $data) {
         $response = $this->client->request($HTTPMetho, $url, [
             'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
         ]);
