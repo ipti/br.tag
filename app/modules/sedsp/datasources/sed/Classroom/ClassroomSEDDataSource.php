@@ -87,11 +87,10 @@ class ClassroomSEDDataSource extends SedDataSource
                 throw new InvalidArgumentException("Entrada inválida: tamanho máximo excedido.");
             };
 
-            $apiResponse = json_decode($this->client->request('GET', 'ncaapi/api/TurmaClasse/ConsultaTurmaClasse', [
-                'body' => json_encode($inConsultClass)
-            ])->getBody()->getContents(), true);
-   
-            return OutConsultaTurmaClasse::fromJson($apiResponse);
+            $url = 'ncaapi/api/TurmaClasse/ConsultaTurmaClasse';
+            $response = $this->getApiResponse('GET', $url, $inConsultClass);
+            return OutConsultaTurmaClasse::fromJson($response);
+            
         } catch (InvalidArgumentException $e) {
             return new OutErro($e);
         } catch (GuzzleHttp\Exception\ClientException $e) {
@@ -112,5 +111,19 @@ class ClassroomSEDDataSource extends SedDataSource
             'body' => json_encode($inClassroom)
         ]);
         return $apiResponse;
+    }
+
+        /**
+     * @param mixed $httpMethod
+     * @param mixed $url
+     * @param mixed $data
+     * @return mixed
+     */
+    function getApiResponse($HTTPMetho, $url, $data) {
+        $response = $this->client->request($HTTPMetho, $url, [
+            'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
+        ]);
+    
+        return json_decode($response->getBody()->getContents(), true);
     }
 }
