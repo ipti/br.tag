@@ -91,14 +91,14 @@ class ClassroomSEDDataSource extends SedDataSource
     /**
      * Summary of incluirTurmaClassePOST
      * @param InIncluirTurmaClasse $inIncluirTurmaClasse
-     * @return OutIncluirTurmaClasse
+     * @return OutHandleApiResult
      */
     function addIncluirTurmaClasse($inIncluirTurmaClasse)
     {
         $url = '/ncaapi/api/TurmaClasse/IncluirTurmaClasse';
         $response = $this->getApiResponse('POST', $url, $inIncluirTurmaClasse);
        
-        return OutIncluirTurmaClasse::fromJson($response);
+        return OutHandleApiResult::fromJson($response);
     }
 
         /**
