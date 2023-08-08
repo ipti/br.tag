@@ -1,5 +1,7 @@
 # Atualizações
 
+## [Versão 3.41.82]
+- Consertado paginação na tela de plano de aula
 ## [Versão 3.41.81]
 -  tirado filtro de disciplinas na tela de  diário de classe
 ## [Versão 3.41.80]
