@@ -42,6 +42,16 @@ class ClassroomSEDDataSource extends SedDataSource
         return $data;
     } */
 
+
+
+
+
+    /**
+     * ===========================
+     * GET REQUEST METHODS
+     * ===========================
+     */
+
     /**
      * Summary of getClassroom
      * @param InFormacaoClasse $inClassroom
@@ -99,10 +109,6 @@ class ClassroomSEDDataSource extends SedDataSource
             return new OutErro($e);
         }
     }
-
-
-
-
 
 
     /**
