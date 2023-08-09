@@ -46,7 +46,8 @@ return array(
         'application.modules.curricularmatrix.models.*',
         'application.modules.quiz.models.*',
         'application.modules.sagres.soap.src.sagresEdu.*',
-        'application.components.utils.TagUtils'
+        'application.components.utils.TagUtils',
+        'ext.bncc-import.BNCCImport'
     ),
     'modules' => array(
         // uncomment the following to enable the Gii tool

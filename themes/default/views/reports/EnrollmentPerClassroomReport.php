@@ -2,7 +2,7 @@
 /** @var ReportsController $this ReportsController */
 /** @var $report mixed */
 /** @var $classroom Classroom*/
-Yii::app()->clientScript->egisterCoreScript('jquery');
+Yii::app()->clientScript->registerCoreScript('jquery');
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $stage = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_modality_fk)->name;

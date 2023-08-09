@@ -1,5 +1,6 @@
 <?php
 
+
 class AdminController extends Controller 
 {
     public $layout = 'fullmenu';
@@ -422,6 +423,12 @@ class AdminController extends Controller
         }
 
         $this->render('editUser', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result]);
+    }
+
+    public function actionImportBNCC(){        
+        $import = new BNCCImport();
+        $bncc_tree = $import->importCSV();
+        
     }
 
     public
