@@ -91,7 +91,7 @@ $gradeTotalFaults = 0;
                 <p><?= $workload ?></p>
             </div>
         </div>
-        <table class="table table-bordered" style="border:none;">
+        <table class="table table-bordered" style="border:none;" aria-describedby="Tabela Notas">
             <thead>
                 <tr>
                     <th scope="col" colspan="2" rowspan="2" style="text-align:center;vertical-align: middle;">Disciplinas</th>
