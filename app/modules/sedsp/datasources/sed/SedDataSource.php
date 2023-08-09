@@ -5,6 +5,10 @@ use GuzzleHttp\Client;
 
 abstract class SedDataSource {
 
+    /**
+     * Summary of client
+     * @var Client $client 
+     */
     protected $client;
 
     public function __construct() {
