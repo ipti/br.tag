@@ -182,7 +182,7 @@ class FormsController extends Controller {
         return number_format($frequencia, 2);
     }
     
-    public function actionIndividualRecord($enrollment_id)
+    public function actionIndividualRecord($enrollment_id, $segment = 1)
     {
         $this->layout = "reports";                                             
         $disciplines = array();
@@ -306,7 +306,7 @@ class FormsController extends Controller {
 
         $frequency = $this->calcularFrequencia($workload, $totalFaults);
 
-        $this->render('IndividualReport', array(
+        $this->render('IndividualRecord', array(
             'enrollment' => $enrollment,
             'disciplines' => $disciplines,
             'portuguese' => $portuguese,
@@ -316,7 +316,8 @@ class FormsController extends Controller {
             'sciences' => $sciences,
             'workload' => $workload,
             'schedules' => $schedules,
-            'frequency' => $frequency
+            'frequency' => $frequency,
+            'segment' => $segment
         ));
     }
 

@@ -12,10 +12,6 @@ $_FORMS[8] = array('name'=>'Termo de Advertência','action'=>'WarningTerm');
 $host_array = explode(".",$_SERVER['HTTP_HOST']);
 $domain = array_shift($host_array);
 
-if($domain == "buzios" || $domain == "localhost" || $domain == "demo") {
-    $_FORMS[2] = array('name'=>'Ficha Individual','action'=>'IndividualRecord');
-}
-
 $newdb = $domain.'.tag.ong.br';
 
 if($domain == "localhost"){
