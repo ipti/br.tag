@@ -43,7 +43,7 @@ if($enrollment->classroomFk->turn == "M") {
         </p>
         <p>
             <span><?= "Nascimento: ".$enrollment->studentFk->birthday?></span>
-            <span style="float:right;margin-right:100px;"><?= "Naturalidade: ".$enrollment->studentFk->edcensoCityFk->name."/".$enrollment->studentFk->edcensoUfFk->acronym?></span>
+            <span style="float:right;margin-right:100px;"><?= "Naturalidade: ".$enrollment->studentFk->edcensoCityFk->name." - ".$enrollment->studentFk->edcensoUfFk->acronym?></span>
         </p>
         <p>
             <span><?= "Identidade: ".$enrollment->studentFk->documentsFk->rg_number ?></span>
@@ -51,9 +51,9 @@ if($enrollment->classroomFk->turn == "M") {
         </p>
         <?php
             if($enrollment->studentFk->deficiency) {
-                echo "<p>Atendimento Educacional Especializado: <input type='checkbox' checked disabled>Sim <input type='checkbox' disabled>Não</p>";
+                echo "<p>Atendimento Educacional Especializado: &nbsp(&nbspX&nbsp)&nbspSim &nbsp(&nbsp&nbsp)&nbspNão</p>";
             }else {
-                echo "<p>Atendimento Educacional Especializado: <input type='checkbox' disabled>Sim <input type='checkbox' checked disabled>Não</p>";
+                echo "<p>Atendimento Educacional Especializado: &nbsp(&nbsp&nbsp)&nbspSim &nbsp(&nbspX&nbsp)&nbspNão</p>";
             }
         ?>
         <p>Etapa: <?= $enrollment->classroomFk->edcensoStageVsModalityFk->name?></p>
