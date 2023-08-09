@@ -69,6 +69,34 @@ class EnrollmentSEDDataSource extends SedDataSource
         }
     }
 
+    /**
+     * Summary of addMatricularAluno
+     * @param InMatricularAluno $inMatricularAluno
+     * @return OutHandleApiResult|OutErro
+     */
+    function addMatricularAluno(InMatricularAluno $inMatricularAluno)
+    {
+        try{
+
+            $url = '/ncaapi/api/Matricula/MatricularAluno';
+            $data = [
+                "inAnoLetivo" => $inMatricularAluno->getInAnoLetivo(),
+                "inAluno" => $inMatricularAluno->getInAluno(),
+                "inMatricula" => $inMatricularAluno->getInMatricula(),
+                "inNivelEnsino" => $inMatricularAluno->getInNivelEnsino()
+            ];
+            $response = $this->getApiResponse('POST', $url, $data);
+            return OutHandleApiResult::fromJson($response);
+
+        } catch (InvalidArgumentException $e) {
+            return new OutErro($e);
+        } catch (ClientException $e) {
+            return new OutErro($e);
+        } catch (Exception $e) {
+            return new OutErro($e);
+        }
+    }
+
         /**
      * @param mixed $httpMethod
      * @param mixed $url
