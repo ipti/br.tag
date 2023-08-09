@@ -2,50 +2,43 @@
 
 class InNivelEnsino implements JsonSerializable
 {
-	public $inCodSerieAno;
 	public $inCodTipoEnsino;
+	public $inCodSerieAno;
 
-	public function __construct(string $inCodSerieAno, string $inCodTipoEnsino)
+	public function __construct(?string $inCodTipoEnsino, ?string $inCodSerieAno)
 	{
-		$this->inCodSerieAno = $inCodSerieAno;
 		$this->inCodTipoEnsino = $inCodTipoEnsino;
-	}
-    
-
-	/**
-	 * Get the value of inCodSerieAno
-	 */
-	public function getInCodSerieAno()
-	{
-		return $this->inCodSerieAno;
-	}
-
-	/**
-	 * Set the value of inCodSerieAno
-	 */
-	public function setInCodSerieAno($inCodSerieAno): self
-	{
 		$this->inCodSerieAno = $inCodSerieAno;
-
-		return $this;
 	}
 
-	/**
-	 * Get the value of inCodTipoEnsino
-	 */
-	public function getInCodTipoEnsino()
+	public function getInCodTipoEnsino(): ?string
 	{
 		return $this->inCodTipoEnsino;
 	}
 
-	/**
-	 * Set the value of inCodTipoEnsino
-	 */
-	public function setInCodTipoEnsino($inCodTipoEnsino): self
+	public function getInCodSerieAno(): ?string
+	{
+		return $this->inCodSerieAno;
+	}
+
+	public function setInCodTipoEnsino(?string $inCodTipoEnsino): self
 	{
 		$this->inCodTipoEnsino = $inCodTipoEnsino;
-
 		return $this;
+	}
+
+	public function setInCodSerieAno(?string $inCodSerieAno): self
+	{
+		$this->inCodSerieAno = $inCodSerieAno;
+		return $this;
+	}
+
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			$data['inCodTipoEnsino'] ?? null,
+			$data['inCodSerieAno'] ?? null
+		);
 	}
 
 	function jsonSerialize() {

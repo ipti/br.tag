@@ -1,7 +1,8 @@
 <?php
 
 class OutHandleApiResult implements JsonSerializable
-{public $outSucesso;
+{
+	public $outSucesso;
 	public $outErro;
 	public $outProcessoID;
 
