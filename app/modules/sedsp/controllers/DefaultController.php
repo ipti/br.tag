@@ -289,7 +289,7 @@ class DefaultController extends Controller
 	function actionTest()
 	{
 
-		$opt = 8;
+		$opt = 14;
 		switch ($opt) {
 
 			case 1:
@@ -302,7 +302,7 @@ class DefaultController extends Controller
 
 			case 2:
 				$inClassroom = new InFormacaoClasse("262429087");
-				$dataSource = new ClassroomSEDDataSource();
+				$dataSource = new ClassStudentsRelationSEDDataSource();
 				CVarDumper::dump($dataSource->getClassroom($inClassroom), 10, true);
 				break;
 
@@ -349,11 +349,11 @@ class DefaultController extends Controller
 				break;
 
 
-			case 8:
+			case 9:
 				$inConsult = new InFichaAluno(
 					new InDadosPessoais(
-						'NATHAN MATOS',
-						'BRUNA LUCAS',
+						'NATHAN MATOS CA',
+						'BRUNA LUCAS CA',
 						NULL,
 						NULL,
 						NULL,
@@ -399,6 +399,83 @@ class DefaultController extends Controller
 				);
 				$dataSource = new StudentSEDDataSource();
 				CVarDumper::dump($dataSource->addStudent($inConsult), 10, true);
+				break;
+
+			case 10:
+				$inConsult = new InIncluirTurmaClasse(
+					"2023",
+					"57277",
+					"31875",
+					"14",
+					"1",
+					"0",
+					"1",
+					"0",
+					"a",
+					"001",
+					"35",
+					"20/01/2023",
+					"08/08/2023",
+					"07:30",
+					"12:00",
+					null,
+					[""],
+					new InDiasDaSemana(
+						"1",
+						"07:30",
+						"12:00",
+						"2",
+						"07:30",
+						"12:00",
+						"3",
+						"07:30",
+						"12:00",
+						"4",
+						"07:30",
+						"12:00",
+						"5",
+						"07:30",
+						"12:00",
+						"6",
+						"",
+						""
+					)
+				);
+				$dataSource = new ClassroomSEDDataSource();
+				CVarDumper::dump($dataSource->addIncluirTurmaClasse($inConsult), 10, true);
+				break;
+
+			case 11:
+				$inConsult = new InRelacaoClasses("2022","57277","14","1","1","0");
+				$dataSource = new ClassStudentsRelationSEDDataSource();
+				CVarDumper::dump($dataSource->getRelacaoClasses($inConsult), 10, true);
+				break;
+
+			case 12:
+				$inConsult = new InscreverAluno(
+					new InAluno("000124661430","3","SP"),
+					new InInscricao("2023","57277","31875","7",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null),
+					new InNivelEnsino("2","3")
+				);
+				$dataSource = new EnrollmentSEDDataSource();
+				CVarDumper::dump($dataSource->addInscreverAluno($inConsult), 10, true);
+				break;
+			
+			case 13:
+				$inConsult = new InEscola("ALBA REGINA TORRAQUE DA SILVA PROFESSORA EMEI", null, null, null);
+				$dataSource = new SchoolSEDDataSource();
+				CVarDumper::dump($dataSource->getSchool($inConsult), 10, true);
+				break;
+
+			case 14:
+				$inConsult = new InMatricularAluno(
+					"2023",
+					new InAluno("000047805904","8","SP"),
+					new InMatricula("28/06/2023", "000047805904", "277675575"),
+					new InNivelEnsino("3","2")
+				);
+				$dataSource = new EnrollmentSEDDataSource();
+				CVarDumper::dump($dataSource->addMatricularAluno($inConsult), 10, true);
 				break;
 
 			default:

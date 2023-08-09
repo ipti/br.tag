@@ -1,4 +1,5 @@
 <?php
+use GuzzleHttp\Exception\ClientException;
 require_once 'app/vendor/autoload.php';
 
 class ClassroomSEDDataSource extends SedDataSource
@@ -41,35 +42,15 @@ class ClassroomSEDDataSource extends SedDataSource
         return $data;
     } */
 
+
+
+
+
     /**
-     * Summary of getClassroom
-     * @param InFormacaoClasse $inClassroom
-     * @return OutFormacaoClasse|OutErro
+     * ===========================
+     * GET REQUEST METHODS
+     * ===========================
      */
-    public function getClassroom($inClassroom)
-    {
-        try {
-            if (empty($inClassroom->inNumClasse)) {
-                throw new InvalidArgumentException("Entrada inválida: dado incompleto.");
-            }
-
-            if (strlen($inClassroom->inNumClasse) > self::LENGTH_IN_NUM_CLASS) {
-                throw new InvalidArgumentException("Entrada inválida: tamanho máximo excedido.");
-            };
-    
-            $apiResponse = json_decode($this->client->request('GET', '/ncaapi/api/RelacaoAlunosClasse/FormacaoClasse', [
-                'body' => json_encode($inClassroom)
-            ])->getBody()->getContents(), true);
-
-            return OutFormacaoClasse::fromJson($apiResponse);
-        } catch (InvalidArgumentException $e) {
-            return new OutErro($e);
-        } catch (GuzzleHttp\Exception\ClientException $e) {
-            return new OutErro($e);
-        } catch (Exception $e) {
-            return new OutErro($e);
-        }
-    }
 
     /**
      * Summary of getConsultClass
@@ -87,30 +68,50 @@ class ClassroomSEDDataSource extends SedDataSource
                 throw new InvalidArgumentException("Entrada inválida: tamanho máximo excedido.");
             };
 
-            $apiResponse = json_decode($this->client->request('GET', 'ncaapi/api/TurmaClasse/ConsultaTurmaClasse', [
-                'body' => json_encode($inConsultClass)
-            ])->getBody()->getContents(), true);
-   
-            return OutConsultaTurmaClasse::fromJson($apiResponse);
+            $url = 'ncaapi/api/TurmaClasse/ConsultaTurmaClasse';
+            $response = $this->getApiResponse('GET', $url, $inConsultClass);
+            return OutConsultaTurmaClasse::fromJson($response);
+
         } catch (InvalidArgumentException $e) {
             return new OutErro($e);
-        } catch (GuzzleHttp\Exception\ClientException $e) {
+        } catch (ClientException $e) {
             return new OutErro($e);
         } catch (Exception $e) {
             return new OutErro($e);
         }
     }
 
+
+    /**
+     * ===========================
+     * POST REQUEST METHODS
+     * ===========================
+     */
+
     /**
      * Summary of incluirTurmaClassePOST
-     * @param InClassroom $inClassroom
-     * @return void
+     * @param InIncluirTurmaClasse $inIncluirTurmaClasse
+     * @return OutHandleApiResult
      */
-    function incluirTurmaClassePOST($inClassroom)
+    function addIncluirTurmaClasse($inIncluirTurmaClasse)
     {
-        $apiResponse = $this->client->request('POST', '/ncaapi/api/TurmaClasse/IncluirTurmaClasse', [
-            'body' => json_encode($inClassroom)
+        $url = '/ncaapi/api/TurmaClasse/IncluirTurmaClasse';
+        $response = $this->getApiResponse('POST', $url, $inIncluirTurmaClasse);
+       
+        return OutHandleApiResult::fromJson($response);
+    }
+
+        /**
+     * @param mixed $httpMethod
+     * @param mixed $url
+     * @param mixed $data
+     * @return mixed
+     */
+    function getApiResponse($HTTPMetho, $url, $data) {
+        $response = $this->client->request($HTTPMetho, $url, [
+            'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
         ]);
-        return $apiResponse;
+    
+        return json_decode($response->getBody()->getContents(), true);
     }
 }

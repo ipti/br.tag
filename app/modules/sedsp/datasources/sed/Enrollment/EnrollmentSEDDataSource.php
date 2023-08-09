@@ -1,4 +1,5 @@
 <?php
+use GuzzleHttp\Exception\ClientException;
 
 require 'app/vendor/autoload.php';
 
@@ -26,18 +27,87 @@ class EnrollmentSEDDataSource extends SedDataSource
                 strlen($inAluno->inDigitoRA) > self::LENGTH_IN_DIGITO_RA) {
                 throw new InvalidArgumentException("Entrada inválida: tamanho máximo excedido.");
             }
-    
-            $apiResponse = json_decode($this->client->request('GET', '/ncaapi/api/Matricula/ListarMatriculasRA', [
-                'body' => json_encode(["inAluno" => $inAluno])
-            ])->getBody()->getContents(), true);
-            
-            return OutListaMatriculaRA::fromJson($apiResponse);
+
+            $url = '/ncaapi/api/Matricula/ListarMatriculasRA';
+            $response = $this->getApiResponse('GET', $url, ["inAluno" => $inAluno]);         
+            return OutListaMatriculaRA::fromJson($response);
+
         } catch (InvalidArgumentException $e) {
             return new OutErro($e);
-        } catch (GuzzleHttp\Exception\ClientException $e) {
+        } catch (ClientException $e) {
             return new OutErro($e);
         } catch (Exception $e) {
             return new OutErro($e);
         }
+    }
+
+    /**
+     * Summary of addInscreverAluno
+     * @param InscreverAluno $inscreverAluno
+     * @return OutHandleApiResult|OutErro
+     */
+    function addInscreverAluno(InscreverAluno $inscreverAluno)
+    {
+        try{
+
+            $url = '/ncaapi/api/Inscricao/InscreverAluno';
+            $data = [
+                "inAluno" => $inscreverAluno->getInAluno(),
+                "inInscricao" => $inscreverAluno->getInInscricao(),
+                "inNivelEnsino" => $inscreverAluno->getInNivelEnsino()
+            ];
+
+            $response = $this->getApiResponse('POST', $url, $data);
+            return OutHandleApiResult::fromJson($response);
+
+        } catch (InvalidArgumentException $e) {
+            return new OutErro($e);
+        } catch (ClientException $e) {
+            return new OutErro($e);
+        } catch (Exception $e) {
+            return new OutErro($e);
+        }
+    }
+
+    /**
+     * Summary of addMatricularAluno
+     * @param InMatricularAluno $inMatricularAluno
+     * @return OutHandleApiResult|OutErro
+     */
+    function addMatricularAluno(InMatricularAluno $inMatricularAluno)
+    {
+        try{
+
+            $url = '/ncaapi/api/Matricula/MatricularAluno';
+            $data = [
+                "inAnoLetivo" => $inMatricularAluno->getInAnoLetivo(),
+                "inAluno" => $inMatricularAluno->getInAluno(),
+                "inMatricula" => $inMatricularAluno->getInMatricula(),
+                "inNivelEnsino" => $inMatricularAluno->getInNivelEnsino()
+            ];
+            $response = $this->getApiResponse('POST', $url, $data);
+            return OutHandleApiResult::fromJson($response);
+
+        } catch (InvalidArgumentException $e) {
+            return new OutErro($e);
+        } catch (ClientException $e) {
+            return new OutErro($e);
+        } catch (Exception $e) {
+            return new OutErro($e);
+        }
+    }
+
+        /**
+     * @param mixed $httpMethod
+     * @param mixed $url
+     * @param mixed $data
+     * @return mixed
+     */
+    function getApiResponse($HTTPMetho, $url, $data) {
+        $response = $this->client->request($HTTPMetho, $url, [
+            'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
+        ]);
+    
+        return json_decode($response->getBody()->getContents(), true);
     }
 }

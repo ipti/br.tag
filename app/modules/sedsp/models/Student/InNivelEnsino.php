@@ -2,7 +2,7 @@
 
 class InNivelEnsino implements JsonSerializable
 {
-	public $inCodTipoEnsino;
+    public $inCodTipoEnsino;
 	public $inCodSerieAno;
 
 	public function __construct(?string $inCodTipoEnsino, ?string $inCodSerieAno)
@@ -11,12 +11,12 @@ class InNivelEnsino implements JsonSerializable
 		$this->inCodSerieAno = $inCodSerieAno;
 	}
 
-	public function getInCodTipoEnsino(): ?string
+	public function get_inCodTipoEnsino(): ?string
 	{
 		return $this->inCodTipoEnsino;
 	}
 
-	public function getInCodSerieAno(): ?string
+	public function get_inCodSerieAno(): ?string
 	{
 		return $this->inCodSerieAno;
 	}
@@ -40,8 +40,7 @@ class InNivelEnsino implements JsonSerializable
 			$data['inCodSerieAno'] ?? null
 		);
 	}
-
-	function jsonSerialize() {
+    function jsonSerialize(){
         return get_object_vars($this);
     }
 }

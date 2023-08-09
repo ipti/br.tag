@@ -71,6 +71,15 @@ class InAluno implements JsonSerializable
 		return $this;
 	}
 
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			$data['inNumRA'] ?? null,
+			$data['inDigitoRA'] ?? null,
+			$data['inSiglaUFRA'] ?? null
+		);
+	}
+
 	function jsonSerialize()
 	{
 		return get_object_vars($this);

@@ -2,114 +2,60 @@
 
 class InMatricula implements JsonSerializable
 {
-	public $inAnoLetivo;
-	public $inDataTroca;
+	public $inDataInicioMatricula;
 	public $inNumAluno;
-	public $inNumClasseOrigem;
-	public $inNumClasseDestino;
+	public $inNumClasse;
 
 	public function __construct(
-		string $inAnoLetivo,
-		string $inDataTroca,
-		string $inNumAluno,
-		string $inNumClasseOrigem,
-		string $inNumClasseDestino
+		?string $inDataInicioMatricula,
+		?string $inNumAluno,
+		?string $inNumClasse
 	) {
-		$this->inAnoLetivo = $inAnoLetivo;
-		$this->inDataTroca = $inDataTroca;
+		$this->inDataInicioMatricula = $inDataInicioMatricula;
 		$this->inNumAluno = $inNumAluno;
-		$this->inNumClasseOrigem = $inNumClasseOrigem;
-		$this->inNumClasseDestino = $inNumClasseDestino;
+		$this->inNumClasse = $inNumClasse;
 	}
 
-	/**
-	 * Get the value of inAnoLetivo
-	 */
-	public function getInAnoLetivo()
+	public function getInDataInicioMatricula(): ?string
 	{
-		return $this->inAnoLetivo;
+		return $this->inDataInicioMatricula;
 	}
 
-	/**
-	 * Set the value of inAnoLetivo
-	 */
-	public function setInAnoLetivo($inAnoLetivo): self
-	{
-		$this->inAnoLetivo = $inAnoLetivo;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inDataTroca
-	 */
-	public function getInDataTroca()
-	{
-		return $this->inDataTroca;
-	}
-
-	/**
-	 * Set the value of inDataTroca
-	 */
-	public function setInDataTroca($inDataTroca): self
-	{
-		$this->inDataTroca = $inDataTroca;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inNumAluno
-	 */
-	public function getInNumAluno()
+	public function getInNumAluno(): ?string
 	{
 		return $this->inNumAluno;
 	}
 
-	/**
-	 * Set the value of inNumAluno
-	 */
-	public function setInNumAluno($inNumAluno): self
+	public function getInNumClasse(): ?string
+	{
+		return $this->inNumClasse;
+	}
+
+	public function setInDataInicioMatricula(?string $inDataInicioMatricula): self
+	{
+		$this->inDataInicioMatricula = $inDataInicioMatricula;
+		return $this;
+	}
+
+	public function setInNumAluno(?string $inNumAluno): self
 	{
 		$this->inNumAluno = $inNumAluno;
-
 		return $this;
 	}
 
-	/**
-	 * Get the value of inNumClasseOrigem
-	 */
-	public function getInNumClasseOrigem()
+	public function setInNumClasse(?string $inNumClasse): self
 	{
-		return $this->inNumClasseOrigem;
-	}
-
-	/**
-	 * Set the value of inNumClasseOrigem
-	 */
-	public function setInNumClasseOrigem($inNumClasseOrigem): self
-	{
-		$this->inNumClasseOrigem = $inNumClasseOrigem;
-
+		$this->inNumClasse = $inNumClasse;
 		return $this;
 	}
 
-	/**
-	 * Get the value of inNumClasseDestino
-	 */
-	public function getInNumClasseDestino()
+	public static function fromJson(array $data): self
 	{
-		return $this->inNumClasseDestino;
-	}
-
-	/**
-	 * Set the value of inNumClasseDestino
-	 */
-	public function setInNumClasseDestino($inNumClasseDestino): self
-	{
-		$this->inNumClasseDestino = $inNumClasseDestino;
-
-		return $this;
+		return new self(
+			$data['inDataInicioMatricula'] ?? null,
+			$data['inNumAluno'] ?? null,
+			$data['inNumClasse'] ?? null
+		);
 	}
 
 	function jsonSerialize() {

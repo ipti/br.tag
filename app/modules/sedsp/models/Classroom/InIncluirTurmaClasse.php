@@ -2,7 +2,7 @@
 
 class InIncluirTurmaClasse implements JsonSerializable
 {
-    public $inAnoLetivo;
+	public $inAnoLetivo;
 	public $inCodEscola;
 	public $inCodUnidade;
 	public $inCodTipoEnsino;
@@ -18,32 +18,32 @@ class InIncluirTurmaClasse implements JsonSerializable
 	public $inHorarioInicioAula;
 	public $inHorarioFimAula;
 	public $inCodHabilitacao;
-	/** @var string[] */
+	/** @var string[]|null */
 	public $inCodigoAtividadeComplementar;
 	public $inDiasDaSemana;
 
 	/**
-	 * @param string[] $inCodigoAtividadeComplementar
+	 * @param string[]|null $inCodigoAtividadeComplementar
 	 */
 	public function __construct(
-		string $inAnoLetivo,
-		string $inCodEscola,
-		string $inCodUnidade,
-		string $inCodTipoEnsino,
-		string $inCodSerieAno,
-		string $inCodTipoClasse,
-		string $inCodTurno,
-		string $inCodDuracao,
-		string $inTurma,
-		string $inNumeroSala,
-		string $inNrCapacidadeFisicaMaxima,
-		string $inDataInicioAula,
-		string $inDataFimAula,
-		string $inHorarioInicioAula,
-		string $inHorarioFimAula,
-		string $inCodHabilitacao,
-		array $inCodigoAtividadeComplementar,
-		InDiasDaSemana $inDiasDaSemana
+		?string $inAnoLetivo,
+		?string $inCodEscola,
+		?string $inCodUnidade,
+		?string $inCodTipoEnsino,
+		?string $inCodSerieAno,
+		?string $inCodTipoClasse,
+		?string $inCodTurno,
+		?string $inCodDuracao,
+		?string $inTurma,
+		?string $inNumeroSala,
+		?string $inNrCapacidadeFisicaMaxima,
+		?string $inDataInicioAula,
+		?string $inDataFimAula,
+		?string $inHorarioInicioAula,
+		?string $inHorarioFimAula,
+		?string $inCodHabilitacao,
+		?array $inCodigoAtividadeComplementar,
+		?InDiasDaSemana $inDiasDaSemana
 	) {
 		$this->inAnoLetivo = $inAnoLetivo;
 		$this->inCodEscola = $inCodEscola;
@@ -65,330 +65,234 @@ class InIncluirTurmaClasse implements JsonSerializable
 		$this->inDiasDaSemana = $inDiasDaSemana;
 	}
 
-    /**
-     * Get the value of inAnoLetivo
-     */
-    public function getInAnoLetivo()
-    {
-        return $this->inAnoLetivo;
-    }
+	public function getInAnoLetivo(): ?string
+	{
+		return $this->inAnoLetivo;
+	}
 
-    /**
-     * Set the value of inAnoLetivo
-     */
-    public function setInAnoLetivo($inAnoLetivo): self
-    {
-        $this->inAnoLetivo = $inAnoLetivo;
-
-        return $this;
-    }
-
-	/**
-	 * Get the value of inCodEscola
-	 */
-	public function getInCodEscola()
+	public function getInCodEscola(): ?string
 	{
 		return $this->inCodEscola;
 	}
 
-	/**
-	 * Set the value of inCodEscola
-	 */
-	public function setInCodEscola($inCodEscola): self
-	{
-		$this->inCodEscola = $inCodEscola;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inCodUnidade
-	 */
-	public function getInCodUnidade()
+	public function getInCodUnidade(): ?string
 	{
 		return $this->inCodUnidade;
 	}
 
-	/**
-	 * Set the value of inCodUnidade
-	 */
-	public function setInCodUnidade($inCodUnidade): self
-	{
-		$this->inCodUnidade = $inCodUnidade;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inCodTipoEnsino
-	 */
-	public function getInCodTipoEnsino()
+	public function getInCodTipoEnsino(): ?string
 	{
 		return $this->inCodTipoEnsino;
 	}
 
-	/**
-	 * Set the value of inCodTipoEnsino
-	 */
-	public function setInCodTipoEnsino($inCodTipoEnsino): self
-	{
-		$this->inCodTipoEnsino = $inCodTipoEnsino;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inCodSerieAno
-	 */
-	public function getInCodSerieAno()
+	public function getInCodSerieAno(): ?string
 	{
 		return $this->inCodSerieAno;
 	}
 
-	/**
-	 * Set the value of inCodSerieAno
-	 */
-	public function setInCodSerieAno($inCodSerieAno): self
-	{
-		$this->inCodSerieAno = $inCodSerieAno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inCodTipoClasse
-	 */
-	public function getInCodTipoClasse()
+	public function getInCodTipoClasse(): ?string
 	{
 		return $this->inCodTipoClasse;
 	}
 
-	/**
-	 * Set the value of inCodTipoClasse
-	 */
-	public function setInCodTipoClasse($inCodTipoClasse): self
-	{
-		$this->inCodTipoClasse = $inCodTipoClasse;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inCodTurno
-	 */
-	public function getInCodTurno()
+	public function getInCodTurno(): ?string
 	{
 		return $this->inCodTurno;
 	}
 
-	/**
-	 * Set the value of inCodTurno
-	 */
-	public function setInCodTurno($inCodTurno): self
-	{
-		$this->inCodTurno = $inCodTurno;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inCodDuracao
-	 */
-	public function getInCodDuracao()
+	public function getInCodDuracao(): ?string
 	{
 		return $this->inCodDuracao;
 	}
 
-	/**
-	 * Set the value of inCodDuracao
-	 */
-	public function setInCodDuracao($inCodDuracao): self
-	{
-		$this->inCodDuracao = $inCodDuracao;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inTurma
-	 */
-	public function getInTurma()
+	public function getInTurma(): ?string
 	{
 		return $this->inTurma;
 	}
 
-	/**
-	 * Set the value of inTurma
-	 */
-	public function setInTurma($inTurma): self
-	{
-		$this->inTurma = $inTurma;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inNumeroSala
-	 */
-	public function getInNumeroSala()
+	public function getInNumeroSala(): ?string
 	{
 		return $this->inNumeroSala;
 	}
 
-	/**
-	 * Set the value of inNumeroSala
-	 */
-	public function setInNumeroSala($inNumeroSala): self
-	{
-		$this->inNumeroSala = $inNumeroSala;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inNrCapacidadeFisicaMaxima
-	 */
-	public function getInNrCapacidadeFisicaMaxima()
+	public function getInNrCapacidadeFisicaMaxima(): ?string
 	{
 		return $this->inNrCapacidadeFisicaMaxima;
 	}
 
-	/**
-	 * Set the value of inNrCapacidadeFisicaMaxima
-	 */
-	public function setInNrCapacidadeFisicaMaxima($inNrCapacidadeFisicaMaxima): self
-	{
-		$this->inNrCapacidadeFisicaMaxima = $inNrCapacidadeFisicaMaxima;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inDataInicioAula
-	 */
-	public function getInDataInicioAula()
+	public function getInDataInicioAula(): ?string
 	{
 		return $this->inDataInicioAula;
 	}
 
-	/**
-	 * Set the value of inDataInicioAula
-	 */
-	public function setInDataInicioAula($inDataInicioAula): self
-	{
-		$this->inDataInicioAula = $inDataInicioAula;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inDataFimAula
-	 */
-	public function getInDataFimAula()
+	public function getInDataFimAula(): ?string
 	{
 		return $this->inDataFimAula;
 	}
 
-	/**
-	 * Set the value of inDataFimAula
-	 */
-	public function setInDataFimAula($inDataFimAula): self
-	{
-		$this->inDataFimAula = $inDataFimAula;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inHorarioInicioAula
-	 */
-	public function getInHorarioInicioAula()
+	public function getInHorarioInicioAula(): ?string
 	{
 		return $this->inHorarioInicioAula;
 	}
 
-	/**
-	 * Set the value of inHorarioInicioAula
-	 */
-	public function setInHorarioInicioAula($inHorarioInicioAula): self
-	{
-		$this->inHorarioInicioAula = $inHorarioInicioAula;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inHorarioFimAula
-	 */
-	public function getInHorarioFimAula()
+	public function getInHorarioFimAula(): ?string
 	{
 		return $this->inHorarioFimAula;
 	}
 
-	/**
-	 * Set the value of inHorarioFimAula
-	 */
-	public function setInHorarioFimAula($inHorarioFimAula): self
-	{
-		$this->inHorarioFimAula = $inHorarioFimAula;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inCodHabilitacao
-	 */
-	public function getInCodHabilitacao()
+	public function getInCodHabilitacao(): ?string
 	{
 		return $this->inCodHabilitacao;
 	}
 
 	/**
-	 * Set the value of inCodHabilitacao
+	 * @return string[]|null
 	 */
-	public function setInCodHabilitacao($inCodHabilitacao): self
-	{
-		$this->inCodHabilitacao = $inCodHabilitacao;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inCodigoAtividadeComplementar
-	 */
-	public function getInCodigoAtividadeComplementar()
+	public function getInCodigoAtividadeComplementar(): ?array
 	{
 		return $this->inCodigoAtividadeComplementar;
 	}
 
-	/**
-	 * Set the value of inCodigoAtividadeComplementar
-	 */
-	public function setInCodigoAtividadeComplementar($inCodigoAtividadeComplementar): self
-	{
-		$this->inCodigoAtividadeComplementar = $inCodigoAtividadeComplementar;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of inDiasDaSemana
-	 */
-	public function getInDiasDaSemana()
+	public function getInDiasDaSemana(): ?InDiasDaSemana
 	{
 		return $this->inDiasDaSemana;
 	}
 
-	/**
-	 * Set the value of inDiasDaSemana
-	 */
-	public function setInDiasDaSemana($inDiasDaSemana): self
+	public function setInAnoLetivo(?string $inAnoLetivo): self
 	{
-		$this->inDiasDaSemana = $inDiasDaSemana;
-
+		$this->inAnoLetivo = $inAnoLetivo;
 		return $this;
 	}
 
+	public function setInCodEscola(?string $inCodEscola): self
+	{
+		$this->inCodEscola = $inCodEscola;
+		return $this;
+	}
+
+	public function setInCodUnidade(?string $inCodUnidade): self
+	{
+		$this->inCodUnidade = $inCodUnidade;
+		return $this;
+	}
+
+	public function setInCodTipoEnsino(?string $inCodTipoEnsino): self
+	{
+		$this->inCodTipoEnsino = $inCodTipoEnsino;
+		return $this;
+	}
+
+	public function setInCodSerieAno(?string $inCodSerieAno): self
+	{
+		$this->inCodSerieAno = $inCodSerieAno;
+		return $this;
+	}
+
+	public function setInCodTipoClasse(?string $inCodTipoClasse): self
+	{
+		$this->inCodTipoClasse = $inCodTipoClasse;
+		return $this;
+	}
+
+	public function setInCodTurno(?string $inCodTurno): self
+	{
+		$this->inCodTurno = $inCodTurno;
+		return $this;
+	}
+
+	public function setInCodDuracao(?string $inCodDuracao): self
+	{
+		$this->inCodDuracao = $inCodDuracao;
+		return $this;
+	}
+
+	public function setInTurma(?string $inTurma): self
+	{
+		$this->inTurma = $inTurma;
+		return $this;
+	}
+
+	public function setInNumeroSala(?string $inNumeroSala): self
+	{
+		$this->inNumeroSala = $inNumeroSala;
+		return $this;
+	}
+
+	public function setInNrCapacidadeFisicaMaxima(?string $inNrCapacidadeFisicaMaxima): self
+	{
+		$this->inNrCapacidadeFisicaMaxima = $inNrCapacidadeFisicaMaxima;
+		return $this;
+	}
+
+	public function setInDataInicioAula(?string $inDataInicioAula): self
+	{
+		$this->inDataInicioAula = $inDataInicioAula;
+		return $this;
+	}
+
+	public function setInDataFimAula(?string $inDataFimAula): self
+	{
+		$this->inDataFimAula = $inDataFimAula;
+		return $this;
+	}
+
+	public function setInHorarioInicioAula(?string $inHorarioInicioAula): self
+	{
+		$this->inHorarioInicioAula = $inHorarioInicioAula;
+		return $this;
+	}
+
+	public function setInHorarioFimAula(?string $inHorarioFimAula): self
+	{
+		$this->inHorarioFimAula = $inHorarioFimAula;
+		return $this;
+	}
+
+	public function setInCodHabilitacao(?string $inCodHabilitacao): self
+	{
+		$this->inCodHabilitacao = $inCodHabilitacao;
+		return $this;
+	}
+
+	/**
+	 * @param string[]|null $inCodigoAtividadeComplementar
+	 */
+	public function setInCodigoAtividadeComplementar(?array $inCodigoAtividadeComplementar): self
+	{
+		$this->inCodigoAtividadeComplementar = $inCodigoAtividadeComplementar;
+		return $this;
+	}
+
+	public function setInDiasDaSemana(?InDiasDaSemana $inDiasDaSemana): self
+	{
+		$this->inDiasDaSemana = $inDiasDaSemana;
+		return $this;
+	}
+
+	public static function fromJson(array $data): self
+	{
+		return new self(
+			$data['inAnoLetivo'] ?? null,
+			$data['inCodEscola'] ?? null,
+			$data['inCodUnidade'] ?? null,
+			$data['inCodTipoEnsino'] ?? null,
+			$data['inCodSerieAno'] ?? null,
+			$data['inCodTipoClasse'] ?? null,
+			$data['inCodTurno'] ?? null,
+			$data['inCodDuracao'] ?? null,
+			$data['inTurma'] ?? null,
+			$data['inNumeroSala'] ?? null,
+			$data['inNrCapacidadeFisicaMaxima'] ?? null,
+			$data['inDataInicioAula'] ?? null,
+			$data['inDataFimAula'] ?? null,
+			$data['inHorarioInicioAula'] ?? null,
+			$data['inHorarioFimAula'] ?? null,
+			$data['inCodHabilitacao'] ?? null,
+			$data['inCodigoAtividadeComplementar'] ?? null,
+			($data['inDiasDaSemana'] ?? null) !== null ? InDiasDaSemana::fromJson($data['inDiasDaSemana']) : null
+		);
+	}
+	
 	function jsonSerialize() {
         return get_object_vars($this);
     }
