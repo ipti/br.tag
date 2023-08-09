@@ -289,7 +289,7 @@ class DefaultController extends Controller
 	function actionTest()
 	{
 
-		$opt = 14;
+		$opt = 15;
 		switch ($opt) {
 
 			case 1:
@@ -476,6 +476,16 @@ class DefaultController extends Controller
 				);
 				$dataSource = new EnrollmentSEDDataSource();
 				CVarDumper::dump($dataSource->addMatricularAluno($inConsult), 10, true);
+				break;
+			case 15:
+				$inConsult = new InExibirMatriculaClasseRA(
+					new InAluno("000124464761","5","SP"),
+					"276829660",
+					0,
+					"28/08/2023"
+				);
+				$dataSource = new EnrollmentSEDDataSource();
+				CVarDumper::dump($dataSource->getExibirMatriculaClasseRA($inConsult), 10, true);
 				break;
 
 			default:
