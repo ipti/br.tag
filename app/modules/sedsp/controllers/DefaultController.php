@@ -289,7 +289,7 @@ class DefaultController extends Controller
 	function actionTest()
 	{
 
-		$opt = 12;
+		$opt = 13;
 		switch ($opt) {
 
 			case 1:
@@ -455,10 +455,16 @@ class DefaultController extends Controller
 				$inConsult = new InscreverAluno(
 					new InAluno("000124661430","3","SP"),
 					new InInscricao("2023","57277","31875","7",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null),
-					new InNivelEnsino("1","2")
+					new InNivelEnsino("2","3")
 				);
 				$dataSource = new EnrollmentSEDDataSource();
 				CVarDumper::dump($dataSource->addInscreverAluno($inConsult), 10, true);
+				break;
+			
+			case 13:
+				$inConsult = new InEscola("ALBA REGINA TORRAQUE DA SILVA PROFESSORA EMEI", null, null, null);
+				$dataSource = new SchoolSEDDataSource();
+				CVarDumper::dump($dataSource->getSchool($inConsult), 10, true);
 				break;
 
 			default:
