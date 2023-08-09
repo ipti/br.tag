@@ -182,14 +182,15 @@ class FormsController extends Controller {
         return number_format($frequencia, 2);
     }
     
-    public function actionIndividualRecord($enrollment_id, $segment = 1)
-    {
+    public function actionIndividualRecord($enrollment_id, $segment)
+    {   
         $this->layout = "reports";                                             
         $disciplines = array();
         $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $enrollment_id]); // medias do aluno na turma
         $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
         $schedules = Schedule::model()->findAllByAttributes(["classroom_fk" => $enrollment->classroom_fk]);
+        $gradeRules = GradeRules::model()->findByAttributes(["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcensoStageVsModalityFk->id]);
         $portuguese = array();
         $history = array();
         $geography = array();
@@ -307,6 +308,7 @@ class FormsController extends Controller {
         $frequency = $this->calcularFrequencia($workload, $totalFaults);
 
         $this->render('IndividualRecord', array(
+            'gradeRules' => $gradeRules,
             'enrollment' => $enrollment,
             'disciplines' => $disciplines,
             'portuguese' => $portuguese,
