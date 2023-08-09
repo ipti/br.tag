@@ -97,6 +97,27 @@ class EnrollmentSEDDataSource extends SedDataSource
         }
     }
 
+    /**
+     * Summary of getExibirMatriculaClasseRA
+     * @param InExibirMatriculaClasseRA $inExibirMatriculaClasseRA
+     * @return OutExibirMatriculaClasseRA|OutErro
+     */
+    function getExibirMatriculaClasseRA(InExibirMatriculaClasseRA $inExibirMatriculaClasseRA)
+    {
+        try{
+            $url = '/ncaapi/api/Matricula/ExibirMatriculaClasseRA';
+            $response = $this->getApiResponse('POST', $url, $inExibirMatriculaClasseRA);
+            return OutExibirMatriculaClasseRA::fromJson($response);
+
+        } catch (InvalidArgumentException $e) {
+            return new OutErro($e);
+        } catch (ClientException $e) {
+            return new OutErro($e);
+        } catch (Exception $e) {
+            return new OutErro($e);
+        }
+    }
+
         /**
      * @param mixed $httpMethod
      * @param mixed $url
