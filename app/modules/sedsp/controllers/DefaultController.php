@@ -289,7 +289,7 @@ class DefaultController extends Controller
 	function actionTest()
 	{
 
-		$opt = 13;
+		$opt = 14;
 		switch ($opt) {
 
 			case 1:
@@ -465,6 +465,17 @@ class DefaultController extends Controller
 				$inConsult = new InEscola("ALBA REGINA TORRAQUE DA SILVA PROFESSORA EMEI", null, null, null);
 				$dataSource = new SchoolSEDDataSource();
 				CVarDumper::dump($dataSource->getSchool($inConsult), 10, true);
+				break;
+
+			case 14:
+				$inConsult = new InMatricularAluno(
+					"2023",
+					new InAluno("000047805904","8","SP"),
+					new InMatricula("28/06/2023", "000047805904", "277675575"),
+					new InNivelEnsino("3","2")
+				);
+				$dataSource = new EnrollmentSEDDataSource();
+				CVarDumper::dump($dataSource->addMatricularAluno($inConsult), 10, true);
 				break;
 
 			default:
