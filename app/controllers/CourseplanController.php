@@ -224,6 +224,8 @@ class CourseplanController extends Controller
             $courseClass->order = $i++;
             $courseClass->objective = $cc['objective'];
             $courseClass->save();
+
+            
             array_push($courseClassIds, $courseClass->id);
 
             CourseClassHasClassAbility::model()->deleteAll("course_class_fk = :course_class_fk and course_class_ability_fk not in ( '" . implode("', '", $cc['ability']) . "' )", [":course_class_fk" => $courseClass->id]);
@@ -266,11 +268,12 @@ class CourseplanController extends Controller
                 CourseClassHasClassResource::model()->deleteAll("course_class_fk = :course_class_fk", [":course_class_fk" => $courseClass->id]);
             }
         }
+
         if (empty($courseClassIds)) {
             CourseClass::model()->deleteAll("course_plan_fk = :course_plan_fk", [":course_plan_fk" => $coursePlan->id]);
         } else {
             CourseClass::model()->deleteAll("course_plan_fk = :course_plan_fk and id not in ( '" . implode("', '", $courseClassIds) . "' )", [":course_plan_fk" => $coursePlan->id]);
-        }
+        }    
         Log::model()->saveAction("courseplan", $id, $logSituation, $coursePlan->name);
         Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com sucesso!'));
         $this->redirect(array('index'));
@@ -310,10 +313,14 @@ class CourseplanController extends Controller
                 'criteria' => array(
                     'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id,
                 ),
+                'pagination' => false
             ));
         } else {
-            $dataProvider = new CActiveDataProvider('CoursePlan');
+            $dataProvider = new CActiveDataProvider('CoursePlan', array(
+                'pagination' => false
+            ));
         }
+        
         $this->render('index', array(
             'dataProvider' => $dataProvider,
         ));
