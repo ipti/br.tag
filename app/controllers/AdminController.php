@@ -220,17 +220,12 @@ class AdminController extends Controller
     public
     function actionActiveDisableUser()
     {
-        $filter = new Users('search');
-        if (isset($_GET['Users'])) {
-            $filter->attributes = $_GET['Users'];
-        }
         $criteria = new CDbCriteria();
         $criteria->condition = "username != 'admin'";
-        $dataProvider = new CActiveDataProvider('Users', array(
-            'criteria' => $criteria,
-            'pagination' => false
-        ));
-        $this->render('activeDisableUser', ['dataProvider' => $dataProvider, 'filter' => $filter]);
+
+        $users = Users::model()->findAll($criteria);
+
+        $this->render('activeDisableUser', ['users' => $users]);
     }
 
     public
