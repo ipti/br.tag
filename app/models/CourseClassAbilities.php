@@ -9,6 +9,7 @@
  * @property string $code
  * @property integer $edcenso_discipline_fk
  * @property integer $edcenso_stage_vs_modality_fk
+ * @property integer $parent_fk
  *
  * The followings are the available model relations:
  * @property EdcensoDiscipline $edcensoDisciplineFk
@@ -17,6 +18,7 @@
  */
 class CourseClassAbilities extends CActiveRecord
 {
+	public $parent_fk;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -33,13 +35,13 @@ class CourseClassAbilities extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('description, code, edcenso_discipline_fk, edcenso_stage_vs_modality_fk', 'required'),
-			array('edcenso_discipline_fk, edcenso_stage_vs_modality_fk', 'numerical', 'integerOnly'=>true),
+			array('description, edcenso_discipline_fk', 'required'),
+			array('edcenso_discipline_fk, edcenso_stage_vs_modality_fk, parent_fk', 'numerical', 'integerOnly'=>true),
 			array('description', 'length', 'max'=>500),
-			array('code', 'length', 'max'=>20),
+			array('code', 'length', 'max'=>20),			
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, description, code, edcenso_discipline_fk, edcenso_stage_vs_modality_fk', 'safe', 'on'=>'search'),
+			array('id, description, code, edcenso_discipline_fk, edcenso_stage_vs_modality_fk, parent_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -68,6 +70,7 @@ class CourseClassAbilities extends CActiveRecord
 			'code' => 'Code',
 			'edcenso_discipline_fk' => 'Edcenso Discipline Fk',
 			'edcenso_stage_vs_modality_fk' => 'Edcenso Stage Vs Modality Fk',
+			'parent_fk' => "parent_fk"
 		);
 	}
 
@@ -87,16 +90,17 @@ class CourseClassAbilities extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('code',$this->code,true);
 		$criteria->compare('edcenso_discipline_fk',$this->edcenso_discipline_fk);
 		$criteria->compare('edcenso_stage_vs_modality_fk',$this->edcenso_stage_vs_modality_fk);
+		$criteria->compare('parent_fk',$this->parent_fk);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
