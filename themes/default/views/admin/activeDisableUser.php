@@ -20,6 +20,22 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Users'));
         </div>
     </div>
     <div class="widget">
+        <?php if (Yii::app()->user->hasFlash('success')) : ?>
+            <div class="alert alert-success">
+                <?php echo Yii::app()->user->getFlash('success') ?>
+            </div>
+            <br />
+        <?php elseif (Yii::app()->user->hasFlash('notice')) : ?>
+            <div class="alert alert-info">
+                <?php echo Yii::app()->user->getFlash('notice') ?>
+            </div>
+            <br5/>
+        <?php elseif (Yii::app()->user->hasFlash('error')) : ?>
+            <div class="alert alert-error">
+                <?php echo Yii::app()->user->getFlash('error') ?>
+            </div>
+            <br />
+        <?php endif ?>     
         <div class="widget-body">
             <div class="grid-view">
                 <table class="js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs">

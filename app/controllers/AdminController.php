@@ -32,28 +32,40 @@ class AdminController extends Controller
     {
         $model = new Users();
 
-        if (isset($_POST['Users'])) {
-            $model->attributes = $_POST['Users'];
-            if ($model->validate()) {
-                $password = md5($_POST['Users']['password']);
+        $modelValidate = Users::model()->findByAttributes(
+            [
+                "name" => $_POST["Users"]["name"],
+                "username" => $_POST["Users"]["name"]
+            ]
+        );
 
-                $model->password = $password;
-                // form inputs are valid, do something here
-                if ($model->save()) {
-                    $save = true;
-                    foreach ($_POST['schools'] as $school) {
-                        $userSchool = new UsersSchool();
-                        $userSchool->user_fk = $model->id;
-                        $userSchool->school_fk = $school;
-                        $save = $save && $userSchool->validate() && $userSchool->save();
-                    }
-                    if ($save) {
-                        $auth = Yii::app()->authManager;
-                        $auth->assign($_POST['Role'], $model->id);
-                        Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
-                        $this->redirect(['index']);
+        if (isset($_POST['Users'])) {
+            if(!isset($modelValidate)) {
+                $model->attributes = $_POST['Users'];
+                if ($model->validate()) {
+                    $password = md5($_POST['Users']['password']);
+
+                    $model->password = $password;
+                    // form inputs are valid, do something here
+                    if ($model->save()) {
+                        $save = true;
+                        foreach ($_POST['schools'] as $school) {
+                            $userSchool = new UsersSchool();
+                            $userSchool->user_fk = $model->id;
+                            $userSchool->school_fk = $school;
+                            $save = $save && $userSchool->validate() && $userSchool->save();
+                        }
+                        if ($save) {
+                            $auth = Yii::app()->authManager;
+                            $auth->assign($_POST['Role'], $model->id);
+                            Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
+                            $this->redirect(['index']);
+                        }
                     }
                 }
+            }else {
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Já existe um usuário cadastrado com esse nome/usuário!'));
+                $this->redirect(['index']);
             }
         }
         $this->render('createUser', ['model' => $model]);
@@ -237,7 +249,10 @@ class AdminController extends Controller
 
         if ($model->save()) {
             Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário desativado com sucesso!'));
-            $this->redirect(['index']);
+            $this->redirect(['activeDisableUser']);
+        }else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro. Tente novamente!'));
+            $this->redirect(['activeDisableUser']);
         }
     }
 
@@ -250,7 +265,10 @@ class AdminController extends Controller
 
         if ($model->save()) {
             Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário ativado com sucesso!'));
-            $this->redirect(['index']);
+            $this->redirect(['activeDisableUser']);
+        }else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro. Tente novamente!'));
+            $this->redirect(['activeDisableUser']);
         }
     }
 
