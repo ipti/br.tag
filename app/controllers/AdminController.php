@@ -427,7 +427,10 @@ class AdminController extends Controller
 
     public function actionImportBNCC(){        
         $import = new BNCCImport();
-        $bncc_tree = $import->importCSV();
+        
+        // $import->importCSVInfantil();
+
+        $import->importCSVInfantil();
         
     }
 

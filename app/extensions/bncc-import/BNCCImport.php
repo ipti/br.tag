@@ -5,16 +5,14 @@ include 'vendor/autoload.php';
 
 class BNCCImport
 {
-    public const CSV_PATH = '/extensions/bncc-import/infantil.csv';
-
     /**
      * Summary of importCSV
      * @return array
      */
-    public function importCSV()
+    public function importCSVInfantil()
     {
-        $csvData = $this->readCSV();
-        $parsedData = $this->parseCSVData($csvData);
+        $csvData = $this->readCSV('/extensions/bncc-import/infantil.csv');
+        $parsedData = $this->parseCSVDataInfantil($csvData);
 
         // !d($parsedData);
 
@@ -26,13 +24,28 @@ class BNCCImport
         return $parsedData;
     }
 
-    private function readCSV()
+    public function importCSVFundamental()
+    {
+        $csvData = $this->readCSV('/extensions/bncc-import/matematica.csv');
+        $parsedData = $this->parseCSVDataInfantil($csvData);
+
+        // !d($parsedData);
+
+        foreach ($parsedData as $key => $value) {
+            $discipline = $this->map_discipline($value["name"]);
+            self::deep_create($value, null, $discipline, null);
+        }
+
+        return $parsedData;
+    }
+
+    private function readCSV($csv_path)
     {
         $path = Yii::app()->basePath;
         $csvData = [];
 
         try {
-            $filePath = $path . self::CSV_PATH;
+            $filePath = $path . $csv_path;
             file_put_contents($filePath, str_replace("\xEF\xBB\xBF", "", file_get_contents($filePath)));
             $file = fopen($filePath, 'r');
 
@@ -53,7 +66,7 @@ class BNCCImport
         return $csvData;
     }
 
-    private function parseCSVData($csvData)
+    private function parseCSVDataInfantil($csvData)
     {
         $parsedData = [];
         $currentCategory = '';
