@@ -598,7 +598,10 @@ class EnrollmentController extends Controller
                             }
                             $sumsCount++;
 
-                            $gradeResult["grade_" . ($gradeIndex + 1)] = $grade["unityGrade"] != "" ? number_format($grade["unityGrade"], 1) : null;
+                            $resultGradeResult = $grade["unityGrade"] != "" ? number_format($grade["unityGrade"], 1) : null;
+
+                            $gradeResult["grade_" . ($gradeIndex + 1)] = $resultGradeResult  <= 10.0 ? $resultGradeResult : 10.0;
+                            
                             $gradeIndex++;
                             break;
                         case "UR":
@@ -609,7 +612,10 @@ class EnrollmentController extends Controller
                             }
                             $sumsCount++;
 
-                            $gradeResult["grade_" . ($gradeIndex + 1)] = $grade["unityGrade"] != "" ? number_format($grade["unityGrade"], 1) : null;
+                            $resultGradeResult = $grade["unityGrade"] != "" ? number_format($grade["unityGrade"], 1) : null;
+
+                            $gradeResult["grade_" . ($gradeIndex + 1)] = $resultGradeResult  <= 10.0 ? $resultGradeResult : 10.0;
+
                             $gradeResult["rec_bim_" . ($gradeIndex + 1)] = $grade["unityRecoverGrade"] != "" ? number_format($grade["unityRecoverGrade"], 1) : null;
                             $gradeIndex++;
                             break;
