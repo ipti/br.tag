@@ -32,8 +32,8 @@ class SchoolSEDDataSource extends SedDataSource
      * @param mixed $data
      * @return mixed
      */
-    function getApiResponse($HTTPMetho, $url, $data) {
-        $response = $this->client->request($HTTPMetho, $url, [
+    function getApiResponse($HTTPMethod, $url, $data) {
+        $response = $this->client->request($HTTPMethod, $url, [
             'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
         ]);
     
