@@ -22,8 +22,7 @@ class GetFormacaoClasseSEDUseCase
         }
 
         $formacaoClasseDataSource = new ClassStudentsRelationSEDDataSource(); 
-        $formacaoClasse = $formacaoClasseDataSource->getClassroom($inNumClasse);
-    
-        return ClassroomMapper::parseToTAGFormacaoClasse($formacaoClasse);
+        $response = $formacaoClasseDataSource->getClassroom($inNumClasse);
+        return ClassroomMapper::parseToTAGFormacaoClasse($response);
     }
 }
