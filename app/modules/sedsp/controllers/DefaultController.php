@@ -289,7 +289,7 @@ class DefaultController extends Controller
 	function actionTest()
 	{
 
-		$opt = 15;
+		$opt = 3;
 		switch ($opt) {
 
 			case 1:
@@ -301,16 +301,16 @@ class DefaultController extends Controller
 
 
 			case 2:
-				$inClassroom = new InFormacaoClasse("262429087");
-				$dataSource = new ClassStudentsRelationSEDDataSource();
-				CVarDumper::dump($dataSource->getClassroom($inClassroom), 10, true);
+				$inNumClasse = new InFormacaoClasse("262429087");
+				$formacaoClasseSEDUseCase = new GetFormacaoClasseSEDUseCase();
+				CVarDumper::dump($formacaoClasseSEDUseCase->exec($inNumClasse), 10, true);
 				break;
 
 
 			case 3:
 				$inConsult = new InConsultaTurmaClasse("2022", "262429087");
-				$dataSource = new ClassroomSEDDataSource();
-				CVarDumper::dump($dataSource->getConsultClass($inConsult), 10, true);
+				$ConsultaTurmaClasse = new GetConsultaTurmaClasseSEDUseCase();
+				CVarDumper::dump($ConsultaTurmaClasse->exec($inConsult), 10, true);
 				break;
 
 
