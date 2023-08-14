@@ -22,6 +22,7 @@ class SedspModule extends CWebModule
 			'sedsp.models.classroom.*',
 			'sedsp.models.ClassStudentsRelation.*',
 			'sedsp.models.studentclassroom.*',
+			'sedsp.models.BasicData.*',
 			'sedsp.components.*',
 			'sedsp.datasources.*',
 			'sedsp.datasources.sed.classroom.*',
@@ -31,7 +32,11 @@ class SedspModule extends CWebModule
 			'sedsp.datasources.sed.school.*',
 			'sedsp.datasources.sed.student.*',
 			'sedsp.datasources.sed.studentclassroom.*',
+			'sedsp.datasources.sed.BasicData.*',
 			'sedsp.usecases.*',
+			'sedsp.usecases.ClassStudentsRelation.*',
+			'sedsp.usecases.Classroom.*',
+			'sedsp.mappers.*'
 		));
 	}
 
