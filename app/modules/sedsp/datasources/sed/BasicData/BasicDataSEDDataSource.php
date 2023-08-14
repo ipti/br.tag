@@ -14,6 +14,7 @@ class BasicDataSEDDataSource extends SedDataSource
     /**
      * Summary of getTipoEnsino
      * @return OutTiposEnsino|OutErro
+     * @throws Exception
      */
     function getTipoEnsino() 
     {
@@ -21,13 +22,10 @@ class BasicDataSEDDataSource extends SedDataSource
             $url = '/ncaapi/api/DadosBasicos/TipoEnsino';
             $response = $this->getApiResponse('GET', $url, null);
             return OutTiposEnsino::fromJson($response);
-
-        } catch (InvalidArgumentException $e) {
-            return new OutErro($e);
         } catch (ClientException $e) {
             return new OutErro($e);
-        } catch (Exception $e) {
-            return new OutErro($e);
+        } catch (Exception $exception) {
+            throw $exception;
         }
     }
 
