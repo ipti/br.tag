@@ -11,15 +11,17 @@ $(document).on("click", ".load-more", function () {
                 $(".load-more").hide();
             }
             $(".log").each(function () {
-                $(this).find(".glyphicons").html("<i></i>" + changeNameLength($(this).find(".glyphicons").text(), 100));
+                $(this).find(".t-info_positive").html("<i></i>" + changeNameLength($(this).find(".t-info_positive").text(), 1));
+                
             });
+            console.log("passei por aqui");
         }
     });
 });
 
 $(document).ready(function () {
     $(".log").each(function () {
-        $(this).find(".glyphicons").html("<i></i>" + changeNameLength($(this).find(".glyphicons").text(), 100));
+        $(this).find(".t-info_positive").html("<i></i>" + changeNameLength($(this).find(".t-info_positive").text(), 1));
     });
 
     if ($(".log").length >= $(".eggs").find(".widget").attr("total")) {
