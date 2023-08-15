@@ -430,7 +430,7 @@ class AdminController extends Controller
         
         // $import->importCSVInfantil();
 
-        $import->importCSVInfantil();
+        $import->importCSVFundamental();
         
     }
 

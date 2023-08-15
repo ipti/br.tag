@@ -27,14 +27,15 @@ class BNCCImport
     public function importCSVFundamental()
     {
         $csvData = $this->readCSV('/extensions/bncc-import/matematica.csv');
-        $parsedData = $this->parseCSVDataInfantil($csvData);
+        $parsedData = $this->parseCSVDataFundamental($csvData);
 
-        // !d($parsedData);
-
+        
         foreach ($parsedData as $key => $value) {
             $discipline = $this->map_discipline($value["name"]);
             self::deep_create($value, null, $discipline, null);
         }
+        
+        !d($parsedData["Matemática"]["children"]["Números"]);
 
         return $parsedData;
     }
@@ -104,6 +105,53 @@ class BNCCImport
                 // Adicionar a descrição à subcategoria atual
                 $parsedData[$currentCategory]['children'][$currentSubCategory]['name'] = $currentSubCategory;
                 $parsedData[$currentCategory]['children'][$currentSubCategory]['children'][] = ["name" => $description, 'type' => "Objetivos de aprendizagem e desenvolvimento"];
+            }
+        }
+
+
+        return $parsedData;
+    }
+
+     private function parseCSVDataFundamental($csvData)
+    {
+        $parsedData = [];
+        $currentCategory = '';
+        $currentSubCategory = '';
+        $currentSubSubCategory = '';
+
+        foreach ($csvData as $key => $line) {
+
+            $component = trim($line[0]);
+            $year = trim($line[1]);
+            $unity = trim($line[2]);
+            $objective = trim($line[3]);
+            $abilitie = trim($line[4]);
+
+            if (!empty($component)) {
+                // Inicializar a categoria atual
+                $currentCategory = $component;
+                if (!isset($parsedData[$currentCategory])) {
+                    $parsedData[$currentCategory] = [
+                        'name' => $currentCategory,
+                        'type' => "COMPONENTE",
+                        'children' => []
+                    ];
+                }
+                $currentSubCategory = '';
+            }
+
+            if (!empty($unity)) {
+                if (!isset($parsedData[$component]['children'][$unity])) {
+                    $parsedData[$component]['children'][$unity] = ['name' => $unity, 'type' => "UNIDADES TEMÁTICAS", 'children' => []];
+                }
+            }
+
+            if (!empty($objective)) {                                
+                $parsedData[$component]['children'][$unity]['children'][$objective] = ["name" => $objective, 'type' => "OBJETOS DE CONHECIMENTO", 'children' => []];
+            }
+
+            if (!empty($abilitie)) {
+                $parsedData[$component]['children'][$unity]['children'][$unity]['children'][$objective]['children'][] = ["name" => $abilitie, 'type' => "OBJETOS DE CONHECIMENTO"];                
             }
         }
 
