@@ -36,6 +36,7 @@ class SedspModule extends CWebModule
 			'sedsp.usecases.*',
 			'sedsp.usecases.ClassStudentsRelation.*',
 			'sedsp.usecases.Classroom.*',
+			'sedsp.usecases.Student.*',
 			'sedsp.mappers.*'
 		));
 	}
