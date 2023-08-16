@@ -158,7 +158,7 @@ class SiteController extends Controller
 
         $html = "";
 
-        if (count($logs) < 0) {
+        if (count($logs) > 0) {
             // lembrar de voltar a ser > 0
             $bgColor = 'gray';
             foreach ($logs as $log) {
@@ -271,11 +271,8 @@ class SiteController extends Controller
                     . '</div>'
                     . '</li>';
             }
-            var_dump($html);
-        } elseif($html == ""){
-            $html = '<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span>Não há atividades recentes.</div>';            
-        } else{
-            
+        } else {
+            $html = '<li class="log">' . '<span class="glyphicons notes"><i></i> Não há atividades recentes.</span>' . '</li>';
         }
 
         return $html;
