@@ -352,6 +352,11 @@ class EnrollmentController extends Controller
         $students = $_POST['students'];
         foreach($students as $std) {
             $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $std['enrollmentId'], "discipline_fk" => $discipline]);
+            if(!isset($gradeResult)) {
+                $gradeResult = new GradeResults;
+            }
+            $gradeResult->enrollment_fk = $std['enrollmentId'];
+            $gradeResult->discipline_fk = $discipline;
             $gradeResult->grade_1 = $std['grades'][0]['value'];
             $gradeResult->grade_2 = $std['grades'][1]['value'];
             $gradeResult->grade_3 = $std['grades'][2]['value'];
@@ -363,11 +368,7 @@ class EnrollmentController extends Controller
             $mediaFinal = ( floatval($gradeResult->grade_1) + floatval($gradeResult->grade_2) + 
             floatval($gradeResult->grade_3) + floatval($gradeResult->grade_4)) / 4;
             $gradeResult->final_media = number_format($mediaFinal, 1);
-            try {
-                $gradeResult->save();
-            } catch (\Throwable $th) {
-                //throw $th;
-            }
+            $gradeResult->save();
         }
         echo json_encode(["valid" => true]);
     }

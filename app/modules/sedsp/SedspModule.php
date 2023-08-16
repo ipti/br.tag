@@ -15,8 +15,22 @@ class SedspModule extends CWebModule
 		// import the module-level models and components
 		$this->setImport(array(
 			'sedsp.models.*',
+			'sedsp.models.student.*',
+			'sedsp.models.school.*',
+			'sedsp.models.performance.*',
+			'sedsp.models.enrollment.*',
+			'sedsp.models.classroom.*',
+			'sedsp.models.ClassStudentsRelation.*',
+			'sedsp.models.studentclassroom.*',
 			'sedsp.components.*',
 			'sedsp.datasources.*',
+			'sedsp.datasources.sed.classroom.*',
+			'sedsp.datasources.sed.ClassStudentsRelation.*',
+			'sedsp.datasources.sed.enrollment.*',
+			'sedsp.datasources.sed.performance.*',
+			'sedsp.datasources.sed.school.*',
+			'sedsp.datasources.sed.student.*',
+			'sedsp.datasources.sed.studentclassroom.*',
 			'sedsp.usecases.*',
 		));
 	}
