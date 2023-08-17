@@ -7,15 +7,23 @@ $(document).on("click", ".load-more", function () {
         },
         success: function (data) {
             $(data).insertBefore(".load-more");
+            // $div = $('t-info_positive').parent()
 
+            let elemento = document.getElementsByClassName('logs');
+            console.log($(elemento).length);
+            if ($(elemento).length < 1) {
+                $(elemento).html('<div class="t-badge-info no-recent-activitives"><span class="t-info_positive t-badge-info__icon"></span>Não há atividades recentes.</div>');
+                console.log("Entrei aqui");
+                console.log($(elemento).length);
+            }
+            // $('<div class="t-badge-info no-recent-activitives"><span class="t-info_positive t-badge-info__icon"></span>Não há atividades recentes.</div>').html('<div class="t-badge-info no-recent-activitives"><span class="t-info_positive t-badge-info__icon"></span>Não há atividades recentes.</div>');
             if ($(".log").length >= $(".eggs").find(".widget").attr("total")) {
                 $(".load-more").hide();
             }
             $(".log").each(function () {
-                $(this).find(".glyphicons").html("<i></i>" + changeNameLength($(this).find(".glyphicons").text(), 100));
+                $(this).find(".t-info_positive").html("<i></i>" + changeNameLength($(this).find(".t-info_positive").text(), 100));
 
             });
-
         }
     });
 });
