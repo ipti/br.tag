@@ -88,7 +88,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     </select>
                 </div>
             </div>
-
             <div class="column">
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
@@ -113,10 +112,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     ));
                     ?>
                 </div>
-                
             </div>
         </div>   
-        <div class="mobile-row">
+        <div class="mobile-row helper">
             <div class="column clearleft on-tablet disciplines-container" style="display: none;">
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label t-field-select__label--required')); ?>

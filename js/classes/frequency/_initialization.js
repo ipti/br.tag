@@ -1,4 +1,4 @@
-$("#classesSearch").on("click", function () {
+$("#classesSearch").on("change", function () {
     if ($("#classroom").val() !== "" && $("#month").val() !== "" && (!$("#disciplines").is(":visible") || $("#disciplines").val() !== "")) {
         $(".alert-required-fields, .alert-incomplete-data").hide();
         var fundamentalMaior = Number($("#classroom option:selected").attr("fundamentalmaior"));
