@@ -598,7 +598,10 @@ class EnrollmentController extends Controller
                             }
                             $sumsCount++;
 
-                            $gradeResult["grade_" . ($gradeIndex + 1)] = $grade["unityGrade"] != "" ? number_format($grade["unityGrade"], 1) : null;
+                            $resultGradeResult = $grade["unityGrade"] != "" ? number_format($grade["unityGrade"], 1) : null;
+
+                            $gradeResult["grade_" . ($gradeIndex + 1)] = $resultGradeResult  <= 10.0 ? $resultGradeResult : 10.0;
+                            
                             $gradeIndex++;
                             break;
                         case "UR":
@@ -609,7 +612,10 @@ class EnrollmentController extends Controller
                             }
                             $sumsCount++;
 
-                            $gradeResult["grade_" . ($gradeIndex + 1)] = $grade["unityGrade"] != "" ? number_format($grade["unityGrade"], 1) : null;
+                            $resultGradeResult = $grade["unityGrade"] != "" ? number_format($grade["unityGrade"], 1) : null;
+
+                            $gradeResult["grade_" . ($gradeIndex + 1)] = $resultGradeResult  <= 10.0 ? $resultGradeResult : 10.0;
+
                             $gradeResult["rec_bim_" . ($gradeIndex + 1)] = $grade["unityRecoverGrade"] != "" ? number_format($grade["unityRecoverGrade"], 1) : null;
                             $gradeIndex++;
                             break;
@@ -714,7 +720,7 @@ class EnrollmentController extends Controller
 
 
             //Mudar status da matrícula
-            //1 = Em andamento; 6 = Aprovado; 8 = Reprovado
+            //1 = Matriculado; 6 = Aprovado; 8 = Reprovado
             if ($studentEnrollment->status == "1" || $studentEnrollment->status == "6" || $studentEnrollment->status == "8") {
                 $allGradesFilled = true;
                 $situation = "Aprovado";
@@ -725,7 +731,7 @@ class EnrollmentController extends Controller
                         $situation = "Reprovado";
                         break;
                     } else if ($gradeResult->situation == "Recuperação") {
-                        $situation = "Em Andamento";
+                        $situation = "Matriculado";
                         break;
                     }
                 }

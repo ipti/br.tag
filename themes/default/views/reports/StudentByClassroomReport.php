@@ -35,10 +35,10 @@ function age($date){
             <th> <b>CPF </b></th>
             <th> <b>ID INEP</b></th>
             <th> <b>Data de Nascimento </b></th>
-            <th> <b>Mãe </b></th>
-            <th> <b>RG Mãe </b></th>
-            <th> <b>Pai</b> </th>
-            <th> <b>RG Pai</b> </th>
+            <th> <b>Filiação 1</b></th>
+            <th> <b>RG Filiação 1</b></th>
+            <th> <b>Filiação 2</b> </th>
+            <th> <b>RG Filiação 2</b> </th>
             <th> <b>Responsável</b> </th>
             <th> <b>CPF Responsável</b> </th>
             <th> <b>Tel. Responsável</b> </th>

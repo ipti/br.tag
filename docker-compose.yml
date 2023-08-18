@@ -16,6 +16,8 @@ services:
       YII_DEBUG: false
       XDEBUG_CONFIG: remote_host=172.24.112.1 # wsl network ip
       PHP_IDE_CONFIG: "serverName=xdebug-docker"
+      SEDSP_URL: "https://homologacaointegracaosed.educacao.sp.gov.br"
+      
     volumes:
       - .:/app
       #- ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini

@@ -444,7 +444,7 @@ $(formInstructorvariableData + 'scholarity').on('change', function () {
             if ($(this).val() == 1) { // Concluído
                 $(formInstructorvariableData + 'high_education_initial_year_1').val("").attr('disabled', 'disabled').closest(".control-group").find(".control-label").removeClass("required").html("Ano de Início do Curso Superior 1");
                 $(formInstructorvariableData + 'high_education_final_year_1').removeAttr('disabled').closest(".control-group").find(".control-label").addClass("required").html("Ano de Conclusão do Curso Superior 1 *");
-            } else { // Em Andamento
+            } else { // Matriculado
                 $(formInstructorvariableData + 'high_education_initial_year_1').removeAttr('disabled').closest(".control-group").find(".control-label").addClass("required").html("Ano de Início do Curso Superior 1 *");
                 $(formInstructorvariableData + 'high_education_final_year_1').val("").attr('disabled', 'disabled').closest(".control-group").find(".control-label").removeClass("required").html("Ano de Conclusão do Curso Superior 1");
             }
@@ -470,7 +470,7 @@ $(formInstructorvariableData + 'scholarity').on('change', function () {
             if ($(this).val() == 1) { // Concluído
                 $(formInstructorvariableData + 'high_education_initial_year_2').val("").attr('disabled', 'disabled').closest(".control-group").find(".control-label").removeClass("required").html("Ano de Início do Curso Superior 2");
                 $(formInstructorvariableData + 'high_education_final_year_2').removeAttr('disabled').closest(".control-group").find(".control-label").addClass("required").html("Ano de Conclusão do Curso Superior 2 *");
-            } else { // Em Andamento
+            } else { // Matriculado
                 $(formInstructorvariableData + 'high_education_initial_year_2').removeAttr('disabled').closest(".control-group").find(".control-label").addClass("required").html("Ano de Início do Curso Superior 2 *");
                 $(formInstructorvariableData + 'high_education_final_year_2').val("").attr('disabled', 'disabled').closest(".control-group").find(".control-label").removeClass("required").html("Ano de Conclusão do Curso Superior 2");
             }
@@ -494,7 +494,7 @@ $(formInstructorvariableData + 'scholarity').on('change', function () {
             if ($(this).val() == 1) { // Concluído
                 $(formInstructorvariableData + 'high_education_initial_year_3').val("").attr('disabled', 'disabled').closest(".control-group").find(".control-label").removeClass("required").html("Ano de Início do Curso Superior 3");
                 $(formInstructorvariableData + 'high_education_final_year_3').removeAttr('disabled').closest(".control-group").find(".control-label").addClass("required").html("Ano de Conclusão do Curso Superior 3 *");
-            } else { // Em Andamento
+            } else { // Matriculado
                 $(formInstructorvariableData + 'high_education_initial_year_3').removeAttr('disabled').closest(".control-group").find(".control-label").addClass("required").html("Ano de Início do Curso Superior 3 *");
                 $(formInstructorvariableData + 'high_education_final_year_3').val("").attr('disabled', 'disabled').closest(".control-group").find(".control-label").removeClass("required").html("Ano de Conclusão do Curso Superior 3");
             }
@@ -651,7 +651,7 @@ $(".save-instructor").click(function () {
     }
     if ($("#InstructorIdentification_filiation").val() === '1' && ($("#InstructorIdentification_filiation_1").val() === "" && $("#InstructorIdentification_filiation_2").val() === "")) {
         error = true;
-        message += "Quando o campo <b>Filiação</b> é selecionado como 'Declarado', pelo menos um dos campos <b>Nome Completo da Mãe</b> ou <b>Nome Completo do Pai</b> devem ser preenchidos.<br>";
+        message += "Quando o campo <b>Filiação</b> é selecionado como 'Declarado', pelo menos um dos campos <b>Nome Completo da Filiação</b> ou <b>Nome Completo do Pai</b> devem ser preenchidos.<br>";
     }
     var variableData1Filled = false;
     if (($("#InstructorVariableData_high_education_situation_1").val() === "1" && ($("#InstructorVariableData_high_education_course_code_1_fk").val() === "" || $("#InstructorVariableData_high_education_final_year_1").val() === "" || $("#InstructorVariableData_high_education_institution_code_1_fk").val() === ""))

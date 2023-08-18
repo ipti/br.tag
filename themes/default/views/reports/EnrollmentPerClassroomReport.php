@@ -154,42 +154,9 @@ $subtitle = "
     <?php
     $rows = "";
     foreach ($report as $key=>$r){
-        $status = '';
 
-        switch ($r['status']) {
-            case "1":
-                $status = "Em Andamento";
-                break;
-            case "2":
-                $status = "Transferido";
-                break;
-            case "3":
-                $status = "Falecido";
-                break;
-            case "4":
-                $status = "Deixou de Frequentar";
-                break;
-            case "5":
-                $status = "Remanejado";
-                break;
-            case "6":
-                $status = "Aprovado";
-                break;
-            case "7":
-                $status = "Aprovado pelo Conselho";
-                break;
-            case "8":
-                $status = "Reprovado";
-                break;
-            case "9":
-                $status = "Concluinte";
-                break;
-            case "10":
-                $status = "Indeterminado";
-                break;
-            default:
-                $status = "";
-        }
+        $status_id = $r['status'];
+        $status = StudentEnrollment::getListStatus()[$status_id];
 
         if($r['city'] && $r['uf']) {
             $citySpace = '/';

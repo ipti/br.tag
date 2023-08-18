@@ -139,7 +139,7 @@ form {
     padding: 0 10px;
 }
 
-.remove-calendar, .show-stages, .edit-calendar-title, .change-calendar-status {
+.remove-calendar, .show-stages, .edit-calendar, .change-calendar-status {
     padding: 0 10px;
 }
 
@@ -155,11 +155,11 @@ form {
     color: #333;
 }
 
-.remove-calendar:hover .fa-remove, .show-stages:hover .fa-question-circle-o, .edit-calendar-title:hover .fa-edit, .change-calendar-status:hover .fa {
+.remove-calendar:hover .fa-remove, .show-stages:hover .fa-question-circle-o, .edit-calendar:hover .fa-edit, .change-calendar-status:hover .fa {
     color: white;
 }
 
-.remove-calendar .fa-remove, .show-stages .fa-question-circle-o, .edit-calendar-title .fa-edit, .change-calendar-status .fa {
+.remove-calendar .fa-remove, .show-stages .fa-question-circle-o, .edit-calendar .fa-edit, .change-calendar-status .fa {
     color: darkred;
     font-size: 16px;
     margin-top: 6px;

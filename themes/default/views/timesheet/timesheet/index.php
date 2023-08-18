@@ -1,6 +1,6 @@
 <?php
 
-/** 
+/**
  * @var TimesheetController $this TimesheetController
  * @var CClientScript $cs CClientScript
  */
@@ -18,8 +18,8 @@ $cs->registerScript(
         "var addScheduleURL = '" . $this->createUrl("addSchedule") . "'; " .
         "var generateTimesheetURL = '" . $this->createUrl("generateTimesheet") . "'; " .
         "var changeSchedulesURL = '" . $this->createUrl("changeSchedules") . "'; " .
-        "var getInstructorsUrl = '" . $this->createUrl("getInstructors") . "'; " .
-        "var changeInstructorUrl = '" . $this->createUrl("changeInstructor") . "'; ",
+        "var changeUnavailableScheduleURL = '" . $this->createUrl("changeUnavailableSchedule") . "'; ",
+
     CClientScript::POS_HEAD
 );
 
@@ -75,7 +75,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
             <div class="span12">
                 <span id="turn"></span>
                 <div class="checkbox replicate-actions-container">
-                    <input type="checkbox" class="replicate-actions-checkbox replicate-actions" checked> Replicar alterações
+                    <input type="checkbox" class="replicate-actions-checkbox replicate-actions"> Replicar alterações
                     para todas as semanas
                     subsequentes
                 </div>
@@ -147,6 +147,13 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                         . '</div>';
                 }
                 echo $html; ?>
+                <br><br>
+                <div class="span3 calendar-subtitles calendar-green">
+                    <i class="fa fa-user-plus"></i> <span>Aula letiva</span>
+                </div>
+                <div class="span3 calendar-subtitles calendar-darkred">
+                    <i class="fa fa-user-times"></i> <span>Aula não letiva</span>
+                </div>
             </div>
         </div>
     </div>
@@ -239,7 +246,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                     </div>
                 </form>
             </div>
-        
+
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">
@@ -292,6 +299,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                 <input type="hidden" class="add-schedule-day">
                 <input type="hidden" class="add-schedule-weekday">
                 <input type="hidden" class="add-schedule-schedule">
+                <input type="hidden" class="add-schedule-hard-unavailable-day">
                 <div class="modal-add-schedule-discipline-container">
                     <select class="modal-add-schedule-discipline" style="width:100%"></select>
                 </div>
@@ -301,7 +309,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                     as semanas
                     subsequentes
                 </div>
-            
+
                 <div class="modal-footer">
                     <button type="button" class="cancel-add-schedule btn btn-default" data-dismiss="modal"><?= yii::t("timesheetModule.index", "Cancel") ?></button>
                     <button type="button" class="btn btn-primary btn-add-schedule"><?= yii::t("timesheetModule.index", "Add") ?></button>

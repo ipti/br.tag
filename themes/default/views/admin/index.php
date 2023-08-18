@@ -32,7 +32,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                 </div>
                 <br5/>
             <?php elseif (Yii::app()->user->hasFlash('error')) : ?>
-                <div class="alert alert-info">
+                <div class="alert alert-error">
                     <?php echo Yii::app()->user->getFlash('error') ?>
                 </div>
                 <br />
