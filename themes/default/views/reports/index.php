@@ -421,6 +421,18 @@ $this->breadcrumbs = array(
                         </div>
                     </button>
                 </a>
+
+                <a href="<?php echo Yii::app()->createUrl('reports/StudentCpfRgNisAllClassrooms') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">    
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-doctor t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Relatório de Alunos (CPF, RG e NIS) da escola</span><br>
+                            <span class="subtitle">Listagem de CPF, RG e NIS dos alunos da escola atual</span>
+                        </div>
+                    </button>
+                </a>
             </div>
             
             <?php if(Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
@@ -484,6 +496,16 @@ $this->breadcrumbs = array(
                         </div>
                     </button>
                 </a>
+
+                <button type="button" class="report-box-container" data-toggle="modal" data-target="#loading-warning-cpf-rg-nis" target="_blank">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <span class="t-hospital-user t-reports_icons"></span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">Relatório de Alunos (CPF, RG e NIS) de todas as escolas</span><br>
+                        <span class="subtitle">Listagem de CPF, RG e NIS dos alunos de todas as escolas</span>
+                    </div>
+                </button>
             </div>
             <?php } ?>
         </div>
@@ -648,6 +670,32 @@ $this->breadcrumbs = array(
                         <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
                     </div>
             </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="modal fade modal-content" id="loading-warning-cpf-rg-nis" tabindex="-1" role="dialog" aria-labelledby="Generate Another Timesheet">
+            <div class="modal-dialog" role="document">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">ATENÇÃO <span class="t-info_positive"></span></h4>
+                </div>
+                <form method="post">
+                    <div class="modal-body">
+                        <div class="row-fluid">
+                            Deseja gerar o relatório de CPF, RG e NIS dos alunos de todas as escolas? <b>Isso pode demorar um pouco!</b>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <a href="<?php echo Yii::app()->createUrl('reports/StudentCpfRgNisAllSchools') ?>" target="_blank" rel="noopener" style="margin-left: 5px;">
+                                <button type="button" class="btn btn-primary">Gerar</button>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <div class="row">
