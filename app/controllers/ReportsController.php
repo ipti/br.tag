@@ -26,7 +26,7 @@ class ReportsController extends Controller
                     'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 
                     'EvaluationFollowUpStudentsReport', 'CnsPerClassroomReport', 'CnsSchools', 'CnsPerSchool',
                     'TeacherTrainingReport','ClassroomTransferReport', 'SchoolTransferReport', 'AllSchoolsTransferReport',
-                    'TeachersByStage', 'TeachersBySchool', 'StatisticalData'),
+                    'TeachersByStage', 'TeachersBySchool', 'StatisticalData', 'StudentCpfRgNisPerClassroom'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -44,6 +44,30 @@ class ReportsController extends Controller
         $this->year = Yii::app()->user->year;
 
         return true;
+    }
+
+    public function actionStudentCpfRgNisPerClassroom()
+    {
+        $classroom = $_POST['classroom'];
+        $classroomModel = Classroom::model()->findByPk($classroom);
+        $sql = "SELECT si.name, si.birthday, sdaa.cpf, sdaa.rg_number, 
+                    sdaa.nis, si.responsable_name, si.responsable_telephone 
+                FROM student_enrollment se 
+                JOIN student_identification si ON se.student_fk = si.id 
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id 
+                JOIN classroom c ON se.classroom_fk = c.id 
+                WHERE c.id = :classroom;";
+
+        $result = Yii::app()->db->createCommand($sql)
+        ->bindParam(":classroom", $classroom)
+        ->queryAll();
+
+        $title = "ALUNOS POR TURMA (CPF, RG E NIS)<br>".$classroomModel->name;
+
+        $this->render('StudentCpfRgNis', array(
+            "report" => $result,
+            "title" => $title
+        ));
     }
 
 
