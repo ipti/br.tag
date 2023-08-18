@@ -207,12 +207,12 @@ $this->breadcrumbs = array(
                     </div>
                 </button>
 
-                <button type="button" class="report-box-container" data-toggle="modal" data-target="#number-of-students-enrolled-per-period" target="_blank">
+                <button type="button" class="report-box-container" data-toggle="modal" data-target="#number-of-students-enrolled-per-period-per-classroom" target="_blank">
                     <div class="pull-left" style="margin-right: 20px;">
                         <span class="t-medical t-reports_icons"></span>
                     </div>
                     <div class="pull-left">
-                        <span class="title">Quantidade de Alunos Matrículados por Período</span><br>
+                        <span class="title">Quantidade de Alunos Matrículados por Período por Turma</span><br>
                         <span class="subtitle">Listagem dos alunos matriculados na turma em um período de tempo</span>
                     </div>
                 </button>
@@ -421,6 +421,16 @@ $this->breadcrumbs = array(
                         </div>
                     </button>
                 </a>
+
+                <button type="button" class="report-box-container" data-toggle="modal" data-target="#number-of-students-enrolled-per-period-per-school" target="_blank">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <span class="t-medical t-reports_icons"></span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">Quantidade de Alunos Matrículados por Período na Escola</span><br>
+                        <span class="subtitle">Listagem dos alunos matriculados na escola em um período de tempo</span>
+                    </div>
+                </button>
             </div>
             
             <?php if(Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
@@ -479,13 +489,81 @@ $this->breadcrumbs = array(
                         </div>
                     </button>
                 </a>
+
+                <button type="button" class="report-box-container" data-toggle="modal" data-target="#number-of-students-enrolled-per-period-all-schools" target="_blank">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <span class="t-medical t-reports_icons"></span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">Quantidade de Alunos Matrículados por Período de todas as Escolas</span><br>
+                        <span class="subtitle">Listagem dos alunos matriculados em todas as escolas em um período de tempo</span>
+                    </div>
+                </button>
             </div>
             <?php } ?>
         </div>
     </div>
     <!-- Modais -->
     <div class="row">
-        <div class="modal fade modal-content" id="number-of-students-enrolled-per-period" tabindex="-1" role="dialog">
+        <div class="modal fade modal-content" id="number-of-students-enrolled-per-period-all-schools" tabindex="-1" role="dialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Defina um período de matrícula</h4>
+            </div>
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/NumberOfStudentsEnrolledPerPeriodPerClassroom'); ?>" method="post" target="_blank">
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class=" span12">
+                            <div style="display:inline-block;margin-right: 10%;">
+                                <label for="initial-date" class="control-label">Data de Início</label>
+                                <input type="date" name="initial-date" id="initial-date" required>
+                            </div>
+                            <div style="display:inline-block;">
+                                <label for="end-date" class="control-label">Data de Fim</label>
+                                <input type="date" name="end-date" id="end-date" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                        <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;">Gerar</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="modal fade modal-content" id="number-of-students-enrolled-per-period-per-school" tabindex="-1" role="dialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Defina um período de matrícula</h4>
+            </div>
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/NumberOfStudentsEnrolledPerPeriodPerClassroom'); ?>" method="post" target="_blank">
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class=" span12">
+                            <div style="display:inline-block;margin-right: 10%;">
+                                <label for="initial-date" class="control-label">Data de Início</label>
+                                <input type="date" name="initial-date" id="initial-date" required>
+                            </div>
+                            <div style="display:inline-block;">
+                                <label for="end-date" class="control-label">Data de Fim</label>
+                                <input type="date" name="end-date" id="end-date" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                        <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;">Gerar</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="modal fade modal-content" id="number-of-students-enrolled-per-period-per-classroom" tabindex="-1" role="dialog">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
@@ -505,10 +583,14 @@ $this->breadcrumbs = array(
                                 }
                                 ?>
                             </select>
-                            <label for="initial-date" class="control-label">Data de Início</label>
-                            <input type="date" name="initial-date" id="initial-date" required>
-                            <label for="end-date" class="control-label">Data de Fim</label>
-                            <input type="date" name="end-date" id="end-date" required>
+                            <div style="display:inline-block;margin-right: 10%;">
+                                <label for="initial-date" class="control-label">Data de Início</label>
+                                <input type="date" name="initial-date" id="initial-date" required>
+                            </div>
+                            <div style="display:inline-block;">
+                                <label for="end-date" class="control-label">Data de Fim</label>
+                                <input type="date" name="end-date" id="end-date" required>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
