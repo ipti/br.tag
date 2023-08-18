@@ -74,7 +74,8 @@ class ReportsController extends Controller
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
                 JOIN classroom c ON se.classroom_fk = c.id
                 JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
-                WHERE c.school_year = :school_year AND se.create_date BETWEEN :initial_date AND :end_date;";
+                WHERE c.school_year = :school_year AND se.create_date BETWEEN :initial_date AND :end_date
+                ORDER BY si.name;";
         
         $result = Yii::app()->db->createCommand($sql)
         ->bindParam(":school_year", Yii::app()->user->year)
@@ -122,7 +123,8 @@ class ReportsController extends Controller
                 JOIN classroom c ON se.classroom_fk = c.id
                 JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
                 WHERE c.school_year = :school_year AND si2.inep_id = :school_inep_id 
-                AND se.create_date BETWEEN :initial_date AND :end_date;";
+                AND se.create_date BETWEEN :initial_date AND :end_date
+                ORDER BY si.name;";
         
         $result = Yii::app()->db->createCommand($sql)
         ->bindParam(":school_year", Yii::app()->user->year)
@@ -168,7 +170,8 @@ class ReportsController extends Controller
                 JOIN student_identification si ON se.student_fk = si.id
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
                 JOIN classroom c ON se.classroom_fk = c.id
-                WHERE c.id = :classroom AND se.create_date BETWEEN :initial_date AND :end_date;";
+                WHERE c.id = :classroom AND se.create_date BETWEEN :initial_date AND :end_date
+                ORDER BY si.name;";
         
         $result = Yii::app()->db->createCommand($sql)
         ->bindParam(":classroom", $classroom->id)

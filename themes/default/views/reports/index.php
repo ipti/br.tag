@@ -512,7 +512,7 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Defina um período de matrícula</h4>
             </div>
-            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/NumberOfStudentsEnrolledPerPeriodPerClassroom'); ?>" method="post" target="_blank">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/NumberOfStudentsEnrolledPerPeriodAllSchools'); ?>" method="post" target="_blank">
                 <div class="modal-body">
                     <div class="row-fluid">
                         <div class=" span12">
@@ -541,7 +541,7 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Defina um período de matrícula</h4>
             </div>
-            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/NumberOfStudentsEnrolledPerPeriodPerClassroom'); ?>" method="post" target="_blank">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/NumberOfStudentsEnrolledPerPeriodPerSchool'); ?>" method="post" target="_blank">
                 <div class="modal-body">
                     <div class="row-fluid">
                         <div class=" span12">
