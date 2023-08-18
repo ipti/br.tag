@@ -77,7 +77,7 @@
             <br/>
             <div class="third-box">Declaro que estou de acordo com as obrigações necessárias elencadas, ciente de que a omissão e ou descumprimento nas regras estabelecidas, podem resultar na perda da vaga nesta Escola no processo de renovação de matrícula.</div>
             <br/>
-            <div class="signature-line centered">Assinatura do Pai/Mãe ou Responsável</div>
+            <div class="signature-line centered">Assinatura de uma Filiação ou Responsável</div>
         </div>
     </div>
 </div>

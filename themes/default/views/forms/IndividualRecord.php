@@ -22,6 +22,16 @@ $gradeThreeTotalFaults = 0;
 $gradeFourTotalFaults = 0;
 $gradeTotalFaults = 0;
 
+$portugueseCount = count($portuguese) > 0 ? 1 : 0;
+$historyCount = count($history) > 0 ? 1 : 0;
+$geographyCount = count($geography) > 0 ? 1 : 0;
+
+$mathematicsCount = count($mathematics) > 0 ? 1 : 0;
+$sciencesCount = count($sciences) > 0 ? 1 : 0;
+
+$rOneDisiciplinesCount = $portugueseCount + $historyCount + $geographyCount;
+$rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
+
 ?>
 
 <div class="row-fluid hidden-print">
@@ -36,7 +46,7 @@ $gradeTotalFaults = 0;
     <?php $this->renderPartial('../reports/buzios/headers/headBuziosVI'); ?>
 
     <hr>
-    <h3 style="text-align:center;">FICHA INDIVIDUAL DE ENSINO FUNDAMENTAL <?php echo $segment == 1 ? "1º" : "2º"?> SEGMENTO</h3>
+    <h3 style="text-align:center;">FICHA INDIVIDUAL DE ENSINO FUNDAMENTAL <?php echo $minorFundamental ? "1º" : "2º"?> SEGMENTO</h3>
     <hr>
     <div class="container-box">
         <p>
@@ -138,19 +148,23 @@ $gradeTotalFaults = 0;
                 $reprovado = false;
 
                 ?>
+
+                <?php if($minorFundamental) {?>
+                <!-- INÍCIO FUNDAMENTAL MENOR -->
                 <!-- R1 -->
+                <?php if($portuguese) {?>
                 <tr>
-                    <td rowspan="3">R1</td>
+                    <td rowspan="<?php echo $rOneDisiciplinesCount?>">R1</td>
                     <td class="discipline-name-td">Lingua Portuguesa</td>
                     <td class="<?php echo $portuguese[0]['grade1'] < $gradeRules->approvation_media ? "under-media-td" : ""?>"><?= $portuguese[0]['grade1']?></td>
-                    <td rowspan="3"><?= $rOneFaults[0]?></td>
+                    <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneFaults[0]?></td>
                     <td class="<?php echo $portuguese[0]['grade2'] < $gradeRules->approvation_media ? "under-media-td" : ""?>"><?= $portuguese[0]['grade2']?></td>
-                    <td rowspan="3"><?= $rOneFaults[1]?></td>
+                    <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneFaults[1]?></td>
                     <td class="<?php echo $portuguese[0]['grade3'] < $gradeRules->approvation_media ? "under-media-td" : ""?>"><?= $portuguese[0]['grade3']?></td>
-                    <td rowspan="3"><?= $rOneFaults[2]?></td>
+                    <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneFaults[2]?></td>
                     <td class="<?php echo $portuguese[0]['grade4'] < $gradeRules->approvation_media ? "under-media-td" : ""?>"><?= $portuguese[0]['grade4']?></td>
-                    <td rowspan="3"><?= $rOneFaults[3]?></td>
-                    <td rowspan="3"><?= $rOnefaultsTotal?></td>
+                    <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneFaults[3]?></td>
+                    <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOnefaultsTotal?></td>
                     <td><?= $portuguese[0]['final_media']?></td>
                     <?php 
                     if($portuguese[0]['final_media'] < $gradeRules->approvation_media) {
@@ -158,6 +172,9 @@ $gradeTotalFaults = 0;
                     }
                     ?>
                 </tr>
+                <?php }?>
+
+                <?php if($history) {?>
                 <tr>
                     <td class="discipline-name-td">História</td>
                     <td class="<?php echo $history[0]['grade1'] < $gradeRules->approvation_media ? "under-media-td" : ""?>"><?= $history[0]['grade1']?></td>
@@ -171,6 +188,9 @@ $gradeTotalFaults = 0;
                     }
                     ?>
                 </tr>
+                <?php }?>
+
+                <?php if($geography) {?>
                 <tr>
                     <td class="discipline-name-td">Geografia</td>
                     <td class="<?php echo $geography[0]['grade1'] < $gradeRules->approvation_media ? "under-media-td" : ""?>"><?= $geography[0]['grade1']?></td>
@@ -184,20 +204,22 @@ $gradeTotalFaults = 0;
                     }
                     ?>
                 </tr>
+                <?php }?>
 
                 <!-- R2 -->
+                <?php if($mathematics) {?>
                 <tr>
-                    <td rowspan="2">R2</td>
+                    <td rowspan="<?php echo $rTwoDisciplinesCount?>">R2</td>
                     <td class="discipline-name-td">Matématica</td>
                     <td class="<?php echo $mathematics[0]['grade1'] < $gradeRules->approvation_media ? "under-media-td" : ""?>"><?= $mathematics[0]['grade1']?></td>
-                    <td rowspan="2"><?= $rTwoFaults[0]?></td>
+                    <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwoFaults[0]?></td>
                     <td class="<?php echo $mathematics[0]['grade2'] < $gradeRules->approvation_media ? "under-media-td" : ""?>"><?= $mathematics[0]['grade2']?></td>
-                    <td rowspan="2"><?= $rTwoFaults[1]?></td>
+                    <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwoFaults[1]?></td>
                     <td class="<?php echo $mathematics[0]['grade3'] < $gradeRules->approvation_media ? "under-media-td" : ""?>"><?= $mathematics[0]['grade3']?></td>
-                    <td rowspan="2"><?= $rTwoFaults[2]?></td>
+                    <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwoFaults[2]?></td>
                     <td class="<?php echo $mathematics[0]['grade4'] < $gradeRules->approvation_media ? "under-media-td" : ""?>"><?= $mathematics[0]['grade4']?></td>
-                    <td rowspan="2"><?= $rTwoFaults[3]?></td>
-                    <td rowspan="2"><?= $rTwofaultsTotal?></td>
+                    <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwoFaults[3]?></td>
+                    <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwofaultsTotal?></td>
                     <td><?= $mathematics[0]['final_media']?></td>
                     <?php 
                     if($mathematics[0]['final_media'] < $gradeRules->approvation_media) {
@@ -205,6 +227,9 @@ $gradeTotalFaults = 0;
                     }
                     ?>
                 </tr>
+                <?php }?>
+
+                <?php if($sciences) {?>
                 <tr>
                     <td class="discipline-name-td">Ciências</td>
                     <td class="<?php echo $sciences[0]['grade1'] < $gradeRules->approvation_media ? "under-media-td" : ""?>"><?= $sciences[0]['grade1']?></td>
@@ -218,6 +243,9 @@ $gradeTotalFaults = 0;
                     }
                     ?>
                 </tr>
+                <?php }?>
+                <?php }?>
+                <!-- FIM FUNDAMENTAL MENOR -->
 
                 <?php foreach ($disciplines as $d) {?>
                     <tr>
@@ -269,7 +297,7 @@ $gradeTotalFaults = 0;
         </p>
         <p class="footer-container">
         Observações:<br>
-        <?php if ($segment == 1) {?>
+        <?php if ($segment) {?>
         * Processo de avaliação das disciplinas de Educação Física e Arte e Cultura do Ensino Fundamental é feito<br>
         através de relatório trimestral, segundo o Regimento Escolar.<br>
         * A nota do 3º Trimestre possui peso 2.<br>

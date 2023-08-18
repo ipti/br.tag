@@ -26,7 +26,7 @@ class DefaultController extends Controller
                 'actions' => ['index', 'view'], 'users' => ['*'],
             ], [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual', 'RemoveCalendar', 'DeleteEvent', 'editCalendarTitle', 'ShowStages', 'changeCalendarStatus'],
+                'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual', 'RemoveCalendar', 'DeleteEvent', 'editCalendar', 'ShowStages', 'changeCalendarStatus', 'loadCalendarData'],
                 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -295,26 +295,105 @@ class DefaultController extends Controller
         if ($model === NULL) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
-
         return $model;
     }
 
-    public function actionEditCalendarTitle()
+    public function actionEditCalendar()
     {
-        if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
-            $calendar = Calendar::model()->findByPk($_POST["id"]);
-            Log::model()->saveAction("calendar", $calendar->id, "U", $calendar->title);
-            $calendar->title = $_POST["title"];
-            $calendar->save();
-            echo json_encode(["valid" => true]);
+        $error = "";
+        $stagesToRemove = [];
+        $stagesToInsert = [];
+        if (empty($_POST["stages"])) {
+            $error .= "Calendário deve conter etapas.";
         } else {
-            echo json_encode(["valid" => false, "error" => "Apenas administradores podem editar título de calendários."]);
+            //Valida stages que estão sendo usados em outros calendários
+            foreach ($_POST["stages"] as $stage) {
+                $calendar = Yii::app()->db->createCommand("select c.title from calendar_stages cs inner join calendar c on (cs.calendar_fk = c.id) where YEAR(c.start_date) = :year and c.id != :calendarId and stage_fk = :stage")
+                    ->bindParam(":year", Yii::app()->user->year)
+                    ->bindParam(":calendarId", $_POST["id"])
+                    ->bindParam(":stage", $stage)
+                    ->queryRow();
+                if ($calendar != null) {
+                    if ($error == "") {
+                        $error .= "Já existe outro calendário com a(s) seguinte(s) etapa(s) selecionada(s):<br><br>";
+                    }
+                    $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($stage);
+                    $error .= "• <b>" . $edcensoStageVsModality->name . "</b> no Calendário <b>" . $calendar["title"] . "</b><br>";
+                }
+            }
+
+            //Recupera stages previamente no calendario
+            $stagesResult = Yii::app()->db->createCommand("select cs.* from calendar_stages cs inner join calendar c on (cs.calendar_fk = c.id) left join edcenso_stage_vs_modality esvm on (esvm.id = cs.stage_fk) where YEAR(c.start_date) = :year and c.id = :calendarId")
+                ->bindParam(":year", Yii::app()->user->year)
+                ->bindParam(":calendarId", $_POST["id"])
+                ->queryAll();
+            if ($error == "") {
+                //Lista stages que estão sendo removidos
+                foreach ($stagesResult as $rowStage) {
+                    if (!in_array($rowStage["stage_fk"], $_POST["stages"])) {
+                        $result = Yii::app()->db->createCommand("select count(*) qtd from schedule s join classroom cr on s.classroom_fk = cr.id join calendar_stages cs on cs.stage_fk = cr.edcenso_stage_vs_modality_fk where cs.stage_fk = :stage")
+                            ->bindParam(":stage", $rowStage["stage_fk"])
+                            ->queryRow();
+                        if ((int)$result["qtd"] == 0) {
+                            array_push($stagesToRemove, $rowStage["stage_fk"]);
+                        } else {
+                            $error .= "Etapa(s) com quadro de horário preenchido não pode(m) ser removido(s):<br><br>";
+                            $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($rowStage["stage_fk"]);
+                            $error .= "• <b>" . $edcensoStageVsModality->name . "</b><br>";
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if ($error == "") {
+            //Lista stages que estão sendo adicionados
+            foreach ($_POST["stages"] as $selectedStage) {
+                if (array_search($selectedStage, array_column($stagesResult, 'stage_fk')) === false) {
+                    array_push($stagesToInsert, $selectedStage);
+                }
+            }
+            if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
+                $calendar = Calendar::model()->findByPk($_POST["id"]);
+                Log::model()->saveAction("calendar", $calendar->id, "U", $calendar->title);
+                $calendar->title = $_POST["title"];
+                $calendar->save();
+                foreach ($stagesToRemove as $stage) {
+                    $calendarStage = CalendarStages::model()->findByAttributes(['stage_fk' => $stage]);
+                    Log::model()->saveAction("calendarStages", $calendarStage->id, "D", $calendarStage->stageFk->name);
+                    $calendarStage->delete();
+                }
+                foreach ($stagesToInsert as $stage) {
+                    $calendarStage = new CalendarStages();
+                    $calendarStage->calendar_fk = $calendar->id;
+                    $calendarStage->stage_fk = $stage;
+                    $calendarStage->save();
+                }
+                echo json_encode(["valid" => true]);
+            } else {
+                echo json_encode(["valid" => false, "error" => "Apenas administradores podem editar título de calendários."]);
+            }
+        } else {
+            echo json_encode(["valid" => false, "error" => $error]);
         }
     }
 
     public function actionShowStages()
     {
         $result = Yii::app()->db->createCommand("select edcenso_stage_vs_modality.name from calendar_stages inner join edcenso_stage_vs_modality on calendar_stages.stage_fk = edcenso_stage_vs_modality.id where calendar_fk = :id order by edcenso_stage_vs_modality.name")->bindParam(":id", $_POST["id"])->queryAll();
+        echo json_encode($result);
+    }
+
+    public function actionLoadCalendarData()
+    {
+        $result = [];
+        $calendar = Calendar::model()->findByPk($_POST["id"]);
+        $result["id"] = $calendar->id;
+        $result["title"] = $calendar->title;
+        $result["stages"] = [];
+        foreach($calendar->calendarStages as $calendarStage) {
+            array_push($result["stages"], $calendarStage->stage_fk);
+        }
         echo json_encode($result);
     }
 

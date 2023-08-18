@@ -182,7 +182,7 @@ class FormsController extends Controller {
         return number_format($frequencia, 2);
     }
     
-    public function actionIndividualRecord($enrollment_id, $segment)
+    public function actionIndividualRecord($enrollment_id)
     {   
         $this->layout = "reports";                                             
         $disciplines = array();
@@ -197,6 +197,10 @@ class FormsController extends Controller {
         $mathematics = array();
         $sciences = array();
 
+        $stage = isset($enrollment->edcenso_stage_vs_modality_fk) ? $enrollment->edcenso_stage_vs_modality_fk : $enrollment->classroomFk->edcenso_stage_vs_modality_fk;
+
+        $minorFundamental = Yii::app()->utils->isStageMinorEducation($stage);
+
         $workload = 0;
         foreach ($curricularMatrix as $c) {
             $workload += $c->workload;
@@ -205,7 +209,7 @@ class FormsController extends Controller {
         foreach ($curricularMatrix as $c) {
             foreach ($gradesResult as $g) {
                 if($c->disciplineFk->id == $g->discipline_fk) {
-                    if($c->disciplineFk->id == 6) {
+                    if($c->disciplineFk->id == 6 && $minorFundamental) {
                         array_push($portuguese, [
                             "grade1" => $g->grade_1,
                             "faults1" => $g->grade_faults_1,
@@ -217,7 +221,7 @@ class FormsController extends Controller {
                             "faults4" => $g->grade_faults_4,
                             "final_media" => $g->final_media
                         ]);
-                    }else if ($c->disciplineFk->id == 12) {
+                    }else if ($c->disciplineFk->id == 12 && $minorFundamental) {
                         array_push($history, [
                             "grade1" => $g->grade_1,
                             "faults1" => $g->grade_faults_1,
@@ -229,7 +233,7 @@ class FormsController extends Controller {
                             "faults4" => $g->grade_faults_4,
                             "final_media" => $g->final_media
                         ]);
-                    }else if ($c->disciplineFk->id == 13) {
+                    }else if ($c->disciplineFk->id == 13 && $minorFundamental) {
                         array_push($geography, [
                             "grade1" => $g->grade_1,
                             "faults1" => $g->grade_faults_1,
@@ -241,7 +245,7 @@ class FormsController extends Controller {
                             "faults4" => $g->grade_faults_4,
                             "final_media" => $g->final_media
                         ]);
-                    }else if ($c->disciplineFk->id == 3) {
+                    }else if ($c->disciplineFk->id == 3 && $minorFundamental) {
                         array_push($mathematics, [
                             "grade1" => $g->grade_1,
                             "faults1" => $g->grade_faults_1,
@@ -253,7 +257,7 @@ class FormsController extends Controller {
                             "faults4" => $g->grade_faults_4,
                             "final_media" => $g->final_media
                         ]);
-                    }else if ($c->disciplineFk->id == 5) {
+                    }else if ($c->disciplineFk->id == 5 && $minorFundamental) {
                         array_push($sciences, [
                             "grade1" => $g->grade_1,
                             "faults1" => $g->grade_faults_1,
@@ -265,18 +269,7 @@ class FormsController extends Controller {
                             "faults4" => $g->grade_faults_4,
                             "final_media" => $g->final_media
                         ]);
-                    }
-                }
-            } 
-        }
-
-        foreach ($curricularMatrix as $c) {
-            foreach ($gradesResult as $g) {
-                if($c->disciplineFk->id == $g->discipline_fk) {
-                    
-                    if($c->disciplineFk->id != 6 && $c->disciplineFk->id != 12 && 
-                        $c->disciplineFk->id != 13 && $c->disciplineFk->id != 3 && 
-                        $c->disciplineFk->id != 5 ) {
+                    }else {
                         array_push($disciplines, [
                             "name" => $c->disciplineFk->name,
                             "grade1" => $g->grade_1,
@@ -291,7 +284,7 @@ class FormsController extends Controller {
                         ]);
                     }
                 }
-            }
+            } 
         }
 
         $totalFaults = 0;
@@ -319,7 +312,7 @@ class FormsController extends Controller {
             'workload' => $workload,
             'schedules' => $schedules,
             'frequency' => $frequency,
-            'segment' => $segment
+            'minorFundamental' => $minorFundamental
         ));
     }
 

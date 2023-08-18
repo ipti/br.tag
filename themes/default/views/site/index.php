@@ -33,7 +33,8 @@ $logCount = count(Log::model()->findAll("school_fk = :school", [':school' => Yii
 <div class="main">
 	<div class="row-fluid">
 		<div class="span12">
-			<h1>Bem vindo ao <img class="tag-logo" alt="tag logo" style="width:65px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_navbar.svg" /></h1>
+			<h1>Bem vindo ao Tag
+				<!-- <img class="tag-logo"  alt="tag logo" style="width:65px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_navbar.svg" /></h1> -->
 		</div>
 	</div>
 	<div class="tag-inner eggs">
