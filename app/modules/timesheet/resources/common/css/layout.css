@@ -177,7 +177,10 @@ table.table-timesheet td {
 }
 
 .tables-timesheet .hard-unavailable {
-    background: #aaa !important;
+    background: #ccc !important;
+}
+
+.tables-timesheet .hard-unavailable.hard-unavailable-unfillable {
     cursor: default;
 }
 
@@ -190,7 +193,7 @@ table.table-timesheet td {
     background: #ddd !important;
 }
 
-.schedule-available {
+.schedule-highlighted {
     background-color: #eee !important;
     opacity: 0.7;
 }
@@ -391,9 +394,38 @@ table.table-timesheet td {
 }
 
 .workload-green {
-    color: green;
+    color: forestgreen;
 }
 
 .workload-instructor {
     font-size: 10px;
+}
+
+.schedule-highlighted .availability-schedule, .schedule-selected .availability-schedule {
+    display: none;
+}
+
+.availability-schedule {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    background: white;
+    padding: 0px 4px;
+    border-top-left-radius: 5px;
+}
+
+.hard-unavailable .availability-schedule {
+    pointer-events: none;
+}
+
+.soft-unavailable .availability-schedule:hover {
+    background: gray;
+}
+
+.availability-schedule i.fa-user-times {
+    color: darkred;
+}
+
+.availability-schedule i.fa-user-plus {
+    color: green;
 }

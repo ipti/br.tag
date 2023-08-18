@@ -79,6 +79,10 @@
     color: pink !important;
 }
 
+.calendar-darkred {
+    color: darkred !important;
+}
+
 .calendar-icon {
     position: absolute;
     left: calc(50% - 12px);
