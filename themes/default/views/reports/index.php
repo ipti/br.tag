@@ -207,6 +207,16 @@ $this->breadcrumbs = array(
                     </div>
                 </button>
 
+                <button type="button" class="report-box-container" data-toggle="modal" data-target="#number-of-students-enrolled-per-period" target="_blank">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <span class="t-medical t-reports_icons"></span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">Quantidade de Alunos Matrículados por Período</span><br>
+                        <span class="subtitle">Listagem dos alunos matriculados na turma em um período de tempo</span>
+                    </div>
+                </button>
+
                 <?php if (INSTANCE == "BUZIOS" || INSTANCE == "TREINAMENTO" || INSTANCE == "DEMO" || INSTANCE == "LOCALHOST") { ?>
                     <button type="button" class="report-box-container" data-toggle="modal" data-target="#quarterly-report" target="_blank">
                         <div class="pull-left" style="margin-right: 20px;">
@@ -474,6 +484,40 @@ $this->breadcrumbs = array(
         </div>
     </div>
     <!-- Modais -->
+    <div class="row">
+        <div class="modal fade modal-content" id="number-of-students-enrolled-per-period" tabindex="-1" role="dialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
+            </div>
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/NumberOfStudentsEnrolledPerPeriodPerClassroom'); ?>" method="post" target="_blank">
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class=" span12">
+                            <?php echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));?>
+                            <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
+                                <?php
+                                echo "<option value='' selected>Selecione a turma</option>";
+                                foreach ($classrooms as $classroom) {
+                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                                }
+                                ?>
+                            </select>
+                            <label for="initial-date" class="control-label">Data de Início</label>
+                            <input type="date" name="initial-date" id="initial-date" required>
+                            <label for="end-date" class="control-label">Data de Fim</label>
+                            <input type="date" name="end-date" id="end-date" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                        <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;">Gerar</button>
+                    </div>
+            </form>
+        </div>
+    </div>
     <div class="row">
         <div class="modal fade modal-content" id="teacher-training" tabindex="-1" role="dialog" style="height: auto !important;">
             <div class="modal-header">

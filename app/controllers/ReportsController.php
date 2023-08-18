@@ -26,7 +26,8 @@ class ReportsController extends Controller
                     'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 
                     'EvaluationFollowUpStudentsReport', 'CnsPerClassroomReport', 'CnsSchools', 'CnsPerSchool',
                     'TeacherTrainingReport','ClassroomTransferReport', 'SchoolTransferReport', 'AllSchoolsTransferReport',
-                    'TeachersByStage', 'TeachersBySchool', 'StatisticalData'),
+                    'TeachersByStage', 'TeachersBySchool', 'StatisticalData', 'NumberOfStudentsEnrolledPerPeriodPerClassroom',
+                    'NumberOfStudentsEnrolledPerPeriodPerSchool', 'NumberOfStudentsEnrolledPerPeriodAllSchools'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -44,6 +45,134 @@ class ReportsController extends Controller
         $this->year = Yii::app()->user->year;
 
         return true;
+    }
+
+    public function actionNumberOfStudentsEnrolledPerPeriodAllSchools()
+    {
+        $initialDate = $_POST['initial-date'];
+        $endDate = $_POST['end-date'];
+
+        $sql = "SELECT si.name, si.birthday, sdaa.cpf, si.responsable_name, si.responsable_telephone,
+                CASE se.status
+                WHEN 1 THEN 'Matriculado'
+                WHEN 2 THEN 'Transferido'
+                WHEN 3 THEN 'Cancelado'
+                WHEN 4 THEN 'Deixou de Frequentar'
+                WHEN 5 THEN 'Remanejado'
+                WHEN 6 THEN 'Aprovado'
+                WHEN 7 THEN 'Aprovado pelo Conselho'
+                WHEN 8 THEN 'Reprovado'
+                WHEN 9 THEN 'Concluinte'
+                WHEN 10 THEN 'Indeterminado'
+                WHEN 11 THEN 'Obito'
+                ELSE ''
+                END AS status_descricao
+                FROM 
+                student_enrollment se
+                JOIN student_identification si ON se.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id
+                JOIN classroom c ON se.classroom_fk = c.id
+                WHERE c.school_year = :school_year AND se.create_date BETWEEN :initial_date AND :end_date;";
+        
+        $result = Yii::app()->db->createCommand($sql)
+        ->bindParam(":school_year", Yii::app()->user->year)
+        ->bindParam(":initial_date", $initialDate)
+        ->bindParam(":end_date", $endDate)
+        ->queryAll();
+
+        $title = "QUANTITATIVO DE ALUNOS MATRICULADOS POR PERÍODO <br>DE TODAS AS ESCOLAS";
+
+        $this->render('NumberOfStudentsEnrolledPerPeriod', array(
+            "report" => $result,
+            "title" => $title
+        ));
+    }
+
+    public function actionNumberOfStudentsEnrolledPerPeriodPerSchool()
+    {
+        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+        $initialDate = $_POST['initial-date'];
+        $endDate = $_POST['end-date'];
+
+        $sql = "SELECT si.name, si.birthday, sdaa.cpf, si.responsable_name, si.responsable_telephone,
+                CASE se.status
+                WHEN 1 THEN 'Matriculado'
+                WHEN 2 THEN 'Transferido'
+                WHEN 3 THEN 'Cancelado'
+                WHEN 4 THEN 'Deixou de Frequentar'
+                WHEN 5 THEN 'Remanejado'
+                WHEN 6 THEN 'Aprovado'
+                WHEN 7 THEN 'Aprovado pelo Conselho'
+                WHEN 8 THEN 'Reprovado'
+                WHEN 9 THEN 'Concluinte'
+                WHEN 10 THEN 'Indeterminado'
+                WHEN 11 THEN 'Obito'
+                ELSE ''
+                END AS status_descricao
+                FROM 
+                student_enrollment se
+                JOIN student_identification si ON se.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id
+                JOIN classroom c ON se.classroom_fk = c.id
+                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
+                WHERE c.school_year = :school_year AND si2.inep_id = :school_inep_id 
+                AND se.create_date BETWEEN :initial_date AND :end_date;";
+        
+        $result = Yii::app()->db->createCommand($sql)
+        ->bindParam(":school_year", Yii::app()->user->year)
+        ->bindParam(":school_inep_id", $school->inep_id)
+        ->bindParam(":initial_date", $initialDate)
+        ->bindParam(":end_date", $endDate)
+        ->queryAll();
+
+        $title = "Quantitativo de Alunos Matriculados por Período<br>".$school->name;
+
+        $this->render('NumberOfStudentsEnrolledPerPeriod', array(
+            "report" => $result,
+            "title" => $title
+        ));
+    }
+
+    public function actionNumberOfStudentsEnrolledPerPeriodPerClassroom()
+    {
+        $classroom = Classroom::model()->findByPk($_POST['classroom']);
+        $initialDate = $_POST['initial-date'];
+        $endDate = $_POST['end-date'];
+
+        $sql = "SELECT si.name, si.birthday, sdaa.cpf, si.responsable_name, si.responsable_telephone,
+                CASE se.status
+                WHEN 1 THEN 'Matriculado'
+                WHEN 2 THEN 'Transferido'
+                WHEN 3 THEN 'Cancelado'
+                WHEN 4 THEN 'Deixou de Frequentar'
+                WHEN 5 THEN 'Remanejado'
+                WHEN 6 THEN 'Aprovado'
+                WHEN 7 THEN 'Aprovado pelo Conselho'
+                WHEN 8 THEN 'Reprovado'
+                WHEN 9 THEN 'Concluinte'
+                WHEN 10 THEN 'Indeterminado'
+                WHEN 11 THEN 'Obito'
+                ELSE ''
+                END AS status_descricao
+                FROM 
+                student_enrollment se
+                JOIN student_identification si ON se.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id
+                JOIN classroom c ON se.classroom_fk = c.id
+                WHERE c.id = :classroom AND se.create_date BETWEEN :initial_date AND :end_date;";
+        
+        $result = Yii::app()->db->createCommand($sql)
+        ->bindParam(":classroom", $classroom->id)
+        ->bindParam(":initial_date", $initialDate)
+        ->bindParam(":end_date", $endDate)
+        ->queryAll();
+
+        $title = "Quantitativo de Alunos Matriculados por Período<br>".$classroom->name;
+
+        $this->render('NumberOfStudentsEnrolledPerPeriod', array(
+            "report" => $result,
+            "title" => $title
+        ));
     }
 
 
