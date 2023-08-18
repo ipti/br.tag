@@ -289,21 +289,21 @@ class DefaultController extends Controller
 	function actionTest()
 	{
 
-		$opt = 3;
+		$opt = 2;
 		switch ($opt) {
 
 			case 1:
 				$inAluno = new InAluno("000124661430", '3', "SP");
-				$dataSource = new StudentSEDDataSource();
-				$dataSource->exibirFichaAluno($inAluno);
-				CVarDumper::dump($dataSource->exibirFichaAluno($inAluno), 10, true);
+				$exibirFicha = new GetExibirFichaAlunoFromSEDUseCase();
+				$exibirFicha->exec($inAluno);
 				break;
 
 
 			case 2:
+				
 				$inNumClasse = new InFormacaoClasse("262429087");
-				$formacaoClasseSEDUseCase = new GetFormacaoClasseSEDUseCase();
-				CVarDumper::dump($formacaoClasseSEDUseCase->exec($inNumClasse), 10, true);
+				$formacaoClasseSEDUseCase = new GetFormacaoClasseFromSEDUseCase();
+				$formacaoClasseSEDUseCase->exec($inNumClasse);
 				break;
 
 

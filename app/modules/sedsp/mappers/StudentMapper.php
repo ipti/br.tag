@@ -1,6 +1,5 @@
 <?php
 
-Yii::import('application.modules.sedsp.models.*');
 class StudentMapper 
     {
         public static function parseToSEDAlunoFicha(
@@ -103,8 +102,8 @@ class StudentMapper
 
             $studentIdentification = new StudentIdentification;
             $studentIdentification->school_inep_id_fk = $schoolInep;
-            $studentIdentification->inep_id = $outDocumentos->getOutCodInep();
-            $studentIdentification->gov_id = $outDadosPessoais->getOutNumRa();
+            $studentIdentification->inep_id = $outDadosPessoais->getOutNumRa();
+            $studentIdentification->gov_id = $outDadosPessoais->getOutDigitoRa();
             $studentIdentification->name = $outDadosPessoais->getOutNomeAluno();
             $studentIdentification->filiation = $outDadosPessoais->getOutNomeMae() != "" || $outDadosPessoais->getOutNomePai() != "" ? 1 : 0;
             $studentIdentification->filiation_1 = $outDadosPessoais->getOutNomeMae();
@@ -119,8 +118,6 @@ class StudentMapper
             $studentIdentification->edcenso_city_fk = intval(EdcensoCity::model()->find("name = :name", [":name" => $outDadosPessoais->getOutNomeMunNascto()])->id);
             $studentIdentification->deficiency = 0;
             $studentIdentification->send_year = intval(Yii::app()->user->year);
-
-            $studentIdentification->save();
 
             //StudentDocuments
             $studentDocumentsAndAddress = new StudentDocumentsAndAddress;
@@ -171,8 +168,6 @@ class StudentMapper
                 $studentDocumentsAndAddress->notary_office_uf_fk = intval(EdcensoUf::model()->find("acronym = :acronym", [":acronym" => $outCertidaoAntiga->getOutUfComarca()])->id);
                 $studentDocumentsAndAddress->notary_office_city_fk = intval(EdcensoCity::model()->find("name = :name", [":name" => $outCertidaoAntiga->getOutNomeMunComarca()])->id);
             }
-
-            $studentDocumentsAndAddress->save();
 
             $parseResult["StudentIdentification"] = $studentIdentification;
             $parseResult["StudentDocumentsAndAddress"] = $studentDocumentsAndAddress;
