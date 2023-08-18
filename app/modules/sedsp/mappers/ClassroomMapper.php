@@ -2,25 +2,26 @@
 
 class ClassroomMapper
 {
-    public static function parseToTAGFormacaoClasse($outFormacaoClasse)
+    public static function parseToTAGFormacaoClasse(OutFormacaoClasse $outFormacaoClasse)
     {    
         $basicDataSEDDataSource = new BasicDataSEDDataSource();
         $tiposEnsino = $basicDataSEDDataSource->getTipoEnsino();
         $stage = ClassroomMapper::convertTipoEnsinoToStage($outFormacaoClasse->getOutCodTipoEnsino(), $outFormacaoClasse->getOutCodSerieAno());
-        $serie = ClassroomMapper::getNameSerieFromClasse($outFormacaoClasse, $tiposEnsino);
+        $serieName = ClassroomMapper::getNameSerieFromClasse($outFormacaoClasse, $tiposEnsino);
 
-        $classroomTag = new Classroom($outFormacaoClasse);
-        $classroomTag->inep_id = $outFormacaoClasse->outNumClasse;
-        $classroomTag->name = $serie->getOutDescTipoEnsino()." ".$outFormacaoClasse->outTurma;
+        $classroomTag = new Classroom();
+        $classroomTag->school_inep_fk = $outFormacaoClasse->getOutCodEscola();
+        $classroomTag->inep_id = $outFormacaoClasse->getOutNumClasse();
+        $classroomTag->name = $serieName->getOutDescTipoEnsino()." ".$outFormacaoClasse->getOutTurma();
         $classroomTag->edcenso_stage_vs_modality_fk = $stage;
         $classroomTag->schooling = 1;
         $classroomTag->assistance_type = 0;
         $classroomTag->modality = 1;
         $classroomTag->school_inep_fk = Yii::app()->user->school;
-        $classroomTag->initial_hour = substr($outFormacaoClasse->outHorarioInicio, 0, 2);
-        $classroomTag->initial_minute = substr($outFormacaoClasse->outHorarioInicio, -2);
-        $classroomTag->final_hour = substr($outFormacaoClasse->outHorarioFim, 0, 2);
-        $classroomTag->final_minute = substr($outFormacaoClasse->outHorarioFim, -2);
+        $classroomTag->initial_hour = substr($outFormacaoClasse->getOutHorarioInicio(), 0, 2);
+        $classroomTag->initial_minute = substr($outFormacaoClasse->getOutHorarioInicio(), -2);
+        $classroomTag->final_hour = substr($outFormacaoClasse->getOutHorarioFim(), 0, 2);
+        $classroomTag->final_minute = substr($outFormacaoClasse->getOutHorarioFim(), -2);
         $classroomTag->week_days_sunday = 0;
         $classroomTag->week_days_monday = 1;
         $classroomTag->week_days_tuesday = 1;
@@ -31,10 +32,46 @@ class ClassroomMapper
         $classroomTag->school_year = Yii::app()->user->year;
         $classroomTag->pedagogical_mediation_type = 1;
 
+    
+        $indexedByAcronym = [];
+		$edcensoUf = EdcensoUf::model()->findAll();
+		foreach ($edcensoUf as $uf) {
+			$indexedByAcronym[$uf['acronym']] = $uf;
+		}
+
+    
+        $studentDatasource = new StudentSEDDataSource();
+        $listStudents = [];
+        $students = $outFormacaoClasse->getOutAlunos();
+        foreach ($students as $student) {
+            $studentIdentification = new StudentIdentification();
+            $studentIdentification->inep_id = $student->getOutNumRa();
+            $studentIdentification->name = $student->getOutNomeAluno();
+            $studentIdentification->birthday = $student->getOutDataNascimento();         
+           
+            $outExibirFichaAluno = $studentDatasource->exibirFichaAluno(new InAluno($student->getOutNumRa(), $student->getOutDigitoRA(), "SP"))->getOutDadosPessoais();
+            $UF = intval($indexedByAcronym[$outExibirFichaAluno->getOutSiglaUfra()]->id);
+
+            $studentIdentification->sex = $outExibirFichaAluno->getOutCodSexo();
+            $studentIdentification->color_race = $outExibirFichaAluno->getOutCorRaca();
+            $studentIdentification->filiation = 1;
+            $studentIdentification->filiation_1 = $outExibirFichaAluno->getOutNomeMae();
+            $studentIdentification->filiation_2 = $outExibirFichaAluno->getOutNomePai();
+            $studentIdentification->nationality = $outExibirFichaAluno->getOutNacionalidade();
+            $studentIdentification->edcenso_nation_fk = $outExibirFichaAluno->getOutCodPaisOrigem();
+            $studentIdentification->school_inep_id_fk = '28033582'; //$UF . $outFormacaoClasse->getOutCodEscola();
+            $studentIdentification->edcenso_uf_fk = $UF;
+            $studentIdentification->deficiency = 0;
+            $studentIdentification->send_year = 2023;
+            $studentIdentification->scholarity = $student->getOutSerieNivel();
+
+            $listStudents[] = $studentIdentification;
+        }
+
         $parseResult = [];
         $parseResult["Classroom"] = $classroomTag;
-        $parseResult["Students"] = $outFormacaoClasse->getOutAlunos();
-        
+        $parseResult["Students"] = $listStudents;
+
         return $parseResult;
     }
 
