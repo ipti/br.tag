@@ -272,7 +272,7 @@ class SiteController extends Controller
                     . '</li>';
             }
         } else {
-            $html = '<div class="t-badge-info" id="no-recent-activitives"><span class="t-info_positive t-badge-info__icon"></span>Não há atividades recentes.</div>'; 
+            $html = '<div class="no-recent-activitive t-badge-info" id="no-recent-activitives"><span class="t-info_positive t-badge-info__icon"></span>Não há atividades recentes.</div>'; 
         }
 
         return $html;

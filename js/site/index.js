@@ -6,17 +6,10 @@ $(document).on("click", ".load-more", function () {
             date: $(".log-date").last().text()
         },
         success: function (data) {
-            $(data).insertBefore(".load-more");
-            // $div = $('t-info_positive').parent()
 
-            let elemento = document.getElementsByClassName('logs');
-            console.log($(elemento).length);
-            if ($(elemento).length < 1) {
-                $(elemento).html('<div class="t-badge-info no-recent-activitives"><span class="t-info_positive t-badge-info__icon"></span>Não há atividades recentes.</div>');
-                console.log("Entrei aqui");
-                console.log($(elemento).length);
-            }
-            // $('<div class="t-badge-info no-recent-activitives"><span class="t-info_positive t-badge-info__icon"></span>Não há atividades recentes.</div>').html('<div class="t-badge-info no-recent-activitives"><span class="t-info_positive t-badge-info__icon"></span>Não há atividades recentes.</div>');
+            $(".no-recent-activitive").remove();
+
+            $(data).insertBefore(".load-more");
             if ($(".log").length >= $(".eggs").find(".widget").attr("total")) {
                 $(".load-more").hide();
             }
