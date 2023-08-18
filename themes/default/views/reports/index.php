@@ -207,6 +207,16 @@ $this->breadcrumbs = array(
                     </div>
                 </button>
 
+                <button type="button" class="report-box-container" data-toggle="modal" data-target="#students-benefiting-from-the-bf" target="_blank">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <span class="t-medical t-reports_icons"></span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">Alunos Beneficiários do Bolsa Família por Turma</span><br>
+                        <span class="subtitle">Alunos que participam do bolsa família por turma</span>
+                    </div>
+                </button>
+
                 <?php if (INSTANCE == "BUZIOS" || INSTANCE == "TREINAMENTO" || INSTANCE == "DEMO" || INSTANCE == "LOCALHOST") { ?>
                     <button type="button" class="report-box-container" data-toggle="modal" data-target="#quarterly-report" target="_blank">
                         <div class="pull-left" style="margin-right: 20px;">
@@ -411,6 +421,18 @@ $this->breadcrumbs = array(
                         </div>
                     </button>
                 </a>
+
+                <a href="<?php echo Yii::app()->createUrl('reports/AllClassroomsReportOfStudentsBenefitingFromTheBF') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">    
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-doctor t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left"> 
+                            <span class="title">Alunos Beneficiários do Bolsa Família de Todas as Turmas</span><br>
+                            <span class="subtitle">Listagem dos alunos que participam do bolsa família</span>
+                        </div>
+                    </button>
+                </a>
             </div>
             
             <?php if(Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
@@ -466,6 +488,18 @@ $this->breadcrumbs = array(
                         <div class="pull-left">
                             <span class="title">Dados Estatísticos</span><br>
                             <span class="subtitle">Quantidade alunos por etapa de ensino</span>
+                        </div> 
+                    </button>
+                </a>
+
+                <a href="<?php echo Yii::app()->createUrl('reports/AllSchoolsReportOfStudentsBenefitingFromTheBF') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">    
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-doctor t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left"> 
+                            <span class="title">Alunos Beneficiários do Bolsa Família de Todas as Escolas</span><br>
+                            <span class="subtitle">Listagem dos alunos que participam do bolsa família</span>
                         </div>
                     </button>
                 </a>
@@ -474,6 +508,38 @@ $this->breadcrumbs = array(
         </div>
     </div>
     <!-- Modais -->
+    <div class="row">
+        <div class="modal fade modal-content" id="students-benefiting-from-the-bf" tabindex="-1" role="dialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
+            </div>
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/ReportOfStudentsBenefitingFromTheBFPerClassroom'); ?>" method="post" target="_blank">
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class=" span12">
+                            <?php
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
+                            ?>
+                            <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
+                                <?php
+                                echo "<option value='' selected>Selecione a turma</option>";
+                                foreach ($classrooms as $classroom) {
+                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                        <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
+                    </div>
+            </form>
+        </div>
+    </div>
     <div class="row">
         <div class="modal fade modal-content" id="teacher-training" tabindex="-1" role="dialog" style="height: auto !important;">
             <div class="modal-header">
