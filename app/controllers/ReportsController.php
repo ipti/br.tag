@@ -52,7 +52,8 @@ class ReportsController extends Controller
         $initialDate = $_POST['initial-date'];
         $endDate = $_POST['end-date'];
 
-        $sql = "SELECT si.name, si.birthday, sdaa.cpf, si.responsable_name, si.responsable_telephone,
+        $sql = "SELECT si.name, si.birthday, sdaa.cpf, si.responsable_name, 
+                    si.responsable_telephone, si2.name as school_name,
                 CASE se.status
                 WHEN 1 THEN 'Matriculado'
                 WHEN 2 THEN 'Transferido'
@@ -72,6 +73,7 @@ class ReportsController extends Controller
                 JOIN student_identification si ON se.student_fk = si.id
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
                 JOIN classroom c ON se.classroom_fk = c.id
+                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
                 WHERE c.school_year = :school_year AND se.create_date BETWEEN :initial_date AND :end_date;";
         
         $result = Yii::app()->db->createCommand($sql)
@@ -80,11 +82,14 @@ class ReportsController extends Controller
         ->bindParam(":end_date", $endDate)
         ->queryAll();
 
+        $allSchools = true;
+
         $title = "QUANTITATIVO DE ALUNOS MATRICULADOS POR PERÍODO <br>DE TODAS AS ESCOLAS";
 
         $this->render('NumberOfStudentsEnrolledPerPeriod', array(
             "report" => $result,
-            "title" => $title
+            "title" => $title,
+            "allSchools" => $allSchools
         ));
     }
 
@@ -94,7 +99,8 @@ class ReportsController extends Controller
         $initialDate = $_POST['initial-date'];
         $endDate = $_POST['end-date'];
 
-        $sql = "SELECT si.name, si.birthday, sdaa.cpf, si.responsable_name, si.responsable_telephone,
+        $sql = "SELECT si.name, si.birthday, sdaa.cpf, si.responsable_name, 
+                    si.responsable_telephone, c.name as classroom_name,
                 CASE se.status
                 WHEN 1 THEN 'Matriculado'
                 WHEN 2 THEN 'Transferido'
@@ -125,11 +131,14 @@ class ReportsController extends Controller
         ->bindParam(":end_date", $endDate)
         ->queryAll();
 
-        $title = "Quantitativo de Alunos Matriculados por Período<br>".$school->name;
+        $allClassrooms = true;
+
+        $title = "QUANTITATIVO DE ALUNOS MATRICULADOS POR PERÍODO<br>".$school->name;
 
         $this->render('NumberOfStudentsEnrolledPerPeriod', array(
             "report" => $result,
-            "title" => $title
+            "title" => $title,
+            "allClassrooms" => $allClassrooms
         ));
     }
 
@@ -167,7 +176,7 @@ class ReportsController extends Controller
         ->bindParam(":end_date", $endDate)
         ->queryAll();
 
-        $title = "Quantitativo de Alunos Matriculados por Período<br>".$classroom->name;
+        $title = "QUANTITATIVO DE ALUNOS MATRICULADOS POR PERÍODO<br>".$classroom->name;
 
         $this->render('NumberOfStudentsEnrolledPerPeriod', array(
             "report" => $result,
