@@ -6,34 +6,36 @@ class GetExibirFichaAlunoFromSEDUseCase
     {
         $studentDatasource = new StudentSEDDataSource();
         $response = $studentDatasource->exibirFichaAluno($inAluno);
-        $mapper = (object) StudentMapper::parseToTAGExibirFichaAluno($response);
+        $student = StudentIdentification::model()->find('inep_id = :inep_id', array(':inep_id' => $response->getOutDadosPessoais()->getOutNumRa()));
+        
+        if ($student !== null) {
+            CVarDumper::dump('O aluno já está registrado.', 10, true);
+            return;
+        }
 
-        $inep_id = $mapper->StudentIdentification->inep_id;
-        $student = StudentIdentification::model()->find('inep_id = :inep_id',array(':inep_id' => $inep_id));
-
-        if($student === null){
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $mapper = (object) StudentMapper::parseToTAGExibirFichaAluno($response);
             $studentIdentification = new StudentIdentification();
-            $studentDocumentsAndAddress = new StudentDocumentsAndAddress();
-    
             $studentIdentification->attributes = $mapper->StudentIdentification->getAttributes();
             $studentIdentification->gov_id = $mapper->StudentIdentification->gov_id;
-    
+
+            $studentDocumentsAndAddress = new StudentDocumentsAndAddress();
             $studentDocumentsAndAddress->attributes = $mapper->StudentDocumentsAndAddress->getAttributes();
-    
+
             $this->validateStudentData($studentIdentification, $studentDocumentsAndAddress);
-    
-            $transaction = Yii::app()->db->beginTransaction();
+
             if ($studentIdentification->save() && $studentDocumentsAndAddress->save()) {
-                $transaction->commit();
-                return true;
+                CVarDumper::dump('O aluno registrado com sucesso.', 10, true);
             } else {
-                $transaction->rollback();
                 throw new SedspException('Não foi possível salvar os dados no banco de dados.');
             }
-        } else {
-            CVarDumper::dump('O aluno já está registrado.', 10, true);
-        } 
-    } 
+            $transaction->commit();
+        } catch (Exception $e) {
+            CVarDumper::dump($e->getMessage(), 10, true);
+            $transaction->rollback();
+        }
+    }
 
     private function validateStudentData(StudentIdentification $studentIdentification, StudentDocumentsAndAddress $studentDocumentsAndAddress)
     {
