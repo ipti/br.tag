@@ -1,29 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "grade_unity".
+ * This is the model class for table "grade_unity_periods".
  *
- * The followings are the available columns in table 'grade_unity':
+ * The followings are the available columns in table 'grade_unity_periods':
  * @property integer $id
- * @property integer $edcenso_stage_vs_modality_fk
- * @property string $name
- * @property string $type
- * @property integer $grade_calculation_fk
+ * @property string $initial_date
+ * @property integer $grade_unity_fk
+ * @property integer $school_year
  *
  * The followings are the available model relations:
- * @property GradeCalculation $gradeCalculationFk
- * @property EdcensoStageVsModality $edcensoStageVsModalityFk
- * @property GradeUnityModality[] $gradeUnityModalities
- * @property GradeUnityPeriods[] $gradeUnityPeriods
+ * @property GradeUnity $gradeUnityFk
  */
-class GradeUnity extends CActiveRecord
+class GradeUnityPeriods extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'grade_unity';
+		return 'grade_unity_periods';
 	}
 
 	/**
@@ -34,13 +30,11 @@ class GradeUnity extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('edcenso_stage_vs_modality_fk, name, type, grade_calculation_fk', 'required'),
-			array('edcenso_stage_vs_modality_fk, grade_calculation_fk', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>50),
-			array('type', 'length', 'max'=>2),
+			array('initial_date, grade_unity_fk, school_year', 'required'),
+			array('grade_unity_fk, school_year', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, edcenso_stage_vs_modality_fk, name, type, grade_calculation_fk', 'safe', 'on'=>'search'),
+			array('id, initial_date, grade_unity_fk, school_year', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,10 +46,7 @@ class GradeUnity extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'gradeCalculationFk' => array(self::BELONGS_TO, 'GradeCalculation', 'grade_calculation_fk'),
-			'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
-			'gradeUnityModalities' => array(self::HAS_MANY, 'GradeUnityModality', 'grade_unity_fk'),
-			'gradeUnityPeriods' => array(self::HAS_MANY, 'GradeUnityPeriods', 'grade_unity_fk'),
+			'gradeUnityFk' => array(self::BELONGS_TO, 'GradeUnity', 'grade_unity_fk'),
 		);
 	}
 
@@ -66,10 +57,9 @@ class GradeUnity extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'edcenso_stage_vs_modality_fk' => 'Edcenso Stage Vs Modality Fk',
-			'name' => 'Name',
-			'type' => 'Type',
-			'grade_calculation_fk' => 'Grade Calculation Fk',
+			'initial_date' => 'Initial Date',
+			'grade_unity_fk' => 'Grade Unity Fk',
+			'school_year' => 'School Year',
 		);
 	}
 
@@ -92,10 +82,9 @@ class GradeUnity extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('edcenso_stage_vs_modality_fk',$this->edcenso_stage_vs_modality_fk);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('type',$this->type,true);
-		$criteria->compare('grade_calculation_fk',$this->grade_calculation_fk);
+		$criteria->compare('initial_date',$this->initial_date,true);
+		$criteria->compare('grade_unity_fk',$this->grade_unity_fk);
+		$criteria->compare('school_year',$this->school_year);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -106,7 +95,7 @@ class GradeUnity extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return GradeUnity the static model class
+	 * @return GradeUnityPeriods the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

@@ -26,7 +26,7 @@ class DefaultController extends Controller
                 'actions' => ['index', 'view'], 'users' => ['*'],
             ], [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual', 'RemoveCalendar', 'DeleteEvent', 'editCalendar', 'ShowStages', 'changeCalendarStatus', 'loadCalendarData'],
+                'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual', 'RemoveCalendar', 'DeleteEvent', 'editCalendar', 'ShowStages', 'changeCalendarStatus', 'loadCalendarData', 'loadUnityPeriods'],
                 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -393,6 +393,37 @@ class DefaultController extends Controller
         $result["stages"] = [];
         foreach($calendar->calendarStages as $calendarStage) {
             array_push($result["stages"], $calendarStage->stage_fk);
+        }
+        echo json_encode($result);
+    }
+
+    public function actionLoadUnityPeriods()
+    {
+        $result = [];
+        $result["year"] = Yii::app()->user->year;
+        $result["stages"] = [];
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = "cs";
+        $criteria->join = "join edcenso_stage_vs_modality esvm on esvm.id = cs.stage_fk";
+        $criteria->order = "esvm.name";
+        $criteria->condition = "cs.calendar_fk = :calendar_fk";
+        $criteria->params = ["calendar_fk" => $_POST["id"]];
+        $calendarStages = CalendarStages::model()->findAll($criteria);
+
+        foreach ($calendarStages as $calendarStage) {
+
+
+            $gradeUnities = GradeUnity::model()->findAll('edcenso_stage_vs_modality_fk = :stage', ["stage" => $calendarStage->stage_fk]);
+            $stageArray["title"] = $calendarStage->stageFk->name;
+            $stageArray["unities"] = [];
+            foreach ($gradeUnities as $gradeUnity) {
+                $unity["id"] = $gradeUnity->id;
+                $unity["name"] = $gradeUnity->name;
+                $unity["initial_date"] = $gradeUnity->gradeUnityPeriods == null ? "" : $gradeUnity->gradeUnityPeriods->initial_date;
+                array_push($stageArray["unities"], $unity);
+            }
+            array_push($result["stages"], $stageArray);
         }
         echo json_encode($result);
     }

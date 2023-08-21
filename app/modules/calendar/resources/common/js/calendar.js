@@ -105,6 +105,111 @@ $(document).on("click", ".edit-calendar-button", function () {
     }
 });
 
+$(document).on("click", ".manage-unity-periods", function (e) {
+    $("#unity-periods-modal").find(".alert").hide();
+    var icon = this;
+    e.stopPropagation();
+    $.ajax({
+        url: "?r=calendar/default/loadUnityPeriods",
+        type: "POST",
+        data: {
+            id: $(icon).attr("data-id")
+        },
+        beforeSend: function () {
+            $(icon).css("pointer-events", "none").find("i").addClass("fa-spin").addClass("fa-spinner").removeClass("fa-map-o");
+        },
+    }).success(function (data) {
+        data = JSON.parse(data);
+        var html = "";
+        $.each(data.stages, function (i, stage) {
+            html += "<div class='grade-unity-stage-container'>";
+            html += "<span class='grade-unity-stage-title'>" + stage.title + "</span>";
+            if (Object.keys(stage.unities).length){
+                $.each(stage.unities, function (j, unity) {
+                    html += "<div class='form-control'>";
+                    html += "<input class='grade-unity-id' type='hidden' value='" + unity.id + "'>";
+                    html += "<label>" + unity.name + "</label>";
+                    html += "<input class='grade-unity-initial-date' size='10' maxlength='10' type='text' placeholder='dd/mm/aaaa' value='" + unity.initial_date + "'>";
+
+                    html += "</div>";
+                });
+            } else {
+                html += "<div class='alert alert-error'> Etapa sem unidades. </div>";
+            }
+
+            html += "</div>";
+        });
+        $(".unity-periods-container").html(html);
+
+        $(".grade-unity-initial-date").mask("99/99/9999").datepicker({
+            language: "pt-BR",
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            todayHighlight: true,
+            allowInputToggle: true,
+            disableTouchKeyboard: true,
+            keyboardNavigation: false,
+            orientation: "bottom right",
+            clearBtn: true,
+            maxViewMode: 2,
+            startDate: "01/01/" + data.year,
+            endDate: "31/12/" + data.year
+        });
+
+        // var allFilled = true;
+        // $(".grade-unity-stage-container").each(function(index) {
+        //     if (index > 0) {
+        //         if ($(this).find(".grade-unity-initial-date").val() === "") {
+        //             allFilled = false;
+        //             return false;
+        //         }
+        //     }
+        // });
+        // if (!allFilled) {
+        //
+        // }
+
+        $("#unity-periods-modal").modal("show");
+    }).complete(function () {
+        $(icon).css("pointer-events", "auto").find("i").removeClass("fa-spin").removeClass("fa-spinner").addClass("fa-map-o");
+
+    });
+});
+
+$(document).on("click", ".manage-unity-periods-button", function () {
+    // if ($("#edit-calendar-modal").find("#Calendar_title").val() === "" || $("#edit-calendar-modal").find("#stages").val() === null) {
+    //     $("#edit-calendar-modal").find(".alert").html("Preencha os campos abaixo.").show();
+    // } else {
+    //     $("#edit-calendar-modal").find(".alert").hide();
+    //     $.ajax({
+    //         url: "?r=calendar/default/editCalendar",
+    //         type: "POST",
+    //         data: {
+    //             id: $("#edit-calendar-modal").find("#Calendar_id").val(),
+    //             title: $("#edit-calendar-modal").find("#Calendar_title").val(),
+    //             stages: $("#edit-calendar-modal").find("#stages").val()
+    //         },
+    //         beforeSend: function () {
+    //             $("#edit-calendar-modal").find(".modal-body").css("opacity", 0.3).css("pointer-events", "none");
+    //             $("#edit-calendar-modal").find("button").attr("disabled", "disabled");
+    //             $("#edit-calendar-modal").find(".centered-loading-gif").show();
+    //         },
+    //     }).success(function (data) {
+    //         data = JSON.parse(data);
+    //         if (data.valid) {
+    //             $(".calendar-container[data-id=" + $("#edit-calendar-modal").find("#Calendar_id").val() + "]").closest(".accordion-group").find(".accordion-title").text($("#edit-calendar-modal").find("#Calendar_title").val());
+    //             $("#edit-calendar-modal").modal("hide");
+    //         } else {
+    //             $("#edit-calendar-modal").find(".alert").html(DOMPurify.sanitize(data.error)).show();
+    //         }
+    //     }).complete(function () {
+    //         $("#edit-calendar-modal").find(".modal-body").css("opacity", 1).css("pointer-events", "auto");
+    //         $("#edit-calendar-modal").find("button").removeAttr("disabled");
+    //         $("#edit-calendar-modal").find(".centered-loading-gif").hide();
+    //     });
+    // }
+});
+
 $(document).on("click", ".remove-calendar", function (e) {
     e.stopPropagation();
     $("#calendar_removal_id").val($(this).data('id'));

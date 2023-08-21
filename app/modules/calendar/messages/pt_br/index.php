@@ -8,9 +8,10 @@ return [
     "Delete Event" => "Remover Evento",
     "Cancel" => "Cancelar",
     "Save" => "Salvar",
-    "Edit Calendar Title" => "Editar Título do Calendário",
+    "Edit Calendar" => "Editar Calendário",
     "Remove Calendar" => "Remover Calendário",
     "Are you sure?" => "Você tem certeza?",
     "Confirm" => "Confirmar",
     "Calendars" => "Calendários",
+    "Manage Unities Initial Date" => "Gerenciar Início das Unidades",
 ];
