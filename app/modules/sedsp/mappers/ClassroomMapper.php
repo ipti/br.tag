@@ -11,8 +11,8 @@ class ClassroomMapper
     {    
         $basicDataSEDDataSource = new BasicDataSEDDataSource();
         $tiposEnsino = $basicDataSEDDataSource->getTipoEnsino();
-        $stage = ClassroomMapper::convertTipoEnsinoToStage($outFormacaoClasse->getOutCodTipoEnsino(), $outFormacaoClasse->getOutCodSerieAno());
-        $serieName = ClassroomMapper::getNameSerieFromClasse($outFormacaoClasse, $tiposEnsino);
+        $stage = self::convertTipoEnsinoToStage($outFormacaoClasse->getOutCodTipoEnsino(), $outFormacaoClasse->getOutCodSerieAno());
+        $serieName = self::getNameSerieFromClasse($outFormacaoClasse, $tiposEnsino);
 
         $classroomTag = new Classroom();
         $classroomTag->school_inep_fk = '35' . $outFormacaoClasse->getOutCodEscola();
@@ -74,6 +74,57 @@ class ClassroomMapper
         $parseResult["Students"] = $listStudents;
 
         return $parseResult;
+    }
+
+
+    static function parseToTAGRelacaoClasses(OutRelacaoClasses $outRelacaoClasses) 
+    {
+        $schoolInepFk = '35' . $outRelacaoClasses->getOutCodEscola();
+        $outClasses = $outRelacaoClasses->getOutClasses();
+    
+        $arrayClasses = [];
+        foreach ($outClasses as $classe) {
+            $classroom = new Classroom();
+            $classroom->school_inep_fk = $schoolInepFk;
+            $classroom->inep_id = $classe->getOutNumClasse();
+            $classroom->name = $classe->getOutDescTipoEnsino() .' '. $classe->getOutTurma();
+            $classroom->pedagogical_mediation_type = 1;
+            $classroom->initial_hour = substr($classe->getOutHorarioInicio(), 0, 2);
+            $classroom->initial_minute = substr($classe->getOutHorarioInicio(), -2);
+            $classroom->final_hour = substr($classe->getOutHorarioFim(), 0, 2);
+            $classroom->final_minute = substr($classe->getOutHorarioFim(), -2);
+            $classroom->week_days_sunday = 0;
+            $classroom->week_days_monday = 1;
+            $classroom->week_days_tuesday = 1;
+            $classroom->week_days_wednesday = 1;
+            $classroom->week_days_thursday = 1;
+            $classroom->week_days_friday = 1;
+            $classroom->week_days_saturday = 1;
+            $classroom->assistance_type = 0;
+            $classroom->modality = 1;
+            $classroom->edcenso_stage_vs_modality_fk = self::convertTipoEnsinoToStage($classe->getOutCodTipoEnsino(), $classe->getOutCodSerieAno());
+            $classroom->school_year = Yii::app()->user->year;
+            $classroom->turn = self::convertCodTurno($classe->getOutCodTurno());
+            $classroom->schooling = 1;
+
+            $arrayClasses[] = $classroom;
+        }
+
+        $parseResult = [];
+        $parseResult["Classrooms"] =  $arrayClasses;
+        
+        return $parseResult;
+    }
+
+    private static function convertCodTurno($outCodTurno)
+    {
+        $mapperCodTurno = [
+            "6" => 'M'
+        ];
+
+        if(isset($mapperCodTurno[$outCodTurno]))
+            return $mapperCodTurno[$outCodTurno];
+        throw new Exception("Código do turno não existe.", 1);
     }
 
 
