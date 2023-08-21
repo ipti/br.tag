@@ -2,22 +2,26 @@
 
 class ClassroomMapper
 {
+    /**
+     * Summary of parseToTAGFormacaoClasse
+     * @param OutFormacaoClasse $outFormacaoClasse
+     * @return array<Classroom|StudentIdentification[]>
+     */
     public static function parseToTAGFormacaoClasse(OutFormacaoClasse $outFormacaoClasse)
     {    
         $basicDataSEDDataSource = new BasicDataSEDDataSource();
         $tiposEnsino = $basicDataSEDDataSource->getTipoEnsino();
-        $stage = ClassroomMapper::convertTipoEnsinoToStage($outFormacaoClasse->getOutCodTipoEnsino(), $outFormacaoClasse->getOutCodSerieAno());
-        $serieName = ClassroomMapper::getNameSerieFromClasse($outFormacaoClasse, $tiposEnsino);
+        $stage = self::convertTipoEnsinoToStage($outFormacaoClasse->getOutCodTipoEnsino(), $outFormacaoClasse->getOutCodSerieAno());
+        $serieName = self::getNameSerieFromClasse($outFormacaoClasse, $tiposEnsino);
 
         $classroomTag = new Classroom();
-        $classroomTag->school_inep_fk = $outFormacaoClasse->getOutCodEscola();
+        $classroomTag->school_inep_fk = '35' . $outFormacaoClasse->getOutCodEscola();
         $classroomTag->inep_id = $outFormacaoClasse->getOutNumClasse();
         $classroomTag->name = $serieName->getOutDescTipoEnsino()." ".$outFormacaoClasse->getOutTurma();
         $classroomTag->edcenso_stage_vs_modality_fk = $stage;
         $classroomTag->schooling = 1;
         $classroomTag->assistance_type = 0;
         $classroomTag->modality = 1;
-        $classroomTag->school_inep_fk = Yii::app()->user->school;
         $classroomTag->initial_hour = substr($outFormacaoClasse->getOutHorarioInicio(), 0, 2);
         $classroomTag->initial_minute = substr($outFormacaoClasse->getOutHorarioInicio(), -2);
         $classroomTag->final_hour = substr($outFormacaoClasse->getOutHorarioFim(), 0, 2);
@@ -31,14 +35,12 @@ class ClassroomMapper
         $classroomTag->week_days_saturday = 1;
         $classroomTag->school_year = Yii::app()->user->year;
         $classroomTag->pedagogical_mediation_type = 1;
-
     
         $indexedByAcronym = [];
 		$edcensoUf = EdcensoUf::model()->findAll();
 		foreach ($edcensoUf as $uf) {
 			$indexedByAcronym[$uf['acronym']] = $uf;
 		}
-
     
         $studentDatasource = new StudentSEDDataSource();
         $listStudents = [];
@@ -50,7 +52,6 @@ class ClassroomMapper
             $studentIdentification->birthday = $student->getOutDataNascimento();         
            
             $outExibirFichaAluno = $studentDatasource->exibirFichaAluno(new InAluno($student->getOutNumRa(), $student->getOutDigitoRA(), "SP"))->getOutDadosPessoais();
-            $UF = intval($indexedByAcronym[$outExibirFichaAluno->getOutSiglaUfra()]->id);
 
             $studentIdentification->sex = $outExibirFichaAluno->getOutCodSexo();
             $studentIdentification->color_race = $outExibirFichaAluno->getOutCorRaca();
@@ -59,12 +60,12 @@ class ClassroomMapper
             $studentIdentification->filiation_2 = $outExibirFichaAluno->getOutNomePai();
             $studentIdentification->nationality = $outExibirFichaAluno->getOutNacionalidade();
             $studentIdentification->edcenso_nation_fk = $outExibirFichaAluno->getOutCodPaisOrigem();
-            $studentIdentification->school_inep_id_fk = '28033582'; //$UF . $outFormacaoClasse->getOutCodEscola();
-            $studentIdentification->edcenso_uf_fk = $UF;
+            $studentIdentification->edcenso_uf_fk = intval($indexedByAcronym[$outExibirFichaAluno->getOutSiglaUfra()]->id);
+            $studentIdentification->school_inep_id_fk = $studentIdentification->edcenso_uf_fk . $outFormacaoClasse->getOutCodEscola();
             $studentIdentification->deficiency = 0;
             $studentIdentification->send_year = 2023;
             $studentIdentification->scholarity = $student->getOutSerieNivel();
-
+            
             $listStudents[] = $studentIdentification;
         }
 
@@ -73,6 +74,57 @@ class ClassroomMapper
         $parseResult["Students"] = $listStudents;
 
         return $parseResult;
+    }
+
+
+    static function parseToTAGRelacaoClasses(OutRelacaoClasses $outRelacaoClasses) 
+    {
+        $schoolInepFk = '35' . $outRelacaoClasses->getOutCodEscola();
+        $outClasses = $outRelacaoClasses->getOutClasses();
+    
+        $arrayClasses = [];
+        foreach ($outClasses as $classe) {
+            $classroom = new Classroom();
+            $classroom->school_inep_fk = $schoolInepFk;
+            $classroom->inep_id = $classe->getOutNumClasse();
+            $classroom->name = $classe->getOutDescTipoEnsino() .' '. $classe->getOutTurma();
+            $classroom->pedagogical_mediation_type = 1;
+            $classroom->initial_hour = substr($classe->getOutHorarioInicio(), 0, 2);
+            $classroom->initial_minute = substr($classe->getOutHorarioInicio(), -2);
+            $classroom->final_hour = substr($classe->getOutHorarioFim(), 0, 2);
+            $classroom->final_minute = substr($classe->getOutHorarioFim(), -2);
+            $classroom->week_days_sunday = 0;
+            $classroom->week_days_monday = 1;
+            $classroom->week_days_tuesday = 1;
+            $classroom->week_days_wednesday = 1;
+            $classroom->week_days_thursday = 1;
+            $classroom->week_days_friday = 1;
+            $classroom->week_days_saturday = 1;
+            $classroom->assistance_type = 0;
+            $classroom->modality = 1;
+            $classroom->edcenso_stage_vs_modality_fk = self::convertTipoEnsinoToStage($classe->getOutCodTipoEnsino(), $classe->getOutCodSerieAno());
+            $classroom->school_year = Yii::app()->user->year;
+            $classroom->turn = self::convertCodTurno($classe->getOutCodTurno());
+            $classroom->schooling = 1;
+
+            $arrayClasses[] = $classroom;
+        }
+
+        $parseResult = [];
+        $parseResult["Classrooms"] =  $arrayClasses;
+        
+        return $parseResult;
+    }
+
+    private static function convertCodTurno($outCodTurno)
+    {
+        $mapperCodTurno = [
+            "6" => 'M'
+        ];
+
+        if(isset($mapperCodTurno[$outCodTurno]))
+            return $mapperCodTurno[$outCodTurno];
+        throw new Exception("Código do turno não existe.", 1);
     }
 
 
