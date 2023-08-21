@@ -33,7 +33,7 @@ class ClassroomMapper
         $classroomTag->week_days_thursday = 1;
         $classroomTag->week_days_friday = 1;
         $classroomTag->week_days_saturday = 1;
-        $classroomTag->school_year = Yii::app()->user->year;
+        $classroomTag->school_year = '2023';
         $classroomTag->pedagogical_mediation_type = 1;
     
         $indexedByAcronym = [];
@@ -63,7 +63,7 @@ class ClassroomMapper
             $studentIdentification->edcenso_uf_fk = intval($indexedByAcronym[$outExibirFichaAluno->getOutSiglaUfra()]->id);
             $studentIdentification->school_inep_id_fk = $studentIdentification->edcenso_uf_fk . $outFormacaoClasse->getOutCodEscola();
             $studentIdentification->deficiency = 0;
-            $studentIdentification->send_year = 2023;
+            $studentIdentification->send_year = $outFormacaoClasse->getOutAnoLetivo();
             $studentIdentification->scholarity = $student->getOutSerieNivel();
             
             $listStudents[] = $studentIdentification;
@@ -103,7 +103,7 @@ class ClassroomMapper
             $classroom->assistance_type = 0;
             $classroom->modality = 1;
             $classroom->edcenso_stage_vs_modality_fk = self::convertTipoEnsinoToStage($classe->getOutCodTipoEnsino(), $classe->getOutCodSerieAno());
-            $classroom->school_year = Yii::app()->user->year;
+            $classroom->school_year = $outRelacaoClasses->getOutAnoLetivo();
             $classroom->turn = self::convertCodTurno($classe->getOutCodTurno());
             $classroom->schooling = 1;
 

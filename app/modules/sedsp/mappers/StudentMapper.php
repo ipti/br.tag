@@ -92,7 +92,7 @@ class StudentMapper
         public static function parseToTAGExibirFichaAluno(OutExibirFichaAluno $exibirFichaAluno)
         {
             $parseResult = [];
-            $schoolInep = Yii::app()->user->school;
+            $schoolInep = '2023';
 
             $outDadosPessoais = $exibirFichaAluno->getOutDadosPessoais();
             $outDocumentos = $exibirFichaAluno->getOutDocumentos();

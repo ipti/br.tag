@@ -6,14 +6,7 @@ class GetExibirFichaAlunoFromSEDUseCase
     {
         $studentDatasource = new StudentSEDDataSource();
         $response = $studentDatasource->exibirFichaAluno($inAluno);
-        $student = StudentIdentification::model()->find('inep_id = :inep_id', array(':inep_id' => $response->getOutDadosPessoais()->getOutNumRa()));
-        
-        if ($student !== null) {
-            CVarDumper::dump('O aluno já está registrado.', 10, true);
-            return;
-        }
 
-        $transaction = Yii::app()->db->beginTransaction();
         try {
             $mapper = (object) StudentMapper::parseToTAGExibirFichaAluno($response);
             $studentIdentification = new StudentIdentification();
@@ -30,10 +23,8 @@ class GetExibirFichaAlunoFromSEDUseCase
             } else {
                 throw new SedspException('Não foi possível salvar os dados no banco de dados.');
             }
-            $transaction->commit();
         } catch (Exception $e) {
             CVarDumper::dump($e->getMessage(), 10, true);
-            $transaction->rollback();
         }
     }
 
