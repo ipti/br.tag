@@ -1,0 +1,18 @@
+.login-form {
+    flex-direction: column;
+    margin-top: $SizeXLarge;
+    .form-signin {
+        position: relative;
+        width: 334px;
+        margin-bottom: $SizeLarge;
+    }
+    .login-footer {
+        margin-top: $SizeNormal;
+        margin-bottom: $SizeXXLarge;
+        flex-direction: column;
+        justify-content: center;
+        display: flex;
+        text-align: center;
+    }
+}
+// style="padding: 20px 20px;height: 60px;position: absolute;bottom: 0;right: 0;"
