@@ -402,6 +402,9 @@ class DefaultController extends Controller
         $result = [];
         $result["year"] = Yii::app()->user->year;
         $result["stages"] = [];
+        $result["events"] = [];
+
+        $error = "";
 
         $criteria = new CDbCriteria();
         $criteria->alias = "cs";
@@ -410,10 +413,7 @@ class DefaultController extends Controller
         $criteria->condition = "cs.calendar_fk = :calendar_fk";
         $criteria->params = ["calendar_fk" => $_POST["id"]];
         $calendarStages = CalendarStages::model()->findAll($criteria);
-
         foreach ($calendarStages as $calendarStage) {
-
-
             $gradeUnities = GradeUnity::model()->findAll('edcenso_stage_vs_modality_fk = :stage', ["stage" => $calendarStage->stage_fk]);
             $stageArray["title"] = $calendarStage->stageFk->name;
             $stageArray["unities"] = [];
@@ -423,9 +423,34 @@ class DefaultController extends Controller
                 $unity["initial_date"] = $gradeUnity->gradeUnityPeriods == null ? "" : $gradeUnity->gradeUnityPeriods->initial_date;
                 array_push($stageArray["unities"], $unity);
             }
+
+            if (count($stageArray["unities"]) == 0) {
+                $error .= "Etapa " . $stageArray["title"] . " não possui estrutura de unidades cadastrada.<br>";
+            }
+
             array_push($result["stages"], $stageArray);
         }
-        echo json_encode($result);
+
+        $calendarEvents = CalendarEvent::model()->findAll('calendar_fk = :calendarId', ["calendarId" => $_POST["id"]]);
+        foreach ($calendarEvents as $calendarEvent) {
+            if ($calendarEvent->calendarEventTypeFk->id == 1000 || $calendarEvent->calendarEventTypeFk->id == 1001) {
+                $event["id"] = $calendarEvent->calendarEventTypeFk->id;
+                $event["name"] = $calendarEvent->calendarEventTypeFk->name;
+                $event["start_date"] = $calendarEvent->start_date;
+                array_push($result["events"], $event);
+            }
+        }
+
+        if (count($result["events"]) != 2) {
+            $error .= "Deve ser cadastrado as datas inicial e final do ano letivo.<br>";
+        }
+
+        if ($error == "") {
+            echo json_encode(["valid" => true, "result" => $result]);
+        } else {
+            echo json_encode(["valid" => false, "error" => $error]);
+        }
+
     }
 
     public function actionChangeCalendarStatus()
