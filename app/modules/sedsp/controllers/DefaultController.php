@@ -289,35 +289,42 @@ class DefaultController extends Controller
 	function actionTest()
 	{
 
-		$opt = 2;
+		$opt = 13;
 		switch ($opt) {
 
+			//Realiza o cadastro de um aluno da sedsp no TAG.
 			case 1:
 				$inAluno = new InAluno("000124661430", '3', "SP");
 				$exibirFicha = new GetExibirFichaAlunoFromSEDUseCase();
 				$exibirFicha->exec($inAluno);
 				break;
 
-
+/* 			//Realiza o cadastro da turma juntamente com seus alunos da sedsp no TAG.
 			case 2:
-				
 				$inNumClasse = new InFormacaoClasse("262429087");
 				$formacaoClasseSEDUseCase = new GetFormacaoClasseFromSEDUseCase();
 				$formacaoClasseSEDUseCase->exec($inNumClasse);
+				break; */
+
+			//Realiza o cadastro da Escola da sedsp no TAG.
+			case 13:
+				$inConsult = new InEscola("ALBA REGINA TORRAQUE DA SILVA PROFESSORA EMEI", null, null, null);
+				$escola = new GetEscolasFromSEDUseCase();
+				$escola->exec($inConsult);
 				break;
+
+			//Realiza o cadastro da matrícula do aluno da sedsp no TAG.
+			case 4:
+				$inConsult = new InAluno("000124464761", "5", "SP");
+				$matricula = new GetListarMatriculasRaFromSEDUseCase();
+				$matricula->exec($inConsult);
+				break;	
 
 
 			case 3:
 				$inConsult = new InConsultaTurmaClasse("2022", "262429087");
 				$ConsultaTurmaClasse = new GetConsultaTurmaClasseSEDUseCase();
 				CVarDumper::dump($ConsultaTurmaClasse->exec($inConsult), 10, true);
-				break;
-
-
-			case 4:
-				$inConsult = new InAluno("000124464761", "5", "SP");
-				$dataSource = new EnrollmentSEDDataSource();
-				CVarDumper::dump($dataSource->getListarMatriculasRA($inConsult), 10, true);
 				break;
 
 
@@ -460,12 +467,7 @@ class DefaultController extends Controller
 				$dataSource = new EnrollmentSEDDataSource();
 				CVarDumper::dump($dataSource->addInscreverAluno($inConsult), 10, true);
 				break;
-			
-			case 13:
-				$inConsult = new InEscola("ALBA REGINA TORRAQUE DA SILVA PROFESSORA EMEI", null, null, null);
-				$dataSource = new SchoolSEDDataSource();
-				CVarDumper::dump($dataSource->getSchool($inConsult), 10, true);
-				break;
+		
 
 			case 14:
 				$inConsult = new InMatricularAluno(
