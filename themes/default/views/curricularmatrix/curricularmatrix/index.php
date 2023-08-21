@@ -66,7 +66,7 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
 
                     <div class="column justify-content--start">
                         <?= CHtml::button(Yii::t('curricularMatrixModule.index', 'Add'), [
-                            "id" => "add-matrix", "class" => "t-button-primary", "style" => "padding: 15px 10px;margin:0px 15px"
+                            "id" => "add-matrix", "class" => "t-button-primary", "style" => "padding: 10px 10px;margin:0px 15px"
                         ]) ?>
                     </div>
 
