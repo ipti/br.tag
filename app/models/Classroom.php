@@ -75,6 +75,7 @@
  * @property string $create_date
  * @property string $fkid
  * @property integer $calendar_fk
+ * @property integer $course
  *
  * The followings are the available model relations:
  * @property ClassBoard[] $classBoards
