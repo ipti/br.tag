@@ -701,7 +701,7 @@ class ReportsController extends Controller
                     c.school_year = :year AND
                     c.school_inep_fk = :school_inep_id
                     $condition
-                ORDER BY c.id, se.daily_order";
+                ORDER BY se.daily_order";
 
             $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":school_inep_id", $school_inep_id)->queryAll();
 
