@@ -86,9 +86,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         .hidden-print {
             display: none;
         }
-        @page {
-            size: landscape;
-        }
         table {
             page-break-inside: auto;
         }
