@@ -503,6 +503,18 @@ $this->breadcrumbs = array(
                         </div>
                     </button>
                 </a>
+
+                <a href="<?php echo Yii::app()->createUrl('reports/NumberOfClassesPerSchool') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">    
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-statistic-data t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Quantidade de Turmas por Escola</span><br>
+                            <span class="subtitle">Listagem de Turmas em cada Escola</span>
+                        </div>
+                    </button>
+                </a>
             </div>
             <?php } ?>
         </div>

@@ -70,6 +70,16 @@
             line-height: normal;
         }
     }
+    tbody {
+        tr {
+            &:nth-child(2n+1) td {
+                background-color: $colorsBaseProductLightActive;
+            }
+            &:nth-child(2n) td {
+                background-color: $colorsBaseCloudLight;
+            }
+        }
+    }
     td {
         
         a {

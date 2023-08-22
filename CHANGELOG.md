@@ -5,6 +5,10 @@
 - Relatório de Alunos Benefeciários do Bolsa Família de Todas as Turmas
 - Relatório de Alunos Benefeciários do Bolsa Família de Todas as Escolas
 
+## [Versão 3.43.82]
+- Relatório de Quantidade de Turmas por Escola (somente administrador)
+
+
 ## [Versão 3.42.82]
 - Ficha Individual 1º e 2º Segmento
 
