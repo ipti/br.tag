@@ -26,7 +26,7 @@ class ReportsController extends Controller
                     'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 
                     'EvaluationFollowUpStudentsReport', 'CnsPerClassroomReport', 'CnsSchools', 'CnsPerSchool',
                     'TeacherTrainingReport','ClassroomTransferReport', 'SchoolTransferReport', 'AllSchoolsTransferReport',
-                    'TeachersByStage', 'TeachersBySchool', 'StatisticalData'),
+                    'TeachersByStage', 'TeachersBySchool', 'StatisticalData', 'NumberOfClassesPerSchool'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -46,6 +46,32 @@ class ReportsController extends Controller
         return true;
     }
 
+    public function actionNumberOfClassesPerSchool()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->condition = "school_year = '".Yii::app()->user->year."'";
+
+        $schools = SchoolIdentification::model()->findAll();
+        $classrooms = Classroom::model()->findAll($criteria);
+
+        $title = "Quantidade de Turmas por Escola";
+
+        $result = [];
+
+        foreach ($schools as $school) {
+            array_push($result, array(
+                "school" => $school,
+                "classrooms" => array_filter($classrooms, function ($classroom) use ($school) {
+                    return $classroom->school_inep_fk == $school->inep_id;
+                })
+            ));
+        }
+
+        $this->render('NumberOfClassesPerSchool', array(
+            "report" => $result,
+            "title" => $title
+        ));
+    }
 
     public function actionTeacherTrainingReport()
     {
