@@ -19,10 +19,9 @@ class GetRelacaoClassesFromSEDUseCase
                 $class->attributes = $classroom->getAttributes(); 
 
                 if ($class->validate() && $class->save()) {
-                    CVarDumper::dump($class->inep_id, 10, true);
-                    $inNumClasse = new InFormacaoClasse($class->inep_id);
+                    $inNumClasse = new InFormacaoClasse($classroom->inep_id);
                     $formacaoClasseSEDUseCase = new GetFormacaoClasseFromSEDUseCase();
-                    $formacaoClasseSEDUseCase->exec($inNumClasse);              
+                    $formacaoClasseSEDUseCase->exec($inNumClasse);  
                     
                     $logSave[] = 'Classe '. $classroom->inep_id . ' - ' . $classroom->name . ' cadastrada com sucesso.';
                 }else{
