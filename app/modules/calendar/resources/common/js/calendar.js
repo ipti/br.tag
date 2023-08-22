@@ -198,11 +198,28 @@ $(document).on("click", ".manage-unity-periods-button", function () {
         $("#unity-periods-modal").find(".alert").html("Preencha todas as datas.").show();
     } else {
         $.ajax ({
-
-        }).sucess(function (data) {
-
+            url: "?r=calendar/default/editUnityPeriods",
+            type: "POST",
+            data: {
+                id: $("#unity-periods-modal").find("#Calendar_id").val(),
+                initialDates: $("#unity-periods-modal").find(".grade-unity-initial-date").val()
+            },
+            beforeSend: function () {
+                $("#unity-periods-modal").find(".modal-body").css("opacity", 0.3).css("pointer-events", "none");
+                $("#unity-periods-modal").find("button").attr("disabled", "disabled");
+                $("#unity-periods-modal").find(".centered-loading-gif").show();
+            },
+        }).success(function (data) {
+            data = JSON.parse(data);
+            if (data.valid) {
+                $("#unity-periods-modal").modal("hide");
+            } else {
+                $("#unity-periods-modal").find(".alert").html(DOMPurify.sanitize(data.error)).show();
+            }
         }).complete(function () {
-
+            $("#unity-periods-modal").find(".modal-body").css("opacity", 1).css("pointer-events", "auto");
+            $("#unity-periods-modal").find("button").removeAttr("disabled");
+            $("#unity-periods-modal").find(".centered-loading-gif").hide();
         });
     }
 });
