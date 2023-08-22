@@ -157,7 +157,7 @@ $form = $this->beginWidget('CActiveForm', array(
         font-size: 18px;
         position: absolute;
         left: calc(100% - 25px);
-        top: 3px;
+        top: 28px;
     }
     .password-container {
         position: relative;
