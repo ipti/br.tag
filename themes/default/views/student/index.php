@@ -65,7 +65,7 @@
                         <thead>
                             <tr>
                                 <th>Nome</th>
-                                <th>Nome da Mãe</th>
+                                <th>Filiação Principal</th>
                                 <th>Data de Nascimento</th>
                                 <th>ID INEP</th>
                                 <th>Ações</th>

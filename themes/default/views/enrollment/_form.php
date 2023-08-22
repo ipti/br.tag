@@ -122,7 +122,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="t-field-select">
                                     <?php echo $form->labelEx($model, 'status', array('class' => 't-field-select__label')); ?>
-                                    <?php echo $form->DropDownList($model, 'status', array("1" => "Em Andamento", "2" => "Transferido", "3" => "Falecido", "4" => "Deixou de Frequentar", "5" => "Remanejado", "6" => "Aprovado", "7" => "Aprovado pelo Conselho", "8" => "Reprovado", "9" => "Concluinte", "10" => "Indeterminado"), array('options' => array('1' => array('selected' => true)), "prompt" => "Selecione", 'class' => 'select-search-off t-field-select__input', 'style'=>'width:100%')); ?>
+                                    <?php echo $form->DropDownList($model, 'status', StudentEnrollment::getListStatus(), array('options' => array('1' => array('selected' => true)), "prompt" => "Selecione", 'class' => 'select-search-off t-field-select__input', 'style'=>'width:100%')); ?>
                                     <?php echo $form->error($model, 'status'); ?>
                             </div>
 

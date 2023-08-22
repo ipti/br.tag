@@ -12,6 +12,7 @@ abstract class SedDataSource {
     protected $client;
 
     public function __construct() {
+        $url = getenv("SEDSP_URL");
         $this->client = new Client([
             'base_uri' => 'https://homologacaointegracaosed.educacao.sp.gov.br',
             'headers' => [

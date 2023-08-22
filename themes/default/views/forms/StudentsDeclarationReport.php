@@ -36,6 +36,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <br>
             (_) Cursou o <?php echo $report['stage'] ?> em  <?php echo $report['year'] ?>.
             <br>
+            (_) Concluente no <?php echo $report['stage'] ?> em  <?php echo $report['year'] ?>.
+            <br>
             (_) Esta cursando regularmente a Pré-Escola.
             <br>
             (_) Solicitou transferência em ___/___/_____ para <br>
