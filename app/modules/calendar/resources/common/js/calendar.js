@@ -170,39 +170,36 @@ $(document).on("click", ".manage-unity-periods-button", function () {
 
 
     var date;
+    var splitedDate = [];
     var errorUnsequenced = false;
     var errorUnfilled = false;
     $(".grade-unity-stage-container").each(function() {
         $(".grade-unity-initial-date").each(function(index) {
-            console.log("index: " + index + " this: " + $(this).val() );
-
             if ($(this).val() == "") {
-                console.log("vazio");
                 errorUnfilled = true;
                 return false;
             }
 
             if (index > 0) {
-                console.log("bruto: " + date + " > " + $(this).val());
-                console.log("parse: " + new Date(date).getTime() + " > " + new Date($(this).val()).getTime() );
-
-                if (new Date(date.toString()).getTime() > new Date($(this).val()).getTime()) {
-                    console.log("fora de sequencia");
+                splitedDate = $(this).val();
+                splitedDate = splitedDate.split("/");
+                var nextDate = splitedDate[2] + splitedDate[1] + splitedDate[0];
+                if (date > nextDate){
                     errorUnsequenced = true;
                     return false;
                 } else {
-                    console.log("em ordem");
-                    date = $(this).val();
+                    splitedDate = $(this).val();
+                    splitedDate = splitedDate.split("/");
+                    date = splitedDate[2] + splitedDate[1] + splitedDate[0]
                 }
             } else {
-                date = $(this).val();
+                splitedDate = $(this).val();
+                splitedDate = splitedDate.split("/");
+                date = splitedDate[2] + splitedDate[1] + splitedDate[0];
             }
-            console.log("date: " + date);
-
         });
 
         if (errorUnsequenced || errorUnfilled) {
-            console.log("saiu");
             return false;
         }
     });
