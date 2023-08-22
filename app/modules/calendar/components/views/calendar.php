@@ -404,7 +404,7 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                 <button type="button" class="btn btn-default"
                         data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
                 <button type="button"
-                        class="btn btn-primary unity-periods-button"><?= yii::t("calendarModule.index", "Save") ?></button>
+                        class="btn btn-primary manage-unity-periods-button"><?= yii::t("calendarModule.index", "Save") ?></button>
             </div>
         </div>
 

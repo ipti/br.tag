@@ -169,27 +169,42 @@ $(document).on("click", ".manage-unity-periods", function (e) {
 $(document).on("click", ".manage-unity-periods-button", function () {
 
 
-    var date = "";
+    var date;
     var errorUnsequenced = false;
     var errorUnfilled = false;
     $(".grade-unity-stage-container").each(function() {
         $(".grade-unity-initial-date").each(function(index) {
-            if (index > 0) {
-                if (date > $(this).find(".grade-unity-initial-date").val()) {
-                    errorUnsequenced = true;
-                    return false;
-                } else {
-                    date = $(this).find(".grade-unity-initial-date").val();
-                }
-            } else {
-                date = $(this).find(".grade-unity-initial-date").val();
-            }
+            console.log("index: " + index + " this: " + $(this).val() );
 
-            if ($(this).find(".grade-unity-initial-date").val() === "") {
+            if ($(this).val() == "") {
+                console.log("vazio");
                 errorUnfilled = true;
                 return false;
             }
+
+            if (index > 0) {
+                console.log("bruto: " + date + " > " + $(this).val());
+                console.log("parse: " + new Date(date).getTime() + " > " + new Date($(this).val()).getTime() );
+
+                if (new Date(date.toString()).getTime() > new Date($(this).val()).getTime()) {
+                    console.log("fora de sequencia");
+                    errorUnsequenced = true;
+                    return false;
+                } else {
+                    console.log("em ordem");
+                    date = $(this).val();
+                }
+            } else {
+                date = $(this).val();
+            }
+            console.log("date: " + date);
+
         });
+
+        if (errorUnsequenced || errorUnfilled) {
+            console.log("saiu");
+            return false;
+        }
     });
 
     if (errorUnsequenced) {

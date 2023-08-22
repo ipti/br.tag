@@ -26,7 +26,7 @@ class DefaultController extends Controller
                 'actions' => ['index', 'view'], 'users' => ['*'],
             ], [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual', 'RemoveCalendar', 'DeleteEvent', 'editCalendar', 'ShowStages', 'changeCalendarStatus', 'loadCalendarData', 'loadUnityPeriods'],
+                'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual', 'RemoveCalendar', 'DeleteEvent', 'editCalendar', 'ShowStages', 'changeCalendarStatus', 'loadCalendarData', 'loadUnityPeriods', 'editUnityPeriods'],
                 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -440,6 +440,11 @@ class DefaultController extends Controller
             echo json_encode(["valid" => false, "error" => "Devem ser cadastradas as datas inicial e final do ano letivo.<br>"]);
         }
 
+    }
+
+    public function actionEditUnityPeriods()
+    {
+        echo json_encode(["valid" => true]);
     }
 
     public function actionChangeCalendarStatus()
