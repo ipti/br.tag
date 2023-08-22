@@ -402,53 +402,42 @@ class DefaultController extends Controller
         $result = [];
         $result["year"] = Yii::app()->user->year;
         $result["stages"] = [];
-        $result["events"] = [];
 
-        $error = "";
-
-        $criteria = new CDbCriteria();
-        $criteria->alias = "cs";
-        $criteria->join = "join edcenso_stage_vs_modality esvm on esvm.id = cs.stage_fk";
-        $criteria->order = "esvm.name";
-        $criteria->condition = "cs.calendar_fk = :calendar_fk";
-        $criteria->params = ["calendar_fk" => $_POST["id"]];
-        $calendarStages = CalendarStages::model()->findAll($criteria);
-        foreach ($calendarStages as $calendarStage) {
-            $gradeUnities = GradeUnity::model()->findAll('edcenso_stage_vs_modality_fk = :stage', ["stage" => $calendarStage->stage_fk]);
-            $stageArray["title"] = $calendarStage->stageFk->name;
-            $stageArray["unities"] = [];
-            foreach ($gradeUnities as $gradeUnity) {
-                $unity["id"] = $gradeUnity->id;
-                $unity["name"] = $gradeUnity->name;
-                $unity["initial_date"] = $gradeUnity->gradeUnityPeriods == null ? "" : $gradeUnity->gradeUnityPeriods->initial_date;
-                array_push($stageArray["unities"], $unity);
-            }
-
-            if (count($stageArray["unities"]) == 0) {
-                $error .= "Etapa " . $stageArray["title"] . " não possui estrutura de unidades cadastrada.<br>";
-            }
-
-            array_push($result["stages"], $stageArray);
-        }
-
-        $calendarEvents = CalendarEvent::model()->findAll('calendar_fk = :calendarId', ["calendarId" => $_POST["id"]]);
+        $calendarEvents = CalendarEvent::model()->findAll('calendar_fk = :calendarId and calendar_event_type_fk in (1000, 1001)', ["calendarId" => $_POST["id"]]);
+        $calendarInitialDate = "";
         foreach ($calendarEvents as $calendarEvent) {
-            if ($calendarEvent->calendarEventTypeFk->id == 1000 || $calendarEvent->calendarEventTypeFk->id == 1001) {
-                $event["id"] = $calendarEvent->calendarEventTypeFk->id;
-                $event["name"] = $calendarEvent->calendarEventTypeFk->name;
-                $event["start_date"] = $calendarEvent->start_date;
-                array_push($result["events"], $event);
+            if ($calendarEvent->calendarEventTypeFk->id == 1000 ){
+                $calendarInitialDate = date("d/m/Y", strtotime($calendarEvent->start_date));
             }
         }
 
-        if (count($result["events"]) != 2) {
-            $error .= "Deve ser cadastrado as datas inicial e final do ano letivo.<br>";
-        }
-
-        if ($error == "") {
+        if (count($calendarEvents) == 2) {
+            $criteria = new CDbCriteria();
+            $criteria->alias = "cs";
+            $criteria->join = "join edcenso_stage_vs_modality esvm on esvm.id = cs.stage_fk";
+            $criteria->order = "esvm.name";
+            $criteria->condition = "cs.calendar_fk = :calendar_fk";
+            $criteria->params = ["calendar_fk" => $_POST["id"]];
+            $calendarStages = CalendarStages::model()->findAll($criteria);
+            foreach ($calendarStages as $calendarStage) {
+                $gradeUnities = GradeUnity::model()->findAll('edcenso_stage_vs_modality_fk = :stage', ["stage" => $calendarStage->stage_fk]);
+                $stageArray["title"] = $calendarStage->stageFk->name;
+                $stageArray["unities"] = [];
+                foreach ($gradeUnities as $index => $gradeUnity) {
+                    $unity["id"] = $gradeUnity->id;
+                    $unity["name"] = $gradeUnity->name;
+                    if ($index == 0) {
+                        $unity["initial_date"] = $calendarInitialDate;
+                    } else {
+                        $unity["initial_date"] = $gradeUnity->gradeUnityPeriods == null ? "" : date("d/m/Y", strtotime($gradeUnity->gradeUnityPeriods->initial_date));
+                    }
+                    array_push($stageArray["unities"], $unity);
+                }
+                array_push($result["stages"], $stageArray);
+            }
             echo json_encode(["valid" => true, "result" => $result]);
         } else {
-            echo json_encode(["valid" => false, "error" => $error]);
+            echo json_encode(["valid" => false, "error" => "Devem ser cadastradas as datas inicial e final do ano letivo.<br>"]);
         }
 
     }

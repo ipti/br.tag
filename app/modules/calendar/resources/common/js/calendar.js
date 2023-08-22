@@ -130,14 +130,12 @@ $(document).on("click", ".manage-unity-periods", function (e) {
                         html += "<div class='form-control'>";
                         html += "<input class='grade-unity-id' type='hidden' value='" + unity.id + "'>";
                         html += "<label>" + unity.name + "</label>";
-                        html += "<input class='grade-unity-initial-date' size='10' maxlength='10' type='text' placeholder='dd/mm/aaaa' value='" + unity.initial_date + "'>";
-
+                        html += "<input class='grade-unity-initial-date' " + (j === 0 ? "disabled" : "") + " size='10' maxlength='10' type='text' placeholder='dd/mm/aaaa' value='" + unity.initial_date + "'>";
                         html += "</div>";
                     });
                 } else {
                     html += "<div class='alert alert-error'> Etapa sem unidades. </div>";
                 }
-
                 html += "</div>";
             });
             $(".unity-periods-container").html(html);
@@ -156,6 +154,7 @@ $(document).on("click", ".manage-unity-periods", function (e) {
                 startDate: "01/01/" + data.result.year,
                 endDate: "31/12/" + data.result.year
             });
+
         } else {
             $("#unity-periods-modal").find(".alert").html(DOMPurify.sanitize(data.error)).show();
         }
@@ -169,20 +168,43 @@ $(document).on("click", ".manage-unity-periods", function (e) {
 
 $(document).on("click", ".manage-unity-periods-button", function () {
 
-    var allFilled = true;
-    $(".grade-unity-stage-container").each(function(index) {
-        if (index > 0) {
+
+    var date = "";
+    var errorUnsequenced = false;
+    var errorUnfilled = false;
+    $(".grade-unity-stage-container").each(function() {
+        $(".grade-unity-initial-date").each(function(index) {
+            if (index > 0) {
+                if (date > $(this).find(".grade-unity-initial-date").val()) {
+                    errorUnsequenced = true;
+                    return false;
+                } else {
+                    date = $(this).find(".grade-unity-initial-date").val();
+                }
+            } else {
+                date = $(this).find(".grade-unity-initial-date").val();
+            }
+
             if ($(this).find(".grade-unity-initial-date").val() === "") {
-                allFilled = false;
+                errorUnfilled = true;
                 return false;
             }
-        }
+        });
     });
 
-    if (!allFilled) {
-        $("#unity-periods-modal").find(".alert").html("Preencha as datas iniciais de cada periodo.").show();
-    }
+    if (errorUnsequenced) {
+        $("#unity-periods-modal").find(".alert").html("Variaveis estão fora de sequencia.").show();
+    } else if (errorUnfilled) {
+        $("#unity-periods-modal").find(".alert").html("Preencha todas as datas.").show();
+    } else {
+        $.ajax ({
 
+        }).sucess(function (data) {
+
+        }).complete(function () {
+
+        });
+    }
 });
 
 $(document).on("click", ".remove-calendar", function (e) {
