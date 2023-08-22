@@ -209,7 +209,7 @@ $this->breadcrumbs = array(
 
                 <button type="button" class="report-box-container" data-toggle="modal" data-target="#students-benefiting-from-the-bf" target="_blank">
                     <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-medical t-reports_icons"></span>
+                        <span class="t-group-bag t-reports_icons"></span>
                     </div>
                     <div class="pull-left">
                         <span class="title">Alunos Beneficiários do Bolsa Família por Turma</span><br>
@@ -425,7 +425,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/AllClassroomsReportOfStudentsBenefitingFromTheBF') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">    
                         <div class="pull-left" style="margin-right: 20px;">
-                            <span class="t-doctor t-reports_icons"></span>
+                            <span class="t-group-bag t-reports_icons"></span>
                         </div>
                         <div class="pull-left"> 
                             <span class="title">Alunos Beneficiários do Bolsa Família de Todas as Turmas</span><br>
@@ -495,7 +495,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/AllSchoolsReportOfStudentsBenefitingFromTheBF') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">    
                         <div class="pull-left" style="margin-right: 20px;">
-                            <span class="t-doctor t-reports_icons"></span>
+                            <span class="t-scholarship-schools t-reports_icons"></span>
                         </div>
                         <div class="pull-left"> 
                             <span class="title">Alunos Beneficiários do Bolsa Família de Todas as Escolas</span><br>
