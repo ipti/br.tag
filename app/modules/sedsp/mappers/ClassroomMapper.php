@@ -53,19 +53,25 @@ class ClassroomMapper
            
             $outExibirFichaAluno = $studentDatasource->exibirFichaAluno(new InAluno($student->getOutNumRa(), $student->getOutDigitoRA(), "SP"))->getOutDadosPessoais();
 
+            $studentIdentification->gov_id = $outExibirFichaAluno->getOutDigitoRa();
             $studentIdentification->sex = $outExibirFichaAluno->getOutCodSexo();
             $studentIdentification->color_race = $outExibirFichaAluno->getOutCorRaca();
             $studentIdentification->filiation = 1;
             $studentIdentification->filiation_1 = $outExibirFichaAluno->getOutNomeMae();
             $studentIdentification->filiation_2 = $outExibirFichaAluno->getOutNomePai();
             $studentIdentification->nationality = $outExibirFichaAluno->getOutNacionalidade();
-            $studentIdentification->edcenso_nation_fk = $outExibirFichaAluno->getOutCodPaisOrigem();
+
+            if($outExibirFichaAluno->getOutNacionalidade() == 1) //1 - Brasileira
+                $studentIdentification->edcenso_nation_fk = 76;
+            elseif($outExibirFichaAluno->getOutNacionalidade() == 2) //2 - Estrangeira
+                $studentIdentification->edcenso_nation_fk = $outExibirFichaAluno->getOutCodPaisOrigem();
+
             $studentIdentification->edcenso_uf_fk = intval($indexedByAcronym[$outExibirFichaAluno->getOutSiglaUfra()]->id);
             $studentIdentification->school_inep_id_fk = $studentIdentification->edcenso_uf_fk . $outFormacaoClasse->getOutCodEscola();
             $studentIdentification->deficiency = 0;
             $studentIdentification->send_year = $outFormacaoClasse->getOutAnoLetivo();
             $studentIdentification->scholarity = $student->getOutSerieNivel();
-            
+         
             $listStudents[] = $studentIdentification;
         }
 
@@ -75,7 +81,6 @@ class ClassroomMapper
 
         return $parseResult;
     }
-
 
     static function parseToTAGRelacaoClasses(OutRelacaoClasses $outRelacaoClasses) 
     {
@@ -119,7 +124,9 @@ class ClassroomMapper
     private static function convertCodTurno($outCodTurno)
     {
         $mapperCodTurno = [
-            "6" => 'M'
+            "1" => 'M', //Manhã
+            "3" => 'T', //Tarde
+            "6" => 'I'  //Integral
         ];
 
         if(isset($mapperCodTurno[$outCodTurno]))
@@ -158,7 +165,10 @@ class ClassroomMapper
                 "8" => 21,
                 "9" => 41,
                 "0" => 24    
-            ],     
+            ],
+            "32" => [
+                "0" => 2
+            ]    
         ];
 
         if(isset($mapperTipoEnsino[$codTipoEnsino][$codSerieAno])){
