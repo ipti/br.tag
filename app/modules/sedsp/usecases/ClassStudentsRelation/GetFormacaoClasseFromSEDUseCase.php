@@ -26,9 +26,9 @@ class GetFormacaoClasseFromSEDUseCase
                 $studentIdentification->attributes = $student->getAttributes();
 
                 if ($studentIdentification->validate() && $studentIdentification->save()) 
-                    CVarDumper::dump('Aluno cadastrada com sucesso.', 10, true);
+                    CVarDumper::dump('Aluno cadastrado com sucesso.', 10, true);
                 else 
-                    CVarDumper::dump('Não foi possível salvar os dados do aluno no banco de dados.', 10, true);
+                    CVarDumper::dump($studentIdentification->getErrors(), 10, true);
             }      
         } catch (Exception $e) {
             CVarDumper::dump($e->getMessage(), 10, true);
