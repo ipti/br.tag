@@ -8641,7 +8641,7 @@ input[type="checkbox"] {
 
 
 textarea,
-input[type="text"] {
+input[type="text"], input[type="password"] {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
