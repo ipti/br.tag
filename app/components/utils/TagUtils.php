@@ -10,6 +10,20 @@ class TagUtils extends CApplicationComponent {
         $stages = new CList($REF_MINOR_STAGES, true);
         return $stages->contains($stage);
     }
+
+    public static function isInstance($instance){
+        
+        if(is_array($instance)){
+            $instances = array_map(function ($e){
+                return strtoupper($e);
+            }, $instance);
+
+            return in_array(strtoupper(INSTANCE), $instances);
+        }
+
+        return strtoupper(INSTANCE) === strtoupper($instance);
+        
+    }    
 }
 
 ?>
