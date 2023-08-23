@@ -7,14 +7,27 @@ class GetRelacaoClassesFromSEDUseCase
      */
     function exec(InRelacaoClasses $inRelacaoClasses)
     {
-
         try {
             $classes = new ClassStudentsRelationSEDDataSource();
             $response = $classes->getRelacaoClasses($inRelacaoClasses);
             $mapper = (object) ClassroomMapper::parseToTAGRelacaoClasses($response);
 
+            $schoolInepFk = '35'.$inRelacaoClasses->getInCodEscola();
+            
+            $indexedByClasses = [];
+            $allClasses = (object) Classroom::model()->findAll('school_inep_fk = :schoolInepFk', [':schoolInepFk' => '35892781']);
+            foreach ($allClasses as $value) {
+                $indexedByClasses[$value['inep_id']] = $value['inep_id'];
+            }
+
             $logSave = [];
             foreach($mapper->Classrooms as $classroom) {
+
+                if($indexedByClasses[$classroom->inep_id] !== null){
+                    // Pule para a próxima classe, pois a turma já está cadastrada
+                    continue;
+                }
+
                 $class = new Classroom();
                 $class->attributes = $classroom->getAttributes(); 
 
