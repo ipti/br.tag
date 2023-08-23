@@ -23,7 +23,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <?php echo $allSchools ? "<th scope='col'>ESCOLA</th>" : "<th scope='col'>TURMA</th>"?>
             <th>NOME</th>
             <th>D.N</th>
-            <th>CNS</th>
+            <th>NIS</th>
             <th>RESPONSÁVEL</th>
             <th>TEL. RESPONSÁVEL</th>
         </thead>
@@ -33,7 +33,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     <?php echo $allSchools ? "<td>".$r['school_name']."</td>" : "<td>".$r['classroom_name']."</td>"?>
                     <td><?= $r['name'] ?></td>
                     <td><?= date('d/m/Y', strtotime($r['birthday'])); ?></td>
-                    <td><?= $r['cns'] ?></td>
+                    <td><?= $r['nis'] ?></td>
                     <td><?= $r['responsable_name'] ?></td>
                     <td><?= $r['responsable_telephone'] ?></td>
                 </tr>

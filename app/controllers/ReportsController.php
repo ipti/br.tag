@@ -50,7 +50,7 @@ class ReportsController extends Controller
 
     public function actionAllClassroomsReportOfStudentsBenefitingFromTheBF()
     {
-        $sql = "SELECT si.name, si.birthday, sdaa.cns, si.responsable_name,
+        $sql = "SELECT si.name, si.birthday, sdaa.nis, si.responsable_name,
                         si.responsable_telephone, c.name AS classroom_name
                 FROM student_identification si
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
@@ -79,7 +79,7 @@ class ReportsController extends Controller
 
     public function actionAllSchoolsReportOfStudentsBenefitingFromTheBF() 
     {
-        $sql = "SELECT si.name, si.birthday, sdaa.cns, si.responsable_name,
+        $sql = "SELECT si.name, si.birthday, sdaa.nis, si.responsable_name,
                         si.responsable_telephone, si2.name AS school_name
                 FROM student_identification si
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
@@ -106,7 +106,7 @@ class ReportsController extends Controller
     public function actionReportOfStudentsBenefitingFromTheBFPerClassroom()
     {
         $classroomId = $_POST['classroom'];
-        $sql = "SELECT si.name, si.birthday, sdaa.cns, si.responsable_name,
+        $sql = "SELECT si.name, si.birthday, sdaa.nis, si.responsable_name,
                         si.responsable_telephone, c.name AS classroom_name
                 FROM student_identification si
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
