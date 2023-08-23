@@ -6206,11 +6206,11 @@ body.login #login {
     /* height: 635px; */
 }
 
-body.login #login .form-signin {
+/* body.login #login .form-signin {
     position: relative;
     width: 334px;
-   /*  border: 1px solid #ab7a4b; */
-}
+    border: 1px solid #ab7a4b; 
+} */
 
 body.login #login .form-signin .inner {
     padding: 20px;
@@ -8547,7 +8547,7 @@ li.tlypageguide-active.tlypageguide_bottom:after {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.iptilogo {
+/* .iptilogo {
     padding: 16px 75px;
     /* width: 110px; */
     position: absolute;
@@ -8556,7 +8556,7 @@ li.tlypageguide-active.tlypageguide_bottom:after {
     font-size: 10px;
     line-height: 14px;
     text-align: center;
-}
+} */
 
 .deleteTeachingData {
     background: url("../img/Cancelar.png");
