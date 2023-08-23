@@ -46,6 +46,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <?php echo $form->passwordField($model, 'password', array('class' => 'input-block-level', 'placeholder' => 'Digite sua senha')); ?>
                         <?php echo $form->error($model, 'password'); ?>
                         <label>Ano Letivo</label>
+                        <div class="t-field-section-2">
                         <?php
                         $rightbrowser = FALSE;
                         if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE){
@@ -69,9 +70,10 @@ $form = $this->beginWidget('CActiveForm', array(
                         for ($i = $year; $i >= 2014; $i--) {
                             $years[$i] = $i;
                         }
-                        echo $form->dropDownList($model, 'year', $years, array('class' => 'input-block-level select-search-off'));
+                        echo $form->dropDownList($model, 'year', $years, array('class' => 't-field-selection border-none'));
                         // @done S1 - Alinhar o checkbox com os inputs
                         ?>
+                        </div>
                         <div class="uniformjs"><label class="checkbox text-input" ><input type="checkbox" style="margin: 0px 6px 20px 0"value="remember-me">Mantenha-me conectado</label></div>
                         <div class="row-fluid">
                             <div>
