@@ -21,11 +21,6 @@
     </div>
 
     <div class="tag-inner">
-        <div class="span12 hide-box">
-            <div class="">
-                <a id="button-add-school" href="<?php echo Yii::app()->createUrl('school/create') ?>" class="pull-right btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar escola</a>
-            </div>
-        </div>
         <div class="columnone" style="padding-right: 1em">
             <?php if (Yii::app()->user->hasFlash('success')): ?>
                 <div class="alert alert-success">
