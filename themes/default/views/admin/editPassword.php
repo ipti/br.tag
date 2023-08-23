@@ -64,15 +64,15 @@
                                 <div class="span3">
                                     <div class="t-field-text">
                                         <?php echo $form->labelEx($model, 'password', array('class' => 't-field-text__label--required')); ?>
-                                        <?php echo $form->passwordField($model, 'password', array('size' =>     32, 'maxlength' => 32, 'class' => 't-field-text__input password-input',)); ?>
+                                        <?php echo $form->passwordField($model, 'password', array('size' =>     32, 'maxlength' => 32, 'class' => 't-field-text__input password-input', 'style' => 'height: 30px')); ?>
                                         <span class="t-icon-eye show-password-icon" id="showPassword"></span>
                                         <?php echo $form->error($model, 'password'); ?>
                                     </div>
 
                                     <div class="t-field-text">
                                         <?php echo CHtml::label(Yii::t('default', 'Confirm'), 'Confirm', array('class' => 't-field-text__label--required')); ?>
-                                        <?php echo CHtml::passwordField('Confirm', '', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input password-input', 'style' => 'margin-bottom:20px;')); ?>
-                                        <span class="t-icon-eye show-password-icon" id="showPasswordConfirm" style="bottom:42px;"></span>
+                                        <?php echo CHtml::passwordField('Confirm', '', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input password-input', 'style' => 'margin-bottom:20px; height: 30px')); ?>
+                                        <span class="t-icon-eye show-password-icon" id="showPasswordConfirm" style="bottom:46px;"></span>
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +97,7 @@
         font-size: 17px;
         position: relative;
         left: 200px;
-        bottom: 22px;
+        bottom: 26px;
     }
 
     input[type="password"] {
