@@ -6,16 +6,17 @@ $(document).on("click", ".load-more", function () {
             date: $(".log-date").last().text()
         },
         success: function (data) {
-            $(data).insertBefore(".load-more");
 
+            $(".no-recent-activitive").remove();
+
+            $(data).insertBefore(".load-more");
             if ($(".log").length >= $(".eggs").find(".widget").attr("total")) {
                 $(".load-more").hide();
             }
             $(".log").each(function () {
-                $(this).find(".glyphicons").html("<i></i>" + changeNameLength($(this).find(".glyphicons").text(), 100));
+                $(this).find(".t-info_positive").html("<i></i>" + changeNameLength($(this).find(".t-info_positive").text(), 100));
 
             });
-
         }
     });
 });
