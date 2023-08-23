@@ -72,7 +72,7 @@
                                     <div class="t-field-text">
                                         <?php echo CHtml::label(Yii::t('default', 'Confirm'), 'Confirm', array('class' => 't-field-text__label--required')); ?>
                                         <?php echo CHtml::passwordField('Confirm', '', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input password-input', 'style' => 'margin-bottom:20px;')); ?>
-                                        <span class="t-icon-eye show-password-icon" id="showPasswordConfirm" style="bottom:45px;"></span>
+                                        <span class="t-icon-eye show-password-icon" id="showPasswordConfirm" style="bottom:42px;"></span>
                                     </div>
                                 </div>
                             </div>
@@ -96,8 +96,8 @@
         cursor: pointer;
         font-size: 17px;
         position: relative;
-        left: 210px;
-        bottom: 25px;
+        left: 200px;
+        bottom: 22px;
     }
 
     input[type="password"] {
