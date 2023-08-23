@@ -94,7 +94,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <span>Uma tecnologia desenvolvida pelo</span>
                 </div>
                 <div class="login-image">
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/logo_ipti.png" />
+                    <img alt="logo ipti" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/logo_ipti.png" />
                 </div>
             </div>
         </div>
