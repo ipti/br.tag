@@ -92,7 +92,13 @@ class StudentMapper
         public static function parseToTAGExibirFichaAluno(OutExibirFichaAluno $exibirFichaAluno)
         {
             $parseResult = [];
-            $schoolInep = '2023';
+        
+            $inNumRA = $exibirFichaAluno->getOutDadosPessoais()->getOutNumRa();
+            $inSiglaUFRA =  $exibirFichaAluno->getOutDadosPessoais()->getOutSiglaUfra();
+
+            $listaAluno = new EnrollmentSEDDataSource();
+            $response = $listaAluno->getListarMatriculasRA(new InAluno($inNumRA, null, $inSiglaUFRA));
+            $schoolInep = '35'.$response->getOutListaMatriculas()[0]->getOutCodEscola();
 
             $outDadosPessoais = $exibirFichaAluno->getOutDadosPessoais();
             $outDocumentos = $exibirFichaAluno->getOutDocumentos();
@@ -175,7 +181,4 @@ class StudentMapper
             return $parseResult;
         }
     }
-    
-
-
 ?>
