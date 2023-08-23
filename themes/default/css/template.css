@@ -6209,7 +6209,7 @@ body.login #login {
 /* body.login #login .form-signin {
     position: relative;
     width: 334px;
-   /*  border: 1px solid #ab7a4b; */
+    border: 1px solid #ab7a4b; 
 } */
 
 body.login #login .form-signin .inner {

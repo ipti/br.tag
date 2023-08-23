@@ -1,14 +1,16 @@
 .login-form {
     flex-direction: column;
     margin-top: $SizeXLarge;
+    margin-bottom: $SizeLarge;
     .form-signin {
         position: relative;
         width: 334px;
-        margin-bottom: $SizeLarge;
+        margin-top: $SizeXXXLarge;
+        margin-bottom: 0px;
     }
     .login-footer {
-        margin-top: $SizeNormal;
-        margin-bottom: $SizeXXLarge;
+        margin-top: $SizeHeader;
+        margin-bottom: 0px;
         flex-direction: column;
         justify-content: center;
         display: flex;
