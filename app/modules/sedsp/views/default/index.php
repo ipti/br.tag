@@ -42,8 +42,8 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                     <!-- <div class="t-icon-schedule report-icon"></div> -->
                 </div>
                 <div class="pull-left">
-                    <span class="title">Cadastrar Aluno</span><br>
-                    <span class="subtitle">Digite o RA para cadastrar o Aluno</span>
+                    <span class="title">Importar Aluno usando o RA</span><br>
+                    <span class="subtitle">Digite o RA para importar o Aluno</span>
                 </div>
             </button>
         </a>
@@ -74,6 +74,18 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             </button>
         </a>
 
+        <a href="#" data-toggle="modal" data-target="#get-full-school" target="_blank">
+            <button type="button" class="report-box-container">
+                <div class="pull-left" style="margin-right: 20px;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/school.svg" />
+                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                </div>
+                <div class="pull-left">
+                    <span class="title">Importação completa da Escola</span><br>
+                    <span class="subtitle">Realize a Importação da Escola, Incluindo Todas as Turmas e Alunos de Cada Turma</span>
+                </div>
+            </button>
+        </a>
 
         <a href="<?php echo Yii::app()->createUrl('sedsp/default/manageRA') ?>">
             <button type="button" class="report-box-container">
@@ -97,20 +109,21 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
             </button>
-            <h4 class="modal-title" id="myModalLabel">Cadastrar Aluno</h4>
+            <h4 class="modal-title" id="myModalLabel">Importar Aluno usando o RA</h4>
         </div>
-        <form class="form-vertical" id="addStudentRA" action="<?php echo yii::app()->createUrl('sedsp/default/AddStudentWithRA') ?>" method="post" onsubmit="return validateFormStudent();">
+        <form class="form-vertical" id="addStudentRA" action="<?php echo yii::app()->createUrl('sedsp/default/ImportStudentRA') ?>" method="post" onsubmit="return validateFormStudent();">
             <div class="modal-body">
                 <div class="row-fluid">
                     <div class=" span12">
-                        <?php echo CHtml::label(yii::t('default', 'RA do Aluno'), 'year', array('class' => 'control-label')); ?>
-                        <input name="ra" id="ra" type="number" placeholder="Digite o RA" style="width: 97.5%;" oninput="validateRA();" maxlength="12" required>
-                        <div id="ra-warning" style="display: none;color:#D21C1C">O RA deve ter exatamente 12 dígitos.</div>
+                    <?php echo CHtml::label(yii::t('default', 'RA do Aluno'), 'year', array('class' => 'control-label')); ?>
+                    <input name="numRA" id="numRA" type="text" placeholder="Digite o RA" style="width: 97.5%;" oninput="validateRA();" minlength="12" maxlength="12" required>
+                    <span id="ra-char-count"><?php echo 12; ?> caracteres restantes</span>
+                    <div id="ra-warning" style="display: none; color:#D21C1C">O RA deve ter exatamente 12 dígitos.</div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                    <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('sedsp/default/AddStudentWithRA'); ?>" type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
+                    <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('sedsp/default/ImportStudentRA'); ?>" type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
                 </div>
         </form>
     </div>
@@ -140,6 +153,31 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         </form>
     </div>
 </div>
+<div class="modal fade modal-content" id="get-full-school" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Importação completa da Escola</h4>
+    </div>
+    <form class="form-vertical" id="submit-full-school" action="<?php echo yii::app()->createUrl('sedsp/default/ImportFullSchool') ?>" method="post">
+        <div class="modal-body">
+            <div class="row-fluid">
+                <div class=" span12">
+                    <?php echo CHtml::label(yii::t('default', 'Nome da Escola'), 'school_id', array('class' => 'control-label')); ?>
+                    <input type="text" name="schoolName" id="schoolName" style="width: 97.7%;" placeholder="Digite o Nome da Escola">
+                    Isso pode aumentar o tempo de espera.
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+            <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('sedsp/default/ImportFullSchool'); ?>" type="submit" value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
+        </div>
+    </form>
+</div>
+
+
 <div class="row">
     <div class="modal fade modal-content" id="add-classroom" tabindex="-1" role="dialog">
         <div class="modal-header">
@@ -197,5 +235,23 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
 <script>
     document.getElementById('importClass').addEventListener('click', function (e) {
         $("#loading").show();
+    });
+</script>
+
+<script>
+    const raInput = document.getElementById('numRA');
+    const charCount = document.getElementById('ra-char-count');
+    const maxChars = 12;
+
+    raInput.addEventListener('input', function() {
+        const remainingChars = maxChars - raInput.value.length;
+        if (remainingChars === 1) {
+            charCount.textContent = '1 caractere restante';
+        } else if (remainingChars > 1) {
+            charCount.textContent = `${remainingChars} caracteres restantes`;
+        } else {
+            charCount.textContent = '';
+        }
+        validateRA();
     });
 </script>
