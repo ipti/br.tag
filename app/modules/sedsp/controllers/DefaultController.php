@@ -286,6 +286,38 @@ class DefaultController extends Controller
 		echo $msg;
 	}
 
+	function actionImportFullSchool()
+	{
+		$this->checkSEDToken();
+
+		$transaction = Yii::app()->db->beginTransaction();
+		try {
+			$inConsult = new InEscola($_POST["schoolName"], null, null, null);
+			$escola = new GetEscolasFromSEDUseCase();
+			$escola->exec($inConsult);
+			$transaction->commit();
+		} catch (Exception $e) {
+			CVarDumper::dump($e->getMessage(), 10, true);
+			$transaction->rollback();
+		}			
+	}
+
+	function actionImportStudentRA()
+	{
+		$this->checkSEDToken();
+
+		$transaction = Yii::app()->db->beginTransaction();
+		try {
+			$inAluno = new InAluno($_POST["numRA"], null, "SP");
+			$exibirFicha = new GetExibirFichaAlunoFromSEDUseCase();
+			$exibirFicha->exec($inAluno);
+			$transaction->commit();
+		} catch (Exception $e) {
+			CVarDumper::dump($e->getMessage(), 10, true);
+			$transaction->rollback();
+		}	
+	}
+
 	function actionTest()
 	{
 
@@ -308,10 +340,17 @@ class DefaultController extends Controller
 
 			//Realiza o cadastro da Escola da sedsp no TAG.
 			case 13:
-				$inConsult = new InEscola("ALBA REGINA TORRAQUE DA SILVA PROFESSORA EMEI", null, null, null);
-				$escola = new GetEscolasFromSEDUseCase();
-				$escola->exec($inConsult);
-				break;
+				$transaction = Yii::app()->db->beginTransaction();
+				try {
+					$inConsult = new InEscola("IDALINA GRACA EMEI", null, null, null);
+					$escola = new GetEscolasFromSEDUseCase();
+					$escola->exec($inConsult);
+					#$transaction->commit();
+					break;
+				} catch (Exception $e) {
+					CVarDumper::dump($e->getMessage(), 10, true);
+					$transaction->rollback();
+				}
 
 			//Realiza o cadastro da matrícula do aluno da sedsp no TAG.
 			case 4:

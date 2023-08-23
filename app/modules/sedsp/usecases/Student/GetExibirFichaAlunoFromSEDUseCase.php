@@ -7,6 +7,12 @@ class GetExibirFichaAlunoFromSEDUseCase
         $studentDatasource = new StudentSEDDataSource();
         $response = $studentDatasource->exibirFichaAluno($inAluno);
 
+        $studentModel = StudentIdentification::model()->find('inep_id = :inep_id', [':inep_id' => $inAluno->getInNumRA()]);
+        if ($studentModel !== null) {
+            CVarDumper::dump('Estudante já cadastrada no TAG', 10, true);
+            return;
+        }
+
         try {
             $mapper = (object) StudentMapper::parseToTAGExibirFichaAluno($response);
             $studentIdentification = new StudentIdentification();
