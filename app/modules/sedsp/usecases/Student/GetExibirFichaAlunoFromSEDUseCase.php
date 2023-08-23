@@ -7,12 +7,14 @@ class GetExibirFichaAlunoFromSEDUseCase
         $studentDatasource = new StudentSEDDataSource();
         $response = $studentDatasource->exibirFichaAluno($inAluno);
 
-        $studentModel = StudentIdentification::model()->find('inep_id = :inep_id', [':inep_id' => $inAluno->getInNumRA()]);
-        if ($studentModel !== null) {
-            CVarDumper::dump('Estudante já cadastrada no TAG', 10, true);
-            return;
-        }
-
+        $cpf = $response->getOutDocumentos()->getOutCpf();
+        $name = $response->getOutDadosPessoais()->getOutNomeAluno();
+        $studentCpf = StudentDocumentsAndAddress::model()->find('cpf = :cpf', [':cpf' => $cpf])->cpf;
+        $studentName = StudentIdentification::model()->find('name = :name', [':name' => $name])->name;
+        
+        //Verifica se o cpf ou nome do aluno já está no cadastrado
+		if($studentCpf !== null or $studentName !== null)
+            return false;
         try {
             $mapper = (object) StudentMapper::parseToTAGExibirFichaAluno($response);
             $studentIdentification = new StudentIdentification();
@@ -25,7 +27,7 @@ class GetExibirFichaAlunoFromSEDUseCase
             $this->validateStudentData($studentIdentification, $studentDocumentsAndAddress);
 
             if ($studentIdentification->save() && $studentDocumentsAndAddress->save()) {
-                CVarDumper::dump('O aluno registrado com sucesso.', 10, true);
+                return true;
             } else {
                 throw new SedspException('Não foi possível salvar os dados no banco de dados.');
             }
@@ -33,6 +35,8 @@ class GetExibirFichaAlunoFromSEDUseCase
             CVarDumper::dump($e->getMessage(), 10, true);
         }
     }
+
+    
 
     private function validateStudentData(StudentIdentification $studentIdentification, StudentDocumentsAndAddress $studentDocumentsAndAddress)
     {
