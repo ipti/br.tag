@@ -26,6 +26,7 @@ class ReportsController extends Controller
                     'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 
                     'EvaluationFollowUpStudentsReport', 'CnsPerClassroomReport', 'CnsSchools', 'CnsPerSchool',
                     'TeacherTrainingReport','ClassroomTransferReport', 'SchoolTransferReport', 'AllSchoolsTransferReport',
+                    'TeachersByStage', 'TeachersBySchool', 'StatisticalData', 'StudentCpfRgNisPerClassroom',
                     'AllSchoolsReportOfStudentsBenefitingFromTheBF','AllClassroomsReportOfStudentsBenefitingFromTheBF', 
                     'ReportOfStudentsBenefitingFromTheBFPerClassroom', 'TeachersByStage', 'TeachersBySchool', 'StatisticalData', 
                     'NumberOfClassesPerSchool'),
@@ -48,6 +49,85 @@ class ReportsController extends Controller
         return true;
     }
 
+    public function actionStudentCpfRgNisAllSchools()
+    {
+        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+        $sql = "SELECT si.name, si.birthday, sdaa.cpf, sdaa.rg_number, 
+                    sdaa.nis, si.responsable_name, si.responsable_telephone, si2.name as school_name
+                FROM student_enrollment se 
+                JOIN student_identification si ON se.student_fk = si.id 
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id 
+                JOIN classroom c ON se.classroom_fk = c.id 
+                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id
+                GROUP BY si.name
+                ORDER BY si.name;";
+
+        $result = Yii::app()->db->createCommand($sql)
+        ->queryAll();
+
+        $allSchools = true;
+
+        $title = "RELATÓRIO DE ALUNOS DE TODAS AS ESCOLAS (CPF, RG E NIS)<br>".$school->name;
+
+        $this->render('StudentCpfRgNis', array(
+            "report" => $result,
+            "title" => $title,
+            "allSchools" => $allSchools
+        ));
+    }
+
+    public function actionStudentCpfRgNisAllClassrooms()
+    {
+        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+        $sql = "SELECT si.name, si.birthday, sdaa.cpf, sdaa.rg_number, 
+                    sdaa.nis, si.responsable_name, si.responsable_telephone, c.name as classroom_name
+                FROM student_enrollment se 
+                JOIN student_identification si ON se.student_fk = si.id 
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id 
+                JOIN classroom c ON se.classroom_fk = c.id 
+                WHERE c.school_inep_fk = :school_inep_id
+                GROUP BY si.name
+                ORDER BY si.name;";
+
+        $result = Yii::app()->db->createCommand($sql)
+        ->bindParam(":school_inep_id", $school->inep_id)
+        ->queryAll();
+
+        $allClassrooms = true;
+
+        $title = "RELATÓRIO DE ALUNOS POR ESCOLA (CPF, RG E NIS)<br>".$school->name;
+
+        $this->render('StudentCpfRgNis', array(
+            "report" => $result,
+            "title" => $title,
+            "allClassrooms" => $allClassrooms
+        ));
+    }
+
+    public function actionStudentCpfRgNisPerClassroom()
+    {
+        $classroom = $_POST['classroom'];
+        $classroomModel = Classroom::model()->findByPk($classroom);
+        $sql = "SELECT si.name, si.birthday, sdaa.cpf, sdaa.rg_number, 
+                    sdaa.nis, si.responsable_name, si.responsable_telephone 
+                FROM student_enrollment se 
+                JOIN student_identification si ON se.student_fk = si.id 
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id 
+                JOIN classroom c ON se.classroom_fk = c.id 
+                WHERE c.id = :classroom
+                GROUP BY si.name
+                ORDER BY si.name;";
+
+        $result = Yii::app()->db->createCommand($sql)
+        ->bindParam(":classroom", $classroom)
+        ->queryAll();
+
+        $title = "RELATÓRIO DE ALUNOS POR TURMA (CPF, RG E NIS)<br>".$classroomModel->name;
+
+        $this->render('StudentCpfRgNis', array(
+            "report" => $result,
+        ));
+    }
     public function actionAllClassroomsReportOfStudentsBenefitingFromTheBF()
     {
         $sql = "SELECT si.name, si.birthday, sdaa.nis, si.responsable_name,
@@ -1072,7 +1152,7 @@ class ReportsController extends Controller
                 ->bindParam(':classroom_id', $classroom_id)
                 ->queryAll();
 
-        $classroom = Classroom::model()->findByPk($id);
+        $classroom = Classroom::model()->findByPk($classroom_id);
 
         $this->render('StudentPerClassroom', array(
             'report' => $result,
