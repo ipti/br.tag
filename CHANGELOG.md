@@ -1,5 +1,10 @@
 # Atualizações
 
+## [Versão 3.53.83]
+- Quantidade de Alunos Matrículados por Período por Turma
+- Quantidade de Alunos Matrículados por Período na Escola
+- Quantidade de Alunos Matrículados por Período de todas as Escolas
+
 ## [Versão 3.46.82]
 - Relatório de Alunos Benefeciários do Bolsa Família por Turma
 - Relatório de Alunos Benefeciários do Bolsa Família de Todas as Turmas
