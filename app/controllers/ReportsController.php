@@ -531,7 +531,7 @@ class ReportsController extends Controller
                 FROM student_enrollment se
                 JOIN classroom c ON se.classroom_fk = c.id
                 JOIN student_identification si ON se.student_fk = si.id
-                JOIN student_documents_and_address sdaa ON si.inep_id = sdaa.student_fk 
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id
                 WHERE c.id = :classroom_id
                 GROUP BY name;";
 
@@ -558,7 +558,7 @@ class ReportsController extends Controller
         JOIN classroom c ON se.classroom_fk = c.id
         JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
         JOIN student_identification si ON se.student_fk = si.id
-        JOIN student_documents_and_address sdaa ON si.inep_id = sdaa.student_fk
+        JOIN student_documents_and_address sdaa ON si.id = sdaa.id
         WHERE c.school_year = :year
         GROUP BY name
         ORDER BY si2.inep_id;";
@@ -586,7 +586,7 @@ class ReportsController extends Controller
                 JOIN student_enrollment se ON se.school_inep_id_fk = sch.inep_id
                 JOIN classroom c ON se.classroom_fk = c.id
                 JOIN student_identification si ON se.student_fk = si.id
-                JOIN student_documents_and_address sdaa ON si.inep_id = sdaa.student_fk
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id
                 WHERE sch.inep_id = :school_id AND c.school_year = :year
                 GROUP BY name;";
 
