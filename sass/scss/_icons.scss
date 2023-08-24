@@ -430,5 +430,13 @@
 }
 .t-amount-class::before{
     content: 'â';
+}
+
+.t-amount-school::before{
+    content: 'á';
+}
+
+.t-id-card-clip::before{
+    content: 'ã';
     font-family: 'icone-tag', sans-serif
 }

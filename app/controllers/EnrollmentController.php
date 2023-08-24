@@ -347,30 +347,37 @@ class EnrollmentController extends Controller
     }
 
     public function actionSaveGradesReportCard()
-    {
-        $discipline = $_POST['discipline'];
-        $students = $_POST['students'];
-        foreach($students as $std) {
-            $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $std['enrollmentId'], "discipline_fk" => $discipline]);
-            if(!isset($gradeResult)) {
-                $gradeResult = new GradeResults;
+    {                                   
+            $discipline = $_POST['discipline'];
+            $students = $_POST['students'];
+            
+            foreach($students as $std) {
+                $mediaFinal = 0;
+                $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $std['enrollmentId'], "discipline_fk" => $discipline]);
+                if(!isset($gradeResult)) {
+                    $gradeResult = new GradeResults;
+                }
+        
+                $gradeResult->enrollment_fk = $std['enrollmentId'];
+                $gradeResult->discipline_fk = $discipline;
+                
+                foreach ($std['grades'] as $key => $value) {
+                    $index = $key + 1;                    
+                    $gradeResult->{"grade_" . $index} = $std['grades'][$key]['value'];
+                    $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];                    
+                    $mediaFinal += floatval($gradeResult->attributes["grade_" . $index]);
+                }
+
+                
+                $unities = count($std['grades']);
+                $gradeResult->final_media = number_format($mediaFinal / $unities, 1);
+                CVarDumper::dump( $gradeResult, 10, true);
+                if(!$gradeResult->validate()) {
+                    die( print_r($gradeResult->getErrors()) );
+                }
+                $gradeResult->save();
             }
-            $gradeResult->enrollment_fk = $std['enrollmentId'];
-            $gradeResult->discipline_fk = $discipline;
-            $gradeResult->grade_1 = $std['grades'][0]['value'];
-            $gradeResult->grade_2 = $std['grades'][1]['value'];
-            $gradeResult->grade_3 = $std['grades'][2]['value'];
-            $gradeResult->grade_4 = $std['grades'][3]['value'];
-            $gradeResult->grade_faults_1 = $std['grades'][0]['faults'];
-            $gradeResult->grade_faults_2 = $std['grades'][1]['faults'];
-            $gradeResult->grade_faults_3 = $std['grades'][2]['faults'];
-            $gradeResult->grade_faults_4 = $std['grades'][3]['faults'];
-            $mediaFinal = ( floatval($gradeResult->grade_1) + floatval($gradeResult->grade_2) + 
-            floatval($gradeResult->grade_3) + floatval($gradeResult->grade_4)) / 4;
-            $gradeResult->final_media = number_format($mediaFinal, 1);
-            $gradeResult->save();
-        }
-        echo json_encode(["valid" => true]);
+            echo json_encode(["valid" => true]);
     }
 
     public function actionSaveGrades()
@@ -416,27 +423,41 @@ class EnrollmentController extends Controller
         $criteria->join = "join student_identification si on si.id = se.student_fk";
         $criteria->condition = "classroom_fk = :classroom_fk";
         $criteria->params = array(':classroom_fk' => $_POST["classroom"]);
-        $criteria->order = "si.name";
+        $criteria->order = "se.daily_order, si.name";
         $studentEnrollments = StudentEnrollment::model()->findAll($criteria);
-
+                
+        
         if ($studentEnrollments != null) {
             $result["students"] = [];
             foreach ($studentEnrollments as $studentEnrollment) {
+                
+                $stage = isset($studentEnrollment->edcenso_stage_vs_modality_fk) 
+                ? $studentEnrollment->edcenso_stage_vs_modality_fk :
+                $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk;
+
+                $unities = GradeUnity::model()->findAll(
+                    "edcenso_stage_vs_modality_fk = :stageId",
+                    [
+                        "stageId" => $stage,
+                    ]
+                );
+
                 $arr["enrollmentId"] = $studentEnrollment->id;
+                $arr["daily_order"] = $studentEnrollment->daily_order;
                 $arr["studentName"] = $studentEnrollment->studentFk->name;
                 $arr["grades"] = [];
                 $arr["faults"] = [];
 
                 $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", 
                 ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $_POST["discipline"]]);
-                
-                array_push($arr["grades"], ["value" => $gradeResult->grade_1,"faults" => $gradeResult->grade_faults_1]);
-                array_push($arr["grades"], ["value" => $gradeResult->grade_2,"faults" => $gradeResult->grade_faults_2]);
-                array_push($arr["grades"], ["value" => $gradeResult->grade_3,"faults" => $gradeResult->grade_faults_3]);
-                array_push($arr["grades"], ["value" => $gradeResult->grade_4,"faults" => $gradeResult->grade_faults_4]);
-
+                                                
+                foreach ($unities as $key => $value) {        
+                    $index = $key + 1;            
+                    array_push($arr["grades"], ["value" => $gradeResult["grade_" . $index], "faults" => $gradeResult["grade_faults_" . $index]]);        
+                }               
 
                 $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
+                $result["unities"] = $unities;
                 array_push($result["students"], $arr);
             }
 
@@ -445,7 +466,7 @@ class EnrollmentController extends Controller
             $result["valid"] = false;
             $result["message"] = "Não há estudantes matriculados na turma.";
         }
-        echo json_encode($result);
+        echo CJSON::encode($result);
     }
 
     public function actionGetGrades()

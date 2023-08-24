@@ -37,6 +37,20 @@ class TagUtils extends CApplicationComponent {
         // Retorna a date original se não corresponder a nenhum formato conhecido
         return $date;
     }
+    
+    public static function isInstance($instance){
+        
+        if(is_array($instance)){
+            $instances = array_map(function ($e){
+                return strtoupper($e);
+            }, $instance);
+
+            return in_array(strtoupper(INSTANCE), $instances);
+        }
+
+        return strtoupper(INSTANCE) === strtoupper($instance);
+        
+    }    
 }
 
 ?>
