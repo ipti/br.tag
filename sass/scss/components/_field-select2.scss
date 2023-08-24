@@ -15,6 +15,7 @@
             width: 100% !important;
             .select2-choice {
                 width: 100%;
+                box-sizing: border-box;
                 word-wrap: break-word;
                 text-overflow: ellipsis;
             }
