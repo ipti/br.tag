@@ -75,8 +75,8 @@ if ($turno == 'M') {
                     <td></td>
                     <td style="text-align: center;">
                     <?php
-                        $create_date =  date('d/m/y', strtotime($c['create_date']));
-                        $date_cancellation = date('d/m/y', strtotime($c['date_cancellation']));
+                        $create_date =  TagUtils::convertDateFormat($c['create_date']);
+                        $date_cancellation = TagUtils::convertDateFormat($c['date_cancellation']);
                         if ($c['status'] == 1) {
                             echo '';
                         } else if ($c['status'] == 2) {
