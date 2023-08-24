@@ -122,12 +122,13 @@ $(document).on("click", ".manage-unity-periods", function (e) {
         data = JSON.parse(data);
         if (data.valid) {
             var html = "";
+            html += "<input class='calendar-end-date' type='hidden' value='" + data.result.calendarFinalDate + "'>";
             $.each(data.result.stages, function (i, stage) {
                 html += "<div class='grade-unity-stage-container'>";
                 html += "<span class='grade-unity-stage-title'>" + stage.title + "</span>";
                 if (Object.keys(stage.unities).length){
                     $.each(stage.unities, function (j, unity) {
-                        html += "<div class='form-control'>";
+                        html += "<div class='form-control grade-unity-container'>";
                         html += "<input class='grade-unity-id' type='hidden' value='" + unity.id + "'>";
                         html += "<label>" + unity.name + "</label>";
                         html += "<input class='grade-unity-initial-date' " + (j === 0 ? "disabled" : "") + " size='10' maxlength='10' type='text' placeholder='dd/mm/aaaa' value='" + unity.initial_date + "'>";
@@ -169,52 +170,63 @@ $(document).on("click", ".manage-unity-periods", function (e) {
 $(document).on("click", ".manage-unity-periods-button", function () {
 
 
-    var date;
+    var previousDate;
     var splitedDate = [];
     var errorUnsequenced = false;
     var errorUnfilled = false;
-    $(".grade-unity-stage-container").each(function() {
-        $(".grade-unity-initial-date").each(function(index) {
-            if ($(this).val() == "") {
+    var errorDateAfterCalendarEnd = false;
+
+    var gradeUnities = [];
+
+    $(".grade-unity-stage-container").each(function (i, stage) {
+        $(stage).find(".grade-unity-container").each(function (index) {
+            if ($(this).find(".grade-unity-initial-date").val() == "") {
                 errorUnfilled = true;
                 return false;
             }
 
+            splitedDate = $(this).find(".grade-unity-initial-date").val();
+            splitedDate = splitedDate.split("/");
+            var currentDate = splitedDate[2] + splitedDate[1] + splitedDate[0];
+
+            var calendarEndDate = $(".calendar-end-date").val();
+
+            if (currentDate > calendarEndDate.replaceAll("/","")) {
+                errorDateAfterCalendarEnd = true;
+                return false;
+            }
+
             if (index > 0) {
-                splitedDate = $(this).val();
-                splitedDate = splitedDate.split("/");
-                var nextDate = splitedDate[2] + splitedDate[1] + splitedDate[0];
-                if (date > nextDate){
+                if (previousDate > currentDate) {
                     errorUnsequenced = true;
                     return false;
-                } else {
-                    splitedDate = $(this).val();
-                    splitedDate = splitedDate.split("/");
-                    date = splitedDate[2] + splitedDate[1] + splitedDate[0]
                 }
-            } else {
-                splitedDate = $(this).val();
-                splitedDate = splitedDate.split("/");
-                date = splitedDate[2] + splitedDate[1] + splitedDate[0];
             }
+            previousDate = currentDate;
+
+            gradeUnities.push({
+                gradeUnityFk: $(this).find(".grade-unity-id").val(),
+                initialDate: $(this).find(".grade-unity-initial-date").val(),
+            });
         });
 
-        if (errorUnsequenced || errorUnfilled) {
+        if (errorUnsequenced || errorUnfilled || errorDateAfterCalendarEnd) {
             return false;
         }
     });
 
     if (errorUnsequenced) {
-        $("#unity-periods-modal").find(".alert").html("Variaveis estão fora de sequencia.").show();
+        $("#unity-periods-modal").find(".alert").html("Datas estão fora de sequencia.").show();
     } else if (errorUnfilled) {
         $("#unity-periods-modal").find(".alert").html("Preencha todas as datas.").show();
+    } else if (errorDateAfterCalendarEnd) {
+        $("#unity-periods-modal").find(".alert").html("As datas selecionadas não podem ser superior ao fim do ano letivo (" + $(".calendar-end-date").val() + ").").show();
     } else {
         $.ajax ({
             url: "?r=calendar/default/editUnityPeriods",
             type: "POST",
             data: {
-                id: $("#unity-periods-modal").find("#Calendar_id").val(),
-                initialDates: $("#unity-periods-modal").find(".grade-unity-initial-date").val()
+                gradeUnities: gradeUnities,
             },
             beforeSend: function () {
                 $("#unity-periods-modal").find(".modal-body").css("opacity", 0.3).css("pointer-events", "none");

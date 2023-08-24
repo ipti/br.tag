@@ -409,6 +409,9 @@ class DefaultController extends Controller
             if ($calendarEvent->calendarEventTypeFk->id == 1000 ){
                 $calendarInitialDate = date("d/m/Y", strtotime($calendarEvent->start_date));
             }
+            if ($calendarEvent->calendarEventTypeFk->id == 1001 ){
+                $result["calendarFinalDate"] = date("Y/m/d", strtotime($calendarEvent->start_date));
+            }
         }
 
         if (count($calendarEvents) == 2) {
@@ -429,7 +432,8 @@ class DefaultController extends Controller
                     if ($index == 0) {
                         $unity["initial_date"] = $calendarInitialDate;
                     } else {
-                        $unity["initial_date"] = $gradeUnity->gradeUnityPeriods == null ? "" : date("d/m/Y", strtotime($gradeUnity->gradeUnityPeriods->initial_date));
+                        $unity["initial_date"] = $gradeUnity->gradeUnityPeriods == null ? "" : date("d/m/Y", strtotime($gradeUnity->gradeUnityPeriods[0]->initial_date));
+
                     }
                     array_push($stageArray["unities"], $unity);
                 }
@@ -444,7 +448,34 @@ class DefaultController extends Controller
 
     public function actionEditUnityPeriods()
     {
-        echo json_encode(["valid" => true]);
+        if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
+            $error = "";
+            if (empty($_POST["gradeUnities"])) {
+                $error .= "Unidades não foram preenchidas.";
+            } else {
+                $ano = Yii::app()->user->year;
+                foreach ($_POST['gradeUnities'] as $gup) {
+                    $gradeUnityPeriod = GradeUnityPeriods::model()->find('grade_unity_fk = :gradeUnityFk and school_year = :year', [':gradeUnityFk' => $gup["gradeUnityFk"], ':year' => $ano]);
+                    var_dump($gradeUnityPeriod);
+                    if ($gradeUnityPeriod == null) {
+                        $gradeUnityPeriod = new GradeUnityPeriods();
+                        $gradeUnityPeriod->grade_unity_fk = $gup["gradeUnityFk"];
+                        $gradeUnityPeriod->school_year = $ano;
+                    }
+                    $gradeUnityPeriod->initial_date = implode('-', array_reverse(explode('/', $gup["initialDate"])));
+                    $gradeUnityPeriod->save();
+                }
+            }
+
+            if ($error != "") {
+                echo json_encode(["valid" => false, "error" => $error]);
+            } else {
+                echo json_encode(["valid" => true]);
+            }
+        } else {
+            echo json_encode(["valid" => false, "error" => "Apenas administradores podem editar título de calendários."]);
+        }
+
     }
 
     public function actionChangeCalendarStatus()
