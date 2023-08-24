@@ -209,7 +209,7 @@ $this->breadcrumbs = array(
 
                 <button type="button" class="report-box-container" data-toggle="modal" data-target="#number-of-students-enrolled-per-period-per-classroom" target="_blank">
                     <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-medical t-reports_icons"></span>
+                        <span class="t-amount-class t-reports_icons"></span>
                     </div>
                     <div class="pull-left">
                         <span class="title">Quantidade de Alunos Matrículados por Período por Turma</span><br>
@@ -434,7 +434,7 @@ $this->breadcrumbs = array(
 
                 <button type="button" class="report-box-container" data-toggle="modal" data-target="#number-of-students-enrolled-per-period-per-school" target="_blank">
                     <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-medical t-reports_icons"></span>
+                        <span class="t-amount-class t-reports_icons"></span>
                     </div>
                     <div class="pull-left">
                         <span class="title">Quantidade de Alunos Matrículados por Período na Escola</span><br>
@@ -537,7 +537,7 @@ $this->breadcrumbs = array(
 
                 <button type="button" class="report-box-container" data-toggle="modal" data-target="#number-of-students-enrolled-per-period-all-schools" target="_blank">
                     <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-medical t-reports_icons"></span>
+                        <span class="t-amount-class t-reports_icons"></span>
                     </div>
                     <div class="pull-left">
                         <span class="title">Quantidade de Alunos Matrículados por Período de todas as Escolas</span><br>
