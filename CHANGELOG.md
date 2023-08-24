@@ -1,5 +1,7 @@
 # Atualizações
 
+## [Versão 3.53.84]
+- Alterado filtros em frequência
 ## [Versão 3.46.82]
 - Relatório de Alunos Benefeciários do Bolsa Família por Turma
 - Relatório de Alunos Benefeciários do Bolsa Família de Todas as Turmas
