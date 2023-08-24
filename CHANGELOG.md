@@ -1,5 +1,9 @@
 # Atualizações
 
+
+## [Versão 3.50.83]
+- Quantidade de Turmas por Escola
+
 ## [Versão 3.53.84]
 - Alterado filtros em frequência
 

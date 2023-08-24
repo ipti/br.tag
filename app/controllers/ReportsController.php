@@ -29,7 +29,7 @@ class ReportsController extends Controller
                     'TeachersByStage', 'TeachersBySchool', 'StatisticalData', 'StudentCpfRgNisPerClassroom',
                     'AllSchoolsReportOfStudentsBenefitingFromTheBF','AllClassroomsReportOfStudentsBenefitingFromTheBF', 
                     'ReportOfStudentsBenefitingFromTheBFPerClassroom', 'TeachersByStage', 'TeachersBySchool', 'StatisticalData', 
-                    'NumberOfClassesPerSchool'),
+                    'NumberOfClassesPerSchool', 'NumberOfClassesPerSchool'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
