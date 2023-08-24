@@ -27,7 +27,10 @@ class ReportsController extends Controller
                     'EvaluationFollowUpStudentsReport', 'CnsPerClassroomReport', 'CnsSchools', 'CnsPerSchool',
                     'TeacherTrainingReport','ClassroomTransferReport', 'SchoolTransferReport', 'AllSchoolsTransferReport',
                     'TeachersByStage', 'TeachersBySchool', 'StatisticalData', 'NumberOfStudentsEnrolledPerPeriodPerClassroom',
-                    'NumberOfStudentsEnrolledPerPeriodPerSchool', 'NumberOfStudentsEnrolledPerPeriodAllSchools'),
+                    'NumberOfStudentsEnrolledPerPeriodPerSchool', 'NumberOfStudentsEnrolledPerPeriodAllSchools',
+                    'AllSchoolsReportOfStudentsBenefitingFromTheBF','AllClassroomsReportOfStudentsBenefitingFromTheBF', 
+                    'ReportOfStudentsBenefitingFromTheBFPerClassroom', 'TeachersByStage', 'TeachersBySchool', 'StatisticalData', 
+                    'NumberOfClassesPerSchool'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -183,10 +186,121 @@ class ReportsController extends Controller
 
         $this->render('NumberOfStudentsEnrolledPerPeriod', array(
             "report" => $result,
+        ));
+
+    }
+
+    public function actionAllClassroomsReportOfStudentsBenefitingFromTheBF()
+    {
+        $sql = "SELECT si.name, si.birthday, sdaa.nis, si.responsable_name,
+                        si.responsable_telephone, c.name AS classroom_name
+                FROM student_identification si
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id
+                JOIN student_enrollment se ON se.student_fk = si.id
+                JOIN classroom c ON se.classroom_fk = c.id
+                WHERE si.bf_participator = 1
+                AND c.school_year = :school_year AND c.school_inep_fk = :school_inep_id
+                GROUP BY si.name
+                ORDER BY si.name;";
+
+        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+        $allSchools = false;
+        $title = "BENEFICIÁRIOS DO BOLSA FAMÍLIA DE TODAS AS TURMAS<br>".$school->name;
+        
+        $result = Yii::app()->db->createCommand($sql)
+        ->bindParam(":school_year", Yii::app()->user->year)
+        ->bindParam(":school_inep_id", Yii::app()->user->school)
+        ->queryAll();
+
+        $this->render('ReportOfStudentsBenefitingFromTheBF', array(
+            "report" => $result,
+            "allSchools" => $allSchools,
             "title" => $title
         ));
     }
 
+    public function actionAllSchoolsReportOfStudentsBenefitingFromTheBF() 
+    {
+        $sql = "SELECT si.name, si.birthday, sdaa.nis, si.responsable_name,
+                        si.responsable_telephone, si2.name AS school_name
+                FROM student_identification si
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id
+                JOIN student_enrollment se ON se.student_fk = si.id
+                JOIN classroom c ON se.classroom_fk = c.id
+                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
+                WHERE si.bf_participator = 1 AND c.school_year = :school_year
+                GROUP BY si.name
+                ORDER BY si2.name, si.name;";
+
+        $title = "BENEFICIÁRIOS DO BOLSA FAMÍLIA DE TODAS AS ESCOLAS";
+        $allSchools = true;
+        $result = Yii::app()->db->createCommand($sql)
+        ->bindParam(":school_year", Yii::app()->user->year)
+        ->queryAll();
+
+        $this->render('ReportOfStudentsBenefitingFromTheBF', array(
+            "report" => $result,
+            "allSchools" => $allSchools,
+            "title" => $title
+        ));
+    }
+
+    public function actionReportOfStudentsBenefitingFromTheBFPerClassroom()
+    {
+        $classroomId = $_POST['classroom'];
+        $sql = "SELECT si.name, si.birthday, sdaa.nis, si.responsable_name,
+                        si.responsable_telephone, c.name AS classroom_name
+                FROM student_identification si
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id
+                JOIN student_enrollment se ON se.student_fk = si.id
+                JOIN classroom c ON se.classroom_fk = c.id
+                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
+                WHERE si.bf_participator = 1 AND c.school_year = :school_year AND c.id = :classroom_id
+                GROUP BY si.name
+                ORDER BY si2.name, si.name;";
+
+        $allSchools = false;
+        $classroom = Classroom::model()->findByPk($classroomId);
+
+        $title = "BENEFICIÁRIOS DO BOLSA FAMÍLIA<br> ".$classroom->name;
+        $result = Yii::app()->db->createCommand($sql)
+        ->bindParam(":school_year", Yii::app()->user->year)
+        ->bindParam(":classroom_id", $classroomId)
+        ->queryAll();
+
+        $this->render('ReportOfStudentsBenefitingFromTheBF', array(
+            "report" => $result,
+            "allSchools" => $allSchools,
+            "title" => $title
+        ));
+    }
+
+    public function actionNumberOfClassesPerSchool()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->condition = "school_year = '".Yii::app()->user->year."'";
+
+        $schools = SchoolIdentification::model()->findAll();
+        $classrooms = Classroom::model()->findAll($criteria);
+
+        $title = "Quantidade de Turmas por Escola";
+
+        $result = [];
+
+        foreach ($schools as $school) {
+            array_push($result, array(
+                "school" => $school,
+                "classrooms" => array_filter($classrooms, function ($classroom) use ($school) {
+                    return $classroom->school_inep_fk == $school->inep_id;
+                })
+            ));
+        }
+
+        $this->render('NumberOfClassesPerSchool', array(
+            "report" => $result,
+            "title" => $title
+        ));
+    }
 
     public function actionTeacherTrainingReport()
     {
@@ -842,7 +956,7 @@ class ReportsController extends Controller
                     c.school_year = :year AND
                     c.school_inep_fk = :school_inep_id
                     $condition
-                ORDER BY c.id, se.daily_order";
+                ORDER BY se.daily_order";
 
             $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":school_inep_id", $school_inep_id)->queryAll();
 
@@ -1100,7 +1214,7 @@ class ReportsController extends Controller
                 ->bindParam(':classroom_id', $classroom_id)
                 ->queryAll();
 
-        $classroom = Classroom::model()->findByPk($id);
+        $classroom = Classroom::model()->findByPk($classroom_id);
 
         $this->render('StudentPerClassroom', array(
             'report' => $result,

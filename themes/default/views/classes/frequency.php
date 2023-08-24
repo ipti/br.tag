@@ -101,7 +101,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <select class="select-search-on frequency-input t-field-select__input" id="classroom">
                             <option>Selecione a turma</option>
                             <?php foreach ($classrooms as $classroom) : ?>
-                                <option value="<?= $classroom->id ?>" fundamentalMaior="<?= !TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk) ?>"><?= $classroom->name ?></option>
+                                <option value="<?= $classroom->id ?>" fundamentalMaior="<?=  (int)(!TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk))."" ?>"><?= $classroom->name ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -110,7 +110,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
             <div class="mobile-row helper">
                 <div class="column  clearleft on-tablet disciplines-container">
-                    <div class="t-field-select" id="classesSearch">
+                    <div class="t-field-select" id="js-load-frequency">
                         <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 't-field-select__label--required')); ?>
                         <?php
                         echo CHtml::dropDownList('disciplines', '', array(), array(
