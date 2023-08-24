@@ -428,6 +428,9 @@
     content: 'Â';
     font-family: 'icone-tag', sans-serif   
 }
+.t-amount-class::before{
+    content: 'â';
+}
 
 .t-amount-school::before{
     content: 'á';
