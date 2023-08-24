@@ -310,10 +310,17 @@ class DefaultController extends Controller
 		try {
 			$inAluno = new InAluno($_POST["numRA"], null, "SP");
 			$exibirFicha = new GetExibirFichaAlunoFromSEDUseCase();
-			$exibirFicha->exec($inAluno);
+			if($exibirFicha->exec($inAluno)){
+				Yii::app()->user->setFlash('success', "O Aluno cadastrado com sucesso.");
+				$this->redirect(array('index'));
+			}else{
+				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
+				$this->redirect(array('index'));
+			}
 			$transaction->commit();
 		} catch (Exception $e) {
-			CVarDumper::dump($e->getMessage(), 10, true);
+			Yii::app()->user->setFlash('error', "É necessário ter uma escola cadastrada");
+			$this->redirect(array('index'));
 			$transaction->rollback();
 		}	
 	}
