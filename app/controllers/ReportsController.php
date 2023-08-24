@@ -26,7 +26,7 @@ class ReportsController extends Controller
                     'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport', 
                     'EvaluationFollowUpStudentsReport', 'CnsPerClassroomReport', 'CnsSchools', 'CnsPerSchool',
                     'TeacherTrainingReport','ClassroomTransferReport', 'SchoolTransferReport', 'AllSchoolsTransferReport',
-                    'TeachersByStage', 'TeachersBySchool', 'StatisticalData', 'StudentCpfRgNisPerClassroom'),
+                    'TeachersByStage', 'TeachersBySchool', 'StatisticalData', 'StudentCpfRgNisPerClassroom',
                     'AllSchoolsReportOfStudentsBenefitingFromTheBF','AllClassroomsReportOfStudentsBenefitingFromTheBF', 
                     'ReportOfStudentsBenefitingFromTheBFPerClassroom', 'TeachersByStage', 'TeachersBySchool', 'StatisticalData', 
                     'NumberOfClassesPerSchool'),
@@ -126,6 +126,8 @@ class ReportsController extends Controller
 
         $this->render('StudentCpfRgNis', array(
             "report" => $result,
+        ));
+    }
     public function actionAllClassroomsReportOfStudentsBenefitingFromTheBF()
     {
         $sql = "SELECT si.name, si.birthday, sdaa.nis, si.responsable_name,
@@ -1150,7 +1152,7 @@ class ReportsController extends Controller
                 ->bindParam(':classroom_id', $classroom_id)
                 ->queryAll();
 
-        $classroom = Classroom::model()->findByPk($id);
+        $classroom = Classroom::model()->findByPk($classroom_id);
 
         $this->render('StudentPerClassroom', array(
             'report' => $result,

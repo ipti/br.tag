@@ -209,7 +209,7 @@ $this->breadcrumbs = array(
 
                 <button type="button" class="report-box-container" data-toggle="modal" data-target="#cpf-rg-nis-per-classroom" target="_blank">
                     <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-medical t-reports_icons"></span>
+                        <span class="t-id-card-clip t-reports_icons"></span>
                     </div>
                     <div class="pull-left">
                         <span class="title">Relatório de Alunos com CPF, RG e NIS por Turma</span><br>
@@ -435,7 +435,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/StudentCpfRgNisAllClassrooms') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">    
                         <div class="pull-left" style="margin-right: 20px;">
-                            <span class="t-doctor t-reports_icons"></span>
+                            <span class="t-id-card-clip t-reports_icons"></span>
                         </div>
                         <div class="pull-left">
                             <span class="title">Relatório de Alunos (CPF, RG e NIS) da escola</span><br>
@@ -545,7 +545,7 @@ $this->breadcrumbs = array(
 
                 <button type="button" class="report-box-container" data-toggle="modal" data-target="#loading-warning-cpf-rg-nis" target="_blank">
                     <div class="pull-left" style="margin-right: 20px;">
-                        <span class="t-hospital-user t-reports_icons"></span>
+                        <span class="t-id-card-clip t-reports_icons"></span>
                     </div>
                     <div class="pull-left">
                         <span class="title">Relatório de Alunos (CPF, RG e NIS) de todas as escolas</span><br>
