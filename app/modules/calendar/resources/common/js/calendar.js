@@ -106,6 +106,7 @@ $(document).on("click", ".edit-calendar-button", function () {
 });
 
 $(document).on("click", ".manage-unity-periods", function (e) {
+    dismissPeriods();
     $("#unity-periods-modal").find(".alert").hide();
     var icon = this;
     e.stopPropagation();
@@ -366,6 +367,7 @@ $(document).on("click", ".confirm-delete-event", function () {
 });
 
 $(document).on("click", ".change-event", function () {
+    dismissPeriods();
     var event = this;
     $("#myChangeEvent").find(".selected-calendar-current-year").val($(event).closest(".calendar").data("year"));
     $(".error-calendar-event").hide();
