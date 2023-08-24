@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.53.84]
+- Alterado filtros em frequência
+
 ## [Versão 3.49.82]
 - Relatório de CPF, RG e NIS do Alunos por Turma
 - Relatório de CPF, RG e NIS do Alunos por Escola
