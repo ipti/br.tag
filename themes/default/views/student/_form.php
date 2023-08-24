@@ -413,7 +413,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                             <div class="t-field-text js-hide-not-required  js-disabled-finputs">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o Nome Completo da Mãe')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o Nome Completo da Filiação')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1'); ?>
                             </div>
                         </div>
@@ -439,7 +439,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                             <div class="t-field-text  js-hide-not-required js-disabled-finputs">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_rg', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1_rg', array('size' => 60, 'maxlength' => 45, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o RG da Mãe')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1_rg', array('size' => 60, 'maxlength' => 45, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o RG da Filiação 1')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_rg'); ?>
                             </div>
                         </div>
@@ -465,7 +465,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                             <div class="t-field-text js-hide-not-required js-disabled-finputs">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_job', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1_job', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite a Profissão da Mãe')); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1_job', array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite a Profissão da Filiação 1')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_job'); ?>
                             </div>
                         </div>
@@ -1141,7 +1141,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                             <div class="control-group js-hide-not-required">
                                 <?php echo $form->labelEx($modelEnrollment, 'status', array('class' => 'control-label t-field-text__label')); ?>
-                                <?php echo $form->DropDownList($modelEnrollment, 'status', array("1" => "Em Andamento", "2" => "Transferido", "3" => "Falecido", "4" => "Deixou de Frequentar", "5" => "Remanejado", "6" => "Aprovado", "7" => "Aprovado pelo Conselho", "8" => "Reprovado", "9" => "Concluinte", "10" => "Indeterminado"), array('options' => array('1' => array('selected' => true)), "prompt" => "Selecione", 'class' => 'select-search-off control-input t-field-select__input')); ?>
+                                <?php echo $form->DropDownList($modelEnrollment, 'status', StudentEnrollment::getListStatus(), array('options' => array('1' => array('selected' => true)), "prompt" => "Selecione", 'class' => 'select-search-off control-input t-field-select__input')); ?>
                                 <?php echo $form->error($modelEnrollment, 'status'); ?>
                             </div>
                         </div>
@@ -1503,7 +1503,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         <?php
                                                         switch ($me->status) {
                                                             case "1":
-                                                                echo "Em Andamento";
+                                                                echo "Matriculado";
                                                                 break;
                                                             case "2":
                                                                 $transfer_date = "";
@@ -1513,7 +1513,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                                 echo "Transferido </br>" . $transfer_date;
                                                                 break;
                                                             case "3":
-                                                                echo "Falecido";
+                                                                echo "Cancelado";
                                                                 break;
                                                             case "4":
                                                                 echo "Deixou de Frequentar";
@@ -1535,6 +1535,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                                                 break;
                                                             case "10":
                                                                 echo "Indeterminado";
+                                                                break;
+                                                            case "11":
+                                                                echo "Falecido";
                                                                 break;
                                                             default:
                                                                 echo "";

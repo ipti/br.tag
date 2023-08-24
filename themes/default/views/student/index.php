@@ -23,17 +23,8 @@
             </div>
 
         </div>
-        <div class="btn-group pull-right responsive-menu dropdown-margin">
-            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                Menu
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li><a href="<?= CHtml::normalizeUrl(array('wizard/configuration/student')) ?>" class=""><i></i>Matrícula em Grupo</a></li>
-                <li><a href="<?= CHtml::normalizeUrl(array('student/create')) ?>" class=""><i></i> <?= Yii::t('default', 'Add') ?></a></li>
-                <li><a href="<?= CHtml::normalizeUrl(array('student/create', 'simple' => 1)) ?>" class=""><i></i> <?= Yii::t('default', 'Add (Fast)') ?></a></li>
-            </ul>
-        </div>
+        
+       
     </div>
 
     <div class="tag-inner">
@@ -65,7 +56,7 @@
                         <thead>
                             <tr>
                                 <th>Nome</th>
-                                <th>Nome da Mãe</th>
+                                <th>Filiação Principal</th>
                                 <th>Data de Nascimento</th>
                                 <th>ID INEP</th>
                                 <th>Ações</th>

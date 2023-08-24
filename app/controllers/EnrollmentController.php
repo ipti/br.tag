@@ -720,7 +720,7 @@ class EnrollmentController extends Controller
 
 
             //Mudar status da matrícula
-            //1 = Em andamento; 6 = Aprovado; 8 = Reprovado
+            //1 = Matriculado; 6 = Aprovado; 8 = Reprovado
             if ($studentEnrollment->status == "1" || $studentEnrollment->status == "6" || $studentEnrollment->status == "8") {
                 $allGradesFilled = true;
                 $situation = "Aprovado";
@@ -731,7 +731,7 @@ class EnrollmentController extends Controller
                         $situation = "Reprovado";
                         break;
                     } else if ($gradeResult->situation == "Recuperação") {
-                        $situation = "Em Andamento";
+                        $situation = "Matriculado";
                         break;
                     }
                 }

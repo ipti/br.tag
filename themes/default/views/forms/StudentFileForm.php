@@ -85,7 +85,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <tr>
                 <td>DATA: _______/_______/_________</td>
                 <td colspan="2"  style="font-size: 10px;line-height: 11px;padding-top: 12px;">__________________________________________________________________________________
-                    <br>Pai, Mãe ou Responsável
+                    <br>Filiação ou Responsável
                 </td>
             </tr>
             <tr style="border-top: 1px solid black;">
@@ -154,7 +154,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         </tr>
         <tr>
             <td>
-                <div class="span12"><b>06 - Mãe</b></div>
+                <div class="span12"><b>06 - Filiação 1</b></div>
                 <div class="span12"><b>Nome: </b><span class="mother"><?= $data['mother'] ?></span></div>
                 <div class="span4"><b>RG: </b><span class="cc_number"><?= $data['mother_rg'] ?></div>
                 <div class="span8"><b>CPF: </b><span class="cc_number"><?= $data['mother_cpf'] ?><span class="father"></span></div>
@@ -257,42 +257,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     <div class="span5"><b>Turma: </b><span><?= $enrollment->classroomFk->name ?></span></div>
                     <div class="span9"><b>Situação do aluno: </b><span>
                         <?php 
-                              
-                                switch ($enrollment->status) {
-                                    case "1":
-                                        echo "Em Andamento";
-                                        break;
-                                    case "2":
-                                        echo "Transferido";
-                                        break;
-                                    case "3":
-                                        echo "Falecido";
-                                        break;
-                                    case "4":
-                                        echo "Deixou de Frequentar";
-                                        break;
-                                    case "5":
-                                        echo "Remanejado";
-                                        break;
-                                    case "6":
-                                        echo "Aprovado";
-                                        break;
-                                    case "7":
-                                        echo "Aprovado pelo Conselho";
-                                        break;
-                                    case "8":
-                                        echo "Reprovado";
-                                        break;
-                                    case "9":
-                                        echo "Concluinte";
-                                        break;
-                                    case "10":
-                                        echo "Indeterminado";
-                                        break;
-                                    default:
-                                       echo '';
-                                }
-                    
+                           echo $enrollment->getCurrentStatus();                    
                         ?>
                     </span></div>
                     <div class="span3"><b>Turno: </b><span> <?php echo $turns[$enrollment->classroomFk->turn]; ?></span></div>
