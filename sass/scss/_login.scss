@@ -1,20 +1,61 @@
 .login-form {
     flex-direction: column;
-    margin-top: $SizeXLarge;
-    margin-bottom: $SizeLarge;
+    margin-top: $spaceXXXLarge;
+    margin-bottom: $spaceXXXLarge;
+
     .form-signin {
         position: relative;
         width: 334px;
-        margin-top: $SizeXXXLarge;
-        margin-bottom: 0px;
+        margin-top: $spaceXXXLarge;
+        margin-bottom: $spaceEmpty;
     }
+
     .login-footer {
-        margin-top: $SizeHeader;
-        margin-bottom: 0px;
+        margin-top: $spaceXXXLarge;
+        margin-bottom: $spaceEmpty;
         flex-direction: column;
         justify-content: center;
         display: flex;
         text-align: center;
+
+        .login-link {
+            word-wrap: break-word;
+            white-space: nowrap;
+            .a:active {
+                color: rgb(77, 40, 151) !important;
+            }
+            a:hover {
+                text-decoration: underline;
+                color: rgb(77, 40, 151);
+            }
+        }
+
+        .login-versao {
+            margin-top: $spaceXXXLarge;
+            padding-top: $spaceXXXLarge;
+        }      
     }
 }
 
+// .login-form {
+//     flex-direction: column;
+//     margin-top: $SizeXLarge;
+//     margin-bottom: $SizeLarge;
+//     .form-signin {
+//         position: relative;
+//         width: 334px;
+//         margin-top: $SizeXXXLarge;
+//         margin-bottom: 0px;
+//     }
+//     .login-footer {
+//         margin-top: $SizeHeader;
+//         margin-bottom: 0px;
+//         flex-direction: column;
+//         justify-content: center;
+//         display: flex;
+//         text-align: center;
+//         .login-link{
+//             word-wrap: break-word;
+//         }
+//     }
+// }
