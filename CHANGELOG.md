@@ -1,6 +1,9 @@
 # Atualizações
 
-## [Versão 3.46.82]
+## [Versão 3.50.83]
+- Quantidade de Turmas por Escola
+
+## [Versão 3.46.83]
 - Relatório de Alunos Benefeciários do Bolsa Família por Turma
 - Relatório de Alunos Benefeciários do Bolsa Família de Todas as Turmas
 - Relatório de Alunos Benefeciários do Bolsa Família de Todas as Escolas
