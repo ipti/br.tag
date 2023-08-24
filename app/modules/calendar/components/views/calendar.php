@@ -106,13 +106,13 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                           data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-eye<?= $calendar->available ? "" : "-slash" ?>"></i>
                             </span>
-                    <span class="text-right pull-right show-stages" data-toggle="tooltip" data-placement="top"
-                          data-original-title="Visualizar Etapas do Calendário" data-id="<?= $calendar->id ?>">
-                                <i class="fa fa-question-circle-o"></i>
-                            </span>
                     <span class="text-right pull-right manage-unity-periods" data-toggle="tooltip" data-placement="top"d
-                          data-original-title="Visualizar a Estrutura de Unidades" data-id="<?= $calendar->id ?>">
+                          data-original-title="Gerenciar Vigência das Unidades" data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-map-o"></i>
+                            </span>
+                    <span class="text-right pull-right show-stages" data-toggle="tooltip" data-placement="top"
+                          data-original-title="Visualizar Etapas e Vigências" data-id="<?= $calendar->id ?>">
+                                <i class="fa fa-question-circle-o"></i>
                             </span>
                 </div>
             </div>
@@ -396,10 +396,8 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
         </div>
         <div class="modal-body">
             <div class="error-calendar-event alert alert-error no-show"></div>
-
-            <div class="unity-periods-container">
-            </div>
-
+            <div class="unity-periods-container"></div>
+            <span class="replicate-periods">Replicar datas para etapas similares</span><i class="fa fa-spin fa-spinner load-replication"></i>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default"
                         data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>

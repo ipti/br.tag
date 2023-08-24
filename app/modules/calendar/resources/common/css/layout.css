@@ -85,7 +85,11 @@
     z-index: 0;
 }
 
-.calendar-icon + .calendar-text {
+.calendar-icon-hide {
+    display: none !important;
+}
+
+.calendar-icon + .calendar-text, .date-palleted .calendar-text {
     font-weight: 600 !important;
     color: white !important;
     text-shadow: 0px 0px 2px #000 !important;
@@ -196,23 +200,23 @@ form {
 
 .floating-stages-container {
     position: fixed;
-    right: 165px;
+    right: 215px;
     background: #fff;
     border: 1px solid;
     z-index: 1000;
     width: 295px;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
-    padding: 10px;
+    padding: 10px 25px 10px 10px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .stages-container-title {
-    padding: 6px 0 6px 10px;
+    padding: 6px 25px 6px 10px;
     color: white;
-    margin: -10px -10px 10px;
+    margin: -10px -25px 10px -10px;;
     font-weight: bold;
-   /*  background: #3F45EA; */
+    background: #3F45EA;
 }
 
 .stage-container {
@@ -223,6 +227,7 @@ form {
     display: inline-block;
     font-weight: bold;
     width: 100%;
+    position: relative;
 }
 
 .stage-container:last-of-type {
@@ -231,11 +236,23 @@ form {
     border-bottom: 0;
 }
 
+.stage-container .view-periods {
+    position: absolute;
+    right: -19px;
+    top: 3px;
+    cursor: pointer;
+    color: darkred;
+}
+
+.stage-container .view-periods:hover {
+    color: black;
+}
+
 .close-stages-container {
     position: absolute;
     top: 4px;
     color: white;
-    right: 10px;
+    right: 3px;
     padding: 5px;
     cursor: pointer;
 }
@@ -261,4 +278,51 @@ form {
 .confirm-save-event, .confirm-delete-event {
     text-decoration: underline;
     cursor: pointer;
+}
+
+.grade-unity-stage-tab {
+    display: inline-block;
+    padding: 5px 10px;
+    background: rgb(244, 244, 244);
+    margin: 0 15px 20px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.grade-unity-stage-tab.active {
+    background: #3F45EA;
+    color: white;
+}
+
+.grade-unity-stage-container:not(.active) {
+    display: none;
+}
+
+.grade-unity-stage-title {
+    font-weight: bold;
+    margin-bottom: 20px;
+    display: block;
+    padding-bottom: 3px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.grade-unity-container {
+    margin-bottom: 10px;
+}
+
+.error-calendar-event {
+    margin-bottom: 20px !important;
+}
+
+.replicate-periods {
+    text-decoration: underline;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+#unity-periods-modal .load-replication {
+    display: none;
+    margin-left: 5px;
 }

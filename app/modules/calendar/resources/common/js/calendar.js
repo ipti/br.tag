@@ -123,25 +123,29 @@ $(document).on("click", ".manage-unity-periods", function (e) {
         if (data.valid) {
             var html = "";
             html += "<input class='calendar-end-date' type='hidden' value='" + data.result.calendarFinalDate + "'>";
+            for (var i = 0; i < Object.keys(data.result.stages).length; i++) {
+                html += "<div class='grade-unity-stage-tab " + (i === 0 ? "active" : "") + "'>" + (i + 1) + "ª Etapa</div>";
+            }
             $.each(data.result.stages, function (i, stage) {
-                html += "<div class='grade-unity-stage-container'>";
+                html += "<div class='grade-unity-stage-container " + (i === 0 ? "active" : "") + "'>";
                 html += "<span class='grade-unity-stage-title'>" + stage.title + "</span>";
-                if (Object.keys(stage.unities).length){
+                if (Object.keys(stage.unities).length) {
                     $.each(stage.unities, function (j, unity) {
                         html += "<div class='form-control grade-unity-container'>";
                         html += "<input class='grade-unity-id' type='hidden' value='" + unity.id + "'>";
                         html += "<label>" + unity.name + "</label>";
-                        html += "<input class='grade-unity-initial-date' " + (j === 0 ? "disabled" : "") + " size='10' maxlength='10' type='text' placeholder='dd/mm/aaaa' value='" + unity.initial_date + "'>";
+                        html += "<input class='grade-unity-initial-date' " + (j === 0 ? "disabled" : "") + " size='10' maxlength='10' type='text' placeholder='Início da Unidade' value='" + unity.initial_date + "'>";
                         html += "</div>";
                     });
                 } else {
-                    html += "<div class='alert alert-error'> Etapa sem unidades. </div>";
+                    html += "<div class='alert alert-warning'>Etapa sem unidades. </div>";
                 }
                 html += "</div>";
             });
             $(".unity-periods-container").html(html);
 
             $(".grade-unity-initial-date").mask("99/99/9999").datepicker({
+                container: "#unity-periods-modal .modal-dialog",
                 language: "pt-BR",
                 format: "dd/mm/yyyy",
                 autoclose: true,
@@ -149,11 +153,12 @@ $(document).on("click", ".manage-unity-periods", function (e) {
                 allowInputToggle: true,
                 disableTouchKeyboard: true,
                 keyboardNavigation: false,
-                orientation: "bottom right",
+                orientation: "bottom left",
                 clearBtn: true,
                 maxViewMode: 2,
                 startDate: "01/01/" + data.result.year,
                 endDate: "31/12/" + data.result.year
+
             });
 
         } else {
@@ -167,16 +172,26 @@ $(document).on("click", ".manage-unity-periods", function (e) {
     });
 });
 
+$(document).on("click", ".grade-unity-stage-tab", function () {
+    if (!$(this).hasClass("active")) {
+        $(".grade-unity-stage-tab, .grade-unity-stage-container").removeClass("active");
+        var tabIndex = $(".unity-periods-container").find(".grade-unity-stage-tab").index(this);
+        $($(".grade-unity-stage-container").get(tabIndex)).addClass("active");
+        $(this).addClass("active");
+    }
+});
+
 $(document).on("click", ".manage-unity-periods-button", function () {
-
-
     var previousDate;
-    var splitedDate = [];
+    var gradeUnities = [];
     var errorUnsequenced = false;
     var errorUnfilled = false;
     var errorDateAfterCalendarEnd = false;
+    var splittedDate = "";
 
-    var gradeUnities = [];
+    var calendarEndDate = $(".calendar-end-date").val();
+    calendarEndDate = calendarEndDate.split("/");
+    calendarEndDate = calendarEndDate[2] + calendarEndDate[1] + calendarEndDate[0];
 
     $(".grade-unity-stage-container").each(function (i, stage) {
         $(stage).find(".grade-unity-container").each(function (index) {
@@ -185,13 +200,11 @@ $(document).on("click", ".manage-unity-periods-button", function () {
                 return false;
             }
 
-            splitedDate = $(this).find(".grade-unity-initial-date").val();
-            splitedDate = splitedDate.split("/");
-            var currentDate = splitedDate[2] + splitedDate[1] + splitedDate[0];
+            var currentDate = $(this).find(".grade-unity-initial-date").val();
+            currentDate = currentDate.split("/");
+            currentDate = currentDate[2] + currentDate[1] + currentDate[0];
 
-            var calendarEndDate = $(".calendar-end-date").val();
-
-            if (currentDate > calendarEndDate.replaceAll("/","")) {
+            if (currentDate > calendarEndDate) {
                 errorDateAfterCalendarEnd = true;
                 return false;
             }
@@ -211,18 +224,20 @@ $(document).on("click", ".manage-unity-periods-button", function () {
         });
 
         if (errorUnsequenced || errorUnfilled || errorDateAfterCalendarEnd) {
+            $("#unity-periods-modal .modal-body").animate({scrollTop: 0}, "fast");
             return false;
         }
     });
 
     if (errorUnsequenced) {
-        $("#unity-periods-modal").find(".alert").html("Datas estão fora de sequencia.").show();
+        $("#unity-periods-modal").find(".error-calendar-event").html("As datas estão fora de sequência.").show();
     } else if (errorUnfilled) {
-        $("#unity-periods-modal").find(".alert").html("Preencha todas as datas.").show();
+        $("#unity-periods-modal").find(".error-calendar-event").html("Preencha todas as datas.").show();
     } else if (errorDateAfterCalendarEnd) {
-        $("#unity-periods-modal").find(".alert").html("As datas selecionadas não podem ser superior ao fim do ano letivo (" + $(".calendar-end-date").val() + ").").show();
+        $("#unity-periods-modal").find(".error-calendar-event").html("As datas selecionadas não podem ser superiores à data de fim do ano letivo (" + $(".calendar-end-date").val() + ").").show();
     } else {
-        $.ajax ({
+        $("#unity-periods-modal").find(".error-calendar-event").hide();
+        $.ajax({
             url: "?r=calendar/default/editUnityPeriods",
             type: "POST",
             data: {
@@ -246,6 +261,35 @@ $(document).on("click", ".manage-unity-periods-button", function () {
             $("#unity-periods-modal").find(".centered-loading-gif").hide();
         });
     }
+});
+
+$(document).on("click", ".replicate-periods", function () {
+    $(".load-replication").css("display", "inline-block");
+    var activeContainer = $(".unity-periods-container").find(".grade-unity-stage-container.active");
+    var activeContainerLabels = [];
+    var activeContainerDates = [];
+    activeContainer.find(".grade-unity-container").each(function () {
+        activeContainerLabels.push($(this).find("label").text());
+        activeContainerDates.push($(this).find(".grade-unity-initial-date").val());
+    });
+    $(".unity-periods-container").find(".grade-unity-stage-container").not(activeContainer).each(function () {
+        var targetContainerLabels = [];
+        $(this).find(".grade-unity-container").each(function () {
+            targetContainerLabels.push($(this).find("label").text());
+        });
+
+        var identical = (activeContainerLabels.length === targetContainerLabels.length) && activeContainerLabels.every(function (element, index) {
+            return element === targetContainerLabels[index];
+        });
+        if (identical) {
+            $(this).find(".grade-unity-container").each(function (index) {
+                $(this).find(".grade-unity-initial-date").val(activeContainerDates[index])
+            });
+        }
+    });
+    setTimeout(function() {
+        $(".load-replication").hide();
+    }, 500);
 });
 
 $(document).on("click", ".remove-calendar", function (e) {
@@ -317,7 +361,7 @@ $(document).on("click", ".remove-event-button", function (e, confirm = 0) {
     });
 });
 
-$(document).on("click", ".confirm-delete-event", function() {
+$(document).on("click", ".confirm-delete-event", function () {
     $(".remove-event-button").trigger("click", [1]);
 });
 
@@ -429,11 +473,12 @@ $(document).on("click", ".save-event", function (e, confirm = 0) {
     }
 });
 
-$(document).on("click", ".confirm-save-event", function() {
+$(document).on("click", ".confirm-save-event", function () {
     $(".save-event").trigger("click", [1]);
 });
 
 $(document).on("click", ".show-stages", function (e) {
+    dismissPeriods();
     var icon = this;
     e.stopPropagation();
     if (!$(icon).closest(".accordion-group").find(".floating-stages-container").length) {
@@ -449,12 +494,17 @@ $(document).on("click", ".show-stages", function (e) {
             },
         }).success(function (data) {
             data = JSON.parse(data);
-            var html = "<div class='floating-stages-container'><div class='stages-container-title'>" + $(icon).closest(".accordion-group").find(".accordion-title").text() + "</div>";
+            var html = "<div class='floating-stages-container' calendarid='" + $(icon).data('id') + "'><div class='stages-container-title'>" + $(icon).closest(".accordion-group").find(".accordion-title").text() + "</div>";
             $.each(data, function () {
-                html += "<div class='stage-container'>" + this.name + "</div>";
+                html += "" +
+                    "<div class='stage-container'>" +
+                    "<span>" + this.name + "</span>" +
+                    (this.hasPeriod ? "<i stageid='" + this.id + "' calendarid='" + $(icon).data('id') + "' class='view-periods fa fa-map-o' data-toggle='tooltip' data-placement='right' data-original-title='Visualizar Vigência'></i>" : "") +
+                    "</div>";
             });
             html += '<i class="close-stages-container fa fa-remove"></i></div>';
             $(icon).closest(".accordion-group").append(html);
+            $(".view-periods").tooltip({container: "body"});
             $(".floating-stages-container").css("top", $(icon).closest(".accordion-group").offset().top);
         }).complete(function () {
             $(icon).css("pointer-events", "auto").find("i").removeClass("fa-spin").removeClass("fa-spinner").addClass("fa-question-circle-o");
@@ -462,12 +512,44 @@ $(document).on("click", ".show-stages", function (e) {
     } else {
         $(".floating-stages-container").remove();
     }
+});
 
+$(document).on("click", ".view-periods", function() {
+    var icon = this;
+    $.ajax({
+        url: "?r=calendar/default/viewPeriods",
+        type: "POST",
+        data: {
+            calendarId: $(icon).attr("calendarid"),
+            stageId: $(icon).attr("stageid")
+        },
+        beforeSend: function () {
+            $(icon).css("pointer-events", "none").addClass("fa-spin").addClass("fa-spinner").removeClass("fa-map-o");
+        },
+    }).success(function (data) {
+        data = JSON.parse(data);
+        var calendarContainer = $(".calendar-container[data-id=" + $(icon).attr("calendarid") + "]");
+        var backgroundPalletes = ["#26cb24", "#ff0000", "#0081c2", "#9700f6", "#d9d303", "#333333", "pink"];
+        calendarContainer.find(".calendar-icon").addClass("calendar-icon-hide");
+        $.each(data, function() {
+            calendarContainer.find(".change-event[data-year=" + this.year + "][data-month=" + this.month + "][data-day=" + this.day + "]").parent()
+                .addClass("date-palleted")
+                .css("background-color", backgroundPalletes[this.colorIndex]);
+        });
+    }).complete(function () {
+        $(icon).css("pointer-events", "auto").removeClass("fa-spin").removeClass("fa-spinner").addClass("fa-map-o");
+    });
 });
 
 $(document).on("click", ".close-stages-container", function () {
+    dismissPeriods();
     $(".floating-stages-container").remove();
 });
+
+function dismissPeriods() {
+    $(".calendar-container").find(".date-palleted").removeClass("date-palleted").css("background-color", "initial");
+    $(".calendar-container").find(".calendar-icon").removeClass("calendar-icon-hide");
+}
 
 $(document).on("click", ".change-calendar-status", function (e) {
     e.stopPropagation();

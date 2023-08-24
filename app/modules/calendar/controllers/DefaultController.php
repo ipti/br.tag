@@ -26,7 +26,9 @@ class DefaultController extends Controller
                 'actions' => ['index', 'view'], 'users' => ['*'],
             ], [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual', 'RemoveCalendar', 'DeleteEvent', 'editCalendar', 'ShowStages', 'changeCalendarStatus', 'loadCalendarData', 'loadUnityPeriods', 'editUnityPeriods'],
+                'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual',
+                    'RemoveCalendar', 'DeleteEvent', 'editCalendar', 'ShowStages', 'changeCalendarStatus', 'loadCalendarData',
+                    'loadUnityPeriods', 'editUnityPeriods', 'viewPeriods'],
                 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -66,7 +68,7 @@ class DefaultController extends Controller
             $calendar->end_date = Yii::app()->user->year . "-12-31";
             $calendar->available = 0;
             $calendar->school_year = Yii::app()->user->year;
-            
+
             $calendar->save();
             foreach ($_POST["stages"] as $stage) {
                 $calendarStage = new CalendarStages();
@@ -380,7 +382,22 @@ class DefaultController extends Controller
 
     public function actionShowStages()
     {
-        $result = Yii::app()->db->createCommand("select edcenso_stage_vs_modality.name from calendar_stages inner join edcenso_stage_vs_modality on calendar_stages.stage_fk = edcenso_stage_vs_modality.id where calendar_fk = :id order by edcenso_stage_vs_modality.name")->bindParam(":id", $_POST["id"])->queryAll();
+        $result = Yii::app()->db->createCommand("
+            select edcenso_stage_vs_modality.id, edcenso_stage_vs_modality.name 
+            from calendar_stages 
+            inner join edcenso_stage_vs_modality on calendar_stages.stage_fk = edcenso_stage_vs_modality.id 
+            where calendar_fk = :id order by edcenso_stage_vs_modality.name"
+        )->bindParam(":id", $_POST["id"])->queryAll();
+        foreach ($result as &$stage) {
+            $periods = Yii::app()->db->createCommand("
+            select count(*) as qtd
+            from grade_unity_periods
+            inner join grade_unity on grade_unity_periods.grade_unity_fk = grade_unity.id
+            where grade_unity.edcenso_stage_vs_modality_fk = :stage and grade_unity_periods.school_year = :year"
+            )->bindParam(":stage", $stage["id"])->bindParam(":year", Yii::app()->user->year)->queryRow();
+            $stage["hasPeriod"] = (int)$periods["qtd"] > 0;
+        }
+
         echo json_encode($result);
     }
 
@@ -391,7 +408,7 @@ class DefaultController extends Controller
         $result["id"] = $calendar->id;
         $result["title"] = $calendar->title;
         $result["stages"] = [];
-        foreach($calendar->calendarStages as $calendarStage) {
+        foreach ($calendar->calendarStages as $calendarStage) {
             array_push($result["stages"], $calendarStage->stage_fk);
         }
         echo json_encode($result);
@@ -406,11 +423,11 @@ class DefaultController extends Controller
         $calendarEvents = CalendarEvent::model()->findAll('calendar_fk = :calendarId and calendar_event_type_fk in (1000, 1001)', ["calendarId" => $_POST["id"]]);
         $calendarInitialDate = "";
         foreach ($calendarEvents as $calendarEvent) {
-            if ($calendarEvent->calendarEventTypeFk->id == 1000 ){
+            if ($calendarEvent->calendarEventTypeFk->id == 1000) {
                 $calendarInitialDate = date("d/m/Y", strtotime($calendarEvent->start_date));
             }
-            if ($calendarEvent->calendarEventTypeFk->id == 1001 ){
-                $result["calendarFinalDate"] = date("Y/m/d", strtotime($calendarEvent->start_date));
+            if ($calendarEvent->calendarEventTypeFk->id == 1001) {
+                $result["calendarFinalDate"] = date("d/m/Y", strtotime($calendarEvent->start_date));
             }
         }
 
@@ -456,7 +473,6 @@ class DefaultController extends Controller
                 $ano = Yii::app()->user->year;
                 foreach ($_POST['gradeUnities'] as $gup) {
                     $gradeUnityPeriod = GradeUnityPeriods::model()->find('grade_unity_fk = :gradeUnityFk and school_year = :year', [':gradeUnityFk' => $gup["gradeUnityFk"], ':year' => $ano]);
-                    var_dump($gradeUnityPeriod);
                     if ($gradeUnityPeriod == null) {
                         $gradeUnityPeriod = new GradeUnityPeriods();
                         $gradeUnityPeriod->grade_unity_fk = $gup["gradeUnityFk"];
@@ -475,7 +491,43 @@ class DefaultController extends Controller
         } else {
             echo json_encode(["valid" => false, "error" => "Apenas administradores podem editar título de calendários."]);
         }
+    }
 
+    public function actionViewPeriods()
+    {
+        $result = [];
+
+        $gradeUnityPeriods = Yii::app()->db->createCommand("
+            select initial_date 
+            from grade_unity_periods gup 
+            inner join grade_unity gu on gup.grade_unity_fk = gu.id 
+            where gu.edcenso_stage_vs_modality_fk = :stageId order by initial_date"
+        )->bindParam(":stageId", $_POST["stageId"])->queryAll();
+
+        $calendarInitialDate = CalendarEvent::model()->find('calendar_fk = :calendarId and calendar_event_type_fk = 1000', ["calendarId" => $_POST["calendarId"]]);
+        $calendarFinalDate = CalendarEvent::model()->find('calendar_fk = :calendarId and calendar_event_type_fk = 1001', ["calendarId" => $_POST["calendarId"]]);
+        $start = new DateTime($calendarInitialDate->start_date);
+        $end = new DateTime($calendarFinalDate->end_date);
+        $end->modify('+1 day');
+        $interval = DateInterval::createFromDateString('1 day');
+        $period = new DatePeriod($start, $interval, $end);
+        $colorIndex = 0;
+        foreach ($period as $dt) {
+            $gregorianDate = $dt->format("Y-m-d");
+            for ($i = 0; $i < count($gradeUnityPeriods); $i++) {
+                if ($i == count($gradeUnityPeriods) - 1) {
+                    if ($gregorianDate >= $gradeUnityPeriods[$i]["initial_date"]) {
+                        $colorIndex = $i;
+                    }
+                } else {
+                    if ($gregorianDate >= $gradeUnityPeriods[$i]["initial_date"] && $gregorianDate < $gradeUnityPeriods[$i + 1]["initial_date"]) {
+                        $colorIndex = $i;
+                    }
+                }
+            }
+            array_push($result, ["year" => $dt->format("Y"), "month" => $dt->format("n"), "day" => $dt->format("j"), "colorIndex" => $colorIndex]);
+        }
+        echo json_encode($result);
     }
 
     public function actionChangeCalendarStatus()
@@ -489,7 +541,7 @@ class DefaultController extends Controller
             where c.id = :id")->bindParam(":id", $_POST["id"])->queryRow();
 
             $calendar = Calendar::model()->findByPk($_POST["id"]);
-            
+
             if (!$calendar->available || (int)$result["qtd"] == 0) {
                 $calendar->available = intVal($calendar->available) == 0 ? 1 : 0;
                 $calendar->save();

@@ -13,5 +13,5 @@ return [
     "Are you sure?" => "Você tem certeza?",
     "Confirm" => "Confirmar",
     "Calendars" => "Calendários",
-    "Manage Unities Initial Date" => "Gerenciar Início das Unidades",
+    "Manage Unities Initial Date" => "Gerenciar Vigência das Unidades",
 ];
