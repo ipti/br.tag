@@ -16,7 +16,7 @@ class ClassroomMapper
 
         $classroomTag = new Classroom();
         $classroomTag->school_inep_fk = '35' . $outFormacaoClasse->getOutCodEscola();
-        $classroomTag->inep_id = $outFormacaoClasse->getOutNumClasse();
+        $classroomTag->gov_id = $outFormacaoClasse->getOutNumClasse();
         $classroomTag->name = $serieName->getOutDescTipoEnsino()." ".$outFormacaoClasse->getOutTurma();
         $classroomTag->edcenso_stage_vs_modality_fk = $stage;
         $classroomTag->schooling = 1;
@@ -47,7 +47,7 @@ class ClassroomMapper
         $students = $outFormacaoClasse->getOutAlunos();
         foreach ($students as $student) {
             $studentIdentification = new StudentIdentification();
-            $studentIdentification->inep_id = $student->getOutNumRa();
+            $studentIdentification->gov_id = $student->getOutNumRa();
             $studentIdentification->name = $student->getOutNomeAluno();
             $studentIdentification->birthday = $student->getOutDataNascimento();         
            
@@ -92,7 +92,7 @@ class ClassroomMapper
         foreach ($outClasses as $classe) {
             $classroom = new Classroom();
             $classroom->school_inep_fk = $schoolInepFk;
-            $classroom->inep_id = $classe->getOutNumClasse();
+            $classroom->gov_id = $classe->getOutNumClasse();
             $classroom->name = $classe->getOutDescTipoEnsino() .' '. $classe->getOutTurma();
             $classroom->pedagogical_mediation_type = 1;
             $classroom->initial_hour = substr($classe->getOutHorarioInicio(), 0, 2);
