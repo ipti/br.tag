@@ -23,7 +23,7 @@ class GetFormacaoClasseFromSEDUseCase
             
             foreach ($mapper->Students as $student) {    
                 //Verifica se está cadastrado em student_identification
-                $inAluno = new InAluno($student->inep_id, null, $student->uf);
+                $inAluno = new InAluno($student->gov_id, null, $student->uf);
                 $registerStudent = new GetExibirFichaAlunoFromSEDUseCase();
                 $registerStudent->exec($inAluno);
 
@@ -31,7 +31,7 @@ class GetFormacaoClasseFromSEDUseCase
                     'school_inep_id_fk = :school_inep_id_fk AND student_fk = :student_fk AND classroom_fk = :classroom_fk',
                     [
                         ':school_inep_id_fk' => $classroom->school_inep_fk,
-                        ':student_fk' => $student->inep_id,
+                        ':student_fk' => StudentIdentification::model()->find('inep_id = :inep_id', [':inep_id' => $student->inep_id])->id,
                         ':classroom_fk' => $classroom->inep_id
                     ]
                 );
