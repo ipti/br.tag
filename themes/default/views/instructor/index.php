@@ -49,6 +49,7 @@
                     'dataProvider' => $dataProvider,
                     'enablePagination' => false,
                     'enableSorting' => false,
+                    'ajaxUpdate' => false,
                     'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                         array(
@@ -80,6 +81,7 @@
                                 )
                             ),
                             'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
+                            'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
                             'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
                         ),
                     ),

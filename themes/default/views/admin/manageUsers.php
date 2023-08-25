@@ -49,7 +49,8 @@
                                     'update' => array(
                                         'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
                                     )
-                                )
+                                ),
+                                'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
                             ),
                         ),
                     ));

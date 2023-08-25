@@ -206,7 +206,25 @@ $this->breadcrumbs = array(
                         <span class="subtitle">Listagem de CNS dos alunos por Turma</span>
                     </div>
                 </button>
-
+                <button type="button" class="report-box-container" data-toggle="modal" data-target="#number-of-students-enrolled-per-period-per-classroom" target="_blank">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <span class="t-amount-class t-reports_icons"></span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">Quantidade de Alunos Matrículados por Período por Turma</span><br>
+                        <span class="subtitle">Listagem dos alunos matriculados na turma em um período de tempo</span>
+                    </div>
+                </button>
+                <button type="button" class="report-box-container" data-toggle="modal" data-target="#cpf-rg-nis-per-classroom" target="_blank">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <span class="t-id-card-clip t-reports_icons"></span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">Relatório de Alunos com CPF, RG e NIS por Turma</span><br>
+                        <span class="subtitle">Listagem de CPF, RG e NIS dos alunos por Turma</span>
+                    </div>
+                </button>
+                
                 <button type="button" class="report-box-container" data-toggle="modal" data-target="#students-benefiting-from-the-bf" target="_blank">
                     <div class="pull-left" style="margin-right: 20px;">
                         <span class="t-group-bag t-reports_icons"></span>
@@ -422,6 +440,27 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
+                <button type="button" class="report-box-container" data-toggle="modal" data-target="#number-of-students-enrolled-per-period-per-school" target="_blank">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <span class="t-amount-class t-reports_icons"></span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">Quantidade de Alunos Matrículados por Período na Escola</span><br>
+                        <span class="subtitle">Listagem dos alunos matriculados na escola em um período de tempo</span>
+                    </div>
+                </button>
+                <a href="<?php echo Yii::app()->createUrl('reports/StudentCpfRgNisAllClassrooms') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">    
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-id-card-clip t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Relatório de Alunos (CPF, RG e NIS) da escola</span><br>
+                            <span class="subtitle">Listagem de CPF, RG e NIS dos alunos da escola atual</span>
+                        </div>
+                    </button>
+                </a>
+                
                 <a href="<?php echo Yii::app()->createUrl('reports/AllClassroomsReportOfStudentsBenefitingFromTheBF') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">    
                         <div class="pull-left" style="margin-right: 20px;">
@@ -457,6 +496,10 @@ $this->breadcrumbs = array(
                         <div class="pull-left">
                             <span class="title">Relatório de Transferência de todas as escolas</span><br>
                             <span class="subtitle">Informações de alunos tranferidos das escola</span>
+                        </div>
+                    </button>
+                </a>
+
                 <a href="<?php echo Yii::app()->createUrl('reports/TeachersBySchool') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">    
                         <div class="pull-left" style="margin-right: 20px;">
@@ -468,6 +511,7 @@ $this->breadcrumbs = array(
                         </div>
                     </button>
                 </a>
+
                 <a href="<?php echo Yii::app()->createUrl('reports/StudentsWithDisabilitiesPerSchool') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">  
                         <div class="pull-left" style="margin-right: 20px;">
@@ -507,7 +551,7 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->createUrl('reports/NumberOfClassesPerSchool') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">    
                         <div class="pull-left" style="margin-right: 20px;">
-                            <span class="t-statistic-data t-reports_icons"></span>
+                            <span class="t-amount-school t-reports_icons"></span>
                         </div>
                         <div class="pull-left">
                             <span class="title">Quantidade de Turmas por Escola</span><br>
@@ -515,12 +559,90 @@ $this->breadcrumbs = array(
                         </div>
                     </button>
                 </a>
+
+                <button type="button" class="report-box-container" data-toggle="modal" data-target="#number-of-students-enrolled-per-period-all-schools" target="_blank">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <span class="t-amount-class t-reports_icons"></span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">Quantidade de Alunos Matrículados por Período de todas as Escolas</span><br>
+                        <span class="subtitle">Listagem dos alunos matriculados em todas as escolas em um período de tempo</span>
+                    </div>
+                </button>
+                <button type="button" class="report-box-container" data-toggle="modal" data-target="#loading-warning-cpf-rg-nis" target="_blank">
+                    <div class="pull-left" style="margin-right: 20px;">
+                        <span class="t-id-card-clip t-reports_icons"></span>
+                    </div>
+                    <div class="pull-left">
+                        <span class="title">Relatório de Alunos (CPF, RG e NIS) de todas as escolas</span><br>
+                        <span class="subtitle">Listagem de CPF, RG e NIS dos alunos de todas as escolas</span>
+                    </div>
+                </button>
             </div>
             <?php } ?>
         </div>
     </div>
     <!-- Modais -->
     <div class="row">
+        <div class="modal fade modal-content" id="number-of-students-enrolled-per-period-all-schools" tabindex="-1" role="dialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Defina um período de matrícula</h4>
+            </div>
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/NumberOfStudentsEnrolledPerPeriodAllSchools'); ?>" method="post" target="_blank">
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class=" span12">
+                            <div style="display:inline-block;margin-right: 10%;">
+                                <label for="initial-date" class="control-label">Data de Início</label>
+                                <input type="date" name="initial-date" id="initial-date" required>
+                            </div>
+                            <div style="display:inline-block;">
+                                <label for="end-date" class="control-label">Data de Fim</label>
+                                <input type="date" name="end-date" id="end-date" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                        <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;">Gerar</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="modal fade modal-content" id="number-of-students-enrolled-per-period-per-school" tabindex="-1" role="dialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Defina um período de matrícula</h4>
+            </div>
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/NumberOfStudentsEnrolledPerPeriodPerSchool'); ?>" method="post" target="_blank">
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class=" span12">
+                            <div style="display:inline-block;margin-right: 10%;">
+                                <label for="initial-date" class="control-label">Data de Início</label>
+                                <input type="date" name="initial-date" id="initial-date" required>
+                            </div>
+                            <div style="display:inline-block;">
+                                <label for="end-date" class="control-label">Data de Fim</label>
+                                <input type="date" name="end-date" id="end-date" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                        <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;">Gerar</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="modal fade modal-content" id="number-of-students-enrolled-per-period-per-classroom" tabindex="-1" role="dialog">
         <div class="modal fade modal-content" id="students-benefiting-from-the-bf" tabindex="-1" role="dialog">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
@@ -528,6 +650,11 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
             </div>
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/NumberOfStudentsEnrolledPerPeriodPerClassroom'); ?>" method="post" target="_blank">
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class=" span12">
+                            <?php echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));?>
             <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/ReportOfStudentsBenefitingFromTheBFPerClassroom'); ?>" method="post" target="_blank">
                 <div class="modal-body">
                     <div class="row-fluid">
@@ -543,6 +670,14 @@ $this->breadcrumbs = array(
                                 }
                                 ?>
                             </select>
+                            <div style="display:inline-block;margin-right: 10%;">
+                                <label for="initial-date" class="control-label">Data de Início</label>
+                                <input type="date" name="initial-date" id="initial-date" required>
+                            </div>
+                            <div style="display:inline-block;">
+                                <label for="end-date" class="control-label">Data de Fim</label>
+                                <input type="date" name="end-date" id="end-date" required>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -650,6 +785,38 @@ $this->breadcrumbs = array(
         </div>
     </div>
     <div class="row">
+        <div class="modal fade modal-content" id="cpf-rg-nis-per-classroom" tabindex="-1" role="dialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
+            </div>
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/StudentCpfRgNisPerClassroom'); ?>" method="post" target="_blank">
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class=" span12">
+                            <?php
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
+                            ?>
+                            <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
+                                <?php
+                                echo "<option value='' selected>Selecione a turma</option>";
+                                foreach ($classrooms as $classroom) {
+                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                        <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
+                    </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
         <div class="modal fade modal-content" id="classroom-transfer-report" tabindex="-1" role="dialog">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
@@ -679,6 +846,32 @@ $this->breadcrumbs = array(
                         <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
                     </div>
             </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="modal fade modal-content" id="loading-warning-cpf-rg-nis" tabindex="-1" role="dialog" aria-labelledby="Generate Another Timesheet">
+            <div class="modal-dialog" role="document">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">ATENÇÃO <span class="t-info_positive"></span></h4>
+                </div>
+                <form method="post">
+                    <div class="modal-body">
+                        <div class="row-fluid">
+                            Deseja gerar o relatório de CPF, RG e NIS dos alunos de todas as escolas? <b>Isso pode demorar um pouco!</b>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <a href="<?php echo Yii::app()->createUrl('reports/StudentCpfRgNisAllSchools') ?>" target="_blank" rel="noopener" style="margin-left: 5px;">
+                                <button type="button" class="btn btn-primary">Gerar</button>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <div class="row">
