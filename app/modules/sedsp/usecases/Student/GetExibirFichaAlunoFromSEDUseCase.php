@@ -6,11 +6,11 @@ class GetExibirFichaAlunoFromSEDUseCase
     {
         $studentDatasource = new StudentSEDDataSource();
         $response = $studentDatasource->exibirFichaAluno($inAluno);
+        $doc = $response->getOutDocumentos();
+        $dados = $response->getOutDadosPessoais();
 
-        $cpf = $response->getOutDocumentos()->getOutCpf();
-        $name = $response->getOutDadosPessoais()->getOutNomeAluno();
-        $studentCpf = StudentDocumentsAndAddress::model()->find('cpf = :cpf', [':cpf' => $cpf])->cpf;
-        $studentName = StudentIdentification::model()->find('name = :name', [':name' => $name])->name;
+        $studentCpf = StudentDocumentsAndAddress::model()->find('cpf = :cpf', [':cpf' => $doc->getOutCpf()])->cpf;
+        $studentName = StudentIdentification::model()->find('name = :name', [':name' => $dados->getOutNomeAluno()])->name;
         
         //Verifica se o cpf ou nome do aluno já está no cadastrado
 		if($studentCpf !== null or $studentName !== null)
