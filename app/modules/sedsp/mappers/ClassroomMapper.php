@@ -48,7 +48,6 @@ class ClassroomMapper
         foreach ($students as $student) {
             $studentIdentification = new StudentIdentification();
             $studentIdentification->inep_id = $student->getOutNumRa();
-            $studentIdentification->uf = $student->getOutSiglaUfra();
             $studentIdentification->name = $student->getOutNomeAluno();
             $studentIdentification->birthday = $student->getOutDataNascimento();         
            
