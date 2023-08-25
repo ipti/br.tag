@@ -199,8 +199,9 @@ form {
 }
 
 .floating-stages-container {
-    position: fixed;
-    right: 215px;
+    position: absolute;
+    top: 0;
+    right: 195px;
     background: #fff;
     border: 1px solid;
     z-index: 1000;

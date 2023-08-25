@@ -267,30 +267,20 @@ $(document).on("click", ".manage-unity-periods-button", function () {
 $(document).on("click", ".replicate-periods", function () {
     $(".load-replication").css("display", "inline-block");
     var activeContainer = $(".unity-periods-container").find(".grade-unity-stage-container.active");
-    var activeContainerLabels = [];
     var activeContainerDates = [];
     activeContainer.find(".grade-unity-container").each(function () {
-        activeContainerLabels.push($(this).find("label").text());
         activeContainerDates.push($(this).find(".grade-unity-initial-date").val());
     });
     $(".unity-periods-container").find(".grade-unity-stage-container").not(activeContainer).each(function () {
-        var targetContainerLabels = [];
-        $(this).find(".grade-unity-container").each(function () {
-            targetContainerLabels.push($(this).find("label").text());
-        });
-
-        var identical = (activeContainerLabels.length === targetContainerLabels.length) && activeContainerLabels.every(function (element, index) {
-            return element === targetContainerLabels[index];
-        });
-        if (identical) {
+        if (activeContainer.find(".grade-unity-container").length === $(this).find(".grade-unity-container").length) {
             $(this).find(".grade-unity-container").each(function (index) {
                 $(this).find(".grade-unity-initial-date").val(activeContainerDates[index])
             });
         }
     });
-    setTimeout(function() {
+    setTimeout(function () {
         $(".load-replication").hide();
-    }, 500);
+    }, 300);
 });
 
 $(document).on("click", ".remove-calendar", function (e) {
@@ -507,7 +497,6 @@ $(document).on("click", ".show-stages", function (e) {
             html += '<i class="close-stages-container fa fa-remove"></i></div>';
             $(icon).closest(".accordion-group").append(html);
             $(".view-periods").tooltip({container: "body"});
-            $(".floating-stages-container").css("top", $(icon).closest(".accordion-group").offset().top);
         }).complete(function () {
             $(icon).css("pointer-events", "auto").find("i").removeClass("fa-spin").removeClass("fa-spinner").addClass("fa-question-circle-o");
         });
@@ -516,7 +505,7 @@ $(document).on("click", ".show-stages", function (e) {
     }
 });
 
-$(document).on("click", ".view-periods", function() {
+$(document).on("click", ".view-periods", function () {
     var icon = this;
     $.ajax({
         url: "?r=calendar/default/viewPeriods",
@@ -533,10 +522,13 @@ $(document).on("click", ".view-periods", function() {
         var calendarContainer = $(".calendar-container[data-id=" + $(icon).attr("calendarid") + "]");
         var backgroundPalletes = ["#26cb24", "#ff0000", "#0081c2", "#9700f6", "#d9d303", "#333333", "pink"];
         calendarContainer.find(".calendar-icon").addClass("calendar-icon-hide");
-        $.each(data, function() {
-            calendarContainer.find(".change-event[data-year=" + this.year + "][data-month=" + this.month + "][data-day=" + this.day + "]").parent()
+        $.each(data, function () {
+            calendarContainer.find(".change-event[data-year=" + this.year + "][data-month=" + this.month + "][data-day=" + this.day + "]")
+                .tooltip("destroy")
+                .parent()
                 .addClass("date-palleted").attr("data-toggle", "tooltip").attr("data-placement", "top").attr("data-original-title", this.unityName)
-                .css("background-color", backgroundPalletes[this.colorIndex]);
+                .css("background-color", backgroundPalletes[this.colorIndex])
+
         });
         $(".date-palleted").tooltip({container: "body"});
     }).complete(function () {
@@ -551,6 +543,7 @@ $(document).on("click", ".close-stages-container", function () {
 
 function dismissPeriods() {
     $(".calendar-container").find(".date-palleted").removeClass("date-palleted").css("background-color", "initial").tooltip("destroy");
+    $(".calendar-container").find(".change-event").tooltip({container: "body"});
     $(".calendar-container").find(".calendar-icon").removeClass("calendar-icon-hide");
 }
 
