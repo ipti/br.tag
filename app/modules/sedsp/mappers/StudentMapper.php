@@ -105,7 +105,7 @@ class StudentMapper
 
             $studentIdentification = new StudentIdentification;
             $studentIdentification->school_inep_id_fk = $schoolInep;
-            $studentIdentification->inep_id = $outDadosPessoais->getOutNumRa();
+            $studentIdentification->gov_id = $outDadosPessoais->getOutNumRa();
             $studentIdentification->gov_id = $outDadosPessoais->getOutDigitoRa();
             $studentIdentification->name = $outDadosPessoais->getOutNomeAluno();
             $studentIdentification->filiation = $outDadosPessoais->getOutNomeMae() != "" || $outDadosPessoais->getOutNomePai() != "" ? 1 : 0;
