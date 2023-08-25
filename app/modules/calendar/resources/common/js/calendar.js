@@ -535,9 +535,10 @@ $(document).on("click", ".view-periods", function() {
         calendarContainer.find(".calendar-icon").addClass("calendar-icon-hide");
         $.each(data, function() {
             calendarContainer.find(".change-event[data-year=" + this.year + "][data-month=" + this.month + "][data-day=" + this.day + "]").parent()
-                .addClass("date-palleted")
+                .addClass("date-palleted").attr("data-toggle", "tooltip").attr("data-placement", "top").attr("data-original-title", this.unityName)
                 .css("background-color", backgroundPalletes[this.colorIndex]);
         });
+        $(".date-palleted").tooltip({container: "body"});
     }).complete(function () {
         $(icon).css("pointer-events", "auto").removeClass("fa-spin").removeClass("fa-spinner").addClass("fa-map-o");
     });
@@ -549,7 +550,7 @@ $(document).on("click", ".close-stages-container", function () {
 });
 
 function dismissPeriods() {
-    $(".calendar-container").find(".date-palleted").removeClass("date-palleted").css("background-color", "initial");
+    $(".calendar-container").find(".date-palleted").removeClass("date-palleted").css("background-color", "initial").tooltip("destroy");
     $(".calendar-container").find(".calendar-icon").removeClass("calendar-icon-hide");
 }
 

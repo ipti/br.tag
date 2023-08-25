@@ -498,7 +498,7 @@ class DefaultController extends Controller
         $result = [];
 
         $gradeUnityPeriods = Yii::app()->db->createCommand("
-            select initial_date 
+            select gup.initial_date, gu.name 
             from grade_unity_periods gup 
             inner join grade_unity gu on gup.grade_unity_fk = gu.id 
             where gu.edcenso_stage_vs_modality_fk = :stageId order by initial_date"
@@ -512,20 +512,23 @@ class DefaultController extends Controller
         $interval = DateInterval::createFromDateString('1 day');
         $period = new DatePeriod($start, $interval, $end);
         $colorIndex = 0;
+        $unityName = "";
         foreach ($period as $dt) {
             $gregorianDate = $dt->format("Y-m-d");
             for ($i = 0; $i < count($gradeUnityPeriods); $i++) {
                 if ($i == count($gradeUnityPeriods) - 1) {
                     if ($gregorianDate >= $gradeUnityPeriods[$i]["initial_date"]) {
                         $colorIndex = $i;
+                        $unityName = $gradeUnityPeriods[$i]["name"];
                     }
                 } else {
                     if ($gregorianDate >= $gradeUnityPeriods[$i]["initial_date"] && $gregorianDate < $gradeUnityPeriods[$i + 1]["initial_date"]) {
                         $colorIndex = $i;
+                        $unityName = $gradeUnityPeriods[$i]["name"];
                     }
                 }
             }
-            array_push($result, ["year" => $dt->format("Y"), "month" => $dt->format("n"), "day" => $dt->format("j"), "colorIndex" => $colorIndex]);
+            array_push($result, ["year" => $dt->format("Y"), "month" => $dt->format("n"), "day" => $dt->format("j"), "colorIndex" => $colorIndex, "unityName" => $unityName]);
         }
         echo json_encode($result);
     }
