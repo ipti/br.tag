@@ -93,18 +93,15 @@ class StudentMapper
         {
             $parseResult = [];
         
-            $inNumRA = $exibirFichaAluno->getOutDadosPessoais()->getOutNumRa();
-            $inSiglaUFRA =  $exibirFichaAluno->getOutDadosPessoais()->getOutSiglaUfra();
-
-            $listaAluno = new EnrollmentSEDDataSource();
-            $response = $listaAluno->getListarMatriculasRA(new InAluno($inNumRA, null, $inSiglaUFRA));
-            $schoolInep = '35'.$response->getOutListaMatriculas()[0]->getOutCodEscola();
-
             $outDadosPessoais = $exibirFichaAluno->getOutDadosPessoais();
             $outDocumentos = $exibirFichaAluno->getOutDocumentos();
             $outCertidaoNova = $exibirFichaAluno->getOutCertidaoNova();
             $outCertidaoAntiga = $exibirFichaAluno->getOutCertidaoAntiga();
             $outEnderecoResidencial = $exibirFichaAluno->getOutEnderecoResidencial();
+
+            $listaAluno = new EnrollmentSEDDataSource();
+            $response = $listaAluno->getListarMatriculasRA(new InAluno($outDadosPessoais->getOutNumRa(), null, $outDadosPessoais->getOutSiglaUfra()));
+            $schoolInep = '35'.$response->getOutListaMatriculas()[0]->getOutCodEscola();
 
             $studentIdentification = new StudentIdentification;
             $studentIdentification->school_inep_id_fk = $schoolInep;
