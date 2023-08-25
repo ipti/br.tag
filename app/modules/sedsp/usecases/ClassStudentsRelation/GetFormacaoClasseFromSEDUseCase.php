@@ -21,11 +21,9 @@ class GetFormacaoClasseFromSEDUseCase
             $mapper = (object) ClassroomMapper::parseToTAGFormacaoClasse($response);
             $classroom = $mapper->Classroom;
             
-            foreach ($mapper->Students as $student) {
-
-                $inAluno = new InAluno($student->inep_id, null, $student->uf);          
-                
+            foreach ($mapper->Students as $student) {    
                 //Verifica se está cadastrado em student_identification
+                $inAluno = new InAluno($student->inep_id, null, $student->uf);
                 $registerStudent = new GetExibirFichaAlunoFromSEDUseCase();
                 $registerStudent->exec($inAluno);
 
