@@ -41,9 +41,14 @@ class GetFormacaoClasseFromSEDUseCase
                     $studentEnrollment = new StudentEnrollment();
                     $studentEnrollment->school_inep_id_fk = $classroom->school_inep_fk;
                     $studentEnrollment->student_inep_id = $student->inep_id;
-                    $studentEnrollment->student_fk = StudentIdentification::model()->find('inep_id = :inep_id', [':inep_id' => $student->inep_id])->id;
+
+                    $id = StudentIdentification::model()->find('inep_id = :inep_id', [':inep_id' => $student->inep_id])->id;
+                    if($id !== null)
+                        $studentEnrollment->student_fk = $id;
+                    else
+                        $studentEnrollment->student_fk = StudentIdentification::model()->find('name = :name', [':name' => $student->name])->id;
+                    
                     $studentEnrollment->classroom_fk = Classroom::model()->find('inep_id = :inep_id', [':inep_id' => $classroom->inep_id])->id ;
-    
                     if ($studentEnrollment->validate() && $studentEnrollment->save()) 
                         CVarDumper::dump('Aluno matriculado com sucesso.', 10, true);
                     else 
