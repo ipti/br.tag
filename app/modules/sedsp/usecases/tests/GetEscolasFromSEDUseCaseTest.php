@@ -9,13 +9,16 @@ class GetEscolasFromSEDUseCaseTest extends TestCase
     public function testExec()
     {
 
-        $getEscolasUseCaseMock = $this->createMock(GetEscolasFromSEDUseCase::class);
+        $getEscolasUseCaseMock = $this->createMock(SchoolSEDDataSource::class);
 
         $getEscolasUseCaseMock->expects($this->any())
-            ->method('exec')
-            ->willReturn(false);
+            ->method('getSchool')
+            ->willReturn(new OutEscola());
 
-        $result = $getEscolasUseCaseMock->exec(new InEscola("CEMPRI PROFESSORA MARTA HELENA DA SILVA ARAUJO", null, null, null)); 
+        $usecase = new GetEscolasFromSEDUseCase($getEscolasUseCaseMock);
+
+        $result = $usecase->exec(new InEscola("CEMPRI PROFESSORA MARTA HELENA DA SILVA ARAUJO", null, null, null));
+
         $this->assertEquals(false, $result);
         
     }
