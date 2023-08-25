@@ -60,6 +60,7 @@ class ClassroomMapper
             $studentIdentification->filiation_1 = $outExibirFichaAluno->getOutNomeMae();
             $studentIdentification->filiation_2 = $outExibirFichaAluno->getOutNomePai();
             $studentIdentification->nationality = $outExibirFichaAluno->getOutNacionalidade();
+            $studentIdentification->uf = $student->getOutSiglaUfra();
 
             if($outExibirFichaAluno->getOutNacionalidade() == 1) //1 - Brasileira
                 $studentIdentification->edcenso_nation_fk = 76;
