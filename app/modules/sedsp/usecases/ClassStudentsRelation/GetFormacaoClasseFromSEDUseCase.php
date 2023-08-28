@@ -22,11 +22,12 @@ class GetFormacaoClasseFromSEDUseCase
            
             $classroom = $mapper->Classroom;
             $students = $mapper->Students;
-            
+ 
+
             foreach ($students as $student) {    
                 $inAluno = $this->createNewStudent($student->gov_id, null, $student->uf);
                 $this->getFichaAluno($inAluno);
-                
+
                 /* $studentEnrollmentModel =  $this->searchStudentEnrollmentInDb($classroom->school_inep_fk, $student->gov_id, $classroom->gov_id);
                 if($studentEnrollmentModel === null){
                     $studentEnrollment = new StudentEnrollment();
@@ -41,8 +42,9 @@ class GetFormacaoClasseFromSEDUseCase
                         CVarDumper::dump('Aluno matriculado com sucesso.', 10, true);
                     else 
                         CVarDumper::dump($studentEnrollment->getErrors(), 10, true);
-                }  */
-            }      
+                } */  
+            }  
+
         } catch (Exception $e) {
             CVarDumper::dump($e->getMessage(), 10, true);
         }

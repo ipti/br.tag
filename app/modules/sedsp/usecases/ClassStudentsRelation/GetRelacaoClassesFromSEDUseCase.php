@@ -22,14 +22,10 @@ class GetRelacaoClassesFromSEDUseCase
                 $indexedByClasses[$value['gov_id']] = $value['gov_id'];
             }
 
-            $logSave = [];
             $classrooms = $mapper->Classrooms;
-
-            $transaction = Yii::app()->db->beginTransaction();
-            $allClassesSaved = true;
-
+        
             foreach($classrooms as $classroom) {
-                $classroomGovId = $classroom->gov_id;
+               $classroomGovId = $classroom->gov_id;
 
                 //Classe já existe no TAG
                 if($indexedByClasses[$classroomGovId] !== null){
@@ -40,19 +36,10 @@ class GetRelacaoClassesFromSEDUseCase
 
                     if ($createdClass) {
                         $this->getStudentsFromClass($classroomGovId);      
-                    } else {
-                        $allClassesSaved = false;
-                    }
-                }  
+                    } 
+                } 
+                
             }
-
-            if ($allClassesSaved) {
-                $transaction->commit();
-            } else {
-                $transaction->rollback();
-            }
-
-            CVarDumper::dump($logSave, 10, true);
         } catch (Exception $e) {
             CVarDumper::dump($e->getMessage(), 10, true);
         }       

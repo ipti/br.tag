@@ -11,6 +11,7 @@ class GetEscolasFromSEDUseCase
         
         $mapper = (object) SchoolMapper::parseToTAGSchool($result);
 
+
         if ($schoolModel->inep_id !== null) {  
             $inRelacaoClasses = $this->getClassesFromSED($schoolId);        
             $this->getSchoolClasses($inRelacaoClasses);
@@ -20,16 +21,12 @@ class GetEscolasFromSEDUseCase
             $schoolAttributes = $mapper->SchoolIdentification->getAttributes();
             $createdSchool = $this->createAndSaveNewSchool($schoolAttributes);
             
-            $transaction = Yii::app()->db->beginTransaction();
-            
             if ($createdSchool) {    
-                $transaction->commit();
                 $inRelacaoClasses = $this->getClassesFromSED($schoolId); 
                 $this->getSchoolClasses($inRelacaoClasses);
 
                 return true;
             } else {
-                $transaction->rollback();
                 throw new SedspException('Não foi possível salvar a escola no banco de dados.');
             }
         }
