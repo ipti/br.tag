@@ -10,43 +10,70 @@ class GetRelacaoClassesFromSEDUseCase
         try {
             $classes = new ClassStudentsRelationSEDDataSource();
             $response = $classes->getRelacaoClasses($inRelacaoClasses);
+            
             $mapper = (object) ClassroomMapper::parseToTAGRelacaoClasses($response);
 
-            $schoolInepFk = '35'.$inRelacaoClasses->getInCodEscola();
+            $schoolInepFk = '35' . $inRelacaoClasses->getInCodEscola();
 
             //Aramazena as classes da escola de código $schoolInepFk
             $indexedByClasses = [];
             $allClasses = (object) Classroom::model()->findAll('school_inep_fk = :schoolInepFk', [':schoolInepFk' => $schoolInepFk]);
             foreach ($allClasses as $value) {
-                $indexedByClasses[$value['inep_id']] = $value['inep_id'];
+                $indexedByClasses[$value['gov_id']] = $value['gov_id'];
             }
 
             $logSave = [];
-            foreach($mapper->Classrooms as $classroom) {   
-                if($indexedByClasses[$classroom->inep_id] !== null){
-                    //Classe já existe no TAG
-                    $inNumClasse = new InFormacaoClasse($classroom->inep_id);
-                    $formacaoClasseSEDUseCase = new GetFormacaoClasseFromSEDUseCase();
-                    $formacaoClasseSEDUseCase->exec($inNumClasse); 
-                }else{
-                    //Cria uma nova classe
-                    $class = new Classroom();
-                    $class->attributes = $classroom->getAttributes(); 
+            $classrooms = $mapper->Classrooms;
 
-                    if ($class->validate() && $class->save()) {
-                        $inNumClasse = new InFormacaoClasse($classroom->inep_id);
-                        $formacaoClasseSEDUseCase = new GetFormacaoClasseFromSEDUseCase();
-                        $formacaoClasseSEDUseCase->exec($inNumClasse);  
-                        
-                        $logSave[] = 'Classe '. $classroom->inep_id . ' - ' . $classroom->name . ' cadastrada com sucesso.';
-                    }else{
-                        CVarDumper::dump($class->getErrors(), 10, true);  
-                    } 
+            $transaction = Yii::app()->db->beginTransaction();
+            $allClassesSaved = true;
+
+            foreach($classrooms as $classroom) {
+                $classroomGovId = $classroom->gov_id;
+
+                //Classe já existe no TAG
+                if($indexedByClasses[$classroomGovId] !== null){
+                    $this->getStudentsFromClass($classroomGovId);
+                } else {
+                    $attributes = $classroom->getAttributes();
+                    $createdClass = $this->createAndSaveNewClass($attributes, $classroom->gov_id);
+
+                    if ($createdClass) {
+                        $this->getStudentsFromClass($classroomGovId);      
+                    } else {
+                        $allClassesSaved = false;
+                    }
                 }  
             }
+
+            if ($allClassesSaved) {
+                $transaction->commit();
+            } else {
+                $transaction->rollback();
+            }
+
             CVarDumper::dump($logSave, 10, true);
         } catch (Exception $e) {
             CVarDumper::dump($e->getMessage(), 10, true);
         }       
+    }
+
+    function createAndSaveNewClass($attributes, $govId)
+    {
+        $class = new Classroom();
+        $class->attributes = $attributes;
+        $class->gov_id = $govId;
+
+        if($class->validate() && $class->save()) 
+            return true;
+        else
+            CVarDumper::dump($class->getErrors(), 10, true);  
+    } 
+
+    function getStudentsFromClass($classroomGovId)
+    {
+        $inNumClasse = new InFormacaoClasse($classroomGovId);
+        $formacaoClasseSEDUseCase = new GetFormacaoClasseFromSEDUseCase();
+        $formacaoClasseSEDUseCase->exec($inNumClasse); 
     }
 }

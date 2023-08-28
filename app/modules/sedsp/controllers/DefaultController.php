@@ -290,15 +290,16 @@ class DefaultController extends Controller
 	{
 		$this->checkSEDToken();
 
-		$transaction = Yii::app()->db->beginTransaction();
+		
 		try {
 			$inConsult = new InEscola($_POST["schoolName"], null, null, null);
 			$escola = new GetEscolasFromSEDUseCase();
+			
 			$escola->exec($inConsult);
-			$transaction->commit();
+
+			#$transaction->commit();
 		} catch (Exception $e) {
 			CVarDumper::dump($e->getMessage(), 10, true);
-			$transaction->rollback();
 		}			
 	}
 
