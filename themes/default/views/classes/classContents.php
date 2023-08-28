@@ -34,7 +34,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <?php echo Yii::t('default', 'Print') ?>
             </a>
         </div>
-        <a id="save" class='t-button-secondary hide'><?php echo Yii::t('default', 'Save') ?></a>
+        <a id="save" class='t-button-primary'><?php echo Yii::t('default', 'Save') ?></a>
     </div>
     <table class="table table-bordered table-striped visible-print">
         <tr>
