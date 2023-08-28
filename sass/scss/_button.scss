@@ -8,7 +8,7 @@
     &.auto-width {
         width: auto;
     }
-    
+
     @include device(tablet) {
         padding: $spaceXXXSmall 0 $spaceXXXSmall 0;
         font-size: $FontSizeTextNormal;
@@ -122,6 +122,10 @@
     background-color: $colorsBaseInkLighterActive;
     color: $colorsBaseWhiteNormal;
 
+    &:focus {
+        color: $colorsBaseWhiteNormal;
+    }
+
     &:hover,
     &--active {
         color: $colorsBaseWhiteNormal;
@@ -156,6 +160,7 @@
 
 .t-button-icon {
     @extend .t-button;
+
     &.secondary {
         padding: $spaceXXSmall $spaceLarge $spaceXXSmall $spaceLarge;
         background-color: $colorsBaseProductNormal;
@@ -170,6 +175,7 @@
             color: $colorsBaseWhiteNormal;
             background-color: $colorsBaseProductNormalActive;
         }
+
         &:link,
         &:focus,
         &:hover,
@@ -177,8 +183,9 @@
         &:active {
             color: $colorsBaseWhiteNormal;
         }
-        span{
-            font-size: $FontSizeIcons2 !important; 
+
+        span {
+            font-size: $FontSizeIcons2 !important;
         }
     }
 }
