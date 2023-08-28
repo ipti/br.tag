@@ -151,6 +151,10 @@ $form = $this->beginWidget('CActiveForm', array(
     .select2-drop {
         width:428px !important;
     }  
+
+    #s2id_schools .select2-choices {
+        height: 100px !important;
+    }
   
     .show-password-icon {
         cursor: pointer;
