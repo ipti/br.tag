@@ -20,35 +20,48 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     </div>
     <table class="table table-bordered table-striped" aria-labelledby="cns students">
         <thead>
-            <?php echo $allSchools ? "<th scope='col'>ESCOLA</th>" : ""?>
+            <th>ORDEM</th>
+            <?php if($allSchools) {echo "<th scope='col'>ESCOLA</th>";}else if($allClassrooms) {echo "<th scope='col'>TURMA</th>";}else {echo "";}?>
             <th>NOME</th>
             <th>D.N</th>
-            <th>CNS</th>
+            <th>CPF</th>
+            <th>RG</th>
+            <th>NIS</th>
             <th>RESPONSÁVEL</th>
             <th>TEL. RESPONSÁVEL</th>
         </thead>
         <tbody>
-            <?php foreach($report as $r) { ?>
+            <?php
+            $ordem = 1;
+            foreach($report as $r) { 
+            $ordemStr = $ordem < 10 ? "0".$ordem : $ordem;
+            ?>
                 <tr>
-                    <?php echo $allSchools ? "<td>".$r['school_name']."</td>" : ""?>
+                    <td><?= $ordemStr ?></td>
+                    <?php if($allSchools) {echo "<td>".$r['school_name']."</td>";}else if($allClassrooms) {echo "<td>".$r['classroom_name']."</td>";}else {echo "";}?>
                     <td><?= $r['name'] ?></td>
-                    <td><?= TagUtils::convertDateFormat($r['birthday']) ?></td>
-                    <td><?= $r['cns'] ?></td>
+                    <td><?= $r['birthday'] ?></td>
+                    <td><?= $r['cpf'] ?></td>
+                    <td><?= $r['rg_number'] ?></td>
+                    <td><?= $r['nis'] ?></td>
                     <td><?= $r['responsable_name'] ?></td>
                     <td><?= $r['responsable_telephone'] ?></td>
                 </tr>
-            <?php } 
-            if($countTotal) {
+            <?php 
+            $ordem++;
+            }
             ?>
             <tr>
                 <td></td>
+                <?php if($allSchools) {echo "<td></td>";}else if($allClassrooms) {echo "<td></td>";}else {echo "";}?>
                 <td></td>
                 <td></td>
                 <td></td>
-                <?php echo $allSchools ? "<td></td>" : ""?>
+                <td></td>
+                <td></td>
+                <td></td>
                 <td><b>TOTAL:<?php echo " ".count($report)?></b></td>
             </tr>
-            <?php }?>
         </tbody>
     </table>
 </div>

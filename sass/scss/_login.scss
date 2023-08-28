@@ -1,0 +1,20 @@
+.login-form {
+    flex-direction: column;
+    margin-top: $SizeXLarge;
+    margin-bottom: $SizeLarge;
+    .form-signin {
+        position: relative;
+        width: 334px;
+        margin-top: $SizeXXXLarge;
+        margin-bottom: 0px;
+    }
+    .login-footer {
+        margin-top: $SizeHeader;
+        margin-bottom: 0px;
+        flex-direction: column;
+        justify-content: center;
+        display: flex;
+        text-align: center;
+    }
+}
+

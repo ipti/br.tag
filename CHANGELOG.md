@@ -1,5 +1,32 @@
 # Atualizações
 
+## [Versão 3.53.84]
+- Alterado filtros em frequência
+
+## [Versão 3.53.83]
+- Quantidade de Alunos Matrículados por Período por Turma
+- Quantidade de Alunos Matrículados por Período na Escola
+- Quantidade de Alunos Matrículados por Período de todas as Escolas
+
+## [Versão 3.50.83]
+- Quantidade de Turmas por Escola
+
+## [Versão 3.49.82]
+- Relatório de CPF, RG e NIS do Alunos por Turma
+- Relatório de CPF, RG e NIS do Alunos por Escola
+- Relatório de CPF, RG e NIS do Alunos de Todas as Escolas
+
+## [Versão 3.46.82]
+- Relatório de Alunos Benefeciários do Bolsa Família por Turma
+- Relatório de Alunos Benefeciários do Bolsa Família de Todas as Turmas
+- Relatório de Alunos Benefeciários do Bolsa Família de Todas as Escolas
+
+## [Versão 3.42.83]
+- Consertado tela de cadastro de usuário
+
+## [Versão 3.43.82]
+- Relatório de Quantidade de Turmas por Escola (somente administrador)
+
 ## [Versão 3.42.82]
 - Ficha Individual 1º e 2º Segmento
 
@@ -15,8 +42,10 @@
 
 ## [Versão 3.40.79]
 - Alterada a validação nos inputs de notas na tela de Notas 
+
 ## [Versão 3.40.78]
 - Criado multiselect para os planos de aula no módulo de diário de classe
+ 
 ## [Versão 3.39.78]
 - Criado os relatórios de alunos com deficiência por turma e por escola
 

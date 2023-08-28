@@ -1,25 +1,20 @@
 $(document).ready(function() {
     $("#showPassword").click(function() {
-        var senhaInput = $("#Users_password");
-        var senhaInputType = senhaInput.attr("type");
+        var senhaInput = document.querySelector("#Users_password");
+        
+         var senhaInputType = senhaInput.type;
+        if (senhaInputType ===  'password') {
+            senhaInput.type = "text" 
+        } else {
+            senhaInput.type = 'password';
+        }
+ 
 
-        var width = window.location.search.includes('update') ? "413px" : "230px"
-    
-        var senhaInputNovo = $("<input>").attr({
-            type: (senhaInputType === "password") ? "text" : "password",
-            id: senhaInput.attr("id"),
-            placeholder: senhaInput.attr("placeholder"),
-            value: senhaInput.val(),
-            style: `width:${width}`
-        });
         if(senhaInputType === "password") {
             $(this).removeClass('t-icon-eye').addClass('t-icon-eye_hash');
         }else {
             $(this).removeClass('t-icon-eye_hash').addClass('t-icon-eye');
         }
-
-        senhaInput.replaceWith(senhaInputNovo);
-        senhaInputNovo.focus();
     });
 
     $("#showPasswordConfirm").click(function () {
@@ -71,6 +66,7 @@ $(form + 'username').focusout(function () {
 });
 
 $(form + 'password').focusout(function () {
+   console.log( $(this).attr("id"))
     var id = '#' + $(this).attr("id");
     if (!validatePassword($(id).val())) {
         $(id).attr('value', '');

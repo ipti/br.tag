@@ -34,6 +34,7 @@
         .t-cards-text {
             color: $colorsBaseInkLightActive;
             margin-left: $SizeXLarge;
+            font-size: $FontSizeTextSmall;
             &.clear-margin {
                 &--left {
                     margin-left: 0;
@@ -47,6 +48,10 @@
             font-size: $FontSizeHeadingTitle1;
         }
 
+        .t-cards-link{
+            display: flex;
+            gap: 13px;
+        }
     }
       &:hover {
             text-decoration: none;

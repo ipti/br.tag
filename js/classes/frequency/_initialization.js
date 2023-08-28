@@ -1,5 +1,5 @@
-$("#classesSearch").on("change", function () {
-    if ($("#classroom").val() !== "" && $("#month").val() !== "" && (!$("#disciplines").is(":visible") || $("#disciplines").val() !== "")) {
+function load() {
+    if ($("#classroom").val() !== "Selecione a turma" && $("#month").val() !== "" && (!$("#disciplines").is(":visible") || $("#disciplines").val() !== "")) {
         $(".alert-required-fields, .alert-incomplete-data").hide();
         var fundamentalMaior = Number($("#classroom option:selected").attr("fundamentalmaior"));
         jQuery.ajax({
@@ -75,7 +75,7 @@ $("#classesSearch").on("change", function () {
         $(".alert-required-fields").show();
         $("#frequency-container, .alert-incomplete-data").hide();
     }
-});
+}
 
 $(document).on("click", ".frequency-checkbox-container", function (e) {
     if (e.target === this && !$(this).hasClass("disabled")) {
@@ -105,10 +105,16 @@ $("#classroom").on("change", function () {
             });
         } else {
             $(".disciplines-container").hide();
+            load();
+            
         }
     } else {
         $(".disciplines-container").hide();
     }
+});
+
+$(".js-load-frequency").on("change", function () {
+    load();
 });
 
 $(document).on("change", ".frequency-checkbox", function () {
