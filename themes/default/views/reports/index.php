@@ -643,18 +643,12 @@ $this->breadcrumbs = array(
     </div>
     <div class="row">
         <div class="modal fade modal-content" id="number-of-students-enrolled-per-period-per-classroom" tabindex="-1" role="dialog">
-        <div class="modal fade modal-content" id="students-benefiting-from-the-bf" tabindex="-1" role="dialog">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
             </div>
-            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/NumberOfStudentsEnrolledPerPeriodPerClassroom'); ?>" method="post" target="_blank">
-                <div class="modal-body">
-                    <div class="row-fluid">
-                        <div class=" span12">
-                            <?php echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));?>
             <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/ReportOfStudentsBenefitingFromTheBFPerClassroom'); ?>" method="post" target="_blank">
                 <div class="modal-body">
                     <div class="row-fluid">
@@ -684,6 +678,7 @@ $this->breadcrumbs = array(
                         <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
                         <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
                     </div>
+                </div>
             </form>
         </div>
     </div>
@@ -813,6 +808,7 @@ $this->breadcrumbs = array(
                         <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
                         <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
                     </div>
+                </div>
             </form>
         </div>
     </div>
