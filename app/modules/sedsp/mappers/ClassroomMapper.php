@@ -53,7 +53,6 @@ class ClassroomMapper
            
             $outExibirFichaAluno = $studentDatasource->exibirFichaAluno(new InAluno($student->getOutNumRa(), $student->getOutDigitoRA(), "SP"))->getOutDadosPessoais();
 
-            $studentIdentification->gov_id = $outExibirFichaAluno->getOutDigitoRa();
             $studentIdentification->sex = $outExibirFichaAluno->getOutCodSexo();
             $studentIdentification->color_race = $outExibirFichaAluno->getOutCorRaca();
             $studentIdentification->filiation = 1;
@@ -88,6 +87,8 @@ class ClassroomMapper
         $schoolInepFk = '35' . $outRelacaoClasses->getOutCodEscola();
         $outClasses = $outRelacaoClasses->getOutClasses();
     
+       
+
         $arrayClasses = [];
         foreach ($outClasses as $classe) {
             $classroom = new Classroom();
