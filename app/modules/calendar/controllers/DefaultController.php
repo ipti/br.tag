@@ -440,7 +440,7 @@ class DefaultController extends Controller
             $criteria->params = ["calendar_fk" => $_POST["id"]];
             $calendarStages = CalendarStages::model()->findAll($criteria);
             foreach ($calendarStages as $calendarStage) {
-                $gradeUnities = GradeUnity::model()->findAll('edcenso_stage_vs_modality_fk = :stage', ["stage" => $calendarStage->stage_fk]);
+                $gradeUnities = GradeUnity::model()->findAll('edcenso_stage_vs_modality_fk = :stage and type not in ("RS", "RF")', ["stage" => $calendarStage->stage_fk]);
                 $stageArray["title"] = $calendarStage->stageFk->name;
                 $stageArray["unities"] = [];
                 foreach ($gradeUnities as $index => $gradeUnity) {
@@ -501,7 +501,8 @@ class DefaultController extends Controller
             select gup.initial_date, gu.name 
             from grade_unity_periods gup 
             inner join grade_unity gu on gup.grade_unity_fk = gu.id 
-            where gu.edcenso_stage_vs_modality_fk = :stageId order by initial_date"
+            where gu.edcenso_stage_vs_modality_fk = :stageId 
+            order by initial_date"
         )->bindParam(":stageId", $_POST["stageId"])->queryAll();
 
         $calendarInitialDate = CalendarEvent::model()->find('calendar_fk = :calendarId and calendar_event_type_fk = 1000', ["calendarId" => $_POST["calendarId"]]);
