@@ -1,5 +1,21 @@
 # Atualizações
 
+## [Versão 3.53.84]
+- Alterado filtros em frequência
+
+## [Versão 3.53.83]
+- Quantidade de Alunos Matrículados por Período por Turma
+- Quantidade de Alunos Matrículados por Período na Escola
+- Quantidade de Alunos Matrículados por Período de todas as Escolas
+
+## [Versão 3.50.83]
+- Quantidade de Turmas por Escola
+
+## [Versão 3.49.82]
+- Relatório de CPF, RG e NIS do Alunos por Turma
+- Relatório de CPF, RG e NIS do Alunos por Escola
+- Relatório de CPF, RG e NIS do Alunos de Todas as Escolas
+
 ## [Versão 3.46.82]
 - Relatório de Alunos Benefeciários do Bolsa Família por Turma
 - Relatório de Alunos Benefeciários do Bolsa Família de Todas as Turmas

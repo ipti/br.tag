@@ -129,9 +129,9 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                             'buttons' => array(
                                 'delete' => array(
                                     'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
-
-                                )
-                            )
+                                ),
+                            ),
+                            'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
                         ],
 
                     ],
