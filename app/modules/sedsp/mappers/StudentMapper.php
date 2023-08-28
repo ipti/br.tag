@@ -101,12 +101,38 @@ class StudentMapper
 
             $listaAluno = new EnrollmentSEDDataSource();
             $response = $listaAluno->getListarMatriculasRA(new InAluno($outDadosPessoais->getOutNumRa(), null, $outDadosPessoais->getOutSiglaUfra()));
-            $schoolInep = '35'.$response->getOutListaMatriculas()[0]->getOutCodEscola();
+            
+            $listMatriculas = $response->getOutListaMatriculas();
+
+
+            foreach ($listMatriculas  as $matricula) {
+                if($matricula->getOutDescSitMatricula() == 'ATIVO'){
+                    $codEscola = $matricula->getOutCodEscola();
+                    
+                    $cod = self::findSchoolById($codEscola);
+                
+                    if($cod->inep_id === null) {
+                        $inConsult = new InEscola($matricula->getOutDescNomeAbrevEscola(), null, null, null);
+
+                        $result = self::fetchSchoolData($inConsult);
+                        $mapper = (object) SchoolMapper::parseToTAGSchool($result);
+    
+                        $schoolAttributes = $mapper->SchoolIdentification->getAttributes();
+                        self::createAndSaveNewSchool($schoolAttributes);
+                        
+                    }
+                }       
+            }
+
+
+            $schoolInep = '35' . $codEscola;
+
+            CVarDumper::dump($schoolInep, 10, true);
+
 
             $studentIdentification = new StudentIdentification;
             $studentIdentification->school_inep_id_fk = $schoolInep;
             $studentIdentification->gov_id = $outDadosPessoais->getOutNumRa();
-            $studentIdentification->gov_id = $outDadosPessoais->getOutDigitoRa();
             $studentIdentification->name = $outDadosPessoais->getOutNomeAluno();
             $studentIdentification->filiation = $outDadosPessoais->getOutNomeMae() != "" || $outDadosPessoais->getOutNomePai() != "" ? 1 : 0;
             $studentIdentification->filiation_1 = $outDadosPessoais->getOutNomeMae();
@@ -177,5 +203,25 @@ class StudentMapper
 
             return $parseResult;
         }
+
+        static private function findSchoolById($schoolId)
+        {
+            return SchoolIdentification::model()->find('inep_id = :inep_id', [':inep_id' => $schoolId]);
+        }
+
+        static function fetchSchoolData(InEscola $inEscola)
+        {
+            $dataSource = new SchoolSEDDataSource();
+            return $dataSource->getSchool($inEscola);
+        }
+
+        static function createAndSaveNewSchool($schoolAttributes)
+        {
+            $school = new SchoolIdentification();
+            $school->attributes = $schoolAttributes;
+            
+            return ($school->validate() && $school->save()) ? true : false;
+        }
+
     }
 ?>
