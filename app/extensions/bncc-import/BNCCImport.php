@@ -1,6 +1,7 @@
 <?php
 
 include 'vendor/autoload.php';
+include 'FundamentalDisciplinesMap';
 
 
 class BNCCImport
@@ -112,50 +113,17 @@ class BNCCImport
         return $parsedData;
     }
 
-     private function parseCSVDataFundamental($csvData)
+    private function parseCSVDataFundamental($csvData)
     {
-        $parsedData = [];
-        $currentCategory = '';
-        $currentSubCategory = '';
-        $currentSubSubCategory = '';
-
         foreach ($csvData as $key => $line) {
+            $disciplineName = $line[0];
 
-            $component = trim($line[0]);
-            $year = trim($line[1]);
-            $unity = trim($line[2]);
-            $objective = trim($line[3]);
-            $abilitie = trim($line[4]);
-
-            if (!empty($component)) {
-                // Inicializar a categoria atual
-                $currentCategory = $component;
-                if (!isset($parsedData[$currentCategory])) {
-                    $parsedData[$currentCategory] = [
-                        'name' => $currentCategory,
-                        'type' => "COMPONENTE",
-                        'children' => []
-                    ];
-                }
-                $currentSubCategory = '';
-            }
-
-            if (!empty($unity)) {
-                if (!isset($parsedData[$component]['children'][$unity])) {
-                    $parsedData[$component]['children'][$unity] = ['name' => $unity, 'type' => "UNIDADES TEMÁTICAS", 'children' => []];
-                }
-            }
-
-            if (!empty($objective)) {                                
-                $parsedData[$component]['children'][$unity]['children'][$objective] = ["name" => $objective, 'type' => "OBJETOS DE CONHECIMENTO", 'children' => []];
-            }
-
-            if (!empty($abilitie)) {
-                $parsedData[$component]['children'][$unity]['children'][$unity]['children'][$objective]['children'][] = ["name" => $abilitie, 'type' => "OBJETOS DE CONHECIMENTO"];                
+            switch ($disciplineName) {
+                case 'Matemática':
+                    $parsedData = FundamentalDisciplinesMap::parseMathemathicData($line);
+                    break;
             }
         }
-
-
         return $parsedData;
     }
 
