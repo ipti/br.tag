@@ -15,7 +15,7 @@ class FormsController extends Controller {
                     'GetEnrollmentDeclarationInformation','TransferRequirement','GetTransferRequirementInformation',
                     'EnrollmentNotification','GetEnrollmentNotificationInformation','StudentsDeclarationReport',
                     'GetStudentsFileInformation','AtaSchoolPerformance','StudentFileForm',
-                    'TransferForm','GetTransferFormInformation', 'StudentStatementAttended'),
+                    'TransferForm','GetTransferFormInformation', 'StudentStatementAttended', 'IndividualRecord'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -172,6 +172,150 @@ class FormsController extends Controller {
             'unities' => $unities
         ));
     }
+
+    private function calcularFrequencia($diasLetivos, $totalFaltas) {
+        if ($diasLetivos === 0) {
+            return 0; // Evitar divisão por zero
+        }
+    
+        $frequencia = (($diasLetivos - $totalFaltas) / $diasLetivos) * 100;
+        return number_format($frequencia, 2);
+    }
+    
+    public function actionIndividualRecord($enrollment_id)
+    {   
+        $this->layout = "reports";                                             
+        $disciplines = array();
+        $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
+        $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $enrollment_id]); // medias do aluno na turma
+        $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
+        $schedules = Schedule::model()->findAllByAttributes(["classroom_fk" => $enrollment->classroom_fk]);
+        $gradeRules = GradeRules::model()->findByAttributes(["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcensoStageVsModalityFk->id]);
+        $portuguese = array();
+        $history = array();
+        $geography = array();
+        $mathematics = array();
+        $sciences = array();
+
+        $stage = isset($enrollment->edcenso_stage_vs_modality_fk) ? $enrollment->edcenso_stage_vs_modality_fk : $enrollment->classroomFk->edcenso_stage_vs_modality_fk;
+
+        $minorFundamental = Yii::app()->utils->isStageMinorEducation($stage);
+
+        $workload = 0;
+        foreach ($curricularMatrix as $c) {
+            $workload += $c->workload;
+        }
+
+        foreach ($curricularMatrix as $c) {
+            foreach ($gradesResult as $g) {
+                if($c->disciplineFk->id == $g->discipline_fk) {
+                    if($c->disciplineFk->id == 6 && $minorFundamental) {
+                        array_push($portuguese, [
+                            "grade1" => $g->grade_1,
+                            "faults1" => $g->grade_faults_1,
+                            "grade2" => $g->grade_2,
+                            "faults2" => $g->grade_faults_2,
+                            "grade3" => $g->grade_3,
+                            "faults3" => $g->grade_faults_3,
+                            "grade4" => $g->grade_4,
+                            "faults4" => $g->grade_faults_4,
+                            "final_media" => $g->final_media
+                        ]);
+                    }else if ($c->disciplineFk->id == 12 && $minorFundamental) {
+                        array_push($history, [
+                            "grade1" => $g->grade_1,
+                            "faults1" => $g->grade_faults_1,
+                            "grade2" => $g->grade_2,
+                            "faults2" => $g->grade_faults_2,
+                            "grade3" => $g->grade_3,
+                            "faults3" => $g->grade_faults_3,
+                            "grade4" => $g->grade_4,
+                            "faults4" => $g->grade_faults_4,
+                            "final_media" => $g->final_media
+                        ]);
+                    }else if ($c->disciplineFk->id == 13 && $minorFundamental) {
+                        array_push($geography, [
+                            "grade1" => $g->grade_1,
+                            "faults1" => $g->grade_faults_1,
+                            "grade2" => $g->grade_2,
+                            "faults2" => $g->grade_faults_2,
+                            "grade3" => $g->grade_3,
+                            "faults3" => $g->grade_faults_3,
+                            "grade4" => $g->grade_4,
+                            "faults4" => $g->grade_faults_4,
+                            "final_media" => $g->final_media
+                        ]);
+                    }else if ($c->disciplineFk->id == 3 && $minorFundamental) {
+                        array_push($mathematics, [
+                            "grade1" => $g->grade_1,
+                            "faults1" => $g->grade_faults_1,
+                            "grade2" => $g->grade_2,
+                            "faults2" => $g->grade_faults_2,
+                            "grade3" => $g->grade_3,
+                            "faults3" => $g->grade_faults_3,
+                            "grade4" => $g->grade_4,
+                            "faults4" => $g->grade_faults_4,
+                            "final_media" => $g->final_media
+                        ]);
+                    }else if ($c->disciplineFk->id == 5 && $minorFundamental) {
+                        array_push($sciences, [
+                            "grade1" => $g->grade_1,
+                            "faults1" => $g->grade_faults_1,
+                            "grade2" => $g->grade_2,
+                            "faults2" => $g->grade_faults_2,
+                            "grade3" => $g->grade_3,
+                            "faults3" => $g->grade_faults_3,
+                            "grade4" => $g->grade_4,
+                            "faults4" => $g->grade_faults_4,
+                            "final_media" => $g->final_media
+                        ]);
+                    }else {
+                        array_push($disciplines, [
+                            "name" => $c->disciplineFk->name,
+                            "grade1" => $g->grade_1,
+                            "faults1" => $g->grade_faults_1,
+                            "grade2" => $g->grade_2,
+                            "faults2" => $g->grade_faults_2,
+                            "grade3" => $g->grade_3,
+                            "faults3" => $g->grade_faults_3,
+                            "grade4" => $g->grade_4,
+                            "faults4" => $g->grade_faults_4,
+                            "final_media" => $g->final_media
+                        ]);
+                    }
+                }
+            } 
+        }
+
+        $totalFaults = 0;
+        foreach ($disciplines as $d) {
+            $totalFaults += $d["faults1"] + $d["faults2"] + $d["faults3"] + $d["faults4"];
+        }
+
+        $totalFaults += $portuguese[0]["faults1"] + $portuguese[0]["faults2"] + $portuguese[0]["faults3"] + $portuguese[0]["faults4"];
+        $totalFaults += $history[0]["faults1"] + $history[0]["faults2"] + $history[0]["faults3"] + $history[0]["faults4"];
+        $totalFaults += $geography[0]["faults1"] + $geography[0]["faults2"] + $geography[0]["faults3"] + $geography[0]["faults4"];
+        $totalFaults += $mathematics[0]["faults1"] + $mathematics[0]["faults2"] + $mathematics[0]["faults3"] + $mathematics[0]["faults4"];
+        $totalFaults += $sciences[0]["faults1"] + $sciences[0]["faults2"] + $sciences[0]["faults3"] + $sciences[0]["faults4"];
+
+        $frequency = $this->calcularFrequencia($workload, $totalFaults);
+
+        $this->render('IndividualRecord', array(
+            'gradeRules' => $gradeRules,
+            'enrollment' => $enrollment,
+            'disciplines' => $disciplines,
+            'portuguese' => $portuguese,
+            'history' => $history,
+            'geography' => $geography,
+            'mathematics' => $mathematics,
+            'sciences' => $sciences,
+            'workload' => $workload,
+            'schedules' => $schedules,
+            'frequency' => $frequency,
+            'minorFundamental' => $minorFundamental
+        ));
+    }
+
     public function actionEnrollmentGradesReportBoquim($enrollment_id) {
         $this->layout = "reports";
         $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);

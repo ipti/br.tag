@@ -15,7 +15,7 @@ $domain = array_shift($host_array);
 $newdb = $domain.'.tag.ong.br';
 
 if($domain == "localhost"){
-    $newdb = 'buzios.tag.ong.br';
+    $newdb = 'demo.tag.ong.br';
 }
 
 

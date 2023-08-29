@@ -20,42 +20,49 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Users'));
         </div>
     </div>
     <div class="widget">
+        <?php if (Yii::app()->user->hasFlash('success')) : ?>
+            <div class="alert alert-success">
+                <?php echo Yii::app()->user->getFlash('success') ?>
+            </div>
+            <br />
+        <?php elseif (Yii::app()->user->hasFlash('notice')) : ?>
+            <div class="alert alert-info">
+                <?php echo Yii::app()->user->getFlash('notice') ?>
+            </div>
+            <br5/>
+        <?php elseif (Yii::app()->user->hasFlash('error')) : ?>
+            <div class="alert alert-error">
+                <?php echo Yii::app()->user->getFlash('error') ?>
+            </div>
+            <br />
+        <?php endif ?>     
         <div class="widget-body">
-            <?php
-            $this->widget('zii.widgets.grid.CGridView', array(
-                'dataProvider' => $dataProvider,
-                'enablePagination' => false,
-                'enableSorting' => false,
-                'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                'columns' => array(
-                    array(
-                        'name' => 'name',
-                        'type' => 'raw',
-                        'value' => 'CHtml::link($data->name,Yii::app()->createUrl("admin/update",array("id"=>$data->id)))',
-                        'htmlOptions' => array('class' => 'link-update-grid-view'),
-                    ),
-                    array(
-                        'name' => 'username',
-                        'type' => 'raw',
-                        'value' => '$data->username',
-                    ),
-                    array(
-                        'class'=>'CLinkColumn',
-                        'cssClassExpression' => '$data->active? show : hide',
-                        'urlExpression'=>'Yii::app()->createUrl("admin/disableUser",array("id"=>$data->id))',
-                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/disableUser.svg',
-                        'htmlOptions' => array('style' => 'text-align: center', 'title' => 'Desativar Usuário'),
-                    ),
-                    array(
-                        'class'=>'CLinkColumn',
-                        'cssClassExpression' => '$data->active? hide : show',
-                        'urlExpression'=>'Yii::app()->createUrl("admin/activeUser",array("id"=>$data->id))',
-                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/activeUser.svg',
-                        'htmlOptions' => array('style' => 'text-align: center', 'title' => 'Ativar Usuário'),
-                    ),
-                ),
-            ));
-            ?>
+            <div class="grid-view">
+                <table class="js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Usuário</th>
+                            <th scope="col" style="text-align: center">Ativar/Desativar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($users as $user) {?>
+                            <tr>
+                                <td class="link-update-grid-view" tabindex="0">
+                                    <a href="/?r=admin/update&id=<?=$user->id?>" style="cursor: pointer;"><?= $user->name?></a>
+                                </td>
+                                <td><?= $user->username?></td>
+                                <td style="text-align:center;">
+                                    <a href="/?r=admin/<?php echo $user->active ? "disable" : "active"?>User&id=<?=$user->id?>" style="cursor: pointer;">
+                                        <img src="/themes/default/img/<?php echo $user->active ? "disable" : "active"?>User.svg" alt="Link">
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php }?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

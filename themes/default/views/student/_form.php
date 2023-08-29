@@ -1604,6 +1604,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             }
                                                             ?>
                                                             <li><a href='<?php echo @Yii::app()->createUrl('forms/EnrollmentGradesReport', array('enrollment_id' => $me->id)) ?>' target="_blank">Rendimento Escolar Por Atividades</a></li>
+                                                            <li><a href='<?php echo @Yii::app()->createUrl('forms/IndividualRecord', array('enrollment_id' => $me->id)) ?>' target="_blank">Ficha Individual</a></li>
                                                     </td>
                                                     <td style="text-align: center">
                                                         <?php if ($me->classroomFk->school_year >= date('Y') && $me->status == 1) { ?>

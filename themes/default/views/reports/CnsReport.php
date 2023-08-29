@@ -32,7 +32,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 <tr>
                     <?php echo $allSchools ? "<td>".$r['school_name']."</td>" : ""?>
                     <td><?= $r['name'] ?></td>
-                    <td><?= $r['birthday'] ?></td>
+                    <td><?= TagUtils::convertDateFormat($r['birthday']) ?></td>
                     <td><?= $r['cns'] ?></td>
                     <td><?= $r['responsable_name'] ?></td>
                     <td><?= $r['responsable_telephone'] ?></td>

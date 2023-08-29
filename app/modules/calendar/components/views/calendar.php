@@ -95,7 +95,7 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                           data-original-title="Remover Calendário" data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-remove"></i>
                             </span>
-                    <span class="text-right pull-right edit-calendar-title" data-toggle="tooltip" data-placement="top"
+                    <span class="text-right pull-right edit-calendar" data-toggle="tooltip" data-placement="top"
                           data-original-title="<?= yii::t('index', 'Editar Título do Calendário') ?>"
                           data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-edit"></i>
@@ -309,7 +309,7 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
     </div>
 </div>
 
-<div class="modal fade modal-content" id="edit-calendar-title-modal" tabindex="-1" role="dialog"
+<div class="modal fade modal-content" id="edit-calendar-modal" tabindex="-1" role="dialog"
      aria-labelledby="Edit Calendar Title">
     <div class="modal-dialog" role="document">
             <div class="modal-header">
@@ -348,12 +348,26 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                         </div>
                     </div>
                 </div>
+
+                <div class="row-fluid stages-container">
+                    <div class="span12">
+                        <?= chtml::label(yii::t("calendarModule.labels", "Stages"), "stages", array('class' => 'control-label required')); ?>
+                        <div class="form-control">
+                            <?= CHtml::dropDownList("stages", [], CHtml::listData(EdcensoStageVsModality::model()->findAll(), "id", "name"), [
+                                "multiple" => "multiple", "class" => "select-search-on span12"
+                            ]) ?>
+                            <div class="add-stages-options">Atalho: <span class="add-fundamental-menor">Fundamental Menor</span>
+                                | <span class="add-fundamental-maior">Fundamental Maior</span> | <span
+                                        class="remove-stages">Remover</span></div>
+                        </div>
+                    </div>
+                </div>
             
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
                     <button type="button"
-                            class="btn btn-primary edit-calendar-title-button"><?= yii::t("calendarModule.index", "Save") ?></button>
+                            class="btn btn-primary edit-calendar-button"><?= yii::t("calendarModule.index", "Save") ?></button>
                 </div>
             </div>
             <?php

@@ -226,6 +226,10 @@
     content:'2';
     font-family: 'icone-tag', sans-serif;
 }
+.t-icon-submit-form::before{
+    content: '3';
+    font-family: 'icone-tag', sans-serif;
+}
 .t-icon-person::before {
     content:'4';
     font-family: 'icone-tag', sans-serif;
@@ -415,4 +419,24 @@
 .t-report_card::before{
     content: 'ê';
     font-family: 'icone-tag', sans-serif   
+}
+.t-group-bag::before{
+    content: 'Á';
+    font-family: 'icone-tag', sans-serif   
+}
+.t-scholarship-schools::before{
+    content: 'Â';
+    font-family: 'icone-tag', sans-serif   
+}
+.t-amount-class::before{
+    content: 'â';
+    font-family: 'icone-tag', sans-serif  
+}
+.t-amount-school::before{
+    content: 'á';
+    font-family: 'icone-tag', sans-serif  
+}
+.t-id-card-clip::before{
+    content: 'ã';
+    font-family: 'icone-tag', sans-serif
 }
