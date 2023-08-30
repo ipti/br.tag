@@ -7,14 +7,14 @@ class GetEscolasFromSEDUseCase
         $result = $this->fetchSchoolData($inEscola);
         $schoolId  = $this->buildSchoolId($result);
 
+
         if ($this->existSchool($inEscola)) {  
             $inRelacaoClasses = $this->getClassesFromSED($schoolId);          
-            $this->getSchoolClasses($inRelacaoClasses);
+            return $this->getSchoolClasses($inRelacaoClasses);
         } else {
             if ($this->createSchool($inEscola)) {    
                 $inRelacaoClasses = $this->getClassesFromSED($schoolId); 
-                $this->getSchoolClasses($inRelacaoClasses); 
-                return true;
+                return $this->getSchoolClasses($inRelacaoClasses); 
             } else {
                 throw new SedspException('Não foi possível salvar a escola no banco de dados.');
             }
@@ -80,6 +80,6 @@ class GetEscolasFromSEDUseCase
     function getSchoolClasses(InRelacaoClasses $inRelacaoClasses)
     {
         $classes = new GetRelacaoClassesFromSEDUseCase();
-        $classes->exec($inRelacaoClasses);
+        return $classes->exec($inRelacaoClasses);
     }
 }

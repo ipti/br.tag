@@ -21,20 +21,22 @@ class GetRelacaoClassesFromSEDUseCase
                 $indexedByClasses[$value['gov_id']] = $value['gov_id'];
             }
 
+            $status = false;
             $classrooms = $mapper->Classrooms;  
             foreach($classrooms as $classroom) {     
                 $classroomGovId = $classroom->gov_id;
                 if($indexedByClasses[$classroomGovId] !== null){ //Verifica se a Classe já existe no TAG
-                    $this->getStudentsFromClass($classroomGovId);
+                    $status = $this->getStudentsFromClass($classroomGovId);
                 } else {
                     $attributes = $classroom->getAttributes();
                     $createdClass = $this->createAndSaveNewClass($attributes, $classroom->gov_id);
 
                     if ($createdClass) {
-                        $this->getStudentsFromClass($classroomGovId);      
+                        $status = $this->getStudentsFromClass($classroomGovId);      
                     } 
                 } 
             }
+            return $status;
         } catch (Exception $e) {
             CVarDumper::dump($e->getMessage(), 10, true);
         }       
@@ -56,6 +58,6 @@ class GetRelacaoClassesFromSEDUseCase
     {
         $inNumClasse = new InFormacaoClasse($classroomGovId);
         $formacaoClasseSEDUseCase = new GetFormacaoClasseFromSEDUseCase();
-        $formacaoClasseSEDUseCase->exec($inNumClasse); 
+        return $formacaoClasseSEDUseCase->exec($inNumClasse); 
     }
 }
