@@ -164,11 +164,60 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         <div class="modal-body">
             <div class="row-fluid">
                 <div class=" span12">
-                    <?php echo CHtml::label(yii::t('default', 'Nome da Escola'), 'school_id', array('class' => 'control-label')); ?>
-                    <input type="text" name="schoolName" id="schoolName" style="width: 97.7%;" placeholder="Digite o Nome da Escola">
-                    Isso pode aumentar o tempo de espera.
+                    <label  for="schoolDropdown">Selecione uma escola:</label>
+                    <select name="schoolName" id="schoolName" style="width: 97.7%">
+                        <option value="AGOSTINHO ALVES DA SILVA EM">AGOSTINHO ALVES DA SILVA EM</option>
+                        <option value="ALBA REGINA TORRAQUE DA SILVA PROFESSORA EMEI">ALBA REGINA TORRAQUE DA SILVA PROFESSORA EMEI</option>
+                        <option value="ALTIMIRA SILVA ABIRACHED PROFA EM">ALTIMIRA SILVA ABIRACHED PROFA EM</option>
+                        <option value="BESSIE FERREIRA OSORIO DE OLIVEIRA PROFA EMEI">BESSIE FERREIRA OSORIO DE OLIVEIRA PROFA EMEI</option>
+                        <option value="CEI MARIA LUCIA DA NOBREGA - TIA BABA">CEI MARIA LUCIA DA NOBREGA - TIA BABA</option>
+                        <option value="CEI PROFESSORA HELOISA MARIA SALLES TEIXEIRA - TIA HELO">CEI PROFESSORA HELOISA MARIA SALLES TEIXEIRA - TIA HELO</option>
+                        <option value="CEMPRI PROFESSORA MARTA HELENA DA SILVA ARAUJO">CEMPRI PROFESSORA MARTA HELENA DA SILVA ARAUJO</option>
+                        <option value="CENTRO DE EDUCAÇÃO INFANTIL ANA PAULA DO PRADO">CENTRO DE EDUCAÇÃO INFANTIL ANA PAULA DO PRADO</option>
+                        <option value="CRECHE MUNICIPAL PROFESSOR CORSINO ALISTE MEZQUITA">CRECHE MUNICIPAL PROFESSOR CORSINO ALISTE MEZQUITA</option>
+                        <option value="DINORAH PEREIRA DE SOUZA PROFA EMEI">DINORAH PEREIRA DE SOUZA PROFA EMEI</option>
+                        <option value="EM JOSÉ LIBÓRIO">EM JOSÉ LIBÓRIO</option>
+                        <option value="ERNESMAR DE OLIVEIRA PROF EM">ERNESMAR DE OLIVEIRA PROF EM</option>
+                        <option value="ESCOLA MUNICIPAL CAÇANDOCA">ESCOLA MUNICIPAL CAÇANDOCA</option>
+                        <option value="FORTALEZA EM">FORTALEZA EM</option>
+                        <option value="HELENA MARIA MENDES ALVES PROFA EMEI">HELENA MARIA MENDES ALVES PROFA EMEI</option>
+                        <option value="HONOR FIGUEIRA PROF EM">HONOR FIGUEIRA PROF EM</option>
+                        <option value="IBERE ANANIAS PIMENTEL EM">IBERE ANANIAS PIMENTEL EM</option>
+                        <option value="IDALINA GRACA EMEI">IDALINA GRACA EMEI</option>
+                        <option value="JOAO ALEXANDRE SENHOR EM">JOAO ALEXANDRE SENHOR EM</option>
+                        <option value="JOAQUIM LUIS BARBOSA PROF EM">JOAQUIM LUIS BARBOSA PROF EM</option>
+                        <option value="JOSE BELARMINO SOBRINHO EM">JOSE BELARMINO SOBRINHO EM</option>
+                        <option value="JOSE CARLOS PEREIRA PROF EMEI">JOSE CARLOS PEREIRA PROF EMEI</option>
+                        <option value="JOSE DE ANCHIETA PADRE EM">JOSE DE ANCHIETA PADRE EM</option>
+                        <option value="JOSE DE SOUZA SIMEAO PROF EM">JOSE DE SOUZA SIMEAO PROF EM</option>
+                        <option value="JOSE HERCULES CEMBRANELLI PROF CENTRO DE EDUCACAO INFANTIL">JOSE HERCULES CEMBRANELLI PROF CENTRO DE EDUCACAO INFANTIL</option>
+                        <option value="JUDITH CABRAL DOS SANTOS EM">JUDITH CABRAL DOS SANTOS EM</option>
+                        <option value="LUIZA BASILIO DOS SANTOS CENTRO DE EDUCACAO INFANTIL">LUIZA BASILIO DOS SANTOS CENTRO DE EDUCACAO INFANTIL</option>
+                        <option value="MANOEL INOCENCIO ALVES DOS SANTOS EM">MANOEL INOCENCIO ALVES DOS SANTOS EM</option>
+                        <option value="MARIA ALICE LEITE DA SILVA PROFA EMEI">MARIA ALICE LEITE DA SILVA PROFA EMEI</option>
+                        <option value="MARIA DA CRUZ BARRETO EM">MARIA DA CRUZ BARRETO EM</option>
+                        <option value="MARIA DA CRUZ DE OLIVEIRA PROFA EM">MARIA DA CRUZ DE OLIVEIRA PROFA EM</option>
+                        <option value="MARIA DA GLORIA MADRE EM">MARIA DA GLORIA MADRE EM</option>
+                        <option value="MARIA DAS DORES CARPINETTI PROFA EM">MARIA DAS DORES CARPINETTI PROFA EM</option>
+                        <option value="MARIA DO CARMO SOARES EM">MARIA DO CARMO SOARES EM</option>
+                        <option value="MARIA JOSEFINA GIGLIO DA SILVA PROFA EM">MARIA JOSEFINA GIGLIO DA SILVA PROFA EM</option>
+                        <option value="MARINA SALETE NEPOMUCENO DO AMARAL PROFA EM">MARINA SALETE NEPOMUCENO DO AMARAL PROFA EM</option>
+                        <option value="MARIO COVAS JUNIOR GOVERNADOR EM">MARIO COVAS JUNIOR GOVERNADOR EM</option>
+                        <option value="MONIQUE MUNIZ DE CARVALHO CENTRO DE EDUCACAO INFANTIL">MONIQUE MUNIZ DE CARVALHO CENTRO DE EDUCACAO INFANTIL</option>
+                        <option value="NATIVA FERNANDES DE FARIA EM">NATIVA FERNANDES DE FARIA EM</option>
+                        <option value="OLGA RIBAS DE ANDRADE GIL PROFA EM">OLGA RIBAS DE ANDRADE GIL PROFA EM</option>
+                        <option value="PEDRO ALVES DE SOUZA MAESTRO EM">PEDRO ALVES DE SOUZA MAESTRO EM</option>
+                        <option value="RENATA CASTILHO DA SILVA PROFA EM">RENATA CASTILHO DA SILVA PROFA EM</option>
+                        <option value="RICHARD JUAREZ GOBBI EMEI">RICHARD JUAREZ GOBBI EMEI</option>
+                        <option value="SEBASTIANA LUIZA DE OLIVEIRA PRADO EM">SEBASTIANA LUIZA DE OLIVEIRA PRADO EM</option>
+                        <option value="SILVINO TEIXEIRA LEITE PREFEITO EM">SILVINO TEIXEIRA LEITE PREFEITO EM</option>
+                        <option value="SOFIA RODRIGUES DE LIMA IRMA EMEI">SOFIA RODRIGUES DE LIMA IRMA EMEI</option>
+                        <option value="TANCREDO DE ALMEIDA NEVES PRESIDENTE EM">TANCREDO DE ALMEIDA NEVES PRESIDENTE EM</option>
+                        <option value="TEREZINHA FERNANDES ROSSI EMEI">TEREZINHA FERNANDES ROSSI EMEI</option>
+                        <option value="THEREZA DOS SANTOS EM (TIA THEREZA)">THEREZA DOS SANTOS EM (TIA THEREZA)</option>
+                        <option value="VIRGINIA MELLE DA SILVA LEFEVRE EM">VIRGINIA MELLE DA SILVA LEFEVRE EM</option>
+                    </select>
                 </div>
-            </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
