@@ -115,14 +115,21 @@ class BNCCImport
 
     private function parseCSVDataFundamental($csvData)
     {
+        $arrayDisciplines1 = ["Arte", "Educação Física", "Geografia", "História", "Ensino Religioso"];
+
         foreach ($csvData as $key => $line) {
             $disciplineName = $line[0];
 
-            switch ($disciplineName) {
-                case 'Matemática':
-                    $parsedData = FundamentalDisciplinesMap::parseMathemathicData($line);
-                    break;
+            if (in_array($disciplineName, $arrayDisciplines1)) {
+                $parsedData = FundamentalDisciplinesMap::parseArtEducationPhysicalHumanitiesAndReligion($line);
+            }else if ($disciplineName == "Matemática" || $disciplineName == "Ciências") {
+                $parsedData = FundamentalDisciplinesMap::parseMathemathicAndSciencesData($line);
+            }else if ($disciplineName == "Língua Portuguesa") {
+                $parsedData = FundamentalDisciplinesMap::parsePortugueseLanguageData($line);
+            }else if ($disciplineName == "Língua Inglesa") {
+                $parsedData = FundamentalDisciplinesMap::parseEnglishLanguage($line);
             }
+            
         }
         return $parsedData;
     }
