@@ -34,11 +34,6 @@ class GetExibirFichaAlunoFromSEDUseCase
         $studentDocumentsAndAddress->gov_id = $gov_id;
 
         try {
-            if (!$studentDocumentsAndAddress->validate()) {
-                var_dump($studentDocumentsAndAddress->getErrors());
-                return false;
-            }
-
             if ($studentDocumentsAndAddress->validate() && $studentDocumentsAndAddress->save()) {
                 return true;
             } else {

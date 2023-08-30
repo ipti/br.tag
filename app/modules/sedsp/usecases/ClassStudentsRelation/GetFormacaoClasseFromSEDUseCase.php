@@ -23,10 +23,11 @@ class GetFormacaoClasseFromSEDUseCase
             $classroom = $mapper->Classroom;
             $students = $mapper->Students;
  
+            $status = false;
             foreach ($students as $student) { 
                 
                 $inAluno = $this->createNewStudent($student->gov_id, null, $student->uf);
-                $this->getFichaAluno($inAluno);
+                $status = $this->getFichaAluno($inAluno);
 
                 /* $studentEnrollmentModel =  $this->searchStudentEnrollmentInDb($classroom->school_inep_fk, $student->gov_id, $classroom->gov_id);
                 if($studentEnrollmentModel === null){
@@ -44,7 +45,7 @@ class GetFormacaoClasseFromSEDUseCase
                         CVarDumper::dump($studentEnrollment->getErrors(), 10, true);
                 } */
             }  
-
+            return $status;
         } catch (Exception $e) {
             CVarDumper::dump($e->getMessage(), 10, true);
         }
@@ -80,7 +81,7 @@ class GetFormacaoClasseFromSEDUseCase
     function getFichaAluno(InAluno $inAluno) 
     {       
         $registerStudent = new GetExibirFichaAlunoFromSEDUseCase();
-        $registerStudent->exec($inAluno);
+        return $registerStudent->exec($inAluno);
     }
 
     function registrarLog($mensagem, $caminhoArquivoLog = 'C:\br.tag\app\modules\sedsp\controllers\meu_log.txt') {
