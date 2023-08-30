@@ -115,7 +115,6 @@ class AdminController extends Controller
                 "username" => $_POST["Users"]["name"]
             ]
         );
-
         if (isset($_POST['Users'])) {
             if(!isset($modelValidate)) {
                 $model->attributes = $_POST['Users'];
@@ -138,6 +137,11 @@ class AdminController extends Controller
                             Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
                             $this->redirect(['index']);
                         }
+                        if(isset($_POST['instructor']) &&  $_POST['instructor'] != ""){
+                            $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]); 
+                            $instructors->users_fk = $model->id;
+                            $instructors->save();
+                        }
                     }
                 }
             }else {
@@ -145,7 +149,12 @@ class AdminController extends Controller
                 $this->redirect(['index']);
             }
         }
-        $this->render('createUser', ['model' => $model]);
+        $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk'=> null], ['select' => 'id, name']); 
+        $instructorsResult = array_reduce($instructors, function($carry, $item) {
+            $carry[$item['id']] = $item['name'];
+            return $carry;
+        }, []);
+        $this->render('createUser', ['model' => $model, 'instructors' => $instructorsResult]);
     }
 
     public function actionGradesStructure()
