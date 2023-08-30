@@ -128,10 +128,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->labelEx($model, 'password', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->passwordField($model, 'password', array('size' => 32, 'maxlength' => 32, 'style' => 'width: 412px;')); ?>
-                                    <br><br>
-                                    <span class="t-icon-eye show-password-icon" id="showPassword"></span>
-                                    <?php echo $form->error($model, 'password'); ?>
+                                        <div>
+                                            <span class="t-icon-eye" id="showPassword" style='position:absolute;left:215px;margin-top:5px;cursor:pointer;font-size:20px;'></span>
+                                            <?php echo $form->passwordField($model, 'password', array('size' => 32, 'maxlength' => 32, 'style' => 'height:31')); ?>
+                                            <?php echo $form->error($model, 'password'); ?>
+                                        </div>
                                 </div>
                             </div>
                         </div>

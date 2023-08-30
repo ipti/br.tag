@@ -2,15 +2,12 @@ $(document).ready(function() {
     $("#showPassword").click(function() {
         var senhaInput = $("#Users_password");
         var senhaInputType = senhaInput.attr("type");
-
-        var width = window.location.search.includes('update') ? "413px" : "230px"
     
         var senhaInputNovo = $("<input>").attr({
             type: (senhaInputType === "password") ? "text" : "password",
             id: senhaInput.attr("id"),
             placeholder: senhaInput.attr("placeholder"),
-            value: senhaInput.val(),
-            style: `width:${width}`
+            value: senhaInput.val()
         });
         if(senhaInputType === "password") {
             $(this).removeClass('t-icon-eye').addClass('t-icon-eye_hash');
