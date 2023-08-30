@@ -168,9 +168,15 @@ class ClassroomMapper
                 "9" => 41,
                 "0" => 24    
             ],
+            /* "25" => [
+                "1" => 1
+            ],
+            "26" => [
+                "2" => 1
+            ], */
             "32" => [
                 "0" => 2
-            ]    
+            ]
         ];
 
         if(isset($mapperTipoEnsino[$codTipoEnsino][$codSerieAno])){
