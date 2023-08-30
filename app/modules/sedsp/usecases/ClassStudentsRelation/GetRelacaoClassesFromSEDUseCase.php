@@ -12,7 +12,6 @@ class GetRelacaoClassesFromSEDUseCase
             $response = $classes->getRelacaoClasses($inRelacaoClasses);
             
             $mapper = (object) ClassroomMapper::parseToTAGRelacaoClasses($response);
-
             $schoolInepFk = '35' . $inRelacaoClasses->getInCodEscola();
 
             //Aramazena as classes da escola de código $schoolInepFk
@@ -22,13 +21,10 @@ class GetRelacaoClassesFromSEDUseCase
                 $indexedByClasses[$value['gov_id']] = $value['gov_id'];
             }
 
-            $classrooms = $mapper->Classrooms;
-        
-            foreach($classrooms as $classroom) {
-               $classroomGovId = $classroom->gov_id;
-
-                //Classe já existe no TAG
-                if($indexedByClasses[$classroomGovId] !== null){
+            $classrooms = $mapper->Classrooms;  
+            foreach($classrooms as $classroom) {     
+                $classroomGovId = $classroom->gov_id;
+                if($indexedByClasses[$classroomGovId] !== null){ //Verifica se a Classe já existe no TAG
                     $this->getStudentsFromClass($classroomGovId);
                 } else {
                     $attributes = $classroom->getAttributes();
@@ -38,7 +34,6 @@ class GetRelacaoClassesFromSEDUseCase
                         $this->getStudentsFromClass($classroomGovId);      
                     } 
                 } 
-                
             }
         } catch (Exception $e) {
             CVarDumper::dump($e->getMessage(), 10, true);

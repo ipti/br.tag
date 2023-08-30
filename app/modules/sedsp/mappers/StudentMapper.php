@@ -100,35 +100,22 @@ class StudentMapper
             $outEnderecoResidencial = $exibirFichaAluno->getOutEnderecoResidencial();
 
             $listaAluno = new EnrollmentSEDDataSource();
-            $response = $listaAluno->getListarMatriculasRA(new InAluno($outDadosPessoais->getOutNumRa(), null, $outDadosPessoais->getOutSiglaUfra()));
+            $response = (object) $listaAluno->getListarMatriculasRA(new InAluno($outDadosPessoais->getOutNumRa(), null, $outDadosPessoais->getOutSiglaUfra()));
+
+            $escola = new GetEscolasFromSEDUseCase();
             
-            $listMatriculas = $response->getOutListaMatriculas();
-
-
-            foreach ($listMatriculas  as $matricula) {
-                if($matricula->getOutDescSitMatricula() == 'ATIVO'){
-                    $codEscola = $matricula->getOutCodEscola();
-                    
-                    $cod = self::findSchoolById($codEscola);
-                
-                    if($cod->inep_id === null) {
-                        $inConsult = new InEscola($matricula->getOutDescNomeAbrevEscola(), null, null, null);
-
-                        $result = self::fetchSchoolData($inConsult);
-                        $mapper = (object) SchoolMapper::parseToTAGSchool($result);
-    
-                        $schoolAttributes = $mapper->SchoolIdentification->getAttributes();
-                        self::createAndSaveNewSchool($schoolAttributes);
-                        
+            $array = $response->outListaMatriculas;
+            foreach ($array as $item) {    
+                if($item->outDescSitMatricula === 'ATIVO' && $item->outMunicipio === 'UBATUBA') {
+                    $inEscola = new InEscola($item->outDescNomeAbrevEscola, null, null, null);
+                    if(!$escola->existSchool($inEscola)){
+                        if($escola->createSchool($inEscola))
+                            $schoolInep = '35' . $item->outCodEscola;
+                    }else{
+                        $schoolInep = '35' . $item->outCodEscola;
                     }
-                }       
+                }      
             }
-
-
-            $schoolInep = '35' . $codEscola;
-
-            CVarDumper::dump($schoolInep, 10, true);
-
 
             $studentIdentification = new StudentIdentification;
             $studentIdentification->school_inep_id_fk = $schoolInep;
@@ -151,6 +138,7 @@ class StudentMapper
             //StudentDocuments
             $studentDocumentsAndAddress = new StudentDocumentsAndAddress;
             $studentDocumentsAndAddress->school_inep_id_fk = $schoolInep;
+            $studentDocumentsAndAddress->gov_id = $outDadosPessoais->getOutNumRa();
             $studentDocumentsAndAddress->cpf = $outDocumentos->getOutCpf();
             $studentDocumentsAndAddress->nis = $outDocumentos->getOutNumNis();
             $studentDocumentsAndAddress->rg_number = $outDocumentos->getOutNumDoctoCivil() + $outDocumentos->getOutDigitoDoctoCivil();

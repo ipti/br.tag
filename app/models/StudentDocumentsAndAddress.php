@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'student_documents_and_address':
  * @property string $register_type
  * @property string $school_inep_id_fk
+ * @property string $gov_id
  * @property string $student_fk
  * @property integer $id
  * @property string $rg_number

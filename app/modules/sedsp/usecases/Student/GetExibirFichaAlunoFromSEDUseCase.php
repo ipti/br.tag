@@ -11,15 +11,15 @@ class GetExibirFichaAlunoFromSEDUseCase
         $name = $response->getOutDadosPessoais()->getOutNomeAluno();
 
         $studentExists = $this->checkIfStudentIsEnrolled($cpf, $name);
-        
 		if($studentExists)
             return false;
-
+        
         try {
             $mapper = (object) StudentMapper::parseToTAGExibirFichaAluno($response);
-            
-            $this->createAndSaveStudentIdentification($mapper->StudentIdentification);
-            $this->createAndSaveStudentDocumentsAndAddress($mapper->StudentDocumentsAndAddress->getAttributes());
+            $documents =  (object) $mapper->StudentDocumentsAndAddress->getAttributes();
+
+            return ($this->createAndSaveStudentIdentification($mapper->StudentIdentification) &&
+                    $this->createAndSaveStudentDocumentsAndAddress($mapper->StudentDocumentsAndAddress, $documents->gov_id));
             
         } catch (Exception $e) {
             CVarDumper::dump($e->getMessage(), 10, true);
@@ -27,12 +27,27 @@ class GetExibirFichaAlunoFromSEDUseCase
     }
 
 
-    function createAndSaveStudentDocumentsAndAddress($attributes)
+    function createAndSaveStudentDocumentsAndAddress($attributes, $gov_id)
     {
         $studentDocumentsAndAddress = new StudentDocumentsAndAddress();
-        $studentDocumentsAndAddress->attributes = $attributes;
+        $studentDocumentsAndAddress->attributes = $attributes->getAttributes();
+        $studentDocumentsAndAddress->gov_id = $gov_id;
 
-        return ($studentDocumentsAndAddress->validate() && $studentDocumentsAndAddress->save()) ? true : false;
+        try {
+            if (!$studentDocumentsAndAddress->validate()) {
+                var_dump($studentDocumentsAndAddress->getErrors());
+                return false;
+            }
+
+            if ($studentDocumentsAndAddress->validate() && $studentDocumentsAndAddress->save()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            var_dump($e->getMessage());
+            return false;
+        }
     }
 
     function createAndSaveStudentIdentification($attributes)

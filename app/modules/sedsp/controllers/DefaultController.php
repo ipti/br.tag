@@ -289,15 +289,11 @@ class DefaultController extends Controller
 	function actionImportFullSchool()
 	{
 		$this->checkSEDToken();
-
-		
 		try {
 			$inConsult = new InEscola($_POST["schoolName"], null, null, null);
 			$escola = new GetEscolasFromSEDUseCase();
 			
 			$escola->exec($inConsult);
-
-			#$transaction->commit();
 		} catch (Exception $e) {
 			CVarDumper::dump($e->getMessage(), 10, true);
 		}			
@@ -307,22 +303,22 @@ class DefaultController extends Controller
 	{
 		$this->checkSEDToken();
 
-		$transaction = Yii::app()->db->beginTransaction();
 		try {
 			$inAluno = new InAluno($_POST["numRA"], null, "SP");
 			$exibirFicha = new GetExibirFichaAlunoFromSEDUseCase();
-			if($exibirFicha->exec($inAluno)){
+
+			$statusSave = $exibirFicha->exec($inAluno);
+
+			if($statusSave){
 				Yii::app()->user->setFlash('success', "O Aluno cadastrado com sucesso.");
 				$this->redirect(array('index'));
 			}else{
 				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
 				$this->redirect(array('index'));
 			}
-			$transaction->commit();
 		} catch (Exception $e) {
 			Yii::app()->user->setFlash('error', "É necessário ter uma escola cadastrada");
 			$this->redirect(array('index'));
-			$transaction->rollback();
 		}	
 	}
 

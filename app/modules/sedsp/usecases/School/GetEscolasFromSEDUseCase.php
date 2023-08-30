@@ -5,31 +5,38 @@ class GetEscolasFromSEDUseCase
     function exec(InEscola $inEscola)
     {      
         $result = $this->fetchSchoolData($inEscola);
-
         $schoolId  = $this->buildSchoolId($result);
-        $schoolModel = $this->findSchoolById($schoolId);
-        
-        $mapper = (object) SchoolMapper::parseToTAGSchool($result);
 
-
-        if ($schoolModel->inep_id !== null) {  
-            $inRelacaoClasses = $this->getClassesFromSED($schoolId);        
+        if ($this->existSchool($inEscola)) {  
+            $inRelacaoClasses = $this->getClassesFromSED($schoolId);          
             $this->getSchoolClasses($inRelacaoClasses);
-
-            return true;
         } else {
-            $schoolAttributes = $mapper->SchoolIdentification->getAttributes();
-            $createdSchool = $this->createAndSaveNewSchool($schoolAttributes);
-            
-            if ($createdSchool) {    
+            if ($this->createSchool($inEscola)) {    
                 $inRelacaoClasses = $this->getClassesFromSED($schoolId); 
-                $this->getSchoolClasses($inRelacaoClasses);
-
+                $this->getSchoolClasses($inRelacaoClasses); 
                 return true;
             } else {
                 throw new SedspException('Não foi possível salvar a escola no banco de dados.');
             }
         }
+    } 
+
+    function existSchool(InEscola $inEscola)
+    {      
+        $result = $this->fetchSchoolData($inEscola);
+        $schoolId  = $this->buildSchoolId($result);
+        $schoolModel = $this->findSchoolById($schoolId);
+        
+        return ($schoolModel->inep_id !== null) ? true : false;
+    } 
+
+    function createSchool(InEscola $inEscola)
+    {      
+        $result = $this->fetchSchoolData($inEscola);
+        $mapper = (object) SchoolMapper::parseToTAGSchool($result);
+        $schoolAttributes = $mapper->SchoolIdentification->getAttributes();
+
+        return $this->createAndSaveNewSchool($schoolAttributes); 
     } 
 
     function buildSchoolId($schoolData)
@@ -52,6 +59,7 @@ class GetEscolasFromSEDUseCase
     {
         $inAnoLetivo = Yii::app()->user->year;
         $inCodEscola = $this->extractStateCode($schoolId); 
+        
         return new InRelacaoClasses($inAnoLetivo, $inCodEscola, null, null, null, null);
     }
 
