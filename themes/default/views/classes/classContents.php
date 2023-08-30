@@ -25,16 +25,16 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 <div class="main">
     <div class="row">
-        <h1><?php echo Yii::t('default', 'Class Contents'); ?></h1>
+        <h1 class="title1"><?php echo Yii::t('default', 'Class Contents'); ?></h1>
     </div>
     <div class="mobile-row justify-content--space-between">
         <div class="t-buttons-container auto-width">
-            <a id="print" class='t-button-secondary hide'>
+            <a id="print" class='t-button-secondary hide printButton'>
                 <span class="t-icon-printer"></span>
                 <?php echo Yii::t('default', 'Print') ?>
             </a>
         </div>
-        <a id="save" class='t-button-secondary hide'><?php echo Yii::t('default', 'Save') ?></a>
+        <a id="save" class='t-button-secondary hide saveButton'><?php echo Yii::t('default', 'Save') ?></a>
     </div>
     <table class="table table-bordered table-striped visible-print">
         <tr>
@@ -69,120 +69,138 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <?php echo Yii::app()->user->getFlash('success') ?>
             </div>
         <?php endif ?>
-    <div class="alert-save no-show alert alert-success">
-        Aulas ministradas atualizadas com sucesso!
-    </div>
-    <div class="alert-required-fields no-show alert alert-error">
-        Os campos com * são obrigatórios.
-    </div>
-    <div id="select-container" class="tablet-row align-items--center-on-desktop">
-        <div class="mobile-row">
-            <div class="column clearleft">
-                <div class="t-field-select">
-                    <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
-                    <select class="select-search-on t-field-select__input " id="classroom" name="classroom">
-                        <option>Selecione a turma</option>
-                        <?php foreach ($classrooms as $classroom) : ?>
-                            <option value="<?= $classroom->id ?>" fundamentalmaior="<?= !TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk) ?>"><?= $classroom->name ?></option>
-                        <?php endforeach; ?>
-                    </select>
+        <div class="alert-save no-show alert alert-success">
+            Aulas ministradas atualizadas com sucesso!
+        </div>
+        <div class="alert-required-fields no-show alert alert-error">
+            Os campos com * são obrigatórios.
+        </div>
+        <div id="select-container" class="tablet-row align-items--center-on-desktop">
+            <div class="mobile-row">
+                <div class="column clearleft">
+                    <div class="t-field-select">
+                        <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
+                        <select class="select-search-on t-field-select__input " id="classroom" name="classroom">
+                            <option>Selecione a turma</option>
+                            <?php foreach ($classrooms as $classroom) : ?>
+                                <option value="<?= $classroom->id ?>" fundamentalmaior="<?= !TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk) ?>"><?= $classroom->name ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="t-field-select">
+                        <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
+                        <?php
+                        echo CHtml::dropDownList('month', '', array(
+                            1 => 'Janeiro',
+                            2 => 'Fevereiro',
+                            3 => 'Março',
+                            4 => 'Abril',
+                            5 => 'Maio',
+                            6 => 'Junho',
+                            7 => 'Julho',
+                            8 => 'Agosto',
+                            9 => 'Setembro',
+                            10 => 'Outubro',
+                            11 => 'Novembro',
+                            12 => 'Dezembro'
+                        ), array(
+                            'key' => 'id',
+                            'class' => 'select-search-on t-field-select__input ',
+                            'prompt' => 'Selecione o mês',
+                        ));
+                        ?>
+                    </div>
                 </div>
             </div>
-            <div class="column">
-                <div class="t-field-select">
-                    <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
-                    <?php
-                    echo CHtml::dropDownList('month', '', array(
-                        1 => 'Janeiro',
-                        2 => 'Fevereiro',
-                        3 => 'Março',
-                        4 => 'Abril',
-                        5 => 'Maio',
-                        6 => 'Junho',
-                        7 => 'Julho',
-                        8 => 'Agosto',
-                        9 => 'Setembro',
-                        10 => 'Outubro',
-                        11 => 'Novembro',
-                        12 => 'Dezembro'
-                    ), array(
-                        'key' => 'id',
-                        'class' => 'select-search-on t-field-select__input ',
-                        'prompt' => 'Selecione o mês',
-                    ));
-                    ?>
+            <div class="mobile-row helper printSelect">
+                <div class="column clearleft on-tablet disciplines-container" style="display: none;">
+                    <div class="t-field-select">
+                        <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label t-field-select__label--required')); ?>
+                        <?php
+                        echo CHtml::dropDownList('disciplines', '', array(), array(
+                            'key' => 'id',
+                            'class' => 'select-search-on t-field-select__input ',
+                        ));
+                        ?>
+                    </div>
                 </div>
             </div>
-        </div>   
-        <div class="mobile-row helper">
-            <div class="column clearleft on-tablet disciplines-container" style="display: none;">
-                <div class="t-field-select">
-                    <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label t-field-select__label--required')); ?>
-                    <?php
-                    echo CHtml::dropDownList('disciplines', '', array(), array(
-                        'key' => 'id',
-                        'class' => 'select-search-on t-field-select__input ',
-                    ));
-                    ?>
-                </div>
+            <div class="column clearleft on-tablet align-items--center ">
+                <img class="loading-class-contents" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
             </div>
         </div>
-        <div class="column clearleft on-tablet align-items--center ">
-            <img class="loading-class-contents"  height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+        <div class="clear"></div>
+        <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
+            <table id="class-contents" class="tag-table-secondary table-bordered" aria-labelledby="create class contents">
+                <thead>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="center">1</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+        <div id="error-badge"></div>
     </div>
-    <div class="clear"></div>
-    <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
-        <table id="class-contents" class="tag-table-secondary table-bordered" aria-labelledby="create class contents">
-            <thead>
-            </thead>
-            <tbody>
-            <tr>
-                <td class="center">1</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div id="error-badge"></div>
-</div>
     <div class="row">
         <div class="t-buttons-container">
-            <a id="save-button-mobile" class='t-button-primary align-items--center hide'><?php echo Yii::t('default', 'Save') ?></a>  
-        </div>        
+            <a id="save-button-mobile" class='t-button-primary align-items--center hide'><?php echo Yii::t('default', 'Save') ?></a>
+        </div>
     </div>
 
     <div class="modal fade t-modal-container" id="js-classroomdiary" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">      
-                <div class="t-modal__header">
-                    <h4 class="t-title" id="myModalLabel">Diário de Aula</h4>   
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="">
-                    </button>             
-                </div>
-                <form method="post">
+        <div class="modal-dialog" role="document">
+            <div class="t-modal__header">
+                <h4 class="t-title" id="myModalLabel">Diário de Aula</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="">
+                </button>
+            </div>
+            <form method="post">
                 <input type="hidden" class="classroom-diary-day">
-                    <div class="t-modal__body">
-                        <div class="t-field-tarea">
-                            <label class="t-field-tarea__label">Diário de Aula Geral</label>
-                            <textarea class="t-field-tarea__input large classroom-diary-textarea" placeholder="Digite"></textarea>
+                <div class="t-modal__body">
+                    <div class="t-field-tarea">
+                        <label class="t-field-tarea__label">Diário de Aula Geral</label>
+                        <textarea class="t-field-tarea__input large classroom-diary-textarea" placeholder="Digite"></textarea>
+                    </div>
+
+                    <label>Diário de Aula por Aluno</label>
+                    <div class="alert alert-error classroom-diary-no-students no-show">Não há alunos matriculados na turma.</div>
+                    <div class="accordion-students"></div>
+
+
+                    <div class="t-modal__footer row reverse">
+                        <div class="t-buttons-container justify-content--center">
+                            <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
                         </div>
-                        
-                        <label>Diário de Aula por Aluno</label>
-                        <div class="alert alert-error classroom-diary-no-students no-show">Não há alunos matriculados na turma.</div>
-                        <div class="accordion-students"></div>
-                        
-                    
-                        <div class="t-modal__footer row reverse">
-                            <div class="t-buttons-container justify-content--center">
-                                <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
-                            </div>
-                            <div class="t-buttons-container justify-content--center">
-                                <button type="button" class="t-button-primary clear-margin--right js-add-classroom-diary" data-dismiss="modal">Salvar</button>
-                            </div>
+                        <div class="t-buttons-container justify-content--center">
+                            <button type="button" class="t-button-primary clear-margin--right js-add-classroom-diary" data-dismiss="modal">Salvar</button>
                         </div>
                     </div>
                 </div>
-            </form>
         </div>
+        </form>
     </div>
-    <?php $this->endWidget(); ?>
+</div>
+<style>
+    @media print{
+        .title1{
+            padding-left: 30px;
+        }
+        .printButton{
+            display: none;
+        }
+        .saveButton{
+            display: none;
+        }
+        .printSelect{
+            margin-left: 0px;
+        }
+    }
+
+
+</style>
+<?php $this->endWidget(); ?>
