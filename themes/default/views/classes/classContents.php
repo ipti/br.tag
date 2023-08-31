@@ -114,7 +114,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     </div>
                 </div>
             </div>
-            <div class="mobile-row helper printSelect">
+            <div class="mobile-row helper printSelect selectComponente">
                 <div class="column clearleft on-tablet disciplines-container" style="display: none;">
                     <div class="t-field-select">
                         <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label t-field-select__label--required')); ?>
@@ -198,6 +198,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         }
         .printSelect{
             margin-left: 0px;
+        }
+        .classroom-diary-button{
+            display: none;
+        }
+        .selectComponente{
+            padding-left: 0px;
         }
     }
 
