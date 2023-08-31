@@ -51,17 +51,17 @@ class GetFormacaoClasseFromSEDUseCase
         }
     }
 
-    function findStudentIdentificationByGovId($studentGovId)
+    public function findStudentIdentificationByGovId($studentGovId)
     {
         return StudentIdentification::model()->find('gov_id = :govId', [':govId' => $studentGovId])->id;
     }
 
-    function findStudentIdentificationByName($studentName)
+    public  function findStudentIdentificationByName($studentName)
     {
         return StudentIdentification::model()->find('name = :name', [':name' => $studentName])->id;
     }
 
-    function searchStudentEnrollmentInDb($schoolInepFk, $studentGovId, $classroomGovId)
+    public function searchStudentEnrollmentInDb($schoolInepFk, $studentGovId, $classroomGovId)
     {
         return StudentEnrollment::model()->find(
             'school_inep_id_fk = :school_inep_id_fk AND student_fk = :student_fk AND classroom_fk = :classroom_fk',
@@ -73,18 +73,18 @@ class GetFormacaoClasseFromSEDUseCase
         );
     }
 
-    function createNewStudent($inNumRA, $inDigitoRA = null,  $inSiglaUFRA)
+    public   function createNewStudent($inNumRA, $inDigitoRA = null,  $inSiglaUFRA)
     {
         return new InAluno($inNumRA, $inDigitoRA, $inSiglaUFRA);
     }
 
-    function getFichaAluno(InAluno $inAluno) 
+    public  function getFichaAluno(InAluno $inAluno) 
     {       
         $registerStudent = new GetExibirFichaAlunoFromSEDUseCase();
         return $registerStudent->exec($inAluno);
     }
 
-    function registrarLog($mensagem, $caminhoArquivoLog = 'C:\br.tag\app\modules\sedsp\controllers\meu_log.txt') {
+    public  function registrarLog($mensagem, $caminhoArquivoLog = 'C:\br.tag\app\modules\sedsp\controllers\meu_log.txt') {
         $dataHora = date('Y-m-d H:i:s');
         $mensagemFormatada = "[$dataHora] $mensagem" . PHP_EOL;
     

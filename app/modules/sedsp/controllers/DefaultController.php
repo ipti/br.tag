@@ -286,7 +286,7 @@ class DefaultController extends Controller
 		echo $msg;
 	}
 
-	function actionImportFullSchool()
+	public function actionImportFullSchool()
 	{
 		$this->checkSEDToken();
 		try {

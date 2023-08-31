@@ -44,7 +44,7 @@ class GetEscolasFromSEDUseCase
         return '35' . $schoolData->getOutEscolas()[0]->getOutCodEscola();
     }
 
-    function fetchSchoolData(InEscola $inEscola)
+    public function fetchSchoolData(InEscola $inEscola)
     {
         $dataSource = new SchoolSEDDataSource();
         return $dataSource->getSchool($inEscola);
@@ -63,7 +63,7 @@ class GetEscolasFromSEDUseCase
         return new InRelacaoClasses($inAnoLetivo, $inCodEscola, null, null, null, null);
     }
 
-    function createAndSaveNewSchool($schoolAttributes)
+    public function createAndSaveNewSchool($schoolAttributes)
     {
         $school = new SchoolIdentification();
         $school->attributes = $schoolAttributes;

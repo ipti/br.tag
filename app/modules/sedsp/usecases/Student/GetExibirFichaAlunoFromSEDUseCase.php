@@ -27,7 +27,7 @@ class GetExibirFichaAlunoFromSEDUseCase
     }
 
 
-    function createAndSaveStudentDocumentsAndAddress($attributes, $gov_id)
+    public function createAndSaveStudentDocumentsAndAddress($attributes, $gov_id)
     {
         $studentDocumentsAndAddress = new StudentDocumentsAndAddress();
         $studentDocumentsAndAddress->attributes = $attributes->getAttributes();
@@ -45,7 +45,7 @@ class GetExibirFichaAlunoFromSEDUseCase
         }
     }
 
-    function createAndSaveStudentIdentification($attributes)
+    public function createAndSaveStudentIdentification($attributes)
     {
         $studentIdentification = new StudentIdentification();
         $studentIdentification->attributes = $attributes->getAttributes();

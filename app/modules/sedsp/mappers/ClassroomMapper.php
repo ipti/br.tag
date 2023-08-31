@@ -82,7 +82,7 @@ class ClassroomMapper
         return $parseResult;
     }
 
-    static function parseToTAGRelacaoClasses(OutRelacaoClasses $outRelacaoClasses) 
+    public static function parseToTAGRelacaoClasses(OutRelacaoClasses $outRelacaoClasses) 
     {
         $schoolInepFk = '35' . $outRelacaoClasses->getOutCodEscola();
         $outClasses = $outRelacaoClasses->getOutClasses();

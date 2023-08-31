@@ -192,18 +192,18 @@ class StudentMapper
             return $parseResult;
         }
 
-        static private function findSchoolById($schoolId)
+        private  static  function findSchoolById($schoolId)
         {
             return SchoolIdentification::model()->find('inep_id = :inep_id', [':inep_id' => $schoolId]);
         }
 
-        static function fetchSchoolData(InEscola $inEscola)
+        public static function fetchSchoolData(InEscola $inEscola)
         {
             $dataSource = new SchoolSEDDataSource();
             return $dataSource->getSchool($inEscola);
         }
 
-        static function createAndSaveNewSchool($schoolAttributes)
+        public static function createAndSaveNewSchool($schoolAttributes)
         {
             $school = new SchoolIdentification();
             $school->attributes = $schoolAttributes;
