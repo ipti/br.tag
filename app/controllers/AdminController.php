@@ -305,8 +305,7 @@ class AdminController extends Controller
             }
         }
     }
-
-    public
+    
     public function actionActiveDisableUser()
     {
         $criteria = new CDbCriteria();
