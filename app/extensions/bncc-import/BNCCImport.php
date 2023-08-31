@@ -1,7 +1,7 @@
 <?php
 
 include 'vendor/autoload.php';
-include 'FundamentalDisciplinesMap';
+require 'app/extensions/bncc-import/FundamentalDisciplinesMap.php';
 
 
 class BNCCImport
