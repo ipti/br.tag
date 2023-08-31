@@ -306,7 +306,7 @@ class DefaultController extends Controller
 		}			
 	}
 
-	function actionImportStudentRA()
+	public function actionImportStudentRA()
 	{
 		$this->checkSEDToken();
 

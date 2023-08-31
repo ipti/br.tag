@@ -64,8 +64,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         <a href="#" data-toggle="modal" data-target="#add-school" target="_blank">
             <button type="button" class="report-box-container">
                 <div class="pull-left" style="margin-right: 20px;">
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/school.svg" />
-                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/school.svg" alt="school" />
                 </div>
                 <div class="pull-left">
                     <span class="title">Cadastrar Escola</span><br>
@@ -77,7 +76,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         <a href="#" data-toggle="modal" data-target="#get-full-school" target="_blank">
             <button type="button" class="report-box-container">
                 <div class="pull-left" style="margin-right: 20px;">
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/school.svg" />
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/school.svg" alt="school"/>
                     <!-- <div class="t-icon-schedule report-icon"></div> -->
                 </div>
                 <div class="pull-left">

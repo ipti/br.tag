@@ -54,7 +54,7 @@ class GetExibirFichaAlunoFromSEDUseCase
         return ($studentIdentification->validate() && $studentIdentification->save()) ? true : false;
     }
 
-    function checkIfStudentIsEnrolled($cpf, $name)
+    public function checkIfStudentIsEnrolled($cpf, $name)
     {
         $studentCpf = StudentDocumentsAndAddress::model()->find('cpf = :cpf', [':cpf' => $cpf])->cpf;
         $studentName = StudentIdentification::model()->find('name = :name', [':name' => $name])->name;

@@ -21,7 +21,7 @@ class GetEscolasFromSEDUseCase
         }
     } 
 
-    function existSchool(InEscola $inEscola)
+    public function existSchool(InEscola $inEscola)
     {      
         $result = $this->fetchSchoolData($inEscola);
         $schoolId  = $this->buildSchoolId($result);
@@ -30,7 +30,7 @@ class GetEscolasFromSEDUseCase
         return ($schoolModel->inep_id !== null) ? true : false;
     } 
 
-    function createSchool(InEscola $inEscola)
+    public function createSchool(InEscola $inEscola)
     {      
         $result = $this->fetchSchoolData($inEscola);
         $mapper = (object) SchoolMapper::parseToTAGSchool($result);
@@ -39,7 +39,7 @@ class GetEscolasFromSEDUseCase
         return $this->createAndSaveNewSchool($schoolAttributes); 
     } 
 
-    function buildSchoolId($schoolData)
+    public function buildSchoolId($schoolData)
     {
         return '35' . $schoolData->getOutEscolas()[0]->getOutCodEscola();
     }
@@ -55,7 +55,7 @@ class GetEscolasFromSEDUseCase
         return SchoolIdentification::model()->find('inep_id = :inep_id', [':inep_id' => $schoolId]);
     }
 
-    function getClassesFromSED($schoolId)
+    public function getClassesFromSED($schoolId)
     {
         $inAnoLetivo = Yii::app()->user->year;
         $inCodEscola = $this->extractStateCode($schoolId); 
@@ -71,13 +71,13 @@ class GetEscolasFromSEDUseCase
         return ($school->validate() && $school->save()) ? true : false;
     }
 
-    function extractStateCode($schoolId)
+    private function extractStateCode($schoolId)
     {
         // remove os 2 dígitos iniciais do código da escola, referente ao código do estado
         return substr($schoolId, 2);
     }
 
-    function getSchoolClasses(InRelacaoClasses $inRelacaoClasses)
+    public function getSchoolClasses(InRelacaoClasses $inRelacaoClasses)
     {
         $classes = new GetRelacaoClassesFromSEDUseCase();
         return $classes->exec($inRelacaoClasses);
