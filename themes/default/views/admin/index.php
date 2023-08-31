@@ -137,7 +137,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                                 </div>
                                 <div class="pull-left">
                                     <span class="title">Configurações do Municipio</span><br>
-                                    <span class="subtitle">Defina o valores padrão da estrutura escolar do município</span>
+                                    <span class="subtitle">Defina as configurações gerais do município</span>
                                 </div>
                             </button>
                         </a>

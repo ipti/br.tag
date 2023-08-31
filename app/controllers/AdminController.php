@@ -522,8 +522,8 @@ class AdminController extends Controller
 
     public function actionInstanceConfig()
     {
-        $configs = InstaceConfig::model()->findAll();
-        $this->render('instaceConfig', [
+        $configs = instanceConfig::model()->findAll();
+        $this->render('instanceConfig', [
             "configs" => $configs
         ]);
     }
@@ -531,9 +531,9 @@ class AdminController extends Controller
     public function actionEditInstanceConfigs()
     {
         foreach ($_POST["configs"] as $config) {
-            $instaceConfig = InstaceConfig::model()->findByPk($config["id"]);
-            $instaceConfig->value = $config["value"];
-            $instaceConfig->save();
+            $instanceConfig = instanceConfig::model()->findByPk($config["id"]);
+            $instanceConfig->value = $config["value"];
+            $instanceConfig->save();
         }
     }
 }

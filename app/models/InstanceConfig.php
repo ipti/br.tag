@@ -1,21 +1,21 @@
 <?php
 
 /**
- * This is the model class for table "instace_config".
+ * This is the model class for table "instance_config".
  *
- * The followings are the available columns in table 'instace_config':
+ * The followings are the available columns in table 'instance_config':
  * @property integer $id
  * @property string $parameter_name
  * @property string $value
  */
-class InstaceConfig extends CActiveRecord
+class InstanceConfig extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'instace_config';
+		return 'instance_config';
 	}
 
 	/**
@@ -89,7 +89,7 @@ class InstaceConfig extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return InstaceConfig the static model class
+	 * @return InstanceConfig the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
