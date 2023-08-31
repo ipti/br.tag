@@ -14,7 +14,7 @@ class AdminController extends Controller
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
                     'import', 'export', 'update', 'manageUsers', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
-                    'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster', 'gradesStructure'
+                    'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster', 'gradesStructure', 'instanceConfig', 'editInstanceConfigs'
                 ], 'users' => ['@'],
             ],
         ];
@@ -518,5 +518,22 @@ class AdminController extends Controller
     function actionChangelog()
     {
         $this->render('changelog');
+    }
+
+    public function actionInstanceConfig()
+    {
+        $configs = InstaceConfig::model()->findAll();
+        $this->render('instaceConfig', [
+            "configs" => $configs
+        ]);
+    }
+
+    public function actionEditInstanceConfigs()
+    {
+        foreach ($_POST["configs"] as $config) {
+            $instaceConfig = InstaceConfig::model()->findByPk($config["id"]);
+            $instaceConfig->value = $config["value"];
+            $instaceConfig->save();
+        }
     }
 }

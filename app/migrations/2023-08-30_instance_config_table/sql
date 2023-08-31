@@ -1,0 +1,5 @@
+CREATE TABLE `instace_config` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `parameter_name` varchar(50) NOT NULL,
+  `value` varchar(250) NULL
+) AUTO_INCREMENT=0;

@@ -130,6 +130,18 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                             </button>
                         </a>
 
+                        <a href="<?php echo Yii::app()->createUrl('admin/instanceConfig') ?>">
+                            <button type="button" class="admin-box-container">
+                                <div class="pull-left" style="margin-right: 20px;">
+                                    <span class="t-icon-settings t-reports_icons"></span>
+                                </div>
+                                <div class="pull-left">
+                                    <span class="title">Configurações do Municipio</span><br>
+                                    <span class="subtitle">Defina o valores padrão da estrutura escolar do município</span>
+                                </div>
+                            </button>
+                        </a>
+
                         <a href="<?php echo Yii::app()->createUrl('admin/changelog') ?>">
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
