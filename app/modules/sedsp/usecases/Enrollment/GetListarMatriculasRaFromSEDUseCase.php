@@ -2,8 +2,9 @@
 
 class GetListarMatriculasRaFromSEDUseCase 
 {
-    function exec(InAluno $inAluno) 
+    public function exec(InAluno $inAluno) 
     {
+        throw new Exception("Implementation errro", 1);
         
     }
 

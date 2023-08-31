@@ -2,7 +2,7 @@
 
 class GetEscolasFromSEDUseCase
 {
-    function exec(InEscola $inEscola)
+    public function exec(InEscola $inEscola)
     {      
         $result = $this->fetchSchoolData($inEscola);
         $schoolId  = $this->buildSchoolId($result);

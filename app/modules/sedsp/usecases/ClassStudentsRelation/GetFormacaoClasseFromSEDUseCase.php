@@ -12,7 +12,7 @@ class GetFormacaoClasseFromSEDUseCase
      * @param InFormacaoClasse $inNumClasse
      * @throws InvalidArgumentException 
      */
-    function exec(InFormacaoClasse $inNumClasse)
+    public function exec(InFormacaoClasse $inNumClasse)
     {
         try {
             $formacaoClasseDataSource = new ClassStudentsRelationSEDDataSource();

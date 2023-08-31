@@ -5,7 +5,7 @@ class GetRelacaoClassesFromSEDUseCase
      * Summary of exec
      * @param InRelacaoClasses $inRelacaoClasses
      */
-    function exec(InRelacaoClasses $inRelacaoClasses)
+    public function exec(InRelacaoClasses $inRelacaoClasses)
     {
         try {
             $classes = new ClassStudentsRelationSEDDataSource();
@@ -42,17 +42,18 @@ class GetRelacaoClassesFromSEDUseCase
         }       
     }
 
-    function createAndSaveNewClass($attributes, $govId)
+    public function createAndSaveNewClass($attributes, $govId)
     {
         $class = new Classroom();
         $class->attributes = $attributes;
         $class->gov_id = $govId;
 
-        if($class->validate() && $class->save()) 
+        if($class->validate() && $class->save()) {
             return true;
-        else
-            CVarDumper::dump($class->getErrors(), 10, true);  
-    } 
+        } else {
+            CVarDumper::dump($class->getErrors(), 10, true);
+        }
+    }
 
     function getStudentsFromClass($classroomGovId)
     {

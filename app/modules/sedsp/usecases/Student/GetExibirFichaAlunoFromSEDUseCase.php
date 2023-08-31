@@ -2,7 +2,7 @@
 
 class GetExibirFichaAlunoFromSEDUseCase
 {
-    function exec(InAluno $inAluno)
+    public function exec(InAluno $inAluno)
     {
         $studentDatasource = new StudentSEDDataSource();
         $response = $studentDatasource->exibirFichaAluno($inAluno);

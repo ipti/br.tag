@@ -254,11 +254,6 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
     });
 </script>
 
-
-
-</script>
-
-
 <div class="row">
     <div class="modal fade modal-content" id="add-classroom" tabindex="-1" role="dialog">
         <div class="modal-header">

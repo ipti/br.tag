@@ -16,7 +16,7 @@ class BasicDataSEDDataSource extends SedDataSource
      * @return OutTiposEnsino|OutErro
      * @throws Exception
      */
-    function getTipoEnsino() 
+    public  function getTipoEnsino() 
     {
         try {
             $url = '/ncaapi/api/DadosBasicos/TipoEnsino';
@@ -36,7 +36,7 @@ class BasicDataSEDDataSource extends SedDataSource
      * @param mixed $data
      * @return mixed
      */
-    function getApiResponse($HTTPMethod, $url, $data) {
+    private function getApiResponse($HTTPMethod, $url, $data) {
         $response = $this->client->request($HTTPMethod, $url, [
             'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
         ]);
