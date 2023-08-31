@@ -42,8 +42,8 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                     <!-- <div class="t-icon-schedule report-icon"></div> -->
                 </div>
                 <div class="pull-left">
-                    <span class="title">Cadastrar Aluno</span><br>
-                    <span class="subtitle">Digite o RA para cadastrar o Aluno</span>
+                    <span class="title">Importar Aluno usando o RA</span><br>
+                    <span class="subtitle">Digite o RA para importar o Aluno</span>
                 </div>
             </button>
         </a>
@@ -64,8 +64,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         <a href="#" data-toggle="modal" data-target="#add-school" target="_blank">
             <button type="button" class="report-box-container">
                 <div class="pull-left" style="margin-right: 20px;">
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/school.svg" />
-                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/school.svg" alt="school" />
                 </div>
                 <div class="pull-left">
                     <span class="title">Cadastrar Escola</span><br>
@@ -74,6 +73,18 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             </button>
         </a>
 
+        <a href="#" data-toggle="modal" data-target="#get-full-school" target="_blank">
+            <button type="button" class="report-box-container">
+                <div class="pull-left" style="margin-right: 20px;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/school.svg" alt="school"/>
+                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                </div>
+                <div class="pull-left">
+                    <span class="title">Importação completa da Escola</span><br>
+                    <span class="subtitle">Realize a Importação da Escola, Incluindo Todas as Turmas e Alunos de Cada Turma</span>
+                </div>
+            </button>
+        </a>
 
         <a href="<?php echo Yii::app()->createUrl('sedsp/default/manageRA') ?>">
             <button type="button" class="report-box-container">
@@ -97,20 +108,21 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
             </button>
-            <h4 class="modal-title" id="myModalLabel">Cadastrar Aluno</h4>
+            <h4 class="modal-title" id="myModalLabel">Importar Aluno usando o RA</h4>
         </div>
-        <form class="form-vertical" id="addStudentRA" action="<?php echo yii::app()->createUrl('sedsp/default/AddStudentWithRA') ?>" method="post" onsubmit="return validateFormStudent();">
+        <form class="form-vertical" id="addStudentRA" action="<?php echo yii::app()->createUrl('sedsp/default/ImportStudentRA') ?>" method="post" onsubmit="return validateFormStudent();">
             <div class="modal-body">
                 <div class="row-fluid">
                     <div class=" span12">
-                        <?php echo CHtml::label(yii::t('default', 'RA do Aluno'), 'year', array('class' => 'control-label')); ?>
-                        <input name="ra" id="ra" type="number" placeholder="Digite o RA" style="width: 97.5%;" oninput="validateRA();" maxlength="12" required>
-                        <div id="ra-warning" style="display: none;color:#D21C1C">O RA deve ter exatamente 12 dígitos.</div>
+                    <?php echo CHtml::label(yii::t('default', 'RA do Aluno'), 'year', array('class' => 'control-label')); ?>
+                    <input name="numRA" id="numRA" type="text" placeholder="Digite o RA" style="width: 97.5%;" oninput="validateRA();" minlength="12" maxlength="12" required>
+                    <span id="ra-char-count"><?php echo 12; ?> caracteres restantes</span>
+                    <div id="ra-warning" style="display: none; color:#D21C1C">O RA deve ter exatamente 12 dígitos.</div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                    <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('sedsp/default/AddStudentWithRA'); ?>" type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
+                    <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('sedsp/default/ImportStudentRA'); ?>" type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
                 </div>
         </form>
     </div>
@@ -140,6 +152,107 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         </form>
     </div>
 </div>
+<div class="modal fade modal-content" id="get-full-school" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Importação completa da Escola</h4>
+    </div>
+    <form class="form-vertical" id="submit-full-school" action="<?php echo yii::app()->createUrl('sedsp/default/ImportFullSchool') ?>" method="post">
+        <div class="modal-body">
+            <div class="row-fluid">
+                <div class=" span12">
+                    <label  for="schoolDropdown">Selecione uma escola:</label>
+                    <select name="schoolName" id="schoolName" style="width: 97.7%">
+                        <option value="AGOSTINHO ALVES DA SILVA EM">AGOSTINHO ALVES DA SILVA EM</option>
+                        <option value="ALBA REGINA TORRAQUE DA SILVA PROFESSORA EMEI">ALBA REGINA TORRAQUE DA SILVA PROFESSORA EMEI</option>
+                        <option value="ALTIMIRA SILVA ABIRACHED PROFA EM">ALTIMIRA SILVA ABIRACHED PROFA EM</option>
+                        <option value="BESSIE FERREIRA OSORIO DE OLIVEIRA PROFA EMEI">BESSIE FERREIRA OSORIO DE OLIVEIRA PROFA EMEI</option>
+                        <option value="CEI MARIA LUCIA DA NOBREGA - TIA BABA">CEI MARIA LUCIA DA NOBREGA - TIA BABA</option>
+                        <option value="CEI PROFESSORA HELOISA MARIA SALLES TEIXEIRA - TIA HELO">CEI PROFESSORA HELOISA MARIA SALLES TEIXEIRA - TIA HELO</option>
+                        <option value="CEMPRI PROFESSORA MARTA HELENA DA SILVA ARAUJO">CEMPRI PROFESSORA MARTA HELENA DA SILVA ARAUJO</option>
+                        <option value="CENTRO DE EDUCAÇÃO INFANTIL ANA PAULA DO PRADO">CENTRO DE EDUCAÇÃO INFANTIL ANA PAULA DO PRADO</option>
+                        <option value="CRECHE MUNICIPAL PROFESSOR CORSINO ALISTE MEZQUITA">CRECHE MUNICIPAL PROFESSOR CORSINO ALISTE MEZQUITA</option>
+                        <option value="DINORAH PEREIRA DE SOUZA PROFA EMEI">DINORAH PEREIRA DE SOUZA PROFA EMEI</option>
+                        <option value="EM JOSÉ LIBÓRIO">EM JOSÉ LIBÓRIO</option>
+                        <option value="ERNESMAR DE OLIVEIRA PROF EM">ERNESMAR DE OLIVEIRA PROF EM</option>
+                        <option value="ESCOLA MUNICIPAL CAÇANDOCA">ESCOLA MUNICIPAL CAÇANDOCA</option>
+                        <option value="FORTALEZA EM">FORTALEZA EM</option>
+                        <option value="HELENA MARIA MENDES ALVES PROFA EMEI">HELENA MARIA MENDES ALVES PROFA EMEI</option>
+                        <option value="HONOR FIGUEIRA PROF EM">HONOR FIGUEIRA PROF EM</option>
+                        <option value="IBERE ANANIAS PIMENTEL EM">IBERE ANANIAS PIMENTEL EM</option>
+                        <option value="IDALINA GRACA EMEI">IDALINA GRACA EMEI</option>
+                        <option value="JOAO ALEXANDRE SENHOR EM">JOAO ALEXANDRE SENHOR EM</option>
+                        <option value="JOAQUIM LUIS BARBOSA PROF EM">JOAQUIM LUIS BARBOSA PROF EM</option>
+                        <option value="JOSE BELARMINO SOBRINHO EM">JOSE BELARMINO SOBRINHO EM</option>
+                        <option value="JOSE CARLOS PEREIRA PROF EMEI">JOSE CARLOS PEREIRA PROF EMEI</option>
+                        <option value="JOSE DE ANCHIETA PADRE EM">JOSE DE ANCHIETA PADRE EM</option>
+                        <option value="JOSE DE SOUZA SIMEAO PROF EM">JOSE DE SOUZA SIMEAO PROF EM</option>
+                        <option value="JOSE HERCULES CEMBRANELLI PROF CENTRO DE EDUCACAO INFANTIL">JOSE HERCULES CEMBRANELLI PROF CENTRO DE EDUCACAO INFANTIL</option>
+                        <option value="JUDITH CABRAL DOS SANTOS EM">JUDITH CABRAL DOS SANTOS EM</option>
+                        <option value="LUIZA BASILIO DOS SANTOS CENTRO DE EDUCACAO INFANTIL">LUIZA BASILIO DOS SANTOS CENTRO DE EDUCACAO INFANTIL</option>
+                        <option value="MANOEL INOCENCIO ALVES DOS SANTOS EM">MANOEL INOCENCIO ALVES DOS SANTOS EM</option>
+                        <option value="MARIA ALICE LEITE DA SILVA PROFA EMEI">MARIA ALICE LEITE DA SILVA PROFA EMEI</option>
+                        <option value="MARIA DA CRUZ BARRETO EM">MARIA DA CRUZ BARRETO EM</option>
+                        <option value="MARIA DA CRUZ DE OLIVEIRA PROFA EM">MARIA DA CRUZ DE OLIVEIRA PROFA EM</option>
+                        <option value="MARIA DA GLORIA MADRE EM">MARIA DA GLORIA MADRE EM</option>
+                        <option value="MARIA DAS DORES CARPINETTI PROFA EM">MARIA DAS DORES CARPINETTI PROFA EM</option>
+                        <option value="MARIA DO CARMO SOARES EM">MARIA DO CARMO SOARES EM</option>
+                        <option value="MARIA JOSEFINA GIGLIO DA SILVA PROFA EM">MARIA JOSEFINA GIGLIO DA SILVA PROFA EM</option>
+                        <option value="MARINA SALETE NEPOMUCENO DO AMARAL PROFA EM">MARINA SALETE NEPOMUCENO DO AMARAL PROFA EM</option>
+                        <option value="MARIO COVAS JUNIOR GOVERNADOR EM">MARIO COVAS JUNIOR GOVERNADOR EM</option>
+                        <option value="MONIQUE MUNIZ DE CARVALHO CENTRO DE EDUCACAO INFANTIL">MONIQUE MUNIZ DE CARVALHO CENTRO DE EDUCACAO INFANTIL</option>
+                        <option value="NATIVA FERNANDES DE FARIA EM">NATIVA FERNANDES DE FARIA EM</option>
+                        <option value="OLGA RIBAS DE ANDRADE GIL PROFA EM">OLGA RIBAS DE ANDRADE GIL PROFA EM</option>
+                        <option value="PEDRO ALVES DE SOUZA MAESTRO EM">PEDRO ALVES DE SOUZA MAESTRO EM</option>
+                        <option value="RENATA CASTILHO DA SILVA PROFA EM">RENATA CASTILHO DA SILVA PROFA EM</option>
+                        <option value="RICHARD JUAREZ GOBBI EMEI">RICHARD JUAREZ GOBBI EMEI</option>
+                        <option value="SEBASTIANA LUIZA DE OLIVEIRA PRADO EM">SEBASTIANA LUIZA DE OLIVEIRA PRADO EM</option>
+                        <option value="SILVINO TEIXEIRA LEITE PREFEITO EM">SILVINO TEIXEIRA LEITE PREFEITO EM</option>
+                        <option value="SOFIA RODRIGUES DE LIMA IRMA EMEI">SOFIA RODRIGUES DE LIMA IRMA EMEI</option>
+                        <option value="TANCREDO DE ALMEIDA NEVES PRESIDENTE EM">TANCREDO DE ALMEIDA NEVES PRESIDENTE EM</option>
+                        <option value="TEREZINHA FERNANDES ROSSI EMEI">TEREZINHA FERNANDES ROSSI EMEI</option>
+                        <option value="THEREZA DOS SANTOS EM (TIA THEREZA)">THEREZA DOS SANTOS EM (TIA THEREZA)</option>
+                        <option value="VIRGINIA MELLE DA SILVA LEFEVRE EM">VIRGINIA MELLE DA SILVA LEFEVRE EM</option>
+                    </select>
+                </div>
+        </div>
+        <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+    <button id="loading-popup" class="btn btn-primary" url="<?php echo Yii::app()->createUrl('sedsp/default/ImportFullSchool'); ?>" type="submit" value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
+    <div id="loading-container" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Aguarde enquanto a escola é importada...</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("loading-popup").addEventListener("click", function() {
+        // Esconder o botão "Cadastrar"
+        document.getElementById("loading-popup").style.display = "none";
+        
+        // Mostrar o indicador de carregamento
+        document.getElementById("loading-container").style.display = "block";
+
+        // Fazer uma requisição AJAX para iniciar o processo de importação
+        var request = new XMLHttpRequest();
+        request.open("GET", document.getElementById("loading-popup").getAttribute("url"), true);
+        request.onreadystatechange = function() {
+            if (request.readyState == 4 && request.status == 200) {
+                // Processo concluído, esconder o indicador de carregamento
+                document.getElementById("loading-container").style.display = "none";
+
+                // Exibir novamente o botão "Cadastrar"
+                document.getElementById("loading-popup").style.display = "block";
+            }
+        };
+        request.send();
+    });
+</script>
+
 <div class="row">
     <div class="modal fade modal-content" id="add-classroom" tabindex="-1" role="dialog">
         <div class="modal-header">
@@ -199,3 +312,25 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         $("#loading").show();
     });
 </script>
+
+<script>
+    const raInput = document.getElementById('numRA');
+    const charCount = document.getElementById('ra-char-count');
+    const maxChars = 12;
+
+    raInput.addEventListener('input', function() {
+        const remainingChars = maxChars - raInput.value.length;
+        if (remainingChars === 1) {
+            charCount.textContent = '1 caractere restante';
+        } else if (remainingChars > 1) {
+            charCount.textContent = `${remainingChars} caracteres restantes`;
+        } else {
+            charCount.textContent = '';
+        }
+        validateRA();
+    });
+</script>
+
+
+
+

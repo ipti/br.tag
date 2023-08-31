@@ -1,21 +1,27 @@
 <?php
 use GuzzleHttp\Exception\ClientException;
-require_once 'app/vendor/autoload.php';
 
-class SchoolSEDDataSource extends SedDataSource
+class BasicDataSEDDataSource extends SedDataSource
 {
+
     /**
-     * Summary of getSchool
-     * @param InEscola $inEscola
-     * @return OutEscola|OutErro
+     * ===========================
+     * GET REQUEST METHODS
+     * ===========================
+     */
+
+
+    /**
+     * Summary of getTipoEnsino
+     * @return OutTiposEnsino|OutErro
      * @throws Exception
      */
-    public function getSchool(InEscola $inEscola)
+    public  function getTipoEnsino() 
     {
         try {
-            $url = '/ncaapi/api/DadosBasicos/Escolas';
-            $response = $this->getApiResponse('GET', $url, $inEscola);
-            return OutEscola::fromJson($response);
+            $url = '/ncaapi/api/DadosBasicos/TipoEnsino';
+            $response = $this->getApiResponse('GET', $url, null);
+            return OutTiposEnsino::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
         } catch (Exception $exception) {
@@ -24,7 +30,7 @@ class SchoolSEDDataSource extends SedDataSource
     }
 
 
-        /**
+    /**
      * @param mixed $httpMethod
      * @param mixed $url
      * @param mixed $data

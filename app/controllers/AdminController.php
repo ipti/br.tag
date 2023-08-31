@@ -28,7 +28,7 @@ class AdminController extends Controller
         $this->render('index');
     }
 
-    function actionExportMaster() {
+    public function actionExportMaster() {
         $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();   
         $pathFileJson = "./app/export/InfoTagJSON/$databaseName.json";
 
@@ -65,7 +65,7 @@ class AdminController extends Controller
         readfile($pathFileJson);
     }
 
-    function actionImportMaster() {
+    public function actionImportMaster() {
         $adapter = new Adapter;
         $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();   
         $pathFileJson = "./app/export/InfoTagJSON/$databaseName.json";
@@ -307,7 +307,7 @@ class AdminController extends Controller
     }
 
     public
-    function actionActiveDisableUser()
+    public function actionActiveDisableUser()
     {
         $criteria = new CDbCriteria();
         $criteria->condition = "username != 'admin'";
@@ -318,7 +318,7 @@ class AdminController extends Controller
     }
 
     public
-    function actionDisableUser($id)
+    public function actionDisableUser($id)
     {
         $model = Users::model()->findByPk($id);
 
@@ -334,7 +334,7 @@ class AdminController extends Controller
     }
 
     public
-    function actionActiveUser($id)
+    public function actionActiveUser($id)
     {
         $model = Users::model()->findByPk($id);
 
@@ -350,7 +350,7 @@ class AdminController extends Controller
     }
 
     public
-    function actionEditPassword($id)
+    public function actionEditPassword($id)
     {
         $model = Users::model()->findByPk($id);
 
@@ -372,7 +372,7 @@ class AdminController extends Controller
 
 
     public
-    function actionClearDB()
+    public function actionClearDB()
     {
         //delete from users_school;
         //delete from users;
@@ -472,7 +472,7 @@ class AdminController extends Controller
     }
 
     public
-    function actionUpdate($id)
+    public function actionUpdate($id)
     {
         $model = Users::model()->findByPk($id);
         $actual_role = $model->getRole();
@@ -515,7 +515,7 @@ class AdminController extends Controller
     }
 
     public
-    function actionChangelog()
+    public function actionChangelog()
     {
         $this->render('changelog');
     }

@@ -261,7 +261,7 @@ class ClassesController extends Controller
      * Open the Frequency View.
      */
     public
-    function actionFrequency()
+    public function actionFrequency()
     {
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $criteria = new CDbCriteria;
@@ -291,7 +291,7 @@ class ClassesController extends Controller
      * Get all frequency by classroom, discipline and month
      */
     public
-    function actionGetFrequency()
+    public function actionGetFrequency()
     {
         if ($_POST["fundamentalMaior"] == "1") {
             $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"], "discipline_fk" => $_POST["discipline"]]);
@@ -338,7 +338,7 @@ class ClassesController extends Controller
      * Save the frequency for each student and class.
      */
     public
-    function actionSaveFrequency()
+    public function actionSaveFrequency()
     {
         if ($_POST["fundamentalMaior"] == "1") {
             $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "schedule" => $_POST["schedule"]]);
@@ -410,7 +410,7 @@ class ClassesController extends Controller
      * Get all disciplines by classroom
      */
     public
-    function actionGetDisciplines()
+    public function actionGetDisciplines()
     {
         $classroom = Classroom::model()->findByPk($_POST["classroom"]);
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
