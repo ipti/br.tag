@@ -306,7 +306,6 @@ class AdminController extends Controller
         }
     }
 
-    public
     public function actionActiveDisableUser()
     {
         $criteria = new CDbCriteria();
@@ -317,7 +316,6 @@ class AdminController extends Controller
         $this->render('activeDisableUser', ['users' => $users]);
     }
 
-    public
     public function actionDisableUser($id)
     {
         $model = Users::model()->findByPk($id);
@@ -333,7 +331,6 @@ class AdminController extends Controller
         }
     }
 
-    public
     public function actionActiveUser($id)
     {
         $model = Users::model()->findByPk($id);
@@ -349,7 +346,6 @@ class AdminController extends Controller
         }
     }
 
-    public
     public function actionEditPassword($id)
     {
         $model = Users::model()->findByPk($id);
@@ -371,7 +367,6 @@ class AdminController extends Controller
     }
 
 
-    public
     public function actionClearDB()
     {
         //delete from users_school;
@@ -471,7 +466,6 @@ class AdminController extends Controller
         ));
     }
 
-    public
     public function actionUpdate($id)
     {
         $model = Users::model()->findByPk($id);
@@ -514,7 +508,6 @@ class AdminController extends Controller
         $this->render('editUser', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result]);
     }
 
-    public
     public function actionChangelog()
     {
         $this->render('changelog');
