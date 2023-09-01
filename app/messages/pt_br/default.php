@@ -345,7 +345,7 @@ return array(
     'Potable Water' => 'Água Pótavel',
     'Provide Potable Water' => 'Para Consumo Humano',
     'Student Repose Room' => 'Sala de Repouso para Alunos',
-    'Stages Concept Grades' => 'Etapas para Notas por Conceito',
+    'School Stages' => 'Etapas da Escola',
     
     //Classroom
     'School Inep Fk' => 'Escola',

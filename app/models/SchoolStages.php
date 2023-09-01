@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "school_stages_concept_grades".
+ * This is the model class for table "school_stages".
  *
- * The followings are the available columns in table 'school_stages_concept_grades':
+ * The followings are the available columns in table 'school_stages':
  * @property integer $id
  * @property string $school_fk
  * @property integer $edcenso_stage_vs_modality_fk
@@ -12,14 +12,14 @@
  * @property EdcensoStageVsModality $edcensoStageVsModalityFk
  * @property SchoolIdentification $schoolFk
  */
-class SchoolStagesConceptGrades extends CActiveRecord
+class SchoolStages extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'school_stages_concept_grades';
+		return 'school_stages';
 	}
 
 	/**
@@ -95,7 +95,7 @@ class SchoolStagesConceptGrades extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return SchoolStagesConceptGrades the static model class
+	 * @return SchoolStages the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

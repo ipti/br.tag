@@ -396,6 +396,10 @@ $(".save-school-button").click(function () {
         error = true;
         message += "Campo <b>Órgãos em Funcionamento na Escola</b> é obrigatório. Selecione ao menos uma opção.<br>";
     }
+    if ($("#SchoolStructure_stages").val() === null || $("#SchoolStructure_stages").val() === "") {
+        error = true;
+        message += "Campo <b>Etapas da Escola</b> é obrigatório.<br>";
+    }
     if (error) {
         $("html, body").animate({scrollTop: 0}, "fast");
         $(this).closest("form").find(".school-error").html(message).show();

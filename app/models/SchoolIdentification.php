@@ -66,7 +66,7 @@
  * @property EdcensoUf $edcensoUfFk
  * @property EdcensoCity $edcensoCityFk
  * @property EdcensoDistrict $edcensoDistrictFk
- * @property SchoolStagesConceptGrades[] $schoolStagesConceptGrades
+ * @property SchoolStages[] $schoolStages
  * @property StudentDocumentsAndAddress[] $studentDocumentsAndAddresses
  * @property StudentEnrollment[] $studentEnrollments
  * @property StudentIdentification[] $studentIdentifications
@@ -129,7 +129,7 @@ class SchoolIdentification extends AltActiveRecord {
             'edcensoUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'),
             'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
             'edcensoDistrictFk' => array(self::BELONGS_TO, 'EdcensoDistrict', 'edcenso_district_fk'),
-            'schoolStagesConceptGrades' => array(self::HAS_MANY, 'SchoolStagesConceptGrades', 'school_fk'),
+            'SchoolStages' => array(self::HAS_MANY, 'SchoolStages', 'school_fk'),
             'studentDocumentsAndAddresses' => array(self::HAS_MANY, 'StudentDocumentsAndAddress', 'school_inep_id_fk'),
             'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'school_inep_id_fk'),
             'studentIdentifications' => array(self::HAS_MANY, 'StudentIdentification', 'school_inep_id_fk'),

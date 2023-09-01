@@ -7,3 +7,11 @@ CREATE TABLE `instance_config` (
 
 INSERT INTO `instance_config` (`parameter_key`, `parameter_name`, `value`)
 VALUES ('VHA', 'Valor da Hora-Aula (Minutos)', '60');
+
+ALTER TABLE `school_stages_concept_grades`
+RENAME TO `school_stages`;
+
+delete from school_stages;
+
+insert into school_stages (school_fk, edcenso_stage_vs_modality_fk)
+select distinct si.inep_id, c.edcenso_stage_vs_modality_fk from school_identification si join classroom c on si.inep_id = c.school_inep_fk where edcenso_stage_vs_modality_fk  <> 0;

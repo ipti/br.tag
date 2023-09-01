@@ -11,6 +11,7 @@
     echo $this->renderPartial('_form', array('modelClassroom' => $modelClassroom,
         'complementaryActivities' => $complementary_activities,
         'modelTeachingData' => $modelTeachingData,
+        'edcensoStageVsModalities' => $edcensoStageVsModalities,
         'title' => $title));
     ?>
 </div>

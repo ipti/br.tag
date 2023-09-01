@@ -308,3 +308,7 @@ form {
 .schedule-info {
     padding: 3px !important;
 }
+
+.school-stages-container label {
+    font-weight: bold !important;
+}

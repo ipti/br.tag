@@ -2122,11 +2122,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
-                            <div class="control-group">
-                                <?php echo $form->labelEx($modelSchoolStructure, 'stages_concept_grades', array('class' => 'control-label')); ?>
-                                <?php echo $form->dropDownList($modelSchoolStructure, 'stages_concept_grades', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('multiple' => true, 'prompt' => 'Selecione o estágio vs modalidade', 'class' => 'select-search-on t-multiselect control-input multiselect')); ?>
-                                <?php echo $form->error($modelSchoolStructure, 'stages_concept_grades'); ?>
-                                <div class="add-stages-options">Adicionar: <span class="add-fundamental-menor">Fundamental Menor</span></div>
+                            <div class="control-group school-stages-container">
+                                <label class="bold control-label">Etapas da Escola *</label>
+                                <?php echo $form->dropDownList($modelSchoolStructure, 'stages', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('multiple' => true, 'prompt' => 'Selecione o estágio vs modalidade', 'class' => 'select-search-on t-multiselect control-input multiselect')); ?>
+                                <?php echo $form->error($modelSchoolStructure, 'stages'); ?>
                             </div>
                         </div>
                     </div>

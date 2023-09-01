@@ -21,7 +21,7 @@ $(document).on("click", ".save", function () {
     }).success(function (data) {
         data = JSON.parse(data);
         if (data.valid) {
-            $(".parameter-structure-container").find(".success-configs").html(DOMPurify.sanitize(data.text)).show();
+            $(".success-configs").html(DOMPurify.sanitize(data.text)).show();
         }
     }).complete(function () {
         $(".save-config-loading-gif").hide();

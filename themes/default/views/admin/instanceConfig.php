@@ -38,10 +38,8 @@ $this->setPageTitle('TAG - Configurações Gerais');
         <div class="row">
             <h3>Configurações Gerais</h3>
         </div>
-
+        <div class="success-configs alert alert-success no-show"></div>
         <div class="parameter-structure-container">
-            <div class="success-configs alert alert-success no-show"></div>
-
             <div class="row-fluid">
                 <?php foreach ($configs as $config): ?>
                 <div class="parameter-row">

@@ -445,6 +445,9 @@ class ClassroomController extends Controller
         $modelClassroom = new Classroom;
         $modelTeachingData = array();
 
+
+        $edcensoStageVsModalities = $this->getSchoolStagesModels();
+
         if (isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines']) && isset($_POST['events'])) {
             $disciplines = json_decode($_POST['disciplines'], true);
             $this->setDisciplines($modelClassroom, $disciplines);
@@ -516,6 +519,7 @@ class ClassroomController extends Controller
             'modelClassroom' => $modelClassroom,
             'complementary_activities' => array(),
             'modelTeachingData' => $modelTeachingData,
+            'edcensoStageVsModalities' => $edcensoStageVsModalities
         ));
     }
 
@@ -785,6 +789,18 @@ class ClassroomController extends Controller
     } 
  
     Yii::app()->user->setFlash('success', Yii::t('default', 'dayli order'));
+    }
+
+    public function getSchoolStagesModels() {
+        $criteriaStages = new CDbCriteria();
+        $criteriaStages->alias = "esvm";
+        $criteriaStages->condition = 'ss.school_fk = :school_fk';
+        $criteriaStages->params = array(
+            ':school_fk' => Yii::app()->user->school,
+        );
+        $criteriaStages->join = "join school_stages ss on ss.edcenso_stage_vs_modality_fk = esvm.id";
+        $criteriaStages->order = "esvm.name";
+        return EdcensoStageVsModality::model()->findAll($criteriaStages);
     }
 
 }

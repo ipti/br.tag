@@ -33,7 +33,7 @@ class SchoolController extends Controller
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('edcenso_import', 'configacl', 'index', 'view', 'update', 'create',
-                    'getcities', 'getmanagercities','getdistricts', 'getorgans', 'updateufdependencies', 'updatecitydependencies', 'displayLogo', 'RemoveLogo'),
+                    'getcities', 'getmanagercities', 'getdistricts', 'getorgans', 'updateufdependencies', 'updatecitydependencies', 'displayLogo', 'RemoveLogo'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -159,7 +159,6 @@ class SchoolController extends Controller
         $modelSchoolIdentification = new SchoolIdentification;
         $modelSchoolStructure = new SchoolStructure;
         $modelManagerIdentification = new ManagerIdentification;
-        $modelSchoolStructure->stages_concept_grades = [14, 15, 16];
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($modelSchoolIdentification);
@@ -179,12 +178,11 @@ class SchoolController extends Controller
             $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
             $modelManagerIdentification->attributes = $_POST[$this->MANAGER_IDENTIFICATION];
 
-            $modelManagerIdentification->cpf = str_replace([".","-"], "", $modelManagerIdentification->cpf);
-            $modelManagerIdentification->filiation_1_cpf = str_replace([".","-"], "", $modelManagerIdentification->filiation_1_cpf);
-            $modelManagerIdentification->filiation_2_cpf = str_replace([".","-"], "", $modelManagerIdentification->filiation_2_cpf);
+            $modelManagerIdentification->cpf = str_replace([".", "-"], "", $modelManagerIdentification->cpf);
+            $modelManagerIdentification->filiation_1_cpf = str_replace([".", "-"], "", $modelManagerIdentification->filiation_1_cpf);
+            $modelManagerIdentification->filiation_2_cpf = str_replace([".", "-"], "", $modelManagerIdentification->filiation_2_cpf);
             $modelManagerIdentification->school_inep_id_fk = $modelSchoolIdentification->inep_id;
 
-          
 
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
 
@@ -199,11 +197,11 @@ class SchoolController extends Controller
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate() && $modelManagerIdentification->validate()) {
                 if ($modelSchoolStructure->operation_location_building || $modelSchoolStructure->operation_location_temple || $modelSchoolStructure->operation_location_businness_room || $modelSchoolStructure->operation_location_instructor_house || $modelSchoolStructure->operation_location_other_school_room || $modelSchoolStructure->operation_location_barracks || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other) {
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save() && $modelManagerIdentification->save()) {
-                        foreach ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] as $stage_concept_grade) {
-                            $schoolStagesConceptGrades = new SchoolStagesConceptGrades();
-                            $schoolStagesConceptGrades->school_fk = $modelSchoolIdentification->inep_id;
-                            $schoolStagesConceptGrades->edcenso_stage_vs_modality_fk = $stage_concept_grade;
-                            $schoolStagesConceptGrades->save();
+                        foreach ($_POST[$this->SCHOOL_STRUCTURE]["stages"] as $stage) {
+                            $schoolStages = new SchoolStages();
+                            $schoolStages->school_fk = $modelSchoolIdentification->inep_id;
+                            $schoolStages->edcenso_stage_vs_modality_fk = $stage;
+                            $schoolStages->save();
                         }
                         Log::model()->saveAction("school", $modelSchoolIdentification->inep_id, "C", $modelSchoolIdentification->name);
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Escola adicionada com sucesso!'));
@@ -218,7 +216,7 @@ class SchoolController extends Controller
         $this->render('create', array(
             'modelSchoolIdentification' => $modelSchoolIdentification,
             'modelSchoolStructure' => $modelSchoolStructure,
-            'modelManagerIdentification' =>  $modelManagerIdentification
+            'modelManagerIdentification' => $modelManagerIdentification
         ));
     }
 
@@ -253,7 +251,7 @@ class SchoolController extends Controller
             $modelSchoolIdentification->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
             $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
             $modelManagerIdentification->attributes = $_POST[$this->MANAGER_IDENTIFICATION];
-            
+
             $modelSchoolIdentification->number_ato = $_POST[$this->SCHOOL_IDENTIFICATION]["number_ato"];
 
             if (!empty($_FILES['SchoolIdentification']['tmp_name']['logo_file_content'])) {
@@ -265,9 +263,9 @@ class SchoolController extends Controller
                 $modelSchoolIdentification->logo_file_content = $file_content_tmp;
             }
 
-            $modelManagerIdentification->cpf = str_replace([".","-"], "", $modelManagerIdentification->cpf);
-            $modelManagerIdentification->filiation_1_cpf = str_replace([".","-"], "", $modelManagerIdentification->filiation_1_cpf);
-            $modelManagerIdentification->filiation_2_cpf = str_replace([".","-"], "", $modelManagerIdentification->filiation_2_cpf);
+            $modelManagerIdentification->cpf = str_replace([".", "-"], "", $modelManagerIdentification->cpf);
+            $modelManagerIdentification->filiation_1_cpf = str_replace([".", "-"], "", $modelManagerIdentification->filiation_1_cpf);
+            $modelManagerIdentification->filiation_2_cpf = str_replace([".", "-"], "", $modelManagerIdentification->filiation_2_cpf);
             $modelManagerIdentification->school_inep_id_fk = $modelSchoolIdentification->inep_id;
 
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
@@ -278,32 +276,37 @@ class SchoolController extends Controller
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save() && $modelManagerIdentification->save()) {
 
                         $criteriaStages = new CDbCriteria();
-                        $criteriaStages->condition = 'school_fk = :school_fk';
+                        $criteriaStages->condition = 'school_inep_fk = :school_inep_fk';
                         $criteriaStages->params = array(
-                            ':school_fk' => $modelSchoolIdentification->inep_id,
+                            ':school_inep_fk' => $modelSchoolIdentification->inep_id,
                         );
+                        $criteriaStages->addNotInCondition('edcenso_stage_vs_modality_fk', $_POST[$this->SCHOOL_STRUCTURE]["stages"]);
+                        $classrooms = Classroom::model()->findAll($criteriaStages);
+                        if (empty($classrooms)) {
+                            $criteriaStages->condition = 'school_fk = :school_fk';
+                            $criteriaStages->params = array(
+                                ':school_fk' => $modelSchoolIdentification->inep_id,
+                            );
+                            SchoolStages::model()->deleteAll($criteriaStages);
 
-                        if ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] != "") {
-                            
-                            $criteriaStages->addNotInCondition('edcenso_stage_vs_modality_fk', $_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"]);
-                            SchoolStagesConceptGrades::model()->deleteAll($criteriaStages);
-                            
-                            foreach ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] as $stage_concept_grade) {
-                                $schoolStagesConceptGrades = SchoolStagesConceptGrades::model()->find("school_fk = :school_fk and edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk", [":school_fk" => $modelSchoolIdentification->inep_id, ":edcenso_stage_vs_modality_fk" => $stage_concept_grade]);
-                                if ($schoolStagesConceptGrades == null) {
-                                    $schoolStagesConceptGrades = new SchoolStagesConceptGrades();
-                                    $schoolStagesConceptGrades->school_fk = $modelSchoolIdentification->inep_id;
-                                    $schoolStagesConceptGrades->edcenso_stage_vs_modality_fk = $stage_concept_grade;
-                                    $schoolStagesConceptGrades->save();
+                            foreach ($_POST[$this->SCHOOL_STRUCTURE]["stages"] as $stage) {
+                                $schoolStages = SchoolStages::model()->find("school_fk = :school_fk and edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk", [":school_fk" => $modelSchoolIdentification->inep_id, ":edcenso_stage_vs_modality_fk" => $stage]);
+                                if ($schoolStages == null) {
+                                    $schoolStages = new SchoolStages();
+                                    $schoolStages->school_fk = $modelSchoolIdentification->inep_id;
+                                    $schoolStages->edcenso_stage_vs_modality_fk = $stage;
+                                    $schoolStages->save();
                                 }
                             }
+
+                            Log::model()->saveAction("school", $modelSchoolIdentification->inep_id, "U", $modelSchoolIdentification->name);
+                            Yii::app()->user->setFlash('success', Yii::t('default', 'Escola alterada com sucesso!'));
+                            $this->redirect(array('index'));
                         } else {
-                            SchoolStagesConceptGrades::model()->deleteAll($criteriaStages);
+                            Yii::app()->user->setFlash('error', Yii::t('default', 'Erro no cadastro'));
+                            $modelSchoolStructure->addError("stages", "Não se pode remover uma etapa que alguma turma esteja utilizando.");
                         }
 
-                        Log::model()->saveAction("school", $modelSchoolIdentification->inep_id, "U", $modelSchoolIdentification->name);
-                        Yii::app()->user->setFlash('success', Yii::t('default', 'Escola alterada com sucesso!'));
-                        $this->redirect(array('index'));
                     }
                 } else {
                     $modelSchoolStructure->addError('operation_location_building', Yii::t('default', 'Operation Location') . ' ' . Yii::t('default', 'cannot be blank'));
@@ -385,16 +388,15 @@ class SchoolController extends Controller
             $return = SchoolIdentification::model()->findByPk($id);
         } else if ($model == $this->SCHOOL_STRUCTURE) {
             $return = SchoolStructure::model()->findByPk($id);
-            if(!isset($return)){
+            if (!isset($return)) {
                 $return = new SchoolStructure;
-                $return->stages_concept_grades = [14, 15, 16];
             }
-            $stagesConceptGradesArray = [];
-            $schoolStagesConceptGrades = SchoolStagesConceptGrades::model()->findAll("school_fk = :school_fk", ["school_fk" => $id]);
-            foreach ($schoolStagesConceptGrades as $schoolStageConceptGrade) {
-                array_push($stagesConceptGradesArray, $schoolStageConceptGrade->edcenso_stage_vs_modality_fk);
+            $stagesArray = [];
+            $schoolStages = SchoolStages::model()->findAll("school_fk = :school_fk", ["school_fk" => $id]);
+            foreach ($schoolStages as $schoolStage) {
+                array_push($stagesArray, $schoolStage->edcenso_stage_vs_modality_fk);
             }
-            $return->stages_concept_grades = $stagesConceptGradesArray;
+            $return->stages = $stagesArray;
             $sharedSchoolInedIdArray = [];
             if ($return->shared_school_inep_id_1 != null) {
                 array_push($sharedSchoolInedIdArray, $return->shared_school_inep_id_1);
@@ -419,7 +421,7 @@ class SchoolController extends Controller
             $manager = ManagerIdentification::model()->findByAttributes(['school_inep_id_fk' => $id]);
             if ($manager) {
                 $return = $manager;
-            }else {
+            } else {
                 $return = new ManagerIdentification;
             }
         }
@@ -432,15 +434,15 @@ class SchoolController extends Controller
     public function actionDisplayLogo($id)
     {
         $model = $this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
-        header('Content-Type: '.$model->logo_file_type);
-        if($model->logo_file_content != null){
+        header('Content-Type: ' . $model->logo_file_type);
+        if ($model->logo_file_content != null) {
             print $model->logo_file_content;
             return;
         }
-        
+
         $baseUrl = Yii::app()->getBaseUrl(true);
         $themeUrl = Yii::app()->theme->baseUrl;
-        $school_logo = $baseUrl.$themeUrl."/img/emblema-escola.svg";
+        $school_logo = $baseUrl . $themeUrl . "/img/emblema-escola.svg";
         header('Content-Type: image/svg+xml');
         print file_get_contents($school_logo);
     }
