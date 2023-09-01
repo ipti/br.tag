@@ -1,5 +1,7 @@
 # Atualizações
 
+## [Versão 3.53.86]
+- Adicionando Associação de Usuários de professores com Registros de Professor
 ## [Versão 3.53.85]
 - Corrigido o erro que não permitia replicar alterações para todas as semanas subsequentes em quadro de horário
 
