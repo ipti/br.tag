@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.54.85]
+- Adicionar rolagem em carga horária em quadro de horário
+
 ## [Versão 3.53.85]
 - Corrigido o erro que não permitia replicar alterações para todas as semanas subsequentes em quadro de horário
 
