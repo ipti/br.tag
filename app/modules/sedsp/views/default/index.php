@@ -149,6 +149,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                     <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
                     <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('sedsp/default/AddSchool'); ?>" type="submit" value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
                 </div>
+            </div>
         </form>
     </div>
 </div>
@@ -217,41 +218,22 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                         <option value="VIRGINIA MELLE DA SILVA LEFEVRE EM">VIRGINIA MELLE DA SILVA LEFEVRE EM</option>
                     </select>
                 </div>
+            </div>
+        
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                <button id="loading-popup" class="btn btn-primary" url="<?= Yii::app()->createUrl('sedsp/default/ImportFullSchool'); ?>" type="submit" value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
+                <div id="loading-container" style="display: none;">
+                    <div class="loading-content">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">Aguarde enquanto a escola é importada...</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-    <button id="loading-popup" class="btn btn-primary" url="<?php echo Yii::app()->createUrl('sedsp/default/ImportFullSchool'); ?>" type="submit" value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
-    <div id="loading-container" style="display: none;">
-        <div class="loading-content">
-            <div class="loading-spinner"></div>
-            <div class="loading-text">Aguarde enquanto a escola é importada...</div>
-        </div>
-    </div>
+    </form>
 </div>
 
-<script>
-    document.getElementById("loading-popup").addEventListener("click", function() {
-        // Esconder o botão "Cadastrar"
-        document.getElementById("loading-popup").style.display = "none";
-        
-        // Mostrar o indicador de carregamento
-        document.getElementById("loading-container").style.display = "block";
-
-        // Fazer uma requisição AJAX para iniciar o processo de importação
-        var request = new XMLHttpRequest();
-        request.open("GET", document.getElementById("loading-popup").getAttribute("url"), true);
-        request.onreadystatechange = function() {
-            if (request.readyState == 4 && request.status == 200) {
-                // Processo concluído, esconder o indicador de carregamento
-                document.getElementById("loading-container").style.display = "none";
-
-                // Exibir novamente o botão "Cadastrar"
-                document.getElementById("loading-popup").style.display = "block";
-            }
-        };
-        request.send();
-    });
-</script>
 
 <div class="row">
     <div class="modal fade modal-content" id="add-classroom" tabindex="-1" role="dialog">
@@ -298,6 +280,31 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         </form>
     </div>
 </div>
+
+<script>
+    document.getElementById("loading-popup").addEventListener("click", function() {
+        // Esconder o botão "Cadastrar"
+        document.getElementById("loading-popup").style.display = "none";
+        
+        // Mostrar o indicador de carregamento
+        document.getElementById("loading-container").style.display = "block";
+
+        // Fazer uma requisição AJAX para iniciar o processo de importação
+        var request = new XMLHttpRequest();
+        request.open("GET", document.getElementById("loading-popup").getAttribute("url"), true);
+        request.onreadystatechange = function() {
+            if (request.readyState == 4 && request.status == 200) {
+                // Processo concluído, esconder o indicador de carregamento
+                document.getElementById("loading-container").style.display = "none";
+
+                // Exibir novamente o botão "Cadastrar"
+                document.getElementById("loading-popup").style.display = "block";
+            }
+        };
+        request.send();
+    });
+</script>
+
 
 <style>
     #loading {

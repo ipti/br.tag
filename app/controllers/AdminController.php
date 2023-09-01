@@ -305,7 +305,6 @@ class AdminController extends Controller
             }
         }
     }
-
     public function actionActiveDisableUser()
     {
         $criteria = new CDbCriteria();
@@ -409,8 +408,7 @@ class AdminController extends Controller
         $this->redirect(array('index'));
     }
 
-    public
-    function addTestUsers()
+    public function addTestUsers()
     {
         set_time_limit(0);
         ignore_user_abort();
@@ -437,8 +435,7 @@ class AdminController extends Controller
         //        /*         * ************************************************************************************************ */
     }
 
-    public
-    function mres($value)
+    public function mres($value)
     {
         $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
         $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");

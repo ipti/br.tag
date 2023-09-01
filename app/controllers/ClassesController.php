@@ -260,7 +260,7 @@ class ClassesController extends Controller
     /**
      * Open the Frequency View.
      */
-    public
+    
     public function actionFrequency()
     {
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
@@ -290,7 +290,7 @@ class ClassesController extends Controller
     /**
      * Get all frequency by classroom, discipline and month
      */
-    public
+    
     public function actionGetFrequency()
     {
         if ($_POST["fundamentalMaior"] == "1") {
@@ -337,7 +337,7 @@ class ClassesController extends Controller
     /**
      * Save the frequency for each student and class.
      */
-    public
+    
     public function actionSaveFrequency()
     {
         if ($_POST["fundamentalMaior"] == "1") {
@@ -409,7 +409,7 @@ class ClassesController extends Controller
     /**
      * Get all disciplines by classroom
      */
-    public
+    
     public function actionGetDisciplines()
     {
         $classroom = Classroom::model()->findByPk($_POST["classroom"]);
