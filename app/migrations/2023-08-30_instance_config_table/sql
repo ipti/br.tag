@@ -1,5 +1,9 @@
 CREATE TABLE `instance_config` (
   `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `parameter_key` varchar(10) NOT NULL,
   `parameter_name` varchar(50) NOT NULL,
   `value` varchar(250) NULL
 ) AUTO_INCREMENT=0;
+
+INSERT INTO `instance_config` (`parameter_key`, `parameter_name`, `value`)
+VALUES ('VHA', 'Valor da Hora-Aula (Minutos)', '60');

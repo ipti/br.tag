@@ -5,6 +5,7 @@
  *
  * The followings are the available columns in table 'instance_config':
  * @property integer $id
+ * @property string $parameter_key
  * @property string $parameter_name
  * @property string $value
  */
@@ -26,12 +27,13 @@ class InstanceConfig extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('parameter_name', 'required'),
+			array('parameter_key, parameter_name', 'required'),
+			array('parameter_key', 'length', 'max'=>10),
 			array('parameter_name', 'length', 'max'=>50),
 			array('value', 'length', 'max'=>250),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, parameter_name, value', 'safe', 'on'=>'search'),
+			array('id, parameter_key, parameter_name, value', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,6 +55,7 @@ class InstanceConfig extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
+			'parameter_key' => 'Parameter Key',
 			'parameter_name' => 'Parameter Name',
 			'value' => 'Value',
 		);
@@ -77,6 +80,7 @@ class InstanceConfig extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
+		$criteria->compare('parameter_key',$this->parameter_key,true);
 		$criteria->compare('parameter_name',$this->parameter_name,true);
 		$criteria->compare('value',$this->value,true);
 

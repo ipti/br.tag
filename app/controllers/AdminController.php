@@ -530,10 +530,15 @@ class AdminController extends Controller
 
     public function actionEditInstanceConfigs()
     {
+        $changed = false;
         foreach ($_POST["configs"] as $config) {
             $instanceConfig = instanceConfig::model()->findByPk($config["id"]);
-            $instanceConfig->value = $config["value"];
-            $instanceConfig->save();
+            if ($instanceConfig->value != $config["value"]) {
+                $instanceConfig->value = $config["value"];
+                $instanceConfig->save();
+                $changed = true;
+            }
         }
+        echo json_encode(["valid" => $changed, "text" => "Configurações alteradas com sucesso.</br>"]);
     }
 }

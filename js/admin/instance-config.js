@@ -1,6 +1,7 @@
 $(document).on("click", ".save", function () {
 
     var configs = [];
+    $(".parameter-structure-container").find(".success-configs").hide();
     $(".parameter-row").each(function () {
         configs.push({
             id: $(this).find(".parameter-id").val(),
@@ -15,14 +16,15 @@ $(document).on("click", ".save", function () {
             configs: configs,
         },
         beforeSend: function () {
+            $(".save-config-loading-gif").show();
         },
     }).success(function (data) {
         data = JSON.parse(data);
         if (data.valid) {
-        } else {
-            $(".error-configs").html(DOMPurify.sanitize(data.error)).show();
+            $(".parameter-structure-container").find(".success-configs").html(DOMPurify.sanitize(data.text)).show();
         }
     }).complete(function () {
+        $(".save-config-loading-gif").hide();
     });
 
 });
