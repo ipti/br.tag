@@ -129,7 +129,12 @@ class StudentMapper
             $studentIdentification->sex = $outDadosPessoais->getOutCodSexo();
             $studentIdentification->bf_participator = $outDadosPessoais->getOutCodBolsaFamilia();
             $studentIdentification->nationality = intval($outDadosPessoais->getOutNacionalidade());
-            $studentIdentification->edcenso_nation_fk = intval(EdcensoNation::model()->find("name = :name", [":name" => $outDadosPessoais->getOutNomePaisOrigem()])->id);
+            
+            if($outDadosPessoais->getOutNacionalidade() == 1) //1 - Brasileira
+                $studentIdentification->edcenso_nation_fk = 76;
+            elseif($outDadosPessoais->getOutNacionalidade() == 2) //2 - Estrangeira
+                $studentIdentification->edcenso_nation_fk = $outDadosPessoais->getOutCodPaisOrigem();
+                            
             $studentIdentification->edcenso_uf_fk = intval(EdcensoUf::model()->find("acronym = :acronym", [":acronym" => $outDadosPessoais->getOutUfMunNascto()])->id);
             $studentIdentification->edcenso_city_fk = intval(EdcensoCity::model()->find("name = :name", [":name" => $outDadosPessoais->getOutNomeMunNascto()])->id);
             $studentIdentification->deficiency = 0;
