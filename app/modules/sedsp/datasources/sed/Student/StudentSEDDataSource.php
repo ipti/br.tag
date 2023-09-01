@@ -1,6 +1,7 @@
 <?php
 
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 
 require 'app/vendor/autoload.php';
 
@@ -9,11 +10,6 @@ require 'app/vendor/autoload.php';
  */
 class StudentSEDDataSource extends SedDataSource
 {
-    const LENGTH_IN_NUM_RA = 12;
-    const LENGTH_IN_DIGITO_RA = 2;
-    const LENGTH_IN_SIGLA_UFRA = 2;
-
-
 
     /**
      * ===========================
@@ -26,8 +22,6 @@ class StudentSEDDataSource extends SedDataSource
      * Summary of getStudentRA
      * @param InConsultaRA $inAluno
      * @return OutConsultaRA|OutErro
-     * 
-     * @throws InvalidArgumentException Se os dados de entrada forem inválidos.
      * @throws Exception Se ocorrer um erro desconhecido.
      */
     public function getStudentRA($inConsultaRA)
@@ -36,8 +30,6 @@ class StudentSEDDataSource extends SedDataSource
             $url = '/ncaapi/api/Aluno/ConsultaRA';
             $response = $this->getApiResponse('GET', $url, $inConsultaRA);
             return OutConsultaRA::fromJson($response);  
-        } catch (InvalidArgumentException $invalidArgumentException) {
-            throw $invalidArgumentException;
         } catch (ClientException $e) {
             return new OutErro($e);
         } catch (Exception $exception) {
@@ -68,14 +60,10 @@ class StudentSEDDataSource extends SedDataSource
         return $data;
     }
 
-
-
     /**
      * Summary of getListStudents
      * @param InListarAlunos $inListarAlunos
      * @return OutListarAluno|OutErro
-     * 
-     * @throws InvalidArgumentException Se os dados de entrada forem inválidos.
      * @throws Exception Se ocorrer um erro desconhecido.
      */
     function getListStudents(InListarAlunos $inListarAlunos)
@@ -89,9 +77,6 @@ class StudentSEDDataSource extends SedDataSource
 
             $response = $this->getApiResponse('GET', $url, $data);
             return OutListarAluno::fromJson($response);
-
-        } catch (InvalidArgumentException $invalidArgumentException) {
-            throw $invalidArgumentException;
         } catch (ClientException $e) {
             return new OutErro($e);
         } catch (Exception $exception) {
@@ -102,29 +87,14 @@ class StudentSEDDataSource extends SedDataSource
     /**
      * @param InAluno $inAluno Objeto contendo informações do aluno.
      * @return OutExibirFichaAluno|OutErro Retorna um objeto OutAluno em caso de sucesso ou OutErro em caso de erro.
-     * 
-     * @throws InvalidArgumentException Se os dados de entrada forem inválidos.
      * @throws Exception Se ocorrer um erro desconhecido.
      */
     function exibirFichaAluno(InAluno $inAluno)
     {
         try {
-            if (empty($inAluno->inNumRA) || empty($inAluno->inSiglaUFRA)) {
-                throw new InvalidArgumentException("Entrada inválida: dados incompletos.");
-            }
-
-            if (strlen($inAluno->inNumRA) > self::LENGTH_IN_NUM_RA || 
-                isset($inAluno->inSiglaUFRA) ? (strlen($inAluno->inSiglaUFRA) > self::LENGTH_IN_SIGLA_UFRA) : false || 
-                strlen($inAluno->inDigitoRA) > self::LENGTH_IN_DIGITO_RA) {
-                throw new InvalidArgumentException("Entrada inválida: tamanho máximo excedido.");
-            }
-
             $url = '/ncaapi/api/Aluno/ExibirFichaAluno';
             $response = $this->getApiResponse('GET', $url, ["inAluno" => $inAluno]);
-          
             return outExibirFichaAluno::fromJson($response);
-        } catch (InvalidArgumentException $invalidArgumentException) {
-            throw $invalidArgumentException;
         } catch (ClientException $e) {
             return new OutErro($e);
         } catch (Exception $exception) {
@@ -136,8 +106,6 @@ class StudentSEDDataSource extends SedDataSource
      * Summary of getConsultarResponsavelAluno
      * @param InResponsavelAluno
      * @return OutConsultarResponsavelAluno|OutErro
-     * 
-     * @throws InvalidArgumentException Se os dados de entrada forem inválidos.
      * @throws Exception Se ocorrer um erro desconhecido. 
      */
     function getConsultarResponsavelAluno(InResponsavelAluno $inConsultarResponsavelAluno)
@@ -151,9 +119,6 @@ class StudentSEDDataSource extends SedDataSource
 
             $response = $this->getApiResponse('GET', $url,  $data);     
             return OutConsultarResponsavelAluno::fromJson($response);
-
-        } catch (InvalidArgumentException $invalidArgumentException) {
-            throw $invalidArgumentException;
         } catch (ClientException $e) {
             return new OutErro($e);
         } catch (Exception $exception) {
@@ -175,8 +140,6 @@ class StudentSEDDataSource extends SedDataSource
      * Summary of addStudent
      * @param InFichaAluno $inFichaAluno
      * @return OutFichaAluno|OutErro
-     * 
-     * @throws InvalidArgumentException
      * @throws Exception
      */
     function addStudent(InFichaAluno $inFichaAluno)
@@ -186,12 +149,9 @@ class StudentSEDDataSource extends SedDataSource
             $response = $this->getApiResponse('POST', $url, $inFichaAluno);
 
             return OutFichaAluno::fromJson($response);
-
-        }catch(InvalidArgumentException $invalidArgumentException) {
-            throw $invalidArgumentException;
-        }catch(GuzzleHttp\Exception\RequestException $clienteException) {
+        } catch(RequestException $clienteException) {
             return new OutErro($clienteException);
-        }catch(Exception $exception) {
+        } catch(Exception $exception) {
             throw $exception;
         }
     }
@@ -203,8 +163,8 @@ class StudentSEDDataSource extends SedDataSource
      * @param mixed $data
      * @return mixed
      */
-    function getApiResponse($HTTPMetho, $url, $data) {
-        $response = $this->client->request($HTTPMetho, $url, [
+    private function getApiResponse($HTTPMethod, $url, $data) {
+        $response = $this->client->request($HTTPMethod, $url, [
             'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
         ]);
     
