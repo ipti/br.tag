@@ -5,6 +5,7 @@ $(".js-show-instructor-input").on("change", function (){
         $('.js-instructor-input').show()
     } else {
         $('.js-instructor-input').hide()
+        $(".js-instructor-select").val("");
     }
 })
 $(".js-instructor-select").on("change", function (){
