@@ -36,33 +36,45 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </div>
         <a id="save" class='t-button-secondary hide saveButton'><?php echo Yii::t('default', 'Save') ?></a>
     </div>
-    <table class="table table-bordered table-striped visible-print">
+    <table class="table table-bordered table-striped ">
         <tr>
             <th>Escola:</th>
             <td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>
         <tr>
         <tr>
             <th>Estado:</th>
-            <td colspan="2"><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
+            <td colspan="1"><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
             <th>Municipio:</th>
-            <td colspan="2"><?php echo $school->edcensoCityFk->name ?></td>
+            <td colspan="1"><?php echo $school->edcensoCityFk->name ?></td>
             <th>Endereço:</th>
-            <td colspan="2"><?php echo $school->address ?></td>
+            <td colspan="1"><?php echo $school->address ?></td>
         <tr>
         <tr>
             <th>Localização:</th>
-            <td colspan="2"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
+            <td colspan="1"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
             <th>Dependência Administrativa:</th>
-            <td colspan="4"><?php
+            <td colspan="3"><?php
                             $ad = $school->administrative_dependence;
                             echo ($ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
                                 "PRIVADA")));
                             ?></td>
         <tr>
     </table>
+    <table class="table table-bordered table-striped ">
+        <tr>
+            <th>Turma:</th>
+            <td colspan="1" id="disciplinesValue"></td>
+        <tr>
+        <tr>
+            <th>Mês:</th>
+            <td colspan="1" id="monthValue"></td>
+        <tr>
+        <tr>
+            <th>Componente Curricular/ Eixo:</th>
+            <td colspan="1" id="classroomValue" ></td>
+        <tr>
+    </table>
     <br>
-
-    <!-- <div class="innerLR"> -->
     <div>
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">
@@ -117,11 +129,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <div class="mobile-row helper printSelect selectComponente">
                 <div class="column clearleft on-tablet disciplines-container" style="display: none;">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label t-field-select__label--required')); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label t-field-select__label--required' )); ?>
                         <?php
                         echo CHtml::dropDownList('disciplines', '', array(), array(
                             'key' => 'id',
-                            'class' => 'select-search-on t-field-select__input ',
+                            'class' => 'select-search-on t-field-select__input '
                         ));
                         ?>
                     </div>
@@ -146,7 +158,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <div id="error-badge"></div>
     </div>
     <div class="row">
-        <div class="t-buttons-container">
+        <div class="t-buttons-container printButton">
             <a id="save-button-mobile" class='t-button-primary align-items--center hide'><?php echo Yii::t('default', 'Save') ?></a>
         </div>
     </div>
@@ -205,7 +217,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         .selectComponente{
             padding-left: 0px;
         }
-    }
+        .tablet-row{
+            display: none;
+        }
+    }   
 
 
 </style>
