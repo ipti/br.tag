@@ -15,7 +15,7 @@ class ClassroomMapper
         $serieName = self::getNameSerieFromClasse($outFormacaoClasse, $tiposEnsino);
 
         $classroomTag = new Classroom();
-        $classroomTag->school_inep_fk = '35' . $outFormacaoClasse->getOutCodEscola();
+        $classroomTag->school_inep_fk =  SchoolMapper::mapInepId($outFormacaoClasse->getOutCodEscola());
         $classroomTag->gov_id = $outFormacaoClasse->getOutNumClasse();
         $classroomTag->name = $serieName->getOutDescTipoEnsino()." ".$outFormacaoClasse->getOutTurma();
         $classroomTag->edcenso_stage_vs_modality_fk = $stage;
@@ -84,7 +84,7 @@ class ClassroomMapper
 
     public static function parseToTAGRelacaoClasses(OutRelacaoClasses $outRelacaoClasses) 
     {
-        $schoolInepFk = '35' . $outRelacaoClasses->getOutCodEscola();
+        $schoolInepFk = SchoolMapper::mapInepId($outRelacaoClasses->getOutCodEscola());
         $outClasses = $outRelacaoClasses->getOutClasses();
     
        

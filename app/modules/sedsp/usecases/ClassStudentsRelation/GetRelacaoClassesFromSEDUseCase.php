@@ -1,5 +1,5 @@
 <?php
-class GetRelacaoClassesFromSEDUseCase 
+class GetRelacaoClassesFromSEDUseCase
 {
     /**
      * Summary of exec
@@ -10,9 +10,9 @@ class GetRelacaoClassesFromSEDUseCase
         try {
             $classes = new ClassStudentsRelationSEDDataSource();
             $response = $classes->getRelacaoClasses($inRelacaoClasses);
-            
+
             $mapper = (object) ClassroomMapper::parseToTAGRelacaoClasses($response);
-            $schoolInepFk = '35' . $inRelacaoClasses->getInCodEscola();
+            $schoolInepFk = SchoolMapper::mapInepId($inRelacaoClasses->getInCodEscola());
 
             //Aramazena as classes da escola de código $schoolInepFk
             $indexedByClasses = [];
@@ -22,8 +22,8 @@ class GetRelacaoClassesFromSEDUseCase
             }
 
             $status = false;
-            $classrooms = $mapper->Classrooms;  
-            foreach($classrooms as $classroom) {     
+            $classrooms = $mapper->Classrooms;
+            foreach($classrooms as $classroom) {
                 $classroomGovId = $classroom->gov_id;
                 if($indexedByClasses[$classroomGovId] !== null){ //Verifica se a Classe já existe no TAG
                     $status = $this->getStudentsFromClass($classroomGovId);
@@ -32,14 +32,14 @@ class GetRelacaoClassesFromSEDUseCase
                     $createdClass = $this->createAndSaveNewClass($attributes, $classroom->gov_id);
 
                     if ($createdClass) {
-                        $status = $this->getStudentsFromClass($classroomGovId);      
-                    } 
-                } 
+                        $status = $this->getStudentsFromClass($classroomGovId);
+                    }
+                }
             }
             return $status;
         } catch (Exception $e) {
             CVarDumper::dump($e->getMessage(), 10, true);
-        }       
+        }
     }
 
     public function createAndSaveNewClass($attributes, $govId)
@@ -59,6 +59,6 @@ class GetRelacaoClassesFromSEDUseCase
     {
         $inNumClasse = new InFormacaoClasse($classroomGovId);
         $formacaoClasseSEDUseCase = new GetFormacaoClasseFromSEDUseCase();
-        return $formacaoClasseSEDUseCase->exec($inNumClasse); 
+        return $formacaoClasseSEDUseCase->exec($inNumClasse);
     }
 }
