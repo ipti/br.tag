@@ -12,7 +12,7 @@ class GetRelacaoClassesFromSEDUseCase
             $response = $classes->getRelacaoClasses($inRelacaoClasses);
 
             $mapper = (object) ClassroomMapper::parseToTAGRelacaoClasses($response);
-            $schoolInepFk = SchoolMapper::mapInepId($inRelacaoClasses->getInCodEscola());
+            $schoolInepFk = SchoolMapper::mapToTAGInepId($inRelacaoClasses->getInCodEscola());
 
             //Aramazena as classes da escola de código $schoolInepFk
             $indexedByClasses = [];

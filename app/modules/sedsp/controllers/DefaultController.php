@@ -43,7 +43,8 @@ class DefaultController extends Controller
 			'criteria' => $criteira,
 			'countCriteria' => $criteira,
 			'pagination' => array('PageSize' => 100),
-		));
+		)
+		);
 		$this->render('manageRA', ['dataProvider' => $dataProvider]);
 	}
 
@@ -68,7 +69,7 @@ class DefaultController extends Controller
 			$modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
 
 			// Validação CPF->Nome
-			if($modelStudentDocumentsAndAddress->cpf != null) {
+			if ($modelStudentDocumentsAndAddress->cpf != null) {
 				$student_test_cpf = StudentDocumentsAndAddress::model()->find('cpf=:cpf', array(':cpf' => $modelStudentDocumentsAndAddress->cpf));
 				if (isset($student_test_cpf)) {
 					Yii::app()->user->setFlash('error', Yii::t('default', "O Aluno já está cadastrado"));
@@ -83,10 +84,10 @@ class DefaultController extends Controller
 				}
 			}
 
-			if($modelStudentIdentification->validate() && $modelStudentIdentification->save()) {
+			if ($modelStudentIdentification->validate() && $modelStudentIdentification->save()) {
 				$modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
 				$modelStudentDocumentsAndAddress->save();
-				if($modelStudentDocumentsAndAddress->validate() && $modelStudentDocumentsAndAddress->save()) {
+				if ($modelStudentDocumentsAndAddress->validate() && $modelStudentDocumentsAndAddress->save()) {
 					$msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!';
 					Yii::app()->user->setFlash('success', Yii::t('default', $msg));
 					$this->redirect(array('index'));
@@ -121,8 +122,10 @@ class DefaultController extends Controller
 			$modelStudentEnrollment->classroom_fk = $classroomId;
 			$modelStudentEnrollment->classroom_inep_id = $classroomInepId;
 			$modelStudentEnrollment->edcenso_stage_vs_modality_fk = $classroomStage;
-			if ($modelStudentDocumentsAndAddress->validate() && $modelStudentDocumentsAndAddress->save()
-			&& $modelStudentEnrollment->validate() && $modelStudentEnrollment->save()) {
+			if (
+				$modelStudentDocumentsAndAddress->validate() && $modelStudentDocumentsAndAddress->save()
+				&& $modelStudentEnrollment->validate() && $modelStudentEnrollment->save()
+			) {
 				return $modelStudentIdentification->name;
 			}
 		}
@@ -134,25 +137,20 @@ class DefaultController extends Controller
 		try {
 			$this->checkSEDToken();
 
-			$importStudents  = isset($_POST["importStudents"]);
+			$classroomNum = $_POST["classroomNum"];
+			$importStudents = isset($_POST["importStudents"]);
 			$registerAllClasses = isset($_POST["registerAllClasses"]);
-
 			$inep_id = Yii::app()->user->school;
 			$year = date('Y');
-
-			$classes =  new IdentifyAllClassroomRABySchool();
-			$classNumbers = $classes->exec($inep_id, $year);
-			$aux = count($classNumbers->classrooms);
-
-			if($registerAllClasses){
-				foreach ($classNumbers->classrooms as $classroom) {
-					$this->registerClassroom($classroom->outNumClasse, $importStudents);
-				}
-			}else{
-				$classroomNum = $_POST["classroomNum"];
-				if ($classroomNum) {
-					$this->registerClassroom($classroomNum, $importStudents);
-				}
+			
+			if ($classroomNum) {
+				$this->registerClassroom($classroomNum, $importStudents);
+			}
+		
+			if ($importStudents) {
+				$formacaoClass = new GetFormacaoClasseFromSEDUseCase();
+				$params = new InFormacaoClasse($classroomNum);
+				$formacaoClass->exec($params);
 			}
 
 			$this->redirect(array('index'));
@@ -163,30 +161,25 @@ class DefaultController extends Controller
 		}
 	}
 
-	private function registerClassroom($classroomNum, $importStudents)
+	/**
+	 * Summary of registerClassroom
+	 * @param string $classroomNum
+	 * @return void
+	 */
+	private function registerClassroom($classroomNum)
 	{
-		$createClassroom = new CreateClassroom();
-		$response = $createClassroom->exec($classroomNum);
-		$modelClassroom = $response["Classroom"];
-		$students = $response["Students"];
+		$createClassroom = new CreateClassroomUsecase();
+		$existingClassroom = Classroom::model()->find('inep_id=:inep_id', array(':inep_id' => $classroomNum));
 
-		if ($modelClassroom->inep_id != null) {
-			$existingClassroom = Classroom::model()->find('inep_id=:inep_id', array(':inep_id' => $modelClassroom->inep_id));
-			if ($existingClassroom) {
-				$msg = "O Cadastro da Turma " . $modelClassroom->name . " já existe! <a href='".Yii::app()->createUrl('classroom/update&id='.$existingClassroom->id)."' style='color:white;'>Clique aqui para visualizar.</a>";
-				Yii::app()->user->setFlash('error', Yii::t('default', $msg));
-				return;
-			}
+		if ($existingClassroom) {
+			$msg = "O Cadastro da Turma " . $existingClassroom->name . " já existe! <a href='" . Yii::app()->createUrl('classroom/update&id=' . $existingClassroom->id) . "' style='color:white;'>Clique aqui para visualizar.</a>";
+			Yii::app()->user->setFlash('error', Yii::t('default', $msg));
+			return;
 		}
-
-		if ($modelClassroom->validate() && $modelClassroom->save()) {
-			$msg = "O Cadastro da Turma " . $modelClassroom->name . " foi criado com sucesso! <a href='".Yii::app()->createUrl('classroom/update&id='.$modelClassroom->id)."' style='color:white;'>Clique aqui para visualizar.</a>";
-			if ($importStudents) {
-				foreach ($students as $student) {
-					$this->addClassroomStudent($student->outNumRA, $modelClassroom->id, $modelClassroom->inep_id, $modelClassroom->edcenso_stage_vs_modality_fk);
-				}
-			}
-
+		
+		$success = $createClassroom->exec(Yii::app()->user->year, $classroomNum);
+		if ($success) {
+			$msg = "O Cadastro da Turma " . $modelClassroom->name . " foi criado com sucesso! <a href='" . Yii::app()->createUrl('classroom/update&id=' . $modelClassroom->id) . "' style='color:white;'>Clique aqui para visualizar.</a>";
 			Yii::app()->user->setFlash('success', Yii::t('default', $msg));
 		}
 	}
@@ -199,27 +192,31 @@ class DefaultController extends Controller
 		$this->checkSEDToken();
 
 		try {
-			$createSchool = new CreateSchool;
+			$createSchool = new CreateSchool();
 			$response = $createSchool->exec($school_name, $school_mun);
 			$modelSchool = $response["SchoolIdentification"];
 			$modelSchoolStructure = new SchoolStructure;
 			$modelSchoolStructure->school_inep_id_fk = $modelSchool->inep_id;
 			// Bloqueio de duplicação por inep id
 			if ($modelSchool->inep_id != null) {
-				$school_test_name = SchoolIdentification::model()->find('inep_id=:inep_id', 
-				array(':inep_id' => $modelSchool->inep_id));
+				$school_test_name = SchoolIdentification::model()->find(
+					'inep_id=:inep_id',
+					array(':inep_id' => $modelSchool->inep_id)
+				);
 				if (isset($school_test_name)) {
 					$msg = "O Cadastro da Escola " . $modelSchool->name . " já existe!
-					<a href='".Yii::app()->createUrl('school/update&id='.$modelSchool->inep_id)."' style='color:white;'>
+					<a href='" . Yii::app()->createUrl('school/update&id=' . $modelSchool->inep_id) . "' style='color:white;'>
 					Clique aqui para visualizar.</a>";
 					Yii::app()->user->setFlash('error', Yii::t('default', $msg));
 					$this->redirect(array('index'));
 				}
 			}
-			if ($modelSchool->validate() && $modelSchoolStructure->validate() 
-				&& $modelSchool->save() && $modelSchoolStructure->save()) {
+			if (
+				$modelSchool->validate() && $modelSchoolStructure->validate()
+				&& $modelSchool->save() && $modelSchoolStructure->save()
+			) {
 				$msg = "O Cadastro da Escola " . $modelSchool->name . " foi criado com sucesso!
-				<a href='".Yii::app()->createUrl('school/update&id='.$modelSchool->inep_id)."' style='color:white;'>
+				<a href='" . Yii::app()->createUrl('school/update&id=' . $modelSchool->inep_id) . "' style='color:white;'>
 				Clique aqui para visualizar.</a>";
 				Yii::app()->user->setFlash('success', Yii::t('default', $msg));
 				$this->redirect(array('index'));
@@ -265,11 +262,13 @@ class DefaultController extends Controller
 			echo $msg;
 		} catch (\Throwable $th) {
 			header('Content-Type: application/json', true, 400);
-			echo CJSON::encode(array(
+			echo CJSON::encode(
+				array(
 					'success' => false,
 					'message' => 'Bad Request',
 					'id' => $id,
-			)); // Set the HTTP response code to 400
+				)
+			); // Set the HTTP response code to 400
 			Yii::app()->end();
 		}
 	}
@@ -292,18 +291,18 @@ class DefaultController extends Controller
 		try {
 			$inConsult = new InEscola($_POST["schoolName"], null, null, null);
 			$escola = new GetEscolasFromSEDUseCase();
-			
 			$statusSave = $escola->exec($inConsult);
-			if($statusSave){
+
+			if ($statusSave) {
 				Yii::app()->user->setFlash('success', "Escola importada com sucesso.");
 				$this->redirect(array('index'));
-			}else{
+			} else {
 				Yii::app()->user->setFlash('error', "Erro ao importar a escola");
 				$this->redirect(array('index'));
 			}
 		} catch (Exception $e) {
 			CVarDumper::dump($e->getMessage(), 10, true);
-		}			
+		}
 	}
 
 	public function actionImportStudentRA()
@@ -316,17 +315,17 @@ class DefaultController extends Controller
 
 			$statusSave = $exibirFicha->exec($inAluno);
 
-			if($statusSave){
+			if ($statusSave) {
 				Yii::app()->user->setFlash('success', "O Aluno cadastrado com sucesso.");
 				$this->redirect(array('index'));
-			}else{
+			} else {
 				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
 				$this->redirect(array('index'));
 			}
 		} catch (Exception $e) {
 			Yii::app()->user->setFlash('error', "É necessário ter uma escola cadastrada");
 			$this->redirect(array('index'));
-		}	
+		}
 	}
 
 	function actionTest()
@@ -342,12 +341,12 @@ class DefaultController extends Controller
 				$exibirFicha->exec($inAluno);
 				break;
 
-/* 			//Realiza o cadastro da turma juntamente com seus alunos da sedsp no TAG.
-			case 2:
-				$inNumClasse = new InFormacaoClasse("262429087");
-				$formacaoClasseSEDUseCase = new GetFormacaoClasseFromSEDUseCase();
-				$formacaoClasseSEDUseCase->exec($inNumClasse);
-				break; */
+			/* 			//Realiza o cadastro da turma juntamente com seus alunos da sedsp no TAG.
+						case 2:
+							$inNumClasse = new InFormacaoClasse("262429087");
+							$formacaoClasseSEDUseCase = new GetFormacaoClasseFromSEDUseCase();
+							$formacaoClasseSEDUseCase->exec($inNumClasse);
+							break; */
 
 			//Realiza o cadastro da Escola da sedsp no TAG.
 			case 13:
@@ -368,11 +367,11 @@ class DefaultController extends Controller
 				$inConsult = new InAluno("000124464761", "5", "SP");
 				$matricula = new GetListarMatriculasRaFromSEDUseCase();
 				$matricula->exec($inConsult);
-				break;	
+				break;
 
 
 			case 3:
-				$inConsult = new InConsultaTurmaClasse("2022", "262429087");
+				$inConsult = new InConsultaTurmaClasse();
 				$ConsultaTurmaClasse = new GetConsultaTurmaClasseSEDUseCase();
 				CVarDumper::dump($ConsultaTurmaClasse->exec($inConsult), 10, true);
 				break;
@@ -380,9 +379,9 @@ class DefaultController extends Controller
 
 			case 5:
 				$inConsult = new InListarAlunos(
-					new InFiltrosNomes("NATHAN SANTOS JOSE",null,"BRUNA LUCAS FAG",null),
+					new InFiltrosNomes("NATHAN SANTOS JOSE", null, "BRUNA LUCAS FAG", null),
 					"22/01/2019",
-					new InDocumentos(null,null,null,null,null,null,null,null)
+					new InDocumentos(null, null, null, null, null, null, null, null)
 				);
 				$dataSource = new StudentSEDDataSource();
 				CVarDumper::dump($dataSource->getListStudents($inConsult), 10, true);
@@ -415,8 +414,10 @@ class DefaultController extends Controller
 						NULL,
 						NULL,
 						'22/01/2019',
-						'1', // Cor / Raça: 1 Branca | 2 Preta | 3 Parda | 4 Amarela | 5 Indígena | 6 Não Declarada
-						'1', // 1 – Masculino | 2 – Feminino
+						'1',
+						// Cor / Raça: 1 Branca | 2 Preta | 3 Parda | 4 Amarela | 5 Indígena | 6 Não Declarada
+						'1',
+						// 1 – Masculino | 2 – Feminino
 						NULL,
 						NULL,
 						'S',
@@ -426,10 +427,13 @@ class DefaultController extends Controller
 						NULL,
 						NULL,
 						'1',
-						'SAO PAULO', // Opcional. Obrigatório quando inNacionalidade = 1
-						'SP', // Opcional. Obrigatório quando inNacionalidade = 1
+						'SAO PAULO',
+						// Opcional. Obrigatório quando inNacionalidade = 1
+						'SP',
+						// Opcional. Obrigatório quando inNacionalidade = 1
 						NULL,
-						'22/04/2018', // Opcional. Obrigatório quando inNacionalidade = 2
+						'22/04/2018',
+						// Opcional. Obrigatório quando inNacionalidade = 2
 						'76',
 						'Brasil'
 					),
@@ -503,35 +507,35 @@ class DefaultController extends Controller
 				break;
 
 			case 11:
-				$inConsult = new InRelacaoClasses("2022","57277","14","1","1","0");
+				$inConsult = new InRelacaoClasses("2022", "57277", "14", "1", "1", "0");
 				$dataSource = new ClassStudentsRelationSEDDataSource();
 				CVarDumper::dump($dataSource->getRelacaoClasses($inConsult), 10, true);
 				break;
 
 			case 12:
 				$inConsult = new InscreverAluno(
-					new InAluno("000124661430","3","SP"),
-					new InInscricao("2023","57277","31875","7",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null),
-					new InNivelEnsino("2","3")
+					new InAluno("000124661430", "3", "SP"),
+					new InInscricao("2023", "57277", "31875", "7", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
+					new InNivelEnsino("2", "3")
 				);
 				$dataSource = new EnrollmentSEDDataSource();
 				CVarDumper::dump($dataSource->addInscreverAluno($inConsult), 10, true);
 				break;
-		
+
 
 			case 14:
 				$inConsult = new InMatricularAluno(
 					"2023",
-					new InAluno("000047805904","8","SP"),
+					new InAluno("000047805904", "8", "SP"),
 					new InMatricula("28/06/2023", "000047805904", "277675575"),
-					new InNivelEnsino("3","2")
+					new InNivelEnsino("3", "2")
 				);
 				$dataSource = new EnrollmentSEDDataSource();
 				CVarDumper::dump($dataSource->addMatricularAluno($inConsult), 10, true);
 				break;
 			case 15:
 				$inConsult = new InExibirMatriculaClasseRA(
-					new InAluno("000124464761","5","SP"),
+					new InAluno("000124464761", "5", "SP"),
 					"276829660",
 					0,
 					"28/08/2023"

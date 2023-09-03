@@ -18,8 +18,10 @@ class GetExibirFichaAlunoFromSEDUseCase
             $mapper = (object) StudentMapper::parseToTAGExibirFichaAluno($response);
             $documents =  (object) $mapper->StudentDocumentsAndAddress->getAttributes();
 
-            return ($this->createAndSaveStudentIdentification($mapper->StudentIdentification) &&
-                    $this->createAndSaveStudentDocumentsAndAddress($mapper->StudentDocumentsAndAddress, $documents->gov_id));
+            $studentIdentification = $this->createAndSaveStudentIdentification($mapper->StudentIdentification);
+            $studentDocumentsAndAddress = $this->createAndSaveStudentDocumentsAndAddress($mapper->StudentDocumentsAndAddress, $documents->gov_id);
+
+            return $studentIdentification;
             
         } catch (Exception $e) {
             CVarDumper::dump($e->getMessage(), 10, true);
@@ -51,7 +53,14 @@ class GetExibirFichaAlunoFromSEDUseCase
         $studentIdentification->attributes = $attributes->getAttributes();
         $studentIdentification->gov_id = $attributes->gov_id;
 
-        return ($studentIdentification->validate() && $studentIdentification->save()) ? true : false;
+        $sucess = $studentIdentification->validate() && $studentIdentification->save();
+        
+        if($sucess){
+
+            return $studentIdentification;
+        }
+
+        throw new SedspException(CJSON::encode($studentIdentification->getErrors()), 1);
     }
 
     public function checkIfStudentIsEnrolled($cpf, $name)

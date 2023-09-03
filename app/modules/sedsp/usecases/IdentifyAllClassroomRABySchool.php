@@ -6,7 +6,7 @@ Yii::import('application.modules.sedsp.models.*');
 
 /**
  * @property StudentTAGDataSource $studentTAGDataSource
- * @property StudentClassroomSEDDataSource $studentClassroomSEDDataSource
+ * @property ClassStudentsRelationSEDDataSource $studentClassroomSEDDataSource
  */
 class IdentifyAllClassroomRABySchool
 {
@@ -15,26 +15,30 @@ class IdentifyAllClassroomRABySchool
 
     public function __construct($studentTAGDataSource = null, $studentClassroomSEDDataSource = null) {
         $this->studentTAGDataSource = $studentTAGDataSource ?? new StudentTAGDataSource();
-        $this->studentClassroomSEDDataSource = $studentClassroomSEDDataSource ?? new StudentClassroomSEDDataSource();
+        $this->studentClassroomSEDDataSource = $studentClassroomSEDDataSource ?? new ClassStudentsRelationSEDDataSource();
     }
-    public function exec($school_id, $year)
-    {   
-        $school_id_sed = $this->adaptSchoolID($school_id);
-        $response = $this->studentClassroomSEDDataSource->getRelationClassrooms($school_id_sed, $year);
-        $escolaTurmas  = new EscolaTurmas($response);
-        return $escolaTurmas;
+
+    
+    public function exec($schoolId, $year)
+    {
+        $schoolInepId = $this->adaptSchoolID($schoolId);
+        $response = $this->studentClassroomSEDDataSource->getRelacaoClasses(new InRelacaoClasses(
+            $year,
+            SchoolMapper::mapToSEDInepId($schoolInepId),
+            null,null,null,null
+        ));
+        return  new OutRelacaoClasses($response);
     }
 
 
     /**
      * Adapt School inep Id to SED API. This method remove the first
      * two characters from inepId
-     * @param string $school_id
+     * @param string $schoolId
      * @return string
      */
-    private function adaptSchoolID($school_id){
-        $school_id_text = strval($school_id);
-        $school_id_sed = substr($school_id_text, 2); 
-        return $school_id_sed;
+    private function adaptSchoolID($schoolId){
+        $schoolIdText = strval($schoolId);
+        return substr($schoolIdText, 2);
     }
 }

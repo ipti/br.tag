@@ -1,8 +1,11 @@
 <?php
 
 
+
 /**
- * Summary of GetFormacaoClasseSEDUseCase
+ * Summary of GetFormacaoClasseFromSEDUseCase
+ * @property ClassStudentsRelationSEDDataSource $classStudentsRelationSEDDataSource
+ * @property GetExibirFichaAlunoFromSEDUseCase $getExibirFichaAlunoFromSEDUseCase
  */
 class GetFormacaoClasseFromSEDUseCase
 {
@@ -12,55 +15,78 @@ class GetFormacaoClasseFromSEDUseCase
      * @param InFormacaoClasse $inNumClasse
      * @throws InvalidArgumentException 
      */
+
+    public function __construct(
+        ClassStudentsRelationSEDDataSource $classStudentsRelationSEDDataSource = null,
+        GetExibirFichaAlunoFromSEDUseCase $getExibirFichaAlunoFromSEDUseCase = null
+    ){
+        $this->classStudentsRelationSEDDataSource = isset($classStudentsRelationSEDDataSource) ? $classStudentsRelationSEDDataSource: new ClassStudentsRelationSEDDataSource();
+        $this->getExibirFichaAlunoFromSEDUseCase = isset($getExibirFichaAlunoFromSEDUseCase) ? $getExibirFichaAlunoFromSEDUseCase : new GetExibirFichaAlunoFromSEDUseCase();
+    }
+
+    /**
+     * Summary of exec
+     * @param InFormacaoClasse $inNumClasse
+     * @return bool
+     */
     public function exec(InFormacaoClasse $inNumClasse)
     {
         try {
-            $formacaoClasseDataSource = new ClassStudentsRelationSEDDataSource();
-            $response = $formacaoClasseDataSource->getClassroom($inNumClasse);
-
+            $response = $this->classStudentsRelationSEDDataSource->getClassroom($inNumClasse);
             $mapper = (object) ClassroomMapper::parseToTAGFormacaoClasse($response);
-           
-            $classroom = $mapper->Classroom;
             $students = $mapper->Students;
- 
             $status = false;
             foreach ($students as $student) { 
-                
-                $inAluno = $this->createNewStudent($student->gov_id, null, $student->uf);
-                $status = $this->getFichaAluno($inAluno);
+                $inAluno = new InAluno($student->gov_id, null, $student->uf); 
+                $student = $this->getExibirFichaAlunoFromSEDUseCase->exec($inAluno);
 
-                /* $studentEnrollmentModel =  $this->searchStudentEnrollmentInDb($classroom->school_inep_fk, $student->gov_id, $classroom->gov_id);
-                if($studentEnrollmentModel === null){
-                    $studentEnrollment = new StudentEnrollment();
-                    $studentEnrollment->school_inep_id_fk = $classroom->school_inep_fk;
-                    $studentEnrollment->student_inep_id = $student->inep_id;
+                $modelEnrollment = new StudentEnrollment;
+                $modelEnrollment->school_inep_id_fk = $student->school_inep_id_fk;
+                $modelEnrollment->student_fk = $student->id;
+                $modelEnrollment->
+                $modelEnrollment->create_date = date('Y-m-d');
+                $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
+                $saved = false;
+                if ($modelEnrollment->validate()) {
+                    $saved = $modelEnrollment->save();
+                }
 
-                    $studentEnrollment->student_fk = ($id !== null) ? $id : $this->findStudentIdentificationByName($student->name);
-                    
-                    $studentEnrollment->classroom_fk = Classroom::model()->find('gov_id = :govId', [':govId' => $classroom->gov_id])->id;
-                    
-                    if ($studentEnrollment->validate() && $studentEnrollment->save()) 
-                        CVarDumper::dump('Aluno matriculado com sucesso.', 10, true);
-                    else 
-                        CVarDumper::dump($studentEnrollment->getErrors(), 10, true);
-                } */
             }  
+
             return $status;
-        } catch (Exception $e) {
+        } catch (Exception $e) {            
             CVarDumper::dump($e->getMessage(), 10, true);
+            exit(1);
         }
     }
 
+    /**
+     * Summary of findStudentIdentificationByGovId
+     * @param mixed $studentGovId
+     * @return mixed
+     */
     public function findStudentIdentificationByGovId($studentGovId)
     {
         return StudentIdentification::model()->find('gov_id = :govId', [':govId' => $studentGovId])->id;
     }
 
+    /**
+     * Summary of findStudentIdentificationByName
+     * @param mixed $studentName
+     * @return mixed
+     */
     public  function findStudentIdentificationByName($studentName)
     {
         return StudentIdentification::model()->find('name = :name', [':name' => $studentName])->id;
     }
 
+    /**
+     * Summary of searchStudentEnrollmentInDb
+     * @param mixed $schoolInepFk
+     * @param mixed $studentGovId
+     * @param mixed $classroomGovId
+     * @return mixed
+     */
     public function searchStudentEnrollmentInDb($schoolInepFk, $studentGovId, $classroomGovId)
     {
         return StudentEnrollment::model()->find(
@@ -73,17 +99,34 @@ class GetFormacaoClasseFromSEDUseCase
         );
     }
 
+    /**
+     * Summary of createNewStudent
+     * @param mixed $inNumRA
+     * @param mixed $inDigitoRA
+     * @param mixed $inSiglaUFRA
+     * @return InAluno
+     */
     public   function createNewStudent($inNumRA, $inDigitoRA = null,  $inSiglaUFRA)
     {
         return new InAluno($inNumRA, $inDigitoRA, $inSiglaUFRA);
     }
 
+    /**
+     * Summary of getFichaAluno
+     * @param InAluno $inAluno
+     * @return bool
+     */
     public  function getFichaAluno(InAluno $inAluno) 
     {       
-        $registerStudent = new GetExibirFichaAlunoFromSEDUseCase();
-        return $registerStudent->exec($inAluno);
+        return $this->getExibirFichaAlunoFromSEDUseCase->exec($inAluno);
     }
 
+    /**
+     * Summary of registrarLog
+     * @param mixed $mensagem
+     * @param mixed $caminhoArquivoLog
+     * @return void
+     */
     public  function registrarLog($mensagem, $caminhoArquivoLog = 'C:\br.tag\app\modules\sedsp\controllers\meu_log.txt') {
         $dataHora = date('Y-m-d H:i:s');
         $mensagemFormatada = "[$dataHora] $mensagem" . PHP_EOL;
