@@ -19,7 +19,7 @@ class SchoolMapper
         $school_tag->name = $outEscolas->outDescNomeEscola;
         $school_tag->regulation = 1;
         $school_tag->edcenso_uf_fk = intval(EdcensoUf::model()->find("acronym = :acronym", [":acronym" => "SP"])->id);
-        $school_tag->inep_id = self::mapInepId($outEscolas->outCodEscola);
+        $school_tag->inep_id = self::mapToTAGInepId($outEscolas->outCodEscola);
         $school_tag->edcenso_city_fk = intval(EdcensoCity::model()->find("name = :name", [":name" => $outEscolas->outDescMunicipio])->id);
         $school_tag->edcenso_district_fk = intval(EdcensoDistrict::model()->find("name = :name", [":name" => $outEscolas->outNomeDistrito])->id);
         if ($outEscolas->outNomeRedeEnsino == "FEDERAL") {
@@ -49,12 +49,17 @@ class SchoolMapper
         return $result;
     }
 
-    public static function mapInepId($sedInepId)
+    public static function mapToTAGInepId($sedInepId)
     {
-        if (sizeof($sedInepId) < 6) {
-            return CODIGO_UF . "0" . $sedInepId;
+        if (strlen($sedInepId) < 6) {
+            return self::CODIGO_UF . "0" . $sedInepId;
         }
-        return CODIGO_UF . $sedInepId;
+        return self::CODIGO_UF . $sedInepId;
+    }
+
+    public static function mapToSEDInepId($tagInepId)
+    {
+        return strval(intval(substr($tagInepId, 2)));
     }
 }
 

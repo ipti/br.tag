@@ -5,26 +5,27 @@ class GetEscolasFromSEDUseCase
     public function exec(InEscola $inEscola)
     {
         $result = $this->fetchSchoolData($inEscola);
-        $schoolId = $this->buildSchoolId($result);
+        $schoolId = $this->buildSchoolId($result->getOutEscolas()[0]->getOutCodEscola());
 
 
         if ($this->existSchool($inEscola)) {
             $inRelacaoClasses = $this->getClassesFromSED($schoolId);
             return $this->getSchoolClasses($inRelacaoClasses);
-        } else {
-            if ($this->createSchool($inEscola)) {
-                $inRelacaoClasses = $this->getClassesFromSED($schoolId);
-                return $this->getSchoolClasses($inRelacaoClasses);
-            } else {
-                throw new SedspException('Não foi possível salvar a escola no banco de dados.');
-            }
         }
+
+        if ($this->createSchool($inEscola)) {
+            $inRelacaoClasses = $this->getClassesFromSED($schoolId);
+            return $this->getSchoolClasses($inRelacaoClasses);
+        } 
+        
+        throw new SedspException('Não foi possível salvar a escola no banco de dados.');
+    
     }
 
     public function existSchool(InEscola $inEscola)
     {
         $result = $this->fetchSchoolData($inEscola);
-        $schoolId = $this->buildSchoolId($result);
+        $schoolId = $this->buildSchoolId($result->getOutEscolas()[0]->getOutCodEscola());
         $schoolModel = $this->findSchoolById($schoolId);
 
         return ($schoolModel->inep_id !== null) ? true : false;
@@ -39,11 +40,9 @@ class GetEscolasFromSEDUseCase
         return $this->createAndSaveNewSchool($schoolAttributes);
     }
 
-    public function buildSchoolId($schoolData)
+    public function buildSchoolId($sedInepId)
     {
-        $sed_inep_id = $schoolData->getOutEscolas()[0]->getOutCodEscola();
-
-        return SchoolMapper::mapInepId($sed_inep_id);
+        return SchoolMapper::mapToTAGInepId($sedInepId);
     }
 
     public function fetchSchoolData(InEscola $inEscola)
@@ -70,7 +69,14 @@ class GetEscolasFromSEDUseCase
         $school = new SchoolIdentification();
         $school->attributes = $schoolAttributes;
 
-        return ($school->validate() && $school->save()) ? true : false;
+        if(!$school->validate()){
+            throw new SedspException(CJSON::encode([ 
+                'data'=> $schoolAttributes,
+                'errors' => $school->getErrors()
+            ]));
+        }
+
+        return $school->save();
     }
 
     private function extractStateCode($schoolId)
