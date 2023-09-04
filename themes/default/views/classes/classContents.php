@@ -60,7 +60,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             ?></td>
         <tr>
     </table>
-    <table class="table table-bordered table-striped ">
+    <table class="table table-bordered table-striped" summary="Tabela de filtros">
         <tr>
             <th>Turma:</th>
             <td colspan="1" id="disciplinesValue"></td>
