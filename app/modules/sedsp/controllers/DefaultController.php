@@ -169,7 +169,7 @@ class DefaultController extends Controller
 	private function registerClassroom($classroomNum)
 	{
 		$createClassroom = new CreateClassroomUsecase();
-		$existingClassroom = Classroom::model()->find('inep_id=:inep_id', array(':inep_id' => $classroomNum));
+		$existingClassroom = Classroom::model()->find('inep_id=:inep_id or gov_id=:inep_id', array(':inep_id' => $classroomNum));
 
 		if ($existingClassroom) {
 			$msg = "O Cadastro da Turma " . $existingClassroom->name . " já existe! <a href='" . Yii::app()->createUrl('classroom/update&id=' . $existingClassroom->id) . "' style='color:white;'>Clique aqui para visualizar.</a>";

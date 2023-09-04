@@ -50,20 +50,18 @@ class GetFormacaoClasseFromSEDUseCase
                     }
                     
                     $alunoTurma = $this->searchAlunoTurma($studentModel->gov_id, $alunosTurma);
-                    CVarDumper::dump($alunosTurma, 10, true);
                     $this->createEnrollment($tagClassroom, $studentModel, $alunoTurma);
                     
                 }
                 catch (\Throwable $th) {
+                    CVarDumper::dump($th);
                     Yii::log($th->getMessage(), CLogger::LEVEL_WARNING);
                     $status = false;
-                    continue;
                 }
-
-                return $status;
             }
+            // return $status;
 
-            return true;
+            return $status;
         } catch (Exception $e) {
             CVarDumper::dump($e->getMessage(), 10, true);
             return false;
@@ -96,6 +94,7 @@ class GetFormacaoClasseFromSEDUseCase
             if ($studentEnrollment->validate() && $studentEnrollment->save()) {
                 Yii::log('Aluno matriculado com sucesso.', CLogger::LEVEL_INFO);
             } else {
+                CVarDumper::dump($studentEnrollment->getErrors());
                 Yii::log($studentEnrollment->getErrors(), CLogger::LEVEL_ERROR);
                 return false;
             }
