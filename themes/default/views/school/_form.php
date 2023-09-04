@@ -45,7 +45,8 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="alert alert-error school-error no-show"></div>
         <div class="t-tabs">
             <ul class="js-tab-school t-tabs__list">
-                <li id="tab-school-indentify" class="active t-tabs__item"><a class="t-tabs__link" href="#school-indentify" data-toggle="tab">
+                <li id="tab-school-indentify" class="active t-tabs__item">
+                    <a class="t-tabs__link first" href="#school-indentify" data-toggle="tab">
                         <span class="t-tabs__numeration">1</span>
                         <?php echo Yii::t('default', 'Identification') ?>
                     </a>
