@@ -148,7 +148,7 @@ class GetFormacaoClasseFromSEDUseCase
      */
     public function findStudentIdentificationByGovId($studentGovId)
     {
-        return StudentIdentification::model()->find('gov_id = :govId', [':govId' => $studentGovId]);
+        return StudentIdentification::model()->find('gov_id = :govId or inep_id = :govId', [':govId' => $studentGovId]);
     }
 
     /**
