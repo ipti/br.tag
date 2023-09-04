@@ -39,10 +39,9 @@ class GetFormacaoClasseFromSEDUseCase
             $classroom = $mapper->Classroom;
             $tagClassroom = Classroom::model()->find('inep_id = :govId or gov_id = :govId', [':govId' => $inFormacaoClasse->getInNumClasse()]);
 
-            $status = false;
+            $status = true;
             foreach ($students as $student) {
                 try {
-                    //code...
                     $studentModel = self::findStudentIdentificationByGovId($student->gov_id);
                     
                     if (!isset($studentModel)) {
@@ -53,17 +52,23 @@ class GetFormacaoClasseFromSEDUseCase
                     $alunoTurma = $this->searchAlunoTurma($studentModel->gov_id, $alunosTurma);
                     CVarDumper::dump($alunosTurma, 10, true);
                     $this->createEnrollment($tagClassroom, $studentModel, $alunoTurma);
+                    
                 }
                 catch (\Throwable $th) {
-                    CVarDumper::dump($th->getMessage(), 10, true);
+                    Yii::log($th->getMessage(), CLogger::LEVEL_WARNING);
+                    $status = false;
                     continue;
                 }
+
+                return $status;
             }
 
-            return $status;
+            return true;
         } catch (Exception $e) {
             CVarDumper::dump($e->getMessage(), 10, true);
+            return false;
         }
+
     }
 
     /**
@@ -85,12 +90,13 @@ class GetFormacaoClasseFromSEDUseCase
             $studentEnrollment->student_fk = $studentModel->id;
             $studentEnrollment->classroom_fk = $classroom->id;
             $studentEnrollment->status = $this->mapStatusEnrollmentFromSed($alunoTurma->getOutCodSitMatricula());
-            
+            $studentEnrollment->school_admission_date = date("d/m/Y");
+            $studentEnrollment->create_date = date("d/m/Y");
             
             if ($studentEnrollment->validate() && $studentEnrollment->save()) {
-                CVarDumper::dump('Aluno matriculado com sucesso.', 10, true);
+                Yii::log('Aluno matriculado com sucesso.', CLogger::LEVEL_INFO);
             } else {
-                CVarDumper::dump($studentEnrollment->getErrors(), 10, true);
+                Yii::log($studentEnrollment->getErrors(), CLogger::LEVEL_ERROR);
                 return false;
             }
         }
