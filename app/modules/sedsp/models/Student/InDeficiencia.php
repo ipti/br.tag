@@ -11,13 +11,13 @@ class InDeficiencia implements JsonSerializable
 	public $inTipoProfSaude;
 
 	public function __construct(
-		?string $inCodNecessidade,
-		?int $inMobilidadeReduzida,
-		?string $inTipoMobilidadeReduzida,
-		?int $inCuidador,
-		?string $inTipoCuidador,
-		?int $inProfSaude,
-		?string $inTipoProfSaude
+		?string $inCodNecessidade = null,
+		?int $inMobilidadeReduzida = null,
+		?string $inTipoMobilidadeReduzida = null,
+		?int $inCuidador = null,
+		?string $inTipoCuidador = null,
+		?int $inProfSaude = null,
+		?string $inTipoProfSaude = null
 	) {
 		$this->inCodNecessidade = $inCodNecessidade;
 		$this->inMobilidadeReduzida = $inMobilidadeReduzida;

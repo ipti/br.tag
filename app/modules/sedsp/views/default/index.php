@@ -61,6 +61,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             </button>
         </a>
         
+        <!--
         <a href="#" data-toggle="modal" data-target="#add-school" target="_blank">
             <button type="button" class="report-box-container">
                 <div class="pull-left" style="margin-right: 20px;">
@@ -77,7 +78,6 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             <button type="button" class="report-box-container">
                 <div class="pull-left" style="margin-right: 20px;">
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/school.svg" alt="school"/>
-                    <!-- <div class="t-icon-schedule report-icon"></div> -->
                 </div>
                 <div class="pull-left">
                     <span class="title">Importação completa da Escola</span><br>
@@ -86,11 +86,12 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             </button>
         </a>
 
+        -->
+
         <a href="<?php echo Yii::app()->createUrl('sedsp/default/manageRA') ?>">
             <button type="button" class="report-box-container">
                 <div class="pull-left" style="margin-right: 20px;">
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/generate.svg" />
-                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/generate.svg" alt="gerar ra"/>
                 </div>
                 <div class="pull-left">
                     <span class="title">Gerar RA</span><br>
@@ -255,10 +256,10 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                                 <input type="checkbox" name="importStudents" style="margin-right: 10px;">
                                 Importar Matrículas dos Alunos? Isso pode aumentar o tempo de espera.
                             </div>
-                            <div class="checkbox modal-replicate-actions-container" style="margin-top: 8px;">
+                            <!-- <div class="checkbox modal-replicate-actions-container" style="margin-top: 8px;">
                                 <input type="checkbox" name="registerAllClasses" style="margin-right: 10px;">
                                 Importar todas as turmas? Isso pode aumentar o tempo de espera.
-                            </div>
+                            </div> -->
                             <div id="loading" style="display: none;">
                                 <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
                                     <div id="loading">
