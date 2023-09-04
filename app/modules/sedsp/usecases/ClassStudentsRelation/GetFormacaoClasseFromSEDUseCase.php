@@ -89,12 +89,10 @@ class GetFormacaoClasseFromSEDUseCase
             $studentEnrollment->classroom_fk = $classroom->id;
             $studentEnrollment->status = $this->mapStatusEnrollmentFromSed($alunoTurma->getOutCodSitMatricula());
             $studentEnrollment->school_admission_date = date("d/m/Y");
-            $studentEnrollment->create_date = date("d/m/Y");
             
             if ($studentEnrollment->validate() && $studentEnrollment->save()) {
                 Yii::log('Aluno matriculado com sucesso.', CLogger::LEVEL_INFO);
             } else {
-                CVarDumper::dump($studentEnrollment->getErrors());
                 Yii::log($studentEnrollment->getErrors(), CLogger::LEVEL_ERROR);
                 return false;
             }
