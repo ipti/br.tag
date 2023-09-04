@@ -51,7 +51,7 @@ class SchoolMapper
 
     public static function mapToTAGInepId($sedInepId)
     {
-        if (sizeof($sedInepId) < 6) {
+        if (strlen($sedInepId) < 6) {
             return self::CODIGO_UF . "0" . $sedInepId;
         }
         return self::CODIGO_UF . $sedInepId;

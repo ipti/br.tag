@@ -31,15 +31,12 @@ class StudentMapper
 
         // Documentos  
         $in_documents = new InDocumentos();
-        $in_documents->setInCodigoInep($student_tag->inep_id);
+        $in_documents->setInNumInep($student_tag->inep_id);
         $in_documents->setInCpf($student_docs_tag->cpf);
         $in_documents->setInNumNis($student_docs_tag->nis);
-        $in_documents->setInNumDoctoCivil($student_docs_tag->rg_number);
-        $in_documents->setInDigitoDoctoCivil($student_docs_tag->rg_number);
-        $in_documents->setInUfDoctoCivil($student_docs_tag->rgNumberEdcensoUfFk->acronym);
-        $in_documents->setInDataEmissaoDoctoCivil($student_docs_tag->rg_number_expediction_date);
-        $in_documents->setInDataEmissaoDoctoCivil($student_docs_tag->civil_certification_date);
-
+        $in_documents->setInNumRg($student_docs_tag->rg_number);
+        $in_documents->setInUfrg($student_docs_tag->rgNumberEdcensoUfFk->acronym);
+        
         // Endereco
         $in_endereco_residencial = new InEnderecoResidencial();
         $in_endereco_residencial->setInLogradouro($student_docs_tag->address);
@@ -71,7 +68,7 @@ class StudentMapper
         // Rastreio
         // $in_rastreio = new InRastreio();
 
-        $student_register = new AlunoFicha(
+        $student_register = new InFichaAluno(
             $in_dados_pessoais,
             $in_deficiencia,
             $in_recurso_avaliacao,
@@ -107,11 +104,11 @@ class StudentMapper
         foreach ($array as $item) {
             if ($item->outDescSitMatricula === 'ATIVO' && $item->outMunicipio === 'UBATUBA') {
 
-                $inEscola = new InEscola($item->outDescNomeAbrevEscola, null, null, null);
+                // $inEscola = new InEscola($item->outDescNomeAbrevEscola, null, null, null);
 
-                if (!$escola->existSchool($inEscola)) {
-                    $escola->createSchool($inEscola);
-                }
+                // // if (!$escola->existSchool($inEscola)) {
+                // //     $escola->createSchool($inEscola);
+                // // }
 
                 $schoolInep = $escola->buildSchoolId($item->outCodEscola);
             }
@@ -124,7 +121,7 @@ class StudentMapper
         $studentIdentification->filiation = $outDadosPessoais->getOutNomeMae() != "" || $outDadosPessoais->getOutNomePai() != "" ? 1 : 0;
         $studentIdentification->filiation_1 = $outDadosPessoais->getOutNomeMae();
         $studentIdentification->filiation_2 = $outDadosPessoais->getOutNomePai();
-        $studentIdentification->birthday = date_create_from_format('d/m/Y', $outDadosPessoais->getOutDataNascimento())->format('Y-m-d');
+        $studentIdentification->birthday = $outDadosPessoais->getOutDataNascimento();
         $studentIdentification->color_race = empty($outDadosPessoais->getOutCorRaca()) ? 0 : $outDadosPessoais->getOutCorRaca();
         $studentIdentification->sex = $outDadosPessoais->getOutCodSexo();
         $studentIdentification->bf_participator = $outDadosPessoais->getOutCodBolsaFamilia();
@@ -146,12 +143,13 @@ class StudentMapper
         $studentDocumentsAndAddress->cpf = $outDocumentos->getOutCpf();
         $studentDocumentsAndAddress->nis = $outDocumentos->getOutNumNis();
         $studentDocumentsAndAddress->rg_number = $outDocumentos->getOutNumDoctoCivil() + $outDocumentos->getOutDigitoDoctoCivil();
+        
 
         if ($outDocumentos->getOutDataEmissaoDoctoCivil()) {
-            $studentDocumentsAndAddress->rg_number_expediction_date = date_create_from_format('d/m/Y', $outDocumentos->getOutDataEmissaoDoctoCivil())->format('Y-m-d');
+            $studentDocumentsAndAddress->rg_number_expediction_date = $outDocumentos->getOutDataEmissaoDoctoCivil();
         }
         if ($outDocumentos->getOutDataEmissaoCertidao()) {
-            $studentDocumentsAndAddress->civil_certification_date = date_create_from_format('d/m/Y', $outDocumentos->getOutDataEmissaoCertidao())->format('Y-m-d');
+            $studentDocumentsAndAddress->civil_certification_date = $outDocumentos->getOutDataEmissaoCertidao();
         }
 
 
@@ -162,7 +160,9 @@ class StudentMapper
         $studentDocumentsAndAddress->complement = $outEnderecoResidencial->getOutComplemento();
         $studentDocumentsAndAddress->cep = $outEnderecoResidencial->getOutCep();
         $studentDocumentsAndAddress->residence_zone = $outEnderecoResidencial->getOutAreaLogradouro() == "URBANA" ? 1 : 2;
-
+        $studentDocumentsAndAddress->edcenso_uf_fk = intval(EdcensoUf::model()->find("acronym = :acronym", [":acronym" => $outEnderecoResidencial->getOutUfCidade()])->id);
+        $studentDocumentsAndAddress->edcenso_city_fk = intval(EdcensoCity::model()->find("name = :name", [":name" => $outEnderecoResidencial->getOutNomeCidade()])->id);
+        
         if ($outEnderecoResidencial->getOutLocalizacaoDiferenciada() == "Não está localizado em área de localização diferenciada") {
             $studentDocumentsAndAddress->diff_location = 7;
         } else if ($outEnderecoResidencial->getOutLocalizacaoDiferenciada() == "Área onde se localizada em Comunidade remanescente de Quilombos") {
@@ -206,14 +206,5 @@ class StudentMapper
         $dataSource = new SchoolSEDDataSource();
         return $dataSource->getSchool($inEscola);
     }
-
-    public static function createAndSaveNewSchool($schoolAttributes)
-    {
-        $school = new SchoolIdentification();
-        $school->attributes = $schoolAttributes;
-
-        return ($school->validate() && $school->save()) ? true : false;
-    }
-
 }
 ?>

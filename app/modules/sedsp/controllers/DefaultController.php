@@ -144,12 +144,12 @@ class DefaultController extends Controller
 			$year = date('Y');
 			
 			if ($classroomNum) {
-				$this->registerClassroom($classroomNum, $importStudents);
+				$this->registerClassroom($classroomNum);
 			}
 		
 			if ($importStudents) {
-				$formacaoClass = new GetFormacaoClasseFromSEDUseCase();
 				$params = new InFormacaoClasse($classroomNum);
+				$formacaoClass = new GetFormacaoClasseFromSEDUseCase();
 				$formacaoClass->exec($params);
 			}
 
@@ -177,8 +177,8 @@ class DefaultController extends Controller
 			return;
 		}
 		
-		$success = $createClassroom->exec(Yii::app()->user->year, $classroomNum);
-		if ($success) {
+		$modelClassroom = $createClassroom->exec(Yii::app()->user->year, $classroomNum);
+		if ($modelClassroom) {
 			$msg = "O Cadastro da Turma " . $modelClassroom->name . " foi criado com sucesso! <a href='" . Yii::app()->createUrl('classroom/update&id=' . $modelClassroom->id) . "' style='color:white;'>Clique aqui para visualizar.</a>";
 			Yii::app()->user->setFlash('success', Yii::t('default', $msg));
 		}
@@ -311,8 +311,8 @@ class DefaultController extends Controller
 
 		try {
 			$inAluno = new InAluno($_POST["numRA"], null, "SP");
-			$exibirFicha = new GetExibirFichaAlunoFromSEDUseCase();
 
+			$exibirFicha = new GetExibirFichaAlunoFromSEDUseCase();
 			$statusSave = $exibirFicha->exec($inAluno);
 
 			if ($statusSave) {
