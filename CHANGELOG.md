@@ -1,5 +1,11 @@
 # Atualizações
 
+## [Versão 3.54.86]
+- Corrigido a permissão para o cancelamento da matrícula do aluno
+
+## [Versão 3.54.85]
+- Adicionar o campo abreviação em componentes curriculares
+
 ## [Versão 3.53.85]
 - Corrigido o erro que não permitia replicar alterações para todas as semanas subsequentes em quadro de horário
 

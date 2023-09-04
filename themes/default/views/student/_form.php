@@ -1607,10 +1607,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             <li><a href='<?php echo @Yii::app()->createUrl('forms/IndividualRecord', array('enrollment_id' => $me->id)) ?>' target="_blank">Ficha Individual</a></li>
                                                     </td>
                                                     <td style="text-align: center">
-                                                        <?php if ($me->classroomFk->school_year >= date('Y') && $me->status == 1) { ?>
+                                                        
+                                                        <?php if ($me->classroomFk->school_year >= date('Y')) { ?>
                                                             <a href='<?php echo @Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'><i class="fa fa-trash-o"></i></a>
-                                                        <?php } else if ($me->classroomFk->school_year >= date('Y') && $me->status == 2) { ?>
-                                                            <i class="fa fa-minus" title="Não é possível cancelar a Matrícula transferida"></i>
                                                         <?php } else { ?>
                                                             <i class="fa fa-minus" title="Não é possível cancelar a Matrícula do ano anterior"></i>
                                                         <?php } ?>
