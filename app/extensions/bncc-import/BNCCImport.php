@@ -1,7 +1,6 @@
 <?php
 
 include 'vendor/autoload.php';
-require 'app/extensions/bncc-import/FundamentalDisciplinesMap.php';
 
 
 class BNCCImport
@@ -14,6 +13,9 @@ class BNCCImport
     {
         $csvData = $this->readCSV('/extensions/bncc-import/infantil.csv');
         $parsedData = $this->parseCSVDataInfantil($csvData);
+
+        // CVarDumper::dump($parsedData, 10, true);
+        // exit;
 
         // !d($parsedData);
 
@@ -30,12 +32,14 @@ class BNCCImport
         $csvData = $this->readCSV('/extensions/bncc-import/matematica.csv');
         $parsedData = $this->parseCSVDataFundamental($csvData);
 
-        
+        // CVarDumper::dump($parsedData, 10, true);
+        // exit;
+
         foreach ($parsedData as $key => $value) {
             $discipline = $this->map_discipline($value["name"]);
             self::deep_create($value, null, $discipline, null);
         }
-        
+
         !d($parsedData["Matemática"]["children"]["Números"]);
 
         return $parsedData;
@@ -77,7 +81,7 @@ class BNCCImport
         foreach ($csvData as $key => $line) {
 
             $category = trim($line[0]);
-            $subcategory = trim($line[1]);
+            $stage = trim($line[1]);
             $description = trim($line[2]);
 
             if (!empty($category)) {
@@ -87,25 +91,26 @@ class BNCCImport
                     $parsedData[$currentCategory] = [
                         'name' => $currentCategory,
                         'type' => "Campo de experiências",
+                        'stage' =>  $stage,
                         'children' => []
                     ];
                 }
                 $currentSubCategory = '';
             }
 
-            if (!empty($subcategory)) {
-                $currentSubCategory = $subcategory;
+            if (!empty($stage)) {
+                $currentSubCategory = $stage;
                 // Inicializar a subcategoria atual se ainda não existir
                 $currentSubCategoryKey = $currentSubCategory;
                 if (!isset($parsedData[$currentCategory]['children'][$currentSubCategoryKey])) {
-                    $parsedData[$currentCategory]['children'][$currentSubCategoryKey] = ['name' => $currentSubCategory, 'type' => "Faixas Etárias", 'children' => []];
+                    $parsedData[$currentCategory]['children'][$currentSubCategoryKey] = ['name' => $currentSubCategory, 'stage'=> $stage, 'type' => "Faixas Etárias", 'children' => []];
                 }
             }
 
             if (!empty($description)) {
                 // Adicionar a descrição à subcategoria atual
                 $parsedData[$currentCategory]['children'][$currentSubCategory]['name'] = $currentSubCategory;
-                $parsedData[$currentCategory]['children'][$currentSubCategory]['children'][] = ["name" => $description, 'type' => "Objetivos de aprendizagem e desenvolvimento"];
+                $parsedData[$currentCategory]['children'][$currentSubCategory]['children'][] = ["name" => $description, 'stage'=> $stage, 'type' => "Objetivos de aprendizagem e desenvolvimento"];
             }
         }
 
@@ -117,17 +122,182 @@ class BNCCImport
     {
         $arrayDisciplines = ["Arte", "Educação Física", "Geografia", "História", "Ensino Religioso"];
 
+        $parsedData = [];
+
         foreach ($csvData as $key => $line) {
             $disciplineName = $line[0];
 
-            if (in_array($disciplineName, $arrayDisciplines)) {
-                $parsedData = FundamentalDisciplinesMap::parseArtEducationPhysicalHumanitiesAndReligion($line);
-            }else if ($disciplineName == "Matemática" || $disciplineName == "Ciências") {
-                $parsedData = FundamentalDisciplinesMap::parseMathemathicAndSciencesData($line);
-            }else if ($disciplineName == "Língua Portuguesa") {
-                $parsedData = FundamentalDisciplinesMap::parsePortugueseLanguageData($line);
+            if (in_array($disciplineName, $arrayDisciplines)) { //ARTE - EDUCAÇÃO FÍSICA - GEOGRAFIA - HISTÓRIA - ENSINO RELIGIOSO
+                $component = trim($line[0]);
+                $stage = trim($line[1]);
+                $skills = trim($line[2]);
+                $unity = trim($line[3]);
+                $objective = trim($line[4]);
+                $abilitie = trim($line[5]);
+
+                if (!empty($component)) {
+                    // Inicializar a categoria atual
+                    $currentCategory = $component;
+                    if (!isset($parsedData[$currentCategory])) {
+                        $parsedData[$currentCategory] = [
+                            'name' => $currentCategory,
+                            'type' => "COMPONENTE",
+                            'children' => []
+                        ];
+                    }
+                    $currentSubCategory = '';
+                }
+
+                // Competências específicas de componente
+                if (!empty($skills)) {
+                    if (!isset($parsedData[$component]['children'][$skills])) {
+                        $parsedData[$component]['children'][$skills] = ['name' => $skills, 'type' => "COMPETÊNCIAS ESPECÍFICAS DE COMPONENTE", 'children' => []];
+                    }
+                }
+
+                // Unidades temáticas
+                if (!empty($fields)) {                                
+                    $parsedData[$component]['children'][$skills]['children'][$unity] = ["name" => $unity, 'type' => "UNIDADE TEMÁTICA", 'children' => []];
+                }
+
+                // Objetos de conhecimento	
+                if (!empty($objective)) {                                
+                    $parsedData[$component]['children'][$skills]['children'][$unity]['children'][$objective] = ["name" => $objective, 'type' => "OBJETO DE CONHECIMENTO", 'children' => []];
+                }
+
+                // Habilidades
+                if (!empty($abilitie)) {
+                    $parsedData[$component]['children'][$skills]['children'][$unity]['children'][$objective]['children'][$abilitie]['children'][] = ["name" => $abilitie, 'type' => "HABILIDADE"];                
+                }
+            }else if ($disciplineName == "Matemática" || $disciplineName == "Ciências") { // Matematica e Ciencias
+                $component = trim($line[0]);
+                $stage = trim($line[1]);
+                $unity = trim($line[2]);
+                $objective = trim($line[3]);
+                $abilitie = trim($line[4]);
+
+                if (!empty($component)) {
+                    // Inicializar a categoria atual
+                    $currentCategory = $component;
+                    if (!isset($parsedData[$currentCategory])) {
+                        $parsedData[$currentCategory] = [
+                            'name' => $currentCategory,
+                            'type' => "COMPONENTE",
+                            'children' => []
+                        ];
+                    }
+                    $currentSubCategory = '';
+                }
+
+                if (!empty($unity)) {
+                    if (!isset($parsedData[$component]['children'][$unity])) {
+                        $parsedData[$component]['children'][$unity] = ['name' => $unity, 'type' => "UNIDADE TEMÁTICA", 'children' => []];
+                    }
+                }
+
+                if (!empty($objective)) {                                
+                    $parsedData[$component]['children'][$unity]['children'][$objective] = ["name" => $objective, 'type' => "OBJETO DE CONHECIMENTO", 'children' => []];
+                }
+
+                if (!empty($abilitie)) {
+                    $parsedData[$component]['children'][$unity]['children'][$objective]['children'][$abilitie]['children'][] = ["name" => $abilitie, 'type' => "HABILIDADE"];                
+                }
+            }else if ($disciplineName == "Língua Portuguesa") { // Lingua Portuguesa
+                $component = trim($line[0]);
+                $stage = trim($line[1]);
+                $skills = trim($line[2]);
+                $fields = trim($line[3]);
+                $practices = trim($line[4]);
+                $objective = trim($line[5]);
+                $abilitie = trim($line[6]);
+
+                if (!empty($component)) {
+                    // Inicializar a categoria atual
+                    $currentCategory = $component;
+                    if (!isset($parsedData[$currentCategory])) {
+                        $parsedData[$currentCategory] = [
+                            'name' => $currentCategory,
+                            'type' => "COMPONENTE",
+                            'children' => []
+                        ];
+                    }
+                    $currentSubCategory = '';
+                }
+
+                // Competências específicas de componente
+                if (!empty($skills)) {
+                    if (!isset($parsedData[$component]['children'][$skills])) {
+                        $parsedData[$component]['children'][$skills] = ['name' => $skills, 'type' => "COMPETÊNCIAS ESPECÍFICAS DE COMPONENTE", 'children' => []];
+                    }
+                }
+
+                // Campos de atuação
+                if (!empty($fields)) {                                
+                    $parsedData[$component]['children'][$skills]['children'][$fields] = ["name" => $fields, 'type' => "CAMPOS DE ATUAÇÃO", 'children' => []];
+                }
+
+                // Práticas de linguagem
+                if (!empty($practices)) {                                
+                    $parsedData[$component]['children'][$skills]['children'][$fields]['children'][$practices] = ["name" => $practices, 'type' => "PRÁTICAS DE LINGUAGEM", 'children' => []];
+                }
+
+                // Objetos de conhecimento	
+                if (!empty($objective)) {                                
+                    $parsedData[$component]['children'][$skills]['children'][$fields]['children'][$practices]['children'][$objective] = ["name" => $objective, 'type' => "OBJETO DE CONHECIMENTO", 'children' => []];
+                }
+
+                // Habilidades
+                if (!empty($abilitie)) {
+                    $parsedData[$component]['children'][$skills]['children'][$fields]['children'][$practices]['children'][$objective]['children'][$abilitie]['children'][] = ["name" => $abilitie, 'type' => "HABILIDADE"];                
+                }
             }else if ($disciplineName == "Língua Inglesa") {
-                $parsedData = FundamentalDisciplinesMap::parseEnglishLanguage($line);
+                $component = trim($line[0]);
+                $stage = trim($line[1]);
+                $skills = trim($line[2]);
+                $axle = trim($line[3]);
+                $unity = trim($line[4]);
+                $objective = trim($line[5]);
+                $abilitie = trim($line[6]);
+
+                if (!empty($component)) {
+                    // Inicializar a categoria atual
+                    $currentCategory = $component;
+                    if (!isset($parsedData[$currentCategory])) {
+                        $parsedData[$currentCategory] = [
+                            'name' => $currentCategory,
+                            'type' => "COMPONENTE",
+                            'children' => []
+                        ];
+                    }
+                    $currentSubCategory = '';
+                }
+
+                // Competências específicas de componente
+                if (!empty($skills)) {
+                    if (!isset($parsedData[$component]['children'][$skills])) {
+                        $parsedData[$component]['children'][$skills] = ['name' => $skills, 'type' => "COMPETÊNCIAS ESPECÍFICAS DE COMPONENTE", 'children' => []];
+                    }
+                }
+
+                // Eixo
+                if (!empty($fields)) {                                
+                    $parsedData[$component]['children'][$skills]['children'][$axle] = ["name" => $axle, 'type' => "EIXO", 'children' => []];
+                }
+
+                // Unidades temáticas
+                if (!empty($fields)) {                                
+                    $parsedData[$component]['children'][$skills]['children'][$axle]['children'][$unity] = ["name" => $unity, 'type' => "UNIDADE TEMÁTICA", 'children' => []];
+                }
+
+                // Objetos de conhecimento	
+                if (!empty($objective)) {                                
+                    $parsedData[$component]['children'][$skills]['children'][$axle]['children'][$unity]['children'][$objective] = ["name" => $objective, 'type' => "OBJETO DE CONHECIMENTO", 'children' => []];
+                }
+
+                // Habilidades
+                if (!empty($abilitie)) {
+                    $parsedData[$component]['children'][$skills]['children'][$axle]['children'][$unity]['children'][$objective]['children'][$abilitie]['children'][] = ["name" => $abilitie, 'type' => "HABILIDADE"];                
+                }
             }
             
         }
@@ -171,6 +341,7 @@ class BNCCImport
             "Bebês (zero a 1 ano e 6 meses)" => 1,
             "Crianças bem pequenas (1 ano e 7 meses a 3 anos e 11 meses)" => 1,
             "Crianças pequenas (4 anos a 5 anos e 11 meses)" => 2,
+            '1º' => 14
         ];
 
         $result = null;
@@ -185,11 +356,20 @@ class BNCCImport
     private function map_discipline($discipline_name)
     {
         $disciplines = [
-            "Espaços, tempos, quantidades, relações e transformações"  => 10008,
-            "Escuta, fala, pensamento e imaginação"  => 10007,
-            "Corpo, gestos e movimentos"  => 10009,
-            "O eu, o outro e o nós"  => 10011,
-            "Traços, sons, cores e formas" => 10010
+            "Espaços, tempos, quantidades, relações e transformações" => 10008,
+            "Escuta, fala, pensamento e imaginação" => 10007,
+            "Corpo, gestos e movimentos" => 10009,
+            "O eu, o outro e o nós" => 10011,
+            "Traços, sons, cores e formas" => 10010,
+            "Matemática" => 3,
+            "Ciências" => 5,
+            "Língua Portuguesa" => 6,
+            "Língua Inglesa" => 7,
+            "Arte" => 10,
+            "Educação Física" => 11,
+            "História" => 12,
+            "Geografia" => 13,
+            "Ensino religioso" => 26
         ];
 
         return $disciplines[$discipline_name];
@@ -199,13 +379,15 @@ class BNCCImport
     {
         $new_abilities = new CourseClassAbilities();
 
+
         $new_abilities->description = self::getText($abilities["name"]);
         $new_abilities->parent_fk = $parent;
         $new_abilities->type = $abilities["type"];
         $new_abilities->code = $this->getCode($abilities["name"]);
         $new_abilities->edcenso_discipline_fk = $edcenso_discipline_fk;
         if(is_null($edcenso_stage_vs_modality_fk)) {
-            $edcenso_stage_vs_modality_fk = $this->map_stage($abilities["name"]);
+            $edcenso_stage_vs_modality_fk = $this->map_stage($abilities["stage"]);
+            CVarDumper::dump($edcenso_stage_vs_modality_fk, 10, true);
         }
         $new_abilities->edcenso_stage_vs_modality_fk = $edcenso_stage_vs_modality_fk;
 

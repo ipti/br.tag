@@ -506,12 +506,13 @@ class AdminController extends Controller
         $this->render('editUser', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result]);
     }
 
-    public function actionImportBNCC(){        
+    public function actionImportBNCC()
+    {
         $import = new BNCCImport();
         
-        // $import->importCSVInfantil();
+        $import->importCSVInfantil();
 
-        $import->importCSVFundamental();
+        // $import->importCSVFundamental();
         
     }
 
