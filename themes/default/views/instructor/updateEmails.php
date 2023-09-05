@@ -1,44 +1,58 @@
 <?php
-	/**
-	 * Created by PhpStorm.
-	 * User: IPTIPC100
-	 * Date: 29/06/2016
-	 * Time: 14:02
-	 */
-	$baseUrl = Yii::app()->baseUrl;
-	$themeUrl = Yii::app()->theme->baseUrl;
-	$cs = Yii::app()->getClientScript();
-	$cs->registerScriptFile($baseUrl . '/js/instructor/form/updateEmails.js', CClientScript::POS_END);
-	
-	$this->setPageTitle('TAG - ' . Yii::t('default', 'Update Instructor e-mails'));
 
-	$form = $this->beginWidget('CActiveForm', [
-		'id' => 'updateEmails-form', 'enableAjaxValidation' => FALSE,
-	]);
+/**
+ * Created by PhpStorm.
+ * User: IPTIPC100
+ * Date: 29/06/2016
+ * Time: 14:02
+ */
+$baseUrl = Yii::app()->baseUrl;
+$themeUrl = Yii::app()->theme->baseUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseUrl . '/js/instructor/form/updateEmails.js', CClientScript::POS_END);
+
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Update Instructor e-mails'));
+
+$form = $this->beginWidget('CActiveForm', [
+	'id' => 'updateEmails-form', 'enableAjaxValidation' => FALSE,
+]);
 ?>
 <div class="main">
-<div class="row-fluid">
-	<div class="span12">
-		<h1><?= yii::t('default', 'Update Instructor e-mails') ?></h1>
-		<div class="tag-buttons-container buttons">
-			<?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('id' => 'save-emails', 'class' => 't-button-primary  last', 'type' => 'button')); ?>
+	<div class="row-fluid">
+		<div class="span12">
+			<h1><?= yii::t('default', 'Update Instructor e-mails') ?></h1>
+			<div class="tag-buttons-container buttons">
+				<?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('id' => 'save-emails', 'class' => 't-button-primary  last', 'type' => 'button')); ?>
+			</div>
 		</div>
 	</div>
-</div>
+	<style>
+		.form-columns {
+			column-count: 2;
+			/* Divide em duas colunas */
+		}
 
-<div class="innerLR instructor-emails">
-	<div class="form-horizontal">
-		<div class="alert alert-danger">Preencha os e-mails corretamente.</div>
-		<?php foreach ($instructors as $instructor): ?>
-			<div class="control-group">
-				<label class="control-label" for="instructor"><?= $instructor->name ?></label>
-				<div class="controls">
-					<input name="<?= $instructor->id ?>" class="instructor" type="email">
-				</div>
-			</div>
-		<?php endforeach ?>
-		<div class="clear"></div>
+		.control-group {
+			break-inside: avoid-column;
+			/* Evita que um elemento seja dividido em duas colunas */
+			margin-bottom: 20px;
+			/* Espaçamento entre os elementos */
+		}
+	</style>
+
+	<div class="innerLR instructor-emails">
+		<div class="form-horizontal">
+			<div class="alert alert-danger">Preencha os e-mails corretamente.</div>
+			<form class="form-columns is-two-fifths">
+				<?php foreach ($instructors as $instructor) : ?>
+					<div class="control-group">
+						<label class="control-label t-field-text" for="instructor"><?= $instructor->name ?></label>
+						<input name="<?= $instructor->id ?>" class="instructor t-field-text__input" type="email">
+					</div>
+				<?php endforeach ?>
+			</form>
+			<div class="clear"></div>
+		</div>
 	</div>
-</div>
 </div>
 <?php $this->endWidget(); ?>
