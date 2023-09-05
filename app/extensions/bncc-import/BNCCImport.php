@@ -142,6 +142,7 @@ class BNCCImport
                         $parsedData[$currentCategory] = [
                             'name' => $currentCategory,
                             'type' => "COMPONENTE",
+                            'stage' =>  $stage,
                             'children' => []
                         ];
                     }
@@ -183,6 +184,7 @@ class BNCCImport
                         $parsedData[$currentCategory] = [
                             'name' => $currentCategory,
                             'type' => "COMPONENTE",
+                            'stage' =>  $stage,
                             'children' => []
                         ];
                     }
@@ -218,6 +220,7 @@ class BNCCImport
                         $parsedData[$currentCategory] = [
                             'name' => $currentCategory,
                             'type' => "COMPONENTE",
+                            'stage' =>  $stage,
                             'children' => []
                         ];
                     }
@@ -266,6 +269,7 @@ class BNCCImport
                         $parsedData[$currentCategory] = [
                             'name' => $currentCategory,
                             'type' => "COMPONENTE",
+                            'stage' =>  $stage,
                             'children' => []
                         ];
                     }
@@ -341,7 +345,15 @@ class BNCCImport
             "Bebês (zero a 1 ano e 6 meses)" => 1,
             "Crianças bem pequenas (1 ano e 7 meses a 3 anos e 11 meses)" => 1,
             "Crianças pequenas (4 anos a 5 anos e 11 meses)" => 2,
-            '1º' => 14
+            '1º' => 14,
+            '2º' => 15,
+            '3º' => 16,
+            '4º' => 17,
+            '5º' => 18,
+            '6º' => 19,
+            '7º' => 20,
+            '8º' => 21,
+            '9º' => 41
         ];
 
         $result = null;
@@ -390,6 +402,9 @@ class BNCCImport
             CVarDumper::dump($edcenso_stage_vs_modality_fk, 10, true);
         }
         $new_abilities->edcenso_stage_vs_modality_fk = $edcenso_stage_vs_modality_fk;
+
+        CVarDumper::dump($abilities, 10, true);
+        CVarDumper::dump($new_abilities, 10, true);
 
         if ($new_abilities->save()) {
             if(!empty($abilities["children"])) {

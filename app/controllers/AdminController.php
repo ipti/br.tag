@@ -510,9 +510,9 @@ class AdminController extends Controller
     {
         $import = new BNCCImport();
         
-        $import->importCSVInfantil();
+        // $import->importCSVInfantil();
 
-        // $import->importCSVFundamental();
+        $import->importCSVFundamental();
         
     }
 
