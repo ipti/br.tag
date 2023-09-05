@@ -1,5 +1,6 @@
 # Atualizações
 
+
 ## [Versão 3.54.86]
 - Corrigido a permissão para o cancelamento da matrícula do aluno
 

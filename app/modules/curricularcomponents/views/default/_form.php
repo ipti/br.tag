@@ -55,6 +55,12 @@ if(!$model->isNewRecord){
                     </div>
 
                     <div class="t-field-text">
+                        <?php echo $form->labelEx($model, 'abbreviation', array('class' => 't-field-text__label control-label')); ?>
+                        <?php echo $form->textField($model, 'abbreviation'); ?>
+                        <?php echo $form->error($model, 'abbreviation'); ?>
+                    </div>
+
+                    <div class="t-field-text">
                         <?php echo $form->labelEx($model, 'edcenso_base_discipline_fk', array('class' => 'control-label t-field-text__label--required')); ?>
                         <?php echo $form->dropDownList($model, 'edcenso_base_discipline_fk', CHtml::listData($edcenso_base_disciplines, "id", "name"), array( 'class' => 't-field-text__input', 'disabled' => $cant_change_censo_discipline)); ?>
                         <?php echo $form->error($model, 'edcenso_base_discipline_fk'); ?>
