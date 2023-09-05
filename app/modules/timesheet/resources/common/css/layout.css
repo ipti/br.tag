@@ -332,6 +332,7 @@ table.table-timesheet td {
     border: 1px solid;
     border-radius: 15px;
     display: none;
+    
 }
 
 .workloads-activator:hover {
@@ -346,11 +347,16 @@ table.table-timesheet td {
     border: 1px solid;
     z-index: 1000;
     width: 295px;
+    height: 400px;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     display: none;
     padding: 10px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    
+    
 }
 
 .workloads-title {
