@@ -1,5 +1,9 @@
 # Atualizações
 
+
+## [Versão 3.54.86]
+- Corrigido a permissão para o cancelamento da matrícula do aluno
+
 ## [Versão 3.54.85]
 - Adicionar o campo abreviação em componentes curriculares
 
