@@ -391,7 +391,6 @@ class BNCCImport
     {
         $new_abilities = new CourseClassAbilities();
 
-
         $new_abilities->description = self::getText($abilities["name"]);
         $new_abilities->parent_fk = $parent;
         $new_abilities->type = $abilities["type"];
@@ -399,14 +398,16 @@ class BNCCImport
         $new_abilities->edcenso_discipline_fk = $edcenso_discipline_fk;
         if(is_null($edcenso_stage_vs_modality_fk)) {
             $edcenso_stage_vs_modality_fk = $this->map_stage($abilities["stage"]);
-            CVarDumper::dump($edcenso_stage_vs_modality_fk, 10, true);
         }
         $new_abilities->edcenso_stage_vs_modality_fk = $edcenso_stage_vs_modality_fk;
 
+        echo 'var_dump<br>';
         CVarDumper::dump($abilities, 10, true);
-        CVarDumper::dump($new_abilities, 10, true);
+        echo 'end var_dump<br>';
 
-        if ($new_abilities->save()) {
+        $new_abilities->save();
+
+        // if ($new_abilities->save()) {
             if(!empty($abilities["children"])) {
                 foreach ($abilities["children"] as $child) {
                     $this->deep_create(
@@ -417,9 +418,9 @@ class BNCCImport
                     );
                 }
             }
-        } else {
-            d($new_abilities);
-        }
+        // } else {
+        //     d($new_abilities);
+        // }
     }
 
 
