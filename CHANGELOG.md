@@ -1,5 +1,7 @@
 # Atualizações
 
+## [Versão 3.54.87]
+- Retirado botão da aba de 'Ordem no Diario' adicionado icones na lista de alunos na mesma aba 
 ## [Versão 3.53.85]
 - Corrigido o erro que não permitia replicar alterações para todas as semanas subsequentes em quadro de horário
 
