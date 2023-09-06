@@ -115,7 +115,6 @@ class AdminController extends Controller
                 "username" => $_POST["Users"]["name"]
             ]
         );
-
         if (isset($_POST['Users'])) {
             if(!isset($modelValidate)) {
                 $model->attributes = $_POST['Users'];
@@ -135,9 +134,15 @@ class AdminController extends Controller
                         if ($save) {
                             $auth = Yii::app()->authManager;
                             $auth->assign($_POST['Role'], $model->id);
-                            Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
-                            $this->redirect(['index']);
+                            
                         }
+                        if(isset($_POST['instructor']) &&  $_POST['instructor'] != ""){
+                            $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]); 
+                            $instructors->users_fk = $model->id;
+                            $instructors->save();
+                        }
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
+                        $this->redirect(['index']);
                     }
                 }
             }else {
@@ -145,7 +150,12 @@ class AdminController extends Controller
                 $this->redirect(['index']);
             }
         }
-        $this->render('createUser', ['model' => $model]);
+        $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk'=> null], ['select' => 'id, name']); 
+        $instructorsResult = array_reduce($instructors, function($carry, $item) {
+            $carry[$item['id']] = $item['name'];
+            return $carry;
+        }, []);
+        $this->render('createUser', ['model' => $model, 'instructors' => $instructorsResult]);
     }
 
     public function actionGradesStructure()
@@ -488,9 +498,14 @@ class AdminController extends Controller
                         $auth = Yii::app()->authManager;
                         $auth->revoke($actual_role, $model->id);
                         $auth->assign($_POST['Role'], $model->id);
-                        Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário alterado com sucesso!'));
-                        $this->redirect(['index']);
                     }
+                    if(isset($_POST['instructor']) &&  $_POST['instructor'] != ""){
+                        $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]); 
+                        $instructors->users_fk = $model->id;
+                        $instructors->save();
+                    }
+                    Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
+                    $this->redirect(['index']);
                 }
             }
         }
@@ -502,7 +517,13 @@ class AdminController extends Controller
             $i++;
         }
 
-        $this->render('editUser', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result]);
+        $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk'=> null], ['select' => 'id, name']); 
+        $instructorsResult = array_reduce($instructors, function($carry, $item) {
+            $carry[$item['id']] = $item['name'];
+            return $carry;
+        }, []);
+
+        $this->render('editUser', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result, 'instructors' => $instructorsResult]);
     }
 
     public function actionChangelog()

@@ -1,6 +1,5 @@
 # Atualizações
 
-
 ## [Versão 3.54.87]
 - Retirado botão da aba de 'Ordem no Diario' adicionado icones na lista de alunos na mesma aba 
 
@@ -11,6 +10,8 @@
 - Adicionar o campo abreviação em componentes curriculares
 - Adicionar rolagem em carga horária em quadro de horário
 
+## [Versão 3.53.86]
+- Adicionando Associação de Usuários de professores com Registros de Professor
 
 ## [Versão 3.53.85]
 - Corrigido o erro que não permitia replicar alterações para todas as semanas subsequentes em quadro de horário
