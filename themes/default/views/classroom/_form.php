@@ -629,22 +629,16 @@ $form = $this->beginWidget('CActiveForm', array(
                             $i = 1;
                             foreach ($enrollments as $enr) {
                         ?>
-                                <li id="<?= $enr->id; ?>" class="ui-state-default"><?= $enr->daily_order; ?><span> <?= $enr->studentFk->name; ?></span></li>
+                                <li id="<?= $enr->id; ?>" class="ui-state-default">
+                                    <span class="t-icon-slip"></span><?= $enr->daily_order; ?>
+                                    <span> <?= $enr->studentFk->name; ?></span>
+                                </li>
                         <?php
                                 $i++;
                             }
                         }
                         ?>
                     </ul>
-                    <?php
-                    if (count($enrollments) > 1) {
-                    ?>
-                        <div class="t-buttons-container">
-                            <a class="t-button-primary js-save-new-order">salvar</a>
-                        </div>
-                    <?php
-                    }
-                    ?>
 
                 </div>
                 <?php $this->endWidget(); ?>
