@@ -13,6 +13,7 @@ services:
       HOST_DB_TAG: 'mysql'
       USER_DB_TAG: 'root'
       PWD_DB_TAG: 'root'
+      TAG_ALIMENTOS: true
       YII_DEBUG: false
       XDEBUG_CONFIG: remote_host=172.24.112.1 # wsl network ip
       PHP_IDE_CONFIG: "serverName=xdebug-docker"

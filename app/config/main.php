@@ -73,7 +73,8 @@ return array(
         'professional',
         'sedsp',
         'classdiary',
-        'curricularcomponents'
+        'curricularcomponents',
+        'foods'
     ),
     // application components
     'components' => array(
