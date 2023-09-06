@@ -25,17 +25,19 @@ class GetRelacaoClassesFromSEDUseCase
             $classrooms = $mapper->Classrooms;
             foreach($classrooms as $classroom) {
                 $classroomGovId = $classroom->gov_id;
+
                 if($indexedByClasses[$classroomGovId] !== null){ //Verifica se a Classe já existe no TAG
-                    $status = $this->getStudentsFromClass($classroomGovId);
+                    $status = true; //$this->getStudentsFromClass($classroomGovId);
                 } else {
                     $attributes = $classroom->getAttributes();
                     $createdClass = $this->createAndSaveNewClass($attributes, $classroom->gov_id);
-
+                 
                     if ($createdClass) {
-                        $status = $this->getStudentsFromClass($classroomGovId);
-                    }
+                        $status = true; //$this->getStudentsFromClass($classroomGovId);
+                    } 
                 }
             }
+            
             return $status;
         } catch (Exception $e) {
             CVarDumper::dump($e->getMessage(), 10, true);
