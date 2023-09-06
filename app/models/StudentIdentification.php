@@ -19,6 +19,7 @@
  * @property string $filiation_1
  * @property string $filiation_2
  * @property integer $nationality
+ * @property string $uf
  * @property integer $edcenso_nation_fk
  * @property integer $edcenso_uf_fk
  * @property integer $edcenso_city_fk

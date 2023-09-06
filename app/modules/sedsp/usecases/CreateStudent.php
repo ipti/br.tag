@@ -12,13 +12,12 @@ class CreateStudent
 {
     /**
      * Summary of exec
-     * @param int $RA RA Number
+     * @param int $ra RA Number
      * @return StudentIdentification
      */
-    public function exec($RA)
+    public function exec($ra)
     {
         $ucstudent = new GetStudentFromSED();
-        $student = $ucstudent->exec($RA);
-        return $student;
+        return $ucstudent->exec($ra);
     }
 }

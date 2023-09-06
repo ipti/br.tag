@@ -1,0 +1,6 @@
+{
+    "sonarlint.connectedMode.project": {
+        "connectionId": "ipti",
+        "projectKey": "ipti_br.tag"
+    }
+}

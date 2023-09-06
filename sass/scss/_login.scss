@@ -1,20 +1,47 @@
 .login-form {
     flex-direction: column;
-    margin-top: $SizeXLarge;
-    margin-bottom: $SizeLarge;
+    margin-top: $spaceXXXLarge;
+    margin-bottom: $spaceXXXLarge;
+
     .form-signin {
         position: relative;
         width: 334px;
-        margin-top: $SizeXXXLarge;
-        margin-bottom: 0px;
+        margin-top: $spaceXXXLarge;
+        margin-bottom: $spaceEmpty;
     }
+
     .login-footer {
-        margin-top: $SizeHeader;
-        margin-bottom: 0px;
+        margin-top: $spaceXXXLarge;
+        margin-bottom: $spaceEmpty;
         flex-direction: column;
         justify-content: center;
         display: flex;
         text-align: center;
+
+        .login-link {
+            word-wrap: break-word;
+            white-space: nowrap;
+            a {
+                color: black;
+                text-decoration: none;
+                font-weight: bold;
+
+                /* Quando o link é clicado */
+                &:active {
+                    color: rgb(77, 40, 151);
+                    text-decoration: underline;
+                }
+
+                /* Quando o mouse está sobre o link */
+                &:hover {
+                    color: rgb(77, 40, 151);
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+    .login-versao {
+        margin-top: $spaceXXXLarge;
+        padding-top: $spaceXXXLarge;
     }
 }
-
