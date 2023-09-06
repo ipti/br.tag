@@ -18,7 +18,7 @@ class GetExibirFichaAlunoFromSEDUseCase
         $studentExists = $this->checkIfStudentExists($name, $filiation_1);
         
 		if($studentExists){
-            return (object) $studentExists["StudentIdentification"];
+            return false;
         }
         
         try {
@@ -64,11 +64,10 @@ class GetExibirFichaAlunoFromSEDUseCase
         $sucess = $studentIdentification->validate() && $studentIdentification->save();
         
         if($sucess){
-
             return $studentIdentification;
         }
 
-        throw new SedspException(CJSON::encode($studentIdentification->getErrors()), 1);
+        throw new SedspException(json_encode($studentIdentification->getErrors(), JSON_UNESCAPED_UNICODE), 1);
     }
 
     /**
