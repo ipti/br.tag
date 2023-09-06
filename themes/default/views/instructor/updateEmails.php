@@ -26,7 +26,7 @@ $form = $this->beginWidget('CActiveForm', [
 			</div>
 		</div>
 	</div>
-	<style>
+	<!-- <style>
 		.form-columns {
 			column-count: 2;
 			/* Divide em duas colunas */
@@ -38,19 +38,27 @@ $form = $this->beginWidget('CActiveForm', [
 			margin-bottom: 20px;
 			/* Espaçamento entre os elementos */
 		}
-	</style>
+	</style> -->
 
 	<div class="innerLR instructor-emails">
 		<div class="form-horizontal">
 			<div class="alert alert-danger">Preencha os e-mails corretamente.</div>
-			<form class="form-columns is-two-fifths">
-				<?php foreach ($instructors as $instructor) : ?>
-					<div class="control-group">
-						<label class="control-label t-field-text" for="instructor"><?= $instructor->name ?></label>
-						<input name="<?= $instructor->id ?>" class="instructor t-field-text__input" type="email">
-					</div>
-				<?php endforeach ?>
-			</form>
+			<?php foreach ($instructors as $key => $instructor) : ?>
+				<?php
+				if ($key % 2 == 0) {
+					echo '<div class="row">';
+				}
+				?>
+				<div class="column is-two-fifths">
+					<label class="t-field-text" for="instructor"><?= $instructor->name ?></label>
+					<input name="<?= $instructor->id ?>" class="instructor t-field-text__input" type="email">
+				</div>
+				<?php
+				if ($key % 2 == 0) {
+					echo '</div>';
+				}
+				?>
+			<?php endforeach ?>
 			<div class="clear"></div>
 		</div>
 	</div>
