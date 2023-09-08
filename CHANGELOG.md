@@ -1,12 +1,16 @@
 # Atualizações
 
-## [Versão 3.54.87]
+## [Versão 3.54.89]
+- Permitindo que alunos com nacionalidade  estrangeira possam adicionar informações no campo de cpf
+ e documentos no formulário de adicionar aluno
+
+## [Versão 3.54.88]
 - Retirado botão da aba de 'Ordem no Diario' adicionado icones na lista de alunos na mesma aba 
 
-## [Versão 3.54.86]
+## [Versão 3.54.87]
 - Corrigido a permissão para o cancelamento da matrícula do aluno
 
-## [Versão 3.54.85]
+## [Versão 3.54.86]
 - Adicionar o campo abreviação em componentes curriculares
 - Adicionar rolagem em carga horária em quadro de horário
 
