@@ -12,6 +12,7 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/admin/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/admin/form/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/form/_functions.js', CClientScript::POS_END);
 
 $cs->registerCssFile($baseUrl . 'sass/css/main.css');
 
@@ -20,9 +21,8 @@ $form = $this->beginWidget('CActiveForm', array(
     'enableAjaxValidation' => false,
 ));
 ?>
-
-<div class="row-fluid">
-    <div class="span12" style="height: 70px;">
+<div class="row">
+    <div class="column" style="height: 70px;">
         <h1><?php echo $title; ?></h1>
         <span class="subtitle"> <?php echo Yii::t('default', 'Fields with * are required.') ?>
             <div class="buttons">
@@ -40,15 +40,15 @@ $form = $this->beginWidget('CActiveForm', array(
             </div>
     </div>
 </div>
-
 <div class="tag-inner">
     <div class="widget widget-tabs border-bottom-none">
         <?php echo $form->errorSummary($model); ?>
 
-        <div class="widget-head">
-            <ul class="tab-classroom">
-                <li id="tab-classroom" class="active">
-                    <a class="glyphicons user" href="#User" data-toggle="tab">
+        <div class="t-tabs">
+            <ul class="t-tabs__list tab-classroom">
+                <li id="tab-classroom" class="t-tabs__item active">
+                    <a class="t-tabs__link" >
+                        <span class="t-tabs__numeration">1</span>
                         <?php echo Yii::t('default', 'User') ?>
                     </a>
                 </li>
@@ -56,85 +56,74 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
 
         <div class="widget-body form-horizontal">
-            <div class="tab-content">
+            <div class="tab-content form-content">
 
                 <!-- Tab content -->
-                <div class="tab-pane active" id="User">
-                    <div class="row-fluid">
-                        <div class="span6">
-                            <div>
-                                <h3>Dados Básicos</h3>
-                            </div>
-                            <div class="control-group">
-                                <div class="controls">
-                                    <?php echo $form->labelEx($model, 'name', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
-                                    <?php echo $form->textField($model, 'name', array('size' => 100, 'maxlength' => 150,)); ?>
-                                    <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Full Name'); ?>"><i></i></span> -->
-                                    <?php echo $form->error($model, 'name'); ?>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <div class="controls">
-                                    <?php echo CHtml::label(Yii::t('default', 'Role'), 'Role', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
+                <div class="tab-pane active" id="User"> 
+                    <div class="row">
+                        <div class="column">
+                            <h3>Dados Básicos</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="column">
+                            <div class="t-field-select">
+                                    <?php echo CHtml::label(Yii::t('default', 'Role'), 'Role', array('class' => 't-field-select__label')); ?>
                                     <?php
                                     $roles = CHtml::listData(AuthItem::model()->findAll('type=2 order by name'), 'name', 'name');
                                     foreach ($roles as $key => $value) {
                                         $roles[$key] = Yii::t('default', $value);
                                     }
-                                    echo CHtml::dropDownList('Role', $actual_role, $roles, array('class' => 'select-search-off control-input')); ?>
-                                </div>
+                                    echo CHtml::dropDownList('Role', $actual_role, $roles, array('class' => 'select-search-off t-field-select__input js-show-instructor-input', 'style' => 'width: 100%')); ?>   
+                            </div>
+                            <div class="t-field-select js-instructor-input hide">
+                                <?php echo CHtml::label(Yii::t('default', 'Instructor'), 'instructor', array('class' => 't-field-select__label'))?>
+                                <?php echo CHtml::dropDownList('instructor', '', $instructors,  array('prompt' => 'Selecione o professor', 'class' => 'select-search-on t-field-select__input js-instructor-select',)); ?>
+                            </div> 
+                            <div class="t-field-text">
+                                    <?php echo $form->labelEx($model, 'name', array('class' => 't-field-text__label')); ?>
+                                    <?php echo $form->textField($model, 'name', array('size' => 100, 'maxlength' => 150, 'class' => 't-field-text__input js-chage-name')); ?>
+                                    <?php echo $form->error($model, 'name'); ?>
                             </div>
                         </div>
                         <div class="separator"></div>
-                        <div class="span6">
-                            <div class="control-group">
-                                <div class="controls">
-                                    <?php echo CHtml::label(Yii::t('default', 'Schools'), 'schools', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
-                                    <?php echo CHtml::dropDownList('schools', $userSchools, CHtml::listData(SchoolIdentification::model()->findAll('situation=1 order by name'), 'inep_id', 'name'), array('multiple' => 'multiple', 'class' => 'select-search-on t-multiselect control-input multiselect')); ?>
-                                </div>
+                        <div class="column">
+                            <div class="t-field-select">
+                                    <?php echo CHtml::label(Yii::t('default', 'Schools'), 'schools', array('class' => 't-field-select__label')); ?>
+                                    <?php echo CHtml::dropDownList('schools', $userSchools, CHtml::listData(SchoolIdentification::model()->findAll('situation=1 order by name'), 'inep_id', 'name'), array('multiple' => 'multiple', 'class' => 'select-search-on t-multiselect t-field-select__input')); ?>
                             </div>
-                            <div class="control-group">
-                                <div class="controls">
-                                    <?php echo CHtml::activeCheckbox($model, 'active') ?>
-                                    <?php echo CHtml::label(Yii::t('default', 'Active'), 'active', array('class' => 'control-label', 'id' => 'active-label')); ?>
-                                </div>
+                            <div class="t-field-checkbox">
+                                    <?php echo CHtml::activeCheckbox($model, 'active', array('class'=>'t-field-checkbox__input')) ?>
+                                    <?php echo CHtml::label(Yii::t('default', 'Active'), 'active', array('class' => 't-field-checkbox__label', 'id' => 'active-label')); ?>
                             </div>
                         </div>
                     </div>
-                    <div class="row-fluid">
-                        <div class=" span6">
-                            <div>
-                                <h3>Dados de login</h3>
-                            </div>
-                            <div class="control-group">
-                                <div class="controls">
-                                    <?php echo $form->labelEx($model, 'username', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
-                                    <?php echo $form->textField($model, 'username'); ?>
-                                    <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Min length') . "4"; ?>"><i></i></span> -->
+                    <div class="row">
+                        <div class="column">
+                            <h3>Dados de login</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            
+                            <div class="t-field-text">
+                                    <?php echo $form->labelEx($model, 'username', array('class' => 't-field-text__label')); ?>
+                                    <?php echo $form->textField($model, 'username', array('class' => 't-field-text__input')); ?>
                                     <?php echo $form->error($model, 'username'); ?>
-                                </div>
                             </div>
 
-                            <div class="control-group">
-                                <div class="controls">
-                                    <?php echo $form->labelEx($model, 'password', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
-                                    <?php echo $form->passwordField($model, 'password', array('size' => 32, 'maxlength' => 32, 'style' => 'width: 412px;')); ?>
-                                    <br><br>
+                            <div class="t-field-text password-container">
+                                    <?php echo $form->labelEx($model, 'password', array('class' => 't-field-text__label')); ?>
+                                    <?php echo $form->passwordField($model, 'password', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input')); ?>
                                     <span class="t-icon-eye show-password-icon" id="showPassword"></span>
                                     <?php echo $form->error($model, 'password'); ?>
+                                    
                                 </div>
-                            </div>
+                            </div> 
+                            <div class='column'></div>
                         </div>
+                       
                     </div>
                 </div>
 
@@ -164,12 +153,19 @@ $form = $this->beginWidget('CActiveForm', array(
     .select2-drop {
         width:428px !important;
     }  
+
+    #s2id_schools .select2-choices {
+        height: 100px !important;
+    }
   
     .show-password-icon {
         cursor: pointer;
         font-size: 18px;
+        position: absolute;
+        left: calc(100% - 25px);
+        top: 28px;
+    }
+    .password-container {
         position: relative;
-        left: 395px;
-        bottom: 45px;
     }
 </style>

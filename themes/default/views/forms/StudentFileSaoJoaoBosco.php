@@ -84,7 +84,7 @@
             <div>Data de Nascimento: __/__/__ Nacionalidade: ________________ Instrução: ___________ </div>
             <div>CPF: _______________ Celular: __________________ Email: ______________________</div>
             <div>Identidade: ____________ Profissão: _______________ Telefone Trabalho: ____________</div>
-            <div>Nome da mãe: <span class="bold"><?php echo $student->studentFk->filiation_1?></span></div>
+            <div>Filiação Principal: <span class="bold"><?php echo $student->studentFk->filiation_1?></span></div>
             <div>Endereço: _________________________________________________________________</div>
             <div>Cidade: _____________ Estado: ___________ CEP: __________ Telefone: ____________</div>
             <div>Data de Nascimento: __/__/__ Nacionalidade: ________________ Instrução: ___________ </div>

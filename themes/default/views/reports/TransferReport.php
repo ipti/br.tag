@@ -45,7 +45,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         <td><?= $r['school_name']?></td>
                         <td><?= $r['responsable_name']?></td>
                         <td><?= $r['responsable_telephone']?></td>
-                        <td><?= date('d/m/Y', strtotime($r['transfer_date']))?></td>
+                        <td><?= TagUtils::convertDateFormat($r['transfer_date'])?></td>
                     </tr>
                 <?php
                 $ordem++;

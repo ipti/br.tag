@@ -14,7 +14,7 @@ class OutExibirFichaAluno
 	public $outCertidaoAntiga;
 	public $outEnderecoResidencial;
 	public $outEnderecoIndicativo;
-	/** @var OutTelefones[]|null */
+	/** @var OutLstTelefone[]|null */
 	public $outTelefones;
 	public $outDeficiencia;
 	/** @var OutListaNecessidadesEspeciais[]|null */
@@ -26,7 +26,7 @@ class OutExibirFichaAluno
 
 	/**
 	 * @param OutIrmaos[]|null $outIrmaos
-	 * @param OutTelefones[]|null $outTelefones
+	 * @param OutLstTelefone[]|null $outTelefones
 	 * @param OutListaNecessidadesEspeciais[]|null $outListaNecessidadesEspeciais
 	 */
 	public function __construct(
@@ -128,7 +128,7 @@ class OutExibirFichaAluno
 	}
 
 	/**
-	 * @return OutTelefones[]|null
+	 * @return OutLstTelefone[]|null
 	 */
 	public function getOutTelefones(): ?array
 	{
@@ -238,7 +238,7 @@ class OutExibirFichaAluno
 	}
 
 	/**
-	 * @param OutTelefones[]|null $outTelefones
+	 * @param OutLstTelefone[]|null $outTelefones
 	 */
 	public function setOutTelefones(?array $outTelefones): self
 	{
@@ -309,7 +309,7 @@ class OutExibirFichaAluno
 			($data['outEnderecoResidencial'] ?? null) !== null ? OutEnderecoResidencial::fromJson($data['outEnderecoResidencial']) : null,
 			($data['outEnderecoIndicativo'] ?? null) !== null ? OutEnderecoIndicativo::fromJson($data['outEnderecoIndicativo']) : null,
 			($data['outTelefones'] ?? null) !== null ? array_map(static function($data) {
-				return OutTelefones::fromJson($data);
+				return OutLstTelefone::fromJson($data);
 			}, $data['outTelefones']) : null,
 			($data['outDeficiencia'] ?? null) !== null ? OutDeficiencia::fromJson($data['outDeficiencia']) : null,
 			($data['outListaNecessidadesEspeciais'] ?? null) !== null ? array_map(static function($data) {

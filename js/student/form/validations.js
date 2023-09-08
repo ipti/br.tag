@@ -205,7 +205,7 @@ $(formIdentification + 'nationality').change(function () {
     $(nationality).attr("disabled", "disabled");
     if ($(this).val() == 3) {
         $(nobr).removeAttr("disabled");
-        // $(formIdentification + 'edcenso_nation_fk').trigger('change').select2('readonly', false);
+        $(formIdentification + 'edcenso_nation_fk').trigger('change').select2('readonly', false);
         $(formIdentification + 'edcenso_uf_fk').val("").trigger("change.select2");
         $(formIdentification + 'edcenso_city_fk').val("").trigger("change.select2");
         $(formIdentification + 'edcenso_uf_fk').closest(".js-change-required").css("display", simple === "1" ? "none" : "block").find("label").removeClass("required").html("Estado");
@@ -784,7 +784,7 @@ $(".save-student").click(function () {
     }
     if ($("#StudentIdentification_filiation").val() === '1' && ($("#StudentIdentification_filiation_1").val() === "" && $("#StudentIdentification_filiation_2").val() === "")) {
         error = true;
-        message += "Quando o campo <b>Filiação</b> é selecionado como 'Pai e/ou Mãe', pelo menos um dos campos <b>Nome Completo da Mãe</b> ou <b>Nome Completo do Pai</b> devem ser preenchidos.<br>";
+        message += "Quando o campo <b>Filiação</b> é selecionado como 'Pai e/ou Mãe', pelo menos um dos campos <b>Nome Completo da Filiação</b> ou <b>Nome Completo do Pai</b> devem ser preenchidos.<br>";
     }
     if ($("#StudentEnrollment_public_transport").is(":checked") && $("#StudentEnrollment_transport_responsable_government").val() === "") {
         error = true;

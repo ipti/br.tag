@@ -34,6 +34,10 @@ function checkMulticlass() {
 $(".save-enrollment").click(function () {
     var error = false;
     var message = "";
+    if ($("#StudentEnrollment_school_admission_date").val() === "") {
+        error = true;
+        message += "Preencha o campo Data de Ingresso na Escola";
+    }
     if ($("#StudentEnrollment_public_transport").is(":checked") && $("#StudentEnrollment_transport_responsable_government").val() === "") {
         error = true;
         message += "Quando o campo <b>Transporte escolar público</b> é marcado, o campo <b>Poder público responsável pelo transporte escolar</b> é obrigatório.<br>";

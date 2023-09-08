@@ -63,6 +63,7 @@ $("#classesSearch").on("click", function () {
                 <tbody>`;
                   $.each(data.students, function (indexStudent, student) {
                     var hasFaults = student.schedules.filter((schedule) => dia == schedule.day && mes == $("#month").val() && schedule.fault == true).length > 0;
+                   
                     accordion +=
                       `<tr>
                         <td class='student-name'>

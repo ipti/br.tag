@@ -42,7 +42,6 @@ class Users extends AltActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, username, password', 'required'),
-			array('name, username', 'unique', 'className' => 'Users'),
 			array('active', 'numerical', 'integerOnly'=>true),
 			array('hash', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>150),

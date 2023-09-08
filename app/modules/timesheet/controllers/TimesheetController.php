@@ -28,7 +28,7 @@ class TimesheetController extends Controller
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
                     'index', 'instructors', 'GetInstructorDisciplines', 'addInstructors', 'loadUnavailability',
-                    'getTimesheet', 'generateTimesheet', "addinstructorsdisciplines", "changeSchedules", "ChangeInstructor"
+                    'getTimesheet', 'generateTimesheet', "addinstructorsdisciplines", "changeSchedules", "ChangeInstructor", "changeUnavailableSchedule"
                 ], 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -232,7 +232,8 @@ class TimesheetController extends Controller
                                 "instructorInfo" => $instructorInfo,
                                 "disciplineId" => $schedule->discipline_fk,
                                 "disciplineName" => $schedule->disciplineFk->name,
-                                "turn" => $schedule->turn
+                                "turn" => $schedule->turn,
+                                "unavailable" => $schedule->unavailable,
                             ];
                         }
                     }
@@ -587,9 +588,10 @@ class TimesheetController extends Controller
     {
         $removes = [];
         $disciplines = [];
-
+        
         $weekOfTheChange = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'day' => $_POST["schedule"]["day"], 'month' => $_POST["schedule"]["month"], 'schedule' => $_POST["schedule"]["schedule"]));
-        $weekLimit = $_POST["replicate"] ? 53 : $weekOfTheChange["week"];
+        $weekLimit = $_POST["schedule"]["hardUnavailableDaySelected"] == "0" ? ($_POST["replicate"] ? 53 : $weekOfTheChange["week"]) : $weekOfTheChange["week"];
+        
         for ($week = $weekOfTheChange["week"]; $week <= $weekLimit; $week++) {
             $schedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'week' => $week, 'week_day' => $_POST["schedule"]["week_day"], 'schedule' => $_POST["schedule"]["schedule"]));
             if ($schedule != null) {
@@ -621,9 +623,9 @@ class TimesheetController extends Controller
         $hardUnavailableDays = $this->getUnavailableDays($_POST["classroomId"], true, "hard");
 
         $weekOfTheChange = $date->format("W");
-        $weekLimit = $_POST["replicate"] ? 53 : $weekOfTheChange;
+        $weekLimit = $_POST["hardUnavailableDaySelected"] == "0" ? ($_POST["replicate"] ? 53 : $weekOfTheChange) : $weekOfTheChange;
         for ($week = $weekOfTheChange; $week <= $weekLimit; $week++) {
-            if (!in_array($date->format("Y-m-d"), $hardUnavailableDays)) {
+            if (!in_array($date->format("Y-m-d"), $hardUnavailableDays) || (int)$_POST["hardUnavailableDaySelected"]) {
                 $schedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'week' => $week, 'week_day' => $_POST["schedule"]["week_day"], 'schedule' => $_POST["schedule"]["schedule"]));
                 if ($schedule == null) {
                     $schedule = new Schedule();
@@ -654,6 +656,7 @@ class TimesheetController extends Controller
                         "schedule" => $schedule->schedule,
                         "disciplineId" => $schedule->discipline_fk,
                         "disciplineName" => $schedule->disciplineFk->name,
+                        "unavailable" => $schedule->unavailable
                     ]);
                 }
             }
@@ -663,6 +666,17 @@ class TimesheetController extends Controller
             }
         }
         echo json_encode(["valid" => true, "adds" => $adds, "disciplines" => $disciplines]);
+    }
+
+    public function actionChangeUnavailableSchedule()
+    {
+        $schedule = Schedule::model()->findByPk($_POST["schedule"]);
+        $schedule->unavailable = $schedule->unavailable ? 0 : 1;
+        $schedule->save();
+
+        $disciplines = [];
+        array_push($disciplines, ["disciplineId" => $schedule->discipline_fk, "workloadUsed" => $schedule->unavailable ? -1 : 1]);
+        echo json_encode(["unavailable" => $schedule->unavailable, "disciplines" => $disciplines]);
     }
 
     public function actionGetInstructorDisciplines($id)

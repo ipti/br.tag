@@ -282,8 +282,8 @@ class CourseplanController extends Controller
     /**
      * Delete model.
      */
-    public
-    function actionDelete($id)
+    
+    public function actionDelete($id)
     {
         $coursePlan = $this->loadModel($id);
         $isUsed = false;
@@ -305,8 +305,8 @@ class CourseplanController extends Controller
     /**
      * Lists all models.
      */
-    public
-    function actionIndex()
+    
+    public function actionIndex()
     {
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $dataProvider = new CActiveDataProvider('CoursePlan', array(

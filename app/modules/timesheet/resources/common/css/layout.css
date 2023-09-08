@@ -177,7 +177,10 @@ table.table-timesheet td {
 }
 
 .tables-timesheet .hard-unavailable {
-    background: #aaa !important;
+    background: #ccc !important;
+}
+
+.tables-timesheet .hard-unavailable.hard-unavailable-unfillable {
     cursor: default;
 }
 
@@ -190,7 +193,7 @@ table.table-timesheet td {
     background: #ddd !important;
 }
 
-.schedule-available {
+.schedule-highlighted {
     background-color: #eee !important;
     opacity: 0.7;
 }
@@ -329,6 +332,7 @@ table.table-timesheet td {
     border: 1px solid;
     border-radius: 15px;
     display: none;
+    
 }
 
 .workloads-activator:hover {
@@ -343,11 +347,16 @@ table.table-timesheet td {
     border: 1px solid;
     z-index: 1000;
     width: 295px;
+    height: 400px;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     display: none;
     padding: 10px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    
+    
 }
 
 .workloads-title {
@@ -391,9 +400,38 @@ table.table-timesheet td {
 }
 
 .workload-green {
-    color: green;
+    color: forestgreen;
 }
 
 .workload-instructor {
     font-size: 10px;
+}
+
+.schedule-highlighted .availability-schedule, .schedule-selected .availability-schedule {
+    display: none;
+}
+
+.availability-schedule {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    background: white;
+    padding: 0px 4px;
+    border-top-left-radius: 5px;
+}
+
+.hard-unavailable .availability-schedule {
+    pointer-events: none;
+}
+
+.soft-unavailable .availability-schedule:hover {
+    background: gray;
+}
+
+.availability-schedule i.fa-user-times {
+    color: darkred;
+}
+
+.availability-schedule i.fa-user-plus {
+    color: green;
 }

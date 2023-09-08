@@ -52,13 +52,13 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                             <div class="column">
                                 <div class="t-field-number">
                                     <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Workload'), 'workload', ['class' => "t-field-number__label control-label"]) ?>
-                                    <?= CHtml::numberField("workload", "0", ["min" => "0", "max" => "9999", 'style' => 'border: 1px solid #aaa;width: 95%']) ?>
+                                    <?= CHtml::numberField("workload", "0", ["min" => "0", "max" => "9999", 'style' => 'border: 1px solid #aaa;box-sizing:border-box;height: 43px']) ?>
                                 </div>
                             </div>
                             <div class="column">
                                 <div class="t-field-number">
                                     <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Credits'), 'credits', ['class' => "t-field-number__label control-label"]) ?>
-                                    <?= CHtml::numberField("credits", "0", ["min" => "0", "max" => "99", 'style' => 'border: 1px solid #aaa;width: 95%']) ?>
+                                    <?= CHtml::numberField("credits", "0", ["min" => "0", "max" => "9999", 'style' => 'border: 1px solid #aaa;box-sizing:border-box;height: 43px']) ?>
                                 </div>
                             </div>
                         </div>
@@ -66,7 +66,7 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
 
                     <div class="column justify-content--start">
                         <?= CHtml::button(Yii::t('curricularMatrixModule.index', 'Add'), [
-                            "id" => "add-matrix", "class" => "t-button-primary", "style" => "padding: 15px 10px;margin:0px 15px"
+                            "id" => "add-matrix", "class" => "t-button-primary", "style" => "padding: 10px 10px;margin:0px 15px"
                         ]) ?>
                     </div>
 
@@ -129,9 +129,9 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                             'buttons' => array(
                                 'delete' => array(
                                     'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
-
-                                )
-                            )
+                                ),
+                            ),
+                            'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
                         ],
 
                     ],
