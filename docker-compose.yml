@@ -20,6 +20,13 @@ services:
       
     volumes:
       - .:/app
+      - /app/vendor
+      - /app/app/vendor
+      - /app/assets
+      - /app/db
+      - /app/docker
+      - /app/.ideia
+      - /app/.git
       #- ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
       # - ./docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
     extra_hosts:
