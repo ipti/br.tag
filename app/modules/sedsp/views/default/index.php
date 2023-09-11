@@ -119,7 +119,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                     <div id="ra-warning" style="display: none; color:#D21C1C">O RA deve ter exatamente 12 dígitos.</div>
                     </div>
                 </div>
-                <div id="loading-container" style="display: none;">
+                <div id="loading-container-student" style="display: none;">
                     <div id="loading" style="">
                         <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
                             <div id="loading">
@@ -228,7 +228,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                     </select>
                 </div>
             </div>
-            <div id="loading-container" style="display: none;">
+            <div id="loading-container-school" style="display: none;">
                 <div id="loading" style="">
                     <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
                         <div id="loading">
@@ -240,7 +240,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                <button id="loading-popup" class="btn btn-primary" url="<?= Yii::app()->createUrl('sedsp/default/ImportFullSchool'); ?>" type="submit" value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
+                <button id="loading-popup-school" class="btn btn-primary" url="<?= Yii::app()->createUrl('sedsp/default/ImportFullSchool'); ?>" type="submit" value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
             </div>
         </div>
     </form>
@@ -271,13 +271,15 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                                 <input type="checkbox" name="registerAllClasses" style="margin-right: 10px;">
                                 Importar todas as turmas? Isso pode aumentar o tempo de espera.
                             </div> -->
-                            <div id="loading" style="display: none;">
-                                <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
-                                    <div id="loading">
-                                        <img class="js-grades-loading" height="40px" width="40px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
+                            <div id="loading-container-class" style="display: none;">
+                                <div id="loading" style="">
+                                    <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
+                                        <div id="loading">
+                                            <img class="js-grades-loading" height="40px" width="40px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
+                                        </div>
+                                        <div class="loading-text">Aguarde enquanto a(s) turma(s) é(são) importada(s)...</div>
                                     </div>
-                                    <div class="loading-text">Aguarde enquanto a(s) turma(s) é(são) importada(s)...</div>
-                                </div>
+                                </div>           
                             </div>
                         </div>
                     </div>
@@ -285,7 +287,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal"
                         style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                    <button class="btn btn-primary" id="importClass"
+                    <button class="btn btn-primary" id="loading-popup-class"
                         url="<?php echo Yii::app()->createUrl('sedsp/default/AddClassroom'); ?>" type="submit"
                         value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
                 </div>
@@ -295,23 +297,14 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
 
 <script>
     document.getElementById("loading-popup").addEventListener("click", function() {
-        
-        // Mostrar o indicador de carregamento
-        document.getElementById("loading-container").style.display = "block";
+        document.getElementById("loading-container-student").style.display = "block";
+    });
+    document.getElementById("loading-popup-school").addEventListener("click", function() {
+        document.getElementById("loading-container-school").style.display = "block";
+    });
 
-        // Fazer uma requisição AJAX para iniciar o processo de importação
-        var request = new XMLHttpRequest();
-        request.open("GET", document.getElementById("loading-popup").getAttribute("url"), true);
-        request.onreadystatechange = function() {
-            if (request.readyState == 4 && request.status == 200) {
-                // Processo concluído, esconder o indicador de carregamento
-                document.getElementById("loading-container").style.display = "none";
-
-                // Exibir novamente o botão "Cadastrar"
-                document.getElementById("loading-popup").style.display = "block";
-            }
-        };
-        request.send();
+    document.getElementById("loading-popup-class").addEventListener("click", function() {
+        document.getElementById("loading-container-class").style.display = "block";
     });
 </script>
 
@@ -323,12 +316,6 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         align-items: center;
     }
 </style>
-
-<script>
-    document.getElementById('importClass').addEventListener('click', function (e) {
-        $("#loading").show();
-    });
-</script>
 
 <script>
     const raInput = document.getElementById('numRA');
