@@ -73,20 +73,18 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 </div>
             </button>
         </a>
-
+-->
         <a href="#" data-toggle="modal" data-target="#get-full-school" target="_blank">
             <button type="button" class="report-box-container">
                 <div class="pull-left" style="margin-right: 20px;">
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/school.svg" alt="school"/>
                 </div>
                 <div class="pull-left">
-                    <span class="title">Importação completa da Escola</span><br>
-                    <span class="subtitle">Realize a Importação da Escola, Incluindo Todas as Turmas e Alunos de Cada Turma</span>
+                    <span class="title">Importar Escola e as turmas</span><br>
+                    <span class="subtitle">Realize a Importação da Escola, Incluindo Todas as Turmas</span>
                 </div>
             </button>
         </a>
-
-        -->
 
         <a href="<?php echo Yii::app()->createUrl('sedsp/default/manageRA') ?>">
             <button type="button" class="report-box-container">
