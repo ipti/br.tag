@@ -22,9 +22,13 @@
         width: 100%;
         margin-bottom: 0px;
         resize: none;
-        .icon{
-             font-size: $FontSizeFormLabel;
-        }
     }
+    .show-password-icon {
+        font-size: $FontSizeFormLabel;
+        cursor: pointer;
+        position: relative;
+        margin-left: $SizeXXXXSmall;
+        bottom: 26px;
+   }
 
 }

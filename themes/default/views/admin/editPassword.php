@@ -64,7 +64,7 @@
                                 <div class="column is-two-fifths ">
                                     <div class="t-field-text">
                                         <?php echo $form->labelEx($model, 'password', array('class' => 't-field-text__label--required')); ?>
-                                        <?php echo $form->passwordField($model, 'password', array('size' =>     32, 'maxlength' => 32, 'class' => 't-field-text__input password-input',)); ?>
+                                        <?php echo $form->passwordField($model, 'password', array('size' =>     32, 'maxlength' => 32, 'class' => 't-field-text__input password-input',));?>
                                         <span class="t-icon-eye show-password-icon" id="showPassword"></span>
                                         <?php echo $form->error($model, 'password'); ?>
                                     </div>
@@ -91,11 +91,11 @@
 </div>
 
 <style>
-    .show-password-icon {
+    /* .show-password-icon {
         cursor: pointer;
         font-size: 16px;
         position: relative;
         left: 200px;
         bottom: 26px;
-    }
+    } */
 </style>
