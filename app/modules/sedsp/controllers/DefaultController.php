@@ -317,13 +317,13 @@ class DefaultController extends Controller
 
 			if ($statusSave) {
 				Yii::app()->user->setFlash('success', "O Aluno cadastrado com sucesso.");
-				$this->redirect(array('index'));
 			} else {
 				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
-				$this->redirect(array('index'));
 			}
+
+			$this->redirect(array('index'));
 		} catch (Exception $e) {
-			Yii::app()->user->setFlash('error', "É necessário ter uma escola cadastrada");
+			Yii::app()->user->setFlash('error', "A escola do aluno não está cadastrada no TAG");
 			$this->redirect(array('index'));
 		}
 	}
