@@ -5,13 +5,32 @@ $this->breadcrumbs=array(
 	$this->module->id,
 );
 ?>
-<h1><?php echo $this->uniqueId . '/' . $this->action->id; ?></h1>
+<div class="main">
+	<div class="row">
+		<h1> Merenda </h1>
+	</div>
 
-<p>
-This is the view content for action "<?php echo $this->action->id; ?>".
-The action belongs to the controller "<?php echo get_class($this); ?>"
-in the "<?php echo $this->module->id; ?>" module.
-</p>
-<p>
-You may customize this page by editing <tt><?php echo __FILE__; ?></tt>
-</p>
+	<div class="row margin-large--bottom">
+		<a class="t-button-primary">Preparar Cardápios</a>
+		<a class="t-button-secondary">Estoques</a>
+	</div>
+
+	<div class="row">
+		<div class="t-field-select column is-one-third clearfix">
+			<div class="t-field-select__label">
+				Mostrar turnos
+			</div>
+			<div class="t-field-select__input">
+			
+			<?= CHtml::dropDownList('shift', '',
+			 [
+				'0' => 'Manhã',
+				'1' => 'Tarde',
+				'2' => 'Noite'
+			 ], 
+			 array('multiple' => 'multiple',
+			 'class' => 'select-search-on t-multiselect multiselect')); ?>
+			</div>
+		</div>
+	</div>
+</div>

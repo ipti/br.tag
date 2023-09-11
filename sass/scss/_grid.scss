@@ -17,6 +17,11 @@
     @include device(mobile) {
         flex-direction: row;
     }
+    &.margin-large {
+        &--bottom {
+            margin-bottom: $spaceXLarge / 2;  
+        }
+    }
 }
 
 .mobile-row {
