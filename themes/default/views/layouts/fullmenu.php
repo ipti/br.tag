@@ -293,7 +293,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                     <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=enrollment/reportCard") ? 'active' : '' ?>">
                                         <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('enrollment/reportCard') ?> ">
                                             <span class="t-report_card t-menu-item__icon"></span>
-                                            <span class="t-menu-item__text">Lançamento de notas</span>
+                                            <span class="t-menu-item__text">Lançamento de Notas</span>
                                         </a>
                                     </li>
                                 <?php endif ?>
