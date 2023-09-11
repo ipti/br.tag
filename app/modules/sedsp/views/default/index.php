@@ -218,16 +218,19 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                     </select>
                 </div>
             </div>
-        
+            <div id="loading-container" style="display: none;">
+                <div id="loading" style="">
+                    <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
+                        <div id="loading">
+                            <img class="js-grades-loading" height="40px" width="40px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
+                        </div>
+                        <div class="loading-text">Aguarde enquanto a escola e as classes são importadas...</div>
+                    </div>
+                </div>           
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
                 <button id="loading-popup" class="btn btn-primary" url="<?= Yii::app()->createUrl('sedsp/default/ImportFullSchool'); ?>" type="submit" value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
-                <div id="loading-container" style="display: none;">
-                    <div class="loading-content">
-                        <div class="loading-spinner"></div>
-                        <div class="loading-text">Aguarde enquanto a escola é importada...</div>
-                    </div>
-                </div>
             </div>
         </div>
     </form>
@@ -282,8 +285,6 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
 
 <script>
     document.getElementById("loading-popup").addEventListener("click", function() {
-        // Esconder o botão "Cadastrar"
-        document.getElementById("loading-popup").style.display = "none";
         
         // Mostrar o indicador de carregamento
         document.getElementById("loading-container").style.display = "block";
