@@ -119,9 +119,19 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                     <div id="ra-warning" style="display: none; color:#D21C1C">O RA deve ter exatamente 12 dígitos.</div>
                     </div>
                 </div>
+                <div id="loading-container" style="display: none;">
+                    <div id="loading" style="">
+                        <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
+                            <div id="loading">
+                                <img class="js-grades-loading" height="40px" width="40px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
+                            </div>
+                            <div class="loading-text">Importando aluno usando o RA...</div>
+                        </div>
+                    </div>           
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                    <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('sedsp/default/ImportStudentRA'); ?>" type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
+                    <button id="loading-popup" class="btn btn-primary" url="<?php echo Yii::app()->createUrl('sedsp/default/ImportStudentRA'); ?>" type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
                 </div>
         </form>
     </div>
