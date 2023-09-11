@@ -163,7 +163,10 @@ class ClassroomMapper
     {
         $mapperCodTurno = [
             "1" => 'M', //Manhã
+            "2" => 'M', //Manhã
             "3" => 'T', //Tarde
+            "4" => 'T', //Tarde
+            "5" => 'N', //Noite
             "6" => 'I'  //Integral
         ];
 
@@ -183,6 +186,9 @@ class ClassroomMapper
      */
     private static function convertTipoEnsinoToStage($codTipoEnsino, $codSerieAno){
         $mapperTipoEnsino = [
+            "3" => [
+                "0" => 43
+            ],
             "6" => [
                 "1" => 2,
                 "2" => 2,
