@@ -294,12 +294,12 @@ class DefaultController extends Controller
 			$statusSave = $escola->exec($inConsult);
 
 			if ($statusSave) {
-				Yii::app()->user->setFlash('success', "Escola importada com sucesso.");
-				$this->redirect(array('index'));
+				Yii::app()->user->setFlash('success', "Escola e classes importadas com sucesso.");
 			} else {
 				Yii::app()->user->setFlash('error', "Erro ao importar a escola");
-				$this->redirect(array('index'));
 			}
+
+			$this->redirect(array('index'));
 		} catch (Exception $e) {
 			CVarDumper::dump($e->getMessage(), 10, true);
 		}
