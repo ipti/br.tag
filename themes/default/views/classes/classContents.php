@@ -1,6 +1,6 @@
 <?php
 
-/**  
+/**
  * @var ClassesController $this ClassesController
  * @var CActiveDataProvider $dataProvider CActiveDataProvider
  *
@@ -34,9 +34,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <?php echo Yii::t('default', 'Print') ?>
             </a>
         </div>
-        <a id="save" class='t-button-primary hide'><?php echo Yii::t('default', 'Save') ?></a>
+        <a id="save" class='t-button-primary'><?php echo Yii::t('default', 'Save') ?></a>
     </div>
-    <table class="table table-bordered table-striped ">
+    <table class="table table-bordered table-striped visible-print">
         <tr>
             <th>Escola:</th>
             <td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>
@@ -60,7 +60,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             ?></td>
         <tr>
     </table>
-    <table class="table table-bordered table-striped" summary="Tabela de filtros">
+    <table class="table table-bordered table-striped visible-print" summary="Tabela de filtros">
         <tr>
             <th>Turma:</th>
             <td colspan="1" id="disciplinesValue"></td>
@@ -220,7 +220,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         .tablet-row{
             display: none;
         }
-    }   
+    }
 
 
 </style>
