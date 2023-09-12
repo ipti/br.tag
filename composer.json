@@ -13,9 +13,11 @@
         "codeception/codeception": "^4.2",
         "codeception/module-phpbrowser": "^1.0.0",
         "codeception/module-asserts": "^1.0.0",
-        "codeception/module-webdriver": "^1.4"
+        "codeception/module-webdriver": "^1.4",
+        "phpunit/php-code-coverage": "^7.0"
     },
     "scripts": {
-        "mess": "./vendor/bin/phpmd"
+        "mess": "./vendor/bin/phpmd",
+        "test" : "./vendor/bin/codecept run acceptance --steps"
     }
 }

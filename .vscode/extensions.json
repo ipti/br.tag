@@ -6,6 +6,7 @@
         "eamodio.gitlens",
         "DEVSENSE.composer-php-vscode",
         "xdebug.php-debug",
-        "ecodes.vscode-phpmd"
+        "ecodes.vscode-phpmd",
+        "EditorConfig.EditorConfig"
     ]
 }
