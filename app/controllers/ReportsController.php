@@ -52,7 +52,7 @@ class ReportsController extends Controller
     public function actionTotalNumberOfStudentsEnrolled()
     {
         $schools = SchoolIdentification::model()->findAll();
-        $classrooms = Classroom::model()->findAll();
+        $classrooms = Classroom::model()->findAllByAttributes(array("school_year" => Yii::app()->user->year));
         $enrollments = StudentEnrollment::model()->findAll();
 
         $result = array();
@@ -63,7 +63,7 @@ class ReportsController extends Controller
                 return $class->school_inep_fk == $school->inep_id;
             }));
             $count_enrollments = count(array_filter($enrollments, function ($e) use ($school) {
-                return $e->classroomFk->school_inep_fk == $school->inep_id;
+                return $e->classroomFk->school_inep_fk == $school->inep_id && $e->classroomFk->school_year == Yii::app()->user->year;
             }));
 
             array_push($result, [
