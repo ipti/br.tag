@@ -286,38 +286,95 @@ class DefaultController extends Controller
 		echo $msg;
 	}
 
+	public function actionImportFullSchool()
+	{
+		$this->checkSEDToken();
+		try {
+			$inConsult = new InEscola($_POST["schoolName"], null, null, null);
+			$escola = new GetEscolasFromSEDUseCase();
+			
+			$statusSave = $escola->exec($inConsult);
+			if($statusSave){
+				Yii::app()->user->setFlash('success', "Escola importada com sucesso.");
+				$this->redirect(array('index'));
+			}else{
+				Yii::app()->user->setFlash('error', "Erro ao importar a escola");
+				$this->redirect(array('index'));
+			}
+		} catch (Exception $e) {
+			CVarDumper::dump($e->getMessage(), 10, true);
+		}			
+	}
+
+	public function actionImportStudentRA()
+	{
+		$this->checkSEDToken();
+
+		try {
+			$inAluno = new InAluno($_POST["numRA"], null, "SP");
+			$exibirFicha = new GetExibirFichaAlunoFromSEDUseCase();
+
+			$statusSave = $exibirFicha->exec($inAluno);
+
+			if($statusSave){
+				Yii::app()->user->setFlash('success', "O Aluno cadastrado com sucesso.");
+				$this->redirect(array('index'));
+			}else{
+				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
+				$this->redirect(array('index'));
+			}
+		} catch (Exception $e) {
+			Yii::app()->user->setFlash('error', "É necessário ter uma escola cadastrada");
+			$this->redirect(array('index'));
+		}	
+	}
+
 	function actionTest()
 	{
 
-		$opt = 15;
+		$opt = 13;
 		switch ($opt) {
 
+			//Realiza o cadastro de um aluno da sedsp no TAG.
 			case 1:
 				$inAluno = new InAluno("000124661430", '3', "SP");
-				$dataSource = new StudentSEDDataSource();
-				$dataSource->exibirFichaAluno($inAluno);
-				CVarDumper::dump($dataSource->exibirFichaAluno($inAluno), 10, true);
+				$exibirFicha = new GetExibirFichaAlunoFromSEDUseCase();
+				$exibirFicha->exec($inAluno);
 				break;
 
-
+/* 			//Realiza o cadastro da turma juntamente com seus alunos da sedsp no TAG.
 			case 2:
-				$inClassroom = new InFormacaoClasse("262429087");
-				$dataSource = new ClassStudentsRelationSEDDataSource();
-				CVarDumper::dump($dataSource->getClassroom($inClassroom), 10, true);
-				break;
+				$inNumClasse = new InFormacaoClasse("262429087");
+				$formacaoClasseSEDUseCase = new GetFormacaoClasseFromSEDUseCase();
+				$formacaoClasseSEDUseCase->exec($inNumClasse);
+				break; */
+
+			//Realiza o cadastro da Escola da sedsp no TAG.
+			case 13:
+				$transaction = Yii::app()->db->beginTransaction();
+				try {
+					$inConsult = new InEscola("IDALINA GRACA EMEI", null, null, null);
+					$escola = new GetEscolasFromSEDUseCase();
+					$escola->exec($inConsult);
+					#$transaction->commit();
+					break;
+				} catch (Exception $e) {
+					CVarDumper::dump($e->getMessage(), 10, true);
+					$transaction->rollback();
+				}
+
+			//Realiza o cadastro da matrícula do aluno da sedsp no TAG.
+			case 4:
+				$inConsult = new InAluno("000124464761", "5", "SP");
+				$matricula = new GetListarMatriculasRaFromSEDUseCase();
+				$matricula->exec($inConsult);
+				break;	
 
 
 			case 3:
 				$inConsult = new InConsultaTurmaClasse("2022", "262429087");
-				$dataSource = new ClassroomSEDDataSource();
-				CVarDumper::dump($dataSource->getConsultClass($inConsult), 10, true);
-				break;
-
-
-			case 4:
-				$inConsult = new InAluno("000124464761", "5", "SP");
-				$dataSource = new EnrollmentSEDDataSource();
-				CVarDumper::dump($dataSource->getListarMatriculasRA($inConsult), 10, true);
+				$ConsultaTurmaClasse = new GetConsultaTurmaClasseSEDUseCase();
+				CVarDumper::dump($ConsultaTurmaClasse->exec($inConsult), 10, true);
 				break;
 
 
@@ -460,12 +517,7 @@ class DefaultController extends Controller
 				$dataSource = new EnrollmentSEDDataSource();
 				CVarDumper::dump($dataSource->addInscreverAluno($inConsult), 10, true);
 				break;
-			
-			case 13:
-				$inConsult = new InEscola("ALBA REGINA TORRAQUE DA SILVA PROFESSORA EMEI", null, null, null);
-				$dataSource = new SchoolSEDDataSource();
-				CVarDumper::dump($dataSource->getSchool($inConsult), 10, true);
-				break;
+		
 
 			case 14:
 				$inConsult = new InMatricularAluno(

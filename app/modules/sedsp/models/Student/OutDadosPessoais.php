@@ -6,23 +6,24 @@ class OutDadosPessoais
 	public $outDigitoRA;
 	public $outSiglaUFRA;
 	public $outNomeAluno;
-	public $outDataNascimento;
-	public $outCorRaca;
-	public $outDescCorRaca;
-	public $outSexo;
 	public $outNomeMae;
 	public $outNomePai;
 	public $outNomeSocial;
 	public $outNomeAfetivo;
+	public $outDataNascimento;
+	public $outCorRaca;
+	public $outDescCorRaca;
+	public $outCodSexo;
+	public $outSexo;
 	public $outEmail;
 	public $outNacionalidade;
 	public $outDescNacionalidade;
-	public $outDataEntradaPais;
 	public $outCodPaisOrigem;
 	public $outNomePaisOrigem;
+	public $outDataEntradaPais;
 	public $outCodBolsaFamilia;
 	public $outPossuiInternet;
-	public $outPossuiNotebookSmartphoneTablet ;
+	public $outPossuiNotebookSmartphoneTablet;
 	public $outBolsaFamilia;
 	public $outQuilombola;
 	public $outTipoSanguineo;
@@ -31,26 +32,29 @@ class OutDadosPessoais
 	public $outNomeMunNascto;
 	public $outUFMunNascto;
 	public $outCodMunNasctoDNE;
+	public $outAlunoFalecido;
+	public $outDataFalecimento;
 
 	public function __construct(
 		?string $outNumRA,
 		?string $outDigitoRA,
 		?string $outSiglaUFRA,
 		?string $outNomeAluno,
-		?string $outDataNascimento,
-		?string $outCorRaca,
-		?string $outDescCorRaca,
-		?string $outSexo,
 		?string $outNomeMae,
 		?string $outNomePai,
 		?string $outNomeSocial,
 		?string $outNomeAfetivo,
+		?string $outDataNascimento,
+		?string $outCorRaca,
+		?string $outDescCorRaca,
+		?string $outCodSexo,
+		?string $outSexo,
 		?string $outEmail,
 		?string $outNacionalidade,
 		?string $outDescNacionalidade,
-		?string $outDataEntradaPais,
 		?string $outCodPaisOrigem,
 		?string $outNomePaisOrigem,
+		?string $outDataEntradaPais,
 		?string $outCodBolsaFamilia,
 		?string $outPossuiInternet,
 		?string $outPossuiNotebookSmartphoneTablet,
@@ -61,29 +65,32 @@ class OutDadosPessoais
 		?string $outNumeroCNS,
 		?string $outNomeMunNascto,
 		?string $outUFMunNascto,
-		?string $outCodMunNasctoDNE
+		?string $outCodMunNasctoDNE,
+		?string $outAlunoFalecido,
+		?string $outDataFalecimento
 	) {
 		$this->outNumRA = $outNumRA;
 		$this->outDigitoRA = $outDigitoRA;
 		$this->outSiglaUFRA = $outSiglaUFRA;
 		$this->outNomeAluno = $outNomeAluno;
-		$this->outDataNascimento = $outDataNascimento;
-		$this->outCorRaca = $outCorRaca;
-		$this->outDescCorRaca = $outDescCorRaca;
-		$this->outSexo = $outSexo;
 		$this->outNomeMae = $outNomeMae;
 		$this->outNomePai = $outNomePai;
 		$this->outNomeSocial = $outNomeSocial;
 		$this->outNomeAfetivo = $outNomeAfetivo;
+		$this->outDataNascimento = $outDataNascimento;
+		$this->outCorRaca = $outCorRaca;
+		$this->outDescCorRaca = $outDescCorRaca;
+		$this->outCodSexo = $outCodSexo;
+		$this->outSexo = $outSexo;
 		$this->outEmail = $outEmail;
 		$this->outNacionalidade = $outNacionalidade;
 		$this->outDescNacionalidade = $outDescNacionalidade;
-		$this->outDataEntradaPais = $outDataEntradaPais;
 		$this->outCodPaisOrigem = $outCodPaisOrigem;
 		$this->outNomePaisOrigem = $outNomePaisOrigem;
+		$this->outDataEntradaPais = $outDataEntradaPais;
 		$this->outCodBolsaFamilia = $outCodBolsaFamilia;
 		$this->outPossuiInternet = $outPossuiInternet;
-		$this-> outPossuiNotebookSmartphoneTablet  = $outPossuiNotebookSmartphoneTablet ;
+		$this->outPossuiNotebookSmartphoneTablet = $outPossuiNotebookSmartphoneTablet;
 		$this->outBolsaFamilia = $outBolsaFamilia;
 		$this->outQuilombola = $outQuilombola;
 		$this->outTipoSanguineo = $outTipoSanguineo;
@@ -92,6 +99,8 @@ class OutDadosPessoais
 		$this->outNomeMunNascto = $outNomeMunNascto;
 		$this->outUFMunNascto = $outUFMunNascto;
 		$this->outCodMunNasctoDNE = $outCodMunNasctoDNE;
+		$this->outAlunoFalecido = $outAlunoFalecido;
+		$this->outDataFalecimento = $outDataFalecimento;
 	}
 
 	public function getOutNumRa(): ?string
@@ -114,26 +123,6 @@ class OutDadosPessoais
 		return $this->outNomeAluno;
 	}
 
-	public function getOutDataNascimento(): ?string
-	{
-		return $this->outDataNascimento;
-	}
-
-	public function getOutCorRaca(): ?string
-	{
-		return $this->outCorRaca;
-	}
-
-	public function getOutDescCorRaca(): ?string
-	{
-		return $this->outDescCorRaca;
-	}
-
-	public function getOutSexo(): ?string
-	{
-		return $this->outSexo;
-	}
-
 	public function getOutNomeMae(): ?string
 	{
 		return $this->outNomeMae;
@@ -154,6 +143,31 @@ class OutDadosPessoais
 		return $this->outNomeAfetivo;
 	}
 
+	public function getOutDataNascimento(): ?string
+	{
+		return $this->outDataNascimento;
+	}
+
+	public function getOutCorRaca(): ?string
+	{
+		return $this->outCorRaca;
+	}
+
+	public function getOutDescCorRaca(): ?string
+	{
+		return $this->outDescCorRaca;
+	}
+
+	public function getOutCodSexo(): ?string
+	{
+		return $this->outCodSexo;
+	}
+
+	public function getOutSexo(): ?string
+	{
+		return $this->outSexo;
+	}
+
 	public function getOutEmail(): ?string
 	{
 		return $this->outEmail;
@@ -169,11 +183,6 @@ class OutDadosPessoais
 		return $this->outDescNacionalidade;
 	}
 
-	public function getOutDataEntradaPais(): ?string
-	{
-		return $this->outDataEntradaPais;
-	}
-
 	public function getOutCodPaisOrigem(): ?string
 	{
 		return $this->outCodPaisOrigem;
@@ -182,6 +191,11 @@ class OutDadosPessoais
 	public function getOutNomePaisOrigem(): ?string
 	{
 		return $this->outNomePaisOrigem;
+	}
+
+	public function getOutDataEntradaPais(): ?string
+	{
+		return $this->outDataEntradaPais;
 	}
 
 	public function getOutCodBolsaFamilia(): ?string
@@ -196,7 +210,7 @@ class OutDadosPessoais
 
 	public function getOutPossuiNotebookSmartphoneTablet(): ?string
 	{
-		return $this-> outPossuiNotebookSmartphoneTablet ;
+		return $this->outPossuiNotebookSmartphoneTablet;
 	}
 
 	public function getOutBolsaFamilia(): ?string
@@ -239,6 +253,16 @@ class OutDadosPessoais
 		return $this->outCodMunNasctoDNE;
 	}
 
+	public function getOutAlunoFalecido(): ?string
+	{
+		return $this->outAlunoFalecido;
+	}
+
+	public function getOutDataFalecimento(): ?string
+	{
+		return $this->outDataFalecimento;
+	}
+
 	public function setOutNumRa(?string $outNumRA): self
 	{
 		$this->outNumRA = $outNumRA;
@@ -260,30 +284,6 @@ class OutDadosPessoais
 	public function setOutNomeAluno(?string $outNomeAluno): self
 	{
 		$this->outNomeAluno = $outNomeAluno;
-		return $this;
-	}
-
-	public function setOutDataNascimento(?string $outDataNascimento): self
-	{
-		$this->outDataNascimento = $outDataNascimento;
-		return $this;
-	}
-
-	public function setOutCorRaca(?string $outCorRaca): self
-	{
-		$this->outCorRaca = $outCorRaca;
-		return $this;
-	}
-
-	public function setOutDescCorRaca(?string $outDescCorRaca): self
-	{
-		$this->outDescCorRaca = $outDescCorRaca;
-		return $this;
-	}
-
-	public function setOutSexo(?string $outSexo): self
-	{
-		$this->outSexo = $outSexo;
 		return $this;
 	}
 
@@ -311,6 +311,36 @@ class OutDadosPessoais
 		return $this;
 	}
 
+	public function setOutDataNascimento(?string $outDataNascimento): self
+	{
+		$this->outDataNascimento = $outDataNascimento;
+		return $this;
+	}
+
+	public function setOutCorRaca(?string $outCorRaca): self
+	{
+		$this->outCorRaca = $outCorRaca;
+		return $this;
+	}
+
+	public function setOutDescCorRaca(?string $outDescCorRaca): self
+	{
+		$this->outDescCorRaca = $outDescCorRaca;
+		return $this;
+	}
+
+	public function setOutCodSexo(?string $outCodSexo): self
+	{
+		$this->outCodSexo = $outCodSexo;
+		return $this;
+	}
+
+	public function setOutSexo(?string $outSexo): self
+	{
+		$this->outSexo = $outSexo;
+		return $this;
+	}
+
 	public function setOutEmail(?string $outEmail): self
 	{
 		$this->outEmail = $outEmail;
@@ -329,12 +359,6 @@ class OutDadosPessoais
 		return $this;
 	}
 
-	public function setOutDataEntradaPais(?string $outDataEntradaPais): self
-	{
-		$this->outDataEntradaPais = $outDataEntradaPais;
-		return $this;
-	}
-
 	public function setOutCodPaisOrigem(?string $outCodPaisOrigem): self
 	{
 		$this->outCodPaisOrigem = $outCodPaisOrigem;
@@ -344,6 +368,12 @@ class OutDadosPessoais
 	public function setOutNomePaisOrigem(?string $outNomePaisOrigem): self
 	{
 		$this->outNomePaisOrigem = $outNomePaisOrigem;
+		return $this;
+	}
+
+	public function setOutDataEntradaPais(?string $outDataEntradaPais): self
+	{
+		$this->outDataEntradaPais = $outDataEntradaPais;
 		return $this;
 	}
 
@@ -359,9 +389,9 @@ class OutDadosPessoais
 		return $this;
 	}
 
-	public function setOutPossuiNotebookSmartphoneTablet(?string $outPossuiNotebookSmartphoneTablet ): self
+	public function setOutPossuiNotebookSmartphoneTablet(?string $outPossuiNotebookSmartphoneTablet): self
 	{
-		$this-> outPossuiNotebookSmartphoneTablet  = $outPossuiNotebookSmartphoneTablet ;
+		$this->outPossuiNotebookSmartphoneTablet = $outPossuiNotebookSmartphoneTablet;
 		return $this;
 	}
 
@@ -413,6 +443,18 @@ class OutDadosPessoais
 		return $this;
 	}
 
+	public function setOutAlunoFalecido(?string $outAlunoFalecido): self
+	{
+		$this->outAlunoFalecido = $outAlunoFalecido;
+		return $this;
+	}
+
+	public function setOutDataFalecimento(?string $outDataFalecimento): self
+	{
+		$this->outDataFalecimento = $outDataFalecimento;
+		return $this;
+	}
+
 	public static function fromJson(array $data): self
 	{
 		return new self(
@@ -420,20 +462,21 @@ class OutDadosPessoais
 			$data['outDigitoRA'] ?? null,
 			$data['outSiglaUFRA'] ?? null,
 			$data['outNomeAluno'] ?? null,
-			$data['outDataNascimento'] ?? null,
-			$data['outCorRaca'] ?? null,
-			$data['outDescCorRaca'] ?? null,
-			$data['outSexo'] ?? null,
 			$data['outNomeMae'] ?? null,
 			$data['outNomePai'] ?? null,
 			$data['outNomeSocial'] ?? null,
 			$data['outNomeAfetivo'] ?? null,
+			$data['outDataNascimento'] ?? null,
+			$data['outCorRaca'] ?? null,
+			$data['outDescCorRaca'] ?? null,
+			$data['outCodSexo'] ?? null,
+			$data['outSexo'] ?? null,
 			$data['outEmail'] ?? null,
 			$data['outNacionalidade'] ?? null,
 			$data['outDescNacionalidade'] ?? null,
-			$data['outDataEntradaPais'] ?? null,
 			$data['outCodPaisOrigem'] ?? null,
 			$data['outNomePaisOrigem'] ?? null,
+			$data['outDataEntradaPais'] ?? null,
 			$data['outCodBolsaFamilia'] ?? null,
 			$data['outPossuiInternet'] ?? null,
 			$data['outPossuiNotebookSmartphoneTablet'] ?? null,
@@ -444,7 +487,9 @@ class OutDadosPessoais
 			$data['outNumeroCNS'] ?? null,
 			$data['outNomeMunNascto'] ?? null,
 			$data['outUFMunNascto'] ?? null,
-			$data['outCodMunNasctoDNE'] ?? null
+			$data['outCodMunNasctoDNE'] ?? null,
+			$data['outAlunoFalecido'] ?? null,
+			$data['outDataFalecimento'] ?? null
 		);
 	}
 }

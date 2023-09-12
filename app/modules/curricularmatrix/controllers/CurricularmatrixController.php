@@ -51,21 +51,24 @@ class CurricularmatrixController extends Controller
         $stages = $_POST['stages'];
         $disciplines = $_POST['disciplines'];
         $workload = $_POST['workload'];
-        $credits = $_POST['credits'];
-        // var_dump($stages, $disciplines, $workload, $credits);
+        $credits = $_POST['credits'];        
         if ($stages !== "" && $disciplines !== "" && $workload !== "" && $credits !== "") {
             foreach ($stages as $stage) {
                 foreach ($disciplines as $discipline) {
-                    $matrix = CurricularMatrix::model()->find("stage_fk = :stage and discipline_fk = :discipline and school_year = :year", [
-                        ":stage" => $stage, ":discipline" => $discipline, ":year" => Yii::app()->user->year
-                    ]);
-                    $logSituation = "U";
-                    
-                    if ($matrix == NULL) {
+                    $matrix = CurricularMatrix::model()->find(
+                        "stage_fk = :stage and discipline_fk = :discipline and school_year = :year",
+                        [
+                            ":stage" => $stage, ":discipline" => $discipline, ":year" => Yii::app()->user->year
+                        ]
+                    );
+                    $logSituation = "U";                    
+                    if ($matrix == null) {
                         $matrix = new CurricularMatrix();
-                        $matrix->setAttributes([
-                            "stage_fk" => $stage, "discipline_fk" => $discipline, "school_year" => Yii::app()->user->year
-                        ]);
+                        $matrix->setAttributes(
+                            [
+                              "stage_fk" => $stage, "discipline_fk" => $discipline, "school_year" => Yii::app()->user->year
+                            ]
+                        );
                         $logSituation = "C";
                     }
                     $matrix->setAttributes([
@@ -79,7 +82,7 @@ class CurricularmatrixController extends Controller
 
                     if($result){
                         Log::model()->saveAction("curricular_matrix", $stage . "|" . $discipline, $logSituation, $stageName . "|" . $disciplineName);
-                    }                    
+                    } 
                 }
             }
             echo json_encode(["valid" => true, "message" => "Matriz inserida com sucesso!"]);

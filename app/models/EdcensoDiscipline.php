@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'edcenso_discipline':
  * @property integer $id
  * @property string $name
+ * @property string $abbreviation
  * @property integer $edcenso_base_discipline_fk
  *
  * The followings are the available model relations:
@@ -42,9 +43,10 @@ class EdcensoDiscipline extends CActiveRecord
 			array('name, edcenso_base_discipline_fk', 'required'),
 			array('edcenso_base_discipline_fk', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>200),
+			array('abbreviation', 'length', 'max'=>15),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, edcenso_base_discipline_fk', 'safe', 'on'=>'search'),
+			array('id, name, edcenso_base_discipline_fk, abbreviation', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -79,6 +81,7 @@ class EdcensoDiscipline extends CActiveRecord
 			'id' => 'ID',
 			'name' => Yii::t('default', 'Discipline'),
 			'edcenso_base_discipline_fk' => 'Componente no EducaCenso',
+			'abbreviation' => 'Abreviação do componente curricular/eixo',
 		);
 	}
 
@@ -103,6 +106,7 @@ class EdcensoDiscipline extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('edcenso_base_discipline_fk',$this->edcenso_base_discipline_fk);
+		$criteria->compare('abbreviation',$this->abbreviation, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

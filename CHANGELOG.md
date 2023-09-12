@@ -1,5 +1,28 @@
 # Atualizações
 
+## [Versão 3.54.90]
+- Corrigido o alinhamento e a responsividade dos campos do formulário de escola
+
+## [Versão 3.54.89]
+- Permitindo que alunos com nacionalidade  estrangeira possam adicionar informações no campo de cpf
+ e documentos no formulário de adicionar aluno
+
+## [Versão 3.54.88]
+- Retirado botão da aba de 'Ordem no Diario' adicionado icones na lista de alunos na mesma aba 
+
+## [Versão 3.54.87]
+- Corrigido a permissão para o cancelamento da matrícula do aluno
+
+## [Versão 3.54.86]
+- Adicionar o campo abreviação em componentes curriculares
+- Adicionar rolagem em carga horária em quadro de horário
+
+## [Versão 3.53.86]
+- Adicionando Associação de Usuários de professores com Registros de Professor
+
+## [Versão 3.53.85]
+- Corrigido o erro que não permitia replicar alterações para todas as semanas subsequentes em quadro de horário
+
 ## [Versão 3.53.84]
 - Alterado filtros em frequência
 
