@@ -51,27 +51,24 @@ class ReportsController extends Controller
 
     public function actionTotalNumberOfStudentsEnrolled()
     {
-        $schools = SchoolIdentification::model()->findAll();
-        $classrooms = Classroom::model()->findAllByAttributes(array("school_year" => Yii::app()->user->year));
-        $enrollments = StudentEnrollment::model()->findAll();
+        $sql = "SELECT
+                    si.name AS school_name,
+                    COUNT(DISTINCT c.id) AS count_class,
+                    COUNT(se.id) AS count_enrollments
+                FROM
+                    school_identification si
+                LEFT JOIN
+                    classroom c ON c.school_inep_fk = si.inep_id
+                LEFT JOIN
+                    student_enrollment se ON se.classroom_fk = c.id
+                WHERE 
+                    c.school_year = :school_year
+                GROUP BY
+                    si.inep_id, si.name;";
 
-        $result = array();
-
-        foreach ($schools as $school) {
-            $school_name = $school->name;
-            $count_class = count(array_filter($classrooms, function ($class) use ($school) {
-                return $class->school_inep_fk == $school->inep_id;
-            }));
-            $count_enrollments = count(array_filter($enrollments, function ($e) use ($school) {
-                return $e->classroomFk->school_inep_fk == $school->inep_id && $e->classroomFk->school_year == Yii::app()->user->year;
-            }));
-
-            array_push($result, [
-                "school_name" => $school_name,
-                "count_class" => $count_class,
-                "count_enrollments" => $count_enrollments
-            ]);
-        }
+        $result = Yii::app()->db->createCommand($sql)
+        ->bindParam(":school_year", Yii::app()->user->year)
+        ->queryAll();
 
         $this->render('TotalNumberOfStudentsEnrolled', array("report" => $result));
     }
