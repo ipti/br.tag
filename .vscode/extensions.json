@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "DEVSENSE.intelli-php-vscode",
+        "DEVSENSE.phptools-vscode",
+        "SonarSource.sonarlint-vscode",
+        "eamodio.gitlens",
+        "DEVSENSE.composer-php-vscode",
+        "xdebug.php-debug",
+        "ecodes.vscode-phpmd"
+    ]
+}
