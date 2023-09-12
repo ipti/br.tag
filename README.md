@@ -1,16 +1,21 @@
-#Tecnologia de Apoio à Gestão
-> Vídeo explicativo sobre o TAG disponível no Vimeo.
-[![Video Demonstração](https://i.vimeocdn.com/video/485190104.webp?mw=960&mh=540)](https://vimeo.com/103056664)
+<!-- [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/ipti/br.tag/blame/dev/LICENSE) -->
+![php version 7.4](https://badgen.net/badge/PHP/7.4?icon=php&color=7a86b8)
+[![Yii1.1](https://img.shields.io/badge/Powered_by-Yii_Framework-green.svg?style=flat)](https://www.yiiframework.com/)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ipti_br.tag&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ipti_br.tag)
 
-###### O TAG (Tecnologia de Apoio à Gestão) é uma tecnologia social baseada em um software de gestão gratuito e opensource –código aberto para que qualquer pessoa possa modificar e adaptar.  Desenvolvido inicialmente pelo IPTI em parceria com a Prefeitura Municipal de Santa Luzia do Itanhy/SE essa tecnologia social atende à realidade de escolas de educação básica, com ênfase em escolas de áreas rurais. 
-###### Utilizando recursos como: sincronização de dados em escolas sem internet, software aberto, reaplicação entre as escolas e processo participativo continuo que envolve atores locais; essa tecnologia social visa democratizar o acesso a sistemas de gestão, que hoje só estão presentes em 30% das 250 mil escolas brasileiras.
+# Tecnologia de Apoio à Gestão
+[![Video Demonstração](https://i.vimeocdn.com/video/485190104-b6a88518e5c4fc2b7357c7db2893a7c8b52cbbe6d37231253bf9d3ac1eec1beb-d_640)](https://vimeo.com/103056664)
+
+ O TAG (Tecnologia de Apoio à Gestão) é uma tecnologia social baseada em um software de gestão gratuito e opensource –código aberto para que qualquer pessoa possa modificar e adaptar.  Desenvolvido inicialmente pelo IPTI em parceria com a Prefeitura Municipal de Santa Luzia do Itanhy/SE essa tecnologia social atende à realidade de escolas de educação básica, com ênfase em escolas de áreas rurais. 
+
+ Utilizando recursos como: sincronização de dados em escolas sem internet, software aberto, reaplicação entre as escolas e processo participativo continuo que envolve atores locais; essa tecnologia social visa democratizar o acesso a sistemas de gestão, que hoje só estão presentes em 30% das 250 mil escolas brasileiras.
 ***
-#### Pré-Requisitos
+## Pré-Requisitos
 * PHP >= 5.4.9
 * MariaDB >= 10.5.5.34
 
 ***
-#### Licença
+## Licença
 The BSD-3-Clause
 
 Copyright (c) 2011, Instituto de Pesquisas em Tecnologia e Inovação(IPTI).
