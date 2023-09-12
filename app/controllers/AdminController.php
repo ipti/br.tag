@@ -355,7 +355,45 @@ class AdminController extends Controller
         }
     }
 
-    public function actionEditPassword($id)
+    public function actionDeleteUser($id)
+    {
+        // Query para buscar os registros relacionados ao ID no banco
+        $user = Users::model()->findByPk($id);
+        $user_school = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
+        $auth_assign = AuthAssignment::model()->findByAttributes(array('userid' => $id));
+        $instructor_identification = InstructorIdentification::model()->findByAttributes(array('users_fk' => $id));
+
+        if($user !== null){
+
+            // Atualizando a coluna que referência ao usuário na tabela de identificação de professor
+            // A função save abstrai o processo de identificar se está ocorrendo um UPDATE ou INSERT
+            if($instructor_identification !== null){
+                $instructor_identification->users_fk = null;
+                $instructor_identification->save();
+            }
+    
+            // Excluindo o registro na tabela que representa o cargo de um profissional cadastrado
+            if($auth_assign !== null){
+                $auth_assign->delete('auth_assignment','userid =' .$id);
+            }
+            
+            // Excluindo o registro na tabela que representa o acesso às escolas do usuário
+            if($user_school !== null){
+            foreach($user_school as $register){
+                $register->delete('users_school', 'user_fk='. $id);
+                }
+            }
+
+            // Excluindo o registro na tabela de usuário
+            $user->delete('users', 'id='.$id);
+        }
+
+        // Redirecionando para a tela de gerenciar usuários
+        $this->redirect(array('admin/manageUsers'));
+    }
+
+    public
+    function actionEditPassword($id)
     {
         $model = Users::model()->findByPk($id);
 
