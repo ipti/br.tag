@@ -64,14 +64,20 @@
                                 <div class="column is-two-fifths ">
                                     <div class="t-field-text">
                                         <?php echo $form->labelEx($model, 'password', array('class' => 't-field-text__label--required')); ?>
-                                        <?php echo $form->passwordField($model, 'password', array('size' =>     32, 'maxlength' => 32, 'class' => 't-field-text__input password-input',));?>
-                                        <span class="t-icon-eye show-password-icon" id="showPassword"></span>
+                                        <div>
+                                            <span class="t-icon-eye show-password-icon" id="showPassword"></span>
+                                            <?php echo $form->passwordField($model, 'password', array('size' =>     32, 'maxlength' => 32, 'class' => 't-field-text__input password-input',)); ?>
+
+                                        </div>
                                         <?php echo $form->error($model, 'password'); ?>
                                     </div>
                                     <div class="t-field-text">
                                         <?php echo CHtml::label(Yii::t('default', 'Confirm'), 'Confirm', array('class' => 't-field-text__label--required')); ?>
-                                        <?php echo CHtml::passwordField('Confirm', '', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input password-input',)); ?>
-                                        <span class="t-icon-eye show-password-icon" id="showPasswordConfirm"></span>
+                                        <div style="padding-right: 27px;">
+                                            <span class="t-icon-eye show-password-icon" id="showPasswordConfirm"></span>
+                                            <?php echo CHtml::passwordField('Confirm', '', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input password-input',)); ?>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -89,13 +95,3 @@
     </script>
 
 </div>
-
-<style>
-    /* .show-password-icon {
-        cursor: pointer;
-        font-size: 16px;
-        position: relative;
-        left: 200px;
-        bottom: 26px;
-    } */
-</style>
