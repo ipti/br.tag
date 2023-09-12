@@ -49,6 +49,33 @@ class ReportsController extends Controller
         return true;
     }
 
+    public function actionTotalNumberOfStudentsEnrolled()
+    {
+        $schools = SchoolIdentification::model()->findAll();
+        $classrooms = Classroom::model()->findAll();
+        $enrollments = StudentEnrollment::model()->findAll();
+
+        $result = array();
+
+        foreach ($schools as $school) {
+            $school_name = $school->name;
+            $count_class = count(array_filter($classrooms, function ($class) use ($school) {
+                return $class->school_inep_fk == $school->inep_id;
+            }));
+            $count_enrollments = count(array_filter($enrollments, function ($e) use ($school) {
+                return $e->classroomFk->school_inep_fk == $school->inep_id;
+            }));
+
+            array_push($result, [
+                "school_name" => $school_name,
+                "count_class" => $count_class,
+                "count_enrollments" => $count_enrollments
+            ]);
+        }
+
+        $this->render('TotalNumberOfStudentsEnrolled', array("report" => $result));
+    }
+
     public function actionStudentCpfRgNisAllSchools()
     {
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
