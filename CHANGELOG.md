@@ -1,5 +1,8 @@
 # Atualizações
 
+## [Versão 3.55.89]
+- Adicionar botão de excluir usuário em gerenciar usuários
+
 ## [Versão 3.54.89]
 - Permitindo que alunos com nacionalidade  estrangeira possam adicionar informações no campo de cpf
  e documentos no formulário de adicionar aluno
