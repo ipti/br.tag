@@ -31,33 +31,22 @@ select[multiple]  {
 input[type="number"] {
     margin: 0px ;
 }
-// select,
-// select[multiple],
-// textarea,
-// input[type="text"],
-// input[type="password"],
-// input[type="datetime"],
-// input[type="datetime-local"],
-// input[type="date"],
-// input[type="month"],
-// input[type="time"],
-// input[type="week"],
-// input[type="number"],
-// input[type="email"],
-// input[type="url"],
-// input[type="search"],
-// input[type="tel"],
-// input[type="color"] {
-//     display: inline-block;
-//     height: auto;
-//     width: 100%;
-//     margin-bottom: 0px;
-//     padding: $spaceXSmall;
-//     font-size: $FontSizeTextNormal;
-//     line-height: $lineHeightTextNormal;
-//     color: #555;
-//     -webkit-border-radius: $borderRadiusNormal;
-//     -moz-border-radius: $borderRadiusNormal;
-//     border-radius: $borderRadiusNormal;
-//     vertical-align: middle;
-// }
+select,
+select[multiple],
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"] {
+    min-height: 30px;
+}

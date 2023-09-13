@@ -1,9 +1,5 @@
 <?php
 
-Yii::import('application.modules.sedsp.datasources.sed.*');
-Yii::import('application.modules.sedsp.datasources.tag.*');
-Yii::import('application.modules.sedsp.models.*');
-
 /**
  * @property StudentTAGDataSource $studentTAGDataSource
  * @property StudentSEDDataSource $studentSEDDataSource

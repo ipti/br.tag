@@ -1,5 +1,41 @@
 # Atualizações
 
+## [Versão 3.54.89]
+- Permitindo que alunos com nacionalidade  estrangeira possam adicionar informações no campo de cpf
+ e documentos no formulário de adicionar aluno
+
+## [Versão 3.54.88]
+- Retirado botão da aba de 'Ordem no Diario' adicionado icones na lista de alunos na mesma aba 
+
+## [Versão 3.54.87]
+- Corrigido a permissão para o cancelamento da matrícula do aluno
+
+## [Versão 3.54.86]
+- Adicionar o campo abreviação em componentes curriculares
+- Adicionar rolagem em carga horária em quadro de horário
+
+## [Versão 3.53.86]
+- Adicionando Associação de Usuários de professores com Registros de Professor
+
+## [Versão 3.53.85]
+- Corrigido o erro que não permitia replicar alterações para todas as semanas subsequentes em quadro de horário
+
+## [Versão 3.53.84]
+- Alterado filtros em frequência
+
+## [Versão 3.53.83]
+- Quantidade de Alunos Matrículados por Período por Turma
+- Quantidade de Alunos Matrículados por Período na Escola
+- Quantidade de Alunos Matrículados por Período de todas as Escolas
+
+## [Versão 3.50.83]
+- Quantidade de Turmas por Escola
+
+## [Versão 3.49.82]
+- Relatório de CPF, RG e NIS do Alunos por Turma
+- Relatório de CPF, RG e NIS do Alunos por Escola
+- Relatório de CPF, RG e NIS do Alunos de Todas as Escolas
+
 ## [Versão 3.46.82]
 - Relatório de Alunos Benefeciários do Bolsa Família por Turma
 - Relatório de Alunos Benefeciários do Bolsa Família de Todas as Turmas

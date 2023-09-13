@@ -12,6 +12,7 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/admin/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/admin/form/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/form/_functions.js', CClientScript::POS_END);
 
 $cs->registerCssFile($baseUrl . 'sass/css/main.css');
 
@@ -20,7 +21,6 @@ $form = $this->beginWidget('CActiveForm', array(
     'enableAjaxValidation' => false,
 ));
 ?>
-
 <div class="row">
     <div class="column" style="height: 70px;">
         <h1><?php echo $title; ?></h1>
@@ -40,7 +40,6 @@ $form = $this->beginWidget('CActiveForm', array(
             </div>
     </div>
 </div>
-
 <div class="tag-inner">
     <div class="widget widget-tabs border-bottom-none">
         <?php echo $form->errorSummary($model); ?>
@@ -69,20 +68,23 @@ $form = $this->beginWidget('CActiveForm', array(
                     
                     <div class="row">
                         <div class="column">
-                           
-                            <div class="t-field-text">
-                                    <?php echo $form->labelEx($model, 'name', array('class' => 't-field-text__label')); ?>
-                                    <?php echo $form->textField($model, 'name', array('size' => 100, 'maxlength' => 150, 'class' => 't-field-text__input')); ?>
-                                    <?php echo $form->error($model, 'name'); ?>
-                            </div>
                             <div class="t-field-select">
-                                    <?php echo CHtml::label(Yii::t('default', 'Role'), 'Role', array('class' => 't-field-selectt__label')); ?>
+                                    <?php echo CHtml::label(Yii::t('default', 'Role'), 'Role', array('class' => 't-field-select__label')); ?>
                                     <?php
                                     $roles = CHtml::listData(AuthItem::model()->findAll('type=2 order by name'), 'name', 'name');
                                     foreach ($roles as $key => $value) {
                                         $roles[$key] = Yii::t('default', $value);
                                     }
-                                    echo CHtml::dropDownList('Role', $actual_role, $roles, array('class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%')); ?>   
+                                    echo CHtml::dropDownList('Role', $actual_role, $roles, array('class' => 'select-search-off t-field-select__input js-show-instructor-input', 'style' => 'width: 100%')); ?>   
+                            </div>
+                            <div class="t-field-select js-instructor-input hide">
+                                <?php echo CHtml::label(Yii::t('default', 'Instructor'), 'instructor', array('class' => 't-field-select__label'))?>
+                                <?php echo CHtml::dropDownList('instructor', '', $instructors,  array('prompt' => 'Selecione o professor', 'class' => 'select-search-on t-field-select__input js-instructor-select',)); ?>
+                            </div> 
+                            <div class="t-field-text">
+                                    <?php echo $form->labelEx($model, 'name', array('class' => 't-field-text__label')); ?>
+                                    <?php echo $form->textField($model, 'name', array('size' => 100, 'maxlength' => 150, 'class' => 't-field-text__input js-chage-name')); ?>
+                                    <?php echo $form->error($model, 'name'); ?>
                             </div>
                         </div>
                         <div class="separator"></div>
@@ -151,6 +153,10 @@ $form = $this->beginWidget('CActiveForm', array(
     .select2-drop {
         width:428px !important;
     }  
+
+    #s2id_schools .select2-choices {
+        height: 100px !important;
+    }
   
     .show-password-icon {
         cursor: pointer;

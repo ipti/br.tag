@@ -6,38 +6,22 @@ require 'app/vendor/autoload.php';
 
 class EnrollmentSEDDataSource extends SedDataSource
 {
-    const LENGTH_IN_NUM_RA = 12;
-    const LENGTH_IN_DIGITO_RA = 2;
-    const LENGTH_IN_SIGLA_UFRA = 2;
-
     /**
      * Summary of getListarMatriculasRA
      * @param InAluno $inAluno
      * @return OutListaMatriculaRA|OutErro
+     * @throws Exception
      */
     function getListarMatriculasRA($inAluno)
     {
         try {
-            if (empty($inAluno->inNumRA) || empty($inAluno->inSiglaUFRA)) {
-                throw new InvalidArgumentException("Entrada inválida: dados incompletos.");
-            }
-
-            if (strlen($inAluno->inNumRA) > self::LENGTH_IN_NUM_RA || 
-                isset($inAluno->inSiglaUFRA) ? (strlen($inAluno->inSiglaUFRA) > self::LENGTH_IN_SIGLA_UFRA) : false || 
-                strlen($inAluno->inDigitoRA) > self::LENGTH_IN_DIGITO_RA) {
-                throw new InvalidArgumentException("Entrada inválida: tamanho máximo excedido.");
-            }
-
             $url = '/ncaapi/api/Matricula/ListarMatriculasRA';
             $response = $this->getApiResponse('GET', $url, ["inAluno" => $inAluno]);         
             return OutListaMatriculaRA::fromJson($response);
-
-        } catch (InvalidArgumentException $e) {
-            return new OutErro($e);
         } catch (ClientException $e) {
             return new OutErro($e);
-        } catch (Exception $e) {
-            return new OutErro($e);
+        } catch (Exception $exception) {
+            throw $exception;
         }
     }
 
@@ -45,11 +29,11 @@ class EnrollmentSEDDataSource extends SedDataSource
      * Summary of addInscreverAluno
      * @param InscreverAluno $inscreverAluno
      * @return OutHandleApiResult|OutErro
+     * @throws Exception
      */
     function addInscreverAluno(InscreverAluno $inscreverAluno)
     {
         try{
-
             $url = '/ncaapi/api/Inscricao/InscreverAluno';
             $data = [
                 "inAluno" => $inscreverAluno->getInAluno(),
@@ -59,13 +43,10 @@ class EnrollmentSEDDataSource extends SedDataSource
 
             $response = $this->getApiResponse('POST', $url, $data);
             return OutHandleApiResult::fromJson($response);
-
-        } catch (InvalidArgumentException $e) {
-            return new OutErro($e);
         } catch (ClientException $e) {
             return new OutErro($e);
-        } catch (Exception $e) {
-            return new OutErro($e);
+        } catch (Exception $exception) {
+            throw $exception;
         }
     }
 
@@ -73,6 +54,7 @@ class EnrollmentSEDDataSource extends SedDataSource
      * Summary of addMatricularAluno
      * @param InMatricularAluno $inMatricularAluno
      * @return OutHandleApiResult|OutErro
+     * @throws Exception
      */
     function addMatricularAluno(InMatricularAluno $inMatricularAluno)
     {
@@ -88,12 +70,10 @@ class EnrollmentSEDDataSource extends SedDataSource
             $response = $this->getApiResponse('POST', $url, $data);
             return OutHandleApiResult::fromJson($response);
 
-        } catch (InvalidArgumentException $e) {
-            return new OutErro($e);
         } catch (ClientException $e) {
             return new OutErro($e);
-        } catch (Exception $e) {
-            return new OutErro($e);
+        } catch (Exception $exception) {
+            throw $exception;
         }
     }
 
@@ -101,6 +81,7 @@ class EnrollmentSEDDataSource extends SedDataSource
      * Summary of getExibirMatriculaClasseRA
      * @param InExibirMatriculaClasseRA $inExibirMatriculaClasseRA
      * @return OutExibirMatriculaClasseRA|OutErro
+     * @throws Exception
      */
     function getExibirMatriculaClasseRA(InExibirMatriculaClasseRA $inExibirMatriculaClasseRA)
     {
@@ -108,13 +89,10 @@ class EnrollmentSEDDataSource extends SedDataSource
             $url = '/ncaapi/api/Matricula/ExibirMatriculaClasseRA';
             $response = $this->getApiResponse('POST', $url, $inExibirMatriculaClasseRA);
             return OutExibirMatriculaClasseRA::fromJson($response);
-
-        } catch (InvalidArgumentException $e) {
-            return new OutErro($e);
         } catch (ClientException $e) {
             return new OutErro($e);
-        } catch (Exception $e) {
-            return new OutErro($e);
+        } catch (Exception $exception) {
+            throw $exception;
         }
     }
 
@@ -124,8 +102,8 @@ class EnrollmentSEDDataSource extends SedDataSource
      * @param mixed $data
      * @return mixed
      */
-    function getApiResponse($HTTPMetho, $url, $data) {
-        $response = $this->client->request($HTTPMetho, $url, [
+    private function getApiResponse($HTTPMethod, $url, $data) {
+        $response = $this->client->request($HTTPMethod, $url, [
             'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
         ]);
     

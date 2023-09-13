@@ -8,6 +8,7 @@ class SchoolSEDDataSource extends SedDataSource
      * Summary of getSchool
      * @param InEscola $inEscola
      * @return OutEscola|OutErro
+     * @throws Exception
      */
     public function getSchool(InEscola $inEscola)
     {
@@ -15,9 +16,6 @@ class SchoolSEDDataSource extends SedDataSource
             $url = '/ncaapi/api/DadosBasicos/Escolas';
             $response = $this->getApiResponse('GET', $url, $inEscola);
             return OutEscola::fromJson($response);
-
-        } catch (InvalidArgumentException $invalidArgumentException) {
-            throw $invalidArgumentException;
         } catch (ClientException $e) {
             return new OutErro($e);
         } catch (Exception $exception) {
@@ -32,8 +30,8 @@ class SchoolSEDDataSource extends SedDataSource
      * @param mixed $data
      * @return mixed
      */
-    function getApiResponse($HTTPMetho, $url, $data) {
-        $response = $this->client->request($HTTPMetho, $url, [
+    private function getApiResponse($HTTPMethod, $url, $data) {
+        $response = $this->client->request($HTTPMethod, $url, [
             'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
         ]);
     

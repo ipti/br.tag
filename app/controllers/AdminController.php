@@ -28,7 +28,7 @@ class AdminController extends Controller
         $this->render('index');
     }
 
-    function actionExportMaster() {
+    public function actionExportMaster() {
         $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();   
         $pathFileJson = "./app/export/InfoTagJSON/$databaseName.json";
 
@@ -65,7 +65,7 @@ class AdminController extends Controller
         readfile($pathFileJson);
     }
 
-    function actionImportMaster() {
+    public function actionImportMaster() {
         $adapter = new Adapter;
         $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();   
         $pathFileJson = "./app/export/InfoTagJSON/$databaseName.json";
@@ -115,7 +115,6 @@ class AdminController extends Controller
                 "username" => $_POST["Users"]["name"]
             ]
         );
-
         if (isset($_POST['Users'])) {
             if(!isset($modelValidate)) {
                 $model->attributes = $_POST['Users'];
@@ -135,9 +134,15 @@ class AdminController extends Controller
                         if ($save) {
                             $auth = Yii::app()->authManager;
                             $auth->assign($_POST['Role'], $model->id);
-                            Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
-                            $this->redirect(['index']);
+                            
                         }
+                        if(isset($_POST['instructor']) &&  $_POST['instructor'] != ""){
+                            $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]); 
+                            $instructors->users_fk = $model->id;
+                            $instructors->save();
+                        }
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
+                        $this->redirect(['index']);
                     }
                 }
             }else {
@@ -145,7 +150,12 @@ class AdminController extends Controller
                 $this->redirect(['index']);
             }
         }
-        $this->render('createUser', ['model' => $model]);
+        $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk'=> null], ['select' => 'id, name']); 
+        $instructorsResult = array_reduce($instructors, function($carry, $item) {
+            $carry[$item['id']] = $item['name'];
+            return $carry;
+        }, []);
+        $this->render('createUser', ['model' => $model, 'instructors' => $instructorsResult]);
     }
 
     public function actionGradesStructure()
@@ -305,9 +315,7 @@ class AdminController extends Controller
             }
         }
     }
-
-    public
-    function actionActiveDisableUser()
+    public function actionActiveDisableUser()
     {
         $criteria = new CDbCriteria();
         $criteria->condition = "username != 'admin'";
@@ -317,8 +325,7 @@ class AdminController extends Controller
         $this->render('activeDisableUser', ['users' => $users]);
     }
 
-    public
-    function actionDisableUser($id)
+    public function actionDisableUser($id)
     {
         $model = Users::model()->findByPk($id);
 
@@ -333,8 +340,7 @@ class AdminController extends Controller
         }
     }
 
-    public
-    function actionActiveUser($id)
+    public function actionActiveUser($id)
     {
         $model = Users::model()->findByPk($id);
 
@@ -349,8 +355,7 @@ class AdminController extends Controller
         }
     }
 
-    public
-    function actionEditPassword($id)
+    public function actionEditPassword($id)
     {
         $model = Users::model()->findByPk($id);
 
@@ -371,8 +376,7 @@ class AdminController extends Controller
     }
 
 
-    public
-    function actionClearDB()
+    public function actionClearDB()
     {
         //delete from users_school;
         //delete from users;
@@ -414,8 +418,7 @@ class AdminController extends Controller
         $this->redirect(array('index'));
     }
 
-    public
-    function addTestUsers()
+    public function addTestUsers()
     {
         set_time_limit(0);
         ignore_user_abort();
@@ -442,8 +445,7 @@ class AdminController extends Controller
         //        /*         * ************************************************************************************************ */
     }
 
-    public
-    function mres($value)
+    public function mres($value)
     {
         $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
         $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
@@ -471,8 +473,7 @@ class AdminController extends Controller
         ));
     }
 
-    public
-    function actionUpdate($id)
+    public function actionUpdate($id)
     {
         $model = Users::model()->findByPk($id);
         $actual_role = $model->getRole();
@@ -497,9 +498,14 @@ class AdminController extends Controller
                         $auth = Yii::app()->authManager;
                         $auth->revoke($actual_role, $model->id);
                         $auth->assign($_POST['Role'], $model->id);
-                        Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário alterado com sucesso!'));
-                        $this->redirect(['index']);
                     }
+                    if(isset($_POST['instructor']) &&  $_POST['instructor'] != ""){
+                        $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]); 
+                        $instructors->users_fk = $model->id;
+                        $instructors->save();
+                    }
+                    Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
+                    $this->redirect(['index']);
                 }
             }
         }
@@ -511,11 +517,16 @@ class AdminController extends Controller
             $i++;
         }
 
-        $this->render('editUser', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result]);
+        $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk'=> null], ['select' => 'id, name']); 
+        $instructorsResult = array_reduce($instructors, function($carry, $item) {
+            $carry[$item['id']] = $item['name'];
+            return $carry;
+        }, []);
+
+        $this->render('editUser', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result, 'instructors' => $instructorsResult]);
     }
 
-    public
-    function actionChangelog()
+    public function actionChangelog()
     {
         $this->render('changelog');
     }

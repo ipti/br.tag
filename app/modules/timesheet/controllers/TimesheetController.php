@@ -588,9 +588,10 @@ class TimesheetController extends Controller
     {
         $removes = [];
         $disciplines = [];
-
+        
         $weekOfTheChange = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'day' => $_POST["schedule"]["day"], 'month' => $_POST["schedule"]["month"], 'schedule' => $_POST["schedule"]["schedule"]));
-        $weekLimit = $_POST["hardUnavailableDaySelected"] == "0" ? ($_POST["replicate"] ? 53 : $weekOfTheChange["week"]) : $weekOfTheChange["week"];
+        $weekLimit = $_POST["schedule"]["hardUnavailableDaySelected"] == "0" ? ($_POST["replicate"] ? 53 : $weekOfTheChange["week"]) : $weekOfTheChange["week"];
+        
         for ($week = $weekOfTheChange["week"]; $week <= $weekLimit; $week++) {
             $schedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'week' => $week, 'week_day' => $_POST["schedule"]["week_day"], 'schedule' => $_POST["schedule"]["schedule"]));
             if ($schedule != null) {

@@ -229,8 +229,14 @@ function initDatatable() {
             }).remove();
 
             //adiciona o ícone de pesquisa e loading
-            $('.dataTables_filter label').prepend('<img src="../../../themes/default/img/search-icon.svg">');
-            $('#student-identification-table_wrapper').prepend('<img class="loading-datatable-search" style="display:none;margin-left: 70%;margin-top: 1.2%;" height="30px" width="30px" src="../../../themes/default/img/loadingTag.gif" alt="TAG Loading">');
+            $('.dataTables_filter label').prepend(
+                '<img src="../../../themes/default/img/search-icon.svg">'
+            );
+            
+            $('#student-identification-table_filter').css("display", "flex").prepend(
+                '<img class="loading-datatable-search" style="display:none; margin-top: 1.2%; height: 30px; width: 30px; padding: 4px" height="30px" width="30px" src="../../../themes/default/img/loadingTag.gif" alt="TAG Loading">'
+            );
+        
         });
     }
 }
