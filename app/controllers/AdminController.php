@@ -251,26 +251,17 @@ class AdminController extends Controller
 
             $this->refreshResults($_POST["stage"]);
         } else {
+            // A = Toda a Matriz Curricular
+            // S = Todas as etapas de a modalidade selecionada.
             if ($_POST["reply"] == "A") {
                 $grades = Yii::app()->db->createCommand("select * from grade")->queryAll();
                 $curricularMatrixes = Yii::app()->db->createCommand("select * from curricular_matrix cm where school_year = :year")->bindParam(":year", Yii::app()->user->year)->queryAll();
-            } else if ($_POST["reply"] == "S") {
-                $stage = EdcensoStageVsModality::model()->find("id = :id", [":id" => $_POST["stage"]])->stage;
-                $grades = Yii::app()->db->createCommand("
-                    select * from grade g
-                    join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
-                    join grade_unity gu on gu.id = gum.grade_unity_fk
-                    join edcenso_stage_vs_modality esvm on esvm.id = gu.edcenso_stage_vs_modality_fk
-                    where esvm.stage = :stage
-                ")->bindParam(":stage", $stage)->queryAll();
-                $curricularMatrixes = Yii::app()->db->createCommand("
-                    select * from curricular_matrix cm 
-                    join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
-                    where school_year = :year and esvm.stage = :stage
-                  ")->bindParam(":year", Yii::app()->user->year)->bindParam(":stage", $stage)->queryAll();
+            } else if ($_POST["reply"] == "S") {         
+                $grades = $this->getGrades();
+                $curricularMatrixes = $this->getCurricularMatrixes();
             }
             foreach ($curricularMatrixes as $curricularMatrix) {
-                if ($grades == null) {
+                if ($grades == null) { 
                     GradeUnity::model()->deleteAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $curricularMatrix["stage_fk"]]);
                     foreach ($_POST["unities"] as $u) {
                         $unity = new GradeUnity();
@@ -290,7 +281,7 @@ class AdminController extends Controller
                     }
                     $valid = true;
                 }
-
+               
                 $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $curricularMatrix["stage_fk"]]);
                 if ($gradeRules == null) {
                     $gradeRules = new GradeRules();
@@ -306,6 +297,39 @@ class AdminController extends Controller
         echo json_encode(["valid" => $valid]);
     }
 
+
+    private function getStage()
+    {
+        return EdcensoStageVsModality::model()->find("id = :id", [":id" => $_POST["stage"]])->stage;
+    }
+
+    private function getGrades()
+    {
+        $stage = $this->getStage();
+        return Yii::app()->db->createCommand("
+            select * from grade g
+            join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
+            join grade_unity gu on gu.id = gum.grade_unity_fk
+            join edcenso_stage_vs_modality esvm on esvm.id = gu.edcenso_stage_vs_modality_fk
+            where esvm.stage = :stage"
+        )
+        ->bindParam(":stage", $stage)
+        ->queryAll();
+    }
+
+    private function getCurricularMatrixes()
+    {
+        $stage = $this->getStage();
+        return Yii::app()->db->createCommand("
+            select * from curricular_matrix cm 
+            join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
+            where school_year = :year and esvm.stage = :stage
+        ")
+        ->bindParam(":year", Yii::app()->user->year)
+        ->bindParam(":stage", $stage)
+        ->queryAll();
+    }
+
     private function refreshResults($stage) {
         $classrooms = Classroom::model()->findAll("edcenso_stage_vs_modality_fk = :stage and school_year = :year", ["stage" => $stage, "year" => Yii::app()->user->year]);
         $curricularMatrixes = CurricularMatrix::model()->findAll("stage_fk = :stage", ["stage" => $stage]);
@@ -315,6 +339,7 @@ class AdminController extends Controller
             }
         }
     }
+
     public function actionActiveDisableUser()
     {
         $criteria = new CDbCriteria();
