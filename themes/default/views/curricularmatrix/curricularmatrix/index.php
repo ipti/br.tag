@@ -59,6 +59,7 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                                 <div class="t-field-number">
                                     <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Credits'), 'credits', ['class' => "t-field-number__label control-label"]) ?>
                                     <?= CHtml::numberField("credits", "0", ["min" => "0", "max" => "9999", 'style' => 'border: 1px solid #aaa;box-sizing:border-box;height: 43px']) ?>
+                                    <?= CHtml::numberField("workload", "0", ["min" => "0", "max" => "9999", 'style' => 'border: 1px solid #aaa;box-sizing:border-box;height: 43px']) ?>
                                 </div>
                             </div>
                         </div>
