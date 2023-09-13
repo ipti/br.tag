@@ -1,4 +1,4 @@
-FROM ipti/yii2
+FROM ipti/yii2:7.4-fpm
 COPY . /app
 WORKDIR /app/app
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
