@@ -556,12 +556,13 @@ class EnrollmentController extends Controller
 
     public static function saveGradeResults($classroom, $discipline)
     {
-        $criteria = new CDbCriteria();
-        $criteria->alias = "gu";
-        $criteria->join = "join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id";
-        $criteria->join .= " join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id";
-        $criteria->condition = "c.id = :classroom";
-        $criteria->params = array(":classroom" => $classroom);
+        $query = "SELECT *
+            FROM grade_unity gu
+            JOIN edcenso_stage_vs_modality esvm ON gu.edcenso_stage_vs_modality_fk = esvm.id
+            JOIN classroom c ON c.edcenso_stage_vs_modality_fk = esvm.id
+            WHERE c.id = :classroom";
+
+        $criteria = Yii::app()->db->createCommand($query)->bindValue(':classroom', $classroom)->queryRow();
         $gradeUnitiesByClassroom = GradeUnity::model()->findAll($criteria);
 
         $studentEnrollments = StudentEnrollment::model()->findAll("classroom_fk = :classroom_fk", ["classroom_fk" => $classroom]);
