@@ -62,7 +62,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             12 => 'Dezembro'
                         ), array(
                             'key' => 'id',
-                            'class' => 'select-search-on t-field-select__input',
+                            'class' => 'select-search-on t-field-select__input js-load-frequency',
                             'prompt' => 'Selecione o mês',
                         ));
                         ?>
@@ -84,12 +84,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
             <div class="mobile-row helper">
                 <div class="column clearleft on-tablet disciplines-container">
-                    <div class="t-field-select" id="classesSearch">
-                        <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 't-field-select__label--required')); ?>
+                    <div class="t-field-select js-load-frequency" id="classesSearch">
+                        <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 't-field-select__label--required js-load-frequency')); ?>
                         <?php
                         echo CHtml::dropDownList('disciplines', '', array(), array(
                             'key' => 'id',
                             'class' => 'select-search-on t-field-select__input',
+                            'prompt' => 'Selecione o mês',
                         ));
                         ?>
                     </div>
