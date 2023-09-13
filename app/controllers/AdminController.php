@@ -253,19 +253,22 @@ class AdminController extends Controller
         } else {
             // A = Toda a Matriz Curricular
             // S = Todas as etapas de a modalidade selecionada.
+            $grades = $this->getGrades();
+
             if ($_POST["reply"] == "A") {
-                $grades = Yii::app()->db->createCommand("select * from grade")->queryAll();
+                // $grades = Yii::app()->db->createCommand("select * from grade")->queryAll();
                 $curricularMatrixes = Yii::app()->db->createCommand("select * from curricular_matrix cm where school_year = :year")->bindParam(":year", Yii::app()->user->year)->queryAll();
             } else if ($_POST["reply"] == "S") {         
-                $grades = $this->getGrades();
-                $curricularMatrixes = $this->getCurricularMatrixes();
+                $curricularMatrixes = $this->getCurricularMatrixes($this->getStage($_POST["stage"]));
             }
+
             foreach ($curricularMatrixes as $curricularMatrix) {
-                if ($grades == null) { 
-                    GradeUnity::model()->deleteAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $curricularMatrix["stage_fk"]]);
+                $matrixStageFk = $curricularMatrix["stage_fk"];
+                if (array_search($matrixStageFk, array_column($grades, "id")) == 0) { 
+                    GradeUnity::model()->deleteAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $matrixStageFk]);
                     foreach ($_POST["unities"] as $u) {
                         $unity = new GradeUnity();
-                        $unity->edcenso_stage_vs_modality_fk = $curricularMatrix["stage_fk"];
+                        $unity->edcenso_stage_vs_modality_fk = $matrixStageFk;
                         $unity->name = $u["name"];
                         $unity->type = $u["type"];
                         $unity->grade_calculation_fk = $u["formula"];
@@ -282,7 +285,7 @@ class AdminController extends Controller
                     $valid = true;
                 }
                
-                $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $curricularMatrix["stage_fk"]]);
+                $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $matrixStageFk]);
                 if ($gradeRules == null) {
                     $gradeRules = new GradeRules();
                     $gradeRules->edcenso_stage_vs_modality_fk = $curricularMatrix["stage_fk"];
@@ -291,35 +294,33 @@ class AdminController extends Controller
                 $gradeRules->final_recover_media = $_POST["finalRecoverMedia"];
                 $gradeRules->save();
 
-                $this->refreshResults($curricularMatrix["stage_fk"]);
+                $this->refreshResults($matrixStageFk);
             }
         }
         echo json_encode(["valid" => $valid]);
     }
 
 
-    private function getStage()
+    private function getStage($stage)
     {
-        return EdcensoStageVsModality::model()->find("id = :id", [":id" => $_POST["stage"]])->stage;
+        return EdcensoStageVsModality::model()->find("id = :id", [":id" => $stage ])->stage;
     }
 
     private function getGrades()
     {
-        $stage = $this->getStage();
         return Yii::app()->db->createCommand("
-            select * from grade g
-            join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
-            join grade_unity gu on gu.id = gum.grade_unity_fk
-            join edcenso_stage_vs_modality esvm on esvm.id = gu.edcenso_stage_vs_modality_fk
-            where esvm.stage = :stage"
+            select esvm.id from grade g
+                join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
+                join grade_unity gu on gu.id = gum.grade_unity_fk
+                join edcenso_stage_vs_modality esvm on esvm.id = gu.edcenso_stage_vs_modality_fk
+            GROUP BY esvm.id
+            HAVING COUNT(1) > 0"
         )
-        ->bindParam(":stage", $stage)
         ->queryAll();
     }
 
-    private function getCurricularMatrixes()
+    private function getCurricularMatrixes($stage)
     {
-        $stage = $this->getStage();
         return Yii::app()->db->createCommand("
             select * from curricular_matrix cm 
             join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
@@ -335,7 +336,7 @@ class AdminController extends Controller
         $curricularMatrixes = CurricularMatrix::model()->findAll("stage_fk = :stage", ["stage" => $stage]);
         foreach($classrooms as $classroom) {
             foreach($curricularMatrixes as $curricularMatrix) {
-                EnrollmentController::saveGradeResults($classroom, $curricularMatrix->discipline_fk);
+                EnrollmentController::saveGradeResults($classroom->id, $curricularMatrix->discipline_fk);
             }
         }
     }
