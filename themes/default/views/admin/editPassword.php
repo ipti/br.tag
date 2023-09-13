@@ -69,7 +69,6 @@
                                             <?php echo $form->passwordField($model, 'password', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input password-input')); ?>
                                             <?php echo $form->error($model, 'password'); ?>
                                         </div>
-
                                     </div>
                                     <div class="t-field-text">
                                         <?php echo CHtml::label(Yii::t('default', 'Confirm'), 'Confirm', array('class' => 't-field-text__label--required')); ?>
