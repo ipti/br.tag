@@ -560,6 +560,18 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
+                <a href="<?php echo Yii::app()->createUrl('reports/TotalNumberOfStudentsEnrolled') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">    
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-student-registration t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Total de Alunos Matriculados por Escola</span><br>
+                            <span class="subtitle">Listagem do número de turmas e alunos matriculados de cada escola</span>
+                        </div>
+                    </button>
+                </a>
+
                 <button type="button" class="report-box-container" data-toggle="modal" data-target="#number-of-students-enrolled-per-period-all-schools" target="_blank">
                     <div class="pull-left" style="margin-right: 20px;">
                         <span class="t-amount-class t-reports_icons"></span>

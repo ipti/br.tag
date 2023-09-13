@@ -49,6 +49,30 @@ class ReportsController extends Controller
         return true;
     }
 
+    public function actionTotalNumberOfStudentsEnrolled()
+    {
+        $sql = "SELECT
+                    si.name AS school_name,
+                    COUNT(DISTINCT c.id) AS count_class,
+                    COUNT(se.id) AS count_enrollments
+                FROM
+                    school_identification si
+                LEFT JOIN
+                    classroom c ON c.school_inep_fk = si.inep_id
+                LEFT JOIN
+                    student_enrollment se ON se.classroom_fk = c.id
+                WHERE 
+                    c.school_year = :school_year
+                GROUP BY
+                    si.inep_id, si.name;";
+
+        $result = Yii::app()->db->createCommand($sql)
+        ->bindParam(":school_year", Yii::app()->user->year)
+        ->queryAll();
+
+        $this->render('TotalNumberOfStudentsEnrolled', array("report" => $result));
+    }
+
     public function actionStudentCpfRgNisAllSchools()
     {
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);

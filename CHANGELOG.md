@@ -2,6 +2,9 @@
 - A tela de frequência foi corrigida para que agora carregue a tabela de frequência
 - Adicionada rolagem para corrigir visualisação da tabela deA tela de frequência foi corrigida para que agora carregue a tabela de frequência.
 
+## [Versão 3.55.89]
+- Relatório de Total de Alunos Matriculados por Escola (somente administrador)
+
 ## [Versão 3.54.89]
 - Permitindo que alunos com nacionalidade  estrangeira possam adicionar informações no campo de cpf
  e documentos no formulário de adicionar aluno
