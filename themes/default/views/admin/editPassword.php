@@ -60,38 +60,38 @@
                     <!-- Tab content -->
                     <div class="tab-pane active" id="User">
                         <div class="row">
-                            <div class="column is-two-fifths ">
-                                <div class="column is-two-fifths ">
+                            <div class="column is-two-thirds">
+                                <div class="column is-two-thirds" style="position: relative;">
                                     <div class="t-field-text">
                                         <?php echo $form->labelEx($model, 'password', array('class' => 't-field-text__label--required')); ?>
-                                        <div>
+                                        <div class="t-field-text__password">
                                             <span class="t-icon-eye show-password-icon" id="showPassword"></span>
-                                            <?php echo $form->passwordField($model, 'password', array('size' =>     32, 'maxlength' => 32, 'class' => 't-field-text__input password-input',)); ?>
-
+                                            <?php echo $form->passwordField($model, 'password', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input password-input')); ?>
+                                            <?php echo $form->error($model, 'password'); ?>
                                         </div>
-                                        <?php echo $form->error($model, 'password'); ?>
+
                                     </div>
                                     <div class="t-field-text">
                                         <?php echo CHtml::label(Yii::t('default', 'Confirm'), 'Confirm', array('class' => 't-field-text__label--required')); ?>
-                                        <div style="padding-right: 27px;">
+                                        <div class="t-field-text__password">
                                             <span class="t-icon-eye show-password-icon" id="showPasswordConfirm"></span>
-                                            <?php echo CHtml::passwordField('Confirm', '', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input password-input',)); ?>
-
+                                            <?php echo CHtml::passwordField('Confirm', '', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input password-input')); ?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <?php $this->endWidget(); ?>
                 </div>
+
+                <?php $this->endWidget(); ?>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        var form = '#Users_';
-    </script>
+<script>
+    var form = '#Users_';
+</script>
 
 </div>

@@ -15,7 +15,6 @@
         width: 100%;
         margin-bottom: 0px;
         resize: none;
-        /* padding: $spaceEmpty $spaceSmall; */
     }
     &__input, input[type="password"]{
         box-sizing: border-box;
@@ -26,10 +25,9 @@
     .show-password-icon {
         font-size: $FontSizeFormLabel;
         cursor: pointer;
-        position: relative;
-        margin-left: 163px;
-        margin-right: $SizeXXXXSmall;
-        top: 26px;
+        position: absolute;
+        right: 0;
+        padding: 5px;
    }
 
 }

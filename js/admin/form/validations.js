@@ -27,7 +27,7 @@ $(document).ready(function() {
             id: senhaInputConfirm.attr("id"),
             placeholder: senhaInputConfirm.attr("placeholder"),
             value: senhaInputConfirm.val(),
-            style: "width:230px;margin-bottom:20px;"
+            // style: "width:230px;margin-bottom:20px;"
         });
 
         if(senhaInputTypeConfirm === "password") {
