@@ -13,13 +13,13 @@
     <div class="twoColumn">
         <div class="columnone" style="padding-right: 1em">
             <?php
-            echo $this->renderPartial('_form', array('modelClassroom' => $modelClassroom,
+                echo $this->renderPartial('_form', array('modelClassroom' => $modelClassroom,
                 'modelTeachingData' => $modelTeachingData,
                 'edcensoStageVsModalities' => $edcensoStageVsModalities,
                 'title' => $title,
                 'complementaryActivities' => $complementaryActivities));
-            ?>        </div>
-        <div class="columntwo">
+            ?>        
         </div>
+        <div class="columntwo"></div>
     </div>
 </div>

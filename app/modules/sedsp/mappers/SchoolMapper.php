@@ -3,18 +3,22 @@
 Yii::import('application.modules.sedsp.models.*');
 class SchoolMapper 
     {
-        public static function parseToTAGSchool($content)
+        /**
+         * Summary of parseToTAGSchool
+         * @param OutEscola $outEscola
+         * @return array<SchoolIdentification>
+         */
+        public static function parseToTAGSchool(OutEscola  $outEscola)
         {
-            $response = json_decode($content);
             $result = [];
 
-            $outEscolas = $response->outEscolas[0];
+            $outEscolas = $outEscola->outEscolas[0];
 
             $school_tag = new SchoolIdentification;
-
             $school_tag->name = $outEscolas->outDescNomeEscola;
-            $school_tag->inep_id = $outEscolas->outCodEscola;
+            $school_tag->regulation = 1;
             $school_tag->edcenso_uf_fk = intval(EdcensoUf::model()->find("acronym = :acronym", [":acronym" => "SP"])->id);
+            $school_tag->inep_id = $school_tag->edcenso_uf_fk . $outEscolas->outCodEscola;
             $school_tag->edcenso_city_fk = intval(EdcensoCity::model()->find("name = :name", [":name" => $outEscolas->outDescMunicipio])->id);
             $school_tag->edcenso_district_fk = intval(EdcensoDistrict::model()->find("name = :name", [":name" => $outEscolas->outNomeDistrito])->id);
             if($outEscolas->outNomeRedeEnsino == "FEDERAL") {

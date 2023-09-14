@@ -7,6 +7,7 @@
  * @property string $register_type
  * @property string $school_inep_fk
  * @property string $inep_id
+ * @property string $gov_id
  * @property integer $id
  * @property string $name
  * @property integer $pedagogical_mediation_type
@@ -75,6 +76,7 @@
  * @property string $create_date
  * @property string $fkid
  * @property integer $calendar_fk
+ * @property integer $course
  *
  * The followings are the available model relations:
  * @property ClassBoard[] $classBoards

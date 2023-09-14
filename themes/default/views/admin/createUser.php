@@ -12,7 +12,8 @@
     <?php
     echo $this->renderPartial('_form', array(
         'model' => $model,
-        'title' => $title
+        'title' => $title,
+        'instructors'=> $instructors
     ));
     ?>
 </div>
