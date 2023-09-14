@@ -83,6 +83,7 @@ class ReportsController extends Controller
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id 
                 JOIN classroom c ON se.classroom_fk = c.id 
                 JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id
+                WHERE se.status = 1 OR se.status IS NULL
                 GROUP BY si.name
                 ORDER BY si.name;";
 
@@ -109,7 +110,7 @@ class ReportsController extends Controller
                 jOIN student_identification si ON se.student_fk = si.id 
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id 
                 JOIN classroom c ON se.classroom_fk = c.id 
-                WHERE c.school_inep_fk = :school_inep_id
+                WHERE c.school_inep_fk = :school_inep_id AND (se.status = 1 OR se.status IS NULL)
                 GROUP BY si.name
                 ORDER BY si.name;";
         $result = Yii::app()->db->createCommand($sql)
@@ -137,7 +138,7 @@ class ReportsController extends Controller
                 JOIN student_identification si ON se.student_fk = si.id 
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id 
                 JOIN classroom c ON se.classroom_fk = c.id 
-                WHERE c.id = :classroom
+                WHERE c.id = :classroom AND (se.status = 1 OR se.status IS NULL)
                 GROUP BY si.name
                 ORDER BY si.name;";
 
@@ -300,8 +301,8 @@ class ReportsController extends Controller
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
                 JOIN student_enrollment se ON se.student_fk = si.id
                 JOIN classroom c ON se.classroom_fk = c.id
-                WHERE si.bf_participator = 1
-                AND c.school_year = :school_year AND c.school_inep_fk = :school_inep_id
+                WHERE si.bf_participator = 1 AND c.school_year = :school_year 
+                    AND c.school_inep_fk = :school_inep_id AND (se.status = 1 OR se.status IS NULL)
                 GROUP BY si.name
                 ORDER BY si.name;";
 
@@ -330,7 +331,8 @@ class ReportsController extends Controller
                 JOIN student_enrollment se ON se.student_fk = si.id
                 JOIN classroom c ON se.classroom_fk = c.id
                 JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
-                WHERE si.bf_participator = 1 AND c.school_year = :school_year
+                WHERE si.bf_participator = 1 AND c.school_year = :school_year 
+                    AND (se.status = 1 OR se.status IS NULL)
                 GROUP BY si.name
                 ORDER BY si2.name, si.name;";
 
@@ -357,7 +359,8 @@ class ReportsController extends Controller
                 JOIN student_enrollment se ON se.student_fk = si.id
                 JOIN classroom c ON se.classroom_fk = c.id
                 JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
-                WHERE si.bf_participator = 1 AND c.school_year = :school_year AND c.id = :classroom_id
+                WHERE si.bf_participator = 1 AND c.school_year = :school_year
+                     AND c.id = :classroom_id AND (se.status = 1 OR se.status IS NULL)
                 GROUP BY si.name
                 ORDER BY si2.name, si.name;";
 
@@ -634,7 +637,7 @@ class ReportsController extends Controller
                 JOIN classroom c ON se.classroom_fk = c.id
                 JOIN student_identification si ON se.student_fk = si.id
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
-                WHERE c.id = :classroom_id
+                WHERE c.id = :classroom_id AND (se.status = 1 OR se.status IS NULL) 
                 GROUP BY name;";
 
         $result = Yii::app()->db->createCommand($sql)
