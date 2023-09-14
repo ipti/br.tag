@@ -732,7 +732,7 @@ return array(
     'Add Resource' => 'Adicionar Recurso',
     'Description' => 'Descrição',
     'Classes' => 'Aulas',
-    'Report Card' => 'Lançamento de notas',
+    'Report Card' => 'Lançamento de Notas',
     
     //Grades
     'Grades' => 'Notas',

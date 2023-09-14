@@ -75,12 +75,24 @@ $("#classroom").on("change", function () {
     } else {
         $(".disciplines-container").hide();
     }
+
 });
 
 $("#month").on("change", loadClassContents);
 
+//$("#disciplines").on("change", loadClassContents);
 
-$("#disciplines").on("change", loadClassContents);
+$("#disciplines").on("change", function () {
+    loadClassContents();
+    var disciplinesValue = $("#disciplines option:selected").text();
+    $("#disciplinesValue").text(disciplinesValue);
+    var monthValue = $("#month option:selected").text();
+    $("#monthValue").text(monthValue);
+    var classroomValue = $("#classroom option:selected").text();
+    $("#classroomValue").text(classroomValue);
+});
+
+
 
 $(document).ready(function () {
     $('#class-contents').hide();
