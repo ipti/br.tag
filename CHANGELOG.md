@@ -1,4 +1,15 @@
-# Atualizações
+## [Versão 3.54.90]
+- A tela de frequência foi corrigida para que agora carregue a tabela de frequência
+- Adicionada rolagem para corrigir visualisação da tabela deA tela de frequência foi corrigida para que agora carregue a tabela de frequência.
+
+## [Versão 3.55.89]
+- Relatório de Total de Alunos Matriculados por Escola (somente administrador)
+
+## [Versão 3.55.89]
+- Adicionar botão de excluir usuário em gerenciar usuários
+
+## [Versão 3.54.90]
+- Corrigido o alinhamento e a responsividade dos campos do formulário de escola
 
 ## [Versão 3.54.89]
 - Permitindo que alunos com nacionalidade  estrangeira possam adicionar informações no campo de cpf
