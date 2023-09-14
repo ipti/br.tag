@@ -1160,16 +1160,18 @@ class ReportsController extends Controller
         FROM student_identification as si 
         JOIN student_enrollment as se on si.id = se.student_fk
         JOIN classroom as c on se.classroom_fk = c.id
-        WHERE si.deficiency = 1 and c.id = $classroomId";
+        WHERE si.deficiency = 1 and c.id = :classrom_id";
 
         $sql1 = "SELECT c.*
                 FROM classroom as c 
-                WHERE c.id = $classroomId";
+                WHERE c.id = :classroom_id";
 
-        $students = Yii::app()->db->createCommand($sql)->queryAll();
-        $classroom = Yii::app()->db->createCommand($sql1)->queryAll();
-
-        /* var_dump($students); */
+        $students = Yii::app()->db->createCommand($sql)
+                    ->bindParam(":classroom_id", $classroomId)
+                    ->queryAll();
+        $classroom = Yii::app()->db->createCommand($sql1)
+                    ->bindParam(":classroom_id", $classroomId)
+                    ->queryAll();
 
         $this->render('StudentsWithDisabilitiesPerClassroom', array(
             'students' => $students,
