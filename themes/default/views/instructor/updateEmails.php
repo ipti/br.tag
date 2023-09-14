@@ -27,16 +27,23 @@ $form = $this->beginWidget('CActiveForm', [
 		</div>
 	</div>
 	<div class="innerLR instructor-emails">
-			<div class="alert alert-danger">Preencha os e-mails corretamente.</div>
-			<div class="row wrap">
-				<?php foreach ($instructors as $instructor) : ?>
-					<div class="column is-half">
-							<label class="t-field-text" for="instructor"><?= $instructor->name ?></label>
-							<input name="<?= $instructor->id ?>" class="instructor t-field-text__input" type="email">
-					</div>
-				<?php endforeach ?>
-			</div>
-			<div class="clear"></div>
-	</div>
+    <div class="alert alert-danger">Preencha os e-mails corretamente.</div>
+    <div class="row wrap">
+        <?php $half_count = ceil(count($instructors) / 2); ?>
+        <div class="column is-one-third">
+            <?php foreach (array_slice($instructors, 0, $half_count) as $instructor) : ?>
+                <label class="t-field-text" for="instructor"><?= $instructor->name ?></label>
+                <input name="<?= $instructor->id ?>" class="instructor t-field-text__input" type="email">
+            <?php endforeach ?>
+        </div>
+        <div class="column is-one-third">
+            <?php foreach (array_slice($instructors, $half_count) as $instructor) : ?>
+                <label class="t-field-text" for="instructor"><?= $instructor->name ?></label>
+                <input name="<?= $instructor->id ?>" class="instructor t-field-text__input" type="email">
+            <?php endforeach ?>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
 </div>
 <?php $this->endWidget(); ?>
