@@ -87,6 +87,9 @@
         flex: 0;
         padding: $spaceSmall $spaceXLarge;
     }
+    &.nofloat{
+        float: unset !important;
+    }
 
     &:hover,
     &--active {
