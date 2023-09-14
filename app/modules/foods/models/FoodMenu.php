@@ -33,9 +33,10 @@ class FoodMenu extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('start_date, final_date, stage_fk', 'required'),
+			array('stage_fk', 'required'),
 			array('stage_fk', 'numerical', 'integerOnly'=>true),
 			array('description, observation', 'length', 'max'=>100),
+			array('start_date, final_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, description, observation, start_date, final_date, stage_fk', 'safe', 'on'=>'search'),
