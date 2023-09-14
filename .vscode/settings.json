@@ -1,0 +1,12 @@
+{
+    "sonarlint.connectedMode.project": {
+        "connectionId": "ipti",
+        "projectKey": "ipti_br.tag"
+    },
+    "files.exclude": {
+        "node_modules/": true,
+        ".idea/": true,
+        ".vscode/": true,
+        "db": true
+    }
+}

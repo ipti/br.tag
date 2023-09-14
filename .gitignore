@@ -3,11 +3,10 @@
 /assets/**
 .idea/
 instance.php
-.vscode/launch.json
 /instance.php
 config.php
 instance.php
 db
 dump.sql
 vendor
-docker/
+docker/mysql/dbfiles

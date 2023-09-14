@@ -134,7 +134,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 echo $form->DropDownList($modelClassroom, 'modality', array(
                                     '1' => 'Ensino Regular',
                                     '2' => 'Educação Especial - Modalidade Substitutiva',
-                                    '3' => 'Educação de Jovens e Adultos (EJA)'
+                                    '3' => 'Educação de Jovens e Adultos (EJA)',
+                                    '4' => 'Não se aplica'
                                 ), array('prompt' => 'Selecione a Modalidade', 'class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%'));
                                 ?>
                                 <?php echo $form->error($modelClassroom, 'modality'); ?>
@@ -194,8 +195,8 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <!-- Dias da semana -->
                             <div class="control-group">
-                                <div class="controls">
-                                    <label class="control-label required"><?php echo Yii::t('default', 'Week Days'); ?>
+                                <div>
+                                    <label class="t-field-text__label--required"><?php echo Yii::t('default', 'Week Days'); ?>
                                         *</label>
                                 </div>
                                 <div class="uniformjs" id="Classroom_week_days">
@@ -237,18 +238,18 @@ $form = $this->beginWidget('CActiveForm', array(
                             <!-- tipo de atendimento -->
                             <div class="control-group hidden">
                                 <label for=""></label>
-                                <div class="controls">
-                                    <?php echo $form->labelEx($modelClassroom, 'school_year', array('class' => 'control-label')); ?>
+                                <div class="">
+                                    <?php echo $form->labelEx($modelClassroom, 'school_year', array('class' => 't-field-text__label')); ?>
                                 </div>
-                                <div class="controls">
+                                <div class="">
                                     <?php echo $form->textField($modelClassroom, 'school_year', array('value' => isset($modelClassroom->school_year) ? $modelClassroom->school_year : Yii::app()->user->year, 'size' => 5, 'maxlength' => 5)); ?>
                                     <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'School year'); ?>"><i></i></span>
                                     <?php echo $form->error($modelClassroom, 'school_year'); ?>
                                 </div>
                             </div>
                             <!-- <div class="control-group">
-                                <?php echo $form->labelEx($modelClassroom, 'assistance_type', array('class' => 'control-label')); ?>
-                                <div class="controls">
+                                <?php echo $form->labelEx($modelClassroom, 'assistance_type', array('class' => 't-field-text__label')); ?>
+                                <div class="">
                                     <?php
                                     echo $form->DropDownList($modelClassroom, 'assistance_type', $assistance_types, array('prompt' => 'Selecione o Tipo de Atendimento', 'class' => 'select-search-off'));
                                     ?> 
@@ -290,10 +291,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group" id="complementary_activity">
-                                <div class="controls">
-                                    <?php echo $form->labelEx($modelClassroom, 'complementary_activity_type_1', array('class' => 'control-label required')); ?>
+                                <div class="">
+                                    <?php echo $form->labelEx($modelClassroom, 'complementary_activity_type_1', array('class' => 't-field-text__label--required')); ?>
                                 </div>
-                                <div class="controls">
+                                <div class="">
                                     <?php echo $form->dropDownList($modelClassroom, 'complementary_activity_type_1', CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'), array('multiple' => true, 'class' => 'select-search-on control-input', 'key' => 'id')); ?>
                                     <!-- <?php echo $form->dropDownList($modelClassroom, 'complementary_activity_type_1', CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'), array('multiple' => true, 'class' => 'select-ComplementaryAT', 'key' => 'id')); ?> -->
 
@@ -629,22 +630,16 @@ $form = $this->beginWidget('CActiveForm', array(
                             $i = 1;
                             foreach ($enrollments as $enr) {
                         ?>
-                                <li id="<?= $enr->id; ?>" class="ui-state-default"><?= $enr->daily_order; ?><span> <?= $enr->studentFk->name; ?></span></li>
+                                <li id="<?= $enr->id; ?>" class="ui-state-default">
+                                    <span class="t-icon-slip"></span><?= $enr->daily_order; ?>
+                                    <span> <?= $enr->studentFk->name; ?></span>
+                                </li>
                         <?php
                                 $i++;
                             }
                         }
                         ?>
                     </ul>
-                    <?php
-                    if (count($enrollments) > 1) {
-                    ?>
-                        <div class="t-buttons-container">
-                            <a class="t-button-primary js-save-new-order">salvar</a>
-                        </div>
-                    <?php
-                    }
-                    ?>
 
                 </div>
                 <?php $this->endWidget(); ?>
@@ -659,17 +654,17 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="row-fluid">
             <div class="span12">
                 <div class="control-group">
-                    <?php echo CHtml::label(Yii::t("default", "Instructor"), "Instructors", array('class' => 'control-label')) ?>
+                    <?php echo CHtml::label(Yii::t("default", "Instructor"), "Instructors", array('class' => 't-field-text__label')) ?>
                     <?php echo CHtml::DropDownList("Instructors", '', CHtml::listData(InstructorIdentification::model()->findAll(), 'id', 'name'), array('prompt' => 'Sem Instrutor', 'class' => 'select-search-on control-input')); ?>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">Componentes curriculares/eixos <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="right" data-original-title="Serão listadas apenas as componentes curriculares/eixos inseridos na matriz curricular desta etapa de ensino selecionada na turma.">
+                    <label class="t-field-text__label">Componentes curriculares/eixos <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="right" data-original-title="Serão listadas apenas as componentes curriculares/eixos inseridos na matriz curricular desta etapa de ensino selecionada na turma.">
                             <!-- <i></i> -->
                         </span></label>
                     <select id="Disciplines" class="select-disciplines" multiple></select>
                 </div>
                 <div class="control-group">
-                    <?php echo CHtml::label(Yii::t("default", "Role"), "Role", array('class' => 'control-label')) ?>
+                    <?php echo CHtml::label(Yii::t("default", "Role"), "Role", array('class' => 't-field-text__label')) ?>
                     <?php
                     echo CHtml::DropDownList("Role", '', array(
                         null => 'Selecione um Cargo',
@@ -685,7 +680,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     ?>
                 </div>
                 <div class="control-group">
-                    <?php echo CHtml::label(Yii::t("default", "Contract Type"), "ContractType", array('class' => 'control-label')) ?>
+                    <?php echo CHtml::label(Yii::t("default", "Contract Type"), "ContractType", array('class' => 't-field-text__label')) ?>
                     <?php
                     echo CHtml::DropDownList("ContractType", '', array(
                         null => 'Selecione tipo de Contrato',
@@ -698,7 +693,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <div class="control-group regent-teacher-container" style="display:none">
                     <?php echo CHtml::checkBox("RegentTeacher", false, array('value' => '1', 'id' => 'RegentTeacher'));?>
-                    <?php echo CHtml::label(Yii::t("default", "Regent Teacher"), "RegentTeacher", array('class' => 'control-label', 'style' => 'display: inline-block'));?>
+                    <?php echo CHtml::label(Yii::t("default", "Regent Teacher"), "RegentTeacher", array('class' => 't-field-text__label', 'style' => 'display: inline-block'));?>
                 </div>
             </div>
         </div>
