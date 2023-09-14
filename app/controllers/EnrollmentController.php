@@ -561,12 +561,15 @@ class EnrollmentController extends Controller
         $criteria->join = "join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id";
         $criteria->join .= " join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id";
         $criteria->condition = "c.id = :classroom";
-        $criteria->params = array(":classroom" => $classroom);
+        $criteria->params = array(":classroom" => $classroom);// $gradeUnitiesByClassroom = GradeUnity::model()->findAll();
+        
         $gradeUnitiesByClassroom = GradeUnity::model()->findAll($criteria);
+        
 
         $studentEnrollments = StudentEnrollment::model()->findAll("classroom_fk = :classroom_fk", ["classroom_fk" => $classroom]);
+        
         foreach ($studentEnrollments as $studentEnrollment) {
-
+            
             $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $discipline]);
             if ($gradeResult == null) {
                 $gradeResult = new GradeResults();
