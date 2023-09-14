@@ -18,7 +18,7 @@ services:
       YII_DEBUG: false
       PHP_ENABLE_XDEBUG: 1
       SEDSP_URL: "https://homologacaointegracaosed.educacao.sp.gov.br"
-      
+      GOOGLE_MAPS_API_KEY: "AIzaSyDjWiKq1o5qX_LEokFDPUkIin3ckXpmWY0"
     volumes:
       - .:/app
       - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
