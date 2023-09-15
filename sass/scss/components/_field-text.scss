@@ -10,7 +10,7 @@
             font-weight: bold;
         }
     }
-    &__input, input[type="text"], input[type="number"] {
+    &__input, input[type="text"], input[type="number"], input[type="email"]{
         box-sizing: border-box;
         width: 100%;
         margin-bottom: 0px;
