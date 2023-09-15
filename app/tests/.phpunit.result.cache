@@ -1,0 +1,1 @@
+{"version":1,"defects":{"SiteTest::testIndex":1,"SiteTest::testContact":1,"SiteTest::testLoginLogout":1},"times":{"SiteTest::testIndex":60.015,"SiteTest::testContact":60.007,"SiteTest::testLoginLogout":60.01}}
