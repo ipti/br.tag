@@ -1,6 +1,5 @@
 <?php
 
-Yii::import('application.modules.sedsp.models.*');
 class StudentMapper 
     {
         public static function parseToSEDAlunoFicha(
@@ -86,91 +85,131 @@ class StudentMapper
 
             return $student_register;
         }
-        public static function parseToTAGAlunoFicha($content)
+        /**
+         * Summary of parseToTAGExibirFichaAluno
+         * @param OutExibirFichaAluno $exibirFichaAluno
+         */
+        public static function parseToTAGExibirFichaAluno(OutExibirFichaAluno $exibirFichaAluno)
         {
-            $response = json_decode($content);
-            $result = [];
+            $parseResult = [];
+        
+            $outDadosPessoais = $exibirFichaAluno->getOutDadosPessoais();
+            $outDocumentos = $exibirFichaAluno->getOutDocumentos();
+            $outCertidaoNova = $exibirFichaAluno->getOutCertidaoNova();
+            $outCertidaoAntiga = $exibirFichaAluno->getOutCertidaoAntiga();
+            $outEnderecoResidencial = $exibirFichaAluno->getOutEnderecoResidencial();
 
-            $outDadosPessoais = $response->outDadosPessoais;
-            $outDocumentos = $response->outDocumentos;
-            $outCertidaoNova = $response->outCertidaoNova;
-            $outCertidaoAntiga = $response->outCertidaoAntiga;
-            $outEnderecoResidencial = $response->outEnderecoResidencial;
+            $listaAluno = new EnrollmentSEDDataSource();
+            $response = (object) $listaAluno->getListarMatriculasRA(new InAluno($outDadosPessoais->getOutNumRa(), null, $outDadosPessoais->getOutSiglaUfra()));
 
-            $student_tag = new StudentIdentification;
-            $student_docs_tag = new StudentDocumentsAndAddress;
-
-            // StudentIdentification
-            $student_tag->school_inep_id_fk = Yii::app()->user->school;
-            $student_tag->inep_id = $outDocumentos->outCodINEP;
-            $student_tag->gov_id = $outDadosPessoais->outNumRA;
-            $student_tag->name = $outDadosPessoais->outNomeAluno;
-            $student_tag->filiation = $outDadosPessoais->outNomeMae != "" || $outDadosPessoais->outNomePai != "" ? 1 : 0;
-            $student_tag->filiation_1 = $outDadosPessoais->outNomeMae;
-            $student_tag->filiation_2 = $outDadosPessoais->outNomePai;
-            $student_tag->birthday = date_create_from_format('d/m/Y', $outDadosPessoais->outDataNascimento)->format('Y-m-d');
-            $student_tag->color_race = $outDadosPessoais->outCorRaca;
-            $student_tag->sex = $outDadosPessoais->outCodSexo;
-            $student_tag->bf_participator = $outDadosPessoais->outCodBolsaFamilia;
-            $student_tag->nationality = intval($outDadosPessoais->outNacionalidade);
-            $student_tag->edcenso_nation_fk = intval(EdcensoNation::model()->find("name = :name", [":name" => $outDadosPessoais->outNomePaisOrigem])->id);
-            $student_tag->edcenso_uf_fk = intval(EdcensoUf::model()->find("acronym = :acronym", [":acronym" => $outDadosPessoais->outUFMunNascto])->id);
-            $student_tag->edcenso_city_fk = intval(EdcensoCity::model()->find("name = :name", [":name" => $outDadosPessoais->outNomeMunNascto])->id);
-            $student_tag->deficiency = 0;
-            $student_tag->send_year = intval(Yii::app()->user->year);
-
-            // StudentDocumentsAndAddress
-            // documents
-            $student_docs_tag->cpf = $outDocumentos->outCPF;
-            $student_docs_tag->nis = $outDocumentos->outNumNIS;
-            $student_docs_tag->rg_number = $outDocumentos->outNumDoctoCivil + $outDocumentos->outDigitoDoctoCivil;
-            if($outDocumentos->outDataEmissaoDoctoCivil) {
-                $student_docs_tag->rg_number_expediction_date = date_create_from_format('d/m/Y', $outDocumentos->outDataEmissaoDoctoCivil)->format('Y-m-d');
-            }
-            if($outDocumentos->outDataEmissaoCertidao) {
-                $student_docs_tag->civil_certification_date = date_create_from_format('d/m/Y', $outDocumentos->outDataEmissaoCertidao)->format('Y-m-d');
-            }
-            // address
-            $student_docs_tag->address = $outEnderecoResidencial->outLogradouro;
-            $student_docs_tag->number = $outEnderecoResidencial->outNumero;
-            $student_docs_tag->neighborhood = $outEnderecoResidencial->outBairro;
-            $student_docs_tag->complement = $outEnderecoResidencial->outComplemento;
-            $student_docs_tag->cep = $outEnderecoResidencial->outCep;
-            $student_docs_tag->residence_zone = $outEnderecoResidencial->outAreaLogradouro == "URBANA" ? 1 : 2;
-            if($outEnderecoResidencial->outLocalizacaoDiferenciada == "Não está localizado em área de localização diferenciada") {
-                $student_docs_tag->diff_location = 7;
-            }else if($outEnderecoResidencial->outLocalizacaoDiferenciada == "Área onde se localizada em Comunidade remanescente de Quilombos") {
-                $student_docs_tag->diff_location = 3;
-            }else if($outEnderecoResidencial->outLocalizacaoDiferenciada == "Terra indígena") {
-                $student_docs_tag->diff_location = 2;
-            }else if($outEnderecoResidencial->outLocalizacaoDiferenciada == "Área de assentamento") {
-                $student_docs_tag->diff_location = 1;
+            $escola = new GetEscolasFromSEDUseCase();
+            
+            $array = $response->outListaMatriculas;
+            foreach ($array as $item) {    
+                if($item->outDescSitMatricula === 'ATIVO' && $item->outMunicipio === 'UBATUBA') {
+                    $inEscola = new InEscola($item->outDescNomeAbrevEscola, null, null, null);
+                    if(!$escola->existSchool($inEscola)){
+                        if($escola->createSchool($inEscola))
+                            $schoolInep = '35' . $item->outCodEscola;
+                    }else{
+                        $schoolInep = '35' . $item->outCodEscola;
+                    }
+                }      
             }
 
-            // civil_certification
+            $studentIdentification = new StudentIdentification;
+            $studentIdentification->school_inep_id_fk = $schoolInep;
+            $studentIdentification->gov_id = $outDadosPessoais->getOutNumRa();
+            $studentIdentification->name = $outDadosPessoais->getOutNomeAluno();
+            $studentIdentification->filiation = $outDadosPessoais->getOutNomeMae() != "" || $outDadosPessoais->getOutNomePai() != "" ? 1 : 0;
+            $studentIdentification->filiation_1 = $outDadosPessoais->getOutNomeMae();
+            $studentIdentification->filiation_2 = $outDadosPessoais->getOutNomePai();
+            $studentIdentification->birthday = date_create_from_format('d/m/Y', $outDadosPessoais->getOutDataNascimento())->format('Y-m-d');
+            $studentIdentification->color_race = empty($outDadosPessoais->getOutCorRaca())? 0 : $outDadosPessoais->getOutCorRaca();
+            $studentIdentification->sex = $outDadosPessoais->getOutCodSexo();
+            $studentIdentification->bf_participator = $outDadosPessoais->getOutCodBolsaFamilia();
+            $studentIdentification->nationality = intval($outDadosPessoais->getOutNacionalidade());
+            $studentIdentification->edcenso_nation_fk = intval(EdcensoNation::model()->find("name = :name", [":name" => $outDadosPessoais->getOutNomePaisOrigem()])->id);
+            $studentIdentification->edcenso_uf_fk = intval(EdcensoUf::model()->find("acronym = :acronym", [":acronym" => $outDadosPessoais->getOutUfMunNascto()])->id);
+            $studentIdentification->edcenso_city_fk = intval(EdcensoCity::model()->find("name = :name", [":name" => $outDadosPessoais->getOutNomeMunNascto()])->id);
+            $studentIdentification->deficiency = 0;
+            $studentIdentification->send_year = intval(Yii::app()->user->year);
+
+            //StudentDocuments
+            $studentDocumentsAndAddress = new StudentDocumentsAndAddress;
+            $studentDocumentsAndAddress->school_inep_id_fk = $schoolInep;
+            $studentDocumentsAndAddress->gov_id = $outDadosPessoais->getOutNumRa();
+            $studentDocumentsAndAddress->cpf = $outDocumentos->getOutCpf();
+            $studentDocumentsAndAddress->nis = $outDocumentos->getOutNumNis();
+            $studentDocumentsAndAddress->rg_number = $outDocumentos->getOutNumDoctoCivil() + $outDocumentos->getOutDigitoDoctoCivil();
+            
+            if($outDocumentos->getOutDataEmissaoDoctoCivil()) {
+                $studentDocumentsAndAddress->rg_number_expediction_date = date_create_from_format('d/m/Y', $outDocumentos->getOutDataEmissaoDoctoCivil())->format('Y-m-d');
+            }
+            if($outDocumentos->getOutDataEmissaoCertidao()) {
+                $studentDocumentsAndAddress->civil_certification_date = date_create_from_format('d/m/Y', $outDocumentos->getOutDataEmissaoCertidao())->format('Y-m-d');
+            }
+
+
+            //Address
+            $studentDocumentsAndAddress->address = $outEnderecoResidencial->getOutLogradouro();
+            $studentDocumentsAndAddress->number = $outEnderecoResidencial->getOutNumero();
+            $studentDocumentsAndAddress->neighborhood = $outEnderecoResidencial->getOutBairro();
+            $studentDocumentsAndAddress->complement = $outEnderecoResidencial->getOutComplemento();
+            $studentDocumentsAndAddress->cep = $outEnderecoResidencial->getOutCep();
+            $studentDocumentsAndAddress->residence_zone = $outEnderecoResidencial->getOutAreaLogradouro() == "URBANA" ? 1 : 2;
+            
+            if($outEnderecoResidencial->getOutLocalizacaoDiferenciada() == "Não está localizado em área de localização diferenciada") {
+                $studentDocumentsAndAddress->diff_location = 7;
+            }else if($outEnderecoResidencial->getOutLocalizacaoDiferenciada() == "Área onde se localizada em Comunidade remanescente de Quilombos") {
+                $studentDocumentsAndAddress->diff_location = 3;
+            }else if($outEnderecoResidencial->getOutLocalizacaoDiferenciada() == "Terra indígena") {
+                $studentDocumentsAndAddress->diff_location = 2;
+            }else if($outEnderecoResidencial->getOutLocalizacaoDiferenciada() == "Área de assentamento") {
+                $studentDocumentsAndAddress->diff_location = 1;
+            }
+
+            //Civil_certification
             if(isset($outCertidaoNova)) {
                 // @todo identificar como descobrir o município de certidao nova
-                $student_docs_tag->civil_certification = 2;
-                $student_docs_tag->civil_certification_term_number = $outCertidaoNova->outCertMatr08;
-                $student_docs_tag->civil_certification_sheet = $outCertidaoNova->outCertMatr07;
-                $student_docs_tag->civil_certification_book = $outCertidaoNova->outCertMatr06;
+                $studentDocumentsAndAddress->civil_certification = 2;
+                $studentDocumentsAndAddress->civil_certification_term_number = $outCertidaoNova->getOutCertMatr08();
+                $studentDocumentsAndAddress->civil_certification_sheet = $outCertidaoNova->getOutCertMatr07();
+                $studentDocumentsAndAddress->civil_certification_book = $outCertidaoNova->getOutCertMatr06();
             }else if(isset($outCertidaoAntiga)) {
-                $student_docs_tag->civil_certification = 1;
-                $student_docs_tag->civil_certification_type = 1;
-                $student_docs_tag->civil_certification_term_number = $outCertidaoAntiga->outNumCertidao;
-                $student_docs_tag->civil_certification_sheet = $outCertidaoAntiga->outFolhaRegNum;
-                $student_docs_tag->civil_certification_book = $outCertidaoAntiga->outNumLivroReg;
-                $student_docs_tag->notary_office_uf_fk = intval(EdcensoUf::model()->find("acronym = :acronym", [":acronym" => $outCertidaoAntiga->outUFComarca])->id);
-                $student_docs_tag->notary_office_city_fk = intval(EdcensoCity::model()->find("name = :name", [":name" => $outCertidaoAntiga->outNomeMunComarca])->id);
+                $studentDocumentsAndAddress->civil_certification = 1;
+                $studentDocumentsAndAddress->civil_certification_type = 1;
+                $studentDocumentsAndAddress->civil_certification_term_number = $outCertidaoAntiga->getOutNumCertidao();
+                $studentDocumentsAndAddress->civil_certification_sheet = $outCertidaoAntiga->getOutFolhaRegNum();
+                $studentDocumentsAndAddress->civil_certification_book = $outCertidaoAntiga->getOutNumLivroReg();
+                $studentDocumentsAndAddress->notary_office_uf_fk = intval(EdcensoUf::model()->find("acronym = :acronym", [":acronym" => $outCertidaoAntiga->getOutUfComarca()])->id);
+                $studentDocumentsAndAddress->notary_office_city_fk = intval(EdcensoCity::model()->find("name = :name", [":name" => $outCertidaoAntiga->getOutNomeMunComarca()])->id);
             }
 
-            $result["StudentIdentification"] = $student_tag;
-            $result["StudentDocumentsAndAddress"] = $student_docs_tag;
+            $parseResult["StudentIdentification"] = $studentIdentification;
+            $parseResult["StudentDocumentsAndAddress"] = $studentDocumentsAndAddress;
 
-            return $result;
+            return $parseResult;
         }
+
+        private  static  function findSchoolById($schoolId)
+        {
+            return SchoolIdentification::model()->find('inep_id = :inep_id', [':inep_id' => $schoolId]);
+        }
+
+        public static function fetchSchoolData(InEscola $inEscola)
+        {
+            $dataSource = new SchoolSEDDataSource();
+            return $dataSource->getSchool($inEscola);
+        }
+
+        public static function createAndSaveNewSchool($schoolAttributes)
+        {
+            $school = new SchoolIdentification();
+            $school->attributes = $schoolAttributes;
+            
+            return ($school->validate() && $school->save()) ? true : false;
+        }
+
     }
-    
-
-
 ?>

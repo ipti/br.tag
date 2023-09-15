@@ -5,6 +5,8 @@ services:
     restart: always
     ports:
       - 80:80
+      - 433:433
+      - 9001:9001
     expose:
       - 80
     networks:
@@ -14,13 +16,11 @@ services:
       USER_DB_TAG: 'root'
       PWD_DB_TAG: 'root'
       YII_DEBUG: false
-      XDEBUG_CONFIG: remote_host=172.24.112.1 # wsl network ip
-      PHP_IDE_CONFIG: "serverName=xdebug-docker"
+      PHP_ENABLE_XDEBUG: 1
       SEDSP_URL: "https://homologacaointegracaosed.educacao.sp.gov.br"
-      
     volumes:
       - .:/app
-      #- ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
       # - ./docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
     extra_hosts:
       - host.docker.internal:host-gateway
@@ -48,7 +48,7 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     volumes:
-      - ./db:/var/lib/mysql
+      - ./docker/mysql/dbfiles:/var/lib/mysql
       # - .\dump.sql:/docker-entrypoint-initdb.d/dump.sql
       # - ./dump-data.sql:/docker-entrypoint-initdb.d/dump-data.sql
     networks:
