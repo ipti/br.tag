@@ -259,11 +259,10 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
 }
 
 .select2-search input.select2-active {
-    background: #fff url('../img/select2-spinner.gif') no-repeat 100%;
-    background: url('../img/select2-spinner.gif') no-repeat 100%, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, #fff), color-stop(0.99, #eee));
-    background: url('../img/select2-spinner.gif') no-repeat 100%, -webkit-linear-gradient(center bottom, #fff 85%, #eee 99%);
-    background: url('../img/select2-spinner.gif') no-repeat 100%, -moz-linear-gradient(center bottom, #fff 85%, #eee 99%);
-    background: url('../img/select2-spinner.gif') no-repeat 100%, linear-gradient(top, #fff 85%, #eee 99%);
+    background: url('../img/select2-spinner.gif') no-repeat 100% #fff;
+    background: -webkit-linear-gradient(top, #fff 85%, #eee 99%) no-repeat 100%;
+    background: -moz-linear-gradient(top, #fff 85%, #eee 99%) no-repeat 100%;
+    background: linear-gradient(to bottom, #fff 85%, #eee 99%) no-repeat 100%;
 }
 
 .select2-container-active .select2-choice,
