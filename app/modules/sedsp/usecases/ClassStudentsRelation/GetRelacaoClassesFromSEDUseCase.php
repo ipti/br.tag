@@ -57,7 +57,7 @@ class GetRelacaoClassesFromSEDUseCase
         }
     }
 
-    private function getStudentsFromClass($classroomGovId)
+    public function getStudentsFromClass($classroomGovId)
     {
         $inNumClasse = new InFormacaoClasse($classroomGovId);
         $formacaoClasseSEDUseCase = new GetFormacaoClasseFromSEDUseCase();
