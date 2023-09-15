@@ -81,7 +81,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 </div>
                 <div class="pull-left">
                     <span class="title">Importar alunos por turmas</span><br>
-                    <span class="subtitle">Cadastrar turma podendo trazer alunos matriculados</span>
+                    <span class="subtitle">Importa os alunos baseado na seleção das turmas</span>
                 </div>
             </button>
         </a>
