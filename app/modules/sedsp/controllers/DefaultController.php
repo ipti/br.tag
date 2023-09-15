@@ -331,11 +331,22 @@ class DefaultController extends Controller
 	public function actionImportFullStudentsByClasses()
 	{
 		$this->checkSEDToken();
-		$numClasses = $_POST['checkboxListNumClasses'];
-
+		
+		$selectedClasses = Yii::app()->request->getPost('selectedClasses', '');	
+		$numClasses = explode(',', $selectedClasses);
+	
 		$relacaoClasse = new GetRelacaoClassesFromSEDUseCase();
 		foreach ($numClasses as $numClasse) {
 			$relacaoClasse->getStudentsFromClass($numClasse);
 		}
+	}
+
+	public function actionImportSchool()
+	{
+		$this->checkSEDToken();
+
+			$inConsult = new InEscola("JOSE DE ANCHIETA PADRE EM", null, null, null);
+			$escola = new GetEscolasFromSEDUseCase();
+			$escola->createSchool($inConsult);
 	}
 }
