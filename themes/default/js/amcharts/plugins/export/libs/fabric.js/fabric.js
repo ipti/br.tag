@@ -1999,6 +1999,12 @@ fabric.Collection = {
    * @param {Object} styles
    * @return {HTMLElement} Element that was passed as a first argument
    */
+
+  setOpacity = function(element, value) {
+    element.style.opacity = value;
+    return element;
+  };
+
   function setStyle(element, styles) {
     var elementStyle = element.style;
     if (!elementStyle) {
