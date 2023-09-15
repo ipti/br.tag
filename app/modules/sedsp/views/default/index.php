@@ -47,19 +47,6 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 </div>
             </button>
         </a>
-
-        <a href="#" data-toggle="modal" data-target="#add-classroom" target="_blank">
-            <button type="button" class="report-box-container">
-                <div class="pull-left" style="margin-right: 20px;">
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/classroom.svg" />
-                    <!-- <div class="t-icon-schedule report-icon"></div> -->
-                </div>
-                <div class="pull-left">
-                    <span class="title">Cadastrar Turma</span><br>
-                    <span class="subtitle">Cadastrar turma podendo trazer alunos matriculados</span>
-                </div>
-            </button>
-        </a>
         
         <!--
         <a href="#" data-toggle="modal" data-target="#add-school" target="_blank">
@@ -74,7 +61,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             </button>
         </a>
 -->
-        <a href="#" data-toggle="modal" data-target="#get-full-school" target="_blank">
+        <a href="<?php echo Yii::app()->createUrl('sedsp/default/manageRA') ?>" data-toggle="modal" data-target="#get-full-school" target="_blank">
             <button type="button" class="report-box-container">
                 <div class="pull-left" style="margin-right: 20px;">
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/school.svg" alt="school"/>
@@ -82,6 +69,19 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 <div class="pull-left">
                     <span class="title">Importar Escola e as turmas</span><br>
                     <span class="subtitle">Realize a Importação da Escola, Incluindo Todas as Turmas</span>
+                </div>
+            </button>
+        </a>
+
+        <a  href="<?php echo Yii::app()->createUrl('sedsp/default/ListClassrooms'); ?>" data-toggle="modal" data-target="#import-students" target="_blank">
+            <button type="button" class="report-box-container">
+                <div class="pull-left" style="margin-right: 20px;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/classroom.svg" />
+                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                </div>
+                <div class="pull-left">
+                    <span class="title">Importar alunos por turmas</span><br>
+                    <span class="subtitle">Cadastrar turma podendo trazer alunos matriculados</span>
                 </div>
             </button>
         </a>
@@ -248,66 +248,83 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
 
 
 <div class="row">
-    <div class="modal fade modal-content" id="add-classroom" tabindex="-1" role="dialog">
+    <div class="modal fade modal-content" id="import-students" tabindex="-1" role="dialog">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: static;">
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
             </button>
-            <h4 class="modal-title" id="myModalLabel">Cadastrar Turma</h4>
+            <h4 class="modal-title" id="myModalLabel">Selecione as turmas para as quais deseja importar os alunos</h4>
         </div>
-        <form class="form-vertical" id="addClassroom" action="<?php echo yii::app()->createUrl('sedsp/default/AddClassroom') ?>" method="post" onsubmit="return validateFormClass();">
-            <div class="modal-body">
-                <div class="row-fluid">
-                    <div class=" span12" style="display: flex;">
-                        <div style="width: 100%;">
-                            <?php echo CHtml::label(yii::t('default', 'Código da Turma'), 'school_id', array('class' => 'control-label')); ?>
-                            <input name="classroomNum" id="class" type="number" placeholder="Digite o Código da Turma" oninput="validateClass();" maxlength="9" style="width: 97.5%;">
-                            <div id="class-warning" style="display: none;color:#D21C1C">O Código deve ter exatamente 9 dígitos.</div>
-                            <div class="checkbox modal-replicate-actions-container">
-                                <input type="checkbox" name="importStudents" style="margin-right: 10px;">
-                                Importar Matrículas dos Alunos? Isso pode aumentar o tempo de espera.
-                            </div>
-                            <!-- <div class="checkbox modal-replicate-actions-container" style="margin-top: 8px;">
-                                <input type="checkbox" name="registerAllClasses" style="margin-right: 10px;">
-                                Importar todas as turmas? Isso pode aumentar o tempo de espera.
-                            </div> -->
-                            <div id="loading-container-class" style="display: none;">
-                                <div id="loading" style="">
-                                    <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
-                                        <div id="loading">
-                                            <img class="js-grades-loading" height="40px" width="40px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
-                                        </div>
-                                        <div class="loading-text">Aguarde enquanto a(s) turma(s) é(são) importada(s)...</div>
-                                    </div>
-                                </div>           
-                            </div>
+            <div style="margin: 5px;">
+                <table
+                    class="display student-table 
+                    tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs" style="width:100%"
+                    aria-label="students table">
+                    <thead>
+                        <tr>
+                            <th>N° Classe</th>
+                            <th>Nome da turma</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $inep_id = Yii::app()->user->school;
+                        $classes = Classroom::model()->findAllBySql("SELECT c.gov_id, c.name FROM classroom c WHERE c.school_inep_fk =" . $inep_id);
+                        $selectedClasses = [];
+                        foreach ($classes as $class) {
+                            ?>
+                            <tr>
+                                <td><?php echo $class['gov_id'] ?></td>
+                                <td><?php echo $class['name'] ?></td>
+                                <td><?php echo CHtml::checkBox('checkboxListNumClasses[]', in_array($class['gov_id'], $selectedClasses), array('value' => $class['gov_id'])) ?></td>
+                            </tr>
+                        <?php }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        <form id="import-school-form" action="<?= Yii::app()->createUrl('sedsp/default/ImportFullStudentsByClasses'); ?>" method="post">
+            <div id="loading-container-import-student" style="display: none;">
+                <div id="loading" style="">
+                    <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
+                        <div id="loading">
+                            <img class="js-grades-loading" height="40px" width="40px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
                         </div>
+                        <div class="loading-text">Importando alunos...</div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"
-                        style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                    <button class="btn btn-primary" id="loading-popup-class"
-                        url="<?php echo Yii::app()->createUrl('sedsp/default/AddClassroom'); ?>" type="submit"
-                        value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
-                </div>
-        </form>
+                </div>           
+            </div>
+            <div class="modal-footer" style="width:100%">
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                <button id="loading-popup-import-students" class="btn btn-primary" type="submit" value="Importar" style="background: #3F45EA; color: #FFFFFF;"> Importar alunos </button>
+            </div>
+        </form>      
     </div>
 </div>
 
 <script>
-    document.getElementById("loading-popup").addEventListener("click", function() {
-        document.getElementById("loading-container-student").style.display = "block";
+    $('#import-students').on('hidden.bs.modal', function () {
+        // Limpa todos os checkboxes quando o modal for fechado
+        $('input[name="checkboxListNumClasses[]"]').prop('checked', false);
     });
-    document.getElementById("loading-popup-school").addEventListener("click", function() {
-        document.getElementById("loading-container-school").style.display = "block";
-    });
+    $(document).ready(function() {
+        $('#loading-popup').click(function() {
+            $('#loading-container-student').show();
+        });
+        
+        $('#loading-popup-school').click(function() {
+            $('#loading-container-school').show();
+        });
 
-    document.getElementById("loading-popup-class").addEventListener("click", function() {
-        document.getElementById("loading-container-class").style.display = "block";
+        $('#loading-popup-class').click(function() {
+            $('#loading-container-class').show();
+        });
+        $('#loading-popup-import-students').click(function() {
+            $('#loading-container-import-student').show();
+        });
     });
 </script>
-
 
 <style>
     #loading {
