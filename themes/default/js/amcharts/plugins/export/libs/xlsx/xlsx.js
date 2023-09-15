@@ -879,7 +879,7 @@ var DO_NOT_EXPORT_CFB = true;
 var CFB = (function _CFB(){
 var exports = {};
 exports.version = '0.10.2';
-function parse(file, options = null) {
+function parse(file) {
 var mver = 3; // major version
 var ssz = 512; // sector size
 var nmfs = 0; // number of mini FAT sectors
@@ -1319,7 +1319,7 @@ function safegetzipfile(zip, file) {
     return null;
 }
 
-function getzipfile(zip, file, bool = false) {
+function getzipfile(zip, file) {
     var o = safegetzipfile(zip, file);
     if(o == null) throw new Error("Cannot find file " + file + " in zip");
     return o;
@@ -1867,7 +1867,7 @@ function write_XLNullableWideString(data, o) {
 }
 
 /* [MS-XLSB] 2.5.168 */
-function parse_XLWideString(data, length = null) {
+function parse_XLWideString(data) {
     var cchCharacters = data.read_shift(4);
     return cchCharacters === 0 ? "" : data.read_shift(cchCharacters, 'dbcs');
 }
@@ -1895,7 +1895,7 @@ function parse_RkNumber(data) {
 }
 
 /* [MS-XLSB] 2.5.153 */
-function parse_UncheckedRfX(data, length = null) {
+function parse_UncheckedRfX(data) {
     var cell = {s: {}, e: {}};
     cell.s.r = data.read_shift(4);
     cell.e.r = data.read_shift(4);
@@ -2769,7 +2769,7 @@ function xlml_set_prop(Props, tag, val) {
 /* [MS-DTYP] 2.3.3 FILETIME */
 /* [MS-OLEDS] 2.1.3 FILETIME (Packet Version) */
 /* [MS-OLEPS] 2.8 FILETIME (Packet Version) */
-function parse_FILETIME(blob, length = null) {
+function parse_FILETIME(blob) {
     var dwLowDateTime = blob.read_shift(4), dwHighDateTime = blob.read_shift(4);
     return new Date(((dwHighDateTime/1e7*Math.pow(2,32) + dwLowDateTime/1e7) - 11644473600)*1000).toISOString().replace(/\.000/,"");
 }
@@ -2797,7 +2797,7 @@ function parse_VtStringBase(blob, stringType, pad) {
 }
 
 function parse_VtString(blob, t, pad) { return parse_VtStringBase(blob, t, pad === false ? 0: 4); }
-function parse_VtUnalignedString(blob, t, length = null) { if(!t) throw new Error("dafuq?"); return parse_VtStringBase(blob, t, 0); }
+function parse_VtUnalignedString(blob, t) { if(!t) throw new Error("dafuq?"); return parse_VtStringBase(blob, t, 0); }
 
 /* [MS-OSHARED] 2.3.3.1.9 VtVecUnalignedLpstrValue */
 function parse_VtVecUnalignedLpstrValue(blob) {
@@ -3064,7 +3064,7 @@ function parseuint16a(blob, length) { return parslurp(blob,length,parseuint16);}
 var parse_Boolean = parsebool;
 
 /* [MS-XLS] 2.5.10 Bes (boolean or error) */
-function parse_Bes(blob, length = null) {
+function parse_Bes(blob) {
     var v = blob.read_shift(1), t = blob.read_shift(1);
     return t === 0x01 ? v : v === 0x01;
 }
@@ -5760,7 +5760,7 @@ function parse_Formula(blob, length, opts) {
 }
 
 /* 2.5.133 TODO: how to emit empty strings? */
-function parse_FormulaValue(blob, length = null) {
+function parse_FormulaValue(blob) {
     var b;
     if(__readUInt16LE(blob,blob.l + 6) !== 0xFFFF) return [parse_Xnum(blob),'n'];
     switch(blob[blob.l]) {
@@ -9251,7 +9251,7 @@ function make_cell(val, ixfe, t) {
 }
 
 // 2.3.2
-function parse_workbook(blob, options, find = false) {
+function parse_workbook(blob, options) {
     var wb = {opts:{}};
     var Sheets = {};
     var out = {};
@@ -11151,9 +11151,7 @@ function parse_zip(zip, opts) {
     /* OpenDocument Part 3 Section 2.2.1 OpenDocument Package */
     if(safegetzipfile(zip, 'META-INF/manifest.xml')) return parse_ods(zip, opts);
 
-    var entries = keys(zip.files).filter(nodirs).sort(function(a, b) {
-        return a.localeCompare(b);
-    });
+    var entries = keys(zip.files).filter(nodirs).sort();
     var dir = parse_ct(getzipdata(zip, '[Content_Types].xml'), opts);
     var xlsb = false;
     var sheets, binname;
