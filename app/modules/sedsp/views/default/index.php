@@ -255,11 +255,9 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             </button>
             <h4 class="modal-title" id="myModalLabel">Selecione as turmas para as quais deseja importar os alunos</h4>
         </div>
-            <div style="margin: 5px;">
-                <table
-                    class="display student-table 
-                    tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs" style="width:100%"
-                    aria-label="students table">
+        <div style="margin: 5px;">
+            <form id="select-classes-form" action="<?= Yii::app()->createUrl('sedsp/default/ImportFullStudentsByClasses'); ?>" method="post">
+                <table class="display student-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs" style="width:100%" aria-label="students table">
                     <thead>
                         <tr>
                             <th>N° Classe</th>
@@ -277,37 +275,55 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                             <tr>
                                 <td><?php echo $class['gov_id'] ?></td>
                                 <td><?php echo $class['name'] ?></td>
-                                <td><?php echo CHtml::checkBox('checkboxListNumClasses[]', in_array($class['gov_id'], $selectedClasses), array('value' => $class['gov_id'])) ?></td>
+                                <td>
+                                    <?php echo CHtml::checkBox('checkboxListNumClasses[]', in_array($class['gov_id'], $selectedClasses), array('value' => $class['gov_id'])) ?>
+                                </td>
                             </tr>
                         <?php }
                         ?>
                     </tbody>
                 </table>
-            </div>
-        <form id="import-school-form" action="<?= Yii::app()->createUrl('sedsp/default/ImportFullStudentsByClasses'); ?>" method="post">
-            <div id="loading-container-import-student" style="display: none;">
-                <div id="loading" style="">
-                    <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
-                        <div id="loading">
-                            <img class="js-grades-loading" height="40px" width="40px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
+                <!-- Add hidden input field to store selected classes -->
+                <input type="hidden" name="selectedClasses" id="selectedClasses">
+                <div id="loading-container-import-student" style="display: none;">
+                    <div id="loading" style="">
+                        <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
+                            <div id="loading">
+                                <img class="js-grades-loading" height="40px" width="40px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
+                            </div>
+                            <div class="loading-text">Importando alunos...</div>
                         </div>
-                        <div class="loading-text">Importando alunos...</div>
-                    </div>
-                </div>           
-            </div>
-            <div class="modal-footer" style="width:100%">
-                <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                <button id="loading-popup-import-students" class="btn btn-primary" type="submit" value="Importar" style="background: #3F45EA; color: #FFFFFF;"> Importar alunos </button>
-            </div>
-        </form>      
-    </div>
+                    </div>           
+                </div>
+                <div class="modal-footer" style="width:100%">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                    <button id="loading-popup-import-students" class="btn btn-primary" type="submit" value="Importar" style="background: #3F45EA; color: #FFFFFF;"> Importar alunos </button>
+                </div>
+            </form>
+        </div>
 </div>
 
+
 <script>
-    $('#import-students').on('hidden.bs.modal', function () {
-        // Limpa todos os checkboxes quando o modal for fechado
-        $('input[name="checkboxListNumClasses[]"]').prop('checked', false);
+    function updateSelectedClasses() {
+        const checkboxes = document.querySelectorAll('input[name="checkboxListNumClasses[]"]');
+        const selectedClasses = [];
+
+        checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+                selectedClasses.push(checkbox.value);
+            }
+        });
+        document.getElementById('selectedClasses').value = selectedClasses.join(',');
+    }
+
+    const checkboxes = document.querySelectorAll('input[name="checkboxListNumClasses[]"]');
+    checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener('click', updateSelectedClasses);
     });
+</script>
+
+<script>
     $(document).ready(function() {
         $('#loading-popup').click(function() {
             $('#loading-container-student').show();
@@ -322,6 +338,11 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         });
         $('#loading-popup-import-students').click(function() {
             $('#loading-container-import-student').show();
+        });
+
+        //Limpa todos os checkboxes
+        $('#import-students').on('show.bs.modal', function() {
+            $('input[name="checkboxListNumClasses[]"]').prop('checked', false);
         });
     });
 </script>
