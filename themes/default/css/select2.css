@@ -203,12 +203,9 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
     position: absolute;
     right: 0;
     top: 0;
-
     border-radius: 0 4px 4px 0;
-
-    background-clip: padding-box;
-
     background: #fff;
+    background-clip: padding-box;
 }
 
 .select2-container .select2-choice .select2-arrow b {
