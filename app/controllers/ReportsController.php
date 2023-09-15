@@ -10,7 +10,7 @@ class ReportsController extends Controller
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'BFReport', 'numberStudentsPerClassroomReport',
-                    'InstructorsPerClassroomReport', 'StudentsFileReport',
+                    'MatriculationStatisticsByYearReport','InstructorsPerClassroomReport', 'StudentsFileReport',
                     'getStudentsFileInformation', 'ResultBoardReport',
                     'StatisticalDataReport', 'StudentsDeclarationReport',
                     'EnrollmentPerClassroomReport', 'AtaSchoolPerformance',
@@ -1763,6 +1763,17 @@ class ReportsController extends Controller
                     where school_year  = " . $this->year . " and school_inep_fk=" . Yii::app()->user->school . " order by name;";
         $result = Yii::app()->db->createCommand($sql)->queryAll();
         $this->render('NumberStudentsPerClassroomReport', array(
+            'report' => $result,
+        ));
+    }
+
+    public function actionMatriculationStatisticsByYearReport()
+    {
+        $this->layout = "reportsclean";
+        $sql = "SELECT * FROM classroom_qtd_students
+                    where school_year  = " . $this->year . " and school_inep_fk=" . Yii::app()->user->school . " order by name;";
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+        $this->render('MatriculationStatisticsByYearReport', array(
             'report' => $result,
         ));
     }
