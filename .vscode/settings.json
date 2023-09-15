@@ -3,6 +3,10 @@
         "connectionId": "ipti",
         "projectKey": "ipti_br.tag"
     },
-    "php.version": "7.2",
-    "php.problems.scope": "opened"
+    "files.exclude": {
+        "node_modules/": true,
+        ".idea/": true,
+        ".vscode/": true,
+        "db": true
+    }
 }

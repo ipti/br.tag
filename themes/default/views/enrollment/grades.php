@@ -66,7 +66,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Grades'));
             ));
             ?>
         </div>
-        <img class="js-grades-loading"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+        <img class="js-grades-loading"  style="display:none;margin: 10px 20px;overflow-y: auto;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
     </div>
     <br>
     <div class="js-grades-container"></div>

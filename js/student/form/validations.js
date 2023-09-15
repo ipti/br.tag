@@ -705,6 +705,11 @@ $(".save-student").click(function () {
     var error = false;
     var message = "";
 
+    if($("#StudentIdentification_bf_participator").is(":checked") && $("#StudentDocumentsAndAddress_nis").val() == "") {
+        error = true;
+        message += "O campo <b>NIS</b> é obrigatório para alunos participantes do Bolsa Família.<br>";
+    }
+
     if($("#errorNameIcon").css('display') == 'inline-block') {
         error = true;
         message += "Corrija o campo <b>Nome</b>.<br>";

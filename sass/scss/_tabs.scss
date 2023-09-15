@@ -15,12 +15,12 @@
 
     @include device(tablet) {
     
-        padding: $spaceSmall $spaceMedium $spaceSmall $spaceMedium;
+        padding: $spaceSmall $spaceMedium $spaceSmall $spaceEmpty;
         margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
         overflow-x: hidden;
     }
     @include device(desktop) {
-        padding: $spaceXXSmall;
+        padding: $spaceXXSmall $spaceXXSmall $spaceXXSmall $spaceEmpty;
         margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
         overflow-x: hidden;
     }
@@ -72,12 +72,22 @@
                 display: flex;
                 align-items: center;
 
+                &.first {
+                    padding: $spaceNormal $spaceNormal $spaceNormal $spaceEmpty;
+                }
+
                 @include device(tablet) {
                     padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceMedium;
+                    &.first {
+                        padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceEmpty;
+                    }
             
                 }
                 @include device(desktop) {
                     padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
+                    &.first {
+                        padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceEmpty;
+                    }
                     
                 }
                 .t-tabs__numeration {
