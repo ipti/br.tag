@@ -120,7 +120,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                     </div>
                 </div>
                 <div id="loading-container-student" style="display: none;">
-                    <div id="loading" style="">
+                    <div id="loading">
                         <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
                             <div id="loading">
                                 <img class="js-grades-loading" height="40px" width="40px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
@@ -229,7 +229,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 </div>
             </div>
             <div id="loading-container-school" style="display: none;">
-                <div id="loading" style="">
+                <div id="loading">
                     <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
                         <div id="loading">
                             <img class="js-grades-loading" height="40px" width="40px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
@@ -286,7 +286,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 <!-- Add hidden input field to store selected classes -->
                 <input type="hidden" name="selectedClasses" id="selectedClasses">
                 <div id="loading-container-import-student" style="display: none;">
-                    <div id="loading" style="">
+                    <div id="loading">
                         <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
                             <div id="loading">
                                 <img class="js-grades-loading" height="40px" width="40px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
