@@ -61,7 +61,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             </button>
         </a>
 -->
-        <a href="<?php echo Yii::app()->createUrl('sedsp/default/manageRA') ?>" data-toggle="modal" data-target="#get-full-school" target="_blank">
+        <a href="<?php echo Yii::app()->createUrl('sedsp/default/manageRA') ?>" data-toggle="modal" data-target="#get-full-school" rel="noopener" target="_blank">
             <button type="button" class="report-box-container">
                 <div class="pull-left" style="margin-right: 20px;">
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/school.svg" alt="school"/>
@@ -73,7 +73,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             </button>
         </a>
 
-        <a  href="<?php echo Yii::app()->createUrl('sedsp/default/ListClassrooms'); ?>" data-toggle="modal" data-target="#import-students" target="_blank">
+        <a  href="<?php echo Yii::app()->createUrl('sedsp/default/ListClassrooms'); ?>" data-toggle="modal" data-target="#import-students" rel="noopener" target="_blank">
             <button type="button" class="report-box-container">
                 <div class="pull-left" style="margin-right: 20px;">
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/classroom.svg" />
@@ -81,7 +81,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 </div>
                 <div class="pull-left">
                     <span class="title">Importar alunos por turmas</span><br>
-                    <span class="subtitle">Cadastrar turma podendo trazer alunos matriculados</span>
+                    <span class="subtitle">Importa os alunos baseado na seleção das turmas</span>
                 </div>
             </button>
         </a>
