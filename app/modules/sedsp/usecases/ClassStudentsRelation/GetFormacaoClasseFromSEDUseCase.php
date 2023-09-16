@@ -86,7 +86,7 @@ class GetFormacaoClasseFromSEDUseCase
             $studentEnrollment->school_admission_date = date("d/m/Y");
             
             if ($studentEnrollment->validate() && $studentEnrollment->save()) {
-                Yii::log('Aluno matriculado com sucesso.', CLogger::LEVEL_INFO); 
+                Yii::log('Aluno matriculado com sucesso.', CLogger::LEVEL_INFO);
             } else {
                 Yii::log($studentEnrollment->getErrors(), CLogger::LEVEL_ERROR);
                 return false;
