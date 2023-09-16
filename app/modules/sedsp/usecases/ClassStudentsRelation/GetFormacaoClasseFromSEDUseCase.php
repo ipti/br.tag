@@ -53,7 +53,7 @@ class GetFormacaoClasseFromSEDUseCase
                     $this->createEnrollment($tagClassroom, $studentModel, $alunoTurma);
                 }
                 catch (\Throwable $th) {
-                    Yii::log($th->getMessage(), CLogger::LEVEL_WARNING); 
+                    Yii::log($th->getMessage(), CLogger::LEVEL_WARNING);
                     $status = false;
                 }
             }
