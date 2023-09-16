@@ -130,8 +130,13 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                    <button id="loading-popup" class="btn btn-primary" url="<?php echo Yii::app()->createUrl('sedsp/default/ImportStudentRA'); ?>" type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
+                    <button type="button" class="btn btn-default"
+                        data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar
+                    </button>
+                    <button id="loading-popup" class="btn btn-primary"
+                        url="<?php echo Yii::app()->createUrl('sedsp/default/ImportStudentRA'); ?>"
+                        type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar
+                    </button>
                 </div>
         </form>
     </div>
@@ -239,8 +244,14 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                <button id="loading-popup-school" class="btn btn-primary" url="<?= Yii::app()->createUrl('sedsp/default/ImportFullSchool'); ?>" type="submit" value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
+                <button type="button" class="btn btn-default"
+                    data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">
+                    Voltar
+                </button>
+                <button id="loading-popup-school" class="btn btn-primary"
+                    url="<?= Yii::app()->createUrl('sedsp/default/ImportFullSchool'); ?>"
+                    type="submit" value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar
+                </button>
             </div>
         </div>
     </form>
