@@ -231,7 +231,7 @@ class ClassroomMapper
             return $mapperTipoEnsino[$codTipoEnsino][$codSerieAno];
         }
 
-        throw new Exception("Tipo de ensino não tem etapa equivalente no mapa de conversão " . $codTipoEnsino . ' -> ' .  $codSerieAno, 1);
+        throw new TipoEnsinoConversionException($codTipoEnsino, $codSerieAno);
     }
 
     /**
