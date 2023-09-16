@@ -268,7 +268,9 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         </div>
         <div style="margin: 5px;">
             <form id="select-classes-form" action="<?= Yii::app()->createUrl('sedsp/default/ImportFullStudentsByClasses'); ?>" method="post">
-                <table class="display student-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs" style="width:100%" aria-label="students table">
+                <table
+                    class="display student-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs"
+                    style="width:100%" aria-label="students table">
                     <thead>
                         <tr>
                             <th>N° Classe</th>
