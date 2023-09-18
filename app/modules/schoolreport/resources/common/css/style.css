@@ -3797,8 +3797,8 @@ textarea {
 .input-group-addon i:before {
   color: #D0D1D1;
 }
-.input-group .input-group-addon icon,
-.input-group-addon icon {
+.input-group .input-group-addon i,
+.input-group-addon i {
   margin-top: 0;
 }
 .input-group .input-group-addon.glyphicons,
@@ -4803,7 +4803,6 @@ textarea {
   border-top: none;
 }
 .widget .widget-body .panel{
-  webkit-box-shadow: none;
    box-shadow: none;
 }
 .widget .widget-body .glyphicons:before {
