@@ -8,7 +8,5 @@
         ".idea/": true,
         ".vscode/": true,
         "db": true
-    },
-    "php.version": "7.4",
-    "php.problems.scope": "opened"
+    }
 }
