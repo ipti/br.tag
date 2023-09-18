@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 	'Food Menus'=>array('index'),
 	'Create',
 );
-
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Criar Cardápio'));
 $this->menu=array(
 	array('label'=>'List FoodMenu', 'url'=>array('index')),
 	array('label'=>'Manage FoodMenu', 'url'=>array('admin')),
@@ -14,7 +14,7 @@ $this->menu=array(
 ?>
 <div class="row main">
 	<div class="column">
-		<h1>Create FoodMenu</h1>
+		<h1>Criar Cardápio</h1>
 	</div>
 </div>
 

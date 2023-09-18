@@ -5,7 +5,8 @@
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/_initialization.js');
+$cs->registerScriptFile($baseScriptUrl . '/_initialization.js', CClientScript::POS_END );
+$cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END );
 ?>
 
 <div class="form">
@@ -59,8 +60,10 @@ $cs->registerScriptFile($baseScriptUrl . '/_initialization.js');
 			<div class="column"></div>
 		</div>
 		<div class="row">
-			<div class="column">
-				<a class="t-button-primary column">Adicionar Cardápio</a>
+			<div class="column t-buttons-container">
+				<a class="t-button-primary js-add-meal">
+					Adicionar Refeição
+				</a>
 			</div>
 		</div>
 	</div>
@@ -69,6 +72,61 @@ $cs->registerScriptFile($baseScriptUrl . '/_initialization.js');
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Criar' : 'Salvar', array('class'=>'t-button-primary')); ?>
 	</div>
 
+	<div class="modal fade t-modal-container js-add-meal-modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="t-modal__header">
+				<h4 class="t-title">Adicionar Refeições</h4>
+				<span class="t-icon-close close" data-dismiss="modal" aria-label="Close"></span>
+			</div>
+			<div class="t-modal__body">
+				<div class="row">
+					<div class="t-field-text column">
+						<?= chtml::label('Hora da refeição *', 'mealTime', array('class'=> 't-field-text__label--required')); ?>
+						<?= CHtml::textField('mealTime', '', array('class'=> 't-field-text__input', 'id' => 'mealTime'));?>
+					</div>
+					<div class="column">
+						<div class="t-field-checkbox-group row">
+							<div class="justify-content--center flex-direction--col">
+								<?= chtml::label('S', 'monday', array('class'=> 't-field-checkbox__label'));?>
+								<?= CHtml::checkBox('monday', false, array('class' => 't-field-checkbox__input clear-margin--right')) ?>
+							</div>
+							<div class="justify-content--center flex-direction--col">
+								<?= chtml::label('T', 'tuesday', array('class'=> 't-field-checkbox__label'));?>
+								<?= CHtml::checkBox('tuesday', false, array('class' => 't-field-checkbox__input clear-margin--right')) ?>
+							</div>
+
+							<div class="justify-content--center flex-direction--col">
+								<?= chtml::label('Q', 'wednesday', array('class'=> 't-field-checkbox__label'));?>
+								<?= CHtml::checkBox('wednesday', false, array('class' => 't-field-checkbox__input clear-margin--right')) ?>
+							</div>
+
+							<div class="justify-content--center flex-direction--col">
+								<?= chtml::label('Q', 'thursday', array('class'=> 't-field-checkbox__label'));?>
+								<?= CHtml::checkBox('thursday', false, array('class' => 't-field-checkbox__input clear-margin--right')) ?>
+							</div>
+
+							<div class="justify-content--center flex-direction--col">
+								<?= chtml::label('S', 'friday', array('class'=> 't-field-checkbox__label'));?>
+								<?= CHtml::checkBox('friday', false, array('class' => 't-field-checkbox__input clear-margin--right')) ?>
+							</div>
+
+							<div class="justify-content--center flex-direction--col">
+								<?= chtml::label('S', 'saturday', array('class'=> 't-field-checkbox__label'));?>
+								<?= CHtml::checkBox('saturday', false, array('class' => 't-field-checkbox__input clear-margin--right')) ?>
+							</div>
+
+							<div class="justify-content--center flex-direction--col">
+								<?= chtml::label('D', 'sunday', array('class'=> 't-field-checkbox__label'));?>
+								<?= CHtml::checkBox('sunday', false, array('class' => 't-field-checkbox__input clear-margin--right')) ?>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="t-modal__footer"></div>
+		</div>
+	</div>
 <?php $this->endWidget(); ?>
 	
 </div><!-- form -->

@@ -10,9 +10,11 @@
     margin-bottom: $SizeXSmall;
 
     &__label {
+        font-size: $FontSizeFormLabel;
         padding-top: 0 !important;
 
         &--required {
+            font-size: $FontSizeFormLabel;
             font-weight: bold;
         }
     }

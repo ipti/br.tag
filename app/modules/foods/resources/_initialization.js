@@ -1,7 +1,4 @@
-alert("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 $('.js-date').mask("99/99/9999");
-
-// var currentDate = new Intl.DateTimeFormat('pt-BR').format(Date.now());
 $(".js-date").datepicker({
     locate: "pt-BR",
     format: "dd/mm/yyyy",
@@ -18,5 +15,3 @@ $(".js-date").datepicker({
 }).on('changeDate', function (ev, indirect) {
    
 })
-
-// $(".js-date").datepicker("setDate", currentDate);

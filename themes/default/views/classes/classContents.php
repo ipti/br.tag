@@ -51,18 +51,16 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <tr>
         <tr>
             <th>Localização:</th>
-            <td colspan="2"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
+            <td colspan="2"><?php echo $school->location == 1 ? "URBANA" : "RURAL" ?></td>
             <th>Dependência Administrativa:</th>
             <td colspan="4"><?php
                             $ad = $school->administrative_dependence;
-                            echo ($ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
-                                "PRIVADA")));
+                            echo $ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
+                                "PRIVADA"));
                             ?></td>
         <tr>
     </table>
     <br>
-
-    <!-- <div class="innerLR"> -->
     <div>
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">

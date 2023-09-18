@@ -6,7 +6,9 @@
     width: 100%;
     margin-bottom: $SizeNormal;
     &__label{
+        font-size: $FontSizeFormLabel;
         &--required {
+            font-size: $FontSizeFormLabel;
             font-weight: bold;
         }
     }

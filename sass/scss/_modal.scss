@@ -14,17 +14,19 @@
         .t-title {
             font-size: $FontSizeHeadingTitle2;
             color: $colorsTextPrimary;
+            font-weight: $fontWeightHeadingDisplay;
             margin: 0;
         }
         .close {
             opacity: 1;
+            font-size: $SizeNormal;
         }
     }
     .t-modal__body {
         padding: $SizeNormal $SizeLarge;
         
         label {
-            font-size: $FontSizeTextNormal;
+            font-size: $FontSizeFormLabel;
         }
     }
     .t-modal__footer {

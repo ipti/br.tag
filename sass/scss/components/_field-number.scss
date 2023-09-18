@@ -4,9 +4,11 @@
 .t-field-number {
     margin-bottom: $SizeNormal;
     &__label{
+        font-size: $FontSizeFormLabel;
         display: flex;
         align-items: center;
         &--required {
+            font-size: $FontSizeFormLabel;
             font-weight: bold;
         }
     }
