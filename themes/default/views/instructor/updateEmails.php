@@ -47,7 +47,7 @@ $form = $this->beginWidget('CActiveForm', [
     </div>
     <div class="row reverse show--tablet">
         <div class="tag-buttons-container buttons">
-            <button class="t-button-primary  last save-school-button" type="button">
+            <button class="t-button-primary  last save-school-button save" type="button">
                 <?php echo Yii::t('default', 'Save'), array('id' => 'save-emails'); ?>
             </button>
         </div>
