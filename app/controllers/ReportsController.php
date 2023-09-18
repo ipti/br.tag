@@ -2081,6 +2081,7 @@ class ReportsController extends Controller
                 foreach ($students as &$student) {
                     $student["frequency"] = (floor((($student["total"] - count($student["faults"])) / $student["total"]) * 100 * 100) / 100) . "%";
                 }
+                unset($student);
             }
         } else {
             $schedules = Schedule::model()
