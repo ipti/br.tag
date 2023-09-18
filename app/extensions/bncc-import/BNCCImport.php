@@ -27,20 +27,17 @@ class BNCCImport
         return $parsedData;
     }
 
-    public function importCSVFundamental()
+    public function importCSVFundamental($discipline)
     {
-        $csvData = $this->readCSV('/extensions/bncc-import/matematica.csv');
+        $csvData = $this->readCSV('/extensions/bncc-import/'.$discipline.'.csv');
         $parsedData = $this->parseCSVDataFundamental($csvData);
 
-        // CVarDumper::dump($parsedData, 10, true);
-        // exit;
+        // CVarDumper::dump($parsedData, 10, true); 
 
         foreach ($parsedData as $key => $value) {
             $discipline = $this->map_discipline($value["name"]);
             self::deep_create($value, null, $discipline, null);
         }
-
-        !d($parsedData["Matemática"]["children"]["Números"]);
 
         return $parsedData;
     }
@@ -129,179 +126,173 @@ class BNCCImport
 
             if (in_array($disciplineName, $arrayDisciplines)) { //ARTE - EDUCAÇÃO FÍSICA - GEOGRAFIA - HISTÓRIA - ENSINO RELIGIOSO
                 $component = trim($line[0]);
-                $stage = trim($line[1]);
-                $skills = trim($line[2]);
-                $unity = trim($line[3]);
-                $objective = trim($line[4]);
-                $abilitie = trim($line[5]);
-
-                if (!empty($component)) {
-                    // Inicializar a categoria atual
-                    $currentCategory = $component;
-                    if (!isset($parsedData[$currentCategory])) {
-                        $parsedData[$currentCategory] = [
-                            'name' => $currentCategory,
-                            'type' => "COMPONENTE",
-                            'stage' =>  $stage,
-                            'children' => []
-                        ];
-                    }
-                    $currentSubCategory = '';
-                }
-
-                // Competências específicas de componente
-                if (!empty($skills)) {
-                    if (!isset($parsedData[$component]['children'][$skills])) {
-                        $parsedData[$component]['children'][$skills] = ['name' => $skills, 'type' => "COMPETÊNCIAS ESPECÍFICAS DE COMPONENTE", 'children' => []];
-                    }
-                }
-
-                // Unidades temáticas
-                if (!empty($fields)) {                                
-                    $parsedData[$component]['children'][$skills]['children'][$unity] = ["name" => $unity, 'type' => "UNIDADE TEMÁTICA", 'children' => []];
-                }
-
-                // Objetos de conhecimento	
-                if (!empty($objective)) {                                
-                    $parsedData[$component]['children'][$skills]['children'][$unity]['children'][$objective] = ["name" => $objective, 'type' => "OBJETO DE CONHECIMENTO", 'children' => []];
-                }
-
-                // Habilidades
-                if (!empty($abilitie)) {
-                    $parsedData[$component]['children'][$skills]['children'][$unity]['children'][$objective]['children'][$abilitie]['children'][] = ["name" => $abilitie, 'type' => "HABILIDADE"];                
-                }
-            }else if ($disciplineName == "Matemática" || $disciplineName == "Ciências") { // Matematica e Ciencias
-                $component = trim($line[0]);
-                $stage = trim($line[1]);
+                $stages = explode(';', trim($line[1]));
                 $unity = trim($line[2]);
                 $objective = trim($line[3]);
                 $abilitie = trim($line[4]);
 
-                if (!empty($component)) {
-                    // Inicializar a categoria atual
-                    $currentCategory = $component;
-                    if (!isset($parsedData[$currentCategory])) {
-                        $parsedData[$currentCategory] = [
-                            'name' => $currentCategory,
-                            'type' => "COMPONENTE",
-                            'stage' =>  $stage,
-                            'children' => []
-                        ];
+                foreach ($stages as $stage) {
+                    if (!empty($component)) {
+                        // Inicializar a categoria atual
+                        $currentCategory = $component;
+                        if (!isset($parsedData[$currentCategory])) {
+                            $parsedData[$currentCategory] = [
+                                'name' => $currentCategory,
+                                'type' => "COMPONENTE",
+                                'stage' =>  $stage,
+                                'children' => []
+                            ];
+                        }
+                        $currentSubCategory = '';
                     }
-                    $currentSubCategory = '';
-                }
-
-                if (!empty($unity)) {
-                    if (!isset($parsedData[$component]['children'][$unity])) {
-                        $parsedData[$component]['children'][$unity] = ['name' => $unity, 'type' => "UNIDADE TEMÁTICA", 'children' => []];
+    
+                    // UNIDADE TEMÁTICA
+                    if (!empty($unity)) {
+                        if (!isset($parsedData[$component]['children'][$unity])) {
+                            $parsedData[$component]['children'][$unity] = ['name' => $unity, 'type' => "UNIDADE TEMÁTICA", 'children' => []];
+                        }
+                    }
+    
+                    // Objetos de conhecimento	
+                    if (!empty($objective)) {                                
+                        $parsedData[$component]['children'][$unity]['children'][$objective] = ["name" => $objective, 'type' => "OBJETO DE CONHECIMENTO", 'children' => []];
+                    }
+    
+                    // Habilidades
+                    if (!empty($abilitie)) {
+                        $parsedData[$component]['children'][$unity]['children'][$objective]['children'][$abilitie]['children'][] = ["name" => $abilitie, 'type' => "HABILIDADE"];                
                     }
                 }
 
-                if (!empty($objective)) {                                
-                    $parsedData[$component]['children'][$unity]['children'][$objective] = ["name" => $objective, 'type' => "OBJETO DE CONHECIMENTO", 'children' => []];
+            }else if ($disciplineName == "Matemática" || $disciplineName == "Ciências") { // Matematica e Ciencias
+                $component = trim($line[0]);
+                $stages = explode(';', trim($line[1]));
+                $unity = trim($line[2]);
+                $objective = trim($line[3]);
+                $abilitie = trim($line[4]);
+
+                foreach ($stages as $stage) {
+                    if (!empty($component)) {
+                        // Inicializar a categoria atual
+                        $currentCategory = $component;
+                        if (!isset($parsedData[$currentCategory])) {
+                            $parsedData[$currentCategory] = [
+                                'name' => $currentCategory,
+                                'type' => "COMPONENTE",
+                                'stage' =>  $stage,
+                                'children' => []
+                            ];
+                        }
+                        $currentSubCategory = '';
+                    }
+    
+                    if (!empty($unity)) {
+                        if (!isset($parsedData[$component]['children'][$unity])) {
+                            $parsedData[$component]['children'][$unity] = ['name' => $unity, 'type' => "UNIDADE TEMÁTICA", 'children' => []];
+                        }
+                    }
+    
+                    if (!empty($objective)) {                                
+                        $parsedData[$component]['children'][$unity]['children'][$objective] = ["name" => $objective, 'type' => "OBJETO DE CONHECIMENTO", 'children' => []];
+                    }
+    
+                    if (!empty($abilitie)) {
+                        $parsedData[$component]['children'][$unity]['children'][$objective]['children'][$abilitie]['children'][] = ["name" => $abilitie, 'type' => "HABILIDADE"];                
+                    }
                 }
 
-                if (!empty($abilitie)) {
-                    $parsedData[$component]['children'][$unity]['children'][$objective]['children'][$abilitie]['children'][] = ["name" => $abilitie, 'type' => "HABILIDADE"];                
-                }
             }else if ($disciplineName == "Língua Portuguesa") { // Lingua Portuguesa
                 $component = trim($line[0]);
-                $stage = trim($line[1]);
-                $skills = trim($line[2]);
-                $fields = trim($line[3]);
-                $practices = trim($line[4]);
-                $objective = trim($line[5]);
-                $abilitie = trim($line[6]);
+                $stages = explode(';', trim($line[1]));
+                $fields = trim($line[2]);
+                $practices = trim($line[3]);
+                $objective = trim($line[4]);
+                $abilitie = trim($line[5]);
 
-                if (!empty($component)) {
-                    // Inicializar a categoria atual
-                    $currentCategory = $component;
-                    if (!isset($parsedData[$currentCategory])) {
-                        $parsedData[$currentCategory] = [
-                            'name' => $currentCategory,
-                            'type' => "COMPONENTE",
-                            'stage' =>  $stage,
-                            'children' => []
-                        ];
+                foreach ($stages as $stage) {
+                    if (!empty($component)) {
+                        // Inicializar a categoria atual
+                        $currentCategory = $component;
+                        if (!isset($parsedData[$currentCategory])) {
+                            $parsedData[$currentCategory] = [
+                                'name' => $currentCategory,
+                                'type' => "COMPONENTE",
+                                'stage' =>  $stage,
+                                'children' => []
+                            ];
+                        }
+                        $currentSubCategory = '';
                     }
-                    $currentSubCategory = '';
-                }
-
-                // Competências específicas de componente
-                if (!empty($skills)) {
-                    if (!isset($parsedData[$component]['children'][$skills])) {
-                        $parsedData[$component]['children'][$skills] = ['name' => $skills, 'type' => "COMPETÊNCIAS ESPECÍFICAS DE COMPONENTE", 'children' => []];
+    
+                    // Campos de Atuação
+                    if (!empty($fields)) {
+                        if (!isset($parsedData[$component]['children'][$fields])) {
+                            $parsedData[$component]['children'][$fields] = ['name' => $fields, 'type' => "CAMPOS DE ATUAÇÃO", 'children' => []];
+                        }
+                    }
+    
+                    // Práticas de linguagem
+                    if (!empty($practices)) {                                
+                        $parsedData[$component]['children'][$fields]['children'][$practices] = ["name" => $practices, 'type' => "PRÁTICAS DE LINGUAGEM", 'children' => []];
+                    }
+    
+                    // Objetos de conhecimento	
+                    if (!empty($objective)) {                                
+                        $parsedData[$component]['children'][$fields]['children'][$practices]['children'][$objective] = ["name" => $objective, 'type' => "OBJETO DE CONHECIMENTO", 'children' => []];
+                    }
+    
+                    // Habilidades
+                    if (!empty($abilitie)) {
+                        $parsedData[$component]['children'][$fields]['children'][$practices]['children'][$objective]['children'][$abilitie]['children'][] = ["name" => $abilitie, 'type' => "HABILIDADE"];                
                     }
                 }
 
-                // Campos de atuação
-                if (!empty($fields)) {                                
-                    $parsedData[$component]['children'][$skills]['children'][$fields] = ["name" => $fields, 'type' => "CAMPOS DE ATUAÇÃO", 'children' => []];
-                }
-
-                // Práticas de linguagem
-                if (!empty($practices)) {                                
-                    $parsedData[$component]['children'][$skills]['children'][$fields]['children'][$practices] = ["name" => $practices, 'type' => "PRÁTICAS DE LINGUAGEM", 'children' => []];
-                }
-
-                // Objetos de conhecimento	
-                if (!empty($objective)) {                                
-                    $parsedData[$component]['children'][$skills]['children'][$fields]['children'][$practices]['children'][$objective] = ["name" => $objective, 'type' => "OBJETO DE CONHECIMENTO", 'children' => []];
-                }
-
-                // Habilidades
-                if (!empty($abilitie)) {
-                    $parsedData[$component]['children'][$skills]['children'][$fields]['children'][$practices]['children'][$objective]['children'][$abilitie]['children'][] = ["name" => $abilitie, 'type' => "HABILIDADE"];                
-                }
             }else if ($disciplineName == "Língua Inglesa") {
                 $component = trim($line[0]);
-                $stage = trim($line[1]);
-                $skills = trim($line[2]);
-                $axle = trim($line[3]);
-                $unity = trim($line[4]);
-                $objective = trim($line[5]);
-                $abilitie = trim($line[6]);
+                $stages = explode(';', trim($line[1]));
+                $axle = trim($line[2]);
+                $unity = trim($line[3]);
+                $objective = trim($line[4]);
+                $abilitie = trim($line[5]);
 
-                if (!empty($component)) {
-                    // Inicializar a categoria atual
-                    $currentCategory = $component;
-                    if (!isset($parsedData[$currentCategory])) {
-                        $parsedData[$currentCategory] = [
-                            'name' => $currentCategory,
-                            'type' => "COMPONENTE",
-                            'stage' =>  $stage,
-                            'children' => []
-                        ];
+                foreach ($stages as $stage) {
+                    if (!empty($component)) {
+                        // Inicializar a categoria atual
+                        $currentCategory = $component;
+                        if (!isset($parsedData[$currentCategory])) {
+                            $parsedData[$currentCategory] = [
+                                'name' => $currentCategory,
+                                'type' => "COMPONENTE",
+                                'stage' =>  $stage,
+                                'children' => []
+                            ];
+                        }
+                        $currentSubCategory = '';
                     }
-                    $currentSubCategory = '';
-                }
-
-                // Competências específicas de componente
-                if (!empty($skills)) {
-                    if (!isset($parsedData[$component]['children'][$skills])) {
-                        $parsedData[$component]['children'][$skills] = ['name' => $skills, 'type' => "COMPETÊNCIAS ESPECÍFICAS DE COMPONENTE", 'children' => []];
+    
+                    // Competências específicas de componente
+                    if (!empty($axle)) {
+                        if (!isset($parsedData[$component]['children'][$axle])) {
+                            $parsedData[$component]['children'][$axle] = ['name' => $axle, 'type' => "EIXO", 'children' => []];
+                        }
+                    }
+    
+                    // Unidades temáticas
+                    if (!empty($fields)) {                                
+                        $parsedData[$component]['children'][$axle]['children'][$unity] = ["name" => $unity, 'type' => "UNIDADE TEMÁTICA", 'children' => []];
+                    }
+    
+                    // Objetos de conhecimento	
+                    if (!empty($objective)) {                                
+                        $parsedData[$component]['children'][$axle]['children'][$unity]['children'][$objective] = ["name" => $objective, 'type' => "OBJETO DE CONHECIMENTO", 'children' => []];
+                    }
+    
+                    // Habilidades
+                    if (!empty($abilitie)) {
+                        $parsedData[$component]['children'][$axle]['children'][$unity]['children'][$objective]['children'][$abilitie]['children'][] = ["name" => $abilitie, 'type' => "HABILIDADE"];                
                     }
                 }
 
-                // Eixo
-                if (!empty($fields)) {                                
-                    $parsedData[$component]['children'][$skills]['children'][$axle] = ["name" => $axle, 'type' => "EIXO", 'children' => []];
-                }
-
-                // Unidades temáticas
-                if (!empty($fields)) {                                
-                    $parsedData[$component]['children'][$skills]['children'][$axle]['children'][$unity] = ["name" => $unity, 'type' => "UNIDADE TEMÁTICA", 'children' => []];
-                }
-
-                // Objetos de conhecimento	
-                if (!empty($objective)) {                                
-                    $parsedData[$component]['children'][$skills]['children'][$axle]['children'][$unity]['children'][$objective] = ["name" => $objective, 'type' => "OBJETO DE CONHECIMENTO", 'children' => []];
-                }
-
-                // Habilidades
-                if (!empty($abilitie)) {
-                    $parsedData[$component]['children'][$skills]['children'][$axle]['children'][$unity]['children'][$objective]['children'][$abilitie]['children'][] = ["name" => $abilitie, 'type' => "HABILIDADE"];                
-                }
             }
             
         }
@@ -381,7 +372,7 @@ class BNCCImport
             "Educação Física" => 11,
             "História" => 12,
             "Geografia" => 13,
-            "Ensino religioso" => 26
+            "Ensino Religioso" => 26
         ];
 
         return $disciplines[$discipline_name];
@@ -401,11 +392,11 @@ class BNCCImport
         }
         $new_abilities->edcenso_stage_vs_modality_fk = $edcenso_stage_vs_modality_fk;
 
-        echo 'var_dump<br>';
-        CVarDumper::dump($abilities, 10, true);
-        echo 'end var_dump<br>';
-
         $new_abilities->save();
+
+        if($abilities["type"] == "OBJETO DE CONHECIMENTO" || $abilities["type"] == "HABILIDADE") {
+            CVarDumper::dump($new_abilities->attributes, 10, true);
+        }
 
         // if ($new_abilities->save()) {
             if(!empty($abilities["children"])) {
