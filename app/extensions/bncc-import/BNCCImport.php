@@ -107,6 +107,7 @@ class BNCCImport
             if (!empty($description)) {
                 // Adicionar a descrição à subcategoria atual
                 $parsedData[$currentCategory]['children'][$currentSubCategory]['name'] = $currentSubCategory;
+                
                 $parsedData[$currentCategory]['children'][$currentSubCategory]['children'][] = ["name" => $description, 'stage'=> $stage, 'type' => "Objetivos de aprendizagem e desenvolvimento"];
             }
         }
@@ -130,7 +131,9 @@ class BNCCImport
                 $unity = trim($line[2]);
                 $objective = trim($line[3]);
                 $abilitie = trim($line[4]);
+                
 
+                
                 foreach ($stages as $stage) {
                     if (!empty($component)) {
                         // Inicializar a categoria atual
@@ -153,14 +156,14 @@ class BNCCImport
                         }
                     }
     
-                    // Objetos de conhecimento	
-                    if (!empty($objective)) {                                
+                     // Objetos de conhecimento	
+                     if (!empty($objective) && !isset($parsedData[$component]['children'][$unity]['children'][$objective]) ) {        
                         $parsedData[$component]['children'][$unity]['children'][$objective] = ["name" => $objective, 'type' => "OBJETO DE CONHECIMENTO", 'children' => []];
                     }
     
                     // Habilidades
                     if (!empty($abilitie)) {
-                        $parsedData[$component]['children'][$unity]['children'][$objective]['children'][$abilitie]['children'][] = ["name" => $abilitie, 'type' => "HABILIDADE"];                
+                        $parsedData[$component]['children'][$unity]['children'][$objective]['children'][$abilitie] = ["name" => $abilitie, 'type' => "HABILIDADE"];                
                     }
                 }
 
@@ -192,7 +195,7 @@ class BNCCImport
                         }
                     }
     
-                    if (!empty($objective)) {                                
+                    if (!empty($objective) && isset($parsedData[$component]['children'][$unity]['children'][$objective])) {                                
                         $parsedData[$component]['children'][$unity]['children'][$objective] = ["name" => $objective, 'type' => "OBJETO DE CONHECIMENTO", 'children' => []];
                     }
     
@@ -201,7 +204,7 @@ class BNCCImport
                     }
                 }
 
-            }else if ($disciplineName == "Língua Portuguesa") { // Lingua Portuguesa
+            } else if ($disciplineName == "Língua Portuguesa") { // Lingua Portuguesa
                 $component = trim($line[0]);
                 $stages = explode(';', trim($line[1]));
                 $fields = trim($line[2]);
@@ -232,12 +235,12 @@ class BNCCImport
                     }
     
                     // Práticas de linguagem
-                    if (!empty($practices)) {                                
+                    if (!empty($practices) && !isset($parsedData[$component]['children'][$fields]['children'][$practices])) {                                
                         $parsedData[$component]['children'][$fields]['children'][$practices] = ["name" => $practices, 'type' => "PRÁTICAS DE LINGUAGEM", 'children' => []];
                     }
     
                     // Objetos de conhecimento	
-                    if (!empty($objective)) {                                
+                    if (!empty($objective) && !isset($parsedData[$component]['children'][$fields]['children'][$practices]['children'][$objective])) {                                
                         $parsedData[$component]['children'][$fields]['children'][$practices]['children'][$objective] = ["name" => $objective, 'type' => "OBJETO DE CONHECIMENTO", 'children' => []];
                     }
     
@@ -278,12 +281,12 @@ class BNCCImport
                     }
     
                     // Unidades temáticas
-                    if (!empty($fields)) {                                
+                    if (!empty($fields) && isset($parsedData[$component]['children'][$axle]['children'][$unity])) {                                
                         $parsedData[$component]['children'][$axle]['children'][$unity] = ["name" => $unity, 'type' => "UNIDADE TEMÁTICA", 'children' => []];
                     }
     
                     // Objetos de conhecimento	
-                    if (!empty($objective)) {                                
+                    if (!empty($objective) && isset($parsedData[$component]['children'][$axle]['children'][$unity]['children'][$objective])) {                                
                         $parsedData[$component]['children'][$axle]['children'][$unity]['children'][$objective] = ["name" => $objective, 'type' => "OBJETO DE CONHECIMENTO", 'children' => []];
                     }
     
@@ -392,13 +395,9 @@ class BNCCImport
         }
         $new_abilities->edcenso_stage_vs_modality_fk = $edcenso_stage_vs_modality_fk;
 
-        $new_abilities->save();
+        // $new_abilities->save();
 
-        if($abilities["type"] == "OBJETO DE CONHECIMENTO" || $abilities["type"] == "HABILIDADE") {
-            CVarDumper::dump($new_abilities->attributes, 10, true);
-        }
-
-        // if ($new_abilities->save()) {
+        if ($new_abilities->save()) {
             if(!empty($abilities["children"])) {
                 foreach ($abilities["children"] as $child) {
                     $this->deep_create(
@@ -409,11 +408,9 @@ class BNCCImport
                     );
                 }
             }
-        // } else {
-        //     d($new_abilities);
-        // }
+        } else {
+             d($new_abilities);
+        }
     }
-
-
 
 }
