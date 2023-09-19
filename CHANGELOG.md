@@ -1,3 +1,7 @@
+## [Versão 3.56.90]
+- Adicionado a opção de excluir cardápio
+- Permitido a alteração da data de criação do cardápio
+
 ## [Versão 3.54.90]
 - A tela de frequência foi corrigida para que agora carregue a tabela de frequência
 - Adicionada rolagem para corrigir visualisação da tabela deA tela de frequência foi corrigida para que agora carregue a tabela de frequência.
@@ -16,7 +20,7 @@
  e documentos no formulário de adicionar aluno
 
 ## [Versão 3.54.88]
-- Retirado botão da aba de 'Ordem no Diario' adicionado icones na lista de alunos na mesma aba 
+- Retirado botão da aba de 'Ordem no Diario' adicionado icones na lista de alunos na mesma aba
 
 ## [Versão 3.54.87]
 - Corrigido a permissão para o cancelamento da matrícula do aluno
@@ -72,11 +76,11 @@
 - As colunas de situação na série e tipo de matrícula foram modificadas no relatório de matrícula.
 
 ## [Versão 3.40.79]
-- Alterada a validação nos inputs de notas na tela de Notas 
+- Alterada a validação nos inputs de notas na tela de Notas
 
 ## [Versão 3.40.78]
 - Criado multiselect para os planos de aula no módulo de diário de classe
- 
+
 ## [Versão 3.39.78]
 - Criado os relatórios de alunos com deficiência por turma e por escola
 
@@ -102,7 +106,7 @@
 o aluno não tiver uma falta cadastrada nesse dia
 
 ## [Versão 3.34.75]
-- Corrigidos os erros de estilo 
+- Corrigidos os erros de estilo
 - Retirado o botão de pesquisa do formulário de aulas ministradas
 
 ## [Versão 3.34.74]
@@ -136,12 +140,12 @@ o aluno não tiver uma falta cadastrada nesse dia
 - Corrigido o tamanho e a posição do botão de pesquisa em aulas ministradas
 
 ## [Versão 3.27.69]
-- Corrigido o estilo e responsividade da tela de aulas ministradas 
+- Corrigido o estilo e responsividade da tela de aulas ministradas
 - Criação do estilo da classe accordeon
 
 ## [Versão 3.26.69]
 - select de turmas em matrícula em grupo consertado
-- salvando o nome civil do aluno 
+- salvando o nome civil do aluno
 
 ## [Versão 3.26.67]
 - Alerta de exclusão de estudante
@@ -208,7 +212,7 @@ com cache do style
 
 ## [Versão 3.21.48]
 - O seletor de turma final agora é exibido corretamente
-- 
+-
 ## [Versão 3.21.47]
 - Espaçamento dos botões na tela de relatórios foi corrigido
 
@@ -229,7 +233,7 @@ com cache do style
 - Corrigido a margem dos checkbox no formulário de escola
 
 ## [Versão 3.19.43]
- - Corrigido o espaçamento dos checkbox no formulário de escola e o alinhamento dos campos desse formulário foi ajustado 
+ - Corrigido o espaçamento dos checkbox no formulário de escola e o alinhamento dos campos desse formulário foi ajustado
 
 ## [Versão 3.18.42]
 - Em turmas, ata de notas agora exibe as notas corretamente
@@ -296,7 +300,7 @@ com cache do style
 
 ## [Versão 3.10.24]
 - Adicionada uma coluna na listagem de alunos
-- Adicionada coluna de matrícula na listagem de alunos em turmas 
+- Adicionada coluna de matrícula na listagem de alunos em turmas
 - Alterada a validação nos campos de nome para permitir acentuação
 - Verificação no formulário de criação de turmas nos checkbox em 'tipo de atendimento' consertada
 - Corrigido erro no espaçamento dos checkboxs
@@ -318,7 +322,7 @@ com cache do style
 - Bug no nome da turma no relatório de alunos por turma corrigido
 
 ## [Versão 3.9.19]
-- Corrigida responsividade no formulário de alunos 
+- Corrigida responsividade no formulário de alunos
 
 ## [Versão 3.9.18]
 - Estilo das caixas de filtros corrigidos
@@ -359,7 +363,7 @@ com cache do style
 
 ## [Versão 3.2.7]
 **Melhorias**
-- botões alterados e formulário de criação de plano de aula mudado  
+- botões alterados e formulário de criação de plano de aula mudado
 
 ## [Versão 3.2.6]
 - As linhas da tabela não podem mais ser selecionadas. Os filtros foram removidos dos botões de ação que agora estão agrupados em uma única coluna.
@@ -393,12 +397,12 @@ com cache do style
 
 ## [Versão 3.0.0]
 **Melhorias**
-- Novo design 
+- Novo design
 
 ## [Versão 2.13.1]
 **Melhorias**
 - Inserido Campo de Justificativa na Frequência
-        
+
 ## [Versão 2.13.0]
 **Melhorias**
 - Responsividade no Diário Eletrônico

@@ -29,6 +29,19 @@ $(document).on('click', '.button-change-meal', function () {
     modal.find('#meal-id').val(mealId);
 });
 
+$(document).on('click', '.button-remove-lunch', function () {
+    const id = this.getAttribute("data-lunch-id");
+    $.ajax({
+        url: "?r=lunch/lunch/lunchDelete",
+        type: "POST",
+        data: {
+            id: id
+        }
+    }).success(function (data) {
+        window.location.href = "?r=lunch/lunch/index";
+    });
+});
+
 
 
 $(document).on("show.bs.modal", "#addPortion", function(){
