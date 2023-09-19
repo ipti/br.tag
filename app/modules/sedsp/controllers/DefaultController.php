@@ -339,6 +339,9 @@ class DefaultController extends Controller
 		foreach ($numClasses as $numClasse) {
 			$relacaoClasse->getStudentsFromClass($numClasse);
 		}
+
+		Yii::app()->user->setFlash('success', "Alunos importados com sucesso.");
+		$this->redirect(array('index'));
 	}
 
 	public function actionImportSchool()

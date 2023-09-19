@@ -5,7 +5,7 @@ class GetExibirFichaAlunoFromSEDUseCase
     /**
      * Summary of exec
      * @param InAluno $inAluno
-     * @return StudentIdentification
+     * @return StudentIdentification|bool
      */
     public function exec(InAluno $inAluno)
     {
@@ -49,14 +49,15 @@ class GetExibirFichaAlunoFromSEDUseCase
         $sucess = $studentDocumentsAndAddress->validate() && $studentDocumentsAndAddress->save();
         
         if($sucess){
-            return $studentDocumentsAndAddress;
+            return true;
         }
 
-        throw new SedspException(CJSON::encode($studentDocumentsAndAddress->getErrors()), 1);
+        #throw new SedspException(CJSON::encode($studentDocumentsAndAddress->getErrors()), 1);
     }
 
     public function createAndSaveStudentIdentification($attributes)
     {
+        
         $studentIdentification = new StudentIdentification();
         $studentIdentification->attributes = $attributes->getAttributes();
         $studentIdentification->gov_id = $attributes->gov_id;
@@ -64,10 +65,10 @@ class GetExibirFichaAlunoFromSEDUseCase
         $sucess = $studentIdentification->validate() && $studentIdentification->save();
         
         if($sucess){
-            return $studentIdentification;
+            return true;
         }
 
-        throw new SedspException(json_encode($studentIdentification->getErrors(), JSON_UNESCAPED_UNICODE), 1);
+        #throw new SedspException(json_encode($studentIdentification->getErrors(), JSON_UNESCAPED_UNICODE), 1);
     }
 
     /**

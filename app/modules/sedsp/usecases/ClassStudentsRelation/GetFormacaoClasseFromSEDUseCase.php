@@ -60,7 +60,7 @@ class GetFormacaoClasseFromSEDUseCase
 
             return $status;
         } catch (Exception $e) {
-           CVarDumper::dump($e->getMessage(), 10, true);
+            CVarDumper::dump($e->getMessage(), 10, true);
             return false;
         }
     }
@@ -82,11 +82,12 @@ class GetFormacaoClasseFromSEDUseCase
             $studentEnrollment->student_inep_id = $studentModel->inep_id;
             $studentEnrollment->student_fk = $studentModel->id;
             $studentEnrollment->classroom_fk = $classroom->id;
-            $studentEnrollment->status = $this->mapStatusEnrollmentFromSed($alunoTurma->getOutCodSitMatricula());
+            $studentEnrollment->status = $this->mapStatusEnrollmentFromSed("2");
             $studentEnrollment->school_admission_date = date("d/m/Y");
             
             if ($studentEnrollment->validate() && $studentEnrollment->save()) {
                 Yii::log('Aluno matriculado com sucesso.', CLogger::LEVEL_INFO);
+                return true;
             } else {
                 Yii::log($studentEnrollment->getErrors(), CLogger::LEVEL_ERROR);
                 return false;
