@@ -29,7 +29,7 @@ class BNCCImport
 
     public function importCSVFundamental($discipline)
     {
-        $csvData = $this->readCSV('/extensions/bncc-import/Língua Inglesa.csv');
+        $csvData = $this->readCSV('/extensions/bncc-import/'.$discipline.'.csv');
         $parsedData = $this->parseCSVDataFundamental($csvData);
 
             // CVarDumper::dump($parsedData, 10, true);
