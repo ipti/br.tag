@@ -69,11 +69,10 @@ class GetFormacaoClasseFromSEDUseCase
      * Summary of createEnrollment
      * @param Classroom $classroom
      * @param StudentIdentification $studentModel
-     * @param OutAlunos $alunoTurma
      * 
      * @return StudentEnrollment|bool
      */
-    private function createEnrollment($classroom, $studentModel, $alunoTurma)
+    private function createEnrollment($classroom, $studentModel)
     {
         $studentEnrollmentModel = $this->searchStudentEnrollmentInDb($classroom->school_inep_fk, $studentModel->id, $classroom->id);
         if ($studentEnrollmentModel === null) {
