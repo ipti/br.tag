@@ -1,16 +1,23 @@
+## [Versão 3.57.92]
+- Adicionado o atalho para alterar senha do usuário na barra lateral
+
+## [Versão 3.56.92]
+- Adicionado a opção de excluir cardápio
+- Permitido a alteração da data de criação do cardápio
+
 ## [Versão 3.56.90]
 - Adicionado a opção de excluir cardápio
 - Permitido a alteração da data de criação do cardápio
 
+## [Versão 3.55.91]
+- Relatório de Total de Alunos Matriculados por Escola (somente administrador)
+
+## [Versão 3.55.90]
+- Adicionar botão de excluir usuário em gerenciar usuários
+
 ## [Versão 3.54.90]
 - A tela de frequência foi corrigida para que agora carregue a tabela de frequência
 - Adicionada rolagem para corrigir visualisação da tabela deA tela de frequência foi corrigida para que agora carregue a tabela de frequência.
-
-## [Versão 3.55.89]
-- Relatório de Total de Alunos Matriculados por Escola (somente administrador)
-
-## [Versão 3.55.89]
-- Adicionar botão de excluir usuário em gerenciar usuários
 
 ## [Versão 3.54.90]
 - Corrigido o alinhamento e a responsividade dos campos do formulário de escola
