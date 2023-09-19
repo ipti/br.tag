@@ -20,14 +20,14 @@ function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 }
-function responsiveSaveButton() {
-
-    const isMobile = window.innerWidth <= 768;
-    if(isMobile ){
-        $("#save").addClass("show--desktop").removeClass("hide");
-        $("#save-button-mobile").addClass("show--tablet").removeClass("hide");
+    const isMobile = window.innerWidth <= 500;
+    console.log(isMobile);
+    if(isMobile){
+        $("#save-emails").addClass("show--desktop").removeClass("hide");
+        $(".saveDesktop").addClass("hide");
+    } else{
+        $(".saveDesktop").addClass("show--desktop").removeClass("hide");
+        $("#save-emails").addClass("hide");
     }
 
-
-}
 
