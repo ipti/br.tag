@@ -87,6 +87,9 @@
         flex: 0;
         padding: $spaceSmall $spaceXLarge;
     }
+    &.nofloat{
+        float: unset !important;
+    }
 
     &:hover,
     &--active {
@@ -121,6 +124,10 @@
     @extend .t-button;
     background-color: $colorsBaseInkLighterActive;
     color: $colorsBaseWhiteNormal;
+
+    &:focus {
+        color: $colorsBaseWhiteNormal;
+    }
 
     &:hover,
     &--active {
@@ -157,6 +164,7 @@
 
 .t-button-icon {
     @extend .t-button;
+
     &.secondary {
         padding: $spaceXXSmall $spaceLarge $spaceXXSmall $spaceLarge;
         background-color: $colorsBaseProductNormal;
@@ -171,6 +179,7 @@
             color: $colorsBaseWhiteNormal;
             background-color: $colorsBaseProductNormalActive;
         }
+
         &:link,
         &:focus,
         &:hover,

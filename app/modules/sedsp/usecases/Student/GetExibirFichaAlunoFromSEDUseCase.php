@@ -2,47 +2,57 @@
 
 class GetExibirFichaAlunoFromSEDUseCase
 {
+    /**
+     * Summary of exec
+     * @param InAluno $inAluno
+     * @return StudentIdentification
+     */
     public function exec(InAluno $inAluno)
     {
         $studentDatasource = new StudentSEDDataSource();
         $response = $studentDatasource->exibirFichaAluno($inAluno);
-       
-        $cpf = $response->getOutDocumentos()->getOutCpf();
-        $name = $response->getOutDadosPessoais()->getOutNomeAluno();
 
-        $studentExists = $this->checkIfStudentIsEnrolled($cpf, $name);
-		if($studentExists)
+        $name = $response->getOutDadosPessoais()->getOutNomeAluno();
+        $filiation_1 = $response->getOutDadosPessoais()->getOutNomeMae();
+
+        $studentExists = $this->checkIfStudentExists($name, $filiation_1);
+        
+		if($studentExists){
             return false;
+        }
         
         try {
             $mapper = (object) StudentMapper::parseToTAGExibirFichaAluno($response);
             $documents =  (object) $mapper->StudentDocumentsAndAddress->getAttributes();
 
-            return ($this->createAndSaveStudentIdentification($mapper->StudentIdentification) &&
-                    $this->createAndSaveStudentDocumentsAndAddress($mapper->StudentDocumentsAndAddress, $documents->gov_id));
+            $studentIdentification = $this->createAndSaveStudentIdentification($mapper->StudentIdentification);
+            $studentDocumentsAndAddress = $this->createAndSaveStudentDocumentsAndAddress($mapper->StudentDocumentsAndAddress, $studentIdentification, $documents->gov_id);
+
+            return $studentIdentification;
             
         } catch (Exception $e) {
             CVarDumper::dump($e->getMessage(), 10, true);
         }
+
+        throw new SedspException("Não foi possivel cadastrar aluno", 1);
+        
     }
 
 
-    public function createAndSaveStudentDocumentsAndAddress($attributes, $gov_id)
+    public function createAndSaveStudentDocumentsAndAddress($attributes, $studentIdentification, $gov_id)
     {
         $studentDocumentsAndAddress = new StudentDocumentsAndAddress();
         $studentDocumentsAndAddress->attributes = $attributes->getAttributes();
         $studentDocumentsAndAddress->gov_id = $gov_id;
+        $studentDocumentsAndAddress->id = $studentIdentification->id;
 
-        try {
-            if ($studentDocumentsAndAddress->validate() && $studentDocumentsAndAddress->save()) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception $e) {
-            var_dump($e->getMessage());
-            return false;
+        $sucess = $studentDocumentsAndAddress->validate() && $studentDocumentsAndAddress->save();
+        
+        if($sucess){
+            return $studentDocumentsAndAddress;
         }
+
+        throw new SedspException(CJSON::encode($studentDocumentsAndAddress->getErrors()), 1);
     }
 
     public function createAndSaveStudentIdentification($attributes)
@@ -51,14 +61,31 @@ class GetExibirFichaAlunoFromSEDUseCase
         $studentIdentification->attributes = $attributes->getAttributes();
         $studentIdentification->gov_id = $attributes->gov_id;
 
-        return ($studentIdentification->validate() && $studentIdentification->save()) ? true : false;
+        $sucess = $studentIdentification->validate() && $studentIdentification->save();
+        
+        if($sucess){
+            return $studentIdentification;
+        }
+
+        throw new SedspException(json_encode($studentIdentification->getErrors(), JSON_UNESCAPED_UNICODE), 1);
     }
 
-    public function checkIfStudentIsEnrolled($cpf, $name)
+    /**
+     * Summary of checkIfStudentIsEnrolled
+     * @param string $cpf
+     * @param string $name
+     * @return array | false
+     */
+    public function checkIfStudentExists($name, $filiation_1)
     {
-        $studentCpf = StudentDocumentsAndAddress::model()->find('cpf = :cpf', [':cpf' => $cpf])->cpf;
-        $studentName = StudentIdentification::model()->find('name = :name', [':name' => $name])->name;
-        
-        return ($studentCpf !== null or $studentName !== null) ? true : false;
+        $studentIdentification = StudentIdentification::model()->find('name = :name and filiation_1 = :filiation_1', [':name' => $name, 'filiation_1' => $filiation_1]);   
+        $parseResult = [];
+        if($studentIdentification){
+            $parseResult["StudentIdentification"] = $studentIdentification;
+            $parseResult["StudentDocumentsAndAddress"] = $studentIdentification->documentsFk;
+            return $parseResult;
+        }
+
+        return false;
     }
 }
