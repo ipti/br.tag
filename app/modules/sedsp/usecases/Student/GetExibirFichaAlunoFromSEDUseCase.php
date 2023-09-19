@@ -51,8 +51,6 @@ class GetExibirFichaAlunoFromSEDUseCase
         if($sucess){
             return true;
         }
-
-        #throw new SedspException(CJSON::encode($studentDocumentsAndAddress->getErrors()), 1);
     }
 
     public function createAndSaveStudentIdentification($attributes)
@@ -67,8 +65,6 @@ class GetExibirFichaAlunoFromSEDUseCase
         if($sucess){
             return true;
         }
-
-        #throw new SedspException(json_encode($studentIdentification->getErrors(), JSON_UNESCAPED_UNICODE), 1);
     }
 
     /**
