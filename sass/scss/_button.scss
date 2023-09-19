@@ -8,7 +8,7 @@
     &.auto-width {
         width: auto;
     }
-    
+
     @include device(tablet) {
         padding: $spaceXXXSmall 0 $spaceXXXSmall 0;
         font-size: $FontSizeTextNormal;
@@ -138,6 +138,7 @@
     @extend .t-button;
     color: $colorsBaseWhiteNormal;
     background-color: $colorsTextError;
+    border: 0;
 
     &--disabled {
         background-color: $colorsBaseCloudNormal;
@@ -178,7 +179,7 @@
             color: $colorsBaseWhiteNormal;
         }
         span{
-            font-size: $FontSizeIcons2 !important; 
+            font-size: $FontSizeIcons2 !important;
         }
     }
 }

@@ -6,6 +6,7 @@ return [
 
     'Cancel' => 'Cancelar',
     'Save' => 'Salvar',
+    'Remove' => 'Excluir Cardápio',
     'Print' => 'Imprimir',
     'Update' => 'Atualizar',
     'Close' => 'Fechar',
