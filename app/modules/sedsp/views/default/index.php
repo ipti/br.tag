@@ -120,18 +120,23 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                     </div>
                 </div>
                 <div id="loading-container-student" style="display: none;">
-                    <div id="loading" style="">
+                    <div id="loading">
                         <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
                             <div id="loading">
                                 <img class="js-grades-loading" height="40px" width="40px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
                             </div>
                             <div class="loading-text">Importando aluno usando o RA...</div>
                         </div>
-                    </div>           
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                    <button id="loading-popup" class="btn btn-primary" url="<?php echo Yii::app()->createUrl('sedsp/default/ImportStudentRA'); ?>" type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
+                    <button type="button" class="btn btn-default"
+                        data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar
+                    </button>
+                    <button id="loading-popup" class="btn btn-primary"
+                        url="<?php echo Yii::app()->createUrl('sedsp/default/ImportStudentRA'); ?>"
+                        type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar
+                    </button>
                 </div>
         </form>
     </div>
@@ -229,18 +234,24 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 </div>
             </div>
             <div id="loading-container-school" style="display: none;">
-                <div id="loading" style="">
+                <div id="loading">
                     <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
                         <div id="loading">
                             <img class="js-grades-loading" height="40px" width="40px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
                         </div>
                         <div class="loading-text">Aguarde enquanto a escola e as classes são importadas...</div>
                     </div>
-                </div>           
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                <button id="loading-popup-school" class="btn btn-primary" url="<?= Yii::app()->createUrl('sedsp/default/ImportFullSchool'); ?>" type="submit" value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
+                <button type="button" class="btn btn-default"
+                    data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">
+                    Voltar
+                </button>
+                <button id="loading-popup-school" class="btn btn-primary"
+                    url="<?= Yii::app()->createUrl('sedsp/default/ImportFullSchool'); ?>"
+                    type="submit" value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar
+                </button>
             </div>
         </div>
     </form>
@@ -257,7 +268,9 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         </div>
         <div style="margin: 5px;">
             <form id="select-classes-form" action="<?= Yii::app()->createUrl('sedsp/default/ImportFullStudentsByClasses'); ?>" method="post">
-                <table class="display student-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs" style="width:100%" aria-label="students table">
+                <table
+                    class="display student-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs"
+                    style="width:100%" aria-label="students table">
                     <thead>
                         <tr>
                             <th>N° Classe</th>
@@ -286,7 +299,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 <!-- Add hidden input field to store selected classes -->
                 <input type="hidden" name="selectedClasses" id="selectedClasses">
                 <div id="loading-container-import-student" style="display: none;">
-                    <div id="loading" style="">
+                    <div id="loading">
                         <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
                             <div id="loading">
                                 <img class="js-grades-loading" height="40px" width="40px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">

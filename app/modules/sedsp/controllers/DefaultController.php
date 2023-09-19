@@ -332,7 +332,7 @@ class DefaultController extends Controller
 	{
 		$this->checkSEDToken();
 		
-		$selectedClasses = Yii::app()->request->getPost('selectedClasses', '');	
+		$selectedClasses = Yii::app()->request->getPost('selectedClasses', '');
 		$numClasses = explode(',', $selectedClasses);
 	
 		$relacaoClasse = new GetRelacaoClassesFromSEDUseCase();

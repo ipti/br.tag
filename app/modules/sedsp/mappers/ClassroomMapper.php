@@ -208,7 +208,7 @@ class ClassroomMapper
                 "7" => 20,
                 "8" => 21,
                 "9" => 41,
-                "0" => 24    
+                "0" => 24
             ],
             "25" => [
                 "1" => 1,
@@ -218,7 +218,7 @@ class ClassroomMapper
             "26" => [
                 "2" => 1,
                 "3" => 1
-            ], 
+            ],
             "32" => [
                 "0" => 2
             ],
@@ -231,7 +231,7 @@ class ClassroomMapper
             return $mapperTipoEnsino[$codTipoEnsino][$codSerieAno];
         }
 
-        throw new Exception("Tipo de ensino não tem etapa equivalente no mapa de conversão " . $codTipoEnsino . ' -> ' .  $codSerieAno, 1);   
+        throw new TipoEnsinoConversionException($codTipoEnsino, $codSerieAno);
     }
 
     /**

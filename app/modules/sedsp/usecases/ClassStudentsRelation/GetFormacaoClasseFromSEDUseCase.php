@@ -51,10 +51,8 @@ class GetFormacaoClasseFromSEDUseCase
                     
                     $alunoTurma = $this->searchAlunoTurma($studentModel->gov_id, $alunosTurma);
                     $this->createEnrollment($tagClassroom, $studentModel, $alunoTurma);
-                    
                 }
                 catch (\Throwable $th) {
-                    CVarDumper::dump($th);
                     Yii::log($th->getMessage(), CLogger::LEVEL_WARNING);
                     $status = false;
                 }
@@ -62,7 +60,7 @@ class GetFormacaoClasseFromSEDUseCase
 
             return $status;
         } catch (Exception $e) {
-            CVarDumper::dump($e->getMessage(), 10, true);
+           CVarDumper::dump($e->getMessage(), 10, true);
             return false;
         }
     }
@@ -77,7 +75,6 @@ class GetFormacaoClasseFromSEDUseCase
      */
     private function createEnrollment($classroom, $studentModel, $alunoTurma)
     {
-
         $studentEnrollmentModel = $this->searchStudentEnrollmentInDb($classroom->school_inep_fk, $studentModel->id, $classroom->id);
         if ($studentEnrollmentModel === null) {
             $studentEnrollment = new StudentEnrollment();
@@ -193,7 +190,6 @@ class GetFormacaoClasseFromSEDUseCase
     /**
      * Summary of getFichaAluno
      * @param InAluno $inAluno
-     * @return bool
      */
     public function getFichaAluno(InAluno $inAluno)
     {

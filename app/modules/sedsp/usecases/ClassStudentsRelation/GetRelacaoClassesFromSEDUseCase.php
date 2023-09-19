@@ -27,14 +27,14 @@ class GetRelacaoClassesFromSEDUseCase
                 $classroomGovId = $classroom->gov_id;
 
                 if($indexedByClasses[$classroomGovId] !== null){ //Verifica se a Classe já existe no TAG
-                    $status = true; //$this->getStudentsFromClass($classroomGovId);
+                    $status = true;
                 } else {
                     $attributes = $classroom->getAttributes();
                     $createdClass = $this->createAndSaveNewClass($attributes, $classroom->gov_id);
                  
                     if ($createdClass) {
-                        $status = true; //$this->getStudentsFromClass($classroomGovId);
-                    } 
+                        $status = true;
+                    }
                 }
             }
             
