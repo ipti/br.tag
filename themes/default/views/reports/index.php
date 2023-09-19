@@ -48,7 +48,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/MatriculationStatisticsByYearReport') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/EnrollmentStatisticsByYearReport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-line_graph t-reports_icons"></span>
