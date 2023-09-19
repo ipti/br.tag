@@ -101,17 +101,17 @@ $this->setPageTitle('TAG - Auditoria');
                  src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
         <div class="auditory-table-container table-responsive">
-            <table class="auditory-table table">
+            <table class="auditory-table table" aria-labelledby="auditory list">
                 <thead>
                 <tr>
-                    <th colspan="5" class="table-title">Auditoria</th>
+                    <th colspan="5" class="table-title"  scope="col">Auditoria</th>
                 </tr>
                 <tr>
-                    <th>Escola</th>
-                    <th>Autor</th>
-                    <th>Ação</th>
-                    <th>Evento</th>
-                    <th>Data</th>
+                    <th scope="col">Escola</th>
+                    <th scope="col">Autor</th>
+                    <th scope="col">Ação</th>
+                    <th scope="col">Evento</th>
+                    <th scope="col">Data</th>
                 </tr>
                 </thead>
                 <tbody>
