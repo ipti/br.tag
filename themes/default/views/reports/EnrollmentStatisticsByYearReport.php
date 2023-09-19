@@ -8,6 +8,13 @@ $cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentStatisticsByYearReport
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
 
+<style>
+    th, td {
+        text-align: center !important;
+        vertical-align: middle !important;
+    }
+</style>
+
 <div class="pageA4H">
     <?php $this->renderPartial('head'); ?>
     <h3><?php echo Yii::t('default', 'Matrículas Atuais'); ?></h3>
@@ -49,25 +56,36 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     <tr>
                         <td><?= $schoolNameIndex ?></td>
                         <td class="school-total">0</td>
+                        <?php $stageGroupIndex = 0; ?>
                         <?php foreach($schoolNameValue as $stageNumberIndex => $stageNumberValue): ?>
                             <?php foreach($stageNumberValue as $stageName => $enrollmentsCount): ?>
-                                <td class="stage-enrollment"><?= ($enrollmentsCount == 0 ? "" : $enrollmentsCount) ?></td>
+                                <td class="stage-enrollment stage-<?= $stageGroupIndex ?>"><?= ($enrollmentsCount == 0 ? "" : $enrollmentsCount) ?></td>
                             <?php endforeach; ?>
+                            <?php $stageGroupIndex++; ?>
                         <?php endforeach; ?>
-                        <td></td>
+                        <td class="school-total">0</td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
             <tfoot>
-                <tr>
+                <tr class="col-total">
                     <td colspan="2">Total de Alunos na Rede</td>
                     <?php foreach($schoolStages as $schoolNameIndex => $schoolNameValue): ?>
                         <?php foreach($schoolNameValue as $stageNumberIndex => $stageNumberValue): ?>
                             <?php foreach($stageNumberValue as $stageName => $enrollmentsCount): ?>
-                                <td></td>
+                                <td class="stage-total">0</td>
                             <?php endforeach; ?>
                         <?php  endforeach; ?>
                     <?php break; endforeach; ?>
+                    <td class="rede-total">0</td>
+                </tr>
+
+                <tr class="group-stage-total">
+                    <td colspan="2"></td>
+                    <?php foreach($stageNumberGroups as $stageNumberGroupName => $stageNumberGroup): ?>
+                        <td class="group-total" colspan="<?=$stageNumberGroup["colspan"]?>">0</td>
+                    <?php endforeach; ?>
+                    <td class="rede-total"></td>
                 </tr>
             </tfoot>
         </table>
