@@ -306,7 +306,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                             </div>
                             <div class="loading-text">Importando alunos...</div>
                         </div>
-                    </div>           
+                    </div>
                 </div>
                 <div class="modal-footer" style="width:100%">
                     <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>

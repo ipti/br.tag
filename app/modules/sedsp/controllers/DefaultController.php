@@ -22,7 +22,7 @@ class DefaultController extends Controller
 			Yii::app()->user->setFlash('error', Yii::t('default', $this->ERROR_CONNECTION));
 			$this->redirect(array('index'));
 		}
-	}	
+	}
 
 	public function actionManageRA()
 	{
