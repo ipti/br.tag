@@ -14,11 +14,6 @@ class BNCCImport
         $csvData = $this->readCSV('/extensions/bncc-import/infantil.csv');
         $parsedData = $this->parseCSVDataInfantil($csvData);
 
-        // CVarDumper::dump($parsedData, 10, true);
-        // exit;
-
-        // !d($parsedData);
-
         foreach ($parsedData as $key => $value) {
             $discipline = $this->map_discipline($value["name"]);
             self::deep_create($value, null, $discipline, null);
@@ -31,9 +26,6 @@ class BNCCImport
     {
         $csvData = $this->readCSV('/extensions/bncc-import/'.$discipline.'.csv');
         $parsedData = $this->parseCSVDataFundamental($csvData);
-
-            // CVarDumper::dump($parsedData, 10, true);
-            // exit;
 
         foreach ($parsedData as $key => $value) {
             $discipline = $this->map_discipline($value["name"]);

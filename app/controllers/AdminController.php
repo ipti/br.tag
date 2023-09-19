@@ -510,7 +510,7 @@ class AdminController extends Controller
     {
         $import = new BNCCImport();
         
-        // $import->importCSVInfantil();
+        $import->importCSVInfantil();
         $disciplines = ['Arte', 'Ciências', 'Educação Física', 'Ensino religioso', 
         'Geografia', 'História', 'Língua Inglesa', 'Língua Portuguesa', 'Matemática'];
 
