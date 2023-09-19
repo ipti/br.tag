@@ -19,11 +19,9 @@ $form = $this->beginWidget('CActiveForm', [
 ?>
 <div class="main">
     <div class="row-fluid">
-        <div class="span12">
+        <div class="mobile-row justify-content--space-between">
             <h1><?= yii::t('default', 'Update Instructor e-mails') ?></h1>
-            <div class="tag-buttons-container buttons">
-                <?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('id' => 'save-emails', 'class' => 't-button-primary  last saveDesktop', 'type' => 'button')); ?>
-            </div>
+            <?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('id' => 'save-emails', 'class' => 't-button-primary  last saveDesktop show--tabletDesktop', 'type' => 'button')); ?>
         </div>
     </div>
     <div class="tag-inner instructor-emails">
@@ -45,10 +43,10 @@ $form = $this->beginWidget('CActiveForm', [
         </div>
         <div class="clear"></div>
     </div>
-    <div class=" row reverse show--tablet">
-            <div class=" justify-content--center">
-                <button type="button" id="save-emails" class="t-button-primary clear-margin--right  last save-school-button save">Salvar</button>
-            </div>
+    <div class="row reverse show--mobile">
+        <div class=" justify-content--center">
+            <button type="button" id="save-emails" class="t-button-primary save">Salvar</button>
+        </div>
     </div>
 </div>
 <?php $this->endWidget(); ?>
