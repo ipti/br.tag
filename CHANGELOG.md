@@ -1,6 +1,11 @@
+## [Versão 3.57.93]
+- Corrigido os icones da tela de merenda escolar
+- Modificada a mensagem de exclusão de estoque
 ## [Versão 3.57.92]
 - Adicionado o atalho para alterar senha do usuário na barra lateral
 
+## [Versão 3.57.92]
+- adicionando quinto e sexto ano como ensino fundamental menor
 ## [Versão 3.56.92]
 - Adicionado a opção de excluir cardápio
 - Permitido a alteração da data de criação do cardápio
