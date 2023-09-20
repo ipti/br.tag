@@ -352,13 +352,4 @@ class DefaultController extends Controller
 			$escola = new GetEscolasFromSEDUseCase();
 			$escola->createSchool($inConsult);
 	}
-
-	public function actionImportSchool()
-	{
-		$this->checkSEDToken();
-
-			$inConsult = new InEscola("JOSE DE ANCHIETA PADRE EM", null, null, null);
-			$escola = new GetEscolasFromSEDUseCase();
-			$escola->createSchool($inConsult);
-	}
 }

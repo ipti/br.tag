@@ -60,7 +60,7 @@ class GetFormacaoClasseFromSEDUseCase
 
             return $status;
         } catch (Exception $e) {
-           CVarDumper::dump($e->getMessage(), 10, true);
+            CVarDumper::dump($e->getMessage(), 10, true);
             return false;
         }
     }
