@@ -11,17 +11,19 @@
             return $classrooms;
         }
 
-        public function getClassroomsInstructor($discipline) {      
+        public function getClassroomsInstructor($discipline) {
              if ($discipline != "") {
-                $sql = "SELECT c.id, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk, ed.name as discipline_name, esvm.name as stage_name, c.name  
+                $sql = "SELECT c.id, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk,
+                ed.name as discipline_name, esvm.name as stage_name, c.name
                 from instructor_teaching_data itd 
-                join teaching_matrixes tm ON itd.id = tm.teaching_data_fk 
-                join instructor_identification ii on itd.instructor_fk = ii.id 
-                join curricular_matrix cm on tm.curricular_matrix_fk = cm.id 
-                JOIN edcenso_discipline ed on ed.id = cm.discipline_fk 
-                join classroom c on c.id = itd.classroom_id_fk  
-                Join edcenso_stage_vs_modality esvm on esvm.id = c.edcenso_stage_vs_modality_fk  
-                WHERE ii.users_fk = :users_fk and esvm.id NOT BETWEEN 14 AND 16 and ed.id = :discipline_id and c.school_year = :user_year
+                join teaching_matrixes tm ON itd.id = tm.teaching_data_fk
+                join instructor_identification ii on itd.instructor_fk = ii.id
+                join curricular_matrix cm on tm.curricular_matrix_fk = cm.id
+                JOIN edcenso_discipline ed on ed.id = cm.discipline_fk
+                join classroom c on c.id = itd.classroom_id_fk
+                Join edcenso_stage_vs_modality esvm on esvm.id = c.edcenso_stage_vs_modality_fk
+                WHERE ii.users_fk = :users_fk and esvm.id NOT BETWEEN 14 AND 18
+                and ed.id = :discipline_id and c.school_year = :user_year
                 ORDER BY ii.name";
 
                 $command = Yii::app()->db->createCommand($sql);
@@ -37,7 +39,7 @@
                 JOIN edcenso_discipline ed on ed.id = cm.discipline_fk 
                 join classroom c on c.id = itd.classroom_id_fk  
                 Join edcenso_stage_vs_modality esvm on esvm.id = c.edcenso_stage_vs_modality_fk  
-                WHERE ii.users_fk = :users_fk and esvm.id NOT BETWEEN 14 AND 16 and c.school_year = :user_year
+                WHERE ii.users_fk = :users_fk and esvm.id NOT BETWEEN 14 AND 18 and c.school_year = :user_year
                 ORDER BY ii.name";
 
                 $command = Yii::app()->db->createCommand($sql);
@@ -60,7 +62,7 @@
             join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id
             join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id
             join edcenso_stage_vs_modality esvm on esvm.id = c.edcenso_stage_vs_modality_fk
-            where c.school_year = :school_year and instructor_identification.users_fk = :users_fk and esvm.id BETWEEN 14 AND 16";
+            where c.school_year = :school_year and instructor_identification.users_fk = :users_fk and esvm.id BETWEEN 14 AND 18";
              $command = Yii::app()->db->createCommand($sql);
              $command->bindValue(':school_year', Yii::app()->user->year, PDO::PARAM_INT)
              ->bindValue(':users_fk', Yii::app()->user->loginInfos->id, PDO::PARAM_INT);
