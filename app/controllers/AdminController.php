@@ -672,8 +672,7 @@ class AdminController extends Controller
             $array["action"] = $log->crud == "U" ? "Editar" : ($log->crud == "C" ? "Criar" : "Remover");
             $date = new \DateTime($log->date);
             $array["date"] = $date->format("d/m/Y H:i:s");
-            $siteController = new SiteController();
-            $array["event"] = $siteController->loadIconsAndTexts($log)["text"];
+            $array["event"] = $log->loadIconsAndTexts($log)["text"];
             array_push($result["data"], $array);
         }
         echo json_encode($result);
