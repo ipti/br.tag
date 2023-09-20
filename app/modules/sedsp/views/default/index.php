@@ -281,7 +281,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                     <tbody>
                         <?php
                         $inep_id = Yii::app()->user->school;
-                        $classes = Classroom::model()->findAllBySql("SELECT c.gov_id, c.name FROM classroom c WHERE c.school_inep_fk =" . $inep_id);
+                        $classes = Classroom::model()->findAllBySql("SELECT c.gov_id, c.name FROM classroom c WHERE c.gov_id is not null and c.school_inep_fk = " . $inep_id);
                         $selectedClasses = [];
                         foreach ($classes as $class) {
                             ?>
