@@ -1780,7 +1780,7 @@ class ReportsController extends Controller
             }
             //Coloca em um array todos o stage number e nome dos estágios que já não estão no mesmo (através da lista de classes)
             if (array_search($classroom->edcensoStageVsModalityFk->name, array_column($stages, 'name')) === false) {
-                array_push($stages, ["stageNumber" => $classroom->edcensoStageVsModalityFk->stage, "name" => $classroom->edcensoStageVsModalityFk->name]);
+                array_push($stages, ["stageNumber" => $classroom->edcensoStageVsModalityFk->stage, "name" => $classroom->edcensoStageVsModalityFk->name, "alias" => $classroom->edcensoStageVsModalityFk->alias]);
             }
         }
         //Cria a primeira linha da tabela com o grupo de estágios
@@ -1808,10 +1808,10 @@ class ReportsController extends Controller
             $schoolStages[$classroom->schoolInepFk->name][$classroom->edcensoStageVsModalityFk->stage][$classroom->edcensoStageVsModalityFk->name] += count($classroom->studentEnrollments);
         }
 
-
         $this->render('EnrollmentStatisticsByYearReport', array(
             'schoolStages' => $schoolStages,
-            'stageNumberGroups' => $stageNumberGroups
+            'stageNumberGroups' => $stageNumberGroups,
+            'stages' => $stages
         ));
     }
 

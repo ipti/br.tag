@@ -11,7 +11,7 @@ $(document).ready(function() {
             $(value).addClass('col-'+columnIndex);
             columnIndex++;
         });
-        $(this).find(".school-total").html(totalEnrollmentPerSchool);
+        $(this).find(".school-total, .unity-total").html(totalEnrollmentPerSchool);
     });
 
     $('#enrollment-table tfoot .col-total .stage-total').each(function(i) {
@@ -31,7 +31,7 @@ $(document).ready(function() {
     });
 
     var redeTotal = 0;
-    $('.school-total').each(function() {
+    $('.unity-total').each(function() {
         redeTotal += Number($(this).html());
     });
     $('.rede-total').html(redeTotal);

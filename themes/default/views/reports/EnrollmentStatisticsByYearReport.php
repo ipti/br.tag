@@ -41,7 +41,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     <?php foreach($schoolStages as $schoolNameIndex => $schoolNameValue): ?>
                         <?php foreach($schoolNameValue as $stageNumberIndex => $stageNumberValue): ?>
                             <?php foreach($stageNumberValue as $stageName => $enrollmentsCount): ?>
-                                <th><?=$stageName?></th>
+                                <?php $key = array_search($stageName, array_column($stages, 'name')) ?>
+                                <th><?= $stages[$key]["alias"] ?></th>
                             <?php endforeach; ?>
                         <?php  endforeach; ?>
                     <?php break; endforeach; ?>
@@ -63,7 +64,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                             <?php endforeach; ?>
                             <?php $stageGroupIndex++; ?>
                         <?php endforeach; ?>
-                        <td class="school-total">0</td>
+                        <td class="unity-total">0</td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -85,7 +86,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     <?php foreach($stageNumberGroups as $stageNumberGroupName => $stageNumberGroup): ?>
                         <td class="group-total" colspan="<?=$stageNumberGroup["colspan"]?>">0</td>
                     <?php endforeach; ?>
-                    <td class="rede-total"></td>
+                    <td></td>
                 </tr>
             </tfoot>
         </table>
