@@ -69,11 +69,10 @@ class GetFormacaoClasseFromSEDUseCase
      * Summary of createEnrollment
      * @param Classroom $classroom
      * @param StudentIdentification $studentModel
-     * @param OutAlunos $alunoTurma
      * 
      * @return StudentEnrollment|bool
      */
-    private function createEnrollment($classroom, $studentModel, $alunoTurma)
+    private function createEnrollment($classroom, $studentModel)
     {
         $studentEnrollmentModel = $this->searchStudentEnrollmentInDb($classroom->school_inep_fk, $studentModel->id, $classroom->id);
         if ($studentEnrollmentModel === null) {
@@ -82,11 +81,12 @@ class GetFormacaoClasseFromSEDUseCase
             $studentEnrollment->student_inep_id = $studentModel->inep_id;
             $studentEnrollment->student_fk = $studentModel->id;
             $studentEnrollment->classroom_fk = $classroom->id;
-            $studentEnrollment->status = $this->mapStatusEnrollmentFromSed($alunoTurma->getOutCodSitMatricula());
+            $studentEnrollment->status = $this->mapStatusEnrollmentFromSed("2");
             $studentEnrollment->school_admission_date = date("d/m/Y");
             
             if ($studentEnrollment->validate() && $studentEnrollment->save()) {
                 Yii::log('Aluno matriculado com sucesso.', CLogger::LEVEL_INFO);
+                return true;
             } else {
                 Yii::log($studentEnrollment->getErrors(), CLogger::LEVEL_ERROR);
                 return false;

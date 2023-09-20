@@ -62,7 +62,7 @@ class ReportsController extends Controller
                 LEFT JOIN
                     student_enrollment se ON se.classroom_fk = c.id
                 WHERE 
-                    c.school_year = :school_year
+                    c.school_year = :school_year AND se.status = 1
                 GROUP BY
                     si.inep_id, si.name;";
 
@@ -2081,6 +2081,7 @@ class ReportsController extends Controller
                 foreach ($students as &$student) {
                     $student["frequency"] = (floor((($student["total"] - count($student["faults"])) / $student["total"]) * 100 * 100) / 100) . "%";
                 }
+                unset($student);
             }
         } else {
             $schedules = Schedule::model()

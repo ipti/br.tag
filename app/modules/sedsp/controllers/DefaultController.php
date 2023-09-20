@@ -339,6 +339,18 @@ class DefaultController extends Controller
 		foreach ($numClasses as $numClasse) {
 			$relacaoClasse->getStudentsFromClass($numClasse);
 		}
+
+		Yii::app()->user->setFlash('success', "Alunos importados com sucesso.");
+		$this->redirect(array('index'));
+	}
+
+	public function actionImportSchool()
+	{
+		$this->checkSEDToken();
+
+			$inConsult = new InEscola("JOSE DE ANCHIETA PADRE EM", null, null, null);
+			$escola = new GetEscolasFromSEDUseCase();
+			$escola->createSchool($inConsult);
 	}
 
 	public function actionImportSchool()
