@@ -1594,7 +1594,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             }
                                                             if ($me->classroomFk->school_year == date('Y')) {
                                                                 $date = date('Y-m-d');
-                                                                $quizs = Quiz::model()->findAll('status=1 AND init_date <=:init_date AND final_date >=:final_date', [':init_date' => $date, ':final_date' => $date]);
+                                                                $quizs = Quiz::model()->findAll('init_date <=:init_date AND final_date >=:final_date', [':init_date' => $date, ':final_date' => $date]);
                                                                 if (count($quizs) > 0) {
                                                                     foreach ($quizs as $quiz) {
                                                                         $link = Yii::app()->createUrl('quiz/default/answer', array('quizId' => $quiz->id, 'studentId' => $me->studentFk->id));
