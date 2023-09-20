@@ -388,6 +388,7 @@ class AdminController extends Controller
         $userSchool = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
         $authAssign = AuthAssignment::model()->findByAttributes(array('userid' => $id));
         $instructorId = InstructorIdentification::model()->findByAttributes(array('users_fk' => $id));
+        $delete = false;
 
         if($user !== null){
 
@@ -419,6 +420,9 @@ class AdminController extends Controller
         if($delete){
             Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário excluído com sucesso!'));
             $this->redirect(array('admin/manageUsers'));
+        }else{
+            Yii::app()->user->setFlash('error', Yii::t('default','Erro! Não foi possível excluir o usuário, tente novamente!'));
+
         }
     }
 
@@ -527,7 +531,7 @@ class AdminController extends Controller
         $filter = new Users('search');
         $filter->unsetAttributes();
         $users = Yii::app()->request->getParam('Users');
-        
+
         if (isset($users)) {
             $filter->attributes = $users;
         }
