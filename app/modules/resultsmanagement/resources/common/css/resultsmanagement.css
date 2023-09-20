@@ -142,7 +142,7 @@ h6 img {
 }
 .map-label a {
     color: black;
-    decoration:none;
+    text-decoration:none;
 }
 
 .filter-select+.select2{
