@@ -1,14 +1,13 @@
 $(document).ready(function() {
     $("#showPassword").click(function() {
         var senhaInput = document.querySelector("#Users_password");
-        
-         var senhaInputType = senhaInput.type;
+        var senhaInputType = senhaInput.type;
         if (senhaInputType ===  'password') {
-            senhaInput.type = "text" 
+            senhaInput.type = "text"
         } else {
             senhaInput.type = 'password';
         }
- 
+
 
         if(senhaInputType === "password") {
             $(this).removeClass('t-icon-eye').addClass('t-icon-eye_hash');
@@ -18,31 +17,21 @@ $(document).ready(function() {
     });
 
     $("#showPasswordConfirm").click(function () {
-        // Confirmar Senha
-        var senhaInputConfirm = $("#Confirm");
-        var senhaInputTypeConfirm = senhaInputConfirm.attr("type");
-    
-        var senhaInputNovoConfirm = $("<input>").attr({
-            type: (senhaInputTypeConfirm === "password") ? "text" : "password",
-            id: senhaInputConfirm.attr("id"),
-            placeholder: senhaInputConfirm.attr("placeholder"),
-            value: senhaInputConfirm.val(),
-            // style: "width:230px;margin-bottom:20px;"
-        });
-
+        var senhaInputConfirm = document.querySelector("#Confirm");
+        var senhaInputTypeConfirm = senhaInputConfirm.type;
+        if (senhaInputTypeConfirm ===  'password') {
+            senhaInputConfirm.type = "text"
+        } else {
+            senhaInputConfirm.type = 'password';
+        }
         if(senhaInputTypeConfirm === "password") {
             $(this).removeClass('t-icon-eye').addClass('t-icon-eye_hash');
-            $("#show-password-text").text('Ocultar Senha');
         }else {
             $(this).removeClass('t-icon-eye_hash').addClass('t-icon-eye');
-            $("#show-password-text").text('Mostrar Senha');
         }
-
-        senhaInputConfirm.replaceWith(senhaInputNovoConfirm);
-        senhaInputNovoConfirm.focus();
     });
 });
-  
+
 
 $(form + 'name').focusout(function () {
     var id = '#' + $(this).attr("id");

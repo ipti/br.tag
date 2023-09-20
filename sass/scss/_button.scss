@@ -145,6 +145,7 @@
     @extend .t-button;
     color: $colorsBaseWhiteNormal;
     background-color: $colorsTextError;
+    border: 0;
 
     &--disabled {
         background-color: $colorsBaseCloudNormal;
@@ -186,8 +187,7 @@
         &:active {
             color: $colorsBaseWhiteNormal;
         }
-
-        span {
+        span{
             font-size: $FontSizeIcons2 !important;
         }
     }
