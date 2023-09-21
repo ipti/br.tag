@@ -163,7 +163,10 @@ class ClassroomMapper
     {
         $mapperCodTurno = [
             "1" => 'M', //Manhã
+            "2" => 'M', //Manhã
             "3" => 'T', //Tarde
+            "4" => 'T', //Tarde
+            "5" => 'N', //Noite
             "6" => 'I'  //Integral
         ];
 
@@ -183,6 +186,9 @@ class ClassroomMapper
      */
     private static function convertTipoEnsinoToStage($codTipoEnsino, $codSerieAno){
         $mapperTipoEnsino = [
+            "3" => [
+                "0" => 43
+            ],
             "6" => [
                 "1" => 2,
                 "2" => 2,
@@ -202,16 +208,22 @@ class ClassroomMapper
                 "7" => 20,
                 "8" => 21,
                 "9" => 41,
-                "0" => 24    
+                "0" => 24
             ],
-            /* "25" => [
-                "1" => 1
+            "25" => [
+                "1" => 1,
+                "2" => 1,
+                "3" => 1
             ],
             "26" => [
-                "2" => 1
-            ], */
+                "2" => 1,
+                "3" => 1
+            ],
             "32" => [
                 "0" => 2
+            ],
+            "35" => [
+                "1" => 2
             ]
         ];
 
@@ -219,7 +231,7 @@ class ClassroomMapper
             return $mapperTipoEnsino[$codTipoEnsino][$codSerieAno];
         }
 
-        throw new Exception("Tipo de ensino não tem etapa equivalente no mapa de conversão", 1);   
+        throw new TipoEnsinoConversionException($codTipoEnsino, $codSerieAno);
     }
 
     /**

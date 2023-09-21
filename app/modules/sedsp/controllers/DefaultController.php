@@ -294,12 +294,12 @@ class DefaultController extends Controller
 			$statusSave = $escola->exec($inConsult);
 
 			if ($statusSave) {
-				Yii::app()->user->setFlash('success', "Escola importada com sucesso.");
-				$this->redirect(array('index'));
+				Yii::app()->user->setFlash('success', "Escola e classes importadas com sucesso.");
 			} else {
 				Yii::app()->user->setFlash('error', "Erro ao importar a escola");
-				$this->redirect(array('index'));
 			}
+
+			$this->redirect(array('index'));
 		} catch (Exception $e) {
 			CVarDumper::dump($e->getMessage(), 10, true);
 		}
@@ -317,235 +317,39 @@ class DefaultController extends Controller
 
 			if ($statusSave) {
 				Yii::app()->user->setFlash('success', "O Aluno cadastrado com sucesso.");
-				$this->redirect(array('index'));
 			} else {
 				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
-				$this->redirect(array('index'));
 			}
+
+			$this->redirect(array('index'));
 		} catch (Exception $e) {
-			Yii::app()->user->setFlash('error', "É necessário ter uma escola cadastrada");
+			Yii::app()->user->setFlash('error', "A escola do aluno não está cadastrada no TAG");
 			$this->redirect(array('index'));
 		}
 	}
 
-	function actionTest()
+	public function actionImportFullStudentsByClasses()
 	{
-
-		$opt = 13;
-		switch ($opt) {
-
-			//Realiza o cadastro de um aluno da sedsp no TAG.
-			case 1:
-				$inAluno = new InAluno("000124661430", '3', "SP");
-				$exibirFicha = new GetExibirFichaAlunoFromSEDUseCase();
-				$exibirFicha->exec($inAluno);
-				break;
-
-			/* 			//Realiza o cadastro da turma juntamente com seus alunos da sedsp no TAG.
-						case 2:
-							$inNumClasse = new InFormacaoClasse("262429087");
-							$formacaoClasseSEDUseCase = new GetFormacaoClasseFromSEDUseCase();
-							$formacaoClasseSEDUseCase->exec($inNumClasse);
-							break; */
-
-			//Realiza o cadastro da Escola da sedsp no TAG.
-			case 13:
-				$transaction = Yii::app()->db->beginTransaction();
-				try {
-					$inConsult = new InEscola("IDALINA GRACA EMEI", null, null, null);
-					$escola = new GetEscolasFromSEDUseCase();
-					$escola->exec($inConsult);
-					#$transaction->commit();
-					break;
-				} catch (Exception $e) {
-					CVarDumper::dump($e->getMessage(), 10, true);
-					$transaction->rollback();
-				}
-
-			//Realiza o cadastro da matrícula do aluno da sedsp no TAG.
-			case 4:
-				$inConsult = new InAluno("000124464761", "5", "SP");
-				$matricula = new GetListarMatriculasRaFromSEDUseCase();
-				$matricula->exec($inConsult);
-				break;
-
-
-			case 3:
-				$inConsult = new InConsultaTurmaClasse();
-				$ConsultaTurmaClasse = new GetConsultaTurmaClasseSEDUseCase();
-				CVarDumper::dump($ConsultaTurmaClasse->exec($inConsult), 10, true);
-				break;
-
-
-			case 5:
-				$inConsult = new InListarAlunos(
-					new InFiltrosNomes("NATHAN SANTOS JOSE", null, "BRUNA LUCAS FAG", null),
-					"22/01/2019",
-					new InDocumentos(null, null, null, null, null, null, null, null)
-				);
-				$dataSource = new StudentSEDDataSource();
-				CVarDumper::dump($dataSource->getListStudents($inConsult), 10, true);
-				break;
-
-
-			case 6:
-				$inConsult = new InResponsavelAluno(
-					new InDocumentos(null, null, null, '07765328557', null, null, null, null),
-					new InAluno("000124672356", "6", "SP")
-				);
-				$dataSource = new StudentSEDDataSource();
-				CVarDumper::dump($dataSource->getConsultarResponsavelAluno($inConsult), 10, true);
-				break;
-
-
-			case 7:
-				$inConsult = new InConsultaRA("587597", "AGHATA VITORIA DOS SANTOS MARQUES", "ANA GABRIELE DOS SANTOS LEMES", "31/12/2018");
-				$dataSource = new StudentSEDDataSource();
-				CVarDumper::dump($dataSource->getStudentRA($inConsult), 10, true);
-				break;
-
-
-			case 9:
-				$inConsult = new InFichaAluno(
-					new InDadosPessoais(
-						'NATHAN MATOS CA',
-						'BRUNA LUCAS CA',
-						NULL,
-						NULL,
-						NULL,
-						'22/01/2019',
-						'1',
-						// Cor / Raça: 1 Branca | 2 Preta | 3 Parda | 4 Amarela | 5 Indígena | 6 Não Declarada
-						'1',
-						// 1 – Masculino | 2 – Feminino
-						NULL,
-						NULL,
-						'S',
-						'S',
-						NULL,
-						NULL,
-						NULL,
-						NULL,
-						'1',
-						'SAO PAULO',
-						// Opcional. Obrigatório quando inNacionalidade = 1
-						'SP',
-						// Opcional. Obrigatório quando inNacionalidade = 1
-						NULL,
-						'22/04/2018',
-						// Opcional. Obrigatório quando inNacionalidade = 2
-						'76',
-						'Brasil'
-					),
-					null,
-					null,
-					null,
-					null,
-					null,
-					new InEnderecoResidencial(
-						'RUA EUGÊNIO BOSSE',
-						'48',
-						'URBANA',
-						'SAO PAULO',
-						'SP',
-						'',
-						'03929080',
-						'0',
-						NULL,
-						'9668',
-						'-23.6042611',
-						'-46.49262299999999'
-					),
-					null
-				);
-				$dataSource = new StudentSEDDataSource();
-				CVarDumper::dump($dataSource->addStudent($inConsult), 10, true);
-				break;
-
-			case 10:
-				$inConsult = new InIncluirTurmaClasse(
-					"2023",
-					"57277",
-					"31875",
-					"14",
-					"1",
-					"0",
-					"1",
-					"0",
-					"a",
-					"001",
-					"35",
-					"20/01/2023",
-					"08/08/2023",
-					"07:30",
-					"12:00",
-					null,
-					[""],
-					new InDiasDaSemana(
-						"1",
-						"07:30",
-						"12:00",
-						"2",
-						"07:30",
-						"12:00",
-						"3",
-						"07:30",
-						"12:00",
-						"4",
-						"07:30",
-						"12:00",
-						"5",
-						"07:30",
-						"12:00",
-						"6",
-						"",
-						""
-					)
-				);
-				$dataSource = new ClassroomSEDDataSource();
-				CVarDumper::dump($dataSource->addIncluirTurmaClasse($inConsult), 10, true);
-				break;
-
-			case 11:
-				$inConsult = new InRelacaoClasses("2022", "57277", "14", "1", "1", "0");
-				$dataSource = new ClassStudentsRelationSEDDataSource();
-				CVarDumper::dump($dataSource->getRelacaoClasses($inConsult), 10, true);
-				break;
-
-			case 12:
-				$inConsult = new InscreverAluno(
-					new InAluno("000124661430", "3", "SP"),
-					new InInscricao("2023", "57277", "31875", "7", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null),
-					new InNivelEnsino("2", "3")
-				);
-				$dataSource = new EnrollmentSEDDataSource();
-				CVarDumper::dump($dataSource->addInscreverAluno($inConsult), 10, true);
-				break;
-
-
-			case 14:
-				$inConsult = new InMatricularAluno(
-					"2023",
-					new InAluno("000047805904", "8", "SP"),
-					new InMatricula("28/06/2023", "000047805904", "277675575"),
-					new InNivelEnsino("3", "2")
-				);
-				$dataSource = new EnrollmentSEDDataSource();
-				CVarDumper::dump($dataSource->addMatricularAluno($inConsult), 10, true);
-				break;
-			case 15:
-				$inConsult = new InExibirMatriculaClasseRA(
-					new InAluno("000124464761", "5", "SP"),
-					"276829660",
-					0,
-					"28/08/2023"
-				);
-				$dataSource = new EnrollmentSEDDataSource();
-				CVarDumper::dump($dataSource->getExibirMatriculaClasseRA($inConsult), 10, true);
-				break;
-
-			default:
-				break;
+		$this->checkSEDToken();
+		
+		$selectedClasses = Yii::app()->request->getPost('selectedClasses', '');
+		$numClasses = explode(',', $selectedClasses);
+	
+		$relacaoClasse = new GetRelacaoClassesFromSEDUseCase();
+		foreach ($numClasses as $numClasse) {
+			$relacaoClasse->getStudentsFromClass($numClasse);
 		}
+
+		Yii::app()->user->setFlash('success', "Alunos importados com sucesso.");
+		$this->redirect(array('index'));
+	}
+
+	public function actionImportSchool()
+	{
+		$this->checkSEDToken();
+
+			$inConsult = new InEscola("JOSE DE ANCHIETA PADRE EM", null, null, null);
+			$escola = new GetEscolasFromSEDUseCase();
+			$escola->createSchool($inConsult);
 	}
 }

@@ -1,8 +1,12 @@
 .t-menu {
     margin: 0;
     padding: $SizeXSmall;
+
     .t-menu-item__icon {
         font-size: $FontSizeIcons;
+        &:hover {
+            color: $colorsBaseProductNormalActive;
+        }
     }
 
     &-item {
@@ -13,12 +17,12 @@
         padding: $spaceXSmall;
         border-radius: $borderRadiusLarge;
         cursor: pointer;
-        background: $colorsBaseProductLighter;        
+        background: $colorsBaseProductLighter;
 
         &__icon {
             filter: invert(42%) sepia(30%) saturate(380%) hue-rotate(173deg) brightness(98%) contrast(88%);
         }
-        
+
         &__link {
             display: flex;
             gap: $SizeXSmall;
@@ -27,7 +31,7 @@
             font-weight: $fontWeightHeadingDisplaySubtitle;
             color: $colorsBaseProductNormalActive;
             align-items: center;
-            
+
 
             &:link,
             &:focus,
@@ -38,16 +42,17 @@
             }
         }
 
-        &__text{
+        &__text {
             color: $colorsBaseInkLight
         }
-        
-        &:hover{
+
+        &:hover {
             background: $colorsBaseProductLight;
         }
 
         &.active {
             background: $colorsBaseProductLightActive;
+
             &::before {
                 content: "";
                 position: absolute;
@@ -56,18 +61,20 @@
                 height: 35px;
                 background: #222C64;
                 border-radius: 0 4px 4px 0;
-                
+
             }
+
             .t-menu-item__icon {
                 filter: saturate(1);
-                
-               
+                    color: $colorsBaseProductNormalActive;
+
             }
-            .t-menu-item__text{
+
+            .t-menu-item__text {
                 color: $colorsBaseProductNormalActive;
             }
         }
-        
+
     }
 
     &-group {
@@ -79,7 +86,7 @@
         padding: $spaceXSmall;
         border-radius: $borderRadiusLarge;
         cursor: pointer;
-        
+
         &__icon {
             filter: invert(42%) sepia(30%) saturate(380%) hue-rotate(173deg) brightness(98%) contrast(88%);
         }
@@ -92,7 +99,7 @@
             font-weight: $fontWeightHeadingDisplaySubtitle;
             color: $colorsBaseProductNormalActive;
             align-items: center;
-            
+
 
             &:link,
             &:focus,
@@ -100,12 +107,14 @@
             &--active,
             &:active {
                 text-decoration: none !important;
+                color: $colorsBaseProductNormalActive;
             }
         }
 
-        &__text{
+        &__text {
             color: $colorsBaseInkLight;
         }
+
         ul {
             margin: 0;
         }
@@ -118,14 +127,16 @@
             .fa-chevron-right {
                 display: none;
             }
-            .collapse{
+
+            .collapse {
                 overflow: visible;
             }
 
             .t-menu-group__icon {
                 filter: saturate(1);
             }
-            .t-menu-group__text{
+
+            .t-menu-group__text {
                 color: $colorsBaseProductNormalActive;
             }
         }

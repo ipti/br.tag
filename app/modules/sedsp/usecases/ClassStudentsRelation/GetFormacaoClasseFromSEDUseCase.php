@@ -51,35 +51,29 @@ class GetFormacaoClasseFromSEDUseCase
                     
                     $alunoTurma = $this->searchAlunoTurma($studentModel->gov_id, $alunosTurma);
                     $this->createEnrollment($tagClassroom, $studentModel, $alunoTurma);
-                    
                 }
                 catch (\Throwable $th) {
-                    CVarDumper::dump($th);
                     Yii::log($th->getMessage(), CLogger::LEVEL_WARNING);
                     $status = false;
                 }
             }
-            // return $status;
 
             return $status;
         } catch (Exception $e) {
             CVarDumper::dump($e->getMessage(), 10, true);
             return false;
         }
-
     }
 
     /**
      * Summary of createEnrollment
      * @param Classroom $classroom
      * @param StudentIdentification $studentModel
-     * @param OutAlunos $alunoTurma
      * 
      * @return StudentEnrollment|bool
      */
-    private function createEnrollment($classroom, $studentModel, $alunoTurma)
+    private function createEnrollment($classroom, $studentModel)
     {
-
         $studentEnrollmentModel = $this->searchStudentEnrollmentInDb($classroom->school_inep_fk, $studentModel->id, $classroom->id);
         if ($studentEnrollmentModel === null) {
             $studentEnrollment = new StudentEnrollment();
@@ -87,11 +81,12 @@ class GetFormacaoClasseFromSEDUseCase
             $studentEnrollment->student_inep_id = $studentModel->inep_id;
             $studentEnrollment->student_fk = $studentModel->id;
             $studentEnrollment->classroom_fk = $classroom->id;
-            $studentEnrollment->status = $this->mapStatusEnrollmentFromSed($alunoTurma->getOutCodSitMatricula());
+            $studentEnrollment->status = $this->mapStatusEnrollmentFromSed("2");
             $studentEnrollment->school_admission_date = date("d/m/Y");
             
             if ($studentEnrollment->validate() && $studentEnrollment->save()) {
                 Yii::log('Aluno matriculado com sucesso.', CLogger::LEVEL_INFO);
+                return true;
             } else {
                 Yii::log($studentEnrollment->getErrors(), CLogger::LEVEL_ERROR);
                 return false;
@@ -195,36 +190,9 @@ class GetFormacaoClasseFromSEDUseCase
     /**
      * Summary of getFichaAluno
      * @param InAluno $inAluno
-     * @return bool
      */
     public function getFichaAluno(InAluno $inAluno)
     {
         return $this->getExibirFichaAlunoFromSEDUseCase->exec($inAluno);
-    }
-
-    /**
-     * Summary of registrarLog
-     * @param mixed $mensagem
-     * @param mixed $caminhoArquivoLog
-     * @return void
-     */
-    public function registrarLog($mensagem, $caminhoArquivoLog = 'C:\br.tag\app\modules\sedsp\controllers\meu_log.txt')
-    {
-        $dataHora = date('Y-m-d H:i:s');
-        $mensagemFormatada = "[$dataHora] $mensagem" . PHP_EOL;
-
-        // Abre o arquivo em modo de escrita no final
-        $arquivo = fopen($caminhoArquivoLog, 'a');
-
-        if ($arquivo) {
-            // Escreve a mensagem no arquivo
-            fwrite($arquivo, $mensagemFormatada);
-
-            // Fecha o arquivo
-            fclose($arquivo);
-        } else {
-            // Lidar com erro ao abrir o arquivo
-            error_log("Erro ao abrir o arquivo de log: $caminhoArquivoLog", 0);
-        }
     }
 }

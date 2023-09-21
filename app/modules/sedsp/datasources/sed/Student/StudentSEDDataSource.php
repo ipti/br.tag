@@ -20,7 +20,7 @@ class StudentSEDDataSource extends SedDataSource
 
     /**
      * Summary of getStudentRA
-     * @param InConsultaRA $inAluno
+     * @param InConsultaRA $inConsultaRA
      * @return OutConsultaRA|OutErro
      * @throws Exception Se ocorrer um erro desconhecido.
      */

@@ -10,11 +10,24 @@
             font-weight: bold;
         }
     }
-    &__input, input[type="text"], input[type="number"] {
+    &__input, input[type="text"], input[type="number"], input[type="email"]{
+        box-sizing: border-box;
+        width: 100% !important;
+        margin-bottom: 0px;
+        resize: none;
+    }
+    &__input, input[type="password"]{
         box-sizing: border-box;
         width: 100%;
         margin-bottom: 0px;
         resize: none;
-        /* padding: $spaceEmpty $spaceSmall; */
     }
+    .show-password-icon {
+        font-size: $FontSizeFormLabel;
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+        padding: 5px;
+   }
+
 }
