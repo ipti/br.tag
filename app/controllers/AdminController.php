@@ -611,59 +611,55 @@ class AdminController extends Controller
 
     public function actionGetAuditoryLogs()
     {
+        $criteria = new CDbCriteria();
 
         $arr = explode('/', $_POST["initialDate"]);
         $initialDate = $arr[2] . "-" . $arr[1] . "-" . $arr[0] . " 00:00:00";
         $arr = explode('/', $_POST["finalDate"]);
         $finalDate = $arr[2] . "-" . $arr[1] . "-" . $arr[0] . " 23:59:59";
-
-        $joinSQL = "";
-        $whereSQL = " date between '" . $initialDate . "' and '" . $finalDate . "' ";
+        $criteria->addBetweenCondition('date', $initialDate, $finalDate);
 
         if ($_POST["school"] !== "") {
-            $whereSQL .= " and school_fk = '" . $_POST["school"] . "'";
+            $criteria->addColumnCondition(['school_fk' => $_POST["school"]]);
         }
 
         if ($_POST["action"] !== "") {
-            $whereSQL .= " and crud = '" . $_POST["action"] . "' ";
+            $criteria->addColumnCondition(['crud' => $_POST["action"]]);
         }
 
         if ($_POST["user"] !== "") {
-            $whereSQL .= " and user_fk = '" . $_POST["user"] . "' ";
+            $criteria->addColumnCondition(['user_fk' => $_POST["user"]]);
         }
 
-        $orderSQL = "";
+        $countCriteria = $criteria;
+
         foreach ($_POST["order"] as $key => $order) {
             switch($_POST["columns"][$order["column"]]["data"]) {
                 case "school":
-                    $joinSQL .= " join school_identification on inep_id = school_fk ";
-                    $column = "TRIM(school_identification.name)";
+                    $criteria->join = "join school_identification on inep_id = school_fk";
+                    $criteria->order .= "TRIM(school_identification.name)";
                     break;
                 case "user":
-                    $joinSQL .= " join users on users.id = user_fk ";
-                    $column = "TRIM(users.name)";
+                    $criteria->join = "join users on users.id = user_fk";
+                    $criteria->order .= "TRIM(users.name)";
                     break;
                 case "date":
-                    $column = $_POST["columns"][$order["column"]]["data"];
+                    $criteria->order .= $_POST["columns"][$order["column"]]["data"];
                     break;
             }
-            $orderSQL .= $column . " " . $order["dir"];
+            $criteria->order .= " " . $order["dir"];
             if ($key < count($_POST["order"]) - 1) {
-                $orderSQL .= ", ";
+                $criteria->order .= ", ";
             }
         }
 
-        $logs = Log::model()->findAllBySql(
-            " select distinct log.* from log " . $joinSQL .
-            " where " . $whereSQL .
-            " order by " . $orderSQL .
-            " limit " . $_POST["length"] .
-            " offset " . $_POST["start"]);
-        $logsCount = Log::model()->findAllBySql(
-            " select distinct(log.id) from log " . $joinSQL .
-            " where " . $whereSQL);
+        $criteria->limit = $_POST["length"];
+        $criteria->offset = $_POST["start"];
 
-        $result["recordsTotal"] = $result["recordsFiltered"] = count($logsCount);
+        $logs = Log::model()->findAll($criteria);
+        $logsCount = Log::model()->count($countCriteria);
+
+        $result["recordsTotal"] = $result["recordsFiltered"] = $logsCount;
 
         $result["data"] = [];
         foreach ($logs as $log) {
