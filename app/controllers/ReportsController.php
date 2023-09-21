@@ -61,7 +61,7 @@ class ReportsController extends Controller
                     classroom c ON c.school_inep_fk = si.inep_id
                 LEFT JOIN
                     student_enrollment se ON se.classroom_fk = c.id
-                WHERE 
+                WHERE
                     c.school_year = :school_year
                 GROUP BY
                     si.inep_id, si.name;";
@@ -76,12 +76,12 @@ class ReportsController extends Controller
     public function actionStudentCpfRgNisAllSchools()
     {
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-        $sql = "SELECT si.name, si.birthday, sdaa.cpf, sdaa.rg_number, 
+        $sql = "SELECT si.name, si.birthday, sdaa.cpf, sdaa.rg_number,
                     sdaa.nis, si.responsable_name, si.responsable_telephone, si2.name as school_name
-                FROM student_enrollment se 
-                JOIN student_identification si ON se.student_fk = si.id 
-                JOIN student_documents_and_address sdaa ON si.id = sdaa.id 
-                JOIN classroom c ON se.classroom_fk = c.id 
+                FROM student_enrollment se
+                JOIN student_identification si ON se.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id
+                JOIN classroom c ON se.classroom_fk = c.id
                 JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id
                 WHERE se.status = 1 OR se.status IS NULL
                 GROUP BY si.name
@@ -104,12 +104,12 @@ class ReportsController extends Controller
     public function actionStudentCpfRgNisAllClassrooms()
     {
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-        $sql = "SELECT si.name, si.birthday, sdaa.cpf, sdaa.rg_number, 
+        $sql = "SELECT si.name, si.birthday, sdaa.cpf, sdaa.rg_number,
                     sdaa.nis, si.responsable_name, si.responsable_telephone, c.name as classroom_name
-                FROM student_enrollment se 
-                jOIN student_identification si ON se.student_fk = si.id 
-                JOIN student_documents_and_address sdaa ON si.id = sdaa.id 
-                JOIN classroom c ON se.classroom_fk = c.id 
+                FROM student_enrollment se
+                jOIN student_identification si ON se.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id
+                JOIN classroom c ON se.classroom_fk = c.id
                 WHERE c.school_inep_fk = :school_inep_id AND (se.status = 1 OR se.status IS NULL)
                 GROUP BY si.name
                 ORDER BY si.name;";
@@ -132,12 +132,12 @@ class ReportsController extends Controller
     {
         $classroom = $_POST['classroom'];
         $classroomModel = Classroom::model()->findByPk($classroom);
-        $sql = "SELECT si.name, si.birthday, sdaa.cpf, sdaa.rg_number, 
-                    sdaa.nis, si.responsable_name, si.responsable_telephone 
-                FROM student_enrollment se 
-                JOIN student_identification si ON se.student_fk = si.id 
-                JOIN student_documents_and_address sdaa ON si.id = sdaa.id 
-                JOIN classroom c ON se.classroom_fk = c.id 
+        $sql = "SELECT si.name, si.birthday, sdaa.cpf, sdaa.rg_number,
+                    sdaa.nis, si.responsable_name, si.responsable_telephone
+                FROM student_enrollment se
+                JOIN student_identification si ON se.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON si.id = sdaa.id
+                JOIN classroom c ON se.classroom_fk = c.id
                 WHERE c.id = :classroom AND (se.status = 1 OR se.status IS NULL)
                 GROUP BY si.name
                 ORDER BY si.name;";
@@ -158,7 +158,7 @@ class ReportsController extends Controller
         $initialDate = $_POST['initial-date'];
         $endDate = $_POST['end-date'];
 
-        $sql = "SELECT si.name, si.birthday, sdaa.cpf, si.responsable_name, 
+        $sql = "SELECT si.name, si.birthday, sdaa.cpf, si.responsable_name,
                     si.responsable_telephone, si2.name as school_name,
                 CASE se.status
                 WHEN 1 THEN 'Matriculado'
@@ -174,12 +174,12 @@ class ReportsController extends Controller
                 WHEN 11 THEN 'Obito'
                 ELSE ''
                 END AS status_descricao
-                FROM 
+                FROM
                 student_enrollment se
                 JOIN student_identification si ON se.student_fk = si.id
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
                 JOIN classroom c ON se.classroom_fk = c.id
-                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
+                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id
                 WHERE c.school_year = :school_year AND se.create_date BETWEEN :initial_date AND :end_date
                 ORDER BY si.name;";
 
@@ -206,7 +206,7 @@ class ReportsController extends Controller
         $initialDate = $_POST['initial-date'];
         $endDate = $_POST['end-date'];
 
-        $sql = "SELECT si.name, si.birthday, sdaa.cpf, si.responsable_name, 
+        $sql = "SELECT si.name, si.birthday, sdaa.cpf, si.responsable_name,
                     si.responsable_telephone, c.name as classroom_name,
                 CASE se.status
                 WHEN 1 THEN 'Matriculado'
@@ -222,13 +222,13 @@ class ReportsController extends Controller
                 WHEN 11 THEN 'Obito'
                 ELSE ''
                 END AS status_descricao
-                FROM 
+                FROM
                 student_enrollment se
                 JOIN student_identification si ON se.student_fk = si.id
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
                 JOIN classroom c ON se.classroom_fk = c.id
-                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
-                WHERE c.school_year = :school_year AND si2.inep_id = :school_inep_id 
+                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id
+                WHERE c.school_year = :school_year AND si2.inep_id = :school_inep_id
                 AND se.create_date BETWEEN :initial_date AND :end_date
                 ORDER BY si.name;";
 
@@ -271,7 +271,7 @@ class ReportsController extends Controller
                 WHEN 11 THEN 'Obito'
                 ELSE ''
                 END AS status_descricao
-                FROM 
+                FROM
                 student_enrollment se
                 JOIN student_identification si ON se.student_fk = si.id
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
@@ -301,7 +301,7 @@ class ReportsController extends Controller
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
                 JOIN student_enrollment se ON se.student_fk = si.id
                 JOIN classroom c ON se.classroom_fk = c.id
-                WHERE si.bf_participator = 1 AND c.school_year = :school_year 
+                WHERE si.bf_participator = 1 AND c.school_year = :school_year
                     AND c.school_inep_fk = :school_inep_id AND (se.status = 1 OR se.status IS NULL)
                 GROUP BY si.name
                 ORDER BY si.name;";
@@ -330,8 +330,8 @@ class ReportsController extends Controller
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
                 JOIN student_enrollment se ON se.student_fk = si.id
                 JOIN classroom c ON se.classroom_fk = c.id
-                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
-                WHERE si.bf_participator = 1 AND c.school_year = :school_year 
+                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id
+                WHERE si.bf_participator = 1 AND c.school_year = :school_year
                     AND (se.status = 1 OR se.status IS NULL)
                 GROUP BY si.name
                 ORDER BY si2.name, si.name;";
@@ -358,7 +358,7 @@ class ReportsController extends Controller
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
                 JOIN student_enrollment se ON se.student_fk = si.id
                 JOIN classroom c ON se.classroom_fk = c.id
-                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
+                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id
                 WHERE si.bf_participator = 1 AND c.school_year = :school_year
                      AND c.id = :classroom_id AND (se.status = 1 OR se.status IS NULL)
                 GROUP BY si.name
@@ -418,7 +418,7 @@ class ReportsController extends Controller
         $model_report = $_POST['model_report'];
         $school_inep_id = Yii::app()->user->school;
 
-        $sql = "SELECT 
+        $sql = "SELECT
                     e.name as school_name, c.name as classroom_name, c.id as classroom_id,
                     s.*, se.status, se.create_date, ii.name as prof_name, ed.name as discipline,
                     c.turn as turno, esvm.stage as stage_id ,esvm.name as class_stage, se.date_cancellation_enrollment as date_cancellation
@@ -428,11 +428,11 @@ class ReportsController extends Controller
                     INNER JOIN student_identification as s on s.id=se.student_fk
                     INNER JOIN school_identification as e on c.school_inep_fk = e.inep_id
                     INNER JOIN instructor_teaching_data as itd on c.id = itd.classroom_id_fk
-                    INNER JOIN teaching_matrixes as tm on itd.id = tm.teaching_data_fk 
-                    INNER JOIN curricular_matrix as cm on tm.curricular_matrix_fk = cm.id 
-                    INNER JOIN edcenso_discipline as ed on cm.discipline_fk = ed.id 
+                    INNER JOIN teaching_matrixes as tm on itd.id = tm.teaching_data_fk
+                    INNER JOIN curricular_matrix as cm on tm.curricular_matrix_fk = cm.id
+                    INNER JOIN edcenso_discipline as ed on cm.discipline_fk = ed.id
                     INNER JOIN instructor_identification as ii on itd.instructor_fk = ii.id
-                    INNER JOIN edcenso_stage_vs_modality as esvm on c.edcenso_stage_vs_modality_fk = esvm.id 
+                    INNER JOIN edcenso_stage_vs_modality as esvm on c.edcenso_stage_vs_modality_fk = esvm.id
                 WHERE
                     c.school_year = :year AND
                     c.school_inep_fk = :school_inep_id AND
@@ -474,10 +474,10 @@ class ReportsController extends Controller
                 si.birthday,
                 si.school_inep_id_fk,
                 c.edcenso_stage_vs_modality_fk AS stage
-                FROM student_identification si 
+                FROM student_identification si
                 JOIN student_documents_and_address sdaa ON sdaa.id = si.id
                 JOIN student_enrollment se ON se.student_fk = si.id
-                JOIN classroom c ON se.classroom_fk = c.id 
+                JOIN classroom c ON se.classroom_fk = c.id
                 WHERE c.school_year = :school_year
                 GROUP BY si.id
                 ORDER BY si.name;";
@@ -502,13 +502,13 @@ class ReportsController extends Controller
     public function actionClassroomTransferReport()
     {
         $classroom_id = $_POST['classroom'];
-        $sql = "SELECT si.name, c.name AS classroom_name, si2.name AS school_name, 
-                sdaa.cpf, si.responsable_name, si.responsable_telephone, se.transfer_date  
-                FROM student_enrollment se 
+        $sql = "SELECT si.name, c.name AS classroom_name, si2.name AS school_name,
+                sdaa.cpf, si.responsable_name, si.responsable_telephone, se.transfer_date
+                FROM student_enrollment se
                 JOIN student_identification si ON se.student_fk = si.id
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
                 JOIN classroom c ON se.classroom_fk = c.id
-                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
+                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id
                 WHERE c.id = :classroom_id AND se.transfer_date IS NOT NULL;";
         $result =  Yii::app()->db->createCommand($sql)
         ->bindParam(":classroom_id", $classroom_id)
@@ -526,13 +526,13 @@ class ReportsController extends Controller
 
     public function actionSchoolTransferReport()
     {
-        $sql = "SELECT si.name, c.name AS classroom_name, si2.name AS school_name, 
-                sdaa.cpf, si.responsable_name, si.responsable_telephone, se.transfer_date  
-                FROM student_enrollment se 
+        $sql = "SELECT si.name, c.name AS classroom_name, si2.name AS school_name,
+                sdaa.cpf, si.responsable_name, si.responsable_telephone, se.transfer_date
+                FROM student_enrollment se
                 JOIN student_identification si ON se.student_fk = si.id
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
                 JOIN classroom c ON se.classroom_fk = c.id
-                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
+                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id
                 WHERE si2.inep_id = :school_inep_id AND se.transfer_date IS NOT NULL;";
         $result =  Yii::app()->db->createCommand($sql)
         ->bindParam(":school_inep_id", Yii::app()->user->school)
@@ -550,13 +550,13 @@ class ReportsController extends Controller
 
     public function actionAllSchoolsTransferReport()
     {
-        $sql = "SELECT si.name, c.name AS classroom_name, si2.name AS school_name, 
-                sdaa.cpf, si.responsable_name, si.responsable_telephone, se.transfer_date  
-                FROM student_enrollment se 
+        $sql = "SELECT si.name, c.name AS classroom_name, si2.name AS school_name,
+                sdaa.cpf, si.responsable_name, si.responsable_telephone, se.transfer_date
+                FROM student_enrollment se
                 JOIN student_identification si ON se.student_fk = si.id
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
                 JOIN classroom c ON se.classroom_fk = c.id
-                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
+                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id
                 WHERE se.transfer_date IS NOT NULL;";
         $result =  Yii::app()->db->createCommand($sql)->queryAll();
 
@@ -571,15 +571,15 @@ class ReportsController extends Controller
     }
     public function actionTeachersByStage()
     {
-        $sql = "SELECT 
+        $sql = "SELECT
                 ii.name,
                 ii.birthday_date,
                 ii.inep_id,
                 ivd.scholarity,
                 ii.school_inep_id_fk,
                 c.edcenso_stage_vs_modality_fk AS stage
-                FROM instructor_teaching_data itd 
-                JOIN instructor_identification ii on ii.id = itd.instructor_fk 
+                FROM instructor_teaching_data itd
+                JOIN instructor_identification ii on ii.id = itd.instructor_fk
                 JOIN instructor_variable_data ivd ON ii.id = ivd.id
                 JOIN classroom c ON itd.classroom_id_fk = c.id
                 GROUP BY ii.name;";
@@ -601,7 +601,7 @@ class ReportsController extends Controller
 
     public function actionTeachersBySchool()
     {
-        $sql = "SELECT 
+        $sql = "SELECT
                 ii.name,
                 ii.birthday_date,
                 ii.inep_id,
@@ -630,14 +630,14 @@ class ReportsController extends Controller
     public function actionCnsPerClassroomReport()
     {
         $classroom_id = $_POST['cns_classroom_id'];
-        $sql = "SELECT 
+        $sql = "SELECT
                 si.name, si.birthday, sdaa.cns, c.name AS classroom_name,
                 si.responsable_name, si.responsable_telephone
                 FROM student_enrollment se
                 JOIN classroom c ON se.classroom_fk = c.id
                 JOIN student_identification si ON se.student_fk = si.id
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
-                WHERE c.id = :classroom_id AND (se.status = 1 OR se.status IS NULL) 
+                WHERE c.id = :classroom_id AND (se.status = 1 OR se.status IS NULL)
                 GROUP BY name;";
 
         $result = Yii::app()->db->createCommand($sql)
@@ -656,12 +656,12 @@ class ReportsController extends Controller
 
     public function actionCnsSchools()
     {
-        $sql = "SELECT 
+        $sql = "SELECT
         si2.name AS school_name, si.name, si.birthday, sdaa.cns,
         si.responsable_name, si.responsable_telephone
-        FROM student_enrollment se 
+        FROM student_enrollment se
         JOIN classroom c ON se.classroom_fk = c.id
-        JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id 
+        JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id
         JOIN student_identification si ON se.student_fk = si.id
         JOIN student_documents_and_address sdaa ON si.id = sdaa.id
         WHERE c.school_year = :year
@@ -684,7 +684,7 @@ class ReportsController extends Controller
 
     public function actionCnsPerSchool()
     {
-        $sql = "SELECT 
+        $sql = "SELECT
                 sch.name AS school_name, si.name, si.birthday, sdaa.cns,
                 si.responsable_name, si.responsable_telephone
                 FROM school_identification sch
@@ -737,7 +737,7 @@ class ReportsController extends Controller
             }
 
             $sql = "SELECT ii.name as instructor_name FROM classroom c
-                    JOIN instructor_teaching_data itd on itd.classroom_id_fk = c.id 
+                    JOIN instructor_teaching_data itd on itd.classroom_id_fk = c.id
                     JOIN instructor_identification ii on itd.instructor_fk = ii.id
                     WHERE c.id = :classroom_id AND itd.regent = 1;";
 
@@ -844,12 +844,12 @@ class ReportsController extends Controller
         $discipline_model = EdcensoDiscipline::model()->findByPk($discipline_id);
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
-        $sql = "SELECT ii.name AS instructor_name, ed.name AS discipline_name, c.name AS classroom_name, c.turn as classroom_turn 
+        $sql = "SELECT ii.name AS instructor_name, ed.name AS discipline_name, c.name AS classroom_name, c.turn as classroom_turn
                 FROM edcenso_discipline ed
                 JOIN curricular_matrix cm ON cm.discipline_fk = ed.id
-                JOIN teaching_matrixes tm ON tm.curricular_matrix_fk = cm.id 
-                JOIN instructor_teaching_data itd ON itd.id = tm.teaching_data_fk 
-                JOIN classroom c ON c.id = itd.classroom_id_fk 
+                JOIN teaching_matrixes tm ON tm.curricular_matrix_fk = cm.id
+                JOIN instructor_teaching_data itd ON itd.id = tm.teaching_data_fk
+                JOIN classroom c ON c.id = itd.classroom_id_fk
                 JOIN instructor_identification ii ON itd.instructor_fk = ii.id
                 WHERE ed.id = :discipline_id AND c.id = :classroom_id
                 GROUP BY ii.name;";
@@ -869,9 +869,9 @@ class ReportsController extends Controller
             $turno = "___________";
         }
 
-        $sql = "SELECT si.name AS student_name, se.daily_order FROM classroom c 
-                JOIN student_enrollment se on c.id = se.classroom_fk 
-                JOIN student_identification si on se.student_fk = si.id 
+        $sql = "SELECT si.name AS student_name, se.daily_order FROM classroom c
+                JOIN student_enrollment se on c.id = se.classroom_fk
+                JOIN student_identification si on se.student_fk = si.id
                 WHERE c.id = :classroom_id
                 ORDER BY se.daily_order, si.name;";
 
@@ -944,9 +944,9 @@ class ReportsController extends Controller
         $sql = "SELECT ii.name AS instructor_name, ed.name AS discipline_name
                 FROM edcenso_discipline ed
                 JOIN curricular_matrix cm ON cm.discipline_fk = ed.id
-                JOIN teaching_matrixes tm ON tm.curricular_matrix_fk = cm.id 
-                JOIN instructor_teaching_data itd ON itd.id = tm.teaching_data_fk 
-                JOIN classroom c ON c.id = itd.classroom_id_fk 
+                JOIN teaching_matrixes tm ON tm.curricular_matrix_fk = cm.id
+                JOIN instructor_teaching_data itd ON itd.id = tm.teaching_data_fk
+                JOIN classroom c ON c.id = itd.classroom_id_fk
                 JOIN instructor_identification ii ON itd.instructor_fk = ii.id
                 WHERE ed.id = :discipline_id AND c.id = :classroom_id
                 GROUP BY ii.name;";
@@ -956,7 +956,7 @@ class ReportsController extends Controller
         ->bindParam(":classroom_id", $classroom_id)
         ->queryAll();
 
-        $sql = "SELECT si.name AS student_name FROM student_enrollment se 
+        $sql = "SELECT si.name AS student_name FROM student_enrollment se
                 JOIN student_identification si on si.id = se.student_fk
                 WHERE se.classroom_fk = :classroom_id
                 ORDER BY se.daily_order, si.name;";
@@ -1042,9 +1042,9 @@ class ReportsController extends Controller
         $condition = '';
         if (isset($_POST['classroom2']) && $_POST['classroom2'] != '') {
             $condition = " AND c.id = $_POST[classroom2] ";
-            $sql = "SELECT 
+            $sql = "SELECT
                     e.name as school_name, c.name as classroom_name, c.id as classroom_id,
-                    s.*, se.status, se.create_date, ii.name as prof_name, ed.name as discipline,
+                    s.*, se.status, se.create_date, se.observation, ii.name as prof_name, ed.name as discipline,
                     c.turn as turno, esvm.stage as stage_id ,esvm.name as class_stage, se.date_cancellation_enrollment as date_cancellation
                 FROM
                     student_enrollment as se
@@ -1052,11 +1052,11 @@ class ReportsController extends Controller
                     INNER JOIN student_identification as s on s.id=se.student_fk
                     INNER JOIN school_identification as e on c.school_inep_fk = e.inep_id
                     INNER JOIN instructor_teaching_data as itd on c.id = itd.classroom_id_fk
-                    INNER JOIN teaching_matrixes as tm on itd.id = tm.teaching_data_fk 
-                    INNER JOIN curricular_matrix as cm on tm.curricular_matrix_fk = cm.id 
-                    INNER JOIN edcenso_discipline as ed on cm.discipline_fk = ed.id 
+                    INNER JOIN teaching_matrixes as tm on itd.id = tm.teaching_data_fk
+                    INNER JOIN curricular_matrix as cm on tm.curricular_matrix_fk = cm.id
+                    INNER JOIN edcenso_discipline as ed on cm.discipline_fk = ed.id
                     INNER JOIN instructor_identification as ii on itd.instructor_fk = ii.id
-                    INNER JOIN edcenso_stage_vs_modality as esvm on c.edcenso_stage_vs_modality_fk = esvm.id 
+                    INNER JOIN edcenso_stage_vs_modality as esvm on c.edcenso_stage_vs_modality_fk = esvm.id
                 WHERE
                     c.school_year = :year AND
                     c.school_inep_fk = :school_inep_id
@@ -1157,13 +1157,13 @@ class ReportsController extends Controller
         $classroomId = $_POST['classroom'];
 
         $sql = "SELECT si.*, se.classroom_fk
-        FROM student_identification as si 
+        FROM student_identification as si
         JOIN student_enrollment as se on si.id = se.student_fk
         JOIN classroom as c on se.classroom_fk = c.id
         WHERE si.deficiency = 1 and c.id = :classrom_id";
 
         $sql1 = "SELECT c.*
-                FROM classroom as c 
+                FROM classroom as c
                 WHERE c.id = :classroom_id";
 
         $students = Yii::app()->db->createCommand($sql)
@@ -1296,12 +1296,12 @@ class ReportsController extends Controller
         $school = SchoolIdentification::model()->findByPk($school_id);
         $ano = Yii::app()->user->year;
         $sql1 = "SELECT *, d.name as nome_aluno, d.inep_id as inep_id
-                    FROM student_enrollment a 
-                    JOIN classroom b ON(a.`classroom_fk`=b.id) 
-                    JOIN student_documents_and_address c ON(a.`student_fk`=c.`id`) 
-                    JOIN student_identification d ON(c.`id`=d.`id`) 
-                    WHERE b.`school_inep_fk` =" . $school_id . " and b.school_year=" . $ano . " AND (a.status = 1 OR a.status IS NULL) AND 
-                    (received_cc = 0 OR received_address = 0 OR received_photo = 0 
+                    FROM student_enrollment a
+                    JOIN classroom b ON(a.`classroom_fk`=b.id)
+                    JOIN student_documents_and_address c ON(a.`student_fk`=c.`id`)
+                    JOIN student_identification d ON(c.`id`=d.`id`)
+                    WHERE b.`school_inep_fk` =" . $school_id . " and b.school_year=" . $ano . " AND (a.status = 1 OR a.status IS NULL) AND
+                    (received_cc = 0 OR received_address = 0 OR received_photo = 0
                     OR received_nis = 0 OR received_responsable_rg = 0 OR received_responsable_cpf = 0)";
         $result = Yii::app()->db->createCommand($sql1)->queryAll();
         $this->render('StudentPendingDocument', array(
@@ -1400,8 +1400,8 @@ class ReportsController extends Controller
         $classrooms = Yii::app()->db->createCommand($sql)->queryAll();
 
         $sql1 = "SELECT DISTINCT se.classroom_fk,si.inep_id,si.name,si.birthday
-                FROM student_identification as si 
-                join student_enrollment as se on si.id = se.student_fk 
+                FROM student_identification as si
+                join student_enrollment as se on si.id = se.student_fk
                 join classroom as c on se.classroom_fk = c.id
                 where se.school_inep_id_fk = " . $_GET['id'] . " and c.school_year = " . $this->year . " AND (se.status = 1 OR se.status IS NULL) order by si.name";
 
@@ -1473,7 +1473,7 @@ class ReportsController extends Controller
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
         $classrooms = Yii::app()->db->createCommand(
-            "select c.*, q.modality, q.stage from classroom as c 
+            "select c.*, q.modality, q.stage from classroom as c
             join classroom_qtd_students as q on c.school_inep_fk = q.school_inep_fk
             where c.school_year = " . $this->year . " AND q.school_year = " . $this->year . " and c.school_inep_fk = " . Yii::app()->user->school . " AND q.school_inep_fk = " . Yii::app()->user->school . "  AND c.id = q.id
             order by name"
@@ -1565,9 +1565,9 @@ class ReportsController extends Controller
         $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":school", $_GET['id'])->bindParam(":year", $this->year)->queryAll();
         foreach ($classrooms as &$classroom) {
             $sql1 = "SELECT DISTINCT c.id AS classroomID ,c.name AS className,id.inep_id,id.name, id.birthday_date, iv.scholarity
-                FROM instructor_teaching_data AS i 
+                FROM instructor_teaching_data AS i
                 JOIN instructor_identification AS id ON id.id = i.instructor_fk
-                JOIN instructor_variable_data AS iv ON iv.id = id.id 
+                JOIN instructor_variable_data AS iv ON iv.id = id.id
                 JOIN classroom AS c ON i.classroom_id_fk = c.id
                 WHERE c.id = :id AND (i.role = 8 OR i.role = 2) ORDER BY id.name";
             $classroom["professors"] = Yii::app()->db->createCommand($sql1)->bindParam(":id", $classroom["id"])->queryAll();
@@ -1585,14 +1585,14 @@ class ReportsController extends Controller
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
         $sql_classrooms =
-            "SELECT 
-	            c.name, 
+            "SELECT
+	            c.name,
                 esvm.name stage
             from classroom c
             left join instructor_teaching_data itd on itd.classroom_id_fk = c.id
-            LEFT JOIN edcenso_stage_vs_modality esvm on c.edcenso_stage_vs_modality_fk = esvm.id 
+            LEFT JOIN edcenso_stage_vs_modality esvm on c.edcenso_stage_vs_modality_fk = esvm.id
             WHERE school_inep_fk = :school_id and c.school_year = :school_year
-            GROUP by c.id 
+            GROUP by c.id
             HAVING count(itd.id) = 0
             ORDER BY c.id";
 
@@ -1602,14 +1602,14 @@ class ReportsController extends Controller
         ->queryAll();
 
         $sql_discipline =
-                "SELECT 
+                "SELECT
                     GROUP_CONCAT(ed.name) `Disciplina`
-                FROM classroom c 
+                FROM classroom c
                 LEFT JOIN instructor_teaching_data itd ON itd.classroom_id_fk = c.id
-                LEFT JOIN curricular_matrix cm ON cm.stage_fk = c.edcenso_stage_vs_modality_fk 
-                LEFT JOIN edcenso_discipline ed ON cm.discipline_fk  = ed.id 
+                LEFT JOIN curricular_matrix cm ON cm.stage_fk = c.edcenso_stage_vs_modality_fk
+                LEFT JOIN edcenso_discipline ed ON cm.discipline_fk  = ed.id
                 WHERE school_inep_fk = :school_id AND c.school_year = :school_year
-                GROUP by c.id 
+                GROUP by c.id
                 HAVING count(itd.id) = 0
                 ORDER BY c.id";
 
@@ -1680,17 +1680,17 @@ class ReportsController extends Controller
         $school_year = Yii::app()->user->school;
         $year = Yii::app()->user->year;
         $classroom_id = $_POST['classroom'];
-        $sql = "SELECT 
-                e.name as school_name, c.name as classroom_name, 
+        $sql = "SELECT
+                e.name as school_name, c.name as classroom_name,
                 c.id as classroom_id, d.cpf, d.address, s.*
-            FROM 
+            FROM
                 student_enrollment as se
                 INNER JOIN classroom as c on se.classroom_fk=c.id
                 INNER JOIN student_identification as s on s.id=se.student_fk
                 INNER JOIN school_identification as e on c.school_inep_fk = e.inep_id
                 LEFT JOIN student_documents_and_address as d on s.id = d.id
-            WHERE 
-                c.school_year = :year AND 
+            WHERE
+                c.school_year = :year AND
                 c.school_inep_fk = :schoolyear AND
                 c.id = :classroom_id
             GROUP BY s.name
@@ -1901,10 +1901,10 @@ class ReportsController extends Controller
         $command->join .= 'left join student_identification si on se.student_fk = si.id ';
         $command->join .= 'left join student_documents_and_address sd on sd.id = si.id ';
         $command->join .= 'left join (
-                SELECT schedule.classroom_fk, schedule.month, student_fk, count(*) faults 
+                SELECT schedule.classroom_fk, schedule.month, student_fk, count(*) faults
                 FROM class_faults cf
                 left join schedule on schedule.id = schedule_fk
-                group by student_fk, schedule.month,schedule.classroom_fk) cf 
+                group by student_fk, schedule.month,schedule.classroom_fk) cf
             on (c.id = cf.classroom_fk AND se.student_fk = cf.student_fk AND cf.month = t.month) ';
         $command->where(
             'c.school_year = :year and (svm.id < 14 or svm.id > 16) '
@@ -1935,7 +1935,7 @@ class ReportsController extends Controller
 
     public function actionBFRStudentReport()
     {
-        $sql = "SELECT su.name, su.inep_id, su.birthday, cl.name as turma  
+        $sql = "SELECT su.name, su.inep_id, su.birthday, cl.name as turma
         FROM student_enrollment se
         JOIN classroom cl ON(se.classroom_fk = cl.id)
         JOIN school_identification si ON (si.inep_id = cl.school_inep_fk)
@@ -2001,8 +2001,8 @@ class ReportsController extends Controller
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $disciplines = Yii::app()->db->createCommand(
-                "select ed.id from teaching_matrixes tm 
-                join instructor_teaching_data itd on itd.id = tm.teaching_data_fk 
+                "select ed.id from teaching_matrixes tm
+                join instructor_teaching_data itd on itd.id = tm.teaching_data_fk
                 join instructor_identification ii on ii.id = itd.instructor_fk
                 join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
                 join edcenso_discipline ed on ed.id = cm.discipline_fk
@@ -2216,8 +2216,8 @@ class ReportsController extends Controller
 
     public function actionOutOfTownStudentsReport()
     {
-        $sql = "SELECT DISTINCT su.name, su.inep_id, su.birthday, std.address, 
-                edcstd.name AS city_student, edcsch.name AS city_school, 
+        $sql = "SELECT DISTINCT su.name, su.inep_id, su.birthday, std.address,
+                edcstd.name AS city_student, edcsch.name AS city_school,
                 si.name AS school
                 FROM student_documents_and_address std
                 JOIN edcenso_city edcstd ON(std.edcenso_city_fk = edcstd.id)
@@ -2227,8 +2227,8 @@ class ReportsController extends Controller
                 JOIN edcenso_city edcsch ON(si.edcenso_city_fk = edcsch.id)
                 JOIN student_identification su ON(su.id= std.id)
                 WHERE si.`inep_id` =" . Yii::app()->user->school . " AND (se.status = 1 OR se.status IS NULL)
-                AND (si.edcenso_city_fk != std.edcenso_city_fk) 
-                AND (cl.school_year =" . Yii::app()->user->year . ") 
+                AND (si.edcenso_city_fk != std.edcenso_city_fk)
+                AND (cl.school_year =" . Yii::app()->user->year . ")
                 ORDER BY NAME;";
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
@@ -2241,7 +2241,7 @@ class ReportsController extends Controller
     {
         $sql = "SELECT si.inep_id , si.name as nome_aluno, si.birthday, sr.* FROM student_identification si
         JOIN student_restrictions sr ON(sr.student_fk = si.id)
-        WHERE sr.celiac != 0 
+        WHERE sr.celiac != 0
         OR sr.celiac != 0
         OR sr.diabetes  != 0
         OR sr.hypertension  != 0
