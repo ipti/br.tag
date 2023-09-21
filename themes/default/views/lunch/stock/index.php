@@ -45,20 +45,26 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
                 <div class="row-fluid">
                     <div class="container-box" style="display: flex;">
                         <div class="stock-container">
-                            <table class="stock-items-table js-tag-table" aria-labelledby="Stock Table">
+                            <table class="stock-items-table js-tag-table js-disabled-table" aria-labelledby="Stock Table">
                                 <thead>
                                     <tr>
                                         <th scope="col">Item</th>
                                         <th scope="col">Armazenado</th>
                                         <th scope="col">Em falta</th>
+                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($this->school->itemsAmount() as $item) : ?>
                                         <tr>
                                             <td><?= $item['name'] ?></td>
-                                            <td><?= $item['amount'] * $item['measure'] . " " . $item['unity'] ?></td>
-                                            <td class="<?= $item['amount'] * $item['measure'] != 0 ? "in" : "out" ?>"><?php echo $item['amount'] * $item['measure'] != 0 ? "Não" : "Sim" ?></td>
+                                            <td><?= $item['amount'] * $item['measure'] . " " . $zitem['unity'] ?></td>
+                                            <td class="<?= $item['amount'] * $item['measure'] != 0 ? "in" : "out" ?>">
+                                                <?php echo $item['amount'] * $item['measure'] != 0 ? "Não" : "Sim" ?>
+                                            </td>
+                                            <td id="js-removeItem" data-id="<?= $item['id'] ?>">
+                                                <span class="t-icon-trash t-button-icon-danger js-change-cursor"></span>
+                                            </td>
                                         </tr>
                                     <?php endforeach ?>
                                 </tbody>
@@ -266,3 +272,6 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
         <?php $this->endWidget(); ?>
     </div>
 </div>
+<style>
+
+</style>
