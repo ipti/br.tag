@@ -216,7 +216,7 @@ class AdminController extends Controller
         $valid = false;
         if ($_POST["reply"] == "") {
             $grades = Yii::app()->db->createCommand("
-                select * from grade g 
+                select * from grade g
                 join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
                 join grade_unity gu on gu.id = gum.grade_unity_fk
                 where edcenso_stage_vs_modality_fk = :stage
@@ -324,7 +324,7 @@ class AdminController extends Controller
     private function getCurricularMatrixes($stage)
     {
         return Yii::app()->db->createCommand("
-            select * from curricular_matrix cm 
+            select * from curricular_matrix cm
             join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
             where school_year = :year and esvm.stage = :stage
         ")
@@ -421,9 +421,7 @@ class AdminController extends Controller
         $this->redirect(array('admin/manageUsers'));
     }
 
-    public
-    function actionEditPassword($id)
-    {
+    public function actionEditPassword($id) {
         $model = Users::model()->findByPk($id);
 
         if (isset($_POST['Users'], $_POST['Confirm'])) {
@@ -433,7 +431,10 @@ class AdminController extends Controller
                 $model->password = $password;
                 if ($model->save()) {
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Senha alterada com sucesso!'));
-                    $this->redirect(['index']);
+                    if(Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
+                        $this->redirect(['index']);
+                    }
+                    $this->redirect(['/']);
                 }
             } else {
                 $model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
@@ -451,11 +452,11 @@ class AdminController extends Controller
 
         $command = "
 			SET FOREIGN_KEY_CHECKS=0;
-			
+
 			delete from auth_assignment;
 			delete from users;
 			delete from users_school;
-			
+
 			delete from class_board;
             delete from class_faults;
             delete from class;
