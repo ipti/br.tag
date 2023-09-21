@@ -180,6 +180,7 @@ class SchoolController extends Controller
         $modelSchoolIdentification = new SchoolIdentification;
         $modelSchoolStructure = new SchoolStructure;
         $modelManagerIdentification = new ManagerIdentification;
+        $modelSchoolStructure->stages_concept_grades = [14, 15, 16];
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($modelSchoolIdentification);
@@ -205,6 +206,7 @@ class SchoolController extends Controller
             $modelManagerIdentification->school_inep_id_fk = $modelSchoolIdentification->inep_id;
 
 
+
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
 
             /*
@@ -218,11 +220,11 @@ class SchoolController extends Controller
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate() && $modelManagerIdentification->validate()) {
                 if ($modelSchoolStructure->operation_location_building || $modelSchoolStructure->operation_location_temple || $modelSchoolStructure->operation_location_businness_room || $modelSchoolStructure->operation_location_instructor_house || $modelSchoolStructure->operation_location_other_school_room || $modelSchoolStructure->operation_location_barracks || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other) {
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save() && $modelManagerIdentification->save()) {
-                        foreach ($_POST[$this->SCHOOL_STRUCTURE]["stages"] as $stage) {
-                            $schoolStages = new SchoolStages();
-                            $schoolStages->school_fk = $modelSchoolIdentification->inep_id;
-                            $schoolStages->edcenso_stage_vs_modality_fk = $stage;
-                            $schoolStages->save();
+                        foreach ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] as $stage_concept_grade) {
+                            $schoolStagesConceptGrades = new SchoolStagesConceptGrades();
+                            $schoolStagesConceptGrades->school_fk = $modelSchoolIdentification->inep_id;
+                            $schoolStagesConceptGrades->edcenso_stage_vs_modality_fk = $stage_concept_grade;
+                            $schoolStagesConceptGrades->save();
                         }
                         Log::model()->saveAction("school", $modelSchoolIdentification->inep_id, "C", $modelSchoolIdentification->name);
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Escola adicionada com sucesso!'));
@@ -238,7 +240,8 @@ class SchoolController extends Controller
             'modelSchoolIdentification' => $modelSchoolIdentification,
             'modelSchoolStructure' => $modelSchoolStructure,
             'modelManagerIdentification' => $modelManagerIdentification
-        ));
+        )
+        );
     }
 
     /**
@@ -299,37 +302,32 @@ class SchoolController extends Controller
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save() && $modelManagerIdentification->save()) {
 
                         $criteriaStages = new CDbCriteria();
-                        $criteriaStages->condition = 'school_inep_fk = :school_inep_fk';
+                        $criteriaStages->condition = 'school_fk = :school_fk';
                         $criteriaStages->params = array(
-                            ':school_inep_fk' => $modelSchoolIdentification->inep_id,
+                            ':school_fk' => $modelSchoolIdentification->inep_id,
                         );
-                        $criteriaStages->addNotInCondition('edcenso_stage_vs_modality_fk', $_POST[$this->SCHOOL_STRUCTURE]["stages"]);
-                        $classrooms = Classroom::model()->findAll($criteriaStages);
-                        if (empty($classrooms)) {
-                            $criteriaStages->condition = 'school_fk = :school_fk';
-                            $criteriaStages->params = array(
-                                ':school_fk' => $modelSchoolIdentification->inep_id,
-                            );
-                            SchoolStages::model()->deleteAll($criteriaStages);
 
-                            foreach ($_POST[$this->SCHOOL_STRUCTURE]["stages"] as $stage) {
-                                $schoolStages = SchoolStages::model()->find("school_fk = :school_fk and edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk", [":school_fk" => $modelSchoolIdentification->inep_id, ":edcenso_stage_vs_modality_fk" => $stage]);
-                                if ($schoolStages == null) {
-                                    $schoolStages = new SchoolStages();
-                                    $schoolStages->school_fk = $modelSchoolIdentification->inep_id;
-                                    $schoolStages->edcenso_stage_vs_modality_fk = $stage;
-                                    $schoolStages->save();
+                        if ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] != "") {
+
+                            $criteriaStages->addNotInCondition('edcenso_stage_vs_modality_fk', $_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"]);
+                            SchoolStagesConceptGrades::model()->deleteAll($criteriaStages);
+
+                            foreach ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] as $stage_concept_grade) {
+                                $schoolStagesConceptGrades = SchoolStagesConceptGrades::model()->find("school_fk = :school_fk and edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk", [":school_fk" => $modelSchoolIdentification->inep_id, ":edcenso_stage_vs_modality_fk" => $stage_concept_grade]);
+                                if ($schoolStagesConceptGrades == null) {
+                                    $schoolStagesConceptGrades = new SchoolStagesConceptGrades();
+                                    $schoolStagesConceptGrades->school_fk = $modelSchoolIdentification->inep_id;
+                                    $schoolStagesConceptGrades->edcenso_stage_vs_modality_fk = $stage_concept_grade;
+                                    $schoolStagesConceptGrades->save();
                                 }
                             }
-
-                            Log::model()->saveAction("school", $modelSchoolIdentification->inep_id, "U", $modelSchoolIdentification->name);
-                            Yii::app()->user->setFlash('success', Yii::t('default', 'Escola alterada com sucesso!'));
-                            $this->redirect(array('index'));
                         } else {
-                            Yii::app()->user->setFlash('error', Yii::t('default', 'Erro no cadastro'));
-                            $modelSchoolStructure->addError("stages", "Não se pode remover uma etapa que alguma turma esteja utilizando.");
+                            SchoolStagesConceptGrades::model()->deleteAll($criteriaStages);
                         }
 
+                        Log::model()->saveAction("school", $modelSchoolIdentification->inep_id, "U", $modelSchoolIdentification->name);
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'Escola alterada com sucesso!'));
+                        $this->redirect(array('index'));
                     }
                 } else {
                     $modelSchoolStructure->addError('operation_location_building', Yii::t('default', 'Operation Location') . ' ' . Yii::t('default', 'cannot be blank'));
@@ -408,45 +406,28 @@ class SchoolController extends Controller
     public function loadModel($id, $model)
     {
         if ($model == $this->SCHOOL_IDENTIFICATION) {
-            $return = SchoolIdentification::model()->findByPk($id);
-        } else if ($model == $this->SCHOOL_STRUCTURE) {
-            $return = SchoolStructure::model()->findByPk($id);
-            if (!isset($return)) {
-                $return = new SchoolStructure;
-            }
-            $stagesArray = [];
-            $schoolStages = SchoolStages::model()->findAll("school_fk = :school_fk", ["school_fk" => $id]);
-            foreach ($schoolStages as $schoolStage) {
-                array_push($stagesArray, $schoolStage->edcenso_stage_vs_modality_fk);
-            }
-            $return->stages = $stagesArray;
-            $sharedSchoolInedIdArray = [];
-            if ($return->shared_school_inep_id_1 != null) {
-                array_push($sharedSchoolInedIdArray, $return->shared_school_inep_id_1);
-            }
-            if ($return->shared_school_inep_id_2 != null) {
-                array_push($sharedSchoolInedIdArray, $return->shared_school_inep_id_2);
-            }
-            if ($return->shared_school_inep_id_3 != null) {
-                array_push($sharedSchoolInedIdArray, $return->shared_school_inep_id_1);
-            }
-            if ($return->shared_school_inep_id_4 != null) {
-                array_push($sharedSchoolInedIdArray, $return->shared_school_inep_id_4);
-            }
-            if ($return->shared_school_inep_id_5 != null) {
-                array_push($sharedSchoolInedIdArray, $return->shared_school_inep_id_5);
-            }
-            if ($return->shared_school_inep_id_6 != null) {
-                array_push($sharedSchoolInedIdArray, $return->shared_school_inep_id_6);
-            }
-            $return->shared_school_inep_id_1 = $sharedSchoolInedIdArray;
-        } else if ($model == $this->MANAGER_IDENTIFICATION) {
-            $manager = ManagerIdentification::model()->findByAttributes(['school_inep_id_fk' => $id]);
-            if ($manager) {
-                $return = $manager;
-            } else {
-                $return = new ManagerIdentification;
-            }
+            return $this->loadSchoolIdentification($id);
+        } elseif ($model == $this->SCHOOL_STRUCTURE) {
+            return $this->loadSchoolStruct($id);
+        } elseif ($model == $this->MANAGER_IDENTIFICATION) {
+            return  $this->loadManagerIdentification($id);
+        }
+    }
+
+    /**
+     * Summary of loadSchoolIdentification
+     * @param string $id
+     * 
+     * @throws \CHttpException
+     * 
+     * @return SchoolIdentification
+     */
+    private function loadSchoolIdentification($id)
+    {
+        $school = SchoolIdentification::model()->findByPk($id);
+        
+        if(!isset($school)){
+            throw new CHttpException(404, 'A escola requisitada não existe.');
         }
 
         return $school;
