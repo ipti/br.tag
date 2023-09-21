@@ -1,6 +1,6 @@
 <?php
 
-class AdminController extends Controller 
+class AdminController extends Controller
 {
     public $layout = 'fullmenu';
 
@@ -29,7 +29,7 @@ class AdminController extends Controller
     }
 
     public function actionExportMaster() {
-        $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();   
+        $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();
         $pathFileJson = "./app/export/InfoTagJSON/$databaseName.json";
 
         $adapter = new Adapter;
@@ -46,7 +46,7 @@ class AdminController extends Controller
 
         $loadedData = array_merge($loadedData, $exportModel->getStudentIdentification());
         $loadedData = array_merge($loadedData, $exportModel->getStudentDocumentsAndAddress());
-        $loadedData = array_merge($loadedData, $exportModel->getStudentEnrollment()); 
+        $loadedData = array_merge($loadedData, $exportModel->getStudentEnrollment());
 
 
         $host = getenv("HOST_DB_TAG");
@@ -61,23 +61,23 @@ class AdminController extends Controller
         header("Content-Disposition: attachment; filename=\"" . basename($pathFileJson) . "\"");
         header("Content-Type: application/force-download");
         header("Content-Length: " . filesize($pathFileJson));
-        header("Connection: close"); 
+        header("Connection: close");
         readfile($pathFileJson);
     }
 
     public function actionImportMaster() {
         $adapter = new Adapter;
-        $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();   
+        $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();
         $pathFileJson = "./app/export/InfoTagJSON/$databaseName.json";
 
         if (!file_exists($pathFileJson)) {
             Yii::app()->user->setFlash('error', 'O arquivo não existe na pasta de importação.');
             $this->redirect(array('index'));
-        }   
+        }
 
         try{
             $dataDecoded = $adapter->import(file_get_contents($pathFileJson));
-            $importModel = new ImportModel(); 
+            $importModel = new ImportModel();
             $transaction = Yii::app()->db->beginTransaction();
             Yii::app()->db->createCommand('SET FOREIGN_KEY_CHECKS=0')->execute();
 
@@ -91,10 +91,10 @@ class AdminController extends Controller
 
             $importModel->saveStudentIdentificationDB($dataDecoded['student_identification']);
             $importModel->saveStudentDocumentsAndAddressDB($dataDecoded['student_documents_and_address']);
-            $importModel->saveStudentEnrollmentDB($dataDecoded['student_enrollment']); 
+            $importModel->saveStudentEnrollmentDB($dataDecoded['student_enrollment']);
 
-            Yii::app()->db->createCommand('SET FOREIGN_KEY_CHECKS=1')->execute(); 
-            $transaction->commit(); 
+            Yii::app()->db->createCommand('SET FOREIGN_KEY_CHECKS=1')->execute();
+            $transaction->commit();
 
             Yii::app()->user->setFlash('success', Yii::t('default', 'Importação realizada com sucesso!'));
             $this->redirect(array('index'));
@@ -134,10 +134,10 @@ class AdminController extends Controller
                         if ($save) {
                             $auth = Yii::app()->authManager;
                             $auth->assign($_POST['Role'], $model->id);
-                            
+
                         }
                         if(isset($_POST['instructor']) &&  $_POST['instructor'] != ""){
-                            $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]); 
+                            $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]);
                             $instructors->users_fk = $model->id;
                             $instructors->save();
                         }
@@ -150,7 +150,7 @@ class AdminController extends Controller
                 $this->redirect(['index']);
             }
         }
-        $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk'=> null], ['select' => 'id, name']); 
+        $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk'=> null], ['select' => 'id, name']);
         $instructorsResult = array_reduce($instructors, function($carry, $item) {
             $carry[$item['id']] = $item['name'];
             return $carry;
@@ -214,7 +214,7 @@ class AdminController extends Controller
         $valid = false;
         if ($_POST["reply"] == "") {
             $grades = Yii::app()->db->createCommand("
-                select * from grade g 
+                select * from grade g
                 join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
                 join grade_unity gu on gu.id = gum.grade_unity_fk
                 where edcenso_stage_vs_modality_fk = :stage
@@ -258,13 +258,13 @@ class AdminController extends Controller
             if ($_POST["reply"] == "A") {
                 // $grades = Yii::app()->db->createCommand("select * from grade")->queryAll();
                 $curricularMatrixes = Yii::app()->db->createCommand("select * from curricular_matrix cm where school_year = :year")->bindParam(":year", Yii::app()->user->year)->queryAll();
-            } else if ($_POST["reply"] == "S") {         
+            } else if ($_POST["reply"] == "S") {
                 $curricularMatrixes = $this->getCurricularMatrixes($this->getStage($_POST["stage"]));
             }
 
             foreach ($curricularMatrixes as $curricularMatrix) {
                 $matrixStageFk = $curricularMatrix["stage_fk"];
-                if (array_search($matrixStageFk, array_column($grades, "id")) == 0) { 
+                if (array_search($matrixStageFk, array_column($grades, "id")) == 0) {
                     GradeUnity::model()->deleteAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $matrixStageFk]);
                     foreach ($_POST["unities"] as $u) {
                         $unity = new GradeUnity();
@@ -284,7 +284,7 @@ class AdminController extends Controller
                     }
                     $valid = true;
                 }
-               
+
                 $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $matrixStageFk]);
                 if ($gradeRules == null) {
                     $gradeRules = new GradeRules();
@@ -322,7 +322,7 @@ class AdminController extends Controller
     private function getCurricularMatrixes($stage)
     {
         return Yii::app()->db->createCommand("
-            select * from curricular_matrix cm 
+            select * from curricular_matrix cm
             join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
             where school_year = :year and esvm.stage = :stage
         ")
@@ -397,12 +397,12 @@ class AdminController extends Controller
                 $instructor_identification->users_fk = null;
                 $instructor_identification->save();
             }
-    
+
             // Excluindo o registro na tabela que representa o cargo de um profissional cadastrado
             if($auth_assign !== null){
                 $auth_assign->delete('auth_assignment','userid =' .$id);
             }
-            
+
             // Excluindo o registro na tabela que representa o acesso às escolas do usuário
             if($user_school !== null){
             foreach($user_school as $register){
@@ -418,9 +418,7 @@ class AdminController extends Controller
         $this->redirect(array('admin/manageUsers'));
     }
 
-    public
-    function actionEditPassword($id)
-    {
+    public function actionEditPassword($id) {
         $model = Users::model()->findByPk($id);
 
         if (isset($_POST['Users'], $_POST['Confirm'])) {
@@ -430,7 +428,10 @@ class AdminController extends Controller
                 $model->password = $password;
                 if ($model->save()) {
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Senha alterada com sucesso!'));
-                    $this->redirect(['index']);
+                    if(Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
+                        $this->redirect(['index']);
+                    }
+                    $this->redirect(['/']);
                 }
             } else {
                 $model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
@@ -448,11 +449,11 @@ class AdminController extends Controller
 
         $command = "
 			SET FOREIGN_KEY_CHECKS=0;
-			
+
 			delete from auth_assignment;
 			delete from users;
 			delete from users_school;
-			
+
 			delete from class_board;
             delete from class_faults;
             delete from class;
@@ -564,7 +565,7 @@ class AdminController extends Controller
                         $auth->assign($_POST['Role'], $model->id);
                     }
                     if(isset($_POST['instructor']) &&  $_POST['instructor'] != ""){
-                        $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]); 
+                        $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]);
                         $instructors->users_fk = $model->id;
                         $instructors->save();
                     }
@@ -581,7 +582,7 @@ class AdminController extends Controller
             $i++;
         }
 
-        $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk'=> null], ['select' => 'id, name']); 
+        $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk'=> null], ['select' => 'id, name']);
         $instructorsResult = array_reduce($instructors, function($carry, $item) {
             $carry[$item['id']] = $item['name'];
             return $carry;
