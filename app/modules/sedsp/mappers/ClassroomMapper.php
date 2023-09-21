@@ -12,10 +12,10 @@ class ClassroomMapper
         $basicDataSEDDataSource = new BasicDataSEDDataSource();
         $tiposEnsino = $basicDataSEDDataSource->getTipoEnsino();
         $stage = self::convertTipoEnsinoToStage($outFormacaoClasse->getOutCodTipoEnsino(), $outFormacaoClasse->getOutCodSerieAno());
-        $serieName = self::getNameSerieFromClasse($outFormacaoClasse, $tiposEnsino);
+        $serieName = self::getNameSerieFromClasse($outFormacaoClasse->getOutCodTipoEnsino(), $tiposEnsino);
 
         $classroomTag = new Classroom();
-        $classroomTag->school_inep_fk = '35' . $outFormacaoClasse->getOutCodEscola();
+        $classroomTag->school_inep_fk =  SchoolMapper::mapToTAGInepId($outFormacaoClasse->getOutCodEscola());
         $classroomTag->gov_id = $outFormacaoClasse->getOutNumClasse();
         $classroomTag->name = $serieName->getOutDescTipoEnsino()." ".$outFormacaoClasse->getOutTurma();
         $classroomTag->edcenso_stage_vs_modality_fk = $stage;
@@ -84,11 +84,9 @@ class ClassroomMapper
 
     public static function parseToTAGRelacaoClasses(OutRelacaoClasses $outRelacaoClasses) 
     {
-        $schoolInepFk = '35' . $outRelacaoClasses->getOutCodEscola();
+        $schoolInepFk = SchoolMapper::mapToTAGInepId($outRelacaoClasses->getOutCodEscola());
         $outClasses = $outRelacaoClasses->getOutClasses();
     
-       
-
         $arrayClasses = [];
         foreach ($outClasses as $classe) {
             $classroom = new Classroom();
@@ -123,11 +121,52 @@ class ClassroomMapper
         return $parseResult;
     }
 
+    /**
+     * Summary of parseToTAGConsultaClasse
+     * @param string $inNumClassrom
+     * @param OutConsultaTurmaClasse $outConsultaTurmaClasse
+     * 
+     * @return Classroom
+     */
+    public static function parseToTAGConsultaClasse($inNumClassrom, OutConsultaTurmaClasse $outConsultaTurmaClasse){
+        $basicDataSEDDataSource = new BasicDataSEDDataSource();
+        $listaTiposEnsino = $basicDataSEDDataSource->getTipoEnsino();
+        $stage = self::convertTipoEnsinoToStage($outConsultaTurmaClasse->getOutCodTipoEnsino(), $outConsultaTurmaClasse->getOutCodSerieAno());
+        $serieName = self::getNameSerieFromClasse($outConsultaTurmaClasse->getOutCodTipoEnsino(), $listaTiposEnsino);
+
+        $classroomTag = new Classroom();
+        $classroomTag->school_inep_fk = SchoolMapper::mapToTAGInepId($outConsultaTurmaClasse->getOutCodEscola());
+        $classroomTag->gov_id = $inNumClassrom;
+        $classroomTag->name = $outConsultaTurmaClasse->getOutDescricaoTurma();
+        $classroomTag->edcenso_stage_vs_modality_fk = $stage;
+        $classroomTag->schooling = 1;
+        $classroomTag->assistance_type = 0;
+        $classroomTag->modality = 1;
+        $classroomTag->initial_hour = substr($outConsultaTurmaClasse->getOutHorarioInicioAula(), 0, 2);
+        $classroomTag->initial_minute = substr($outConsultaTurmaClasse->getOutHorarioInicioAula(), -2);
+        $classroomTag->final_hour = substr($outConsultaTurmaClasse->getOutHorarioFimAula(), 0, 2);
+        $classroomTag->final_minute = substr($outConsultaTurmaClasse->getOutHorarioFimAula(), -2);
+        $classroomTag->week_days_sunday = 0;
+        $classroomTag->week_days_monday = intval($outConsultaTurmaClasse->getOutDiasSemana()->getOutFlagSegunda());
+        $classroomTag->week_days_tuesday = intval($outConsultaTurmaClasse->getOutDiasSemana()->getOutFlagTerca());
+        $classroomTag->week_days_wednesday = intval($outConsultaTurmaClasse->getOutDiasSemana()->getOutFlagQuarta());
+        $classroomTag->week_days_thursday = intval($outConsultaTurmaClasse->getOutDiasSemana()->getOutFlagQuinta());
+        $classroomTag->week_days_friday = intval($outConsultaTurmaClasse->getOutDiasSemana()->getOutFlagSexta());
+        $classroomTag->week_days_saturday = 0;
+        $classroomTag->school_year = Yii::app()->user->year;
+        $classroomTag->pedagogical_mediation_type = 1;
+
+        return $classroomTag;
+    }
+
     private static function convertCodTurno($outCodTurno)
     {
         $mapperCodTurno = [
             "1" => 'M', //Manhã
+            "2" => 'M', //Manhã
             "3" => 'T', //Tarde
+            "4" => 'T', //Tarde
+            "5" => 'N', //Noite
             "6" => 'I'  //Integral
         ];
 
@@ -147,6 +186,9 @@ class ClassroomMapper
      */
     private static function convertTipoEnsinoToStage($codTipoEnsino, $codSerieAno){
         $mapperTipoEnsino = [
+            "3" => [
+                "0" => 43
+            ],
             "6" => [
                 "1" => 2,
                 "2" => 2,
@@ -166,16 +208,22 @@ class ClassroomMapper
                 "7" => 20,
                 "8" => 21,
                 "9" => 41,
-                "0" => 24    
+                "0" => 24
             ],
-            /* "25" => [
-                "1" => 1
+            "25" => [
+                "1" => 1,
+                "2" => 1,
+                "3" => 1
             ],
             "26" => [
-                "2" => 1
-            ], */
+                "2" => 1,
+                "3" => 1
+            ],
             "32" => [
                 "0" => 2
+            ],
+            "35" => [
+                "1" => 2
             ]
         ];
 
@@ -183,7 +231,7 @@ class ClassroomMapper
             return $mapperTipoEnsino[$codTipoEnsino][$codSerieAno];
         }
 
-        throw new Exception("Tipo de ensino não tem etapa equivalente no mapa de conversão", 1);   
+        throw new TipoEnsinoConversionException($codTipoEnsino, $codSerieAno);
     }
 
     /**
@@ -192,12 +240,11 @@ class ClassroomMapper
      * @param OutTiposEnsino $tiposEnsino
      * @return OutTipoEnsino
      */
-    private static function getNameSerieFromClasse($outFormacaoClasse, $tiposEnsino) 
+    private static function getNameSerieFromClasse($codTipoEnsino, $listaTiposEnsino) 
     {
-        $valueSearch = $outFormacaoClasse->getOutCodTipoEnsino();
-        $codTypeEducation = array_column($tiposEnsino->getOutTipoEnsino(), "outCodTipoEnsino");
-        $educationTypeIndex = array_search($valueSearch, $codTypeEducation); 
+        $codTypeEducation = array_column($listaTiposEnsino->getOutTipoEnsino(), "outCodTipoEnsino");
+        $educationTypeIndex = array_search($codTipoEnsino, $codTypeEducation); 
 
-        return $tiposEnsino->getOutTipoEnsino()[$educationTypeIndex];
+        return $listaTiposEnsino->getOutTipoEnsino()[$educationTypeIndex];
     }
 }

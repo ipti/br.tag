@@ -18,7 +18,6 @@ services:
       YII_DEBUG: false
       PHP_ENABLE_XDEBUG: 1
       SEDSP_URL: "https://homologacaointegracaosed.educacao.sp.gov.br"
-      
     volumes:
       - .:/app
       - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini

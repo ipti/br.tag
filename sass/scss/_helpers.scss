@@ -52,15 +52,15 @@
     &--center {
         text-align: center;
       }
-      
+
       &--left {
         text-align: left;
       }
-      
+
       &--right {
         text-align: right;
       }
-      
+
       &--justify {
         text-align: justify;
       }
@@ -108,10 +108,17 @@
             display: none;
         }
     }
+
     &--tablet {
         display: flex;
         @include device(tablet) {
             display: none;
+        }
+    }
+    &--tabletDesktop{
+        display: none;
+        @include device(mobile) {
+            display: flex;
         }
     }
     &--desktop {
@@ -120,6 +127,7 @@
             display: flex;
         }
     }
+
 }
 .full {
     width: 100%;

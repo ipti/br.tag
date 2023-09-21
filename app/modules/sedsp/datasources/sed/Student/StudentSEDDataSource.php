@@ -3,7 +3,7 @@
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 
-require 'app/vendor/autoload.php';
+require_once 'app/vendor/autoload.php';
 
 /**
  * Summary of StudentSEDDataSource
@@ -20,7 +20,7 @@ class StudentSEDDataSource extends SedDataSource
 
     /**
      * Summary of getStudentRA
-     * @param InConsultaRA $inAluno
+     * @param InConsultaRA $inConsultaRA
      * @return OutConsultaRA|OutErro
      * @throws Exception Se ocorrer um erro desconhecido.
      */
@@ -29,7 +29,7 @@ class StudentSEDDataSource extends SedDataSource
         try {
             $url = '/ncaapi/api/Aluno/ConsultaRA';
             $response = $this->getApiResponse('GET', $url, $inConsultaRA);
-            return OutConsultaRA::fromJson($response);  
+            return OutConsultaRA::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
         } catch (Exception $exception) {
@@ -45,7 +45,7 @@ class StudentSEDDataSource extends SedDataSource
     public function getAllStudentsRA($students){
         
         $promises = [];
-        foreach (array_slice($students, 0, 5) as $key => $student) {
+        foreach (array_slice($students, 0, 5) as $student) {
             $promises[] = $this->getStudentRA($student->name, $student->birthday, $student->filiation_1);
         }
         
@@ -66,7 +66,7 @@ class StudentSEDDataSource extends SedDataSource
      * @return OutListarAluno|OutErro
      * @throws Exception Se ocorrer um erro desconhecido.
      */
-    function getListStudents(InListarAlunos $inListarAlunos)
+    public function getListStudents(InListarAlunos $inListarAlunos)
     {
         try {
             $url = '/ncaapi/api/Aluno/ListarAlunos';
@@ -89,27 +89,27 @@ class StudentSEDDataSource extends SedDataSource
      * @return OutExibirFichaAluno|OutErro Retorna um objeto OutAluno em caso de sucesso ou OutErro em caso de erro.
      * @throws Exception Se ocorrer um erro desconhecido.
      */
-    function exibirFichaAluno(InAluno $inAluno)
+    public function exibirFichaAluno(InAluno $inAluno)
     {
         try {
             $url = '/ncaapi/api/Aluno/ExibirFichaAluno';
             $response = $this->getApiResponse('GET', $url, ["inAluno" => $inAluno]);
-            return outExibirFichaAluno::fromJson($response);
+            return OutExibirFichaAluno::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
         } catch (Exception $exception) {
             throw $exception;
         }
-    }  
+    }
      
     /**
      * Summary of getConsultarResponsavelAluno
      * @param InResponsavelAluno
      * @return OutConsultarResponsavelAluno|OutErro
-     * @throws Exception Se ocorrer um erro desconhecido. 
+     * @throws Exception Se ocorrer um erro desconhecido.
      */
-    function getConsultarResponsavelAluno(InResponsavelAluno $inConsultarResponsavelAluno)
-    {  
+    public function getConsultarResponsavelAluno(InResponsavelAluno $inConsultarResponsavelAluno)
+    {
         try {
             $url = '/ncaapi/api/Aluno/ConsultarResponsavelAluno';
             $data = [
@@ -117,7 +117,7 @@ class StudentSEDDataSource extends SedDataSource
                 "inAluo" => $inConsultarResponsavelAluno->getInAluno()
             ];
 
-            $response = $this->getApiResponse('GET', $url,  $data);     
+            $response = $this->getApiResponse('GET', $url,  $data);
             return OutConsultarResponsavelAluno::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -142,7 +142,7 @@ class StudentSEDDataSource extends SedDataSource
      * @return OutFichaAluno|OutErro
      * @throws Exception
      */
-    function addStudent(InFichaAluno $inFichaAluno)
+    public function addStudent(InFichaAluno $inFichaAluno)
     {
         try{
             $url = '/ncaapi/api/Aluno/FichaAluno';
@@ -163,8 +163,8 @@ class StudentSEDDataSource extends SedDataSource
      * @param mixed $data
      * @return mixed
      */
-    private function getApiResponse($HTTPMethod, $url, $data) {
-        $response = $this->client->request($HTTPMethod, $url, [
+    private function getApiResponse($httpMethod, $url, $data) {
+        $response = $this->client->request($httpMethod, $url, [
             'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
         ]);
     

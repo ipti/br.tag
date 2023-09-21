@@ -31,16 +31,36 @@ class SchoolController extends Controller
     public function accessRules()
     {
         return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('edcenso_import', 'configacl', 'index', 'view', 'update', 'create',
-                    'getcities', 'getmanagercities', 'getdistricts', 'getorgans', 'updateufdependencies', 'updatecitydependencies', 'displayLogo', 'RemoveLogo'),
+            array(
+                'allow',
+                // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => array(
+                    'edcenso_import',
+                    'configacl',
+                    'index',
+                    'view',
+                    'update',
+                    'create',
+                    'getcities',
+                    'getmanagercities',
+                    'getdistricts',
+                    'getorgans',
+                    'updateufdependencies',
+                    'updatecitydependencies',
+                    'displayLogo',
+                    'RemoveLogo'
+                ),
                 'users' => array('@'),
             ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
+            array(
+                'allow',
+                // allow admin user to perform 'admin' and 'delete' actions
                 'actions' => array('admin', 'delete', 'reports', 'ReportsMonthlyTransaction', 'Record'),
                 'users' => array('admin'),
             ),
-            array('deny', // deny all users
+            array(
+                'deny',
+                // deny all users
                 'users' => array('*'),
             ),
         );
@@ -92,7 +112,7 @@ class SchoolController extends Controller
         }
         $uf = $Uf == null ? $school->edcenso_uf_fk : $Uf;
 
-        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int)$school->edcenso_uf_fk));
+        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int) $school->edcenso_uf_fk));
         $data = CHtml::listData($data, 'id', 'name');
 
         $result = CHtml::tag('option', array('value' => ""), 'Selecione a cidade', true);
@@ -132,7 +152,8 @@ class SchoolController extends Controller
         $this->render('view', array(
             'modelSchoolIdentification' => $this->loadModel($id, $this->SCHOOL_IDENTIFICATION),
             'modelSchoolStructure' => $this->loadModel($id, $this->SCHOOL_STRUCTURE),
-        ));
+        )
+        );
     }
 
     public function actionGetManagerCities()
@@ -271,8 +292,10 @@ class SchoolController extends Controller
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
 
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate() && $modelManagerIdentification->validate()) {
-                if ($modelSchoolStructure->operation_location_building || $modelSchoolStructure->operation_location_other_school_room || $modelSchoolStructure->operation_location_barracks
-                    || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other) {
+                if (
+                    $modelSchoolStructure->operation_location_building || $modelSchoolStructure->operation_location_other_school_room || $modelSchoolStructure->operation_location_barracks
+                    || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other
+                ) {
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save() && $modelManagerIdentification->save()) {
 
                         $criteriaStages = new CDbCriteria();
@@ -318,7 +341,8 @@ class SchoolController extends Controller
             'modelSchoolIdentification' => $modelSchoolIdentification,
             'modelSchoolStructure' => $modelSchoolStructure,
             'modelManagerIdentification' => $modelManagerIdentification
-        ));
+        )
+        );
     }
 
     /**
@@ -342,7 +366,7 @@ class SchoolController extends Controller
     public function actionIndex()
     {
         $filter = new SchoolIdentification('search');
-        $filter->unsetAttributes();  // clear any default values
+        $filter->unsetAttributes(); // clear any default values
         if (isset($_GET['SchoolIdentification'])) {
             $filter->attributes = $_GET['SchoolIdentification'];
         }
@@ -350,7 +374,8 @@ class SchoolController extends Controller
         $this->render('index', array(
             'dataProvider' => $dataProvider,
             'filter' => $filter
-        ));
+        )
+        );
     }
 
     /**
@@ -359,9 +384,9 @@ class SchoolController extends Controller
     public function actionAdmin()
     {
         $modelSchoolIdentification = new SchoolIdentification('search');
-        $modelSchoolIdentification->unsetAttributes();  // clear any default values
+        $modelSchoolIdentification->unsetAttributes(); // clear any default values
         $modelSchoolStructure = new SchoolStructure('search');
-        $modelSchoolStructure->unsetAttributes();  // clear any default values
+        $modelSchoolStructure->unsetAttributes(); // clear any default values
 
         if (isset($_GET[$this->SCHOOL_IDENTIFICATION]) && isset($_GET[$this->SCHOOL_STRUCTURE])) {
             $modelSchoolIdentification->attributes = $_GET[$this->SCHOOL_IDENTIFICATION];
@@ -371,7 +396,8 @@ class SchoolController extends Controller
         $this->render('admin', array(
             'modelSchoolIdentification' => $modelSchoolIdentification,
             'modelSchoolStructure' => $modelSchoolStructure,
-        ));
+        )
+        );
     }
 
     /**
@@ -381,9 +407,6 @@ class SchoolController extends Controller
      */
     public function loadModel($id, $model)
     {
-
-        $return = null;
-
         if ($model == $this->SCHOOL_IDENTIFICATION) {
             $return = SchoolIdentification::model()->findByPk($id);
         } else if ($model == $this->SCHOOL_STRUCTURE) {
@@ -426,9 +449,56 @@ class SchoolController extends Controller
             }
         }
 
-        if ($return === null)
-            throw new CHttpException(404, 'A página requisitada não existe.');
-        return $return;
+        return $school;
+    }
+
+    private function loadSchoolStruct($id)
+    {
+        $schoolStruct = SchoolStructure::model()->findByPk($id);
+        if (!isset($schoolStruct)) {
+            $schoolStruct = new SchoolStructure;
+            $schoolStruct->stages_concept_grades = [14, 15, 16];
+        }
+        $stagesConceptGradesArray = [];
+        $schoolStagesConceptGrades = SchoolStagesConceptGrades::model()->findAll("school_fk = :school_fk", ["school_fk" => $id]);
+        foreach ($schoolStagesConceptGrades as $schoolStageConceptGrade) {
+            array_push($stagesConceptGradesArray, $schoolStageConceptGrade->edcenso_stage_vs_modality_fk);
+        }
+        $schoolStruct->stages_concept_grades = $stagesConceptGradesArray;
+        $sharedSchoolInedIdArray = [];
+        if ($schoolStruct->shared_school_inep_id_1 != null) {
+            array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_1);
+        }
+        if ($schoolStruct->shared_school_inep_id_2 != null) {
+            array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_2);
+        }
+        if ($schoolStruct->shared_school_inep_id_3 != null) {
+            array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_1);
+        }
+        if ($schoolStruct->shared_school_inep_id_4 != null) {
+            array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_4);
+        }
+        if ($schoolStruct->shared_school_inep_id_5 != null) {
+            array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_5);
+        }
+        if ($schoolStruct->shared_school_inep_id_6 != null) {
+            array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_6);
+        }
+        $schoolStruct->shared_school_inep_id_1 = $sharedSchoolInedIdArray;
+
+        return $schoolStruct;
+    }
+
+    private function loadManagerIdentification($id)
+    {
+
+        $manager = ManagerIdentification::model()->findByAttributes(['school_inep_id_fk' => $id]);
+
+        if ($manager) {
+            return $manager;
+        }
+
+        return new ManagerIdentification;
     }
 
     public function actionDisplayLogo($id)
@@ -442,9 +512,9 @@ class SchoolController extends Controller
 
         $baseUrl = Yii::app()->getBaseUrl(true);
         $themeUrl = Yii::app()->theme->baseUrl;
-        $school_logo = $baseUrl . $themeUrl . "/img/emblema-escola.svg";
+        $schoolLogo = $baseUrl . $themeUrl . "/img/emblema-escola.svg";
         header('Content-Type: image/svg+xml');
-        print file_get_contents($school_logo);
+        print file_get_contents($schoolLogo);
     }
 
     public function actionRemoveLogo($id)
@@ -463,7 +533,8 @@ class SchoolController extends Controller
         $model = $this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
         $this->render('MonthlySummary', array(
             'model' => $model
-        ));
+        )
+        );
     }
 
     public function actionReportsMonthlyTransaction($id, $type)
@@ -489,7 +560,8 @@ class SchoolController extends Controller
             'model' => $model,
             'type' => $type,
             'title' => $title
-        ));
+        )
+        );
     }
 
     public function actionRecord($id, $type)
@@ -512,7 +584,8 @@ class SchoolController extends Controller
             'model' => $model,
             'type' => $type,
             'title' => $title
-        ));
+        )
+        );
     }
 
     /**

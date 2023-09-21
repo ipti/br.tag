@@ -2,7 +2,7 @@
 
 use GuzzleHttp\Exception\ClientException;
 
-require 'app/vendor/autoload.php';
+require_once 'app/vendor/autoload.php';
 
 
 class ClassStudentsRelationSEDDataSource extends SedDataSource
@@ -14,7 +14,7 @@ class ClassStudentsRelationSEDDataSource extends SedDataSource
      * @return OutRelacaoClasses|OutErro
      * @throws Exception
      */
-    function getRelacaoClasses(InRelacaoClasses $inRelacaoClasses){
+    public function getRelacaoClasses(InRelacaoClasses $inRelacaoClasses){
         try {
             $url = '/ncaapi/api/RelacaoAlunosClasse/RelacaoClasses';
             $response = $this->getApiResponse('GET', $url, $inRelacaoClasses);
@@ -51,8 +51,8 @@ class ClassStudentsRelationSEDDataSource extends SedDataSource
      * @param mixed $data
      * @return mixed
      */
-    private function getApiResponse($HTTPMethod, $url, $data) {
-        $response = $this->client->request($HTTPMethod, $url, [
+    private function getApiResponse($httpMethod, $url, $data) {
+        $response = $this->client->request($httpMethod, $url, [
             'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
         ]);
     

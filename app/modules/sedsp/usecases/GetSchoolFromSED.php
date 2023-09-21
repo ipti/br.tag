@@ -16,11 +16,10 @@ class GetSchoolFromSED
     {
         $this->schoolSEDDataSource = $schoolSEDDataSource ?? new SchoolSEDDataSource();
     }
-    public function exec($school_name, $school_mun)
+    public function exec($schoolName, $schoolMun)
     {
-        $response = $this->schoolSEDDataSource->getSchool($school_name, $school_mun);
-        $content = $response->getBody()->getContents();
-        $school_tag = SchoolMapper::parseToTAGSchool($content);
-        return $school_tag;
+        $response = $this->schoolSEDDataSource->getSchool($schoolName, $schoolMun);
+        $content  = $response->getBody()->getContents();
+        return SchoolMapper::parseToTAGSchool($content);
     }
 }
