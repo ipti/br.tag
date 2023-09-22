@@ -54,7 +54,7 @@ function load() {
                 </thead>
               </table>
             </div>
-            <div class='ui-accordion-content'>  
+            <div class='ui-accordion-content'>
               <table class='table-frequency table'>
                 <tbody>`;
             $.each(data.students, function (indexStudent, student) {
@@ -88,12 +88,12 @@ function load() {
 
                   accordion +=
                     `<td  style='justify-content:flex-start' class='frequency-checkbox-student justify-content--end frequency-checkbox-container ${!this.available ? $("disabled") : $("")}'>
-                            <input class='frequency-checkbox' type='checkbox' ${!schedule.available ? "disabled" : ""} ${schedule.fault ? "checked" : ""} 
-                            classroomId = '${$("#classroom").val()}' 
-                              studentId = ${student.studentId} 
-                              day = ${schedule.day} 
-                              month = ${$("#month").val()} 
-                              schedule = ${schedule.schedule} 
+                            <input class='frequency-checkbox' type='checkbox' ${!schedule.available ? "disabled" : ""} ${schedule.fault ? "checked" : ""}
+                            classroomId = '${$("#classroom").val()}'
+                              studentId = ${student.studentId}
+                              day = ${schedule.day}
+                              month = ${$("#month").val()}
+                              schedule = ${schedule.schedule}
                               fundamentalMaior = ${fundamentalMaior}>
                                 ${justificationContainer}
                           </td>`;

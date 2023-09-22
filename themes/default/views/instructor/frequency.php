@@ -36,37 +36,51 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Instructor frequency'));
         <div class="alert-required-fields no-show alert alert-error">
             Os Campos com * são obrigatórios.
         </div>
-        <div class="tablet-row filter-bar margin-bottom-none">
-            <div>
-                <?php echo CHtml::label(yii::t('default', 'Instructor') . " *", 'instructor', array('class' => 'control-label required', 'style' => 'width: 80px;')); ?>
-                <select class="select-search-on control-input frequency-input" id="instructor">
-                    <option>Selecione o professor</option>
-                    <?php foreach ($instructors as $instructor) : ?>
-                        <option value="<?= $instructor->id ?>"><?= $instructor->name ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="column">
-                <div class="t-field-select">
-                    <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 't-field-select__label--required')); ?>
-                    <?php
-                    echo CHtml::dropDownList('classrooms', '', array(), array(
-                        'key' => 'id',
-                        'class' => 'select-search-on frequency-input t-field-select__input',
-                    ));
-                    ?>
+        <div id="select-container" class="tablet-row">
+            <!-- Professor/ Disciplina-->
+            <div class="mobile-row">
+                <!-- Professor -->
+                <div class="column clearleft">
+                    <div class="t-field-select">
+                        <?php echo CHtml::label(yii::t('default', 'Instructor') . " *", 'instructor', array('class' => 't-field-select__label--required')); ?>
+                        <select class="select-search-on t-field-select__input" id="instructor">
+                            <option>Selecione o professor</option>
+                            <?php foreach ($instructors as $instructor) : ?>
+                                <option value="<?= $instructor->id ?>"><?= $instructor->name ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <!-- Turma -->
+                <div class="column clearleft">
+                    <div class="t-field-select">
+                        <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 't-field-select__label--required')); ?>
+                        <?php
+                        echo CHtml::dropDownList('classrooms', '', array(), array(
+                            'key' => 'id',
+                            'class' => 'select-search-on t-field-select__input',
+                            'prompt' => 'Selecione a turma',
+                        ));
+                        ?>
+                    </div>
                 </div>
             </div>
-            <div class="disciplines-container" style="display: none">
-                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required', 'style' => 'width: 88px;')); ?>
-                <?php
-                echo CHtml::dropDownList('disciplines', '', array(), array(
-                    'key' => 'id',
-                    'class' => 'select-search-on control-input frequency-input',
-                ));
-                ?>
-            </div>
+            <!-- Turma  / Mês -->
             <div class="mobile-row">
+                <!-- Disciplina -->
+                <div class="column clearleft">
+                    <div class="t-field-select">
+                        <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 't-field-select__label--required')); ?>
+                        <?php
+                        echo CHtml::dropDownList('disciplines', '', array(), array(
+                            'key' => 'id',
+                            'class' => 'select-search-on t-field-select__input',
+                            'prompt' => 'Selecione o Componente curricular/eixo',
+                        ));
+                        ?>
+                    </div>
+                </div>
+                <!-- Mês -->
                 <div class="column clearleft">
                     <div class="t-field-select">
                         <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 't-field-select__label--required')); ?>
@@ -86,22 +100,14 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Instructor frequency'));
                             12 => 'Dezembro'
                         ), array(
                             'key' => 'id',
-                            'class' => 'select-search-on control-input frequency-input',
+                            'class' => 'select-search-on t-field-select__input',
                             'prompt' => 'Selecione o mês',
                         ));
                         ?>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <a id="classesSearch" class='t-button-primary'>
-                    <i class="fa-search fa icon-button-tag"></i>
-                    <?php echo Yii::t('default', 'Search') ?>
-                </a>
-            </div>
-            <img class="loading-frequency" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
-
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>
         <div id="frequency-container" class="table-responsive"></div>
     </div>
