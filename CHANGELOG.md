@@ -1,5 +1,6 @@
 ## [Versão 3.57.95]
 - Possibilitando a criação do relatório de ata de conselho de classe para turmas do 9° ano
+- Adicionado o campo de observação no relatório de ata de conselho de classe
 ## [Versão 3.57.94]
 - Corrigido os icones da tela de merenda escolar
 - Modificada a mensagem de exclusão de estoque
