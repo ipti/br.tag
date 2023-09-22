@@ -3,7 +3,7 @@
 <!--[if IE 7]>    <html class="ie lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>    <html class="ie lt-ie9"> <![endif]-->
 <!--[if gt IE 8]> <html class="ie gt-ie8"> <![endif]-->
-<!--[if !IE]><!--><html><!-- <![endif]-->
+<!--[if !IE]><!--><html  lang="pt" xml:lang="pt"><!-- <![endif]-->
     <head>
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
@@ -26,6 +26,6 @@
     </head>
     <body>
         <?php echo $content; ?>
-        
+
     </body>
 </html>
