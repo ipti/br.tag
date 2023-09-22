@@ -1,6 +1,6 @@
 <?php
 
-class AdminController extends Controller 
+class AdminController extends Controller
 {
     public $layout = 'fullmenu';
 
@@ -28,8 +28,9 @@ class AdminController extends Controller
         $this->render('index');
     }
 
-    public function actionExportMaster() {
-        $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();   
+    public function actionExportMaster()
+    {
+        $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();
         $pathFileJson = "./app/export/InfoTagJSON/$databaseName.json";
 
         $adapter = new Adapter;
@@ -46,7 +47,7 @@ class AdminController extends Controller
 
         $loadedData = array_merge($loadedData, $exportModel->getStudentIdentification());
         $loadedData = array_merge($loadedData, $exportModel->getStudentDocumentsAndAddress());
-        $loadedData = array_merge($loadedData, $exportModel->getStudentEnrollment()); 
+        $loadedData = array_merge($loadedData, $exportModel->getStudentEnrollment());
 
 
         $host = getenv("HOST_DB_TAG");
@@ -61,23 +62,24 @@ class AdminController extends Controller
         header("Content-Disposition: attachment; filename=\"" . basename($pathFileJson) . "\"");
         header("Content-Type: application/force-download");
         header("Content-Length: " . filesize($pathFileJson));
-        header("Connection: close"); 
+        header("Connection: close");
         readfile($pathFileJson);
     }
 
-    public function actionImportMaster() {
+    public function actionImportMaster()
+    {
         $adapter = new Adapter;
-        $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();   
+        $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();
         $pathFileJson = "./app/export/InfoTagJSON/$databaseName.json";
 
         if (!file_exists($pathFileJson)) {
             Yii::app()->user->setFlash('error', 'O arquivo não existe na pasta de importação.');
             $this->redirect(array('index'));
-        }   
+        }
 
-        try{
+        try {
             $dataDecoded = $adapter->import(file_get_contents($pathFileJson));
-            $importModel = new ImportModel(); 
+            $importModel = new ImportModel();
             $transaction = Yii::app()->db->beginTransaction();
             Yii::app()->db->createCommand('SET FOREIGN_KEY_CHECKS=0')->execute();
 
@@ -91,16 +93,16 @@ class AdminController extends Controller
 
             $importModel->saveStudentIdentificationDB($dataDecoded['student_identification']);
             $importModel->saveStudentDocumentsAndAddressDB($dataDecoded['student_documents_and_address']);
-            $importModel->saveStudentEnrollmentDB($dataDecoded['student_enrollment']); 
+            $importModel->saveStudentEnrollmentDB($dataDecoded['student_enrollment']);
 
-            Yii::app()->db->createCommand('SET FOREIGN_KEY_CHECKS=1')->execute(); 
-            $transaction->commit(); 
+            Yii::app()->db->createCommand('SET FOREIGN_KEY_CHECKS=1')->execute();
+            $transaction->commit();
 
             Yii::app()->user->setFlash('success', Yii::t('default', 'Importação realizada com sucesso!'));
             $this->redirect(array('index'));
         } catch (Exception $e) {
             $transaction->rollback();
-            Yii::app()->user->setFlash('error', Yii::t('default', 'Error na importação: '.$e->getMessage()));
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Error na importação: ' . $e->getMessage()));
             $this->redirect(array('index'));
         }
     }
@@ -116,7 +118,7 @@ class AdminController extends Controller
             ]
         );
         if (isset($_POST['Users'])) {
-            if(!isset($modelValidate)) {
+            if (!isset($modelValidate)) {
                 $model->attributes = $_POST['Users'];
                 if ($model->validate()) {
                     $password = md5($_POST['Users']['password']);
@@ -134,10 +136,10 @@ class AdminController extends Controller
                         if ($save) {
                             $auth = Yii::app()->authManager;
                             $auth->assign($_POST['Role'], $model->id);
-                            
+
                         }
-                        if(isset($_POST['instructor']) &&  $_POST['instructor'] != ""){
-                            $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]); 
+                        if (isset($_POST['instructor']) && $_POST['instructor'] != "") {
+                            $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]);
                             $instructors->users_fk = $model->id;
                             $instructors->save();
                         }
@@ -145,13 +147,13 @@ class AdminController extends Controller
                         $this->redirect(['index']);
                     }
                 }
-            }else {
+            } else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Já existe um usuário cadastrado com esse nome/usuário!'));
                 $this->redirect(['index']);
             }
         }
-        $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk'=> null], ['select' => 'id, name']); 
-        $instructorsResult = array_reduce($instructors, function($carry, $item) {
+        $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk' => null], ['select' => 'id, name']);
+        $instructorsResult = array_reduce($instructors, function ($carry, $item) {
             $carry[$item['id']] = $item['name'];
             return $carry;
         }, []);
@@ -214,7 +216,7 @@ class AdminController extends Controller
         $valid = false;
         if ($_POST["reply"] == "") {
             $grades = Yii::app()->db->createCommand("
-                select * from grade g 
+                select * from grade g
                 join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
                 join grade_unity gu on gu.id = gum.grade_unity_fk
                 where edcenso_stage_vs_modality_fk = :stage
@@ -258,13 +260,13 @@ class AdminController extends Controller
             if ($_POST["reply"] == "A") {
                 // $grades = Yii::app()->db->createCommand("select * from grade")->queryAll();
                 $curricularMatrixes = Yii::app()->db->createCommand("select * from curricular_matrix cm where school_year = :year")->bindParam(":year", Yii::app()->user->year)->queryAll();
-            } else if ($_POST["reply"] == "S") {         
+            } else if ($_POST["reply"] == "S") {
                 $curricularMatrixes = $this->getCurricularMatrixes($this->getStage($_POST["stage"]));
             }
 
             foreach ($curricularMatrixes as $curricularMatrix) {
                 $matrixStageFk = $curricularMatrix["stage_fk"];
-                if (array_search($matrixStageFk, array_column($grades, "id")) == 0) { 
+                if (array_search($matrixStageFk, array_column($grades, "id")) == 0) {
                     GradeUnity::model()->deleteAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $matrixStageFk]);
                     foreach ($_POST["unities"] as $u) {
                         $unity = new GradeUnity();
@@ -284,7 +286,7 @@ class AdminController extends Controller
                     }
                     $valid = true;
                 }
-               
+
                 $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $matrixStageFk]);
                 if ($gradeRules == null) {
                     $gradeRules = new GradeRules();
@@ -303,7 +305,7 @@ class AdminController extends Controller
 
     private function getStage($stage)
     {
-        return EdcensoStageVsModality::model()->find("id = :id", [":id" => $stage ])->stage;
+        return EdcensoStageVsModality::model()->find("id = :id", [":id" => $stage])->stage;
     }
 
     private function getGrades()
@@ -316,26 +318,27 @@ class AdminController extends Controller
             GROUP BY esvm.id
             HAVING COUNT(1) > 0"
         )
-        ->queryAll();
+            ->queryAll();
     }
 
     private function getCurricularMatrixes($stage)
     {
         return Yii::app()->db->createCommand("
-            select * from curricular_matrix cm 
+            select * from curricular_matrix cm
             join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
             where school_year = :year and esvm.stage = :stage
         ")
-        ->bindParam(":year", Yii::app()->user->year)
-        ->bindParam(":stage", $stage)
-        ->queryAll();
+            ->bindParam(":year", Yii::app()->user->year)
+            ->bindParam(":stage", $stage)
+            ->queryAll();
     }
 
-    private function refreshResults($stage) {
+    private function refreshResults($stage)
+    {
         $classrooms = Classroom::model()->findAll("edcenso_stage_vs_modality_fk = :stage and school_year = :year", ["stage" => $stage, "year" => Yii::app()->user->year]);
         $curricularMatrixes = CurricularMatrix::model()->findAll("stage_fk = :stage", ["stage" => $stage]);
-        foreach($classrooms as $classroom) {
-            foreach($curricularMatrixes as $curricularMatrix) {
+        foreach ($classrooms as $classroom) {
+            foreach ($curricularMatrixes as $curricularMatrix) {
                 EnrollmentController::saveGradeResults($classroom->id, $curricularMatrix->discipline_fk);
             }
         }
@@ -360,7 +363,7 @@ class AdminController extends Controller
         if ($model->save()) {
             Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário desativado com sucesso!'));
             $this->redirect(['activeDisableUser']);
-        }else {
+        } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro. Tente novamente!'));
             $this->redirect(['activeDisableUser']);
         }
@@ -375,7 +378,7 @@ class AdminController extends Controller
         if ($model->save()) {
             Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário ativado com sucesso!'));
             $this->redirect(['activeDisableUser']);
-        }else {
+        } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro. Tente novamente!'));
             $this->redirect(['activeDisableUser']);
         }
@@ -389,38 +392,36 @@ class AdminController extends Controller
         $auth_assign = AuthAssignment::model()->findByAttributes(array('userid' => $id));
         $instructor_identification = InstructorIdentification::model()->findByAttributes(array('users_fk' => $id));
 
-        if($user !== null){
+        if ($user !== null) {
 
             // Atualizando a coluna que referência ao usuário na tabela de identificação de professor
             // A função save abstrai o processo de identificar se está ocorrendo um UPDATE ou INSERT
-            if($instructor_identification !== null){
+            if ($instructor_identification !== null) {
                 $instructor_identification->users_fk = null;
                 $instructor_identification->save();
             }
-    
+
             // Excluindo o registro na tabela que representa o cargo de um profissional cadastrado
-            if($auth_assign !== null){
-                $auth_assign->delete('auth_assignment','userid =' .$id);
+            if ($auth_assign !== null) {
+                $auth_assign->delete('auth_assignment', 'userid =' . $id);
             }
-            
+
             // Excluindo o registro na tabela que representa o acesso às escolas do usuário
-            if($user_school !== null){
-            foreach($user_school as $register){
-                $register->delete('users_school', 'user_fk='. $id);
+            if ($user_school !== null) {
+                foreach ($user_school as $register) {
+                    $register->delete('users_school', 'user_fk=' . $id);
                 }
             }
 
             // Excluindo o registro na tabela de usuário
-            $user->delete('users', 'id='.$id);
+            $user->delete('users', 'id=' . $id);
         }
 
         // Redirecionando para a tela de gerenciar usuários
         $this->redirect(array('admin/manageUsers'));
     }
 
-    public
-    function actionEditPassword($id)
-    {
+    public function actionEditPassword($id) {
         $model = Users::model()->findByPk($id);
 
         if (isset($_POST['Users'], $_POST['Confirm'])) {
@@ -430,7 +431,10 @@ class AdminController extends Controller
                 $model->password = $password;
                 if ($model->save()) {
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Senha alterada com sucesso!'));
-                    $this->redirect(['index']);
+                    if(Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
+                        $this->redirect(['index']);
+                    }
+                    $this->redirect(['/']);
                 }
             } else {
                 $model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
@@ -448,11 +452,11 @@ class AdminController extends Controller
 
         $command = "
 			SET FOREIGN_KEY_CHECKS=0;
-			
+
 			delete from auth_assignment;
 			delete from users;
 			delete from users_school;
-			
+
 			delete from class_board;
             delete from class_faults;
             delete from class;
@@ -489,7 +493,7 @@ class AdminController extends Controller
         $admin_login = 'admin';
         $admin_password = md5('p@s4ipti');
 
-        $hash = hexdec(hash('crc32', 'Administrador'.$admin_login.$admin_password));
+        $hash = hexdec(hash('crc32', 'Administrador' . $admin_login . $admin_password));
         $command = "INSERT INTO users VALUES (1, 'Administrador', '$admin_login', '$admin_password', 1, $hash);";
         Yii::app()->db->createCommand("ALTER TABLE users AUTO_INCREMENT = 2;")->execute();
         Yii::app()->db->createCommand($command)->query();
@@ -563,8 +567,8 @@ class AdminController extends Controller
                         $auth->revoke($actual_role, $model->id);
                         $auth->assign($_POST['Role'], $model->id);
                     }
-                    if(isset($_POST['instructor']) &&  $_POST['instructor'] != ""){
-                        $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]); 
+                    if (isset($_POST['instructor']) && $_POST['instructor'] != "") {
+                        $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]);
                         $instructors->users_fk = $model->id;
                         $instructors->save();
                     }
@@ -581,8 +585,8 @@ class AdminController extends Controller
             $i++;
         }
 
-        $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk'=> null], ['select' => 'id, name']); 
-        $instructorsResult = array_reduce($instructors, function($carry, $item) {
+        $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk' => null], ['select' => 'id, name']);
+        $instructorsResult = array_reduce($instructors, function ($carry, $item) {
             $carry[$item['id']] = $item['name'];
             return $carry;
         }, []);
@@ -593,5 +597,81 @@ class AdminController extends Controller
     public function actionChangelog()
     {
         $this->render('changelog');
+    }
+
+    public function actionAuditory()
+    {
+        $schools = Yii::app()->db->createCommand("select inep_id, `name` from school_identification order by `name`")->queryAll();
+        $users = Yii::app()->db->createCommand("select id, `name` from users order by `name`")->queryAll();
+        $this->render('auditory', [
+            "schools" => $schools,
+            "users" => $users,
+            'schoolyear' => Yii::app()->user->year
+        ]);
+    }
+
+    public function actionGetAuditoryLogs()
+    {
+        $criteria = new CDbCriteria();
+
+        $arr = explode('/', $_POST["initialDate"]);
+        $initialDate = $arr[2] . "-" . $arr[1] . "-" . $arr[0] . " 00:00:00";
+        $arr = explode('/', $_POST["finalDate"]);
+        $finalDate = $arr[2] . "-" . $arr[1] . "-" . $arr[0] . " 23:59:59";
+        $criteria->addBetweenCondition('date', $initialDate, $finalDate);
+
+        if ($_POST["school"] !== "") {
+            $criteria->addColumnCondition(['school_fk' => $_POST["school"]]);
+        }
+
+        if ($_POST["action"] !== "") {
+            $criteria->addColumnCondition(['crud' => $_POST["action"]]);
+        }
+
+        if ($_POST["user"] !== "") {
+            $criteria->addColumnCondition(['user_fk' => $_POST["user"]]);
+        }
+
+        $countCriteria = $criteria;
+
+        foreach ($_POST["order"] as $key => $order) {
+            switch($_POST["columns"][$order["column"]]["data"]) {
+                case "school":
+                    $criteria->join = "join school_identification on inep_id = school_fk";
+                    $criteria->order .= "TRIM(school_identification.name)";
+                    break;
+                case "user":
+                    $criteria->join = "join users on users.id = user_fk";
+                    $criteria->order .= "TRIM(users.name)";
+                    break;
+                case "date":
+                    $criteria->order .= $_POST["columns"][$order["column"]]["data"];
+                    break;
+            }
+            $criteria->order .= " " . $order["dir"];
+            if ($key < count($_POST["order"]) - 1) {
+                $criteria->order .= ", ";
+            }
+        }
+
+        $criteria->limit = $_POST["length"];
+        $criteria->offset = $_POST["start"];
+
+        $logs = Log::model()->findAll($criteria);
+        $logsCount = Log::model()->count($countCriteria);
+
+        $result["recordsTotal"] = $result["recordsFiltered"] = $logsCount;
+
+        $result["data"] = [];
+        foreach ($logs as $log) {
+            $array["school"] = $log->schoolFk->name;
+            $array["user"] = $log->userFk->name;
+            $array["action"] = $log->crud == "U" ? "Editar" : ($log->crud == "C" ? "Criar" : "Remover");
+            $date = new \DateTime($log->date);
+            $array["date"] = $date->format("d/m/Y H:i:s");
+            $array["event"] = $log->loadIconsAndTexts($log)["text"];
+            array_push($result["data"], $array);
+        }
+        echo json_encode($result);
     }
 }

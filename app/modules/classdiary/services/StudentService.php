@@ -4,8 +4,8 @@ class StudentService
 {
     public function getFrequency($classroom_fk, $stage_fk, $discipline_fk, $date) {
         // Fundamental menor
-        $is_minor_schooling = $stage_fk >= 14 && $stage_fk <= 16;
-        if ($is_minor_schooling) 
+        $is_minor_schooling = Yii::app()->utils->isStageMinorEducation($stage_fk);
+        if ($is_minor_schooling)
         {
             $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and 
             unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $classroom_fk, 
@@ -55,7 +55,7 @@ class StudentService
 
     public function getSechedulesToSaveFrequency($schedule, $student_id, $fault, $stage_fk, $date, $classroom_id){
         // Fundamental menor
-        $is_minor_schooling = $stage_fk >= 14 && $stage_fk <= 16;
+        $is_minor_schooling = Yii::app()->utils->isStageMinorEducation($stage_fk);
         if ($is_minor_schooling) {
             $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $classroom_id,
             "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"),
@@ -85,8 +85,8 @@ class StudentService
     }
     public function saveJustification($student_id, $stage_fk, $classroom_id, $schedule, $date, $justification){
          // Fundamental menor
-         $is_minor_schooling = $stage_fk >= 14 && $stage_fk <= 16;
-        if ($is_minor_schooling) {    
+         $is_minor_schooling = Yii::app()->utils->isStageMinorEducation($stage_fk);
+        if ($is_minor_schooling) {
             $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $classroom_id, 
             "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"), 
             "month" => DateTime::createFromFormat("d/m/Y", $date)->format("m")]);
@@ -111,7 +111,7 @@ class StudentService
     }
     public function getStudentFault($stage_fk, $classroom_fk, $discipline_fk, $date, $student_fk){
         // Fundamental menor
-        $is_minor_schooling = $stage_fk >= 14 &&  $stage_fk <= 16;
+        $is_minor_schooling = Yii::app()->utils->isStageMinorEducation($stage_fk);
         if ($is_minor_schooling) 
         {
             $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and 
@@ -131,7 +131,7 @@ class StudentService
     }
     public function getStudentDiary($stage_fk, $classroom_fk, $discipline_fk, $date, $student_fk) {
          // Fundamental menor
-         $is_minor_schooling = $stage_fk >= 14 &&  $stage_fk <= 16;
+         $is_minor_schooling = Yii::app()->utils->isStageMinorEducation($stage_fk);
         if ($is_minor_schooling == "1") {
              $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $classroom_fk, 
              "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"), 
@@ -166,7 +166,7 @@ class StudentService
 
       public function saveStudentDiary($stage_fk, $classroom_fk, $date, $discipline_fk, $student_fk, $student_observation) {
          // Fundamental menor
-         $is_minor_schooling = $stage_fk >= 14 &&  $stage_fk <= 16;
+         $is_minor_schooling = Yii::app()->utils->isStageMinorEducation($stage_fk);
         if ($is_minor_schooling == "1") {
              $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and unavailable = 0 group by day order by schedule, schedule", ["classroom_fk" => $classroom_fk, 
              "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"), 

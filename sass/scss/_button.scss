@@ -145,6 +145,7 @@
     @extend .t-button;
     color: $colorsBaseWhiteNormal;
     background-color: $colorsTextError;
+    border: 0;
 
     &--disabled {
         background-color: $colorsBaseCloudNormal;
@@ -186,22 +187,12 @@
         &:active {
             color: $colorsBaseWhiteNormal;
         }
-
-        span {
+        span{
             font-size: $FontSizeIcons2 !important;
         }
     }
+    &-danger {
+        cursor: pointer;
+        color: $colorsTextError;
+    }
 }
-
-// .t-button-icon-primary {
-//     padding: $spaceXXSmall $spaceXXSmall $spaceXXSmall $spaceXXSmall;
-//     display: contents;
-//     background: none;
-//     border: none;
-
-//     span {
-//         margin: $spaceEmpty $spaceXXXSmall $spaceEmpty $spaceEmpty;
-//         font-size: $FontSizeIcons;
-//         color: $colorsBaseInkLight;
-//     }
-// }
