@@ -32,7 +32,7 @@ class EnrollmentController extends Controller
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'view', 'create', 'update', "updatedependencies",
-                    'delete', 'getmodalities', 'grades', 'getGrades', 'saveGrades', 
+                    'delete', 'getmodalities', 'grades', 'getGrades', 'saveGrades', 'CheckEnrollmentDelete',
                     'getDisciplines', 'calculateFinalMedia', 'reportCard', 'getReportCardGrades', 'saveGradesReportCard'),
                 'users' => array('@'),
             ),
@@ -55,6 +55,19 @@ class EnrollmentController extends Controller
         $this->render('view', array(
             'model' => $this->loadModel($id),
         ));
+    }
+
+    public function actionCheckEnrollmentDelete($enrollmentId)
+    {
+        $frequency = ClassFaults::model()->findAllByAttributes(["student_fk" => $enrollmentId]);
+        $grades = Grade::model()->findAllByAttributes(["enrollment_fk" => $enrollmentId]);
+        $gradeResults = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $enrollmentId]);
+
+        if ($frequency || $grades || $gradeResults) {
+            echo json_encode(["block" => true, "message" => "Essa matrícula não pode ser excluída porque existe frequência ou notas associadas a ela!"]);
+        }else {
+            echo json_encode(["block" => false, "message" => "Tem certeza que deseja excluir a matrícula? Essa ação não pode ser desfeita!"]);
+        }
     }
 
     public function actionUpdateDependencies()
