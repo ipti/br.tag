@@ -268,34 +268,34 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         </div>
         <div style="margin: 5px;">
             <form id="select-classes-form" action="<?= Yii::app()->createUrl('sedsp/default/ImportFullStudentsByClasses'); ?>" method="post">
-                <table
-                    class="display student-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs"
-                    style="width:100%" aria-label="students table">
-                    <thead>
-                        <tr>
-                            <th>N° Classe</th>
-                            <th>Nome da turma</th>
-                            <th>Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $inep_id = Yii::app()->user->school;
-                        $classes = Classroom::model()->findAllBySql("SELECT c.gov_id, c.name FROM classroom c WHERE c.school_inep_fk =" . $inep_id);
-                        $selectedClasses = [];
-                        foreach ($classes as $class) {
-                            ?>
+                <div style="max-height: 300px; overflow-y: auto;">
+                    <table class="display student-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs" style="width:100%" aria-label="students table">
+                        <thead>
                             <tr>
-                                <td><?php echo $class['gov_id'] ?></td>
-                                <td><?php echo $class['name'] ?></td>
-                                <td>
-                                    <?php echo CHtml::checkBox('checkboxListNumClasses[]', in_array($class['gov_id'], $selectedClasses), array('value' => $class['gov_id'])) ?>
-                                </td>
+                                <th>N° Classe</th>
+                                <th>Nome da turma</th>
+                                <th>Ação</th>
                             </tr>
-                        <?php }
-                        ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $inep_id = Yii::app()->user->school;
+                            $classes = Classroom::model()->findAllBySql("SELECT c.gov_id, c.name FROM classroom c WHERE c.gov_id is not null and c.school_inep_fk = " . $inep_id);
+                            $selectedClasses = [];
+                            foreach ($classes as $class) {
+                                ?>
+                                <tr>
+                                    <td><?php echo $class['gov_id'] ?></td>
+                                    <td><?php echo $class['name'] ?></td>
+                                    <td>
+                                        <?php echo CHtml::checkBox('checkboxListNumClasses[]', in_array($class['gov_id'], $selectedClasses), array('value' => $class['gov_id'])) ?>
+                                    </td>
+                                </tr>
+                            <?php }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
                 <!-- Add hidden input field to store selected classes -->
                 <input type="hidden" name="selectedClasses" id="selectedClasses">
                 <div id="loading-container-import-student" style="display: none;">
