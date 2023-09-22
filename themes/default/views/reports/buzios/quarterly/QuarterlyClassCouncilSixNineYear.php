@@ -31,8 +31,8 @@ if ($turno == 'M') {
             </div>
         </div>
     </div>
-    <p style="font-size: 19px;">Aos <?php echo $count_days?> dias do mês de <?php echo $mounth?> de 
-    <?php echo $year?> às <?php echo $hour?>, teve início a 
+    <p style="font-size: 19px;">Aos <?php echo $count_days?> dias do mês de <?php echo $mounth?> de
+    <?php echo $year?> às <?php echo $hour?>, teve início a
     reunião de Conselho de Classe referente ao <br> <?php echo $quarterly?> Trimestre do <?php echo $classroom[0]['class_stage']?>,
     turma <?php echo $classroom[0]['classroom_name']?>, do turno <?php echo $turno?>, presidido por _____________________________________________&nbsp,&nbsp_____________________.</p>
 
@@ -49,6 +49,7 @@ if ($turno == 'M') {
                     <th rowspan="2" scope="col"><span class="vertical-head">Não Paticipativo</span></th>
                     <th rowspan="2" scope="col"><span class="vertical-head">Destaque</span></th>
                     <th rowspan="2" scope="col">Movimentação do Aluno</th>
+                    <th rowspan="2" scope="col">Observações</th>
                 </tr>
                 <tr>
                     <th scope="col"><span class="vertical-head">L. Portuguesa</span></th>
@@ -67,7 +68,7 @@ if ($turno == 'M') {
                 <?php
                 $count_std = 1;
                 $array_students = [];
-                foreach ($classroom as $c) { 
+                foreach ($classroom as $c) {
                     if(!in_array($c['name'] ,$array_students)) {
                 ?>
                     <tr>
@@ -114,6 +115,11 @@ if ($turno == 'M') {
                             }else {
                                 echo '';
                             }
+                            ?>
+                        </td>
+                        <td style="text-align: center;">
+                            <?php
+                                echo $c['observation'];
                             ?>
                         </td>
                     </tr>

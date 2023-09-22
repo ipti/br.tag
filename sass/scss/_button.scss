@@ -191,4 +191,8 @@
             font-size: $FontSizeIcons2 !important;
         }
     }
+    &-danger {
+        cursor: pointer;
+        color: $colorsTextError;
+    }
 }
