@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* @var $this InstructorController */
 /* @var $dataProvider CActiveDataProvider */
@@ -7,7 +7,7 @@
 	$themeUrl = Yii::app()->theme->baseUrl;
 	$cs = Yii::app()->getClientScript();
 	$cs->registerScriptFile($baseUrl . '/js/instructor/frequency.js', CClientScript::POS_END);
-	
+
 	$this->setPageTitle('TAG - ' . Yii::t('default', 'Instructor frequency'));
     ?>
 <div class="main">
@@ -36,10 +36,10 @@
         <div class="alert-required-fields no-show alert alert-error">
             Os Campos com * são obrigatórios.
         </div>
-        <div class="row filter-bar margin-bottom-none">
+        <div class="row wrap filter-bar margin-bottom-none">
             <div>
                 <?php echo CHtml::label(yii::t('default', 'Instructor') . " *", 'instructor', array('class' => 'control-label required' ,'style' => 'width: 80px;' )); ?>
-            
+
                 <select class="select-search-on control-input frequency-input" id="instructor">
                     <option>Selecione o professor</option>
                     <?php foreach ($instructors as $instructor) : ?>
@@ -47,11 +47,11 @@
                     <?php endforeach; ?>
                 </select>
             </div>
-            
+
             <!-- turmas -->
             <div class="classroom-container" style="display: none">
                 <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required' ,'style' => 'width: 64px;' )); ?>
-            
+
                 <?php
                 echo CHtml::dropDownList('classrooms', '', array(), array(
                     'key' => 'id',
@@ -138,7 +138,7 @@
                                 </div>
                             </div>
                         </div>
-                    
+
                         <div class="modal-footer">
                             <button type="button" class="cancel-save-justifiaction btn btn-default" data-dismiss="modal">Cancelar</button>
                             <button type="button" class="btn btn-primary btn-save-justification">Adicionar</button>
