@@ -272,6 +272,3 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
         <?php $this->endWidget(); ?>
     </div>
 </div>
-<style>
-
-</style>
