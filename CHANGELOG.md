@@ -1,4 +1,5 @@
-## [Versão 3.57.92]
+##
+ [Versão 3.57.92]
 - Adicionado o atalho para alterar senha do usuário na barra lateral
 
 ## [Versão 3.56.92]

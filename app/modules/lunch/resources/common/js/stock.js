@@ -9,7 +9,8 @@ $(document).on('click', '#new-item', function(){
 
 });
 $(document).on('click','#js-removeItem', function(){
-    var lunchItemId = $(this).attr("data-id");
+   
+    const lunchItemId = $(this).attr("data-id");
     $.ajax({
         url:'?r=lunch/stock/deleteitem',
         type:'POST',
@@ -25,7 +26,6 @@ $(document).on('click','#js-removeItem', function(){
         $(".js-removeItem").prop("disabled", false);
         $(".js-change-cursor").css("cursor", "pointer");
         $(".js-disabled-table").css("opacity", 1.0);
-    }).success({ function(data) {
-       
-    }})
-});
+        window.location.reload();
+    })
+}); 
