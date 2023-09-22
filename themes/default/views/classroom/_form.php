@@ -134,7 +134,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 echo $form->DropDownList($modelClassroom, 'modality', array(
                                     '1' => 'Ensino Regular',
                                     '2' => 'Educação Especial - Modalidade Substitutiva',
-                                    '3' => 'Educação de Jovens e Adultos (EJA)'
+                                    '3' => 'Educação de Jovens e Adultos (EJA)',
+                                    '4' => 'Não se aplica'
                                 ), array('prompt' => 'Selecione a Modalidade', 'class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%'));
                                 ?>
                                 <?php echo $form->error($modelClassroom, 'modality'); ?>
@@ -629,22 +630,16 @@ $form = $this->beginWidget('CActiveForm', array(
                             $i = 1;
                             foreach ($enrollments as $enr) {
                         ?>
-                                <li id="<?= $enr->id; ?>" class="ui-state-default"><?= $enr->daily_order; ?><span> <?= $enr->studentFk->name; ?></span></li>
+                                <li id="<?= $enr->id; ?>" class="ui-state-default">
+                                    <span class="t-icon-slip"></span><?= $enr->daily_order; ?>
+                                    <span> <?= $enr->studentFk->name; ?></span>
+                                </li>
                         <?php
                                 $i++;
                             }
                         }
                         ?>
                     </ul>
-                    <?php
-                    if (count($enrollments) > 1) {
-                    ?>
-                        <div class="t-buttons-container">
-                            <a class="t-button-primary js-save-new-order">salvar</a>
-                        </div>
-                    <?php
-                    }
-                    ?>
 
                 </div>
                 <?php $this->endWidget(); ?>

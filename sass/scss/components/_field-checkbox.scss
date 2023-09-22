@@ -6,7 +6,7 @@
     white-space: normal;
     line-height: 12px;
     width: 100%;
-    margin-top: $SizeXXXSmall;
+    margin-top: $SizeLarge;
     margin-bottom: $SizeXSmall;
 
     &__label {
@@ -34,7 +34,14 @@
 }
 .t-field-checkbox-group {
     margin-bottom: $SizeXXSmall;
-    margin-top: $SizeXXSmall;
+    margin-top: $SizeLarge;
+    &__label {
+        padding-top: 0 !important;
+
+        &--required {
+            font-weight: bold;
+        }
+    }
 
     .t-field-checkbox {
         margin-top: $SizeXXXSmall;

@@ -57,7 +57,7 @@ $('#discipline').change(function (e, triggerEvent) {
                     <table class='grades-table table table-bordered table-striped'>
                         <thead>
                             <tr>
-                                <th colspan=10' class='table-title'>Lançamento de notas</th>
+                                <th colspan=10' class='table-title'>Lançamento de Notas</th>
                             </tr>
                             <tr>
                                 <th rowspan='2' style='width:2%;'>Ordem</th>

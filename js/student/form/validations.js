@@ -205,7 +205,7 @@ $(formIdentification + 'nationality').change(function () {
     $(nationality).attr("disabled", "disabled");
     if ($(this).val() == 3) {
         $(nobr).removeAttr("disabled");
-        // $(formIdentification + 'edcenso_nation_fk').trigger('change').select2('readonly', false);
+        $(formIdentification + 'edcenso_nation_fk').trigger('change').select2('readonly', false);
         $(formIdentification + 'edcenso_uf_fk').val("").trigger("change.select2");
         $(formIdentification + 'edcenso_city_fk').val("").trigger("change.select2");
         $(formIdentification + 'edcenso_uf_fk').closest(".js-change-required").css("display", simple === "1" ? "none" : "block").find("label").removeClass("required").html("Estado");
@@ -704,6 +704,11 @@ $(".vaccine-checkbox").trigger("change");
 $(".save-student").click(function () {
     var error = false;
     var message = "";
+
+    if($("#StudentIdentification_bf_participator").is(":checked") && $("#StudentDocumentsAndAddress_nis").val() == "") {
+        error = true;
+        message += "O campo <b>NIS</b> é obrigatório para alunos participantes do Bolsa Família.<br>";
+    }
 
     if($("#errorNameIcon").css('display') == 'inline-block') {
         error = true;

@@ -782,9 +782,14 @@ class ClassroomController extends Controller
     foreach ($enrollments as $i => $enrollment) {
         $enrollment->daily_order = $i+1;
         $enrollment->save();
-    } 
- 
-    Yii::app()->user->setFlash('success', Yii::t('default', 'dayli order'));
+    };
+    $result = array_map(function($enrollment) {
+        return ["id" => $enrollment->id, "name" => $enrollment->studentFk->name, 
+        "daily_order" => $enrollment->daily_order];
+    }, $enrollments);
+
+    echo  json_encode($result);
+    /* Yii::app()->user->setFlash('success', Yii::t('default', 'dayli order')); */
     }
 
 }

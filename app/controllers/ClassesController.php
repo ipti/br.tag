@@ -423,6 +423,7 @@ class ClassesController extends Controller
                 join edcenso_discipline ed on ed.id = cm.discipline_fk
                 where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name")
                 ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $classroom->id)->queryAll();
+            echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione o componente curricular/eixo'), true);
             foreach ($disciplines as $discipline) {
                 echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true));
             }

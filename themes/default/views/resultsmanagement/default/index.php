@@ -10,7 +10,7 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScript("variables",
     "var URLGetMapInfos = '".$this->createUrl("GetGMapInfo")."';", CClientScript::POS_BEGIN);
 $cs->registerScriptFile($baseScriptUrl.'/common/js/index/loadMap.js', CClientScript::POS_END);
-$cs->registerScriptFile('https://maps.googleapis.com/maps/api/js?key=AIzaSyDjWiKq1o5qX_LEokFDPUkIin3ckXpmWY0&callback=initMap', CClientScript::POS_END, ["async", "defer"] );
+$cs->registerScriptFile('https://maps.googleapis.com/maps/api/js?key=&callback=initMap', CClientScript::POS_END, ["async", "defer"] );
 $cs->registerScriptFile('http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js', CClientScript::POS_END);
 $cs->registerCssFile($baseScriptUrl.'/common/css/resultsmanagement.css');
 
