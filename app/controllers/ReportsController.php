@@ -1069,7 +1069,7 @@ class ReportsController extends Controller
             $current_report = 0;
             if ($stage_id == 1 || $stage_id == 2) {
                 $current_report = 1;
-            } elseif ($stage_id == 3) {
+            } elseif ($stage_id == 3 || $stage_id == 7) {
                 $current_report = 2;
             } elseif ($stage_id == 4) {
                 $current_report = 3;
