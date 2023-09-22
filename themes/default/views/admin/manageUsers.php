@@ -21,8 +21,9 @@
                 <?php echo Yii::app()->user->getFlash('error') ?>
             </div>
             <?php
-            if (isset($buttons))
+            if (isset($buttons)){
                 echo $buttons;
+            }
             ?>
             <br />
             <?php endif ?>
