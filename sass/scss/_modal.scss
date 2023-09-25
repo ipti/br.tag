@@ -24,15 +24,13 @@
     }
     .t-modal__body {
         padding: $SizeNormal $SizeLarge;
-        
-        label {
-            font-size: $FontSizeFormLabel;
-        }
     }
     .t-modal__footer {
+        padding: $SizeNormal $SizeLarge;
         a, button {
             flex: 1;
             padding: $spaceNormal;
+            
         }
     }
     &.height {

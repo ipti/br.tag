@@ -10,11 +10,10 @@
     margin-bottom: $SizeXSmall;
 
     &__label {
-        font-size: $FontSizeFormLabel;
         padding-top: 0 !important;
 
         &--required {
-            font-size: $FontSizeFormLabel;
+            
             font-weight: bold;
         }
     }
@@ -23,13 +22,22 @@
         background: $colorsBaseWhiteNormal;
         height: 20px;
         width: 20px;
-        margin: 0 $SizeNormal 0 0 !important;
+        margin: 0 $SizeNormal 0 0 ;
     }
 
     &.helper {
         margin-top: 31px;
         margin-bottom: 10px;
         margin-left: -18px;
+    }
+    &--vertical {
+        margin-right: $SizeNormal;
+        .t-field-checkbox__label {
+            text-align: center;
+        }
+        .t-field-checkbox__input {
+            margin: 0;
+        }
     }
 }
 .t-field-checkbox-group {

@@ -4,12 +4,12 @@
 .t-field-text {
     margin-bottom: $SizeNormal;
     &__label{
-        font-size: $FontSizeFormLabel;
+        
         display: flex;
         align-items: center;
         &--required {
             font-weight: bold;
-            font-size: $FontSizeFormLabel;
+            
         }
     }
     &__input, input[type="text"], input[type="number"], input[type="email"]{
@@ -25,7 +25,7 @@
         resize: none;
     }
     .show-password-icon {
-        font-size: $FontSizeFormLabel;
+        
         cursor: pointer;
         position: absolute;
         right: 0;
