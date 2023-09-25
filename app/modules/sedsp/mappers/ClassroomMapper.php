@@ -54,40 +54,42 @@ class ClassroomMapper
         $listStudents = [];
         $students = $outFormacaoClasse->getOutAlunos();
         foreach ($students as $student) {
-            $studentIdentification = new StudentIdentification();
-            $studentIdentification->gov_id = $student->getOutNumRa();
-            $studentIdentification->name = $student->getOutNomeAluno();
-            $studentIdentification->birthday = $student->getOutDataNascimento();
-
-            $outExibirFichaAluno = $studentDatasource->exibirFichaAluno(
-                new InAluno($student->getOutNumRa(), $student->getOutDigitoRA(), "SP")
-            )->getOutDadosPessoais();
-
-            $studentIdentification->sex = $outExibirFichaAluno->getOutCodSexo();
-            $studentIdentification->color_race = $outExibirFichaAluno->getOutCorRaca();
-            $studentIdentification->filiation = 1;
-            $studentIdentification->filiation_1 = $outExibirFichaAluno->getOutNomeMae();
-            $studentIdentification->filiation_2 = $outExibirFichaAluno->getOutNomePai();
-            $studentIdentification->nationality = $outExibirFichaAluno->getOutNacionalidade();
-            $studentIdentification->uf = $student->getOutSiglaUfra();
-
-            if($outExibirFichaAluno->getOutNacionalidade() == 1) { //1 - Brasileira
-                $studentIdentification->edcenso_nation_fk = 76;
-            }elseif($outExibirFichaAluno->getOutNacionalidade() == 2){ //2 - Estrangeira
-                $studentIdentification->edcenso_nation_fk = $outExibirFichaAluno->getOutCodPaisOrigem();
+            if($student->getOutDescSitMatricula() === 'ATIVO') {
+                $studentIdentification = new StudentIdentification();
+                $studentIdentification->gov_id = $student->getOutNumRa();
+                $studentIdentification->name = $student->getOutNomeAluno();
+                $studentIdentification->birthday = $student->getOutDataNascimento();
+    
+                $outExibirFichaAluno = $studentDatasource->exibirFichaAluno(
+                    new InAluno($student->getOutNumRa(), $student->getOutDigitoRA(), "SP")
+                )->getOutDadosPessoais();
+    
+                $studentIdentification->sex = $outExibirFichaAluno->getOutCodSexo();
+                $studentIdentification->color_race = $outExibirFichaAluno->getOutCorRaca();
+                $studentIdentification->filiation = 1;
+                $studentIdentification->filiation_1 = $outExibirFichaAluno->getOutNomeMae();
+                $studentIdentification->filiation_2 = $outExibirFichaAluno->getOutNomePai();
+                $studentIdentification->nationality = $outExibirFichaAluno->getOutNacionalidade();
+                $studentIdentification->uf = $student->getOutSiglaUfra();
+    
+                if($outExibirFichaAluno->getOutNacionalidade() == 1) { //1 - Brasileira
+                    $studentIdentification->edcenso_nation_fk = 76;
+                }elseif($outExibirFichaAluno->getOutNacionalidade() == 2){ //2 - Estrangeira
+                    $studentIdentification->edcenso_nation_fk = $outExibirFichaAluno->getOutCodPaisOrigem();
+                }
+    
+                $studentIdentification->edcenso_uf_fk = intval(
+                    $indexedByAcronym[$outExibirFichaAluno->getOutSiglaUfra()]->id
+                );
+    
+                $schoolInepIdFk = $studentIdentification->edcenso_uf_fk . $outFormacaoClasse->getOutCodEscola();
+                $studentIdentification->school_inep_id_fk = $schoolInepIdFk;
+                $studentIdentification->deficiency = 0;
+                $studentIdentification->send_year = $outFormacaoClasse->getOutAnoLetivo();
+                $studentIdentification->scholarity = $student->getOutSerieNivel();
+    
+                $listStudents[] = $studentIdentification;
             }
-
-            $studentIdentification->edcenso_uf_fk = intval(
-                $indexedByAcronym[$outExibirFichaAluno->getOutSiglaUfra()]->id
-            );
-
-            $schoolInepIdFk = $studentIdentification->edcenso_uf_fk . $outFormacaoClasse->getOutCodEscola();
-            $studentIdentification->school_inep_id_fk = $schoolInepIdFk;
-            $studentIdentification->deficiency = 0;
-            $studentIdentification->send_year = $outFormacaoClasse->getOutAnoLetivo();
-            $studentIdentification->scholarity = $student->getOutSerieNivel();
-
-            $listStudents[] = $studentIdentification;
         }
 
         $parseResult = [];
@@ -196,8 +198,10 @@ class ClassroomMapper
             "6" => 'I'  //Integral
         ];
 
-        if(isset($mapperCodTurno[$outCodTurno]))
+        if(isset($mapperCodTurno[$outCodTurno])) {
             return $mapperCodTurno[$outCodTurno];
+        }
+            
         throw new Exception("Código do turno não existe.", 1);
     }
 
