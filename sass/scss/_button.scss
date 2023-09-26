@@ -192,3 +192,13 @@
         }
     }
 }
+.t-link-button {
+    color: $colorsBaseInkNormal !important;
+    &--warning {
+        color: $colorsTextError !important;
+        margin-top: $SizeLarge;
+    }
+    &--info {
+        color: $colorsBaseProductNormalActive !important;
+    }
+}

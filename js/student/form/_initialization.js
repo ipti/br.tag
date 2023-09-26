@@ -1,7 +1,7 @@
 window.location.search.includes("update") ? $('.last').css('display', 'block') : $('.last').css('display', 'none');
 
 // class New_enrollment_form{
-    
+
 // }
 
 
@@ -27,9 +27,9 @@ $(document).ready(function () {
             $(".new-enrollment-form").hide();
             $("#new-enrollment-button").text("Adicionar Matrícula");
         }
-        
+
     });
-    
+
     var simple = getUrlVars()['simple'];
     if (simple == '1') {
         $("#tab-student-documents").hide();
@@ -76,6 +76,19 @@ $(document).ready(function () {
     if ($(formIdentification + "deficiency_type_gifted").is(":checked")) {
         $(formIdentification + "deficiency_type_intelectual_disability").attr("disabled", "disabled");
     }
+    $(".ui-accordion-header a").click(function(event) {
+        event.preventDefault();
+        let url = $(this).attr("href");
+        window.location.href = url;
+    });
+    $(function () {
+        $( "#accordion" ).accordion({
+            active: false,
+            collapsible: true,
+            icons: false,
+            animate: 200,
+        });
+    })
 });
 
 $('.heading-buttons').css('width', $('#content').width());
@@ -139,3 +152,5 @@ $('#copy-gov-id').click(function() {
 });
 
 $("#StudentEnrollment_public_transport").trigger("change");
+
+
