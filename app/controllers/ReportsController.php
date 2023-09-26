@@ -61,13 +61,8 @@ class ReportsController extends Controller
                     classroom c ON c.school_inep_fk = si.inep_id
                 LEFT JOIN
                     student_enrollment se ON se.classroom_fk = c.id
-<<<<<<< HEAD
-                WHERE
-                    c.school_year = :school_year
-=======
                 WHERE 
                     c.school_year = :school_year AND se.status = 1
->>>>>>> dev
                 GROUP BY
                     si.inep_id, si.name;";
 
