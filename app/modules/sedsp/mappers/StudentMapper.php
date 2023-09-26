@@ -110,8 +110,10 @@ class StudentMapper
             }
         } */
 
+        $inepId = Yii::app()->user->school;
+
         $studentIdentification = new StudentIdentification;
-        $studentIdentification->school_inep_id_fk = 35070212;
+        $studentIdentification->school_inep_id_fk = $inepId;
         $studentIdentification->gov_id = $outDadosPessoais->getOutNumRa();
         $studentIdentification->name = $outDadosPessoais->getOutNomeAluno();
         $studentIdentification->filiation = $outDadosPessoais->getOutNomeMae() != "" || $outDadosPessoais->getOutNomePai() != "" ? 1 : 0;
@@ -134,7 +136,7 @@ class StudentMapper
 
         //StudentDocuments
         $studentDocumentsAndAddress = new StudentDocumentsAndAddress;
-        $studentDocumentsAndAddress->school_inep_id_fk = 35070212;
+        $studentDocumentsAndAddress->school_inep_id_fk = $inepId;
         $studentDocumentsAndAddress->gov_id = $outDadosPessoais->getOutNumRa();
         $studentDocumentsAndAddress->cpf = $outDocumentos->getOutCpf();
         $studentDocumentsAndAddress->nis = $outDocumentos->getOutNumNis();
