@@ -1,5 +1,7 @@
 <?php
 
+require_once(__DIR__.'/../repository/ReportsRepository.php');
+
 class ReportsController extends Controller
 {
     public $layout = 'reportsclean';
@@ -51,54 +53,19 @@ class ReportsController extends Controller
 
     public function actionTotalNumberOfStudentsEnrolled()
     {
-        $sql = "SELECT
-                    si.name AS school_name,
-                    COUNT(DISTINCT c.id) AS count_class,
-                    COUNT(se.id) AS count_enrollments
-                FROM
-                    school_identification si
-                LEFT JOIN
-                    classroom c ON c.school_inep_fk = si.inep_id
-                LEFT JOIN
-                    student_enrollment se ON se.classroom_fk = c.id
-                WHERE 
-                    c.school_year = :school_year AND se.status = 1
-                GROUP BY
-                    si.inep_id, si.name;";
-
-        $result = Yii::app()->db->createCommand($sql)
-        ->bindParam(":school_year", Yii::app()->user->year)
-        ->queryAll();
-
-        $this->render('TotalNumberOfStudentsEnrolled', array("report" => $result));
+        $repository = new ReportsRepository;
+        $query = $repository->getTotalNumberOfStudentsEnrolled();
+        $this->render('TotalNumberOfStudentsEnrolled', array("report" => $query["result"]));
     }
 
     public function actionStudentCpfRgNisAllSchools()
     {
-        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-        $sql = "SELECT si.name, si.birthday, sdaa.cpf, sdaa.rg_number,
-                    sdaa.nis, si.responsable_name, si.responsable_telephone, si2.name as school_name
-                FROM student_enrollment se
-                JOIN student_identification si ON se.student_fk = si.id
-                JOIN student_documents_and_address sdaa ON si.id = sdaa.id
-                JOIN classroom c ON se.classroom_fk = c.id
-                JOIN school_identification si2 ON c.school_inep_fk = si2.inep_id
-                WHERE se.status = 1 OR se.status IS NULL
-                GROUP BY si.name
-                ORDER BY si.name;";
-
-        $result = Yii::app()->db->createCommand($sql)
-        ->queryAll();
-
-        $allSchools = true;
-
-        $title = "RELATÓRIO DE ALUNOS DE TODAS AS ESCOLAS (CPF, RG E NIS)<br>".$school->name;
-
-        $this->render('StudentCpfRgNis', array(
-            "report" => $result,
-            "title" => $title,
-            "allSchools" => $allSchools
-        ));
+        $repository = new ReportsRepository;
+        $query = $repository->getStudentCpfRgNisAllSchools();
+        $this->render('StudentCpfRgNis',
+        array("report" => $query["result"], 
+              "title" => $query["title"],
+              "allSchools" => $query["allSchools"]));
     }
 
     public function actionStudentCpfRgNisAllClassrooms()
