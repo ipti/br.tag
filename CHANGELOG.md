@@ -1,6 +1,19 @@
-## [Versão 3.57.92]
+
+## [Versão 3.57.96]
+- Adicionado botão de exclusão à tabela de estoque em merenda
+
+## [Versão 3.57.95]
+- Possibilitando a criação do relatório de ata de conselho de classe para turmas do 9° ano
+- Adicionado o campo de observação no relatório de ata de conselho de classe
+## [Versão 3.57.94]
+
+- Corrigido os icones da tela de merenda escolar
+- Modificada a mensagem de exclusão de estoque
+## [Versão 3.57.93]
 - Adicionado o atalho para alterar senha do usuário na barra lateral
 
+## [Versão 3.57.92]
+- adicionando quinto e sexto ano como ensino fundamental menor
 ## [Versão 3.56.92]
 - Adicionado a opção de excluir cardápio
 - Permitido a alteração da data de criação do cardápio

@@ -94,6 +94,17 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
 
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K8P42N6XZ5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-K8P42N6XZ5');
+    </script>
+
     <!-- Hotjar Tracking Code for https://demo.tag.ong.br -->
     <script>
         (function(h,o,t,j,a,r){
@@ -462,8 +473,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
     <script src='<?php echo Yii::app()->baseUrl; ?>/js/layout/functions.js'></script>
     <script src='<?php echo Yii::app()->baseUrl; ?>/js/datatables/init.js'></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/datatables.min.js"></script>
-
-
 </body>
 
 </html>
+

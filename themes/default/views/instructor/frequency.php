@@ -3,13 +3,13 @@
 /* @var $this InstructorController */
 /* @var $dataProvider CActiveDataProvider */
 
-$baseUrl = Yii::app()->baseUrl;
-$themeUrl = Yii::app()->theme->baseUrl;
-$cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/instructor/frequency.js', CClientScript::POS_END);
+    $baseUrl = Yii::app()->baseUrl;
+	$themeUrl = Yii::app()->theme->baseUrl;
+	$cs = Yii::app()->getClientScript();
+	$cs->registerScriptFile($baseUrl . '/js/instructor/frequency.js', CClientScript::POS_END);
 
-$this->setPageTitle('TAG - ' . Yii::t('default', 'Instructor frequency'));
-?>
+	$this->setPageTitle('TAG - ' . Yii::t('default', 'Instructor frequency'));
+    ?>
 <div class="main">
     <?php
     $form = $this->beginWidget('CActiveForm', array(
