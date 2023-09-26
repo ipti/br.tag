@@ -38,10 +38,10 @@
         </div>
         <div id="select-container" class="tablet-row">
             <!-- Professor/ Disciplina-->
-            <div class="mobile-row">
+            <div class="mobile-row helper">
                 <!-- Professor -->
-                <div class="column clearleft">
-                    <div class="t-field-select">
+                <div class="column clearleft on-tablet">
+                    <div class="t-field-select__input">
                         <?php echo CHtml::label(yii::t('default', 'Instructor') . " *", 'instructor', array('class' => 't-field-select__label--required')); ?>
                         <select class="select-search-on t-field-select__input" id="instructor">
                             <option>Selecione o professor</option>
@@ -53,7 +53,7 @@
                 </div>
                 <!-- Turma -->
                 <div class="column clearleft">
-                    <div class="t-field-select">
+                    <div class="t-field-select__input">
                         <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 't-field-select__label--required')); ?>
                         <?php
                         echo CHtml::dropDownList('classrooms', '', array(), array(
@@ -66,10 +66,11 @@
                 </div>
             </div>
             <!-- Turma  / Mês -->
-            <div class="mobile-row">
+            <div class="mobile-row helper">
                 <!-- Disciplina -->
-                <div class="column clearleft">
-                    <div class="t-field-select">
+
+                <div class="column clearleft on-tablet">
+                    <div class="t-field-select__input">
                         <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 't-field-select__label--required')); ?>
                         <?php
                         echo CHtml::dropDownList('disciplines', '', array(), array(
@@ -81,7 +82,7 @@
                     </div>
                 </div>
                 <!-- Mês -->
-                <div class="column clearleft">
+                <div class="column clearleft on-tablet">
                     <div class="t-field-select">
                         <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 't-field-select__label--required')); ?>
                         <?php
