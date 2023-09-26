@@ -1,5 +1,6 @@
 // $("#classesSearch").on("click", function () {
 $("#classesSearch").on("change", function () {
+    console.log("entrei aqui");
     if ($("#classrooms").val() !== "" && $("#month").val() !== ""
         && $("#instructor").val() !== "" && $("#disciplines").val() !== "") {
         $(".alert-required-fields, .alert-incomplete-data").hide();

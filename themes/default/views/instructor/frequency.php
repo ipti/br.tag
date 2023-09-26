@@ -102,10 +102,12 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Instructor frequency'));
                             'key' => 'id',
                             'class' => 'select-search-on t-field-select__input classesSearch',
                             'prompt' => 'Selecione o mês',
+                            'id' => 'classesSearch',
                         ));
                         ?>
                     </div>
                 </div>
+
             </div>
         </div>
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>
