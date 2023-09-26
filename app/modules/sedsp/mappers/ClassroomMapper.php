@@ -9,9 +9,6 @@ class ClassroomMapper
      */
     public static function parseToTAGFormacaoClasse(OutFormacaoClasse $outFormacaoClasse)
     {
-        $basicDataSEDDataSource = new BasicDataSEDDataSource();
-        $tiposEnsino = $basicDataSEDDataSource->getTipoEnsino();
-        
         $stage = self::convertTipoEnsinoToStage(
             $outFormacaoClasse->getOutCodTipoEnsino(), $outFormacaoClasse->getOutCodSerieAno()
         );
