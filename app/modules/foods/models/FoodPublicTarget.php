@@ -1,28 +1,20 @@
 <?php
 
 /**
- * This is the model class for table "food_menu".
+ * This is the model class for table "food_public_target".
  *
- * The followings are the available columns in table 'food_menu':
+ * The followings are the available columns in table 'food_public_target':
+ * @property string $name
  * @property integer $id
- * @property string $description
- * @property string $observation
- * @property string $start_date
- * @property string $final_date
- * @property integer $stage_fk
- *
- * The followings are the available model relations:
- * @property EdcensoStageVsModality $stageFk
- * @property FoodMenuMeal[] $foodMenuMeals
  */
-class FoodMenu extends CActiveRecord
+class FoodPublicTarget extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'food_menu';
+		return 'food_public_target';
 	}
 
 	/**
@@ -33,13 +25,10 @@ class FoodMenu extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('stage_fk, description',  'required'),
-			array('stage_fk', 'numerical', 'integerOnly'=>true),
-			array('description, observation', 'length', 'max'=>100),
-			array('start_date, final_date', 'safe'),
+			array('name', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, description, observation, start_date, final_date, stage_fk', 'safe', 'on'=>'search'),
+			array('name, id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,8 +40,6 @@ class FoodMenu extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'stageFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'stage_fk'),
-			'foodMenuMeals' => array(self::HAS_MANY, 'FoodMenuMeal', 'food_menuId'),
 		);
 	}
 
@@ -62,12 +49,8 @@ class FoodMenu extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
+			'name' => 'Name',
 			'id' => 'ID',
-			'description'  => 'Nome',
-	        'observation'  => 'Observação',
-	        'start_date'  => 'Data inicial',
-	        'final_date'  =>'Data Final',
-	        'stage_fk'  => 'Publico',
 		);
 	}
 
@@ -89,12 +72,8 @@ class FoodMenu extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		$criteria->compare('name',$this->name,true);
 		$criteria->compare('id',$this->id);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('observation',$this->observation,true);
-		$criteria->compare('start_date',$this->start_date,true);
-		$criteria->compare('final_date',$this->final_date,true);
-		$criteria->compare('stage_fk',$this->stage_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -105,7 +84,7 @@ class FoodMenu extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return FoodMenu the static model class
+	 * @return FoodPublicTarget the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

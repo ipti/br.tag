@@ -2,6 +2,7 @@
 
     .ui-accordion-header {
         display: flex !important;
+        align-items: center;
         background: $colorsBaseCloudLight ;
         cursor: pointer;
         padding: $SizeXXXSmall $SizeSmall !important;
@@ -13,6 +14,12 @@
             margin: 0 $SizeXSmall;
             font-weight: $fontWeightRegular;
             color: $colorsTextPrimary;
+        }
+        .t-accordion-input-header {
+            border: none;
+            background: none;
+            box-shadow: none;
+            margin-bottom: 0;
         }
     }
 

@@ -32,10 +32,15 @@ $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END
 				<?php echo $form->textField($model,'description', array('class'=>'t-field-text__input')); ?>
 				<?php echo $form->error($model,'description'); ?>
 			</div>
-			<div class="t-field-select column">
+			<div class="t-multiselect clear-margin--top column">
 				<?php echo $form->labelEx($model,'stage_fk', array('class' => 't-field-select__label')); ?>
-				<?php echo $form->dropDownList($model, 'stage_fk',[], 
-				array( 'class' => 'select-search-on t-field-select__input')); ?>
+				<?php echo $form->dropDownList($model, 'stage_fk', 
+				CHtml::listData(FoodPublicTarget::model()->findAll(), 'id', 'name'),
+				array(
+					'key' => 'id',
+					'prompt' => 'Selecione a etapa...',
+					'multiple' => 'multiple',
+					'class' => 'select-search-on t-field-select__input')); ?>
 				<?php echo $form->error($model,'stage_fk'); ?>
 			</div>
 		</div>
@@ -137,6 +142,12 @@ $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END
 						<a class="t-button-primary js-add-plate">
 							Adicionar Prato
 						</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="column">
+						<div id="js-accordion" class="t-accordeon-primary">
+						</div>
 					</div>
 				</div>
 			</div>

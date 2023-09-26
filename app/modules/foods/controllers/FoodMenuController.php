@@ -28,7 +28,7 @@ class FoodMenuController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','plateAccordion'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -74,11 +74,22 @@ class FoodMenuController extends Controller
 				$this->redirect(array('view','id'=>$model->id));
 		}
 
+		$stages = Yii::app()->db->createCommand(
+			"select esvm.id, esvm.name from edcenso_stage_vs_modality esvm
+		 	join curricular_matrix cm on cm.stage_fk = esvm.id
+			where school_year = :year order by esvm.name")
+			->bindParam(":year", Yii::app()->user->year)->queryAll();
 		$this->render('create',array(
 			'model'=>$model,
+			'stages'=>$stages,
 		));
 	}
 
+
+	public function actionPlateAccordion ()
+	{
+		$this->renderPartial('_plateAccordion', array());
+	}
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.

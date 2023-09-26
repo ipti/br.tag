@@ -15,3 +15,8 @@ $(".js-date").datepicker({
 }).on('changeDate', function (ev, indirect) {
    
 })
+$( "#js-accordion" ).accordion({
+    active: false,
+    collapsible: true,
+    icons: false,
+});
