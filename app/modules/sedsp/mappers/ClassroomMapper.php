@@ -8,16 +8,21 @@ class ClassroomMapper
      * @return array<Classroom|StudentIdentification[]>
      */
     public static function parseToTAGFormacaoClasse(OutFormacaoClasse $outFormacaoClasse)
-    {    
-        $basicDataSEDDataSource = new BasicDataSEDDataSource();
-        $tiposEnsino = $basicDataSEDDataSource->getTipoEnsino();
-        $stage = self::convertTipoEnsinoToStage($outFormacaoClasse->getOutCodTipoEnsino(), $outFormacaoClasse->getOutCodSerieAno());
-        $serieName = self::getNameSerieFromClasse($outFormacaoClasse->getOutCodTipoEnsino(), $tiposEnsino);
-
+    {
+        $stage = self::convertTipoEnsinoToStage(
+            $outFormacaoClasse->getOutCodTipoEnsino(), $outFormacaoClasse->getOutCodSerieAno()
+        );
+        
         $classroomTag = new Classroom();
         $classroomTag->school_inep_fk =  SchoolMapper::mapToTAGInepId($outFormacaoClasse->getOutCodEscola());
         $classroomTag->gov_id = $outFormacaoClasse->getOutNumClasse();
-        $classroomTag->name = $serieName->getOutDescTipoEnsino()." ".$outFormacaoClasse->getOutTurma();
+
+        $classroomSEDDataSource = new ClassroomSEDDataSource();
+        $response = $classroomSEDDataSource->getConsultClass(
+            new InConsultaTurmaClasse("2023", $outFormacaoClasse->getOutNumClasse())
+        );
+
+        $classroomTag->name = $response->getOutDescricaoTurma();
         $classroomTag->edcenso_stage_vs_modality_fk = $stage;
         $classroomTag->schooling = 1;
         $classroomTag->assistance_type = 0;
@@ -35,44 +40,53 @@ class ClassroomMapper
         $classroomTag->week_days_saturday = 1;
         $classroomTag->school_year = '2023';
         $classroomTag->pedagogical_mediation_type = 1;
-    
+
         $indexedByAcronym = [];
 		$edcensoUf = EdcensoUf::model()->findAll();
 		foreach ($edcensoUf as $uf) {
 			$indexedByAcronym[$uf['acronym']] = $uf;
 		}
-    
+
         $studentDatasource = new StudentSEDDataSource();
         $listStudents = [];
         $students = $outFormacaoClasse->getOutAlunos();
         foreach ($students as $student) {
-            $studentIdentification = new StudentIdentification();
-            $studentIdentification->gov_id = $student->getOutNumRa();
-            $studentIdentification->name = $student->getOutNomeAluno();
-            $studentIdentification->birthday = $student->getOutDataNascimento();         
-           
-            $outExibirFichaAluno = $studentDatasource->exibirFichaAluno(new InAluno($student->getOutNumRa(), $student->getOutDigitoRA(), "SP"))->getOutDadosPessoais();
-
-            $studentIdentification->sex = $outExibirFichaAluno->getOutCodSexo();
-            $studentIdentification->color_race = $outExibirFichaAluno->getOutCorRaca();
-            $studentIdentification->filiation = 1;
-            $studentIdentification->filiation_1 = $outExibirFichaAluno->getOutNomeMae();
-            $studentIdentification->filiation_2 = $outExibirFichaAluno->getOutNomePai();
-            $studentIdentification->nationality = $outExibirFichaAluno->getOutNacionalidade();
-            $studentIdentification->uf = $student->getOutSiglaUfra();
-
-            if($outExibirFichaAluno->getOutNacionalidade() == 1) //1 - Brasileira
-                $studentIdentification->edcenso_nation_fk = 76;
-            elseif($outExibirFichaAluno->getOutNacionalidade() == 2) //2 - Estrangeira
-                $studentIdentification->edcenso_nation_fk = $outExibirFichaAluno->getOutCodPaisOrigem();
-
-            $studentIdentification->edcenso_uf_fk = intval($indexedByAcronym[$outExibirFichaAluno->getOutSiglaUfra()]->id);
-            $studentIdentification->school_inep_id_fk = $studentIdentification->edcenso_uf_fk . $outFormacaoClasse->getOutCodEscola();
-            $studentIdentification->deficiency = 0;
-            $studentIdentification->send_year = $outFormacaoClasse->getOutAnoLetivo();
-            $studentIdentification->scholarity = $student->getOutSerieNivel();
-         
-            $listStudents[] = $studentIdentification;
+            if($student->getOutDescSitMatricula() === 'ATIVO') {
+                $studentIdentification = new StudentIdentification();
+                $studentIdentification->gov_id = $student->getOutNumRa();
+                $studentIdentification->name = $student->getOutNomeAluno();
+                $studentIdentification->birthday = $student->getOutDataNascimento();
+    
+                $outExibirFichaAluno = $studentDatasource->exibirFichaAluno(
+                    new InAluno($student->getOutNumRa(), $student->getOutDigitoRA(), "SP")
+                )->getOutDadosPessoais();
+    
+                $studentIdentification->sex = $outExibirFichaAluno->getOutCodSexo();
+                $studentIdentification->color_race = $outExibirFichaAluno->getOutCorRaca();
+                $studentIdentification->filiation = 1;
+                $studentIdentification->filiation_1 = $outExibirFichaAluno->getOutNomeMae();
+                $studentIdentification->filiation_2 = $outExibirFichaAluno->getOutNomePai();
+                $studentIdentification->nationality = $outExibirFichaAluno->getOutNacionalidade();
+                $studentIdentification->uf = $student->getOutSiglaUfra();
+    
+                if($outExibirFichaAluno->getOutNacionalidade() == 1) { //1 - Brasileira
+                    $studentIdentification->edcenso_nation_fk = 76;
+                }elseif($outExibirFichaAluno->getOutNacionalidade() == 2){ //2 - Estrangeira
+                    $studentIdentification->edcenso_nation_fk = $outExibirFichaAluno->getOutCodPaisOrigem();
+                }
+    
+                $studentIdentification->edcenso_uf_fk = intval(
+                    $indexedByAcronym[$outExibirFichaAluno->getOutSiglaUfra()]->id
+                );
+    
+                $schoolInepIdFk = $studentIdentification->edcenso_uf_fk . $outFormacaoClasse->getOutCodEscola();
+                $studentIdentification->school_inep_id_fk = $schoolInepIdFk;
+                $studentIdentification->deficiency = 0;
+                $studentIdentification->send_year = $outFormacaoClasse->getOutAnoLetivo();
+                $studentIdentification->scholarity = $student->getOutSerieNivel();
+    
+                $listStudents[] = $studentIdentification;
+            }
         }
 
         $parseResult = [];
@@ -82,17 +96,24 @@ class ClassroomMapper
         return $parseResult;
     }
 
-    public static function parseToTAGRelacaoClasses(OutRelacaoClasses $outRelacaoClasses) 
+    public static function parseToTAGRelacaoClasses(OutRelacaoClasses $outRelacaoClasses)
     {
         $schoolInepFk = SchoolMapper::mapToTAGInepId($outRelacaoClasses->getOutCodEscola());
         $outClasses = $outRelacaoClasses->getOutClasses();
-    
+
+        
         $arrayClasses = [];
         foreach ($outClasses as $classe) {
             $classroom = new Classroom();
             $classroom->school_inep_fk = $schoolInepFk;
             $classroom->gov_id = $classe->getOutNumClasse();
-            $classroom->name = $classe->getOutDescTipoEnsino() .' '. $classe->getOutTurma();
+
+            $classroomSEDDataSource = new ClassroomSEDDataSource();
+            $response = $classroomSEDDataSource->getConsultClass(
+                new InConsultaTurmaClasse("2023", $classe->getOutNumClasse())
+            );
+
+            $classroom->name = $response->getOutDescricaoTurma();
             $classroom->pedagogical_mediation_type = 1;
             $classroom->initial_hour = substr($classe->getOutHorarioInicio(), 0, 2);
             $classroom->initial_minute = substr($classe->getOutHorarioInicio(), -2);
@@ -107,7 +128,9 @@ class ClassroomMapper
             $classroom->week_days_saturday = 1;
             $classroom->assistance_type = 0;
             $classroom->modality = 1;
-            $classroom->edcenso_stage_vs_modality_fk = self::convertTipoEnsinoToStage($classe->getOutCodTipoEnsino(), $classe->getOutCodSerieAno());
+            $classroom->edcenso_stage_vs_modality_fk = self::convertTipoEnsinoToStage(
+                $classe->getOutCodTipoEnsino(), $classe->getOutCodSerieAno()
+            );
             $classroom->school_year = $outRelacaoClasses->getOutAnoLetivo();
             $classroom->turn = self::convertCodTurno($classe->getOutCodTurno());
             $classroom->schooling = 1;
@@ -117,7 +140,7 @@ class ClassroomMapper
 
         $parseResult = [];
         $parseResult["Classrooms"] =  $arrayClasses;
-        
+
         return $parseResult;
     }
 
@@ -125,13 +148,15 @@ class ClassroomMapper
      * Summary of parseToTAGConsultaClasse
      * @param string $inNumClassrom
      * @param OutConsultaTurmaClasse $outConsultaTurmaClasse
-     * 
+     *
      * @return Classroom
      */
     public static function parseToTAGConsultaClasse($inNumClassrom, OutConsultaTurmaClasse $outConsultaTurmaClasse){
         $basicDataSEDDataSource = new BasicDataSEDDataSource();
         $listaTiposEnsino = $basicDataSEDDataSource->getTipoEnsino();
-        $stage = self::convertTipoEnsinoToStage($outConsultaTurmaClasse->getOutCodTipoEnsino(), $outConsultaTurmaClasse->getOutCodSerieAno());
+        $stage = self::convertTipoEnsinoToStage(
+            $outConsultaTurmaClasse->getOutCodTipoEnsino(), $outConsultaTurmaClasse->getOutCodSerieAno()
+        );
         $serieName = self::getNameSerieFromClasse($outConsultaTurmaClasse->getOutCodTipoEnsino(), $listaTiposEnsino);
 
         $classroomTag = new Classroom();
@@ -170,8 +195,10 @@ class ClassroomMapper
             "6" => 'I'  //Integral
         ];
 
-        if(isset($mapperCodTurno[$outCodTurno]))
+        if(isset($mapperCodTurno[$outCodTurno])) {
             return $mapperCodTurno[$outCodTurno];
+        }
+            
         throw new Exception("Código do turno não existe.", 1);
     }
 
@@ -196,8 +223,8 @@ class ClassroomMapper
                 "5" => 1,
                 "6" => 1,
                 "7" => 1,
-                "0" => 3    
-            ],  
+                "0" => 3
+            ],
             "14" => [
                 "1" => 14,
                 "2" => 15,
@@ -240,10 +267,10 @@ class ClassroomMapper
      * @param OutTiposEnsino $tiposEnsino
      * @return OutTipoEnsino
      */
-    private static function getNameSerieFromClasse($codTipoEnsino, $listaTiposEnsino) 
+    private static function getNameSerieFromClasse($codTipoEnsino, $listaTiposEnsino)
     {
         $codTypeEducation = array_column($listaTiposEnsino->getOutTipoEnsino(), "outCodTipoEnsino");
-        $educationTypeIndex = array_search($codTipoEnsino, $codTypeEducation); 
+        $educationTypeIndex = array_search($codTipoEnsino, $codTypeEducation);
 
         return $listaTiposEnsino->getOutTipoEnsino()[$educationTypeIndex];
     }
