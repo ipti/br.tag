@@ -1,6 +1,5 @@
-// $("#classesSearch").on("click", function () {
-$("#classesSearch").on("change", function () {
-    console.log("entrei aqui");
+$("#month").on("change", function () {
+
     if ($("#classrooms").val() !== "" && $("#month").val() !== ""
         && $("#instructor").val() !== "" && $("#disciplines").val() !== "") {
         $(".alert-required-fields, .alert-incomplete-data").hide();
@@ -13,6 +12,7 @@ $("#classesSearch").on("change", function () {
                 classroom: $("#classrooms").val(),
                 discipline: $("#disciplines").val(),
                 month: $("#month").val(),
+
             },
             beforeSend: function () {
                 $(".loading-frequency").css("display", "inline-block");

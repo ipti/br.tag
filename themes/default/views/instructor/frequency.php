@@ -102,7 +102,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Instructor frequency'));
                             'key' => 'id',
                             'class' => 'select-search-on t-field-select__input classesSearch',
                             'prompt' => 'Selecione o mês',
-                            'id' => 'classesSearch',
                         ));
                         ?>
                     </div>
