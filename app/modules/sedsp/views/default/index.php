@@ -175,7 +175,11 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         <h4 class="modal-title" id="myModalLabel">Importar Escola:</h4>
     </div>
     <form class="form-vertical" id="submit-full-school" action="<?php echo Yii::app()->createUrl('sedsp/default/ImportFullSchool') ?>" method="post">
-        <input type="hidden" name="nameSchool" value="<?php echo SchoolIdentification::model()->findBySql("select name from school_identification where inep_id = " . Yii::app()->user->school)->name; ?>">
+        <input type="hidden" name="nameSchool" 
+            value="<?php echo SchoolIdentification::model()->findBySql(
+                "select name from school_identification where inep_id = " . Yii::app()->user->school
+            )->name; ?>"
+        >
         <div class="modal-body">
         <?php echo SchoolIdentification::model()->findBySql("select name from school_identification where inep_id = " . Yii::app()->user->school)->name?>
             <div id="loading-container-school" style="display: none;">
