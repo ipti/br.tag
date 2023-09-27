@@ -288,8 +288,9 @@ class DefaultController extends Controller
 	public function actionImportFullSchool()
 	{
 		$this->checkSEDToken();
+		
 		try {
-			$inEscola = new InEscola($_POST["schoolName"], null, null, null);
+			$inEscola = new InEscola($_POST['nameSchool'], null, null, null);
 			$escola = new GetEscolasFromSEDUseCase();
 			$statusSave = $escola->exec($inEscola);
 
