@@ -95,21 +95,6 @@ class StudentMapper
         $outCertidaoAntiga = $exibirFichaAluno->getOutCertidaoAntiga();
         $outEnderecoResidencial = $exibirFichaAluno->getOutEnderecoResidencial();
 
-/*         $listaAluno = new EnrollmentSEDDataSource();
-        $response = (object) $listaAluno->getListarMatriculasRA(new InAluno($outDadosPessoais->getOutNumRa(), null, $outDadosPessoais->getOutSiglaUfra()));
-
-        $escola = new GetEscolasFromSEDUseCase();
-
-        $array = $response->outListaMatriculas;
-        foreach ($array as $item) {
-
-            if ($item->outDescSitMatricula === 'ATIVO' && $item->outMunicipio === 'UBATUBA') {
-
-
-                $schoolInep = $escola->buildSchoolId($item->outCodEscola);
-            }
-        } */
-
         $inepId = Yii::app()->user->school;
 
         $studentIdentification = new StudentIdentification;
