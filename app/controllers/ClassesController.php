@@ -206,9 +206,9 @@ class ClassesController extends Controller
         }
     }
 
-    private function loadScheduleByStage($is_minor_education, $classroom, $month, $discipline)
+    private function loadScheduleByStage($isMinorEducation, $classroom, $month, $discipline)
     {
-        if ($is_minor_education == "1") {
+        if ($isMinorEducation == "1") {
             return Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk group by day order by day, schedule", ["classroom_fk" => $classroom, "month" => $month, "discipline_fk" => $discipline]);
         }
 
