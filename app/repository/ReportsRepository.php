@@ -1385,6 +1385,189 @@ class ReportsRepository {
     }
 
     /**
-     * 
+     * Relação Cloc por Turma (descontinuada)
      */
+    public function getClocPerClassroom($classroomId) : array
+    {
+        $sql = "SELECT
+        `s`.`id`                                AS `enrollment`,
+        `s`.`name`                              AS `name`,
+        IF((`s`.`sex` = 1),'M','F')             AS `sex`,
+        `s`.`birthday`                          AS `birthday`,
+        `s`.`responsable_telephone`             AS `phone`,
+        `se`.`current_stage_situation`          AS `situation`,
+        `se`.`admission_type`                   AS `admission_type`,
+        `se`.`status`                           AS `status`,
+        `en`.`acronym`                          AS `nation`,
+        `ec`.`name`                             AS `city`,
+        `euf`.`acronym`                         AS `uf`,
+        `sd`.`address`                          AS `address`,
+        `sd`.`number`                           AS `number`,
+        `sd`.`complement`                       AS `complement`,
+        `sd`.`neighborhood`                     AS `neighborhood`,
+        `sd`.`civil_certification`              AS `cc`,
+        `sd`.`civil_register_enrollment_number` AS `cc_new`,
+        `sd`.`civil_certification_term_number`  AS `cc_number`,
+        `sd`.`civil_certification_book`         AS `cc_book`,
+        `sd`.`civil_certification_sheet`        AS `cc_sheet`,
+        `s`.`filiation_1`                       AS `mother`,
+        `s`.`deficiency`                        AS `deficiency`,
+        `c`.`id`                                AS `classroom_id`,
+        `c`.`school_year`                       AS `year`
+        FROM ((((((`student_identification` `s`
+              JOIN `student_documents_and_address` `sd`
+                ON ((`s`.`id` = `sd`.`id`)))
+             LEFT JOIN `edcenso_nation` `en`
+               ON ((`s`.`edcenso_nation_fk` = `en`.`id`)))
+            LEFT JOIN `edcenso_uf` `euf`
+              ON ((`s`.`edcenso_uf_fk` = `euf`.`id`)))
+           LEFT JOIN `edcenso_city` `ec`
+             ON ((`s`.`edcenso_city_fk` = `ec`.`id`)))
+          JOIN `student_enrollment` `se`
+            ON ((`s`.`id` = `se`.`student_fk`)))
+         JOIN `classroom` `c`
+           ON ((`se`.`classroom_fk` = `c`.`id`)))
+                where  `c`.`school_year`  = :school_year AND 
+                `c`.`id` = :classroom_id AND 
+                (status = 1 OR status IS NULL) 
+        ORDER BY name;";
+
+        $result = Yii::app()->db->createCommand($sql)
+                ->bindParam(':school_year', $this->currentYear)
+                ->bindParam(':classroom_id', $classroomId)
+                ->queryAll();
+
+        $classroom = Classroom::model()->findByPk($classroomId);
+
+        $response = array('report' => $result,'classroom' => $classroom);
+
+        return $response;
+    }
+
+    /**
+     * Alunos por Turma
+     */
+    public function getStudentsByClassroomReport() : array
+    {
+        $school = SchoolIdentification::model()->findByPk($this->currentSchool);
+
+        $sql = "SELECT c.*, q.modality,q.stage
+                    FROM classroom AS c 
+                JOIN classroom_qtd_students AS q ON c.school_inep_fk = q.school_inep_fk
+                WHERE c.school_year = :school_year AND 
+                      q.school_year = :school_year AND 
+                      c.school_inep_fk = :school_inep_fk AND 
+                      q.school_inep_fk = :school_inep_fk  AND 
+                      c.id = q.id
+                ORDER BY name";
+
+        $classrooms = Yii::app()->db->createCommand($sql)
+                    ->bindParam(':school_year', $this->currentYear)
+                    ->bindParam(':school_inep_fk', $this->currentSchool)
+                    ->queryAll();
+
+        $sql = "SELECT DISTINCT se.classroom_fk,si.inep_id,si.name,si.birthday
+                    FROM student_identification AS si
+                JOIN student_enrollment AS se ON si.id = se.student_fk
+                JOIN classroom AS c ON se.classroom_fk = c.id
+                WHERE se.school_inep_id_fk = :school_inep_id_fk AND 
+                      c.school_year = :school_year AND 
+                      (se.status = 1 OR se.status IS NULL) 
+                ORDER BY si.name";
+
+        $students = Yii::app()->db->createCommand($sql)
+                    ->bindParam(':school_year', $this->currentYear)
+                    ->bindParam(':school_inep_id_fk', $this->currentSchool)
+                    ->queryAll();
+
+        $response = array('school' => $school, 'classroom' => $classrooms, 'students' => $students);
+
+        return $response;
+    }
+
+    /**
+     * Alunos com idade entre 5 e 14 anos (SUS)
+     */
+    public function getStudentsBetween5And14YearsOldReport() : array
+    {
+        $school = SchoolIdentification::model()->findByPk($this->currentSchool);
+
+        $sql = "SELECT c.*, q.modality,q.stage
+                    FROM classroom AS c 
+                JOIN classroom_qtd_students AS q ON c.school_inep_fk = q.school_inep_fk
+                WHERE c.school_year = :year AND 
+                      q.school_year = :year AND 
+                      c.school_inep_fk = :school AND 
+                      q.school_inep_fk = :school  AND 
+                      c.id = q.id AND 
+                      (q.status = 1 OR q.status IS NULL)
+                ORDER BY name";
+
+        $classrooms = Yii::app()->db->createCommand($sql)
+                    ->bindParam(":year", $this->currentYear)
+                    ->bindParam(":school", $this->currentSchool)
+                    ->queryAll();
+
+        $sql = "SELECT se.classroom_fk,si.inep_id,si.name,si.birthday , 
+                        si.filiation_1, si.filiation_2
+                    FROM (student_identification AS si 
+                JOIN student_enrollment AS se ON si.id = se.student_fk 
+                JOIN classroom AS c ON se.classroom_fk = c.id )
+                WHERE se.school_inep_id_fk = :school AND 
+                      c.school_year = :year AND 
+                      (se.status = 1 OR se.status IS NULL) 
+                ORDER BY si.name ";
+
+        $students = Yii::app()->db->createCommand($sql)
+                    ->bindParam(":year", $this->currentYear)
+                    ->bindParam(":school", $this->currentSchool)
+                    ->queryAll();
+
+        $response = array('school' => $school,'classroom' => $classrooms,'students' => $students);
+
+        return $response;
+    }
+
+    /**
+     * Monitores de Atividade Complementar
+     */
+    public function getComplementarActivityAssistantByClassroomReport() : array
+    {
+        $school = SchoolIdentification::model()->findByPk($this->currentSchool);
+
+        $sql = "SELECT c.*, q.modality,q.stage
+                    FROM classroom AS c 
+                JOIN classroom_qtd_students AS q ON c.school_inep_fk = q.school_inep_fk
+                WHERE c.assistance_type = 4 AND 
+                      c.school_year = :school_year AND 
+                      q.school_year = :school_year AND 
+                      c.school_inep_fk = :school_inep_fk AND 
+                      q.school_inep_fk = :school_inep_fk  AND 
+                      c.id = q.id
+                ORDER BY name";
+
+        $classrooms = Yii::app()->db->createCommand($sql)
+                    ->bindParam(':school_year', $this->currentYear)
+                    ->bindParam(':school_inep_fk', $this->currentSchool)
+                    ->queryAll();
+
+        $sql = "SELECT id.*,it.classroom_id_fk , iv.scholarity
+                    FROM (((instructor_identification AS id 
+                JOIN instructor_teaching_data AS it ON it.instructor_fk = id.id)
+                JOIN instructor_variable_data AS iv ON iv.id = id.id) 
+                JOIN classroom AS c ON c.id = it.classroom_id_fk)
+                WHERE id.school_inep_id_fk = :school_inep_id_fk AND 
+                      (it.role = 2 or it.role = 3) AND 
+                      c.school_year = :school_year 
+                ORDER BY c.name";
+
+        $instructor = Yii::app()->db->createCommand($sql)
+                    ->bindParam(':school_year', $this->currentYear)
+                    ->bindParam(':school_inep_id_fk', $this->currentSchool)
+                    ->queryAll();
+
+        $response = array("school" => $school, "classroom" => $classrooms, 'instructor' => $instructor);
+
+        return $response;
+    }
 }
