@@ -221,97 +221,19 @@ class ReportsController extends Controller
         }
     }
 
-    // @todo marcação para continuar dps
-
     public function actionEvaluationFollowUpStudentsReport()
     {
-        $discipline_id = $_POST['evaluation_follow_up_disciplines'];
-        $classroom_id = $_POST['evaluation_follow_up_classroom'];
-        $quarterly = $_POST['quarterly'];
-
-        $classroom = Classroom::model()->findByPk($classroom_id);
-        $discipline = EdcensoDiscipline::model()->findByPk($discipline_id);
-
-        $sql = "SELECT ii.name AS instructor_name, ed.name AS discipline_name
-                FROM edcenso_discipline ed
-                JOIN curricular_matrix cm ON cm.discipline_fk = ed.id
-                JOIN teaching_matrixes tm ON tm.curricular_matrix_fk = cm.id
-                JOIN instructor_teaching_data itd ON itd.id = tm.teaching_data_fk
-                JOIN classroom c ON c.id = itd.classroom_id_fk
-                JOIN instructor_identification ii ON itd.instructor_fk = ii.id
-                WHERE ed.id = :discipline_id AND c.id = :classroom_id
-                GROUP BY ii.name;";
-
-        $instructor = Yii::app()->db->createCommand($sql)
-        ->bindParam(":discipline_id", $discipline_id)
-        ->bindParam(":classroom_id", $classroom_id)
-        ->queryAll();
-
-        $sql = "SELECT si.name AS student_name FROM student_enrollment se
-                JOIN student_identification si on si.id = se.student_fk
-                WHERE se.classroom_fk = :classroom_id
-                ORDER BY se.daily_order, si.name;";
-
-        $students = Yii::app()->db->createCommand($sql)->bindParam(":classroom_id", $classroom_id)->queryAll();
-
-        $classroom_stage_name = $classroom->edcensoStageVsModalityFk->name;
-        $parts = explode("-", $classroom_stage_name);
-        $stage_name = trim($parts[1]);
-
-        $anos1 = array("1º", "2º", "3º");
-        $anos2 = array("4º", "5º");
-
-        $anosTitulo = '';
-        $anosVerify = 0;
-        $anosPosition = 0;
-        $stageVerify = false;
-
-        for ($i = 0; $i < count($anos1); $i++) {
-            if (strpos($stage_name, $anos1[$i]) !== false) {
-                $anosTitulo = "1º, 2º e 3º ANOS";
-                $anosVerify = 1;
-                $anosPosition = $i + 1;
-                $stageVerify = true;
-                break;
-            }
-        }
-        for ($i = 0; $i < count($anos2); $i++) {
-            if (strpos($stage_name, $anos2[$i]) !== false) {
-                $anosTitulo = "4º E 5º ANOS";
-                $anosVerify = 2;
-                $anosPosition = $i + 4;
-                $stageVerify = true;
-                break;
-            }
-        }
-
-        if(!$stageVerify) {
-            Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom->name." não possui uma etapa correspondente ao relatório. Etapa da Turma: ".$classroom_stage_name));
+        $repository = new ReportsRepository;
+        $query = $repository->getEvaluationFollowUpStudentsReport(Yii::app()->request);
+        if($query["error"]) {
+            Yii::app()->user->setFlash('error', Yii::t('default', $query["message"]));
             return $this->redirect(array('index'));
-        }
-
-        if($instructor) {
-            if($students) {
-                $this->render('buzios/quarterly/EvaluationFollowUpReport', array(
-                    "instructor" => $instructor,
-                    "students" => $students,
-                    "classroom" => $classroom,
-                    "discipline" => $discipline,
-                    "anosTitulo" => $anosTitulo,
-                    "anosVerify" => $anosVerify,
-                    "anosPosition" => $anosPosition,
-                    "quarterly" => $quarterly
-                ));
-            } else {
-                Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom->name." não possui alunos matriculados"));
-                return $this->redirect(array('index'));
-            }
-        } else {
-            Yii::app()->user->setFlash('error', Yii::t('default', "A turma ".$classroom->name." não possui professores para a disciplina de ".$discipline->name));
-            return $this->redirect(array('index'));
+        }else {
+            $this->render('buzios/quarterly/EvaluationFollowUpReport', $query["response"]);
         }
     }
 
+    //@todo separar dos demais
     public function actionGetStudentClassrooms($id)
     {
         $classroom = Classroom::model()->findByPk($id);
@@ -323,88 +245,13 @@ class ReportsController extends Controller
 
     public function actionClassCouncilReport()
     {
-        $count_days = $_POST['count_days'];
-        $mounth = $_POST['mounth'];
-        $hour = str_replace(":", "h", $_POST['hour']);
-        $quarterly = $_POST['quarterly'];
-        $school_inep_id = Yii::app()->user->school;
-        $infantil = $_POST['infantil-model'];
-        $year = $_POST['year'];
-        $condition = '';
-        if (isset($_POST['classroom2']) && $_POST['classroom2'] != '') {
-            $condition = " AND c.id = $_POST[classroom2] ";
-            $sql = "SELECT
-                    e.name as school_name, c.name as classroom_name, c.id as classroom_id,
-                    s.*, se.status, se.create_date, se.observation, ii.name as prof_name, ed.name as discipline,
-                    c.turn as turno, esvm.stage as stage_id ,esvm.name as class_stage, se.date_cancellation_enrollment as date_cancellation
-                FROM
-                    student_enrollment as se
-                    INNER JOIN classroom as c on se.classroom_fk=c.id
-                    INNER JOIN student_identification as s on s.id=se.student_fk
-                    INNER JOIN school_identification as e on c.school_inep_fk = e.inep_id
-                    INNER JOIN instructor_teaching_data as itd on c.id = itd.classroom_id_fk
-                    INNER JOIN teaching_matrixes as tm on itd.id = tm.teaching_data_fk
-                    INNER JOIN curricular_matrix as cm on tm.curricular_matrix_fk = cm.id
-                    INNER JOIN edcenso_discipline as ed on cm.discipline_fk = ed.id
-                    INNER JOIN instructor_identification as ii on itd.instructor_fk = ii.id
-                    INNER JOIN edcenso_stage_vs_modality as esvm on c.edcenso_stage_vs_modality_fk = esvm.id
-                WHERE
-                    c.school_year = :year AND
-                    c.school_inep_fk = :school_inep_id
-                    $condition
-                ORDER BY se.daily_order";
-
-            $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":school_inep_id", $school_inep_id)->queryAll();
-
-            $stage_id = $classrooms[0]['stage_id'];
-            $current_report = 0;
-            if ($stage_id == 1 || $stage_id == 2) {
-                $current_report = 1;
-            } elseif ($stage_id == 3 || $stage_id == 7) {
-                $current_report = 2;
-            } elseif ($stage_id == 4) {
-                $current_report = 3;
-            }
-
-            $title = '';
-            if($infantil) {
-                $title = "EDUCAÇÃO INFANTIL";
-            }
-
-            if($classrooms[0] != null) {
-                if ($current_report == 1) {
-                    $this->render('buzios/quarterly/QuarterlyClassCouncil', array(
-                        "classroom" => $classrooms,
-                        "count_days" => $count_days,
-                        "mounth" => $mounth,
-                        "hour" => $hour,
-                        "quarterly" => $quarterly,
-                        "year" => $year,
-                        "title" => $title
-                    ));
-                } elseif ($current_report == 2) {
-                    $this->render('buzios/quarterly/QuarterlyClassCouncilSixNineYear', array(
-                        "classroom" => $classrooms,
-                        "count_days" => $count_days,
-                        "mounth" => $mounth,
-                        "hour" => $hour,
-                        "quarterly" => $quarterly,
-                        "year" => $year
-                    ));
-                } elseif ($current_report == 3) {
-                    $this->render('buzios/quarterly/QuarterlyClassCouncilHighSchool', array(
-                        "classroom" => $classrooms,
-                        "count_days" => $count_days,
-                        "mounth" => $mounth,
-                        "hour" => $hour,
-                        "quarterly" => $quarterly,
-                        "year" => $year
-                    ));
-                }
-            } else {
-                Yii::app()->user->setFlash('error', Yii::t('default', 'Certifique-se de que a turma selecionada tem professores, alunos e disciplinas cadastradas'));
-                return $this->redirect(array('index'));
-            }
+        $repository = new ReportsRepository;
+        $query = $repository->getClassCouncilReport(Yii::app()->request);
+        if($query["error"]) {
+            Yii::app()->user->setFlash('error', Yii::t('default', $query["message"]));
+            return $this->redirect(array('index'));
+        }else {
+            $this->render($query["view"], $query["response"]);
         }
     }
 
