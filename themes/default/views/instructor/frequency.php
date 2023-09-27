@@ -69,7 +69,7 @@
             <div class="mobile-row helper">
                 <!-- Disciplina -->
 
-                <div class="column clearleft on-tablet">
+                <div class="column clearleft on-tablet" style="min-width: 71%">
                     <div class="t-field-select__input">
                         <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 't-field-select__label--required')); ?>
                         <?php
@@ -82,8 +82,7 @@
                     </div>
                 </div>
                 <!-- Mês -->
-                <div class="column clearleft on-tablet">
-                    <div class="t-field-select">
+                <div class="column clearleft on-tablet t-field-select">
                         <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 't-field-select__label--required')); ?>
                         <?php
                         echo CHtml::dropDownList('month', '', array(
@@ -105,7 +104,6 @@
                             'prompt' => 'Selecione o mês',
                         ));
                         ?>
-                    </div>
                 </div>
 
             </div>
