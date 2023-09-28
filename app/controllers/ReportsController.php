@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__.'/../repository/ReportsRepository.php');
+require_once __DIR__.'/../repository/ReportsRepository.php';
 
 class ReportsController extends Controller
 {
