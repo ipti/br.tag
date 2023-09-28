@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../vendor/yiisoft/yii/framework/db/schema/CDbCriteria.php';
+include_once __DIR__.'/../vendor/yiisoft/yii/framework/db/schema/CDbCriteria.php';
 
 class ReportsRepository {
 
