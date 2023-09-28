@@ -31,7 +31,8 @@ class GetExibirFichaAlunoFromSEDUseCase
             return $studentIdentification;
             
         } catch (Exception $e) {
-            CVarDumper::dump($e->getMessage(), 10, true);
+            $log = new LogError();
+            $log->salvarDadosEmArquivo($e->getMessage());
         }
 
         throw new SedspException("Não foi possivel cadastrar aluno", 1);

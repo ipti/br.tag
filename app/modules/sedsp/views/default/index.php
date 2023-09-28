@@ -61,7 +61,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
             </button>
         </a>
 -->
-        <a href="<?php echo Yii::app()->createUrl('sedsp/default/manageRA') ?>" data-toggle="modal" data-target="#get-full-school" rel="noopener" target="_blank">
+        <a href="<?php echo Yii::app()->createUrl('sedsp/default/ImportFullSchool') ?>" data-toggle="modal" data-target="#get-full-school" rel="noopener" target="_blank">
             <button type="button" class="report-box-container">
                 <div class="pull-left" style="margin-right: 20px;">
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/school.svg" alt="school"/>
@@ -81,7 +81,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 </div>
                 <div class="pull-left">
                     <span class="title">Importar alunos por turmas</span><br>
-                    <span class="subtitle">Importa os alunos baseado na seleção das turmas</span>
+                    <span class="subtitle" style="color: red;">Selecione primeiro a escola da qual deseja importar os alunos</span>
                 </div>
             </button>
         </a>
@@ -172,67 +172,16 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
         </button>
-        <h4 class="modal-title" id="myModalLabel">Importação completa da Escola</h4>
+        <h4 class="modal-title" id="myModalLabel">Importar Escola:</h4>
     </div>
-    <form class="form-vertical" id="submit-full-school" action="<?php echo yii::app()->createUrl('sedsp/default/ImportFullSchool') ?>" method="post">
+    <form class="form-vertical" id="submit-full-school" action="<?php echo Yii::app()->createUrl('sedsp/default/ImportFullSchool') ?>" method="post">
+        <input type="hidden" name="nameSchool" 
+            value="<?php echo SchoolIdentification::model()->findBySql(
+                "select name from school_identification where inep_id = " . Yii::app()->user->school
+            )->name; ?>"
+        >
         <div class="modal-body">
-            <div class="row-fluid">
-                <div class=" span12">
-                    <label  for="schoolDropdown">Selecione uma escola:</label>
-                    <select name="schoolName" id="schoolName" style="width: 97.7%">
-                        <option value="AGOSTINHO ALVES DA SILVA EM">AGOSTINHO ALVES DA SILVA EM</option>
-                        <option value="ALBA REGINA TORRAQUE DA SILVA PROFESSORA EMEI">ALBA REGINA TORRAQUE DA SILVA PROFESSORA EMEI</option>
-                        <option value="ALTIMIRA SILVA ABIRACHED PROFA EM">ALTIMIRA SILVA ABIRACHED PROFA EM</option>
-                        <option value="BESSIE FERREIRA OSORIO DE OLIVEIRA PROFA EMEI">BESSIE FERREIRA OSORIO DE OLIVEIRA PROFA EMEI</option>
-                        <option value="CEI MARIA LUCIA DA NOBREGA - TIA BABA">CEI MARIA LUCIA DA NOBREGA - TIA BABA</option>
-                        <option value="CEI PROFESSORA HELOISA MARIA SALLES TEIXEIRA - TIA HELO">CEI PROFESSORA HELOISA MARIA SALLES TEIXEIRA - TIA HELO</option>
-                        <option value="CEMPRI PROFESSORA MARTA HELENA DA SILVA ARAUJO">CEMPRI PROFESSORA MARTA HELENA DA SILVA ARAUJO</option>
-                        <option value="CENTRO DE EDUCAÇÃO INFANTIL ANA PAULA DO PRADO">CENTRO DE EDUCAÇÃO INFANTIL ANA PAULA DO PRADO</option>
-                        <option value="CRECHE MUNICIPAL PROFESSOR CORSINO ALISTE MEZQUITA">CRECHE MUNICIPAL PROFESSOR CORSINO ALISTE MEZQUITA</option>
-                        <option value="DINORAH PEREIRA DE SOUZA PROFA EMEI">DINORAH PEREIRA DE SOUZA PROFA EMEI</option>
-                        <option value="EM JOSÉ LIBÓRIO">EM JOSÉ LIBÓRIO</option>
-                        <option value="ERNESMAR DE OLIVEIRA PROF EM">ERNESMAR DE OLIVEIRA PROF EM</option>
-                        <option value="ESCOLA MUNICIPAL CAÇANDOCA">ESCOLA MUNICIPAL CAÇANDOCA</option>
-                        <option value="FORTALEZA EM">FORTALEZA EM</option>
-                        <option value="HELENA MARIA MENDES ALVES PROFA EMEI">HELENA MARIA MENDES ALVES PROFA EMEI</option>
-                        <option value="HONOR FIGUEIRA PROF EM">HONOR FIGUEIRA PROF EM</option>
-                        <option value="IBERE ANANIAS PIMENTEL EM">IBERE ANANIAS PIMENTEL EM</option>
-                        <option value="IDALINA GRACA EMEI">IDALINA GRACA EMEI</option>
-                        <option value="JOAO ALEXANDRE SENHOR EM">JOAO ALEXANDRE SENHOR EM</option>
-                        <option value="JOAQUIM LUIS BARBOSA PROF EM">JOAQUIM LUIS BARBOSA PROF EM</option>
-                        <option value="JOSE BELARMINO SOBRINHO EM">JOSE BELARMINO SOBRINHO EM</option>
-                        <option value="JOSE CARLOS PEREIRA PROF EMEI">JOSE CARLOS PEREIRA PROF EMEI</option>
-                        <option value="JOSE DE ANCHIETA PADRE EM">JOSE DE ANCHIETA PADRE EM</option>
-                        <option value="JOSE DE SOUZA SIMEAO PROF EM">JOSE DE SOUZA SIMEAO PROF EM</option>
-                        <option value="JOSE HERCULES CEMBRANELLI PROF CENTRO DE EDUCACAO INFANTIL">JOSE HERCULES CEMBRANELLI PROF CENTRO DE EDUCACAO INFANTIL</option>
-                        <option value="JUDITH CABRAL DOS SANTOS EM">JUDITH CABRAL DOS SANTOS EM</option>
-                        <option value="LUIZA BASILIO DOS SANTOS CENTRO DE EDUCACAO INFANTIL">LUIZA BASILIO DOS SANTOS CENTRO DE EDUCACAO INFANTIL</option>
-                        <option value="MANOEL INOCENCIO ALVES DOS SANTOS EM">MANOEL INOCENCIO ALVES DOS SANTOS EM</option>
-                        <option value="MARIA ALICE LEITE DA SILVA PROFA EMEI">MARIA ALICE LEITE DA SILVA PROFA EMEI</option>
-                        <option value="MARIA DA CRUZ BARRETO EM">MARIA DA CRUZ BARRETO EM</option>
-                        <option value="MARIA DA CRUZ DE OLIVEIRA PROFA EM">MARIA DA CRUZ DE OLIVEIRA PROFA EM</option>
-                        <option value="MARIA DA GLORIA MADRE EM">MARIA DA GLORIA MADRE EM</option>
-                        <option value="MARIA DAS DORES CARPINETTI PROFA EM">MARIA DAS DORES CARPINETTI PROFA EM</option>
-                        <option value="MARIA DO CARMO SOARES EM">MARIA DO CARMO SOARES EM</option>
-                        <option value="MARIA JOSEFINA GIGLIO DA SILVA PROFA EM">MARIA JOSEFINA GIGLIO DA SILVA PROFA EM</option>
-                        <option value="MARINA SALETE NEPOMUCENO DO AMARAL PROFA EM">MARINA SALETE NEPOMUCENO DO AMARAL PROFA EM</option>
-                        <option value="MARIO COVAS JUNIOR GOVERNADOR EM">MARIO COVAS JUNIOR GOVERNADOR EM</option>
-                        <option value="MONIQUE MUNIZ DE CARVALHO CENTRO DE EDUCACAO INFANTIL">MONIQUE MUNIZ DE CARVALHO CENTRO DE EDUCACAO INFANTIL</option>
-                        <option value="NATIVA FERNANDES DE FARIA EM">NATIVA FERNANDES DE FARIA EM</option>
-                        <option value="OLGA RIBAS DE ANDRADE GIL PROFA EM">OLGA RIBAS DE ANDRADE GIL PROFA EM</option>
-                        <option value="PEDRO ALVES DE SOUZA MAESTRO EM">PEDRO ALVES DE SOUZA MAESTRO EM</option>
-                        <option value="RENATA CASTILHO DA SILVA PROFA EM">RENATA CASTILHO DA SILVA PROFA EM</option>
-                        <option value="RICHARD JUAREZ GOBBI EMEI">RICHARD JUAREZ GOBBI EMEI</option>
-                        <option value="SEBASTIANA LUIZA DE OLIVEIRA PRADO EM">SEBASTIANA LUIZA DE OLIVEIRA PRADO EM</option>
-                        <option value="SILVINO TEIXEIRA LEITE PREFEITO EM">SILVINO TEIXEIRA LEITE PREFEITO EM</option>
-                        <option value="SOFIA RODRIGUES DE LIMA IRMA EMEI">SOFIA RODRIGUES DE LIMA IRMA EMEI</option>
-                        <option value="TANCREDO DE ALMEIDA NEVES PRESIDENTE EM">TANCREDO DE ALMEIDA NEVES PRESIDENTE EM</option>
-                        <option value="TEREZINHA FERNANDES ROSSI EMEI">TEREZINHA FERNANDES ROSSI EMEI</option>
-                        <option value="THEREZA DOS SANTOS EM (TIA THEREZA)">THEREZA DOS SANTOS EM (TIA THEREZA)</option>
-                        <option value="VIRGINIA MELLE DA SILVA LEFEVRE EM">VIRGINIA MELLE DA SILVA LEFEVRE EM</option>
-                    </select>
-                </div>
-            </div>
+        <?php echo SchoolIdentification::model()->findBySql("select name from school_identification where inep_id = " . Yii::app()->user->school)->name?>
             <div id="loading-container-school" style="display: none;">
                 <div id="loading">
                     <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
@@ -250,7 +199,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 </button>
                 <button id="loading-popup-school" class="btn btn-primary"
                     url="<?= Yii::app()->createUrl('sedsp/default/ImportFullSchool'); ?>"
-                    type="submit" value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar
+                    type="submit" value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Importar
                 </button>
             </div>
         </div>
@@ -268,34 +217,34 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         </div>
         <div style="margin: 5px;">
             <form id="select-classes-form" action="<?= Yii::app()->createUrl('sedsp/default/ImportFullStudentsByClasses'); ?>" method="post">
-                <table
-                    class="display student-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs"
-                    style="width:100%" aria-label="students table">
-                    <thead>
-                        <tr>
-                            <th>N° Classe</th>
-                            <th>Nome da turma</th>
-                            <th>Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $inep_id = Yii::app()->user->school;
-                        $classes = Classroom::model()->findAllBySql("SELECT c.gov_id, c.name FROM classroom c WHERE c.school_inep_fk =" . $inep_id);
-                        $selectedClasses = [];
-                        foreach ($classes as $class) {
-                            ?>
+                <div style="max-height: 300px; overflow-y: auto;">
+                    <table class="display student-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs" style="width:100%" aria-label="students table">
+                        <thead>
                             <tr>
-                                <td><?php echo $class['gov_id'] ?></td>
-                                <td><?php echo $class['name'] ?></td>
-                                <td>
-                                    <?php echo CHtml::checkBox('checkboxListNumClasses[]', in_array($class['gov_id'], $selectedClasses), array('value' => $class['gov_id'])) ?>
-                                </td>
+                                <th>N° Classe</th>
+                                <th>Nome da turma</th>
+                                <th>Ação</th>
                             </tr>
-                        <?php }
-                        ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $inep_id = Yii::app()->user->school;
+                            $classes = Classroom::model()->findAllBySql("SELECT c.gov_id, c.name FROM classroom c WHERE c.gov_id is not null and c.school_inep_fk = " . $inep_id);
+                            $selectedClasses = [];
+                            foreach ($classes as $class) {
+                                ?>
+                                <tr>
+                                    <td><?php echo $class['gov_id'] ?></td>
+                                    <td><?php echo $class['name'] ?></td>
+                                    <td>
+                                        <?php echo CHtml::checkBox('checkboxListNumClasses[]', in_array($class['gov_id'], $selectedClasses), array('value' => $class['gov_id'])) ?>
+                                    </td>
+                                </tr>
+                            <?php }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
                 <!-- Add hidden input field to store selected classes -->
                 <input type="hidden" name="selectedClasses" id="selectedClasses">
                 <div id="loading-container-import-student" style="display: none;">
