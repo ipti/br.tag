@@ -45,7 +45,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <span class="t-tabs__numeration">1</span>
                         <?php echo Yii::t('default', 'Identification') ?>
                     </a>
-                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
                 <li id="tab-school-addressContact" class="t-tabs__item">
                     <a class="t-tabs__link" href="#school-addressContact" data-toggle="tab">
@@ -80,7 +80,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <?php echo Yii::t('default', 'Educational Data') ?>
                     </a>
                     <?php if (!$modelSchoolIdentification->isNewRecord) : ?>
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                     <?php endif ?>
                 </li>
                 <?php if (!$modelSchoolIdentification->isNewRecord) : ?>
@@ -115,11 +115,11 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'inep_id', array('class' => 't-field-text__label--required')); ?>
-                                <?php 
+                                <?php
                                 echo
                                 $modelSchoolIdentification->isNewRecord ?
-                                $form->textField($modelSchoolIdentification, 'inep_id', array('size' => 8, 'maxlength' => 8, 'placeholder' => 'Digite o Código INEP', 'class' => 't-field-text__input')) 
-                                :  $form->textField($modelSchoolIdentification, 'inep_id', array('size' => 8, 'maxlength' => 8, 'placeholder' => 'Digite o Código INEP', 'class' => 't-field-text__input', 'disabled' => 'disabled')) ?>
+                                    $form->textField($modelSchoolIdentification, 'inep_id', array('size' => 8, 'maxlength' => 8, 'placeholder' => 'Digite o Código INEP', 'class' => 't-field-text__input'))
+                                    :  $form->textField($modelSchoolIdentification, 'inep_id', array('size' => 8, 'maxlength' => 8, 'placeholder' => 'Digite o Código INEP', 'class' => 't-field-text__input', 'disabled' => 'disabled')) ?>
                                 <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'School code in the registration INEP'); ?>"><i></i></span> -->
                                 <?php echo $form->error($modelSchoolIdentification, 'inep_id'); ?>
                             </div>
@@ -166,8 +166,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <button class="btn btn-icon glyphicons upload upload-logo-button" type="button">
                                     <i></i>Anexar
                                 </button>
-                                <span class="uploaded-logo-name"><?php echo $modelSchoolIdentification->logo_file_name !== null ? 
-                                $modelSchoolIdentification->logo_file_name . '<a href="'.Yii::app()->controller->createUrl('school/removeLogo', array('id' => $modelSchoolIdentification->inep_id)).'" class="deleteTeachingData" title="Excluir"></a>' : '' ?> </span>
+                                <span class="uploaded-logo-name"><?php echo $modelSchoolIdentification->logo_file_name !== null ?
+                                                                        $modelSchoolIdentification->logo_file_name . '<a href="' . Yii::app()->controller->createUrl('school/removeLogo', array('id' => $modelSchoolIdentification->inep_id)) . '" class="deleteTeachingData" title="Excluir"></a>' : '' ?> </span>
                                 <?php echo $form->fileField($modelSchoolIdentification, 'logo_file_content'); ?>
                                 <?php echo $form->error($modelSchoolIdentification, 'logo_file_content'); ?>
                             </div>
@@ -190,23 +190,23 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <label class="t-field-checkbox">
                                     <?= SchoolIdentification::model()->attributeLabels()['linked_mec']; ?>
                                 </label>
-                            </div>    
+                            </div>
                             <div class="t-field-checkbox">
                                 <?= $form->checkBox($modelSchoolIdentification, 'linked_army', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?= SchoolIdentification::model()->attributeLabels()['linked_army']; ?>    
+                                    <?= SchoolIdentification::model()->attributeLabels()['linked_army']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?= $form->checkBox($modelSchoolIdentification, 'linked_helth', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?= SchoolIdentification::model()->attributeLabels()['linked_helth']; ?>    
+                                    <?= SchoolIdentification::model()->attributeLabels()['linked_helth']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?= $form->checkBox($modelSchoolIdentification, 'linked_other', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?= SchoolIdentification::model()->attributeLabels()['linked_other']; ?>    
+                                    <?= SchoolIdentification::model()->attributeLabels()['linked_other']; ?>
                                 </label>
                             </div>
                         </div>
@@ -219,19 +219,19 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-checkbox">
                                 <?= $form->checkBox($modelSchoolIdentification, 'regulation_organ_federal', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?= SchoolIdentification::model()->attributeLabels()['regulation_organ_federal']; ?>    
+                                    <?= SchoolIdentification::model()->attributeLabels()['regulation_organ_federal']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?= $form->checkBox($modelSchoolIdentification, 'regulation_organ_state', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?= SchoolIdentification::model()->attributeLabels()['regulation_organ_state']; ?>    
+                                    <?= SchoolIdentification::model()->attributeLabels()['regulation_organ_state']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?= $form->checkBox($modelSchoolIdentification, 'regulation_organ_municipal', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?= SchoolIdentification::model()->attributeLabels()['regulation_organ_municipal']; ?>    
+                                    <?= SchoolIdentification::model()->attributeLabels()['regulation_organ_municipal']; ?>
                                 </label>
                             </div>
                         </div>
@@ -242,7 +242,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
-                            <?php echo $form->labelEx($modelSchoolIdentification, 'private_school_organization_civil_society', array('class' => 't-field-select__label')); ?>
+                                <?php echo $form->labelEx($modelSchoolIdentification, 'private_school_organization_civil_society', array('class' => 't-field-select__label')); ?>
                                 <?php echo $form->DropDownList($modelSchoolIdentification, 'private_school_organization_civil_society', array(null => 'Selecione', 0 => 'Não', 1 => 'Sim'), array('class' => 'select-search-off t-field-select__input select2-container')); ?>
                                 <?php echo $form->error($modelSchoolIdentification, 'private_school_organization_civil_society'); ?>
                             </div>
@@ -320,7 +320,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         data = jQuery.parseJSON(data);
                                         valR = $('#SchoolIdentification_edcenso_regional_education_organ_fk').val();
                                         valC = $('#SchoolIdentification_edcenso_city_fk').val();
-                                        
+
                                         $('#SchoolIdentification_edcenso_regional_education_organ_fk').html(data.Regional).val(valR).trigger('change');
                                         $('#SchoolIdentification_edcenso_city_fk').html(data.City).val(valC).trigger('change');
                                     }",
@@ -424,7 +424,8 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
-                                <?php //@done s1 - Tem que filtrar de acordo com o estado e cidade, no momento está listando todos ?>
+                                <?php //@done s1 - Tem que filtrar de acordo com o estado e cidade, no momento está listando todos
+                                ?>
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', array('class' => 't-field-select__label')); ?>
                                 <?php
                                 $criteria = new CDbCriteria();
@@ -444,7 +445,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-                    
+
                     <div>
                         <h3>Contato</h3>
                     </div>
@@ -460,7 +461,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'phone_number', array('class' => 't-field-text__label')); ?>
-                                <?php echo $form->textField($modelSchoolIdentification, 'phone_number', array('size' => 9, 'maxlength' => 9, 'class' => 't-field-text__input','placeholder' => '_____-____')); ?>
+                                <?php echo $form->textField($modelSchoolIdentification, 'phone_number', array('size' => 9, 'maxlength' => 9, 'class' => 't-field-text__input', 'placeholder' => '_____-____')); ?>
                                 <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " " . Yii::t('help', 'Phone'); ?>"><i></i></span> -->
                                 <?php echo $form->error($modelSchoolIdentification, 'phone_number'); ?>
                             </div>
@@ -674,7 +675,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-checkbox-group clear-margin--top" id="SchoolStructure_operation_location">
                                 <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_building', array('value' => 1, 'uncheckValue' => 0)); ?> 
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_building', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['operation_location_building']; ?>
                                     </label>
@@ -772,13 +773,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_bathroom_workes', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_bathroom_workes']; ?>                                        
-                                    </label>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_bathroom_workes']; ?>
+                                    </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_bathroom_with_shower', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_bathroom_with_shower']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_bathroom_with_shower']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
@@ -790,37 +791,37 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_kitchen', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_kitchen']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_kitchen']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_storeroom', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_storeroom']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_storeroom']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_student_accomodation', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_student_accomodation']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_student_accomodation']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_instructor_accomodation', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_instructor_accomodation']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_instructor_accomodation']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_reading_room', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_reading_room']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_reading_room']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_instructors_room', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_instructors_room']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_instructors_room']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
@@ -832,25 +833,25 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_secretary_room', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_secretary_room']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_secretary_room']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_vocational_education_workshop', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_vocational_education_workshop']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_vocational_education_workshop']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_recording_and_editing_studio', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_recording_and_editing_studio']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_recording_and_editing_studio']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_none', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_none']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_none']; ?>
                                     </label>
                                 </div>
                             </div>
@@ -860,109 +861,109 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_science_lab', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_science_lab']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_science_lab']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_info_lab', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_info_lab']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_info_lab']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_professional_specific_lab', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_professional_specific_lab']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_professional_specific_lab']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_playground', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_playground']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_playground']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_covered_patio', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_covered_patio']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_covered_patio']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_uncovered_patio', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_uncovered_patio']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_uncovered_patio']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_pool', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_pool']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_pool']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_indoor_sports_court', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_indoor_sports_court']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_indoor_sports_court']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_outdoor_sports_court', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_outdoor_sports_court']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_outdoor_sports_court']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_refectory', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_refectory']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_refectory']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_student_repose_room', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_student_repose_room']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_student_repose_room']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_arts_room', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_arts_room']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_arts_room']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_music_room', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_music_room']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_music_room']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_dance_room', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_dance_room']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_dance_room']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_multiuse_room', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_multiuse_room']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_multiuse_room']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_yardzao', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_yardzao']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_yardzao']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_vivarium', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_vivarium']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_vivarium']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_principal_room', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_principal_room']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_principal_room']; ?>
                                     </label>
                                 </div>
                             </div>
@@ -978,31 +979,31 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'water_supply_public', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['water_supply_public']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['water_supply_public']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'water_supply_artesian_well', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['water_supply_artesian_well']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['water_supply_artesian_well']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'water_supply_well'); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['water_supply_well']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['water_supply_well']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'water_supply_river', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['water_supply_river']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['water_supply_river']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'water_supply_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['water_supply_inexistent']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['water_supply_inexistent']; ?>
                                     </label>
                                 </div>
                             </div>
@@ -1010,7 +1011,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'provide_potable_water', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox__label">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['provide_potable_water']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['provide_potable_water']; ?>
                                 </label>
                             </div>
                         </div>
@@ -1021,7 +1022,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-checkbox clear-margin--top ">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'supply_food', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox__label">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['supply_food']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['supply_food']; ?>
                                 </label>
                             </div>
                             <div class="t-field-select">
@@ -1041,25 +1042,25 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'energy_supply_public', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['energy_supply_public']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['energy_supply_public']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'energy_supply_generator', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['energy_supply_generator']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['energy_supply_generator']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'energy_supply_generator_alternative', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['energy_supply_generator_alternative']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['energy_supply_generator_alternative']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'energy_supply_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['energy_supply_inexistent']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['energy_supply_inexistent']; ?>
                                     </label>
                                 </div>
                             </div>
@@ -1069,7 +1070,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->checkBox($modelSchoolStructure, 'ppp_updated', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox__label">
                                     <!-- <?php echo $form->labelEx($modelSchoolStructure, 'ppp_updated', array('class' => 'control-label')); ?> -->
-                                    <?php echo SchoolStructure::model()->attributeLabels()['ppp_updated']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['ppp_updated']; ?>
                                     <?php echo $form->error($modelSchoolStructure, 'ppp_updated'); ?>
                                 </label>
                             </div>
@@ -1077,7 +1078,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->checkBox($modelSchoolStructure, 'website', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox__label">
                                     <!-- <?php echo $form->labelEx($modelSchoolStructure, 'website', array('class' => 'control-label')); ?> -->
-                                    <?php echo SchoolStructure::model()->attributeLabels()['website']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['website']; ?>
                                     <?php echo $form->error($modelSchoolStructure, 'website'); ?>
                                 </label>
                             </div>
@@ -1094,25 +1095,25 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'sewage_public', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['sewage_public']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['sewage_public']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'sewage_fossa', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['sewage_fossa']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['sewage_fossa']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'sewage_fossa_common', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['sewage_fossa_common']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['sewage_fossa_common']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'sewage_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['sewage_inexistent']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['sewage_inexistent']; ?>
                                     </label>
                                 </div>
                             </div>
@@ -1122,7 +1123,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->checkBox($modelSchoolStructure, 'space_schoolenviroment', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox__label">
                                     <!-- <?php echo $form->labelEx($modelSchoolStructure, 'space_schoolenviroment', array('class' => 'control-label')); ?> -->
-                                    <?php echo SchoolStructure::model()->attributeLabels()['space_schoolenviroment']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['space_schoolenviroment']; ?>
                                     <?php echo $form->error($modelSchoolStructure, 'space_schoolenviroment'); ?>
                                 </label>
                             </div>
@@ -1130,7 +1131,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->checkBox($modelSchoolStructure, 'community_integration', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox__label">
                                     <!-- <?php echo $form->labelEx($modelSchoolStructure, 'community_integration', array('class' => 'control-label')); ?> -->
-                                    <?php echo SchoolStructure::model()->attributeLabels()['community_integration']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['community_integration']; ?>
                                     <?php echo $form->error($modelSchoolStructure, 'community_integration'); ?>
                                 </label>
                             </div>
@@ -1145,13 +1146,13 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'garbage_destination_collect', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['garbage_destination_collect']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['garbage_destination_collect']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'garbage_destination_burn', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['garbage_destination_burn']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['garbage_destination_burn']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
@@ -1163,13 +1164,13 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'garbage_destination_public', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['garbage_destination_public']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['garbage_destination_public']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'garbage_destination_throw_away', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['garbage_destination_throw_away']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['garbage_destination_throw_away']; ?>
                                 </label>
                             </div>
                         </div>
@@ -1182,25 +1183,25 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'treatment_garbage_parting_garbage', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['treatment_garbage_parting_garbage']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['treatment_garbage_parting_garbage']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'treatment_garbage_resuse', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['treatment_garbage_resuse']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['treatment_garbage_resuse']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'garbage_destination_recycle', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['garbage_destination_recycle']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['garbage_destination_recycle']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'traetment_garbage_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['traetment_garbage_inexistent']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['traetment_garbage_inexistent']; ?>
                                 </label>
                             </div>
                         </div>
@@ -1213,7 +1214,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'acessability_handrails_guardrails', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['acessability_handrails_guardrails']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['acessability_handrails_guardrails']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
@@ -1225,48 +1226,48 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'acessability_tactile_floor', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['acessability_tactile_floor']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['acessability_tactile_floor']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'acessability_doors_80cm', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['acessability_doors_80cm']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['acessability_doors_80cm']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'acessability_ramps', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['acessability_ramps']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['acessability_ramps']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'acessability_sound_signaling', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['acessability_sound_signaling']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['acessability_sound_signaling']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'acessability_tactile_singnaling', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['acessability_tactile_singnaling']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['acessability_tactile_singnaling']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'acessability_visual_signaling', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['acessability_visual_signaling']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['acessability_visual_signaling']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'acessabilty_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['acessabilty_inexistent']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['acessabilty_inexistent']; ?>
                                 </label>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div>
                         <h3 class="titulos required">Órgãos em Funcionamento na Escola</h3>
                     </div>
@@ -1275,37 +1276,37 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'board_organ_association_parent', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['board_organ_association_parent']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['board_organ_association_parent']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'board_organ_association_parentinstructors', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['board_organ_association_parentinstructors']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['board_organ_association_parentinstructors']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'board_organ_board_school', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['board_organ_board_school']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['board_organ_board_school']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'board_organ_student_guild', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['board_organ_student_guild']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['board_organ_student_guild']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'board_organ_others', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['board_organ_others']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['board_organ_others']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($modelSchoolStructure, 'board_organ_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox">
-                                    <?php echo SchoolStructure::model()->attributeLabels()['board_organ_inexistent']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['board_organ_inexistent']; ?>
                                 </label>
                             </div>
                         </div>
@@ -1448,7 +1449,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-select">
                                 <label class="t-field-select__label">Estado</label>
                                 <?php
-                                echo $form->dropDownList($modelManagerIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'),array('class' => 'select-search-off t-field-select__input select2-container',"disabled" => "disabled","prompt" => "Selecione uma cidade",));
+                                echo $form->dropDownList($modelManagerIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array('class' => 'select-search-off t-field-select__input select2-container', "disabled" => "disabled", "prompt" => "Selecione uma cidade",));
                                 ?>
                                 <?php echo $form->error($modelManagerIdentification, 'edcenso_uf_fk'); ?>
                             </div>
@@ -1471,7 +1472,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelManagerIdentification, 'number_ato', array('class' => 't-field-text__label')); ?>
-                                <?php echo $form->textField($modelManagerIdentification, 'number_ato', array( 'placeholder' => 'Digite o número ato', 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->textField($modelManagerIdentification, 'number_ato', array('placeholder' => 'Digite o número ato', 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($modelManagerIdentification, 'number_ato'); ?>
                             </div>
                         </div>
@@ -1729,7 +1730,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-checkbox-group equipments-container">
@@ -1737,43 +1738,43 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_satellite_dish', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_satellite_dish']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_satellite_dish']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_computer', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_computer']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_computer']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_copier', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_copier']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_copier']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_printer', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_printer']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_printer']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_multifunctional_printer', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_multifunctional_printer']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_multifunctional_printer']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_scanner', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_scanner']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_scanner']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_inexistent']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_inexistent']; ?>
                                     </label>
                                 </div>
                             </div>
@@ -1783,7 +1784,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->checkBox($modelSchoolStructure, 'bandwidth', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox__label">
                                     <!-- <?php echo $form->labelEx($modelSchoolStructure, 'bandwidth', array('class' => 'control-label')); ?> -->
-                                    <?php echo SchoolStructure::model()->attributeLabels()['bandwidth']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['bandwidth']; ?>
                                     <?php echo $form->error($modelSchoolStructure, 'bandwidth'); ?>
                                 </label>
                             </div>
@@ -1793,31 +1794,31 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'internet_access_administrative', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_administrative']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_administrative']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'internet_access_educative_process', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_educative_process']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_educative_process']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'internet_access_student', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_student']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_student']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'internet_access_community', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_community']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_community']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'internet_access_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_inexistent']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_inexistent']; ?>
                                     </label>
                                 </div>
                             </div>
@@ -1831,55 +1832,55 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_multimedia_collection', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_multimedia_collection']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_multimedia_collection']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_toys_early', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_toys_early']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_toys_early']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_scientific_materials', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_scientific_materials']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_scientific_materials']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_equipment_amplification', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_equipment_amplification']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_equipment_amplification']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_musical_instruments', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_musical_instruments']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_musical_instruments']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_educational_games', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_educational_games']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_educational_games']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_cultural', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_cultural']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_cultural']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_cultural', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_professional_education']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_professional_education']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_sports', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_sports']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_sports']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
@@ -1891,25 +1892,25 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_teachingindian', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingindian']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingindian']; ?>
                                     </label>
                                 </div>
-                                <div class="t-field-checkbox">  
+                                <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_teachingethnic', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingethnic']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingethnic']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_teachingrural', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingrural']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingrural']; ?>
                                     </label>
-                                </div>  
+                                </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'instruments_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['instruments_inexistent']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['instruments_inexistent']; ?>
                                     </label>
                                 </div>
                             </div>
@@ -1920,19 +1921,19 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'internet_access_connected_desktop', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_connected_desktop']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_connected_desktop']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'internet_access_connected_personaldevice', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_connected_personaldevice']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_connected_personaldevice']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'internet_access_broadband', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_broadband']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_broadband']; ?>
                                     </label>
                                 </div>
                             </div>
@@ -1941,19 +1942,19 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'internet_access_local_cable', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_local_cable']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_local_cable']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'internet_access_local_wireless', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_local_wireless']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_local_wireless']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'internet_access_local_inexistet', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_local_inexistet']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['internet_access_local_inexistet']; ?>
                                     </label>
                                 </div>
                             </div>
@@ -1981,7 +1982,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->checkBox($modelSchoolStructure, 'basic_education_cycle_organized', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox__label">
                                     <!-- <?php echo $form->labelEx($modelSchoolStructure, 'basic_education_cycle_organized', array('class' => 'control-label')); ?> -->
-                                    <?php echo SchoolStructure::model()->attributeLabels()['basic_education_cycle_organized']; ?>        
+                                    <?php echo SchoolStructure::model()->attributeLabels()['basic_education_cycle_organized']; ?>
                                     <?php echo $form->error($modelSchoolStructure, 'basic_education_cycle_organized'); ?>
                                 </label>
                             </div>
@@ -2006,19 +2007,19 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'sociocultural_didactic_material_none', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['sociocultural_didactic_material_none']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['sociocultural_didactic_material_none']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'sociocultural_didactic_material_quilombola', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['sociocultural_didactic_material_quilombola']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['sociocultural_didactic_material_quilombola']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'sociocultural_didactic_material_native', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['sociocultural_didactic_material_native']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['sociocultural_didactic_material_native']; ?>
                                     </label>
                                 </div>
                             </div>
@@ -2041,13 +2042,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <div class="t-field-checkbox">
                                         <?php echo $form->checkBox($modelSchoolStructure, 'native_education_language_native', array('value' => 1, 'uncheckValue' => 0)); ?>
                                         <label class="t-field-checkbox">
-                                            <?php echo SchoolStructure::model()->attributeLabels()['native_education_language_native']; ?>    
+                                            <?php echo SchoolStructure::model()->attributeLabels()['native_education_language_native']; ?>
                                         </label>
                                     </div>
                                     <div class="t-field-checkbox">
                                         <?php echo $form->checkBox($modelSchoolStructure, 'native_education_language_portuguese', array('value' => 1, 'uncheckValue' => 0)); ?>
                                         <label class="t-field-checkbox">
-                                            <?php echo SchoolStructure::model()->attributeLabels()['native_education_language_portuguese']; ?>    
+                                            <?php echo SchoolStructure::model()->attributeLabels()['native_education_language_portuguese']; ?>
                                         </label>
                                     </div>
                                 </div>
@@ -2055,7 +2056,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($modelSchoolStructure, 'edcenso_native_languages_fk', array('class' => 't-field-select__label')); ?>
-                                <?php echo $form->DropDownList($modelSchoolStructure, 'edcenso_native_languages_fk', CHtml::listData(EdcensoNativeLanguages::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione a língua indígena", 'class' => 'select-search-on t-field-select__input select2-container'));?>
+                                <?php echo $form->DropDownList($modelSchoolStructure, 'edcenso_native_languages_fk', CHtml::listData(EdcensoNativeLanguages::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione a língua indígena", 'class' => 'select-search-on t-field-select__input select2-container')); ?>
                                 <?php echo $form->error($modelSchoolStructure, 'edcenso_native_languages_fk'); ?>
                             </div>
 
@@ -2077,7 +2078,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->checkBox($modelSchoolStructure, 'brazil_literate', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox__label">
                                     <!-- <?php echo $form->labelEx($modelSchoolStructure, 'brazil_literate', array('class' => 'control-label')); ?> -->
-                                    <?php echo SchoolStructure::model()->attributeLabels()['brazil_literate']; ?>    
+                                    <?php echo SchoolStructure::model()->attributeLabels()['brazil_literate']; ?>
                                     <?php echo $form->error($modelSchoolStructure, 'brazil_literate'); ?>
                                 </label>
                             </div>
@@ -2086,7 +2087,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->checkBox($modelSchoolStructure, 'open_weekend', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox__label">
                                     <!-- <?php echo $form->labelEx($modelSchoolStructure, 'open_weekend', array('class' => 'control-label')); ?> -->
-                                    <?php echo SchoolStructure::model()->attributeLabels()['open_weekend']; ?>        
+                                    <?php echo SchoolStructure::model()->attributeLabels()['open_weekend']; ?>
                                     <?php echo $form->error($modelSchoolStructure, 'open_weekend'); ?>
                                 </label>
                             </div>
@@ -2094,7 +2095,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->checkBox($modelSchoolStructure, 'pedagogical_formation_by_alternance', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <label class="t-field-checkbox__label">
                                     <!-- <?php echo $form->labelEx($modelSchoolStructure, 'pedagogical_formation_by_alternance', array('class' => 'control-label')); ?> -->
-                                    <?php echo SchoolStructure::model()->attributeLabels()['pedagogical_formation_by_alternance']; ?>        
+                                    <?php echo SchoolStructure::model()->attributeLabels()['pedagogical_formation_by_alternance']; ?>
                                     <?php echo $form->error($modelSchoolStructure, 'pedagogical_formation_by_alternance'); ?>
                                 </label>
                             </div>
@@ -2105,25 +2106,25 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'modalities_regular', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['modalities_regular']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['modalities_regular']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'modalities_especial', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['modalities_especial']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['modalities_especial']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'modalities_eja', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['modalities_eja']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['modalities_eja']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'modalities_professional', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['modalities_professional']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['modalities_professional']; ?>
                                     </label>
                                 </div>
                             </div>
@@ -2132,41 +2133,41 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'org_teaching_series_year', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['org_teaching_series_year']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['org_teaching_series_year']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'org_teaching_semester_periods', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['org_teaching_semester_periods']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['org_teaching_semester_periods']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'org_teaching_elementary_cycle', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['org_teaching_elementary_cycle']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['org_teaching_elementary_cycle']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'org_teaching_non_serialgroups', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['org_teaching_non_serialgroups']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['org_teaching_non_serialgroups']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'org_teaching_modules', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['org_teaching_modules']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['org_teaching_modules']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'org_teaching_regular_alternation', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['org_teaching_regular_alternation']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['org_teaching_regular_alternation']; ?>
                                     </label>
                                 </div>
                             </div>
-                                
+
                             <div class="t-field-checkbox-group">
                                 <label class="t-field-checkbox-group__label"><?php echo Yii::t('default', 'Selection Exam'); ?></label>
                                 <div class="t-field-checkbox">
@@ -2176,43 +2177,43 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </label>
                                 </div>
                             </div>
-                                    
+
                             <div class="t-field-checkbox-group booking-container">
                                 <label class="t-field-checkbox-group__label"><?php echo Yii::t('default', 'Reservation by Quota System'); ?></label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'booking_enrollment_self_declaredskin', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['booking_enrollment_self_declaredskin']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['booking_enrollment_self_declaredskin']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'booking_enrollment_income', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['booking_enrollment_income']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['booking_enrollment_income']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'booking_enrollment_public_school', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['booking_enrollment_public_school']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['booking_enrollment_public_school']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'booking_enrollment_disabled_person', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['booking_enrollment_disabled_person']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['booking_enrollment_disabled_person']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'booking_enrollment_others', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['booking_enrollment_others']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['booking_enrollment_others']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'booking_enrollment_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['booking_enrollment_inexistent']; ?>    
+                                        <?php echo SchoolStructure::model()->attributeLabels()['booking_enrollment_inexistent']; ?>
                                     </label>
                                 </div>
                             </div>
@@ -2231,44 +2232,44 @@ $form = $this->beginWidget('CActiveForm', array(
                         <row class="reports">
                             <div class="reports_cards">
                                 <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('school/reportsMonthlyTransaction', array('id' => $modelSchoolIdentification->inep_id, 'type' => 1)); ?>">
-                                <span class="t-icon-printer"></span>   
-                                <!-- <img  alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
+                                    <span class="t-icon-printer"></span>
+                                    <!-- <img  alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
                                     Movimentação Mensal Anos Iniciais
                                 </a>
                             </div>
                             <div class="reports_cards">
                                 <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('school/reportsMonthlyTransaction', array('id' => $modelSchoolIdentification->inep_id, 'type' => 2)); ?>">
-                                    
-                                <!-- <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
-                                <span class="t-icon-printer"></span>
+
+                                    <!-- <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
+                                    <span class="t-icon-printer"></span>
                                     Movimentação Mensal Anos Finais
                                 </a>
                             </div>
                             <div class="reports_cards">
                                 <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('school/reportsMonthlyTransaction', array('id' => $modelSchoolIdentification->inep_id, 'type' => 3)); ?>">
-                                <span class="t-icon-printer"></span>    
-                                <!-- <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
+                                    <span class="t-icon-printer"></span>
+                                    <!-- <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
                                     Movimentação Mensal Educação Infantil
                                 </a>
                             </div>
                             <div class="reports_cards">
                                 <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('school/reports', array('id' => $modelSchoolIdentification->inep_id)); ?>">
-                                <span class="t-icon-printer"></span>    
-                                <!-- <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
+                                    <span class="t-icon-printer"></span>
+                                    <!-- <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
                                     Resumo Mensal de Frequência
                                 </a>
                             </div>
                             <div class="reports_cards">
                                 <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('school/record', array('id' => $modelSchoolIdentification->inep_id, 'type' => 1)); ?>">
-                                <span class="t-icon-printer"></span>
-                                <!-- <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
+                                    <span class="t-icon-printer"></span>
+                                    <!-- <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
                                     Histórico Ensino Regular
                                 </a>
                             </div>
                             <div class="reports_cards">
                                 <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('school/record', array('id' => $modelSchoolIdentification->inep_id, 'type' => 2)); ?>">
-                                <span class="t-icon-printer"></span>    
-                                <!-- <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
+                                    <span class="t-icon-printer"></span>
+                                    <!-- <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
                                     Histórico Ensino EJA
                                 </a>
                             </div>
