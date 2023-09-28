@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__.'/../repository/FormsRepository.php');
+require_once __DIR__.'/../repository/FormsRepository.php';
 
 class FormsController extends Controller {
 
