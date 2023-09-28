@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__.'/../vendor/yiisoft/yii/framework/db/schema/CDbCriteria.php';
+
 class ReportsRepository {
 
     public $repository;
@@ -33,7 +35,7 @@ class ReportsRepository {
     }
 
     /**
-     * Total de Alunos Matriculados por Escola
+     * Total de Alunos Matriculados por Escola                  
      */
     public function getTotalNumberOfStudentsEnrolled() : array
     {
@@ -1386,7 +1388,6 @@ class ReportsRepository {
      */
     public function getStudentPerClassroom($classroomId) : array
     {
-        $this->layout = "reports";
         $sql =  "SELECT * FROM classroom_enrollment
                     WHERE `year`  = :year AND 
                     classroom_id = :classroom_id AND 

@@ -296,6 +296,7 @@ class ReportsController extends Controller
 
     public function actionStudentPerClassroom($id)
     {
+        $this->layout = "reports";
         $repository = new ReportsRepository;
         $query = $repository->getStudentPerClassroom($id);
         $this->render('StudentPerClassroom', $query);
