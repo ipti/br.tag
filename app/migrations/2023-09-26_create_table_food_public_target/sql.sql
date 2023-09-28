@@ -1,4 +1,4 @@
-CREATE TABLE `demo.tag.ong.br`.food_public_target (
+CREATE TABLE food_public_target (
 	name varchar(100) NULL,
 	id INT auto_increment NOT NULL,
 	CONSTRAINT food_public_target_PK PRIMARY KEY (id),

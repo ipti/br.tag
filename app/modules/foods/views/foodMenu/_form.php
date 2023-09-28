@@ -33,15 +33,16 @@ $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END
 				<?php echo $form->error($model,'description'); ?>
 			</div>
 			<div class="t-multiselect clear-margin--top column">
-				<?php echo $form->labelEx($model,'stage_fk', array('class' => 't-field-select__label')); ?>
-				<?php echo $form->dropDownList($model, 'stage_fk', 
-				CHtml::listData(FoodPublicTarget::model()->findAll(), 'id', 'name'),
-				array(
-					'key' => 'id',
-					'prompt' => 'Selecione a etapa...',
-					'multiple' => 'multiple',
-					'class' => 'select-search-on t-field-select__input')); ?>
-				<?php echo $form->error($model,'stage_fk'); ?>
+				<?= chtml::label('Publico Alvo ', 'public_target', array('class'=> 't-field-select__label'));?>
+					<?=  chtml::dropDownList('public_target', "",
+					CHtml::listData(FoodPublicTarget::model()->findAll(), 'id', 'name'),
+					array(
+							'class' => 'select-search-on',
+							'multiple' => 'multiple',
+							'placeholder' => Yii::t('default', 'Select Classrom'),
+							'style' => 'width: 100%'
+                        ));
+						?>
 			</div>
 		</div>
 		<div class="row">
@@ -146,7 +147,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END
 				</div>
 				<div class="row">
 					<div class="column">
-						<div id="js-accordion" class="t-accordeon-primary">
+						<div id="js-accordion" class="teste t-accordeon-primary">
 						</div>
 					</div>
 				</div>

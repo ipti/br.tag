@@ -62,33 +62,58 @@ class FoodMenuController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new FoodMenu;
+		$model = new FoodMenu;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$foodMenu = Yii::app()->request->getPost('FoodMenu');
+		$publicTarget = Yii::app()->request->getPost("public_target");
 
-		if(isset($_POST['FoodMenu']))
+		if(isset($foodMenu) && isset($publicTarget))
 		{
-			$model->attributes=$_POST['FoodMenu'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+			if(isset($foodMenu["start_date"]) && isset($foodMenu["final_date"])) {
+				$startTimestamp = strtotime(str_replace('/', '-', $foodMenu["start_date"]));
+				$finalTimestamp = strtotime(str_replace('/', '-', $foodMenu["final_date"]));
+
+				$model->start_date = date('Y-m-d', $startTimestamp);
+				$model->final_date = date('Y-m-d', $finalTimestamp);
+			}
+
+			$transaction = Yii::app()->db->beginTransaction();
+			try {
+				$model->attributes = $foodMenu;
+
+				$model->save();
+	
+				foreach ($publicTarget as $item) {
+					$fMenuVsFPublicTarget = new FoodMenuVsFoodPublicTarget;
+					$fMenuVsFPublicTarget->food_menu_fk = $model->id;
+					$fMenuVsFPublicTarget->food_public_target_fk = $item;
+					$fMenuVsFPublicTarget->save();
+				}
+
+				$transaction->commit();
+				Yii::app()->user->setFlash('success', 'Cardápio foi cadastrado com sucesso.');
+				$this->redirect(array('create'));
+			}
+			catch(Exception $e)
+			{
+				$transaction->rollback();
+				Yii::app()->user->setFlash('error', 'Erro ao executar operações de banco de dados: ' . $e->getMessage());
+			}
+				
 		}
 
-		$stages = Yii::app()->db->createCommand(
-			"select esvm.id, esvm.name from edcenso_stage_vs_modality esvm
-		 	join curricular_matrix cm on cm.stage_fk = esvm.id
-			where school_year = :year order by esvm.name")
-			->bindParam(":year", Yii::app()->user->year)->queryAll();
 		$this->render('create',array(
 			'model'=>$model,
-			'stages'=>$stages,
 		));
 	}
 
 
 	public function actionPlateAccordion ()
 	{
-		$this->renderPartial('_plateAccordion', array());
+		$idAccordion = Yii::app()->request->getQuery('id');
+		$this->renderPartial('_plateAccordion', array(
+			'idAccordion' => $idAccordion
+		));
 	}
 	/**
 	 * Updates a particular model.

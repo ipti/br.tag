@@ -1,27 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "food_menu".
+ * This is the model class for table "food_menu_vs_food_public_target".
  *
- * The followings are the available columns in table 'food_menu':
+ * The followings are the available columns in table 'food_menu_vs_food_public_target':
  * @property integer $id
- * @property string $description
- * @property string $observation
- * @property string $start_date
- * @property string $final_date
+ * @property integer $food_menu_fk
+ * @property integer $food_public_target_fk
  *
  * The followings are the available model relations:
- * @property FoodMenuMeal[] $foodMenuMeals
- * @property FoodMenuVsFoodPublicTarget[] $foodMenuVsFoodPublicTargets
+ * @property FoodMenu $foodMenuFk
+ * @property FoodPublicTarget $foodPublicTargetFk
  */
-class FoodMenu extends CActiveRecord
+class FoodMenuVsFoodPublicTarget extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'food_menu';
+		return 'food_menu_vs_food_public_target';
 	}
 
 	/**
@@ -32,12 +30,10 @@ class FoodMenu extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('description', 'required'),
-			array('description, observation', 'length', 'max'=>100),
-			array('start_date, final_date', 'safe'),
+			array('food_menu_fk, food_public_target_fk', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, description, observation, start_date, final_date', 'safe', 'on'=>'search'),
+			array('id, food_menu_fk, food_public_target_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,8 +45,8 @@ class FoodMenu extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'foodMenuMeals' => array(self::HAS_MANY, 'FoodMenuMeal', 'food_menuId'),
-			'foodMenuVsFoodPublicTargets' => array(self::HAS_MANY, 'FoodMenuVsFoodPublicTarget', 'food_menu_fk'),
+			'foodMenuFk' => array(self::BELONGS_TO, 'FoodMenu', 'food_menu_fk'),
+			'foodPublicTargetFk' => array(self::BELONGS_TO, 'FoodPublicTarget', 'food_public_target_fk'),
 		);
 	}
 
@@ -61,11 +57,8 @@ class FoodMenu extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'description'  => 'Nome',
-	        'observation'  => 'Observação',
-	        'start_date'  => 'Data inicial',
-	        'final_date'  =>'Data Final',
-	        'stage_fk'  => 'Publico',
+			'food_menu_fk' => 'Food Menu Fk',
+			'food_public_target_fk' => 'Food Public Target Fk',
 		);
 	}
 
@@ -88,10 +81,8 @@ class FoodMenu extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('observation',$this->observation,true);
-		$criteria->compare('start_date',$this->start_date,true);
-		$criteria->compare('final_date',$this->final_date,true);
+		$criteria->compare('food_menu_fk',$this->food_menu_fk);
+		$criteria->compare('food_public_target_fk',$this->food_public_target_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -102,7 +93,7 @@ class FoodMenu extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return FoodMenu the static model class
+	 * @return FoodMenuVsFoodPublicTarget the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
