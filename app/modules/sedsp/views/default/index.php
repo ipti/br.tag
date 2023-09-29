@@ -224,24 +224,53 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                                 <th>N° Classe</th>
                                 <th>Nome da turma</th>
                                 <th>Ação</th>
+                                <th>Tag</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             $inep_id = Yii::app()->user->school;
-                            $classes = Classroom::model()->findAllBySql("SELECT c.gov_id, c.name FROM classroom c WHERE c.gov_id is not null and c.school_inep_fk = " . $inep_id);
+                            $classes = Classroom::model()->findAllByAttributes(
+                                array('school_inep_fk' => $inep_id),
+                                'gov_id IS NOT NULL'
+                            );
+                            
                             $selectedClasses = [];
+
                             foreach ($classes as $class) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $class['gov_id'] ?></td>
-                                    <td><?php echo $class['name'] ?></td>
-                                    <td>
-                                        <?php echo CHtml::checkBox('checkboxListNumClasses[]', in_array($class['gov_id'], $selectedClasses), array('value' => $class['gov_id'])) ?>
-                                    </td>
-                                </tr>
-                            <?php }
+                                $csvClassPath = "app/modules/sedsp/CSVcountStudents/{$class['gov_id']}.csv";
+                                $ClassExistsInPath = false;
+                                if(file_exists($csvClassPath)){
+                                    $csvLine = file_get_contents($csvClassPath);
+                                    $parts = explode(';', $csvLine);
+                                    $numStudentTag = (int) $parts[1];
+                                    $numStudentSed = (int) $parts[2];
+                                    $ClassExistsInPath = true;
+                                }
                             ?>
+                            <tr>
+                                <td><?php echo $class->gov_id ?></td>
+                                <td><?php echo $class->name ?></td>
+                                <td>
+                                    <?php echo CHtml::checkBox(
+                                        'checkboxListNumClasses[]',
+                                        in_array($class->gov_id, $selectedClasses),
+                                        array('value' => $class->gov_id)
+                                    ) ?>
+                                </td>
+                                <td>
+                                    <?php if ($ClassExistsInPath) { ?>
+                                        <?php if ($numStudentTag === $numStudentSed) { ?>
+                                            <i class="fa fa-check-circle" style="color:green" aria-hidden="true"></i>
+                                        <?php } else { ?>
+                                            <i class="fa fa-exclamation-triangle" style="color:red" aria-hidden="true">
+                                                <?php echo " $numStudentTag / $numStudentSed" ?>
+                                            </i>
+                                        <?php } ?>
+                                    <?php } ?>
+                                </td>
+                            </tr>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
