@@ -238,7 +238,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                             $selectedClasses = [];
 
                             foreach ($classes as $class) {
-                                $csvClassPath = "app/modules/sedsp/CSVcountStudents/{$class['gov_id']}.csv";
+                                $csvClassPath = "app/modules/sedsp/numberOfStudentsCSV/{$class['gov_id']}.csv";
                                 $ClassExistsInPath = false;
                                 if(file_exists($csvClassPath)){
                                     $csvLine = file_get_contents($csvClassPath);

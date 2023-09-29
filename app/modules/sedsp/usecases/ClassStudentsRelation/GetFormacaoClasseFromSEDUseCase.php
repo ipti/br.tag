@@ -35,7 +35,6 @@ class GetFormacaoClasseFromSEDUseCase
             $response = $this->classStudentsRelationSEDDataSource->getClassroom($inFormacaoClasse);
 
             $mapper = (object) ClassroomMapper::parseToTAGFormacaoClasse($response);
-            $alunosTurma = $response->getOutAlunos();
 
             $numClass = $inFormacaoClasse->getInNumClasse();
             $tagClassroom = Classroom::model()->find('inep_id = :govId or gov_id = :govId', [':govId' => $numClass]);
@@ -48,11 +47,22 @@ class GetFormacaoClasseFromSEDUseCase
                     
                     if (!isset($studentModel)) {
                         $inAluno = new InAluno($student->gov_id, null, $student->uf);
-                        $studentModel = $this->getExibirFichaAlunoFromSEDUseCase->exec($inAluno);
+                        $statusSaveStudent = $this->getExibirFichaAlunoFromSEDUseCase->exec($inAluno);
+                        
+                        if($statusSaveStudent === true) {
+                            $studentModels = self::findStudentIdentificationByGovId($student->gov_id);
+                            $this->createEnrollment($tagClassroom, $studentModels);
+                        }
+                    } else {
+                        $statusEnrollment = StudentEnrollment::model()->find(
+                            'classroom_fk = :classroomFk and student_fk = :studentFk',
+                            [':classroomFk' => $numClass, ':studentFk' => $studentModel->id]
+                        );
+                        
+                        if(!isset($statusEnrollment)) {
+                            $this->createEnrollment($tagClassroom, $studentModel);
+                        }
                     }
-                    
-                    $alunoTurma = $this->searchAlunoTurma($studentModel->gov_id, $alunosTurma);
-                    $this->createEnrollment($tagClassroom, $studentModel, $alunoTurma);
                 }
                 catch (\Throwable $th) {
                     $log = new LogError();
@@ -61,12 +71,43 @@ class GetFormacaoClasseFromSEDUseCase
                 }
             }
 
+            $count = StudentEnrollment::model()->count(
+                'classroom_fk = :classroomId', array(':classroomId' => $tagClassroom->id)
+            );
+
+            $dados = [[$tagClassroom->gov_id, $count, $response->outQtdAtual],];
+            $this->createCSVFile($tagClassroom->gov_id, $dados);
+            
             return $status;
         } catch (Exception $e) {
             $log = new LogError();
             $log->salvarDadosEmArquivo($e->getMessage());
             return false;
         }
+    }
+
+    public function createCSVFile($name, $dados) {
+        
+        $path = 'app/modules/sedsp/numberOfStudentsCSV/';
+        if(!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+
+        $name = $path . $name .".csv";
+        $arquivo = fopen($name, 'w');
+    
+        // Verifica se o arquivo foi aberto com sucesso
+        if ($arquivo === false) {
+            return false; // Falha ao abrir o arquivo
+        }
+    
+        foreach ($dados as $linha) {
+            fputcsv($arquivo, $linha, ';');
+        }
+    
+        fclose($arquivo);
+    
+        return true;
     }
 
     /**
