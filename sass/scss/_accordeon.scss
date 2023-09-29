@@ -15,12 +15,6 @@
             color: $colorsTextPrimary;
         }
     }
-
-    .ui-accordion-content {
-        height: auto !important;
-        overflow-x: hidden !important;
-    }
-
 }
 
 .t-accordeon-primary {
@@ -51,7 +45,6 @@
     }
     .ui-accordion-content {
         height: auto !important;
-        overflow-x: hidden !important;
         background-color: $colorsBaseWhiteNormal;
         padding: $spaceEmpty !important;
     }

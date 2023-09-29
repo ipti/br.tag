@@ -87,7 +87,8 @@ $(document).ready(function () {
             active: false,
             collapsible: true,
             icons: false,
-            animate: 300
+            heightStyle: "content",
+            animate: 600
         });
     });
 
