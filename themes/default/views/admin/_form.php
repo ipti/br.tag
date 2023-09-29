@@ -89,7 +89,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo CHtml::label(Yii::t('default', 'Schools'), 'schools', array('class' => 't-field-select__label')); ?>
                                 <?php echo CHtml::dropDownList('schools', $userSchools, CHtml::listData(SchoolIdentification::model()->findAll('situation=1 order by name'), 'inep_id', 'name'), array('multiple' => true, 'prompt' => 'Selecione a escola', 'class' => 'select-search-on t-multiselect t-field-select__input select2-container multiselect clear-margin--top')); ?>
                             </div>
-                            <div class="t-field-checkbox">
+                            <div class="t-field-checkbox clear-margin--top">
                                 <?php echo CHtml::activeCheckbox($model, 'active', array('class' => 't-field-checkbox__input')) ?>
                                 <?php echo CHtml::label(Yii::t('default', 'Active'), 'active', array('class' => 't-field-checkbox__label clear-margin--top', 'id' => 'active-label')); ?>
                             </div>
@@ -101,19 +101,19 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div class="row">
-                        <div class="column is-two-fifths clearleft">
-
+                        <div class="column is-two-fifths clearleft" style="position: relative;">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($model, 'username', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($model, 'username', array('class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($model, 'username'); ?>
                             </div>
-
-                            <div class="t-field-text__password">
+                            <div class="t-field-text">
                                 <?php echo $form->labelEx($model, 'password', array('class' => 't-field-text__label')); ?>
-                                <?php echo $form->passwordField($model, 'password', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input')); ?>
-                                <span class="t-icon-eye show-password-icon" id="showPassword"></span>
-                                <?php echo $form->error($model, 'password'); ?>
+                                <div class="t-field-text__password">
+                                    <span class="t-icon-eye show-password-icon" id="showPassword"></span>
+                                    <?php echo $form->passwordField($model, 'password', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input password-input')); ?>
+                                    <?php echo $form->error($model, 'password'); ?>
+                                </div>
 
                             </div>
                         </div>
