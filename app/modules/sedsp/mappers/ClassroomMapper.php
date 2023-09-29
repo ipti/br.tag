@@ -60,6 +60,10 @@ class ClassroomMapper
                 $outExibirFichaAluno = $studentDatasource->exibirFichaAluno(
                     new InAluno($student->getOutNumRa(), $student->getOutDigitoRA(), "SP")
                 )->getOutDadosPessoais();
+
+                if($outExibirFichaAluno === null) {
+                    continue;
+                }
     
                 $studentIdentification->sex = $outExibirFichaAluno->getOutCodSexo();
                 $studentIdentification->color_race = $outExibirFichaAluno->getOutCorRaca();
