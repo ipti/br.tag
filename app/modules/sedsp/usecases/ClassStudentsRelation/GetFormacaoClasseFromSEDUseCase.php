@@ -167,22 +167,6 @@ class GetFormacaoClasseFromSEDUseCase
     }
 
     /**
-     * Summary of searchAlunoTurma
-     * @param string $govId
-     * @param OutAlunos[] $enrollments
-     * @return OutAlunos | false
-     */
-    private function searchAlunoTurma($govId, $enrollments)
-    {
-        foreach ($enrollments as $enrollment) {
-            if ($enrollment->outNumRA === $govId) {
-                return $enrollment;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Summary of findStudentIdentificationByGovId
      * @param string $studentGovId
      * @return StudentIdentification
