@@ -1,4 +1,10 @@
 
+## [Versão 3.58.97]
+- Corrigindo a responsividade do formulário de aluno
+
+## [Versão 3.58.96]
+- Modificado a estrutura da aba de matrícula no formulário de aluno de tabela para acordeão
+
 ## [Versão 3.57.96]
 - Adicionado botão de exclusão à tabela de estoque em merenda
 
