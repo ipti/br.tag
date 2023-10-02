@@ -1364,7 +1364,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelManagerIdentification, 'name', array('class' => 't-field-text__label--required')); ?>
                                 <?php echo $form->textField($modelManagerIdentification, 'name', array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Nome do Gestor', 'class' => 't-field-text__input', 'id' => 'ManagerIdentification_name')); ?>
-                                <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Full name of school manager'); ?>"><i></i></span> -->
+
                                 <?php echo $form->error($modelManagerIdentification, 'name'); ?>
                             </div>
                         </div>
@@ -1372,7 +1372,6 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelManagerIdentification, 'cpf', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelManagerIdentification, 'cpf', array('size' => 60, 'maxlength' => 14, 'placeholder' => 'Digite o CPF do Gestor', 'class' => 't-field-text__input', 'id' => 'ManagerIdentification_cpf')); ?>
-                                <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'CPF school manager. Numbers only.'); ?>"><i></i></span> -->
                                 <?php echo $form->error($modelManagerIdentification, 'cpf'); ?>
                             </div>
                         </div>
@@ -1381,8 +1380,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelManagerIdentification, 'birthday_date', array('class' => 't-field-text__label--required')); ?>
-                                <?php echo $form->textField($modelManagerIdentification, 'birthday_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
-                                <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Full name of school manager'); ?>"><i></i></span> -->
+                                <?php echo $form->textField($modelManagerIdentification, 'birthday_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input', 'id' => 'birthday_date')); ?>
                                 <?php echo $form->error($modelManagerIdentification, 'birthday_date'); ?>
                             </div>
                         </div>
@@ -1398,7 +1396,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     "3" => "Parda",
                                     "4" => "Amarela",
                                     "5" => "Indígena"
-                                ), array('class' => 'select-search-off t-field-select__input select2-container'));
+                                ), array('class' => 'select-search-off t-field-select__input select2-container', 'id' => 'color_race'));
                                 ?>
                                 <?php echo $form->error($modelManagerIdentification, 'color_race'); ?>
                             </div>
@@ -1408,7 +1406,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($modelManagerIdentification, 'sex', array('class' => 't-field-select__label--required')); ?>
-                                <?php echo $form->DropDownList($modelManagerIdentification, 'sex', array(null => "Selecione o sexo", "1" => "Masculino", "2" => "Feminino"), array('class' => 'select-search-off t-field-select__input select2-container')); ?>
+                                <?php echo $form->DropDownList($modelManagerIdentification, 'sex', array(null => "Selecione o sexo", "1" => "Masculino", "2" => "Feminino"), array('class' => 'select-search-off t-field-select__input select2-container', 'id'=>'sex')); ?>
                                 <?php echo $form->error($modelManagerIdentification, 'sex'); ?>
                             </div>
                         </div>
@@ -1425,7 +1423,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($modelManagerIdentification, 'nationality', array('class' => 't-field-select__label--required')); ?>
                                 <?php
-                                echo $form->dropDownList($modelManagerIdentification, 'nationality', array(null => "Selecione a nacionalidade", "1" => "Brasileira", "2" => "Brasileira: Nascido no exterior ou Naturalizado", "3" => "Estrangeira"), array('class' => 'select-search-off t-field-select__input select2-container'), array('ajax' => array(
+                                echo $form->dropDownList($modelManagerIdentification, 'nationality', array(null => "Selecione a nacionalidade", "1" => "Brasileira", "2" => "Brasileira: Nascido no exterior ou Naturalizado", "3" => "Estrangeira"), array('class' => 'select-search-off t-field-select__input select2-container','id'=>'nationality'), array('ajax' => array(
                                     'type' => 'POST',
                                     'url' => CController::createUrl('student/getnations'),
                                     'update' => '#ManagerIdentification_edcenso_nation_fk'
@@ -1488,7 +1486,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($modelManagerIdentification, 'filiation', array('class' => 't-field-select__label--required')); ?>
-                                <?php echo $form->DropDownList($modelManagerIdentification, 'filiation', array(null => "Selecione a filiação", "0" => "Não declarado/Ignorado", "1" => "Pai e/ou Mãe"), array('class' => 'select-search-off t-field-select__input select2-container')); ?>
+                                <?php echo $form->DropDownList($modelManagerIdentification, 'filiation', array(null => "Selecione a filiação", "0" => "Não declarado/Ignorado", "1" => "Pai e/ou Mãe"), array('class' => 'select-search-off t-field-select__input select2-container','id' =>'filiation')); ?>
                                 <?php echo $form->error($modelManagerIdentification, 'filiation'); ?>
                             </div>
                         </div>
@@ -1593,7 +1591,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($modelManagerIdentification, 'residence_zone', array('class' => 't-field-select__label--required')); ?>
-                                <?php echo $form->DropDownList($modelManagerIdentification, 'residence_zone', array(null => "Selecione uma zona", "1" => "URBANA", "2" => "RURAL"), array('class' => 'select-search-off t-field-select__input select2-container')); ?>
+                                <?php echo $form->DropDownList($modelManagerIdentification, 'residence_zone', array(null => "Selecione uma zona", "1" => "URBANA", "2" => "RURAL"), array('class' => 'select-search-off t-field-select__input select2-container', 'id' =>'residence_zone')); ?>
                                 <?php echo $form->error($modelManagerIdentification, 'residence_zone'); ?>
                             </div>
                         </div>

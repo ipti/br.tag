@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -86,7 +86,7 @@ $(formIdentification + 'address_number').focusout(function () {
         removeError(id);
     }
 });
-/*$(formIdentification+'address_complement').focusout(function() { 
+/*$(formIdentification+'address_complement').focusout(function() {
  var id = '#'+$(this).attr("id");
  $(id).val($(id).val().toUpperCase());
  if(!validateAddress($(id).val(),20)) {
@@ -167,7 +167,7 @@ $('#ManagerIdentification_name').focusout(function () {
             addError(id, ret[1]);
         } else {
             removeError(id);
-        } 
+        }
     });
 });
 
@@ -260,6 +260,14 @@ $(".save-school-button").click(function () {
         error = true;
         message += "Campo <b>Regulamentação</b> é obrigatório.<br>";
     }
+    if (!$("#SchoolIdentification_linked_organ input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Campo <b>Órgãos que a escola está vinculadao</b> é obrigatório. Selecione ao menos uma opção<br>";
+    }
+    if (!$("#SchoolIdentification_regulation_organ input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Campo <b>Esfera do Órgão regulador</b> é obrigatório. Selecione ao menos uma opção<br>";
+    }
     if ($("#SchoolIdentification_edcenso_uf_fk").val() === "") {
         error = true;
         message += "Campo <b>Estado</b> é obrigatório.<br>";
@@ -325,6 +333,10 @@ $(".save-school-button").click(function () {
         error = true;
         message += "Campo <b>Suprimento de Energia</b> é obrigatório. Selecione ao menos uma opção.<br>";
     }
+    if ($("#SchoolStructure_feeding").val() === "") {
+        error = true;
+        message += "Campo <b>Suprimento de alimentos</b> é obrigatório.<br>";
+    }
     if (!$(".sewage-container input[type=checkbox]:checked").length) {
         error = true;
         message += "Campo <b>Esgoto</b> é obrigatório. Selecione ao menos uma opção.<br>";
@@ -380,10 +392,7 @@ $(".save-school-button").click(function () {
         error = true;
         message += "Campo <b>Rede Local</b> é obrigatório. Selecione ao menos uma opção.<br>";
     }
-    if ($("#SchoolStructure_feeding").val() === "") {
-        error = true;
-        message += "Campo <b>Alimentação para os Alunos</b> é obrigatório.<br>";
-    }
+
     if (!$(".equipments-material-container input[type=checkbox]:checked").length) {
         error = true;
         message += "Campo <b>Instrumentos materiais, socioculturais e/ou pedagógicos em uso na escola para o desenvolvimento de atividades de ensino aprendizagem</b> é obrigatório. Selecione ao menos uma opção.<br>";
@@ -396,8 +405,36 @@ $(".save-school-button").click(function () {
         error = true;
         message += "Campo <b>Órgãos em Funcionamento na Escola</b> é obrigatório. Selecione ao menos uma opção.<br>";
     }
+    if ($("#ManagerIdentification_name").val() === "") {
+        error = true;
+        message += "Campo <b>Nome do Gestor</b> é obrigatório.<br>";
+    }
+    if ($("#birthday_date").val() === "") {
+        error = true;
+        message += "Campo <b>Data de Nascimento do Gestor</b> é obrigatório.<br>";
+    }
+    if ($("#color_race").val() === "") {
+        error = true;
+        message += "O campo <b>Cor / Raça </b> é obrigatório.<br>";
+    }
+    if ($("#sex").val() === "") {
+        error = true;
+        message += "O campo <b>Sexo</b> é obrigatório.<br>";
+    }
+    if ($("#nationality").val() === "") {
+        error = true;
+        message += "O campo <b>Nacionalidade</b> é obrigatório.<br>";
+    }
+    if ($("#filiation").val() === "") {
+        error = true;
+        message += "O campo <b>Filiação</b> é obrigatório.<br>";
+    }
+    if ($("#residence_zone").val() === "") {
+        error = true;
+        message += "O campo <b>Zona Residêncial</b> é obrigatório.<br>";
+    }
     if (error) {
-        $("html, body").animate({scrollTop: 0}, "fast");
+        $("html, body").animate({ scrollTop: 0 }, "fast");
         $(this).closest("form").find(".school-error").html(message).show();
     } else {
         $(this).closest("form").find(".school-error").hide();
