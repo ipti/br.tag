@@ -1,7 +1,7 @@
 function loadClassContents() {
     if ($("#classroom").val() !== "" && $("#month").val() !== "" && (!$("#disciplines").is(":visible") || $("#disciplines").val() !== "")) {
-        
-        
+
+
         jQuery.ajax({
             type: 'POST',
             url: "?r=classes/getClassContents",
@@ -17,7 +17,7 @@ function loadClassContents() {
                 $("#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile").attr("disabled", "disabled");
             },
             success: function (data) {
-                var data = jQuery.parseJSON(data);
+                data = jQuery.parseJSON(data);
                 if (data.valid) {
                     createTable(data);
                     $("#print").addClass("show").removeClass("hide");
@@ -80,15 +80,13 @@ $("#classroom").on("change", function () {
 
 $("#month").on("change", loadClassContents);
 
-//$("#disciplines").on("change", loadClassContents);
-
 $("#disciplines").on("change", function () {
     loadClassContents();
-    var disciplinesValue = $("#disciplines option:selected").text();
+    let disciplinesValue = $("#disciplines option:selected").text();
     $("#disciplinesValue").text(disciplinesValue);
-    var monthValue = $("#month option:selected").text();
+    let monthValue = $("#month option:selected").text();
     $("#monthValue").text(monthValue);
-    var classroomValue = $("#classroom option:selected").text();
+    let classroomValue = $("#classroom option:selected").text();
     $("#classroomValue").text(classroomValue);
 });
 
@@ -104,9 +102,9 @@ $(document).on("click", "#print", function () {
 
 $("#save, #save-button-mobile").on('click', function () {
     $(".alert-save").hide();
-    var classContents = [];
+    let classContents = [];
     $(".day-row").each(function () {
-        var students = [];
+        let students = [];
         $(this).find(".student-diary-of-the-day").each(function () {
             students.push({
                 id: $(this).attr("studentid"),
@@ -151,11 +149,11 @@ $("#save, #save-button-mobile").on('click', function () {
 $('.heading-buttons').css('width', $('#content').width());
 
 $(document).on("click", ".classroom-diary-button", function () {
-    var button = this;
+    let button = this;
     $(".classroom-diary-day").val($(button).closest("tr").attr("day"));
     $(".js-classroom-diary").val($(button).parent().find(".classroom-diary-of-the-day").val());
     $(".js-std-classroom-diaries").each(function () {
-        var value = $(button).parent().find(".student-diary-of-the-day[studentid=" + $(this).find(".js-student-classroom-diary").attr("studentid") + "]").val();
+        let value = $(button).parent().find(".student-diary-of-the-day[studentid=" + $(this).find(".js-student-classroom-diary").attr("studentid") + "]").val();
         $(this).find(".js-student-classroom-diary").val(value);
         value !== ""
             ? $(this).find(".accordion-title").find(".fa").removeClass("fa-file-o").addClass("fa-file-text-o")
@@ -165,12 +163,11 @@ $(document).on("click", ".classroom-diary-button", function () {
 });
 
 $(document).on("click", ".js-add-classroom-diary", function () {
-    var tr = $("#class-contents tbody").find("tr[day=" + $(".classroom-diary-day").val() + "]");
-    
+    let tr = $("#class-contents tbody").find("tr[day=" + $(".classroom-diary-day").val() + "]");
+
     tr.find(".classroom-diary-of-the-day").val($(".js-classroom-diary").val());
     $(".js-student-classroom-diary").each(function () {
-         tr.find(".student-diary-of-the-day[studentid=" + $(this).attr
-         ("studentid") + "]").val($(this).val())
+         tr.find(".student-diary-of-the-day[studentid=" + $(this).attr("studentid") + "]").val($(this).val())
     });
 });
 
