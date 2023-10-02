@@ -7,13 +7,13 @@
     );
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
-    
-   
+
+
     ?>
 
     <div class="row-fluid">
         <div class="span12">
-            <h1><?php echo Yii::t('default', 'School Identifications') ?></h1>  
+            <h1><?php echo Yii::t('default', 'School Identifications') ?></h1>
             <div class="t-buttons-container">
                 <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('school/create') ?>" class="t-button-primary  "> Adicionar escola</a>
             </div>
@@ -21,7 +21,7 @@
     </div>
 
     <div class="tag-inner">
-        <div class="columnone" style="padding-right: 1em">
+        <div class="columnone">
             <?php if (Yii::app()->user->hasFlash('success')): ?>
                 <div class="alert alert-success">
                     <?php echo Yii::app()->user->getFlash('success') ?>
@@ -49,7 +49,7 @@
                             ),
                             array(
                                 'header' => 'Ações',
-                                'class' => 'CButtonColumn', 
+                                'class' => 'CButtonColumn',
                                 'template' => '{update}{delete}',
                                 'buttons' => array(
                                     'update' => array(
@@ -66,7 +66,7 @@
                         ),
                     ));
                     ?>
-                </div>   
+                </div>
             </div>
         </div>
         <div class="columntwo">
