@@ -22,6 +22,8 @@ $(document).on("click", ".js-add-plate", function () {
                 icons: false,
             });
 
+            $('.js-inicializate-select2').select2();
+
             $(".ui-accordion-header").off("keydown");
 
             var labels = document.querySelectorAll("#js-stopPropagation");

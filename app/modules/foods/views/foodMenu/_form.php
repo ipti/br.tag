@@ -37,7 +37,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END
 					<?=  chtml::dropDownList('public_target', "",
 					CHtml::listData(FoodPublicTarget::model()->findAll(), 'id', 'name'),
 					array(
-							'class' => 'select-search-on',
+							'class' => 'select-search-on t-field-select__input',
 							'multiple' => 'multiple',
 							'placeholder' => Yii::t('default', 'Select Classrom'),
 							'style' => 'width: 100%'
@@ -147,7 +147,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END
 				</div>
 				<div class="row">
 					<div class="column">
-						<div id="js-accordion" class="teste t-accordeon-primary">
+						<div id="js-accordion" class="t-accordeon-secondary">
 						</div>
 					</div>
 				</div>

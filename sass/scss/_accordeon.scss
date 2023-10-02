@@ -24,9 +24,8 @@
     }
 
     .ui-accordion-content {
-        height: auto !important;
         overflow-x: hidden !important;
-
+        padding: $SizeXXXSmall $SizeSmall !important;
     }
 }
 
@@ -46,21 +45,12 @@
     @extend .t-accordeon;
 
     .ui-accordion-header {
-        padding: 0 0 !important;
         background: $colorsBaseCloudDark;
         color: $colorsBaseInkLight;
 
-        .t-title {
-            margin: 0 $SizeXSmall;
-            font-weight: $fontWeightRegular;
-            color: $colorsTextPrimary;
-        }
     }
     .ui-accordion-content {
-        height: auto !important;
-        overflow-x: hidden !important;
         background-color: $colorsBaseWhiteNormal;
-        padding: $spaceEmpty !important;
     }
     .ui-widget-content{
         background: none !important;

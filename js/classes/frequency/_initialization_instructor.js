@@ -47,7 +47,7 @@ function load() {
                         Nome
                       </div>
                     </th>
-                    <th class='justify-content--end column is-three-quarters'  style='display:flex;'>
+                    <th class='justify-content--end'  style='display:flex;'>
                         ${this.day}/${mes}
                     </th>
                   </tr>
@@ -87,7 +87,7 @@ function load() {
                   }
 
                   accordion +=
-                    `<td  style='justify-content:flex-start' class='frequency-checkbox-student justify-content--end frequency-checkbox-container ${!this.available ? $("disabled") : $("")}'>
+                    `<td class='frequency-checkbox-student justify-content--end frequency-checkbox-container' ${!this.available ? $("disabled") : $("")}>
                             <input class='frequency-checkbox' type='checkbox' ${!schedule.available ? "disabled" : ""} ${schedule.fault ? "checked" : ""} 
                             classroomId = '${$("#classroom").val()}' 
                               studentId = ${student.studentId} 
