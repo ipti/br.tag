@@ -66,8 +66,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
         <div class="alert alert-error instructor-error no-show"></div>
         <div class="t-tabs">
             <ul class="tab-instructor t-tabs__list">
-                <li id="tab-instructor-identify" class="active t-tabs__item"><a href="#instructor-identify"
-                        data-toggle="tab" class="t-tabs__link">
+                <li id="tab-instructor-identify" class="active t-tabs__item"><a href="#instructor-identify" data-toggle="tab" class="t-tabs__link">
                         <span class="t-tabs__numeration">1</span>
                         <?php echo Yii::t('default', 'Identification') ?>
                     </a>
@@ -114,7 +113,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 <label class="checkbox show-instructor-civil-name-box">
                                     Esse é um nome social?
                                     <input type="checkbox" id="show-instructor-civil-name" <?php if ($modelInstructorIdentification->civil_name != null)
-                                        echo "checked"; ?>>
+                                                                                                echo "checked"; ?>>
                                 </label>
                             </div>
                             <div class="control-group instructor-civil-name" style="display: none;">
@@ -123,9 +122,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->textField($modelInstructorIdentification, 'civil_name', array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Nome Civil')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark"
-                                        data-toggle="tooltip" data-placement="top"
-                                        data-original-title="<?php echo Yii::t('help', 'Instructor Full Civil Name'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Instructor Full Civil Name'); ?>"><i></i></span>
                                     <?php echo $form->error($modelInstructorIdentification, 'civil_name'); ?>
                                 </div>
                             </div>
@@ -264,7 +261,8 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 <div class="controls">
                                     <?php echo $form->DropDownList(
                                         $modelInstructorIdentification,
-                                        'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array("order" => "name")), 'id', 'name'),
+                                        'edcenso_uf_fk',
+                                        CHtml::listData(EdcensoUf::model()->findAll(array("order" => "name")), 'id', 'name'),
                                         array(
                                             'prompt' => 'Selecione um estado',
                                             'class' => 'select-search-on control-input'
@@ -441,6 +439,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                         </div>
                         <div class="span6">
                             <div class="separator"></div>
+                            <!-- Estado -->
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk', array('class' => 'control-label')); ?>
@@ -448,7 +447,8 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 <div class="controls">
                                     <?php echo $form->DropDownList(
                                         $modelInstructorDocumentsAndAddress,
-                                        'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array("order" => "name")), 'id', 'name'),
+                                        'edcenso_uf_fk',
+                                        CHtml::listData(EdcensoUf::model()->findAll(array("order" => "name")), 'id', 'name'),
                                         array(
                                             'prompt' => 'Selecione um estado',
                                             'class' => 'select-search-on control-input',
@@ -463,12 +463,21 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <?php echo $form->error($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk'); ?>
                                 </div>
                             </div>
+                            <!-- Cidade -->
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'edcenso_city_fk', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelInstructorDocumentsAndAddress->edcenso_uf_fk)), 'id', 'name'), array("prompt" => "Selecione uma cidade", "class" => "select-search-on control-input")); ?>
+                                    <?php echo $form->DropDownList(
+                                        $modelInstructorDocumentsAndAddress,
+                                        'edcenso_city_fk',
+                                        CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelInstructorDocumentsAndAddress->edcenso_uf_fk)), 'id', 'name'),
+                                        array(
+                                            "prompt" => "Selecione uma cidade",
+                                            "class" => "select-search-on control-input"
+                                        )
+                                    ); ?>
                                     <?php echo $form->error($modelInstructorDocumentsAndAddress, 'edcenso_city_fk'); ?>
                                 </div>
                             </div>
@@ -630,17 +639,13 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 <div class="widget widget-tabs border-bottom-none">
                                     <div class="widget-head">
                                         <ul class="tab-instructordata">
-                                            <li id="tab-instructor-data1" class="sub-active"><a
-                                                    class="glyphicons certificate" href="#instructor-data1"
-                                                    data-toggle="tab">
+                                            <li id="tab-instructor-data1" class="sub-active"><a class="glyphicons certificate" href="#instructor-data1" data-toggle="tab">
                                                     <?php echo Yii::t('default', 'Course') . ' 1' ?>
                                                 </a></li>
-                                            <li id="tab-instructor-data2"><a class="glyphicons certificate"
-                                                    href="#instructor-data2" data-toggle="tab">
+                                            <li id="tab-instructor-data2"><a class="glyphicons certificate" href="#instructor-data2" data-toggle="tab">
                                                     <?php echo Yii::t('default', 'Course') . ' 2' ?>
                                                 </a></li>
-                                            <li id="tab-instructor-data3"><a class="glyphicons certificate"
-                                                    href="#instructor-data3" data-toggle="tab">
+                                            <li id="tab-instructor-data3"><a class="glyphicons certificate" href="#instructor-data3" data-toggle="tab">
                                                     <?php echo Yii::t('default', 'Course') . ' 3' ?>
                                                 </a></li>
                                         </ul>
@@ -683,7 +688,8 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <div class="controls">
                                                                 <?php echo CHtml::DropDownList(
                                                                     'high_education_course_area1',
-                                                                    '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group' => 'cod, area', 'select' => 'cod, area')), 'cod', 'area'),
+                                                                    '',
+                                                                    CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group' => 'cod, area', 'select' => 'cod, area')), 'cod', 'area'),
                                                                     array(
                                                                         'class' => 'select-search-off control-input',
                                                                         'prompt' => 'Selecione a Área de Atuação',
@@ -707,7 +713,8 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <div class="controls">
                                                                 <?php echo $form->DropDownlist(
                                                                     $modelInstructorVariableData,
-                                                                    'high_education_course_code_1_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('order' => 'name')), 'id', 'name'),
+                                                                    'high_education_course_code_1_fk',
+                                                                    CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('order' => 'name')), 'id', 'name'),
                                                                     array(
                                                                         'prompt' => 'Selecione o curso 1',
                                                                         "class" => "select-search-on control-input",
@@ -798,7 +805,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 
                                                             </div>
                                                             <div class="controls">
-                                                                <?php echo $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_1_fk', [$modelInstructorVariableData->high_education_institution_code_1_fk  =>  $modelInstructorVariableData->high_education_institution_code_1_fk->name] , array("style" => "width:425px;", 'class' => 'select-search-on control-input')); ?>
+                                                                <?php echo $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_1_fk', [$modelInstructorVariableData->high_education_institution_code_1_fk  =>  $modelInstructorVariableData->high_education_institution_code_1_fk->name], array("style" => "width:425px;", 'class' => 'select-search-on control-input')); ?>
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_1_fk'); ?>
                                                             </div>
                                                         </div>
@@ -838,7 +845,8 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <div class="controls">
                                                                 <?php echo CHtml::DropDownList(
                                                                     'high_education_course_area2',
-                                                                    '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group' => 'cod, area', 'select' => 'cod, area')), 'cod', 'area'),
+                                                                    '',
+                                                                    CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group' => 'cod, area', 'select' => 'cod, area')), 'cod', 'area'),
                                                                     array(
                                                                         'class' => 'select-search-off control-input',
                                                                         'prompt' => 'Selecione a Área de Atuação',
@@ -938,7 +946,8 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <div class="controls">
                                                                 <?php echo CHtml::DropDownList(
                                                                     'high_education_course_area3',
-                                                                    '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group' => 'cod, area', 'select' => 'cod, area')), 'cod', 'area'),
+                                                                    '',
+                                                                    CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group' => 'cod, area', 'select' => 'cod, area')), 'cod', 'area'),
                                                                     array(
                                                                         'class' => 'select-search-off control-input',
                                                                         'prompt' => 'Selecione a Área de Atuação',
@@ -1038,7 +1047,4 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
         2: formInstructorvariableData + "high_education_institution_code_2_fk",
         3: formInstructorvariableData + "high_education_institution_code_3_fk"
     };
-
-
-
 </script>

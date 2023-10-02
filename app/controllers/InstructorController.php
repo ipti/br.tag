@@ -184,7 +184,7 @@ preenchidos";
         //=======================================
         $modelInstructorIdentification = $this->loadModel($id, $this->InstructorIdentification);
         $modelInstructorDocumentsAndAddress = $this->loadModel($id, $this->InstructorDocumentsAndAddress);
-        $modelInstructorDocumentsAndAddress = isset($modelInstructorDocumentsAndAddress) ? $modelInstructorDocumentsAndAddress : new InstructorDocumentsAndAddress; 
+        $modelInstructorDocumentsAndAddress = isset($modelInstructorDocumentsAndAddress) ? $modelInstructorDocumentsAndAddress : new InstructorDocumentsAndAddress;
         $modelInstructorVariableData = $this->loadModel($id, $this->InstructorVariableData);
         if ($modelInstructorVariableData == null) {
             $modelInstructorVariableData = new InstructorVariableData();
@@ -315,8 +315,8 @@ preenchidos";
     public function actionIndex()
     {
         $dataProvider = InstructorIdentification::model()->search();
-        
-        
+
+
         $this->render('index', [
             'dataProvider' => $dataProvider
         ]);
@@ -343,8 +343,9 @@ preenchidos";
 
         $options = array();
         foreach ($data as $value => $name) {
-            array_push($options, CHtml::tag('option', ['value' => $value, 'selected' => $value == $current_city], CHtml::encode($name), TRUE));
+            array_push($options, CHtml::tag('option', ['value' => $value, 'selected' => $value == $current_city], CHtml::encode($name), FALSE));
         }
+        // here
 
         echo json_encode($options);
     }
@@ -386,7 +387,7 @@ preenchidos";
         $edcenso_uf_fk = $_POST["edcenso_uf_fk"];
         $institutions = EdcensoIES::model()->findAllByAttributes(array('edcenso_uf_fk' => $edcenso_uf_fk));
         // $institutions = CHtml::listData($institutions, 'id', 'name');
-        
+
         $return = [];
         foreach ($institutions as $institution) {
             array_push($return, ['id' => CHtml::encode($institution->id), 'name' => CHtml::encode($institution->name)]);
@@ -530,7 +531,7 @@ preenchidos";
         }
     }
 
-    public function actionFrequency() 
+    public function actionFrequency()
     {
         $instructors = InstructorIdentification::model()->findAll([
             'order' => 'name',
@@ -557,7 +558,7 @@ preenchidos";
     public function actionGetFrequency()
     {
         $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"]]);
-        
+
         $criteria = new CDbCriteria();
         $criteria->with = array('instructorFk');
         $criteria->together = true;
@@ -595,10 +596,10 @@ preenchidos";
         }
     }
 
-    public function actionGetFrequencyClassroom () 
+    public function actionGetFrequencyClassroom ()
     {
         $instructor = htmlspecialchars($_POST["instructor"]);
-        $classrooms = Yii::app()->db->createCommand("SELECT c.id, c.name FROM classroom c 
+        $classrooms = Yii::app()->db->createCommand("SELECT c.id, c.name FROM classroom c
                 JOIN instructor_teaching_data itd ON(c.id = itd.classroom_id_fk)
                 WHERE itd.instructor_fk = :instructor")
                 ->bindParam(":instructor", $instructor)
