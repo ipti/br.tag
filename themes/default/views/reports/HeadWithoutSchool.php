@@ -24,7 +24,6 @@ if(!isset($school)){
             <li><?php echo $school->name ?></li>
         <?php }else{?>
             <li>PREFEITURA MUNICIPAL DE <?php echo $school->edcensoCityFk->name ?></li>
-            <li><?php echo $school->name ?></li>
         <?php }?>
     </ul>
     <ul id="addinfo">
