@@ -560,6 +560,18 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
+                <a href="<?php echo Yii::app()->createUrl('reports/TotalNumberOfStudentsEnrolled') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">    
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-student-registration t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Total de Alunos Matriculados por Escola</span><br>
+                            <span class="subtitle">Listagem do número de turmas e alunos matriculados de cada escola</span>
+                        </div>
+                    </button>
+                </a>
+
                 <button type="button" class="report-box-container" data-toggle="modal" data-target="#number-of-students-enrolled-per-period-all-schools" target="_blank">
                     <div class="pull-left" style="margin-right: 20px;">
                         <span class="t-amount-class t-reports_icons"></span>
@@ -672,6 +684,39 @@ $this->breadcrumbs = array(
                                 <label for="end-date" class="control-label">Data de Fim</label>
                                 <input type="date" name="end-date" id="end-date" required>
                             </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                        <button class="btn btn-primary" type="submit" value="Gerar" style="background: #3F45EA; color: #FFFFFF;"> Selecionar turma </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="modal fade modal-content" id="students-benefiting-from-the-bf" tabindex="-1" role="dialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
+            </div>
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/ReportOfStudentsBenefitingFromTheBFPerClassroom'); ?>" method="post" target="_blank">
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class=" span12">
+                            <?php
+                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
+                            ?>
+                            <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
+                                <?php
+                                echo "<option value='' selected>Selecione a turma</option>";
+                                foreach ($classrooms as $classroom) {
+                                    echo "<option value='" . $classroom->id . "'>" . $classroom->name . "</option>";
+                                }
+                                ?>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -1043,7 +1088,7 @@ $this->breadcrumbs = array(
                             <?php
                             echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
                             ?>
-                            <select name="classroom2" id="classroom2" placeholder="Selecione a turma" style="width:100%" required>
+                            <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
                                 echo "<option value='' selected>Selecione a turma</option>";
                                 foreach ($classrooms as $classroom) {

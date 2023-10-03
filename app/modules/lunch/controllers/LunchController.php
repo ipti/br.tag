@@ -22,11 +22,12 @@ class LunchController extends Controller {
         $menuPost = $request->getPost("Menu", false);
 
         $menu = new Menu();
-        $menu->date = date("Y-m-d h:i:s");
+
+        $menu->date = date("Y-m-d", strtotime(str_replace("/", "-", isset($menuPost["date"]) ? $menuPost["date"] : date("Y-m-d"))));
         $menu->turn = $menuPost["turn"];
         if($menuPost){
             $menu->attributes = $menuPost;
-            $menu->date = date("Y-m-d h:i:s");
+            $menu->date = date("Y-m-d", strtotime(str_replace("/", "-", $menuPost["date"])));
             $menu->school_fk = $this->school->inep_id;
 
             if($menu->validate()){
@@ -52,6 +53,7 @@ class LunchController extends Controller {
 
         if($menuPost){
             $menu->name = $menuPost['name'];
+            $menu->date = date("Y-m-d", strtotime(str_replace("/", "-", $menuPost["date"])));
             $menu->turn = $menuPost["turn"];
             if($menu->validate()){
                 $menu->save();
@@ -65,6 +67,11 @@ class LunchController extends Controller {
         }else {
             $this->render('update', ["menu" => $menu]);
         }
+    }
+    public function actionLunchDelete(){
+        $request = Yii::app()->getRequest();
+        $menu = Menu::model()->findByPk($request->getPost("id"));
+        return $menu->delete();
     }
 
     public function actionRemovePortion(){

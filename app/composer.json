@@ -10,6 +10,12 @@
   },
   "require-dev": {
     "goetas-webservices/xsd2php": "^0.3",
-    "goetas-webservices/xsd2php-runtime": "0.2.16"
+    "goetas-webservices/xsd2php-runtime": "0.2.16",
+    "phpunit/phpunit": "^8.5",
+    "phpunit/phpunit-selenium": "^8.0"
+    
+  },
+  "scripts": {
+    "test" : "./vendor/bin/phpunit tests/functional -c tests/phpunit.xml"
   }
 }

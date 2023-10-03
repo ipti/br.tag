@@ -40,7 +40,7 @@ $assetUrl = Yii::app()->theme->baseUrl;
 
 $cs = Yii::app()->getClientScript();
 
-// Base Layout 
+// Base Layout
 $cs->registerCssFile($assetUrl . "/css/bootstrap.min.css");
 $cs->registerCssFile($assetUrl . "/css/responsive.min.css");
 $cs->registerCssFile($assetUrl . "/css/print.css", "print");
@@ -80,9 +80,9 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.min.js"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ba-bbq.js"></script>
     <link rel="stylesheet" href="/resources/demos/style.css">
-    
+
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
-    
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -93,7 +93,18 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
     <meta name="referrer" content="no-referrer" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
-    
+
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K8P42N6XZ5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-K8P42N6XZ5');
+    </script>
+
     <!-- Hotjar Tracking Code for https://demo.tag.ong.br -->
     <script>
         (function(h,o,t,j,a,r){
@@ -293,7 +304,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                     <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=enrollment/reportCard") ? 'active' : '' ?>">
                                         <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('enrollment/reportCard') ?> ">
                                             <span class="t-report_card t-menu-item__icon"></span>
-                                            <span class="t-menu-item__text">Lançamento de notas</span>
+                                            <span class="t-menu-item__text">Lançamento de Notas</span>
                                         </a>
                                     </li>
                                 <?php endif ?>
@@ -306,7 +317,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                     <span class="t-menu-item__text">Diario de Classe</span>
                                 </a>
                             </li>
-                         <?php endif ?>   
+                         <?php endif ?>
                         <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=reports") ? 'active' : '' ?> hide-responsive">
                             <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('reports') ?>">
                                 <span class="t-icon-column_graphi t-menu-item__icon"></span>
@@ -372,6 +383,13 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                 </ul>
                             </li>
                         <?php endif ?>
+                        <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=admin/editPassword") ? 'active' : '' ?> hide-responsive">
+                            <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('admin/editPassword', array("id" => Yii::app()->user->loginInfos->id)) ?>">
+                                <span class="t-icon-lock t-menu-item__icon"></span>
+                                <!-- <img class="t-menu-item__icon" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/administracao.svg" /> -->
+                                <span class="t-menu-item__text">Alterar senha</span>
+                            </a>
+                        </li>
                         <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
                             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=admin") ? 'active' : '' ?> hide-responsive">
                                 <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('admin') ?>">
@@ -455,8 +473,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
     <script src='<?php echo Yii::app()->baseUrl; ?>/js/layout/functions.js'></script>
     <script src='<?php echo Yii::app()->baseUrl; ?>/js/datatables/init.js'></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/datatables.min.js"></script>
-    
-
 </body>
 
 </html>
+

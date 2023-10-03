@@ -8,7 +8,7 @@
     &.auto-width {
         width: auto;
     }
-    
+
     @include device(tablet) {
         padding: $spaceXXXSmall 0 $spaceXXXSmall 0;
         font-size: $FontSizeTextNormal;
@@ -31,6 +31,13 @@
     span {
         margin: $spaceEmpty $spaceXXXSmall $spaceEmpty $spaceEmpty;
         font-size: $FontSizeHeadingTitle4;
+    }
+
+    &.mobile-margin {
+        margin-right: $spaceMedium;
+    }
+    &.nofloat{
+        float: unset !important;
     }
 
     &:hover,
@@ -88,6 +95,7 @@
         padding: $spaceSmall $spaceXLarge;
     }
 
+
     &:hover,
     &--active {
         color: $colorsBaseWhiteNormal;
@@ -122,6 +130,10 @@
     background-color: $colorsBaseInkLighterActive;
     color: $colorsBaseWhiteNormal;
 
+    &:focus {
+        color: $colorsBaseWhiteNormal;
+    }
+
     &:hover,
     &--active {
         color: $colorsBaseWhiteNormal;
@@ -138,6 +150,7 @@
     @extend .t-button;
     color: $colorsBaseWhiteNormal;
     background-color: $colorsTextError;
+    border: 0;
 
     &--disabled {
         background-color: $colorsBaseCloudNormal;
@@ -156,6 +169,7 @@
 
 .t-button-icon {
     @extend .t-button;
+
     &.secondary {
         padding: $spaceXXSmall $spaceLarge $spaceXXSmall $spaceLarge;
         background-color: $colorsBaseProductNormal;
@@ -170,6 +184,7 @@
             color: $colorsBaseWhiteNormal;
             background-color: $colorsBaseProductNormalActive;
         }
+
         &:link,
         &:focus,
         &:hover,
@@ -178,20 +193,21 @@
             color: $colorsBaseWhiteNormal;
         }
         span{
-            font-size: $FontSizeIcons2 !important; 
+            font-size: $FontSizeIcons2 !important;
         }
     }
+    &-danger {
+        cursor: pointer;
+        color: $colorsTextError;
+    }
 }
-
-// .t-button-icon-primary {
-//     padding: $spaceXXSmall $spaceXXSmall $spaceXXSmall $spaceXXSmall;
-//     display: contents;
-//     background: none;
-//     border: none;
-
-//     span {
-//         margin: $spaceEmpty $spaceXXXSmall $spaceEmpty $spaceEmpty;
-//         font-size: $FontSizeIcons;
-//         color: $colorsBaseInkLight;
-//     }
-// }
+.t-link-button {
+    color: $colorsBaseInkNormal !important;
+    &--warning {
+        color: $colorsTextError !important;
+        margin-top: $SizeLarge;
+    }
+    &--info {
+        color: $colorsBaseProductNormalActive !important;
+    }
+}
