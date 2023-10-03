@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this ReportsController */
-/* @var $professor mixed */
+/* @var $instructor mixed */
 /* @var $classroom mixed */
 
 $baseUrl = Yii::app()->baseUrl;
@@ -48,11 +48,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 . "<th> <b>Escolaridade  </b></th>"
                 . "</tr>";
 
-            if(count($professor) ==  0){
+            if(count($instructor) ==  0){
                 echo "<br><span class='alert alert-primary'>N&atilde;o h&aacute; professores auxiliares nas turmas.</span>";
             }
             else {
-                foreach ($professor as $p) {
+                foreach ($instructor as $p) {
                     if ($p['classroom_id_fk'] == $c['id']) {
 
                         $html .= "<tr>"
