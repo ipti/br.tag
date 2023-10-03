@@ -403,8 +403,13 @@ class ReportsController extends Controller
 
     public function actionEnrollmentStatisticsByYearReport()
     {
+        // Construíndo condicionais e definindo ordenação para a consulta
+        $criteria = new CDbCriteria;
+        $criteria->order = 'name ASC';
+        $criteria->condition = "school_year = :year";
+        $criteria->params = array("year" => Yii::app()->user->year);
         //Consulta todas as classes abertas no ano atual
-        $classrooms = Classroom::model()->findAll("school_year = :year", ["year" => Yii::app()->user->year]);
+        $classrooms = Classroom::model()->findAll($criteria);
         $stages = [];
         $schools = [];
         foreach ($classrooms as $classroom) {

@@ -16,10 +16,20 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         text-align: center !important;
         vertical-align: middle !important;
     }
+    /* Landscape orientation */
+    @page{
+        size: landscape;
+    }
+    /* Hidden the print button */
+    @media print {
+        #print {
+            display: none;
+    }
+}
 </style>
 
 <div class="pageA4H">
-    <?php $this->renderPartial('head'); ?>
+    <?php $this->renderPartial('HeadWithoutSchool'); ?>
     <h3 id="report-title"><?php echo Yii::t('default', 'Matrículas Atuais'); ?></h3>
     <div class="row-fluid hidden-print">
         <div class="span12">
@@ -103,6 +113,9 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 </div>
 <script>
     function imprimirPagina() {
+        // printButton = document.getElementsByClassName('span12');
+        // printButton.style.visibility = 'hidden';
         window.print();
+        // printButton.style.visibility = 'visible';
     }
 </script>
