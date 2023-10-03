@@ -7,6 +7,7 @@
  * @property integer $id
  * @property string $description
  * @property string $code
+ * @property string $type
  * @property integer $edcenso_discipline_fk
  * @property integer $edcenso_stage_vs_modality_fk
  * @property integer $parent_fk
