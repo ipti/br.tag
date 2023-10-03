@@ -15,12 +15,6 @@
             color: $colorsTextPrimary;
         }
     }
-
-    .ui-accordion-content {
-        height: auto !important;
-        overflow-x: hidden !important;
-
-    }
 }
 
 .t-accordeon-primary {
@@ -51,7 +45,6 @@
     }
     .ui-accordion-content {
         height: auto !important;
-        overflow-x: hidden !important;
         background-color: $colorsBaseWhiteNormal;
         padding: $spaceEmpty !important;
     }
@@ -86,10 +79,66 @@
     }
 
     .ui-accordion-content {
-        background-color: $colorsBaseWhiteNormal;
         background: none !important;
         padding-left: 0 !important;
         padding-right: 0 !important;
         height: auto;
     }
+}
+.t-accordeon-quaternary {
+    @extend .t-accordeon;
+
+    .ui-accordion-header {
+        margin-top: $SizeMedium;
+        padding-left: $SizeXSmall !important;
+        padding-right: $SizeXSmall !important;
+        background: $colorsBaseWhiteNormal;
+        box-shadow: 0px 0px 10px 0px rgba(196, 196, 196, 0.50);
+
+
+        .accordion-arrow-icon {
+            transition: transform 0.5s ease;
+        }
+
+        .rotate {
+            transform: rotate(-90deg);
+            transition: transform 0.5s ease;
+        }
+
+
+
+        .t-title {
+            margin: 0;
+            font-weight: $fontWeightBold;
+            color: $colorsTextPrimary;
+        }
+
+        &:hover,
+        &--active {
+            background-color: $colorsBaseWhiteNormalHover;
+        }
+    }
+
+    .ui-accordion-content {
+        background: none !important;
+        padding-left: $SizeXSmall !important;
+        padding-right: $SizeXSmall !important;
+        height: auto;
+        box-shadow: 0px 0px 10px 0px rgba(196, 196, 196, 0.50);
+        font-size: $FontSizeTextNormal;
+    }
+    .accordion-label {
+        &--title {
+            color: $colorsBaseInkLight;
+            display: flex;
+            align-items: center;
+            margin-right: $SizeXSmall;
+            margin-bottom: 0;
+        }
+        display: flex;
+        align-items: center;
+        margin-right: $SizeXSmall;
+        margin-bottom: 0;
+    }
+
 }

@@ -47,20 +47,8 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 </div>
             </button>
         </a>
-
-        <a href="#" data-toggle="modal" data-target="#add-classroom" target="_blank">
-            <button type="button" class="report-box-container">
-                <div class="pull-left" style="margin-right: 20px;">
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/classroom.svg" />
-                    <!-- <div class="t-icon-schedule report-icon"></div> -->
-                </div>
-                <div class="pull-left">
-                    <span class="title">Cadastrar Turma</span><br>
-                    <span class="subtitle">Cadastrar turma podendo trazer alunos matriculados</span>
-                </div>
-            </button>
-        </a>
         
+        <!--
         <a href="#" data-toggle="modal" data-target="#add-school" target="_blank">
             <button type="button" class="report-box-container">
                 <div class="pull-left" style="margin-right: 20px;">
@@ -72,16 +60,28 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                 </div>
             </button>
         </a>
-
-        <a href="#" data-toggle="modal" data-target="#get-full-school" target="_blank">
+-->
+        <a href="<?php echo Yii::app()->createUrl('sedsp/default/ImportFullSchool') ?>" data-toggle="modal" data-target="#get-full-school" rel="noopener" target="_blank">
             <button type="button" class="report-box-container">
                 <div class="pull-left" style="margin-right: 20px;">
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/school.svg" alt="school"/>
+                </div>
+                <div class="pull-left">
+                    <span class="title">Importar Escola e as turmas</span><br>
+                    <span class="subtitle">Realize a Importação da Escola, Incluindo Todas as Turmas</span>
+                </div>
+            </button>
+        </a>
+
+        <a  href="<?php echo Yii::app()->createUrl('sedsp/default/ListClassrooms'); ?>" data-toggle="modal" data-target="#import-students" rel="noopener" target="_blank">
+            <button type="button" class="report-box-container">
+                <div class="pull-left" style="margin-right: 20px;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/classroom.svg" />
                     <!-- <div class="t-icon-schedule report-icon"></div> -->
                 </div>
                 <div class="pull-left">
-                    <span class="title">Importação completa da Escola</span><br>
-                    <span class="subtitle">Realize a Importação da Escola, Incluindo Todas as Turmas e Alunos de Cada Turma</span>
+                    <span class="title">Importar alunos por turmas</span><br>
+                    <span class="subtitle" style="color: red;">Selecione primeiro a escola da qual deseja importar os alunos</span>
                 </div>
             </button>
         </a>
@@ -89,8 +89,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         <a href="<?php echo Yii::app()->createUrl('sedsp/default/manageRA') ?>">
             <button type="button" class="report-box-container">
                 <div class="pull-left" style="margin-right: 20px;">
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/generate.svg" />
-                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sedspIcon/generate.svg" alt="gerar ra"/>
                 </div>
                 <div class="pull-left">
                     <span class="title">Gerar RA</span><br>
@@ -120,9 +119,24 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                     <div id="ra-warning" style="display: none; color:#D21C1C">O RA deve ter exatamente 12 dígitos.</div>
                     </div>
                 </div>
+                <div id="loading-container-student" style="display: none;">
+                    <div id="loading">
+                        <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
+                            <div id="loading">
+                                <img class="js-grades-loading" height="40px" width="40px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
+                            </div>
+                            <div class="loading-text">Importando aluno usando o RA...</div>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                    <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('sedsp/default/ImportStudentRA'); ?>" type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
+                    <button type="button" class="btn btn-default"
+                        data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar
+                    </button>
+                    <button id="loading-popup" class="btn btn-primary"
+                        url="<?php echo Yii::app()->createUrl('sedsp/default/ImportStudentRA'); ?>"
+                        type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar
+                    </button>
                 </div>
         </form>
     </div>
@@ -158,77 +172,35 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
         </button>
-        <h4 class="modal-title" id="myModalLabel">Importação completa da Escola</h4>
+        <h4 class="modal-title" id="myModalLabel">Importar Escola:</h4>
     </div>
-    <form class="form-vertical" id="submit-full-school" action="<?php echo yii::app()->createUrl('sedsp/default/ImportFullSchool') ?>" method="post">
+    <form class="form-vertical" id="submit-full-school" action="<?php echo Yii::app()->createUrl('sedsp/default/ImportFullSchool') ?>" method="post">
+        <input type="hidden" name="nameSchool" 
+            value="<?php echo SchoolIdentification::model()->findBySql(
+                "select name from school_identification where inep_id = " . Yii::app()->user->school
+            )->name; ?>"
+        >
         <div class="modal-body">
-            <div class="row-fluid">
-                <div class=" span12">
-                    <label  for="schoolDropdown">Selecione uma escola:</label>
-                    <select name="schoolName" id="schoolName" style="width: 97.7%">
-                        <option value="AGOSTINHO ALVES DA SILVA EM">AGOSTINHO ALVES DA SILVA EM</option>
-                        <option value="ALBA REGINA TORRAQUE DA SILVA PROFESSORA EMEI">ALBA REGINA TORRAQUE DA SILVA PROFESSORA EMEI</option>
-                        <option value="ALTIMIRA SILVA ABIRACHED PROFA EM">ALTIMIRA SILVA ABIRACHED PROFA EM</option>
-                        <option value="BESSIE FERREIRA OSORIO DE OLIVEIRA PROFA EMEI">BESSIE FERREIRA OSORIO DE OLIVEIRA PROFA EMEI</option>
-                        <option value="CEI MARIA LUCIA DA NOBREGA - TIA BABA">CEI MARIA LUCIA DA NOBREGA - TIA BABA</option>
-                        <option value="CEI PROFESSORA HELOISA MARIA SALLES TEIXEIRA - TIA HELO">CEI PROFESSORA HELOISA MARIA SALLES TEIXEIRA - TIA HELO</option>
-                        <option value="CEMPRI PROFESSORA MARTA HELENA DA SILVA ARAUJO">CEMPRI PROFESSORA MARTA HELENA DA SILVA ARAUJO</option>
-                        <option value="CENTRO DE EDUCAÇÃO INFANTIL ANA PAULA DO PRADO">CENTRO DE EDUCAÇÃO INFANTIL ANA PAULA DO PRADO</option>
-                        <option value="CRECHE MUNICIPAL PROFESSOR CORSINO ALISTE MEZQUITA">CRECHE MUNICIPAL PROFESSOR CORSINO ALISTE MEZQUITA</option>
-                        <option value="DINORAH PEREIRA DE SOUZA PROFA EMEI">DINORAH PEREIRA DE SOUZA PROFA EMEI</option>
-                        <option value="EM JOSÉ LIBÓRIO">EM JOSÉ LIBÓRIO</option>
-                        <option value="ERNESMAR DE OLIVEIRA PROF EM">ERNESMAR DE OLIVEIRA PROF EM</option>
-                        <option value="ESCOLA MUNICIPAL CAÇANDOCA">ESCOLA MUNICIPAL CAÇANDOCA</option>
-                        <option value="FORTALEZA EM">FORTALEZA EM</option>
-                        <option value="HELENA MARIA MENDES ALVES PROFA EMEI">HELENA MARIA MENDES ALVES PROFA EMEI</option>
-                        <option value="HONOR FIGUEIRA PROF EM">HONOR FIGUEIRA PROF EM</option>
-                        <option value="IBERE ANANIAS PIMENTEL EM">IBERE ANANIAS PIMENTEL EM</option>
-                        <option value="IDALINA GRACA EMEI">IDALINA GRACA EMEI</option>
-                        <option value="JOAO ALEXANDRE SENHOR EM">JOAO ALEXANDRE SENHOR EM</option>
-                        <option value="JOAQUIM LUIS BARBOSA PROF EM">JOAQUIM LUIS BARBOSA PROF EM</option>
-                        <option value="JOSE BELARMINO SOBRINHO EM">JOSE BELARMINO SOBRINHO EM</option>
-                        <option value="JOSE CARLOS PEREIRA PROF EMEI">JOSE CARLOS PEREIRA PROF EMEI</option>
-                        <option value="JOSE DE ANCHIETA PADRE EM">JOSE DE ANCHIETA PADRE EM</option>
-                        <option value="JOSE DE SOUZA SIMEAO PROF EM">JOSE DE SOUZA SIMEAO PROF EM</option>
-                        <option value="JOSE HERCULES CEMBRANELLI PROF CENTRO DE EDUCACAO INFANTIL">JOSE HERCULES CEMBRANELLI PROF CENTRO DE EDUCACAO INFANTIL</option>
-                        <option value="JUDITH CABRAL DOS SANTOS EM">JUDITH CABRAL DOS SANTOS EM</option>
-                        <option value="LUIZA BASILIO DOS SANTOS CENTRO DE EDUCACAO INFANTIL">LUIZA BASILIO DOS SANTOS CENTRO DE EDUCACAO INFANTIL</option>
-                        <option value="MANOEL INOCENCIO ALVES DOS SANTOS EM">MANOEL INOCENCIO ALVES DOS SANTOS EM</option>
-                        <option value="MARIA ALICE LEITE DA SILVA PROFA EMEI">MARIA ALICE LEITE DA SILVA PROFA EMEI</option>
-                        <option value="MARIA DA CRUZ BARRETO EM">MARIA DA CRUZ BARRETO EM</option>
-                        <option value="MARIA DA CRUZ DE OLIVEIRA PROFA EM">MARIA DA CRUZ DE OLIVEIRA PROFA EM</option>
-                        <option value="MARIA DA GLORIA MADRE EM">MARIA DA GLORIA MADRE EM</option>
-                        <option value="MARIA DAS DORES CARPINETTI PROFA EM">MARIA DAS DORES CARPINETTI PROFA EM</option>
-                        <option value="MARIA DO CARMO SOARES EM">MARIA DO CARMO SOARES EM</option>
-                        <option value="MARIA JOSEFINA GIGLIO DA SILVA PROFA EM">MARIA JOSEFINA GIGLIO DA SILVA PROFA EM</option>
-                        <option value="MARINA SALETE NEPOMUCENO DO AMARAL PROFA EM">MARINA SALETE NEPOMUCENO DO AMARAL PROFA EM</option>
-                        <option value="MARIO COVAS JUNIOR GOVERNADOR EM">MARIO COVAS JUNIOR GOVERNADOR EM</option>
-                        <option value="MONIQUE MUNIZ DE CARVALHO CENTRO DE EDUCACAO INFANTIL">MONIQUE MUNIZ DE CARVALHO CENTRO DE EDUCACAO INFANTIL</option>
-                        <option value="NATIVA FERNANDES DE FARIA EM">NATIVA FERNANDES DE FARIA EM</option>
-                        <option value="OLGA RIBAS DE ANDRADE GIL PROFA EM">OLGA RIBAS DE ANDRADE GIL PROFA EM</option>
-                        <option value="PEDRO ALVES DE SOUZA MAESTRO EM">PEDRO ALVES DE SOUZA MAESTRO EM</option>
-                        <option value="RENATA CASTILHO DA SILVA PROFA EM">RENATA CASTILHO DA SILVA PROFA EM</option>
-                        <option value="RICHARD JUAREZ GOBBI EMEI">RICHARD JUAREZ GOBBI EMEI</option>
-                        <option value="SEBASTIANA LUIZA DE OLIVEIRA PRADO EM">SEBASTIANA LUIZA DE OLIVEIRA PRADO EM</option>
-                        <option value="SILVINO TEIXEIRA LEITE PREFEITO EM">SILVINO TEIXEIRA LEITE PREFEITO EM</option>
-                        <option value="SOFIA RODRIGUES DE LIMA IRMA EMEI">SOFIA RODRIGUES DE LIMA IRMA EMEI</option>
-                        <option value="TANCREDO DE ALMEIDA NEVES PRESIDENTE EM">TANCREDO DE ALMEIDA NEVES PRESIDENTE EM</option>
-                        <option value="TEREZINHA FERNANDES ROSSI EMEI">TEREZINHA FERNANDES ROSSI EMEI</option>
-                        <option value="THEREZA DOS SANTOS EM (TIA THEREZA)">THEREZA DOS SANTOS EM (TIA THEREZA)</option>
-                        <option value="VIRGINIA MELLE DA SILVA LEFEVRE EM">VIRGINIA MELLE DA SILVA LEFEVRE EM</option>
-                    </select>
-                </div>
-            </div>
-        
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                <button id="loading-popup" class="btn btn-primary" url="<?= Yii::app()->createUrl('sedsp/default/ImportFullSchool'); ?>" type="submit" value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
-                <div id="loading-container" style="display: none;">
-                    <div class="loading-content">
-                        <div class="loading-spinner"></div>
-                        <div class="loading-text">Aguarde enquanto a escola é importada...</div>
+        <?php echo SchoolIdentification::model()->findBySql("select name from school_identification where inep_id = " . Yii::app()->user->school)->name?>
+            <div id="loading-container-school" style="display: none;">
+                <div id="loading">
+                    <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
+                        <div id="loading">
+                            <img class="js-grades-loading" height="40px" width="40px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
+                        </div>
+                        <div class="loading-text">Aguarde enquanto a escola e as classes são importadas...</div>
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                    data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">
+                    Voltar
+                </button>
+                <button id="loading-popup-school" class="btn btn-primary"
+                    url="<?= Yii::app()->createUrl('sedsp/default/ImportFullSchool'); ?>"
+                    type="submit" value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Importar
+                </button>
             </div>
         </div>
     </form>
@@ -236,75 +208,135 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
 
 
 <div class="row">
-    <div class="modal fade modal-content" id="add-classroom" tabindex="-1" role="dialog">
+    <div class="modal fade modal-content" id="import-students" tabindex="-1" role="dialog">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: static;">
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
             </button>
-            <h4 class="modal-title" id="myModalLabel">Cadastrar Turma</h4>
+            <h4 class="modal-title" id="myModalLabel">Selecione as turmas para as quais deseja importar os alunos</h4>
         </div>
-        <form class="form-vertical" id="addClassroom" action="<?php echo yii::app()->createUrl('sedsp/default/AddClassroom') ?>" method="post" onsubmit="return validateFormClass();">
-            <div class="modal-body">
-                <div class="row-fluid">
-                    <div class=" span12" style="display: flex;">
-                        <div style="width: 100%;">
-                            <?php echo CHtml::label(yii::t('default', 'Código da Turma'), 'school_id', array('class' => 'control-label')); ?>
-                            <input name="classroomNum" id="class" type="number" placeholder="Digite o Código da Turma" oninput="validateClass();" maxlength="9" style="width: 97.5%;">
-                            <div id="class-warning" style="display: none;color:#D21C1C">O Código deve ter exatamente 9 dígitos.</div>
-                            <div class="checkbox modal-replicate-actions-container">
-                                <input type="checkbox" name="importStudents" style="margin-right: 10px;">
-                                Importar Matrículas dos Alunos? Isso pode aumentar o tempo de espera.
+        <div style="margin: 5px;">
+            <form id="select-classes-form" action="<?= Yii::app()->createUrl('sedsp/default/ImportFullStudentsByClasses'); ?>" method="post">
+                <div style="max-height: 300px; overflow-y: auto;">
+                    <table class="display student-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs" style="width:100%" aria-label="students table">
+                        <thead>
+                            <tr>
+                                <th>N° Classe</th>
+                                <th>Nome da turma</th>
+                                <th>Ação</th>
+                                <th>Tag</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $inep_id = Yii::app()->user->school;
+                            $classes = Classroom::model()->findAllByAttributes(
+                                array('school_inep_fk' => $inep_id),
+                                'gov_id IS NOT NULL'
+                            );
+                            
+                            $selectedClasses = [];
+
+                            foreach ($classes as $class) {
+                                $csvClassPath = "app/modules/sedsp/numberOfStudentsCSV/{$class['gov_id']}.csv";
+                                $ClassExistsInPath = false;
+                                if(file_exists($csvClassPath)){
+                                    $csvLine = file_get_contents($csvClassPath);
+                                    $parts = explode(';', $csvLine);
+                                    $numStudentTag = (int) $parts[1];
+                                    $numStudentSed = (int) $parts[2];
+                                    $ClassExistsInPath = true;
+                                }
+                            ?>
+                            <tr>
+                                <td><?php echo $class->gov_id ?></td>
+                                <td><?php echo $class->name ?></td>
+                                <td>
+                                    <?php echo CHtml::checkBox(
+                                        'checkboxListNumClasses[]',
+                                        in_array($class->gov_id, $selectedClasses),
+                                        array('value' => $class->gov_id)
+                                    ) ?>
+                                </td>
+                                <td>
+                                    <?php if ($ClassExistsInPath) { ?>
+                                        <?php if ($numStudentTag === $numStudentSed) { ?>
+                                            <i class="fa fa-check-circle" style="color:green" aria-hidden="true"></i>
+                                        <?php } else { ?>
+                                            <i class="fa fa-exclamation-triangle" style="color:red" aria-hidden="true">
+                                                <?php echo " $numStudentTag / $numStudentSed" ?>
+                                            </i>
+                                        <?php } ?>
+                                    <?php } ?>
+                                </td>
+                            </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Add hidden input field to store selected classes -->
+                <input type="hidden" name="selectedClasses" id="selectedClasses">
+                <div id="loading-container-import-student" style="display: none;">
+                    <div id="loading">
+                        <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
+                            <div id="loading">
+                                <img class="js-grades-loading" height="40px" width="40px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
                             </div>
-                            <div class="checkbox modal-replicate-actions-container" style="margin-top: 8px;">
-                                <input type="checkbox" name="registerAllClasses" style="margin-right: 10px;">
-                                Importar todas as turmas? Isso pode aumentar o tempo de espera.
-                            </div>
-                            <div id="loading" style="display: none;">
-                                <div class="loading-content" style="margin-top: 30px; margin-bottom: 30px;">
-                                    <div id="loading">
-                                        <img class="js-grades-loading" height="40px" width="40px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
-                                    </div>
-                                    <div class="loading-text">Aguarde enquanto a(s) turma(s) é(são) importada(s)...</div>
-                                </div>
-                            </div>
+                            <div class="loading-text">Importando alunos...</div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"
-                        style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                    <button class="btn btn-primary" id="importClass"
-                        url="<?php echo Yii::app()->createUrl('sedsp/default/AddClassroom'); ?>" type="submit"
-                        value="Cadastrar" style="background: #3F45EA; color: #FFFFFF;"> Cadastrar </button>
+                <div class="modal-footer" style="width:100%">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
+                    <button id="loading-popup-import-students" class="btn btn-primary" type="submit" value="Importar" style="background: #3F45EA; color: #FFFFFF;"> Importar alunos </button>
                 </div>
-        </form>
-    </div>
+            </form>
+        </div>
 </div>
 
+
 <script>
-    document.getElementById("loading-popup").addEventListener("click", function() {
-        // Esconder o botão "Cadastrar"
-        document.getElementById("loading-popup").style.display = "none";
-        
-        // Mostrar o indicador de carregamento
-        document.getElementById("loading-container").style.display = "block";
+    function updateSelectedClasses() {
+        const checkboxes = document.querySelectorAll('input[name="checkboxListNumClasses[]"]');
+        const selectedClasses = [];
 
-        // Fazer uma requisição AJAX para iniciar o processo de importação
-        var request = new XMLHttpRequest();
-        request.open("GET", document.getElementById("loading-popup").getAttribute("url"), true);
-        request.onreadystatechange = function() {
-            if (request.readyState == 4 && request.status == 200) {
-                // Processo concluído, esconder o indicador de carregamento
-                document.getElementById("loading-container").style.display = "none";
-
-                // Exibir novamente o botão "Cadastrar"
-                document.getElementById("loading-popup").style.display = "block";
+        checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+                selectedClasses.push(checkbox.value);
             }
-        };
-        request.send();
+        });
+        document.getElementById('selectedClasses').value = selectedClasses.join(',');
+    }
+
+    const checkboxes = document.querySelectorAll('input[name="checkboxListNumClasses[]"]');
+    checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener('click', updateSelectedClasses);
     });
 </script>
 
+<script>
+    $(document).ready(function() {
+        $('#loading-popup').click(function() {
+            $('#loading-container-student').show();
+        });
+        
+        $('#loading-popup-school').click(function() {
+            $('#loading-container-school').show();
+        });
+
+        $('#loading-popup-class').click(function() {
+            $('#loading-container-class').show();
+        });
+        $('#loading-popup-import-students').click(function() {
+            $('#loading-container-import-student').show();
+        });
+
+        //Limpa todos os checkboxes
+        $('#import-students').on('show.bs.modal', function() {
+            $('input[name="checkboxListNumClasses[]"]').prop('checked', false);
+        });
+    });
+</script>
 
 <style>
     #loading {
@@ -313,12 +345,6 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
         align-items: center;
     }
 </style>
-
-<script>
-    document.getElementById('importClass').addEventListener('click', function (e) {
-        $("#loading").show();
-    });
-</script>
 
 <script>
     const raInput = document.getElementById('numRA');

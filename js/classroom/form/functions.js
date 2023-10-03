@@ -368,19 +368,42 @@ $(document).on("change", "#Classroom_edcenso_stage_vs_modality_fk", function () 
 });
 $("#Classroom_edcenso_stage_vs_modality_fk").trigger("change");
 
-var newOrderArray = []
+
 $("#js-t-sortable").on("sortupdate", function(event, ui) {
     newOrderArray = $(this).sortable("toArray");
-    console.log(newOrderArray);
-  }); 
-$(document).on("click", ".js-save-new-order", function () {
     $.ajax({
         url: `${window.location.host}?r=classroom/changeenrollments`,
         type: "POST",
         data:{
             list: newOrderArray
-        }
+        }, 
+        beforeSend: function () {
+            $("#js-t-sortable").sortable("destroy");
+            $("#daily").css("opacity", 0.5);
+        },
     }).success(function (response) {
-        location.reload()
+
+        const result = JSON.parse(response);
+        const list = []
+        result.forEach(element => {
+            const li = document.createElement('li');
+            li.id = element.id;
+            li.className = 'ui-state-default';
+        
+            const span1 = document.createElement('span');
+            span1.className = 't-icon-slip';
+        
+            const span2 = document.createElement('span');
+            span2.textContent = element.daily_order + ' ' + element.name;
+        
+            li.appendChild(span1);
+            li.appendChild(span2);
+            
+            list.push(li); 
+        });
+       
+       $("#js-t-sortable").html(list);
+       $("#daily").css("opacity", 1);
+       $("#js-t-sortable").sortable();
     })
 });

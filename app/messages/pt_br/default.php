@@ -81,7 +81,7 @@ return array(
     'Act of acknowledgement' => 'Ato de reconhecimento',
     'Logo' => 'Brasão da escola (Para relatório)',
     'Report Header' => 'Cabeçalho (Para relatório)',
-    'Offer Or Linked Unity' => 'Unidade vinculada de Educação Básica ou ofertante de Ensino Superior',
+    'Offer Or Linked Unity' => 'Unidade vinculada de Ed Básica ou ofertante de Ensino Superior',
     'Inep Head School' => 'Código da Escola Sede',
     'Ies Code' => 'Código da IES',
     'Id difflocation' => 'Localização diferenciada',
@@ -732,7 +732,7 @@ return array(
     'Add Resource' => 'Adicionar Recurso',
     'Description' => 'Descrição',
     'Classes' => 'Aulas',
-    'Report Card' => 'Lançamento de notas',
+    'Report Card' => 'Lançamento de Notas',
     
     //Grades
     'Grades' => 'Notas',
