@@ -1,6 +1,6 @@
 <?php
 
-include 'vendor/autoload.php';
+include_once 'vendor/autoload.php';
 
 
 class BNCCImport
