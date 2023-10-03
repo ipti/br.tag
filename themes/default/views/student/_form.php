@@ -1438,71 +1438,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php
                                     foreach ($modelStudentIdentification->studentEnrollments as $me) {
                                     ?>
-                                        <div class="ui-accordion-header justify-content--space-between">
-                                            <div>
-                                                <div class="mobile-row align-items--center">
-                                                    <h4 class="t-title"><?php echo $me->classroomFk->name ?> - <?php echo $me->classroomFk->school_year ?></h4>
-                                                    <?php
-                                                    switch ($me->status) {
-                                                        case "1":
-                                                            echo "<label class='t-badge-success'>Matriculado</label>";
-                                                            break;
-                                                        case "2":
-                                                            $transfer_date = "";
-                                                            if(isset($me->transfer_date)){
-                                                                $transfer_date = date_create_from_format('Y-m-d', $me->transfer_date)->format('d/m/Y');
-                                                            }
-                                                            echo "<label class='t-badge-success'>Transferido " . $transfer_date  . "</label>";
-                                                            break;
-                                                        case "3":
-                                                            echo "<label class='t-badge-critical'>Cancelado</label>";
-                                                            break;
-                                                        case "4":
-                                                            echo "<label class='t-badge-critical'>Deixou de Frequentar</label>";
-                                                            break;
-                                                        case "5":
-                                                            echo "<label class='t-badge-warning'>Remanejado</label>";
-                                                            break;
-                                                        case "6":
-                                                            echo "<label class='t-badge-success'>Aprovado</label>";
-                                                            break;
-                                                        case "7":
-                                                            echo "<label class='t-badge-success'>Aprovado pelo Conselho</label>";
-                                                            break;
-                                                        case "8":
-                                                            echo "<label class='t-badge-critical'>Reprovado</label>";
-                                                            break;
-                                                        case "9":
-                                                            echo "<label class='t-badge-success'>Concluinte</label>";
-                                                            break;
-                                                        case "10":
-                                                            echo "<label class='t-badge-warning'>Indeterminado</label>";
-                                                            break;
-                                                        case "11":
-                                                            echo "<label class='t-badge-critical'>Falecido</label>";
-                                                            break;
-                                                        default:
-                                                            echo "";
-                                                    }
-                                                    ?>
-                                                    <?php if ($me->classroomFk->school_year >=  Yii::app()->user->year) {  ?>
-                                                        <a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)); ?>' class="t-link-button--info">
-                                                        <i class="fa fa-pencil"></i>
-                                                        </a>
-                                                    <?php } ?>
-
-                                                </div>
-                                                <div id="accordion-school-label" class="mobile-row">
-                                                    <label class="accordion-label"><?php echo $me->schoolInepIdFk->name ?></label>
-                                                </div>
-                                            </div>
-                                            <div class="align-items--center">
-                                                <span class="t-icon-down_arrow accordion-arrow-icon"></span>
-                                            </div>
-                                        </div>
-                                        <div class="ui-accordion-content">
-                                            <div class="mobile-row">
-                                                <label class="accordion-label--title">Situação:</label>
+                                    <div class="ui-accordion-header justify-content--space-between">
+                                        <div>
+                                            <div class="mobile-row align-items--center">
+                                                <h4 class="t-title"><?php echo $me->classroomFk->name ?> - <?php echo $me->classroomFk->school_year ?></h4>
                                                 <?php
                                                 switch ($me->status) {
                                                     case "1":
@@ -1546,103 +1485,113 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         echo "";
                                                 }
                                                 ?>
+                                                <?php if ($me->classroomFk->school_year >=  Yii::app()->user->year) {  ?>
+                                                    <a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)); ?>' class="t-link-button--info">
+                                                    <div class="t-icon-pencil t-icon"></div>
+                                                    </a>
+                                                <?php } ?>
+
                                             </div>
-                                            <div class="mobile-row">
-                                                <label class="accordion-label--title">Escola:</label>
+                                            <div id="accordion-school-label" class="mobile-row">
                                                 <label class="accordion-label"><?php echo $me->schoolInepIdFk->name ?></label>
                                             </div>
-                                            <div class="mobile-row">
-                                                <label class="accordion-label--title">Turma:</label>
-                                                <a href='<?php echo Yii::app()->createUrl("classroom/update",array("id"=>$me->classroomFk->id)); ?>' class="t-link-button--info accordion-label">
-                                                    <?php echo $me->classroomFk->name;?>
-                                                </a>
-                                            </div>
-                                            <div class="mobile-row">
-                                                <label class="accordion-label--title">Turno:</label>
-                                                <label class="accordion-label">
-                                                    <?php
-                                                    switch ($me->classroomFk->turn) {
-                                                        case "M":
-                                                            echo "Matutino";
-                                                            break;
-                                                        case "T":
-                                                            echo "Vespertino";
-                                                            break;
-                                                        case "N":
-                                                            echo "Noturno";
-                                                            break;
-                                                        case "I":
-                                                            echo "Integral";
-                                                            break;
-                                                        default:
-                                                            echo "-";
-                                                    }
-                                                    ?>
-                                                </label>
-                                            </div>
-                                            <div class="mobile-row">
-                                                <label class="accordion-label--title">Ano:</label>
-                                                <label class="accordion-label"><?php echo $me->classroomFk->school_year ?></label>
-                                            </div>
-                                            <div class="mobile-row upper-margin">
-                                                <label class="accordion-label--title">Formulários:</label>
-                                            </div>
-                                            <div class="reports">
-                                                <?php
-                                                $forms = unserialize(FORMS);
-                                                foreach ($forms as $item) {
-                                                    $link = Yii::app()->createUrl('forms/' . $item['action'], array('type' => $type, 'enrollment_id' => $me->id));
-                                                ?>
-                                                <a class="<?= $item['name'] == "Ficha de Matrícula" ? 't-button-primary' : 't-button-secondary'?> mobile-margin" rel="noopener" target="_blank" href="<?= $link ?>">
-                                                    <span class="t-icon-printer"></span>
-                                                    <?php echo $item['name'] ?>
-                                                </a>
-                                                <?php
-                                                }
-                                                ?>
-                                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?php echo @Yii::app()->createUrl('forms/EnrollmentGradesReport'
-                                                ,array('enrollment_id' => $me->id)) ?>">
-                                                    <span class="t-icon-printer"></span>
-                                                    Rendimento Escolar Por Atividades
-                                                </a>
-                                                <a class="t-button-secondary" rel="noopener" target="_blank"
-                                                href="<?php echo @Yii::app()->createUrl('forms/IndividualRecord', array('enrollment_id' => $me->id)) ?>">
-                                                    <span class="t-icon-printer"></span>
-                                                    Ficha Individual
-                                                </a>
-                                            </div>
-                                            <?php if ($me->classroomFk->school_year == date('Y')) {  ?>
-                                                <div class="mobile-row">
-                                                    <label class="accordion-label--title">Questionários:</label>
-                                                </div>
-                                            <?php } ?>
-                                            <div class="reports">
-                                                <?php
-                                                if ($me->classroomFk->school_year == date('Y')) {
-                                                    $date = date('Y-m-d');
-                                                    $quizs = Quiz::model()->findAll('status = 1 AND init_date <=:init_date AND final_date >=:final_date'
-                                                    , [':init_date' => $date, ':final_date' => $date]);
-                                                    if (count($quizs) > 0) {
-                                                        foreach ($quizs as $quiz) {
-                                                            $link = Yii::app()->createUrl('quiz/default/answer', array('quizId' => $quiz->id, 'studentId' => $me->studentFk->id));
-                                                ?>
-                                                        <a class="t-button-secondary mobile-margin" rel="noopener" target="_blank" href="<?= $link ?>">
-                                                            <span class="t-icon-printer"></span>
-                                                            <?php echo $quiz->name ?>
-                                                        </a>
-                                                <?php
-                                                        }
-                                                    }
-                                                }
-                                                ?>
-                                            </div>
-                                            <?php if ($me->classroomFk->school_year >=  Yii::app()->user->year) {  ?>
-                                                <div class="row">
-                                                <a href='#' id="delete-enrollment" class="t-link-button--warning" enrollment="<?=$me->id?>">Cancelar Matrícula</a>
-                                                </div>
-                                            <?php } ?>
                                         </div>
-
+                                        <div class="align-items--center">
+                                            <span class="t-icon-down_arrow accordion-arrow-icon"></span>
+                                        </div>
+                                    </div>
+                                    <div class="ui-accordion-content">
+                                        <div class="mobile-row">
+                                            <label class="accordion-label--title">Turma:</label>
+                                            <a href='<?php echo Yii::app()->createUrl("classroom/update",array("id"=>$me->classroomFk->id)); ?>' class="t-link-button--info accordion-label">
+                                                <?php echo $me->classroomFk->name;?>
+                                            </a>
+                                        </div>
+                                        <div class="mobile-row">
+                                            <label class="accordion-label--title">Turno:</label>
+                                            <label class="accordion-label">
+                                                <?php
+                                                switch ($me->classroomFk->turn) {
+                                                    case "M":
+                                                        echo "Matutino";
+                                                        break;
+                                                    case "T":
+                                                        echo "Vespertino";
+                                                        break;
+                                                    case "N":
+                                                        echo "Noturno";
+                                                        break;
+                                                    case "I":
+                                                        echo "Integral";
+                                                        break;
+                                                    default:
+                                                        echo "-";
+                                                }
+                                                ?>
+                                            </label>
+                                        </div>
+                                        <div class="mobile-row">
+                                            <label class="accordion-label--title">Ano:</label>
+                                            <label class="accordion-label"><?php echo $me->classroomFk->school_year ?></label>
+                                        </div>
+                                        <div class="mobile-row upper-margin">
+                                            <label class="accordion-label--title">Formulários:</label>
+                                        </div>
+                                        <div class="reports">
+                                            <?php
+                                            $forms = unserialize(FORMS);
+                                            foreach ($forms as $item) {
+                                                $link = Yii::app()->createUrl('forms/' . $item['action'], array('type' => $type, 'enrollment_id' => $me->id));
+                                            ?>
+                                            <a class="<?= $item['name'] == "Ficha de Matrícula" ? 't-button-primary' : 't-button-secondary'?> mobile-margin" rel="noopener" target="_blank" href="<?= $link ?>">
+                                                <span class="t-icon-printer"></span>
+                                                <?php echo $item['name'] ?>
+                                            </a>
+                                            <?php
+                                            }
+                                            ?>
+                                            <a class="t-button-secondary" rel="noopener" target="_blank" href="<?php echo @Yii::app()->createUrl('forms/EnrollmentGradesReport'
+                                            ,array('enrollment_id' => $me->id)) ?>">
+                                                <span class="t-icon-printer"></span>
+                                                Rendimento Escolar Por Atividades
+                                            </a>
+                                            <a class="t-button-secondary" rel="noopener" target="_blank"
+                                            href="<?php echo @Yii::app()->createUrl('forms/IndividualRecord', array('enrollment_id' => $me->id)) ?>">
+                                                <span class="t-icon-printer"></span>
+                                                Ficha Individual
+                                            </a>
+                                        </div>
+                                        <?php if ($me->classroomFk->school_year == date('Y')) {  ?>
+                                            <div class="mobile-row">
+                                                <label class="accordion-label--title">Questionários:</label>
+                                            </div>
+                                        <?php } ?>
+                                        <div class="reports">
+                                            <?php
+                                            if ($me->classroomFk->school_year == date('Y')) {
+                                                $date = date('Y-m-d');
+                                                $quizs = Quiz::model()->findAll('status = 1 AND init_date <=:init_date AND final_date >=:final_date'
+                                                , [':init_date' => $date, ':final_date' => $date]);
+                                                if (count($quizs) > 0) {
+                                                    foreach ($quizs as $quiz) {
+                                                        $link = Yii::app()->createUrl('quiz/default/answer', array('quizId' => $quiz->id, 'studentId' => $me->studentFk->id));
+                                            ?>
+                                                    <a class="t-button-secondary mobile-margin" rel="noopener" target="_blank" href="<?= $link ?>">
+                                                        <span class="t-icon-printer"></span>
+                                                        <?php echo $quiz->name ?>
+                                                    </a>
+                                            <?php
+                                                    }
+                                                }
+                                            }
+                                            ?>
+                                        </div>
+                                        <?php if ($me->classroomFk->school_year >=  Yii::app()->user->year) {  ?>
+                                            <div class="row">
+                                            <a href='#' id="delete-enrollment" class="t-link-button--warning" enrollment="<?=$me->id?>">Cancelar Matrícula</a>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
                                     <?php
                                     }
                                     ?>
