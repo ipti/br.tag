@@ -1,4 +1,7 @@
 
+## [Versão 3.58.98]
+- Corrigida a animação e a cor de fundo do acordeão de diário de aula
+
 ## [Versão 3.58.97]
 - Corrigindo a responsividade do formulário de aluno
 
