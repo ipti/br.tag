@@ -44,6 +44,7 @@ class GetExibirFichaAlunoFromSEDUseCase
     {
         $studentDocumentsAndAddress = new StudentDocumentsAndAddress();
         $studentDocumentsAndAddress->attributes = $attributes->getAttributes();
+        $studentDocumentsAndAddress->edcenso_city_fk = $attributes->edcenso_city_fk;
         $studentDocumentsAndAddress->gov_id = $gov_id;
         $studentDocumentsAndAddress->id = $studentIdentification->id;
 

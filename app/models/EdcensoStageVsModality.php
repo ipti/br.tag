@@ -6,6 +6,7 @@
      * The followings are the available columns in table 'edcenso_stage_vs_modality':
      * @property integer $id
      * @property string $name
+     * @property string $alias
      * @property integer $stage
      *
      * The followings are the available model relations:
@@ -108,10 +109,12 @@
             // NOTE: you should only define rules for those attributes that
             // will receive user inputs.
             return [
-                ['name, stage', 'required'], ['stage', 'numerical', 'integerOnly' => TRUE],
+                ['name, stage', 'required'],
+                ['stage', 'numerical', 'integerOnly' => TRUE],
                 ['name', 'length', 'max' => 100], // The following rule is used by search().
+                ['alias', 'length', 'max'=>20],
                 // Please remove those attributes that should not be searched.
-                ['id, name, stage', 'safe', 'on' => 'search'],
+                ['id, name, alias, stage', 'safe', 'on' => 'search'],
             ];
         }
 
@@ -151,6 +154,7 @@
 
             $criteria->compare('id', $this->id);
             $criteria->compare('name', $this->name, TRUE);
+            $criteria->compare('alias',$this->alias, TRUE);
             $criteria->compare('stage', $this->stage);
 
             return new CActiveDataProvider($this, [
