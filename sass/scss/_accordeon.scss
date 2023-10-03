@@ -22,6 +22,15 @@
 
     .ui-accordion-header {
         background: $colorsBaseCloudLight;
+
+        &:hover,
+        &--active {
+            background-color: $colorsBaseCloudLightHover;
+        }
+    }
+
+    .ui-accordion-content {
+        background: $colorsBaseCloudLight !important;
     }
 
     .icon-color {

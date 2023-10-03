@@ -12,7 +12,7 @@ class ReportsController extends Controller
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'BFReport', 'numberStudentsPerClassroomReport',
-                    'InstructorsPerClassroomReport', 'StudentsFileReport',
+                    'EnrollmentStatisticsByYearReport','InstructorsPerClassroomReport', 'StudentsFileReport',
                     'getStudentsFileInformation', 'ResultBoardReport',
                     'StatisticalDataReport', 'StudentsDeclarationReport',
                     'EnrollmentPerClassroomReport', 'AtaSchoolPerformance',
@@ -399,6 +399,77 @@ class ReportsController extends Controller
         $repository = new ReportsRepository;
         $query = $repository->getNumberStudentsPerClassroom();
         $this->render('NumberStudentsPerClassroomReport', $query);
+    }
+
+    public function actionEnrollmentStatisticsByYearReport()
+    {
+        // Construíndo condicionais e definindo ordenação para a consulta
+        $criteria = new CDbCriteria;
+        $criteria->order = 'name ASC';
+        $criteria->condition = "school_year = :year";
+        $criteria->params = array("year" => Yii::app()->user->year);
+        //Consulta todas as classes abertas no ano atual
+        $classrooms = Classroom::model()->findAll($criteria);
+        $stages = [];
+        $schools = [];
+        foreach ($classrooms as $classroom) {
+            //Coloca em um array o nome de todas as escolas que já não estão no mesmo (através da lista de classes)
+            if (!in_array($schools, $classroom->schoolInepFk->name)) {
+                array_push($schools, $classroom->schoolInepFk->name);
+            }
+            //Coloca em um array todos o stage number e nome dos estágios que já não estão no mesmo (através da lista de classes)
+            if (array_search($classroom->edcensoStageVsModalityFk->name, array_column($stages, 'name')) === false) {
+                array_push($stages, ["stageNumber" => $classroom->edcensoStageVsModalityFk->stage, "name" => $classroom->edcensoStageVsModalityFk->name, "alias" => $classroom->edcensoStageVsModalityFk->alias]);
+            }
+        }
+        //Cria a primeira linha da tabela com o grupo de estágios
+        $stageNumberGroups = [];
+        foreach($stages as $stage) {
+            if ($stageNumberGroups[$stage["stageNumber"]] == null){
+                //Adiciona indexado pelo stageNumber do array $stage a quantidade de celulas do estágio e o nome
+                $stageNumberGroups[$stage["stageNumber"]]["colspan"] = 0;
+                $stageNumberGroups[$stage["stageNumber"]]["colname"] = $this->translateStageNumbers($stage["stageNumber"]);
+            }
+            //Pra cada estagio, concatena mais uma celula ao grupo de estagios
+            $stageNumberGroups[$stage["stageNumber"]]["colspan"]++;
+        }
+
+        //Inicializa as celulas de contagem de matriculas com valor 0
+        $schoolStages = [];
+        foreach ($schools as $school) {
+            foreach ($stages as $stage) {
+                $schoolStages[$school][$stage["stageNumber"]][$stage["name"]] = 0;
+            }
+        }
+
+        //Para cada classe incrementa o contador de matriculas em cada celular dos estágios
+        foreach ($classrooms as $classroom) {
+            $schoolStages[$classroom->schoolInepFk->name][$classroom->edcensoStageVsModalityFk->stage][$classroom->edcensoStageVsModalityFk->name] += count($classroom->studentEnrollments);
+        }
+
+        $this->render('EnrollmentStatisticsByYearReport', array(
+            'schoolStages' => $schoolStages,
+            'stageNumberGroups' => $stageNumberGroups,
+            'stages' => $stages
+        ));
+    }
+
+    private function translateStageNumbers ($stageNumber) {
+        switch($stageNumber) {
+            case "1" :
+                return "Ensino Infantil";
+            case "2":
+                return "Ensino Fundamental Menor";
+            case "3":
+            case "7":
+                return "Ensino Fundamental Maior";
+            case "4":
+                return "Ensino Médio";
+            case "6":
+                return "EJA";
+            default:
+                return "Resto";
+        }
     }
 
     public function actionClocReport()
