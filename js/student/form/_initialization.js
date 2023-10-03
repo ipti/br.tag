@@ -1,9 +1,4 @@
-window.location.search.includes("update") ? $('.last').css('display', 'block') : $('.last').css('display', 'none');
-
-// class New_enrollment_form{
-    
-// }
-
+window.location.search.includes("update") ? $('.last').css('display', 'flex') : $('.last').css('display', 'none');
 
 $(document).ready(function () {
     if($("#others-check").is(":checked")) {
@@ -27,14 +22,13 @@ $(document).ready(function () {
             $(".new-enrollment-form").hide();
             $("#new-enrollment-button").text("Adicionar Matrícula");
         }
-        
+
     });
-    
-    var simple = getUrlVars()['simple'];
+
+    let simple = getUrlVars()['simple'];
     if (simple == '1') {
         $("#tab-student-documents").hide();
         $(".js-hide-not-required").hide();
-        //$(".required").parent().show();
         $("#StudentEnrollment_classroom_fk").closest(".js-hide-not-required").show();
     }
     $(".tab-student").show();
@@ -76,15 +70,34 @@ $(document).ready(function () {
     if ($(formIdentification + "deficiency_type_gifted").is(":checked")) {
         $(formIdentification + "deficiency_type_intelectual_disability").attr("disabled", "disabled");
     }
+    $(".ui-accordion-header a").click(function(event) {
+        event.preventDefault();
+        let url = $(this).attr("href");
+        window.location.href = url;
+    });
+    $(".ui-accordion-header").click(function(event) {
+        if(!$(this).hasClass("ui-accordion-header-active")) {
+            $(this).find($(".accordion-arrow-icon")).addClass("rotate");
+        } else {
+            $(this).find($(".accordion-arrow-icon")).removeClass("rotate");
+        }
+    });
+    $(function () {
+        $( "#accordion" ).accordion({
+            active: false,
+            collapsible: true,
+            icons: false,
+            heightStyle: "content",
+            animate: 600
+        });
+    });
+
 });
 
 $('.heading-buttons').css('width', $('#content').width());
 
 function getUrlVars() {
-    var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
-        vars[key] = value;
-    });
+    let vars = {};
     return vars;
 }
 
@@ -133,9 +146,11 @@ $(document).on("change", "#show-student-civil-name", function () {
 });
 
 $('#copy-gov-id').click(function() {
-    var govId = $('#StudentIdentification_gov_id').val();
+    let govId = $('#StudentIdentification_gov_id').val();
     navigator.clipboard.writeText(govId);
     $('#copy-message').text('Copiado!').fadeIn().delay(1000).fadeOut();
 });
 
 $("#StudentEnrollment_public_transport").trigger("change");
+
+
