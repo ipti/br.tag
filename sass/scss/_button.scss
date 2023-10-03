@@ -33,6 +33,13 @@
         font-size: $FontSizeHeadingTitle4;
     }
 
+    &.mobile-margin {
+        margin-right: $spaceMedium;
+    }
+    &.nofloat{
+        float: unset !important;
+    }
+
     &:hover,
     &--active {
         text-decoration: none;
@@ -87,9 +94,7 @@
         flex: 0;
         padding: $spaceSmall $spaceXLarge;
     }
-    &.nofloat{
-        float: unset !important;
-    }
+
 
     &:hover,
     &--active {
@@ -190,5 +195,19 @@
         span{
             font-size: $FontSizeIcons2 !important;
         }
+    }
+    &-danger {
+        cursor: pointer;
+        color: $colorsTextError;
+    }
+}
+.t-link-button {
+    color: $colorsBaseInkNormal !important;
+    &--warning {
+        color: $colorsTextError !important;
+        margin-top: $SizeLarge;
+    }
+    &--info {
+        color: $colorsBaseProductNormalActive !important;
     }
 }

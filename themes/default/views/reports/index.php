@@ -1100,7 +1100,7 @@ $this->breadcrumbs = array(
                             <?php
                             echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
                             ?>
-                            <select name="classroom2" id="classroom2" placeholder="Selecione a turma" style="width:100%" required>
+                            <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
                                 echo "<option value='' selected>Selecione a turma</option>";
                                 foreach ($classrooms as $classroom) {
