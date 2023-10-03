@@ -17,7 +17,7 @@ $log_config = array(
     ),
 );
 
-if(YII_DEBUG){
+if(!YII_DEBUG){
     array_push($log_config['routes'], array(
         'class'=>'CWebLogRoute',
       )
