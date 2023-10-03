@@ -18,8 +18,6 @@ if($domain == "localhost"){
     $newdb = 'demo.tag.ong.br';
 }
 
-
-
 $_GLOBALGROUP = 0;
 
 define("GLOGALGROUP",$_GLOBALGROUP);
@@ -28,8 +26,6 @@ define("DBNAME",$newdb);
 $HOST = getenv("HOST_DB_TAG");
 $USER = getenv("USER_DB_TAG");
 $PWD = getenv("PWD_DB_TAG");
-
-
 
 define ("DBCONFIG", serialize (array(
     'connectionString' => "mysql:host=$HOST;dbname=$newdb",
