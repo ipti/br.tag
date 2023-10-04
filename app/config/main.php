@@ -48,7 +48,8 @@ return array(
         'application.modules.quiz.models.*',
         'application.modules.sedsp.datasources.sed.*',
         'application.modules.sagres.soap.src.sagresEdu.*',
-        'application.components.utils.TagUtils'
+        'application.components.utils.TagUtils',
+        'ext.bncc-import.BNCCImport'
     ),
     'modules' => array(
         // uncomment the following to enable the Gii tool

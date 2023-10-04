@@ -594,6 +594,19 @@ class AdminController extends Controller
         $this->render('editUser', ['model' => $model, 'actual_role' => $actual_role, 'userSchools' => $result, 'instructors' => $instructorsResult]);
     }
 
+    public function actionImportBNCC()
+    {
+        $import = new BNCCImport();
+        
+        $import->importCSVInfantil();
+        $disciplines = ['Arte', 'Ciências', 'Educação Física', 'Ensino religioso', 
+        'Geografia', 'História', 'Língua Inglesa', 'Língua Portuguesa', 'Matemática'];
+
+        foreach ($disciplines as $discipline) {
+            $import->importCSVFundamental($discipline);
+        }
+    }
+
     public function actionChangelog()
     {
         $this->render('changelog');
