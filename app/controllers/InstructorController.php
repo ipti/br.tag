@@ -344,13 +344,14 @@ preenchidos";
 
         $options = array();
         foreach ($data as $value => $name) {
-            array_push($options, CHtml::tag('option', ['value' => $value, 'selected' => $value == $current_city], CHtml::encode($name), false));
+
+            array_push($options, CHtml::tag('option', ['value' => $value, 'selected' => $value == $current_city], CHtml::encode($name), true));
 
 
         }
         // here
 
-        echo json_encode($options);
+        echo implode($options);
     }
 
     public function actionGetCityByCep()
