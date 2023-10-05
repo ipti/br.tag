@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
 
 
-/* 
+/*
     ajustes na responsividade
 */
 .tag-row {
@@ -19,7 +19,7 @@
     justify-content: end;
 }
 
-/* 
+/*
     butões
 */
 .tag-button,
@@ -91,7 +91,7 @@
     padding-left: 10px;
 }
 
-/* 
+/*
     listagens
 */
 .tag-table td {
@@ -127,7 +127,7 @@ table.dataTable {
     width: 260px;
 }
 
-/* 
+/*
     paginação
 */
 .widget ul.yiiPager .selected a,
@@ -168,7 +168,7 @@ table.dataTable {
     }
 }
 
-/* 
+/*
     login
 */
 .tag-form-login {
@@ -176,7 +176,7 @@ table.dataTable {
     background-color: #272B96;
 }
 
-/* 
+/*
  Matricula em grupo
 */
 .select-search-on,
@@ -193,7 +193,7 @@ table.dataTable {
     padding: 0 6px;
 }
 
-/* 
+/*
     inputs
 */
 .small-input {
@@ -204,14 +204,14 @@ table.dataTable {
     height: 30px;
 }
 
-/* 
+/*
     selects
 */
 .select2-drop.select2-display-none.select2-drop-active {
     margin-top: -1px;
 }
 
-/* 
+/*
     notas
 */
 .row-grades .center {
@@ -228,7 +228,7 @@ table.dataTable {
     margin-right: 10px;
 }
 
-/* 
+/*
     modais
 */
 
@@ -292,7 +292,7 @@ table.dataTable {
     box-shadow: none;
 }
 
-/* 
+/*
     fullmenu-toggle-button
 */
 

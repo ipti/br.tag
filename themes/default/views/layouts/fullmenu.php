@@ -61,6 +61,7 @@ $cs->registerCssFile($assetUrl . "/css/template.css?v=" . TAG_VERSION);
 $cs->registerCssFile($assetUrl . '/css/template2.css?v=' . TAG_VERSION);
 $cs->registerCssFile($assetUrl . "/css/admin.css?v=" . TAG_VERSION);
 $cs->registerCssFile($assetUrl . "/css/home.css?v=" . TAG_VERSION);
+$cs->registerCssFile(Yii::app()->baseUrl . "/css/form.css?v=" . TAG_VERSION);
 $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION);
 
 ?>

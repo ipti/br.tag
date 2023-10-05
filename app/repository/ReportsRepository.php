@@ -35,7 +35,7 @@ class ReportsRepository {
     }
 
     /**
-     * Total de Alunos Matriculados por Escola                  
+     * Total de Alunos Matriculados por Escola
      */
     public function getTotalNumberOfStudentsEnrolled() : array
     {
@@ -49,8 +49,8 @@ class ReportsRepository {
                     classroom c ON c.school_inep_fk = si.inep_id
                 LEFT JOIN
                     student_enrollment se ON se.classroom_fk = c.id
-                WHERE 
-                    c.school_year = :school_year AND se.status = 1
+                WHERE
+                    c.school_year = :school_year AND se.status = 1 OR se.status IS NULL
                 GROUP BY
                     si.inep_id, si.name;";
 
@@ -143,7 +143,7 @@ class ReportsRepository {
 
         $title = "RELATÓRIO DE ALUNOS POR TURMA (CPF, RG E NIS)<br>".$classroomModel->name;
 
-        
+
         $response = array("report" => $result, "title" => $title);
 
         return $response;
@@ -860,7 +860,7 @@ class ReportsRepository {
                 "regentTeachers" => $regentTeachers
             );
         }
-        
+
         $response = array("response" => $result, "view" => $view);
 
         return $response;
@@ -871,7 +871,7 @@ class ReportsRepository {
      */
     public function getQuarterlyFollowUpReport(CHttpRequest $request) : array
     {
-        
+
         $classroom_id = $request->getPost('quarterly_follow_up_classroom');
         $discipline_id = $request->getPost('quarterly_follow_up_disciplines');
         $classroom_model = Classroom::model()->findByPk($classroom_id);
@@ -1234,7 +1234,7 @@ class ReportsRepository {
     }
 
     /**
-     * Relação acessibilidade de todas as Escolas 
+     * Relação acessibilidade de todas as Escolas
      */
     public function getStudentsWithDisabilitiesPerSchool() : array
     {
@@ -1270,14 +1270,14 @@ class ReportsRepository {
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
 
         $sql = "SELECT si.*, se.classroom_fk
-                FROM student_identification AS si 
-                JOIN student_enrollment AS se ON si.id = se.student_fk 
+                FROM student_identification AS si
+                JOIN student_enrollment AS se ON si.id = se.student_fk
                 JOIN classroom AS c ON se.classroom_fk = c.id
-                WHERE si.deficiency = 1 AND 
-                    si.school_inep_id_fk = :school_inep_id_fk AND 
-                    se.school_inep_id_fk = :school_inep_id_fk AND 
-                    c.school_year = :school_year AND 
-                    (se.status = 1 OR se.status IS NULL) 
+                WHERE si.deficiency = 1 AND
+                    si.school_inep_id_fk = :school_inep_id_fk AND
+                    se.school_inep_id_fk = :school_inep_id_fk AND
+                    c.school_year = :school_year AND
+                    (se.status = 1 OR se.status IS NULL)
                 ORDER BY si.name";
 
         $students = Yii::app()->db->createCommand($sql)
@@ -1286,12 +1286,12 @@ class ReportsRepository {
                     ->queryAll();
 
         $sql = "SELECT c.*, q.modality,q.stage
-                FROM classroom AS c 
+                FROM classroom AS c
                 JOIN classroom_qtd_students AS q ON c.school_inep_fk = q.school_inep_fk
-                WHERE c.school_year = :school_year AND 
-                      q.school_year = :school_year AND 
-                      c.school_inep_fk = :school_inep_fk AND 
-                      q.school_inep_fk = :school_inep_fk  AND 
+                WHERE c.school_year = :school_year AND
+                      q.school_year = :school_year AND
+                      c.school_inep_fk = :school_inep_fk AND
+                      q.school_inep_fk = :school_inep_fk  AND
                       c.id = q.id
                 ORDER BY c.name";
 
@@ -1313,12 +1313,12 @@ class ReportsRepository {
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
 
         $sql = "SELECT si.name AS studentName, si.inep_id AS studentInepId, se.classroom_inep_id, si.birthday,cq.*
-                    FROM (student_identification AS si 
+                    FROM (student_identification AS si
                 JOIN student_enrollment AS se ON si.id = se.student_fk)
                 JOIN classroom_qtd_students AS cq ON cq.id = se.classroom_fk
-                WHERE se.school_inep_id_fk = :school_inep_id_fk  AND 
-                      si.school_inep_id_fk = :school_inep_id_fk AND 
-                      cq.school_year = :school_year AND 
+                WHERE se.school_inep_id_fk = :school_inep_id_fk  AND
+                      si.school_inep_id_fk = :school_inep_id_fk AND
+                      cq.school_year = :school_year AND
                       (se.status = 1 OR se.status IS NULL)
                 ORDER BY si.name";
 
@@ -1341,7 +1341,7 @@ class ReportsRepository {
     public function getEnrollmentPerClassroomReport($classroomId) : array
     {
         $sql = "SELECT * FROM classroom_enrollment
-                WHERE `year`  = :school_year AND 
+                WHERE `year`  = :school_year AND
                 classroom_id = :classroom_id
                 ORDER BY daily_order;";
 
@@ -1367,8 +1367,8 @@ class ReportsRepository {
                     JOIN classroom b ON(a.`classroom_fk`=b.id)
                     JOIN student_documents_and_address c ON(a.`student_fk`=c.`id`)
                     JOIN student_identification d ON(c.`id`=d.`id`)
-                    WHERE b.`school_inep_fk` = :school_inep_fk AND 
-                          b.school_year = :school_year AND 
+                    WHERE b.`school_inep_fk` = :school_inep_fk AND
+                          b.school_year = :school_year AND
                           (a.status = 1 OR a.status IS NULL) AND
                           (received_cc = 0 OR received_address = 0 OR received_photo = 0
                     OR received_nis = 0 OR received_responsable_rg = 0 OR received_responsable_cpf = 0)";
@@ -1389,9 +1389,9 @@ class ReportsRepository {
     public function getStudentPerClassroom($classroomId) : array
     {
         $sql =  "SELECT * FROM classroom_enrollment
-                    WHERE `year`  = :year AND 
-                    classroom_id = :classroom_id AND 
-                    (status = 1 OR status IS NULL) 
+                    WHERE `year`  = :year AND
+                    classroom_id = :classroom_id AND
+                    (status = 1 OR status IS NULL)
                 ORDER BY name;";
 
         $result = Yii::app()->db->createCommand($sql)
@@ -1449,9 +1449,9 @@ class ReportsRepository {
             ON ((`s`.`id` = `se`.`student_fk`)))
          JOIN `classroom` `c`
            ON ((`se`.`classroom_fk` = `c`.`id`)))
-                where  `c`.`school_year`  = :school_year AND 
-                `c`.`id` = :classroom_id AND 
-                (status = 1 OR status IS NULL) 
+                where  `c`.`school_year`  = :school_year AND
+                `c`.`id` = :classroom_id AND
+                (status = 1 OR status IS NULL)
         ORDER BY name;";
 
         $result = Yii::app()->db->createCommand($sql)
@@ -1474,12 +1474,12 @@ class ReportsRepository {
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
 
         $sql = "SELECT c.*, q.modality,q.stage
-                    FROM classroom AS c 
+                    FROM classroom AS c
                 JOIN classroom_qtd_students AS q ON c.school_inep_fk = q.school_inep_fk
-                WHERE c.school_year = :school_year AND 
-                      q.school_year = :school_year AND 
-                      c.school_inep_fk = :school_inep_fk AND 
-                      q.school_inep_fk = :school_inep_fk  AND 
+                WHERE c.school_year = :school_year AND
+                      q.school_year = :school_year AND
+                      c.school_inep_fk = :school_inep_fk AND
+                      q.school_inep_fk = :school_inep_fk  AND
                       c.id = q.id
                 ORDER BY name";
 
@@ -1492,9 +1492,9 @@ class ReportsRepository {
                     FROM student_identification AS si
                 JOIN student_enrollment AS se ON si.id = se.student_fk
                 JOIN classroom AS c ON se.classroom_fk = c.id
-                WHERE se.school_inep_id_fk = :school_inep_id_fk AND 
-                      c.school_year = :school_year AND 
-                      (se.status = 1 OR se.status IS NULL) 
+                WHERE se.school_inep_id_fk = :school_inep_id_fk AND
+                      c.school_year = :school_year AND
+                      (se.status = 1 OR se.status IS NULL)
                 ORDER BY si.name";
 
         $students = Yii::app()->db->createCommand($sql)
@@ -1515,13 +1515,13 @@ class ReportsRepository {
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
 
         $sql = "SELECT c.*, q.modality,q.stage
-                    FROM classroom AS c 
+                    FROM classroom AS c
                 JOIN classroom_qtd_students AS q ON c.school_inep_fk = q.school_inep_fk
-                WHERE c.school_year = :year AND 
-                      q.school_year = :year AND 
-                      c.school_inep_fk = :school AND 
-                      q.school_inep_fk = :school  AND 
-                      c.id = q.id AND 
+                WHERE c.school_year = :year AND
+                      q.school_year = :year AND
+                      c.school_inep_fk = :school AND
+                      q.school_inep_fk = :school  AND
+                      c.id = q.id AND
                       (q.status = 1 OR q.status IS NULL)
                 ORDER BY name";
 
@@ -1530,14 +1530,14 @@ class ReportsRepository {
                     ->bindParam(":school", $this->currentSchool)
                     ->queryAll();
 
-        $sql = "SELECT se.classroom_fk,si.inep_id,si.name,si.birthday , 
+        $sql = "SELECT se.classroom_fk,si.inep_id,si.name,si.birthday ,
                         si.filiation_1, si.filiation_2
-                    FROM (student_identification AS si 
-                JOIN student_enrollment AS se ON si.id = se.student_fk 
+                    FROM (student_identification AS si
+                JOIN student_enrollment AS se ON si.id = se.student_fk
                 JOIN classroom AS c ON se.classroom_fk = c.id )
-                WHERE se.school_inep_id_fk = :school AND 
-                      c.school_year = :year AND 
-                      (se.status = 1 OR se.status IS NULL) 
+                WHERE se.school_inep_id_fk = :school AND
+                      c.school_year = :year AND
+                      (se.status = 1 OR se.status IS NULL)
                 ORDER BY si.name ";
 
         $students = Yii::app()->db->createCommand($sql)
@@ -1558,13 +1558,13 @@ class ReportsRepository {
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
 
         $sql = "SELECT c.*, q.modality,q.stage
-                    FROM classroom AS c 
+                    FROM classroom AS c
                 JOIN classroom_qtd_students AS q ON c.school_inep_fk = q.school_inep_fk
-                WHERE c.assistance_type = 4 AND 
-                      c.school_year = :school_year AND 
-                      q.school_year = :school_year AND 
-                      c.school_inep_fk = :school_inep_fk AND 
-                      q.school_inep_fk = :school_inep_fk  AND 
+                WHERE c.assistance_type = 4 AND
+                      c.school_year = :school_year AND
+                      q.school_year = :school_year AND
+                      c.school_inep_fk = :school_inep_fk AND
+                      q.school_inep_fk = :school_inep_fk  AND
                       c.id = q.id
                 ORDER BY name";
 
@@ -1574,13 +1574,13 @@ class ReportsRepository {
                     ->queryAll();
 
         $sql = "SELECT id.*,it.classroom_id_fk , iv.scholarity
-                    FROM (((instructor_identification AS id 
+                    FROM (((instructor_identification AS id
                 JOIN instructor_teaching_data AS it ON it.instructor_fk = id.id)
-                JOIN instructor_variable_data AS iv ON iv.id = id.id) 
+                JOIN instructor_variable_data AS iv ON iv.id = id.id)
                 JOIN classroom AS c ON c.id = it.classroom_id_fk)
-                WHERE id.school_inep_id_fk = :school_inep_id_fk AND 
-                      (it.role = 2 or it.role = 3) AND 
-                      c.school_year = :school_year 
+                WHERE id.school_inep_id_fk = :school_inep_id_fk AND
+                      (it.role = 2 or it.role = 3) AND
+                      c.school_year = :school_year
                 ORDER BY c.name";
 
         $instructor = Yii::app()->db->createCommand($sql)
@@ -1600,13 +1600,13 @@ class ReportsRepository {
     {
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
 
-        $sql = "SELECT c.*, q.modality, q.stage 
+        $sql = "SELECT c.*, q.modality, q.stage
                     FROM classroom AS c
                 JOIN classroom_qtd_students AS q ON c.school_inep_fk = q.school_inep_fk
-                WHERE c.school_year = :school_year AND 
-                      q.school_year = :school_year AND 
-                      c.school_inep_fk = :school_inep_fk AND 
-                      q.school_inep_fk = :school_inep_fk AND 
+                WHERE c.school_year = :school_year AND
+                      q.school_year = :school_year AND
+                      c.school_inep_fk = :school_inep_fk AND
+                      q.school_inep_fk = :school_inep_fk AND
                       c.id = q.id
                 ORDER BY name";
 
@@ -1620,8 +1620,8 @@ class ReportsRepository {
                         FROM instructor_teaching_data it
                     JOIN instructor_identification ii ON ii.id = it.instructor_fk
                     LEFT JOIN instructor_variable_data iv ON iv.id = ii.id
-                    WHERE it.classroom_id_fk = :classroom_id_fk AND 
-                          it.role = 1 
+                    WHERE it.classroom_id_fk = :classroom_id_fk AND
+                          it.role = 1
                     ORDER BY ii.name";
 
             $classroom["instructors"] = Yii::app()->db->createCommand($sql)
@@ -1656,12 +1656,12 @@ class ReportsRepository {
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
 
         $sql = "SELECT c.*, q.modality,q.stage
-                    FROM classroom AS c 
+                    FROM classroom AS c
                 JOIN classroom_qtd_students AS q ON c.school_inep_fk = q.school_inep_fk
-                WHERE c.school_year = :school_year AND 
-                      q.school_year = :school_year AND 
-                      c.school_inep_fk = :school_inep_fk AND 
-                      q.school_inep_fk = :school_inep_fk AND 
+                WHERE c.school_year = :school_year AND
+                      q.school_year = :school_year AND
+                      c.school_inep_fk = :school_inep_fk AND
+                      q.school_inep_fk = :school_inep_fk AND
                       c.id = q.id
                 ORDER BY name";
 
@@ -1671,11 +1671,11 @@ class ReportsRepository {
                     ->queryAll();
 
         $sql = "SELECT se.classroom_fk,si.inep_id,si.name,si.birthday
-                    FROM (student_identification AS si 
-                JOIN student_enrollment AS se ON si.id = se.student_fk ) 
+                    FROM (student_identification AS si
+                JOIN student_enrollment AS se ON si.id = se.student_fk )
                 JOIN classroom AS c ON se.classroom_fk = c.id
-                WHERE c.school_year = :school_year AND 
-                      se.school_inep_id_fk = :school_inep_id_fk AND 
+                WHERE c.school_year = :school_year AND
+                      se.school_inep_id_fk = :school_inep_id_fk AND
                       (se.status = 1 OR se.status IS NULL)";
 
         $students = Yii::app()->db->createCommand($sql)
@@ -1695,16 +1695,16 @@ class ReportsRepository {
     {
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
 
-        $sql = "SELECT si.inep_id AS student_id , si.name AS student_name, si.birthday 
-                        AS student_birthday, s1.school1, s1.school2, c1.name AS classroom_name1 
+        $sql = "SELECT si.inep_id AS student_id , si.name AS student_name, si.birthday
+                        AS student_birthday, s1.school1, s1.school2, c1.name AS classroom_name1
                 FROM(
-                    SELECT DISTINCT least(se.school_inep_id_fk, s2.school_inep_id_fk) as school1, 
-                                    greatest(se.school_inep_id_fk, s2.school_inep_id_fk) as school2, 
-                                    se.student_fk, se.id se1, s2.id se2, se.classroom_fk classroom1, 
+                    SELECT DISTINCT least(se.school_inep_id_fk, s2.school_inep_id_fk) as school1,
+                                    greatest(se.school_inep_id_fk, s2.school_inep_id_fk) as school2,
+                                    se.student_fk, se.id se1, s2.id se2, se.classroom_fk classroom1,
                                     s2.classroom_fk classroom2
                     FROM student_enrollment se
                     JOIN student_enrollment s2 ON se.student_fk = s2.student_fk
-                    WHERE se.school_inep_id_fk != s2.school_inep_id_fk AND 
+                    WHERE se.school_inep_id_fk != s2.school_inep_id_fk AND
                           se.school_inep_id_fk = :school
                 ) AS s1
                 JOIN classroom c1 ON(s1.classroom1 = c1.id)
@@ -1730,12 +1730,12 @@ class ReportsRepository {
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
 
         $sql = "SELECT c.*, q.modality,q.stage
-                    FROM classroom as c 
+                    FROM classroom as c
                 JOIN classroom_qtd_students AS q ON c.school_inep_fk = q.school_inep_fk
-                WHERE c.school_year = :year AND 
-                      q.school_year = :year AND 
-                      c.school_inep_fk = :school AND 
-                      q.school_inep_fk = :school AND 
+                WHERE c.school_year = :year AND
+                      q.school_year = :year AND
+                      c.school_inep_fk = :school AND
+                      q.school_inep_fk = :school AND
                       c.id = q.id
                 ORDER BY name";
 
@@ -1745,20 +1745,20 @@ class ReportsRepository {
                     ->queryAll();
 
         foreach ($classrooms as &$classroom) {
-            $sql = "SELECT DISTINCT c.id AS classroomID ,c.name AS className,id.inep_id,id.name, 
+            $sql = "SELECT DISTINCT c.id AS classroomID ,c.name AS className,id.inep_id,id.name,
                                     id.birthday_date, iv.scholarity
                         FROM instructor_teaching_data AS i
                     JOIN instructor_identification AS id ON id.id = i.instructor_fk
                     JOIN instructor_variable_data AS iv ON iv.id = id.id
                     JOIN classroom AS c ON i.classroom_id_fk = c.id
-                    WHERE c.id = :id AND (i.role = 8 OR i.role = 2) 
+                    WHERE c.id = :id AND (i.role = 8 OR i.role = 2)
                     ORDER BY id.name";
             $classroom["professors"] = Yii::app()->db->createCommand($sql)->bindParam(":id", $classroom["id"])->queryAll();
         }
         unset($classroom);
 
         $response = array('school' => $school, 'classrooms' => $classrooms);
-        
+
         return $response;
     }
 
@@ -1814,10 +1814,10 @@ class ReportsRepository {
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
 
         $sql = "SELECT q.*, c.mais_educacao_participator,c.inep_id
-                    FROM classroom as c 
+                    FROM classroom as c
                 JOIN classroom_qtd_students AS q ON c.id = q.id
-                WHERE c.school_year = :school_year AND 
-                      q.school_inep_fk = :school_inep_fk 
+                WHERE c.school_year = :school_year AND
+                      q.school_inep_fk = :school_inep_fk
                 ORDER BY q.name";
         $classrooms = Yii::app()->db->createCommand($sql)
                     ->bindParam(':school_year', $this->currentYear)
@@ -1825,7 +1825,7 @@ class ReportsRepository {
                     ->queryAll();
 
         $sql = "SELECT i.role, i.classroom_inep_id,c.id as classroomId
-                    FROM instructor_teaching_data AS i 
+                    FROM instructor_teaching_data AS i
                 JOIN classroom AS c ON i.classroom_id_fk = c.id
                 WHERE i.school_inep_id_fk = :school_inep_id_fk AND
                       c.school_year = :school_year";
@@ -1848,12 +1848,12 @@ class ReportsRepository {
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
 
         $sql = "SELECT c.inep_id, q.*
-                    FROM classroom AS c 
+                    FROM classroom AS c
                 JOIN classroom_qtd_students AS q ON c.school_inep_fk = q.school_inep_fk
-                WHERE c.school_year = :school_year AND 
-                      q.school_year = :school_year and 
-                      c.school_inep_fk = :school_inep_fk AND 
-                      q.school_inep_fk = :school_inep_fk AND 
+                WHERE c.school_year = :school_year AND
+                      q.school_year = :school_year and
+                      c.school_inep_fk = :school_inep_fk AND
+                      q.school_inep_fk = :school_inep_fk AND
                       c.id = q.id
                 ORDER BY c.name";
 
@@ -1863,7 +1863,7 @@ class ReportsRepository {
                     ->queryAll();
 
         $sql = "SELECT i.role, i.classroom_inep_id,c.name
-                    FROM instructor_teaching_data AS i 
+                    FROM instructor_teaching_data AS i
                 JOIN classroom AS c ON i.classroom_id_fk = c.id
                 WHERE i.school_inep_id_fk = :school_inep_id_fk AND
                       c.school_year = :school_year";
@@ -1919,7 +1919,7 @@ class ReportsRepository {
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
 
         $sql = "SELECT * FROM classroom_qtd_students
-                WHERE `school_year` >= :school_year-1 AND school_inep_fk = :school_inep_fk 
+                WHERE `school_year` >= :school_year-1 AND school_inep_fk = :school_inep_fk
                 ORDER BY name;";
 
         $classrooms = Yii::app()->db->createCommand($sql)
@@ -1928,7 +1928,7 @@ class ReportsRepository {
                     ->queryAll();
 
         $sql = "SELECT `c`.`id` AS `classe_id` , count(`s`.`id`) AS `contador`
-                    FROM ((`student_identification` `s` 
+                    FROM ((`student_identification` `s`
                 JOIN `student_enrollment` `se` ON((`s`.`id` = `se`.`student_fk`)))
                 JOIN `classroom` `c` ON((`se`.`classroom_fk` = `c`.`id`)))
                 WHERE `c`.`school_year` = :school_year-1 AND school_inep_fk = :school_inep_fk
@@ -1940,7 +1940,7 @@ class ReportsRepository {
                     ->queryAll();
 
         $sql = "SELECT `c`.`id` AS `classe_id` , count(`s`.`id`) AS `contador`
-                    FROM ((`student_identification` `s` 
+                    FROM ((`student_identification` `s`
                 JOIN `student_enrollment` `se` ON((`s`.`id` = `se`.`student_fk`)))
                 JOIN `classroom` `c` ON((`se`.`classroom_fk` = `c`.`id`)))
                 WHERE `c`.`school_year` = :school_year AND school_inep_fk = :school_inep_fk
@@ -1963,8 +1963,8 @@ class ReportsRepository {
     public function getNumberStudentsPerClassroom() : array
     {
         $sql = "SELECT * FROM classroom_qtd_students
-                WHERE school_year  = :school_year AND 
-                      school_inep_fk = :school_inep_fk 
+                WHERE school_year  = :school_year AND
+                      school_inep_fk = :school_inep_fk
                 ORDER BY name;";
 
         $result = Yii::app()->db->createCommand($sql)
@@ -1987,15 +1987,15 @@ class ReportsRepository {
         `c`.`id`             AS `id`,
         `c`.`name`           AS `name`,
         CONCAT_WS(' - ',CONCAT_WS(':',`c`.`initial_hour`,`c`.`initial_minute`),CONCAT_WS(':',`c`.`final_hour`,`c`.`final_minute`)) AS `time`,
-        (CASE `c`.`assistance_type` 
-            WHEN 0 THEN 'NÃO SE APLICA' 
-            WHEN 1 THEN 'CLASSE HOSPITALAR' 
-            WHEN 2 THEN 'UNIDADE DE ATENDIMENTO SOCIOEDUCATIVO' 
-            WHEN 3 THEN 'UNIDADE PRISIONAL ATIVIDADE COMPLEMENTAR' 
+        (CASE `c`.`assistance_type`
+            WHEN 0 THEN 'NÃO SE APLICA'
+            WHEN 1 THEN 'CLASSE HOSPITALAR'
+            WHEN 2 THEN 'UNIDADE DE ATENDIMENTO SOCIOEDUCATIVO'
+            WHEN 3 THEN 'UNIDADE PRISIONAL ATIVIDADE COMPLEMENTAR'
             ELSE 'ATENDIMENTO EDUCACIONALESPECIALIZADO (AEE)' END) AS `assistance_type`,
-        (CASE `c`.`modality` 
-            WHEN 1 THEN 'REGULAR' 
-            WHEN 2 THEN 'ESPECIAL' 
+        (CASE `c`.`modality`
+            WHEN 1 THEN 'REGULAR'
+            WHEN 2 THEN 'ESPECIAL'
             ELSE 'EJA' END) AS `modality`,
         `esm`.`name`         AS `stage`,
         COUNT(`c`.`id`)      AS `students`,
@@ -2022,16 +2022,16 @@ class ReportsRepository {
      */
     public function getInstructorsPerClassroom() : array
     {
-        $sql = "SELECT * FROM classroom_instructors 
-                WHERE school_year = :school_year AND 
-                      school_inep_fk = :school_inep_fk 
+        $sql = "SELECT * FROM classroom_instructors
+                WHERE school_year = :school_year AND
+                      school_inep_fk = :school_inep_fk
                 ORDER BY name;";
 
         $result = Yii::app()->db->createCommand($sql)
                 ->bindParam(':school_year', $this->currentYear)
                 ->bindParam(':school_inep_fk', $this->currentSchool)
                 ->queryAll();
-        
+
         $response = array('report' => $result);
 
         return $response;
@@ -2153,8 +2153,8 @@ class ReportsRepository {
                 JOIN school_identification si ON (si.inep_id = cl.school_inep_fk)
                 JOIN student_identification su ON(su.id= se.student_fk)
                 WHERE bf_participator = 1 AND
-                    si.`inep_id` = :school_inep_id AND 
-                    (se.status = 1 OR se.status IS NULL) 
+                    si.`inep_id` = :school_inep_id AND
+                    (se.status = 1 OR se.status IS NULL)
                 ORDER BY name;";
 
         $result = Yii::app()->db->createCommand($sql)
@@ -2220,13 +2220,13 @@ class ReportsRepository {
 
         return $response;
     }
-    
+
     /**
      * Alunos Cardápios Especiais
      */
     public function getStudentSpecialFood() : array
     {
-        $sql = "SELECT si.inep_id , si.name as nome_aluno, si.birthday, sr.* 
+        $sql = "SELECT si.inep_id , si.name as nome_aluno, si.birthday, sr.*
                     FROM student_identification si
                 JOIN student_restrictions sr ON(sr.student_fk = si.id)
                 WHERE sr.celiac != 0
@@ -2260,22 +2260,22 @@ class ReportsRepository {
                     JOIN instructor_identification ii ON ii.id = itd.instructor_fk
                     JOIN curricular_matrix cm ON cm.id = tm.curricular_matrix_fk
                     JOIN edcenso_discipline ed ON ed.id = cm.discipline_fk
-                    WHERE ii.users_fk = :userid AND itd.classroom_id_fk = :crid 
+                    WHERE ii.users_fk = :userid AND itd.classroom_id_fk = :crid
                     ORDER BY ed.name";
 
             $disciplines = Yii::app()->db->createCommand($sql)
                         ->bindParam(":userid", Yii::app()->user->loginInfos->id)
                         ->bindParam(":crid", $classroom->id)
                         ->queryAll();
-            
+
             foreach ($disciplines as $discipline) {
                 echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true));
             }
         } else {
             echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione...'), true);
 
-            $sql = "SELECT curricular_matrix.discipline_fk 
-                        FROM curricular_matrix 
+            $sql = "SELECT curricular_matrix.discipline_fk
+                        FROM curricular_matrix
                     WHERE stage_fk = :stage_fk AND school_year = :year";
 
             $classr = Yii::app()->db->createCommand($sql)
