@@ -31,10 +31,11 @@ $("#InstructorIdentification_edcenso_uf_fk").on("change", function () {
             current_city: $("#InstructorIdentification_edcenso_city_fk").val()
         },
         success: function (response) {
-            // const optionsList = JSON.parse(response);
-            // const options = optionsList.join("");
+            const optionsList = JSON.parse(response);
+            const options = optionsList.join("");
             $("#InstructorIdentification_edcenso_city_fk").html(options);
             $("#InstructorIdentification_edcenso_city_fk").select2();
+
         }
     });
 });

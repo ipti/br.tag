@@ -419,6 +419,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <?php echo $form->error($modelInstructorIdentification, 'edcenso_nation_fk'); ?>
                                 </div>
                             </div>
+                            <!-- Estado de origem-->
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx(
@@ -444,7 +445,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <?php echo $form->error($modelInstructorIdentification, 'edcenso_uf_fk'); ?>
                                 </div>
                             </div>
-
+                            <!-- Cidade de origem-->
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx(
@@ -1424,19 +1425,33 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                                 ?>
                                                             </div>
                                                         </div>
-
                                                         <div class="control-group">
                                                             <div class="controls">
-                                                                <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_1', array('class' => 'control-label')); ?>
+                                                                <?php echo $form->labelEx(
+                                                                    $modelInstructorVariableData,
+                                                                    'high_education_final_year_1',
+                                                                    array(
+                                                                        'class' => 'control-label'
+                                                                    )
+                                                                );
+                                                                ?>
                                                             </div>
                                                             <div class="controls">
-                                                                <?php echo $form->textField($modelInstructorVariableData, 'high_education_final_year_1', array('size' => 4, 'maxlength' => 4)); ?>
-                                                                <!-- <span class="btn-action single glyphicons circle_question_mark"
-                                                                      data-toggle="tooltip" data-placement="top"
-                                                                      data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span> -->
-                                                                <?php echo $form->error($modelInstructorVariableData, 'high_education_final_year_1'); ?>
+                                                                <?php echo $form->textField(
+                                                                    $modelInstructorVariableData,
+                                                                    'high_education_final_year_1',
+                                                                    array(
+                                                                        'size' => 4, 'maxlength' => 4
+                                                                    )
+                                                                );
+                                                                ?>
+                                                                <?php echo $form->error(
+                                                                    $modelInstructorVariableData,
+                                                                    'high_education_final_year_1'
+                                                                ); ?>
                                                             </div>
                                                         </div>
+                                                        <!-- Estado -->
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 Estado
@@ -1487,6 +1502,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                                 <?php echo $form->error($modelInstructorIdentification, 'edcenso_uf_fk'); ?>
                                                             </div>
                                                         </div>
+
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_1_fk', array('class' => 'control-label required indicator')); ?>
