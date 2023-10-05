@@ -46,8 +46,6 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="form">
     <div class="tag-inner">
         <div class="widget widget-tabs border-bottom-none">
-            <?php echo $form->errorSummary($model, null, null, array('class'=> 'alert alert-error')); ?>
-            <div class="alert alert-error no-show"></div>
             <div class="t-tabs">
                 <ul class="t-tabs__list tab-classroom">
                     <li id="tab-classroom" class="t-tabs__item active">
@@ -58,6 +56,9 @@ $form = $this->beginWidget('CActiveForm', array(
                     </li>
                 </ul>
             </div>
+
+            <?php echo $form->errorSummary($model); ?>
+            <div class="alert alert-error no-show"></div>
 
             <div class="widget-body form-horizontal">
                 <div class="tab-content form-content">
@@ -73,7 +74,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="row">
                             <div class="column">
                                 <div class="t-field-select">
-                                        <?php echo CHtml::label(Yii::t('default', 'Role'), 'Role', array('class' => 't-field-select__label')); ?>
+                                        <?php echo CHtml::label(Yii::t('default', 'Role'), 's2id_Role', array('class' => 't-field-select__label required', 'required' => true)); ?>
                                         <?php
                                         $roles = CHtml::listData(AuthItem::model()->findAll('type=2 order by name'), 'name', 'name');
                                         foreach ($roles as $key => $value) {
