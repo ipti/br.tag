@@ -14,49 +14,50 @@
 </div>
 <div class="ui-accordion-content">
     <div class="row">
-        <div class="t-search column clearfix">
-            <?= CHtml::textField('TACO','',array(
-        'class' => 't-search-input js-inicializate-select2',
-        'placeholder' => 'Busque pelo Alimento (TACO)'));
-    ?>
-		  <!--  <input type="text" class="t-search-input" placeholder="Busque pelo Alimento (TACO)"> -->
-           <span class="t-icon-search_icon t-search-icon"></span>
+        <div class="t-field-select column clearfix">
+        <?= CHtml::dropDownList('TACO', '',
+        CHtml::listData(Food::model()->findAll(), 'id', 'description'), array(
+            'data-idAccordion' => $idAccordion,
+            'class' => ' t-field-select__input js-inicializate-select2 js-taco-foods',
+            'prompt' => 'Busque pelo Alimento (TACO)',
+        ),
+        ); ?>
         </div>
     </div>
-    <table>
-        <tr>
-            <th>Nome</th>
-            <th>Medida</th>
-            <th>Quantidade</th>
-            <th>PT</th>
-            <th>LIP</th>
-            <th>CHO</th>
-            <th>KCAL</th>
-        </tr>
-        <tr>
-            <td> ARROZ </td>
-            <td>
-                <div class="row">
-                <?= CHtml::telField('name', '',
-                    array('class'=>'column is-one-quarter t-field-text__input clear-margin--right')) ?>
-                <?= CHtml::telField('name', '', array('class'=>'column t-field-text__input')) ?>
-                </div>
-            </td>
-            <td>
-                24g
-            </td>
-            <td>
-                1g
-            </td>
-            <td>
-                1g
-            </td>
-            <td>
-                1g
-            </td>
-            <td>
-                1g
-            </td>
-        </tr>
-    </table>
+            <table class="tag-table-secondary centralize js-add-line" data-idAccordion='<?= $idAccordion?>'>
+                <tr>
+                    <th>Nome</th>
+                    <th>unidade</th>
+                    <th>Medida</th>
+                    <th>Quantidade</th>
+                    <th>PT</th>
+                    <th>LIP</th>
+                    <th>CHO</th>
+                    <th>KCAL</th>
+                </tr>
+                <!-- <tr>
+                    <td> ARROZ </td>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                       1
+                    </td>
+                    <td>
+                        24g
+                    </td>
+                    <td>
+                        1g
+                    </td>
+                    <td>
+                        1g
+                    </td>
+                    <td>
+                        1g
+                    </td>
+                    <td>
+                        1g
+                    </td>
+                </tr> -->
+            </table>
 </div>

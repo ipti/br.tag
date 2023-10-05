@@ -72,96 +72,80 @@ $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END
 				</a>
 			</div>
 		</div>
+		<div class="t-expansive-panel">
+			<div class="row">
+				<div class="t-field-text column">
+					<?= chtml::label('Hora da refeição *', 'mealTime', array('class'=> 't-field-text__label--required')); ?>
+					<?= CHtml::textField('mealTime', '', array('class'=> 't-field-text__input', 'id' => 'mealTime'));?>
+				</div>
+				<div class="column clear-margin--right">
+					<div class="t-field-checkbox-group row clear-margin--top">
+						<div class="t-field-checkbox--vertical">
+							<?= chtml::label('S', 'monday', array('class'=> 't-field-checkbox__label'));?>
+							<?= CHtml::checkBox('monday', false, array('class' => 't-field-checkbox__input')) ?>
+						</div>
+						<div class="t-field-checkbox--vertical">
+							<?= chtml::label('T', 'tuesday', array('class'=> 't-field-checkbox__label'));?>
+							<?= CHtml::checkBox('tuesday', false, array('class' => 't-field-checkbox__input')) ?>
+						</div>
+
+						<div class="t-field-checkbox--vertical">
+							<?= chtml::label('Q', 'wednesday', array('class'=> 't-field-checkbox__label'));?>
+							<?= CHtml::checkBox('wednesday', false, array('class' => 't-field-checkbox__input')) ?>
+						</div>
+
+						<div class="t-field-checkbox--vertical">
+							<?= chtml::label('Q', 'thursday', array('class'=> 't-field-checkbox__label'));?>
+							<?= CHtml::checkBox('thursday', false, array('class' => 't-field-checkbox__input')) ?>
+						</div>
+
+						<div class="t-field-checkbox--vertical">
+							<?= chtml::label('S', 'friday', array('class'=> 't-field-checkbox__label'));?>
+							<?= CHtml::checkBox('friday', false, array('class' => 't-field-checkbox__input')) ?>
+						</div>
+
+						<div class="t-field-checkbox--vertical">
+							<?= chtml::label('S', 'saturday', array('class'=> 't-field-checkbox__label'));?>
+							<?= CHtml::checkBox('saturday', false, array('class' => 't-field-checkbox__input')) ?>
+						</div>
+
+						<div class="t-field-checkbox--vertical">
+							<?= chtml::label('D', 'sunday', array('class'=> 't-field-checkbox__label'));?>
+							<?= CHtml::checkBox('sunday', false, array('class' => 't-field-checkbox__input')) ?>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="t-field-select column">
+					<?= chtml::label('Publico *', 'stage_fk', array('class'=> 't-field-select__label--required'));?>
+					<?=  CHtml::dropDownList('stage', '', [], array('class' => 'select-search-on t-field-select__input')); ?>
+				</div>
+				<div class="t-field-select column">
+					<?= chtml::label('Turno *', 'stage_fk', array('class'=> 't-field-select__label--required'));?>
+					<?=  CHtml::dropDownList('shift', '', [], array('class' => 'select-search-on t-field-select__input')); ?>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column t-buttons-container">
+					<a class="t-button-primary js-add-plate">
+						Adicionar Prato
+					</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<div id="js-accordion" class="t-accordeon-secondary">
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	<?php echo $form->errorSummary($model); ?>
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Criar' : 'Salvar', array('class'=>'t-button-primary')); ?>
 	</div>
-
-	<div class="modal fade t-modal-container js-add-meal-modal" tabindex="-1" role="dialog">
-		<div class="modal-dialog" role="document">
-			<div class="t-modal__header">
-				<h4 class="t-title">Adicionar Refeições</h4>
-				<span class="t-icon-close close" data-dismiss="modal" aria-label="Close"></span>
-			</div>
-			<div class="t-modal__body">
-				<div class="row">
-					<div class="t-field-text column">
-						<?= chtml::label('Hora da refeição *', 'mealTime', array('class'=> 't-field-text__label--required')); ?>
-						<?= CHtml::textField('mealTime', '', array('class'=> 't-field-text__input', 'id' => 'mealTime'));?>
-					</div>
-					<div class="column clear-margin--right">
-						<div class="t-field-checkbox-group row clear-margin--top">
-							<div class="t-field-checkbox--vertical">
-								<?= chtml::label('S', 'monday', array('class'=> 't-field-checkbox__label'));?>
-								<?= CHtml::checkBox('monday', false, array('class' => 't-field-checkbox__input')) ?>
-							</div>
-							<div class="t-field-checkbox--vertical">
-								<?= chtml::label('T', 'tuesday', array('class'=> 't-field-checkbox__label'));?>
-								<?= CHtml::checkBox('tuesday', false, array('class' => 't-field-checkbox__input')) ?>
-							</div>
-
-							<div class="t-field-checkbox--vertical">
-								<?= chtml::label('Q', 'wednesday', array('class'=> 't-field-checkbox__label'));?>
-								<?= CHtml::checkBox('wednesday', false, array('class' => 't-field-checkbox__input')) ?>
-							</div>
-
-							<div class="t-field-checkbox--vertical">
-								<?= chtml::label('Q', 'thursday', array('class'=> 't-field-checkbox__label'));?>
-								<?= CHtml::checkBox('thursday', false, array('class' => 't-field-checkbox__input')) ?>
-							</div>
-
-							<div class="t-field-checkbox--vertical">
-								<?= chtml::label('S', 'friday', array('class'=> 't-field-checkbox__label'));?>
-								<?= CHtml::checkBox('friday', false, array('class' => 't-field-checkbox__input')) ?>
-							</div>
-
-							<div class="t-field-checkbox--vertical">
-								<?= chtml::label('S', 'saturday', array('class'=> 't-field-checkbox__label'));?>
-								<?= CHtml::checkBox('saturday', false, array('class' => 't-field-checkbox__input')) ?>
-							</div>
-
-							<div class="t-field-checkbox--vertical">
-								<?= chtml::label('D', 'sunday', array('class'=> 't-field-checkbox__label'));?>
-								<?= CHtml::checkBox('sunday', false, array('class' => 't-field-checkbox__input')) ?>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="t-field-select column">
-						<?= chtml::label('Publico *', 'stage_fk', array('class'=> 't-field-select__label--required'));?>
-						<?=  CHtml::dropDownList('stage', '', [], array('class' => 'select-search-on t-field-select__input')); ?>
-					</div>
-					<div class="t-field-select column">
-						<?= chtml::label('Turno *', 'stage_fk', array('class'=> 't-field-select__label--required'));?>
-						<?=  CHtml::dropDownList('shift', '', [], array('class' => 'select-search-on t-field-select__input')); ?>
-					</div>
-				</div>
-				<div class="row">
-					<div class="column t-buttons-container">
-						<a class="t-button-primary js-add-plate">
-							Adicionar Prato
-						</a>
-					</div>
-				</div>
-				<div class="row">
-					<div class="column">
-						<div id="js-accordion" class="t-accordeon-secondary">
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="t-modal__footer row">
-					<div class="t-buttons-container column">
-						<button class="t-button-secondary clear-margin--right" data-dismiss="modal">Cancelar</button>
-					</div>
-					<div class="t-buttons-container column">
-						<button class="t-button-primary clear-margin--right">Salvar</button>
-					</div>
-			</div>
-		</div>
-	</div>
+				
 <?php $this->endWidget(); ?>
 	
 </div><!-- form -->

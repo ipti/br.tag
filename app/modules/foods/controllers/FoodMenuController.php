@@ -28,7 +28,7 @@ class FoodMenuController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','plateAccordion'),
+				'actions'=>array('index','view','plateAccordion', 'getFood'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -114,6 +114,20 @@ class FoodMenuController extends Controller
 		$this->renderPartial('_plateAccordion', array(
 			'idAccordion' => $idAccordion
 		));
+	}
+
+	public function actionGetFood() {
+		$idFood = Yii::app()->request->getQuery('idFood');
+		$food = Food::model()->findByPk($idFood);
+		$reslut = array();
+		$result["name"] = $food->description;
+		$result["kcal"] = $food->energy_kcal;
+		$result["pt"] = $food->protein_g;
+		$result["lip"] = $food->lipidius_g;
+		$result["cho"] = $food->cholesterol_mg;
+
+
+		echo json_encode($result);
 	}
 	/**
 	 * Updates a particular model.
