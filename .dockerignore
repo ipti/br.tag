@@ -1,3 +1,7 @@
 /assets/
 /assets
 /assets/*
+/db
+/docker/mysql/dbfiles
+/vendor
+/app/vendor
