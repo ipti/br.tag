@@ -44,7 +44,7 @@ $('#discipline').change(function (e, triggerEvent) {
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.valid) {
-                    
+
                     const gradesAndFaults =  data.unities.map(element => {
                         return ` <th>Nota</th><th>Faltas</th>`;
                     });
@@ -53,15 +53,16 @@ $('#discipline').change(function (e, triggerEvent) {
                         return `<th colspan='2' style='width:20%;'>${element.name}</th>`;
                     });
 
-                    var html = `
+                    let html = `
                     <table class='grades-table table table-bordered table-striped'>
                         <thead>
                             <tr>
-                                <th colspan=10' class='table-title'>Lançamento de Notas</th>
+                                <th colspan=12' class='table-title'>Lançamento de Notas</th>
                             </tr>
                             <tr>
                                 <th rowspan='2' style='width:2%;'>Ordem</th>
-                                <th rowspan='2' style='width:10%;'></th>
+                                <th rowspan='2' style='width:2%;'>Ficha individual</th>
+                                <th rowspan='2' style='width:10%;'>Nome</th>
                                 ${ unities.join("\n") }
                                 <th rowspan='2' style='width:10%;vertical-align:middle;'>Média Final</th>
                             </tr>
@@ -74,17 +75,29 @@ $('#discipline').change(function (e, triggerEvent) {
                     $.each(data.students, function (index ) {
                         let order = this.daily_order || index + 1;
                         html += `<tr>
-                            <td class='grade-student-order'>${order}</td>
-                            <td class='grade-student-name'><input type='hidden' class='enrollment-id' value='${this.enrollmentId}'> ${ $.trim(this.studentName) } </td>
+                            <td class='grade-student-order final-media'>
+                            ${order}
+                            </td>
+                            <td class="final-media">
+                            <a class='t-link-button--info ' rel='noopener' target='_blank' href='?r=forms/IndividualRecord&enrollment_id=${this.enrollmentId}'>
+                                <span class="t-icon-printer"></span>
+                            </a>
+                            </td>
+                            <td class='grade-student-name final-media'><input type='hidden' class='enrollment-id' value='${this.enrollmentId}'>
+                            ${ $.trim(this.studentName) }
+                            </td>
                         `;
 
                         $.each(this.grades, function () {
+                            let valueGrade;
+                            let faults;
+
                             if (this.value == "" || this.value == null) {
                                 valueGrade = "";
                             } else {
                                 valueGrade = parseFloat(this.value).toFixed(1);
                             }
-                            
+
                             if(this.faults == null) {
                                 faults = ""
                             } else {
@@ -126,9 +139,9 @@ $("#save").on("click", function (e) {
     e.preventDefault();
     $(".js-grades-alert").hide();
 
-    var students = [];
+    let students = [];
     $('.grades-table tbody tr').each(function () {
-        var grades = [];
+        let grades = [];
         $(this).find(".grade").each(function () {
             grades.push({
                 value: $(this).val(),
@@ -161,7 +174,7 @@ $("#save").on("click", function (e) {
 });
 
 $(document).on("keyup", "input.faults", function (e) {
-    var val = this.value;
+    let val = this.value;
     if (!$.isNumeric(val)) {
         e.preventDefault();
         val = "";
@@ -170,12 +183,12 @@ $(document).on("keyup", "input.faults", function (e) {
 });
 
 $(document).on("keyup", "input.grade", function (e) {
-    var val = this.value;
+    let val = this.value;
     if (!$.isNumeric(val)) {
         e.preventDefault();
         val = "";
     } else {
-        grade = /^(10|\d)(?:(\.|\,)\d{0,1}){0,1}$/;
+        let grade = /^(10|\d)([.,]\d{1})?$/;
         if (val.match(grade) === null) {
             val = "";
         } else {
