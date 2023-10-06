@@ -115,7 +115,7 @@ class StudentMapper
             $studentIdentification->edcenso_nation_fk = $outDadosPessoais->getOutCodPaisOrigem();
         }
         $studentIdentification->edcenso_uf_fk = intval(EdcensoUf::model()->find("acronym = :acronym", [":acronym" => $outDadosPessoais->getOutUfMunNascto()])->id);
-        $studentIdentification->edcenso_city_fk = intval(EdcensoCity::model()->find("name = :name", [":name" => $outDadosPessoais->getOutNomeMunNascto()])->id);
+        $studentIdentification->edcenso_city_fk = intval(EdcensoCity::model()->find("name = :name", [":name" => $outEnderecoResidencial->getOutNomeCidade()])->id);
         $studentIdentification->deficiency = 0;
         $studentIdentification->send_year = intval(Yii::app()->user->year);
 
