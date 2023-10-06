@@ -770,7 +770,6 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                         </div>
                         <div class="span6">
                             <div class="separator"></div>
-                            <!-- Estado -->
                             <div class="control-group">
                                 <div class="controls">
                                     <?php
@@ -803,7 +802,6 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <?php echo $form->error($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk'); ?>
                                 </div>
                             </div>
-                            <!-- Cidade -->
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx(
@@ -1509,7 +1507,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 
                                                             </div>
                                                             <div class="controls">
-                                                                <?php echo $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_1_fk', [$modelInstructorVariableData->high_education_institution_code_1_fk  =>  $modelInstructorVariableData->high_education_institution_code_1_fk->name], array("style" => "width:425px;", 'class' => 'select-search-on control-input')); ?>
+                                                                <?php echo $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_1_fk', [$modelInstructorVariableData->high_education_institution_code_1_fk  =>  $modelInstructorVariableData->high_education_institution_code_1_fk->name] , array("style" => "width:425px;", 'class' => 'select-search-on control-input')); ?>
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_1_fk'); ?>
                                                             </div>
                                                         </div>
@@ -1549,8 +1547,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <div class="controls">
                                                                 <?php echo CHtml::DropDownList(
                                                                     'high_education_course_area2',
-                                                                    '',
-                                                                    CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group' => 'cod, area', 'select' => 'cod, area')), 'cod', 'area'),
+                                                                    '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group' => 'cod, area', 'select' => 'cod, area')), 'cod', 'area'),
                                                                     array(
                                                                         'class' => 'select-search-off control-input',
                                                                         'prompt' => 'Selecione a Área de Atuação',
@@ -1956,4 +1953,7 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
         2: formInstructorvariableData + "high_education_institution_code_2_fk",
         3: formInstructorvariableData + "high_education_institution_code_3_fk"
     };
+
+
+
 </script>

@@ -1,8 +1,8 @@
-/**
+/** 
  * Pega as informações do CEP e atualiza os campos necessários.
- *
+ * 
  * @param {structure} array(UF, City)
- * @returns {void}
+ * @returns {void}     
  * */
 
 function updateCep(data) {

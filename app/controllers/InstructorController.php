@@ -345,7 +345,6 @@ preenchidos";
         foreach ($data as $value => $name) {
             array_push($options, CHtml::tag('option', ['value' => $value, 'selected' => $value == $current_city], CHtml::encode($name), TRUE));
         }
-        // here
 
         echo json_encode($options);
     }
@@ -620,7 +619,7 @@ preenchidos";
         }
     }
 
-    public function actionGetFrequencyClassroom()
+    public function actionGetFrequencyClassroom ()
     {
         $instructor = htmlspecialchars($_POST["instructor"]);
         $classrooms = Yii::app()->db->createCommand("SELECT c.id, c.name FROM classroom c
