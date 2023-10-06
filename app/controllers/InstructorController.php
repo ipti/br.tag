@@ -343,34 +343,19 @@ preenchidos";
 
         $options = array();
         foreach ($data as $value => $name) {
-            array_push($options, CHtml::tag('option', ['value' => $value, 'selected' => $value == $current_city], CHtml::encode($name), TRUE));
+            array_push($options, CHtml::tag(
+                'option',
+                [
+                    'value' => $value,
+                    'selected' => $value == $current_city
+                ],
+                CHtml::encode($name),
+                TRUE
+            ));
         }
 
         echo json_encode($options);
     }
-
-//  public function actionGetCity()
-//     {
-
-//         $edcenso_uf_fk = $_POST['edcenso_uf_fk'];
-//         $current_city = $_POST['current_city'];
-
-//         $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', [':uf_id' => (int)$edcenso_uf_fk]);
-//         $data = CHtml::listData($data, 'id', 'name');
-
-
-//         $options = array();
-//         foreach ($data as $value => $name) {
-
-//             array_push($options, CHtml::tag('option', ['value' => $value, 'selected' => $value == $current_city], CHtml::encode($name), true));
-
-
-//         }
-//         // here
-
-//         echo implode($options);
-//     }
-
 
     public function actionGetCityByCep()
     {
@@ -381,7 +366,8 @@ preenchidos";
             $data = EdcensoCity::model()->find('cep_initial <= ' . $cep . ' and cep_final >= ' . $cep);
         }
         $result = ($data == NULL) ? ['UF' => NULL, 'City' => NULL] : [
-            'UF' => $data->edcenso_uf_fk, 'City' => $data->id
+            'UF' => $data->edcenso_uf_fk_, 'City' => $data->id
+
         ];
         echo json_encode($result);
     }
@@ -619,7 +605,7 @@ preenchidos";
         }
     }
 
-    public function actionGetFrequencyClassroom ()
+    public function actionGetFrequencyClassroom()
     {
         $instructor = htmlspecialchars($_POST["instructor"]);
         $classrooms = Yii::app()->db->createCommand("SELECT c.id, c.name FROM classroom c

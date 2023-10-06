@@ -1,8 +1,8 @@
-/** 
+/**
  * Pega as informações do CEP e atualiza os campos necessários.
- * 
+ *
  * @param {structure} array(UF, City)
- * @returns {void}     
+ * @returns {void}
  * */
 
 function updateCep(data) {
@@ -48,46 +48,18 @@ $("#InstructorDocumentsAndAddress_edcenso_uf_fk").on("change", function () {
             current_city: $("#InstructorDocumentsAndAddress_edcenso_city_fk").val()
         },
         success: function (response) {
-            $.each(JSON.parse(response), function (id, option) {
-                $("#InstructorDocumentsAndAddress_edcenso_city_fk").append(option);
-            })
+            const optionsList = JSON.parse(response);
+            const options = optionsList.join("");
+            $("#InstructorDocumentsAndAddress_edcenso_city_fk").html(options);
+            $("#InstructorDocumentsAndAddress_edcenso_city_fk").select2();
         }
+        // success: function (response) {
+        //     $.each(JSON.parse(response), function (id, option) {
+        //         $("#InstructorDocumentsAndAddress_edcenso_city_fk").append(option);
+        //     })
+        // }
     });
 });
-// $("#InstructorIdentification_edcenso_uf_fk").on("change", function () {
-//     $.ajax({
-//         type: "POST",
-//         url: "?r=instructor/getCity",
-//         data: {
-//             edcenso_uf_fk: $(this).val(),
-//             current_city: $("#InstructorIdentification_edcenso_city_fk").val()
-//         },
-//         success: function (response) {
-//             const optionsList = JSON.parse(response);
-//             const options = optionsList.join("");
-//             $("#InstructorIdentification_edcenso_city_fk").html(options);
-//             $("#InstructorIdentification_edcenso_city_fk").select2();
-
-//         }
-//     });
-// });
-
-// $("#InstructorDocumentsAndAddress_edcenso_uf_fk").on("change", function () {
-//     $('#InstructorDocumentsAndAddress_edcenso_city_fk option:not(:contains("Selecione uma cidade"))').remove();
-//     $.ajax({
-//         type: "POST",
-//         url: "?r=instructor/getCity",
-//         data: {
-//             edcenso_uf_fk: $(this).val(),
-//             current_city: $("#InstructorDocumentsAndAddress_edcenso_city_fk").val()
-//         },
-//         success: function (response) {
-//             $.each(JSON.parse(response), function (id, option) {
-//                 $("#InstructorDocumentsAndAddress_edcenso_city_fk").append(option);
-//             })
-//         }
-//     });
-// });
 $("#IES").on("change", function () {
     loadIES("#IES", "#InstructorVariableData_high_education_institution_code_1_fk");
 });
