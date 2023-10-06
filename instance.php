@@ -34,4 +34,5 @@ define ("DBCONFIG", serialize (array(
     'password' => $PWD,
     'charset' => 'utf8',
 )));
+
 define('INSTANCE',strtoupper($domain));

@@ -7,19 +7,17 @@ class GetEscolasFromSEDUseCase
         $result = $this->fetchSchoolData($inEscola);
         $schoolId = $this->buildSchoolId($result->getOutEscolas()[0]->getOutCodEscola());
 
+        $existSchool = $this->existSchool($inEscola);
 
-        if ($this->existSchool($inEscola)) {
+        if ($existSchool === true) {
             $inRelacaoClasses = $this->getClassesFromSED($schoolId);
-            return $this->getSchoolClasses($inRelacaoClasses);
+        } elseif ($this->createSchool($inEscola)) {
+            $inRelacaoClasses = $this->getClassesFromSED($schoolId);
+        } else {
+            throw new SedspException('Não foi possível salvar a escola no banco de dados.');
         }
-
-        if ($this->createSchool($inEscola)) {
-            $inRelacaoClasses = $this->getClassesFromSED($schoolId);
-            return $this->getSchoolClasses($inRelacaoClasses);
-        } 
-        
-        throw new SedspException('Não foi possível salvar a escola no banco de dados.');
-    
+           
+        return $this->getSchoolClasses($inRelacaoClasses);
     }
 
     public function existSchool(InEscola $inEscola)
@@ -64,13 +62,19 @@ class GetEscolasFromSEDUseCase
         return new InRelacaoClasses($inAnoLetivo, $inCodEscola, null, null, null, null);
     }
 
+    /**
+     * Summary of createAndSaveNewSchool
+     * @param mixed $schoolAttributes
+     * @throws \SedspException
+     * @return bool
+     */
     public function createAndSaveNewSchool($schoolAttributes)
     {
         $school = new SchoolIdentification();
         $school->attributes = $schoolAttributes;
 
         if(!$school->validate()){
-            throw new SedspException(CJSON::encode([ 
+            throw new SedspException(CJSON::encode([
                 'data'=> $schoolAttributes,
                 'errors' => $school->getErrors()
             ]));

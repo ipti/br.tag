@@ -47,7 +47,6 @@
     }
 }
   
-
 .admin-box-container .title{
     font-style: normal;
     font-weight: 700;
@@ -62,4 +61,28 @@
     line-height: 19px;
     color: #5F738C;
     margin-left: 0 !important;
+}
+
+.auditory-initial-date, .auditory-final-date {
+    width: 176px;
+}
+
+.auditory-button-container {
+    display: inline-block;
+    width: 227px;
+}
+
+.auditory-table-container {
+    display: none;
+    margin-top: 20px;
+}
+
+.auditory-table .table-title {
+    background: #3f45ea;
+    text-align: center;
+    color: #ffffff;
+}
+
+table.dataTable.no-footer {
+    border-bottom: 1px;
 }

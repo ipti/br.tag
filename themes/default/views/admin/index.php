@@ -154,6 +154,19 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                                 </div>
                             </button>
                         </a>
+
+                        <a href="<?php echo Yii::app()->createUrl('admin/auditory') ?>">
+                            <button type="button" class="admin-box-container">
+                                <div class="pull-left" style="margin-right: 20px;">
+                                    <span class="t-icon-checklist t-reports_icons"></span>
+                                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                                </div>
+                                <div class="pull-left">
+                                    <span class="title">Auditoria</span><br>
+                                    <span class="subtitle">Acompanhe o log das escolas</span>
+                                </div>
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>

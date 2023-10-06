@@ -108,4 +108,18 @@ class StockController extends CController{
             $this->redirect(['stock/index']);
         }
     }
+    public function actionDeleteItem() {
+        $lunchItemId = Yii::app()->request->getPost('lunchItemId', null);
+        if($lunchItemId){
+            $inventory = Inventory::model()->findAllByAttributes([
+                'item_fk'=>$lunchItemId, "school_fk" => Yii::app()->user->school]);
+                foreach ($inventory as $i) {
+                    $i->delete();
+                }
+            $item =  Item::model()->findByPk($lunchItemId);
+            $item->delete();
+            var_dump(Yii::app()->user->school);
+        }
+        
+    }
 }

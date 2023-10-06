@@ -1,13 +1,13 @@
-<?php 
+<?php
 
 class TagUtils extends CApplicationComponent {
-    
+
 
     public static function isStageMinorEducation($stage){
-        $REF_MINOR_STAGES = [
+        $refMinorStages = [
             '1', '2', '3', '4', '5', '6', '7', '8', '14', '15', '16', '17', '18'
         ];
-        $stages = new CList($REF_MINOR_STAGES, true);
+        $stages = new CList($refMinorStages, true);
         return $stages->contains($stage);
     }
 
@@ -37,20 +37,19 @@ class TagUtils extends CApplicationComponent {
         // Retorna a date original se não corresponder a nenhum formato conhecido
         return $date;
     }
-    
+
     public static function isInstance($instance){
-        
+
         if(is_array($instance)){
-            $instances = array_map(function ($e){
-                return strtoupper($e);
+            $instances = array_map(function ($element){
+                return strtoupper($element);
             }, $instance);
 
             return in_array(strtoupper(INSTANCE), $instances);
         }
 
         return strtoupper(INSTANCE) === strtoupper($instance);
-        
-    }    
+    }
 }
 
 ?>
