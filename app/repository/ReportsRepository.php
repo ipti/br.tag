@@ -452,7 +452,7 @@ class ReportsRepository
                     c.school_year = :year AND
                     c.school_inep_fk = :school_inep_id AND
                     c.id = :classroom
-                ORDER BY c.id, se.daily_order";
+                ORDER BY se.daily_order, c.name";
         $result = Yii::app()->db->createCommand($sql)
             ->bindParam(":year", $year)
             ->bindParam(":school_inep_id", $schoolInepId)
@@ -1109,7 +1109,7 @@ class ReportsRepository
                 c.school_year = :year AND
                 c.school_inep_fk = :school_inep_id AND
                 c.id = :classroom_id
-            ORDER BY se.daily_order";
+            ORDER BY se.daily_order, s.name";
 
         $classrooms = Yii::app()->db->createCommand($sql)
             ->bindParam(":year", $year)
@@ -1346,9 +1346,9 @@ class ReportsRepository
     public function getEnrollmentPerClassroomReport($classroomId): array
     {
         $sql = "SELECT * FROM classroom_enrollment
-                WHERE `year`  = :school_year AND
+                WHERE `year` = :school_year AND
                 classroom_id = :classroom_id
-                ORDER BY daily_order;";
+                ORDER BY daily_order, name;";
 
         $result = Yii::app()->db->createCommand($sql)
             ->bindParam(':school_year', $this->currentYear)
