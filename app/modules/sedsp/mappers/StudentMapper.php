@@ -95,27 +95,10 @@ class StudentMapper
         $outCertidaoAntiga = $exibirFichaAluno->getOutCertidaoAntiga();
         $outEnderecoResidencial = $exibirFichaAluno->getOutEnderecoResidencial();
 
-        $listaAluno = new EnrollmentSEDDataSource();
-        $response = (object) $listaAluno->getListarMatriculasRA(new InAluno($outDadosPessoais->getOutNumRa(), null, $outDadosPessoais->getOutSiglaUfra()));
-
-        $escola = new GetEscolasFromSEDUseCase();
-
-        $array = $response->outListaMatriculas;
-        foreach ($array as $item) {
-            if ($item->outDescSitMatricula === 'ATIVO' && $item->outMunicipio === 'UBATUBA') {
-
-                // $inEscola = new InEscola($item->outDescNomeAbrevEscola, null, null, null);
-
-                // // if (!$escola->existSchool($inEscola)) {
-                // //     $escola->createSchool($inEscola);
-                // // }
-
-                $schoolInep = $escola->buildSchoolId($item->outCodEscola);
-            }
-        }
+        $inepId = Yii::app()->user->school;
 
         $studentIdentification = new StudentIdentification;
-        $studentIdentification->school_inep_id_fk = $schoolInep;
+        $studentIdentification->school_inep_id_fk = $inepId;
         $studentIdentification->gov_id = $outDadosPessoais->getOutNumRa();
         $studentIdentification->name = $outDadosPessoais->getOutNomeAluno();
         $studentIdentification->filiation = $outDadosPessoais->getOutNomeMae() != "" || $outDadosPessoais->getOutNomePai() != "" ? 1 : 0;
@@ -132,13 +115,13 @@ class StudentMapper
             $studentIdentification->edcenso_nation_fk = $outDadosPessoais->getOutCodPaisOrigem();
         }
         $studentIdentification->edcenso_uf_fk = intval(EdcensoUf::model()->find("acronym = :acronym", [":acronym" => $outDadosPessoais->getOutUfMunNascto()])->id);
-        $studentIdentification->edcenso_city_fk = intval(EdcensoCity::model()->find("name = :name", [":name" => $outDadosPessoais->getOutNomeMunNascto()])->id);
+        $studentIdentification->edcenso_city_fk = intval(EdcensoCity::model()->find("name = :name", [":name" => $outEnderecoResidencial->getOutNomeCidade()])->id);
         $studentIdentification->deficiency = 0;
         $studentIdentification->send_year = intval(Yii::app()->user->year);
 
         //StudentDocuments
         $studentDocumentsAndAddress = new StudentDocumentsAndAddress;
-        $studentDocumentsAndAddress->school_inep_id_fk = $schoolInep;
+        $studentDocumentsAndAddress->school_inep_id_fk = $inepId;
         $studentDocumentsAndAddress->gov_id = $outDadosPessoais->getOutNumRa();
         $studentDocumentsAndAddress->cpf = $outDocumentos->getOutCpf();
         $studentDocumentsAndAddress->nis = $outDocumentos->getOutNumNis();
@@ -180,7 +163,7 @@ class StudentMapper
             $studentDocumentsAndAddress->civil_certification_term_number = $outCertidaoNova->getOutCertMatr08();
             $studentDocumentsAndAddress->civil_certification_sheet = $outCertidaoNova->getOutCertMatr07();
             $studentDocumentsAndAddress->civil_certification_book = $outCertidaoNova->getOutCertMatr06();
-        } else if (isset($outCertidaoAntiga)) {
+        } elseif (isset($outCertidaoAntiga)) {
             $studentDocumentsAndAddress->civil_certification = 1;
             $studentDocumentsAndAddress->civil_certification_type = 1;
             $studentDocumentsAndAddress->civil_certification_term_number = $outCertidaoAntiga->getOutNumCertidao();
@@ -207,4 +190,3 @@ class StudentMapper
         return $dataSource->getSchool($inEscola);
     }
 }
-?>

@@ -611,7 +611,35 @@ class AdminController extends Controller
             return $carry;
         }, []);
 
-        $this->render('editUser', ['model' => $model, 'actual_role' => $actualRole, 'userSchools' => $result, 'instructors' => $instructorsResult]);
+        $selectedInstructor = InstructorIdentification::model()->find("users_fk = :user_fk", ["user_fk" => $model->id]);
+
+        if(isset($selectedInstructor)){
+            $instructorsResult[$selectedInstructor->id] = $selectedInstructor->name;
+        }
+
+        $this->render(
+            'editUser',
+            [
+                'model' => $model,
+                'actual_role' => $actualRole,
+                'userSchools' => $result,
+                'instructors' => $instructorsResult,
+                'selectedInstructor' => $selectedInstructor
+            ]
+        );
+    }
+
+    public function actionImportBNCC()
+    {
+        $import = new BNCCImport();
+
+        $import->importCSVInfantil();
+        $disciplines = ['Arte', 'Ciências', 'Educação Física', 'Ensino religioso',
+        'Geografia', 'História', 'Língua Inglesa', 'Língua Portuguesa', 'Matemática'];
+
+        foreach ($disciplines as $discipline) {
+            $import->importCSVFundamental($discipline);
+        }
     }
 
     public function actionChangelog()

@@ -15,12 +15,6 @@
             color: $colorsTextPrimary;
         }
     }
-
-    .ui-accordion-content {
-        height: auto !important;
-        overflow-x: hidden !important;
-
-    }
 }
 
 .t-accordeon-primary {
@@ -28,6 +22,15 @@
 
     .ui-accordion-header {
         background: $colorsBaseCloudLight;
+
+        &:hover,
+        &--active {
+            background-color: $colorsBaseCloudLightHover;
+        }
+    }
+
+    .ui-accordion-content {
+        background: $colorsBaseCloudLight !important;
     }
 
     .icon-color {
@@ -51,7 +54,6 @@
     }
     .ui-accordion-content {
         height: auto !important;
-        overflow-x: hidden !important;
         background-color: $colorsBaseWhiteNormal;
         padding: $spaceEmpty !important;
     }
@@ -91,4 +93,63 @@
         padding-right: 0 !important;
         height: auto;
     }
+}
+.t-accordeon-quaternary {
+    @extend .t-accordeon;
+
+
+    .ui-accordion-header {
+        margin-top: $SizeMedium;
+        padding-left: $SizeXSmall !important;
+        padding-right: $SizeXSmall !important;
+        background: $colorsBaseWhiteNormal;
+        border-radius: $borderRadiusNormal;
+        box-shadow: 0px 0px 6px 0px rgba(196, 196, 196, 0.50);
+
+        .accordion-arrow-icon {
+            transition: transform 0.5s ease;
+            margin-right: $SizeMedium;
+            font-size: $SizeNormal;
+        }
+
+        .rotate {
+            transform: rotate(-90deg);
+            transition: transform 0.5s ease;
+        }
+
+        .t-title {
+            margin: 0;
+            font-weight: $fontWeightBold;
+            color: $colorsTextPrimary;
+        }
+
+        &:hover,
+        &--active {
+            background-color: $colorsBaseWhiteNormalHover;
+        }
+    }
+
+    .ui-accordion-content {
+        background: none !important;
+        padding-left: $SizeXSmall !important;
+        padding-right: $SizeXSmall !important;
+        border-radius: $borderRadiusNormal;
+        height: auto;
+        box-shadow: 0px 0px 6px 0px rgba(196, 196, 196, 0.50);
+        font-size: $FontSizeTextNormal;
+    }
+    .accordion-label {
+        &--title {
+            color: $colorsBaseInkLight;
+            display: flex;
+            align-items: center;
+            margin-right: $SizeXSmall;
+            margin-bottom: 0;
+        }
+        display: flex;
+        align-items: center;
+        margin-right: $SizeXSmall;
+        margin-bottom: 0;
+    }
+
 }

@@ -16,13 +16,22 @@ class GetRelacaoClassesFromSEDUseCase
 
             //Aramazena as classes da escola de código $schoolInepFk
             $indexedByClasses = [];
-            $allClasses = (object) Classroom::model()->findAll('school_inep_fk = :schoolInepFk', [':schoolInepFk' => $schoolInepFk]);
+            $allClasses = (object) Classroom::model()->findAll(
+                'school_inep_fk = :schoolInepFk', [':schoolInepFk' => $schoolInepFk]
+            );
             foreach ($allClasses as $value) {
                 $indexedByClasses[$value['gov_id']] = $value['gov_id'];
             }
 
             $status = false;
             $classrooms = $mapper->Classrooms;
+
+            if(empty($classrooms)){
+                $log = new LogError();
+                $log->salvarDadosEmArquivo($response->getOutErro());
+                return 2;
+            }
+
             foreach($classrooms as $classroom) {
                 $classroomGovId = $classroom->gov_id;
 
@@ -37,12 +46,14 @@ class GetRelacaoClassesFromSEDUseCase
                     }
                 }
             }
-            
+
             return $status;
         } catch (Exception $e) {
-            CVarDumper::dump($e->getMessage(), 10, true);
+            $log = new LogError();
+            $log->salvarDadosEmArquivo($e->getMessage());
         }
     }
+
 
     public function createAndSaveNewClass($attributes, $govId)
     {
@@ -53,13 +64,14 @@ class GetRelacaoClassesFromSEDUseCase
         if($class->validate() && $class->save()) {
             return true;
         } else {
-            CVarDumper::dump($class->getErrors(), 10, true);
+            $log = new LogError();
+            $log->salvarDadosEmArquivo($class->getErrors());
         }
     }
 
-    public function getStudentsFromClass($classroomGovId)
+    public function getStudentsFromClass($numClasse)
     {
-        $inNumClasse = new InFormacaoClasse($classroomGovId);
+        $inNumClasse = new InFormacaoClasse($numClasse);
         $formacaoClasseSEDUseCase = new GetFormacaoClasseFromSEDUseCase();
         return $formacaoClasseSEDUseCase->exec($inNumClasse);
     }

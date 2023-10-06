@@ -288,20 +288,27 @@ class DefaultController extends Controller
 	public function actionImportFullSchool()
 	{
 		$this->checkSEDToken();
+		
 		try {
-			$inConsult = new InEscola($_POST["schoolName"], null, null, null);
+			$inEscola = new InEscola($_POST['nameSchool'], null, null, null);
 			$escola = new GetEscolasFromSEDUseCase();
-			$statusSave = $escola->exec($inConsult);
+			$statusSave = $escola->exec($inEscola);
 
-			if ($statusSave) {
+			if ($statusSave === true) {
 				Yii::app()->user->setFlash('success', "Escola e classes importadas com sucesso.");
+			} elseif($statusSave === 2) {
+				Yii::app()->user->setFlash(
+					'success', "A escola foi importada com sucesso, mas não foram encontradas classes associadas a ela."
+				);
 			} else {
-				Yii::app()->user->setFlash('error', "Erro ao importar a escola");
+				Yii::app()->user->setFlash('error', "Não foi possível importar a escola");
 			}
-
-			$this->redirect(array('index'));
 		} catch (Exception $e) {
-			CVarDumper::dump($e->getMessage(), 10, true);
+			Yii::app()->user->setFlash(
+				'error', "Ops! A operação atingiu o tempo limite. Por favor, tente novamente em alguns minutos."
+			);
+		} finally {
+			$this->redirect(array('index'));
 		}
 	}
 
@@ -320,10 +327,9 @@ class DefaultController extends Controller
 			} else {
 				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
 			}
-
-			$this->redirect(array('index'));
 		} catch (Exception $e) {
 			Yii::app()->user->setFlash('error', "A escola do aluno não está cadastrada no TAG");
+		} finally {
 			$this->redirect(array('index'));
 		}
 	}
