@@ -341,17 +341,13 @@ preenchidos";
         $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', [':uf_id' => (int)$edcenso_uf_fk]);
         $data = CHtml::listData($data, 'id', 'name');
 
-
         $options = array();
         foreach ($data as $value => $name) {
-
-            array_push($options, CHtml::tag('option', ['value' => $value, 'selected' => $value == $current_city], CHtml::encode($name), true));
-
-
+            array_push($options, CHtml::tag('option', ['value' => $value, 'selected' => $value == $current_city], CHtml::encode($name), TRUE));
         }
         // here
 
-        echo implode($options);
+        echo json_encode($options);
     }
 
 //  public function actionGetCity()
