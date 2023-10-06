@@ -388,37 +388,47 @@ class AdminController extends Controller
     {
         // Query para buscar os registros relacionados ao ID no banco
         $user = Users::model()->findByPk($id);
-        $user_school = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
-        $auth_assign = AuthAssignment::model()->findByAttributes(array('userid' => $id));
-        $instructor_identification = InstructorIdentification::model()->findByAttributes(array('users_fk' => $id));
+        $userSchool = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
+        $authAssign = AuthAssignment::model()->findByAttributes(array('userid' => $id));
+        $instructorId = InstructorIdentification::model()->findByAttributes(array('users_fk' => $id));
+        $delete = false;
 
         if ($user !== null) {
 
             // Atualizando a coluna que referência ao usuário na tabela de identificação de professor
             // A função save abstrai o processo de identificar se está ocorrendo um UPDATE ou INSERT
-            if ($instructor_identification !== null) {
-                $instructor_identification->users_fk = null;
-                $instructor_identification->save();
+            if($instructorId !== null){
+                $instructorId->users_fk = null;
+                $instructorId->save();
             }
 
             // Excluindo o registro na tabela que representa o cargo de um profissional cadastrado
-            if ($auth_assign !== null) {
-                $auth_assign->delete('auth_assignment', 'userid =' . $id);
+            if($authAssign !== null){
+                $authAssign->delete('auth_assignment','userid =' .$id);
             }
 
             // Excluindo o registro na tabela que representa o acesso às escolas do usuário
-            if ($user_school !== null) {
-                foreach ($user_school as $register) {
-                    $register->delete('users_school', 'user_fk=' . $id);
+            if($userSchool !== null){
+            foreach($userSchool as $register){
+                $register->delete('users_school', 'user_fk='. $id);
+
                 }
             }
 
             // Excluindo o registro na tabela de usuário
-            $user->delete('users', 'id=' . $id);
+            $user->delete('users', 'id='.$id);
+            $delete = true;
+
         }
 
         // Redirecionando para a tela de gerenciar usuários
-        $this->redirect(array('admin/manageUsers'));
+        if($delete){
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário excluído com sucesso!'));
+            $this->redirect(array('admin/manageUsers'));
+        }else{
+            Yii::app()->user->setFlash('error', Yii::t('default','Erro! Não foi possível excluir o usuário, tente novamente!'));
+
+        }
     }
 
     public function actionEditPassword($id) {
@@ -525,8 +535,10 @@ class AdminController extends Controller
     {
         $filter = new Users('search');
         $filter->unsetAttributes();
-        if (isset($_GET['Users'])) {
-            $filter->attributes = $_GET['Users'];
+        $users = Yii::app()->request->getParam('Users');
+
+        if (isset($users)) {
+            $filter->attributes = $users;
         }
         $criteria = new CDbCriteria();
         $criteria->condition = "username != 'admin'";
@@ -544,19 +556,26 @@ class AdminController extends Controller
     public function actionUpdate($id)
     {
         $model = Users::model()->findByPk($id);
-        $actual_role = $model->getRole();
+        $actualRole = $model->getRole();
         $userSchools = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
-        if (isset($_POST['Users'])) {
-            $model->attributes = $_POST['Users'];
+
+        // Atribuindo valores da superglobal _POST à variáveis locais a fim de evitar o uso de globais
+        $users = Yii::app()->request->getPost('Users');
+        $schools = Yii::app()->request->getPost('schools');
+        $instructor = Yii::app()->request->getPost('instructor');
+        $role = Yii::app()->request->getPost('Role');
+
+        if (isset($users)) {
+            $model->attributes = $users;
             if ($model->validate()) {
-                $password = md5($_POST['Users']['password']);
+                $password = md5($users['password']);
                 $model->password = $password;
                 if ($model->save()) {
-                    $save = TRUE;
-                    foreach ($userSchools as $user_school) {
-                        $user_school->delete();
+                    $save = true;
+                    foreach ($userSchools as $userSchool) {
+                        $userSchool->delete();
                     }
-                    foreach ($_POST['schools'] as $school) {
+                    foreach ($schools as $school) {
                         $userSchool = new UsersSchool;
                         $userSchool->user_fk = $model->id;
                         $userSchool->school_fk = $school;
@@ -564,11 +583,12 @@ class AdminController extends Controller
                     }
                     if ($save) {
                         $auth = Yii::app()->authManager;
-                        $auth->revoke($actual_role, $model->id);
-                        $auth->assign($_POST['Role'], $model->id);
+                        $auth->revoke($actualRole, $model->id);
+                        $auth->assign($role, $model->id);
                     }
-                    if (isset($_POST['instructor']) && $_POST['instructor'] != "") {
-                        $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]);
+                    if(isset($instructor) &&  $instructor != ""){
+                        $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $instructor]);
+
                         $instructors->users_fk = $model->id;
                         $instructors->save();
                     }
@@ -601,7 +621,7 @@ class AdminController extends Controller
             'editUser',
             [
                 'model' => $model,
-                'actual_role' => $actual_role,
+                'actual_role' => $actualRole,
                 'userSchools' => $result,
                 'instructors' => $instructorsResult,
                 'selectedInstructor' => $selectedInstructor
