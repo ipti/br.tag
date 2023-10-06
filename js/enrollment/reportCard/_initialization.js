@@ -79,7 +79,7 @@ $('#discipline').change(function (e, triggerEvent) {
                             ${order}
                             </td>
                             <td class="final-media">
-                            <a class='t-link-button--info ' rel='noopener' target='_blank' href='?r=forms/IndividualRecord&enrollment_id=${this.enrollmentId}'>
+                            <a class='t-link-button--info' rel='noopener' target='_blank' href='?r=forms/IndividualRecord&enrollment_id=${this.enrollmentId}'>
                                 <span class="t-icon-printer"></span>
                             </a>
                             </td>
@@ -90,13 +90,13 @@ $('#discipline').change(function (e, triggerEvent) {
 
                         $.each(this.grades, function () {
                             let valueGrade;
-                            let faults;
-
                             if (this.value == "" || this.value == null) {
                                 valueGrade = "";
                             } else {
                                 valueGrade = parseFloat(this.value).toFixed(1);
                             }
+
+                            let faults;
 
                             if(this.faults == null) {
                                 faults = ""
@@ -188,7 +188,7 @@ $(document).on("keyup", "input.grade", function (e) {
         e.preventDefault();
         val = "";
     } else {
-        let grade = /^(10|\d)([.,]\d{1})?$/;
+        let grade = /^(10|\d)([.,]\d?)?$/;
         if (val.match(grade) === null) {
             val = "";
         } else {
