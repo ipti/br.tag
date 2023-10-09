@@ -350,13 +350,13 @@ preenchidos";
                     'selected' => $value == $current_city
                 ],
                 CHtml::encode($name),
-                TRUE
+                true
             ));
         }
 
         echo json_encode($options);
     }
- 
+
     public function actionGetCityByCep()
     {
         $cep = $_POST['cep'];
