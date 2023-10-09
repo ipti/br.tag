@@ -118,13 +118,14 @@ class FoodMenuController extends Controller
 
 	public function actionGetFood() {
 		$idFood = Yii::app()->request->getQuery('idFood');
-		$food = Food::model()->findByPk($idFood);
-		$reslut = array();
+		$food = Food::model()->findByAttributes(array('id' => $idFood));
+		$result = array();
 		$result["name"] = $food->description;
-		$result["kcal"] = $food->energy_kcal;
-		$result["pt"] = $food->protein_g;
-		$result["lip"] = $food->lipidius_g;
-		$result["cho"] = $food->cholesterol_mg;
+		$result["kcal"] = is_numeric($food->energy_kcal) ? round($food->energy_kcal, 2) : $food->energy_kcal;
+		$result["pt"] = is_numeric($food->protein_g) ? round($food->protein_g, 2) : $food->protein_g;
+		$result["lip"] = is_numeric($food->lipidius_g) ? round($food->lipidius_g, 2) : $food->lipidius_g;
+		$result["cho"] = is_numeric($food->cholesterol_mg) ? round($food->cholesterol_mg, 2) : $food->cholesterol_mg;
+
 
 
 		echo json_encode($result);

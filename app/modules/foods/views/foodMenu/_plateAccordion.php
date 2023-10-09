@@ -35,29 +35,5 @@
                     <th>CHO</th>
                     <th>KCAL</th>
                 </tr>
-                <!-- <tr>
-                    <td> ARROZ </td>
-                    <td>
-                        1
-                    </td>
-                    <td>
-                       1
-                    </td>
-                    <td>
-                        24g
-                    </td>
-                    <td>
-                        1g
-                    </td>
-                    <td>
-                        1g
-                    </td>
-                    <td>
-                        1g
-                    </td>
-                    <td>
-                        1g
-                    </td>
-                </tr> -->
             </table>
 </div>
