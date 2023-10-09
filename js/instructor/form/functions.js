@@ -6,21 +6,34 @@
  * */
 
 function updateCep(data) {
-    data = jQuery.parseJSON(data);
-    if (data.UF == null)
+    data = JSON.parse(data);
+    if (data.UF == null) {
         $(formDocumentsAndAddress + 'cep').val('').trigger('focusout');
+    }
     $(formDocumentsAndAddress + 'edcenso_uf_fk')
-        .val(data['UF'])
-        .trigger('change')
-        .select2('readonly', data.UF != null);
-    setTimeout(function () {
-        $(formDocumentsAndAddress + 'edcenso_city_fk')
-            .val(data['City'])
-            .trigger('change')
-            .select2('readonly', data.City != null);
-    }, 500);
+        .val(data.UF)
+        .select2('val', data.UF)
+        .select2('readonly', data.UF != null)
 
+    $('#InstructorDocumentsAndAddress_edcenso_city_fk option:not(:contains("Selecione uma cidade"))').remove();
+    $.ajax({
+        type: "POST",
+        url: "?r=instructor/getCity",
+        data: {
+            edcenso_uf_fk: data.UF,
+            current_city: $("#InstructorDocumentsAndAddress_edcenso_city_fk").val()
+        },
+        success: function (response) {
+            const optionsList = JSON.parse(response);
+            const options = optionsList.join("");
+            $("#InstructorDocumentsAndAddress_edcenso_city_fk").html(options)
+                .val(data.City)
+                .select2('val', data.City)
+                .select2('readonly', data.City != null);
+        }
+    });
 }
+
 $("#InstructorIdentification_edcenso_uf_fk").on("change", function () {
     $.ajax({
         type: "POST",
@@ -39,6 +52,8 @@ $("#InstructorIdentification_edcenso_uf_fk").on("change", function () {
 });
 
 $("#InstructorDocumentsAndAddress_edcenso_uf_fk").on("change", function () {
+
+
     $('#InstructorDocumentsAndAddress_edcenso_city_fk option:not(:contains("Selecione uma cidade"))').remove();
     $.ajax({
         type: "POST",
@@ -53,11 +68,6 @@ $("#InstructorDocumentsAndAddress_edcenso_uf_fk").on("change", function () {
             $("#InstructorDocumentsAndAddress_edcenso_city_fk").html(options);
             $("#InstructorDocumentsAndAddress_edcenso_city_fk").select2();
         }
-        // success: function (response) {
-        //     $.each(JSON.parse(response), function (id, option) {
-        //         $("#InstructorDocumentsAndAddress_edcenso_city_fk").append(option);
-        //     })
-        // }
     });
 });
 $("#IES").on("change", function () {

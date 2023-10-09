@@ -356,7 +356,7 @@ preenchidos";
 
         echo json_encode($options);
     }
-
+ 
     public function actionGetCityByCep()
     {
         $cep = $_POST['cep'];
@@ -365,8 +365,9 @@ preenchidos";
         if (!empty($cep)) {
             $data = EdcensoCity::model()->find('cep_initial <= ' . $cep . ' and cep_final >= ' . $cep);
         }
+
         $result = ($data == NULL) ? ['UF' => NULL, 'City' => NULL] : [
-            'UF' => $data->edcenso_uf_fk_, 'City' => $data->id
+            'UF' => $data->edcenso_uf_fk, 'City' => $data->id
 
         ];
         echo json_encode($result);
