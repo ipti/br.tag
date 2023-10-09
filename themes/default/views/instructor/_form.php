@@ -25,7 +25,7 @@ $form = $this->beginWidget(
     )
 );
 
-$isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar acessar os atributos
+$isModel = isset($modelInstructorIdentification->id);
 ?>
 
 <div class="row-fluid">
@@ -103,8 +103,6 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 
         <div class="widget-body form-instructor form-horizontal">
             <div class="tab-content">
-
-                <!-- Tab content -->
                 <div class="tab-pane active" id="instructor-identify">
                     <div class="row-fluid">
                         <div class=" span6">
@@ -419,7 +417,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <?php echo $form->error($modelInstructorIdentification, 'edcenso_nation_fk'); ?>
                                 </div>
                             </div>
-                            <!-- Estado de origem-->
+
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx(
@@ -445,7 +443,6 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <?php echo $form->error($modelInstructorIdentification, 'edcenso_uf_fk'); ?>
                                 </div>
                             </div>
-                            <!-- Cidade de origem-->
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx(
@@ -497,9 +494,13 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <label class="checkbox">
                                         <?php
                                         echo InstructorIdentification::model()->attributeLabels()['deficiency_type_blindness'];
-                                        echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_blindness', array(
-                                            'value' => 1, 'uncheckValue' => 0
-                                        ));
+                                        echo $form->checkBox(
+                                            $modelInstructorIdentification,
+                                            'deficiency_type_blindness',
+                                            array(
+                                                'value' => 1, 'uncheckValue' => 0
+                                            )
+                                        );
                                         ?>
                                     </label>
                                     <label class="checkbox">
@@ -701,7 +702,11 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             </div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'address_number', array('class' => 'control-label')); ?>
+                                    <?php echo $form->labelEx(
+                                        $modelInstructorDocumentsAndAddress,
+                                        'address_number',
+                                        array('class' => 'control-label')
+                                    ); ?>
                                 </div>
                                 <div class="controls">
                                     <?php
@@ -782,7 +787,6 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                         )
                                     ); ?>
                                 </div>
-                                <!-- estado documentos e endereços -->
                                 <div class="controls">
                                     <?php echo $form->DropDownList(
                                         $modelInstructorDocumentsAndAddress,
@@ -806,7 +810,6 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <?php echo $form->error($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk'); ?>
                                 </div>
                             </div>
-                            <!-- cidade documentos and address -->
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx(
@@ -1270,13 +1273,18 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             </div>
                                                             <div class="controls">
                                                                 <?php
-                                                                echo $form->DropDownlist($modelInstructorVariableData, 'high_education_situation_1', array(
-                                                                    null => "Selecione a situação",
-                                                                    1 => 'Concluído',
-                                                                    2 => 'Em andamento'
-                                                                ), array(
-                                                                    'class' => 'select-search-off control-input'
-                                                                ));
+                                                                echo $form->DropDownlist(
+                                                                    $modelInstructorVariableData,
+                                                                    'high_education_situation_1',
+                                                                    array(
+                                                                        null => "Selecione a situação",
+                                                                        1 => 'Concluído',
+                                                                        2 => 'Em andamento'
+                                                                    ),
+                                                                    array(
+                                                                        'class' => 'select-search-off control-input'
+                                                                    )
+                                                                );
                                                                 ?>
                                                                 <?php
                                                                 echo $form->error(
@@ -1348,10 +1356,16 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                                         'prompt' => 'Selecione a Área de Atuação',
                                                                         'ajax' => array(
                                                                             'type' => 'POST',
-                                                                            'url' => CController::createUrl('instructor/getCourses&tdid=1'),
+                                                                            'url' => CController::createUrl(
+                                                                                'instructor/getCourses&tdid=1'
+                                                                            ),
                                                                             'success' => "function(data){
-                                                                            val = $('#InstructorVariableData_high_education_course_code_1_fk').val();
-                                                                            $('#InstructorVariableData_high_education_course_code_1_fk').html(data).val(val).trigger('change');
+                                                                            val =
+                                                                            $(
+                                                                                '#InstructorVariableData_high_education_course_code_1_fk').val();
+                                                                            $(
+                                                                                '#InstructorVariableData_high_education_course_code_1_fk').html(
+                                                                                    data).val(val).trigger('change');
                                                                         }",
                                                                         )
                                                                     )
@@ -1454,7 +1468,6 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                                 ); ?>
                                                             </div>
                                                         </div>
-                                                        <!-- Estado -->
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 Estado
@@ -1544,7 +1557,6 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                     <div class=" span6">
 
                                                         <div class="separator"></div>
-                                                        <!-- Curso 2 -->
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <?php echo $form->labelEx(
@@ -1834,7 +1846,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                                         'prompt' => 'Selecione a Área de Atuação',
                                                                         'ajax' => array(
                                                                             'type' => 'POST',
-                                                                            'url' => CController::createUrl('instructor/getCourses&tdid=3'),
+                                                                            'url' => CController::createUrl(
+                                                                                'instructor/getCourses&tdid=3'
+                                                                            ),
                                                                             'success' => "function(data){
                                                                             val = $('#InstructorVariableData_high_education_course_code_3_fk').val();
                                                                             $('#InstructorVariableData_high_education_course_code_3_fk').html(data).val(val).trigger('change');
