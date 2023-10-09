@@ -13,7 +13,8 @@ class AdminController extends Controller
             ], [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
-                    'import', 'export', 'update', 'manageUsers', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
+                    'import', 'export', 'update', 'manageUsers', 'clearDB', 'acl',
+                    'backup', 'data', 'exportStudentIdentify', 'syncExport',
                     'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster', 'gradesStructure'
                 ], 'users' => ['@'],
             ],
@@ -87,7 +88,9 @@ class AdminController extends Controller
             $importModel->saveSchoolStructureDB($dataDecoded['school_structure']);
             $importModel->saveClassroomsDB($dataDecoded['classrooms']);
 
-            $importModel->saveInstructorDataDB($dataDecoded['instructor_identification'], $dataDecoded['instructor_documents_and_address'], $dataDecoded['instructor_variable_data']);
+            $importModel->saveInstructorDataDB( $dataDecoded['instructor_identification'],
+                                                $dataDecoded['instructor_documents_and_address'],
+                                                $dataDecoded['instructor_variable_data']);
             $importModel->saveInstructorsTeachingDataDB($dataDecoded['instructor_teaching_data']);
             $importModel->saveTeachingMatrixes($dataDecoded['teaching_matrixes']);
 
@@ -152,7 +155,8 @@ class AdminController extends Controller
                 $this->redirect(['index']);
             }
         }
-        $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk' => null], ['select' => 'id, name']);
+        $instructors = InstructorIdentification::model()->findAllByAttributes(  ['users_fk' => null],
+                                                                                ['select' => 'id, name']);
         $instructorsResult = array_reduce($instructors, function ($carry, $item) {
             $carry[$item['id']] = $item['name'];
             return $carry;
@@ -194,7 +198,8 @@ class AdminController extends Controller
                 break;
         }
         $result["unities"] = [];
-        $gradeUnities = GradeUnity::model()->findAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $_POST["stage"]]);
+        $gradeUnities = GradeUnity::model()->findAll("edcenso_stage_vs_modality_fk = :stage",
+                                                    [":stage" => $_POST["stage"]]);
         foreach ($gradeUnities as $gradeUnity) {
             $arr = $gradeUnity->attributes;
             $arr["modalities"] = [];
@@ -242,7 +247,8 @@ class AdminController extends Controller
                 $valid = true;
             }
 
-            $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $_POST["stage"]]);
+            $gradeRules = GradeRules::model()->find(    "edcenso_stage_vs_modality_fk = :stage",
+                                                        [":stage" => $_POST["stage"]]);
             if ($gradeRules == null) {
                 $gradeRules = new GradeRules();
                 $gradeRules->edcenso_stage_vs_modality_fk = $_POST["stage"];
@@ -258,9 +264,11 @@ class AdminController extends Controller
             $grades = $this->getGrades();
 
             if ($_POST["reply"] == "A") {
-                // $grades = Yii::app()->db->createCommand("select * from grade")->queryAll();
-                $curricularMatrixes = Yii::app()->db->createCommand("select * from curricular_matrix cm where school_year = :year")->bindParam(":year", Yii::app()->user->year)->queryAll();
-            } else if ($_POST["reply"] == "S") {
+                $curricularMatrixes = Yii::app()->db->createCommand("SELECT *
+                                                                    FROM curricular_matrix cm
+                                                                    WHERE school_year = :year")
+                                                    ->bindParam(":year", Yii::app()->user->year)->queryAll();
+            } elseif ($_POST["reply"] == "S") {
                 $curricularMatrixes = $this->getCurricularMatrixes($this->getStage($_POST["stage"]));
             }
 

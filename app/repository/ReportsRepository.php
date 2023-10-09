@@ -29,7 +29,10 @@ class ReportsRepository {
 
         $stages = EdcensoStageVsModality::model()->findAll();
 
-        $response = array('classrooms' => $classrooms, 'students' => $students, 'schools' => $schools, 'stages' => $stages);
+        $response = array(  'classrooms' => $classrooms,
+                            'students' => $students,
+                            'schools' => $schools,
+                            'stages' => $stages);
 
         return $response;
     }
@@ -423,7 +426,7 @@ class ReportsRepository {
         $year = $request->getPost('year');
         $mounth = $request->getPost('mounth');
         $quarterly = $request->getPost('quarterly');
-        $model_report = $request->getPost('model_report');
+        $modelReport = $request->getPost('model_report');
         $school_inep_id = $this->currentSchool;
 
         $sql = "SELECT
@@ -458,7 +461,7 @@ class ReportsRepository {
         }
         $disciplines = array_unique($disciplines);
 
-        $title = $model_report."º Ano - Formação de Professores na Modalidade Normal, em Nível Médio";
+        $title = $modelReport."º Ano - Formação de Professores na Modalidade Normal, em Nível Médio";
 
         $response = array("classroom" => $result,
                         "count_days" => $day,
@@ -1753,7 +1756,11 @@ class ReportsRepository {
                     JOIN classroom AS c ON i.classroom_id_fk = c.id
                     WHERE c.id = :id AND (i.role = 8 OR i.role = 2)
                     ORDER BY id.name";
-            $classroom["professors"] = Yii::app()->db->createCommand($sql)->bindParam(":id", $classroom["id"])->queryAll();
+            $classroom["professors"] =  Yii::app()
+                                        ->db
+                                        ->createCommand($sql)
+                                        ->bindParam(":id", $classroom["id"])
+                                        ->queryAll();
         }
         unset($classroom);
 
@@ -1769,7 +1776,7 @@ class ReportsRepository {
     {
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
 
-        $sql_classrooms =
+        $sqlClassrooms =
             "SELECT c.name, esvm.name stage
             FROM classroom c
             LEFT JOIN instructor_teaching_data itd ON itd.classroom_id_fk = c.id
@@ -1779,12 +1786,12 @@ class ReportsRepository {
             HAVING count(itd.id) = 0
             ORDER BY c.id";
 
-        $classroom = Yii::app()->db->createCommand($sql_classrooms)
+        $classroom = Yii::app()->db->createCommand($sqlClassrooms)
                     ->bindParam(":school_year", $this->currentYear)
                     ->bindParam(":school_id", $this->currentSchool)
                     ->queryAll();
 
-        $sql_discipline =
+        $sqlDiscipline =
                 "SELECT
                     GROUP_CONCAT(ed.name) `Disciplina`
                 FROM classroom c
@@ -1796,7 +1803,7 @@ class ReportsRepository {
                 HAVING count(itd.id) = 0
                 ORDER BY c.id";
 
-        $disciplina = Yii::app()->db->createCommand($sql_discipline)
+        $disciplina = Yii::app()->db->createCommand($sqlDiscipline)
                         ->bindParam(":school_year", $this->currentYear)
                         ->bindParam(":school_id", $school->inep_id)
                         ->queryAll();
@@ -2176,15 +2183,25 @@ class ReportsRepository {
             $criteria->alias = "c";
             $criteria->join = ""
                 . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
-                . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
-            $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
+                . " join instructor_identification on"
+                ." instructor_teaching_data.instructor_fk = instructor_identification.id ";
+            // Adicionando condição de busca
+            $criteria->condition =  "c.school_year = :school_year"
+                                    ."and c.school_inep_fk = :school_inep_fk"
+                                    ." and instructor_identification.users_fk = :users_fk";
             $criteria->order = "name";
-            $criteria->params = array(':school_year' => $this->currentYear, ':school_inep_fk' => $this->currentSchool, ':users_fk' => Yii::app()->user->loginInfos->id);
+            $criteria->params = array(' :school_year' => $this->currentYear,
+                                        ':school_inep_fk' => $this->currentSchool,
+                                        ':users_fk' => Yii::app()->user->loginInfos->id);
 
             $classrooms = Classroom::model()->findAll($criteria);
-        } else {
-            $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $this->currentYear, 'school_inep_fk' => $this->currentSchool]);
         }
+
+        $classrooms = Classroom::model()->findAll(  'school_year = :school_year'
+                                                    .' and school_inep_fk = :school_inep_fk order by name',
+                                                    ['school_year' => $this->currentYear,
+                                                    'school_inep_fk' => $this->currentSchool]);
+
 
         $response = array('classrooms' => $classrooms,'schoolyear' => $this->currentYear);
 

@@ -36,9 +36,11 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
             <a data-toggle="tab" class='t-button-secondary  prev' style="display:none;">
                 <?php echo Yii::t('default', 'Previous') ?><i></i>
             </a>
-            <?= $modelInstructorIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
+            <?= $modelInstructorIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" .
+                                                                Yii::t('default', 'Next') . "</a>" : '' ?>
             <button class="t-button-primary  last pull-right save-instructor" type="button">
-                <?= $modelInstructorIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+                <?= $modelInstructorIdentification->isNewRecord ?   Yii::t('default', 'Create') :
+                                                                    Yii::t('default', 'Save') ?>
             </button>
         </div>
     </div>
@@ -53,7 +55,12 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
             <?php echo Yii::t('default', 'Next') ?>
             <i></i>
         </a>
-        <?php echo CHtml::htmlButton('<i></i>' . ($modelInstructorIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('class' => 'btn btn-icon btn-primary last glyphicons circle_ok pull-right', 'style' => 'display:none', 'type' => 'submit')); ?>
+        <?php echo CHtml::htmlButton('<i></i>' . ($modelInstructorIdentification->isNewRecord ?
+                    Yii::t('default', 'Create') :
+                    Yii::t('default', 'Save')),
+                    array(  'class' => 'btn btn-icon btn-primary last glyphicons circle_ok pull-right',
+                            'style' => 'display:none',
+                            'type' => 'submit')); ?>
     </div>
     <div class="widget widget-tabs border-bottom-none">
         <?php
@@ -99,10 +106,20 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             <div class="separator"></div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelInstructorIdentification, 'name', array('class' => 'control-label')); ?>
+                                    <?php echo $form->labelEx(
+                                        $modelInstructorIdentification,
+                                        'name',
+                                        array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelInstructorIdentification, 'name', array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Nome de Apresentação')); ?>
+                                    <?php echo $form->textField(
+                                        $modelInstructorIdentification,
+                                        'name',
+                                        array('size' => 60,
+                                            'maxlength' => 100,
+                                            'placeholder' => 'Digite o Nome de Apresentação')
+                                        );
+                                    ?>
                                     <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
                                           data-original-title="<?php echo Yii::t('help', 'Instructor Full Social Name'); ?>"><i></i></span>-->
@@ -113,16 +130,29 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             <div class="controls">
                                 <label class="checkbox show-instructor-civil-name-box">
                                     Esse é um nome social?
-                                    <input type="checkbox" id="show-instructor-civil-name" <?php if ($modelInstructorIdentification->civil_name != null)
-                                        echo "checked"; ?>>
+                                    <input
+                                        type="checkbox"
+                                        id="show-instructor-civil-name"
+                                        <?php if ($modelInstructorIdentification->civil_name != null) echo "checked";?>>
                                 </label>
                             </div>
                             <div class="control-group instructor-civil-name" style="display: none;">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelInstructorIdentification, 'civil_name', array('class' => 'control-label')); ?>
+                                    <?php echo $form->labelEx(
+                                        $modelInstructorIdentification,
+                                        'civil_name',
+                                        array('class' => 'control-label'));
+                                    ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelInstructorIdentification, 'civil_name', array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Nome Civil')); ?>
+                                    <?php echo $form->textField(
+                                        $modelInstructorIdentification,
+                                        'civil_name',
+                                        array('size' => 60,
+                                            'maxlength' => 100,
+                                            'placeholder' => 'Digite o Nome Civil')
+                                            );
+                                    ?>
                                     <span class="btn-action single glyphicons circle_question_mark"
                                         data-toggle="tooltip" data-placement="top"
                                         data-original-title="<?php echo Yii::t('help', 'Instructor Full Civil Name'); ?>"><i></i></span>
@@ -132,10 +162,22 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cpf', array('class' => 'control-label required')); ?>
+                                    <?php echo $form->labelEx(
+                                        $modelInstructorDocumentsAndAddress,
+                                        'cpf',
+                                        array('class' => 'control-label required')
+                                        );
+                                    ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cpf', array('size' => 14, 'maxlength' => 14)); ?>
+                                    <?php echo $form->textField(
+                                        $modelInstructorDocumentsAndAddress,
+                                        'cpf',
+                                        array(
+                                            'size' => 14,
+                                            'maxlength' => 14)
+                                        );
+                                    ?>
                                     <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
                                           data-original-title="<?php echo Yii::t('help', 'CPF Numbers'); ?>"><i></i></span> -->
@@ -145,10 +187,21 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelInstructorIdentification, 'email', array('class' => 'control-label')); ?>
+                                    <?php echo $form->labelEx(
+                                        $modelInstructorIdentification,
+                                        'email',
+                                        array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelInstructorIdentification, 'email', array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Email')); ?>
+                                    <?php echo $form->textField(
+                                        $modelInstructorIdentification,
+                                        'email',
+                                        array(
+                                            'size' => 60,
+                                            'maxlength' => 100,
+                                            'placeholder' => 'Digite o Email')
+                                            );
+                                    ?>
                                     <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
                                           data-original-title="<?php echo Yii::t('help', 'Email'); ?>"><i></i></span> -->
@@ -158,10 +211,19 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelInstructorIdentification, 'nis', array('class' => 'control-label')); ?>
+                                    <?php echo $form->labelEx(
+                                        $modelInstructorIdentification,
+                                        'nis',
+                                        array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelInstructorIdentification, 'nis', array('size' => 11, 'maxlength' => 11, 'placeholder' => 'Digite o NIS')); ?>
+                                    <?php echo $form->textField(
+                                        $modelInstructorIdentification,
+                                        'nis',
+                                        array('size' => 11,
+                                        'maxlength' => 11,
+                                        'placeholder' => 'Digite o NIS'));
+                                    ?>
                                     <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
                                           data-original-title="<?php echo Yii::t('help', 'Only Numbers') . ' ' . Yii::t('help', 'Max length') . '11'; ?>"><i></i></span> -->
@@ -171,50 +233,109 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelInstructorIdentification, 'birthday_date', array('class' => 'control-label')); ?>
+                                    <?php echo $form->labelEx(
+                                        $modelInstructorIdentification,
+                                        'birthday_date',
+                                        array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelInstructorIdentification, 'birthday_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
-                                    <?php echo $form->error($modelInstructorIdentification, 'birthday_date'); ?>
+                                    <?php echo $form->textField(
+                                        $modelInstructorIdentification,
+                                        'birthday_date',
+                                        array('size' => 10,
+                                        'maxlength' => 10,
+                                        'class' => 'control-label')
+                                        );
+                                    ?>
+                                    <br><?php echo $form->error($modelInstructorIdentification, 'birthday_date'); ?>
                                 </div>
                             </div>
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelInstructorIdentification, 'sex', array('class' => 'control-label ')); ?>
+                                    <?php echo $form->labelEx(
+                                        $modelInstructorIdentification,
+                                        'sex',
+                                        array('class' => 'control-label ')
+                                        );
+                                    ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->DropDownlist($modelInstructorIdentification, 'sex', array(null => "Selecione um sexo", 1 => 'Masculino', 2 => 'Feminino'), array("class" => 'select-search-off control-input')); ?>
+                                    <?php echo $form->DropDownlist(
+                                        $modelInstructorIdentification,
+                                        'sex',
+                                        array(
+                                            null => "Selecione um sexo",
+                                            1 => 'Masculino',
+                                            2 => 'Feminino'),
+                                        array("class" => 'select-search-off control-input')); ?>
                                     <?php echo $form->error($modelInstructorIdentification, 'sex'); ?>
                                 </div>
                             </div>
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelInstructorIdentification, 'color_race', array('class' => 'control-label')); ?>
+                                    <?php echo $form->labelEx(
+                                        $modelInstructorIdentification,
+                                        'color_race',
+                                        array('class' => 'control-label')
+                                        );
+                                    ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelInstructorIdentification, 'color_race', array(null => "Selecione uma raça", 0 => "Não Declarada", 1 => "Branca", 2 => "Preta", 3 => "Parda", 4 => "Amarela", 5 => "Indígena"), array("class" => 'select-search-off control-input')); ?>
+                                    <?php echo $form->DropDownList(
+                                        $modelInstructorIdentification,
+                                        'color_race',
+                                        array(
+                                            null => "Selecione uma raça",
+                                            0 => "Não Declarada",
+                                            1 => "Branca",
+                                            2 => "Preta",
+                                            3 => "Parda",
+                                            4 => "Amarela",
+                                            5 => "Indígena"),
+                                        array("class" => 'select-search-off control-input')
+                                        );
+                                    ?>
                                     <?php echo $form->error($modelInstructorIdentification, 'color_race'); ?>
                                 </div>
                             </div>
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelInstructorIdentification, 'filiation', array('class' => 'control-label')); ?>
+                                    <?php echo $form->labelEx(
+                                        $modelInstructorIdentification,
+                                        'filiation',
+                                        array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelInstructorIdentification, 'filiation', array(null => "Selecione uma opção", 0 => "Não declarado", 1 => "Declarado"), array("class" => 'select-search-off control-input')); ?>
+                                    <?php echo $form->DropDownList(
+                                        $modelInstructorIdentification,
+                                        'filiation',
+                                        array(
+                                            null => "Selecione uma opção",
+                                            0 => "Não declarado",
+                                            1 => "Declarado"),
+                                        array("class" => 'select-search-off control-input')); ?>
                                     <?php echo $form->error($modelInstructorIdentification, 'filiation'); ?>
                                 </div>
                             </div>
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelInstructorIdentification, 'filiation_1', array('class' => 'control-label')); ?>
+                                    <?php echo $form->labelEx(
+                                        $modelInstructorIdentification,
+                                        'filiation_1',
+                                        array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelInstructorIdentification, 'filiation_1', array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Nome Completo da Filiação')); ?>
+                                    <?php echo $form->textField(
+                                        $modelInstructorIdentification,
+                                        'filiation_1',
+                                        array(
+                                            'size' => 60,
+                                            'maxlength' => 100,
+                                            'placeholder' => 'Digite o Nome Completo da Filiação')); ?>
                                     <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
                                           data-original-title="<?php echo Yii::t('default', 'Full name'); ?>"><i></i></span> -->
@@ -224,10 +345,19 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelInstructorIdentification, 'filiation_2', array('class' => 'control-label')); ?>
+                                    <?php echo $form->labelEx(
+                                        $modelInstructorIdentification,
+                                        'filiation_2',
+                                        array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelInstructorIdentification, 'filiation_2', array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Nome Completo do Pai')); ?>
+                                    <?php echo $form->textField(
+                                        $modelInstructorIdentification,
+                                        'filiation_2',
+                                        array(
+                                            'size' => 60,
+                                            'maxlength' => 100,
+                                            'placeholder' => 'Digite o Nome Completo do Pai')); ?>
                                     <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
                                           data-original-title="<?php echo Yii::t('default', 'Full name'); ?>"><i></i></span> -->
@@ -240,31 +370,59 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             <div class="separator"></div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelInstructorIdentification, 'nationality', array('class' => 'control-label')); ?>
+                                    <?php echo $form->labelEx(
+                                        $modelInstructorIdentification,
+                                        'nationality',
+                                        array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelInstructorIdentification, 'nationality', array(null => "Selecione uma nacionalidade", 1 => "Brasileira", 2 => "Brasileira nascido no Exterior ou Naturalizado", 3 => "Estrangeira"), array("class" => 'select-search-on control-input')); ?>
+                                    <?php echo $form->DropDownList(
+                                        $modelInstructorIdentification,
+                                        'nationality',
+                                        array(
+                                            null => "Selecione uma nacionalidade",
+                                            1 => "Brasileira",
+                                            2 => "Brasileira nascido no Exterior ou Naturalizado",
+                                            3 => "Estrangeira"),
+                                        array("class" => 'select-search-on control-input')); ?>
                                     <?php echo $form->error($modelInstructorIdentification, 'nationality'); ?>
                                 </div>
                             </div>
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_nation_fk', array('class' => 'control-label')); ?>
+                                    <?php echo $form->labelEx(
+                                        $modelInstructorIdentification,
+                                        'edcenso_nation_fk',
+                                        array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelInstructorIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name ASC')), 'id', 'name'), array("prompt" => "Selecione um país", "class" => 'select-search-on control-input'), array('options' => array(76 => array('selected' => true)))); ?>
+                                    <?php echo $form->DropDownList(
+                                        $modelInstructorIdentification,
+                                        'edcenso_nation_fk',
+                                        CHtml::listData(EdcensoNation::model()
+                                            ->findAll(array('order' => 'name ASC')), 'id', 'name'),
+                                        array(  "prompt" => "Selecione um país",
+                                                "class" => 'select-search-on control-input'),
+                                        array('options' => array(76 => array('selected' => true)))
+                                        );
+                                    ?>
                                     <?php echo $form->error($modelInstructorIdentification, 'edcenso_nation_fk'); ?>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_uf_fk', array('class' => 'control-label')); ?>
+                                    <?php echo $form->labelEx(
+                                        $modelInstructorIdentification,
+                                        'edcenso_uf_fk',
+                                        array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->DropDownList(
                                         $modelInstructorIdentification,
-                                        'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array("order" => "name")), 'id', 'name'),
+                                        'edcenso_uf_fk',
+                                        CHtml::listData(EdcensoUf::model()
+                                            ->findAll(array("order" => "name")), 'id', 'name'),
                                         array(
                                             'prompt' => 'Selecione um estado',
                                             'class' => 'select-search-on control-input'
@@ -276,7 +434,10 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_city_fk', array('class' => 'control-label')); ?>
+                                    <?php echo $form->labelEx(
+                                        $modelInstructorIdentification,
+                                        'edcenso_city_fk',
+                                        array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelInstructorIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelInstructorIdentification->edcenso_uf_fk)), 'id', 'name'), array("prompt" => "Selecione uma cidade", "class" => 'select-search-on control-input')); ?>

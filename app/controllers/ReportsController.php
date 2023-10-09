@@ -417,9 +417,12 @@ class ReportsController extends Controller
             if (!in_array($schools, $classroom->schoolInepFk->name)) {
                 array_push($schools, $classroom->schoolInepFk->name);
             }
-            //Coloca em um array todos o stage number e nome dos estágios que já não estão no mesmo (através da lista de classes)
+            //Coloca em um array todos o stage number e nome dos estágios que
+            // já não estão no mesmo (através da lista de classes)
             if (array_search($classroom->edcensoStageVsModalityFk->name, array_column($stages, 'name')) === false) {
-                array_push($stages, ["stageNumber" => $classroom->edcensoStageVsModalityFk->stage, "name" => $classroom->edcensoStageVsModalityFk->name, "alias" => $classroom->edcensoStageVsModalityFk->alias]);
+                array_push($stages, ["stageNumber" => $classroom->edcensoStageVsModalityFk->stage,
+                                    "name" => $classroom->edcensoStageVsModalityFk->name,
+                                    "alias" => $classroom->edcensoStageVsModalityFk->alias]);
             }
         }
         //Cria a primeira linha da tabela com o grupo de estágios
@@ -444,7 +447,9 @@ class ReportsController extends Controller
 
         //Para cada classe incrementa o contador de matriculas em cada celular dos estágios
         foreach ($classrooms as $classroom) {
-            $schoolStages[$classroom->schoolInepFk->name][$classroom->edcensoStageVsModalityFk->stage][$classroom->edcensoStageVsModalityFk->name] += count($classroom->studentEnrollments);
+            $schoolStages[$classroom->schoolInepFk->name]
+            [$classroom->edcensoStageVsModalityFk->stage]
+            [$classroom->edcensoStageVsModalityFk->name] += count($classroom->studentEnrollments);
         }
 
         $this->render('EnrollmentStatisticsByYearReport', array(
