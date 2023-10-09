@@ -27,7 +27,7 @@ $subtitle = "
         "school" => $school
     ]); ?>
     <h3>RELATÓRIO DE MATRÍCULA / <?= $classroom->school_year?></h3>
-    
+
 <table class="table">
     <tr>
         <td colspan="3">ESCOLA: <?= $school->name?></td>
@@ -183,7 +183,7 @@ $subtitle = "
                 . "<td style='text-align: center;'>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
                 . "<td>" . $r['address'] . (strlen($r['number']) != 0 ? ", " . $r['number'] : '') . "</td>"
                 . "</tr>";
-        } else if($key > 20 && $key < 40){            
+        } else if($key > 20 && $key < 40){
             $r40 .= "<tr>". "<td style='text-align: center;'>" . ($key + 1) . "</td>"
                 . "<td style='text-align: center;'>" . $r['inep_id'] . "</td>"
                 . "<td style='text-align: center;'>" . $r['name'] . "</td>"
@@ -316,31 +316,9 @@ $subtitle = "
 
 <br>
 
-    <!--<table class="table table-bordered table-striped" style="font-size: 11px;">
-        <tr>
-            <th rowspan="2" style="text-align: center;">Nº</th>
-            <th rowspan="2">ALUNO</th>
-            <th colspan="2" style="text-align: center;">GÊNERO</th>
-            <th rowspan="2" style="text-align: center;">DATA DE NASCIMENTO</th>
-            <th rowspan="2" style="text-align: center;">NATURALIDADE</th>
-            <th colspan="4" style="text-align: center;">TIPO DE MATRÍCULA</th>
-            <th colspan="3" style="text-align: center;">SITUAÇÃO NA SÉRIE</th>
-            <th rowspan="2" style="text-align: center;">ENDEREÇO</th>
-        </tr>
-        <tr>
-            <th style="text-align: center;">M</th>
-            <th style="text-align: center;">F</th>
-            <th style="text-align: center;">MI</th>
-            <th style="text-align: center;">MC</th>
-            <th style="text-align: center;">MR</th>
-            <th style="text-align: center;">MT</th>
-            <th style="text-align: center;">N</th>
-            <th style="text-align: center;">P</th>
-            <th style="text-align: center;">R</th>
-        </tr>
-        <?php echo $rF;?>
 
-    </table>-->
+<?php echo $rF;?>
+
 <br>
 <br>
     <p style="margin: 0 auto; text-align: right; width:600px">
