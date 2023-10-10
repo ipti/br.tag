@@ -387,7 +387,7 @@ class BNCCImport
                 Yii::log($newAbilities);
             }
         } catch (\Exception $e) {
-            Yii::log($newAbilities);
+            CVarDumper::dump($newAbilities, 10, true);
             echo $e;
         }
         
