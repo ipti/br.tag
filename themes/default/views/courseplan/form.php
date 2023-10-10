@@ -46,22 +46,24 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <?php endif ?>
         <div class="widget border-bottom-none">
 
-            <div class="t-tabs js-tab-control">
-                <ul class="t-tabs__list tab-courseplan">
-                    <li id="tab-create-plan" class="t-tabs__item active">
-                        <a class="t-tabs__link" href="#create-plan" data-toggle="tab">
-                            <span  class="t-tabs__numeration">1</span>
-                            <?php echo Yii::t('default', 'Create Plan') ?></a>
-                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
-                    </li>
-                    <li id="tab-class" class="t-tabs__item">
-                        <a class="t-tabs__link" href="#class" data-toggle="tab">
-                            <span  class="t-tabs__numeration">2</span>
-                            <?php echo Yii::t('default', 'Class') ?></a>
-                    </li>
-                </ul>
+            <div class="t-tabs js-tab-control justify-content--space-between">
+                <div>
+                    <ul class="t-tabs__list tab-courseplan">
+                        <li id="tab-create-plan" class="t-tabs__item active">
+                            <a class="t-tabs__link" href="#create-plan" data-toggle="tab">
+                                <span  class="t-tabs__numeration">1</span>
+                                <?php echo Yii::t('default', 'Create Plan') ?></a>
+                                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                        </li>
+                        <li id="tab-class" class="t-tabs__item">
+                            <a class="t-tabs__link" href="#class" data-toggle="tab">
+                                <span  class="t-tabs__numeration">2</span>
+                                <?php echo Yii::t('default', 'Class') ?></a>
+                        </li>
+                    </ul>
+                </div>
                 <div class="row">
-                    <a 
+                    <a
                     data-toggle="tab" class='t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?>
                     </a>
                     <a
@@ -99,7 +101,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="column flex is-two-fifths">
                                 <div class="t-field-select">
@@ -134,7 +136,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <tbody class="t-accordion__body js-change-idRows">
                         </tbody>
                     </table>
-                    
+
                     <div class="row">
                         <a href="#new-course-class" id="new-course-class"
                             class="t-button-primary">
@@ -189,7 +191,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <label>SELECIONADAS</label>
                     </div>
                     <img class="loading-abilities-select"  style="display:none;margin: 0px 5px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading"></img>
-                
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default"
                                 data-dismiss="modal">Cancelar
