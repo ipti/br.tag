@@ -384,10 +384,10 @@ class BNCCImport
                     }
                 }
             } else {
-                d($newAbilities);
+                Yii::log($newAbilities);
             }
         } catch (\Exception $e) {
-            d($newAbilities);
+            Yii::log($newAbilities);
             echo $e;
         }
         
