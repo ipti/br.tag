@@ -384,7 +384,7 @@ class BNCCImport
                     }
                 }
             } else {
-                CVarDumper::dump($newAbilities, 10, false);
+                d($newAbilities);
             }
         } catch (\Exception $e) {
             d($newAbilities);
