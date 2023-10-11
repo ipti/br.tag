@@ -440,7 +440,16 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                         array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelInstructorIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelInstructorIdentification->edcenso_uf_fk)), 'id', 'name'), array("prompt" => "Selecione uma cidade", "class" => 'select-search-on control-input')); ?>
+                                    <?php echo $form->DropDownList(
+                                        $modelInstructorIdentification,
+                                        'edcenso_city_fk',
+                                        CHtml::listData(EdcensoCity::model()->findAllByAttributes(
+                                            array('edcenso_uf_fk' => $modelInstructorIdentification->edcenso_uf_fk))
+                                            ,'id','name'),
+                                            array(
+                                                "prompt" => "Selecione uma cidade",
+                                                "class" => 'select-search-on control-input'));
+                                    ?>
                                     <?php echo $form->error($modelInstructorIdentification, 'edcenso_city_fk'); ?>
                                 </div>
                             </div>
@@ -448,7 +457,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             <div class="control-group">
                                 <div class="controls">
                                     <label class="control-label required">
-                                        <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency', array('class' => 'control-label')); ?>
+                                        <?php echo $form->labelEx($modelInstructorIdentification,
+                                                                'deficiency',
+                                                                array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
                                     <?php echo CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency'); ?>
@@ -629,7 +640,16 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'edcenso_city_fk', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelInstructorDocumentsAndAddress->edcenso_uf_fk)), 'id', 'name'), array("prompt" => "Selecione uma cidade", "class" => "select-search-on control-input")); ?>
+                                    <?php echo $form->DropDownList(
+                                        $modelInstructorDocumentsAndAddress,
+                                        'edcenso_city_fk',
+                                        CHtml::listData(EdcensoCity::model()->findAllByAttributes(
+                                            array('edcenso_uf_fk'
+                                                => $modelInstructorDocumentsAndAddress->edcenso_uf_fk)), 'id', 'name'),
+                                            array(
+                                                "prompt" => "Selecione uma cidade",
+                                                "class" => "select-search-on control-input"));
+                                    ?>
                                     <?php echo $form->error($modelInstructorDocumentsAndAddress, 'edcenso_city_fk'); ?>
                                 </div>
                             </div>
