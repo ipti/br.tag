@@ -45,6 +45,7 @@ function  initializeAccordion(idAccordion) {
     });
 }
 function addTacoFood() {
+    $("select.js-taco-foods").off(); 
      $("select.js-taco-foods").on("change", function() {
         console.log($(this).val())
         let select = $(this)
@@ -58,30 +59,58 @@ function addTacoFood() {
     
             response = JSON.parse(response)
             let line = createMealComponent(
-                response
+                response, $(select).attr('data-idAccordion')
                 );
             $(`table[data-idAccordion="${$(select).attr('data-idAccordion')}"] tbody`).append(line)
             initializeAccordion($(select).attr('data-idAccordion'))
+
             $(select).val('');
-            initializeSelect2()
+            initializeSelect2();
+
+            updateIgrendientsName($(select).attr('data-idAccordion'), response.name);
+
+            removeTacoFood()
+            
         })
           
     });
 }
-
-function createMealComponent({
-    name, pt, lip, cho, kcal
-}){
+function removeTacoFood() {
+    $(".js-remove-taco-food").off(); 
+    $('.js-remove-taco-food').on("click", function(){
+        let closeButton = $(this)
+        let idAccordion = closeButton.parent().attr('data-idAccordion')
+        console.log(closeButton)
+        closeButton.parent().remove();
+        initializeAccordion(idAccordion)
+    })
+}
+function updateIgrendientsName(idAccordion, name) {
+    let ingrendientsName =  $(`.js-ingredients-names[data-idAccordion="${idAccordion}"]`)
+    let ingredientsList = ingrendientsName.text().split(', ')
+    let firstName = name.split(', ')[0]
     
-   const line =  $("<tr></tr>")
+    $.inArray(firstName, ingredientsList) === -1 ? ingredientsList.push(firstName) : null;
+
+    
+    let newIngredientsName = ingredientsList.join(", ");
+    ingrendientsName.html(newIngredientsName)
+
+}
+function createMealComponent({
+   id, name, pt, lip, cho, kcal
+}, idAccordion){
+    
+   const line =  $(`<tr data-idTaco='${id}' data-idAccordion='${idAccordion}'></tr>`)
         .append(`<td>${name}</td>`)
-        .append(`<td>1</td>`)
-        .append(`<td>2</td>`)
+        .append(`<td><input type='text'  style='width:50px'></td>`)
+        .append(`<td><input type='text'  style='width:100px'></td>`)
         .append(`<td>3</td>`)
         .append(`<td>${pt}</td>`)
         .append(`<td>${lip}</td>`)
         .append(`<td>${cho}</td>`)
         .append(`<td>${kcal}</td>`)
+        .append(`<td class='js-remove-taco-food'><span class='t-icon-close t-button-icon'><span></td>`)
     
     return line;
 }
@@ -89,12 +118,21 @@ let meals = [];
 $(document).on("click", ".js-save-meal", function () {
     let meal = {
         mealTime: "",
-        daysOfWeek: [],
+        daysOfWeek: [
+
+        ],
         mealType: "",
         shift: "",
         plates: []
     }
     meal.mealTime =  $('.js-mealTime').val();
+    meal.mealType =  $('select.js-meal').val();
+    meal.shift =  $('select.js-shift').val();
+
+    ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].forEach(function(day) {
+        meal.daysOfWeek[day] = $('#' + day).prop('checked');
+    });
+
     meals.push(meal)
     console.log(meal)
 })

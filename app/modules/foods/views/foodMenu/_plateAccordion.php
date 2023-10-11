@@ -10,7 +10,8 @@
    <label for="<?= $idInputPlate ?>">
     <span class="fa fa-pencil"  id="js-stopPropagation"></span>
     </label>
-   
+    <div data-idAccordion='<?= $idAccordion?>' class="row js-ingredients-names">
+    </div>
 </div>
 <div class="ui-accordion-content">
     <div class="row">
@@ -34,6 +35,7 @@
                     <th>LIP</th>
                     <th>CHO</th>
                     <th>KCAL</th>
+                    <th></th>
                 </tr>
             </table>
 </div>

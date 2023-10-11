@@ -120,6 +120,7 @@ class FoodMenuController extends Controller
 		$idFood = Yii::app()->request->getQuery('idFood');
 		$food = Food::model()->findByAttributes(array('id' => $idFood));
 		$result = array();
+		$result["id"] = $food->id;
 		$result["name"] = $food->description;
 		$result["kcal"] = is_numeric($food->energy_kcal) ? round($food->energy_kcal, 2) : $food->energy_kcal;
 		$result["pt"] = is_numeric($food->protein_g) ? round($food->protein_g, 2) : $food->protein_g;
