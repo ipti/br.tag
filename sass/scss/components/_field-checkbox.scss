@@ -32,7 +32,8 @@
 }
 .t-field-checkbox-group {
     margin-bottom: $SizeXXSmall;
-    margin-top: $SizeLarge;
+    // margin-top: $SizeLarge;
+    // Retirado por conta de atêndimento em turma. Perguntar se a solução é válida.
     &__label {
         padding-top: 0 !important;
 
