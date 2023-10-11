@@ -30,7 +30,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="column clearleft">
         <h1><?php echo $title; ?></h1>
     </div>
-    <div class="column clearfix align-items--center justify-content--end show--desktop">
+    <div class="column clearfix align-items--center justify-content--end show--desktop" id="next">
         <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
         <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
         <button class="t-button-primary  last save-student" type="button">
@@ -118,7 +118,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column clearleft is-two-fifths">
                             <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
                             <!-- name student -->
-                            <div class="t-field-text">
+                            <div class="t-field-text" id="nameStudents">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'name', array('class' => 't-field-text__label--required')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input',
                                 'placeholder' => 'Digite o Nome de Apresentação')); ?>
@@ -135,7 +135,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <input type="checkbox" class="t-field-checkbox__input" id="show-student-civil-name" <?php if ($modelStudentIdentification->civil_name != null) { echo "checked";} ?>>
                                 <label class="t-field-checkbox__label">Esse é um nome social?</label>
                             </div>
-                            <div class="t-field-text student-civil-name" style="display: none;">
+                            <div class="t-field-text student-civil-name" id="civilName" style="display: none;">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'civil_name', array('class' => 't-field-text__label--required')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'civil_name', array('size' => 60, 'maxlength' => 100,
                                 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome Civil')); ?>
@@ -147,7 +147,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <!-- Aniversário -->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-text">
+                            <div class="t-field-text" id="dateOfBirth">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'birthday', array('class' => 't-field-text__label--required')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'birthday', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'birthday'); ?>
@@ -155,7 +155,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- CPF -->
                         <div class="column clearleft--on-mobile is-two-fifths">
-                            <div class="t-field-text">
+                            <div class="t-field-text" id="cpfStudents">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "class" => "t-field-text__input")); ?>
                                 <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
@@ -169,7 +169,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <!-- Sexo -->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-select">
+                            <div class="t-field-select" id="gender-select">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'sex', array('class' => 't-field-select__label--required')); ?>
                                 <?php echo $form->DropDownList($modelStudentIdentification, 'sex', array(null => "Selecione o sexo", "1" => "Masculino", "2" => "Feminino"),
                                 array('class' => 'select-search-off t-field-select__input select2-container')); ?>
@@ -178,7 +178,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- Raça -->
                         <div class="column clearleft--on-mobile is-two-fifths">
-                            <div class="t-field-select">
+                            <div class="t-field-select" id="color">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'color_race', array('class' => 't-field-select__label--required')); ?>
                                 <?php
                                 echo $form->DropDownList($modelStudentIdentification, 'color_race', array(
@@ -199,7 +199,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <!-- Nacionalidade  -->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-select">
+                            <div class="t-field-select" id="nationality-select">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'nationality', array('class' => 't-field-select__label--required')); ?>
                                 <?php
                                 echo $form->dropDownList($modelStudentIdentification, 'nationality',
@@ -229,7 +229,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <!-- Estado e Cidade -->
                     <div class="row">
                         <!-- Estado -->
-                        <div class="column clearleft is-two-fifths">
+                        <div class="column clearleft is-two-fifths" id="state-select">
                             <div class="t-field-select js-hide-not-required js-change-required">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_uf_fk', array('class' => 't-field-select__label--required')); ?>
                                 <?php
@@ -249,7 +249,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- Cidade -->
                         <div class="column clearleft--on-mobile is-two-fifths">
-                            <div class="t-field-select js-hide-not-required js-change-required">
+                            <div class="t-field-select js-hide-not-required js-change-required" id="city-select">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_city_fk', array('class' => 't-field-select__label--required')); ?>
                                 <?php
                                 echo $form->dropDownList($modelStudentIdentification, 'edcenso_city_fk',
@@ -268,7 +268,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <!-- Email -->
                         <div class="column clearleft is-two-fifths">
-                            <div class=" t-field-text js-hide-not-required">
+                            <div class=" t-field-text js-hide-not-required" id="email">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'id_email', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'id_email',
                                 array('size' => 60, 'maxlength' => 255, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Email')); ?>
@@ -277,7 +277,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- Escolaridade -->
                         <div class="column clearleft--on-mobile is-two-fifths">
-                            <div class="t-field-select js-hide-not-required">
+                            <div class="t-field-select js-hide-not-required" id="scholarity-select">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'scholarity', array('class' => 't-field-select__label')); ?>
                                 <?php echo $form->DropDownList($modelStudentIdentification, 'scholarity',
                                 array(null => "Selecione a escolaridade", "1" => "Formação Geral", "2" => "Modalidade Normal (Magistério)", "3" => "Curso Técnico",
@@ -317,7 +317,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column clearleft is-two-fifths">
                             <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
 
-                            <div class="t-field-select">
+                            <div class="t-field-select" id="filiation-select">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation', array('class' => 't-field-select__label--required')); ?>
                                 <?php echo $form->DropDownList($modelStudentIdentification, 'filiation', array(null => "Selecione a filiação", "0" => "Não declarado/Ignorado", "1" => "Pai e/ou Mãe"),
                                 array('class' => 'select-search-off t-field-select__input select2-container')); ?>
@@ -326,7 +326,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- Responsavel pelo aluno -->
                         <div class="column clearleft--on-mobile is-two-fifths">
-                            <div class="t-field-select">
+                            <div class="t-field-select" id="responsable-select">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable', array('class' => 't-field-select__label')); ?>
                                 <?php
                                 echo $form->dropDownList($modelStudentIdentification, 'responsable', array(null => "Selecione o responsável", 0 => 'Pai', 1 => 'Mãe', 2 => 'Outro',),
@@ -340,7 +340,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <!-- Telefone do responsavel -->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-text js-hide-not-required">
+                            <div class="t-field-text js-hide-not-required" id="telephone">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_telephone', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'responsable_telephone', array('size' => 60, 'maxlength' => 15, 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'responsable_telephone'); ?>
@@ -348,7 +348,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- nome do responsével -->
                         <div class="column clearleft--on-mobile is-two-fifths">
-                            <div class="t-field-text js-hide-not-required">
+                            <div class="t-field-text js-hide-not-required" id="nameResponsable">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_name', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'responsable_name',
                                 array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Responsável')); ?>
@@ -360,7 +360,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <!-- Email responsável -->
                         <div class="column clearleft is-two-fifths">
-                            <div class=" t-field-text js-hide-not-required">
+                            <div class=" t-field-text js-hide-not-required" id="emailResponsable">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'id_email', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'id_email', array('size' => 60, 'maxlength' => 255, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Email')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'id_email'); ?>
@@ -368,7 +368,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- Profissião do responsavel -->
                         <div class="column clearleft--on-mobile is-two-fifths">
-                            <div class="t-field-text js-hide-not-required">
+                            <div class="t-field-text js-hide-not-required" id="responsableJob">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_job', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'responsable_job', array('size' => 60, 'maxlength' => 100,
                                 'class' => 't-field-text__input', 'placeholder' => 'Digite a Profissão do Responsável')); ?>
@@ -380,7 +380,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <!-- Escolaridade do responsavel -->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-select js-hide-not-required">
+                            <div class="t-field-select js-hide-not-required" id="scholarityResponsable-select">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'scholarity', array('class' => 't-field-select__label')); ?>
                                 <?php echo $form->DropDownList($modelStudentIdentification, 'scholarity',
                                 array(null => "Selecione a escolaridade", "1" => "Formação Geral", "2" => "Modalidade Normal (Magistério)", "3" => "Curso Técnico",
@@ -391,7 +391,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- rg responsavel -->
                         <div class="column clearleft--on-mobile is-two-fifths">
-                            <div class="t-field-text js-hide-not-required">
+                            <div class="t-field-text js-hide-not-required" id="rgResposable">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_rg', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'responsable_rg',
                                 array('size' => 60, 'maxlength' => 45, 'class' => 't-field-text__input','placeholder' => 'Digite o RG do Responsável')); ?>
@@ -402,7 +402,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <!-- cpf responsavel -->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-text js-hide-not-required">
+                            <div class="t-field-text js-hide-not-required" id="cpfResponsable">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_cpf', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 14, 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'responsable_cpf'); ?>
@@ -420,7 +420,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <!-- Nome Filiação 1-->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-text js-hide-not-required  js-disabled-finputs">
+                            <div class="t-field-text js-hide-not-required  js-disabled-finputs" id="filiationMain">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'filiation_1',
                                 array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input",
@@ -430,7 +430,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- CPF da Mãe -->
                         <div class="column clearleft--on-mobile is-two-fifths">
-                            <div class="t-field-text js-hide-not-required js-disabled-finputs">
+                            <div class="t-field-text js-hide-not-required js-disabled-finputs" id="cpfFiliation1">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_cpf', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'filiation_1_cpf',
                                 array('size' => 60, 'maxlength' => 14, "class" => "js-disabled-finputs js-finput-clear t-field-text__input")); ?>
@@ -441,7 +441,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <!-- Data de Nascimento da Mãe -->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-text js-hide-not-required js-disabled-finputs">
+                            <div class="t-field-text js-hide-not-required js-disabled-finputs" id="dateOfBirthFiliation">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_birthday', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'filiation_1_birthday', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_birthday'); ?>
@@ -449,7 +449,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- RG da Mãe -->
                         <div class="column clearleft--on-mobile is-two-fifths">
-                            <div class="t-field-text  js-hide-not-required js-disabled-finputs">
+                            <div class="t-field-text  js-hide-not-required js-disabled-finputs" id="rgFiliation1">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_rg', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'filiation_1_rg', array('size' => 60, 'maxlength' => 45,
                                 "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o RG da Filiação 1')); ?>
@@ -461,7 +461,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <!-- Escolaridade da Mãe -->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-select js-hide-not-required js-disabled-finputs">
+                            <div class="t-field-select js-hide-not-required js-disabled-finputs" id="scholarityFiliation1-select">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_scholarity', array('class' => 't-field-select__label')); ?>
                                 <?php
                                 echo $form->dropDownList($modelStudentIdentification, 'filiation_1_scholarity', array(
@@ -476,7 +476,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- Profissão filiação 1 -->
                         <div class="column clearleft--on-mobile is-two-fifths">
-                            <div class="t-field-text js-hide-not-required js-disabled-finputs">
+                            <div class="t-field-text js-hide-not-required js-disabled-finputs" id="professionFiliation1">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_job', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'filiation_1_job',
                                 array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input select2-container",
@@ -496,7 +496,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <!-- Nome filiação 2 -->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-text js-hide-not-required js-disabled-finputs">
+                            <div class="t-field-text js-hide-not-required js-disabled-finputs" id="filiationSecondary">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'filiation_2',
                                 array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input",
@@ -506,7 +506,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- CPF filiação 2 -->
                         <div class="column clearleft--on-mobile is-two-fifths">
-                            <div class="t-field-text js-hide-not-required js-disabled-finputs">
+                            <div class="t-field-text js-hide-not-required js-disabled-finputs" id="cpfFiliation2">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_cpf', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'filiation_2_cpf',
                                 array('size' => 60, 'maxlength' => 14, "class" => "js-disabled-finputs js-finput-clear t-field-text__input")); ?>
@@ -517,7 +517,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <!-- Data de Nascimento do Pai -->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-text js-hide-not-required js-disabled-finputs">
+                            <div class="t-field-text js-hide-not-required js-disabled-finputs" id="dateSecondary">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_birthday', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'filiation_2_birthday',array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_2_birthday'); ?>
@@ -525,7 +525,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- Rg filiação 2 -->
                         <div class="column clearleft--on-mobile is-two-fifths">
-                            <div class="t-field-text js-hide-not-required js-disabled-finputs">
+                            <div class="t-field-text js-hide-not-required js-disabled-finputs" id="rgFiliation2">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_rg', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'filiation_2_rg',
                                 array('size' => 60, 'maxlength' => 45, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o RG do Pai')); ?>
@@ -537,7 +537,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <!-- Escolaridade do pai -->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-select js-hide-not-required js-disabled-finputs">
+                            <div class="t-field-select js-hide-not-required js-disabled-finputs" id="scholarityFiliation2-select">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_scholarity', array('class' => 'control-label t-field-select__label')); ?>
                                 <?php
                                 echo $form->dropDownList($modelStudentIdentification, 'filiation_2_scholarity', array(
@@ -552,7 +552,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- Trabalho filiação 2 -->
                         <div class="column clearleft--on-mobile is-two-fifths">
-                            <div class="t-field-text js-hide-not-required js-disabled-finputs">
+                            <div class="t-field-text js-hide-not-required js-disabled-finputs" id="jobFiliation2">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_job', array('class' => 'ct-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'filiation_2_job',
                                 array('size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite a Profissão do Pai')); ?>
@@ -653,7 +653,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- Tipo de certidão civil -->
                         <div class="column clearleft--on-mobile is-two-fifths">
-                            <div class="t-field-select js-hidden-oldDocuments-fields">
+                            <div class="t-field-select js-hidden-oldDocuments-fields" id="civilCertification-select">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_type', array('class' => 't-field-select__label')); ?>
                                 <?php echo $form->DropdownList($modelStudentDocumentsAndAddress, 'civil_certification_type',
                                 array(null => "Selecione o tipo", "1" => "Nascimento", "2" => "Casamento"),

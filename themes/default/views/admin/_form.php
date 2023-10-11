@@ -30,7 +30,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <span class="subtitle"> <?php echo Yii::t('default', 'Fields with * are required.') ?>
             <div class="buttons">
                 <div class="buttons">
-                    <div class="buttons">
+                    <div class="buttons" id="createUser">
                         <?php echo CHtml::htmlButton(
                             '<i></i>' . ($model->isNewRecord
                                 ? Yii::t('default', 'Create')
