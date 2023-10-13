@@ -181,7 +181,7 @@ class BNCCImport
                         $parsedData[$component]['children'][$unity] = ['name' => $unity, 'type' => "UNIDADE TEMÁTICA", 'children' => []];
                     }
 
-                    if (!empty($objective)) {
+                    if (!empty($objective) && !isset($parsedData[$component]['children'][$unity]['children'][$objective])) {
                         $parsedData[$component]['children'][$unity]['children'][$objective] = ["name" => $objective, 'type' => "OBJETO DE CONHECIMENTO", 'children' => []];
                     }
 
@@ -265,12 +265,12 @@ class BNCCImport
                     }
 
                     // Unidades temáticas
-                    if (!empty($unity)) {
+                    if (!empty($unity)  && !isset($parsedData[$component]['children'][$axle]['children'][$unity])) {
                         $parsedData[$component]['children'][$axle]['children'][$unity] = ["name" => $unity, 'type' => "UNIDADE TEMÁTICA", 'children' => []];
                     }
 
                     // Objetos de conhecimento	
-                    if (!empty($objective)) {
+                    if (!empty($objective) && !isset($parsedData[$component]['children'][$axle]['children'][$unity]['children'][$objective])) {
                         $parsedData[$component]['children'][$axle]['children'][$unity]['children'][$objective] = ["name" => $objective, 'type' => "OBJETO DE CONHECIMENTO", 'children' => []];
                     }
 
@@ -371,21 +371,26 @@ class BNCCImport
             $edcensoStageFk = $this->mapStage($abilities["stage"]);
         }
         $newAbilities->edcenso_stage_vs_modality_fk = $edcensoStageFk;
-
-        if ($newAbilities->save()) {
-            if (!empty($abilities["children"])) {
-                foreach ($abilities["children"] as $child) {
-                    $this->deepCreate(
-                        $child,
-                        $newAbilities->id,
-                        $edcensoStageFk,
-                        $newAbilities->edcenso_stage_vs_modality_fk
-                    );
+        try {
+            if ($newAbilities->save()) {
+                if (!empty($abilities["children"])) {
+                    foreach ($abilities["children"] as $child) {
+                        $this->deepCreate(
+                            $child,
+                            $newAbilities->id,
+                            $newAbilities->edcenso_discipline_fk ,
+                            $newAbilities->edcenso_stage_vs_modality_fk
+                        );
+                    }
                 }
+            } else {
+                Yii::log($newAbilities);
             }
-        } else {
-            CVarDumper::dump($newAbilities, 10, false);
+        } catch (\Exception $e) {
+            CVarDumper::dump($newAbilities, 10, true);
+            echo $e;
         }
+        
     }
 
 }
