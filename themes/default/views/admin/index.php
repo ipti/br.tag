@@ -155,6 +155,18 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                                 </div>
                             </button>
                         </a>
+
+                        <a href="<?php echo Yii::app()->createUrl('stages') ?>">
+                            <button type="button" class="admin-box-container">
+                                <div class="pull-left" style="margin-right: 20px;">
+                                    <span class="t-icon-copy t-reports_icons"></span>
+                                </div>
+                                <div class="pull-left">
+                                    <span class="title">Gerenciar Etapas</span><br>
+                                    <span class="subtitle">Gerencie as etapas da unidade</span>
+                                </div>
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>
