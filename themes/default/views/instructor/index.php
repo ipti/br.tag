@@ -7,7 +7,7 @@
     );
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
-    
+
     ?>
 
 
@@ -33,7 +33,7 @@
                 <li><a href="<?php echo Yii::app()->createUrl('instructor/create')?>"><i></i> Adicionar professor</a></li>
             </ul>
         </div>
-    </div>  
+    </div>
 
     <div class="tag-inner">
         <?php if (Yii::app()->user->hasFlash('success')): ?>
@@ -70,7 +70,7 @@
                         ),
                         array(
                             'header' => 'Ações',
-                            'class' => 'CButtonColumn', 
+                            'class' => 'CButtonColumn',
                             'template' => '{update}{delete}',
                             'buttons' => array(
                                 'update' => array(
