@@ -47,7 +47,6 @@ function  initializeAccordion(idAccordion) {
 function addTacoFood() {
     $("select.js-taco-foods").off(); 
      $("select.js-taco-foods").on("change", function() {
-        console.log($(this).val())
         let select = $(this)
         $.ajax({
             url: "?r=foods/foodMenu/getFood",
@@ -80,21 +79,22 @@ function removeTacoFood() {
     $('.js-remove-taco-food').on("click", function(){
         let closeButton = $(this)
         let idAccordion = closeButton.parent().attr('data-idAccordion')
-        console.log(closeButton)
         closeButton.parent().remove();
         initializeAccordion(idAccordion)
     })
 }
 function updateIgrendientsName(idAccordion, name) {
-    let ingrendientsName =  $(`.js-ingredients-names[data-idAccordion="${idAccordion}"]`)
-    let ingredientsList = ingrendientsName.text().split(', ')
-    let firstName = name.split(', ')[0]
-    
-    $.inArray(firstName, ingredientsList) === -1 ? ingredientsList.push(firstName) : null;
 
+    let oldIngrendientsName =  $(`.js-ingredients-names[data-idAccordion="${idAccordion}"]`)
+    let ingredientsList = oldIngrendientsName.text().trim().split(', ')
+    let firstNameNewIngredient = name.split(', ')[0]
     
+    if(ingredientsList.indexOf(firstNameNewIngredient) === -1){
+        ingredientsList[0] == "" ?  ingredientsList[0] = firstNameNewIngredient: ingredientsList.push(firstNameNewIngredient)
+    }
+
     let newIngredientsName = ingredientsList.join(", ");
-    ingrendientsName.html(newIngredientsName)
+    oldIngrendientsName.html(newIngredientsName)
 
 }
 function createMealComponent({
@@ -103,8 +103,8 @@ function createMealComponent({
     
    const line =  $(`<tr data-idTaco='${id}' data-idAccordion='${idAccordion}'></tr>`)
         .append(`<td>${name}</td>`)
-        .append(`<td><input type='text'  style='width:50px'></td>`)
-        .append(`<td><input type='text'  style='width:100px'></td>`)
+        .append(`<td class='js-unit'><input type='text'  style='width:50px'></td>`)
+        .append(`<td class='js-measure'><input type='text'  style='width:100px'></td>`)
         .append(`<td>3</td>`)
         .append(`<td>${pt}</td>`)
         .append(`<td>${lip}</td>`)
@@ -115,6 +115,28 @@ function createMealComponent({
     return line;
 }
 let meals = [];
+
+function getPlates() {
+   let plates = $(".js-plate-accordion");
+   let paltesResult = [];
+   for (let index = 1; index <= plates.length; index++) {
+    let plate = {
+        name: $(`.js-plate-name[data-idAccordion="${index}"]`).val(),
+        ingredients:[]
+   }  
+    $(`tr[data-idAccordion="${index}"]`).each(function() {
+        let ingredient = {
+            idTaco: $(this).attr('data-idTaco'),
+            unit: $(this).find('td.js-unit input').val(),
+            measure: $(this).find('td.js-measure input').val()
+        }
+        plate.ingredients.push(ingredient);
+    });
+    paltesResult.push(plate)
+   }
+   return paltesResult;
+}
+
 $(document).on("click", ".js-save-meal", function () {
     let meal = {
         mealTime: "",
@@ -132,7 +154,8 @@ $(document).on("click", ".js-save-meal", function () {
     ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].forEach(function(day) {
         meal.daysOfWeek[day] = $('#' + day).prop('checked');
     });
-
+    meal.plates = console.log(getPlates())
     meals.push(meal)
-    console.log(meal)
+    /* console.log(meal) */
 })
+

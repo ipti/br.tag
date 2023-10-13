@@ -1,12 +1,9 @@
-<?php
-    $idInputPlate = 'name-plate-'. $idAccordion;
-?>
 <div class="ui-accordion-header js-plate-accordion">
     <?= CHtml::telField('name', '', array(
-    'class'=>'t-accordion-input-header',
+    'class'=>'t-accordion-input-header js-plate-name',
     'autofocus' => true,
     'placeholder' => 'Digite o nome do prato',
-    'id' => $idInputPlate))?>
+    'data-idAccordion' => $idAccordion))?>
    <label for="<?= $idInputPlate ?>">
     <span class="fa fa-pencil"  id="js-stopPropagation"></span>
     </label>
