@@ -37,3 +37,8 @@ $('#create-dialog-form, #teachingdata-dialog-form, #update-dialog-form').keypres
 });
 
 $('.heading-buttons').css('width', $('#content').width());
+
+$(document).on("click", "#newTeacherDiscipline", function () {
+    $("#addTeacherSchoolComponent").modal("show");
+});
+// here

@@ -1,3 +1,4 @@
+
 .t-modal-container {
     color: $colorsTextPrimary;
     box-sizing: border-box;
@@ -22,7 +23,7 @@
     }
     .t-modal__body {
         padding: $SizeNormal $SizeLarge;
-        
+
         label {
             font-size: $FontSizeTextNormal;
         }
@@ -42,4 +43,4 @@
         }
     }
 }
-    
+

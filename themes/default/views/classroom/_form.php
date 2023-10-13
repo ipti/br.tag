@@ -742,53 +742,20 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class=" span12">
                         <!-- adicionar diciplina -->
                         <div class="row">
-                            <a href="#" class="t-button-primary   add hidden-print" id="newDiscipline">
+                            <a href="#" class="t-button-primary   add hidden-print" id="newTeacherDiscipline">
                                 <i></i>
                                 <?php echo Yii::t('default', 'Add Discipline/Teacher') ?>
                             </a>
                         </div>
                         <div class="separator"></div>
-                        <!-- <div class="modal fade t-modal-container" id="js-classroomdiary" tabindex="-1" role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <div class="t-modal__header">
-                                    <h4 class="t-title" id="myModalLabel">Diário de Aula</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="">
-                                    </button>
-                                </div>
-                                <form method="post">
-                                    <input type="hidden" class="classroom-diary-day">
-                                    <div class="t-modal__body">
-                                        <div class="t-field-tarea">
-                                            <label class="t-field-tarea__label">Diário de Aula Geral</label>
-                                            <selec>
-
-                                            </selec>
-                                        </div>
-                                        <label>Diário de Aula por Aluno</label>
-                                        <div class="alert alert-error classroom-diary-no-students no-show">Não há alunos matriculados na turma.</div>
-                                        <div class="accordion-students"></div>
-                                        <div class="t-modal__footer row reverse">
-                                            <div class="t-buttons-container justify-content--center">
-                                                <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
-                                            </div>
-                                            <div class="t-buttons-container justify-content--center">
-                                                <button type="button" class="t-button-primary clear-margin--right js-add-classroom-diary" data-dismiss="modal">Salvar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                            </div>
-                            </form>
-                        </div> -->
-                        <!-- inicio do model -->
                         <?php
                         $teachingDataList =
                             "<div>"
                             . "<div class='disciplines-with-container'>
-                                        <span>
-                                            <b>Componentes curriculares/eixos com Instrutores</b>
-                                        </span>
-                                        <div class='separator'></div>"
+                                            <span>
+                                                <b>Componentes curriculares/eixos com Instrutores</b>
+                                            </span>
+                                            <div class='separator'></div>"
                             .   "<ul id='DisciplinesWithInstructors'>";
                         $teachingDataArray = array();
                         $teachingDataDisciplines = array();
@@ -816,7 +783,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 "</span><span>" . $regentText .
                                 "</span><span> - " . $roleName[$model->role] . "</span>"
                                 . '<a  href="#" class="deleteTeachingData delete" title="Excluir" regent="' . $model->regent . '">
-                                        </a>';
+                                            </a>';
                             $teachingDataList .= "<ul>";
 
                             $teachingDataArray[$i] = array();
@@ -860,10 +827,10 @@ $form = $this->beginWidget('CActiveForm', array(
                         //monta a lista com as disciplinas que não possuem instrutor
                         $teachingDataList .=
                             "<div class='disciplines-without-container'>
-                                <span>
-                                <b>Componentes curriculares/eixos sem Instrutores</b>
-                                </span>
-                                <div class='separator'></div>"
+                                    <span>
+                                    <b>Componentes curriculares/eixos sem Instrutores</b>
+                                    </span>
+                                    <div class='separator'></div>"
                             . "<ul id='DisciplinesWithoutInstructors'>";
                         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
                         foreach ($disciplinesWithoutInstructor as $disciplineId => $value) {
@@ -1139,13 +1106,16 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
     </div>
 
-    <div id="teachingdata-dialog-form" title="<?php echo Yii::t('default', 'New Discipline'); ?>">
-        <div class="alert alert-error no-curricular-matrix-error">Preencha a matriz curricular da etapa de ensino
-            selecionada nesta turma para adicionar Componentes curriculares/eixos.
-        </div>
-        <div class="row-fluid">
-            <div class="span12">
-                <div class="">
+    <div class="modal fade t-modal-container" id="addTeacherSchoolComponent" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="t-modal__header">
+                <h4 class="t-title" id="myModalLabel">Diário de Aula</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="">
+                </button>
+            </div>
+            <div class="t-modal__body">
+                <div class="t-field-select ">
                     <?php echo CHtml::label(Yii::t(
                         "default",
                         "Instructor"
@@ -1156,17 +1126,17 @@ $form = $this->beginWidget('CActiveForm', array(
                         "Instructors",
                         '',
                         CHtml::listData(InstructorIdentification::model()->findAll(), 'id', 'name'),
-                        array('prompt' => 'Sem Instrutor', 'class' => 'select-search-on control-input')
+                        array('prompt' => 'Sem Instrutor', 'class' => 'select-search-off t-field-select__input')
                     ); ?>
                 </div>
-                <div class="">
+                <div class="t-field-select">
                     <label class="t-field-text__label">Componentes curriculares/eixos
                         <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="right" data-original-title="Serão listadas apenas as componentes curriculares/eixos inseridos na matriz curricular desta etapa de ensino selecionada na turma.">
                         </span>
                     </label>
-                    <select id="Disciplines" class="select-disciplines" multiple></select>
+                    <select id="Disciplines" class="select-disciplines select-search-on t-multiselect multiselect" multiple></select>
                 </div>
-                <div class="">
+                <div class="t-field-select ">
                     <?php echo CHtml::label(
                         Yii::t("default", "Role"),
                         "Role",
@@ -1183,10 +1153,10 @@ $form = $this->beginWidget('CActiveForm', array(
                         6 => "EAD - Docente Tutor",
                         7 => "Guia-Intérprete",
                         8 => "Profissional de apoio escolar para aluno(a) com deficiência",
-                    ), array('class' => 'select-search-off'));
+                    ), array('class' => 'select-search-off t-field-select__input'));
                     ?>
                 </div>
-                <div class="">
+                <div class="t-field-select ">
                     <?php echo CHtml::label(Yii::t(
                         "default",
                         "Contract Type"
@@ -1200,7 +1170,101 @@ $form = $this->beginWidget('CActiveForm', array(
                         2 => 'Temporário',
                         3 => 'Terceirizado',
                         4 => 'CLT',
-                    ), array('class' => 'select-search-off'));
+                    ), array('class' => 'select-search-off t-field-select__input'));
+                    ?>
+                </div>
+                <div class="regent-teacher-container" style="display:none">
+                    <?php echo CHtml::checkBox(
+                        "RegentTeacher",
+                        false,
+                        array(
+                            'value' => '1', 'id' => 'RegentTeacher'
+                        )
+                    ); ?>
+                    <?php echo CHtml::label(Yii::t(
+                        "default",
+                        "Regent Teacher"
+                    ), "RegentTeacher", array(
+                        'class' => 't-field-text__label', 'style' => 'display: inline-block'
+                    )); ?>
+                </div>
+                <div class="alert alert-error no-curricular-matrix-error">Preencha a matriz curricular da etapa de ensino
+                    selecionada nesta turma para adicionar Componentes curriculares/eixos.
+                </div>
+                <div class="t-modal__footer row reverse">
+                    <div class="t-buttons-container justify-content--center">
+                        <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
+                    </div>
+                    <div class="t-buttons-container justify-content--center">
+                        <button type="button" class="t-button-primary clear-margin--right" data-dismiss="modal">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="" id="teachingdata-dialog-form" title="<?php echo Yii::t('default', 'New Discipline'); ?>">
+        <div class="alert alert-error no-curricular-matrix-error">Preencha a matriz curricular da etapa de ensino
+            selecionada nesta turma para adicionar Componentes curriculares/eixos.
+        </div>
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="t-field-select ">
+                    <?php echo CHtml::label(Yii::t(
+                        "default",
+                        "Instructor"
+                    ), "Instructors", array(
+                        'class' => 't-field-text__label'
+                    )) ?>
+                    <?php echo CHtml::DropDownList(
+                        "Instructors",
+                        '',
+                        CHtml::listData(InstructorIdentification::model()->findAll(), 'id', 'name'),
+                        array('prompt' => 'Sem Instrutor', 'class' => 'select-search-off t-field-select__input')
+                    ); ?>
+                </div>
+                <div class="t-field-select">
+                    <label class="t-field-text__label">Componentes curriculares/eixos
+                        <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="right" data-original-title="Serão listadas apenas as componentes curriculares/eixos inseridos na matriz curricular desta etapa de ensino selecionada na turma.">
+                        </span>
+                    </label>
+                    <select id="Disciplines" class="select-disciplines" multiple></select>
+                </div>
+                <div class="t-field-select ">
+                    <?php echo CHtml::label(
+                        Yii::t("default", "Role"),
+                        "Role",
+                        array('class' => 't-field-text__label')
+                    ) ?>
+                    <?php
+                    echo CHtml::DropDownList("Role", '', array(
+                        null => 'Selecione um Cargo',
+                        1 => 'Docente',
+                        2 => 'Auxiliar/assistente educacional',
+                        3 => 'Profissional/monitor de atividade complementar',
+                        4 => 'Tradutor e Intérprete de Libras',
+                        5 => "EAD - Docente Titular",
+                        6 => "EAD - Docente Tutor",
+                        7 => "Guia-Intérprete",
+                        8 => "Profissional de apoio escolar para aluno(a) com deficiência",
+                    ), array('class' => 'select-search-off t-field-select__input'));
+                    ?>
+                </div>
+                <div class="t-field-select ">
+                    <?php echo CHtml::label(Yii::t(
+                        "default",
+                        "Contract Type"
+                    ), "ContractType", array(
+                        'class' => 't-field-text__label'
+                    )) ?>
+                    <?php
+                    echo CHtml::DropDownList("ContractType", '', array(
+                        null => 'Selecione tipo de Contrato',
+                        1 => 'Concursado/Efetivo',
+                        2 => 'Temporário',
+                        3 => 'Terceirizado',
+                        4 => 'CLT',
+                    ), array('class' => 'select-search-off t-field-select__input'));
                     ?>
                 </div>
                 <div class="regent-teacher-container" style="display:none">
@@ -1220,7 +1284,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 
 <?php

@@ -161,6 +161,7 @@ $(document).on("click", ".classroom-diary-button", function () {
     });
     $("#js-classroomdiary").modal("show");
 });
+// here
 
 $(document).on("click", ".js-add-classroom-diary", function () {
     let tr = $("#class-contents tbody").find("tr[day=" + $(".classroom-diary-day").val() + "]");
