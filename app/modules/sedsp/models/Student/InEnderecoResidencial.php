@@ -16,18 +16,18 @@ class InEnderecoResidencial implements JsonSerializable
 	public $inLongitude;
 
 	public function __construct(
-		?string $inLogradouro,
-		?string $inNumero,
-		?string $inBairro,
-		?string $inNomeCidade,
-		?string $inUFCidade,
-		?string $inComplemento,
-		?string $inCep,
-		?string $inAreaLogradouro,
-		?string $inCodLocalizacaoDiferenciada,
-		?string $inCodMunicipioDNE,
-		?string $inLatitude,
-		?string $inLongitude
+		?string $inLogradouro = null,
+		?string $inNumero = null,
+		?string $inBairro = null,
+		?string $inNomeCidade = null,
+		?string $inUFCidade = null,
+		?string $inComplemento = null,
+		?string $inCep = null,
+		?string $inAreaLogradouro = null,
+		?string $inCodLocalizacaoDiferenciada = null,
+		?string $inCodMunicipioDNE = null,
+		?string $inLatitude = null,
+		?string $inLongitude = null
 	) {
 		$this->inLogradouro = $inLogradouro;
 		$this->inNumero = $inNumero;

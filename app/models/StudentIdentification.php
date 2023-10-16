@@ -65,6 +65,7 @@
  * @property string $tag_id
  * @property integer $no_documents_desc
  * @property string $fkid
+ * @property integer $sedsp_sync
  *
  * The followings are the available model relations:
  * @property StudentEnrollment[] $studentEnrollments
