@@ -1,6 +1,6 @@
 <?php
 /** @var DefaultController $this EdcensoDisciplineController */
-/** @var EdcensoDiscipline $model EdcensoDiscipline */
+    /** @var EdcensoDiscipline $model EdcensoDiscipline */
 
 
 $this->setPageTitle('TAG - Adicionar Etapas');
@@ -13,6 +13,18 @@ $title = "Adicionar Etapas";
     <div class="row-fluid box-instructor">
         <div class="span12">
             <h1>Adicionar Etapas</h1>
+            <?php if (Yii::app()->user->hasFlash('success')): ?>
+                <div class="alert alert-success">
+                    <?php echo Yii::app()->user->getFlash('success') ?>
+                </div>
+                <br/>
+            <?php endif ?>
+            <?php if (Yii::app()->user->hasFlash('error')): ?>
+                <div class="alert alert-error">
+                    <?php echo Yii::app()->user->getFlash('error') ?>
+                </div>
+                <br/>
+            <?php endif ?>
             <div class="t-buttons-container">
                 <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('stages/default/create')?>">Adicionar Etapas</a>
             </div>
@@ -28,18 +40,6 @@ $title = "Adicionar Etapas";
         </div>
     </div>
 <div class="tag-inner">
-        <?php if (Yii::app()->user->hasFlash('success')): ?>
-            <div class="alert alert-success">
-                <?php echo Yii::app()->user->getFlash('success') ?>
-            </div>
-            <br/>
-        <?php endif ?>
-        <?php if (Yii::app()->user->hasFlash('error')): ?>
-            <div class="alert alert-error">
-                <?php echo Yii::app()->user->getFlash('error') ?>
-            </div>
-            <br/>
-        <?php endif ?>
         <div class="widget clearmargin">
             <div class="widget-body">
                 <?php $this->widget('zii.widgets.grid.CGridView', array(

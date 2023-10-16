@@ -60,6 +60,9 @@ class DefaultController extends Controller
         if (isset($stageVsModality)) {
             $model->attributes = $stageVsModality;
             if ($model->save()) {
+                $msg = 'O Cadastro foi criado com sucesso!';
+
+                Yii::app()->user->setFlash('success', Yii::t('default', $msg));
                 $this->redirect(array('index'));
             }
         }
