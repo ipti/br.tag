@@ -3,7 +3,10 @@
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 
+
 require_once 'app/vendor/autoload.php';
+Yii::import('application.modules.sedsp.models.Student.*');
+Yii::import('application.modules.sedsp.models.*');
 
 /**
  * Summary of StudentSEDDataSource
@@ -31,7 +34,7 @@ class StudentSEDDataSource extends SedDataSource
             $response = $this->getApiResponse('GET', $url, $inConsultaRA);
             return OutConsultaRA::fromJson($response);
         } catch (ClientException $e) {
-            return new OutErro($e);
+            return new OutErro;
         } catch (Exception $exception) {
             throw $exception;
         }
@@ -139,7 +142,7 @@ class StudentSEDDataSource extends SedDataSource
     /**
      * Summary of addStudent
      * @param InFichaAluno $inFichaAluno
-     * @return OutFichaAluno|OutErro
+     * @return OutFichaAluno
      * @throws Exception
      */
     public function addStudent(InFichaAluno $inFichaAluno)
@@ -150,7 +153,28 @@ class StudentSEDDataSource extends SedDataSource
 
             return OutFichaAluno::fromJson($response);
         } catch(RequestException $clienteException) {
-            return new OutErro($clienteException);
+            echo 'Erro durante a requisição: ' . $clienteException->getMessage();
+        } catch(Exception $exception) {
+            throw $exception;
+        }
+    }
+
+
+ 
+    /**
+     * Summary of editStudent
+     * @param InManutencao $inManutenção
+     * @return OutHandleApiResult
+     */
+    public function editStudent(InManutencao $inManutenção)
+    {
+        try{
+            $url = '/ncaapi/api/Aluno/Manutencao';
+            $response = $this->getApiResponse('POST', $url, $inManutenção);
+
+            return OutHandleApiResult::fromJson($response);
+        } catch(RequestException $clienteException) {
+            echo 'Erro durante a requisição: ' . $clienteException->getMessage();
         } catch(Exception $exception) {
             throw $exception;
         }
@@ -167,7 +191,7 @@ class StudentSEDDataSource extends SedDataSource
         $response = $this->client->request($httpMethod, $url, [
             'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
         ]);
-    
+
         return json_decode($response->getBody()->getContents(), true);
     }
 }
