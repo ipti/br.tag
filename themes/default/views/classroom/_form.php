@@ -1107,6 +1107,7 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
 
     <div class="modal fade t-modal-container" id="addTeacherSchoolComponent" tabindex="-1" role="dialog">
+        <!-- o problema é esse role! role é papel, ele indicando dialog! -->
         <div class="modal-dialog" role="document">
             <div class="t-modal__header">
                 <h4 class="t-title" id="myModalLabel">Diário de Aula</h4>
@@ -1196,7 +1197,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
                     </div>
                     <div class="t-buttons-container justify-content--center">
-                        <button type="button" class="t-button-primary clear-margin--right" data-dismiss="modal">Salvar</button>
+                        <button type="button" class="t-button-primary clear-margin--right" onclick="addTeachingData()" data-dismiss="modal">Salvar</button>
                     </div>
                 </div>
             </div>
