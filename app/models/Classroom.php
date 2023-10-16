@@ -152,6 +152,20 @@ class Classroom extends AltActiveRecord
             'instructorTeachingDatas' => array(self::HAS_MANY, 'InstructorTeachingData', 'classroom_id_fk'),
             'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'classroom_fk', 'order' => 'daily_order ASC, student_identification.name', 'join' => 'JOIN student_identification ON student_identification.id=studentEnrollments.student_fk'),
             'enrollmentsCount'=>array(self::STAT, 'StudentEnrollment', 'classroom_fk'),
+            'activeStudentEnrollments' => array(
+                self::HAS_MANY,
+                'StudentEnrollment',
+                'classroom_fk',
+                'join' => 'JOIN student_identification ON student_identification.id=student_fk',
+                'order' => 'daily_order ASC, student_identification.name',
+                'condition' => 'status IN (1, 6, 7, 8, 9, 10) or status IS NULL'
+            ),
+            'activeEnrollmentsCount' => array(
+                self::STAT,
+                'StudentEnrollment',
+                'classroom_fk',
+                'condition' => 'status IN (1, 6, 7, 8, 9, 10) or status IS NULL'
+            ),
         );
     }
 
@@ -229,7 +243,7 @@ class Classroom extends AltActiveRecord
             'school_year' => Yii::t('default', 'School Year'),
             'turn' => Yii::t('default', 'Turn'),
             'create_date' => Yii::t('default', 'Create Time'),
-            // Support Labels 
+            // Support Labels
             'disciplines' => Yii::t('default', 'Disciplines'),
             'classroom_days' => Yii::t('default', 'Classsrom Days'),
             'stage' => Yii::t('default', 'Stage'),
@@ -307,7 +321,7 @@ class Classroom extends AltActiveRecord
             )
         ))
         ->findAll();
-        
+
         return $disciplines;
     }
 

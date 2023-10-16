@@ -6,12 +6,12 @@
     $this->menu = array(
         array('label' => Yii::t('default', 'Create a new Classroom'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new Classroom')),
     );
-    
+
     ?>
 
     <div class="row-fluid">
         <div class="span12">
-            <h1><?php echo Yii::t('default', 'Classrooms') ?></h1>  
+            <h1><?php echo Yii::t('default', 'Classrooms') ?></h1>
             <div class="t-buttons-container">
                 <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('classroom/create') ?>"> Adicionar turma</a>
                 <div class="mobile-row">
@@ -21,7 +21,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="tag-inner">
         <div class="btn-group pull-right responsive-menu">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -41,7 +41,7 @@
                 </div>
                 <br/>
             <?php endif ?>
-            <div class="widget clearmargin">  
+            <div class="widget clearmargin">
                 <div class="widget-body">
                     <?php
                     $this->widget('zii.widgets.grid.CGridView', array(
@@ -60,7 +60,8 @@
                             array(
                                 'name' => 'enrollmentsCount',
                                 'header' => 'Alunos',
-                                'value' => '$data->enrollmentsCount',
+                                // 'value' => 'count($data->activeStudentEnrollments)',
+                                'value' => '$data->activeEnrollmentsCount',
                             ),
                             array(
                                 'name' => 'edcensoStageVsModalityFk',
@@ -76,7 +77,7 @@
                             ),
                             array(
                                 'header' => 'Ações',
-                                'class' => 'CButtonColumn', 
+                                'class' => 'CButtonColumn',
                                 'template' => '{update}{delete}',
                                 'buttons' => array(
                                     'update' => array(
@@ -93,7 +94,7 @@
                         ),
                     ));
                     ?>
-                </div>   
+                </div>
             </div>
         </div>
         <div class="t-menu-item__link">
