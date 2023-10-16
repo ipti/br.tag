@@ -3,7 +3,8 @@
         "guzzlehttp/guzzle": "^6.0",
         "symfony/validator": "^4.0",
         "jms/serializer": "^3.21",
-        "goetas-webservices/xsd2php-runtime": "^0.2.2"
+        "goetas-webservices/xsd2php-runtime": "^0.2.2",
+        "fakerphp/faker": "^1.23"
     },
     "require-dev": {
         "goetas-webservices/xsd2php": "^0.3",
