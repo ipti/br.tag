@@ -1,4 +1,4 @@
-<div class="ui-accordion-header js-plate-accordion">
+<div class="ui-accordion-header js-plate-accordion" data-idAccordion='<?= $idAccordion?>'>
     <?= CHtml::telField('name', '', array(
     'class'=>'t-accordion-input-header js-plate-name',
     'autofocus' => true,
@@ -10,7 +10,7 @@
     <div data-idAccordion='<?= $idAccordion?>' class="row js-ingredients-names">
     </div>
 </div>
-<div class="ui-accordion-content">
+<div class="ui-accordion-content" data-idAccordion='<?= $idAccordion?>'>
     <div class="row">
         <div class="t-field-select column clearfix">
         <?= CHtml::dropDownList('TACO', '',
@@ -35,4 +35,7 @@
                     <th></th>
                 </tr>
             </table>
+    <div class="row">
+        <a class="t-button-icon-danger js-remove-plate" data-idAccordion='<?= $idAccordion?>'>Remover Prato</a>
+    </div>
 </div>

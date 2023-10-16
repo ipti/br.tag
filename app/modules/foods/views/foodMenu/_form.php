@@ -33,12 +33,11 @@ $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END
 				<?php echo $form->error($model,'description'); ?>
 			</div>
 			<div class="t-multiselect clear-margin--top column">
-				<?= chtml::label('Publico Alvo ', 'public_target', array('class'=> 't-field-select__label'));?>
+				<?= chtml::label('Publico Alvo *', 'public_target', array('class'=> 't-field-select__label'));?>
 					<?=  chtml::dropDownList('public_target', "",
 					CHtml::listData(FoodPublicTarget::model()->findAll(), 'id', 'name'),
 					array(
 							'class' => 'select-search-on t-field-select__input',
-							'multiple' => 'multiple',
 							'placeholder' => Yii::t('default', 'Select Classrom'),
 							'style' => 'width: 100%'
                         ));
@@ -51,19 +50,11 @@ $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END
 				<?php echo $form->textField($model,'start_date', array('class'=>'t-field-text__input js-date')); ?>
 				<?php echo $form->error($model,'start_date'); ?>
 			</div>
-			<div class="column">
-				<?php echo $form->labelEx($model,'final_date', array('class' => 't-field-text__label')); ?>
-				<?php echo $form->textField($model,'final_date', array('class'=>'t-field-text__input js-date')); ?>
-				<?php echo $form->error($model,'final_date'); ?>
-			</div>
-		</div>
-		<div class="row">
-			<div class="t-field-text column is-half">
+			<div class="t-field-text column">
 				<?php echo $form->labelEx($model,'observation', array('class' => 't-field-select__label')); ?>
 				<?php echo $form->textField($model,'observation', array('class'=>'t-field-select__input')); ?>
 				<?php echo $form->error($model,'observation'); ?>
 			</div>
-			<div class="column"></div>
 		</div>
 		<div class="row">
 			<div class="column t-buttons-container">
@@ -79,45 +70,6 @@ $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END
 						<?= chtml::label('Hora da refeição *', 'mealTime', array('class'=> 't-field-text__label--required')); ?>
 						<?= CHtml::textField('mealTime', '', array('class'=> 't-field-text__input js-mealTime', 'id' => 'mealTime'));?>
 					</div>
-					<div class="column clear-margin--right">
-						<div class="t-field-checkbox-group row clear-margin--top">
-							<div class="t-field-checkbox--vertical">
-								<?= chtml::label('S', 'monday', array('class'=> 't-field-checkbox__label'));?>
-								<?= CHtml::checkBox('monday', false, array('class' => 't-field-checkbox__input')) ?>
-							</div>
-							<div class="t-field-checkbox--vertical">
-								<?= chtml::label('T', 'tuesday', array('class'=> 't-field-checkbox__label'));?>
-								<?= CHtml::checkBox('tuesday', false, array('class' => 't-field-checkbox__input ')) ?>
-							</div>
-
-							<div class="t-field-checkbox--vertical">
-								<?= chtml::label('Q', 'wednesday', array('class'=> 't-field-checkbox__label'));?>
-								<?= CHtml::checkBox('wednesday', false, array('class' => 't-field-checkbox__input ')) ?>
-							</div>
-
-							<div class="t-field-checkbox--vertical">
-								<?= chtml::label('Q', 'thursday', array('class'=> 't-field-checkbox__label'));?>
-								<?= CHtml::checkBox('thursday', false, array('class' => 't-field-checkbox__input ')) ?>
-							</div>
-
-							<div class="t-field-checkbox--vertical">
-								<?= chtml::label('S', 'friday', array('class'=> 't-field-checkbox__label'));?>
-								<?= CHtml::checkBox('friday', false, array('class' => 't-field-checkbox__input ')) ?>
-							</div>
-
-							<div class="t-field-checkbox--vertical">
-								<?= chtml::label('S', 'saturday', array('class'=> 't-field-checkbox__label'));?>
-								<?= CHtml::checkBox('saturday', false, array('class' => 't-field-checkbox__input ')) ?>
-							</div>
-
-							<div class="t-field-checkbox--vertical">
-								<?= chtml::label('D', 'sunday', array('class'=> 't-field-checkbox__label'));?>
-								<?= CHtml::checkBox('sunday', false, array('class' => 't-field-checkbox__input ')) ?>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
 					<div class="t-field-select column">
 						<?= chtml::label('Refeição *', 'meal', array('class'=> 't-field-select__label--required'));?>
 						<?=  CHtml::dropDownList('meal', '',  array(
@@ -128,6 +80,9 @@ $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END
 										'3' => 'jantar',
 									), array('class' => 'select-search-on t-field-select__input js-meal')); ?>
 					</div>
+				</div>
+				<div class="row">
+					
 					<div class="t-field-select column">
 						<?= chtml::label('Turno *', 'shift', array('class'=> 't-field-select__label--required'));?>
 						<?=  CHtml::dropDownList('shift', '',  [
@@ -137,10 +92,11 @@ $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END
 										'N' => 'Noite',
 						], array('class' => 'select-search-on t-field-select__input js-shift')); ?>
 					</div>
+					<div class="column"></div>
 				</div>
 				<div class="row">
 					<div class="column t-buttons-container">
-						<a class="t-button-primary js-add-plate">
+						<a class="t-button-secondary js-add-plate">
 							Adicionar Prato
 						</a>
 					</div>
@@ -150,10 +106,6 @@ $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END
 						<div id="js-accordion" class="t-accordeon-secondary">
 						</div>
 					</div>
-				</div>
-				<div class="row">
-						<a  class="t-button-primary js-save-meal">adicionar</a>
-					
 				</div>
 			</div>
 		</div>
