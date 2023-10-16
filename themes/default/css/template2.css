@@ -333,7 +333,7 @@ table.dataTable {
     content: ' *';
 }
 
-.element::webkit-scrollbar {
+.element::-webkit-scrollbar {
     width: 0 ! important
 }
 
