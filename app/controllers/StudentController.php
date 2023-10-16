@@ -454,7 +454,7 @@ class StudentController extends Controller
                             $outListStudent =  $dataSource->getListStudents($inListarAlunos);
 
                             $studentToSedMapper = new StudentMapper();
-                            $student = (object) $studentToSedMapper->parseToSEDAlunoFicha($studentIdentification, $modelStudentDocumentsAndAddress, $studentEnrollment);
+                            $student = (object) $studentToSedMapper->parseToSEDAlunoFicha($studentIdentification, $modelStudentDocumentsAndAddress);
 
                             //ALUNO NÃO CADASTRADO
                             if($outListStudent->outErro !== null){

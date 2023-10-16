@@ -10,16 +10,17 @@ class StudentMapper
      */
     public static function parseToSEDAlunoFicha(
         StudentIdentification $studentIdentificationTag,
-        StudentDocumentsAndAddress $studentDocumentsAndAddressTag,
-        StudentEnrollment $studentEnrollment
+        StudentDocumentsAndAddress $studentDocumentsAndAddressTag
     ) {
 
         $parseResult = [];
 
+        $ufCidade = EdcensoUf::model()->findByPk($studentIdentificationTag->edcenso_uf_fk);
+
         $inAluno = new InAluno();
         $inAluno->setInNumRA($studentIdentificationTag->gov_id);
         $inAluno->setInDigitoRA(null);
-        $inAluno->setInSiglaUFRA($studentDocumentsAndAddressTag->edcensoUfFk->acronym);
+        $inAluno->setInSiglaUFRA($ufCidade->acronym);
         
         // Dados Pessoais
         $inDadosPessoais = new InDadosPessoais();
@@ -143,7 +144,7 @@ class StudentMapper
         $inDocuments = new InDocumentos();
         $inDocuments->setInNumInep($studentDocumentsAndAddressTag->gov_id);
         $inDocuments->setInCpf($studentDocumentsAndAddressTag->cpf);
-        $inDocuments->setInNumNis($studentDocumentsAndAddressTag->nis);
+        $inDocuments->setInNumNis(null);
         $inDocuments->setInNumRg($studentDocumentsAndAddressTag->rg_number);
         $inDocuments->setInUfrg($studentDocumentsAndAddressTag->rgNumberEdcensoUfFk->acronym);
         
@@ -152,8 +153,11 @@ class StudentMapper
         $inEnderecoResidencial->setInLogradouro($studentDocumentsAndAddressTag->address);
         $inEnderecoResidencial->setInNumero($studentDocumentsAndAddressTag->number);
         $inEnderecoResidencial->setInBairro($studentDocumentsAndAddressTag->neighborhood);
-        $inEnderecoResidencial->setInNomeCidade($studentDocumentsAndAddressTag->edcensoCityFk->name);
-        $inEnderecoResidencial->setInUfCidade($studentDocumentsAndAddressTag->edcensoUfFk->acronym);
+
+        $nameCidade = EdcensoCity::model()->findByPk($studentIdentificationTag->edcenso_city_fk);
+
+        $inEnderecoResidencial->setInNomeCidade($nameCidade->name);
+        $inEnderecoResidencial->setInUfCidade($ufCidade->acronym);
         $inEnderecoResidencial->setInComplemento($studentDocumentsAndAddressTag->complement);
         $inEnderecoResidencial->setInCep($studentDocumentsAndAddressTag->cep);
         $inEnderecoResidencial->setInAreaLogradouro($studentDocumentsAndAddressTag->residence_zone); // 1 - Rural; 2 - Urbana
