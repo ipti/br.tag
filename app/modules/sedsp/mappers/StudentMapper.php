@@ -2,84 +2,187 @@
 
 class StudentMapper
 {
+    /**
+     * Summary of parseToSEDAlunoFicha
+     * @param StudentIdentification $studentIdentificationTag
+     * @param StudentDocumentsAndAddress $studentDocumentsAndAddressTag
+     * @return array<InDadosPessoais|InDeficiencia|InDocumentos|InEnderecoResidencial|InRecursoAvaliacao>
+     */
     public static function parseToSEDAlunoFicha(
-        StudentIdentification $student_tag,
-        StudentDocumentsAndAddress $student_docs_tag
+        StudentIdentification $studentIdentificationTag,
+        StudentDocumentsAndAddress $studentDocumentsAndAddressTag,
+        StudentEnrollment $studentEnrollment
     ) {
+
+        $parseResult = [];
+
+        $inAluno = new InAluno();
+        $inAluno->setInNumRA($studentIdentificationTag->gov_id);
+        $inAluno->setInDigitoRA(null);
+        $inAluno->setInSiglaUFRA($studentDocumentsAndAddressTag->edcensoUfFk->acronym);
+        
         // Dados Pessoais
-        $in_dados_pessoais = new InDadosPessoais();
-        $in_dados_pessoais->setInNomeAluno($student_tag->name);
-        $in_dados_pessoais->setInNomeMae($student_tag->filiation_1);
-        $in_dados_pessoais->setInNomePai($student_tag->filiation_2);
-        $in_dados_pessoais->setInDataNascimento($student_tag->birthday);
-        $in_dados_pessoais->setInCorRaca($student_tag->color_race);
-        $in_dados_pessoais->setInSexo($student_tag->sex);
-        $in_dados_pessoais->setInBolsaFamilia($student_tag->bf_participator);
-        /// TODO: ADICIONAR CAMPO
-        $in_dados_pessoais->setInQuilombola(0);
-        $in_dados_pessoais->setInNumeroCNS($student_docs_tag->cns);
-        $in_dados_pessoais->setInNacionalidade($student_tag->nationality);
-        $in_dados_pessoais->setInNomeMunNascto($student_tag->edcensoCityFk->name);
-        $in_dados_pessoais->setInUfMunNascto($student_tag->edcensoUfFk->acronym);
-        $in_dados_pessoais->setInPaisOrigem($student_tag->edcensoNationFk->name);
-        $in_dados_pessoais->setInCodPaisOrigem($student_tag->edcenso_nation_fk);
-        /// TODO: ADICIONAR CAMPO
-        // $student_personal_data->setDataEntradaPais($student_tag->dataEntradaPais);
+        $inDadosPessoais = new InDadosPessoais();
+        $inDadosPessoais->setInNomeAluno($studentIdentificationTag->name);
+        $inDadosPessoais->setInNomeMae($studentIdentificationTag->filiation_1);
+        $inDadosPessoais->setInNomePai($studentIdentificationTag->filiation_2);
+        $inDadosPessoais->setInDataNascimento($studentIdentificationTag->birthday);
+        $inDadosPessoais->setInCorRaca($studentIdentificationTag->color_race);
+        $inDadosPessoais->setInSexo($studentIdentificationTag->sex);
+        $inDadosPessoais->setInBolsaFamilia($studentIdentificationTag->bf_participator);
+        $inDadosPessoais->setInQuilombola(0);
+        $inDadosPessoais->setInNumeroCNS($studentDocumentsAndAddressTag->cns);
+        $inDadosPessoais->setInNacionalidade(empty($studentIdentificationTag->nationality) ? '1' : $studentIdentificationTag->nationality);
+        $inDadosPessoais->setInCodPaisOrigem($studentIdentificationTag->edcenso_nation_fk);
+        $inDadosPessoais->setInPaisOrigem($studentIdentificationTag->edcensoNationFk->name);
+        $inDadosPessoais->setInBolsaFamilia($studentIdentificationTag->bf_participator);
+
+        if($studentIdentificationTag->nationality == '1'){
+            //Obrigatórios quando inNacionalidade = 1
+            $inDadosPessoais->setInNomeMunNascto($studentIdentificationTag->edcensoCityFk->name);
+            $inDadosPessoais->setInUfMunNascto($studentIdentificationTag->edcensoUfFk->acronym);
+        }
 
         // Deficiências
-        $in_deficiencia = new InDeficiencia();
+        $inDeficiencia = new InDeficiencia();
+        if($studentIdentificationTag->deficiency == '1') {
+            $query = "SELECT
+                        'deficiency_type_blindness'
+                    FROM student_identification
+                    WHERE deficiency_type_blindness = 1 and id = :id 
+                    UNION ALL
+                    SELECT
+                        'deficiency_type_low_vision'
+                    FROM student_identification
+                    WHERE deficiency_type_low_vision = 1 and id = :id 
+                    UNION ALL
+                    SELECT
+                        'deficiency_type_monocular_vision'
+                    FROM student_identification
+                    WHERE deficiency_type_monocular_vision = 1 and id = :id
+                    UNION ALL
+                    SELECT
+                        'deficiency_type_deafness'
+                    FROM student_identification
+                    WHERE deficiency_type_deafness = 1 and id = :id 
+                    UNION ALL
+                    SELECT
+                        'deficiency_type_disability_hearing'
+                    FROM student_identification
+                    WHERE deficiency_type_disability_hearing = 1 and id = :id
+                    UNION ALL
+                    SELECT
+                        'deficiency_type_deafblindness'
+                    FROM student_identification
+                    WHERE deficiency_type_deafblindness = 1 and id = :id
+                    UNION ALL
+                    SELECT
+                        'deficiency_type_phisical_disability'
+                    FROM student_identification
+                    WHERE deficiency_type_phisical_disability = 1 and id = :id
+                    UNION ALL
+                    SELECT
+                        'deficiency_type_intelectual_disability'
+                    FROM student_identification
+                    WHERE deficiency_type_intelectual_disability = 1 and id = :id
+                    UNION ALL
+                    SELECT
+                        'deficiency_type_autism'
+                    FROM student_identification
+                    WHERE deficiency_type_autism = 1 and id = :id 
+                    UNION ALL
+                    SELECT
+                        'deficiency_type_aspenger_syndrome'
+                    FROM student_identification
+                    WHERE deficiency_type_aspenger_syndrome = 1 and id = :id 
+                    UNION ALL
+                    SELECT
+                        'deficiency_type_rett_syndrome'
+                    FROM student_identification
+                    WHERE deficiency_type_rett_syndrome = 1 and id = :id 
+                    UNION ALL
+                    SELECT
+                        'deficiency_type_childhood_disintegrative_disorder'
+                    FROM student_identification
+                    WHERE deficiency_type_childhood_disintegrative_disorder = 1 and id = :id 
+                    UNION ALL
+                    SELECT
+                        'deficiency_type_gifted'
+                    FROM student_identification
+                    WHERE deficiency_type_gifted = 1 and id = :id ";
+
+
+            if($studentIdentificationTag->deficiency_type_multiple_disabilities == '1') {
+                $inDeficiencia->setInCodNecessidade('1');  //1 Múltipla
+            } else {
+                $res = Yii::app()->db->createCommand($query)->bindValue(':id', $studentIdentificationTag->id)->queryAll();
+                $deficiencyMap = [
+                    'deficiency_type_blindness' => '2', // Cegueira
+                    'deficiency_type_low_vision' => '3', // Baixa Visão
+                    'deficiency_type_deafness' => '4', // Surdez Severa ou Profunda
+                    'deficiency_type_disability_hearing' => '5', // Surdez Leve ou Moderada
+                    'deficiency_type_deafblindness' => '6', // Surdocegueira
+                    'deficiency_type_intelectual_disability' => '7', // Física – Paralisia Cerebral
+                    'deficiency_type_phisical_disability' => '8', // Física – Cadeirante
+                    'deficiency_type_autism' => '10', // Síndrome de Down
+                    'deficiency_type_gifted' => '30', // Altas Habilidades / Superdotação
+                ];
+                
+                foreach ($res as $re) {
+                    if (isset($deficiencyMap[$re])) {
+                        $inDeficiencia->setInCodNecessidade($deficiencyMap[$re]);
+                    }
+                }
+            }
+        }
+
+        //Matrículas
+
 
         // Documentos  
-        $in_documents = new InDocumentos();
-        $in_documents->setInNumInep($student_tag->inep_id);
-        $in_documents->setInCpf($student_docs_tag->cpf);
-        $in_documents->setInNumNis($student_docs_tag->nis);
-        $in_documents->setInNumRg($student_docs_tag->rg_number);
-        $in_documents->setInUfrg($student_docs_tag->rgNumberEdcensoUfFk->acronym);
+        $inDocuments = new InDocumentos();
+        $inDocuments->setInNumInep($studentDocumentsAndAddressTag->gov_id);
+        $inDocuments->setInCpf($studentDocumentsAndAddressTag->cpf);
+        $inDocuments->setInNumNis($studentDocumentsAndAddressTag->nis);
+        $inDocuments->setInNumRg($studentDocumentsAndAddressTag->rg_number);
+        $inDocuments->setInUfrg($studentDocumentsAndAddressTag->rgNumberEdcensoUfFk->acronym);
         
         // Endereco
-        $in_endereco_residencial = new InEnderecoResidencial();
-        $in_endereco_residencial->setInLogradouro($student_docs_tag->address);
-        $in_endereco_residencial->setInNumero($student_docs_tag->number);
-        $in_endereco_residencial->setInBairro($student_docs_tag->neighborhood);
-        $in_endereco_residencial->setInNomeCidade($student_docs_tag->edcensoCityFk->name);
-        $in_endereco_residencial->setInUfCidade($student_docs_tag->edcensoUfFk->acronym);
-        $in_endereco_residencial->setInComplemento($student_docs_tag->complement);
-        $in_endereco_residencial->setInCep($student_docs_tag->cep);
-        $in_endereco_residencial->setInAreaLogradouro($student_docs_tag->residence_zone);
-        $in_endereco_residencial->setInCodLocalizacaoDiferenciada($student_docs_tag->diff_location);
-        $in_endereco_residencial->setInLatitude(0);
-        $in_endereco_residencial->setInLongitude(0);
+        $inEnderecoResidencial = new InEnderecoResidencial;
+        $inEnderecoResidencial->setInLogradouro($studentDocumentsAndAddressTag->address);
+        $inEnderecoResidencial->setInNumero($studentDocumentsAndAddressTag->number);
+        $inEnderecoResidencial->setInBairro($studentDocumentsAndAddressTag->neighborhood);
+        $inEnderecoResidencial->setInNomeCidade($studentDocumentsAndAddressTag->edcensoCityFk->name);
+        $inEnderecoResidencial->setInUfCidade($studentDocumentsAndAddressTag->edcensoUfFk->acronym);
+        $inEnderecoResidencial->setInComplemento($studentDocumentsAndAddressTag->complement);
+        $inEnderecoResidencial->setInCep($studentDocumentsAndAddressTag->cep);
+        $inEnderecoResidencial->setInAreaLogradouro($studentDocumentsAndAddressTag->residence_zone); // 1 - Rural; 2 - Urbana
+        $inEnderecoResidencial->setInCodLocalizacaoDiferenciada($studentDocumentsAndAddressTag->diff_location);
+        $inEnderecoResidencial->setInLatitude('0');
+        $inEnderecoResidencial->setInLongitude('0');
 
         // Recursos
-        $in_recurso_avaliacao = new InRecursoAvaliacao();
-        $in_recurso_avaliacao->setInNenhum($student_tag->resource_none);
-        $in_recurso_avaliacao->setInAuxilioLeitor($student_tag->resource_aid_lector);
-        $in_recurso_avaliacao->setInAuxilioTranscricao($student_tag->resource_aid_transcription);
-        $in_recurso_avaliacao->setInLeituraLabial($student_tag->resource_lip_reading);
-        $in_recurso_avaliacao->setInProvaBraile($student_tag->resource_braille_test);
-        $in_recurso_avaliacao->setInProvaAmpliada($student_tag->resource_zoomed_test_20);
-        $font_size = $student_tag->resource_zoomed_test_16 ? 1 : null;
-        $font_size = $student_tag->resource_zoomed_test_20 ? 0 : null;
-        $in_recurso_avaliacao->setInFonteProva($font_size);
-        $in_recurso_avaliacao->setInProvaVideoLibras($student_tag->resource_video_libras);
-        $in_recurso_avaliacao->setInProvaLinguaPortuguesa($student_tag->resource_proof_language);
+        $inRecursoAvaliacao = new InRecursoAvaliacao;
+        $inRecursoAvaliacao->setInNenhum(null);
+        $inRecursoAvaliacao->setInAuxilioLeitor(null);
+        $inRecursoAvaliacao->setInAuxilioTranscricao(null);
+        $inRecursoAvaliacao->setInLeituraLabial(null);
+        $inRecursoAvaliacao->setInProvaBraile(null);
+        $inRecursoAvaliacao->setInProvaAmpliada(null);
+        
+        $inRecursoAvaliacao->setInFonteProva('12');
+        $inRecursoAvaliacao->setInProvaVideoLibras(null);
+        $inRecursoAvaliacao->setInProvaLinguaPortuguesa(null);
 
-        // Rastreio
-        // $in_rastreio = new InRastreio();
 
-        $student_register = new InFichaAluno(
-            $in_dados_pessoais,
-            $in_deficiencia,
-            $in_recurso_avaliacao,
-            $in_documents,
-            null,
-            null,
-            $in_endereco_residencial,
-            null
-        );
+        $parseResult["InAluno"] = $inAluno;
+        $parseResult["InDadosPessoais"] = $inDadosPessoais;
+        $parseResult["InDeficiencia"] = $inDeficiencia;
+        $parseResult["InRecursoAvaliacao"] = $inRecursoAvaliacao;
+        $parseResult["InDocumentos"] = $inDocuments;
+        $parseResult["InEnderecoResidencial"] = $inEnderecoResidencial;
 
-        return $student_register;
+        return $parseResult;
     }
     /**
      * Summary of parseToTAGExibirFichaAluno
