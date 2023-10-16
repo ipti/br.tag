@@ -189,7 +189,7 @@ $(document).on("keyup", "input.grade", function (e) {
         val = "";
     } else {
         let grade = /^(10|\d)([.,]\d?)?$/;
-        if (val.match(grade) === null) {
+        if (val?.match(grade) === null) {
             val = "";
         } else {
             if (val > 10)
