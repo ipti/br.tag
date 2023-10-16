@@ -260,7 +260,7 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
 
 .select2-search input.select2-active {
     background: url('../img/select2-spinner.gif') no-repeat 100% #fff;
-    background: linear-gradient(center bottom, #fff 85%, #eee 99%) no-repeat 100%;
+    background: linear-gradient(to bottom, #fff 85%, #eee 99%) no-repeat 100%;
 }
 
 .select2-container-active .select2-choice,
