@@ -1540,7 +1540,7 @@ li.highlight.profile
     border: none;
     box-shadow: none;
     font-weight: 600;
-    font-family: 'Inter';
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
     width: auto;
     height: 26px;
@@ -1562,7 +1562,7 @@ li.highlight.profile
     background: #FAFAFE;
     color: #16205B;
     font-weight: 600;
-    font-family: 'Inter';
+    font-family: 'Inter', sans-serif;
 }
 
 #s2id_SchoolIdentification_inep_id.select2-dropdown-open a, #s2id_UsersSchool_school_fk.select2-dropdown-open a {
@@ -9255,7 +9255,7 @@ tbody .details-control:hover {
     border-top: 1px solid #EAEAF8;
     width: 90%;
     color: #A6B6C8;
-    font-family: 'Inter';
+    font-family: 'Inter', sans-serif;
 }
 
 .add-stages-options {
