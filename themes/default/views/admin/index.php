@@ -45,7 +45,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
                                 <span class="t-icon-person_add t-reports_icons"></span>
-                                <!-- <div class="t-icon-schedule report-icon"></div> -->
+
                                 </div>
                                 <div class="pull-left">
                                     <span class="title">Cadastrar usuário</span><br>
@@ -58,7 +58,6 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
                                     <span class="t-icon-diary t-reports_icons"></span>
-                                    <!-- <div class="t-icon-schedule report-icon"></div> -->
                                 </div>
                                 <div class="pull-left">
                                     <span class="title">Estrutura de Unidades e Avaliações</span><br>
@@ -82,7 +81,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                         <a href="<?php echo Yii::app()->createUrl('admin/editPassword', array("id" => Yii::app()->user->loginInfos->id)) ?>">
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
-                                <span class="t-icon-lock t-reports_icons"></span>                                    <!-- <div class="t-icon-schedule report-icon"></div> -->
+                                <span class="t-icon-lock t-reports_icons"></span>
                                 </div>
                                 <div class="pull-left">
                                     <span class="title">Alterar Senha</span><br>
@@ -95,7 +94,6 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
                                     <span class="t-icon-submit-form t-reports_icons"></span>
-                                    <!-- <div class="t-icon-schedule report-icon"></div> -->
                                 </div>
                                 <div class="pull-left">
                                     <span class="title">Exportar</span><br>
@@ -108,7 +106,6 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
                                     <span class="t-icon-configuration-adm t-reports_icons"></span>
-                                    <!-- <div class="t-icon-schedule report-icon"></div> -->
                                 </div>
                                 <div class="pull-left">
                                     <span class="title">Gerenciar Usuários</span><br>
@@ -121,7 +118,6 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
                                     <span class="t-icon-person_remove t-reports_icons"></span>
-                                    <!-- <div class="t-icon-schedule report-icon"></div> -->
                                 </div>
                                 <div class="pull-left">
                                     <span class="title">Ativar/Desativar usuário</span><br>
@@ -134,7 +130,6 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
                                     <span class="t-icon-update t-reports_icons"></span>
-                                    <!-- <div class="t-icon-schedule report-icon"></div> -->
                                 </div>
                                 <div class="pull-left">
                                     <span class="title">Atualizações no TAG</span><br>
@@ -147,7 +142,6 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
                                     <span class="t-icon-checklist t-reports_icons"></span>
-                                    <!-- <div class="t-icon-schedule report-icon"></div> -->
                                 </div>
                                 <div class="pull-left">
                                     <span class="title">Auditoria</span><br>

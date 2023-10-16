@@ -3,8 +3,8 @@
 /** @var EdcensoDiscipline $model EdcensoDiscipline */
 
 
-$this->setPageTitle('TAG - ' . Yii::t('default', 'Disciplines'));
-$title = Yii::t('default', 'Disciplines');
+$this->setPageTitle('TAG - Adicionar Etapas');
+$title = "Adicionar Etapas";
 
 ?>
 
@@ -12,9 +12,9 @@ $title = Yii::t('default', 'Disciplines');
 <div id="mainPage" class="main">
     <div class="row-fluid box-instructor">
         <div class="span12">
-            <h1><?php echo Yii::t('default', 'Disciplines') ?></h1>
+            <h1>Adicionar Etapas</h1>
             <div class="t-buttons-container">
-                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('stages/default/create')?>">Adicionar Componente</a>
+                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('stages/default/create')?>">Adicionar Etapas</a>
             </div>
         </div>
         <div class="btn-group pull-right mt-30 responsive-menu dropdown-margin">
@@ -23,7 +23,7 @@ $title = Yii::t('default', 'Disciplines');
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="<?php echo Yii::app()->createUrl('stages/default/create')?>"><i></i> Adicionar Componente</a></li>
+                <li><a href="<?php echo Yii::app()->createUrl('stages/default/create')?>"><i></i> Adicionar Etapa</a></li>
             </ul>
         </div>
     </div>
