@@ -149,7 +149,7 @@ class SagresValidations
         return $inconsistencies;
     }
 
-    function validatorSchoolDirector($school)
+    public function validatorSchoolDirector($school)
     {
         $strMaxLength = 100;
         $inconsistencies = [];
@@ -564,7 +564,7 @@ class SagresValidations
         return $inconsistencies;
     }
 
-    function validaCPF($cpf)
+    public function validaCPF($cpf)
     {    
         $cpf = preg_replace('/[^0-9]/is', '', $cpf);
 
@@ -588,7 +588,7 @@ class SagresValidations
         return true;
     }
 
-    function validateDate($date, $format = 'Y-m-d')
+    public function validateDate($date, $format = 'Y-m-d')
     {
         $d = DateTime::createFromFormat($format, $date);
         if(intval($d->format('Y')) <= 1900)
