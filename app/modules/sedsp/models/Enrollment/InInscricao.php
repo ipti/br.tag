@@ -298,7 +298,7 @@ class InInscricao implements JsonSerializable
             $data['inCodigoEixoNovotecOpcaoTres'] ?? null
         );
     }
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return get_object_vars($this);
     }

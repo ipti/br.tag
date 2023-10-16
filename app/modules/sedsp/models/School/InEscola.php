@@ -72,7 +72,7 @@ class InEscola implements JsonSerializable
 			$data['inMunicipio'] ?? null
 		);
 	}
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return get_object_vars($this);
     }
