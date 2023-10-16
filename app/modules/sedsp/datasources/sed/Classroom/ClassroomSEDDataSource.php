@@ -60,6 +60,25 @@ class ClassroomSEDDataSource extends SedDataSource
         }
     }
 
+    /**
+     * Summary of inManutecaoTurmaClassePOST
+     * @param InManutecaoTurmaClasse $inManutecaoTurmaClasse
+     * @return OutHandleApiResult|OutErro
+     * @throws Exception
+     */
+    public function addManutecaoTurmaClasse($inManutecaoTurmaClasse)
+    {
+        try {
+            $url = '/ncaapi/api/TurmaClasse/ManutencaoTurmaClasse';
+            $response = $this->getApiResponse('POST', $url, $inManutecaoTurmaClasse);
+            return OutHandleApiResult::fromJson($response);
+        } catch (ClientException $e) {
+            return new OutErro($e);
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
         /**
      * @param mixed $httpMethod
      * @param mixed $url
