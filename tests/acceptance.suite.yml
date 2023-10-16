@@ -10,6 +10,7 @@ modules:
       - WebDriver:
          url: 'http://localhost/'
          browser: chrome
+         window_size: 1280x960
          capabilities:
             chromeOptions:
                args: ["--disable-gpu"]

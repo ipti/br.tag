@@ -33,7 +33,8 @@ class StudentsRobots
      */
     public function btnProximo ()
     {
-        $this->tester->click('#next .prev');
+        $this->tester->waitForElement('.t-button-primary.next');
+        $this->tester->executeJS("document.querySelector('.t-button-primary.next').click();");
     }
 
     /**
@@ -42,7 +43,8 @@ class StudentsRobots
      */
     public function btnCriar ()
     {
-        $this->tester->click('.save-student');
+        $this->tester->waitForElement('.save-student');
+        $this->tester->executeJS("document.querySelector('.save-student').click();");
     }
 
     /**
@@ -63,6 +65,10 @@ class StudentsRobots
         $this->tester->click('#show-student-civil-name');
     }
 
+    /**
+     * Preencher o nome social.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
     public function civilName ($civilName)
     {
         $this->tester->fillField('#civilName input[type=text]', $civilName);
@@ -362,7 +368,7 @@ class StudentsRobots
      */
     public function typeOfCivilCertificate ($typeOfCivil)
     {
-        $this->tester->selectOption('#typeOfCivil select', $typeOfCivil);
+        $this->tester->selectOption('#typeOfCivil-select select', $typeOfCivil);
     }
 
     /**
@@ -389,7 +395,7 @@ class StudentsRobots
      */
     public function ufRegistry ($ufRegistry)
     {
-        $this->tester->selectOption('#ufRegistry select', $ufRegistry);
+        $this->tester->selectOption('#ufRegistry-select select', $ufRegistry);
     }
 
     /**
@@ -398,7 +404,7 @@ class StudentsRobots
      */
     public function dateOfIssue ($dateOfIssue)
     {
-        $this->tester->fillField('#StudentDocumentsAndAddress_civil_certification_date', $dateOfIssue);
+        $this->tester->fillField('#certificationDate input[type=text]', $dateOfIssue);
     }
 
     /**
@@ -416,7 +422,7 @@ class StudentsRobots
      */
     public function municipalityRegistry ($municipalityRegistry)
     {
-        $this->tester->selectOption('#municipalityRegistry select', $municipalityRegistry);
+        $this->tester->selectOption('#municipalityRegistry-select select', $municipalityRegistry);
     }
 
     /**
@@ -425,7 +431,7 @@ class StudentsRobots
      */
     public function notaryOffice ($notaryOffice)
     {
-        $this->tester->selectOption('#notaryOffice select', $notaryOffice);
+        $this->tester->selectOption('#notaryOffice-select select', $notaryOffice);
     }
 
     /**
@@ -452,7 +458,7 @@ class StudentsRobots
      */
     public function rgOrgan ($rgOrgan)
     {
-        $this->tester->selectOption('#rgOrgan select', $rgOrgan);
+        $this->tester->selectOption('#rgOrgan-select select', $rgOrgan);
     }
 
     /**
@@ -466,10 +472,11 @@ class StudentsRobots
 
     /**
      * Selecione a UF da identidade.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function identyUF ($identyUF)
     {
-        $this->tester->selectOption('#identyUF select', $identyUF);
+        $this->tester->selectOption('#identyUF-select select', $identyUF);
     }
 
     /**
@@ -478,7 +485,7 @@ class StudentsRobots
      */
     public function justice ($justice)
     {
-        $this->tester->selectOption('#justice select', $justice);
+        $this->tester->selectOption('#justice-select select', $justice);
     }
 
     /**
@@ -532,7 +539,7 @@ class StudentsRobots
      */
     public function stateAddress($stateAddress)
     {
-        $this->tester->selectOption('#state-address select', $stateAddress);
+        $this->tester->selectOption('#stateAddress-select select', $stateAddress);
     }
 
     /**
@@ -541,7 +548,7 @@ class StudentsRobots
      */
     public function cep($cep)
     {
-        $this->tester->fillField('#cep-address input[type=text]',$cep);
+        $this->tester->fillField('#cepAddress input[type=text]',$cep);
     }
 
     /**
@@ -550,7 +557,7 @@ class StudentsRobots
      */
     public function cityAddress($cityAddress)
     {
-        $this->tester->selectOption('#city-address select', $cityAddress);
+        $this->tester->selectOption('#cityAddress select', $cityAddress);
     }
 
     /**
@@ -603,9 +610,9 @@ class StudentsRobots
      * Selecionar a localização ou zona de residência do estudante.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function zone ($zone)
+    public function zone($zone)
     {
-        $this->tester->selectOption('#zone', $zone);
+        $this->tester->executeJS("document.querySelector('#zone-select select').value = '{$zone}';");
     }
 
      /**
@@ -614,7 +621,8 @@ class StudentsRobots
      */
     public function btnAddMatriculation ()
     {
-        $this->tester->click('#new-enrollment-button');
+        $this->tester->waitForElement('#new-enrollment-button');
+        $this->tester->executeJS("document.querySelector('#new-enrollment-button').click();");
     }
 
      /**
@@ -623,7 +631,7 @@ class StudentsRobots
      */
     public function classroom ($classroom)
     {
-        $this->tester->selectOption('#class-select select', $classroom);
+        $this->tester->executeJS("document.querySelector('#class-select  select').value = '{$classroom}';");
     }
 
     /**
@@ -632,7 +640,7 @@ class StudentsRobots
      */
     public function ticketType ($ticketType)
     {
-        $this->tester->selectOption('#ticketType select', $ticketType);
+        $this->tester->selectOption('#ticketType-select select', $ticketType);
     }
 
     /**
@@ -734,6 +742,10 @@ class StudentsRobots
         $this->tester->click('#transport_type input[type=checkbox]');
     }
 
+    /**
+     * Preencher o Tipo de Atendimento Educacional Especializado.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
     public function typeOfService ()
     {
         $this->tester->click('#typeOfService input[type=checkbox]');
