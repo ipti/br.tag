@@ -1,4 +1,8 @@
 <?php
+require_once 'app/vendor/autoload.php';
+Yii::import('application.modules.sedsp.models.Student.*');
+Yii::import('application.modules.sedsp.datasources.sed.Student.*');
+Yii::import('application.modules.sedsp.mappers.*');
 
 class StudentController extends Controller
 {
@@ -435,10 +439,62 @@ class StudentController extends Controller
                         }
 
                         if ($saved) {
+
+                            $studentIdentification = StudentIdentification::model()->findByPk($id);
+                            $modelStudentDocumentsAndAddress = StudentDocumentsAndAddress::model()->findByPk($id);
+                            $studentEnrollment = StudentEnrollment::model()->findByPk($id);
+
+                            $nameStudent = $studentIdentification->name;
+                            $inListarAlunos = new InListarAlunos(new InFiltrosNomes($nameStudent, null, null, null),null,null);
+
+                            $studentIdentification->sedsp_sync = 1;
+                            $studentIdentification->save();
+
+                            $dataSource = new StudentSEDDataSource();
+                            $outListStudent =  $dataSource->getListStudents($inListarAlunos);
+
+                            $studentToSedMapper = new StudentMapper();
+                            $student = (object) $studentToSedMapper->parseToSEDAlunoFicha($studentIdentification, $modelStudentDocumentsAndAddress, $studentEnrollment);
+
+                            //ALUNO NÃO CADASTRADO
+                            if($outListStudent->outErro !== null){
+                                $inConsult = new InFichaAluno(
+                                    $student->InDadosPessoais,
+                                    $student->InDeficiencia,
+                                    $student->InRecursoAvaliacao,
+                                    $student->InDocumentos,
+                                    null,
+                                    null,
+                                    $student->InEnderecoResidencial,
+                                    null
+                                );
+                                $dataSource = new StudentSEDDataSource();
+                                $dataSource->addStudent($inConsult);
+                               
+                            }elseif($outListStudent->outErro === null){
+                                $inConsult = new InManutencao(
+                                    $student->InAluno,
+                                    $student->InDadosPessoais,
+                                    $student->InDeficiencia,
+                                    $student->InRecursoAvaliacao,
+                                    $student->InDocumentos,
+                                    null,
+                                    null,
+                                    $student->InEnderecoResidencial,
+                                    null,
+                                    null
+                                );
+
+                                $dataSource = new StudentSEDDataSource();
+                                $outHandleApiResult = $dataSource->editStudent($inConsult);
+                            }
+                           
+                           
                             Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
                             $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!';
                             Yii::app()->user->setFlash('success', Yii::t('default', $msg));
                             $this->redirect(array('index', 'sid' => $modelStudentIdentification->id));
+                            
                         }
                     }
                 }
