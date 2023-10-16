@@ -647,10 +647,11 @@ class StudentsRobots
      * Preencha a data de ingresso na escola.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function ticketDate ($ticketDate)
+    public function ticketDate($ticketDate)
     {
-        $this->tester->fillField('#ticketDate input[type=text]', $ticketDate);
-    }
+        $script = "document.querySelector('#ticketDate input[type=text]').value = '{$ticketDate}';";
+        $this->tester->executeJS($script);
+    }    
 
     /**
      * Selecione a situação na série/etapa atual.
@@ -730,7 +731,8 @@ class StudentsRobots
      */
     public function transportResponsable ($transportResponsable)
     {
-        $this->tester->selectOption('#transport_responsable select', $transportResponsable);
+        $script = "document.querySelector('#transport_responsable input[type=text]').value = '{$transportResponsable}';";
+        $this->tester->executeJS($script);
     }
 
     /**
@@ -739,8 +741,10 @@ class StudentsRobots
      */
     public function typeTransport ()
     {
-        $this->tester->click('#transport_type input[type=checkbox]');
+        $script = "document.querySelector('#transport_type input[type=checkbox]').click();";
+        $this->tester->executeJS($script);
     }
+    
 
     /**
      * Preencher o Tipo de Atendimento Educacional Especializado.
@@ -748,7 +752,8 @@ class StudentsRobots
      */
     public function typeOfService ()
     {
-        $this->tester->click('#typeOfService input[type=checkbox]');
+        $script = "document.querySelector('#typeOfService input[type=checkbox]').click();";
+        $this->tester->executeJS($script);
     }
 
      /**
@@ -757,7 +762,8 @@ class StudentsRobots
      */
     public function deficiency ()
     {
-        $this->tester->click('#deficiency-checkbox input[type=checkbox]');
+        $script = "document.querySelector('#deficiency-checkbox input[type=checkbox]').click();";
+        $this->tester->executeJS($script);
     }
 
      /**
@@ -766,7 +772,8 @@ class StudentsRobots
      */
     public function typeDeficiency ()
     {
-        $this->tester->click('#StudentIdentification_deficiencies input[type=checkbox]');
+        $script = "document.querySelector('#StudentIdentification_deficiencies input[type=checkbox]').click();";
+        $this->tester->executeJS($script);
     }
 
      /**
@@ -775,7 +782,8 @@ class StudentsRobots
      */
     public function resourcesInep ()
     {
-        $this->tester->click('#resources-checkbox input[type=checkbox]');
+        $script = "document.querySelector('#resources-checkbox input[type=checkbox]').click();";
+        $this->tester->executeJS($script);
     }
 
     /**
@@ -784,7 +792,8 @@ class StudentsRobots
      */
     public function vaccine ()
     {
-        $this->tester->click('.vaccine-checkbox');
+        $script = "document.querySelector('#vaccine-checkbox input[type=checkbox]').click();";
+        $this->tester->executeJS($script);
     }
 
     /**
@@ -793,7 +802,9 @@ class StudentsRobots
      */
     public function restrictions ()
     {
-        $this->tester->click('#restrictions input[type=checkbox]');
+        $script = "document.querySelector('#restrictions-checkbox input[type=checkbox]').click();";
+        $this->tester->executeJS($script);
+        
     }
 
 

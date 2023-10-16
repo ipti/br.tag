@@ -130,5 +130,16 @@ class CustomProvider extends Base
 
         return $this->generator->randomElement($tipos);
     }
+
+     /**
+     * Método que gera um nome para filiação.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function filiationName() {
+        $firstName = $this->generator->firstName();
+        $lastName = $this->generator->lastName();
+
+        return "$firstName $lastName";
+    }
  
 }

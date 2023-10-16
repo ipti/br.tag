@@ -252,6 +252,7 @@ class StudentsCest
 
     /**
      * Adicionar (normal) estudantes, preenchidos todos os campos.
+     * Filiação - Não declarado/Ignorado.
      * Dados Sociais - Modelo Novo.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
@@ -276,7 +277,7 @@ class StudentsCest
         $city = '2800308';
         $email = $faker->email();
         $scholarity = $faker->randomElement(array (1,2,3,4));
-        $filiation = $faker->randomElement(array (0,1));
+        $filiation = '0'; // Não declarado/Ignorado
         $responsable = $faker->randomElement(array (0,1,2));
         $telephone = $faker->cellphoneNumber();
         $nameResponsable = $faker->name();
@@ -289,9 +290,9 @@ class StudentsCest
         $numberRegistration = $fakerCustom->matriculaRegistroCivil();
         $numerCns = $fakerCustom->cnsNumber();
         $numberIdentity = $faker->rg();
-        $rgOrgan = '10'; //SSP
+        $rgOrgan = '10'; // SSP
         $identityDate = $faker->date('d/m/Y');
-        $identyUF = '28'; //SERGIPE
+        $identyUF = '28'; // SERGIPE
         $justice = $faker->randomElement(array (0,1,2));
         $justification = $faker->randomElement(array (1,2));
         $nis = $fakerCustom->nisNumber();
@@ -410,22 +411,21 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $name . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
-
     }
     
     /**
      * Adicionar (normal) estudantes, preenchidos todos os campos.
+     * Filiação - Pai e/ou mãe.
      * Dados Sociais - Modelo Antigo.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function  allFilledInOldCivil(AcceptanceTester $teste)
+    public function  allFilledInOldCivilWithMotherAndFather(AcceptanceTester $teste)
     {
         sleep(5);
         $faker = Faker\Factory::create('pt_BR');
         $fakerCustom = new CustomProvider($faker);
         $robots = new StudentsRobots($teste);
         $robots->pageAddStudents();
-
 
         $name = $faker->name();
         $civilName = $faker->name();
@@ -434,12 +434,24 @@ class StudentsCest
         $gender = $faker->randomElement(array (1,2));
         sleep(5);
         $color = $faker->randomElement(array (0,1,2,3,4,5));
-        $nationality = '1';
-        $state = '28';
-        $city = '2800308';
+        $nationality = '1'; // Brasileira
+        $state = '28'; // Sergipe
+        $city = '2800308'; // Aracaju
         $email = $faker->email();
         $scholarity = $faker->randomElement(array (1,2,3,4));
-        $filiation = $faker->randomElement(array (0,1));
+        $filiation = '1'; //
+        $filiationMain = $fakerCustom->filiationName();
+        $cpfFiliation1 = $faker->cpf();
+        $dateOfBirthFiliation = $faker->date('d/m/Y');
+        $rgFiliation1 = $faker->rg();
+        $scholarityFiliation1 = $faker->randomElement(array (0,1,2,3,4,5,6,7));
+        $professionFiliation1 = $faker->jobTitle();
+        $filiationSecondary = $fakerCustom->filiationName();
+        $cpfFiliation2 = $faker->cpf();
+        $dateFiliationSecondary = $faker->date('d/m/Y');
+        $rgFiliation2 = $faker->rg();
+        $scholarityFiliation2 = $faker->randomElement(array (0,1,2,3,4,5,6,7));
+        $jobFiliation2 = $faker->jobTitle();
         $responsable = $faker->randomElement(array (0,1,2));
         $telephone = $faker->cellphoneNumber();
         $nameResponsable = $faker->name();
@@ -452,23 +464,215 @@ class StudentsCest
         $typeOfCivil = $faker->randomElement(array (1,2));
         $civilBook = $fakerCustom->bookCivil();
         $sheet = $fakerCustom->sheedCivil();
-        $ufRegistry = '28';
+        $ufRegistry = '28'; // Sergipe
         $dateOfIssue = $faker->date('d/m/Y');
         $termNumber = $fakerCustom->termCivil();
         $municipalityRegistry = '2800308';
-        $notaryOffice = '5573'; //13º ofício
+        $notaryOffice = '5573'; // 13º ofício
         $numerCns = $fakerCustom->cnsNumber();
         $numberIdentity = $faker->rg();
-        $rgOrgan = '10'; //SSP
+        $rgOrgan = '10'; // SSP
         $identityDate = $dateOfBirth;
-        $identyUF = '28'; //SERGIPE
+        $identyUF = '28'; // Sergipe
         $justice = $faker->randomElement(array (0,1,2));
         $justification = $faker->randomElement(array (1,2));
         $nis = $fakerCustom->nisNumber();
         $idInep = $fakerCustom->inepId();
-        $stateAddress = '28';
+        $stateAddress = '28'; // Sergipe
         $cep = $faker->postcode();
-        $cityAddress = '2800308';
+        $cityAddress = '2800308'; // Aracaju
+        $address = $faker->streetName();
+        $neighborhood = $faker->region();
+        $number = $faker->buildingNumber();
+        $complement = $fakerCustom->complementLocation();
+        $location = $faker->randomElement(array (1,2,3,7));
+        $zone = $faker->randomElement(array (1,2));
+        $classroom = $faker->randomElement(array (7,3,2,1));
+        $ticketType = $faker->randomElement(array (1,2,3));
+        $ticketDate = $faker->date('d/m/Y');
+        $situationSerie = $faker->randomElement(array (0,1,2));
+        $registrationStatus = $faker->randomElement(array (1,2,3,4,5,6,7,8,9,10,11));
+        $situationYear = $faker->randomElement(array (0,1,2,3,4,5));
+        $unifiedClassroom = $faker->randomElement(array (1,2));
+        $schooling = $faker->randomElement(array (1,2,3));
+        $stage = $faker->randomElement(array (0,1,2,3,4,5,6,7));
+        $teachStage = '1';
+        $transportResponsable = $faker->randomElement(array (1,2));
+
+        //Data Students
+        $robots->name($name);
+        $robots->civilNamebox();
+        sleep(1);
+        $robots->civilName($civilName);
+        $robots->dateOfBirth($dateOfBirth);
+        $robots->cpf($cpf);
+        $robots->gender($gender);
+        $robots->color($color);
+        $robots->nationality($nationality);
+        sleep(2);
+        $robots->state($state);
+        sleep(4);
+        $robots->city($city);
+        $robots->email($email);
+        $robots->scholarity($scholarity);
+        $robots->btnProximo();
+        sleep(2);
+
+        // filiation
+        $robots->filiation($filiation);
+        $robots->responsable($responsable);
+        $robots->responsableTelephone($telephone);
+        $robots->nameResponsable($nameResponsable);
+        $robots->emailResponsable($emailResponsable);
+        $robots->responsableJob($responsableJob);
+        $robots->scholarityResponsable($scholarityRespons);
+        $robots->rgResposable($rgResposable);
+        $robots->cpfResponsable($cpfResponsable);
+        $robots->filiationMain($filiationMain);
+        $robots->cpfFiliation1($cpfFiliation1);
+        $robots->dateOfBirthFiliation($dateOfBirthFiliation);
+        $robots->rgFiliation1($rgFiliation1);
+        $robots->scholarityFiliation1($scholarityFiliation1);
+        $robots->professionFiliation1($professionFiliation1);
+        $robots->filiationSecondary($filiationSecondary);
+        $robots->cpfFiliation2($cpfFiliation2);
+        $robots->dateOfBirthFiliationSecondary($dateFiliationSecondary);
+        $robots->rgFiliation2($rgFiliation2);
+        $robots->scholarityFiliation2($scholarityFiliation2);
+        $robots->jobFiliation2($jobFiliation2);
+        $robots->btnProximo();
+        sleep(2);
+
+        // social data
+        $robots->civilCertification($civilOld);
+        $robots->typeOfCivilCertificate($typeOfCivil);
+        $robots->civilCertificationBook($civilBook);
+        $robots->sheet($sheet);
+        $robots->ufRegistry($ufRegistry);
+        $robots->dateOfIssue($dateOfIssue);
+        $robots->termNumber($termNumber);
+        sleep(2);
+        $robots->municipalityRegistry($municipalityRegistry);
+        sleep(2);
+        $robots->notaryOffice($notaryOffice);
+        $robots->numberCns($numerCns);
+        $robots->numberIdentity($numberIdentity);
+        $robots->rgOrgan($rgOrgan);
+        $robots->identityDate($identityDate);
+        $robots->identyUF($identyUF);
+        $robots->justice($justice);
+        $robots->justification($justification);
+        $robots->nis($nis);
+        $robots->idInep($idInep);
+        $robots->participantBF();
+        $robots->postCensus();
+        $teste->pause();
+        $robots->btnProximo();
+        sleep(2);
+        
+        // residence
+        $robots->stateAddress($stateAddress);
+        $robots->cep($cep);
+        sleep(2);
+        $robots->cityAddress($cityAddress);
+        sleep(2);
+        $robots->address($address);
+        $robots->neighborhood($neighborhood);
+        $robots->number($number);
+        $robots->complement($complement);
+        $robots->location($location);
+        $robots->zone($zone);
+        $robots->btnProximo();
+        sleep(2);
+
+        // registration
+        $robots->btnAddMatriculation();
+        $robots->classroom($classroom);
+        $robots->ticketType($ticketType);
+        $robots->ticketDate($ticketDate);
+        $robots->situationSerie($situationSerie);
+        $robots->registrationStatus($registrationStatus);
+        $robots->situationYear($situationYear);
+        $robots->unifiedClassroom($unifiedClassroom);
+        $robots->schooling($schooling);
+        $robots->stage($stage);
+        $robots->teachingStage($teachStage);
+        $robots->publicTransport();
+        sleep(2);
+        $robots->transportResponsable($transportResponsable);
+        $robots->typeTransport();
+        $robots->btnProximo();
+        sleep(2);
+
+        // health
+        $robots->deficiency();
+        $robots->typeDeficiency();
+        $robots->resourcesInep();
+        $robots->vaccine();
+        $robots->restrictions();
+        $robots->btnCriar();
+        sleep(2);
+
+        $teste->see('O Cadastro de ' . $name . ' foi criado com sucesso!');
+        $teste->canSeeInCurrentUrl('?r=student/index&');
+    }
+
+    /**
+     * Adicionar (normal) estudantes, preenchidos todos os campos.
+     * Filiação - Não declarado/Ignorado.
+     * Dados Sociais - Modelo Antigo.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function  allFilledInOldCivil(AcceptanceTester $teste)
+    {
+        sleep(5);
+        $faker = Faker\Factory::create('pt_BR');
+        $fakerCustom = new CustomProvider($faker);
+        $robots = new StudentsRobots($teste);
+        $robots->pageAddStudents();
+
+        $name = $faker->name();
+        $civilName = $faker->name();
+        $dateOfBirth = $faker->date('d/m/Y');
+        $cpf = $faker->cpf();
+        $gender = $faker->randomElement(array (1,2));
+        sleep(5);
+        $color = $faker->randomElement(array (0,1,2,3,4,5));
+        $nationality = '1'; // Brasileira
+        $state = '28'; // Sergipe
+        $city = '2800308'; // Aracaju
+        $email = $faker->email();
+        $scholarity = $faker->randomElement(array (1,2,3,4));
+        $filiation = '0'; // Não declarado/Ignorado
+        $responsable = $faker->randomElement(array (0,1,2));
+        $telephone = $faker->cellphoneNumber();
+        $nameResponsable = $faker->name();
+        $emailResponsable = $faker->email();
+        $responsableJob = $faker->jobTitle();
+        $scholarityRespons = $faker->randomElement(array (1,2,3,4));
+        $rgResposable = $faker->rg();
+        $cpfResponsable = $faker->cpf();
+        $civilOld= '1';
+        $typeOfCivil = $faker->randomElement(array (1,2));
+        $civilBook = $fakerCustom->bookCivil();
+        $sheet = $fakerCustom->sheedCivil();
+        $ufRegistry = '28'; // Sergipe
+        $dateOfIssue = $faker->date('d/m/Y');
+        $termNumber = $fakerCustom->termCivil();
+        $municipalityRegistry = '2800308';
+        $notaryOffice = '5573'; // 13º ofício
+        $numerCns = $fakerCustom->cnsNumber();
+        $numberIdentity = $faker->rg();
+        $rgOrgan = '10'; // SSP
+        $identityDate = $dateOfBirth;
+        $identyUF = '28'; // Sergipe
+        $justice = $faker->randomElement(array (0,1,2));
+        $justification = $faker->randomElement(array (1,2));
+        $nis = $fakerCustom->nisNumber();
+        $idInep = $fakerCustom->inepId();
+        $stateAddress = '28'; // Sergipe
+        $cep = $faker->postcode();
+        $cityAddress = '2800308'; // Aracaju
         $address = $faker->streetName();
         $neighborhood = $faker->region();
         $number = $faker->buildingNumber();
