@@ -12,14 +12,14 @@ class InDocumentos implements JsonSerializable
 	public $CertidaoNasc;
 
 	public function __construct(
-		?string $inNumRG,
-		?string $inDigitoRG,
-		?string $inUFRG,
-		?string $inCPF,
-		?string $inNumNIS,
-		?string $inNumINEP,
-		?string $inNumCertidaoNova,
-		?CertidaoNasc $CertidaoNasc
+		?string $inNumRG = null,
+		?string $inDigitoRG = null,
+		?string $inUFRG = null,
+		?string $inCPF = null,
+		?string $inNumNIS = null,
+		?string $inNumINEP = null,
+		?string $inNumCertidaoNova = null,
+		?CertidaoNasc $CertidaoNasc = null
 	) {
 		$this->inNumRG = $inNumRG;
 		$this->inDigitoRG = $inDigitoRG;

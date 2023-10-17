@@ -11,12 +11,13 @@ $log_config = array(
     'routes' => array(
         array(
             'class' => 'CFileLogRoute',
-            'levels' => 'error, warning',
+            'levels' => 'error, warning, info',
+            'categories'=> 'application.*',
         ),
     ),
 );
 
-if(YII_DEBUG){
+if(!YII_DEBUG){
     array_push($log_config['routes'], array(
         'class'=>'CWebLogRoute',
       )
@@ -47,7 +48,8 @@ return array(
         'application.modules.quiz.models.*',
         'application.modules.sedsp.datasources.sed.*',
         'application.modules.sagres.soap.src.sagresEdu.*',
-        'application.components.utils.TagUtils'
+        'application.components.utils.TagUtils',
+        'ext.bncc-import.BNCCImport'
     ),
     'modules' => array(
         // uncomment the following to enable the Gii tool

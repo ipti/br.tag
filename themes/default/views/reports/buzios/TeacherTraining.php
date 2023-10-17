@@ -32,8 +32,8 @@ if ($turno == 'M') {
         </div>
     </div>
     <p style="font-size: 19px;">
-        Aos <?php echo $count_days?> dias do mês de <?php echo $mounth?> de 
-        <?php echo $year?>, às <?php echo $hour?>, realizou-se a 
+        Aos <?php echo $count_days?> dias do mês de <?php echo $mounth?> de
+        <?php echo $year?>, às <?php echo $hour?>, realizou-se a
         reunião de Conselho de Classe referente ao <br> <?php echo $quarterly?> Trimestre do Curso de Formação de Professores na Modalidade Normal, em Nível Médio,
         <?php echo $classroom[0]['school_name']?>, Turma <?php echo $classroom[0]['classroom_name']?>, do turno <?php echo $turno?>, presidido por _____________________________________________&nbsp,&nbsp_____________________
         deste Estabelecimento de Ensino
@@ -48,6 +48,7 @@ if ($turno == 'M') {
                 <th scope="col" rowspan="2" class="vertical-head">PCD</th>
                 <th scope="col" rowspan="2" class="vertical-head">Faltoso(a)</th>
                 <th scope="col" rowspan="2">Movimentação do Aluno</th>
+                <th rowspan="2" scope="col">Observações</th>
             </tr>
             <tr>
                 <?php
@@ -60,14 +61,14 @@ if ($turno == 'M') {
             <?php
             $count_std = 1;
             $array_students = [];
-            foreach ($classroom as $c) { 
+            foreach ($classroom as $c) {
                 if(!in_array($c['name'] ,$array_students)) {
             ?>
                 <tr>
                     <td style="text-align: center;"><?= $count_std < 10 ? "0" . $count_std : $count_std ?></td>
                     <td><?= $c['name'] ?></td>
-                    <?php 
-                    for ($i=0; $i < count($disciplines); $i++) { 
+                    <?php
+                    for ($i=0; $i < count($disciplines); $i++) {
                         echo "<td></td>";
                     }
                     ?>
@@ -101,6 +102,11 @@ if ($turno == 'M') {
                             echo '';
                         }
                     ?>
+                    </td>
+                    <td style="text-align: center;">
+                        <?php
+                            echo $c['observation'];
+                        ?>
                     </td>
                     </tr>
                 <?php
@@ -222,7 +228,7 @@ if ($turno == 'M') {
                 <span>Direção</span>
             </p>
         </div>
-    </div>    
+    </div>
 </div>
 
 <style>

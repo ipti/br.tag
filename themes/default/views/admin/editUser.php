@@ -1,3 +1,12 @@
+<?php
+/**
+ * @var AdminController $this UsersController
+ * @var $model Users
+ * @var $form CActiveForm
+ */
+?>
+
+
 <div id="mainPage" class="main">
     <?php
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Update User'));
@@ -15,7 +24,8 @@
         'title' => $title,
         'actual_role' => $actual_role,
         'userSchools' => $userSchools,
-        'instructors' => $instructors
+        'instructors' => $instructors,
+        'selectedInstructor' => $selectedInstructor
     ));
     ?>
 </div>

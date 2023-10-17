@@ -48,6 +48,18 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
+                <a href="<?php echo Yii::app()->createUrl('reports/EnrollmentStatisticsByYearReport') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-icon-line_graph t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Matrículas do ano</span><br>
+                            <span class="subtitle">Dados estatísticos de matrículas deste ano</span>
+                        </div>
+                    </button>
+                </a>
+
                 <a href="<?php echo Yii::app()->createUrl('reports/incompatiblestudentagebyclassroomreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
@@ -556,6 +568,18 @@ $this->breadcrumbs = array(
                         <div class="pull-left">
                             <span class="title">Quantidade de Turmas por Escola</span><br>
                             <span class="subtitle">Listagem de Turmas em cada Escola</span>
+                        </div>
+                    </button>
+                </a>
+
+                <a href="<?php echo Yii::app()->createUrl('reports/TotalNumberOfStudentsEnrolled') ?>" target="_blank" rel="noopener">
+                    <button type="button" class="report-box-container">    
+                        <div class="pull-left" style="margin-right: 20px;">
+                            <span class="t-student-registration t-reports_icons"></span>
+                        </div>
+                        <div class="pull-left">
+                            <span class="title">Total de Alunos Matriculados por Escola</span><br>
+                            <span class="subtitle">Listagem do número de turmas e alunos matriculados de cada escola</span>
                         </div>
                     </button>
                 </a>
@@ -1076,7 +1100,7 @@ $this->breadcrumbs = array(
                             <?php
                             echo CHtml::label(yii::t('default', 'Classroom'), 'year', array('class' => 'control-label'));
                             ?>
-                            <select name="classroom2" id="classroom2" placeholder="Selecione a turma" style="width:100%" required>
+                            <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
                                 echo "<option value='' selected>Selecione a turma</option>";
                                 foreach ($classrooms as $classroom) {

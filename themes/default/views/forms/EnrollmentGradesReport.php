@@ -86,7 +86,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                         <th colspan="<?= $rows+4 ?>" style="text-align: center">RENDIMENTO ESCOLAR POR ATIVIDADES</th>
                     </tr>
                     <tr>
-                        <td style="text-align: center;  -width: 90px !important;">PARTES&nbsp;DO&nbsp;CURRÍCULO</td>
+                        <td style="text-align: center; min-width: 90px !important;">PARTES&nbsp;DO&nbsp;CURRÍCULO</td>
                         <?php if (count($baseDisciplines) > 0) {?>
                         <td colspan="<?= count($baseDisciplines) ?>" style="text-align: center; font-weight: bold; min-width:150px;">BASE
                             NACIONAL

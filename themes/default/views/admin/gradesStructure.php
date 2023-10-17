@@ -22,7 +22,6 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'classes-form',
         'enableAjaxValidation' => false,
-        'action' => CHtml::normalizeUrl(array('classes/checkValidInputs')),
     ));
     ?>
     <div class="row-fluid">

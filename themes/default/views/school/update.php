@@ -10,7 +10,7 @@
     ?>
 
     <div class="twoColumn">
-        <div class="columnone" style="padding-right: 1em">
+        <div class="columnone">
             <?php
             echo $this->renderPartial('_form', array(
                 'modelSchoolIdentification' => $modelSchoolIdentification,
@@ -18,7 +18,7 @@
                 'modelManagerIdentification' => $modelManagerIdentification,
                 'title' => $title
             ));
-            ?>       
+            ?>
         </div>
         <div class="columntwo">
         </div>

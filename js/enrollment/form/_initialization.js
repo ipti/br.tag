@@ -12,3 +12,33 @@ $(document).on("change", "#StudentEnrollment_public_transport", function () {
     }
 });
 $("#StudentEnrollment_public_transport").trigger("change");
+
+$(document).on("click", "#delete-enrollment", function () {
+    enrollment_id = $(this).attr('enrollment');
+
+    console.log(enrollment_id)
+
+    $.ajax({
+        url: `${window.location.host}?r=enrollment/checkenrollmentdelete&enrollmentId=${enrollment_id}`,
+        success: function (data) {
+            response = JSON.parse(data)
+            block = response.block;
+            message = response.message;
+
+            if(block) {
+                alert(message);
+            }else {
+                if(confirm(message)) {
+                    $.ajax({
+                        url: `${window.location.host}?r=enrollment/delete&id=${enrollment_id}`,
+                        success: function (response) {
+                            alert("Matrícula excluída com sucesso!")
+                            window.location.reload();
+                        }
+                    });
+                }
+            }
+        }
+    });
+});
+ 

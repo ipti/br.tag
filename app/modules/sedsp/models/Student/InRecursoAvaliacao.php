@@ -16,18 +16,18 @@ class InRecursoAvaliacao
 	public $inProvaLinguaPortuguesa;
 
 	public function __construct(
-		?string $inNenhum,
-		?string $inAuxilioLeitor,
-		?string $inAuxilioTranscricao,
-		?string $inGuiaInterprete,
-		?string $inInterpreteLibras,
-		?string $inLeituraLabial,
-		?string $inProvaBraile,
-		?string $inProvaAmpliada,
-		?string $inFonteProva,
-		?string $inProvaVideoLibras,
-		?string $inCdAudioDefVisual,
-		?string $inProvaLinguaPortuguesa
+		?string $inNenhum = null,
+		?string $inAuxilioLeitor = null,
+		?string $inAuxilioTranscricao = null,
+		?string $inGuiaInterprete = null,
+		?string $inInterpreteLibras = null,
+		?string $inLeituraLabial = null,
+		?string $inProvaBraile = null,
+		?string $inProvaAmpliada = null,
+		?string $inFonteProva = null,
+		?string $inProvaVideoLibras = null,
+		?string $inCdAudioDefVisual = null,
+		?string $inProvaLinguaPortuguesa = null
 	) {
 		$this->inNenhum = $inNenhum;
 		$this->inAuxilioLeitor = $inAuxilioLeitor;

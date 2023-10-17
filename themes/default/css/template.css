@@ -4675,8 +4675,8 @@ div #multiclass {
     color: #d0d1d1;
 }
 
-.input-prepend .add-on icon,
-.input-append .add-on icon {
+.input-prepend .add-on i,
+.input-append .add-on i {
     margin-top: 0;
 }
 

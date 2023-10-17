@@ -13,8 +13,8 @@ return [
     'Problem on item insertion.' => 'Problema ao inserir item.',
     'Problem on inventory insertion.' => 'Problema na requisição de manipulação do inventário.',
 
-    'Item spent successfully.' => 'Item gasto com sucesso.',
-    'Problem when spending.' => 'Problema ao gastar item.',
+    'Item spent successfully.' => 'Item removido com sucesso.',
+    'Problem when spending.' => 'Problema ao remover o item.',
 
     'Remove Item' => 'Remover Item',
     'Remove Portion' => 'Remover Porção',

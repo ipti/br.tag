@@ -1,16 +1,16 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-window.location.search.includes("update") ? $('.last').css('display', 'block') : $('.last').css('display', 'none');
+window.location.search.includes("update") ? $('.last').css('display', 'flex') : $('.last').css('display', 'none');
 
 $('.heading-buttons').css('width', $('#content').width());
 $(document).ready(function() {
     $(window).load(function() {
-        
-        initial_date = stringToDate($(formIdentification+'initial_date').val());    
+
+        initial_date = stringToDate($(formIdentification+'initial_date').val());
         final_date = stringToDate($(formIdentification+'final_date').val());
     });
 
@@ -29,9 +29,6 @@ $(document).on("change", "#SchoolIdentification_logo_file_content", function(e) 
 });
 
 function getUrlVars() {
-    var vars = {};
-    var parts = window.location.href.replace(/[?&]([^=&]{1,50})=([^&]{1,50})/gi, function (m, key, value) {
-        vars[key] = value;
-    });
+    let vars = {};
     return vars;
 }

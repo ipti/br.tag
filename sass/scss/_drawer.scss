@@ -55,10 +55,9 @@
     @include device(tablet) {
         &--mobile-hidden {
             left: 0;
-            // transition: left 500ms;
         }
     }
-    
+
 }
 
 .sidebar-cover {
