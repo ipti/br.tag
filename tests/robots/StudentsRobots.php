@@ -631,7 +631,8 @@ class StudentsRobots
      */
     public function classroom ($classroom)
     {
-        $this->tester->executeJS("document.querySelector('#class-select  select').value = '{$classroom}';");
+        $script = "document.querySelector('#class-select select').value = '{$classroom}';";
+        $this->tester->executeJS($script);
     }
 
     /**
@@ -722,7 +723,8 @@ class StudentsRobots
      */
     public function publicTransport ()
     {
-        $this->tester->click('#publicTransport input[type=checkbox]');
+        $script = "document.querySelector('#publicTransport input[type=checkbox]').click();";
+        $this->tester->executeJS($script);
     }
 
     /**
@@ -731,7 +733,7 @@ class StudentsRobots
      */
     public function transportResponsable ($transportResponsable)
     {
-        $script = "document.querySelector('#transport_responsable input[type=text]').value = '{$transportResponsable}';";
+        $script = "document.querySelector('#transport_responsable select').value = '{$transportResponsable}';";
         $this->tester->executeJS($script);
     }
 
@@ -744,7 +746,6 @@ class StudentsRobots
         $script = "document.querySelector('#transport_type input[type=checkbox]').click();";
         $this->tester->executeJS($script);
     }
-    
 
     /**
      * Preencher o Tipo de Atendimento Educacional Especializado.
@@ -803,8 +804,7 @@ class StudentsRobots
     public function restrictions ()
     {
         $script = "document.querySelector('#restrictions-checkbox input[type=checkbox]').click();";
-        $this->tester->executeJS($script);
-        
+        $this->tester->executeJS($script);   
     }
 
 

@@ -1349,7 +1349,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo StudentEnrollment::model()->attributeLabels()['aee_cognitive_functions']; ?>
                                     </label>
                                 </div>
-                                <div class="t-field-checkbox">
+                                <div class="t-field-checkbox" id="text">
                                     <?php echo $form->checkBox($modelEnrollment, 'aee_autonomous_life', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo StudentEnrollment::model()->attributeLabels()['aee_autonomous_life']; ?>
