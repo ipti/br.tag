@@ -47,10 +47,10 @@ class ClassroomSEDDataSource extends SedDataSource
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
-    public function incluirTurmaClasse($inIncluirTurmaClasse)
+    public function incluirTurmaClasse(InIncluirTurmaClasse $inIncluirTurmaClasse)
     {
         try {
-            $url = '/ncaapi/api/TurmaClasse/IncluirTurmaClasse';
+            $url = 'ncaapi/api/TurmaClasse/IncluirTurmaClasse';
             $response = $this->getApiResponse('POST', $url, $inIncluirTurmaClasse);
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
@@ -66,10 +66,10 @@ class ClassroomSEDDataSource extends SedDataSource
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
-    public function manutencaoTurmaClasse($inManutencaoTurmaClasse)
+    public function manutencaoTurmaClasse(InManutencaoTurmaClasse $inManutencaoTurmaClasse)
     {
         try {
-            $url = '/ncaapi/api/TurmaClasse/ManutencaoTurmaClasse';
+            $url = 'ncaapi/api/TurmaClasse/ManutencaoTurmaClasse';
             $response = $this->getApiResponse('POST', $url, $inManutencaoTurmaClasse);
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
