@@ -16,7 +16,7 @@ class GetEscolasFromSEDUseCase
         } else {
             throw new SedspException('Não foi possível salvar a escola no banco de dados.');
         }
-           
+
         return $this->getSchoolClasses($inRelacaoClasses);
     }
 

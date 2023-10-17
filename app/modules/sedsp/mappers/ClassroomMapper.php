@@ -138,6 +138,7 @@ class ClassroomMapper
             $classroom->school_year = $outRelacaoClasses->getOutAnoLetivo();
             $classroom->turn = self::convertCodTurno($classe->getOutCodTurno());
             $classroom->schooling = 1;
+            $classroom->sedsp_sync = 1;
 
             $arrayClasses[] = $classroom;
         }

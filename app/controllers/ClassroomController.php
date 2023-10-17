@@ -462,6 +462,7 @@ class ClassroomController extends Controller
             $_POST['Classroom']["complementary_activity_type_6"] = isset($compActs[5]) ? $compActs[5] : null;
 
             $modelClassroom->attributes = $_POST['Classroom'];
+            $modelClassroom->sedsp_sync = 0;
             $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
 
             
@@ -567,6 +568,7 @@ class ClassroomController extends Controller
 
             $modelClassroom->attributes = $_POST['Classroom'];
             $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
+            $modelClassroom->sedsp_sync = 0;
 
             $disciplines = json_decode($_POST['disciplines'], true);
             $this->setDisciplines($modelClassroom, $disciplines);

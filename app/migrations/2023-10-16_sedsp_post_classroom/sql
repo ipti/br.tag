@@ -1,0 +1,2 @@
+ALTER TABLE `classroom`
+ADD `sedsp_sync` int(11) NOT NULL;
