@@ -105,7 +105,6 @@ class ClassroomMapper
         $schoolInepFk = SchoolMapper::mapToTAGInepId($outRelacaoClasses->getOutCodEscola());
         $outClasses = $outRelacaoClasses->getOutClasses();
 
-        
         $arrayClasses = [];
         foreach ($outClasses as $classe) {
             $classroom = Classroom::model()->find("gov_id = :gov_id", ["gov_id" => $classe->getOutNumClasse()]);
@@ -114,17 +113,7 @@ class ClassroomMapper
                 $classroom->school_inep_fk = $schoolInepFk;
                 $classroom->gov_id = $classe->getOutNumClasse();
 
-                $classroomSEDDataSource = new ClassroomSEDDataSource();
-                $response = $classroomSEDDataSource->getConsultClass(
-                    new InConsultaTurmaClasse("2023", $classe->getOutNumClasse())
-                );
-
-                $classroom->name = $response->getOutDescricaoTurma();
                 $classroom->pedagogical_mediation_type = 1;
-                $classroom->initial_hour = substr($classe->getOutHorarioInicio(), 0, 2);
-                $classroom->initial_minute = substr($classe->getOutHorarioInicio(), -2);
-                $classroom->final_hour = substr($classe->getOutHorarioFim(), 0, 2);
-                $classroom->final_minute = substr($classe->getOutHorarioFim(), -2);
                 $classroom->week_days_sunday = 0;
                 $classroom->week_days_monday = 1;
                 $classroom->week_days_tuesday = 1;
@@ -134,29 +123,22 @@ class ClassroomMapper
                 $classroom->week_days_saturday = 1;
                 $classroom->assistance_type = 0;
                 $classroom->modality = 1;
-                $classroom->edcenso_stage_vs_modality_fk = self::convertTipoEnsinoToStage(
-                    $classe->getOutCodTipoEnsino(), $classe->getOutCodSerieAno()
-                );
-                $classroom->school_year = $outRelacaoClasses->getOutAnoLetivo();
-                $classroom->turn = self::convertCodTurno($classe->getOutCodTurno());
                 $classroom->schooling = 1;
-            } else {
-                $classroomSEDDataSource = new ClassroomSEDDataSource();
-                $response = $classroomSEDDataSource->getConsultClass(
-                    new InConsultaTurmaClasse("2023", $classe->getOutNumClasse())
-                );
-
-                $classroom->name = $response->getOutDescricaoTurma();
-                $classroom->initial_hour = substr($classe->getOutHorarioInicio(), 0, 2);
-                $classroom->initial_minute = substr($classe->getOutHorarioInicio(), -2);
-                $classroom->final_hour = substr($classe->getOutHorarioFim(), 0, 2);
-                $classroom->final_minute = substr($classe->getOutHorarioFim(), -2);
-                $classroom->edcenso_stage_vs_modality_fk = self::convertTipoEnsinoToStage(
-                    $classe->getOutCodTipoEnsino(), $classe->getOutCodSerieAno()
-                );
-                $classroom->school_year = $outRelacaoClasses->getOutAnoLetivo();
-                $classroom->turn = self::convertCodTurno($classe->getOutCodTurno());
             }
+            $classroomSEDDataSource = new ClassroomSEDDataSource();
+            $response = $classroomSEDDataSource->getConsultClass(
+                new InConsultaTurmaClasse("2023", $classe->getOutNumClasse())
+            );
+            $classroom->name = $response->getOutDescricaoTurma();
+            $classroom->initial_hour = substr($classe->getOutHorarioInicio(), 0, 2);
+            $classroom->initial_minute = substr($classe->getOutHorarioInicio(), -2);
+            $classroom->final_hour = substr($classe->getOutHorarioFim(), 0, 2);
+            $classroom->final_minute = substr($classe->getOutHorarioFim(), -2);
+            $classroom->edcenso_stage_vs_modality_fk = self::convertTipoEnsinoToStage(
+                $classe->getOutCodTipoEnsino(), $classe->getOutCodSerieAno()
+            );
+            $classroom->school_year = $outRelacaoClasses->getOutAnoLetivo();
+            $classroom->turn = self::convertCodTurno($classe->getOutCodTurno());
             $classroom->sedsp_sync = 1;
 
             $arrayClasses[] = $classroom;

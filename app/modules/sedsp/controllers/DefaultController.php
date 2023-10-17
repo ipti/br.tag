@@ -349,13 +349,4 @@ class DefaultController extends Controller
 		Yii::app()->user->setFlash('success', "Alunos importados com sucesso.");
 		$this->redirect(array('index'));
 	}
-
-	public function actionImportSchool()
-	{
-		$this->checkSEDToken();
-
-			$inConsult = new InEscola("JOSE DE ANCHIETA PADRE EM", null, null, null);
-			$escola = new GetEscolasFromSEDUseCase();
-			$escola->createSchool($inConsult);
-	}
 }
