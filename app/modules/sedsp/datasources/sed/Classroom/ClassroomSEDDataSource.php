@@ -47,7 +47,7 @@ class ClassroomSEDDataSource extends SedDataSource
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
-    public function addIncluirTurmaClasse($inIncluirTurmaClasse)
+    public function incluirTurmaClasse($inIncluirTurmaClasse)
     {
         try {
             $url = '/ncaapi/api/TurmaClasse/IncluirTurmaClasse';
@@ -66,7 +66,7 @@ class ClassroomSEDDataSource extends SedDataSource
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
-    public function addManutencaoTurmaClasse($inManutencaoTurmaClasse)
+    public function manutencaoTurmaClasse($inManutencaoTurmaClasse)
     {
         try {
             $url = '/ncaapi/api/TurmaClasse/ManutencaoTurmaClasse';
