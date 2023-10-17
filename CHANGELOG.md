@@ -1,4 +1,7 @@
 
+## [Versão 3.59.98]
+- Adicionada coluna de aulas dadas no relatório de ficha individual do aluno
+- Adicionada a coluna de ficha individual em lançamento de notas
 ## [Versão 3.58.98]
 - Corrigido os icones do acordeão na aba de matrícula do formulário de aluno
 - Corrigida a animação e a cor de fundo do acordeão de diário de aula
