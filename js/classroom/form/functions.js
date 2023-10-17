@@ -72,6 +72,8 @@ $(document).on("change", "#Role", function () {
 var addTeachingData = function () {
 
     var id = '#Role';
+    var role = $("#Role");
+
     console.log(id);
     if ((role.val().length !== 0 && instructors.val().length !== 0)
         || (role.val().length === 0 && instructors.val().length === 0)) {
@@ -165,7 +167,7 @@ var addTeachingData = function () {
         $(".regent-teacher-container").hide();
     }
     $('#RegentTeacher').prop('checked', false);
-    // console.log(RegentTeacherCount)
+
 }
 
 //Cria estrutura de uma aula
