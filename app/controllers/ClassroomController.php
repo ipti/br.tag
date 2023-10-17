@@ -1,7 +1,10 @@
 <?php
-/*
- * 
- */
+
+require_once 'app/vendor/autoload.php';
+Yii::import('application.modules.sedsp.models.*');
+Yii::import('application.modules.sedsp.models.Classroom.*');
+Yii::import('application.modules.sedsp.datasources.sed.Classroom.*');
+Yii::import('application.modules.sedsp.mappers.*');
 
 //-----------------------------------------CLASSE VALIDADA ATÉ A SEQUENCIA 35!!------------------------
 class ClassroomController extends Controller
@@ -504,13 +507,26 @@ class ClassroomController extends Controller
 
                             $tipoEnsinoAndStage = ClassroomMapper::convertStageToTipoEnsino($modelClassroom->edcenso_stage_vs_modality_fk);
 
-                            $inDiasDaSemana = new InDiasDaSemana();
-                            $inDiasDaSemana->setInFlagSegunda($modelClassroom->week_days_monday);
-                            $inDiasDaSemana->setInFlagTerca($modelClassroom->week_days_tuesday);
-                            $inDiasDaSemana->setInFlagQuarta($modelClassroom->week_days_wednesday);
-                            $inDiasDaSemana->setInFlagQuinta($modelClassroom->week_days_thursday);
-                            $inDiasDaSemana->setInFlagSexta($modelClassroom->week_days_saturday);
-                            $inDiasDaSemana->setInFlagSabado($modelClassroom->week_days_saturday);
+                            $inDiasDaSemana = new InDiasDaSemana(
+                                $modelClassroom->week_days_monday,
+                                ($modelClassroom->week_days_monday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
+                                ($modelClassroom->week_days_monday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
+                                $modelClassroom->week_days_tuesday,
+                                ($modelClassroom->week_days_tuesday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
+                                ($modelClassroom->week_days_tuesday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
+                                $modelClassroom->week_days_wednesday,
+                                ($modelClassroom->week_days_wednesday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
+                                ($modelClassroom->week_days_wednesday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
+                                $modelClassroom->week_days_thursday,
+                                ($modelClassroom->week_days_thursday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
+                                ($modelClassroom->week_days_thursday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
+                                $modelClassroom->week_days_friday,
+                                ($modelClassroom->week_days_friday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
+                                ($modelClassroom->week_days_friday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
+                                $modelClassroom->week_days_saturday,
+                                ($modelClassroom->week_days_saturday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
+                                ($modelClassroom->week_days_saturday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
+                            );
 
                             $inIncluirTurmaClasse = new InIncluirTurmaClasse(
                                 Yii::app()->user->year,
