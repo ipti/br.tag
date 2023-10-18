@@ -116,8 +116,22 @@
                         array_push($columns,
                             array(
                                 'header' => 'Sincronizado',
-                                'value' => '$data->sedsp_sync',
-                                'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
+                                'class' => 'CButtonColumn',
+                                'template' => '{sync}{unsync}',
+                                'buttons' => array(
+                                    'sync' => array(
+                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/activeUser.svg',
+                                        'visible' => '$data->sedsp_sync',
+                                        'options' => array('class' => 'sync', 'style' => "width: 100px; display: inline-block")
+                                    ),
+                                    'unsync' => array(
+                                        'url' => 'Yii::app()->createUrl("classroom/syncToSedsp",array("id"=>$data->id))',
+                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/error-icon.svg',
+                                        'visible' => '!$data->sedsp_sync',
+                                        'options' => array('class' => 'unsync', 'style' => "width: 100px; display: inline-block")
+                                    ),
+                                ),
+                                'htmlOptions' => array('style' => 'text-align: center'),
                             )
                         );
                     }
@@ -150,7 +164,7 @@
             <h4 class="modal-title"
                 id="myModalLabel">Sincronizar Turma para o SEDSP</h4>
         </div>
-        <form method="post">
+        <form method="post" action="">
             <div class="centered-loading-gif">
                 <i class="fa fa-spin fa-spinner"></i>
             </div>
@@ -158,7 +172,7 @@
                 <div class="alert alert-error no-show"></div>
                 <div class="row-fluid">
                     Você tem certeza?
-                    <input type="hidden" name="sync-classroom-id" id="sync-classroom-id" value="">
+                    <input type="hidden" name="sync-classroom-url" id="sync-classroom-url" value="">
                 </div>
 
 

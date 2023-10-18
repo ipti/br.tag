@@ -42,7 +42,7 @@ class ClassroomController extends Controller
                 'actions' => array('index', 'view', 'create', 'update', 'getassistancetype',
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
                     'getcomplementaryactivitytype', 'delete',
-                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'changeenrollments', 'batchupdatetransport', 'updateDisciplines'
+                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'changeenrollments', 'batchupdatetransport', 'updateDisciplines', 'syncToSedsp'
                 ),
                 'users' => array('@'),
             ),
@@ -806,6 +806,30 @@ class ClassroomController extends Controller
             Yii::app()->user->setFlash('error', "Não foi possível remover a turma no SEDSP. Motivo:" . $erro);
             $this->redirect(array('index'));
         }
+    }
+
+    public function actionSyncToSedsp($id)
+    {
+        $modelClassroom = Classroom::model()->findByPk($id);
+
+        $loginUseCase = new LoginUseCase();
+        $loginUseCase->checkSEDToken();
+
+        $inConsultaTurmaClasse = new InConsultaTurmaClasse(
+            Yii::app()->user->year,
+            $modelClassroom->gov_id
+        );
+        $dataSource = new ClassroomSEDDataSource();
+        $sedspClassroom = $dataSource->getConsultClass($inConsultaTurmaClasse);
+
+        if (!property_exists($sedspClassroom, "outErro")) {
+            $result = $this->classroomSyncToSEDSP($modelClassroom, "edit", $sedspClassroom->outAnoLetivo != null ? "edit" : "create");
+        } else {
+            $result = ["flash" => "error", "message" => $sedspClassroom->outErro];
+        }
+
+        Yii::app()->user->setFlash($result["flash"], $result["message"]);
+        $this->redirect(array('index'));
     }
 
     /**
