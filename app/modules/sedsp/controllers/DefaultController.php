@@ -11,19 +11,6 @@ class DefaultController extends Controller
 		$this->render('index');
 	}
 
-	private function checkSEDToken()
-	{
-		try {
-			if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
-				$uclogin = new LoginUseCase();
-				$uclogin->exec("SME701", "zyd780mhz1s5");
-			}
-		} catch (\Throwable $th) {
-			Yii::app()->user->setFlash('error', Yii::t('default', $this->ERROR_CONNECTION));
-			$this->redirect(array('index'));
-		}
-	}
-
 	public function actionManageRA()
 	{
 		$school_id = Yii::app()->user->school;
@@ -52,7 +39,8 @@ class DefaultController extends Controller
 	{
 		$RA = $_POST["ra"];
 
-		$this->checkSEDToken();
+		$loginUseCase = new LoginUseCase();
+        $loginUseCase->checkSEDToken();
 
 		try {
 			$createStudent = new CreateStudent();
@@ -101,7 +89,8 @@ class DefaultController extends Controller
 
 	private function addClassroomStudent($RA, $classroomId, $classroomInepId, $classroomStage)
 	{
-		$this->checkSEDToken();
+        $loginUseCase = new LoginUseCase();
+        $loginUseCase->checkSEDToken();
 
 		$createStudent = new CreateStudent();
 		$response = $createStudent->exec($RA);
@@ -135,7 +124,8 @@ class DefaultController extends Controller
 	public function actionAddClassroom()
 	{
 		try {
-			$this->checkSEDToken();
+            $loginUseCase = new LoginUseCase();
+            $loginUseCase->checkSEDToken();
 
 			$classroomNum = $_POST["classroomNum"];
 			$importStudents = isset($_POST["importStudents"]);
@@ -189,7 +179,8 @@ class DefaultController extends Controller
 		$school_name = $_POST["schoolName"];
 		$school_mun = $_POST["schoolMun"];
 
-		$this->checkSEDToken();
+        $loginUseCase = new LoginUseCase();
+        $loginUseCase->checkSEDToken();
 
 		try {
 			$createSchool = new CreateSchool();
@@ -251,7 +242,8 @@ class DefaultController extends Controller
 
 	public function actionGenRA($id)
 	{
-		$this->checkSEDToken();
+        $loginUseCase = new LoginUseCase();
+        $loginUseCase->checkSEDToken();
 
 		$genRA = new GenRA();
 		$msg = $genRA->exec($id);
@@ -274,7 +266,8 @@ class DefaultController extends Controller
 	}
 	public function actionCreateRA($id)
 	{
-		$this->checkSEDToken();
+        $loginUseCase = new LoginUseCase();
+        $loginUseCase->checkSEDToken();
 
 		$createRA = new CreateRA();
 		$msg = $createRA->exec($id);
@@ -287,7 +280,8 @@ class DefaultController extends Controller
 
 	public function actionImportFullSchool()
 	{
-		$this->checkSEDToken();
+        $loginUseCase = new LoginUseCase();
+        $loginUseCase->checkSEDToken();
 		
 		try {
 			$inEscola = new InEscola($_POST['nameSchool'], null, null, null);
@@ -314,7 +308,8 @@ class DefaultController extends Controller
 
 	public function actionImportStudentRA()
 	{
-		$this->checkSEDToken();
+        $loginUseCase = new LoginUseCase();
+        $loginUseCase->checkSEDToken();
 
 		try {
 			$inAluno = new InAluno($_POST["numRA"], null, "SP");
@@ -336,7 +331,8 @@ class DefaultController extends Controller
 
 	public function actionImportFullStudentsByClasses()
 	{
-		$this->checkSEDToken();
+        $loginUseCase = new LoginUseCase();
+        $loginUseCase->checkSEDToken();
 		
 		$selectedClasses = Yii::app()->request->getPost('selectedClasses', '');
 		$numClasses = explode(',', $selectedClasses);
