@@ -50,6 +50,20 @@ class EnrollmentSEDDataSource extends SedDataSource
         }
     }
 
+    function addExcluirMatricula(InExcluirMatricula $inExcluirMatricula)
+    {
+        try{
+            $url = '/ncaapi/api/Matricula/ExcluirMatricula';
+
+            $response = $this->getApiResponse('POST', $url, $inExcluirMatricula);
+            return OutHandleApiResult::fromJson($response);
+        } catch (ClientException $e) {
+            return new OutErro($e);
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
     /**
      * Summary of addMatricularAluno
      * @param InMatricularAluno $inMatricularAluno

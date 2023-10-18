@@ -334,6 +334,28 @@ class DefaultController extends Controller
 		}
 	}
 
+	public function actionUpdateStudentFromSedsp()
+	{
+		$this->checkSEDToken();
+
+		try {
+			$inAluno = new InAluno($_GET["gov_id"], null, "SP");
+
+			$exibirFicha = new UpdateFichaAlunoInTAGUseCase();
+			$statusSave = $exibirFicha->exec($inAluno);
+
+			if ($statusSave) {
+				Yii::app()->user->setFlash('success', "O Aluno sincronizado com sucesso.");
+				$this->redirect(array('index'));
+			} else {
+				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
+				$this->redirect(array('student/update'));
+			}
+		} catch (Exception $e) {
+			Yii::app()->user->setFlash('error', "A escola do aluno não está cadastrada no TAG");
+		}
+	}
+
 	public function actionImportFullStudentsByClasses()
 	{
 		$this->checkSEDToken();

@@ -140,7 +140,7 @@ class ClassroomMapper
             $classroom->schooling = 1;
 
             $arrayClasses[] = $classroom;
-        }
+                    }
 
         $parseResult = [];
         $parseResult["Classrooms"] =  $arrayClasses;

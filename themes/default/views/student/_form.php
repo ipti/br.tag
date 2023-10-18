@@ -33,6 +33,28 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="column clearfix align-items--center justify-content--end show--desktop">
         <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
         <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
+
+        <?php 
+            $sedspSync = StudentIdentification::model()->findByPk($modelStudentIdentification->id)->sedsp_sync;
+            if($sedspSync){ ?>
+                <div style="text-align: center;margin-right: 10px;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png" style="width: 40px; margin-right: 10px;">
+                    <div>Sincronizado com a sedsp</div>
+                </div>
+
+            <?php } else { ?>
+                <div style="text-align: center;margin-right: 10px;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png" style="width: 40px;margin-right: 10px;">
+                    <div>Não sincronizado com a sedsp</div>
+                </div>
+            <?php }
+        ?>
+
+        <a href="<?php echo $this->createUrl('sedsp/default/UpdateStudentFromSedsp', array('gov_id' => $modelStudentIdentification->gov_id)); ?>"
+            style="margin-right: 10px;background: #16205b;color: white;padding: 5px;border-radius: 5px;">
+            <i class="fa fa-download" aria-hidden="true" style="margin-right: 5px;"></i>SEDSP para o TAG<span class="t-icon-sp" style="margin-left: 5px;"></span>
+        </a>
+
         <button class="t-button-primary  last save-student" type="button">
             <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
         </button>

@@ -333,10 +333,13 @@ class StudentController extends Controller
                             }
 
                             if ($saved) {
+
                                 Log::model()->saveAction("student", $modelStudentIdentification->id, "C", $modelStudentIdentification->name);
                                 $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!';
 
                                 Yii::app()->user->setFlash('success', Yii::t('default', $msg));
+
+                                $this->syncStudentWithSED($modelStudentIdentification->id);
 
                                 $this->redirect(array('index', 'sid' => $modelStudentIdentification->id));
                             }
@@ -439,62 +442,19 @@ class StudentController extends Controller
                         }
 
                         if ($saved) {
+                            $exi = $this->syncStudentWithSED($id);
 
-                            $studentIdentification = StudentIdentification::model()->findByPk($id);
-                            $modelStudentDocumentsAndAddress = StudentDocumentsAndAddress::model()->findByPk($id);
-                            $studentEnrollment = StudentEnrollment::model()->findByPk($id);
-
-                            $nameStudent = $studentIdentification->name;
-                            $inListarAlunos = new InListarAlunos(new InFiltrosNomes($nameStudent, null, null, null),null,null);
-
-                            $studentIdentification->sedsp_sync = 1;
-                            $studentIdentification->save();
-
-                            $dataSource = new StudentSEDDataSource();
-                            $outListStudent =  $dataSource->getListStudents($inListarAlunos);
-
-                            $studentToSedMapper = new StudentMapper();
-                            $student = (object) $studentToSedMapper->parseToSEDAlunoFicha($studentIdentification, $modelStudentDocumentsAndAddress);
-
-                            //ALUNO NÃO CADASTRADO
-                            if($outListStudent->outErro !== null){
-                                $inConsult = new InFichaAluno(
-                                    $student->InDadosPessoais,
-                                    $student->InDeficiencia,
-                                    $student->InRecursoAvaliacao,
-                                    $student->InDocumentos,
-                                    null,
-                                    null,
-                                    $student->InEnderecoResidencial,
-                                    null
-                                );
-                                $dataSource = new StudentSEDDataSource();
-                                $dataSource->addStudent($inConsult);
-                               
-                            }elseif($outListStudent->outErro === null){
-                                $inConsult = new InManutencao(
-                                    $student->InAluno,
-                                    $student->InDadosPessoais,
-                                    $student->InDeficiencia,
-                                    $student->InRecursoAvaliacao,
-                                    $student->InDocumentos,
-                                    null,
-                                    null,
-                                    $student->InEnderecoResidencial,
-                                    null,
-                                    null
-                                );
-
-                                $dataSource = new StudentSEDDataSource();
-                                $outHandleApiResult = $dataSource->editStudent($inConsult);
-                            }
-                           
-                           
-                            Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
-                            $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!';
-                            Yii::app()->user->setFlash('success', Yii::t('default', $msg));
+                            if($exi->outErro !== null){
+                                Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
+                                $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso! Mas não foi possível fazer a sincronização! Erro: '. $exi->outErro;
+                                Yii::app()->user->setFlash('error', Yii::t('default', $msg));
+                            }else{
+                                Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
+                                $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!';
+                                Yii::app()->user->setFlash('success', Yii::t('default', $msg));
+                            }  
+                             
                             $this->redirect(array('index', 'sid' => $modelStudentIdentification->id));
-                            
                         }
                     }
                 }
@@ -510,7 +470,93 @@ class StudentController extends Controller
             'studentVaccinesSaves' => $studentVaccinesSaves
         ));
     }
-    //
+
+    // Função para obter informações do aluno
+    function getStudentInformation($id) {
+        $studentIdentification = StudentIdentification::model()->findByPk($id);
+        $modelStudentDocumentsAndAddress = StudentDocumentsAndAddress::model()->findByPk($id);
+        $studentEnrollment = StudentEnrollment::model()->findByPk($id);
+        
+        return [
+            'studentIdentification' => $studentIdentification,
+            'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
+            'studentEnrollment' => $studentEnrollment,
+        ];
+    }
+
+    // Função para sincronizar aluno com o sistema SED
+    function syncStudentWithSED($id) {
+        $studentInfo = $this->getStudentInformation($id);
+        $studentIdentification = $studentInfo['studentIdentification'];
+        
+        // Defina sedsp_sync como 0
+        $studentIdentification->sedsp_sync = 0;
+        $studentIdentification->save();
+
+        $dataSource = new StudentSEDDataSource();
+        $inListarAlunos = $this->createInListarAlunos($studentIdentification);
+
+        $outListStudent = $dataSource->getListStudents($inListarAlunos);
+
+        $studentToSedMapper = new StudentMapper();
+
+        $outNumRA = $outListStudent->getOutListaAlunos();
+        $numRA = $outNumRA[0]->getOutNumRa();
+    
+        $student = (object) $studentToSedMapper->parseToSEDAlunoFicha($studentIdentification, $studentInfo['modelStudentDocumentsAndAddress']);
+
+        if ($outListStudent->outErro !== null) {
+            $inConsult = $this->createInConsult($student);
+            return $dataSource->addStudent($inConsult);
+        } elseif ($outListStudent->outErro === null) {
+            $student->InAluno->setInNumRA($numRA);
+
+            $inManutencao = $this->createInManutencao($student);
+            $dataSource = new StudentSEDDataSource();
+                
+            $studentIdentification->sedsp_sync = 1;
+            $studentIdentification->save();
+
+            return $dataSource->editStudent($inManutencao);
+        }
+    }
+
+    function createInListarAlunos($studentIdentification) {
+        $nameStudent = $studentIdentification->name;
+        return new InListarAlunos(new InFiltrosNomes($nameStudent, null, null, null), null, null);
+    }
+
+    // Função para criar objeto InConsult em caso de aluno não cadastrado
+    function createInConsult($student) {
+        return new InFichaAluno(
+            $student->InDadosPessoais,
+            $student->InDeficiencia,
+            $student->InRecursoAvaliacao,
+            $student->InDocumentos,
+            null,
+            null,
+            $student->InEnderecoResidencial,
+            null
+        );
+    }
+
+    // Função para criar objeto InManutencao em caso de aluno cadastrado
+    function createInManutencao($student) {
+        return new InManutencao(
+            $student->InAluno,
+            $student->InDadosPessoais,
+            $student->InDeficiencia,
+            $student->InRecursoAvaliacao,
+            $student->InDocumentos,
+            null,
+            null,
+            $student->InEnderecoResidencial,
+            null,
+            null
+        );
+    }
+
+    
     public function actionTransfer($id)
     {
         $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
@@ -583,11 +629,21 @@ class StudentController extends Controller
             }
 
             $identification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
+            
+            $uf = EdcensoUf::model()->findByPk($identification->edcenso_uf_fk);
+            $inAluno = new InAluno($identification->gov_id, null, $uf->acronym);
+
             if (isset($identification->id) && $identification->id > 0) {
                 $identification->delete();
             }
 
             if ($delete) {
+
+                $inExcluirMatricula = new InExcluirMatricula($inAluno,);
+
+                $excluirMatriculaFromSEDUseCase = new ExcluirMatriculaFromSEDUseCase;
+                $excluirMatriculaFromSEDUseCase->exec($inExcluirMatricula);
+
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno excluído com sucesso!'));
                 $this->redirect(array('index'));
             } else {
