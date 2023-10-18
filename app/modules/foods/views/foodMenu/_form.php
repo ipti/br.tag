@@ -7,6 +7,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/_initialization.js', CClientScript::POS_END );
 $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END );
+$cs->registerScriptFile($baseScriptUrl . '/date_pagination.js', CClientScript::POS_END );
 ?>
 
 <div class="form">
@@ -39,7 +40,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END
 					array(
 							'class' => 'select-search-on t-field-select__input',
 							'placeholder' => Yii::t('default', 'Select Classrom'),
-							'style' => 'width: 100%'
+							'prompt' => 'Selecione o Público Alvo'
                         ));
 						?>
 			</div>
@@ -59,11 +60,39 @@ $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END
 		<div class="row">
 			<div class="column t-buttons-container">
 				<a class="t-button-primary js-add-meal">
+					<span class="t-icon-start"></span>
 					Adicionar Refeição
 				</a>
 			</div>
 		</div>
-		<div class="t-expansive-panel row">
+		<div class="t-tabs-secondary">
+				<ul class="t-tabs__list">
+					<li class="t-tabs__item active js-change-paginatiobn">
+						<div class="text-primary">Segunda-feira</div>
+						<div class="text-secondary">01/01</div>
+					</li>
+					<li class="t-tabs__item js-change-paginatiobn">
+					<div class="text-primary">Terça-feira</div>
+						<div class="text-secondary">01/01</div>
+					</li>
+					<li class="t-tabs__item js-change-paginatiobn">
+						<div class="text-primary">Quarta-feira</div>
+						<div class="text-secondary">01/01</div>
+					</li>
+					<li class="t-tabs__item js-change-paginatiobn">
+						<div class="text-primary">Quinta-feira</div>
+						<div class="text-secondary">01/01</div>
+					</li>
+					<li class="t-tabs__item js-change-paginatiobn">
+						<div class="text-primary">Sexta-feira</div>
+						<div class="text-secondary">01/01</div>
+					</li>
+					<li class="t-tabs__item js-change-paginatiobn">
+					<div class="text-primary">Selecionar <br> outra data</div>
+					</li>
+				</ul>
+		</div>
+		<!-- <div class="t-expansive-panel row">
 			<div class="column">
 				<div class="row">
 					<div class="t-field-text column">
@@ -108,7 +137,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 	<?php echo $form->errorSummary($model); ?>
 	<div class="row buttons">
