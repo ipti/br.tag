@@ -1,4 +1,3 @@
-const { template } = require("modernizr");
 
 /* 
  * To change this license header, choose License Headers in Project Properties.
