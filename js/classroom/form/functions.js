@@ -73,13 +73,11 @@ var addTeachingData = function () {
 
     var id = '#Role';
     var role = $("#Role");
-
-    console.log(id);
     if ((role.val().length !== 0 && instructors.val().length !== 0)
         || (role.val().length === 0 && instructors.val().length === 0)) {
-        addTeachingData();
+        // addTeachingData();
         removeError(id);
-        $(this).dialog("close");
+        // $(this).dialog("close");
     } else {
         addError(id, "Selecione um cargo");
     }
@@ -167,6 +165,7 @@ var addTeachingData = function () {
         $(".regent-teacher-container").hide();
     }
     $('#RegentTeacher').prop('checked', false);
+    $("#addTeacherSchoolComponent select").val('').trigger('change');
 
 }
 
