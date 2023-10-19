@@ -551,8 +551,7 @@ class ClassroomController extends Controller
                 );
                 $dataSource = new ClassStudentsRelationSEDDataSource();
                 $outFormacaoClasse = $dataSource->getClassroom($inFormacaoClasse);
-
-                if ($outFormacaoClasse->getOutAlunos() !== null || property_exists($outFormacaoClasse, "outErro")) {
+                if ($outFormacaoClasse->outErro == null) {
                     $disabledFieldsForSEDSP = true;
                 }
             }
@@ -604,7 +603,7 @@ class ClassroomController extends Controller
 
             if (INSTANCE == "UBATUBA" && !$disabledFieldsForSEDSP) {
                 //comparar cada variável exportável para o SEDSP do modelClassroom e dbClassroom (puxar do banco). Se houver alguma diferença, setar sedsp_sync para 0
-                //$modelClassroom->sedsp_sync = 0;
+                $modelClassroom->sedsp_sync = 0;
             }
 
             $disciplines = json_decode($_POST['disciplines'], true);
