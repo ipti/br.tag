@@ -40,6 +40,7 @@ class ClassroomMapper
         $classroomTag->week_days_saturday = 1;
         $classroomTag->school_year = '2023';
         $classroomTag->pedagogical_mediation_type = 1;
+        $classroomTag->acronym = $response->getOutTurma();
 
         $indexedByAcronym = [];
         $edcensoUf = EdcensoUf::model()->findAll();

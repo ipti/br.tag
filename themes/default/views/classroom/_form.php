@@ -140,6 +140,12 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ?>
                                 <?php echo $form->error($modelClassroom, 'modality'); ?>
                             </div>
+                            <!-- Sigla -->
+                            <div class="t-field-text" >
+                                <?php echo $form->labelEx($modelClassroom, 'acronym', array('class' => 't-field-text__label')); ?>
+                                <?php echo $form->textField($modelClassroom, 'acronym', array('size' => 2, 'maxlength' => 2, 'class' => 't-field-text__input', 'placeholder' => 'Ex: A, B, 1, A1, B1')); ?>
+                                <?php echo $form->error($modelClassroom, 'acronym'); ?>
+                            </div>
                         </div>
                     </div>
                     <div>
