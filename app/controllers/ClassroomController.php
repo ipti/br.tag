@@ -700,7 +700,7 @@ class ClassroomController extends Controller
                 0,
                 ClassroomMapper::revertCodTurno($modelClassroom->turn),
                 0,
-                "1",
+                $modelClassroom->acronym,
                 "2", //dependencia (problema)
                 99,
                 $firstDay,
@@ -720,7 +720,7 @@ class ClassroomController extends Controller
                 $modelClassroom->gov_id,
                 0,
                 ClassroomMapper::revertCodTurno($modelClassroom->turn),
-                "1",
+                $modelClassroom->acronym,
                 99,
                 $firstDay,
                 $lastDay,
