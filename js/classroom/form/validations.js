@@ -127,6 +127,10 @@ $(".save-classroom").click(function () {
         error = true;
         message += "Campo <b>Local de Funcionamento Diferenciado</b> é obrigatório.<br>";
     }
+    if ($("#Classroom_sedsp_acronym").length && $("#Classroom_sedsp_acronym").val() === "") {
+        error = true;
+        message += "Campo <b>Turma</b> é obrigatório.<br>";
+    }
     if (error) {
         $("html, body").animate({scrollTop: 0}, "fast");
         $(this).closest("form").find(".classroom-error").html(message).show();

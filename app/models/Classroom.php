@@ -78,7 +78,8 @@
  * @property integer $calendar_fk
  * @property integer $course
  * @property integer $sedsp_sync
- * @property string $acronym
+ * @property string $sedsp_classnumber
+ * @property string $sedsp_acronym
  *
  * The followings are the available model relations:
  * @property ClassBoard[] $classBoards
@@ -123,9 +124,10 @@ class Classroom extends AltActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, edcenso_stage_vs_modality_fk, modality, school_inep_fk, initial_hour, initial_minute, final_hour, final_minute, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, school_year, pedagogical_mediation_type, sedsp_sync', 'required'),
+            array('name, edcenso_stage_vs_modality_fk, modality, school_inep_fk, initial_hour, initial_minute, final_hour, final_minute, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, school_year, pedagogical_mediation_type', 'required'),
             array('pedagogical_mediation_type, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type, mais_educacao_participator, complementary_activity_type_1, complementary_activity_type_2, complementary_activity_type_3, complementary_activity_type_4, complementary_activity_type_5, complementary_activity_type_6, modality, edcenso_professional_education_course_fk, school_year, calendar_fk, schooling, diff_location, course, complementary_activity, aee, sedsp_sync', 'numerical', 'integerOnly' => true),
-            array('register_type, initial_hour, initial_minute, final_hour, final_minute, acronym', 'length', 'max' => 2),
+            array('register_type, initial_hour, initial_minute, final_hour, final_minute, sedsp_acronym', 'length', 'max' => 2),
+            array('sedsp_classnumber', 'length', 'max' => 3),
             array('edcenso_stage_vs_modality_fk', 'length', 'max' => 6),
             array('school_inep_fk', 'length', 'max' => 8),
             array('inep_id', 'length', 'max' => 10),
@@ -255,7 +257,8 @@ class Classroom extends AltActiveRecord
             'complementary_activity' => Yii::t('default', 'Complementary Activity'),
             'aee' => Yii::t('default', 'AEE'),
             'sedsp_sync' => 'Sedsp Sync',
-            'acronym' => 'Acronym'
+            'sedsp_acronym' => 'Sedsp Acronym',
+            'sedsp_classnumber' => 'Sedsp Classnumber'
         );
     }
 

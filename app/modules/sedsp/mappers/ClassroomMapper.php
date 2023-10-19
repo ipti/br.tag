@@ -40,7 +40,9 @@ class ClassroomMapper
         $classroomTag->week_days_saturday = 1;
         $classroomTag->school_year = '2023';
         $classroomTag->pedagogical_mediation_type = 1;
-        $classroomTag->acronym = $response->getOutTurma();
+        $classroomTag->sedsp_acronym = $response->getOutTurma();
+        $classroomTag->sedsp_classnumber = $response->getOutNumeroSala();
+        $classroomTag->sedsp_sync = 1;
 
         $indexedByAcronym = [];
         $edcensoUf = EdcensoUf::model()->findAll();
@@ -140,6 +142,8 @@ class ClassroomMapper
             );
             $classroom->school_year = $outRelacaoClasses->getOutAnoLetivo();
             $classroom->turn = self::convertCodTurno($classe->getOutCodTurno());
+            $classroom->sedsp_acronym = $response->getOutTurma();
+            $classroom->sedsp_classnumber = $response->getOutNumeroSala();
             $classroom->sedsp_sync = 1;
 
             $arrayClasses[] = $classroom;
@@ -188,6 +192,9 @@ class ClassroomMapper
         $classroomTag->week_days_saturday = 0;
         $classroomTag->school_year = Yii::app()->user->year;
         $classroomTag->pedagogical_mediation_type = 1;
+        $classroomTag->sedsp_acronym = $outConsultaTurmaClasse->getOutTurma();
+        $classroomTag->sedsp_classnumber = $outConsultaTurmaClasse->getOutNumeroSala();
+        $classroomTag->sedsp_sync = 1;
 
         return $classroomTag;
     }

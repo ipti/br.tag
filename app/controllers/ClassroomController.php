@@ -3,7 +3,9 @@
 require_once 'app/vendor/autoload.php';
 Yii::import('application.modules.sedsp.models.*');
 Yii::import('application.modules.sedsp.models.Classroom.*');
+Yii::import('application.modules.sedsp.models.Student.*');
 Yii::import('application.modules.sedsp.datasources.sed.Classroom.*');
+Yii::import('application.modules.sedsp.datasources.sed.ClassStudentsRelation.*');
 Yii::import('application.modules.sedsp.mappers.*');
 Yii::import('application.modules.sedsp.usecases.*');
 
@@ -509,7 +511,7 @@ class ClassroomController extends Controller
                                 $loginUseCase = new LoginUseCase();
                                 $loginUseCase->checkSEDToken();
 
-                                $result = $this->classroomSyncToSEDSP($modelClassroom, "create", "create");
+                                $result = $this->classroomSyncToSEDSP($modelClassroom, "create", "create", null);
                             } else {
                                 $result = ["flash" => "success", "message" => "Turma adicionada com sucesso!"];
                             }
@@ -537,6 +539,24 @@ class ClassroomController extends Controller
     {
         $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
         $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
+
+        $disableField = false;
+        if (INSTANCE == "UBATUBA") {
+            if ($modelClassroom->gov_id != null) {
+                $loginUseCase = new LoginUseCase();
+                $loginUseCase->checkSEDToken();
+
+                $inFormacaoClasse = new InFormacaoClasse(
+                    $modelClassroom->gov_id
+                );
+                $dataSource = new ClassStudentsRelationSEDDataSource();
+                $outFormacaoClasse = $dataSource->getClassroom($inFormacaoClasse);
+
+                if ($outFormacaoClasse->getOutAlunos() !== null || property_exists($outFormacaoClasse, "outErro")) {
+                    $disableField = true;
+                }
+            }
+        }
 
         if (isset($_POST['enrollments']) && isset($_POST['toclassroom'])) {
             $enrollments = $_POST['enrollments'];
@@ -630,12 +650,12 @@ class ClassroomController extends Controller
                                     $modelClassroom->gov_id
                                 );
                                 $dataSource = new ClassroomSEDDataSource();
-                                $sedspClassroom = $dataSource->getConsultClass($inConsultaTurmaClasse);
+                                $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
 
-                                if (!property_exists($sedspClassroom, "outErro")) {
-                                    $result = $this->classroomSyncToSEDSP($modelClassroom, "edit", $sedspClassroom->outAnoLetivo != null ? "edit" : "create");
+                                if (!property_exists($outConsultaTurmaClasse, "outErro")) {
+                                    $result = $this->classroomSyncToSEDSP($modelClassroom, "edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create", $outConsultaTurmaClasse);
                                 } else {
-                                    $result = ["flash" => "error", "message" => $sedspClassroom->outErro];
+                                    $result = ["flash" => "error", "message" => $outConsultaTurmaClasse->outErro];
                                 }
                             } else {
                                 $result = ["flash" => "success", "message" => "Turma atualizada com sucesso!"];
@@ -656,10 +676,11 @@ class ClassroomController extends Controller
         $this->render('update', array(
             'modelClassroom' => $modelClassroom,
             'modelTeachingData' => $modelTeachingData,
+            'disableField' => $disableField
         ));
     }
 
-    private function classroomSyncToSEDSP($modelClassroom, $tagAction, $sedspAction)
+    private function classroomSyncToSEDSP($modelClassroom, $tagAction, $sedspAction, $outConsultaTurmaClasse)
     {
         $inDiasDaSemana = new InDiasDaSemana(
             $modelClassroom->week_days_monday,
@@ -700,7 +721,7 @@ class ClassroomController extends Controller
                 0,
                 ClassroomMapper::revertCodTurno($modelClassroom->turn),
                 0,
-                $modelClassroom->acronym,
+                $modelClassroom->sedsp_acronym,
                 "2", //dependencia (problema)
                 99,
                 $firstDay,
@@ -720,8 +741,8 @@ class ClassroomController extends Controller
                 $modelClassroom->gov_id,
                 0,
                 ClassroomMapper::revertCodTurno($modelClassroom->turn),
-                $modelClassroom->acronym,
-                99,
+                $modelClassroom->sedsp_acronym,
+                $outConsultaTurmaClasse->outNrCapacidadeFisicaMaxima,
                 $firstDay,
                 $lastDay,
                 $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute,
@@ -774,9 +795,9 @@ class ClassroomController extends Controller
                     $classroom->gov_id
                 );
                 $dataSource = new ClassroomSEDDataSource();
-                $sedspClassroom = $dataSource->getConsultClass($inConsultaTurmaClasse);
+                $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
 
-                if (!property_exists($sedspClassroom, "outErro")) {
+                if (!property_exists($outConsultaTurmaClasse, "outErro")) {
                     $inExcluirTurmaClasse = new InExcluirTurmaClasse($classroom->gov_id);
                     $result = $dataSource->excluirTurmaClasse($inExcluirTurmaClasse);
                     if ($result->outErro !== null) {
@@ -785,7 +806,7 @@ class ClassroomController extends Controller
                     }
                 } else {
                     $ableToDelete = false;
-                    $erro = $sedspClassroom->outErro;
+                    $erro = $outConsultaTurmaClasse->outErro;
                 }
             }
         }
@@ -820,12 +841,12 @@ class ClassroomController extends Controller
             $modelClassroom->gov_id
         );
         $dataSource = new ClassroomSEDDataSource();
-        $sedspClassroom = $dataSource->getConsultClass($inConsultaTurmaClasse);
+        $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
 
-        if (!property_exists($sedspClassroom, "outErro")) {
-            $result = $this->classroomSyncToSEDSP($modelClassroom, "edit", $sedspClassroom->outAnoLetivo != null ? "edit" : "create");
+        if (!property_exists($outConsultaTurmaClasse, "outErro")) {
+            $result = $this->classroomSyncToSEDSP($modelClassroom, "edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create", $outConsultaTurmaClasse);
         } else {
-            $result = ["flash" => "error", "message" => $sedspClassroom->outErro];
+            $result = ["flash" => "error", "message" => $outConsultaTurmaClasse->outErro];
         }
 
         Yii::app()->user->setFlash($result["flash"], $result["message"]);
