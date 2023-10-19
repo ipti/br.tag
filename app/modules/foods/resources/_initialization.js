@@ -13,7 +13,7 @@ $(".js-date").datepicker({
     startDate: "01/01/" + $(".school-year").val(),
     endDate: "31/12/" + $(".school-year").val()
 }).on('changeDate', function (ev, indirect) {
-   
+    data.actions.addDays($(this).val())
 })
 $( "#js-accordion" ).accordion({
     active: false,

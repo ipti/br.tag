@@ -7,7 +7,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/_initialization.js', CClientScript::POS_END );
 $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END );
-$cs->registerScriptFile($baseScriptUrl . '/date_pagination.js', CClientScript::POS_END );
+$cs->registerScriptFile($baseScriptUrl . '/components.js', CClientScript::POS_END );
 ?>
 
 <div class="form">
@@ -65,32 +65,8 @@ $cs->registerScriptFile($baseScriptUrl . '/date_pagination.js', CClientScript::P
 				</a>
 			</div>
 		</div>
-		<div class="t-tabs-secondary">
-				<ul class="t-tabs__list">
-					<li class="t-tabs__item active js-change-paginatiobn">
-						<div class="text-primary">Segunda-feira</div>
-						<div class="text-secondary">01/01</div>
-					</li>
-					<li class="t-tabs__item js-change-paginatiobn">
-					<div class="text-primary">Terça-feira</div>
-						<div class="text-secondary">01/01</div>
-					</li>
-					<li class="t-tabs__item js-change-paginatiobn">
-						<div class="text-primary">Quarta-feira</div>
-						<div class="text-secondary">01/01</div>
-					</li>
-					<li class="t-tabs__item js-change-paginatiobn">
-						<div class="text-primary">Quinta-feira</div>
-						<div class="text-secondary">01/01</div>
-					</li>
-					<li class="t-tabs__item js-change-paginatiobn">
-						<div class="text-primary">Sexta-feira</div>
-						<div class="text-secondary">01/01</div>
-					</li>
-					<li class="t-tabs__item js-change-paginatiobn">
-					<div class="text-primary">Selecionar <br> outra data</div>
-					</li>
-				</ul>
+		<div class="t-tabs-secondary js-days-of-week-component">
+				
 		</div>
 		<!-- <div class="t-expansive-panel row">
 			<div class="column">
