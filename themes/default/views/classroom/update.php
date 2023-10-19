@@ -15,7 +15,7 @@
             <?php
             echo $this->renderPartial('_form', array('modelClassroom' => $modelClassroom,
                 'modelTeachingData' => $modelTeachingData,
-                'disableField' => $disableField,
+                'disabledFields' => $disabledFields,
                 'title' => $title,
                 'complementaryActivities' => $complementaryActivities));
             ?>

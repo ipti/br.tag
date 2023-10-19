@@ -43,7 +43,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="widget widget-tabs border-bottom-none">
 
         <?php echo $form->errorSummary($modelClassroom); ?>
-        <?php if (INSTANCE == "UBATUBA" && $disableField): ?>
+        <?php if (INSTANCE == "UBATUBA" && $disabledFields): ?>
             <div class="alert alert-warning">Alguns campos foram desabilitados porque a turma possui alunos matriculados e o SEDSP não autoriza realizar edições em tais campos.</div>
         <?php endif; ?>
         <div class="alert alert-error classroom-error no-show"></div>
@@ -126,7 +126,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <!-- Etapa de Ensino -->
                             <div class="t-field-select" id="stage_vs_modality">
                                 <?php echo $form->labelEx($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 't-field-select__label--required')); ?>
-                                <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o estágio vs modalidade', 'class' => ($disableField ? 'select-search-off t-field-select__input disabled-field' : 'select-search-off t-field-select__input'), 'style' => 'width: 80%')); ?>
+                                <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o estágio vs modalidade', 'class' => ($disabledFields ? 'select-search-off t-field-select__input disabled-field' : 'select-search-off t-field-select__input'), 'style' => 'width: 80%')); ?>
                                 <?php echo $form->error($modelClassroom, 'edcenso_stage_vs_modality_fk'); ?>
                                 <img class="loading-disciplines" style="display:none;position: fixed;margin: 5px 20px;"
                                      height="20px" width="20px"
@@ -149,7 +149,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php if (INSTANCE == "UBATUBA"): ?>
                                 <div class="t-field-text">
                                     <?php echo $form->labelEx($modelClassroom, "Turma *", array('class' => 't-field-text__label--required')); ?>
-                                    <?php echo $form->textField($modelClassroom, 'sedsp_acronym', array('size' => 2, 'maxlength' => 2, 'class' => 't-field-text__input', 'placeholder' => 'Ex: A, B, 1, A1, B1...', 'disabled' => $disableField)); ?>
+                                    <?php echo $form->textField($modelClassroom, 'sedsp_acronym', array('size' => 2, 'maxlength' => 2, 'class' => 't-field-text__input', 'placeholder' => 'Ex: A, B, 1, A1, B1...', 'disabled' => $disabledFields)); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_acronym'); ?>
                                 </div>
                             <?php endif; ?>
@@ -165,7 +165,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelClassroom, 'initial_hour', array('class' => 't-field-text__label--required')); ?>
                                 <?php echo $form->hiddenField($modelClassroom, 'initial_hour', array('size' => 2, 'maxlength' => 2)); ?>
                                 <?php echo $form->hiddenField($modelClassroom, 'initial_minute', array('size' => 2, 'maxlength' => 2)); ?>
-                                <?php echo CHtml::textField('Classroom_initial_time', $modelClassroom->initial_hour . '' . $modelClassroom->initial_minute, array('size' => 5, 'maxlength' => 5, 'class' => 't-field-text__input', 'placeholder' => ' Somente números', "disabled" => $disableField)); ?>
+                                <?php echo CHtml::textField('Classroom_initial_time', $modelClassroom->initial_hour . '' . $modelClassroom->initial_minute, array('size' => 5, 'maxlength' => 5, 'class' => 't-field-text__input', 'placeholder' => ' Somente números', "disabled" => $disabledFields)); ?>
                                 <!-- <?php echo Yii::t('help', 'Time'); ?> -->
                                 <?php echo $form->error($modelClassroom, 'initial_hour'); ?>
                                 <?php echo $form->error($modelClassroom, 'initial_minute'); ?>
@@ -182,7 +182,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     'I' => 'Integral'
                                 ), array(
                                     'class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%',
-                                    'disabled' => $disableField,
+                                    'disabled' => $disabledFields,
                                     'ajax' => array(
                                         'type' => 'POST',
                                         'url' => CController::createUrl('classroom/updateTime'),
@@ -201,7 +201,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelClassroom, 'final_hour', array('class' => 't-field-text__label--required', 'placeholder' => 'Somente números')); ?>
                                 <?php echo $form->hiddenField($modelClassroom, 'final_hour', array('size' => 2, 'maxlength' => 2)); ?>
                                 <?php echo $form->hiddenField($modelClassroom, 'final_minute', array('size' => 2, 'maxlength' => 2)); ?>
-                                <?php echo CHtml::textField('Classroom_final_time', $modelClassroom->final_hour . '' . $modelClassroom->final_minute, array('size' => 5, 'maxlength' => 5, 'class' => 't-field-text__input', 'placeholder' => ' Somente números', 'disabled' => $disableField)); ?>
+                                <?php echo CHtml::textField('Classroom_final_time', $modelClassroom->final_hour . '' . $modelClassroom->final_minute, array('size' => 5, 'maxlength' => 5, 'class' => 't-field-text__input', 'placeholder' => ' Somente números', 'disabled' => $disabledFields)); ?>
                                 <!-- <?php echo Yii::t('help', 'Time'); ?> -->
                                 <?php echo $form->error($modelClassroom, 'final_hour'); ?>
                                 <?php echo $form->error($modelClassroom, 'final_minute'); ?>
@@ -230,13 +230,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                             </td> -->
                                         </tr>
                                         <tr>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_monday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disableField)); ?></td>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_tuesday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disableField)); ?></td>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_wednesday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disableField)); ?></td>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_thursday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disableField)); ?></td>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_friday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disableField)); ?></td>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_saturday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disableField)); ?></td>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_sunday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disableField)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_monday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_tuesday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_wednesday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_thursday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_friday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_saturday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_sunday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?></td>
                                             <td></td>
                                         </tr>
                                     </table>

@@ -540,7 +540,7 @@ class ClassroomController extends Controller
         $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
         $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
 
-        $disableField = false;
+        $disabledFields = false;
         if (INSTANCE == "UBATUBA") {
             if ($modelClassroom->gov_id != null) {
                 $loginUseCase = new LoginUseCase();
@@ -553,7 +553,7 @@ class ClassroomController extends Controller
                 $outFormacaoClasse = $dataSource->getClassroom($inFormacaoClasse);
 
                 if ($outFormacaoClasse->getOutAlunos() !== null || property_exists($outFormacaoClasse, "outErro")) {
-                    $disableField = true;
+                    $disabledFields = true;
                 }
             }
         }
@@ -601,7 +601,11 @@ class ClassroomController extends Controller
 
             $modelClassroom->attributes = $_POST['Classroom'];
             $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
-            $modelClassroom->sedsp_sync = 0;
+
+            if (INSTANCE == "UBATUBA" && !$disabledFields) {
+                //comparar cada variável exportável para o SEDSP do modelClassroom e dbClassroom (puxar do banco). Se houver alguma diferença, setar sedsp_sync para 0
+                //$modelClassroom->sedsp_sync = 0;
+            }
 
             $disciplines = json_decode($_POST['disciplines'], true);
             $this->setDisciplines($modelClassroom, $disciplines);
@@ -641,7 +645,7 @@ class ClassroomController extends Controller
                         }
                         if ($saved) {
 
-                            if (INSTANCE == "UBATUBA") {
+                            if (INSTANCE == "UBATUBA" && !$modelClassroom->sedsp_sync) {
                                 $loginUseCase = new LoginUseCase();
                                 $loginUseCase->checkSEDToken();
 
@@ -676,7 +680,7 @@ class ClassroomController extends Controller
         $this->render('update', array(
             'modelClassroom' => $modelClassroom,
             'modelTeachingData' => $modelTeachingData,
-            'disableField' => $disableField
+            'disabledFields' => $disabledFields
         ));
     }
 
@@ -760,15 +764,14 @@ class ClassroomController extends Controller
 
         $flash = "success";
         if ($result->outErro !== null) {
-            $modelClassroom->sedsp_sync = 0;
             $message = "Turma " . ($tagAction == "create" ? "adicionada" : "atualizada") . "  no TAG, mas não foi possível sincronizá-la com o SEDSP. Motivo: " . $result->outErro;
             $flash = "error";
         } else {
             $modelClassroom->sedsp_sync = 1;
             $modelClassroom->gov_id = $sedspAction == "create" ? $result->outSucesso : $modelClassroom->gov_id;
+            $modelClassroom->save();
             $message = "Turma " . ($tagAction == "create" ? "adicionada" : "atualizada") . " com sucesso!";
         }
-        $modelClassroom->save();
 
         return ["flash" => $flash, "message" => $message];
     }

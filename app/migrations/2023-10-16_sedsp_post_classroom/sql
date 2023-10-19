@@ -14,3 +14,5 @@ CHANGE `sedsp_dependence` `sedsp_dependence` varchar(3) COLLATE 'utf8_unicode_ci
 
 ALTER TABLE `classroom`
 CHANGE `sedsp_dependence` `sedsp_classnumber` varchar(3) COLLATE 'utf8_unicode_ci' NULL AFTER `sedsp_acronym`;
+
+update classroom set sedsp_sync = 0 where sedsp_sync is null;
