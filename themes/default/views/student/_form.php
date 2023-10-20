@@ -50,7 +50,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <?php }
         ?>
 
-        <a href="<?php echo $this->createUrl('sedsp/default/UpdateStudentFromSedsp', array('gov_id' => $modelStudentIdentification->gov_id)); ?>"
+        <a href="<?php echo $this->createUrl('sedsp/default/UpdateStudentFromSedsp', array('gov_id' => $modelStudentIdentification->gov_id, 'id' => $modelStudentIdentification->id)); ?>"
             style="margin-right: 10px;background: #16205b;color: white;padding: 5px;border-radius: 5px;">
             <i class="fa fa-download" aria-hidden="true" style="margin-right: 5px;"></i>SEDSP para o TAG<span class="t-icon-sp" style="margin-left: 5px;"></span>
         </a>

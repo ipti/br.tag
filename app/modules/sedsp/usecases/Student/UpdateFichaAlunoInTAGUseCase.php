@@ -10,31 +10,56 @@ class UpdateFichaAlunoInTAGUseCase
         try {
             $mapper = (object) StudentMapper::parseToTAGExibirFichaAluno($response);
 
-            $studentIdentification = $mapper->StudentIdentification;
-            $studentDocumentsAndAddress = $mapper->StudentDocumentsAndAddress;
-
-            if ($studentIdentification === null) {
-                $studentIdentification = $this->createAndSaveStudentIdentification($mapper->StudentIdentification);
-            } else {
-                $aluno = StudentIdentification::model()->findByAttributes(array('gov_id' => $mapper->StudentIdentification->gov_id));
-                $aluno->attributes = $mapper->StudentIdentification->attributes;
-                $aluno->sedsp_sync = 1;
-                $aluno->save();
-            }
-
-            if ($studentDocumentsAndAddress === null) {
-                $studentDocumentsAndAddress = $this->createAndSaveStudentDocumentsAndAddress($mapper->StudentDocumentsAndAddress, $studentIdentification, $mapper->StudentDocumentsAndAddress->gov_id);
-            } else {
-                $studentDocumentsAndAddress->attributes = $mapper->StudentDocumentsAndAddress->attributes;
-                $studentDocumentsAndAddress->save();
-            }
+            $studentIdentification = $this->createOrUpdateStudentIdentification($mapper->StudentIdentification);
+            $studentDocumentsAndAddress = $this->createOrUpdateStudentDocumentsAndAddress($mapper->StudentDocumentsAndAddress, $studentIdentification, $mapper->StudentDocumentsAndAddress->gov_id);
 
             return $studentIdentification;
         } catch (Exception $e) {
-            $log = new LogError();
-            $log->salvarDadosEmArquivo($e->getMessage());
+            $this->handleException($mapper->StudentIdentification, $e);
         }
     }
+
+    private function createOrUpdateStudentIdentification($studentIdentification)
+    {
+        if ($studentIdentification === null) {
+            $studentIdentification = $this->createAndSaveStudentIdentification($studentIdentification);
+        } else {
+            $aluno = $this->findStudentByIdentification($studentIdentification->gov_id);
+            $aluno->attributes = $studentIdentification->attributes;
+            $aluno->sedsp_sync = 1;
+            $aluno->save();
+        }
+
+        return $studentIdentification;
+    }
+
+    private function createOrUpdateStudentDocumentsAndAddress($studentDocumentsAndAddress, $studentIdentification, $govId)
+    {
+        if ($studentDocumentsAndAddress === null) {
+            $studentDocumentsAndAddress = $this->createAndSaveStudentDocumentsAndAddress($studentDocumentsAndAddress, $studentIdentification, $govId);
+        } else {
+            $studentDocumentsAndAddress->attributes = $studentDocumentsAndAddress->attributes;
+            $studentDocumentsAndAddress->save();
+        }
+
+        return $studentDocumentsAndAddress;
+    }
+
+    private function findStudentByIdentification($govId)
+    {
+        return StudentIdentification::model()->findByAttributes(array('gov_id' => $govId));
+    }
+
+    private function handleException($studentIdentification, $e)
+    {
+        $aluno = $this->findStudentByIdentification($studentIdentification->gov_id);
+        $aluno->attributes = $studentIdentification->attributes;
+        $aluno->sedsp_sync = 0;
+        $aluno->save();
+        $log = new LogError();
+        $log->salvarDadosEmArquivo($e->getMessage());
+    }
+
 
     public function createAndSaveStudentDocumentsAndAddress($attributes, $studentIdentification, $gov_id)
     {
