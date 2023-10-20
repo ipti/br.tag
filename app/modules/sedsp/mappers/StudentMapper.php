@@ -38,6 +38,7 @@ class StudentMapper
         $inDadosPessoais->setInCodPaisOrigem($studentIdentificationTag->edcenso_nation_fk);
         $inDadosPessoais->setInPaisOrigem($studentIdentificationTag->edcensoNationFk->name);
         $inDadosPessoais->setInBolsaFamilia($studentIdentificationTag->bf_participator);
+        $inDadosPessoais->setInNomeSocial($studentIdentificationTag->civil_name);
 
         if($studentIdentificationTag->nationality == '1'){
             //Obrigatórios quando inNacionalidade = 1
@@ -161,7 +162,7 @@ class StudentMapper
         $inEnderecoResidencial->setInUfCidade($ufCidade->acronym);
         $inEnderecoResidencial->setInComplemento($studentDocumentsAndAddressTag->complement);
         $inEnderecoResidencial->setInCep($studentDocumentsAndAddressTag->cep);
-        $inEnderecoResidencial->setInAreaLogradouro($studentDocumentsAndAddressTag->residence_zone); // 1 - Rural; 2 - Urbana
+        $inEnderecoResidencial->setInAreaLogradouro(($studentDocumentsAndAddressTag->residence_zone) === '1'? '2' : '1'); //SED: 1:Rural; 2:Urbana  Tag: "1" => "URBANA", "2" => "RURAL"
         $inEnderecoResidencial->setInCodLocalizacaoDiferenciada($studentDocumentsAndAddressTag->diff_location);
         $inEnderecoResidencial->setInLatitude('0');
         $inEnderecoResidencial->setInLongitude('0');
