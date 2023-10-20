@@ -336,10 +336,11 @@ class DefaultController extends Controller
 
 	public function actionUpdateStudentFromSedsp()
 	{
-		if(!((date("H") >= 00) and (date("H") <= 06))){
+		/* 	
+			if(!((date("H") >= 00) and (date("H") <= 06))){
 			Yii::app()->user->setFlash('error', "SERVIÇO EM HORÁRIO NÃO DISPONÍVEL, DISPONIBILIDADE A PARTIR DE 06:00:00!");
 			$this->redirect(array('/student'));
-		}
+		} */
 
 		$this->checkSEDToken();
 

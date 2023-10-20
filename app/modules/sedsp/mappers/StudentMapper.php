@@ -119,20 +119,94 @@ class StudentMapper
                 $inDeficiencia->setInCodNecessidade('1');  //1 Múltipla
             } else {
                 $res = Yii::app()->db->createCommand($query)->bindValue(':id', $studentIdentificationTag->id)->queryAll();
+               
                 $deficiencyMap = [
-                    'deficiency_type_blindness' => '2', // Cegueira
-                    'deficiency_type_low_vision' => '3', // Baixa Visão
-                    'deficiency_type_deafness' => '4', // Surdez Severa ou Profunda
-                    'deficiency_type_disability_hearing' => '5', // Surdez Leve ou Moderada
-                    'deficiency_type_deafblindness' => '6', // Surdocegueira
-                    'deficiency_type_intelectual_disability' => '7', // Física – Paralisia Cerebral
-                    'deficiency_type_phisical_disability' => '8', // Física – Cadeirante
-                    'deficiency_type_autism' => '10', // Síndrome de Down
-                    'deficiency_type_gifted' => '30', // Altas Habilidades / Superdotação
+                    'deficiency_type_blindness' => '1',                              // Cegueira
+                    'deficiency_type_low_vision' => '2',                             // Baixa Visão
+                    'deficiency_type_deafness' => '3',                               // Sudez
+                    'deficiency_type_disability_hearing' => '4',                     // Deficiência auditiva
+                    'deficiency_type_deafblindness' => '5',                          // Surdocegueira
+                    'deficiency_type_phisical_disability' => '6',                    // Deficiência Física
+                    'deficiency_type_intelectual_disability' => '7',                 // Deficiência Intelectual
+                    'deficiency_type_multiple_disabilities' =>  '8',                 // Deficiência Múltipla
+                    'deficiency_type_autism' => '9',                                 // Transtorno do Espectro Autista
+                    'deficiency_type_gifted' => '10',                                // Altas Habilidades / Superdotação
+                    'resource_none' => '11'                                          // Nenhum   
                 ];
                 
+                // Recursos Avaliação
+                $inRecursoAvaliacao = new InRecursoAvaliacao;
+
                 foreach ($res as $re) {
                     $deficiency = $re["deficiency_type_blindness"];
+
+                    $inRecurso = $deficiencyMap[$deficiency];
+                
+                    if(
+                        $inRecurso == '1' ||
+                        $inRecurso == '2' ||
+                        $inRecurso == '3' ||
+                        $inRecurso == '4' ||
+                        $inRecurso == '5' ||
+                        $inRecurso == '6' ||
+                        $inRecurso == '7' ||
+                        $inRecurso == '8' ||
+                        $inRecurso == '9') {
+                            $inRecursoAvaliacao->setInAuxilioLeitor(1);
+                    }
+
+                    if(
+                        ($inRecurso == '1' ||
+                        $inRecurso == '2' ||
+                        $inRecurso == '3' ||
+                        $inRecurso == '4' ||
+                        $inRecurso == '5' ||
+                        $inRecurso == '6' ||
+                        $inRecurso == '7' ||
+                        $inRecurso == '8' ||
+                        $inRecurso == '9') && $inRecurso != '11') {
+                            $inRecursoAvaliacao->setInAuxilioTranscricao(1);
+                        }
+    
+                        
+                    if(
+                        ($inRecurso == '1' ||
+                        $inRecurso == '2' ||
+                        $inRecurso == '3' ||
+                        $inRecurso == '4' ||
+                        $inRecurso == '5' ||
+                        $inRecurso == '6' ||
+                        $inRecurso == '7' ||
+                        $inRecurso == '8' ||
+                        $inRecurso == '9') && $inRecurso != '11' && $inRecurso == '4') {
+                            $inRecursoAvaliacao->setInGuiaInterprete(1);
+                        }
+
+                        if(
+                            ($inRecurso == '1' ||
+                            $inRecurso == '2' ||
+                            $inRecurso == '3' ||
+                            $inRecurso == '4' ||
+                            $inRecurso == '5' ||
+                            $inRecurso == '6' ||
+                            $inRecurso == '7' ||
+                            $inRecurso == '8' ||
+                            $inRecurso == '9') && $inRecurso != '11' && $inRecurso == '3' && $inRecurso == '4' && $inRecurso == '5') {
+                                $inRecursoAvaliacao->setInInterpreteLibras(1);
+                            }
+                        
+                        
+                        $inRecursoAvaliacao->setInNenhum(null);
+                        
+                        
+                        $inRecursoAvaliacao->setInLeituraLabial(null);
+                        $inRecursoAvaliacao->setInProvaBraile(null);
+                        $inRecursoAvaliacao->setInProvaAmpliada(null);
+                        $inRecursoAvaliacao->setInFonteProva('12');
+                        $inRecursoAvaliacao->setInProvaVideoLibras(null);
+                        $inRecursoAvaliacao->setInProvaLinguaPortuguesa(null);
+                       
+
                     $inDeficiencia->setInCodNecessidade($deficiencyMap[$deficiency]);
                 }
             }
@@ -141,7 +215,7 @@ class StudentMapper
         //Matrículas
 
 
-        // Documentos  
+        // Documentos
         $inDocuments = new InDocumentos();
         $inDocuments->setInNumInep($studentDocumentsAndAddressTag->gov_id);
         $inDocuments->setInCpf($studentDocumentsAndAddressTag->cpf);
@@ -165,19 +239,6 @@ class StudentMapper
         $inEnderecoResidencial->setInCodLocalizacaoDiferenciada($studentDocumentsAndAddressTag->diff_location);
         $inEnderecoResidencial->setInLatitude('0');
         $inEnderecoResidencial->setInLongitude('0');
-
-        // Recursos
-        $inRecursoAvaliacao = new InRecursoAvaliacao;
-        $inRecursoAvaliacao->setInNenhum(null);
-        $inRecursoAvaliacao->setInAuxilioLeitor(null);
-        $inRecursoAvaliacao->setInAuxilioTranscricao(null);
-        $inRecursoAvaliacao->setInLeituraLabial(null);
-        $inRecursoAvaliacao->setInProvaBraile(null);
-        $inRecursoAvaliacao->setInProvaAmpliada(null);
-        
-        $inRecursoAvaliacao->setInFonteProva('12');
-        $inRecursoAvaliacao->setInProvaVideoLibras(null);
-        $inRecursoAvaliacao->setInProvaLinguaPortuguesa(null);
 
 
         $parseResult["InAluno"] = $inAluno;
