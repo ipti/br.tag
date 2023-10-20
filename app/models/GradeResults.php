@@ -79,11 +79,16 @@ class GradeResults extends CActiveRecord
 		return array(
 			array('enrollment_fk, discipline_fk', 'required'),
 			array('enrollment_fk, discipline_fk', 'numerical', 'integerOnly'=>true),
-			array('grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, grade_faults_1, grade_faults_2, grade_faults_3, grade_faults_4, grade_faults_5, grade_faults_6, grade_faults_7, grade_faults_8, given_classes_1, given_classes_2, given_classes_3, given_classes_4, given_classes_5, given_classes_6, given_classes_7, given_classes_8, rec_bim_1, rec_bim_2, rec_bim_3, rec_bim_4, rec_bim_5, rec_bim_6, rec_bim_7, rec_bim_8, rec_sem_1, rec_sem_2, rec_sem_3, rec_sem_4, rec_final, final_media', 'numerical'),
+			array('grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, grade_faults_1, grade_faults_2, grade_faults_3, grade_faults_4, grade_faults_5, grade_faults_6,
+            grade_faults_7, grade_faults_8, given_classes_1, given_classes_2, given_classes_3, given_classes_4, given_classes_5, given_classes_6, given_classes_7, given_classes_8, rec_bim_1,
+            rec_bim_2, rec_bim_3, rec_bim_4, rec_bim_5, rec_bim_6, rec_bim_7, rec_bim_8, rec_sem_1, rec_sem_2, rec_sem_3, rec_sem_4, rec_final, final_media', 'numerical'),
 			array('grade_concept_1, grade_concept_2, grade_concept_3, grade_concept_4, grade_concept_5, grade_concept_6, grade_concept_7, grade_concept_8, situation', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, grade_faults_1, grade_faults_2, grade_faults_3, grade_faults_4, grade_faults_5, grade_faults_6, grade_faults_7, grade_faults_8, rec_bim_1, rec_bim_2, rec_bim_3, rec_bim_4, rec_bim_5, rec_bim_6, rec_bim_7, rec_bim_8, rec_sem_1, rec_sem_2, rec_sem_3, rec_sem_4, rec_final, final_media, grade_concept_1, grade_concept_2, grade_concept_3, grade_concept_4, grade_concept_5, grade_concept_6, grade_concept_7, grade_concept_8, situation, enrollment_fk, discipline_fk', 'safe', 'on'=>'search'),
+			array('id, grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, grade_faults_1, grade_faults_2, grade_faults_3, grade_faults_4, grade_faults_5, grade_faults_6,
+            grade_faults_7, grade_faults_8, rec_bim_1, rec_bim_2, rec_bim_3, rec_bim_4, rec_bim_5, rec_bim_6, rec_bim_7, rec_bim_8, rec_sem_1, rec_sem_2, rec_sem_3, rec_sem_4, rec_final,
+            final_media, grade_concept_1, grade_concept_2, grade_concept_3, grade_concept_4, grade_concept_5, grade_concept_6, grade_concept_7, grade_concept_8, situation, enrollment_fk,
+            discipline_fk', 'safe', 'on'=>'search'),
 		);
 	}
 

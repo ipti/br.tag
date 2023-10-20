@@ -466,7 +466,8 @@ class EnrollmentController extends Controller
 
                 foreach ($unities as $key => $value) {
                     $index = $key + 1;
-                    array_push($arr["grades"], ["value" => $gradeResult["grade_" . $index], "faults" => $gradeResult["grade_faults_" . $index], "givenClasses" => $gradeResult["given_classes_" . $index]]);
+                    array_push($arr["grades"], ["value" => $gradeResult["grade_" . $index], "faults" => $gradeResult["grade_faults_" . $index],
+                    "givenClasses" => $gradeResult["given_classes_" . $index]]);
                 }
 
                 $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";

@@ -74,14 +74,6 @@ $('#discipline').change(function (e, triggerEvent) {
                     html +=
                     `</div>`;
 
-                    const gradesAndFaults =  data.unities.map(element => {
-                        return ` <th>Nota</th><th>Faltas</th>`;
-                    });
-
-                    const unities =  data.unities.map(element => {
-                        return `<th colspan='3' style='width:20%;'>${element.name}</th>`;
-                    });
-
                     html += `
                     <table class='grades-table table table-bordered table-striped'>
                         <thead>
