@@ -621,7 +621,6 @@ class ClassroomController extends Controller
 
                     $modelClassroom->sedsp_sync = 0;
                 }
-                var_dump($modelClassroom->sedsp_sync);exit;
             }
 
             $disciplines = json_decode($_POST['disciplines'], true);
