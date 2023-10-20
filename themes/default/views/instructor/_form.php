@@ -130,7 +130,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 </div>
                             </div>
 
-                            <div class="control-group">
+                            <div class="control-group" id="cpfInstructor">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cpf', array('class' => 'control-label required')); ?>
                                 </div>
@@ -179,7 +179,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 </div>
                             </div>
 
-                            <div class="control-group">
+                            <div class="control-group" id="gender-select">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorIdentification, 'sex', array('class' => 'control-label ')); ?>
                                 </div>
@@ -189,7 +189,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 </div>
                             </div>
 
-                            <div class="control-group">
+                            <div class="control-group" id="colorRace">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorIdentification, 'color_race', array('class' => 'control-label')); ?>
                                 </div>
@@ -199,7 +199,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 </div>
                             </div>
 
-                            <div class="control-group">
+                            <div class="control-group" id="filiation-select">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorIdentification, 'filiation', array('class' => 'control-label')); ?>
                                 </div>
@@ -238,7 +238,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 
                         <div class=" span6">
                             <div class="separator"></div>
-                            <div class="control-group">
+                            <div class="control-group" id="nationality_select">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorIdentification, 'nationality', array('class' => 'control-label')); ?>
                                 </div>
@@ -257,7 +257,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <?php echo $form->error($modelInstructorIdentification, 'edcenso_nation_fk'); ?>
                                 </div>
                             </div>
-                            <div class="control-group">
+                            <div class="control-group" id="state-select">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_uf_fk', array('class' => 'control-label')); ?>
                                 </div>
@@ -274,7 +274,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 </div>
                             </div>
 
-                            <div class="control-group">
+                            <div class="control-group" id="city-select">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_city_fk', array('class' => 'control-label')); ?>
                                 </div>
@@ -451,13 +451,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                         'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array("order" => "name")), 'id', 'name'),
                                         array(
                                             'prompt' => 'Selecione um estado',
-                                            'class' => 'select-search-on control-input',
-                                            'ajax' => array(
-                                                'type' => 'POST',
-                                                'url' => CController::createUrl('Instructor/getcity'),
-                                                'update' => '#InstructorDocumentsAndAddress_edcenso_city_fk',
-                                                'data' => array('edcenso_uf_fk' => 'js:this.value'),
-                                            )
+                                            'class' => 'select-search-on control-input'
                                         )
                                     ); ?>
                                     <?php echo $form->error($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk'); ?>
@@ -472,7 +466,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <?php echo $form->error($modelInstructorDocumentsAndAddress, 'edcenso_city_fk'); ?>
                                 </div>
                             </div>
-                            <div class="control-group hide-responsive">
+                            <div class="control-group hide-responsive" id="location-select">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'diff_location', array('class' => 'control-label')); ?>
                                 </div>
@@ -483,7 +477,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     </div>
                                 </div>
                             </div>
-                            <div class="control-group">
+                            <div class="control-group" id="zone-select">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'area_of_residence', array('class' => 'control-label required')); ?>
                                 </div>
