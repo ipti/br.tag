@@ -132,9 +132,8 @@ class StudentMapper
                 ];
                 
                 foreach ($res as $re) {
-                    if (isset($deficiencyMap[$re])) {
-                        $inDeficiencia->setInCodNecessidade($deficiencyMap[$re]);
-                    }
+                    $deficiency = $re["deficiency_type_blindness"];
+                    $inDeficiencia->setInCodNecessidade($deficiencyMap[$deficiency]);
                 }
             }
         }

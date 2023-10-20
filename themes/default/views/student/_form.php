@@ -52,7 +52,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <a href="<?php echo $this->createUrl('sedsp/default/UpdateStudentFromSedsp', array('gov_id' => $modelStudentIdentification->gov_id, 'id' => $modelStudentIdentification->id)); ?>"
             style="margin-right: 10px;background: #16205b;color: white;padding: 5px;border-radius: 5px;">
-            <i class="fa fa-download" aria-hidden="true" style="margin-right: 5px;"></i>SEDSP para o TAG<span class="t-icon-sp" style="margin-left: 5px;"></span>
+            Sincronizar SEDSP <i class="fa fa-arrow-right" aria-hidden="true"></i> TAG
         </a>
 
         <button class="t-button-primary  last save-student" type="button">
@@ -296,7 +296,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 array('size' => 60, 'maxlength' => 255, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Email')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'id_email'); ?>
                             </div>
-                        </div>
+                            </div>
                         <!-- Escolaridade -->
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-select js-hide-not-required">

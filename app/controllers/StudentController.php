@@ -445,8 +445,11 @@ class StudentController extends Controller
                         }
 
                         if ($saved) {
-                            $exi = $this->syncStudentWithSED($id);
 
+                            if(!((date("H") >= 00) and (date("H") <= 06))){
+                                $exi = $this->syncStudentWithSED($id);
+                            }
+                            
                             if($exi->outErro !== null){
                                 Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
                                 $msg = '<p style="color: white;background: #23b923;padding: 10px;border-radius: 4px;">O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!</p> Mas não foi possível fazer a sincronização! </br><b>ERROR: </b>: '. $exi->outErro;
@@ -515,8 +518,6 @@ class StudentController extends Controller
                 $stdi->sedsp_sync = 1;
                 $stdi->save();
             }
-
-
         } elseif ($outListStudent->outErro === null) {
             $outNumRA = $outListStudent->getOutListaAlunos();
             $numRA = $outNumRA[0]->getOutNumRa();
