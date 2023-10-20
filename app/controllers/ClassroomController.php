@@ -598,12 +598,30 @@ class ClassroomController extends Controller
             $_POST['Classroom']["complementary_activity_type_5"] = isset($compActs[4]) ? $compActs[4] : null;
             $_POST['Classroom']["complementary_activity_type_6"] = isset($compActs[5]) ? $compActs[5] : null;
 
+            $beforeChangeClassroom = new Classroom();
+            $beforeChangeClassroom->attributes = $modelClassroom->attributes;
             $modelClassroom->attributes = $_POST['Classroom'];
             $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
 
             if (INSTANCE == "UBATUBA" && !$disabledFieldsForSEDSP) {
-                //comparar cada variável exportável para o SEDSP do modelClassroom e dbClassroom (puxar do banco). Se houver alguma diferença, setar sedsp_sync para 0
-                $modelClassroom->sedsp_sync = 0;
+                //comparar cada variável exportável para o SEDSP classroom antes e depois do post. Se houver alguma diferença, setar sedsp_sync para 0
+
+                if ($beforeChangeClassroom->turn != $modelClassroom->turn ||
+                    $beforeChangeClassroom->sedsp_acronym != $modelClassroom->sedsp_acronym ||
+                    $beforeChangeClassroom->initial_hour != $modelClassroom->initial_hour ||
+                    $beforeChangeClassroom->initial_minute != $modelClassroom->initial_minute ||
+                    $beforeChangeClassroom->final_hour != $modelClassroom->final_hour ||
+                    $beforeChangeClassroom->final_minute != $modelClassroom->final_minute ||
+                    $beforeChangeClassroom->week_days_monday != $modelClassroom->week_days_monday ||
+                    $beforeChangeClassroom->week_days_tuesday != $modelClassroom->week_days_tuesday ||
+                    $beforeChangeClassroom->week_days_wednesday != $modelClassroom->week_days_wednesday ||
+                    $beforeChangeClassroom->week_days_thursday != $modelClassroom->week_days_thursday ||
+                    $beforeChangeClassroom->week_days_friday != $modelClassroom->week_days_friday ||
+                    $beforeChangeClassroom->week_days_saturday != $modelClassroom->week_days_saturday) {
+
+                    $modelClassroom->sedsp_sync = 0;
+                }
+                var_dump($modelClassroom->sedsp_sync);exit;
             }
 
             $disciplines = json_decode($_POST['disciplines'], true);
