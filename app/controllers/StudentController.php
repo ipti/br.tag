@@ -333,13 +333,16 @@ class StudentController extends Controller
                             }
 
                             if ($saved) {
-
-                                Log::model()->saveAction("student", $modelStudentIdentification->id, "C", $modelStudentIdentification->name);
-                                $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!';
-
-                                Yii::app()->user->setFlash('success', Yii::t('default', $msg));
-
-                                $this->syncStudentWithSED($modelStudentIdentification->id);
+                                $outResponse = $this->syncStudentWithSED($modelStudentIdentification->id);
+                                if($outResponse  !== null){
+                                    Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
+                                    $msg = '<p style="color: white;background: #23b923;padding: 10px;border-radius: 4px;">O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!</p> Mas não foi possível fazer a sincronização! </br><b>ERROR: </b>: '. $outResponse->outErro;
+                                    Yii::app()->user->setFlash('error', Yii::t('default', $msg));
+                                }else{
+                                    Log::model()->saveAction("student", $modelStudentIdentification->id, "C", $modelStudentIdentification->name);
+                                    $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!';
+                                    Yii::app()->user->setFlash('success', Yii::t('default', $msg));
+                                }
 
                                 $this->redirect(array('index', 'sid' => $modelStudentIdentification->id));
                             }
@@ -446,8 +449,8 @@ class StudentController extends Controller
 
                             if($exi->outErro !== null){
                                 Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
-                                $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso! Mas não foi possível fazer a sincronização! Erro: '. $exi->outErro;
-                                Yii::app()->user->setFlash('error', Yii::t('default', $msg));
+                                $msg = '<p style="color: white;background: #23b923;padding: 10px;border-radius: 4px;">O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!</p> Mas não foi possível fazer a sincronização! </br><b>ERROR: </b>: '. $exi->outErro;
+                                echo Yii::app()->user->setFlash('error', Yii::t('default', $msg));
                             }else{
                                 Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
                                 $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!';
@@ -499,22 +502,32 @@ class StudentController extends Controller
         $outListStudent = $dataSource->getListStudents($inListarAlunos);
 
         $studentToSedMapper = new StudentMapper();
-
-        $outNumRA = $outListStudent->getOutListaAlunos();
-        $numRA = $outNumRA[0]->getOutNumRa();
     
         $student = (object) $studentToSedMapper->parseToSEDAlunoFicha($studentIdentification, $studentInfo['modelStudentDocumentsAndAddress']);
 
         if ($outListStudent->outErro !== null) {
             $inConsult = $this->createInConsult($student);
-            return $dataSource->addStudent($inConsult);
+            $statusAdd = $dataSource->addStudent($inConsult);
+
+            if($statusAdd->outErro === null) {
+                $stdi = StudentIdentification::model()->findByPk($id);
+                $stdi->gov_id = $statusAdd->outAluno->outNumRA;
+                $stdi->sedsp_sync = 1;
+                $stdi->save();
+            }
+
+
         } elseif ($outListStudent->outErro === null) {
+            $outNumRA = $outListStudent->getOutListaAlunos();
+            $numRA = $outNumRA[0]->getOutNumRa();
+            
             $student->InAluno->setInNumRA($numRA);
 
             $inManutencao = $this->createInManutencao($student);
             $dataSource = new StudentSEDDataSource();
                 
             $studentIdentification->sedsp_sync = 1;
+            $studentIdentification->gov_id = $numRA;
             $studentIdentification->save();
 
             return $dataSource->editStudent($inManutencao);
