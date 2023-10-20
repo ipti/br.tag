@@ -42,6 +42,7 @@ class ClassroomMapper
         $classroomTag->pedagogical_mediation_type = 1;
         $classroomTag->sedsp_acronym = $response->getOutTurma();
         $classroomTag->sedsp_classnumber = $response->getOutNumeroSala();
+        $classroomTag->sedsp_max_physical_capacity = $response->getOutNrCapacidadeFisicaMaxima();
         $classroomTag->sedsp_sync = 1;
 
         $indexedByAcronym = [];
@@ -144,6 +145,7 @@ class ClassroomMapper
             $classroom->turn = self::convertCodTurno($classe->getOutCodTurno());
             $classroom->sedsp_acronym = $response->getOutTurma();
             $classroom->sedsp_classnumber = $response->getOutNumeroSala();
+            $classroom->sedsp_max_physical_capacity = $response->getOutNrCapacidadeFisicaMaxima();
             $classroom->sedsp_sync = 1;
 
             $arrayClasses[] = $classroom;
@@ -194,6 +196,7 @@ class ClassroomMapper
         $classroomTag->pedagogical_mediation_type = 1;
         $classroomTag->sedsp_acronym = $outConsultaTurmaClasse->getOutTurma();
         $classroomTag->sedsp_classnumber = $outConsultaTurmaClasse->getOutNumeroSala();
+        $classroomTag->sedsp_max_physical_capacity = $outConsultaTurmaClasse->getOutNrCapacidadeFisicaMaxima();
         $classroomTag->sedsp_sync = 1;
 
         return $classroomTag;

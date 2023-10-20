@@ -152,6 +152,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->textField($modelClassroom, 'sedsp_acronym', array('size' => 2, 'maxlength' => 2, 'class' => 't-field-text__input', 'placeholder' => 'Ex: A, B, 1, A1, B1...', 'disabled' => $disabledFields)); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_acronym'); ?>
                                 </div>
+                                <div class="t-field-text">
+                                    <?php echo $form->labelEx($modelClassroom, "Sala de Aula *", array('class' => 't-field-text__label--required')); ?>
+                                    <?php echo $form->numberField($modelClassroom, 'sedsp_classnumber', array('min' => 1, 'max' => 99, 'size' => 2, 'maxlength' => 2, 'class' => 't-field-text__input', 'disabled' => $disabledFields)); ?>
+                                    <?php echo $form->error($modelClassroom, 'sedsp_classnumber'); ?>
+                                </div>
+                                <div class="t-field-text">
+                                    <?php echo $form->labelEx($modelClassroom, "Capacidade Fisica Maxima *", array('class' => 't-field-text__label--required')); ?>
+                                    <?php echo $form->numberField($modelClassroom, 'sedsp_max_physical_capacity', array('size' => 2, 'min' => 1, 'max' => 99, 'maxlength' => 2, 'class' => 't-field-text__input', 'disabled' => $disabledFields)); ?>
+                                    <?php echo $form->error($modelClassroom, 'sedsp_max_physical_capacity'); ?>
+                                </div>
                             <?php endif; ?>
                         </div>
                     </div>

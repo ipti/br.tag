@@ -540,21 +540,9 @@ class ClassroomController extends Controller
         $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
         $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
 
-        $disabledFieldsForSEDSP = false;
-        if (INSTANCE == "UBATUBA") {
-            if ($modelClassroom->gov_id != null) {
-                $loginUseCase = new LoginUseCase();
-                $loginUseCase->checkSEDToken();
-
-                $inFormacaoClasse = new InFormacaoClasse(
-                    $modelClassroom->gov_id
-                );
-                $dataSource = new ClassStudentsRelationSEDDataSource();
-                $outFormacaoClasse = $dataSource->getClassroom($inFormacaoClasse);
-                if ($outFormacaoClasse->outErro == null) {
-                    $disabledFieldsForSEDSP = true;
-                }
-            }
+        $disableFieldsWhenItsUBATUBA = false;
+        if (INSTANCE == "UBATUBA" && $modelClassroom->gov_id != null && !empty($modelClassroom->studentEnrollments)) {
+            $disableFieldsWhenItsUBATUBA = true;
         }
 
         if (isset($_POST['enrollments']) && isset($_POST['toclassroom'])) {
@@ -603,11 +591,12 @@ class ClassroomController extends Controller
             $modelClassroom->attributes = $_POST['Classroom'];
             $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
 
-            if (INSTANCE == "UBATUBA" && !$disabledFieldsForSEDSP) {
-                //comparar cada variável exportável para o SEDSP classroom antes e depois do post. Se houver alguma diferença, setar sedsp_sync para 0
+            if (INSTANCE == "UBATUBA" && !$disableFieldsWhenItsUBATUBA) {
 
                 if ($beforeChangeClassroom->turn != $modelClassroom->turn ||
                     $beforeChangeClassroom->sedsp_acronym != $modelClassroom->sedsp_acronym ||
+                    $beforeChangeClassroom->sedsp_classnumber != $modelClassroom->sedsp_classnumber ||
+                    $beforeChangeClassroom->sedsp_max_physical_capacity != $modelClassroom->sedsp_max_physical_capacity ||
                     $beforeChangeClassroom->initial_hour != $modelClassroom->initial_hour ||
                     $beforeChangeClassroom->initial_minute != $modelClassroom->initial_minute ||
                     $beforeChangeClassroom->final_hour != $modelClassroom->final_hour ||
@@ -673,7 +662,7 @@ class ClassroomController extends Controller
                                 $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
 
                                 if (!property_exists($outConsultaTurmaClasse, "outErro")) {
-                                    $result = $this->classroomSyncToSEDSP($modelClassroom, "edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create", $outConsultaTurmaClasse);
+                                    $result = $this->classroomSyncToSEDSP($modelClassroom, "edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create");
                                 } else {
                                     $result = ["flash" => "error", "message" => $outConsultaTurmaClasse->outErro];
                                 }
@@ -696,11 +685,11 @@ class ClassroomController extends Controller
         $this->render('update', array(
             'modelClassroom' => $modelClassroom,
             'modelTeachingData' => $modelTeachingData,
-            'disabledFields' => $disabledFieldsForSEDSP
+            'disabledFields' => $disableFieldsWhenItsUBATUBA
         ));
     }
 
-    private function classroomSyncToSEDSP($modelClassroom, $tagAction, $sedspAction, $outConsultaTurmaClasse)
+    private function classroomSyncToSEDSP($modelClassroom, $tagAction, $sedspAction)
     {
         $inDiasDaSemana = new InDiasDaSemana(
             $modelClassroom->week_days_monday,
@@ -742,8 +731,8 @@ class ClassroomController extends Controller
                 ClassroomMapper::revertCodTurno($modelClassroom->turn),
                 0,
                 $modelClassroom->sedsp_acronym,
-                "2", //dependencia (problema)
-                99,
+                $modelClassroom->sedsp_classnumber,
+                $modelClassroom->sedsp_max_physical_capacity,
                 $firstDay,
                 $lastDay,
                 $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute,
@@ -762,7 +751,7 @@ class ClassroomController extends Controller
                 0,
                 ClassroomMapper::revertCodTurno($modelClassroom->turn),
                 $modelClassroom->sedsp_acronym,
-                $outConsultaTurmaClasse->outNrCapacidadeFisicaMaxima,
+                $modelClassroom->sedsp_max_physical_capacity,
                 $firstDay,
                 $lastDay,
                 $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute,
@@ -770,7 +759,7 @@ class ClassroomController extends Controller
                 0,
                 null,
                 null,
-                "2", //dependencia (problema)
+                $modelClassroom->sedsp_classnumber,
                 $inDiasDaSemana
             );
 
@@ -863,7 +852,7 @@ class ClassroomController extends Controller
         $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
 
         if (!property_exists($outConsultaTurmaClasse, "outErro")) {
-            $result = $this->classroomSyncToSEDSP($modelClassroom, "edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create", $outConsultaTurmaClasse);
+            $result = $this->classroomSyncToSEDSP($modelClassroom, "edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create");
         } else {
             $result = ["flash" => "error", "message" => $outConsultaTurmaClasse->outErro];
         }

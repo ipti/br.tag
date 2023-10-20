@@ -131,6 +131,14 @@ $(".save-classroom").click(function () {
         error = true;
         message += "Campo <b>Turma</b> é obrigatório.<br>";
     }
+    if ($("#Classroom_sedsp_classnumber").length && ($("#Classroom_sedsp_classnumber").val() === "" || $("#Classroom_sedsp_classnumber").val() < 1 || $("#Classroom_sedsp_classnumber").val() > 99)) {
+        error = true;
+        message += "Campo <b>Sala de Aula</b> é obrigatório, com limite de 02 dígitos.<br>";
+    }
+    if ($("#Classroom_sedsp_max_physical_capacity").length && ($("#Classroom_sedsp_max_physical_capacity").val() === "" || $("#Classroom_sedsp_max_physical_capacity").val() < 1 || $("#Classroom_sedsp_max_physical_capacity").val() > 99)) {
+        error = true;
+        message += "Campo <b>Capacidade Física Máxima</b> é obrigatório, com limite máximo de 99.<br>";
+    }
     if (error) {
         $("html, body").animate({scrollTop: 0}, "fast");
         $(this).closest("form").find(".classroom-error").html(message).show();
