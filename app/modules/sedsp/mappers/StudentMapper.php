@@ -31,6 +31,7 @@ class StudentMapper
         $inDadosPessoais->setInCorRaca($studentIdentificationTag->color_race);
         $inDadosPessoais->setInSexo($studentIdentificationTag->sex);
         $inDadosPessoais->setInBolsaFamilia($studentIdentificationTag->bf_participator);
+        $inDadosPessoais->setInEmail($studentIdentificationTag->id_email);
         $inDadosPessoais->setInQuilombola(0);
         $inDadosPessoais->setInNumeroCNS($studentDocumentsAndAddressTag->cns);
         $inDadosPessoais->setInNacionalidade(empty($studentIdentificationTag->nationality) ? '1' : $studentIdentificationTag->nationality);

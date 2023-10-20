@@ -172,6 +172,7 @@ class StudentSEDDataSource extends SedDataSource
         try{
             $url = '/ncaapi/api/Aluno/Manutencao';
             $response = $this->getApiResponse('POST', $url, $inManutenção);
+            
             return OutHandleApiResult::fromJson($response);
         } catch(RequestException $clienteException) {
             echo 'Erro durante a requisição: ' . $clienteException->getMessage();
