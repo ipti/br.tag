@@ -343,13 +343,14 @@ class DefaultController extends Controller
 
 			$exibirFicha = new UpdateFichaAlunoInTAGUseCase();
 			$statusSave = $exibirFicha->exec($inAluno);
+			$id = $_GET["id"];
 
 			if ($statusSave) {
-				Yii::app()->user->setFlash('success', "O Aluno sincronizado com sucesso.");
-				$this->redirect(array('index'));
+				Yii::app()->user->setFlash('success', "Aluno sincronizado com sucesso.");
+				$this->redirect(array('/student/update', 'id' => $id));
 			} else {
 				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
-				$this->redirect(array('student/update'));
+				$this->redirect(array('/student/update', 'id' => $id));
 			}
 		} catch (Exception $e) {
 			Yii::app()->user->setFlash('error', "A escola do aluno não está cadastrada no TAG");
