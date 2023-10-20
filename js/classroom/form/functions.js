@@ -75,9 +75,7 @@ var addTeachingData = function () {
     var role = $("#Role");
     if ((role.val().length !== 0 && instructors.val().length !== 0)
         || (role.val().length === 0 && instructors.val().length === 0)) {
-        // addTeachingData();
         removeError(id);
-        // $(this).dialog("close");
     } else {
         addError(id, "Selecione um cargo");
     }
@@ -95,6 +93,7 @@ var addTeachingData = function () {
     $.each($("#s2id_Disciplines li.select2-search-choice"), function (i, v) {
         disciplineNameList[i] = $(v).text();
     });
+    console.log(s2id_Disciplines);
 
     //Se for uma string vazia
     if (instructorId.length == 0) {
@@ -102,7 +101,7 @@ var addTeachingData = function () {
             if ($("#DisciplinesWithoutInstructors li[discipline=" + disciplineList[i] + "]").length == 0) {
                 $("#DisciplinesWithoutInstructors").append(""
                     + "<li class='li-discipline' discipline='" + disciplineList[i] + "'><span>" + name + "</span>"
-                    + "<a href='#' class='deleteTeachingData delete' title='Excluir'> </a> "
+                    + "<a href='#' class='deleteTeachingData delete' title='Excluir'></a>"
                     + "</li>");
             }
             disciplines[disciplineList[i]] = 2;
@@ -166,7 +165,6 @@ var addTeachingData = function () {
     }
     $('#RegentTeacher').prop('checked', false);
     $("#addTeacherSchoolComponent select").val('').trigger('change');
-
 }
 
 //Cria estrutura de uma aula

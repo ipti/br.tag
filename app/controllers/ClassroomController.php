@@ -1,6 +1,6 @@
 <?php
 /*
- * 
+ *
  */
 
 //-----------------------------------------CLASSE VALIDADA ATÉ A SEQUENCIA 35!!------------------------
@@ -140,12 +140,12 @@ class ClassroomController extends Controller
 
     public function actionUpdateAssistanceTypeDependencies()
     {
-        /* 	Campo	18	Se Campo 17 = 1|5, desabilita; 
+        /* 	Campo	18	Se Campo 17 = 1|5, desabilita;
           Se Campo 17 = 0|2|3, campo 36 hanilita 1 e 2 e campo 37 habilita [4..38]|41|56;
           Se Campo 17 = 4, campo 36&37 = null
           Campo	19~24	Se Campo 17 = 4; Pelo menos um, Não repetidos.
           Campo 	25~35	Se Campo 17 = 5; Pelo menos um diferente de 0.
-         * 
+         *
          * 17 tipo de atendimento
          * 18 mais edu
          * 19~24 tipo de atividade
@@ -215,7 +215,7 @@ class ClassroomController extends Controller
         $stage = $modelClassroom->edcenso_stage_vs_modality_fk;
         $putNull = ($type == 4 || $type == 5) || ($stage == 1 || $stage == 2 || $stage == 3 || $stage == 65);
 
-        
+
         $modelClassroom->discipline_chemistry = $putNull ? null : (isset($discipline[1]) ? $discipline[1] : 0);
         $modelClassroom->discipline_physics = $putNull ? null : (isset($discipline[2]) ? $discipline[2] : 0);
         $modelClassroom->discipline_mathematics = $putNull ? null : (isset($discipline[3]) ? $discipline[3] : 0);
@@ -252,7 +252,7 @@ class ClassroomController extends Controller
         $disciplines =  EdcensoDiscipline::model()->findAll(['select' => 'id, name']);
         foreach ($disciplines as $value) {
             $labels[$value->id] = $value->name;
-        } 
+        }
         return $labels;
     }
 
@@ -262,7 +262,7 @@ class ClassroomController extends Controller
         $disciplines =  EdcensoDiscipline::model()->findAll(['select' => 'id, name']);
         foreach ($disciplines as $value) {
             $labels[$value->id] = $value->name;
-        }   
+        }
         return $labels;
     }
 
@@ -303,11 +303,11 @@ class ClassroomController extends Controller
     public static function classroomDiscipline2array($classroom)
     {
 
-        $disciplines = array();        
+        $disciplines = array();
         $classroomModel =  Classroom::model()
-            ->with("edcensoStageVsModalityFk.curricularMatrixes.disciplineFk")            
+            ->with("edcensoStageVsModalityFk.curricularMatrixes.disciplineFk")
             ->find("t.id = :classroom", [":classroom" => $classroom->id]);
-        
+
         foreach ($classroomModel->edcensoStageVsModalityFk->curricularMatrixes as $key => $matrix) {
             $disciplines[$matrix->disciplineFk->id] = $matrix->disciplineFk->name;
         }
@@ -464,7 +464,7 @@ class ClassroomController extends Controller
             $modelClassroom->attributes = $_POST['Classroom'];
             $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
 
-            
+
 
             if ($modelClassroom->week_days_sunday || $modelClassroom->week_days_monday || $modelClassroom->week_days_tuesday || $modelClassroom->week_days_wednesday || $modelClassroom->week_days_thursday || $modelClassroom->week_days_friday || $modelClassroom->week_days_saturday) {
 
@@ -652,7 +652,7 @@ class ClassroomController extends Controller
     public function actionIndex()
     {
         $dataProvider = Classroom::model()->with('enrollmentsCount')->search();
-    
+
         $this->render('index', array(
             'dataProvider' => $dataProvider,
         ));
@@ -758,8 +758,8 @@ class ClassroomController extends Controller
     public function actionUpdateDisciplines()
     {
         $disciplines = Yii::app()->db->createCommand("
-            select ed.id, ed.name from curricular_matrix cm 
-            join edcenso_discipline ed on ed.id = cm.discipline_fk
+            select ed.id, ed.name from curricular_matrix cm join
+            edcenso_discipline ed on ed.id = cm.discipline_fk
             where cm.stage_fk = :id and cm.school_year = :year")
             ->bindParam(":id", $_POST["id"])->bindParam(":year", Yii::app()->user->year)->queryAll();
         if ($disciplines) {
@@ -768,8 +768,7 @@ class ClassroomController extends Controller
             echo json_encode(["valid" => false]);
         }
     }
-    public function actionChangeEnrollments()
-    {
+    public function actionChangeEnrollments(){
     $ids  = $_POST['list'];
     $enrollments = StudentEnrollment::model()->findAllByPk($ids);
 
@@ -784,7 +783,7 @@ class ClassroomController extends Controller
         $enrollment->save();
     };
     $result = array_map(function($enrollment) {
-        return ["id" => $enrollment->id, "name" => $enrollment->studentFk->name, 
+        return ["id" => $enrollment->id, "name" => $enrollment->studentFk->name,
         "daily_order" => $enrollment->daily_order];
     }, $enrollments);
 
