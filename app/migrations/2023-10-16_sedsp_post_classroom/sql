@@ -31,3 +31,7 @@ CREATE TABLE `sedsp_school_unities` (
   `school_inep_id_fk` varchar(8) COLLATE 'utf8_unicode_ci' NOT NULL,
   FOREIGN KEY (`school_inep_id_fk`) REFERENCES `school_identification` (`inep_id`) ON DELETE CASCADE
 ) ENGINE='InnoDB' COLLATE 'utf8_unicode_ci';
+
+ALTER TABLE `classroom`
+ADD `sedsp_school_unity_fk` int(11) NULL AFTER `sedsp_acronym`,
+ADD FOREIGN KEY (`sedsp_school_unity_fk`) REFERENCES `sedsp_school_unities` (`id`) ON DELETE CASCADE;

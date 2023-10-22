@@ -41,6 +41,8 @@ class ClassroomMapper
         $classroomTag->school_year = '2023';
         $classroomTag->pedagogical_mediation_type = 1;
         $classroomTag->sedsp_acronym = $response->getOutTurma();
+        $schoolUnity = SedspSchoolUnities::model()->find('code = :code', [':code' => $response->getOutCodUnidade()]);
+        $classroomTag->sedsp_school_unity_fk = $schoolUnity->id;
         $classroomTag->sedsp_classnumber = $response->getOutNumeroSala();
         $classroomTag->sedsp_max_physical_capacity = $response->getOutNrCapacidadeFisicaMaxima();
         $classroomTag->sedsp_sync = 1;
@@ -144,6 +146,8 @@ class ClassroomMapper
             $classroom->school_year = $outRelacaoClasses->getOutAnoLetivo();
             $classroom->turn = self::convertCodTurno($classe->getOutCodTurno());
             $classroom->sedsp_acronym = $response->getOutTurma();
+            $schoolUnity = SedspSchoolUnities::model()->find('code = :code', [':code' => $response->getOutCodUnidade()]);
+            $classroom->sedsp_school_unity_fk = $schoolUnity->id;
             $classroom->sedsp_classnumber = $response->getOutNumeroSala();
             $classroom->sedsp_max_physical_capacity = $response->getOutNrCapacidadeFisicaMaxima();
             $classroom->sedsp_sync = 1;
@@ -195,6 +199,8 @@ class ClassroomMapper
         $classroomTag->school_year = Yii::app()->user->year;
         $classroomTag->pedagogical_mediation_type = 1;
         $classroomTag->sedsp_acronym = $outConsultaTurmaClasse->getOutTurma();
+        $schoolUnity = SedspSchoolUnities::model()->find('code = :code', [':code' => $outConsultaTurmaClasse->getOutCodUnidade()]);
+        $classroomTag->sedsp_school_unity_fk = $schoolUnity->id;
         $classroomTag->sedsp_classnumber = $outConsultaTurmaClasse->getOutNumeroSala();
         $classroomTag->sedsp_max_physical_capacity = $outConsultaTurmaClasse->getOutNrCapacidadeFisicaMaxima();
         $classroomTag->sedsp_sync = 1;
