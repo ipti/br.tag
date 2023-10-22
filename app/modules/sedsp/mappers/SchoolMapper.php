@@ -49,6 +49,18 @@ class SchoolMapper
         $school_tag->address_complement = $outEscolas->outDescComplemento;
         $school_tag->address_neighborhood = $outEscolas->outDescBairro;
 
+        $result["SchoolUnities"] = [];
+        foreach ($outEscolas->getOutUnidades() as $outUnidade) {
+            $school_unity_tag = SedspSchoolUnities::model()->find('code = :code', [':code' => $outUnidade->getOutCodUnidade()]);
+            if ($school_unity_tag == null) {
+                $school_unity_tag = new SedspSchoolUnities();
+                $school_unity_tag->code = $outUnidade->getOutCodUnidade();
+                $school_unity_tag->school_inep_id_fk = $school_id;
+            }
+            $school_unity_tag->description = $outUnidade->getOutDescNomeUnidade();
+            array_push($result["SchoolUnities"], $school_unity_tag);
+        }
+
         $result["SchoolIdentification"] = $school_tag;
 
         return $result;

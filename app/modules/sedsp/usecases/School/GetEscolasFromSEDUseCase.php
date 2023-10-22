@@ -8,7 +8,7 @@ class GetEscolasFromSEDUseCase
         $schoolId = SchoolMapper::mapToTAGInepId($result->getOutEscolas()[0]->getOutCodEscola());
 
         $mapper = (object) SchoolMapper::parseToTAGSchool($result);
-        if ($this->saveSchool($mapper->SchoolIdentification)) {
+        if ($this->saveSchool($mapper)) {
             $inRelacaoClasses = $this->getClassesFromSED($schoolId);
         } else {
             throw new SedspException('Não foi possível salvar a escola no banco de dados.');
@@ -37,16 +37,30 @@ class GetEscolasFromSEDUseCase
      * @throws \SedspException
      * @return bool
      */
-    public function saveSchool($schoolIdentification)
+    public function saveSchool($school)
     {
-        if(!$schoolIdentification->validate()){
+        if(!$school->SchoolIdentification->validate()){
             throw new SedspException(CJSON::encode([
-                'data'=> $schoolIdentification->attributes,
-                'errors' => $schoolIdentification->getErrors()
+                'data'=> $school->SchoolIdentification->attributes,
+                'errors' => $school->SchoolIdentification->getErrors()
             ]));
         }
 
-        return $schoolIdentification->save();
+        $status = $school->SchoolIdentification->save();
+        if ($status) {
+            foreach ($school->SchoolUnities as $unity) {
+                if ($status) {
+                    if (!$unity->validate()) {
+                        throw new SedspException(CJSON::encode([
+                            'data' => $unity->attributes,
+                            'errors' => $unity->getErrors()
+                        ]));
+                    }
+                    $status = $unity->save();
+                }
+            }
+        }
+        return $status;
     }
 
     private function extractStateCode($schoolId)
