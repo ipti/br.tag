@@ -136,103 +136,108 @@ class StudentMapper
             $inRecursoAvaliacao = new InRecursoAvaliacao;
 
             $resourceNone = $studentIdentificationTag->resource_none;
-            $inArrayDeficiency = in_array(true, $deficiencyMap);
 
-            if(
-                $resourceNone !== true && 
-                $inArrayDeficiency && 
-                $deficiencyMap["deficiency_type_deafness"] !== true
-            ) {
-                $inRecursoAvaliacao->setInAuxilioLeitor('1');
-            } 
-
-            if($resourceNone !== true && $inArrayDeficiency) {
-                $inRecursoAvaliacao->setInAuxilioTranscricao('1');
-            }   
-
-            if(
-                $resourceNone !== true && 
-                $inArrayDeficiency && 
-                $deficiencyMap["deficiency_type_deafblindness"] !== true
-            )  {
-                $inRecursoAvaliacao->setInGuiaInterprete('1');
-            }
-                
-            $allDeafnessConditions = $deficiencyMap["deficiency_type_deafness"] === true && 
-                                    $deficiencyMap["deficiency_type_disability_hearing"] === true && 
-                                    $deficiencyMap["deficiency_type_deafblindness"] === true;
-
-            if(
-                $resourceNone !== true && 
-                $inArrayDeficiency && 
-                $allDeafnessConditions && 
-                $deficiencyMap["deficiency_type_deafness"] !== true
-            ) {
-                $inRecursoAvaliacao->setInInterpreteLibras('1');
-            }
-                 
-            if($resourceNone !== true && $inArrayDeficiency && $allDeafnessConditions) {
-                $inRecursoAvaliacao->setInLeituraLabial('1');
-            }
-                
-            if(
-                $resourceNone !== true && 
-                $inArrayDeficiency && 
-                $deficiencyMap["deficiency_type_low_vision"] === true && 
-                $deficiencyMap["deficiency_type_deafblindness"] === true && 
-                $deficiencyMap["deficiency_type_blindness"] !== true &&
-                $studentIdentificationTag->resource_zoomed_test_24 !== true &&
-                $studentIdentificationTag->resource_braille_test !== true
-            ) {
-                $inRecursoAvaliacao->setInProvaAmpliada('1');
-                $inRecursoAvaliacao->setInFonteProva('18');
-            }
-
-            if(
-                $resourceNone !== true && 
-                $inArrayDeficiency && 
-                $deficiencyMap["deficiency_type_low_vision"] === true && 
-                $deficiencyMap["deficiency_type_deafblindness"] === true && 
-                $deficiencyMap["deficiency_type_blindness"] !== true &&
-                $studentIdentificationTag->resource_braille_test !== true
-            ) {
-                $inRecursoAvaliacao->setInProvaAmpliada('1');
-                $inRecursoAvaliacao->setInFonteProva('24');
-            }   
-
-            if(
-                $resourceNone !== true && 
-                $inArrayDeficiency && 
-                $deficiencyMap["deficiency_type_deafness"] !== true
-            ) {
-                $inRecursoAvaliacao->setInCdAudioDefVisual('1');
-            } 
-
-            if(
-                $resourceNone !== true && 
-                $inArrayDeficiency && 
-                $allDeafnessConditions &&
-                $deficiencyMap["deficiency_type_blindness"] !== true
-            ) {
-                $inRecursoAvaliacao->setInProvaLinguaPortuguesa('1');
-                $inRecursoAvaliacao->setInProvaVideoLibras('1');
-            }
-
-            if(
-                $resourceNone !== true && 
-                $inArrayDeficiency && 
-                $deficiencyMap["deficiency_type_blindness"] === true &&
-                $deficiencyMap["deficiency_type_deafblindness"] === true
-            ) {
-                $inRecursoAvaliacao->setInProvaBraile('1');
-            }
-
-            if(
-                $inArrayDeficiency && 
-                $deficiencyMap["deficiency_type_blindness"] !== true &&
-                $deficiencyMap["deficiency_type_deafblindness"] !== true
-            ) {
+            if($resourceNone == '1') {
                 $inRecursoAvaliacao->setInNenhum('1');
+            } else {
+                $inArrayDeficiency = in_array(true, $deficiencyMap);
+
+                if(
+                    $resourceNone !== true && 
+                    $inArrayDeficiency && 
+                    $deficiencyMap["deficiency_type_deafness"] !== true
+                ) {
+                    $inRecursoAvaliacao->setInAuxilioLeitor('1');
+                } 
+
+                if($resourceNone !== true && $inArrayDeficiency) {
+                    $inRecursoAvaliacao->setInAuxilioTranscricao('1');
+                }   
+
+                if(
+                    $resourceNone !== true && 
+                    $inArrayDeficiency && 
+                    $deficiencyMap["deficiency_type_deafblindness"] !== true
+                )  {
+                    $inRecursoAvaliacao->setInGuiaInterprete('1');
+                }
+                    
+                $allDeafnessConditions = $deficiencyMap["deficiency_type_deafness"] === true && 
+                                        $deficiencyMap["deficiency_type_disability_hearing"] === true && 
+                                        $deficiencyMap["deficiency_type_deafblindness"] === true;
+
+                if(
+                    $resourceNone !== true && 
+                    $inArrayDeficiency && 
+                    $allDeafnessConditions && 
+                    $deficiencyMap["deficiency_type_deafness"] !== true
+                ) {
+                    $inRecursoAvaliacao->setInInterpreteLibras('1');
+                }
+                    
+                if($resourceNone !== true && $inArrayDeficiency && $allDeafnessConditions) {
+                    $inRecursoAvaliacao->setInLeituraLabial('1');
+                }
+                    
+                if(
+                    $resourceNone !== true && 
+                    $inArrayDeficiency && 
+                    $deficiencyMap["deficiency_type_low_vision"] === true && 
+                    $deficiencyMap["deficiency_type_deafblindness"] === true && 
+                    $deficiencyMap["deficiency_type_blindness"] !== true &&
+                    $studentIdentificationTag->resource_zoomed_test_24 !== true &&
+                    $studentIdentificationTag->resource_braille_test !== true
+                ) {
+                    $inRecursoAvaliacao->setInProvaAmpliada('1');
+                    $inRecursoAvaliacao->setInFonteProva('18');
+                }
+
+                if(
+                    $resourceNone !== true && 
+                    $inArrayDeficiency && 
+                    $deficiencyMap["deficiency_type_low_vision"] === true && 
+                    $deficiencyMap["deficiency_type_deafblindness"] === true && 
+                    $deficiencyMap["deficiency_type_blindness"] !== true &&
+                    $studentIdentificationTag->resource_braille_test !== true
+                ) {
+                    $inRecursoAvaliacao->setInProvaAmpliada('1');
+                    $inRecursoAvaliacao->setInFonteProva('24');
+                }   
+
+                if(
+                    $resourceNone !== true && 
+                    $inArrayDeficiency && 
+                    $deficiencyMap["deficiency_type_deafness"] !== true
+                ) {
+                    $inRecursoAvaliacao->setInCdAudioDefVisual('1');
+                } 
+
+                if(
+                    $resourceNone !== true && 
+                    $inArrayDeficiency && 
+                    $allDeafnessConditions &&
+                    $deficiencyMap["deficiency_type_blindness"] !== true
+                ) {
+                    $inRecursoAvaliacao->setInProvaLinguaPortuguesa('1');
+                    $inRecursoAvaliacao->setInProvaVideoLibras('1');
+                }
+
+                if(
+                    $resourceNone !== true && 
+                    $inArrayDeficiency && 
+                    $deficiencyMap["deficiency_type_blindness"] === true &&
+                    $deficiencyMap["deficiency_type_deafblindness"] === true
+                ) {
+                    $inRecursoAvaliacao->setInProvaBraile('1');
+                }
+
+                if(
+                    $inArrayDeficiency && 
+                    $deficiencyMap["deficiency_type_blindness"] !== true &&
+                    $deficiencyMap["deficiency_type_deafblindness"] !== true
+                ) {
+                    $inRecursoAvaliacao->setInNenhum('1');
+                }
             }
         }
 
