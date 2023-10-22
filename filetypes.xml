@@ -1,0 +1,9 @@
+<application>
+  <component name="FileTypeManager" version="17">
+    <extensionMap>
+      <mapping pattern="SchoolUnityMapper" type="PLAIN_TEXT" />
+      <mapping pattern="sql" type="PLAIN_TEXT" />
+      <mapping pattern="queries" type="SQL" />
+    </extensionMap>
+  </component>
+</application>
