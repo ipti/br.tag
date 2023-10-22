@@ -23,3 +23,11 @@ ADD `sedsp_room` int(11) NULL AFTER `sedsp_max_physical_capacity`;
 
 ALTER TABLE `classroom`
 DROP `sedsp_room`;
+
+CREATE TABLE `sedsp_school_unities` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `code` int NOT NULL,
+  `description` varchar(100) NOT NULL,
+  `school_inep_id_fk` varchar(8) COLLATE 'utf8_unicode_ci' NOT NULL,
+  FOREIGN KEY (`school_inep_id_fk`) REFERENCES `school_identification` (`inep_id`) ON DELETE CASCADE
+) ENGINE='InnoDB' COLLATE 'utf8_unicode_ci';
