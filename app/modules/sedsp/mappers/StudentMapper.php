@@ -50,7 +50,7 @@ class StudentMapper
         $inDeficiencia = new InDeficiencia();
         if($studentIdentificationTag->deficiency == '1') {
             $query = "SELECT
-                        'deficiency_type_blindness'
+                        'deficiency_type_blindness' as 'deficiency'
                     FROM student_identification
                     WHERE deficiency_type_blindness = 1 and id = :id 
                     UNION ALL
@@ -114,100 +114,129 @@ class StudentMapper
                     FROM student_identification
                     WHERE deficiency_type_gifted = 1 and id = :id ";
 
+            $res = Yii::app()->db->createCommand($query)->bindValue(':id', $studentIdentificationTag->id)->queryAll();
+                        
+            $deficiencyMap = [
+                'deficiency_type_blindness' => false,                              // Cegueira
+                'deficiency_type_low_vision' => false,                             // Baixa Visão
+                'deficiency_type_deafness' => false,                               // Sudez
+                'deficiency_type_disability_hearing' => false,                     // Deficiência auditiva
+                'deficiency_type_deafblindness' => false,                          // Surdocegueira
+                'deficiency_type_phisical_disability' => false,                    // Deficiência Física
+                'deficiency_type_intelectual_disability' => false,                 // Deficiência Intelectual
+                'deficiency_type_multiple_disabilities' =>  false,                 // Deficiência Múltipla
+                'deficiency_type_autism' => false,                                 // Transtorno do Espectro Autista
+                'deficiency_type_gifted' => false,                                 // Altas Habilidades / Superdotação 
+            ];
 
-            if($studentIdentificationTag->deficiency_type_multiple_disabilities == '1') {
-                $inDeficiencia->setInCodNecessidade('1');  //1 Múltipla
+            foreach ($res as $re) {
+                $deficiencyMap[$re["deficiency"]] = true;
+            }
+
+            $inRecursoAvaliacao = new InRecursoAvaliacao;
+
+            $resourceNone = $studentIdentificationTag->resource_none;
+
+            if($resourceNone == '1') {
+                $inRecursoAvaliacao->setInNenhum('1');
             } else {
-                $res = Yii::app()->db->createCommand($query)->bindValue(':id', $studentIdentificationTag->id)->queryAll();
-               
-                $deficiencyMap = [
-                    'deficiency_type_blindness' => '1',                              // Cegueira
-                    'deficiency_type_low_vision' => '2',                             // Baixa Visão
-                    'deficiency_type_deafness' => '3',                               // Sudez
-                    'deficiency_type_disability_hearing' => '4',                     // Deficiência auditiva
-                    'deficiency_type_deafblindness' => '5',                          // Surdocegueira
-                    'deficiency_type_phisical_disability' => '6',                    // Deficiência Física
-                    'deficiency_type_intelectual_disability' => '7',                 // Deficiência Intelectual
-                    'deficiency_type_multiple_disabilities' =>  '8',                 // Deficiência Múltipla
-                    'deficiency_type_autism' => '9',                                 // Transtorno do Espectro Autista
-                    'deficiency_type_gifted' => '10',                                // Altas Habilidades / Superdotação
-                    'resource_none' => '11'                                          // Nenhum   
-                ];
-                
-                // Recursos Avaliação
-                $inRecursoAvaliacao = new InRecursoAvaliacao;
+                $inArrayDeficiency = in_array(true, $deficiencyMap);
 
-                foreach ($res as $re) {
-                    $deficiency = $re["deficiency_type_blindness"];
+                if(
+                    $resourceNone !== true && 
+                    $inArrayDeficiency && 
+                    $deficiencyMap["deficiency_type_deafness"] !== true
+                ) {
+                    $inRecursoAvaliacao->setInAuxilioLeitor('1');
+                } 
 
-                    $inRecurso = $deficiencyMap[$deficiency];
-                
-                    if(
-                        $inRecurso == '1' ||
-                        $inRecurso == '2' ||
-                        $inRecurso == '3' ||
-                        $inRecurso == '4' ||
-                        $inRecurso == '5' ||
-                        $inRecurso == '6' ||
-                        $inRecurso == '7' ||
-                        $inRecurso == '8' ||
-                        $inRecurso == '9') {
-                            $inRecursoAvaliacao->setInAuxilioLeitor(1);
-                    }
+                if($resourceNone !== true && $inArrayDeficiency) {
+                    $inRecursoAvaliacao->setInAuxilioTranscricao('1');
+                }   
 
-                    if(
-                        ($inRecurso == '1' ||
-                        $inRecurso == '2' ||
-                        $inRecurso == '3' ||
-                        $inRecurso == '4' ||
-                        $inRecurso == '5' ||
-                        $inRecurso == '6' ||
-                        $inRecurso == '7' ||
-                        $inRecurso == '8' ||
-                        $inRecurso == '9') && $inRecurso != '11') {
-                            $inRecursoAvaliacao->setInAuxilioTranscricao(1);
-                        }
-    
-                        
-                    if(
-                        ($inRecurso == '1' ||
-                        $inRecurso == '2' ||
-                        $inRecurso == '3' ||
-                        $inRecurso == '4' ||
-                        $inRecurso == '5' ||
-                        $inRecurso == '6' ||
-                        $inRecurso == '7' ||
-                        $inRecurso == '8' ||
-                        $inRecurso == '9') && $inRecurso != '11' && $inRecurso == '4') {
-                            $inRecursoAvaliacao->setInGuiaInterprete(1);
-                        }
+                if(
+                    $resourceNone !== true && 
+                    $inArrayDeficiency && 
+                    $deficiencyMap["deficiency_type_deafblindness"] !== true
+                )  {
+                    $inRecursoAvaliacao->setInGuiaInterprete('1');
+                }
+                    
+                $allDeafnessConditions = $deficiencyMap["deficiency_type_deafness"] === true && 
+                                        $deficiencyMap["deficiency_type_disability_hearing"] === true && 
+                                        $deficiencyMap["deficiency_type_deafblindness"] === true;
 
-                        if(
-                            ($inRecurso == '1' ||
-                            $inRecurso == '2' ||
-                            $inRecurso == '3' ||
-                            $inRecurso == '4' ||
-                            $inRecurso == '5' ||
-                            $inRecurso == '6' ||
-                            $inRecurso == '7' ||
-                            $inRecurso == '8' ||
-                            $inRecurso == '9') && $inRecurso != '11' && $inRecurso == '3' && $inRecurso == '4' && $inRecurso == '5') {
-                                $inRecursoAvaliacao->setInInterpreteLibras(1);
-                            }
-                        
-                        
-                        $inRecursoAvaliacao->setInNenhum(null);
-                        
-                        
-                        $inRecursoAvaliacao->setInLeituraLabial(null);
-                        $inRecursoAvaliacao->setInProvaBraile(null);
-                        $inRecursoAvaliacao->setInProvaAmpliada(null);
-                        $inRecursoAvaliacao->setInFonteProva('12');
-                        $inRecursoAvaliacao->setInProvaVideoLibras(null);
-                        $inRecursoAvaliacao->setInProvaLinguaPortuguesa(null);
-                       
+                if(
+                    $resourceNone !== true && 
+                    $inArrayDeficiency && 
+                    $allDeafnessConditions && 
+                    $deficiencyMap["deficiency_type_deafness"] !== true
+                ) {
+                    $inRecursoAvaliacao->setInInterpreteLibras('1');
+                }
+                    
+                if($resourceNone !== true && $inArrayDeficiency && $allDeafnessConditions) {
+                    $inRecursoAvaliacao->setInLeituraLabial('1');
+                }
+                    
+                if(
+                    $resourceNone !== true && 
+                    $inArrayDeficiency && 
+                    $deficiencyMap["deficiency_type_low_vision"] === true && 
+                    $deficiencyMap["deficiency_type_deafblindness"] === true && 
+                    $deficiencyMap["deficiency_type_blindness"] !== true &&
+                    $studentIdentificationTag->resource_zoomed_test_24 !== true &&
+                    $studentIdentificationTag->resource_braille_test !== true
+                ) {
+                    $inRecursoAvaliacao->setInProvaAmpliada('1');
+                    $inRecursoAvaliacao->setInFonteProva('18');
+                }
 
-                    $inDeficiencia->setInCodNecessidade($deficiencyMap[$deficiency]);
+                if(
+                    $resourceNone !== true && 
+                    $inArrayDeficiency && 
+                    $deficiencyMap["deficiency_type_low_vision"] === true && 
+                    $deficiencyMap["deficiency_type_deafblindness"] === true && 
+                    $deficiencyMap["deficiency_type_blindness"] !== true &&
+                    $studentIdentificationTag->resource_braille_test !== true
+                ) {
+                    $inRecursoAvaliacao->setInProvaAmpliada('1');
+                    $inRecursoAvaliacao->setInFonteProva('24');
+                }   
+
+                if(
+                    $resourceNone !== true && 
+                    $inArrayDeficiency && 
+                    $deficiencyMap["deficiency_type_deafness"] !== true
+                ) {
+                    $inRecursoAvaliacao->setInCdAudioDefVisual('1');
+                } 
+
+                if(
+                    $resourceNone !== true && 
+                    $inArrayDeficiency && 
+                    $allDeafnessConditions &&
+                    $deficiencyMap["deficiency_type_blindness"] !== true
+                ) {
+                    $inRecursoAvaliacao->setInProvaLinguaPortuguesa('1');
+                    $inRecursoAvaliacao->setInProvaVideoLibras('1');
+                }
+
+                if(
+                    $resourceNone !== true && 
+                    $inArrayDeficiency && 
+                    $deficiencyMap["deficiency_type_blindness"] === true &&
+                    $deficiencyMap["deficiency_type_deafblindness"] === true
+                ) {
+                    $inRecursoAvaliacao->setInProvaBraile('1');
+                }
+
+                if(
+                    $inArrayDeficiency && 
+                    $deficiencyMap["deficiency_type_blindness"] !== true &&
+                    $deficiencyMap["deficiency_type_deafblindness"] !== true
+                ) {
+                    $inRecursoAvaliacao->setInNenhum('1');
                 }
             }
         }
