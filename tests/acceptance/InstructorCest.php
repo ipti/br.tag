@@ -20,17 +20,6 @@ class InstructorCest
         sleep(2);
     }
 
-    // // tests
-    // public function tryToTest(AcceptanceTester $test)
-    // {
-    //     $robots = new InstructorRobots($test);
-    //     $robots->pageAddInstructor();
-
-    //     $robots->name("Francisco");
-
-    //     $test->see('O teste foi concluído com sucesso!');
-    // }
-
     public function addInstructor(AcceptanceTester $test)
     {
         sleep(5);
@@ -54,10 +43,9 @@ class InstructorCest
         $robots->neighborhood($builder->instructorDocumentsAddress->neighborhood);
         $robots->location($builder->instructorDocumentsAddress->diff_location);
         $robots->zone($builder->instructorDocumentsAddress->area_of_residence);
-        
+
 
         $robots->btnProximo();
         sleep(2);
-
     }
 }
