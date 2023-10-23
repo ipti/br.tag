@@ -27,6 +27,32 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="span12">
         <h1><?php echo $title; ?></h1>
         <div class="tag-buttons-container buttons">
+
+            <?php
+            if ($modelClassroom->id !== null) {
+                $sedspSync = Classroom::model()->findByPk($modelClassroom->id)->sedsp_sync;
+                if ($sedspSync) { ?>
+                    <div style="text-align: center;margin-right: 10px;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
+                             style="width: 40px; margin-right: 10px;">
+                        <div>Sincronizado com a sedsp</div>
+                    </div>
+
+                <?php } else { ?>
+                    <div style="text-align: center;margin-right: 10px;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
+                             style="width: 40px;margin-right: 10px;">
+                        <div>Não sincronizado com a sedsp</div>
+                    </div>
+                <?php }
+                ?>
+
+                <a href="<?php echo $this->createUrl('sedsp/default/UpdateClassroomFromSedsp', array('gov_id' => $modelClassroom->gov_id, 'id' => $modelClassroom->id)); ?>"
+                   style="margin-right: 10px;background: #16205b;color: white;padding: 5px;border-radius: 5px;">
+                    Sincronizar SEDSP <i class="fa fa-arrow-right" aria-hidden="true"></i> TAG
+                </a>
+            <?php } ?>
+
             <button class="t-button-primary  last pull-right save-classroom" type="button">
                 <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
             </button>
@@ -44,7 +70,9 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <?php echo $form->errorSummary($modelClassroom); ?>
         <?php if (INSTANCE == "UBATUBA" && $disabledFields): ?>
-            <div class="alert alert-warning">Alguns campos foram desabilitados porque a turma possui alunos matriculados e o SEDSP não autoriza realizar edições em tais campos.</div>
+            <div class="alert alert-warning">Alguns campos foram desabilitados porque a turma possui alunos matriculados
+                e o SEDSP não autoriza realizar edições em tais campos.
+            </div>
         <?php endif; ?>
         <div class="alert alert-error classroom-error no-show"></div>
         <div class="t-tabs">
