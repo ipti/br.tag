@@ -62,7 +62,7 @@
                 <div class="column">
                     <div class="t-field-select">
                             <?php echo $form->labelEx($modelEnrollment, 'classroom_fk', array('class' => 't-field-select__label')); ?>
-                            <?php echo $form->dropDownList($modelEnrollment, 'classroom_fk', CHtml::listData($classrooms, 'id', 'name', 'schoolInepFk.name'), array('empty' => 'Selecione a escola', 'class' => 'select-search-on t-field-select__input js-classrooms-select', 'disabled'=>'disabled', 'style' => 'width:100%')); ?> 
+                            <?php echo $form->dropDownList($modelEnrollment, 'classroom_fk', CHtml::listData($classrooms, 'id', 'name', 'schoolInepFk.name'), array('empty' => 'Selecione a turma', 'class' => 'select-search-on t-field-select__input js-classrooms-select', 'disabled'=>'disabled', 'style' => 'width:100%')); ?> 
                     </div>
                 </div>
             </div>
