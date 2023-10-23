@@ -724,7 +724,7 @@ class ClassroomController extends Controller
             $inIncluirTurmaClasse = new InIncluirTurmaClasse(
                 Yii::app()->user->year,
                 substr(Yii::app()->user->school, 2),
-                null,
+                $modelClassroom->sedsp_school_unity_fk->code,
                 $tipoEnsinoAndStage["tipoEnsino"],
                 $tipoEnsinoAndStage["serieAno"],
                 0,
