@@ -35,22 +35,22 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div style="text-align: center;margin-right: 10px;">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
                              style="width: 40px; margin-right: 10px;">
-                        <div>Sincronizado com a sedsp</div>
+                        <div>Sincronizado com a SEDSP</div>
                     </div>
 
                 <?php } else { ?>
                     <div style="text-align: center;margin-right: 10px;">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
                              style="width: 40px;margin-right: 10px;">
-                        <div>Não sincronizado com a sedsp</div>
+                        <div>Não sincronizado com a SEDSP</div>
                     </div>
                 <?php }
-                ?>
-
-                <a href="<?php echo $this->createUrl('sedsp/default/UpdateClassroomFromSedsp', array('gov_id' => $modelClassroom->gov_id, 'id' => $modelClassroom->id)); ?>"
-                   style="margin-right: 10px;background: #16205b;color: white;padding: 5px;border-radius: 5px;">
-                    Sincronizar SEDSP <i class="fa fa-arrow-right" aria-hidden="true"></i> TAG
-                </a>
+                if (!$sedspSync) { ?>
+                    <a href="<?php echo $this->createUrl('sedsp/default/UpdateClassroomFromSedsp', array('gov_id' => $modelClassroom->gov_id, 'id' => $modelClassroom->id)); ?>"
+                       style="margin-right: 10px;background: #16205b;color: white;padding: 5px;border-radius: 5px;">
+                        Importar Turma do SEDSP
+                    </a>
+                <?php } ?>
             <?php } ?>
 
             <button class="t-button-primary  last pull-right save-classroom" type="button">
