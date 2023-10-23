@@ -46,7 +46,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                 <?php }
                 if (!$sedspSync) { ?>
-                    <a href="<?php echo $this->createUrl('sedsp/default/UpdateClassroomFromSedsp', array('gov_id' => $modelClassroom->gov_id, 'id' => $modelClassroom->id)); ?>"
+                    <a class="update-classroom-to-sedsp"
                        style="margin-right: 10px;background: #16205b;color: white;padding: 5px;border-radius: 5px;">
                         Importar Turma do SEDSP
                     </a>
@@ -784,6 +784,38 @@ $form = $this->beginWidget('CActiveForm', array(
                     <?php echo CHtml::label(Yii::t("default", "Regent Teacher"), "RegentTeacher", array('class' => 't-field-text__label', 'style' => 'display: inline-block')); ?>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-content" id="importClassroomToSEDSP" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt=""
+                         style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title"
+                    id="myModalLabel">Importar turma do SEDSP</h4>
+            </div>
+            <form method="post" action="<?php echo $this->createUrl('sedsp/default/importClassroomFromSedsp', array('id' => $modelClassroom->id)); ?>">
+                <div class="centered-loading-gif">
+                    <i class="fa fa-spin fa-spinner"></i>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-error no-show"></div>
+                    <div class="row-fluid">
+                        Você tem certeza?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">Cancelar
+                        </button>
+                        <button type="button"
+                                class="btn btn-primary import-classroom-button">Confirmar
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

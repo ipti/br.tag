@@ -37,3 +37,11 @@ $('#create-dialog-form, #teachingdata-dialog-form, #update-dialog-form').keypres
 });
 
 $('.heading-buttons').css('width', $('#content').width());
+
+$(".update-classroom-to-sedsp").click(function() {
+    $("#importClassroomToSEDSP").modal("show");
+});
+
+$(".import-classroom-button").click(function() {
+    $("#importClassroomToSEDSP").find("form").submit();
+});
