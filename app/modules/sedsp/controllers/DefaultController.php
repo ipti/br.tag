@@ -354,21 +354,21 @@ class DefaultController extends Controller
         $loginUseCase->checkSEDToken();
 
         try {
-            $inEscola = new InEscola($_POST['nameSchool'], null, null, null);
-            $escola = new GetEscolasFromSEDUseCase();
-            $statusSave = $escola->exec($inEscola);
+            $inConsultaTurmaClasse = new InConsultaTurmaClasse(Yii::app()->user->year, $_GET["gov_id"]);
 
-            if ($statusSave === true) {
+            $classroomUseCase = new GetConsultaTurmaClasseSEDUseCase();
+            $statusSave = $classroomUseCase->exec($inConsultaTurmaClasse);
+
+            $id = $_GET["id"];
+            if ($statusSave) {
                 Yii::app()->user->setFlash('success', "Turma importada com sucesso!");
+                $this->redirect(array('/classroom/update', 'id' => $id));
             } else {
-                Yii::app()->user->setFlash('error', "Não foi possível importar a turma");
+                Yii::app()->user->setFlash('error', "Não foi possível importar a turma.");
+                $this->redirect(array('/classroom/update', 'id' => $id));
             }
         } catch (Exception $e) {
-            Yii::app()->user->setFlash(
-                'error', "Ops! A operação atingiu o tempo limite. Por favor, tente novamente em alguns minutos."
-            );
-        } finally {
-            $this->redirect(array('index'));
+            Yii::app()->user->setFlash('error', "Um erro ocorreu. Tente novamente.");
         }
     }
 }

@@ -797,7 +797,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <h4 class="modal-title"
                     id="myModalLabel">Importar turma do SEDSP</h4>
             </div>
-            <form method="post" action="<?php echo $this->createUrl('sedsp/default/importClassroomFromSedsp', array('id' => $modelClassroom->id)); ?>">
+            <form method="post" action="<?php echo $this->createUrl('sedsp/default/importClassroomFromSedsp', array('id' => $modelClassroom->id, 'gov_id' => $modelClassroom->gov_id)); ?>">
                 <div class="centered-loading-gif">
                     <i class="fa fa-spin fa-spinner"></i>
                 </div>
