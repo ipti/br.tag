@@ -93,7 +93,6 @@ var addTeachingData = function () {
     $.each($("#s2id_Disciplines li.select2-search-choice"), function (i, v) {
         disciplineNameList[i] = $(v).text();
     });
-    console.log(s2id_Disciplines);
 
     //Se for uma string vazia
     if (instructorId.length == 0) {
@@ -380,12 +379,12 @@ $(document).on("change", "#Classroom_edcenso_stage_vs_modality_fk", function () 
 $("#Classroom_edcenso_stage_vs_modality_fk").trigger("change");
 
 
-$("#js-t-sortable").on("sortupdate", function (event, ui) {
+$("#js-t-sortable").on("sortupdate", function(event, ui) {
     newOrderArray = $(this).sortable("toArray");
     $.ajax({
         url: `${window.location.host}?r=classroom/changeenrollments`,
         type: "POST",
-        data: {
+        data:{
             list: newOrderArray
         },
         beforeSend: function () {
@@ -413,8 +412,8 @@ $("#js-t-sortable").on("sortupdate", function (event, ui) {
             list.push(li);
         });
 
-        $("#js-t-sortable").html(list);
-        $("#daily").css("opacity", 1);
-        $("#js-t-sortable").sortable();
+       $("#js-t-sortable").html(list);
+       $("#daily").css("opacity", 1);
+       $("#js-t-sortable").sortable();
     })
 });
