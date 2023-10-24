@@ -445,22 +445,26 @@ class StudentController extends Controller
                         }
 
                         if ($saved) {
+                            if(INSTANCE == "UBATUBA"){
+                                    if(!((date("H") >= 00) and (date("H") <= 06))){
+                                        $exi = $this->syncStudentWithSED($id);
+                                    }
 
-                            if(!((date("H") >= 00) and (date("H") <= 06))){
-                                $exi = $this->syncStudentWithSED($id);
-                            }
-                            
-                            if($exi->outErro !== null){
-                                Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
-                                $msg = '<p style="color: white;background: #23b923;padding: 10px;border-radius: 4px;">O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!</p> Mas não foi possível fazer a sincronização! </br><b>ERROR: </b>: '. $exi->outErro;
-                                echo Yii::app()->user->setFlash('error', Yii::t('default', $msg));
-                            }else{
-                                Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
-                                $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!';
-                                Yii::app()->user->setFlash('success', Yii::t('default', $msg));
-                            }  
-                             
-                            $this->redirect(array('index', 'sid' => $modelStudentIdentification->id));
+                                if($exi->outErro !== null){
+                                    Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
+                                    $msg = '<p style="color: white;background: #23b923;padding: 10px;border-radius: 4px;">O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!</p> Mas não foi possível fazer a sincronização! </br><b>ERROR: </b>: '. $exi->outErro;
+                                    echo Yii::app()->user->setFlash('error', Yii::t('default', $msg));
+                                }
+                            } 
+
+                            Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
+                            $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!';
+                            Yii::app()->user->setFlash('success', Yii::t('default', $msg));
+                            $this->redirect(array('index', 'id' => $modelStudentIdentification->id));
+                        } else {
+                            $msg = 'Não foi possível realizar as modificações do aluno: ' . $modelStudentIdentification->name;
+                            Yii::app()->user->setFlash('error', Yii::t('default', $msg));
+                            $this->redirect(array('index', 'id' => $modelStudentIdentification->id));
                         }
                     }
                 }
@@ -492,21 +496,25 @@ class StudentController extends Controller
 
     // Função para sincronizar aluno com o sistema SED
     function syncStudentWithSED($id) {
+
         $studentInfo = $this->getStudentInformation($id);
         $studentIdentification = $studentInfo['studentIdentification'];
-        
-        // Defina sedsp_sync como 0
         $studentIdentification->sedsp_sync = 0;
+
+
+        $studentIdentification->tag_to_sed = 1;
         $studentIdentification->save();
 
-        $dataSource = new StudentSEDDataSource();
-        $inListarAlunos = $this->createInListarAlunos($studentIdentification);
-
-        $outListStudent = $dataSource->getListStudents($inListarAlunos);
-
         $studentToSedMapper = new StudentMapper();
-    
         $student = (object) $studentToSedMapper->parseToSEDAlunoFicha($studentIdentification, $studentInfo['modelStudentDocumentsAndAddress']);
+
+        $studentDatasource = new StudentSEDDataSource();
+        $response = $studentDatasource->exibirFichaAluno(new InAluno($studentIdentification->gov_id, null, "SP"));
+        $infoAluno = $response->outDadosPessoais->outNomeAluno;
+
+        $inListarAlunos = $this->createInListarAlunos($infoAluno);
+        $dataSource = new StudentSEDDataSource();
+        $outListStudent = $dataSource->getListStudents($inListarAlunos);
 
         if ($outListStudent->outErro !== null) {
             $inConsult = $this->createInConsult($student);
@@ -517,7 +525,9 @@ class StudentController extends Controller
                 $stdi->gov_id = $statusAdd->outAluno->outNumRA;
                 $stdi->sedsp_sync = 1;
                 $stdi->save();
-            }
+
+                return $statusAdd;
+            } 
         } elseif ($outListStudent->outErro === null) {
             $outNumRA = $outListStudent->getOutListaAlunos();
             $numRA = $outNumRA[0]->getOutNumRa();
@@ -527,20 +537,31 @@ class StudentController extends Controller
             $inManutencao = $this->createInManutencao($student);
             $dataSource = new StudentSEDDataSource();
                 
-            $studentIdentification->sedsp_sync = 1;
+           
             $studentIdentification->gov_id = $numRA;
             $studentIdentification->save();
 
-            return $dataSource->editStudent($inManutencao);
+            $statusAdd = $dataSource->editStudent($inManutencao);
+
+            if($statusAdd->outErro === null){
+                $studentIdentification->sedsp_sync = 1;
+                $studentIdentification->save();
+            }
+
+            return $statusAdd;
         }
     }
 
-    function createInListarAlunos($studentIdentification) {
-        $nameStudent = $studentIdentification->name;
+    function createInListarAlunos($nameStudent) {
         return new InListarAlunos(new InFiltrosNomes($nameStudent, null, null, null), null, null);
     }
 
     // Função para criar objeto InConsult em caso de aluno não cadastrado
+    /**
+     * Summary of createInConsult
+     * @param mixed $student
+     * @return InFichaAluno
+     */
     function createInConsult($student) {
         return new InFichaAluno(
             $student->InDadosPessoais,
@@ -555,6 +576,11 @@ class StudentController extends Controller
     }
 
     // Função para criar objeto InManutencao em caso de aluno cadastrado
+    /**
+     * Summary of createInManutencao
+     * @param mixed $student
+     * @return InManutencao
+     */
     function createInManutencao($student) {
         return new InManutencao(
             $student->InAluno,
