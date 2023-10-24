@@ -1,4 +1,10 @@
 
+## [Versão 3.62.98]
+- Criada migration que adiciona os campos de aulas dadas na tabela referente a lançamento de notas
+
+## [Versão 3.61.98]
+- Criados os testes de aceitação do formulário de gerenciar etapas
+
 ## [Versão 3.60.98]
 - Adicionando o campo de aulas dadas na tela de lançamento de notas
 
