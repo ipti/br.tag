@@ -43,31 +43,56 @@ $('#discipline').change(function (e, triggerEvent) {
             },
             success: function (data) {
                 data = JSON.parse(data);
+
                 if (data.valid) {
-
-                    const gradesAndFaults =  data.unities.map(element => {
-                        return ` <th>Nota</th><th>Faltas</th>`;
-                    });
-
-                    const unities =  data.unities.map(element => {
-                        return `<th colspan='2' style='width:20%;'>${element.name}</th>`;
-                    });
-
+                    console.log(data.students[0].grades);
                     let html = `
+                    <h3>Aulas Dadas</h3>
+                    <div class="mobile-row">
+                    `;
+                    $.each(data.students[0].grades, function (index) {
+
+                    let order = index + 1;
+                    let givenClasses;
+
+                    if(this.givenClasses == null) {
+                        givenClasses = ""
+                    } else {
+                        givenClasses = this.givenClasses
+                    }
+                    html += `
+                        <div class="column is-one-tenth clearleft">
+                            <div class="t-field-text">
+                                <label class='t-field-text__label'>${order}° Bimestre</label>
+                                <input type='text' class='givenClasses${index} t-field-text__input' value='${ givenClasses }'>
+                            </div>
+                        </div>`;
+                    if(index == 2) {
+                        return false;
+                    }
+                    });
+                    html +=
+                    `</div>`;
+
+                    html += `
                     <table class='grades-table table table-bordered table-striped'>
                         <thead>
                             <tr>
-                                <th colspan=12' class='table-title'>Lançamento de Notas</th>
+                                <th colspan=14' class='table-title'>Lançamento de Notas</th>
                             </tr>
                             <tr>
                                 <th rowspan='2' style='width:2%;'>Ordem</th>
                                 <th rowspan='2' style='width:2%;'>Ficha individual</th>
                                 <th rowspan='2' style='width:10%;'>Nome</th>
-                                ${ unities.join("\n") }
+                                <th colspan='2' style='width:20%;'>1° Bimestre</th>
+                                <th colspan='2' style='width:20%;'>2° Bimestre</th>
+                                <th colspan='2' style='width:20%;'>3° Bimestre</th>
                                 <th rowspan='2' style='width:10%;vertical-align:middle;'>Média Final</th>
                             </tr>
                             <tr>
-                            ${ gradesAndFaults.join("\n") }
+                            <th>Nota</th><th>Faltas</th>\n
+                            <th>Nota</th><th>Faltas</th>\n
+                            <th>Nota</th><th>Faltas</th>\n
                             </tr>
                         </thead>
                     <tbody>`;
@@ -87,8 +112,7 @@ $('#discipline').change(function (e, triggerEvent) {
                             ${ $.trim(this.studentName) }
                             </td>
                         `;
-
-                        $.each(this.grades, function () {
+                        $.each(this.grades, function (index, value) {
                             let valueGrade;
                             if (this.value == "" || this.value == null) {
                                 valueGrade = "";
@@ -103,6 +127,7 @@ $('#discipline').change(function (e, triggerEvent) {
                             } else {
                                 faults = this.faults
                             }
+
                             html += `
                                 <td class='grade-td'>
                                     <input type='text' class='grade' value='${valueGrade}'>
@@ -111,6 +136,9 @@ $('#discipline').change(function (e, triggerEvent) {
                                     <input type='text' class='faults' style='width:50px;text-align:center;' value='${ faults }'>
                                 </td>
                             `;
+                            if(index == 2) {
+                                return false;
+                            }
                         });
 
                         html += `
@@ -142,10 +170,11 @@ $("#save").on("click", function (e) {
     let students = [];
     $('.grades-table tbody tr').each(function () {
         let grades = [];
-        $(this).find(".grade").each(function () {
+        $(this).find(".grade").each(function (index) {
             grades.push({
                 value: $(this).val(),
-                faults: $(this).parent().next().children().val()
+                faults: $(this).parent().next().children().val(),
+                givenClasses: $('.givenClasses' + index).val()
             });
         });
         students.push({
@@ -180,7 +209,7 @@ $(document).on("keyup", "input.faults", function (e) {
         val = "";
     }
     this.value = val;
-});
+})
 
 $(document).on("keyup", "input.grade", function (e) {
     let val = this.value;
