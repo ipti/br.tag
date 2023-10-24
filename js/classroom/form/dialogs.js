@@ -42,4 +42,4 @@ $(document).ready(function () {
 $("#newDiscipline").click(function () {
     $("#teachingdata-dialog-form select").val('').trigger('change');
     $("#teachingdata-dialog-form").dialog('open');
-});    
+});

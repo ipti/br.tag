@@ -390,9 +390,11 @@ $("#js-t-sortable").on("sortupdate", function(event, ui) {
         beforeSend: function () {
             $("#js-t-sortable").sortable("destroy");
             $("#daily").css("opacity", 0.5);
-        },
-    }).success(function (response) {
 
+        },
+
+    }).success(function (response) {
+        debugger;
         const result = JSON.parse(response);
         const list = []
         result.forEach(element => {
@@ -410,6 +412,7 @@ $("#js-t-sortable").on("sortupdate", function(event, ui) {
             li.appendChild(span2);
 
             list.push(li);
+
         });
 
        $("#js-t-sortable").html(list);

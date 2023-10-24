@@ -34,36 +34,41 @@ class ClassroomController extends Controller
     public function accessRules()
     {
         return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', 'getassistancetype',
+            array(
+                'allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => array(
+                    'index', 'view', 'create', 'update', 'getassistancetype',
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
                     'getcomplementaryactivitytype', 'delete',
-                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'changeenrollments','batchupdatetransport', 'updateDisciplines'
+                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'changeenrollments', 'batchupdatetransport', 'updateDisciplines'
                 ),
                 'users' => array('@'),
             ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
+            array(
+                'allow', // allow admin user to perform 'admin' and 'delete' actions
                 'actions' => array('admin'),
                 'users' => array('admin'),
             ),
-            array('deny', // deny all users
+            array(
+                'deny', // deny all users
                 'users' => array('*'),
             ),
         );
     }
 
-    private  function defineAssistanceType($classroom){
+    private  function defineAssistanceType($classroom)
+    {
         $is_aee = $classroom['aee'];
         $is_complementary_activity = $classroom['complementary_activity'];
         $is_schooling = $classroom['schooling'];
 
-        if(isset($is_aee) && $is_aee){
+        if (isset($is_aee) && $is_aee) {
             return 5;
         }
-        if(isset($is_complementary_activity) && $is_complementary_activity){
+        if (isset($is_complementary_activity) && $is_complementary_activity) {
             return 4;
         }
-        if(isset($is_schooling) && $is_schooling){
+        if (isset($is_schooling) && $is_schooling) {
             return 0;
         }
     }
@@ -84,7 +89,8 @@ class ClassroomController extends Controller
                 2 => CHtml::encode('Unidade de Internação Socioeducativa'),
                 3 => CHtml::encode('Unidade Prisional'),
                 4 => CHtml::encode('Atividade Complementar'),
-                5 => CHtml::encode('Atendimento Educacional Especializado (AEE)'));
+                5 => CHtml::encode('Atendimento Educacional Especializado (AEE)')
+            );
 
             $selected = array(
                 0 => $classroom->assistance_type == 0 ? "selected" : "deselected",
@@ -633,7 +639,7 @@ class ClassroomController extends Controller
         $classroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
         $teachingDatas = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
         try {
-            foreach($teachingDatas as $teachingData) {
+            foreach ($teachingDatas as $teachingData) {
                 $teachingData->delete();
             }
             if ($classroom->delete()) {
@@ -768,27 +774,30 @@ class ClassroomController extends Controller
             echo json_encode(["valid" => false]);
         }
     }
-    public function actionChangeEnrollments(){
-    $ids  = $_POST['list'];
-    $enrollments = StudentEnrollment::model()->findAllByPk($ids);
+    public function actionChangeEnrollments()
+    {
+        $ids  = $_POST['list'];
+        $enrollments = StudentEnrollment::model()->findAllByPk($ids);
 
-    usort($enrollments, function($a, $b) use ($ids) {
-        $pos_a = array_search($a->id, $ids);
-        $pos_b = array_search($b->id, $ids);
-        return $pos_a - $pos_b;
-    });
+        usort($enrollments, function ($a, $b) use ($ids) {
+            $pos_a = array_search($a->id, $ids);
+            $pos_b = array_search($b->id, $ids);
+            return $pos_a - $pos_b;
+        });
+        
 
-    foreach ($enrollments as $i => $enrollment) {
-        $enrollment->daily_order = $i+1;
-        $enrollment->save();
-    };
-    $result = array_map(function($enrollment) {
-        return ["id" => $enrollment->id, "name" => $enrollment->studentFk->name,
-        "daily_order" => $enrollment->daily_order];
-    }, $enrollments);
+        foreach ($enrollments as $i => $enrollment) {
+            $enrollment->daily_order = $i + 1;
+            $enrollment->save();
+        };
+        $result = array_map(function ($enrollment) {
+            return [
+                "id" => $enrollment->id, "name" => $enrollment->studentFk->name,
+                "daily_order" => $enrollment->daily_order
+            ];
+        }, $enrollments);
 
-    echo  json_encode($result);
-    /* Yii::app()->user->setFlash('success', Yii::t('default', 'dayli order')); */
+        echo  json_encode($result);
+        /* Yii::app()->user->setFlash('success', Yii::t('default', 'dayli order')); */
     }
-
 }
