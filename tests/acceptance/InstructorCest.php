@@ -3,6 +3,7 @@
 require_once 'vendor/autoload.php';
 require_once __DIR__."/../robots/LoginRobots.php";
 require_once __DIR__."/../robots/InstructorRobots.php";
+require_once __DIR__."/../builders/InstructorBuilder.php";
 
 class InstructorCest
 {
@@ -43,7 +44,7 @@ class InstructorCest
         $robots->neighborhood($builder->instructorDocumentsAddress->neighborhood);
         $robots->location($builder->instructorDocumentsAddress->diff_location);
         $robots->zone($builder->instructorDocumentsAddress->area_of_residence);
-
+        $robots->scholarity($builder->instructorVariable->scholarity);
 
         $robots->btnProximo();
         sleep(2);

@@ -10,10 +10,20 @@
 */
 
 
-require_once dirname('../app/models/InstructorIdentification.php');
-require_once dirname('../app/models/InstructorDocumentsAndAddress.php');
-require_once dirname('../app/models/InstructorTeachingData.php');
-require_once dirname('../app/models/InstructorVariableData.php');
+require_once 'vendor/autoload.php';
+require_once 'app/vendor/autoload.php';
+require_once __DIR__.'/../providers/CustomProvider.php';
+
+$yiit= __DIR__.'\..\..\app\vendor\yiisoft\yii\framework\yiit.php';
+require_once($yiit);
+$config= __DIR__.'/../../app/config/test.php';
+Yii::createWebApplication($config);
+
+// require_once dirname('../app/models/InstructorIdentification.php');
+// require_once dirname('../app/models/InstructorDocumentsAndAddress.php');
+// require_once dirname('../app/models/InstructorTeachingData.php');
+// require_once dirname('../app/models/InstructorVariableData.php');
+
 
 class InstructorBuilder {
 
