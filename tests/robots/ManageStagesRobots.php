@@ -16,6 +16,14 @@ class StagesRobots
     {
         $this->tester->amOnPage('?r=stages/default/create');
     }
+    /**
+     * Página de adicionar etapas.
+     * @author Gustavo Santos Oliveira <ti.gustavo@ipti.org.br>
+     */
+    public function pageUpdateStage ()
+    {
+        $this->tester->amOnPage('?r=stages/default/default/update&id=10056');
+    }
 
     /**
      * Botão para adicionar etapa.
@@ -51,5 +59,44 @@ class StagesRobots
     public function alias ($alias)
     {
         $this->tester->fillField('#stageAlias', $alias);
+    }
+    /**
+     * Observar o nome da etapa.
+     * @author Gustavo Santos Oliveira <ti.gustavo@ipti.org.br>
+     */
+    public function seeName ($name)
+    {
+        $this->tester->seeInField('#stageName', $name);
+    }
+    /**
+     * Pesquisar o nome da etapa.
+     * @author Gustavo Santos Oliveira <ti.gustavo@ipti.org.br>
+     */
+    public function setSearchValue ($value)
+    {
+        $this->tester->executeJS("document.querySelector('.dataTables_filter input').click();");
+        $this->tester->fillField('.dataTables_filter input', $value);
+    }
+
+    public function clickUpdate ()
+    {
+        $this->tester->executeJS("document.querySelector('.stageUpdate').click();");
+    }
+
+    public function clickDelete ()
+    {
+        $this->tester->executeJS("document.querySelector('.stageDelete').click();");
+    }
+
+    public function checkUpdate ($name,$stage,$alias)
+    {
+        $this->tester->seeInField('#stageName', $name);
+        $this->tester->seeInField('#stage', $stage);
+        $this->tester->seeInField('#stageAlias', $alias);
+    }
+
+    public function acceptPopUp ()
+    {
+        $this->tester->acceptPopup();
     }
 }

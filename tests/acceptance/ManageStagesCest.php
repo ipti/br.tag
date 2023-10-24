@@ -3,6 +3,7 @@
 require_once 'vendor/autoload.php';
 require_once __DIR__."/../robots/LoginRobots.php";
 require_once __DIR__.'/../robots/ManageStagesRobots.php';
+require_once __DIR__.'/../builders/ManageStagesBuilder.php';
 
 class ManageStagesCest
 {
@@ -16,24 +17,22 @@ class ManageStagesCest
         $robots->fieldUser($user);
         $robots->fieldPassword($password);
         $robots->submit();
-        sleep(2);
+        sleep(3);
     }
 
     // tests
     public function addStageRequired(AcceptanceTester $teste)
     {
-        $faker = Faker\Factory::create('pt_BR');
         $robots = new StagesRobots($teste);
         $robots->pageAddStage();
+        $builder = new ManageStagesBuilder();
 
-        $name = $faker->name();
-        $stage = $faker->randomElement(array (1,2,3,4,5,6,7,8,9,10));
-        $alias = substr($faker->name(), 15);
+        $stage= $builder->buildCompleted();
 
         //stages
-        $robots->name($name);
-        $robots->stage($stage);
-        $robots->alias($alias);
+        $robots->name($stage['name']);
+        $robots->stage($stage['stage']);
+        $robots->alias($stage['alias']);
 
         $robots->btnCriar();
 
@@ -42,21 +41,73 @@ class ManageStagesCest
     }
     public function addStageFilledIn(AcceptanceTester $teste)
     {
-        $faker = Faker\Factory::create('pt_BR');
         $robots = new StagesRobots($teste);
         $robots->pageAddStage();
+        $builder = new ManageStagesBuilder();
 
-        $name = $faker->name();
-        $stage = $faker->randomElement(array (1,2,3,4,5,6,7,8,9,10));
-        $alias = substr($faker->name(), 15);
+        $stage= $builder->buildCompleted();
 
         //stages
-        $robots->name($name);
-        $robots->stage($stage);
+        $robots->name($stage['name']);
+        $robots->stage($stage['stage']);
 
         $robots->btnCriar();
 
         $teste->see('O Cadastro foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=stages/default/index');
     }
+    public function updateStage(AcceptanceTester $teste)
+    {
+        $robots = new StagesRobots($teste);
+        $robots->pageAddStage();
+        $builder = new ManageStagesBuilder();
+
+        $stage = $builder->buildCompleted();
+
+        //stages
+        $robots->name($stage['name']);
+        $robots->stage($stage['stage']);
+        $robots->alias($stage['alias']);
+
+        $robots->btnCriar();
+
+        $robots->setSearchValue($stage['name']);
+        $robots->clickUpdate();
+
+        $newStage = $builder->buildCompleted();
+
+        $robots->name($newStage['name']);
+        $robots->stage($newStage['stage']);
+        $robots->alias($newStage['alias']);
+
+        $robots->btnCriar();
+
+        $robots->checkUpdate($newStage['name'],$newStage['stage'],$newStage['alias']);
+
+        $teste->canSeeInCurrentUrl('?r=stages/default/update');
+    }
+    public function deleteStage(AcceptanceTester $teste)
+    {
+        $robots = new StagesRobots($teste);
+        $robots->pageAddStage();
+        $builder = new ManageStagesBuilder();
+
+        $stage = $builder->buildCompleted();
+
+        //stages
+        $robots->name($stage['name']);
+        $robots->stage($stage['stage']);
+        $robots->alias($stage['alias']);
+
+        $robots->btnCriar();
+
+        $robots->setSearchValue($stage['name']);
+        $robots->clickDelete();
+        $robots->acceptPopUp();
+        sleep(3);
+
+        $teste->see('Aluno excluído com sucesso!');
+        $teste->canSeeInCurrentUrl('?r=stages/default/index');
+    }
+
 }

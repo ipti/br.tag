@@ -109,6 +109,7 @@ class DefaultController extends Controller
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($ajax)) {
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno excluído com sucesso!'));
             $this->redirect(isset($returnUrl) ? $returnUrl : array('admin'));
         }
     }

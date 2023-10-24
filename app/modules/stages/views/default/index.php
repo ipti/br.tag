@@ -64,8 +64,8 @@ $title = "Adicionar Etapas";
                                     'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
                                 )
                             ),
-                            'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
-                            'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
+                            'updateButtonOptions' => array('style' => 'margin-right: 20px;', 'class'=>"stageUpdate"),
+                            'deleteButtonOptions' => array('style' => 'cursor: pointer;', 'class'=>"stageDelete"),
                             'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
                         ),
                     ),
