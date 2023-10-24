@@ -282,24 +282,25 @@ class Classroom extends AltActiveRecord
             'classBoards' => array(self::HAS_MANY, 'ClassBoard', 'classroom_fk'),
             'schedules' => array(self::HAS_MANY, 'Schedule', 'classroom_fk'),
             'schoolInepFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_fk'),
-            'edcensoStageVsModalityFk' => array(
-                self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'
-            ),
-            'edcensoProfessionalEducationCourseFk' => array(
-                self::BELONGS_TO, 'EdcensoProfessionalEducationCourse', 'edcenso_professional_education_course_fk'
-            ),
-            'instructorTeachingDatas' => array(
-                self::HAS_MANY, 'InstructorTeachingData', 'classroom_id_fk'
-            ),
-            'studentEnrollments' => array(
+            'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
+            'edcensoProfessionalEducationCourseFk' => array(self::BELONGS_TO, 'EdcensoProfessionalEducationCourse', 'edcenso_professional_education_course_fk'),
+            'instructorTeachingDatas' => array(self::HAS_MANY, 'InstructorTeachingData', 'classroom_id_fk'),
+            'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'classroom_fk', 'order' => 'daily_order ASC, student_identification.name', 'join' => 'JOIN student_identification ON student_identification.id=studentEnrollments.student_fk'),
+            'enrollmentsCount'=>array(self::STAT, 'StudentEnrollment', 'classroom_fk'),
+            'activeStudentEnrollments' => array(
                 self::HAS_MANY,
                 'StudentEnrollment',
                 'classroom_fk',
-                'order' =>
-                'daily_order ASC, student_identification.name',
-                'join' => 'JOIN student_identification ON student_identification.id=studentEnrollments.student_fk'
+                'join' => 'JOIN student_identification ON student_identification.id=student_fk',
+                'order' => 'daily_order ASC, student_identification.name',
+                'condition' => 'status IN (1, 6, 7, 8, 9, 10) or status IS NULL'
             ),
-            'enrollmentsCount' => array(self::STAT, 'StudentEnrollment', 'classroom_fk'),
+            'activeEnrollmentsCount' => array(
+                self::STAT,
+                'StudentEnrollment',
+                'classroom_fk',
+                'condition' => 'status IN (1, 6, 7, 8, 9, 10) or status IS NULL'
+            ),
         );
     }
 
@@ -455,13 +456,13 @@ class Classroom extends AltActiveRecord
     public function getDisciplines()
     {
         $disciplines = EdcensoDiscipline::model()
-            ->with(array(
-                'curricularMatrixes.teachingMatrixes.teachingDataFk' => array(
-                    'condition' => 'teachingDataFk.classroom_id_fk=:classroom_id',
-                    'params' => array(':classroom_id' => $this->id),
-                )
-            ))
-            ->findAll();
+        ->with(array(
+            'curricularMatrixes.teachingMatrixes.teachingDataFk' => array(
+                'condition' => 'teachingDataFk.classroom_id_fk=:classroom_id',
+                'params' => array(':classroom_id' => $this->id),
+            )
+        ))
+        ->findAll();
 
         return $disciplines;
     }
