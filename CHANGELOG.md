@@ -1,4 +1,7 @@
 
+## [Versão 3.60.98]
+- Adicionando o campo de aulas dadas na tela de lançamento de notas
+
 ## [Versão 3.59.98]
 - Adicionada coluna de aulas dadas no relatório de ficha individual do aluno
 - Adicionada a coluna de ficha individual em lançamento de notas
