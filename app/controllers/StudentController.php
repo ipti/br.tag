@@ -661,6 +661,12 @@ class StudentController extends Controller
     public function actionDelete($id)
     {
 
+        $classes = Yii::app()->db->createCommand()
+                    ->select('classroom_inep_id')
+                    ->from('student_enrollment')
+                    ->where('student_fk = :id', array(':id' => $id))
+                    ->queryColumn();
+
         try {
             $enrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
             $delete = true;
@@ -677,6 +683,9 @@ class StudentController extends Controller
 
             $identification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
             
+            $inNumRA = $identification->gov_id;
+            
+
             $uf = EdcensoUf::model()->findByPk($identification->edcenso_uf_fk);
             $inAluno = new InAluno($identification->gov_id, null, $uf->acronym);
 
@@ -684,7 +693,16 @@ class StudentController extends Controller
                 $identification->delete();
             }
 
+
             if ($delete) {
+
+                if(INSTANCE == "LOCALHOST") {
+                    $excluirMatriculaFromSEDUseCase = new ExcluirMatriculaFromSEDUseCase;
+                    
+                    foreach ($classes as $classe) {
+                        $excluirMatriculaFromSEDUseCase->exec(new InExcluirMatricula(new InAluno($inNumRA, null, 'SP'), $classe));
+                    }
+                }
 
                 $inExcluirMatricula = new InExcluirMatricula($inAluno,);
 

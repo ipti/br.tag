@@ -10,8 +10,6 @@ class ExcluirMatriculaFromSEDUseCase
     public function exec(InExcluirMatricula $inExcluirMatricula)
     {
         $enrollmentSEDDataSource = new EnrollmentSEDDataSource;
-        $response = $enrollmentSEDDataSource->addExcluirMatricula($inExcluirMatricula);
-
-        return $response;
+        return $enrollmentSEDDataSource->addExcluirMatricula($inExcluirMatricula);
     }
 }
