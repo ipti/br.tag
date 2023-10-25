@@ -26,6 +26,7 @@ class ManageStagesCest
         $robots = new StagesRobots($teste);
         $robots->pageAddStage();
         $builder = new ManageStagesBuilder();
+        $targetUrl = '?r=stages/default/index';
 
         $stage= $builder->buildCompleted();
 
@@ -37,13 +38,14 @@ class ManageStagesCest
         $robots->btnCriar();
 
         $teste->see('O Cadastro foi criado com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=stages/default/index');
+        $teste->canSeeInCurrentUrl($targetUrl);
     }
     public function addStageFilledIn(AcceptanceTester $teste)
     {
         $robots = new StagesRobots($teste);
         $robots->pageAddStage();
         $builder = new ManageStagesBuilder();
+        $targetUrl = '?r=stages/default/index';
 
         $stage= $builder->buildCompleted();
 
@@ -54,13 +56,14 @@ class ManageStagesCest
         $robots->btnCriar();
 
         $teste->see('O Cadastro foi criado com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=stages/default/index');
+        $teste->canSeeInCurrentUrl($targetUrl);
     }
     public function updateStage(AcceptanceTester $teste)
     {
         $robots = new StagesRobots($teste);
         $robots->pageAddStage();
         $builder = new ManageStagesBuilder();
+        $targetUrl = '?r=stages/default/update';
 
         $stage = $builder->buildCompleted();
 
@@ -84,13 +87,14 @@ class ManageStagesCest
 
         $robots->checkUpdate($newStage['name'],$newStage['stage'],$newStage['alias']);
 
-        $teste->canSeeInCurrentUrl('?r=stages/default/update');
+        $teste->canSeeInCurrentUrl($targetUrl);
     }
     public function deleteStage(AcceptanceTester $teste)
     {
         $robots = new StagesRobots($teste);
         $robots->pageAddStage();
         $builder = new ManageStagesBuilder();
+        $targetUrl = '?r=stages/default/index';
 
         $stage = $builder->buildCompleted();
 
@@ -107,7 +111,7 @@ class ManageStagesCest
         sleep(3);
 
         $teste->see('Aluno excluído com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=stages/default/index');
+        $teste->canSeeInCurrentUrl($targetUrl);
     }
 
 }

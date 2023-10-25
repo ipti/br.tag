@@ -8,12 +8,12 @@ class RegisterUserCest
     public function _before (AcceptanceTester $tester)
     {
         $user = "admin";
-        $password = "p@s4ipti";
+        $secret = "p@s4ipti";
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
         $robots->fieldUser($user);
-        $robots->fieldPassword($password);
+        $robots->fieldPassword($secret);
         $robots->submit();
         sleep(5);
     }
@@ -25,12 +25,12 @@ class RegisterUserCest
 
         $name = 'Harry Styles';
         $userName = 'harrystyles';
-        $password = 'harry@123';
+        $secret = 'harry@123';
 
         $robots = new RegisterUserRobots($teste);
         $robots->name($name);
         $robots->userName($userName);
-        $robots->password($password);
+        $robots->password($secret);
 
         $robots->save();
         sleep(5);

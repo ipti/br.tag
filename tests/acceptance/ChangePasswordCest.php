@@ -8,12 +8,12 @@ class ChangePasswordCest
     public function _before(AcceptanceTester $tester)
     {
         $user = "admin";
-        $password = "p@s4ipti";
+        $secret = "p@s4ipti";
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
         $robots->fieldUser($user);
-        $robots->fieldPassword($password);
+        $robots->fieldPassword($secret);
         $robots->submit();
         sleep(2);
     }
@@ -23,10 +23,10 @@ class ChangePasswordCest
     {
         $teste->amOnPage('?r=admin/editPassword&id=1');
 
-        $newpassword = "novaSenha@2023";
+        $newSecret = "novaSenha@2023";
 
-        $teste->fillField("#Users_password", $newpassword);
-        $teste->fillField("#Confirm", $newpassword);
+        $teste->fillField("#Users_password", $newSecret);
+        $teste->fillField("#Confirm", $newSecret);
 
         $teste->click("#save button");
         sleep(5);

@@ -8,12 +8,12 @@ class ExitCest
     public function _before(AcceptanceTester $tester)
     {
         $user = "admin";
-        $password = "p@s4ipti";
+        $secret = "p@s4ipti";
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
         $robots->fieldUser($user);
-        $robots->fieldPassword($password);
+        $robots->fieldPassword($secret);
         $robots->submit();
         sleep(2);
     }

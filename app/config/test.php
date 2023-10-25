@@ -2,16 +2,16 @@
 
 
 // require(dirname(__FILE__).'/main.php');
-defined("DBNAME") or define("DBNAME","demo.tag.ong.br");
+defined("DBNAME") || define("DBNAME","demo.tag.ong.br");
 $HOST = "localhost:3306";
 $USER = 'root';
-$PWD = 'root';
+$SECRET = 'root';
 
 define ("DBCONFIG", serialize (array(
     'connectionString' => "mysql:host=$HOST;dbname=demo.tag.ong.br",
     'emulatePrepare' => true,
     'username' => $USER,
-    'password' => $PWD,
+    'password' => $SECRET,
     'charset' => 'utf8',
 )));
 
