@@ -28,11 +28,11 @@ $USER = getenv("USER_DB_TAG");
 $PWD = getenv("PWD_DB_TAG");
 
 define ("DBCONFIG", serialize (array(
-    'connectionString' => "mysql:host=localhost;dbname=db_ubatuba",
+    'connectionString' => "mysql:host=$HOST;dbname=$newdb",
     'emulatePrepare' => true,
-    'username' => "user.tag",
-    'password' => "123456",
+    'username' => $USER,
+    'password' => $PWD,
     'charset' => 'utf8',
 )));
 
-define('INSTANCE',strtoupper("UBATUBA"));
+define('INSTANCE',strtoupper($domain));
