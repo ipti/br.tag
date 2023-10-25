@@ -10,12 +10,12 @@ class StudentsCest
     public function _before(AcceptanceTester $tester)
     {
         $user = "admin";
-        $password = "p@s4ipti";
+        $secret = "p@s4ipti";
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
         $robots->fieldUser($user);
-        $robots->fieldPassword($password);
+        $robots->fieldPassword($secret);
         $robots->submit();
         sleep(2);
     }
@@ -65,7 +65,7 @@ class StudentsCest
         $robots->zone($zone);
         $robots ->btnProximo();
         sleep(2);
-        
+
         // matriculation
         $robots->btnAddMatriculation();
         sleep(2);
@@ -130,7 +130,7 @@ class StudentsCest
         $robots->zone($zone);
         $robots ->btnProximo();
         sleep(2);
-        
+
         // matriculation
         $robots->btnAddMatriculation();
         sleep(2);
@@ -191,7 +191,7 @@ class StudentsCest
         // social data
         $robots->btnProximo();
         sleep(2);
-        
+
         // residence
         $robots->zone($zone);
         $robots->btnProximo();
@@ -228,7 +228,7 @@ class StudentsCest
         // social data
         $robots->btnProximo();
         sleep(2);
-        
+
         // residence
         $robots->btnProximo();
         sleep(2);
@@ -364,7 +364,7 @@ class StudentsCest
         $robots->postCensus();
         $robots->btnProximo();
         sleep(2);
-        
+
         // residence
         $robots->stateAddress($stateAddress);
         $robots->cep($cep);
@@ -412,7 +412,7 @@ class StudentsCest
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
     }
-    
+
     /**
      * Adicionar (normal) estudantes, preenchidos todos os campos.
      * Dados Sociais - Modelo Antigo.
@@ -545,7 +545,7 @@ class StudentsCest
         $teste->pause();
         $robots->btnProximo();
         sleep(2);
-        
+
         // residence
         $robots->stateAddress($stateAddress);
         $robots->cep($cep);
