@@ -7,7 +7,7 @@ class Adapter implements ExportableInterface, ImportableInterface
      * @param mixed $data
      * @return bool|string
      */
-    function export($data) {     
+    public function export($data) {     
         return json_encode($data);
     }
 
@@ -16,7 +16,7 @@ class Adapter implements ExportableInterface, ImportableInterface
      * @param mixed $data
      * @return mixed
      */
-    function import($data) {
+    public function import($data) {
         return json_decode($data, true);  
     }
 }
