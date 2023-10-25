@@ -22,7 +22,7 @@ $cs->registerScriptFile($baseUrl . '/js/enrollment/form/functions.js', CClientSc
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'student',
-    'enableAjaxValidation' => false,
+        'enableAjaxValidation' => false,
 ));
 ?>
 
@@ -33,27 +33,28 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="column clearfix align-items--center justify-content--end show--desktop">
         <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
         <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
+    
+        <?php
+            if (!(Yii::app()->controller->id == 'student' && Yii::app()->controller->action->id == 'create')) {
+                $sedspSync = StudentIdentification::model()->findByPk($modelStudentIdentification->id)->sedsp_sync;
+                if ($sedspSync) { ?>
+                    <div style="text-align: center;margin-right: 10px;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png" style="width: 40px; margin-right: 10px;">
+                        <div>Sincronizado com a sedsp</div>
+                    </div>
+                <?php } else { ?>
+                    <div style="text-align: center;margin-right: 10px;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png" style="width: 40px;margin-right: 10px;">
+                        <div>Não sincronizado com a sedsp</div>
+                    </div>
+                <?php } ?>
 
-        <?php 
-            $sedspSync = StudentIdentification::model()->findByPk($modelStudentIdentification->id)->sedsp_sync;
-            if($sedspSync){ ?>
-                <div style="text-align: center;margin-right: 10px;">
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png" style="width: 40px; margin-right: 10px;">
-                    <div>Sincronizado com a sedsp</div>
-                </div>
-
-            <?php } else { ?>
-                <div style="text-align: center;margin-right: 10px;">
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png" style="width: 40px;margin-right: 10px;">
-                    <div>Não sincronizado com a sedsp</div>
-                </div>
-            <?php }
-        ?>
-
-        <a href="<?php echo $this->createUrl('sedsp/default/UpdateStudentFromSedsp', array('gov_id' => $modelStudentIdentification->gov_id, 'id' => $modelStudentIdentification->id)); ?>"
-            style="margin-right: 10px;background: #16205b;color: white;padding: 5px;border-radius: 5px;">
-            Sincronizar SEDSP <i class="fa fa-arrow-right" aria-hidden="true"></i> TAG
-        </a>
+                <a href="<?php echo $this->createUrl('sedsp/default/UpdateStudentFromSedsp', array('gov_id' => $modelStudentIdentification->gov_id, 'id' => $modelStudentIdentification->id)); ?>"
+                    onclick="return confirm('Tem certeza de que deseja prosseguir com a importação?\n\nEsta ação resultará na substituição dos dados atuais do aluno pelos dados do aluno da sedsp.');"
+                    style="margin-right: 10px;background: #16205b;color: white;padding: 5px;border-radius: 5px;"> 
+                    Importar dados do SEDSP
+                </a>
+        <?php } ?>
 
         <button class="t-button-primary  last save-student" type="button">
             <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
@@ -326,7 +327,14 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
-                <!-- Tab Filiação do aluno -->
+
+
+
+                <!-- 
+                    ********************
+                    FILIACAO DO ALUNO 
+                    ********************
+                -->
                 <div class="tab-pane" id="student-affiliation">
                     <div class="row">
                         <h3>
@@ -583,7 +591,16 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
-                <!-- Tab Documentos dos alunos -->
+
+
+
+
+
+                <!-- 
+                    *****************************
+                    Tab Documentos dos alunos 
+                    *****************************
+                -->
                 <div class="tab-pane" id="student-documents">
                     <div class="row">
                         <h3>Documentos Entregues </h3>
@@ -977,14 +994,22 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
-                <!-- Tab Endereço aluno -->
+
+
+
+
+                <!-- 
+                    **********************
+                    Tab Endereço aluno 
+                    **********************
+                -->
                 <div class="tab-pane" id="student-address">
                     <!-- Estado e CEP -->
                     <div class="row">
                         <!-- Estado -->
                         <div class="column clearleft is-two-fifths">
                             <div class="t-field-select js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', array('class' => 't-field-select__label')); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', array('class' => 't-field-select__label--required')); ?>
                                 <?php
                                 echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_uf_fk',
                                 CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'),
@@ -1004,7 +1029,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <!-- CEP -->
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cep', array('class' => 't-field-text__label')); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cep', array('class' => 't-field-text__label--required')); ?>
                                 <?php
                                 echo $form->textField($modelStudentDocumentsAndAddress, 'cep', array(
                                     'size' => 8,
@@ -1021,7 +1046,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <!-- Cidade -->
                         <div class="column clearleft is-two-fifths">
                             <div class="t-field-select js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_city_fk', array('class' => 't-field-select__label')); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_city_fk', array('class' => 't-field-text__label--required')); ?>
                                 <?php
                                 echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_city_fk',
                                 CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->edcenso_uf_fk),
@@ -1033,9 +1058,9 @@ $form = $this->beginWidget('CActiveForm', array(
                         <!-- Endereço -->
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'address', array('class' => 't-field-text__label')); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'address', array('class' => 't-field-text__label--required', 'required' => 'required')); ?>
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'address',
-                                array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Endereço', 'class' => 't-field-text__input')); ?>
+                                array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Endereço','required' => 'required', 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'address'); ?>
                             </div>
                         </div>
@@ -1045,7 +1070,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <!-- Bairro -->
                         <div class="column clearleft is-two-fifths">
                             <div class="t-field-text js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'neighborhood', array('class' => 't-field-text__label')); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'neighborhood', array('class' => 't-field-text__label--required')); ?>
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'neighborhood',
                                 array('size' => 50, 'maxlength' => 50, 'placeholder' => 'Digite o Bairro ou Povoado', 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'neighborhood'); ?>
@@ -1054,13 +1079,13 @@ $form = $this->beginWidget('CActiveForm', array(
                         <!-- N° -->
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'number', array('class' => 't-field-text__label')); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'number', array('class' => 't-field-text__label--required')); ?>
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'number',
                                 array('size' => 10, 'maxlength' => 10, 'placeholder' => 'Digite o Número', 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'number'); ?>
                             </div>
                         </div>
-                    </div>
+                                            </div>
                     <!-- Complemento e localização diferênciada -->
                     <div class="row">
                         <!-- Complemento -->
@@ -1098,7 +1123,14 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
-                <!-- Tab Aluno matricula -->
+
+
+
+                <!-- 
+                    *************************
+                    Tab Aluno matricula 
+                    *************************
+                -->
                 <div class="tab-pane" id="student-enrollment">
                     <div class="row">
                         <div class="column clearleft is-two-fifths">

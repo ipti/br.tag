@@ -94,7 +94,7 @@ class StudentDocumentsAndAddress extends AltActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('school_inep_id_fk, residence_zone', 'required'),
+            array('school_inep_id_fk, address, number,edcenso_city_fk, neighborhood, edcenso_uf_fk, cep, residence_zone', 'required'),
             array('rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, civil_certification, civil_certification_type, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, residence_zone, edcenso_uf_fk, edcenso_city_fk, received_cc, received_address, received_photo, received_nis, received_history, received_responsable_rg, received_responsable_cpf, justice_restriction, diff_location, consent_form', 'numerical', 'integerOnly'=>true),
             array('register_type', 'length', 'max'=>2),
             array('school_inep_id_fk, civil_certification_term_number, civil_certification_book, cep', 'length', 'max'=>8),
@@ -104,7 +104,8 @@ class StudentDocumentsAndAddress extends AltActiveRecord
             array('civil_certification_sheet', 'length', 'max'=>4),
             array('civil_register_enrollment_number', 'length', 'max'=>32),
             array('cpf, nis', 'length', 'max'=>11),
-            array('address', 'length', 'max'=>100),
+            array('address', 'required', 'message' => 'O campo de endereço é obrigatório.'),
+            array('address', 'length', 'max' => 100, 'tooLong' => 'O endereço deve ter no máximo 100 caracteres.'),
             array('neighborhood', 'length', 'max'=>50),
             array('hash', 'length', 'max'=>40),
             // The following rule is used by search().

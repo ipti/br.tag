@@ -735,6 +735,9 @@ $(".save-student").click(function () {
         message += "Corrija o campo <b>Nº da matrícula (Registro Civil - Certidão Nova)</b>.<br>";
     }
 
+    /**
+     * DADOS DO ALUNO
+     **/
     if ($("#StudentIdentification_name").val() === "") {
         error = true;
         message += "Campo <b>Nome</b> é obrigatório.<br>";
@@ -763,10 +766,10 @@ $(".save-student").click(function () {
         error = true;
         message += "Campo <b>País de origem</b> é obrigatório.<br>";
     }
-    if ($("#StudentDocumentsAndAddress_residence_zone").val() === "") {
-        error = true;
-        message += "Campo <b>Localização / Zona de residência</b> é obrigatório.<br>";
-    }
+    
+    /**
+     * ENDEREÇO
+     **/
     if ($("#StudentIdentification_nationality").val() === "1" && $("#StudentIdentification_edcenso_uf_fk").val() === "") {
         error = true;
         message += "Campo <b>Estado</b> é obrigatório.<br>";
@@ -775,6 +778,30 @@ $(".save-student").click(function () {
         error = true;
         message += "Campo <b>Cidade</b> é obrigatório.<br>";
     }
+    if ($("#StudentDocumentsAndAddress_residence_zone").val() === "") {
+        error = true;
+        message += "Campo <b>Localização / Zona de residência</b> é obrigatório.<br>";
+    }
+    if ($("#StudentDocumentsAndAddress_neighborhood").val() === "") {
+        error = true;
+        message += "Campo <b>Bairro / Povoado</b> é obrigatório.<br>";
+    }
+    if ($("#StudentDocumentsAndAddress_number").val() === "") {
+        error = true;
+        message += "Campo <b>N°</b> é obrigatório.<br>";
+    }
+    if ($("#StudentDocumentsAndAddress_cep").val() === "") {
+        error = true;
+        message += "Campo <b>CEP</b> é obrigatório.<br>";
+    }
+    if ($("#StudentDocumentsAndAddress_address").val() === "") {
+        error = true;
+        message += "Campo <b>Endereço</b> é obrigatório.<br>";
+    }
+
+    /**
+     * SAÚDE
+     **/
     if ($("#StudentIdentification_deficiency").is(":checked") && !$(".deficiencies-container input[type=checkbox]:checked").length) {
         error = true;
         message += "Como o campo <b>Deficiência</b> foi preenchido, deve-se preencher pelo menos um <b>Tipo de deficiência</b>.<br>";
