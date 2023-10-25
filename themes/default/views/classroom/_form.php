@@ -29,7 +29,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="tag-buttons-container buttons">
 
             <?php
-            if ($modelClassroom->id !== null) {
+            if ($modelClassroom->gov_id !== null) {
                 $sedspSync = Classroom::model()->findByPk($modelClassroom->id)->sedsp_sync;
                 if ($sedspSync) { ?>
                     <div style="text-align: center;margin-right: 10px;">
@@ -179,7 +179,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <!-- Unidade Escolar -->
                                 <div class="t-field-select" id="sedsp_school_unity_fk">
                                     <?php echo $form->labelEx($modelClassroom, 'Unidade Escolar *', array('class' => 't-field-select__label--required')); ?>
-                                    <?php echo $form->DropDownList($modelClassroom, 'sedsp_school_unity_fk', CHtml::listData(SedspSchoolUnities::model()->findAllByAttributes(array('school_inep_id_fk' => yii::app()->user->school)), 'id', 'description'), array('prompt' => 'Selecione a unidade da escola', 'class' => 'select-search-off t-field-select__input', 'disabled' => $disabledFields, 'style' => 'width: 80%')); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'sedsp_school_unity_fk', CHtml::listData(SedspSchoolUnities::model()->findAllByAttributes(array('school_inep_id_fk' => yii::app()->user->school)), 'id', 'description'), array('prompt' => 'Selecione a unidade escolar', 'class' => 'select-search-off t-field-select__input', 'disabled' => $disabledFields, 'style' => 'width: 80%')); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_school_unity_fk'); ?>
                                     <img class="loading-disciplines" style="display:none;position: fixed;margin: 5px 20px;"
                                          height="20px" width="20px"
