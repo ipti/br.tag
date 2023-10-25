@@ -333,17 +333,23 @@ class StudentController extends Controller
                             }
 
                             if ($saved) {
-                                $outResponse = $this->syncStudentWithSED($modelStudentIdentification->id);
-                                if($outResponse  !== null){
-                                    Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
-                                    $msg = '<p style="color: white;background: #23b923;padding: 10px;border-radius: 4px;">O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!</p> Mas não foi possível fazer a sincronização! </br><b>ERROR: </b>: '. $outResponse->outErro;
-                                    Yii::app()->user->setFlash('error', Yii::t('default', $msg));
-                                }else{
-                                    Log::model()->saveAction("student", $modelStudentIdentification->id, "C", $modelStudentIdentification->name);
-                                    $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!';
-                                    Yii::app()->user->setFlash('success', Yii::t('default', $msg));
-                                }
+                                if(INSTANCE == "UBATUBA"){
+                                    if(!((date("H") >= 00) and (date("H") <= 06))){
+                                        $outResponse = $this->syncStudentWithSED($modelStudentIdentification->id);
+                                    }
 
+                                    if($outResponse->outErro !== null){
+                                        Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
+                                        $msg = '<p style="color: white;background: #23b923;padding: 10px;border-radius: 4px;">O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!</p> Mas não foi possível fazer a sincronização! </br><b>ERROR: </b>: '. $outResponse->outErro;
+                                        echo Yii::app()->user->setFlash('error', Yii::t('default', $msg));
+                                        $this->redirect(array('index', 'sid' => $modelStudentIdentification->id));
+                                    }
+                                }
+                                
+                                Log::model()->saveAction("student", $modelStudentIdentification->id, "C", $modelStudentIdentification->name);
+                                $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!';
+                                Yii::app()->user->setFlash('success', Yii::t('default', $msg));
+                        
                                 $this->redirect(array('index', 'sid' => $modelStudentIdentification->id));
                             }
                         }
@@ -454,6 +460,7 @@ class StudentController extends Controller
                                     Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
                                     $msg = '<p style="color: white;background: #23b923;padding: 10px;border-radius: 4px;">O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!</p> Mas não foi possível fazer a sincronização! </br><b>ERROR: </b>: '. $exi->outErro;
                                     echo Yii::app()->user->setFlash('error', Yii::t('default', $msg));
+                                    $this->redirect(array('index', 'id' => $modelStudentIdentification->id));
                                 }
                             } 
 
