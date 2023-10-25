@@ -19,7 +19,7 @@ class ClassroomMapper
 
         $classroomSEDDataSource = new ClassroomSEDDataSource();
         $response = $classroomSEDDataSource->getConsultClass(
-            new InConsultaTurmaClasse("2023", $outFormacaoClasse->getOutNumClasse())
+            new InConsultaTurmaClasse($outFormacaoClasse->getOutAnoLetivo(), $outFormacaoClasse->getOutNumClasse())
         );
 
         $classroomTag->name = $response->getOutDescricaoTurma();
@@ -38,7 +38,7 @@ class ClassroomMapper
         $classroomTag->week_days_thursday = 1;
         $classroomTag->week_days_friday = 1;
         $classroomTag->week_days_saturday = 1;
-        $classroomTag->school_year = '2023';
+        $classroomTag->school_year = $outFormacaoClasse->getOutAnoLetivo();
         $classroomTag->pedagogical_mediation_type = 1;
         $classroomTag->sedsp_acronym = $response->getOutTurma();
         $schoolUnity = SedspSchoolUnities::model()->find('code = :code', [':code' => $response->getOutCodUnidade()]);
@@ -133,7 +133,7 @@ class ClassroomMapper
             }
             $classroomSEDDataSource = new ClassroomSEDDataSource();
             $response = $classroomSEDDataSource->getConsultClass(
-                new InConsultaTurmaClasse("2023", $classe->getOutNumClasse())
+                new InConsultaTurmaClasse($outRelacaoClasses->getOutAnoLetivo(), $classe->getOutNumClasse())
             );
             $classroom->name = $response->getOutDescricaoTurma();
             $classroom->initial_hour = substr($classe->getOutHorarioInicio(), 0, 2);
@@ -168,44 +168,27 @@ class ClassroomMapper
      *
      * @return Classroom
      */
-    public static function parseToTAGConsultaClasse($inNumClassrom, OutConsultaTurmaClasse $outConsultaTurmaClasse)
+    public static function parseToTAGConsultaClasse($inNumClassroom, OutConsultaTurmaClasse $outConsultaTurmaClasse)
     {
-        $basicDataSEDDataSource = new BasicDataSEDDataSource();
-        $listaTiposEnsino = $basicDataSEDDataSource->getTipoEnsino();
-        $stage = self::convertTipoEnsinoToStage(
+        $classroom = Classroom::model()->find("gov_id = :gov_id", ["gov_id" => $inNumClassroom]);
+        $classroom->name = $outConsultaTurmaClasse->getOutDescricaoTurma();
+        $classroom->initial_hour = substr($outConsultaTurmaClasse->getOutHorarioInicioAula(), 0, 2);
+        $classroom->initial_minute = substr($outConsultaTurmaClasse->getOutHorarioInicioAula(), -2);
+        $classroom->final_hour = substr($outConsultaTurmaClasse->getOutHorarioFimAula(), 0, 2);
+        $classroom->final_minute = substr($outConsultaTurmaClasse->getOutHorarioFimAula(), -2);
+        $classroom->edcenso_stage_vs_modality_fk = self::convertTipoEnsinoToStage(
             $outConsultaTurmaClasse->getOutCodTipoEnsino(), $outConsultaTurmaClasse->getOutCodSerieAno()
         );
-        $serieName = self::getNameSerieFromClasse($outConsultaTurmaClasse->getOutCodTipoEnsino(), $listaTiposEnsino);
-
-        $classroomTag = new Classroom();
-        $classroomTag->school_inep_fk = SchoolMapper::mapToTAGInepId($outConsultaTurmaClasse->getOutCodEscola());
-        $classroomTag->gov_id = $inNumClassrom;
-        $classroomTag->name = $outConsultaTurmaClasse->getOutDescricaoTurma();
-        $classroomTag->edcenso_stage_vs_modality_fk = $stage;
-        $classroomTag->schooling = 1;
-        $classroomTag->assistance_type = 0;
-        $classroomTag->modality = 1;
-        $classroomTag->initial_hour = substr($outConsultaTurmaClasse->getOutHorarioInicioAula(), 0, 2);
-        $classroomTag->initial_minute = substr($outConsultaTurmaClasse->getOutHorarioInicioAula(), -2);
-        $classroomTag->final_hour = substr($outConsultaTurmaClasse->getOutHorarioFimAula(), 0, 2);
-        $classroomTag->final_minute = substr($outConsultaTurmaClasse->getOutHorarioFimAula(), -2);
-        $classroomTag->week_days_sunday = 0;
-        $classroomTag->week_days_monday = intval($outConsultaTurmaClasse->getOutDiasSemana()->getOutFlagSegunda());
-        $classroomTag->week_days_tuesday = intval($outConsultaTurmaClasse->getOutDiasSemana()->getOutFlagTerca());
-        $classroomTag->week_days_wednesday = intval($outConsultaTurmaClasse->getOutDiasSemana()->getOutFlagQuarta());
-        $classroomTag->week_days_thursday = intval($outConsultaTurmaClasse->getOutDiasSemana()->getOutFlagQuinta());
-        $classroomTag->week_days_friday = intval($outConsultaTurmaClasse->getOutDiasSemana()->getOutFlagSexta());
-        $classroomTag->week_days_saturday = 0;
-        $classroomTag->school_year = Yii::app()->user->year;
-        $classroomTag->pedagogical_mediation_type = 1;
-        $classroomTag->sedsp_acronym = $outConsultaTurmaClasse->getOutTurma();
+        $classroom->school_year = $outConsultaTurmaClasse->getOutAnoLetivo();
+        $classroom->turn = self::convertCodTurno($outConsultaTurmaClasse->getOutCodTurno());
+        $classroom->sedsp_acronym = $outConsultaTurmaClasse->getOutTurma();
         $schoolUnity = SedspSchoolUnities::model()->find('code = :code', [':code' => $outConsultaTurmaClasse->getOutCodUnidade()]);
-        $classroomTag->sedsp_school_unity_fk = $schoolUnity->id;
-        $classroomTag->sedsp_classnumber = $outConsultaTurmaClasse->getOutNumeroSala();
-        $classroomTag->sedsp_max_physical_capacity = $outConsultaTurmaClasse->getOutNrCapacidadeFisicaMaxima();
-        $classroomTag->sedsp_sync = 1;
+        $classroom->sedsp_school_unity_fk = $schoolUnity->id;
+        $classroom->sedsp_classnumber = $outConsultaTurmaClasse->getOutNumeroSala();
+        $classroom->sedsp_max_physical_capacity = $outConsultaTurmaClasse->getOutNrCapacidadeFisicaMaxima();
+        $classroom->sedsp_sync = 1;
 
-        return $classroomTag;
+        return $classroom;
     }
 
     private static function convertCodTurno($outCodTurno)
