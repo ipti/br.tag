@@ -10,12 +10,12 @@ class ManageStagesCest
     public function _before(AcceptanceTester $teste)
     {
         $user = "admin";
-        $password = "p@s4ipti";
+        $secret = "p@s4ipti";
 
         $robots = new LoginRobots($teste);
         $robots->pageLogin();
         $robots->fieldUser($user);
-        $robots->fieldPassword($password);
+        $robots->fieldPassword($secret);
         $robots->submit();
         sleep(3);
     }
