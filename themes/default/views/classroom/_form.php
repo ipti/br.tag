@@ -27,6 +27,32 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="span12">
         <h1><?php echo $title; ?></h1>
         <div class="tag-buttons-container buttons">
+
+            <?php
+            if ($modelClassroom->id !== null) {
+                $sedspSync = Classroom::model()->findByPk($modelClassroom->id)->sedsp_sync;
+                if ($sedspSync) { ?>
+                    <div style="text-align: center;margin-right: 10px;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
+                             style="width: 40px; margin-right: 10px;">
+                        <div>Sincronizado com a SEDSP</div>
+                    </div>
+
+                <?php } else { ?>
+                    <div style="text-align: center;margin-right: 10px;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
+                             style="width: 40px;margin-right: 10px;">
+                        <div>Não sincronizado com a SEDSP</div>
+                    </div>
+                <?php }
+                if (!$sedspSync) { ?>
+                    <a class="update-classroom-to-sedsp"
+                       style="margin-right: 10px;background: #16205b;color: white;padding: 5px;border-radius: 5px;">
+                        Importar Turma do SEDSP
+                    </a>
+                <?php } ?>
+            <?php } ?>
+
             <button class="t-button-primary  last pull-right save-classroom" type="button">
                 <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
             </button>
@@ -44,7 +70,9 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <?php echo $form->errorSummary($modelClassroom); ?>
         <?php if (INSTANCE == "UBATUBA" && $disabledFields): ?>
-            <div class="alert alert-warning">Alguns campos foram desabilitados porque a turma possui alunos matriculados e o SEDSP não autoriza realizar edições em tais campos.</div>
+            <div class="alert alert-warning">Alguns campos foram desabilitados porque a turma possui alunos matriculados
+                e o SEDSP não autoriza realizar edições em tais campos.
+            </div>
         <?php endif; ?>
         <div class="alert alert-error classroom-error no-show"></div>
         <div class="t-tabs">
@@ -767,6 +795,38 @@ $form = $this->beginWidget('CActiveForm', array(
                     <?php echo CHtml::label(Yii::t("default", "Regent Teacher"), "RegentTeacher", array('class' => 't-field-text__label', 'style' => 'display: inline-block')); ?>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-content" id="importClassroomToSEDSP" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt=""
+                         style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title"
+                    id="myModalLabel">Importar turma do SEDSP</h4>
+            </div>
+            <form method="post" action="<?php echo $this->createUrl('sedsp/default/importClassroomFromSedsp', array('id' => $modelClassroom->id, 'gov_id' => $modelClassroom->gov_id)); ?>">
+                <div class="centered-loading-gif">
+                    <i class="fa fa-spin fa-spinner"></i>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-error no-show"></div>
+                    <div class="row-fluid">
+                        Você tem certeza?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">Cancelar
+                        </button>
+                        <button type="button"
+                                class="btn btn-primary import-classroom-button">Confirmar
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
