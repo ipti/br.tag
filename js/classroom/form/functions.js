@@ -394,7 +394,6 @@ $("#js-t-sortable").on("sortupdate", function(event, ui) {
         },
 
     }).success(function (response) {
-        debugger;
         const result = JSON.parse(response);
         const list = []
         result.forEach(element => {

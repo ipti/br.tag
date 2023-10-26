@@ -9,7 +9,7 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classroom/form/dialogs.js', CClientScript::POS_END);
+// $cs->registerScriptFile($baseUrl . '/js/classroom/form/dialogs.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/_initialization.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/functions.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/validations.js?v=1.0', CClientScript::POS_END);
@@ -1106,7 +1106,6 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
 
     <div class="modal fade t-modal-container" id="addTeacherSchoolComponent" tabindex="-1" role="dialog">
-        <!-- o problema é esse role! role é papel, ele indicando dialog! -->
         <div class="modal-dialog" role="document">
             <div class="t-modal__header">
                 <h4 class="t-title" id="myModalLabel">Diário de Aula</h4>
@@ -1134,7 +1133,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="right" data-original-title="Serão listadas apenas as componentes curriculares/eixos inseridos na matriz curricular desta etapa de ensino selecionada na turma.">
                         </span>
                     </label>
-                    <select id="Disciplines" class="select-disciplines select-search-on t-multiselect multiselect" multiple></select>
+                    <select id="Disciplines" class="select-disciplines t-multiselect" multiple tabindex="-1"></select>
                 </div>
                 <div class="t-field-select ">
                     <?php echo CHtml::label(
@@ -1285,6 +1284,7 @@ $form = $this->beginWidget('CActiveForm', array(
             </div>
         </div>
     </div> -->
+
 </div>
 
 <?php
