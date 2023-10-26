@@ -246,7 +246,7 @@ class ClassroomController extends Controller
 
     //@done s1 - criar função para pegar os labels das disciplinas separando pelo id do educacenso
 
-    static function classroomDisciplineLabelArray()
+    public static function classroomDisciplineLabelArray()
     {
         $labels = array();
         $disciplines =  EdcensoDiscipline::model()->findAll(['select' => 'id, name']);
@@ -256,7 +256,7 @@ class ClassroomController extends Controller
         return $labels;
     }
 
-    static function classroomDisciplineLabelResumeArray()
+    public static function classroomDisciplineLabelResumeArray()
     {
         $labels = array();
         $disciplines =  EdcensoDiscipline::model()->findAll(['select' => 'id, name']);
@@ -317,7 +317,7 @@ class ClassroomController extends Controller
 
     //@done s1 - criar função para transformas as Disciplinas do TeachingData em Array
 
-    static function teachingDataDiscipline2array($instructor)
+    public static function teachingDataDiscipline2array($instructor)
     {
         $disciplines = array();
 

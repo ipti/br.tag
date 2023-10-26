@@ -57,7 +57,7 @@ class InscreverAluno implements JsonSerializable
 			($data['inNivelEnsino'] ?? null) !== null ? InNivelEnsino::fromJson($data['inNivelEnsino']) : null
 		);
 	}
-    function jsonSerialize() {
+    public function jsonSerialize() {
         return get_object_vars($this);
     }
 }

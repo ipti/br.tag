@@ -57,7 +57,7 @@ class OutHandleApiResult implements JsonSerializable
 			$data['outProcessoID'] ?? null
 		);
 	}
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return get_object_vars($this);
     }
