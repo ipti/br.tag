@@ -1,5 +1,7 @@
 <?php
 
+Yii::import('application.modules.sedsp.datasources.sed.Enrollment.*');
+
 class ExcluirMatriculaFromSEDUseCase
 {
     /**
