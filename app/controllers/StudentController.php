@@ -3,6 +3,9 @@ require_once 'app/vendor/autoload.php';
 Yii::import('application.modules.sedsp.models.Student.*');
 Yii::import('application.modules.sedsp.datasources.sed.Student.*');
 Yii::import('application.modules.sedsp.mappers.*');
+Yii::import('application.modules.sedsp.usecases.Enrollment.*');
+Yii::import('application.modules.sedsp.models.Enrollment.*');
+
 
 class StudentController extends Controller
 {
@@ -682,32 +685,16 @@ class StudentController extends Controller
             }
 
             $identification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
-            
             $inNumRA = $identification->gov_id;
-            
-
-            $uf = EdcensoUf::model()->findByPk($identification->edcenso_uf_fk);
-            $inAluno = new InAluno($identification->gov_id, null, $uf->acronym);
-
+        
             if (isset($identification->id) && $identification->id > 0) {
                 $identification->delete();
             }
 
-
             if ($delete) {
-
-                if(INSTANCE == "LOCALHOST") {
-                    $excluirMatriculaFromSEDUseCase = new ExcluirMatriculaFromSEDUseCase;
-                    
-                    foreach ($classes as $classe) {
-                        $excluirMatriculaFromSEDUseCase->exec(new InExcluirMatricula(new InAluno($inNumRA, null, 'SP'), $classe));
-                    }
+                if(INSTANCE == "UBATUBA") {
+                    $this->excluirMatriculaFromSED($classes, $inNumRA);
                 }
-
-                $inExcluirMatricula = new InExcluirMatricula($inAluno,);
-
-                $excluirMatriculaFromSEDUseCase = new ExcluirMatriculaFromSEDUseCase;
-                $excluirMatriculaFromSEDUseCase->exec($inExcluirMatricula);
 
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno excluído com sucesso!'));
                 $this->redirect(array('index'));
@@ -719,6 +706,20 @@ class StudentController extends Controller
             $this->redirect('?r=student');
         }
     }
+
+    public function excluirMatriculaFromSED($classes, $inNumRA) {
+        if(!(count($classes) == '0')) {
+            $excluirMatriculaFromSEDUseCase = new ExcluirMatriculaFromSEDUseCase();
+        
+            foreach ($classes as $classe) {
+                $statusDelete = $excluirMatriculaFromSEDUseCase->exec(new InExcluirMatricula(new InAluno($inNumRA, null, 'SP'), $classe));
+                if ($statusDelete->outErro !== null) {
+                    $erros[] = $statusDelete->outErro;
+                }
+            }
+        }
+    }
+
 
 
     /**
