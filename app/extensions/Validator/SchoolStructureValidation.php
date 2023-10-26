@@ -9,12 +9,12 @@ require_once(dirname(__FILE__) . $DS . "register.php");
 class SchoolStructureValidation extends Register
 {
 
-    function __construct()
+    public function __construct()
     {
     }
 
     //campo 12
-    function buildingOccupationStatus($collun3, $collun8, $value)
+    public function buildingOccupationStatus($collun3, $collun8, $value)
     {
 
         if ($collun3 == 1) {
@@ -31,7 +31,7 @@ class SchoolStructureValidation extends Register
     }
 
     //campo 13
-    function sharedBuildingSchool($collun3, $value)
+    public function sharedBuildingSchool($collun3, $value)
     {
 
         if ($collun3 == 1) {
@@ -51,7 +51,7 @@ class SchoolStructureValidation extends Register
 
 
     //campo 14 à 19
-    function sharedSchoolInep($collun13, $inep_id, $shared_schools_inep_ids)
+    public function sharedSchoolInep($collun13, $inep_id, $shared_schools_inep_ids)
     {
         if ($collun13 == 1) {
             foreach ($shared_schools_inep_ids as $school_inep_id) {
@@ -73,7 +73,7 @@ class SchoolStructureValidation extends Register
     }
 
     //campo 20
-    function consumedWater($value)
+    public function consumedWater($value)
     {
         if ($value == 1 || $value == 2) {
             return array("status" => true, "erro" => "");
@@ -84,7 +84,7 @@ class SchoolStructureValidation extends Register
     }
 
 
-    function supply($supply_locations)
+    public function supply($supply_locations)
     {
 
         $len = sizeof($supply_locations);
@@ -106,7 +106,7 @@ class SchoolStructureValidation extends Register
     }
 
     //campo 69
-    function schoolsCount($collun3, $value)
+    public function schoolsCount($collun3, $value)
     {
 
         if ($collun3 == 1) {
@@ -117,7 +117,7 @@ class SchoolStructureValidation extends Register
         return array("status" => true, "erro" => "");
     }
 
-    function usedSchoolsCount($collun3, $value)
+    public function usedSchoolsCount($collun3, $value)
     {
 
         if ($collun3 == 1) {
@@ -130,7 +130,7 @@ class SchoolStructureValidation extends Register
 
 
     //71 à 83
-    function equipmentAmounts($amounts)
+    public function equipmentAmounts($amounts)
     {
 
         foreach ($amounts as $key => $value) {
@@ -150,7 +150,7 @@ class SchoolStructureValidation extends Register
     }
 
     //86
-    function internetAccess($collun, $value)
+    public function internetAccess($collun, $value)
     {
 
         if ($collun != null) {
@@ -168,7 +168,7 @@ class SchoolStructureValidation extends Register
     }
 
     //campo 87
-    function bandwidth($collun, $value)
+    public function bandwidth($collun, $value)
     {
 
         if ($collun == 1) {
@@ -180,7 +180,7 @@ class SchoolStructureValidation extends Register
     }
 
     //89
-    function schoolFeeding($value)
+    public function schoolFeeding($value)
     {
 
         if ($value === null) {
@@ -193,7 +193,7 @@ class SchoolStructureValidation extends Register
     // falta validação 'bruta'
 
 
-    function checkModalities($collun90, $collun91, $modalities,
+    public function checkModalities($collun90, $collun91, $modalities,
                              $are_there_students_by_modalitie,
                              $are_there_instructors_by_modalitie)
     {
@@ -226,7 +226,7 @@ class SchoolStructureValidation extends Register
 
     //96
     //falta validação 'bruta'
-    function schoolCicle($value, $number_of_schools)
+    public function schoolCicle($value, $number_of_schools)
     {
         if ($number_of_schools > 0) {
             if (!($value == 0 || $value == 1)) {
@@ -244,7 +244,7 @@ class SchoolStructureValidation extends Register
     }
 
     //97
-    function differentiatedLocation($collun0029, $value)
+    public function differentiatedLocation($collun0029, $value)
     {
 
         if (!in_array($value, array("1", "2", "3", "4", "5", "6", "7"))) {
@@ -265,7 +265,7 @@ class SchoolStructureValidation extends Register
         return array("status" => true, "erro" => "");
     }
 
-    function materials($itens)
+    public function materials($itens)
     {
 
         $len = sizeof($itens);
@@ -291,7 +291,7 @@ class SchoolStructureValidation extends Register
 
     //102 e 103
 
-    function languages($collun101, $languages)
+    public function languages($collun101, $languages)
     {
 
         if ($collun101 != "1") {
@@ -313,7 +313,7 @@ class SchoolStructureValidation extends Register
 
     //104
 
-    function edcensoNativeLanguages($collun102, $value)
+    public function edcensoNativeLanguages($collun102, $value)
     {
 
         if ($collun102 != "1") {
@@ -335,7 +335,7 @@ class SchoolStructureValidation extends Register
 
     //107
 
-    function pedagogicalFormation($value, $number_of_classrooms)
+    public function pedagogicalFormation($value, $number_of_classrooms)
     {
 
         if (!($value == 0 || $value == 1)) {

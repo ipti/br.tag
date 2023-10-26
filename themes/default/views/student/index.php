@@ -7,7 +7,7 @@
     );
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
-    
+
     ?>
 
     <div class="row-fluid">
