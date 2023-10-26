@@ -131,6 +131,10 @@ $(".save-classroom").click(function () {
         error = true;
         message += "Campo <b>Turma</b> é obrigatório.<br>";
     }
+    if ($("#Classroom_sedsp_school_unity_fk").val() === "") {
+        error = true;
+        message += "Campo <b>Unidade Escolar</b> é obrigatório.<br>";
+    }
     if ($("#Classroom_sedsp_classnumber").length && ($("#Classroom_sedsp_classnumber").val() === "" || $("#Classroom_sedsp_classnumber").val() < 1 || $("#Classroom_sedsp_classnumber").val() > 99)) {
         error = true;
         message += "Campo <b>Sala de Aula</b> é obrigatório, com limite de 02 dígitos.<br>";
