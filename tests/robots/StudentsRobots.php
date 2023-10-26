@@ -3,7 +3,7 @@
 class StudentsRobots
 {
     public AcceptanceTester $tester;
-
+    
     public function __construct(AcceptanceTester $tester)
     {
         $this->tester = $tester;
@@ -334,7 +334,6 @@ class StudentsRobots
     {
         $this->tester->selectOption('#scholarityFiliation2-select select', $scholarityFiliation2);
     }
-
     /**
      * Preencher a profissão da filiação 2.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>

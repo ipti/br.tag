@@ -59,7 +59,7 @@
                             ),
                             array(
                                 'name' => 'enrollmentsCount',
-                                'header' => 'Alunos',
+                                'header' => 'Mat. Ativas',
                                 // 'value' => 'count($data->activeStudentEnrollments)',
                                 'value' => '$data->activeEnrollmentsCount',
                             ),

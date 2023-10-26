@@ -10,7 +10,7 @@ define ("DBCONFIG", serialize (array(
     'connectionString' => "mysql:host=$HOST;dbname=demo.tag.ong.br",
     'emulatePrepare' => true,
     'username' => $USER,
-    'password' => $PWD,
+    'password' => $SECRET,
     'charset' => 'utf8',
 )));
 
