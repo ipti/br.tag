@@ -1,7 +1,7 @@
 <?php
 use GuzzleHttp\Exception\ClientException;
 
-require 'app/vendor/autoload.php';
+require_once 'app/vendor/autoload.php';
 
 
 class EnrollmentSEDDataSource extends SedDataSource
@@ -12,7 +12,7 @@ class EnrollmentSEDDataSource extends SedDataSource
      * @return OutListaMatriculaRA|OutErro
      * @throws Exception
      */
-    function getListarMatriculasRA($inAluno)
+    public function getListarMatriculasRA($inAluno)
     {
         try {
             $url = '/ncaapi/api/Matricula/ListarMatriculasRA';
@@ -31,7 +31,7 @@ class EnrollmentSEDDataSource extends SedDataSource
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
-    function addInscreverAluno(InscreverAluno $inscreverAluno)
+    public function addInscreverAluno(InscreverAluno $inscreverAluno)
     {
         try{
             $url = '/ncaapi/api/Inscricao/InscreverAluno';
@@ -56,7 +56,7 @@ class EnrollmentSEDDataSource extends SedDataSource
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
-    function addMatricularAluno(InMatricularAluno $inMatricularAluno)
+    public function addMatricularAluno(InMatricularAluno $inMatricularAluno)
     {
         try{
 
@@ -83,7 +83,7 @@ class EnrollmentSEDDataSource extends SedDataSource
      * @return OutExibirMatriculaClasseRA|OutErro
      * @throws Exception
      */
-    function getExibirMatriculaClasseRA(InExibirMatriculaClasseRA $inExibirMatriculaClasseRA)
+    public function getExibirMatriculaClasseRA(InExibirMatriculaClasseRA $inExibirMatriculaClasseRA)
     {
         try{
             $url = '/ncaapi/api/Matricula/ExibirMatriculaClasseRA';

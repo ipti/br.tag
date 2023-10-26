@@ -1397,7 +1397,7 @@ class ReportsRepository
                     WHERE `year`  = :year AND
                     classroom_id = :classroom_id AND
                     ((`status` IN (1, 6, 7, 8, 9, 10) or `status` is null))
-                ORDER BY name;";
+                ORDER BY daily_order, name;";
 
         $result = Yii::app()->db->createCommand($sql)
             ->bindParam(':year', $this->currentYear)

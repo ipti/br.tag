@@ -9,7 +9,7 @@ class ExportModel
      * Summary of getInstructorsIdentification
      * @return array<array>
      */
-    function getInstructorsIdentification()
+    public function getInstructorsIdentification()
     {
         $query = "SELECT * FROM instructor_identification";
         $instructors = Yii::app()->db->createCommand($query)->queryAll();
@@ -47,7 +47,7 @@ class ExportModel
      * Summary of getInstructorDocumentsAndAddress
      * @return array<array>
      */
-    function getInstructorDocumentsAndAddress($instructor)
+    public function getInstructorDocumentsAndAddress($instructor)
     {
         $query = "SELECT * FROM instructor_documents_and_address WHERE id = " . $instructor;
         return Yii::app()->db->createCommand($query)->queryRow();
@@ -58,7 +58,7 @@ class ExportModel
      * Summary of getInstructorVariableData
      * @return array<array>
      */
-    function getInstructorVariableData($id)
+    public function getInstructorVariableData($id)
     {
         $query = "SELECT * FROM instructor_variable_data WHERE id = " . $id;
         return Yii::app()->db->createCommand($query)->queryRow();
@@ -68,7 +68,7 @@ class ExportModel
      * Summary of getInstructorsTeachingData
      * @return array<array>
      */
-    function getInstructorsTeachingData()
+    public function getInstructorsTeachingData()
     {
         $query = "SELECT * FROM instructor_teaching_data";
         $teachingData = Yii::app()->db->createCommand($query)->queryAll();
@@ -89,7 +89,7 @@ class ExportModel
      * Summary of getTeachingMatrixes
      * @return array<array>
      */
-    function getTeachingMatrixes()
+    public function getTeachingMatrixes()
     {
         $query = "SELECT * FROM teaching_matrixes";
         $matrixes = Yii::app()->db->createCommand($query)->queryAll();
@@ -110,7 +110,7 @@ class ExportModel
      * Summary of getSchoolIdentification
      * @return array<array>
      */
-    function getSchoolIdentification() 
+    public function getSchoolIdentification() 
     {
         $query = "SELECT * FROM school_identification";
         $schools = Yii::app()->db->createCommand($query)->queryAll();
@@ -133,7 +133,7 @@ class ExportModel
      * Summary of getSchoolStructure
      * @return array<array>
      */
-    function getSchoolStructure()
+    public function getSchoolStructure()
     {
         $query = "SELECT * FROM school_structure";
         $schoolStructures = Yii::app()->db->createCommand($query)->queryAll();
@@ -155,7 +155,7 @@ class ExportModel
      * Summary of getClassrooms
      * @return array<array>
      */
-    function getClassrooms() 
+    public function getClassrooms() 
     {
         $query = "SELECT * FROM classroom";
         $classrooms = Yii::app()->db->createCommand($query)->queryAll();
@@ -177,7 +177,7 @@ class ExportModel
      * Summary of getStudentIdentification
      * @return array<array>
      */
-    function getStudentIdentification() 
+    public function getStudentIdentification() 
     {
         $query = "SELECT * FROM student_identification";
         $students = Yii::app()->db->createCommand($query)->queryAll();
@@ -199,7 +199,7 @@ class ExportModel
      * Summary of getStudentDocumentsAndAddress
      * @return array<array>
      */
-    function getStudentDocumentsAndAddress()
+    public function getStudentDocumentsAndAddress()
     {
         $query = "SELECT * FROM student_documents_and_address";
         $documentsAndAddress = Yii::app()->db->createCommand($query)->queryAll();
@@ -220,7 +220,7 @@ class ExportModel
      * Summary of getStudentEnrollment
      * @return array
      */
-    function getStudentEnrollment()  
+    public function getStudentEnrollment()  
     {
         $query = "SELECT * FROM student_enrollment";
         $studentEnrollments = Yii::app()->db->createCommand($query)->queryAll();
