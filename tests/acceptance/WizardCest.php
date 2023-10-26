@@ -2,6 +2,7 @@
 require_once 'vendor/autoload.php';
 require_once __DIR__."/../robots/LoginRobots.php";
 require_once __DIR__."/../robots/WizardRobots.php";
+require_once __DIR__.'/../builders/WizardBuilder.php';
 
 class WizardCest
 {
@@ -19,7 +20,7 @@ class WizardCest
     }
 
     // tests
-    
+
     /**
      * Matricula em grupo.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
@@ -29,14 +30,13 @@ class WizardCest
         sleep(5);
         $robots = new WizardRobots($teste);
         $robots->pageGroupEnrollment();
+        $builder = new WizardBuilder();
+        $dataWizard = $builder->buildCompleted();
 
-        $classrooms = '483'; // Turma 1
-        $oneClassrom = '494'; // 261605877 1 ETAPA PREESCOLA D TARDE ANUAL
-
-        $robots->classrooms($classrooms);
-        $robots->oneClassrom($oneClassrom);
+        $robots->classrooms($dataWizard['classrooms']);
+        $robots->oneClassrom($dataWizard['oneClassrom']);
         $robots->btnSave();
-        sleep(5);
+        sleep(2);
 
         $teste->see('Alunos matriculados com sucesso!');
         $teste->canSeeInCurrentUrl('?r=wizard/configuration/student');

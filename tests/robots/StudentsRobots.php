@@ -3,7 +3,7 @@
 class StudentsRobots
 {
     public AcceptanceTester $tester;
-    
+
     public function __construct(AcceptanceTester $tester)
     {
         $this->tester = $tester;
@@ -334,7 +334,7 @@ class StudentsRobots
     {
         $this->tester->selectOption('#scholarityFiliation2-select select', $scholarityFiliation2);
     }
-    
+
     /**
      * Preencher a profissão da filiação 2.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
@@ -652,7 +652,7 @@ class StudentsRobots
     {
         $script = "document.querySelector('#ticketDate input[type=text]').value = '{$ticketDate}';";
         $this->tester->executeJS($script);
-    }    
+    }
 
     /**
      * Selecione a situação na série/etapa atual.
@@ -804,7 +804,7 @@ class StudentsRobots
     public function restrictions ()
     {
         $script = "document.querySelector('#restrictions-checkbox input[type=checkbox]').click();";
-        $this->tester->executeJS($script);   
+        $this->tester->executeJS($script);
     }
 
 
