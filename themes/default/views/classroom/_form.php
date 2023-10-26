@@ -181,10 +181,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->labelEx($modelClassroom, 'Unidade Escolar *', array('class' => 't-field-select__label--required')); ?>
                                     <?php echo $form->DropDownList($modelClassroom, 'sedsp_school_unity_fk', CHtml::listData(SedspSchoolUnities::model()->findAllByAttributes(array('school_inep_id_fk' => yii::app()->user->school)), 'id', 'description'), array('prompt' => 'Selecione a unidade escolar', 'class' => 'select-search-off t-field-select__input', 'disabled' => $disabledFields, 'style' => 'width: 80%')); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_school_unity_fk'); ?>
-                                    <img class="loading-disciplines" style="display:none;position: fixed;margin: 5px 20px;"
-                                         height="20px" width="20px"
-                                         src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif"
-                                         alt="TAG Loading">
                                 </div>
                                 <div class="t-field-text">
                                     <?php echo $form->labelEx($modelClassroom, "Turma *", array('class' => 't-field-text__label--required')); ?>

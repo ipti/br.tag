@@ -131,7 +131,7 @@ $(".save-classroom").click(function () {
         error = true;
         message += "Campo <b>Turma</b> é obrigatório.<br>";
     }
-    if ($("#Classroom_sedsp_school_unity_fk").val() === "") {
+    if ($("#Classroom_sedsp_school_unity_fk").length && $("#Classroom_sedsp_school_unity_fk").val() === "") {
         error = true;
         message += "Campo <b>Unidade Escolar</b> é obrigatório.<br>";
     }
