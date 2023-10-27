@@ -192,7 +192,7 @@ class InEnderecoResidencial implements JsonSerializable
 			$data['inLongitude'] ?? null
 		);
 	}
-	function jsonSerialize()
+	public function jsonSerialize()
 	{
 		return get_object_vars($this);
 	}

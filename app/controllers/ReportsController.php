@@ -444,7 +444,7 @@ class ReportsController extends Controller
 
         //Para cada classe incrementa o contador de matriculas em cada celular dos estágios
         foreach ($classrooms as $classroom) {
-            $schoolStages[$classroom->schoolInepFk->name][$classroom->edcensoStageVsModalityFk->stage][$classroom->edcensoStageVsModalityFk->name] += count($classroom->studentEnrollments);
+            $schoolStages[$classroom->schoolInepFk->name][$classroom->edcensoStageVsModalityFk->stage][$classroom->edcensoStageVsModalityFk->name] += count($classroom->activeStudentEnrollments);
         }
 
         $this->render('EnrollmentStatisticsByYearReport', array(
