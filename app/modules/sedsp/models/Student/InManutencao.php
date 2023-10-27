@@ -1,6 +1,6 @@
 <?php
 
-class InManutencao
+class InManutencao implements JsonSerializable
 {
 	public ?InAluno $inAluno;
 	public ?InDadosPessoais $inDadosPessoais;
@@ -175,7 +175,7 @@ class InManutencao
 		);
 	}
 
-    function jsonSerialize()
+    public function jsonSerialize()
 	{
 		return get_object_vars($this);
 	}

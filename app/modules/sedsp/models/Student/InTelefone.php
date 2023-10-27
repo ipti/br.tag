@@ -1,6 +1,6 @@
 <?php
 
-class InTelefone
+class InTelefone implements JsonSerializable
 {
 	public ?string $inTipoTelefone;
 	public ?string $inDDDNumero;
@@ -88,8 +88,9 @@ class InTelefone
 		);
 	}
 
-    function jsonSerialize()
+    public function jsonSerialize()
 	{
 		return get_object_vars($this);
 	}
 }
+
