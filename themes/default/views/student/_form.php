@@ -51,7 +51,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                 <a href="<?php echo $this->createUrl('sedsp/default/UpdateStudentFromSedsp', array('gov_id' => $modelStudentIdentification->gov_id, 'id' => $modelStudentIdentification->id)); ?>"
                     onclick="return confirm('Tem certeza de que deseja prosseguir com a importação?\n\nEsta ação resultará na substituição dos dados atuais do aluno pelos dados do aluno da sedsp.');"
-                    style="margin-right: 10px;background: #16205b;color: white;padding: 5px;border-radius: 5px;"> 
+                    style="margin-right: 10px;background: #16205b;color: white;padding: 5px;border-radius: 5px;">
                     Importar dados do SEDSP
                 </a>
         <?php } ?>
@@ -330,9 +330,9 @@ $form = $this->beginWidget('CActiveForm', array(
 
 
 
-                <!-- 
+                <!--
                     ********************
-                    FILIACAO DO ALUNO 
+                    FILIACAO DO ALUNO
                     ********************
                 -->
                 <div class="tab-pane" id="student-affiliation">
@@ -596,9 +596,9 @@ $form = $this->beginWidget('CActiveForm', array(
 
 
 
-                <!-- 
+                <!--
                     *****************************
-                    Tab Documentos dos alunos 
+                    Tab Documentos dos alunos
                     *****************************
                 -->
                 <div class="tab-pane" id="student-documents">
@@ -1076,7 +1076,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'neighborhood'); ?>
                             </div>
                         </div>
-                        <!-- N° -->          
+                        <!-- N° -->
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'number', array('class' => 't-field-text__label')); ?>
@@ -1126,9 +1126,9 @@ $form = $this->beginWidget('CActiveForm', array(
 
 
 
-                <!-- 
+                <!--
                     *************************
-                    Tab Aluno matricula 
+                    Tab Aluno matricula
                     *************************
                 -->
                 <div class="tab-pane" id="student-enrollment">
@@ -1915,6 +1915,7 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
 </div>
 <?php
+
 if (isset($_GET['censo']) && isset($_GET['id'])) {
     $this->widget('application.widgets.AlertCensoWidget', array('prefix' => 'student', 'dataId' => $_GET['id']));
 }
