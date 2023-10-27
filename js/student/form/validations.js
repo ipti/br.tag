@@ -782,22 +782,36 @@ $(".save-student").click(function () {
         error = true;
         message += "Campo <b>Localização / Zona de residência</b> é obrigatório.<br>";
     }
-    if ($("#StudentDocumentsAndAddress_neighborhood").val() === "") {
-        error = true;
-        message += "Campo <b>Bairro / Povoado</b> é obrigatório.<br>";
+    
+    if (instance === "UBATUBA") {
+        if ($("#StudentDocumentsAndAddress_edcenso_uf_fk").val() === "") {
+            error = true;
+            message += "Campo <b>Estado</b> é obrigatório.<br>";
+        }
+        if ($("#StudentDocumentsAndAddress_edcenso_city_fk").val() === "") {
+            error = true;
+            message += "Campo <b>Cidade</b> é obrigatório.<br>";
+        }
+        if ($("#StudentDocumentsAndAddress_neighborhood").val() === "") {
+            error = true;
+            message += "Campo <b>Bairro / Povoado</b> é obrigatório.<br>";
+        }
+        if ($("#StudentDocumentsAndAddress_cep").val() === "") {
+            error = true;
+            message += "Campo <b>CEP</b> é obrigatório.<br>";
+        }
+        if ($("#StudentDocumentsAndAddress_address").val() === "") {
+            error = true;
+            message += "Campo <b>Endereço</b> é obrigatório.<br>";
+        }
+        if ($("#StudentDocumentsAndAddress_number").val() === "") {
+            error = true;
+            message += "Campo <b>N°</b> é obrigatório.<br>";
+        } 
+        $("#StudentDocumentsAndAddress_number").prop("required", true);   
     }
-    if ($("#StudentDocumentsAndAddress_number").val() === "") {
-        error = true;
-        message += "Campo <b>N°</b> é obrigatório.<br>";
-    }
-    if ($("#StudentDocumentsAndAddress_cep").val() === "") {
-        error = true;
-        message += "Campo <b>CEP</b> é obrigatório.<br>";
-    }
-    if ($("#StudentDocumentsAndAddress_address").val() === "") {
-        error = true;
-        message += "Campo <b>Endereço</b> é obrigatório.<br>";
-    }
+   
+    
 
     /**
      * SAÚDE

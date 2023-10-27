@@ -1009,7 +1009,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <!-- Estado -->
                         <div class="column clearleft is-two-fifths">
                             <div class="t-field-select js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', array('class' => 't-field-select__label--required')); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', array('class' => 't-field-select__label')); ?>
                                 <?php
                                 echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_uf_fk',
                                 CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'),
@@ -1029,7 +1029,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <!-- CEP -->
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cep', array('class' => 't-field-text__label--required')); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cep', array('class' => 't-field-text__label')); ?>
                                 <?php
                                 echo $form->textField($modelStudentDocumentsAndAddress, 'cep', array(
                                     'size' => 8,
@@ -1046,7 +1046,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <!-- Cidade -->
                         <div class="column clearleft is-two-fifths">
                             <div class="t-field-select js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_city_fk', array('class' => 't-field-text__label--required')); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_city_fk', array('class' => 't-field-text__label')); ?>
                                 <?php
                                 echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_city_fk',
                                 CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->edcenso_uf_fk),
@@ -1058,9 +1058,9 @@ $form = $this->beginWidget('CActiveForm', array(
                         <!-- Endereço -->
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'address', array('class' => 't-field-text__label--required', 'required' => 'required')); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'address', array('class' => 't-field-text__labeld')); ?>
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'address',
-                                array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Endereço','required' => 'required', 'class' => 't-field-text__input')); ?>
+                                array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Endereço', 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'address'); ?>
                             </div>
                         </div>
@@ -1070,16 +1070,16 @@ $form = $this->beginWidget('CActiveForm', array(
                         <!-- Bairro -->
                         <div class="column clearleft is-two-fifths">
                             <div class="t-field-text js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'neighborhood', array('class' => 't-field-text__label--required')); ?>
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'neighborhood', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'neighborhood',
                                 array('size' => 50, 'maxlength' => 50, 'placeholder' => 'Digite o Bairro ou Povoado', 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'neighborhood'); ?>
                             </div>
                         </div>
-                        <!-- N° -->
+                        <!-- N° -->          
                         <div class="column clearleft--on-mobile is-two-fifths">
-                            <div class="t-field-text js-hide-not-required">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'number', array('class' => 't-field-text__label--required')); ?>
+                            <div class="t-field-text">
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'number', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'number',
                                 array('size' => 10, 'maxlength' => 10, 'placeholder' => 'Digite o Número', 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'number'); ?>
@@ -1926,4 +1926,7 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
     var formEnrollment = '#StudentEnrollment_';
     var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>';
     var filled = -1;
+</script>
+<script>
+    var instance = <?php echo json_encode(INSTANCE); ?>;
 </script>
