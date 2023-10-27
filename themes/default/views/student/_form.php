@@ -998,9 +998,9 @@ $form = $this->beginWidget('CActiveForm', array(
 
 
 
-                <!-- 
+                <!--
                     **********************
-                    Tab Endereço aluno 
+                    Tab Endereço aluno
                     **********************
                 -->
                 <div class="tab-pane" id="student-address">

@@ -582,7 +582,7 @@ class StudentController extends Controller
                 $stdi->save();
 
                 return $statusAdd;
-            } 
+            }
         } elseif ($outListStudent->outErro === null) {
             $outNumRA = $outListStudent->getOutListaAlunos();
             $numRA = $outNumRA[0]->getOutNumRa();

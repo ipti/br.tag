@@ -21,7 +21,7 @@
                     <a class="t-button-secondary" href="<?= CHtml::normalizeUrl(array('wizard/configuration/student')) ?>">Matrícula em Grupo</a>
                 </div>
             </div>
-        </div>      
+        </div>
     </div>
 
     <div class="tag-inner">
@@ -47,8 +47,8 @@
         <div class="widget clearmargin">
             <div class="widget-body">
                 <div class="grid-view">
-                    <table id="student-identification-table" class="display js-tag-table student-table 
-                        tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs" 
+                    <table id="student-identification-table" class="display js-tag-table student-table
+                        tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs"
                         style="width:100%" aria-label="students table">
                         <thead>
                             <tr>

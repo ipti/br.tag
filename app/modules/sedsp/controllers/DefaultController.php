@@ -239,14 +239,14 @@ class DefaultController extends Controller
 		$school_id = Yii::app()->user->school;
 		$year = Yii::app()->user->year;
 		$usecase = new IdentifyAllClassroomRABySchool();
-		$RA = $usecase->exec($school_id, $year);
-		$this->render('index', ['RA' => $RA]);
+		$ra = $usecase->exec($school_id, $year);
+		$this->render('index', ['RA' => $ra]);
 	}
 	public function actionCreate($id)
 	{
 		$usecase = new AddStudentToSED();
-		$RA = $usecase->exec($id);
-		$this->render('index', ['RA' => $RA]);
+		$ra = $usecase->exec($id);
+		$this->render('index', ['RA' => $ra]);
 	}
 
 	public function actionGenRA($id)
@@ -280,7 +280,7 @@ class DefaultController extends Controller
 		$msg = $createRA->exec($id);
 
 		if (!$msg) {
-			$msg = $createRA->exec($id, true);
+			$msg = $createRA->exec($id);
 		}
 		echo $msg;
 	}
@@ -336,12 +336,6 @@ class DefaultController extends Controller
 
 	public function actionUpdateStudentFromSedsp()
 	{
-		/* 	
-			if(!((date("H") >= 00) and (date("H") <= 06))){
-			Yii::app()->user->setFlash('error', "SERVIÇO EM HORÁRIO NÃO DISPONÍVEL, DISPONIBILIDADE A PARTIR DE 06:00:00!");
-			$this->redirect(array('/student'));
-		} */
-
 		$this->checkSEDToken();
 
 		try {
