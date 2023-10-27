@@ -1,4 +1,5 @@
-# CAMPO DE LOGIN
+# Módulo 1: Campo de login
+
 | Cenário     | Caso de teste                                                | Passos de execução                                           | Cenário(BDD)                                                 | Critérios de aceitação                                       | Resultados esperados                                         |
 | ----------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Cenário 001 | CT001-001: Teste de login bem-sucedido                       | Nome de usuário válido, senha válida, ano letivo selecionado, campo “Mantenha-me conectado”desmarcado, clique em “Entrar no sistema” | **Dado** que o usuário esteja na tela de login **Quando** ele preenche os dados de usuário e senha corretamente, **Então** o sistema deverá permitir o acesso para a página principal | Inserir um nome de usuário e senha válidos; O sistema deve permitir o acesso e redirecionar o usuário para a página principal. | O usuário é redirecionado para a página principal do sistema após o login. |
