@@ -16,7 +16,7 @@ class EnrollmentSEDDataSource extends SedDataSource
     {
         try {
             $url = '/ncaapi/api/Matricula/ListarMatriculasRA';
-            $response = $this->getApiResponse('GET', $url, ["inAluno" => $inAluno]);         
+            $response = $this->getApiResponse('GET', $url, ["inAluno" => $inAluno]);
             return OutListaMatriculaRA::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -50,7 +50,7 @@ class EnrollmentSEDDataSource extends SedDataSource
         }
     }
 
-    function addExcluirMatricula(InExcluirMatricula $inExcluirMatricula)
+    public function addExcluirMatricula(InExcluirMatricula $inExcluirMatricula)
     {
         try{
             $url = '/ncaapi/api/Matricula/ExcluirMatricula';
