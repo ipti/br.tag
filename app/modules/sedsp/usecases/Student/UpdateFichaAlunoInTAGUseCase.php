@@ -42,7 +42,6 @@ class UpdateFichaAlunoInTAGUseCase
                 $studentDocumentsAndAddress, $studentIdentification, $govId
             );
         } else {
-            $studentDocumentsAndAddress->attributes = $studentDocumentsAndAddress->attributes;
             $studentDocumentsAndAddress->save();
         }
 
