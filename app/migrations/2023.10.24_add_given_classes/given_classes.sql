@@ -1,0 +1,9 @@
+--Adicionando colunas given_classes na tabela de grade_results
+ALTER TABLE grade_results ADD given_classes_1 int(11) NULL;
+ALTER TABLE grade_results ADD given_classes_2 int(11) NULL;
+ALTER TABLE grade_results ADD given_classes_3 int(11) NULL;
+ALTER TABLE grade_results ADD given_classes_4 int(11) NULL;
+ALTER TABLE grade_results ADD given_classes_5 int(11) NULL;
+ALTER TABLE grade_results ADD given_classes_6 int(11) NULL;
+ALTER TABLE grade_results ADD given_classes_7 int(11) NULL;
+ALTER TABLE grade_results ADD given_classes_8 int(11) NULL;
