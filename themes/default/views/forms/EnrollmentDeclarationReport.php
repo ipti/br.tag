@@ -472,6 +472,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             text-transform: uppercase;
 
         }
-        
+
     }
 </style>
