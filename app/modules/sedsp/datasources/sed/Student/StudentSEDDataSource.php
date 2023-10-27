@@ -164,14 +164,14 @@ class StudentSEDDataSource extends SedDataSource
  
     /**
      * Summary of editStudent
-     * @param InManutencao $inManutenção
+     * @param InManutencao $inManutencao
      * @return OutHandleApiResult
      */
-    public function editStudent(InManutencao $inManutenção)
+    public function editStudent(InManutencao $inManutencao)
     {
         try{
             $url = '/ncaapi/api/Aluno/Manutencao';
-            $response = $this->getApiResponse('POST', $url, $inManutenção);
+            $response = $this->getApiResponse('POST', $url, $inManutencao);
             
             return OutHandleApiResult::fromJson($response);
         } catch(RequestException $clienteException) {
