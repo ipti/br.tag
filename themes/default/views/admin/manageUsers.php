@@ -7,7 +7,7 @@
         array('label' => Yii::t('default', 'Users'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new Classroom')),
     );
     ?>
-    
+
     <div class="innerLR">
         <div class="columnone" style="padding-right: 1em">
             <?php if (Yii::app()->user->hasFlash('success')): ?>
@@ -16,9 +16,20 @@
                 </div>
                 <br/>
             <?php endif ?>
-            <div class="widget clearmargin">  
+            <?php if (Yii::app()->user->hasFlash('error')) : ?>
+            <div class="alert alert-error">
+                <?php echo Yii::app()->user->getFlash('error') ?>
+            </div>
+            <?php
+            if (isset($buttons)){
+                echo $buttons;
+            }
+            ?>
+            <br />
+            <?php endif ?>
+            <div class="widget clearmargin">
                 <div class="widget-body">
-                    <?php    
+                    <?php
                         $this->widget('zii.widgets.grid.CGridView', array(
                             'dataProvider' => $dataProvider,
                             'enablePagination' => false,
@@ -45,7 +56,7 @@
                                 ),
                                 array(
                                     'header' => 'Ações',
-                                    'class' => 'CButtonColumn', 
+                                    'class' => 'CButtonColumn',
                                     'template' => '{update} {delete}',
                                     'buttons' => array(
                                         'update' => array(
@@ -60,7 +71,7 @@
                             ),
                         ));
                     ?>
-                </div>   
+                </div>
             </div>
         </div>
     </div>

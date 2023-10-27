@@ -122,7 +122,7 @@ $(document).on("keyup", ".weight", function (e) {
         val = "";
     } else {
         var weight = /[1-9]|10/;
-        if (val.match(weight) === null) {
+        if (val?.match(weight) === null) {
             val = "";
         } else {
             if (val > 10)
@@ -338,7 +338,7 @@ $(document).on("keyup", ".approval-media, .final-recover-media", function (e) {
         val = "";
     } else {
         grade = /^(10|\d)(?:(\.|\,)\d{0,1}){0,1}$/;
-        if (val.match(grade) === null) {
+        if (val?.match(grade) === null) {
             val = "";
         } else {
             if (val > 10) {
