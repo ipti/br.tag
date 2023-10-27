@@ -505,7 +505,7 @@ class StudentController extends Controller
                             }
 
                             Log::model()->saveAction(
-                                "student", $modelStudentIdentification->id, 
+                                "student", $modelStudentIdentification->id,
                                 "U", $modelStudentIdentification->name
                             );
 
@@ -660,9 +660,14 @@ class StudentController extends Controller
             $currentEnrollment = StudentEnrollment::model()->findByPk($modelStudentIdentification->lastEnrollment->id);
             if ($currentEnrollment->validate()) {
                 $currentEnrollment->status = 2;
-                $currentEnrollment->transfer_date = date_create_from_format('d/m/Y', $_POST['StudentEnrollment']['transfer_date'])->format('Y-m-d');
+                $currentEnrollment->transfer_date = date_create_from_format(
+                    'd/m/Y', $_POST['StudentEnrollment']['transfer_date']
+                )->format('Y-m-d');
                 if ($currentEnrollment->save()) {
-                    Log::model()->saveAction("enrollment", $currentEnrollment->id, "U", $currentEnrollment->studentFk->name . "|" . $currentEnrollment->classroomFk->name);
+                    Log::model()->saveAction(
+                        "enrollment", $currentEnrollment->id,
+                        "U", $currentEnrollment->studentFk->name . "|" . $currentEnrollment->classroomFk->name
+                    );
                 }
             }
             $modelEnrollment->school_inep_id_fk = $_POST['StudentEnrollment']['school_inep_id_fk'];
@@ -677,7 +682,7 @@ class StudentController extends Controller
             $hasDuplicate = $modelEnrollment->alreadyExists();
 
             if ($modelEnrollment->validate() && !$hasDuplicate) {
-                    $saved = $modelEnrollment->save();
+                $modelEnrollment->save();
             }
             Yii::app()->user->setFlash('success', Yii::t('default', 'transferred enrollment'));
             $this->redirect(array('student/update&id='.$modelStudentIdentification->id));
@@ -698,7 +703,6 @@ class StudentController extends Controller
             }
         }
     }
-    //
 
 
     /**
@@ -747,17 +751,24 @@ class StudentController extends Controller
                 throw new CHttpException(404, 'The requested page does not exist.');
             }
         } catch (\Throwable $th) {
-            Yii::app()->user->setFlash('error', Yii::t('default', 'Esse aluno não pode ser excluído, pois existem dados de frequência, notas ou matrículadas vinculadas a ele!'));
+            Yii::app()->user->setFlash(
+                'error', Yii::t(
+                    'default','Esse aluno não pode ser excluído,
+                    pois existem dados de frequência, notas ou matrículadas vinculadas a ele!'
+                )
+            );
             $this->redirect('?r=student');
         }
     }
 
     public function excluirMatriculaFromSED($classes, $inNumRA) {
-        if(!(count($classes) == '0')) {
+        if(count($classes) != '0') {
             $excluirMatriculaFromSEDUseCase = new ExcluirMatriculaFromSEDUseCase();
         
             foreach ($classes as $classe) {
-                $statusDelete = $excluirMatriculaFromSEDUseCase->exec(new InExcluirMatricula(new InAluno($inNumRA, null, 'SP'), $classe));
+                $statusDelete = $excluirMatriculaFromSEDUseCase->exec(
+                    new InExcluirMatricula(new InAluno($inNumRA, null, 'SP'), $classe)
+                );
                 if ($statusDelete->outErro !== null) {
                     $erros[] = $statusDelete->outErro;
                 }
@@ -796,7 +807,7 @@ class StudentController extends Controller
                 @$stage = $student->studentEnrollments[0]->classroomFk->edcensoStageVsModalityFk->stage;
                 if ($stage == 1) {
                     $type = 0;
-                } else if ($stage == 6) {
+                } elseif ($stage == 6) {
                     $type = 3;
                 } else {
                     $type = 1;
@@ -815,7 +826,9 @@ class StudentController extends Controller
                 $buttons .= CHtml::tag(
                     'a',
                     array(
-                        'target' => '_blank', 'href' => yii::app()->createUrl('/forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $mer_id)),
+                        'target' => '_blank', 'href' => yii::app()->createUrl(
+                            '/forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $mer_id)
+                        ),
                         'class' => "btn btn-primary btn-icon glyphicons notes_2",
                         'style' => 'margin-top: 5px; width: 110px'
                     ),
@@ -853,23 +866,21 @@ class StudentController extends Controller
 
         if ($model == $this->STUDENT_IDENTIFICATION) {
             $return = StudentIdentification::model()->findByPk($id);
-        } else if ($model == $this->STUDENT_DOCUMENTS_AND_ADDRESS) {
+        } elseif ($model == $this->STUDENT_DOCUMENTS_AND_ADDRESS) {
             $return = StudentDocumentsAndAddress::model()->findByAttributes(array('id' => $id));
             if ($return === null) {
                 $return = new StudentDocumentsAndAddress;
             }
-        } else if ($model == $this->STUDENT_ENROLLMENT) {
+        } elseif ($model == $this->STUDENT_ENROLLMENT) {
             $return = StudentEnrollment::model()->findAllByAttributes(array('student_fk' => $id));
             array_push($return, new StudentEnrollment);
-        } else if ($model == $this->STUDENT_RESTRICTIONS) {
+        } elseif ($model == $this->STUDENT_RESTRICTIONS) {
             $return = StudentRestrictions::model()->findByAttributes(array('student_fk' => $id));
             if ($return === null) {
                 $return = new StudentRestrictions;
             }
         }
-        if ($return === null) {
-            //throw new CHttpException(404, 'The requested page does not exist.');
-        }
+       
         return $return;
     }
 
