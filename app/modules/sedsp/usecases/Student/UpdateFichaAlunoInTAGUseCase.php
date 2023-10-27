@@ -11,7 +11,9 @@ class UpdateFichaAlunoInTAGUseCase
             $mapper = (object) StudentMapper::parseToTAGExibirFichaAluno($response);
 
             $studentIdentification = $this->createOrUpdateStudentIdentification($mapper->StudentIdentification);
-            $studentDocumentsAndAddress = $this->createOrUpdateStudentDocumentsAndAddress($mapper->StudentDocumentsAndAddress, $studentIdentification, $mapper->StudentDocumentsAndAddress->gov_id);
+            $this->createOrUpdateStudentDocumentsAndAddress(
+                $mapper->StudentDocumentsAndAddress, $studentIdentification, $mapper->StudentDocumentsAndAddress->gov_id
+            );
 
             return $studentIdentification;
         } catch (Exception $e) {
@@ -33,10 +35,12 @@ class UpdateFichaAlunoInTAGUseCase
         return $studentIdentification;
     }
 
-    private function createOrUpdateStudentDocumentsAndAddress($studentDocumentsAndAddress, $studentIdentification, $govId)
+    private function createOrUpdateStudentDocumentsAndAddress($studentDocumentsAndAddress,$studentIdentification,$govId)
     {
         if ($studentDocumentsAndAddress === null) {
-            $studentDocumentsAndAddress = $this->createAndSaveStudentDocumentsAndAddress($studentDocumentsAndAddress, $studentIdentification, $govId);
+            $studentDocumentsAndAddress = $this->createAndSaveStudentDocumentsAndAddress(
+                $studentDocumentsAndAddress, $studentIdentification, $govId
+            );
         } else {
             $studentDocumentsAndAddress->attributes = $studentDocumentsAndAddress->attributes;
             $studentDocumentsAndAddress->save();
@@ -61,12 +65,12 @@ class UpdateFichaAlunoInTAGUseCase
     }
 
 
-    public function createAndSaveStudentDocumentsAndAddress($attributes, $studentIdentification, $gov_id)
+    public function createAndSaveStudentDocumentsAndAddress($attributes, $studentIdentification, $govId)
     {
         $studentDocumentsAndAddress = new StudentDocumentsAndAddress();
         $studentDocumentsAndAddress->attributes = $attributes->getAttributes();
         $studentDocumentsAndAddress->edcenso_city_fk = $attributes->edcenso_city_fk;
-        $studentDocumentsAndAddress->gov_id = $gov_id;
+        $studentDocumentsAndAddress->gov_id = $govId;
         $studentDocumentsAndAddress->id = $studentIdentification->id;
 
         if ($studentDocumentsAndAddress->save()) {
