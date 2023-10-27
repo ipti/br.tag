@@ -1,4 +1,3 @@
-
 # Módulo 3: Alterar escola
 
 | Cenário                      | Caso de teste                                 | Passos de execução | Cenário(BDD)                                                 | Critérios de aceitação                                       | Resultados esperados                                         |
