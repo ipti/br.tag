@@ -168,14 +168,14 @@ class InManutencao implements JsonSerializable
 			($data['inCertidaoAntiga'] ?? null) !== null ? InCertidaoAntiga::fromJson($data['inCertidaoAntiga']) : null,
 			($data['inCertidaoNova'] ?? null) !== null ? InCertidaoNova::fromJson($data['inCertidaoNova']) : null,
 			($data['inEnderecoResidencial'] ?? null) !== null ? InEnderecoResidencial::fromJson($data['inEnderecoResidencial']) : null,
-			($data['inTelefone'] ?? null) !== null ? array_map(static function($data) {
+			($data['inTelefone'] ?? null) !== null ? array_map(static function ($data) {
 				return InTelefone::fromJson($data);
 			}, $data['inTelefone']) : null,
 			($data['inRastreio'] ?? null) !== null ? InRastreio::fromJson($data['inRastreio']) : null
 		);
 	}
 
-    public function jsonSerialize()
+	public function jsonSerialize()
 	{
 		return get_object_vars($this);
 	}
