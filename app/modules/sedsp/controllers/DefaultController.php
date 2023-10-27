@@ -343,7 +343,7 @@ class DefaultController extends Controller
 
 			$exibirFicha = new UpdateFichaAlunoInTAGUseCase();
 			$statusSave = $exibirFicha->exec($inAluno);
-			$id = $_GET["id"];
+			$id = (int) $_GET["id"];
 
 			if ($statusSave) {
 				Yii::app()->user->setFlash('success', "Aluno sincronizado com sucesso.");
