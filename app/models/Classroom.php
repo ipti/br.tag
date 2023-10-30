@@ -31,7 +31,6 @@
  * @property integer $complementary_activity_type_4
  * @property integer $complementary_activity_type_5
  * @property integer $complementary_activity_type_6
- * @property integer $aee_braille_system_education
  * @property integer $aee_optical_and_non_optical_resources
  * @property integer $aee_mental_processes_development_strategies
  * @property integer $aee_mobility_and_orientation_techniques
@@ -223,7 +222,6 @@ class Classroom extends AltActiveRecord
                 complementary_activity_type_4,
                 complementary_activity_type_5,
                 complementary_activity_type_6,
-                aee_braille_system_education,
                 aee_optical_and_non_optical_resources,
                 aee_mental_processes_development_strategies,
                 aee_mobility_and_orientation_techniques,
@@ -265,6 +263,20 @@ class Classroom extends AltActiveRecord
                 calendar_fk',
                 'safe',
                 'on' => 'search'
+            ),
+            array(
+                'aee_braille,
+                aee_optical_nonoptical,
+                aee_cognitive_functions,
+                aee_mobility_techniques,
+                aee_libras,
+                aee_caa,
+                aee_curriculum_enrichment,
+                aee_soroban,
+                aee_accessible_teaching,
+                aee_portuguese,
+                aee_autonomous_life',
+                'safe',
             ),
              // The previous rule is used by search().
             // @todo Please remove those attributes that should not be searched.
@@ -387,6 +399,7 @@ class Classroom extends AltActiveRecord
             'school_year' => Yii::t('default', 'School Year'),
             'turn' => Yii::t('default', 'Turn'),
             'create_date' => Yii::t('default', 'Create Time'),
+
             // Support Labels
             'disciplines' => Yii::t('default', 'Disciplines'),
             'classroom_days' => Yii::t('default', 'Classsrom Days'),

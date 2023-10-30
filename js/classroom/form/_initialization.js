@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $("#js-t-sortable").sortable();
-    console.log("Passei por aqui")
 
     $(document).ready(function () {
         if ($("#Classroom_complementary_activity").is(":checked")) {
@@ -28,5 +27,4 @@ $('.heading-buttons').css('width', $('#content').width());
 $(document).on("click", "#newTeacherDiscipline", function () {
     $("#addTeacherSchoolComponent").modal("show");
 });
-// here
 

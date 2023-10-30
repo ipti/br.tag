@@ -14,7 +14,7 @@ $(document).ready(function () {
         buttons: [{
                 text: btnCreate,
                 click: function () {
-                    var id = '#Role';
+                    var id = '#Role';newDisciplin
                     if ((role.val().length !== 0 && instructors.val().length !== 0)
                             || (role.val().length === 0 && instructors.val().length === 0)) {
                         addTeachingData();

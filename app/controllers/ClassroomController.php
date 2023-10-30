@@ -543,7 +543,7 @@ class ClassroomController extends Controller
                     $enro->create_date = date('Y-m-d');
                     $enro->update(array('classroom_fk', 'classroom_inep_id', 'status', 'create_date'));
                 }
-            } else {
+            }else{
                 foreach ($enrollments as $enrollment) {
                     $enro = StudentEnrollment::model()->findByPk($enrollment);
                     $enro->status = 3;
@@ -572,7 +572,14 @@ class ClassroomController extends Controller
             $_POST['Classroom']["complementary_activity_type_6"] = isset($compActs[5]) ? $compActs[5] : null;
 
             $modelClassroom->attributes = $_POST['Classroom'];
+
+            // CVarDumper::dump($modelClassroom, 10, true);
+            // CVarDumper::dump($_POST['Classroom'], 10, true);
+
+
             $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
+
+
 
             $disciplines = json_decode($_POST['disciplines'], true);
             $this->setDisciplines($modelClassroom, $disciplines);
@@ -784,7 +791,7 @@ class ClassroomController extends Controller
             $pos_b = array_search($b->id, $ids);
             return $pos_a - $pos_b;
         });
-        
+
 
         foreach ($enrollments as $i => $enrollment) {
             $enrollment->daily_order = $i + 1;

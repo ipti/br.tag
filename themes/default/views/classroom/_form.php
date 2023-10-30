@@ -578,7 +578,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                     <!-- atividades do  atendimento  educacional  especializado -->
                     <div class="column clearleft is-two-fifths">
-                        <div class="t-field-checkbox-group" id="aee2">
+                        <div class="t-field-checkbox-group">
                             <label class="t-field-checkbox__label">
                                 <?php echo Yii::t('default', 'Aee'); ?>
                             </label>
