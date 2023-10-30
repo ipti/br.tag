@@ -11,6 +11,7 @@ class StudentRemoveRobots {
 
     /**
      * Url da página de estudantes.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function pageStudents ()
     {
@@ -19,6 +20,7 @@ class StudentRemoveRobots {
 
     /**
      * Botão de deletar.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function btnDelete ()
     {
@@ -28,6 +30,7 @@ class StudentRemoveRobots {
 
     /**
      * Pesquisar usuários.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function search ($search)
     {
