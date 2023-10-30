@@ -18,8 +18,14 @@ class InstructorRobots
     /* Clicar no botão próximo para mudar de página */
     public function btnProximo ()
     {
-        $this->tester->waitForElement('.t-button-primary.next');
-        $this->tester->executeJS("document.querySelector('.t-button-primary.next').click();");
+        $this->tester->waitForElement('#btnNext');
+        $this->tester->executeJS("document.querySelector('#btnNext').click();");
+    }
+
+    public function btnSave()
+    {
+        $this->tester->waitForElement('#btnSection button');
+        $this->tester->executeJS("document.querySelector('#btnSection button').click()");
     }
 
     /* Preencher o nome do professor */
@@ -49,13 +55,16 @@ class InstructorRobots
     /* Selecionar o estado */
     public function state ($state)
     {
-        $this->tester->selectOption('#state-select select', $state);
+        // $this->tester->selectOption('#state-select select', $state);
+        $this->tester->executeJS("document.querySelector('#state-select select').value = '($state)';");
     }
 
     /* Selecionar a cidade */
     public function city ($city)
     {
-        $this->tester->selectOption('#city-select select', $city);
+        // $this->tester->selectOption('#city-select select', $city);
+        $this->tester->executeJS("document.querySelector('#city-select select').value = '($city)';");
+
     }
 
     /* Preencher o nis */
@@ -79,21 +88,42 @@ class InstructorRobots
     /* Selecionar a raça */
     public function colorRace ($colorRace)
     {
-        $this->tester->fillField('#colorRace', $colorRace);
+        // $this->tester->fillField('#colorRace', $colorRace);
+        $this->tester->executeJS("document.querySelector('#colorRace').value = '($colorRace)';");
     }
 
     /* Selecionar a filiação */
     public function filiationSelect ($filiation)
     {
-        $this->tester->selectOption('#filiation-select', $filiation);
+        // $this->tester->selectOption('#filiation-select', $filiation);
+        $this->tester->executeJS("document.querySelector('#filiation-select').value = '($filiation)';");
+    }
+    /* Preencher o campo de filiação 1 */
+    public function filiationSelect1 ($filiationName){
+        $this->tester->fillField("#InstructorIdentification_filiation_1", $filiationName);
+        // $this->tester->executeJS("document.querySelector('#filiation-select_1').value = '($filiationName)';");
+
     }
 
     /* Preencher o cep */
     public function cep($cep)
     {
-        $this->tester->fillField('#cepAddress input[type=text]',$cep);
+        $this->tester->fillField('#InstructorDocumentsAndAddress_cep',$cep);
+    }
+    /* Selecionar o estado */
+    public function stateAddress ($state)
+    {
+        // $this->tester->selectOption('#state-select select', $state);
+        $this->tester->executeJS("document.querySelector('#s2id_InstructorDocumentsAndAddress_edcenso_uf_fk').value = '($state)';");
     }
 
+    /* Selecionar a cidade */
+    public function cityAddress ($city)
+    {
+        // $this->tester->selectOption('#city-select select', $city);
+        $this->tester->executeJS("document.querySelector('#s2id_InstructorDocumentsAndAddress_edcenso_city_fk).value = '($city)';");
+
+    }
     /* Preencher o endereço */
     public function address ($address)
     {
@@ -132,4 +162,3 @@ class InstructorRobots
 
     /*  */
 }
-?>

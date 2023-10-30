@@ -1,10 +1,8 @@
 <?php
-
-class LoginRobots 
+class LoginRobots
 {
-
     public AcceptanceTester $tester;
-    
+
     public function __construct(AcceptanceTester $tester)
     {
         $this->tester = $tester;
@@ -32,9 +30,13 @@ class LoginRobots
      * Preencher campo de senha da tela de login.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function fieldPassword($password)
+
+    public function fieldPassword($secret)
+
     {
-        $this->tester->fillField("#LoginForm_password", $password);
+
+        $this->tester->fillField("#LoginForm_password", $secret);
+
     }
 
     /**
@@ -56,5 +58,3 @@ class LoginRobots
     }
 
 }
-
-?>
