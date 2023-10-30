@@ -9,27 +9,26 @@ class StudentRemoveRobots {
         $this->tester = $tester;
     }
 
+    /**
+     * Url da página de estudantes.
+     */
     public function pageStudents ()
     {
         $this->tester->amOnPage('?r=student');
     }
 
+    /**
+     * Botão de deletar.
+     */
     public function btnDelete ()
     {
         $this->tester->waitForElement('#student-delete');
         $this->tester->executeJS("document.querySelector('#student-delete').click();");
     }
 
-    public function alertDelete ()
-    {
-        $this->tester->executeJS('
-        window.confirm = function(message)
-        {
-            return true;
-        };');
-
-    }
-
+    /**
+     * Pesquisar usuários.
+     */
     public function search ($search)
     {
         $this->tester->click('.dataTables_filter input[type="search"]');
