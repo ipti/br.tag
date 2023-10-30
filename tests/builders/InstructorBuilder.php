@@ -45,23 +45,30 @@ class InstructorBuilder {
         $this->instructor['nationality'] = '1';
         $this->instructorDocumentsAddress['cpf'] = $this->faker->cpf();
         $this->instructor['edcenso_uf_fk'] = '28';
-        $city = $this->faker->numberBetween(1,20);
-        $this->instructor['edcenso_city_fk'] = $city;
+        $this->instructor['edcenso_city_fk'] = '2800308';
         $this->instructor['nis'] = $this->fakerCustom->nisNumber();
         $this->instructor['birthday_date'] = $this->faker->date('d/m/Y');
         $this->instructor['sex'] = $this->faker->randomElement(['1','2']);
-        $this->instructor['color_race'] = '2';
+        $this->instructor['color_race'] = 2;
         $this->instructor['filiation'] = '1';
         $this->instructor['filiation_1'] = $this->faker->name();
-        $this->instructorDocumentsAddress['cep'] = '49000194';
-        // $this->instructorDocumentsAddress['edcenso_uf_fk'] = '28';
-        // $this->instructorDocumentsAddress['edcenso_city_fk'] = $city;
+        // $this->instructorDocumentsAddress['cep'] = '49000194';
         $this->instructorDocumentsAddress['address'] = "RUA " . $this->faker->name();
         $this->instructorDocumentsAddress['address_number'] = $this->faker->buildingNumber();
         $this->instructorDocumentsAddress['neighborhood'] = "Centro";
         $this->instructorDocumentsAddress['diff_location'] = "7";
         $this->instructorDocumentsAddress['area_of_residence'] = "1";
-        $this->instructorVariable['scholarity'] = "7";
+        // $this->instructorVariable['scholarity'] = "7";
+
+        return $this;
+    }
+
+    public function scholarityDegree()
+    {
+        $this->instructorVariable['scholarity'] = '6';
+        $this->instructorVariable['high_education_situation_1'] = '1';
+        $this->instructorVariable['high_education_course_code_1_fk'] = '142P01';
+        $this->instructorVariable['high_education_final_year_1'] = $this->faker->numberBetween(2000,2023);
 
         return $this;
     }

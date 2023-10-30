@@ -654,7 +654,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                                 <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_1', array('class' => 'control-label required indicator')); ?>
 
                                                             </div>
-                                                            <div class="controls">
+                                                            <div class="controls" id="highEducationSituation">
                                                                 <?php echo $form->DropDownlist($modelInstructorVariableData, 'high_education_situation_1', array(null => "Selecione a situação", 1 => 'Concluído', 2 => 'Em andamento'), array('class' => 'select-search-off control-input')); ?>
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_situation_1'); ?>
                                                             </div>
@@ -698,7 +698,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <div class="controls">
                                                                 <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_1_fk', array('class' => 'control-label')); ?>
                                                             </div>
-                                                            <div class="controls">
+                                                            <div class="controls"  id="highEducationCode">
                                                                 <?php echo $form->DropDownlist(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_course_code_1_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('order' => 'name')), 'id', 'name'),
@@ -728,7 +728,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <div class="controls">
                                                                 <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_1', array('class' => 'control-label')); ?>
                                                             </div>
-                                                            <div class="controls">
+                                                            <div class="controls" id="highEducationYear">
                                                                 <?php echo $form->textField($modelInstructorVariableData, 'high_education_final_year_1', array('size' => 4, 'maxlength' => 4)); ?>
                                                                 <!-- <span class="btn-action single glyphicons circle_question_mark"
                                                                       data-toggle="tooltip" data-placement="top"

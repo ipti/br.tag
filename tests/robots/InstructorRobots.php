@@ -55,16 +55,13 @@ class InstructorRobots
     /* Selecionar o estado */
     public function state ($state)
     {
-        // $this->tester->selectOption('#state-select select', $state);
-        $this->tester->executeJS("document.querySelector('#state-select select').value = '($state)';");
+        $this->tester->selectOption('#state-select select', $state);
     }
 
     /* Selecionar a cidade */
     public function city ($city)
     {
-        // $this->tester->selectOption('#city-select select', $city);
-        $this->tester->executeJS("document.querySelector('#city-select select').value = '($city)';");
-
+        $this->tester->selectOption('#city-select select', $city);
     }
 
     /* Preencher o nis */
@@ -89,7 +86,7 @@ class InstructorRobots
     public function colorRace ($colorRace)
     {
         // $this->tester->fillField('#colorRace', $colorRace);
-        $this->tester->executeJS("document.querySelector('#colorRace').value = '($colorRace)';");
+        $this->tester->executeJS("document.querySelector('#colorRace select').value = '$colorRace';");
     }
 
     /* Selecionar a filiação */
@@ -114,14 +111,14 @@ class InstructorRobots
     public function stateAddress ($state)
     {
         // $this->tester->selectOption('#state-select select', $state);
-        $this->tester->executeJS("document.querySelector('#s2id_InstructorDocumentsAndAddress_edcenso_uf_fk').value = '($state)';");
+        $this->tester->executeJS("document.querySelector('#s2id_InstructorDocumentsAndAddress_edcenso_uf_fk').value = '$state';");
     }
 
     /* Selecionar a cidade */
     public function cityAddress ($city)
     {
         // $this->tester->selectOption('#city-select select', $city);
-        $this->tester->executeJS("document.querySelector('#s2id_InstructorDocumentsAndAddress_edcenso_city_fk).value = '($city)';");
+        $this->tester->executeJS("document.querySelector('#s2id_InstructorDocumentsAndAddress_edcenso_city_fk').value = '$city';");
 
     }
     /* Preencher o endereço */
@@ -160,5 +157,19 @@ class InstructorRobots
         $this->tester->selectOption('#instructor-data select', $scholarity);
     }
 
+    public function highCourseSituation ($situation)
+    {
+        $this->tester->executeJS("document.querySelector('#highEducationSituation select').value = '$situation';");
+    }
+
+    public function highCourseCode ($code)
+    {
+        $this->tester->executeJS("document.querySelector('#highEducationCode select').value = '{$code}';");
+    }
+
+    public function highCourseYear ($year)
+    {
+        $this->tester->fillField("highEducationYear", $year);
+    }
     /*  */
 }
