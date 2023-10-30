@@ -15,6 +15,8 @@
  * @property string $rg_number_expediction_date
  * @property integer $civil_certification
  * @property integer $civil_certification_type
+ * @property integer $civil_certification_type_old
+ * @property integer $civil_certification_type_new
  * @property string $civil_certification_term_number
  * @property string $civil_certification_sheet
  * @property string $civil_certification_book
@@ -46,6 +48,7 @@
  * @property integer $justice_restriction
  * @property integer $diff_location
  * @property integer $consent_form
+ * @property integer $justification
  *
  * The followings are the available model relations:
  * @property SchoolIdentification $schoolInepIdFk
