@@ -69,6 +69,8 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
+
+        return $dataStudent;
     }
 
     /**
@@ -129,6 +131,8 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
+
+        return $dataStudent;
     }
 
 
@@ -192,6 +196,8 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
+
+        return $dataStudent;
     }
 
     /**
@@ -254,6 +260,8 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
+
+        return $dataStudent;
     }
 
     /**
@@ -311,6 +319,8 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
+
+        return $dataStudent;
     }
 
     /**
@@ -475,6 +485,8 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
+
+        return $dataStudent;
     }
 
     /**
@@ -584,6 +596,8 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
+
+        return $dataStudent;
     }
 
     /**
@@ -715,6 +729,8 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
+
+        return $dataStudent;
     }
 
     /**
@@ -835,6 +851,8 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
+
+        return $dataStudent;
     }
 
 }
