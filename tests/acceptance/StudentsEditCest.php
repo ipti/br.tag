@@ -1,8 +1,8 @@
 <?php
 
 require_once 'vendor/autoload.php';
-require_once __DIR__."/../acceptance/StudentsCest.php";
-require_once __DIR__."/../robots/LoginRobots.php";
+require_once __DIR__ . "/../acceptance/StudentsCest.php";
+require_once __DIR__ . "/../robots/LoginRobots.php";
 class StudentsEditCest
 {
     public function _before(AcceptanceTester $tester)
@@ -129,7 +129,7 @@ class StudentsEditCest
         sleep(2);
         $robots->transportResponsable($dataStudent->studentEnrollment['transport_responsable_government']);
         $robots->typeTransport();
-	    $robots->typeOfService();
+        $robots->typeOfService();
         $robots->btn6Health();
         sleep(2);
 
@@ -150,8 +150,8 @@ class StudentsEditCest
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
 
-     public function editNewCivil (AcceptanceTester $teste)
-     {
+    public function editNewCivil(AcceptanceTester $teste)
+    {
         sleep(5);
         $student = new StudentsCest();
         $addStudent = $student->allFilledInNewCivil($teste);
@@ -244,7 +244,7 @@ class StudentsEditCest
         sleep(2);
         $robots->transportResponsable($dataStudent->studentEnrollment['transport_responsable_government']);
         $robots->typeTransport();
-	    $robots->typeOfService();
+        $robots->typeOfService();
         $robots->btn6Health();
         sleep(2);
 
@@ -256,7 +256,7 @@ class StudentsEditCest
         $robots->restrictions();
         $robots->btnCriar();
         sleep(2);
-     }
+    }
 
     /**
      * Editar estudantes, todos os campos.
@@ -264,8 +264,8 @@ class StudentsEditCest
      * Dados Sociais - Modelo Antigo.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-     public function editOldCivilWithMotherAndFather (AcceptanceTester $teste)
-     {
+    public function editOldCivilWithMotherAndFather(AcceptanceTester $teste)
+    {
         sleep(5);
         $student = new StudentsCest();
         $addStudent = $student->allFilledInOldCivilWithMotherAndFather($teste);
@@ -380,7 +380,7 @@ class StudentsEditCest
         sleep(2);
         $robots->transportResponsable($dataStudent->studentEnrollment['transport_responsable_government']);
         $robots->typeTransport();
-	    $robots->typeOfService();
+        $robots->typeOfService();
         $robots->btn6Health();
         sleep(2);
 
@@ -392,7 +392,7 @@ class StudentsEditCest
         $robots->restrictions();
         $robots->btnCriar();
         sleep(2);
-     }
+    }
 
     /**
      * Editar estudantes, todos os campos.
@@ -400,8 +400,8 @@ class StudentsEditCest
      * Dados Sociais - Modelo Antigo.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-     public function editOldCivil (AcceptanceTester $teste)
-     {
+    public function editOldCivil(AcceptanceTester $teste)
+    {
         sleep(5);
         $student = new StudentsCest();
         $addStudent = $student->allFilledInOldCivil($teste);
@@ -505,7 +505,7 @@ class StudentsEditCest
         sleep(2);
         $robots->transportResponsable($dataStudent->studentEnrollment['transport_responsable_government']);
         $robots->typeTransport();
-	    $robots->typeOfService();
+        $robots->typeOfService();
         $robots->btn6Health();
         sleep(2);
 
@@ -517,5 +517,5 @@ class StudentsEditCest
         $robots->restrictions();
         $robots->btnCriar();
         sleep(2);
-     }
+    }
 }
