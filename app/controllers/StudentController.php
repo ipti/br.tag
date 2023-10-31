@@ -100,10 +100,10 @@ class StudentController extends Controller
             3 => 'inep_id',
             4 => 'actions'
         );
-        
+
         $criteria = new CDbCriteria();
 
-        
+
         // Filtrar a pesquisa
         if (!empty($requestData['search']['value'])) {
             $criteria->condition = "name LIKE '%" . $requestData['search']['value'] . "%' OR " .
@@ -129,7 +129,7 @@ class StudentController extends Controller
         $criteria->order = $sortColumn ." ". $sortDirection;
 
 
-     
+
 
         $students = StudentIdentification::model()->findAll($criteria);
 
@@ -142,7 +142,7 @@ class StudentController extends Controller
             $nestedData[] = $student->filiation_1;
             $nestedData[] = $student->birthday;
             $nestedData[] = $student->inep_id;
-            $nestedData[] = "<a style='cursor: pointer;' title='Editar'  href='/?r=student/update&id=".$student->id."'>
+            $nestedData[] = "<a style='cursor: pointer;' title='Editar' id='student-edit'  href='/?r=student/update&id=".$student->id."'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/editar.svg' . "' alt='Editar'></img>
                             </a>&nbsp;"
                             ."<a style='cursor: pointer;' title='Excluir' id='student-delete' href='/?r=student/delete&id=".$student->id."'>
@@ -287,10 +287,10 @@ class StudentController extends Controller
             $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
             date_default_timezone_set("America/Recife");
             $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
-            
+
 
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
-                
+
                 if ($modelStudentIdentification->save()) {
                     $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
                     $modelStudentRestrictions->student_fk = $modelStudentIdentification->id;
@@ -355,7 +355,7 @@ class StudentController extends Controller
     }
 
 
-    /** 
+    /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
