@@ -15,11 +15,7 @@ class CustomProvider extends Base
      */
     public function cnsNumber()
     {
-        $cns = '7';
-        $cns .= $this->generator->randomElement(['01', '02', '03']);
-        $cns .= $this->generator->numerify('##########');
-
-        return $cns;
+        return $this->generator->numerify('###############');
     }
 
     /**
@@ -39,13 +35,13 @@ class CustomProvider extends Base
         $terceiroBloco = $this->generator->numberBetween(1, 12);
         $terceiroBloco = str_pad($terceiroBloco, 2, '0', STR_PAD_LEFT);
 
-        // Quarto Bloco (4 dígitos) 
+        // Quarto Bloco (4 dígitos)
         $anoAtual = date('Y');
         $quartoBloco = $this->generator->numberBetween(2010, $anoAtual);
 
         // Quinto Bloco (1 dígito)
-        $quintoBloco = '1'; 
-        
+        $quintoBloco = '1';
+
         // Sexto Bloco (5 dígitos)
         $sextoBloco = $this->generator->numerify('#####');
 
@@ -70,20 +66,16 @@ class CustomProvider extends Base
      */
     public function bookCivil()
     {
-        $bookCivil = $this->generator->numerify('########');
-
-        return $bookCivil;
+        return $this->generator->numerify('########');
     }
 
     /**
      * Método que gera a folha de uma certidão.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function sheedCivil()
+    public function sheetCivil()
     {
-        $sheedCivil = $this->generator->numerify('####');
-
-        return $sheedCivil;
+        return $this->generator->numerify('####');
     }
 
     /**
@@ -92,9 +84,7 @@ class CustomProvider extends Base
      */
     public function termCivil()
     {
-        $termCivil = $this->generator->numerify('########');
-        
-        return $termCivil;
+        return $this->generator->numerify('########');
     }
 
     /**
@@ -141,5 +131,5 @@ class CustomProvider extends Base
 
         return "$firstName $lastName";
     }
- 
+
 }

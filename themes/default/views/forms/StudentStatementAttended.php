@@ -19,11 +19,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <span id="report_type_label" style="font-size: 16px">DECLARAÇÃO</span>
             </div>
             <br><br><br/>
-            <p class="text-indent">Declaro para os devidos fins de direito e comprovação que o(a) aluno(a) <?= $student['name_student'] ?>, nascido(a) em <?= $student['birthday'] ?>, 
-            filho(a) de <?= $student['filiation_1'] ?> e <?= $student['filiation_2'] ?>, cursou neste estabelecimento de ensino <?= $descCategory ?> 
+            <p class="text-indent">Declaro para os devidos fins de direito e comprovação que o(a) aluno(a) <?= $student['name_student'] ?>, nascido(a) em <?= $student['birthday'] ?>,
+            filho(a) de <?= $student['filiation_1'] ?> e <?= $student['filiation_2'] ?>, cursou neste estabelecimento de ensino <?= $descCategory ?>
             na modalidade <?= $modality[$student['modality']] ?> no ano letivo de <?= $student['school_year'] ?>.</p>
             <br><br>
-            <p class="text-center"><strong>Situação do(a) aluno(a):</strong>           <span class="ml-30"> <span class="mr-10">(</span>) Aprovato(a) </span><span class="ml-30"><span class="mr-10">(</span>) Retido(a)</span></p>
+            <p class="text-center"><strong>Situação do(a) aluno(a):</strong>           <span class="ml-30"> <span class="mr-10">(</span>) Aprovado(a) </span><span class="ml-30"><span class="mr-10">(</span>) Retido(a)</span></p>
             <br><br><br/>
             <p class="text-center">Este documento não contém rasuras e terá validade de 30 (trinta) dias, a contar da data de expedição.</p>
             <br><br><br><br>

@@ -25,13 +25,13 @@ class FormsController extends Controller {
     }
 
     public function beforeAction($action){
-        
+
         if (Yii::app()->user->isGuest){
             $this->redirect(yii::app()->createUrl('site/login'));
         }
-        
+
         $this->year = Yii::app()->user->year;
-        
+
         return true;
     }
 
@@ -46,7 +46,7 @@ class FormsController extends Controller {
         $query = $repository->getEnrollmentGrades($enrollment_id);
         $this->render('EnrollmentGradesReport', $query);
     }
-    
+
     public function actionIndividualRecord($enrollment_id)
     {
         $this->layout = "reports";
@@ -81,7 +81,9 @@ class FormsController extends Controller {
     public function actionGetEnrollmentDeclarationInformation($enrollment_id)
     {
         $repository = new FormsRepository;
-        $repository->getEnrollmentDeclaration($enrollment_id);
+        $result = $repository->getEnrollmentDeclarationInformation($enrollment_id);
+
+        echo CJSON::encode($result);
     }
 
     public function actionTransferRequirement($enrollment_id)
@@ -95,7 +97,9 @@ class FormsController extends Controller {
     public function actionGetTransferRequirementInformation($enrollment_id)
     {
         $repository = new FormsRepository;
-        $repository->getTransferRequirementInformation($enrollment_id);
+        $result = $repository->getTransferRequirementInformation($enrollment_id);
+
+        echo CJSON::encode($result);
     }
 
     public function actionEnrollmentNotification($enrollment_id)
@@ -109,10 +113,12 @@ class FormsController extends Controller {
     public function actionGetEnrollmentNotificationInformation($enrollment_id)
     {
         $repository = new FormsRepository;
-        $repository->getEnrollmentNotificationInformation($enrollment_id);
+        $result = $repository->getEnrollmentNotificationInformation($enrollment_id);
+
+        echo CJSON::encode($result);
     }
 
-    public function actionStudentsDeclarationReport($enrollment_id) 
+    public function actionStudentsDeclarationReport($enrollment_id)
     {
         $this->layout = "reports";
         $repository = new FormsRepository;
@@ -123,7 +129,9 @@ class FormsController extends Controller {
     public function actionGetStudentsFileInformation($enrollment_id)
     {
         $repository = new FormsRepository;
-        $repository->getStudentsFileInformation($enrollment_id);
+        $result = $repository->getStudentsFileInformation($enrollment_id);
+
+        echo CJSON::encode($result);
     }
 
     public function actionAtaSchoolPerformance($id) {
@@ -156,7 +164,9 @@ class FormsController extends Controller {
 
     public function actionGetTransferFormInformation($enrollment_id){
         $repository = new FormsRepository;
-        $repository->getTransferFormInformation($enrollment_id);
+        $result = $repository->getTransferFormInformation($enrollment_id);
+
+        echo CJSON::encode($result);
     }
 
     public function actionStatementAttended($enrollment_id) {

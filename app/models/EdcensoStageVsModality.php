@@ -138,7 +138,7 @@
         public function attributeLabels() {
             return [
                 'id' => Yii::t('default', 'ID'), 'name' => Yii::t('default', 'Name'),
-                'stage' => Yii::t('default', 'Stage'),
+                'stage' => Yii::t('default', 'Stage'), 'alias' => 'Abreviação',
             ];
         }
 

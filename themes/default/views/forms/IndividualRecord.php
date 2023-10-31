@@ -19,7 +19,6 @@ if($enrollment->classroomFk->turn == "M") {
 $gradeOneTotalFaults = 0;
 $gradeTwoTotalFaults = 0;
 $gradeThreeTotalFaults = 0;
-$gradeFourTotalFaults = 0;
 $gradeTotalFaults = 0;
 
 $portugueseCount = !empty($portuguese) ? 1 : 0;
@@ -108,15 +107,11 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
                     <th scope="col" colspan="3" style="text-align:center;vertical-align: middle;">1ª Unidade</th>
                     <th scope="col" colspan="3" style="text-align:center;vertical-align: middle;">2ª Unidade</th>
                     <th scope="col" colspan="3" style="text-align:center;vertical-align: middle;">3ª Unidade</th>
-                    <th scope="col" colspan="3" style="text-align:center;vertical-align: middle;">4ª Unidade</th>
                     <th scope="col" rowspan="2" style="text-align:center;vertical-align: middle;">Total<br>de<br>Faltas</th>
                     <th scope="col" rowspan="2" style="text-align:center;vertical-align: middle;">Total<br>de<br>Aulas Dadas</th>
                     <th scope="col" rowspan="2" style="text-align:center;vertical-align: middle;">Média<br>Final</th>
                 </tr>
                 <tr>
-                    <th scope="col" style="text-align:center;vertical-align: middle;">N</th>
-                    <th scope="col" style="text-align:center;vertical-align: middle;">F</th>
-                    <th scope="col" style="text-align:center;vertical-align: middle;">AD</th>
                     <th scope="col" style="text-align:center;vertical-align: middle;">N</th>
                     <th scope="col" style="text-align:center;vertical-align: middle;">F</th>
                     <th scope="col" style="text-align:center;vertical-align: middle;">AD</th>
@@ -134,15 +129,13 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
                 $rOneGivenClasses[0] = $portuguese[0]['givenClasses1'] + $history[0]['givenClasses1'] + $geography[0]['givenClasses1'];
                 $rOneGivenClasses[1] = $portuguese[0]['givenClasses2'] + $history[0]['givenClasses2'] + $geography[0]['givenClasses2'];
                 $rOneGivenClasses[2] = $portuguese[0]['givenClasses3'] + $history[0]['givenClasses3'] + $geography[0]['givenClasses3'];
-                $rOneGivenClasses[3] = $portuguese[0]['givenClasses4'] + $history[0]['givenClasses4'] + $geography[0]['givenClasses4'];
-                $rOneGivenClassesTotal = $rOneGivenClasses[0] + $rOneGivenClasses[1] + $rOneGivenClasses[2] + $rOneGivenClasses[3];
+                $rOneGivenClassesTotal = $rOneGivenClasses[0] + $rOneGivenClasses[1] + $rOneGivenClasses[2];
 
                 $rTwoGivenClasses = [];
                 $rTwoGivenClasses[0] = $mathematics[0]['givenClasses1'] + $sciences[0]['givenClasses1'];
                 $rTwoGivenClasses[1] = $mathematics[0]['givenClasses2'] + $sciences[0]['givenClasses2'];
                 $rTwoGivenClasses[2] = $mathematics[0]['givenClasses3'] + $sciences[0]['givenClasses3'];
-                $rTwoGivenClasses[3] = $mathematics[0]['givenClasses4'] + $sciences[0]['givenClasses4'];
-                $rTwoGivenClassesTotal = $rTwoGivenClasses[0] + $rTwoGivenClasses[1] + $rTwoGivenClasses[2] + $rTwoGivenClasses[3];
+                $rTwoGivenClassesTotal = $rTwoGivenClasses[0] + $rTwoGivenClasses[1] + $rTwoGivenClasses[2];
 
                 $totalGivenClasses = $rOneGivenClassesTotal + $rTwoGivenClassesTotal;
 
@@ -150,20 +143,17 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
                 $rOneFaults[0]= $portuguese[0]['faults1'] + $history[0]['faults1'] + $geography[0]['faults1'];
                 $rOneFaults[1] = $portuguese[0]['faults2'] + $history[0]['faults2'] + $geography[0]['faults2'];
                 $rOneFaults[2] = $portuguese[0]['faults3'] + $history[0]['faults3'] + $geography[0]['faults3'];
-                $rOneFaults[3] = $portuguese[0]['faults4'] + $history[0]['faults4'] + $geography[0]['faults4'];
-                $rOnefaultsTotal = $rOneFaults[0] + $rOneFaults[1] + $rOneFaults[2] + $rOneFaults[3];
+                $rOnefaultsTotal = $rOneFaults[0] + $rOneFaults[1] + $rOneFaults[2];
 
                 $rTwoFaults = [];
                 $rTwoFaults[0] = $mathematics[0]['faults1'] + $sciences[0]['faults1'];
                 $rTwoFaults[1] = $mathematics[0]['faults2'] + $sciences[0]['faults2'];
                 $rTwoFaults[2] = $mathematics[0]['faults3'] + $sciences[0]['faults3'];
-                $rTwoFaults[3] = $mathematics[0]['faults4'] + $sciences[0]['faults4'];
-                $rTwofaultsTotal = $rTwoFaults[0] + $rTwoFaults[1] + $rTwoFaults[2] + $rTwoFaults[3];
+                $rTwofaultsTotal = $rTwoFaults[0] + $rTwoFaults[1] + $rTwoFaults[2];
 
                 $gradeOneTotalFaults += $rOneFaults[0] + $rTwoFaults[0];
                 $gradeTwoTotalFaults += $rOneFaults[1] + $rTwoFaults[1];
                 $gradeThreeTotalFaults += $rOneFaults[2] + $rTwoFaults[2];
-                $gradeFourTotalFaults += $rOneFaults[3] + $rTwoFaults[3];
 
                 $reprovado = false;
 
@@ -192,10 +182,6 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
                     <?= $portuguese[0]['grade3'] == null ? "-" : $portuguese[0]['grade3']?></td>
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneFaults[2]?></td>
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneGivenClasses[2]?></td>
-                    <td class="<?php echo $portuguese[0]['grade4'] < $gradeRules->approvation_media ? "under-media-td" : ""?>">
-                    <?= $portuguese[0]['grade4'] == null ? "-" : $portuguese[0]['grade4']?></td>
-                    <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneFaults[3]?></td>
-                    <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneGivenClasses[3]?></td>
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOnefaultsTotal?></td>
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneGivenClassesTotal?></td>
                     <td><?= $portuguese[0]['final_media']?></td>
@@ -228,11 +214,7 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneFaults[2]?></td>
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneGivenClasses[2]?></td>
                     <?php } ?>
-                    <td class="<?php echo $history[0]['grade4'] < $gradeRules->approvation_media ? "under-media-td" : ""?>">
-                    <?= $history[0]['grade4'] == null ? "-" : $history[0]['grade4']?></td>
                     <?php if(!$portuguese) {?>
-                    <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneFaults[3]?></td>
-                    <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneGivenClasses[3]?></td>
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOnefaultsTotal?></td>
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneGivenClassesTotal?></td>
                     <?php } ?>
@@ -266,11 +248,7 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneFaults[2]?></td>
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneGivenClasses[2]?></td>
                     <?php } ?>
-                    <td class="<?php echo $geography[0]['grade4'] < $gradeRules->approvation_media ? "under-media-td" : ""?>">
-                    <?= $geography[0]['grade4'] == null ? "-" : $geography[0]['grade4']?></td>
                     <?php if(!$portuguese && !$history) {?>
-                    <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneFaults[3]?></td>
-                    <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneGivenClasses[3]?></td>
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOnefaultsTotal?></td>
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneGivenClassesTotal?></td>
                     <?php } ?>
@@ -302,10 +280,6 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
                     <?= $mathematics[0]['grade3'] == null ? "-" : $mathematics[0]['grade3']?></td>
                     <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwoFaults[2]?></td>
                     <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwoGivenClasses[2]?></td>
-                    <td class="<?php echo $mathematics[0]['grade4'] < $gradeRules->approvation_media ? "under-media-td" : ""?>">
-                    <?= $mathematics[0]['grade4'] == null ? "-" : $mathematics[0]['grade4']?></td>
-                    <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwoFaults[3]?></td>
-                    <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwoGivenClasses[3]?></td>
                     <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwofaultsTotal?></td>
                     <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwoGivenClassesTotal?></td>
                     <td><?= $mathematics[0]['final_media']?></td>
@@ -338,11 +312,7 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
                     <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwoFaults[2]?></td>
                     <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwoGivenClasses[2]?></td>
                     <?php } ?>
-                    <td class="<?php echo $sciences[0]['grade4'] < $gradeRules->approvation_media ? "under-media-td" : ""?>">
-                    <?= $sciences[0]['grade4'] == null ? "-" : $sciences[0]['grade4']?></td>
                     <?php if(!$sciences) {?>
-                    <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwoFaults[3]?></td>
-                    <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwoGivenClasses[3]?></td>
                     <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwofaultsTotal?></td>
                     <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwoGivenClassesTotal?></td>
                     <?php } ?>
@@ -381,15 +351,9 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
                         <?php $gradeThreeTotalFaults += $d['faults3']?>
                         <td><?= $d['givenClasses3'] ?></td>
 
-                        <td class="<?php echo $d['grade4'] < $gradeRules->approvation_media ? "under-media-td" : ""?>">
-                        <?= $d['grade4'] == null ? "-" : $d['grade4']?></td>
-                        <td><?= $d['faults4']?></td>
-                        <?php $gradeFourTotalFaults += $d['faults4']?>
-                        <td><?= $d['givenClasses4'] ?></td>
-
-                        <td><?= $d['faults1'] + $d['faults2'] + $d['faults3'] + $d['faults4']?></td>
-                        <td><?= $d['givenClasses1'] + $d['givenClasses2'] + $d['givenClasses3'] + $d['givenClasses4'] ?></td>
-                        <?php $totalGivenClasses += $d['givenClasses1'] + $d['givenClasses2'] + $d['givenClasses3'] + $d['givenClasses4'] ?>
+                        <td><?= $d['faults1'] + $d['faults2'] + $d['faults3']?></td>
+                        <td><?= $d['givenClasses1'] + $d['givenClasses2'] + $d['givenClasses3']?></td>
+                        <?php $totalGivenClasses += $d['givenClasses1'] + $d['givenClasses2'] + $d['givenClasses3'] ?>
                         <td><?= $d['final_media']?></td>
                         <?php
                         if($d['final_media'] < $gradeRules->approvation_media) {
@@ -403,9 +367,8 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
                     <td colspan="3"><?= $gradeOneTotalFaults?></td>
                     <td colspan="3"><?= $gradeTwoTotalFaults?></td>
                     <td colspan="3"><?= $gradeThreeTotalFaults?></td>
-                    <td colspan="3"><?= $gradeFourTotalFaults?></td>
                     <td colspan="2">Faltas Geral</td>
-                    <td><?= $gradeOneTotalFaults + $gradeTwoTotalFaults + $gradeThreeTotalFaults + $gradeFourTotalFaults?></td>
+                    <td><?= $gradeOneTotalFaults + $gradeTwoTotalFaults + $gradeThreeTotalFaults?></td>
                 </tr>
             </tbody>
         </table>

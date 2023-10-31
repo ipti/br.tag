@@ -2,7 +2,7 @@
 
 class ImportModel
 {
-    function saveSchoolIdentificationsDB($jsonSchools) 
+    public function saveSchoolIdentificationsDB($jsonSchools) 
     {
         foreach ($jsonSchools as $school) {
             $schoolIdentificationModel = new SchoolIdentification();
@@ -13,7 +13,7 @@ class ImportModel
         }
     }
     
-    function saveSchoolStructureDB($schoolStructures) 
+    public function saveSchoolStructureDB($schoolStructures) 
     {
         foreach ($schoolStructures as $schoolStructure) {
             $schoolStructureModel =  new SchoolStructure();
@@ -24,7 +24,7 @@ class ImportModel
         }
     }
 
-    function saveClassroomsDB($jsonClassrooms) {
+    public function saveClassroomsDB($jsonClassrooms) {
         foreach ($jsonClassrooms as  $classroom) {
             $classroomModel = new Classroom();
             $classroomModel->setDb2Connection(true);
@@ -35,7 +35,7 @@ class ImportModel
         }
     }
 
-    function saveStudentDocumentsAndAddressDB($jsonDocumentsAddress) {
+    public function saveStudentDocumentsAndAddressDB($jsonDocumentsAddress) {
         foreach ($jsonDocumentsAddress as $documentsaddress) {
             $studentDocumentsAndAddress = new StudentDocumentsAndAddress();
             $studentDocumentsAndAddress->setDb2Connection(true);
@@ -46,7 +46,7 @@ class ImportModel
         }
     }
 
-    function saveStudentEnrollmentDB($jsonEnrollments)
+    public function saveStudentEnrollmentDB($jsonEnrollments)
     {
         foreach ($jsonEnrollments as $enrollment) {
             $studentEnrollment = new StudentEnrollment();
@@ -58,7 +58,7 @@ class ImportModel
         }
     }
 
-    function saveStudentIdentificationDB($studentIdentifications)
+    public function saveStudentIdentificationDB($studentIdentifications)
     {
         foreach ($studentIdentifications as $studentIdentification) {
             $studentIdentificationMode = new StudentIdentification();
@@ -70,7 +70,7 @@ class ImportModel
         }
     }
 
-    function saveInstructorsTeachingDataDB($jsonInstructorsTeachingDatas)
+    public function saveInstructorsTeachingDataDB($jsonInstructorsTeachingDatas)
     {
         foreach ($jsonInstructorsTeachingDatas as $instructorsTeachingData) {
             $instructorTeachingData = new InstructorTeachingData();
@@ -82,7 +82,7 @@ class ImportModel
          }
     }
 
-    function saveInstructorDataDB($instructorIdentificationDatas, $instructorDocumentsAndAddressDatas, $instructorVariableDatas)
+    public function saveInstructorDataDB($instructorIdentificationDatas, $instructorDocumentsAndAddressDatas, $instructorVariableDatas)
     {
         $instructorIdentificationModels = [];
         $instructorDocumentsAndAddressModels = [];
@@ -136,7 +136,7 @@ class ImportModel
     }
 
 
-    function saveTeachingMatrixes($teachingMatrixes)  
+    public function saveTeachingMatrixes($teachingMatrixes)  
     {
         foreach ($teachingMatrixes as $teachingMatrixe) {
             $teachingMatrixeModel = new TeachingMatrixes();
