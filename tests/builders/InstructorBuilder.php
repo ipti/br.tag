@@ -52,13 +52,11 @@ class InstructorBuilder {
         $this->instructor['color_race'] = 2;
         $this->instructor['filiation'] = '1';
         $this->instructor['filiation_1'] = $this->faker->name();
-        // $this->instructorDocumentsAddress['cep'] = '49000194';
         $this->instructorDocumentsAddress['address'] = "RUA " . $this->faker->name();
         $this->instructorDocumentsAddress['address_number'] = $this->faker->buildingNumber();
         $this->instructorDocumentsAddress['neighborhood'] = "Centro";
         $this->instructorDocumentsAddress['diff_location'] = "7";
         $this->instructorDocumentsAddress['area_of_residence'] = "1";
-        // $this->instructorVariable['scholarity'] = "7";
 
         return $this;
     }

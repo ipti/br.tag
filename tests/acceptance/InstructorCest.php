@@ -93,8 +93,8 @@ class InstructorCest
         $robots->scholarity($builderInstructorScholarity->instructorVariable['scholarity']);
         sleep(2);
         $robots->highCourseSituation($builderInstructorScholarity->instructorVariable['high_education_situation_1']);
-        $robots->highCourseSituation($builderInstructorScholarity->instructorVariable['high_education_course_code_1_fk']);
-        $robots->highCourseSituation($builderInstructorScholarity->instructorVariable['high_education_final_year_1']);
+        $robots->highCourseCode($builderInstructorScholarity->instructorVariable['high_education_course_code_1_fk']);
+        $robots->highCourseYear($builderInstructorScholarity->instructorVariable['high_education_final_year_1']);
         $robots->btnSave();
         sleep(10);
 

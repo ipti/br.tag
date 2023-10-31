@@ -157,19 +157,23 @@ class InstructorRobots
         $this->tester->selectOption('#instructor-data select', $scholarity);
     }
 
+    /* Seleciona a situação do curso superior */
     public function highCourseSituation ($situation)
     {
         $this->tester->executeJS("document.querySelector('#highEducationSituation select').value = '$situation';");
     }
 
+    /* Seleciona o curso */
     public function highCourseCode ($code)
     {
         $this->tester->executeJS("document.querySelector('#highEducationCode select').value = '{$code}';");
     }
 
+    /* Preenche o ano de conclusão */
     public function highCourseYear ($year)
     {
-        $this->tester->fillField("highEducationYear", $year);
+        $this->tester->waitForElement('#highEducationYear input[type=text]');
+        $this->tester->executeJS("document.querySelector('#highEducationYear input[type=text]').value = '{$year}';");
     }
     /*  */
 }
