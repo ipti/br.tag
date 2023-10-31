@@ -3,6 +3,7 @@
 ////////////////////////////////////////////////
 var count = $('.regent-teacher').length;
 var RegentTeacherCount = count;
+
 var removeTeachingData = function () {
     var instructor = $(this).parent().parent().parent().attr("instructor");
     var discipline = ($(this).parent().attr("discipline"));
@@ -378,7 +379,7 @@ $("#js-t-sortable").on("sortupdate", function(event, ui) {
         type: "POST",
         data:{
             list: newOrderArray
-        }, 
+        },
         beforeSend: function () {
             $("#js-t-sortable").sortable("destroy");
             $("#daily").css("opacity", 0.5);
@@ -391,19 +392,19 @@ $("#js-t-sortable").on("sortupdate", function(event, ui) {
             const li = document.createElement('li');
             li.id = element.id;
             li.className = 'ui-state-default';
-        
+
             const span1 = document.createElement('span');
             span1.className = 't-icon-slip';
-        
+
             const span2 = document.createElement('span');
             span2.textContent = element.daily_order + ' ' + element.name;
-        
+
             li.appendChild(span1);
             li.appendChild(span2);
-            
-            list.push(li); 
+
+            list.push(li);
         });
-       
+
        $("#js-t-sortable").html(list);
        $("#daily").css("opacity", 1);
        $("#js-t-sortable").sortable();

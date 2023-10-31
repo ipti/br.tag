@@ -312,8 +312,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelClassroom, 'assistance_type', array('class' => 't-field-text__label')); ?>
                                 <div class="">
                                     <?php
-                            echo $form->DropDownList($modelClassroom, 'assistance_type', $assistance_types, array('prompt' => 'Selecione o Tipo de Atendimento', 'class' => 'select-search-off'));
-                            ?>
+                                        echo $form->DropDownList($modelClassroom, 'assistance_type', $assistance_types, array('prompt' => 'Selecione o Tipo de Atendimento', 'class' => 'select-search-off'));
+                                    ?>
                                     <?php echo $form->error($modelClassroom, 'assistance_type'); ?>
                                 </div>
                             </div> -->
@@ -516,7 +516,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             //Pega a diferença entre a lista de disciplinas com instrutores e a lista de disciplinas da turma
                             $disciplinesWithoutInstructor = array_diff($disciplinesArray, $teachingDataDisciplines);
 
-                            //monta a lista com as disciplinas que não possuem instrutor                                
+                            //monta a lista com as disciplinas que não possuem instrutor
                             $teachingDataList .= "<div class='disciplines-without-container'><span><b>Componentes curriculares/eixos sem Instrutores</b></span><div class='separator'></div>"
                                 . "<ul id='DisciplinesWithoutInstructors'>";
                             $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
@@ -705,9 +705,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                         array("sy" => (Yii::app()->user->year), "si" => yii::app()->user->school)
                                     ), 'id', 'name'), array(
                                         'class' => 'span5',
-                                        'empty' => '**CANCELAR MATRICULAS**'
+                                        'empty' => '**EXCLUIR MATRICULAS**'
                                     ));
-                                    echo '<input value="Mover/Cancelar" type="submit" class="t-button-primary " style="margin-left:10px"><i></i></input></td></tr>';
+                                    echo '<input value="Mover/Excluir" type="submit" class="t-button-primary " style="margin-left:10px"><i></i></input></td></tr>';
                                     ?>
                                 </tfooter>
                             </table>

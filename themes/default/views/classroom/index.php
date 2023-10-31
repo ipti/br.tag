@@ -73,8 +73,7 @@
                     array_push($columns,
                         array(
                             'name' => 'enrollmentsCount',
-                            'header' => 'Alunos',
-                            // 'value' => 'count($data->activeStudentEnrollments)',
+                            'header' => 'Mat. Ativas',
                             'value' => '$data->activeEnrollmentsCount',
                         )
                     );

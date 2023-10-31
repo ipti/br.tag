@@ -44,7 +44,7 @@ $model = new StudentEnrollment();
                     <div class="tab-pane active" id="student">
                         <div class="row-fluid">
                             <div class="span5">
-                                <div class="control-group t-multiselect">
+                                <div class="control-group t-multiselect" id="classrooms-select">
                                     <?php echo Chtml::label('Turma de ' . $lastYear . ':', '', array('class' => 'controls control-label ml-10 required')); ?>
                                     <div class="controls">
                                         <?php echo chtml::dropDownList('Classrooms', "", CHtml::listData(Classroom::model()->findAll(
@@ -60,7 +60,7 @@ $model = new StudentEnrollment();
                                 </div>
                             </div>
                             <div class="span5">
-                                <div class="control-group">
+                                <div class="control-group" id="oneClassrom-select">
                                     <?php echo Chtml::label('Turma de ' . Yii::app()->user->year . ':', '', array('class' => 'controls control-label ml-10 required')); ?>
                                     <div class="controls">
                                         <?php echo $form->dropDownList($model, 'classroom_fk', CHtml::listData(Classroom::model()->findAll(
@@ -73,7 +73,7 @@ $model = new StudentEnrollment();
                             </div>
                             <div class="span1">
                                 <div class="tag-buttons-container buttons">
-                                    <div class="control-group">
+                                    <div class="control-group" id="save">
                                         <?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('class' => 't-button-primary  last', 'type' => 'submit')); ?>
                                     </div>
                                 </div>
