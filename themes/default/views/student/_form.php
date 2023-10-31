@@ -1403,7 +1403,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo StudentEnrollment::model()->attributeLabels()['aee_cognitive_functions']; ?>
                                     </label>
                                 </div>
-                                <div class="t-field-checkbox">
+                                <div class="t-field-checkbox" id="text">
                                     <?php echo $form->checkBox($modelEnrollment, 'aee_autonomous_life', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo StudentEnrollment::model()->attributeLabels()['aee_autonomous_life']; ?>
@@ -1816,8 +1816,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <h3>Restrições</h3>
-                            <div class="t-field-checkbox-group">
-                                <div class="t-field-checkbox" id="restrictions">
+                            <div class="t-field-checkbox-group" id="restrictions-checkbox">
+                                <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelStudentRestrictions, 'celiac', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo StudentRestrictions::model()->attributeLabels()['celiac']; ?>
@@ -1885,7 +1885,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </h3>
                             <div class="t-field-checkbox-group vaccines-container">
                                 <?php foreach ($vaccines as $vaccine) : ?>
-                                    <div class="t-field-checkbox">
+                                    <div class="t-field-checkbox" id="vaccine-checkbox">
                                         <?php echo CHtml::activeCheckBox($vaccine, "vaccine_id[]", array('checked' => in_array($vaccine->id, $studentVaccinesSaves), 'value' => $vaccine->id, 'uncheckValue' => null, 'class' => 'vaccine-checkbox', 'code' => $vaccine->code)); ?>
                                         <label class="t-field-checkbox">
                                             <?= $vaccine->name; ?>

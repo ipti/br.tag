@@ -451,13 +451,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                         'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array("order" => "name")), 'id', 'name'),
                                         array(
                                             'prompt' => 'Selecione um estado',
-                                            'class' => 'select-search-on control-input',
-                                            'ajax' => array(
-                                                'type' => 'POST',
-                                                'url' => CController::createUrl('Instructor/getcity'),
-                                                'update' => '#InstructorDocumentsAndAddress_edcenso_city_fk',
-                                                'data' => array('edcenso_uf_fk' => 'js:this.value'),
-                                            )
+                                            'class' => 'select-search-on control-input'
                                         )
                                     ); ?>
                                     <?php echo $form->error($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk'); ?>

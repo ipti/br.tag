@@ -10,15 +10,30 @@
  * @property string $gov_id
  * @property integer $id
  * @property string $name
+ * @property string $civil_name
  * @property string $birthday
  * @property integer $sex
  * @property integer $color_race
  * @property integer $filiation
+ * @property integer $filiation_no_declared
+ * @property integer $filiation_with_and_father
  * @property integer $id_email
  * @property integer $scholarity
  * @property string $filiation_1
+ * @property string $filiation_1_cpf
+ * @property string $filiation_1_birthday
+ * @property string $filiation_1_rg
+ * @property string $filiation_1_scholarity
+ * @property string $filiation_1_job
  * @property string $filiation_2
+ * @property string $filiation_2_cpf
+ * @property string $filiation_2_birthday
+ * @property string $filiation_2_rg
+ * @property string $filiation_2_scholarity
+ * @property string $filiation_2_job
  * @property integer $nationality
+ * @property integer $state
+ * @property integer $city
  * @property string $uf
  * @property integer $edcenso_nation_fk
  * @property integer $edcenso_uf_fk
@@ -62,6 +77,7 @@
  * @property string $responsable_job
  * @property integer $bf_participator
  * @property string $responsable_telephone
+ * @property string $responsable_email
  * @property string $tag_id
  * @property integer $no_documents_desc
  * @property string $fkid
@@ -106,7 +122,7 @@ class StudentIdentification extends AltActiveRecord {
             return [];
         }
     }
-        
+
     /**
      * @return array validation rules for model attributes.
      */
@@ -152,15 +168,15 @@ class StudentIdentification extends AltActiveRecord {
                 'StudentEnrollment',
                 'student_fk',
                 'with' => 'classroomFk',
-                'together' => true,  
+                'together' => true,
                 'order'=>'classroomFk.school_year DESC, status, studentEnrollments.id DESC'
             ),
             'lastEnrollment' => array(
-                self::HAS_ONE, 
+                self::HAS_ONE,
                     'StudentEnrollment',
                     'student_fk',
                     'with' => 'classroomFk',
-                    'together' => true,  
+                    'together' => true,
                     'order'=>'classroomFk.school_year DESC, lastEnrollment.id DESC'
                 )
         );
