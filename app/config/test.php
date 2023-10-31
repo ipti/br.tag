@@ -1,8 +1,7 @@
 <?php
 
-
 // require(dirname(__FILE__).'/main.php');
-defined("DBNAME") || define("DBNAME","demo.tag.ong.br");
+defined("DBNAME") or define("DBNAME","demo.tag.ong.br");
 $HOST = "localhost:3306";
 $USER = 'root';
 $SECRET = 'root';
@@ -17,12 +16,12 @@ define ("DBCONFIG", serialize (array(
 
 
 return CMap::mergeArray(
-	require(dirname(__FILE__).'/main.php'),
-	array(
-		'components'=>array(
-			'fixture'=>array(
-				'class'=>'system.test.CDbFixtureManager',
-			),
+    require(dirname(__FILE__).'/main.php'),
+    array(
+        'components'=>array(
+            'fixture'=>array(
+                'class'=>'system.test.CDbFixtureManager',
+            ),
             'db' => array(
                 'class'=>'CDbConnection',
                 'connectionString'=>'mysql:host=localhost;dbname=demo.tag.ong.br',
@@ -30,8 +29,8 @@ return CMap::mergeArray(
                 'password'=>'root',
                 'emulatePrepare'=>true,  // needed by some MySQL installations
             ),
-			/* uncomment the following to provide test database connection
-			// */
-		),
-	)
+            /* uncomment the following to provide test database connection
+            // */
+        ),
+    )
 );
