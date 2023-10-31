@@ -507,7 +507,7 @@ class ClassroomController extends Controller
                         }
                         if ($saved) {
 
-                            if (INSTANCE == "UBATUBA") {
+                            if (TagUtils::isInstance("UBATUBA")) {
                                 $loginUseCase = new LoginUseCase();
                                 $loginUseCase->checkSEDToken();
 
@@ -541,7 +541,7 @@ class ClassroomController extends Controller
         $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
 
         $disableFieldsWhenItsUBATUBA = false;
-        if (INSTANCE == "UBATUBA" && $modelClassroom->gov_id != null && !empty($modelClassroom->studentEnrollments)) {
+        if (TagUtils::isInstance("UBATUBA") && $modelClassroom->gov_id != null && !empty($modelClassroom->studentEnrollments)) {
             $disableFieldsWhenItsUBATUBA = true;
         }
 
@@ -606,7 +606,7 @@ class ClassroomController extends Controller
             $modelClassroom->attributes = $_POST['Classroom'];
             $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
 
-            if (INSTANCE == "UBATUBA" && !$disableFieldsWhenItsUBATUBA) {
+            if (TagUtils::isInstance("UBATUBA") && !$disableFieldsWhenItsUBATUBA) {
 
                 if ($beforeChangeClassroom->turn != $modelClassroom->turn ||
                     $beforeChangeClassroom->sedsp_acronym != $modelClassroom->sedsp_acronym ||
@@ -665,7 +665,7 @@ class ClassroomController extends Controller
                         }
                         if ($saved) {
 
-                            if (INSTANCE == "UBATUBA" && !$modelClassroom->sedsp_sync) {
+                            if (TagUtils::isInstance("UBATUBA") && !$modelClassroom->sedsp_sync) {
                                 $loginUseCase = new LoginUseCase();
                                 $loginUseCase->checkSEDToken();
 
@@ -808,7 +808,7 @@ class ClassroomController extends Controller
         $teachingDatas = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
 
         $ableToDelete = true;
-        if (INSTANCE == "UBATUBA") {
+        if (TagUtils::isInstance("UBATUBA")) {
             if ($classroom->gov_id !== null) {
                 $loginUseCase = new LoginUseCase();
                 $loginUseCase->checkSEDToken();

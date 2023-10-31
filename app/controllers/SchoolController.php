@@ -254,7 +254,7 @@ class SchoolController extends Controller
         $modelSchoolStructure = $this->loadModel($id, $this->SCHOOL_STRUCTURE);
         $modelManagerIdentification = $this->loadModel($id, $this->MANAGER_IDENTIFICATION);
 
-        $disableFieldWhenItsUBATUBA = INSTANCE == "UBATUBA";
+        $disableFieldWhenItsUBATUBA = TagUtils::isInstance("UBATUBA");
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($modelSchoolIdentification);

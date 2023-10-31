@@ -111,7 +111,7 @@
                             'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
                         )
                     );
-                    if (INSTANCE == "UBATUBA") {
+                    if (TagUtils::isInstance("UBATUBA")) {
                         array_push($columns,
                             array(
                                 'header' => 'Sincronizado',

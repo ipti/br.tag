@@ -69,7 +69,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="widget widget-tabs border-bottom-none">
 
         <?php echo $form->errorSummary($modelClassroom); ?>
-        <?php if (INSTANCE == "UBATUBA" && $disabledFields): ?>
+        <?php if (TagUtils::isInstance("UBATUBA") && $disabledFields): ?>
             <div class="alert alert-warning">Alguns campos foram desabilitados porque a turma possui alunos matriculados
                 e o SEDSP não autoriza realizar edições em tais campos.
             </div>
@@ -175,7 +175,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                      alt="TAG Loading">
                             </div>
 
-                            <?php if (INSTANCE == "UBATUBA"): ?>
+                            <?php if (TagUtils::isInstance("UBATUBA")): ?>
                                 <!-- Unidade Escolar -->
                                 <div class="t-field-select" id="sedsp_school_unity_fk">
                                     <?php echo $form->labelEx($modelClassroom, 'Unidade Escolar *', array('class' => 't-field-select__label--required')); ?>
