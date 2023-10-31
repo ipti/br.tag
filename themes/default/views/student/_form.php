@@ -33,9 +33,9 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="column clearfix align-items--center justify-content--end show--desktop">
         <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
         <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
-
         <?php
             if (!$modelStudentIdentification->isNewRecord && TagUtils::isInstance("UBATUBA")) {
+
                 $sedspSync = StudentIdentification::model()->findByPk($modelStudentIdentification->id)->sedsp_sync;
                 if ($sedspSync) { ?>
                     <div style="text-align: center;margin-right: 10px;">
