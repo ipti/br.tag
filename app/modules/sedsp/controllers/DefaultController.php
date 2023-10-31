@@ -19,7 +19,7 @@ class DefaultController extends Controller
 
         $criteira = new CDbCriteria;
         $criteira->select = 'DISTINCT t.*';
-        $criteira->join = 'LEFT JOIN student_enrollment se ON se.student_inep_id = t.inep_id 
+        $criteira->join = 'LEFT JOIN student_enrollment se ON se.student_inep_id = t.inep_id
 				   LEFT JOIN classroom class ON se.classroom_fk = class.id';
         $criteira->addCondition('t.school_inep_id_fk = :school_id');
         $criteira->addCondition('t.gov_id is null');
@@ -225,21 +225,21 @@ class DefaultController extends Controller
         $this->render('index', ['token' => $token]);
     }
 
-    public function actionSyncSchoolClassrooms()
-    {
-        $school_id = Yii::app()->user->school;
-        $year = Yii::app()->user->year;
-        $usecase = new IdentifyAllClassroomRABySchool();
-        $RA = $usecase->exec($school_id, $year);
-        $this->render('index', ['RA' => $RA]);
-    }
+	public function actionSyncSchoolClassrooms()
+	{
+		$school_id = Yii::app()->user->school;
+		$year = Yii::app()->user->year;
+		$usecase = new IdentifyAllClassroomRABySchool();
+		$ra = $usecase->exec($school_id, $year);
+		$this->render('index', ['RA' => $ra]);
+	}
 
-    public function actionCreate($id)
-    {
-        $usecase = new AddStudentToSED();
-        $RA = $usecase->exec($id);
-        $this->render('index', ['RA' => $RA]);
-    }
+	public function actionCreate($id)
+	{
+		$usecase = new AddStudentToSED();
+		$ra = $usecase->exec($id);
+		$this->render('index', ['RA' => $ra]);
+	}
 
     public function actionGenRA($id)
     {
@@ -270,6 +270,7 @@ class DefaultController extends Controller
     {
         $loginUseCase = new LoginUseCase();
         $loginUseCase->checkSEDToken();
+
 
         $createRA = new CreateRA();
         $msg = $createRA->exec($id);
@@ -309,27 +310,49 @@ class DefaultController extends Controller
     }
 
     public function actionImportStudentRA()
-    {
-        $loginUseCase = new LoginUseCase();
-        $loginUseCase->checkSEDToken();
+	{
+		$this->checkSEDToken();
 
-        try {
-            $inAluno = new InAluno($_POST["numRA"], null, "SP");
+		try {
+			$inAluno = new InAluno($_POST["numRA"], null, "SP");
 
-            $exibirFicha = new GetExibirFichaAlunoFromSEDUseCase();
-            $statusSave = $exibirFicha->exec($inAluno);
+			$exibirFicha = new GetExibirFichaAlunoFromSEDUseCase();
+			$statusSave = $exibirFicha->exec($inAluno);
 
-            if ($statusSave) {
-                Yii::app()->user->setFlash('success', "O Aluno cadastrado com sucesso.");
-            } else {
-                Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
-            }
-        } catch (Exception $e) {
-            Yii::app()->user->setFlash('error', "A escola do aluno não está cadastrada no TAG");
-        } finally {
-            $this->redirect(array('index'));
-        }
-    }
+			if ($statusSave) {
+				Yii::app()->user->setFlash('success', "O Aluno cadastrado com sucesso.");
+			} else {
+				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
+			}
+		} catch (Exception $e) {
+			Yii::app()->user->setFlash('error', "A escola do aluno não está cadastrada no TAG");
+		} finally {
+			$this->redirect(array('index'));
+		}
+	}
+
+    public function actionUpdateStudentFromSedsp()
+	{
+		$this->checkSEDToken();
+
+		try {
+			$inAluno = new InAluno($_GET["gov_id"], null, "SP");
+
+			$exibirFicha = new UpdateFichaAlunoInTAGUseCase();
+			$statusSave = $exibirFicha->exec($inAluno);
+			$id = (int) $_GET["id"];
+
+			if ($statusSave) {
+				Yii::app()->user->setFlash('success', "Aluno sincronizado com sucesso.");
+				$this->redirect(array('/student/update', 'id' => $id));
+			} else {
+				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
+				$this->redirect(array('/student/update', 'id' => $id));
+			}
+		} catch (Exception $e) {
+			Yii::app()->user->setFlash('error', "A escola do aluno não está cadastrada no TAG");
+		}
+	}
 
     public function actionImportFullStudentsByClasses()
     {

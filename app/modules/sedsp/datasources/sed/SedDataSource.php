@@ -22,5 +22,4 @@ abstract class SedDataSource {
             'timeout'  => 10.0,
         ]);
     }
-
 }
