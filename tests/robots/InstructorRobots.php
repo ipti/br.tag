@@ -85,21 +85,17 @@ class InstructorRobots
     /* Selecionar a raça */
     public function colorRace ($colorRace)
     {
-        // $this->tester->fillField('#colorRace', $colorRace);
         $this->tester->executeJS("document.querySelector('#colorRace select').value = '$colorRace';");
     }
 
     /* Selecionar a filiação */
     public function filiationSelect ($filiation)
     {
-        // $this->tester->selectOption('#filiation-select', $filiation);
         $this->tester->executeJS("document.querySelector('#filiation-select').value = '($filiation)';");
     }
     /* Preencher o campo de filiação 1 */
     public function filiationSelect1 ($filiationName){
         $this->tester->fillField("#InstructorIdentification_filiation_1", $filiationName);
-        // $this->tester->executeJS("document.querySelector('#filiation-select_1').value = '($filiationName)';");
-
     }
 
     /* Preencher o cep */
@@ -110,14 +106,12 @@ class InstructorRobots
     /* Selecionar o estado */
     public function stateAddress ($state)
     {
-        // $this->tester->selectOption('#state-select select', $state);
         $this->tester->executeJS("document.querySelector('#s2id_InstructorDocumentsAndAddress_edcenso_uf_fk').value = '$state';");
     }
 
     /* Selecionar a cidade */
     public function cityAddress ($city)
     {
-        // $this->tester->selectOption('#city-select select', $city);
         $this->tester->executeJS("document.querySelector('#s2id_InstructorDocumentsAndAddress_edcenso_city_fk').value = '$city';");
 
     }
