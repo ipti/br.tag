@@ -1,8 +1,8 @@
 <?php
 use GuzzleHttp\Exception\ClientException;
 
-require 'app/vendor/autoload.php';
-
+require_once 'app/vendor/autoload.php';
+Yii::import('application.modules.sedsp.models.*');
 
 class EnrollmentSEDDataSource extends SedDataSource
 {
@@ -12,11 +12,11 @@ class EnrollmentSEDDataSource extends SedDataSource
      * @return OutListaMatriculaRA|OutErro
      * @throws Exception
      */
-    function getListarMatriculasRA($inAluno)
+    public function getListarMatriculasRA($inAluno)
     {
         try {
             $url = '/ncaapi/api/Matricula/ListarMatriculasRA';
-            $response = $this->getApiResponse('GET', $url, ["inAluno" => $inAluno]);         
+            $response = $this->getApiResponse('GET', $url, ["inAluno" => $inAluno]);
             return OutListaMatriculaRA::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -31,7 +31,7 @@ class EnrollmentSEDDataSource extends SedDataSource
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
-    function addInscreverAluno(InscreverAluno $inscreverAluno)
+    public function addInscreverAluno(InscreverAluno $inscreverAluno)
     {
         try{
             $url = '/ncaapi/api/Inscricao/InscreverAluno';
@@ -50,13 +50,27 @@ class EnrollmentSEDDataSource extends SedDataSource
         }
     }
 
+    public function addExcluirMatricula(InExcluirMatricula $inExcluirMatricula)
+    {
+        try{
+            $url = '/ncaapi/api/Matricula/ExcluirMatricula';
+
+            $response = $this->getApiResponse('POST', $url, $inExcluirMatricula);
+            return OutHandleApiResult::fromJson($response);
+        } catch (ClientException $e) {
+            return new OutErro($e);
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
     /**
      * Summary of addMatricularAluno
      * @param InMatricularAluno $inMatricularAluno
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
-    function addMatricularAluno(InMatricularAluno $inMatricularAluno)
+    public function addMatricularAluno(InMatricularAluno $inMatricularAluno)
     {
         try{
 
@@ -83,7 +97,7 @@ class EnrollmentSEDDataSource extends SedDataSource
      * @return OutExibirMatriculaClasseRA|OutErro
      * @throws Exception
      */
-    function getExibirMatriculaClasseRA(InExibirMatriculaClasseRA $inExibirMatriculaClasseRA)
+    public function getExibirMatriculaClasseRA(InExibirMatriculaClasseRA $inExibirMatriculaClasseRA)
     {
         try{
             $url = '/ncaapi/api/Matricula/ExibirMatriculaClasseRA';

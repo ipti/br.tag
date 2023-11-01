@@ -8,9 +8,9 @@ class InAluno implements JsonSerializable
 	public $inSiglaUFRA;
 
 	public function __construct(
-		?string $inNumRA,
-		?string $inDigitoRA,
-		?string $inSiglaUFRA
+		?string $inNumRA = null,
+		?string $inDigitoRA= null,
+		?string $inSiglaUFRA= null
 	) {
 		$this->inNumRA = $inNumRA;
 		$this->inDigitoRA = $inDigitoRA;
@@ -80,7 +80,7 @@ class InAluno implements JsonSerializable
 		);
 	}
 
-	function jsonSerialize()
+	public function jsonSerialize()
 	{
 		return get_object_vars($this);
 	}

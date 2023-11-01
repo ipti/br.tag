@@ -132,7 +132,7 @@ class InFichaAluno implements JsonSerializable
 			($data['inRastreio'] ?? null) !== null ? InRastreio::fromJson($data['inRastreio']) : null
 		);
 	}
-    function jsonSerialize()
+    public function jsonSerialize()
 	{
 		return get_object_vars($this);
 	}

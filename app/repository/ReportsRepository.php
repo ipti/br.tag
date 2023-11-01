@@ -17,18 +17,24 @@ class ReportsRepository
 
     public function getIndexData(): array
     {
-        $classrooms = Classroom::model()->findAll(
-            array(
-                'condition' => 'school_inep_fk=' . $this->currentSchool . ' && school_year = ' . $this->currentYear,
-                'order' => 'name'
-            )
-        );
+        $classrooms = Classroom::model()->findAll(array(
+            'condition' => 'school_inep_fk = :school_id and school_year = :year',
+            'order' => 'name',
+            'params' =>  array(
+                ':school_id'=> $this->currentSchool,
+                ':year'=>  $this->currentYear,
+            ),
+        ));
 
         $students = StudentIdentification::model()->findAll(
             array(
-                'condition' => 'school_inep_id_fk = ' . $this->currentSchool . ' && send_year = ' . $this->currentYear,
-                'order' => 'name'
-            )
+                'condition' => 'school_inep_id_fk = :school_id and send_year = :year',
+                'order' => 'name',
+                'params' =>  array(
+                    ':school_id'=> $this->currentSchool,
+                    ':year'=>  $this->currentYear,
+                ),
+            ),
         );
 
         $schools = SchoolIdentification::model()->findAll();
@@ -1397,7 +1403,7 @@ class ReportsRepository
                     WHERE `year`  = :year AND
                     classroom_id = :classroom_id AND
                     ((`status` IN (1, 6, 7, 8, 9, 10) or `status` is null))
-                ORDER BY name;";
+                ORDER BY daily_order, name;";
 
         $result = Yii::app()->db->createCommand($sql)
             ->bindParam(':year', $this->currentYear)

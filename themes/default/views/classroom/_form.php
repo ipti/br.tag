@@ -9,7 +9,6 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-// $cs->registerScriptFile($baseUrl . '/js/classroom/form/dialogs.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/_initialization.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/functions.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/validations.js?v=1.0', CClientScript::POS_END);
@@ -19,21 +18,49 @@ $cs->registerScriptFile($baseUrl . '/js/classroom/form/pagination.js', CClientSc
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'classroom-form',
     'enableAjaxValidation' => false,
-));
+)
+);
 ?>
+
 <div class="mobile-row ">
     <div class="column clearleft">
-        <h1><?php echo $title; ?></h1>
-    </div>
-    <div class="column clearfix align-items--center justify-content--end show--desktop">
-        <button class="t-button-primary  last save-classroom" type="button">
-            <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
-        </button>
+        <h1>
+            <?php echo $title; ?>
+        </h1>
+        <div class="tag-buttons-container buttons">
+
+            <?php
+            if ($modelClassroom->gov_id !== null && TagUtils::isInstance("UBATUBA")):
+                $sedspSync = Classroom::model()->findByPk($modelClassroom->id)->sedsp_sync;
+                if ($sedspSync): ?>
+                    <div style="text-align: center;margin-right: 10px;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png" style="width: 40px; margin-right: 10px;" alt="synced">
+                        <div>Sincronizado com a SEDSP</div>
+                    </div>
+
+                <?php  else:  ?>
+                    <div style="text-align: center;margin-right: 10px;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png" style="width: 40px;margin-right: 10px;" alt="not synced">
+                        <div>Não sincronizado com a SEDSP</div>
+                    </div>
+                <?php endif;
+                if (!$sedspSync): ?>
+                    <a class="update-classroom-to-sedsp"
+                       style="margin-right: 10px;background: #16205b;color: white;padding: 5px;border-radius: 5px;">
+                        Importar Turma do SEDSP
+                    </a>
+                <?php endif; ?>
+            <?php endif; ?>
+
+            <button class="t-button-primary  last pull-right save-classroom" type="button">
+                <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+            </button>
+        </div>
     </div>
 </div>
 
 <div class="tag-inner">
-    <?php if (Yii::app()->user->hasFlash('success') && (!$modelClassroom->isNewRecord)) : ?>
+    <?php if (Yii::app()->user->hasFlash('success') && (!$modelClassroom->isNewRecord)): ?>
         <div class="alert alert-success">
             <?php echo Yii::app()->user->getFlash('success') ?>
         </div>
@@ -41,12 +68,15 @@ $form = $this->beginWidget('CActiveForm', array(
 
     <div class="widget widget-tabs border-bottom-none">
         <?php echo $form->errorSummary($modelClassroom); ?>
-
+        <?php if (TagUtils::isInstance("UBATUBA") && $disabledFields): ?>
+            <div class="alert alert-warning">Alguns campos foram desabilitados porque a turma possui alunos matriculados
+                e o SEDSP não autoriza realizar edições em tais campos.
+            </div>
+        <?php endif; ?>
         <div class="alert alert-error classroom-error no-show"></div>
         <div class="t-tabs js-tab-control">
             <ul class="tab-classroom t-tabs__list">
                 <li id="tab-classroom" class="t-tabs__item active">
-                    <!-- <a class="t-tabs__link " href="#classroom" data-toggle="tab"> -->
                     <a class="t-tabs__link first" href="#classroom" data-toggle="tab">
                         <span class="t-tabs__numeration">1</span>
                         <?php echo Yii::t('default', 'Classroom') ?>
@@ -267,6 +297,30 @@ $form = $this->beginWidget('CActiveForm', array(
                             ?>
                             <?php echo $form->error($modelClassroom, 'modality'); ?>
                         </div>
+
+                        <?php if (!TagUtils::isInstance("UBATUBA")): ?>
+                            <!-- Unidade Escolar -->
+                            <div class="t-field-select" id="sedsp_school_unity_fk">
+                                <?php echo $form->labelEx($modelClassroom, 'Unidade Escolar *', array('class' => 't-field-select__label--required')); ?>
+                                <?php echo $form->DropDownList($modelClassroom, 'sedsp_school_unity_fk', CHtml::listData(SedspSchoolUnities::model()->findAllByAttributes(array('school_inep_id_fk' => yii::app()->user->school)), 'id', 'description'), array('prompt' => 'Selecione a unidade escolar', 'class' => 'select-search-off t-field-select__input', 'disabled' => $disabledFields, 'style' => 'width: 80%')); ?>
+                                <?php echo $form->error($modelClassroom, 'sedsp_school_unity_fk'); ?>
+                            </div>
+                            <div class="t-field-text">
+                                <?php echo $form->labelEx($modelClassroom, "Turma *", array('class' => 't-field-text__label--required')); ?>
+                                <?php echo $form->textField($modelClassroom, 'sedsp_acronym', array('size' => 2, 'maxlength' => 2, 'class' => 't-field-text__input', 'placeholder' => 'Ex: A, B, 1, A1, B1...', 'disabled' => $disabledFields)); ?>
+                                <?php echo $form->error($modelClassroom, 'sedsp_acronym'); ?>
+                            </div>
+                            <div class="t-field-text">
+                                <?php echo $form->labelEx($modelClassroom, "Sala de Aula *", array('class' => 't-field-text__label--required')); ?>
+                                <?php echo $form->numberField($modelClassroom, 'sedsp_classnumber', array('min' => 1, 'max' => 99, 'size' => 2, 'maxlength' => 2, 'class' => 't-field-text__input', 'disabled' => $disabledFields)); ?>
+                                <?php echo $form->error($modelClassroom, 'sedsp_classnumber'); ?>
+                            </div>
+                            <div class="t-field-text">
+                                <?php echo $form->labelEx($modelClassroom, "Capacidade Fisica Maxima *", array('class' => 't-field-text__label--required')); ?>
+                                <?php echo $form->numberField($modelClassroom, 'sedsp_max_physical_capacity', array('size' => 2, 'min' => 1, 'max' => 99, 'maxlength' => 2, 'class' => 't-field-text__input', 'disabled' => $disabledFields)); ?>
+                                <?php echo $form->error($modelClassroom, 'sedsp_max_physical_capacity'); ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="row">
@@ -378,7 +432,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="row">
                     <div class="column clearleft is-two-fifhs">
                         <!-- Dias da semana -->
-                        <div class="">
+                        <div>
                             <div>
                                 <label class="t-field-text__label--required"><?php echo Yii::t(
                                                                                     'default',
@@ -387,7 +441,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     *</label>
                             </div>
                             <div class="column clearleft is-two-fifths uniformjs" id="Classroom_week_days">
-                                <table class="">
+                                <table>
                                     <tr class="selecao_dias-checkbox">
                                         <td>S</td>
                                         <td>T</td>
@@ -463,7 +517,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     'size' => 5, 'maxlength' => 5
                                 )
                             ); ?>
-                            <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'School year'); ?>"><i></i></span>
+                            <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'School year'); ?>">
+                                <i></i>
+                            </span>
                             <?php echo $form->error(
                                 $modelClassroom,
                                 'school_year'
@@ -548,15 +604,15 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                        <div class="" id="complementary_activity">
-                            <div class="">
+                        <div id="complementary_activity">
+                            <div>
                                 <?php echo $form->labelEx(
                                     $modelClassroom,
                                     'complementary_activity_type_1',
                                     array('class' => 't-field-text__label--required')
                                 ); ?>
                             </div>
-                            <div class="">
+                            <div>
                                 <?php echo $form->dropDownList(
                                     $modelClassroom,
                                     'complementary_activity_type_1',
@@ -1202,8 +1258,37 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
     </div>
 
-    
-
+    <div class="modal fade modal-content" id="importClassroomToSEDSP" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt=""
+                         style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title"
+                    id="myModalLabel">Importar turma do SEDSP</h4>
+            </div>
+            <form method="post" action="<?php echo $this->createUrl('sedsp/default/importClassroomFromSedsp', array('id' => $modelClassroom->id, 'gov_id' => $modelClassroom->gov_id)); ?>">
+                <div class="centered-loading-gif">
+                    <i class="fa fa-spin fa-spinner"></i>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-error no-show"></div>
+                    <div class="row-fluid">
+                        Você tem certeza?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">Cancelar
+                        </button>
+                        <button type="button"
+                                class="btn btn-primary import-classroom-button">Confirmar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <?php
@@ -1256,7 +1341,7 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
     var btnCreate = "<?php echo Yii::t('default', 'Create'); ?>";
     var btnCancel = "<?php echo Yii::t('default', 'Cancel'); ?>";
 
-    $("#print").on('click', function() {
+    $("#print").on('click', function () {
         window.print();
     });
 </script>

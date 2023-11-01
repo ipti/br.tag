@@ -3,6 +3,7 @@
 ////////////////////////////////////////////////
 var count = $('.regent-teacher').length;
 var RegentTeacherCount = count;
+
 var removeTeachingData = function () {
     var instructor = $(this).parent().parent().parent().attr("instructor");
     var discipline = ($(this).parent().attr("discipline"));
@@ -371,7 +372,9 @@ $(document).on("change", "#Classroom_edcenso_stage_vs_modality_fk", function () 
             $("#DisciplinesWithInstructors, #DisciplinesWithoutInstructors").html("");
         }
     }).complete(function () {
-        $("#Classroom_edcenso_stage_vs_modality_fk").removeAttr("disabled");
+        if (!$("#Classroom_edcenso_stage_vs_modality_fk").hasClass("disabled-field")) {
+            $("#Classroom_edcenso_stage_vs_modality_fk").removeAttr("disabled");
+        }
         $("#tab-instructor").css("pointer-events", "auto");
         $(".loading-disciplines").hide();
     });
@@ -411,7 +414,6 @@ $("#js-t-sortable").on("sortupdate", function(event, ui) {
             li.appendChild(span2);
 
             list.push(li);
-
         });
 
        $("#js-t-sortable").html(list);

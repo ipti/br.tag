@@ -28,3 +28,10 @@ $(document).on("click", "#newTeacherDiscipline", function () {
     $("#addTeacherSchoolComponent").modal("show");
 });
 
+$(".update-classroom-to-sedsp").click(function() {
+    $("#importClassroomToSEDSP").modal("show");
+});
+
+$(".import-classroom-button").click(function() {
+    $("#importClassroomToSEDSP").find("form").submit();
+});
