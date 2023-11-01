@@ -43,6 +43,7 @@ class ClassroomController extends Controller
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'view', 'create', 'update', 'getassistancetype',
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
+                    'batchupdatenrollment',
                     'getcomplementaryactivitytype', 'delete',
                     'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'changeenrollments', 'batchupdatetransport', 'updateDisciplines', 'syncToSedsp'
                 ),
@@ -60,17 +61,17 @@ class ClassroomController extends Controller
 
     private function defineAssistanceType($classroom)
     {
-        $is_aee = $classroom['aee'];
-        $is_complementary_activity = $classroom['complementary_activity'];
-        $is_schooling = $classroom['schooling'];
+        $isAee = $classroom['aee'];
+        $isComplementaryAct = $classroom['complementary_activity'];
+        $isSchooling = $classroom['schooling'];
 
-        if (isset($is_aee) && $is_aee) {
+        if (isset($isAee) && $isAee) {
             return 5;
         }
-        if (isset($is_complementary_activity) && $is_complementary_activity) {
+        if (isset($isComplementaryAct) && $isComplementaryAct) {
             return 4;
         }
-        if (isset($is_schooling) && $is_schooling) {
+        if (isset($isSchooling) && $isSchooling) {
             return 0;
         }
     }
@@ -328,32 +329,46 @@ class ClassroomController extends Controller
     {
         $disciplines = array();
 
-        if (isset($instructor->discipline_1_fk))
+        if (isset($instructor->discipline_1_fk)){
             array_push($disciplines, $instructor->discipline1Fk);
-        if (isset($instructor->discipline_2_fk))
+        }
+        if (isset($instructor->discipline_2_fk)){
             array_push($disciplines, $instructor->discipline2Fk);
-        if (isset($instructor->discipline_3_fk))
+        }
+        if (isset($instructor->discipline_3_fk)){
             array_push($disciplines, $instructor->discipline3Fk);
-        if (isset($instructor->discipline_4_fk))
+        }
+        if (isset($instructor->discipline_4_fk)){
             array_push($disciplines, $instructor->discipline4Fk);
-        if (isset($instructor->discipline_5_fk))
+        }
+        if (isset($instructor->discipline_5_fk)){
             array_push($disciplines, $instructor->discipline5Fk);
-        if (isset($instructor->discipline_6_fk))
+        }
+        if (isset($instructor->discipline_6_fk)){
             array_push($disciplines, $instructor->discipline6Fk);
-        if (isset($instructor->discipline_7_fk))
+        }
+        if (isset($instructor->discipline_7_fk)){
             array_push($disciplines, $instructor->discipline7Fk);
-        if (isset($instructor->discipline_8_fk))
+        }
+        if (isset($instructor->discipline_8_fk)){
             array_push($disciplines, $instructor->discipline8Fk);
-        if (isset($instructor->discipline_9_fk))
+        }
+        if (isset($instructor->discipline_9_fk)){
             array_push($disciplines, $instructor->discipline9Fk);
-        if (isset($instructor->discipline_10_fk))
+        }
+        if (isset($instructor->discipline_10_fk)){
             array_push($disciplines, $instructor->discipline10Fk);
-        if (isset($instructor->discipline_11_fk))
+        }
+        if (isset($instructor->discipline_11_fk)){
             array_push($disciplines, $instructor->discipline11Fk);
-        if (isset($instructor->discipline_12_fk))
+        }
+        if (isset($instructor->discipline_12_fk)){
             array_push($disciplines, $instructor->discipline12Fk);
-        if (isset($instructor->discipline_13_fk))
+        }
+        if (isset($instructor->discipline_13_fk)){
             array_push($disciplines, $instructor->discipline13Fk);
+        }
+
         return $disciplines;
     }
 
@@ -386,12 +401,9 @@ class ClassroomController extends Controller
         ));
     }
 
-    public function actionBatchupdatetotal($id)
+    public function actionBatchUpdateTotal($id)
     {
 
-        //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
-        //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
-        //@done s1 - Atualizar o teachingdata ao atualizar o classroom
         $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
 
         if (!empty($_POST)) {
@@ -405,16 +417,17 @@ class ClassroomController extends Controller
 
         $sql1 = "SELECT id,name FROM edcenso_stage_vs_modality where id in(1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21,41,39,40,69,70)";
         $stages = Yii::app()->db->createCommand($sql1)->queryAll();
-        foreach ($stages as $index => $stage) {
-            $options_stage[$stage['id']] = $stage['name'];
+        $optionsStage = [];
+        foreach ($stages as $stage) {
+            $optionsStage[$stage['id']] = $stage['name'];
         }
         $this->render('batchupdatetotal', array(
             'modelClassroom' => $modelClassroom,
-            'options_stage' => $options_stage
+            'options_stage' => $optionsStage
         ));
     }
 
-    public function actionBatchupdatetransport($id)
+    public function actionBatchUpdateTransport($id)
     {
 
         //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
@@ -443,6 +456,39 @@ class ClassroomController extends Controller
 
         $this->render('batchupdatetransport', array(
             'modelClassroom' => $modelClassroom,
+        ));
+    }
+    public function actionBatchupdatEnrollment($id)
+    {
+        $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+        if (!empty($_POST)) {
+            $enrollments = $_POST;
+            foreach ($enrollments as $eid => $field) {
+                if (!empty($field['reenrollment'])) {
+                    $enro = StudentEnrollment::model()->findByPk($eid);
+                    $enro->reenrollment = '1';
+                    $enro->update(array('reenrollment'));
+                } else {
+                    $enro = StudentEnrollment::model()->findByPk($eid);
+                    $enro->reenrollment = '0';
+                    $enro->update(array('reenrollment'));
+                }
+            }
+        }
+
+
+        $classroom = $id;
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'e';
+        $criteria->select = '*';
+        $criteria->join = 'JOIN student_identification s ON s.id = e.student_fk';
+        $criteria->condition = "classroom_fk = $classroom";
+        $criteria->order = 's.name';
+        $enrollments = StudentEnrollment::model()->findAll($criteria);
+
+        $this->render('batchupdatenrollment', array(
+            'modelClassroom' => $modelClassroom,
+            'enrollments' => $enrollments,
         ));
     }
 
@@ -895,8 +941,9 @@ class ClassroomController extends Controller
     {
         $model = new Classroom('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Classroom']))
+        if (isset($_GET['Classroom'])){
             $model->attributes = $_GET['Classroom'];
+        }
 
         $this->render('admin', array(
             'model' => $model,
