@@ -5,7 +5,7 @@ class InConsultaTurmaClasse implements JsonSerializable
     public $inAnoLetivo;
 	public $inNumClasse;
 
-	public function __construct(string $inAnoLetivo, string $inNumClasse)
+	public function __construct(string $inAnoLetivo, string $inNumClasse = null)
 	{
 		$this->inAnoLetivo = $inAnoLetivo;
 		$this->inNumClasse = $inNumClasse;
