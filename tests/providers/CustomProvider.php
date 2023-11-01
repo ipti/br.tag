@@ -132,4 +132,54 @@ class CustomProvider extends Base
         return "$firstName $lastName";
     }
 
+    /**
+     * Método que gera um nome para turma.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function generateRandomClassName() {
+        $adjectives = ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'Orange', 'Silver', 'Golden'];
+        $nouns = ['Lions', 'Tigers', 'Bears', 'Eagles', 'Wolves', 'Dolphins', 'Sharks', 'Falcons'];
+
+        $randomAdjective = $adjectives[array_rand($adjectives)];
+        $randomNoun = $nouns[array_rand($nouns)];
+
+        return $randomAdjective . ' ' . $randomNoun . ' Class';
+    }
+
+    /**
+     * Método que gera o horário.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function generateRandomTime() {
+        $hour = str_pad(mt_rand(0, 23), 2, '0', STR_PAD_LEFT);
+        $minute = str_pad(mt_rand(0, 59), 2, '0', STR_PAD_LEFT);
+
+        return "$hour:$minute";
+    }
+
+    public function generateRandomEndTime($startTime) {
+        do {
+            $endTime = $this->generateRandomTime();
+        } while ($this->compareTimes($startTime, $endTime) >= 0);
+
+        return $endTime;
+    }
+
+    private function compareTimes($time1, $time2) {
+        $time1Parts = explode(':', $time1);
+        $time2Parts = explode(':', $time2);
+
+        $hour1 = intval($time1Parts[0]);
+        $minute1 = intval($time1Parts[1]);
+
+        $hour2 = intval($time2Parts[0]);
+        $minute2 = intval($time2Parts[1]);
+
+        if ($hour1 == $hour2) {
+            return $minute1 - $minute2;
+        }
+
+        return $hour1 - $hour2;
+    }
+
 }
