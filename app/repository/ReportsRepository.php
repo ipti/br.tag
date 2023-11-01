@@ -17,18 +17,24 @@ class ReportsRepository
 
     public function getIndexData(): array
     {
-        $classrooms = Classroom::model()->findAll(
-            array(
-                'condition' => 'school_inep_fk=' . $this->currentSchool . ' && school_year = ' . $this->currentYear,
-                'order' => 'name'
-            )
-        );
+        $classrooms = Classroom::model()->findAll(array(
+            'condition' => 'school_inep_fk = :school_id and school_year = :year',
+            'order' => 'name',
+            'params' =>  array(
+                ':school_id'=> $this->currentSchool,
+                ':year'=>  $this->currentYear,
+            ),
+        ));
 
         $students = StudentIdentification::model()->findAll(
             array(
-                'condition' => 'school_inep_id_fk = ' . $this->currentSchool . ' && send_year = ' . $this->currentYear,
-                'order' => 'name'
-            )
+                'condition' => 'school_inep_id_fk = :school_id and send_year = :year',
+                'order' => 'name',
+                'params' =>  array(
+                    ':school_id'=> $this->currentSchool,
+                    ':year'=>  $this->currentYear,
+                ),
+            ),
         );
 
         $schools = SchoolIdentification::model()->findAll();
