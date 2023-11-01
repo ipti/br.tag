@@ -156,7 +156,6 @@ class Classroom extends AltActiveRecord
             'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
             'sedspSchoolUnityFk' => array(self::BELONGS_TO, 'SedspSchoolUnities', 'sedsp_school_unity_fk'),
             'instructorTeachingDatas' => array(self::HAS_MANY, 'InstructorTeachingData', 'classroom_id_fk'),
-            'enrollmentsCount' => array(self::STAT, 'StudentEnrollment', 'classroom_fk'),
             'edcensoProfessionalEducationCourseFk' => array(
                 self::BELONGS_TO,
                 'EdcensoProfessionalEducationCourse',
