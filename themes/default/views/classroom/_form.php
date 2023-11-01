@@ -32,29 +32,27 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="tag-buttons-container buttons">
 
             <?php
-            if ($modelClassroom->gov_id !== null) {
+            if ($modelClassroom->gov_id !== null && TagUtils::isInstance("UBATUBA")):
                 $sedspSync = Classroom::model()->findByPk($modelClassroom->id)->sedsp_sync;
-                if ($sedspSync) { ?>
+                if ($sedspSync): ?>
                     <div style="text-align: center;margin-right: 10px;">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
-                             style="width: 40px; margin-right: 10px;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png" style="width: 40px; margin-right: 10px;" alt="synced">
                         <div>Sincronizado com a SEDSP</div>
                     </div>
 
-                <?php } else { ?>
+                <?php  else:  ?>
                     <div style="text-align: center;margin-right: 10px;">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
-                             style="width: 40px;margin-right: 10px;">
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png" style="width: 40px;margin-right: 10px;" alt="not synced">
                         <div>Não sincronizado com a SEDSP</div>
                     </div>
-                <?php }
-                if (!$sedspSync) { ?>
+                <?php endif;
+                if (!$sedspSync): ?>
                     <a class="update-classroom-to-sedsp"
                        style="margin-right: 10px;background: #16205b;color: white;padding: 5px;border-radius: 5px;">
                         Importar Turma do SEDSP
                     </a>
-                <?php } ?>
-            <?php } ?>
+                <?php endif; ?>
+            <?php endif; ?>
 
             <button class="t-button-primary  last pull-right save-classroom" type="button">
                 <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
