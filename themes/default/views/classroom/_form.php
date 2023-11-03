@@ -612,7 +612,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     array('class' => 't-field-text__label--required')
                                 ); ?>
                             </div>
-                            <div>
+                            <div class="t-field-select">
                                 <?php echo $form->dropDownList(
                                     $modelClassroom,
                                     'complementary_activity_type_1',
@@ -623,7 +623,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     ),
                                     array(
                                         'multiple' => true,
-                                        'class' => 'select-search-on control-input',
+                                        'class' => 'select-search-on t-multiselect',
                                         'key' => 'id'
                                     )
                                 ); ?>
