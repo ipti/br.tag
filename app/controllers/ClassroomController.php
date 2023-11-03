@@ -657,9 +657,6 @@ class ClassroomController extends Controller
             $beforeChangeClassroom->attributes = $modelClassroom->attributes;
             $modelClassroom->attributes = $_POST['Classroom'];
 
-            // CVarDumper::dump($modelClassroom, 10, true);
-            // CVarDumper::dump($_POST['Classroom'], 10, true);
-
 
             $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
 

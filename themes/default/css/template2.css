@@ -95,7 +95,6 @@
     listagens
 */
 .tag-table td {
-    /* background: #eaeaf8; */
     background: #EAEDFC;
 }
 
@@ -104,20 +103,12 @@ table.dataTable {
     border-spacing: 0 5px !important;
 }
 
-/* .tag-table tr td:first-child {
-    border-radius: 4px 0 0 4px;
-}
-
-.tag-table tr td:last-child {
-    border-radius: 0 4px 4px 0;
-} */
 
 .tag-table.table-striped tbody>tr:nth-child(odd)>td {
     background-color: #eaeaf8;
 }
 
 .grid-view .filters input {
-    /* width: 413px; */
     border: 1px solid #ccc;
     margin: 0px 0px 2px 12px;
 }
@@ -280,7 +271,6 @@ table.dataTable {
 
 .home-page-table-item.blue {
     background-color: #eaeaf8;
-    /* background-color: #EAEDFC; */
 }
 
 .home-page-table-button.load-more {
@@ -397,10 +387,6 @@ table.dataTable.no-footer {
     margin: 0px 0px 0px 10px;
 }
 
-/* .selecao_dias {
-    margin: 0px 0px 0px -25px
-} */
-
 .selecao_dias-checkbox {
     text-align: center
 }
@@ -503,7 +489,6 @@ table.dataTable.no-footer {
 }
 
 .grades-structure-container .unity label {
-    /* width: 105px; */
     margin: 0px 10px 0px 0px;
     width: 96px;
 }
