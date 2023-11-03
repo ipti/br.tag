@@ -298,7 +298,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php echo $form->error($modelClassroom, 'modality'); ?>
                         </div>
 
-                        <?php if (!TagUtils::isInstance("UBATUBA")): ?>
+                        <?php if (TagUtils::isInstance("UBATUBA")): ?>
                             <!-- Unidade Escolar -->
                             <div class="t-field-select" id="sedsp_school_unity_fk">
                                 <?php echo $form->labelEx($modelClassroom, 'Unidade Escolar *', array('class' => 't-field-select__label--required')); ?>
