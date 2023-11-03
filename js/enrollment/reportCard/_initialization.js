@@ -45,32 +45,31 @@ $('#discipline').change(function (e, triggerEvent) {
                 data = JSON.parse(data);
 
                 if (data.valid) {
-                    console.log(data.students[0].grades);
                     let html = `
                     <h3>Aulas Dadas</h3>
                     <div class="mobile-row">
                     `;
-                    $.each(data.students[0].grades, function (index) {
+                    for (var i = 0; i < 3; i++) {
+                        let order = i + 1;
+                        let givenClasses = null;
 
-                    let order = index + 1;
-                    let givenClasses;
-
-                    if(this.givenClasses == null) {
-                        givenClasses = ""
-                    } else {
-                        givenClasses = this.givenClasses
-                    }
-                    html += `
+                        $.each(data.students, function (index) {
+                            if(this.grades[i]?.givenClasses != null){
+                                givenClasses = data.students[index].grades[i].givenClasses;
+                                return false;
+                            }
+                        });
+                        if(givenClasses == null) {
+                            givenClasses = ""
+                        }
+                        html += `
                         <div class="column is-one-tenth clearleft">
                             <div class="t-field-text">
                                 <label class='t-field-text__label'>${order}° Bimestre</label>
-                                <input type='text' class='givenClasses${index} t-field-text__input' value='${ givenClasses }'>
+                                <input type='text' class='givenClasses${i} t-field-text__input' value='${ givenClasses }'>
                             </div>
                         </div>`;
-                    if(index == 2) {
-                        return false;
-                    }
-                    });
+                    };
                     html +=
                     `</div>`;
 
@@ -96,7 +95,6 @@ $('#discipline').change(function (e, triggerEvent) {
                             </tr>
                         </thead>
                     <tbody>`;
-
                     $.each(data.students, function (index ) {
                         let order = this.daily_order || index + 1;
                         html += `<tr>
