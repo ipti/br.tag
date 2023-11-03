@@ -35,12 +35,16 @@ class ClassroomBuilder
     {
         $this->classroom['name'] = $this->fakerCustom->generateRandomClassName();
         $this->classroom['edcenso_stage_vs_modality_fk'] = '1';
-        $this->classroom['pedagogical_mediation_type'] = $this->faker->randomElement(array (1,3));
+        $this->classroom['pedagogical_mediation_type_IN_PERSON'] = '1';
+        $this->classroom['pedagogical_mediation_type_EAD'] = '3';
         $this->classroom['modality'] = $this->faker->randomElement(array (1,2,3,4));
+        $this->classroom['diff_location'] = $this->faker->randomElement(array (0,1,2,3));
         $this->classroom['edcenso_professional_education_course_fk'] = '8120'; // Ações de Comandos
         $this->classroom['initial_time'] = $this->fakerCustom->generateRandomTime();
         $this->classroom['final_time'] = $this->fakerCustom->generateRandomEndTime($this->classroom['initial_time']);
         $this->classroom['turn'] = $this->faker->randomElement(array ('M','T','N','I'));
+        $this->classroom['complementary_activity_type_1'] = '10102'; // Robótica Educacional
+        $this->classroom['aee_braille'] = '#Ensino\ do\ Sistema\ Braille';
 
         return $this->classroom;
     }

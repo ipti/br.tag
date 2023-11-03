@@ -21,27 +21,6 @@ class ClassroomCest
     }
 
     // tests
-    public function addClassroom (AcceptanceTester $teste)
-    {
-        sleep(5);
-        $robots = new ClassroomRobots($teste);
-        $robots->pageAddClassroom();
-
-        $builder = new ClassroomBuilder();
-        $dataStudent = $builder->buildCompleted();
-
-        $robots->name($dataStudent['name']);
-        $robots->stageVsModalaty($dataStudent['edcenso_stage_vs_modality_fk']);
-        $robots->typeMediation($dataStudent['pedagogical_mediation_type']);
-        $robots->modality($dataStudent['modality']);
-        $robots->educationCourse($dataStudent['edcenso_professional_education_course_fk']);
-        $robots->initialTime($dataStudent['initial_time']);
-        $robots->finalTime($dataStudent['final_time']);
-        $robots->turn($dataStudent['turn']);
-        sleep(8);
-
-
-    }
 
     /**
      * Adicionar turmas, não preenchendo nenhum campo.
@@ -63,4 +42,96 @@ class ClassroomCest
         Campo Tipo de Mediação Didático-Pedagógica é obrigatório.
         Campo Tipos de Atendimento é obrigatório. Selecione ao menos uma opção.');
     }
+
+    /**
+     * Adicionar turma, preenchendo apenas os campos obrigatórios.
+     * Tipo de Mediação Didático-Pedagógica - Educação a Distância - EAD.
+     */
+    public function addClassroomEAD (AcceptanceTester $teste)
+    {
+        sleep(5);
+        $robots = new ClassroomRobots($teste);
+        $robots->pageAddClassroom();
+
+        $builder = new ClassroomBuilder();
+        $dataClassroom = $builder->buildCompleted();
+
+        $robots->name($dataClassroom['name']);
+        $robots->stageVsModalaty($dataClassroom['edcenso_stage_vs_modality_fk']);
+        $robots->typeMediation($dataClassroom['pedagogical_mediation_type_EAD']);
+        $robots->modality($dataClassroom['modality']);
+        $robots->initialTime($dataClassroom['initial_time']);
+        $robots->finalTime($dataClassroom['final_time']);
+        $robots->days();
+        $robots->typeService();
+        $robots->btnCriar();
+        sleep(2);
+
+        $teste->see('Turma adicionada com sucesso!');
+        $teste->canSeeInCurrentUrl('?r=classroom/index');
+    }
+
+    /**
+     * Adicionar turma, preenchendo apenas os campos obrigatórios.
+     * Tipo de Mediação Didático-Pedagógica - Presencial.
+     */
+    public function addClassroomInPerson (AcceptanceTester $teste)
+    {
+        sleep(5);
+        $robots = new ClassroomRobots($teste);
+        $robots->pageAddClassroom();
+
+        $builder = new ClassroomBuilder();
+        $dataClassroom = $builder->buildCompleted();
+
+        $robots->name($dataClassroom['name']);
+        $robots->stageVsModalaty($dataClassroom['edcenso_stage_vs_modality_fk']);
+        $robots->typeMediation($dataClassroom['pedagogical_mediation_type_IN_PERSON']);
+        $robots->modality($dataClassroom['modality']);
+        $robots->location($dataClassroom['diff_location']);
+        $robots->initialTime($dataClassroom['initial_time']);
+        $robots->finalTime($dataClassroom['final_time']);
+        $robots->days();
+        $robots->typeService();
+        $robots->btnCriar();
+        sleep(2);
+
+        $teste->see('Turma adicionada com sucesso!');
+        $teste->canSeeInCurrentUrl('?r=classroom/index');
+    }
+
+    /**
+     * Adicionar turma, preenchendo todos os campos.
+     * Tipo de Mediação Didático-Pedagógica - Educação a Distância - EAD.
+     */
+    public function allFieldsAddClassroomEAD (AcceptanceTester $teste)
+    {
+        sleep(5);
+        $robots = new ClassroomRobots($teste);
+        $robots->pageAddClassroom();
+
+        $builder = new ClassroomBuilder();
+        $dataClassroom = $builder->buildCompleted();
+
+        $robots->name($dataClassroom['name']);
+        $robots->stageVsModalaty($dataClassroom['edcenso_stage_vs_modality_fk']);
+        $robots->typeMediation($dataClassroom['pedagogical_mediation_type_EAD']);
+        $robots->modality($dataClassroom['modality']);
+        $robots->educationCourse($dataClassroom['edcenso_professional_education_course_fk']);
+        $robots->initialTime($dataClassroom['initial_time']);
+        $robots->finalTime($dataClassroom['final_time']);
+        $robots->turn($dataClassroom['turn']);
+        $robots->days();
+        $robots->typeServiceActivitiesComplementary();
+        sleep(2);
+        $robots->activitiesComplementary($dataClassroom['complementary_activity_type_1']);
+        $robots->activitiesEducation($dataClassroom['aee_braille']);
+        $robots->btnCriar();
+        sleep(2);
+
+        $teste->see('Turma adicionada com sucesso!');
+        $teste->canSeeInCurrentUrl('?r=classroom/index');
+    }
+
+
 }
