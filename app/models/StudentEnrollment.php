@@ -54,6 +54,7 @@
  * @property integer $daily_order
  * @property integer $status
  * @property string $transfer_date
+ * @property integer $stage
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
@@ -302,12 +303,12 @@ class StudentEnrollment extends AltActiveRecord
     public function alreadyExists()
     {
         $sql = "SELECT count(student_fk) as qtd FROM student_enrollment WHERE student_fk = :student_fk  AND classroom_fk = :classroom_fk";
-        
+
         $count = Yii::app()->db->createCommand($sql)
             ->bindParam(":student_fk", $this->student_fk)
             ->bindParam(":classroom_fk", $this->classroom_fk)
             ->queryRow();
-        return $count["qtd"] > 0; 
+        return $count["qtd"] > 0;
     }
     public function getDailyOrder()
     {
@@ -316,7 +317,7 @@ class StudentEnrollment extends AltActiveRecord
             ->bindParam(":classroom_fk", $this->classroom_fk)
             ->queryRow();
 
-        return $count["qtd"] + 1; 
+        return $count["qtd"] + 1;
     }
 
     /**
@@ -366,7 +367,7 @@ class StudentEnrollment extends AltActiveRecord
         foreach ($this->classFaults as $fault) {
             $date = new DateTime($fault->scheduleFk->day . "-" . $fault->scheduleFk->month . "-" . yii::app()->user->year);
             if ($date > $initial && $date <= $final) {
-                array_push($faults, $fault);    
+                array_push($faults, $fault);
             }
         }
         return $faults;
