@@ -48,7 +48,7 @@ $cs->registerScriptFile($baseScriptUrl . '/components.js', CClientScript::POS_EN
 		<div class="row">
 			<div class="t-field-text column">
 				<?php echo $form->labelEx($model,'start_date',  array('class' => 't-field-text__label')); ?>
-				<?php echo $form->textField($model,'start_date', array('class'=>'t-field-text__input js-date')); ?>
+				<?php echo $form->textField($model,'start_date', array('class'=>'t-field-text__input js-date date', 'readonly' => 'readonly')); ?>
 				<?php echo $form->error($model,'start_date'); ?>
 			</div>
 			<div class="t-field-text column">
@@ -59,14 +59,17 @@ $cs->registerScriptFile($baseScriptUrl . '/components.js', CClientScript::POS_EN
 		</div>
 		<div class="row">
 			<div class="column t-buttons-container">
-				<a class="t-button-primary js-add-meal">
+				<button class="t-button-primary js-add-meal" disabled>
 					<span class="t-icon-start"></span>
 					Adicionar Refeição
-				</a>
+				</button>
 			</div>
 		</div>
 		<div class="t-tabs-secondary js-days-of-week-component">
 				
+		</div>
+		<div class="js-meals-component t-accordeon-secondary">
+
 		</div>
 		<!-- <div class="t-expansive-panel row">
 			<div class="column">
@@ -123,3 +126,9 @@ $cs->registerScriptFile($baseScriptUrl . '/components.js', CClientScript::POS_EN
 <?php $this->endWidget(); ?>
 	
 </div><!-- form -->
+<style>
+	.date[readonly] {
+		cursor: pointer;
+  		background-color: white;
+	}
+</style>

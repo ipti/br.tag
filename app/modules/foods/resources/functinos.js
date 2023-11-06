@@ -141,7 +141,7 @@ function createMealComponent({
     
     return line;
 }
-let meals = [];
+let mealsArray = [];
 
 function getPlates() {
    let plates = $(".js-plate-accordion");
@@ -182,7 +182,7 @@ $(document).on("click", ".js-save-meal", function () {
         meal.daysOfWeek[day] = $('#' + day).prop('checked');
     });
     meal.plates = console.log(getPlates())
-    meals.push(meal)
+    mealsArray.push(meal)
 })
 
 $(document).on("click", ".js-remove-plate", function () {
