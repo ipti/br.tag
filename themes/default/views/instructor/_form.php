@@ -32,11 +32,11 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
     <div class="span12" style="height: 63px; margin-left: 3px">
         <h1><?php echo $title; ?></h1>
         <span class="subtitle"><?php echo Yii::t('default', 'Fields with * are required.') ?></span>
-        <div class="tag-buttons-container buttons hide-responsive">
+        <div class="tag-buttons-container buttons hide-responsive" id="btnSection">
             <a data-toggle="tab" class='t-button-secondary  prev' style="display:none;">
                 <?php echo Yii::t('default', 'Previous') ?><i></i>
             </a>
-            <?= $modelInstructorIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
+            <?= $modelInstructorIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next' id='btnNext'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
             <button class="t-button-primary  last pull-right save-instructor" type="button">
                 <?= $modelInstructorIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
             </button>
@@ -130,7 +130,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 </div>
                             </div>
 
-                            <div class="control-group">
+                            <div class="control-group" id="cpfInstructor">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cpf', array('class' => 'control-label required')); ?>
                                 </div>
@@ -179,7 +179,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 </div>
                             </div>
 
-                            <div class="control-group">
+                            <div class="control-group" id="gender-select">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorIdentification, 'sex', array('class' => 'control-label ')); ?>
                                 </div>
@@ -189,7 +189,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 </div>
                             </div>
 
-                            <div class="control-group">
+                            <div class="control-group" id="colorRace">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorIdentification, 'color_race', array('class' => 'control-label')); ?>
                                 </div>
@@ -199,7 +199,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 </div>
                             </div>
 
-                            <div class="control-group">
+                            <div class="control-group" id="filiation-select">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorIdentification, 'filiation', array('class' => 'control-label')); ?>
                                 </div>
@@ -209,7 +209,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 </div>
                             </div>
 
-                            <div class="control-group">
+                            <div class="control-group" id="filiation-select_1">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorIdentification, 'filiation_1', array('class' => 'control-label')); ?>
                                 </div>
@@ -238,7 +238,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 
                         <div class=" span6">
                             <div class="separator"></div>
-                            <div class="control-group">
+                            <div class="control-group" id="nationality_select">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorIdentification, 'nationality', array('class' => 'control-label')); ?>
                                 </div>
@@ -257,7 +257,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <?php echo $form->error($modelInstructorIdentification, 'edcenso_nation_fk'); ?>
                                 </div>
                             </div>
-                            <div class="control-group">
+                            <div class="control-group" id="state-select">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_uf_fk', array('class' => 'control-label')); ?>
                                 </div>
@@ -274,7 +274,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 </div>
                             </div>
 
-                            <div class="control-group">
+                            <div class="control-group" id="city-select">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_city_fk', array('class' => 'control-label')); ?>
                                 </div>
@@ -466,7 +466,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <?php echo $form->error($modelInstructorDocumentsAndAddress, 'edcenso_city_fk'); ?>
                                 </div>
                             </div>
-                            <div class="control-group hide-responsive">
+                            <div class="control-group hide-responsive" id="location-select">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'diff_location', array('class' => 'control-label')); ?>
                                 </div>
@@ -477,7 +477,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     </div>
                                 </div>
                             </div>
-                            <div class="control-group">
+                            <div class="control-group" id="zone-select">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'area_of_residence', array('class' => 'control-label required')); ?>
                                 </div>
@@ -654,7 +654,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                                 <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_1', array('class' => 'control-label required indicator')); ?>
 
                                                             </div>
-                                                            <div class="controls">
+                                                            <div class="controls" id="highEducationSituation">
                                                                 <?php echo $form->DropDownlist($modelInstructorVariableData, 'high_education_situation_1', array(null => "Selecione a situação", 1 => 'Concluído', 2 => 'Em andamento'), array('class' => 'select-search-off control-input')); ?>
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_situation_1'); ?>
                                                             </div>
@@ -698,7 +698,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <div class="controls">
                                                                 <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_1_fk', array('class' => 'control-label')); ?>
                                                             </div>
-                                                            <div class="controls">
+                                                            <div class="controls"  id="highEducationCode">
                                                                 <?php echo $form->DropDownlist(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_course_code_1_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('order' => 'name')), 'id', 'name'),
@@ -728,7 +728,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <div class="controls">
                                                                 <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_1', array('class' => 'control-label')); ?>
                                                             </div>
-                                                            <div class="controls">
+                                                            <div class="controls" id="highEducationYear">
                                                                 <?php echo $form->textField($modelInstructorVariableData, 'high_education_final_year_1', array('size' => 4, 'maxlength' => 4)); ?>
                                                                 <!-- <span class="btn-action single glyphicons circle_question_mark"
                                                                       data-toggle="tooltip" data-placement="top"
