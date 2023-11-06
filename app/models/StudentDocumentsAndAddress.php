@@ -107,7 +107,8 @@ class StudentDocumentsAndAddress extends AltActiveRecord
             array('civil_certification_sheet', 'length', 'max'=>4),
             array('civil_register_enrollment_number', 'length', 'max'=>32),
             array('cpf, nis', 'length', 'max'=>11),
-            array('address', 'length', 'max'=>100),
+            array('address', 'required', 'message' => 'O campo de endereço é obrigatório.'),
+            array('address', 'length', 'max' => 100, 'tooLong' => 'O endereço deve ter no máximo 100 caracteres.'),
             array('neighborhood', 'length', 'max'=>50),
             array('hash', 'length', 'max'=>40),
             // The following rule is used by search().

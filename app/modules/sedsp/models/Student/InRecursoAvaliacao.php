@@ -1,6 +1,6 @@
 <?php
 
-class InRecursoAvaliacao
+class InRecursoAvaliacao implements JsonSerializable
 {
 	public $inNenhum;
 	public $inAuxilioLeitor;
