@@ -104,73 +104,208 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx($modelSchoolIdentification, 'name', array('class' => 't-field-text__label--required')); ?>
-                                <?php echo $form->textField($modelSchoolIdentification, 'name', array('size' => 100, 'maxlength' => 100, 'placeholder' => 'Digite o Nome da Escola', 'class' => 't-field-text__input', 'disabled' => $disabledFields)); ?>
-                                <?php echo $form->error($modelSchoolIdentification, 'name'); ?>
+                                <?php echo $form->labelEx(
+                                    $modelSchoolIdentification,
+                                    'name',
+                                    array('class' => 't-field-text__label--required')
+                                ); ?>
+                                <?php echo $form->textField(
+                                    $modelSchoolIdentification,
+                                    'name',
+                                    array(
+                                        'size' => 100,
+                                        'maxlength' => 100,
+                                        'placeholder' =>
+                                        'Digite o Nome da Escola',
+                                        'class' => 't-field-text__input', 'disabled' => $disabledFields
+                                    )
+                                ); ?>
+                                <?php echo $form->error(
+                                    $modelSchoolIdentification,
+                                    'name'
+                                ); ?>
                             </div>
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx($modelSchoolIdentification, 'inep_id', array('class' => 't-field-text__label--required')); ?>
+                                <?php echo $form->labelEx(
+                                    $modelSchoolIdentification,
+                                    'inep_id',
+                                    array('class' => 't-field-text__label--required')
+                                ); ?>
                                 <?php
                                 echo
                                 $modelSchoolIdentification->isNewRecord ?
-                                    $form->textField($modelSchoolIdentification, 'inep_id', array('size' => 8, 'maxlength' => 8, 'placeholder' => 'Digite o Código INEP', 'class' => 't-field-text__input'))
-                                    :  $form->textField($modelSchoolIdentification, 'inep_id', array('size' => 8, 'maxlength' => 8, 'placeholder' => 'Digite o Código INEP', 'class' => 't-field-text__input', 'disabled' => 'disabled')) ?>
-                                <?php echo $form->error($modelSchoolIdentification, 'inep_id'); ?>
+                                    $form->textField(
+                                        $modelSchoolIdentification,
+                                        'inep_id',
+                                        array(
+                                            'size' => 8,
+                                            'maxlength' => 8,
+                                            'placeholder' => 'Digite o Código INEP',
+                                            'class' => 't-field-text__input'
+                                        )
+                                    )
+                                    :  $form->textField(
+                                        $modelSchoolIdentification,
+                                        'inep_id',
+                                        array(
+                                            'size' => 8, '
+                                            maxlength' => 8,
+                                            'placeholder' => 'Digite o Código INEP',
+                                            'class' => 't-field-text__input',
+                                            'disabled' => 'disabled'
+                                        )
+                                    ) ?>
+                                <?php echo $form->error(
+                                    $modelSchoolIdentification,
+                                    'inep_id'
+                                ); ?>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx($modelSchoolIdentification, 'administrative_dependence', array('class' => 't-field-select__label--required')); ?>
-                                <?php echo $form->dropDownList($modelSchoolIdentification, 'administrative_dependence', array(null => 'Selecione a dependencia administrativa', 1 => 'Federal', 2 => 'Estadual', 3 => 'Municipal', 4 => 'Privada'), array('class' => 'select-search-off t-field-select__input select2-container',  'disabled' => $disabledFields)); ?>
-                                <?php echo $form->error($modelSchoolIdentification, 'administrative_dependence'); ?>
+                                <?php echo $form->labelEx(
+                                    $modelSchoolIdentification,
+                                    'administrative_dependence',
+                                    array('class' => 't-field-select__label--required')
+                                ); ?>
+                                <?php echo $form->dropDownList(
+                                    $modelSchoolIdentification,
+                                    'administrative_dependence',
+                                    array(
+                                        null => 'Selecione a dependencia administrativa',
+                                        1 => 'Federal',
+                                        2 => 'Estadual',
+                                        3 => 'Municipal',
+                                        4 => 'Privada'
+                                    ),
+                                    array(
+                                        'class' => 'select-search-off t-field-select__input select2-container',
+                                        'disabled' => $disabledFields
+                                    )
+                                ); ?>
+                                <?php echo $form->error(
+                                    $modelSchoolIdentification,
+                                    'administrative_dependence'
+                                ); ?>
                             </div>
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx($modelSchoolIdentification, 'situation', array('class' => 't-field-select__label')); ?>
-                                <?php echo $form->DropDownList($modelSchoolIdentification, 'situation', array(null => 'Selecione a situação', 1 => 'Em Atividade', 2 => 'Paralisada', 3 => 'Extinta'), array('class' => 'select-search-off t-field-select__input select2-container')); ?>
-                                <?php echo $form->error($modelSchoolIdentification, 'situation'); ?>
+                                <?php echo $form->labelEx(
+                                    $modelSchoolIdentification,
+                                    'situation',
+                                    array('class' => 't-field-select__label')
+                                ); ?>
+                                <?php echo $form->DropDownList(
+                                    $modelSchoolIdentification,
+                                    'situation',
+                                    array(
+                                        null => 'Selecione a situação',
+                                        1 => 'Em Atividade',
+                                        2 => 'Paralisada', 3 => 'Extinta'
+                                    ),
+                                    array('class' => 'select-search-off t-field-select__input select2-container')
+                                ); ?>
+                                <?php echo $form->error(
+                                    $modelSchoolIdentification,
+                                    'situation'
+                                ); ?>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-tarea">
-                                <?php echo $form->labelEx($modelSchoolIdentification, 'act_of_acknowledgement', array('class' => 't-field-tarea__label')); ?>
-                                <?php echo $form->textArea($modelSchoolIdentification, 'act_of_acknowledgement', array('placeholder' => 'Digite o Ato de Reconhecimento', 'class' => 't-field-tarea__input')); ?>
-                                <?php echo $form->error($modelSchoolIdentification, 'act_of_acknowledgement'); ?>
+                                <?php echo $form->labelEx(
+                                    $modelSchoolIdentification,
+                                    'act_of_acknowledgement',
+                                    array('class' => 't-field-tarea__label')
+                                ); ?>
+                                <?php echo $form->textArea(
+                                    $modelSchoolIdentification,
+                                    'act_of_acknowledgement',
+                                    array(
+                                        'placeholder' => 'Digite o Ato de Reconhecimento',
+                                        'class' => 't-field-tarea__input'
+                                    )
+                                ); ?>
+                                <?php echo $form->error(
+                                    $modelSchoolIdentification,
+                                    'act_of_acknowledgement'
+                                ); ?>
                             </div>
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx($modelSchoolIdentification, 'initial_date', array('class' => 't-field-text__label')); ?>
-                                <?php echo $form->textField($modelSchoolIdentification, 'initial_date', array('size' => 10, 'maxlength' => 10, 'placeholder' => 'Digite a Data Inicial (Dia/Mês/Ano)', 'class' => 't-field-text__input')); ?>
-                                <?php echo $form->error($modelSchoolIdentification, 'initial_date'); ?>
+                                <?php echo $form->labelEx(
+                                    $modelSchoolIdentification,
+                                    'initial_date',
+                                    array('class' => 't-field-text__label')
+                                ); ?>
+                                <?php echo $form->textField(
+                                    $modelSchoolIdentification,
+                                    'initial_date',
+                                    array(
+                                        'size' => 10,
+                                        'maxlength' => 10,
+                                        'placeholder' => 'Digite a Data Inicial (Dia/Mês/Ano)',
+                                        'class' => 't-field-text__input'
+                                    )
+                                ); ?>
+                                <?php echo $form->error(
+                                    $modelSchoolIdentification,
+                                    'initial_date'
+                                ); ?>
                             </div>
                         </div>
                     </div>
                     <div class="row reverse">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx($modelSchoolIdentification, 'logo_file_content', array('class' => 't-field-text__label')); ?>
+                                <?php echo $form->labelEx(
+                                    $modelSchoolIdentification,
+                                    'logo_file_content',
+                                    array('class' => 't-field-text__label')
+                                ); ?>
                                 <button class="btn btn-icon glyphicons upload upload-logo-button" type="button">
                                     <i></i>Anexar
                                 </button>
                                 <span class="uploaded-logo-name"><?php echo $modelSchoolIdentification->logo_file_name !== null ?
                                                                         $modelSchoolIdentification->logo_file_name . '<a href="' . Yii::app()->controller->createUrl('school/removeLogo', array('id' => $modelSchoolIdentification->inep_id)) . '" class="deleteTeachingData" title="Excluir"></a>' : '' ?> </span>
-                                <?php echo $form->fileField($modelSchoolIdentification, 'logo_file_content'); ?>
-                                <?php echo $form->error($modelSchoolIdentification, 'logo_file_content'); ?>
+                                <?php echo $form->fileField(
+                                    $modelSchoolIdentification,
+                                    'logo_file_content'
+                                ); ?>
+                                <?php echo $form->error(
+                                    $modelSchoolIdentification,
+                                    'logo_file_content'
+                                ); ?>
                             </div>
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx($modelSchoolIdentification, 'regulation', array('class' => 't-field-select__label--required')); ?>
-                                <?php echo $form->dropDownList($modelSchoolIdentification, 'regulation', array(null => 'Selecione a situação de regulamentação', 0 => 'Não', 1 => 'Sim', 2 => 'Em tramitação'), array('class' => 'select-search-off t-field-select__input select2-container')); ?>
-                                <?php echo $form->error($modelSchoolIdentification, 'regulation'); ?>
+                                <?php echo $form->labelEx(
+                                    $modelSchoolIdentification,
+                                    'regulation',
+                                    array('class' => 't-field-select__label--required')
+                                ); ?>
+                                <?php echo $form->dropDownList(
+                                    $modelSchoolIdentification,
+                                    'regulation',
+                                    array(
+                                        null => 'Selecione a situação de regulamentação',
+                                        0 => 'Não', 1 => 'Sim', 2 => 'Em tramitação'
+                                    ),
+                                    array('class' => 'select-search-off t-field-select__input select2-container')
+                                ); ?>
+                                <?php echo $form->error(
+                                    $modelSchoolIdentification,
+                                    'regulation'
+                                ); ?>
                             </div>
                         </div>
                     </div>
@@ -180,25 +315,41 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="t-field-checkbox-group clear-margin--top" id="SchoolIdentification_linked_organ">
                             <div class="t-field-checkbox">
-                                <?= $form->checkBox($modelSchoolIdentification, 'linked_mec', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                <?= $form->checkBox(
+                                    $modelSchoolIdentification,
+                                    'linked_mec',
+                                    array('value' => 1, 'uncheckValue' => 0)
+                                ); ?>
                                 <label class="t-field-checkbox">
                                     <?= SchoolIdentification::model()->attributeLabels()['linked_mec']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
-                                <?= $form->checkBox($modelSchoolIdentification, 'linked_army', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                <?= $form->checkBox(
+                                    $modelSchoolIdentification,
+                                    'linked_army',
+                                    array('value' => 1, 'uncheckValue' => 0)
+                                ); ?>
                                 <label class="t-field-checkbox">
                                     <?= SchoolIdentification::model()->attributeLabels()['linked_army']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
-                                <?= $form->checkBox($modelSchoolIdentification, 'linked_helth', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                <?= $form->checkBox(
+                                    $modelSchoolIdentification,
+                                    'linked_helth',
+                                    array('value' => 1, 'uncheckValue' => 0)
+                                ); ?>
                                 <label class="t-field-checkbox">
                                     <?= SchoolIdentification::model()->attributeLabels()['linked_helth']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
-                                <?= $form->checkBox($modelSchoolIdentification, 'linked_other', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                <?= $form->checkBox(
+                                    $modelSchoolIdentification,
+                                    'linked_other',
+                                    array('value' => 1, 'uncheckValue' => 0)
+                                ); ?>
                                 <label class="t-field-checkbox">
                                     <?= SchoolIdentification::model()->attributeLabels()['linked_other']; ?>
                                 </label>
@@ -211,19 +362,31 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="t-field-checkbox-group clear-margin--top" id="SchoolIdentification_regulation_organ">
                             <div class="t-field-checkbox">
-                                <?= $form->checkBox($modelSchoolIdentification, 'regulation_organ_federal', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                <?= $form->checkBox(
+                                    $modelSchoolIdentification,
+                                    'regulation_organ_federal',
+                                    array('value' => 1, 'uncheckValue' => 0)
+                                ); ?>
                                 <label class="t-field-checkbox">
                                     <?= SchoolIdentification::model()->attributeLabels()['regulation_organ_federal']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
-                                <?= $form->checkBox($modelSchoolIdentification, 'regulation_organ_state', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                <?= $form->checkBox(
+                                    $modelSchoolIdentification,
+                                    'regulation_organ_state',
+                                    array('value' => 1, 'uncheckValue' => 0)
+                                ); ?>
                                 <label class="t-field-checkbox">
                                     <?= SchoolIdentification::model()->attributeLabels()['regulation_organ_state']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
-                                <?= $form->checkBox($modelSchoolIdentification, 'regulation_organ_municipal', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                <?= $form->checkBox(
+                                    $modelSchoolIdentification,
+                                    'regulation_organ_municipal',
+                                    array('value' => 1, 'uncheckValue' => 0)
+                                ); ?>
                                 <label class="t-field-checkbox">
                                     <?= SchoolIdentification::model()->attributeLabels()['regulation_organ_municipal']; ?>
                                 </label>
@@ -236,25 +399,59 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx($modelSchoolIdentification, 'private_school_organization_civil_society', array('class' => 't-field-select__label')); ?>
-                                <?php echo $form->DropDownList($modelSchoolIdentification, 'private_school_organization_civil_society', array(null => 'Selecione', 0 => 'Não', 1 => 'Sim'), array('class' => 'select-search-off t-field-select__input select2-container')); ?>
-                                <?php echo $form->error($modelSchoolIdentification, 'private_school_organization_civil_society'); ?>
+                                <?php echo $form->labelEx(
+                                    $modelSchoolIdentification,
+                                    'private_school_organization_civil_society',
+                                    array('class' => 't-field-select__label')
+                                ); ?>
+                                <?php echo $form->DropDownList(
+                                    $modelSchoolIdentification,
+                                    'private_school_organization_civil_society',
+                                    array(null => 'Selecione', 0 => 'Não', 1 => 'Sim'),
+                                    array('class' => 'select-search-off t-field-select__input select2-container')
+                                ); ?>
+                                <?php echo $form->error(
+                                    $modelSchoolIdentification,
+                                    'private_school_organization_civil_society'
+                                ); ?>
                             </div>
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx($modelSchoolIdentification, 'ies_code', array('class' => 't-field-text__label')); ?>
-                                <?php echo $form->textField($modelSchoolIdentification, 'ies_code', array('placeholder' => 'Digite o Código da IES', 'class' => 't-field-text__input')); ?>
-                                <?php echo $form->error($modelSchoolIdentification, 'ies_code'); ?>
+                                <?php echo $form->labelEx(
+                                    $modelSchoolIdentification,
+                                    'ies_code',
+                                    array('class' => 't-field-text__label')
+                                ); ?>
+                                <?php echo $form->textField(
+                                    $modelSchoolIdentification,
+                                    'ies_code',
+                                    array('placeholder' => 'Digite o Código da IES', 'class' => 't-field-text__input')
+                                ); ?>
+                                <?php echo $form->error(
+                                    $modelSchoolIdentification,
+                                    'ies_code'
+                                ); ?>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx($modelSchoolIdentification, 'inep_head_school', array('class' => 't-field-text__label')); ?>
-                                <?php echo $form->textField($modelSchoolIdentification, 'inep_head_school', array('placeholder' => 'Digite o Código da Escola Sede', 'class' => 't-field-text__input')); ?>
-                                <?php echo $form->error($modelSchoolIdentification, 'inep_head_school'); ?>
+                                <?php echo $form->labelEx(
+                                    $modelSchoolIdentification,
+                                    'inep_head_school',
+                                    array('class' => 't-field-text__label')
+                                ); ?>
+                                <?php echo $form->textField(
+                                    $modelSchoolIdentification,
+                                    'inep_head_school',
+                                    array('placeholder' => 'Digite o Código da Escola Sede', 'class' => 't-field-text__input')
+                                ); ?>
+                                <?php echo $form->error(
+                                    $modelSchoolIdentification,
+                                    'inep_head_school'
+                                ); ?>
                             </div>
                         </div>
                     </div>
@@ -3177,7 +3374,9 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-checkbox-group equipments-container">
-                                <label class="t-field-checkbox-group__label--required"><?php echo Yii::t('default', 'Existing equipment at the school for technical and administrative use'); ?>*</label>
+                                <label class="t-field-checkbox-group__label--required">
+                                    <?php echo Yii::t('default', 'Existing equipment at the school for technical and administrative use'); ?>*
+                                </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,
