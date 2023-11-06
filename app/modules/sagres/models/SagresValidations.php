@@ -158,7 +158,7 @@ class SagresValidations
                 ];
             }
 
-            if(strlen($attendance->getLocal()) > $strMaxLength){ 
+            if(strlen($attendance->getLocal()) > $strMaxLength){
                 $inconsistencies[] = [
                     "id" => '3',
                     "enrollment" => 'ATENDIMENTO',
