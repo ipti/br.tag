@@ -11,36 +11,33 @@ class MatrixRobots
     /**
      * Url da página de matriz curricular.
      */
-    public function pageMatrix ()
+    public function pageMatrix()
     {
         $this->tester->amOnPage('?r=curricularmatrix');
     }
 
-    public function btnAdd ()
+    public function btnAdd()
     {
         $this->tester->click('#add-matrix');
     }
 
-    public function stages ($stage)
+    public function stages($stage)
     {
         $this->tester->selectOption('#stages', $stage);
     }
 
-    public function disciplines ($disciplines)
+    public function disciplines($disciplines)
     {
         $this->tester->selectOption('#disciplines', $disciplines);
     }
 
-    public function workload ($workload)
+    public function workload($workload)
     {
         $this->tester->fillField('#workload', $workload);
     }
 
-    public function credits ($credits)
+    public function credits($credits)
     {
         $this->tester->fillField('#credits', $credits);
     }
-
-
-
 }
