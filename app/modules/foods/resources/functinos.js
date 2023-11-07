@@ -24,14 +24,6 @@ $(document).on("click", ".js-add-plate", function () {
     });
 });
 
-$(document).on("click", ".js-add-meal", function () {  
-    $(".t-expansive-panel").toggleClass("expanded");
-    $(".js-add-meal").text(
-        $(".t-expansive-panel").hasClass("expanded") ? "Fechar Formulário" : "Adicionar Refeição"
-    ); 
-
-});
-
 function  initializeSelect2() {
     $("select.js-inicializate-select2").select2("destroy");
     $('select.js-inicializate-select2').select2();

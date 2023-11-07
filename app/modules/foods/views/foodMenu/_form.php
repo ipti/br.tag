@@ -59,10 +59,10 @@ $cs->registerScriptFile($baseScriptUrl . '/components.js', CClientScript::POS_EN
 		</div>
 		<div class="row">
 			<div class="column t-buttons-container">
-				<button class="t-button-primary js-add-meal" disabled>
+				<a  class="t-button-primary js-add-meal hide">
 					<span class="t-icon-start"></span>
 					Adicionar Refeição
-				</button>
+					</a>
 			</div>
 		</div>
 		<div class="t-tabs-secondary js-days-of-week-component">

@@ -16,10 +16,11 @@ $(".js-date").datepicker({
   endDate: "31/12/" + $(".school-year").val()
 }).on('changeDate', function (ev, indirect) {
   data.actions.addDays($(this).val())
+  $(".js-add-meal").removeClass('hide')
 })
 
-$(document).on("click", '.js-change-paginatiobn', function () {
-  $('.js-change-paginatiobn.active').each(function () {
+$(document).on("click", '.js-change-pagination', function () {
+  $('.js-change-pagination.active').each(function () {
     $(this).removeClass('active');
   });
   $(this).addClass("active");
@@ -27,19 +28,26 @@ $(document).on("click", '.js-change-paginatiobn', function () {
 
 const DateComponent = function () {
 
-  const days = ['', '', '', '', '', '', '']
+  const days = []
+  const daysOfWeek = ["Domingo", "Segunda-freia", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
 
   function addDays(dayStart) {
+    days.length = 0;
     const [day, month, year] = dayStart.split('/')
     const dateFormat = [year, month, day].join('-');
     const date = new Date(dateFormat)
   
       for (let i = 0; i < 7; i++) {
         date.setDate(date.getDate()+1)
-        console.log(date.toDateString())
-        let [day, month, year] =[date.getDate(), date.getMonth()+1, date.getFullYear()]
-        day = day < 10 ? '0'+day : day
-        days[date.getDay()] = [day, month, year].join('/');
+        if(date.getDay() != 0 && date.getDay() != 6){
+          let [day, month, year] =[date.getDate(), date.getMonth()+1, date.getFullYear()]
+          day = day < 10 ? '0'+day : day
+          days.push({
+            date: [day, month, year].join('/'),
+            order: date.getDay()
+          });
+        }
+        
 
       }
 
@@ -48,34 +56,18 @@ const DateComponent = function () {
 
   function render(days) {
     const container = $(".js-days-of-week-component");
-    let template = `
-
-          <ul class="t-tabs__list">
-            <li class="t-tabs__item active js-change-paginatiobn">
-              <div class="text-primary">Segunda-feira</div>
-              <div class="text-secondary">${days[1]}</div>
-            </li>
-            <li class="t-tabs__item js-change-paginatiobn">
-              <div class="text-primary">Terça-feira</div>
-              <div class="text-secondary">${days[2]}</div>
-            </li>
-            <li class="t-tabs__item js-change-paginatiobn">
-              <div class="text-primary">Quarta-feira</div>
-              <div class="text-secondary">${days[3]}</div>
-            </li>
-            <li class="t-tabs__item js-change-paginatiobn">
-              <div class="text-primary">Quinta-feira</div>
-              <div class="text-secondary">${days[4]}</div>
-            </li>
-            <li class="t-tabs__item js-change-paginatiobn">
-              <div class="text-primary">Sexta-feira</div>
-              <div class="text-secondary">${days[5]}</div>
-            </li>
-            <li class="t-tabs__item js-change-paginatiobn">
-              <div class="text-primary">Selecionar <br> outra data</div>
-            </li>
-				</ul>
-          `;
+    const template = days.reduce((html, day, index) => {
+      const isActive = index === 0 ? "active" : "";
+      return html +
+        `<li class="t-tabs__item js-day-tab js-change-pagination ${isActive}" data-day-of-week=${day.order} >
+          <div class="text-primary">${daysOfWeek[day.order]}</div>
+          <div class="text-secondary">${day.date}</div>
+        </li>`;
+    }, `<ul class="t-tabs__list">`) +
+      `<li class="t-tabs__item js-change-pagination">
+        <div class="text-primary">Selecionar <br> outra data</div>
+      </li>
+      </ul>`;
     container.html(template)
   }
 
@@ -94,20 +86,20 @@ $(document).on('input', '.js-date', function () {
 /* MealsComponent */
 
 const MealsComponent = function () {
-  render()
-  
 
-  function addDays() {
-   
+  function addMeal() {
+    if($(".ui-accordion-header").length > 0){
+      $('.js-meals-component').accordion("destroy");  
+    }
 
-    render()
+    render($('.js-day-tab.active').attr("data-day-of-week"))
   }
 
-  function render() {
+  function render(mealDay) {
     const container = $(".js-meals-component");
     let template = `
 
-    <div class="ui-accordion-header">
+    <div class="ui-accordion-header" data-day-of-week="${mealDay}">
       titulo
     </div>
     <div class="ui-accordion-content">
@@ -115,7 +107,8 @@ const MealsComponent = function () {
     </div>      
 
           `;
-    container.html(template)
+    container.append(template)
+      
     $(".js-meals-component" ).accordion({
       active: false,
       collapsible: true,
@@ -125,9 +118,13 @@ const MealsComponent = function () {
 
   return {
     actions: {
-      addDays: addDays
+      addMeal: addMeal
     }
   }
 }
 
 const meals = MealsComponent();
+
+$(document).on("click", ".js-add-meal", function () {  
+  meals.actions.addMeal()
+});
