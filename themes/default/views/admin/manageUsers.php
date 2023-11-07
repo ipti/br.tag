@@ -50,6 +50,11 @@
                                     'value' => '$data->username',
                                 ),
                                 array(
+                                    'name' => 'Cargo',
+                                    'type' => 'raw',
+                                    'value' => 'Yii::t("default", $data->role)',
+                                ),
+                                array(
                                     'name' => 'active',
                                     'type' => 'raw',
                                     'value' => '$data->active ? Sim : Não'
