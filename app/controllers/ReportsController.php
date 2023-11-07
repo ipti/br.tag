@@ -534,7 +534,10 @@ class ReportsController extends Controller
     public function actionGetStudentClassrooms($id)
     {
         $repository = new ReportsRepository;
-        $repository->getStudentClassroomsOptions($id);
+        $students = $repository->getStudentClassroomsOptions($id);
+        foreach ($students as $student) {
+            echo CHtml::tag('option', array('value' => $student["id"]), $student["name"], true);
+        }
     }
 
     public function actionGetDisciplines()
