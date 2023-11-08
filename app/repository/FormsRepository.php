@@ -371,9 +371,9 @@ class FormsRepository {
     /**
      * Carrega informações da declaração de matrícula
      */
-    public function getEnrollmentDeclarationInformation($enrollmentId) : void
+    public function getEnrollmentDeclarationInformation($enrollmentId)
     {
-        $sql = "SELECT si.name name, si.filiation_1 filiation_1, si.filiation_2
+        $sql = "SELECT si.name as name, si.filiation_1 filiation_1, si.filiation_2
                     filiation_2, si.birthday birthday, si.inep_id inep_id,
                     sd.nis nis, ec.name city, c.school_year enrollment_date
                     FROM student_enrollment se
@@ -383,11 +383,10 @@ class FormsRepository {
                 JOIN edcenso_city ec ON si.edcenso_city_fk = ec.id
                 WHERE se.id = :enrollment_id;";
 
-        $result = Yii::app()->db->createCommand($sql)
+        return Yii::app()->db->createCommand($sql)
                 ->bindParam(':enrollment_id', $enrollmentId)
                 ->queryRow();
 
-        echo json_encode($result);
     }
 
     /**
@@ -395,19 +394,23 @@ class FormsRepository {
      */
     public function getTransferRequirement($enrollmentId) : array
     {
-        $sql = "SELECT si.sex gender, svm.stage stage, svm.id class
+        $sql = "SELECT
+                    si.sex gender,
+                    IFNULL(se.edcenso_stage_vs_modality_fk, c.edcenso_stage_vs_modality_fk) stage,
+                    IFNULL(se.edcenso_stage_vs_modality_fk, c.edcenso_stage_vs_modality_fk) class
                     FROM student_identification si
                 JOIN student_enrollment se ON se.student_fk = si.id
                 JOIN classroom c on se.classroom_fk = c.id
-                JOIN edcenso_stage_vs_modality svm ON c.edcenso_stage_vs_modality_fk = svm.id
                 WHERE se.id = :enrollment_id;";
 
         $result = Yii::app()->db->createCommand($sql)
                 ->bindParam(':enrollment_id', $enrollmentId)
                 ->queryRow();
 
-        $response = array('enrollment_id' => $enrollmentId, 'gender' => $result['gender'],
-                        'stage' => $result['stage'], 'class' => $result['class']);
+        $response = array(
+            'enrollment_id' => $enrollmentId,
+            'gender' => $result['gender'],
+            'stage' => $result['stage'], 'class' => $result['class']);
 
         return $response;
     }
@@ -415,21 +418,19 @@ class FormsRepository {
     /**
      * Carrega informações do Requerimento de Transferência
      */
-    public function getTransferRequirementInformation($enrollmentId) : void
+    public function getTransferRequirementInformation($enrollmentId)
     {
-        $sql = "SELECT si.name name, si.filiation_1 mother, si.filiation_2 father, si.birthday birthday, ec.name city, euf.acronym state, YEAR(se.create_date) enrollment_date
+        $sql = "SELECT si.name as name, si.filiation_1 mother, si.filiation_2 father, si.birthday birthday, ec.name city, euf.acronym state, YEAR(se.create_date) enrollment_date
                     FROM student_enrollment se
                 JOIN student_identification si ON si.id = se.student_fk
                 JOIN student_documents_and_address sd ON si.id = sd.id
                 JOIN edcenso_city ec ON si.edcenso_city_fk = ec.id
-                JOIN edcenso_uf euf ON si.edcenso_uf_fk = euf.id
+                LEFT JOIN edcenso_uf euf ON si.edcenso_uf_fk = euf.id
                 WHERE se.id = :enrollment_id;";
 
-        $result = Yii::app()->db->createCommand($sql)
+        return Yii::app()->db->createCommand($sql)
                 ->bindParam(':enrollment_id', $enrollmentId)
                 ->queryRow();
-
-        echo json_encode($result);
     }
 
     /**
@@ -455,18 +456,16 @@ class FormsRepository {
     /**
      * Carrega informações do Comunicado de Matrícula
      */
-    public function getEnrollmentNotificationInformation($enrollmentId) : void
+    public function getEnrollmentNotificationInformation($enrollmentId)
     {
         $sql = "SELECT si.name name, YEAR(se.create_date) enrollment_date
                     FROM student_enrollment se
                 JOIN student_identification si ON si.id = se.student_fk
                 WHERE se.id = :enrollment_id;";
 
-        $result = Yii::app()->db->createCommand($sql)
+        return Yii::app()->db->createCommand($sql)
                 ->bindParam(':enrollment_id', $enrollmentId)
                 ->queryRow();
-
-        echo json_encode($result);
     }
 
     /**
@@ -488,15 +487,14 @@ class FormsRepository {
     /**
      * Carrega a Ficha de Matrícula
      */
-    public function getStudentsFileInformation($enrollmentId) : void
+    public function getStudentsFileInformation($enrollmentId)
     {
         $sql = "SELECT * FROM studentsfile WHERE enrollment_id = :enrollment_id;";
 
-        $result = Yii::app()->db->createCommand($sql)
+        return Yii::app()->db->createCommand($sql)
                 ->bindParam(':enrollment_id', $enrollmentId)
                 ->queryRow();
 
-        echo json_encode($result);
     }
 
     /**
@@ -624,7 +622,7 @@ class FormsRepository {
     /**
      * Carrega as informações de Formulário de Transferência
      */
-    public function getTransferFormInformation($enrollmentId) : void
+    public function getTransferFormInformation($enrollmentId)
     {
         $sql = "SELECT si.name, si.inep_id, ec.name birth_city, euf.acronym birth_state,
                     si.birthday, sda.rg_number, sda.rg_number_expediction_date rg_date,
@@ -641,11 +639,11 @@ class FormsRepository {
                 JOIN edcenso_organ_id_emitter eoe ON eoe.id = sda.rg_number_edcenso_organ_id_emitter_fk
                 WHERE se.id = :enrollment_id;";
 
-        $result = Yii::app()->db->createCommand($sql)
+        return Yii::app()->db->createCommand($sql)
                 ->bindParam(':enrollment_id', $enrollmentId)
                 ->queryRow();
 
-        echo json_encode($result);
+
     }
 
     /**

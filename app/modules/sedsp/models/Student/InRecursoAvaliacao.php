@@ -1,6 +1,6 @@
 <?php
 
-class InRecursoAvaliacao
+class InRecursoAvaliacao implements JsonSerializable
 {
 	public $inNenhum;
 	public $inAuxilioLeitor;
@@ -193,7 +193,7 @@ class InRecursoAvaliacao
 		);
 	}
 
-	function jsonSerialize()
+	public function jsonSerialize()
 	{
 		return get_object_vars($this);
 	}
