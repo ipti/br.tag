@@ -293,7 +293,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                         <span class="t-menu-item__text">Frequência</span>
                                     </a>
                                 </li>
-                                <?php if(!TagUtils::isInstance("BUZIOS")): ?>
+                                <?php if(!TagUtils::isInstance("BUZIOS") || TagUtils::isInstance("LOCALHOST")): ?>
                                     <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades") ? 'active' : '' ?>">
                                         <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('enrollment/grades') ?> ">
                                             <span class="t-icon-edition t-menu-item__icon"></span>
