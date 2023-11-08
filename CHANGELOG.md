@@ -1,9 +1,14 @@
+## [Versão 3.63.99]
+- Corrigido a visibilidade de aulas datas em lançamentos de notas
+
 ## [Versão 3.62.99]
 - Funcionalidade de remover matrícula de aluno em turma atualizada
 
 ## [Versão 3.62.98]
 - Criada migration que adiciona os campos de aulas dadas na tabela referente a lançamento de notas
 
+## [Versão 3.62.98]
+- Criada migration que adiciona os campos de aulas dadas na tabela referente a lançamento de notas
 
 ## [Versão 3.61.98]
 - Criados os testes de aceitação do formulário de gerenciar etapas
