@@ -132,21 +132,21 @@ class ClassroomRobots
     }
 
     /**
-     * Seleciona a localização, caso a turma seja presencial.
-     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
-     */
-    public function location($location)
-    {
-        $this->tester->selectOption('#Classroom_diff_location', $location);
-    }
-
-    /**
      * Selecione o curso.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function educationCourse($educationCourse)
     {
         $this->tester->selectOption('#Classroom_edcenso_professional_education_course_fk', $educationCourse);
+    }
+
+    /**
+     * Seleciona a localização, caso a turma seja presencial.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function location($location)
+    {
+        $this->tester->selectOption('#Classroom_diff_location', $location);
     }
 
     /**
@@ -234,13 +234,18 @@ class ClassroomRobots
         $this->tester->selectOption('#Instructors', $instructors);
     }
 
+    public function disciplines ($disciplines)
+    {
+        $this->tester->selectOption('#Disciplines', $disciplines);
+    }
+
     /**
      * Selecionar um cargo para turma.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function role($role)
     {
-        $this->tester->selectOption('#role', $role);
+        $this->tester->selectOption('#Role', $role);
     }
 
     /**
@@ -261,3 +266,5 @@ class ClassroomRobots
         $this->tester->click('.ui-dialog-buttonset > button:nth-child(1)');
     }
 }
+
+?>

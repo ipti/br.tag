@@ -1,32 +1,31 @@
 <?php
 
 /**
- * @property [] $wizard
+ * @property [] $login
  * @property Faker\Generator $faker
  * @property CustomProvider $fakerCustom
  */
-class WizardBuilder
+class LoginBuilder
 {
-
     private $faker = null;
     private $fakerCustom = null;
 
     /**
-     * Summary of group registration
-     * @var $wizard
+     * Summary of login
+     * @var $login
      */
     public function __construct()
     {
         $this->faker = Faker\Factory::create('pt_BR');
         $this->fakerCustom = new CustomProvider($this->faker);
-        $this->wizard = [];
+        $this->login = [];
     }
 
     public function buildCompleted()
     {
-        $this->wizard['classrooms'] = '483'; // Turma 1
-        $this->wizard['oneClassrom'] = '494'; // 261605877 1 ETAPA PREESCOLA D TARDE ANUAL
+        $this->login['user'] = 'admin';
+        $this->login['secret'] = 'p@s4ipti';
 
-        return $this->wizard;
+        return $this->login;
     }
 }

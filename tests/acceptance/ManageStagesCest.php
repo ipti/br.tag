@@ -1,23 +1,18 @@
 <?php
 
-require_once 'vendor/autoload.php';
-require_once __DIR__."/../robots/LoginRobots.php";
-require_once __DIR__.'/../robots/ManageStagesRobots.php';
-require_once __DIR__.'/../builders/ManageStagesBuilder.php';
-
 class ManageStagesCest
 {
     public function _before(AcceptanceTester $teste)
     {
-        $user = "admin";
-        $secret = "p@s4ipti";
+        $builder = new LoginBuilder();
+        $login = $builder->buildCompleted();
 
         $robots = new LoginRobots($teste);
         $robots->pageLogin();
-        $robots->fieldUser($user);
-        $robots->fieldPassword($secret);
+        $robots->fieldUser($login['user']);
+        $robots->fieldPassword($login['secret']);
         $robots->submit();
-        sleep(3);
+        sleep(2);
     }
 
     // tests
@@ -28,7 +23,7 @@ class ManageStagesCest
         $builder = new ManageStagesBuilder();
         $targetUrl = '?r=stages/default/index';
 
-        $stage= $builder->buildCompleted();
+        $stage = $builder->buildCompleted();
 
         //stages
         $robots->name($stage['name']);
@@ -47,7 +42,7 @@ class ManageStagesCest
         $builder = new ManageStagesBuilder();
         $targetUrl = '?r=stages/default/index';
 
-        $stage= $builder->buildCompleted();
+        $stage = $builder->buildCompleted();
 
         //stages
         $robots->name($stage['name']);
@@ -85,7 +80,7 @@ class ManageStagesCest
 
         $robots->btnCriar();
 
-        $robots->checkUpdate($newStage['name'],$newStage['stage'],$newStage['alias']);
+        $robots->checkUpdate($newStage['name'], $newStage['stage'], $newStage['alias']);
 
         $teste->canSeeInCurrentUrl($targetUrl);
     }
@@ -113,5 +108,4 @@ class ManageStagesCest
         $teste->see('Aluno excluído com sucesso!');
         $teste->canSeeInCurrentUrl($targetUrl);
     }
-
 }

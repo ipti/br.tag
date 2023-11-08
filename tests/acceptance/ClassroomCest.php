@@ -1,22 +1,18 @@
 <?php
 
-require_once 'vendor/autoload.php';
-require_once __DIR__ . "/../robots/LoginRobots.php";
-require_once __DIR__ . "/../robots/ClassroomRobots.php";
-require_once __DIR__ . "/../builders/ClassroomBuilder.php";
-require_once __DIR__ . "/../acceptance/MatrixCest.php";
+require_once __DIR__ . "\\MatrixCest.php";
 
 class ClassroomCest
 {
     public function _before(AcceptanceTester $tester)
     {
-        $user = "admin";
-        $secret = "p@s4ipti";
+        $builder = new LoginBuilder();
+        $login = $builder->buildCompleted();
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
-        $robots->fieldUser($user);
-        $robots->fieldPassword($secret);
+        $robots->fieldUser($login['user']);
+        $robots->fieldPassword($login['secret']);
         $robots->submit();
         sleep(2);
     }
@@ -137,10 +133,62 @@ class ClassroomCest
         sleep(2);
         $robots->btnInstructor();
         sleep(2);
-        // $robots->instructorsToClassroom();
-        // $robots->role();
-        // $robots->contractType();
-        // $robots->createNewComponent();
+        $robots->instructorsToClassroom($dataClassroom['Instructors']);
+        $robots->disciplines($addMatrix['disciplines']);
+        $robots->role($dataClassroom['Role']);
+        $robots->contractType($dataClassroom['ContractType']);
+        $robots->createNewComponent();
+        sleep(2);
+
+        $robots->btnCriar();
+        sleep(2);
+
+        $teste->see('Turma adicionada com sucesso!');
+        $teste->canSeeInCurrentUrl('?r=classroom/index');
+    }
+
+    /**
+     * Adicionar turma, preenchendo todos os campos.
+     * Tipo de Mediação Didático-Pedagógica - Presencial
+     */
+    public function allFieldsAddInPerson(AcceptanceTester $teste)
+    {
+        sleep(5);
+        $matrix = new MatrixCest();
+        $addMatrix = $matrix->addMatrix($teste);
+
+        $robots = new ClassroomRobots($teste);
+        $robots->pageAddClassroom();
+
+        $builder = new ClassroomBuilder();
+        $dataClassroom = $builder->buildCompleted();
+
+        // Classroom
+        $robots->name($dataClassroom['name']);
+        $robots->stageVsModalaty($addMatrix['stages']);
+        $robots->typeMediation($dataClassroom['pedagogical_mediation_type_IN_PERSON']);
+        $robots->modality($dataClassroom['modality']);
+        $robots->location($dataClassroom['diff_location']);
+        $robots->educationCourse($dataClassroom['edcenso_professional_education_course_fk']);
+        $robots->initialTime($dataClassroom['initial_time']);
+        $robots->finalTime($dataClassroom['final_time']);
+        $robots->turn($dataClassroom['turn']);
+        $robots->days();
+        $robots->typeServiceActivitiesComplementary();
+        sleep(2);
+        $robots->activitiesComplementary($dataClassroom['complementary_activity_type_1']);
+        $robots->activitiesEducation($dataClassroom['aee_braille']);
+        $robots->btn2Instructors();
+
+        // Instructors
+        sleep(2);
+        $robots->btnInstructor();
+        sleep(2);
+        $robots->instructorsToClassroom($dataClassroom['Instructors']);
+        $robots->disciplines($addMatrix['disciplines']);
+        $robots->role($dataClassroom['Role']);
+        $robots->contractType($dataClassroom['ContractType']);
+        $robots->createNewComponent();
         sleep(2);
 
         $robots->btnCriar();

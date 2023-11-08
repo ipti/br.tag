@@ -1,21 +1,20 @@
 <?php
 
-require_once __DIR__."/../robots/LoginRobots.php";
-require_once __DIR__."/../robots/RegisterUserRobots.php";
+require_once __DIR__ . "/../robots/RegisterUserRobots.php";
 
 class RegisterUserCest
 {
-    public function _before (AcceptanceTester $tester)
+    public function _before(AcceptanceTester $tester)
     {
-        $user = "admin";
-        $secret = "p@s4ipti";
+        $builder = new LoginBuilder();
+        $login = $builder->buildCompleted();
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
-        $robots->fieldUser($user);
-        $robots->fieldPassword($secret);
+        $robots->fieldUser($login['user']);
+        $robots->fieldPassword($login['secret']);
         $robots->submit();
-        sleep(5);
+        sleep(2);
     }
 
     // tests
