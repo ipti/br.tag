@@ -21,11 +21,21 @@
             box-shadow: none;
             margin-bottom: 0;
         }
+
+        &.hide {
+            display: none !important;
+        }
+        span {
+            font-weight: $fontWeightRegular;
+        }
     }
 
     .ui-accordion-content {
         overflow-x: hidden !important;
         padding: $SizeXXXSmall $SizeSmall !important;
+        &.hide {
+            display: none !important;
+        }
     }
 }
 

@@ -68,8 +68,10 @@ $cs->registerScriptFile($baseScriptUrl . '/components.js', CClientScript::POS_EN
 		<div class="t-tabs-secondary js-days-of-week-component">
 				
 		</div>
-		<div class="js-meals-component t-accordeon-secondary">
-
+		<div class="row">
+			<div class="column">
+				<div class="js-meals-component t-accordeon-secondary"></div>
+			</div>
 		</div>
 		<!-- <div class="t-expansive-panel row">
 			<div class="column">
