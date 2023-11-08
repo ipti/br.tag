@@ -353,7 +353,7 @@ class StudentController extends Controller
                             }
 
                             if ($saved) {
-                                if(INSTANCE == "UBATUBA"){
+                                if(TagUtils::isInstance("UBATUBA")){
                                     if(!((date("H") >= 00) && (date("H") <= 06))){
                                         $outResponse = $this->syncStudentWithSED($modelStudentIdentification->id);
                                     }
@@ -484,7 +484,7 @@ class StudentController extends Controller
                         }
 
                         if ($saved) {
-                            if(INSTANCE == "UBATUBA"){
+                            if(TagUtils::isInstance("UBATUBA")){
                                 if(!((date("H") >= 00) && (date("H") <= 06))){
                                     $exi = $this->syncStudentWithSED($id);
                                 }
