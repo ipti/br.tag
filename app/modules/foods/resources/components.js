@@ -17,6 +17,7 @@ $(".js-date").datepicker({
 }).on('changeDate', function (ev, indirect) {
   data.actions.addDays($(this).val())
   $(".js-add-meal").removeClass('hide')
+  $(".js-show-meals-header").removeClass('hide')
 })
 
 const DateComponent = function () {
@@ -80,12 +81,15 @@ $(document).on('input', '.js-date', function () {
 
 const MealsComponent = function () {
 
-  function addMeal() {
+
+
+
+  function addMeal(idAccordion) {
     if ($(".ui-accordion-header").length > 0) {
       $('.js-meals-component').accordion("destroy");
     }
 
-    render($('.js-day-tab.active').attr("data-day-of-week"))
+    render($('.js-day-tab.active').attr("data-day-of-week"), idAccordion)
   }
 
   function changeVisibleMeals(tabActive) {
@@ -94,21 +98,17 @@ const MealsComponent = function () {
     })
   }
 
-  function render(mealDay) {
+  function render(mealDay, idAccordion) {
     const container = $(".js-meals-component");
-    let idNextAccordion = "d"+mealDay+"meal"+$('.ui-accordion-header').length
-    console.log(idNextAccordion)
-    let template = `
-
+    const idNextAccordion = "D"+mealDay+"M"+idAccordion
+    const wrapper = $('<div></div>')
+    const template = `
     <div class="ui-accordion-header row" data-day-of-week="${mealDay}" data-id-accordion="${idNextAccordion}">
-      <div class="column justify-content--start">
-        <input type="text" class='t-accordion-input-header' autofocus placeholder='Digite o nome da refeição' style='width:150px' />
-        <label class="align-items--center" for="">
-            <span class="fa fa-pencil"  id="js-stopPropagation"></span>
-        </label>
+      <div class="column justify-content--start js-meal-type" data-id-accordion="${idNextAccordion}">
+        turno da refeição
       </div>
       <div class="column justify-content--space-between">
-        nome dos pratos 
+        <span></span>
         <span class="t-icon-trash js-remove-meal" data-id-accordion="${idNextAccordion}"></span>
       </div>
     </div>
@@ -120,7 +120,7 @@ const MealsComponent = function () {
         </div>
         <div class="t-field-select column">
             <label class='t-field-select__label--required'>Refeição *</label>
-            <select name="meal" class="select-search-on t-field-select__input js-meal">
+            <select name="meal" class="select-search-on t-field-select__input js-meal-select js-inicializate-select2 data-id-accordion="${idNextAccordion}">
               <option value="">Selecione a refeição</option>
               <option value="0">Café da manhã</option>
               <option value="1">Almoço</option>
@@ -132,7 +132,7 @@ const MealsComponent = function () {
       <div class="row">
 					<div class="t-field-select column">
             <label class="t-field-select__label--required">Turno *</label>
-            <select class="select-search-on t-field-select__input js-shift">
+            <select class="select-search-on t-field-select__input js-shift js-inicializate-select2">
                 <option value="">Selecione o turno</option>
                 <option value="M">Manhã</option>
                 <option value="T">Tarde</option>
@@ -150,11 +150,30 @@ const MealsComponent = function () {
         </div>
       </div>
     </div>     
+    `;
+    wrapper.append(template); 
+    const title = wrapper.find('.js-meal-type');
+    const component = wrapper.find('.form');
+    wrapper.find(`.js-meal-select`).on("change",  function (event) {
+      title.text($(this).select2('data').text);
+      
+      /* const eventAwesome = new CustomEvent("awesome", {
+        bubbles: true,
+        detail: { text: () => $(this).select2('data').text },
+      });
 
-          `;
+      component.dispatchEvent(eventAwesome); */
+
+    });
+    container.append(wrapper.children())
   
-    container.append(template)
 
+ /*    $(".form").on("awesome", function (event) {
+      event.detail.text;
+    })
+    
+ */
+    initializeSelect2()
     $(".js-meals-component").accordion({
       active: false,
       collapsible: true,
@@ -179,7 +198,7 @@ const MealsComponent = function () {
 const meals = MealsComponent();
 
 $(document).on("click", ".js-add-meal", function () {
-  meals.actions.addMeal()
+  meals.actions.addMeal($('.ui-accordion-header').length)
 });
 
 
@@ -197,3 +216,14 @@ $(document).on("click", '.js-change-pagination', function () {
 $(document).on("click", ".js-remove-meal", function () {
   meals.actions.removeMeal($(this).attr("data-id-accordion"))
 });
+
+/* $("select.js-meal-select").on("change", function() {
+  console.log("aaaaa")
+    $(`.js-meal-type[data-id-accordion="${$(this).attr(data-id-accordion)}"]`).text("aaaaaa");
+});
+ */
+
+function  initializeSelect2() {
+  $("select.js-inicializate-select2").select2("destroy");
+  $('select.js-inicializate-select2').select2();
+}

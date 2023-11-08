@@ -37,6 +37,11 @@
             display: none !important;
         }
     }
+    &--header {
+       font-weight: $fontWeightBold;
+       border-bottom: $borderWidthCard solid $colorsBaseInkLighter;
+       padding: $SizeXXXSmall $SizeSmall;
+    }
 }
 
 .t-accordeon-primary {

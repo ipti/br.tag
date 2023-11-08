@@ -24,10 +24,10 @@ $(document).on("click", ".js-add-plate", function () {
     });
 });
 
-function  initializeSelect2() {
+/* function  initializeSelect2() {
     $("select.js-inicializate-select2").select2("destroy");
     $('select.js-inicializate-select2').select2();
-}
+} */
 function  initializeAccordion(idAccordion) {
     $('#js-accordion').accordion("destroy");      
     $( "#js-accordion" ).accordion({
