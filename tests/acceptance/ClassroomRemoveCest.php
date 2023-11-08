@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . "/../acceptance/ClassroomCest.php";
+
 class ClassroomRemoveCest
 {
     public function _before(AcceptanceTester $tester)
@@ -19,8 +21,8 @@ class ClassroomRemoveCest
     public function sucess(AcceptanceTester $teste)
     {
         sleep(5);
-        $classroom = new StudentsCest();
-        $addclassroom = $classroom->addStudentsRapidFieldsRequired($teste);
+        $classroom = new ClassroomCest();
+        $addclassroom = $classroom->addClassroomInPerson($teste);
         $robots = new ClassroomRobots($teste);
         $robots->pageClassroom();
 

@@ -46,6 +46,16 @@ class ClassroomRobots
     }
 
     /**
+     * Botão de deletar.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function btnDelete ()
+    {
+        $this->tester->waitForElement('.delete');
+        $this->tester->executeJS("document.querySelector('.delete').click();");
+    }
+
+    /**
      * Botão 1: Dados da turma.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */

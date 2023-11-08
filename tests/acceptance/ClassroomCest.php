@@ -66,6 +66,8 @@ class ClassroomCest
 
         $teste->see('Turma adicionada com sucesso!');
         $teste->canSeeInCurrentUrl('?r=classroom/index');
+
+        return $dataClassroom;
     }
 
     /**
@@ -95,6 +97,8 @@ class ClassroomCest
 
         $teste->see('Turma adicionada com sucesso!');
         $teste->canSeeInCurrentUrl('?r=classroom/index');
+
+        return $dataClassroom;
     }
 
     /**
@@ -145,6 +149,8 @@ class ClassroomCest
 
         $teste->see('Turma adicionada com sucesso!');
         $teste->canSeeInCurrentUrl('?r=classroom/index');
+
+        return $dataClassroom;
     }
 
     /**
@@ -196,5 +202,7 @@ class ClassroomCest
 
         $teste->see('Turma adicionada com sucesso!');
         $teste->canSeeInCurrentUrl('?r=classroom/index');
+
+        return $dataClassroom;
     }
 }
