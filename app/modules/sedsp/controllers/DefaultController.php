@@ -333,7 +333,8 @@ class DefaultController extends Controller
 
     public function actionUpdateStudentFromSedsp()
 	{
-		$this->checkSEDToken();
+        $loginUseCase = new LoginUseCase();
+        $loginUseCase->checkSEDToken();
 
 		try {
 			$inAluno = new InAluno($_GET["gov_id"], null, "SP");

@@ -485,10 +485,9 @@ class StudentController extends Controller
 
                         if ($saved) {
                             if(TagUtils::isInstance("UBATUBA")){
-                                if(!((date("H") >= 00) && (date("H") <= 06))){
-                                    $exi = $this->syncStudentWithSED($id);
-                                }
-
+                                
+                                $exi = $this->syncStudentWithSED($id);
+                                
                                 if($exi->outErro !== null){
                                     Log::model()->saveAction(
                                         "student", $modelStudentIdentification->id,
@@ -564,7 +563,17 @@ class StudentController extends Controller
         );
 
         $studentDatasource = new StudentSEDDataSource();
-        $response = $studentDatasource->exibirFichaAluno(new InAluno($studentIdentification->gov_id, null, "SP"));
+
+        $dataSource = new StudentSEDDataSource();
+        $outListStudent = $dataSource->getListStudents($this->createInListarAlunos($studentIdentification->name));
+
+        if($studentIdentification->gov_id === null){
+            $govId = $outListStudent->outListaAlunos[0]->getOutNumRa();
+        } else {
+            $govId = $studentIdentification->gov_id;
+        }
+
+        $response = $studentDatasource->exibirFichaAluno(new InAluno($govId, null, "SP"));
         $infoAluno = $response->outDadosPessoais->outNomeAluno;
 
         $inListarAlunos = $this->createInListarAlunos($infoAluno);
