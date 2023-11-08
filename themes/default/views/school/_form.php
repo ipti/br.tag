@@ -105,7 +105,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'name', array('class' => 't-field-text__label--required')); ?>
-                                <?php echo $form->textField($modelSchoolIdentification, 'name', array('size' => 100, 'maxlength' => 100, 'placeholder' => 'Digite o Nome da Escola', 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->textField($modelSchoolIdentification, 'name', array('size' => 100, 'maxlength' => 100, 'placeholder' => 'Digite o Nome da Escola', 'class' => 't-field-text__input', 'disabled' => $disabledFields)); ?>
                                 <!-- <span class="btn-action single glyphicons circle_question_mark"
                                         data-toggle="tooltip" data-placement="top"
                                         data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ª, º, space and -.') . " " . Yii::t('help', 'Min length') . '4'; ?>"><i></i></span> -->
@@ -129,7 +129,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'administrative_dependence', array('class' => 't-field-select__label--required')); ?>
-                                <?php echo $form->dropDownList($modelSchoolIdentification, 'administrative_dependence', array(null => 'Selecione a dependencia administrativa', 1 => 'Federal', 2 => 'Estadual', 3 => 'Municipal', 4 => 'Privada'), array('class' => 'select-search-off t-field-select__input select2-container')); ?>
+                                <?php echo $form->dropDownList($modelSchoolIdentification, 'administrative_dependence', array(null => 'Selecione a dependencia administrativa', 1 => 'Federal', 2 => 'Estadual', 3 => 'Municipal', 4 => 'Privada'), array('class' => 'select-search-off t-field-select__input select2-container',  'disabled' => $disabledFields)); ?>
                                 <?php echo $form->error($modelSchoolIdentification, 'administrative_dependence'); ?>
                             </div>
                         </div>
@@ -289,7 +289,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $(formIdentification+'edcenso_city_fk').val(data['City']).trigger('change').select2('readonly',data.City != null);
                                     }, 500);
                                 }"
-                                    )
+                                    ),
+                                    'disabled' => $disabledFields
                                 )); ?>
                                 <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Valid Cep') . " " . Yii::t('help', 'Only Numbers') . ' ' . Yii::t('help', 'Max length') . '8.'; ?>"><i></i></span> -->
 
@@ -299,7 +300,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'address', array('class' => 't-field-text__label')); ?>
-                                <?php echo $form->textField($modelSchoolIdentification, 'address', array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Endereço', 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->textField($modelSchoolIdentification, 'address', array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Digite o Endereço', 'class' => 't-field-text__input',  'disabled' => $disabledFields)); ?>
                                 <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span> -->
                                 <?php echo $form->error($modelSchoolIdentification, 'address'); ?>
                             </div>
@@ -332,7 +333,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'address_number', array('class' => 't-field-text__label')); ?>
-                                <?php echo $form->textField($modelSchoolIdentification, 'address_number', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Número')); ?>
+                                <?php echo $form->textField($modelSchoolIdentification, 'address_number', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Número',  'disabled' => $disabledFields)); ?>
                                 <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span> -->
                                 <?php echo $form->error($modelSchoolIdentification, 'address_number'); ?>
                             </div>
@@ -343,7 +344,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'address_neighborhood', array('class' => 't-field-text__label')); ?>
-                                <?php echo $form->textField($modelSchoolIdentification, 'address_neighborhood', array('size' => 50, 'maxlength' => 50, 'placeholder' => 'Digite o Bairro ou Povoado', 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->textField($modelSchoolIdentification, 'address_neighborhood', array('size' => 50, 'maxlength' => 50, 'placeholder' => 'Digite o Bairro ou Povoado', 'class' => 't-field-text__input',  'disabled' => $disabledFields)); ?>
                                 <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span> -->
                                 <?php echo $form->error($modelSchoolIdentification, 'address_neighborhood'); ?>
                             </div>
@@ -362,7 +363,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                         valD = $('#SchoolIdentification_edcenso_district_fk').val();
                                         $('#SchoolIdentification_edcenso_district_fk').html(data.District).val(valD).trigger('change');
                                     }",
-                                    )
+                                    ),
+                                    'disabled' => $disabledFields
                                 )); ?>
                                 <?php echo $form->error($modelSchoolIdentification, 'edcenso_city_fk'); ?>
                             </div>
@@ -373,7 +375,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'address_complement', array('class' => 't-field-text__label')); ?>
-                                <?php echo $form->textField($modelSchoolIdentification, 'address_complement', array('size' => 20, 'maxlength' => 20, 'placeholder' => 'Digite o Complemento', 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->textField($modelSchoolIdentification, 'address_complement', array('size' => 20, 'maxlength' => 20, 'placeholder' => 'Digite o Complemento', 'class' => 't-field-text__input',  'disabled' => $disabledFields)); ?>
                                 <!-- <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span> -->
                                 <?php echo $form->error($modelSchoolIdentification, 'address_complement'); ?>
                             </div>
@@ -391,7 +393,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_district_fk', array('class' => 't-field-select__label--required')); ?>
-                                <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_district_fk', CHtml::listData(EdcensoDistrict::model()->findAllByAttributes(array('edcenso_city_fk' => $modelSchoolIdentification->edcenso_city_fk), array('order' => 'name')), 'code', 'name'), array('prompt' => 'Selecione um distrito', 'class' => 'select-search-on t-field-select__input select2-container')); ?>
+                                <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_district_fk', CHtml::listData(EdcensoDistrict::model()->findAllByAttributes(array('edcenso_city_fk' => $modelSchoolIdentification->edcenso_city_fk), array('order' => 'name')), 'code', 'name'), array('prompt' => 'Selecione um distrito', 'class' => 'select-search-on t-field-select__input select2-container',  'disabled' => $disabledFields)); ?>
                                 <?php echo $form->error($modelSchoolIdentification, 'edcenso_district_fk'); ?>
                             </div>
                         </div>
@@ -408,14 +410,14 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'latitude', array('class' => 't-field-text__label')); ?>
-                                <?php echo $form->textField($modelSchoolIdentification, 'latitude', array('placeholder' => 'Digite a Latitude', 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->textField($modelSchoolIdentification, 'latitude', array('placeholder' => 'Digite a Latitude', 'class' => 't-field-text__input',  'disabled' => $disabledFields)); ?>
                                 <?php echo $form->error($modelSchoolIdentification, 'latitude'); ?>
                             </div>
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'longitude', array('class' => 't-field-text__label')); ?>
-                                <?php echo $form->textField($modelSchoolIdentification, 'longitude', array('placeholder' => 'Digite a Longitude', 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->textField($modelSchoolIdentification, 'longitude', array('placeholder' => 'Digite a Longitude', 'class' => 't-field-text__input',  'disabled' => $disabledFields)); ?>
                                 <?php echo $form->error($modelSchoolIdentification, 'longitude'); ?>
                             </div>
                         </div>

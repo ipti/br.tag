@@ -16,7 +16,8 @@
                 'modelSchoolIdentification' => $modelSchoolIdentification,
                 'modelSchoolStructure' => $modelSchoolStructure,
                 'modelManagerIdentification' => $modelManagerIdentification,
-                'title' => $title
+                'disabledFields' => $disabledFields,
+                'title' => $title,
             ));
             ?>
         </div>
