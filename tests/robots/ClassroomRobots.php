@@ -275,6 +275,44 @@ class ClassroomRobots
     {
         $this->tester->click('.ui-dialog-buttonset > button:nth-child(1)');
     }
-}
 
-?>
+
+    // sedsp
+
+    /**
+     * Selecione a unidade escolar.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function unity($unity)
+    {
+        $this->tester->selectOption('#Classroom_sedsp_school_unity_fk', $unity);
+    }
+
+    /**
+     * Inserir a turma.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function classroom($classroom)
+    {
+        $this->tester->selectOption('#Classroom_sedsp_acronym', $classroom);
+    }
+
+    /**
+     * Inserir a sala de aula.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function numberClassroom($numberClassroom)
+    {
+        $this->tester->fillField('#Classroom_sedsp_classnumber', $numberClassroom);
+    }
+
+    /**
+     * Inserir a capacidade fisica máxima.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function capacity($capacity)
+    {
+        $this->tester->fillField('#Classroom_sedsp_max_physical_capacity', $capacity);
+    }
+
+}

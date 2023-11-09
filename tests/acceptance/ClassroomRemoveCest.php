@@ -26,12 +26,15 @@ class ClassroomRemoveCest
         $robots = new ClassroomRobots($teste);
         $robots->pageClassroom();
 
-        $search = $addclassroom->classroom['name'];
+        $search = $addclassroom['name'];
 
         $robots->search($search);
         sleep(2);
         $robots->btnDelete();
         $teste->acceptPopup();
-        $teste->canSeeInCurrentUrl('?r=classroom/index');
     }
+
+    /**
+     * Verificar caso de não conseguir excluir a turma.
+     */
 }

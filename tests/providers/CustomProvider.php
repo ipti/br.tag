@@ -182,4 +182,21 @@ class CustomProvider extends Base
         return $hour1 - $hour2;
     }
 
+    /**
+     * Gera a identificação da turma.
+     */
+    public function identificationClass()
+    {
+        $letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+        $numeros = [1, 2, 3, 4, 5, 6, 7];
+
+        $identificacao = $this->generator->randomElement($letras);
+
+        if ($this->generator->boolean(50)) {
+            $identificacao .= $this->generator->randomElement($numeros);
+        }
+
+        return $identificacao;
+    }
+
 }

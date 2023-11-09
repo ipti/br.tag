@@ -39,8 +39,13 @@ class ClassroomBuilder
         $this->classroom['Role'] = $this->faker->randomElement(array(1, 2, 3, 4, 5, 6, 7, 8));
         $this->classroom['ContractType'] = $this->faker->randomElement(array(1, 2, 3, 4));
 
+        //sedsp
+
+        $this->classroom['sedsp_school_unity_fk'] = '';
+        $this->classroom['sedsp_acronym'] = $this->fakerCustom->identificationClass();
+        $this->classroom['sedsp_classnumber'] = $this->faker->randomDigit();
+        $this->classroom['sedsp_max_physical_capacity'] = $this->faker->randomDigit();
+
         return $this->classroom;
     }
 }
-
-?>
