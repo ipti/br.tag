@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @property EdcensoStageVsModality $stageVsModality
+ * @property [] $stageVsModality
  * @property Faker\Generator $faker
  * @property CustomProvider $fakerCustom
  */
@@ -11,8 +11,8 @@ class ManageStagesBuilder
     private $faker = null;
     private $fakerCustom = null;
     /**
-     * Summary of EdcensoStageVsModality
-     * @var EdcensoStageVsModality $stageVsModality
+     * Summary of StageVsModality
+     * @var [] $stageVsModality
      */
 
     public function __construct()
@@ -22,14 +22,11 @@ class ManageStagesBuilder
         $this->stageVsModality = [];
     }
 
-    /**
-     * @return ManageStagesBuilder
-     */
     public function buildCompleted()
     {
-        $stageVsModality['name'] = $this->faker->name();
-        $stageVsModality['stage'] = $this->faker->randomElement(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-        $stageVsModality['alias'] = substr($this->faker->name(), 15);
-        return $stageVsModality;
+        $this->stageVsModality['name'] = $this->faker->name();
+        $this->stageVsModality['stage'] = $this->faker->randomElement(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+        $this->stageVsModality['alias'] = substr($this->faker->name(), 15);
+        return $this->stageVsModality;
     }
 }
