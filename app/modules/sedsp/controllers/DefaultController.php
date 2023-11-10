@@ -23,7 +23,6 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
     public function actionManageRA()
     {
         $school_id = Yii::app()->user->school;
-        $ucidentifymulti = new IdentifyMultipleStudentRACode();
 
         $criteira = new CDbCriteria;
         $criteira->select = 'DISTINCT t.*';
