@@ -5,9 +5,11 @@ Yii::import('application.modules.sedsp.datasources.sed.Student.*');
 Yii::import('application.modules.sedsp.mappers.*');
 Yii::import('application.modules.sedsp.usecases.Enrollment.*');
 Yii::import('application.modules.sedsp.models.Enrollment.*');
+Yii::import('application.modules.sedsp.usecases.*');
+Yii::import('application.modules.sedsp.usecases.Student.*');
+Yii::import('application.modules.sedsp.interfaces.*');
 
-
-class StudentController extends Controller
+class StudentController extends Controller implements AuthenticateSEDTokenInterface
 {
     //@done s1 - validação de todos os campos - Colocar uma ? para explicar as regras de cada campo(em todas as telas)
     //@done s1 - Recuperar endereço pelo CEP
@@ -35,6 +37,12 @@ class StudentController extends Controller
         return array(
             'accessControl', // perform access control for CRUD operations
         );
+    }
+
+    public function authenticateSedToken()
+    {
+        $loginUseCase = new LoginUseCase();
+        $loginUseCase->checkSEDToken();
     }
 
     /**
@@ -486,9 +494,10 @@ class StudentController extends Controller
                         if ($saved) {
                             if(TagUtils::isInstance("UBATUBA")){
                                 
-                                $exi = $this->syncStudentWithSED($id);
+                                $this->authenticateSedToken();
                                 
-                                if($exi->outErro !== null){
+                                $outHandleApiResult = $this->syncStudentWithSED($id); 
+                                if($outHandleApiResult->outErro !== null){
                                     Log::model()->saveAction(
                                         "student", $modelStudentIdentification->id,
                                         "U", $modelStudentIdentification->name
@@ -496,7 +505,7 @@ class StudentController extends Controller
                                     $msg = '<p style="color: white;background: #23b923;
                                     padding:10px;border-radius: 4px;">O Cadastro de '.$modelStudentIdentification->name.
                                     ' foi alterado com sucesso!</p> Mas não foi possível fazer a sincronização!
-                                    </br><b>ERROR: </b>: '. $exi->outErro;
+                                    </br><b>ERROR: </b>: '. $outHandleApiResult->outErro;
                                     
                                     echo Yii::app()->user->setFlash('error', Yii::t('default', $msg));
                                     $this->redirect(array('index', 'id' => $modelStudentIdentification->id));
@@ -547,72 +556,76 @@ class StudentController extends Controller
     }
 
     // Função para sincronizar aluno com o sistema SED
+    /**
+     * Summary of syncStudentWithSED
+     * @param mixed $id
+     * @return OutFichaAluno|OutHandleApiResult
+     */
     public function syncStudentWithSED($id) {
 
         $studentInfo = $this->getStudentInformation($id);
         $studentIdentification = $studentInfo['studentIdentification'];
-        $studentIdentification->sedsp_sync = 0;
 
-
-        $studentIdentification->tag_to_sed = 1;
-        $studentIdentification->save();
-
-        $studentToSedMapper = new StudentMapper();
-        $student = (object) $studentToSedMapper->parseToSEDAlunoFicha(
-            $studentIdentification, $studentInfo['modelStudentDocumentsAndAddress']
-        );
-
-        $studentDatasource = new StudentSEDDataSource();
+        $this->updateLocalFlags($studentIdentification);
+        $student = $this->mapStudentToSED($studentIdentification, $studentInfo['modelStudentDocumentsAndAddress']);
 
         $dataSource = new StudentSEDDataSource();
         $outListStudent = $dataSource->getListStudents($this->createInListarAlunos($studentIdentification->name));
 
-        if($studentIdentification->gov_id === null){
-            $govId = $outListStudent->outListaAlunos[0]->getOutNumRa();
-        } else {
-            $govId = $studentIdentification->gov_id;
-        }
-
+        $govId = $this->getGovId($studentIdentification, $outListStudent);
+        
+        $studentDatasource = new StudentSEDDataSource();
         $response = $studentDatasource->exibirFichaAluno(new InAluno($govId, null, "SP"));
         $infoAluno = $response->outDadosPessoais->outNomeAluno;
 
-        $inListarAlunos = $this->createInListarAlunos($infoAluno);
         $dataSource = new StudentSEDDataSource();
-        $outListStudent = $dataSource->getListStudents($inListarAlunos);
+        $outListStudent = $dataSource->getListStudents($this->createInListarAlunos($infoAluno));
+
 
         if ($outListStudent->outErro !== null) {
             $inConsult = $this->createInConsult($student);
             $statusAdd = $dataSource->addStudent($inConsult);
 
             if($statusAdd->outErro === null) {
-                $stdi = StudentIdentification::model()->findByPk($id);
-                $stdi->gov_id = $statusAdd->outAluno->outNumRA;
-                $stdi->sedsp_sync = 1;
-                $stdi->save();
+                $stdIdentification = StudentIdentification::model()->findByPk($id);
 
-                return $statusAdd;
+                if ($stdIdentification !== null) {
+                    $stdIdentification->gov_id = $statusAdd->outAluno->outNumRA;
+                    $stdIdentification->sedsp_sync = 1;
+                    $stdIdentification->save();
+                }
             }
-        } elseif ($outListStudent->outErro === null) {
-            $outNumRA = $outListStudent->getOutListaAlunos();
-            $numRA = $outNumRA[0]->getOutNumRa();
-            
-            $student->InAluno->setInNumRA($numRA);
-
-            $inManutencao = $this->createInManutencao($student);
-            $dataSource = new StudentSEDDataSource();
-                
-           
-            $studentIdentification->gov_id = $numRA;
-            $studentIdentification->save();
-
-            $statusAdd = $dataSource->editStudent($inManutencao);
-
-            if($statusAdd->outErro === null){
-                $studentIdentification->sedsp_sync = 1;
-                $studentIdentification->save();
-            }
-
             return $statusAdd;
+        } else {
+            return $this->editExistingStudentInSedsp($outListStudent, $student, $studentIdentification);
+        }
+    }
+
+    public function editExistingStudentInSedsp($outListStudent, $student, $studentIdentification) {
+        if ($outListStudent->outErro === null) {
+            $editStudentSedspUseCase = new EditStudentSedspUseCase;
+            return $editStudentSedspUseCase->exec($outListStudent, $student, $studentIdentification);
+        }
+    }
+
+    private function updateLocalFlags($studentIdentification) {
+        $studentIdentification->sedsp_sync = 0;
+        $studentIdentification->tag_to_sed = 1;
+        $studentIdentification->save();
+    }
+    
+    private function mapStudentToSED($studentIdentification, $modelStudentDocumentsAndAddress) {
+        $studentToSedMapper = new StudentMapper();
+        return (object) $studentToSedMapper->parseToSEDAlunoFicha(
+            $studentIdentification, $modelStudentDocumentsAndAddress
+        );
+    }
+
+    public function getGovId($studentIdentification, $outListStudent) {
+        if ($studentIdentification->gov_id === null) {
+            return $outListStudent->outListaAlunos[0]->getOutNumRa();
+        } else {
+            return $studentIdentification->gov_id;
         }
     }
 
@@ -638,29 +651,7 @@ class StudentController extends Controller
             null
         );
     }
-
-    // Função para criar objeto InManutencao em caso de aluno cadastrado
-    /**
-     * Summary of createInManutencao
-     * @param mixed $student
-     * @return InManutencao
-     */
-    public function createInManutencao($student) {
-        return new InManutencao(
-            $student->InAluno,
-            $student->InDadosPessoais,
-            $student->InDeficiencia,
-            $student->InRecursoAvaliacao,
-            $student->InDocumentos,
-            null,
-            null,
-            $student->InEnderecoResidencial,
-            null,
-            null
-        );
-    }
-
-    
+ 
     public function actionTransfer($id)
     {
         $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
