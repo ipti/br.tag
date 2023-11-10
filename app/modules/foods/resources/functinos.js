@@ -1,4 +1,4 @@
-$(document).on("click", ".js-add-plate", function () {
+/* $(document).on("click", ".js-add-plate", function () {
     let idNextAccordion = $("#js-accordion .ui-accordion-header").length + 1;
     $.ajax({
         url: "?r=foods/foodMenu/plateAccordion",
@@ -22,16 +22,15 @@ $(document).on("click", ".js-add-plate", function () {
                 });
             });
     });
-});
+}); */
 
 /* function  initializeSelect2() {
     $("select.js-inicializate-select2").select2("destroy");
     $('select.js-inicializate-select2').select2();
 } */
-function  initializeAccordion(idAccordion) {
+function  initializeAccordion() {
     $('#js-accordion').accordion("destroy");      
     $( "#js-accordion" ).accordion({
-        active: idAccordion-1,
         collapsible: true,
         icons: false,
     });

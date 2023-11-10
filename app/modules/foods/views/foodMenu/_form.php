@@ -83,7 +83,7 @@ $cs->registerScriptFile($baseScriptUrl . '/components.js', CClientScript::POS_EN
 		</div>
 		<div class="row">
 			<div class="column">
-				<div class="js-meals-component t-accordeon-secondary"></div>
+				<div id="js-accordion" class="js-meals-component t-accordeon-secondary"></div>
 			</div>
 		</div>
 		<!-- <div class="t-expansive-panel row">
