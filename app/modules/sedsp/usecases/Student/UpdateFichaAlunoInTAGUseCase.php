@@ -54,9 +54,27 @@ class UpdateFichaAlunoInTAGUseCase
 
     public function createOrUpdateStudentEnrollment($studentEnrollments)
     {
+
         foreach($studentEnrollments as $studentEnrollment) {
-            $studentEnrollment->save();
+            $enrollment = StudentEnrollment::model()->find(array(
+                'condition' => 'school_inep_id_fk=:school_inep_id_fk AND student_fk=:student_fk AND classroom_fk=:classroom_fk',
+                'params' => array(
+                    ':school_inep_id_fk' => $studentEnrollment->school_inep_id_fk,
+                    ':student_fk' => $studentEnrollment->student_fk,
+                    ':classroom_fk' => $studentEnrollment->classroom_fk,
+                ),
+            ));
+            
+            if ($enrollment === null) {
+                $newEnrollment = new StudentEnrollment();
+                $newEnrollment->attributes = $studentEnrollment->attributes;
+                $newEnrollment->save();
+            } else {
+                $enrollment->attributes = $studentEnrollment->attributes;
+                $enrollment->save();
+            }
         }
+
         return $studentEnrollment;
     }
 
