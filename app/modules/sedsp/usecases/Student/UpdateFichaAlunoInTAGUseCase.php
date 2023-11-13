@@ -5,15 +5,19 @@ class UpdateFichaAlunoInTAGUseCase
     public function exec($inAluno)
     {
         $studentDatasource = new StudentSEDDataSource();
-        $response = $studentDatasource->exibirFichaAluno($inAluno);
+        $outExibirFichaAluno = $studentDatasource->exibirFichaAluno($inAluno);
 
         try {
-            $mapper = (object) StudentMapper::parseToTAGExibirFichaAluno($response);
+            $mapper = (object) StudentMapper::parseToTAGExibirFichaAluno($outExibirFichaAluno);
 
             $studentIdentification = $this->createOrUpdateStudentIdentification($mapper->StudentIdentification);
             $this->createOrUpdateStudentDocumentsAndAddress(
-                $mapper->StudentDocumentsAndAddress, $studentIdentification, $mapper->StudentDocumentsAndAddress->gov_id
+                $mapper->StudentDocumentsAndAddress,
+                $studentIdentification,
+                $mapper->StudentDocumentsAndAddress->gov_id
             );
+
+            $this->createOrUpdateStudentEnrollment($mapper->StudentEnrollment);
 
             return $studentIdentification;
         } catch (Exception $e) {
@@ -46,6 +50,14 @@ class UpdateFichaAlunoInTAGUseCase
         }
 
         return $studentDocumentsAndAddress;
+    }
+
+    public function createOrUpdateStudentEnrollment($studentEnrollments)
+    {
+        foreach($studentEnrollments as $studentEnrollment) {
+            $studentEnrollment->save();
+        }
+        return $studentEnrollment;
     }
 
     private function findStudentByIdentification($govId)
