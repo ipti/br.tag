@@ -49,10 +49,20 @@ class ClassroomRobots
      * Botão de deletar.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function btnDelete ()
+    public function btnDelete()
     {
         $this->tester->waitForElement('.delete');
         $this->tester->executeJS("document.querySelector('.delete').click();");
+    }
+
+    /**
+     * Botão de editar turmas.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function btnEdit()
+    {
+        $this->tester->waitForElement('img[alt="Editar"]');
+        $this->tester->executeJS('document.querySelector(\'img[alt="Editar"]\').click();');
     }
 
     /**
@@ -191,9 +201,9 @@ class ClassroomRobots
      * Checkbox para marcar os dias da semana.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function days()
+    public function days($weeekDays)
     {
-        $script = "document.querySelector('#Classroom_week_days_monday').click();";
+        $script = "document.querySelector('$weeekDays').click();";
         $this->tester->executeJS($script);
     }
 
@@ -201,19 +211,9 @@ class ClassroomRobots
      * Checkbox para marcar o tipo de atendimento.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function typeService()
+    public function typeService($typeService)
     {
-        $script = "document.querySelector('#Classroom_schooling').click();";
-        $this->tester->executeJS($script);
-    }
-
-    /**
-     * Checkbox para marcar que o tipo de atividade é atividade complementar.
-     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
-     */
-    public function typeServiceActivitiesComplementary()
-    {
-        $script = "document.querySelector('#Classroom_complementary_activity').click();";
+        $script = "document.querySelector('$typeService').click();";
         $this->tester->executeJS($script);
     }
 
@@ -244,7 +244,7 @@ class ClassroomRobots
         $this->tester->selectOption('#Instructors', $instructors);
     }
 
-    public function disciplines ($disciplines)
+    public function disciplines($disciplines)
     {
         $this->tester->selectOption('#Disciplines', $disciplines);
     }
@@ -314,5 +314,4 @@ class ClassroomRobots
     {
         $this->tester->fillField('#Classroom_sedsp_max_physical_capacity', $capacity);
     }
-
 }

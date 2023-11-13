@@ -59,8 +59,10 @@ class ClassroomCest
         $robots->modality($dataClassroom['modality']);
         $robots->initialTime($dataClassroom['initial_time']);
         $robots->finalTime($dataClassroom['final_time']);
-        $robots->days();
-        $robots->typeService();
+        $robots->days($dataClassroom['week_days_monday']);
+        $robots->typeService($dataClassroom['assistance_complementary_activity']);
+        sleep(2);
+        $robots->activitiesComplementary($dataClassroom['complementary_activity_type_1']);
         $robots->btnCriar();
         sleep(2);
 
@@ -90,8 +92,10 @@ class ClassroomCest
         $robots->location($dataClassroom['diff_location']);
         $robots->initialTime($dataClassroom['initial_time']);
         $robots->finalTime($dataClassroom['final_time']);
-        $robots->days();
-        $robots->typeService();
+        $robots->days($dataClassroom['week_days_monday']);
+        $robots->typeService($dataClassroom['assistance_complementary_activity']);
+        sleep(2);
+        $robots->activitiesComplementary($dataClassroom['complementary_activity_type_1']);
         $robots->btnCriar();
         sleep(2);
 
@@ -126,8 +130,8 @@ class ClassroomCest
         $robots->initialTime($dataClassroom['initial_time']);
         $robots->finalTime($dataClassroom['final_time']);
         $robots->turn($dataClassroom['turn']);
-        $robots->days();
-        $robots->typeServiceActivitiesComplementary();
+        $robots->days($dataClassroom['week_days_monday']);
+        $robots->typeService($dataClassroom['assistance_complementary_activity']);
         sleep(2);
         $robots->activitiesComplementary($dataClassroom['complementary_activity_type_1']);
         $robots->activitiesEducation($dataClassroom['aee_braille']);
@@ -179,8 +183,8 @@ class ClassroomCest
         $robots->initialTime($dataClassroom['initial_time']);
         $robots->finalTime($dataClassroom['final_time']);
         $robots->turn($dataClassroom['turn']);
-        $robots->days();
-        $robots->typeServiceActivitiesComplementary();
+        $robots->days($dataClassroom['week_days_monday']);
+        $robots->typeService($dataClassroom['assistance_complementary_activity']);
         sleep(2);
         $robots->activitiesComplementary($dataClassroom['complementary_activity_type_1']);
         $robots->activitiesEducation($dataClassroom['aee_braille']);

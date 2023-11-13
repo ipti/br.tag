@@ -33,8 +33,13 @@ class ClassroomBuilder
         $this->classroom['initial_time'] = $this->fakerCustom->generateRandomTime();
         $this->classroom['final_time'] = $this->fakerCustom->generateRandomEndTime($this->classroom['initial_time']);
         $this->classroom['turn'] = $this->faker->randomElement(array('M', 'T', 'N', 'I'));
+        $this->classroom['week_days_monday'] = '#Classroom_week_days_monday'; // Segunda
+        $this->classroom['week_days_tuesday'] = '#Classroom_week_days_tuesday'; // Terça
+        $this->classroom['assistance_type_schooling'] = '#Classroom_schooling';
+        $this->classroom['assistance_complementary_activity'] = '#Classroom_complementary_activity';
         $this->classroom['complementary_activity_type_1'] = '10102'; // Robótica Educacional
         $this->classroom['aee_braille'] = '#Ensino\ do\ Sistema\ Braille';
+        $this->classroom['aee_optical_and_non'] = '#Ensino\ do\ uso\ de\ recursos\ ópticos\ e\ não\ ópticos';
         $this->classroom['Instructors'] = $this->faker->randomElement(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
         $this->classroom['Role'] = $this->faker->randomElement(array(1, 2, 3, 4, 5, 6, 7, 8));
         $this->classroom['ContractType'] = $this->faker->randomElement(array(1, 2, 3, 4));
