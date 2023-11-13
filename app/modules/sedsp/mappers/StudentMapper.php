@@ -2,6 +2,7 @@
 
 class StudentMapper
 {
+    private const CODIGO_UF = "35";
     /**
      * Summary of parseToSEDAlunoFicha
      * @param StudentIdentification $studentIdentificationTag
@@ -282,15 +283,22 @@ class StudentMapper
 
         return $parseResult;
     }
+
+
+
+
     /**
      * Summary of parseToTAGExibirFichaAluno
      * @param OutExibirFichaAluno $exibirFichaAluno
+     * @return array
      */
     public static function parseToTAGExibirFichaAluno(OutExibirFichaAluno $exibirFichaAluno)
     {
         $parseResult = [];
 
         $outDadosPessoais = $exibirFichaAluno->getOutDadosPessoais();
+        $numRA = $outDadosPessoais->getOutNumRa();
+
         $outDocumentos = $exibirFichaAluno->getOutDocumentos();
         $outCertidaoNova = $exibirFichaAluno->getOutCertidaoNova();
         $outCertidaoAntiga = $exibirFichaAluno->getOutCertidaoAntiga();
@@ -300,7 +308,7 @@ class StudentMapper
 
         $studentIdentification = new StudentIdentification;
         $studentIdentification->school_inep_id_fk = $inepId;
-        $studentIdentification->gov_id = $outDadosPessoais->getOutNumRa();
+        $studentIdentification->gov_id = $numRA;
         $studentIdentification->name = $outDadosPessoais->getOutNomeAluno();
         
         $filiation =  $outDadosPessoais->getOutNomeMae()!=""||$outDadosPessoais->getOutNomePai()!=""?1:0;
@@ -335,19 +343,47 @@ class StudentMapper
         //StudentDocuments
         $studentDocumentsAndAddress = new StudentDocumentsAndAddress;
         $studentDocumentsAndAddress->school_inep_id_fk = $inepId;
-        $studentDocumentsAndAddress->gov_id = $outDadosPessoais->getOutNumRa();
+        $studentDocumentsAndAddress->gov_id = $numRA;
         $studentDocumentsAndAddress->cpf = $outDocumentos->getOutCpf();
         $studentDocumentsAndAddress->nis = $outDocumentos->getOutNumNis();
 
         $rgNumber = $outDocumentos->getOutNumDoctoCivil() + $outDocumentos->getOutDigitoDoctoCivil();
         $studentDocumentsAndAddress->rg_number = $rgNumber;
-        
 
         if ($outDocumentos->getOutDataEmissaoDoctoCivil()) {
             $studentDocumentsAndAddress->rg_number_expediction_date = $outDocumentos->getOutDataEmissaoDoctoCivil();
         }
         if ($outDocumentos->getOutDataEmissaoCertidao()) {
             $studentDocumentsAndAddress->civil_certification_date = $outDocumentos->getOutDataEmissaoCertidao();
+        }
+
+        //Matrículas
+        $listOfActiveEnrollments = self::getListMatriculasRa($numRA);
+
+        $studentFk = StudentIdentification::model()->findByAttributes(['gov_id' => $numRA])->id;
+
+        $arrayMapEnrollments = [];
+        foreach($listOfActiveEnrollments as $enrollment) {
+
+            $numClass = $enrollment->getOutNumClasse();
+            $codSchool = self::mapToTAGInepId($enrollment->getOutCodEscola());
+
+            $classroomFk = Classroom::model()->find([
+                'condition' => '(gov_id = :numClass OR inep_id = :numClass) AND school_inep_fk = :codSchool',
+                'params' => [
+                    ':numClass' => $numClass,
+                    ':codSchool' => $codSchool,
+                ],
+            ])->id;
+            
+            
+            $studentEnrollment = new StudentEnrollment();
+            $studentEnrollment->school_inep_id_fk = $codSchool;
+            $studentEnrollment->student_fk = $studentFk;
+            $studentEnrollment->classroom_fk = $classroomFk;
+            $studentEnrollment->status = '1';
+           
+            $arrayMapEnrollments[] = $studentEnrollment;
         }
 
 
@@ -358,22 +394,24 @@ class StudentMapper
         $studentDocumentsAndAddress->complement = $outEnderecoResidencial->getOutComplemento();
         $studentDocumentsAndAddress->cep = $outEnderecoResidencial->getOutCep();
         $studentDocumentsAndAddress->residence_zone = $outEnderecoResidencial->getOutAreaLogradouro() == "URBANA" ? 1:2;
+        
         $studentDocumentsAndAddress->edcenso_uf_fk = intval(
             EdcensoUf::model()->find("acronym = :acronym",[":acronym" => $outEnderecoResidencial->getOutUfCidade()])->id
         );
         $studentDocumentsAndAddress->edcenso_city_fk = intval(
             EdcensoCity::model()->find("name = :name", [":name" => $outEnderecoResidencial->getOutNomeCidade()])->id
         );
+
+        $locationMap = [
+            "Área de assentamento" => 1,
+            "Terra indígena" => 2,
+            "Área onde se localizada em Comunidade remanescente de Quilombos" => 3,
+            "Não está localizado em área de localização diferenciada" => 7
+        ];
         
-        if ($outEnderecoResidencial->getOutLocalizacaoDiferenciada() == "Não está localizado em área de localização diferenciada") {
-            $studentDocumentsAndAddress->diff_location = 7;
-        } elseif ($outEnderecoResidencial->getOutLocalizacaoDiferenciada() == "Área onde se localizada em Comunidade remanescente de Quilombos") {
-            $studentDocumentsAndAddress->diff_location = 3;
-        } elseif ($outEnderecoResidencial->getOutLocalizacaoDiferenciada() == "Terra indígena") {
-            $studentDocumentsAndAddress->diff_location = 2;
-        } elseif ($outEnderecoResidencial->getOutLocalizacaoDiferenciada() == "Área de assentamento") {
-            $studentDocumentsAndAddress->diff_location = 1;
-        }
+        $location = $outEnderecoResidencial->getOutLocalizacaoDiferenciada();
+        $studentDocumentsAndAddress->diff_location = $locationMap[$location] ?? 7;
+        
 
         //Civil_certification
         if (isset($outCertidaoNova)) {
@@ -396,15 +434,74 @@ class StudentMapper
             );
         }
 
+        $parseResult["StudentEnrollment"] = $arrayMapEnrollments;
         $parseResult["StudentIdentification"] = $studentIdentification;
         $parseResult["StudentDocumentsAndAddress"] = $studentDocumentsAndAddress;
 
         return $parseResult;
     }
 
+    public static function existsEnrollments($studentFk, $classroomInepId, $schoolInepIdFk)
+    {
+        $query = "SELECT EXISTS(SELECT 1 FROM student_enrollment
+                WHERE student_fk = :studentFk
+                AND classroom_inep_id = :classroomInepId
+                AND school_inep_id_fk = :schoolInepIdFk
+            ) AS result;";
+
+        $command = Yii::app()->db->createCommand($query);
+        $command->bindValues([
+            ':studentFk' => $studentFk,
+            ':classroomInepId' => $classroomInepId,
+            ':schoolInepIdFk' => $schoolInepIdFk
+        ]);
+
+        return $command->queryScalar() === 1 ? true : false; 
+    }
+
+    /**
+     * Summary of getListMatriculasRa
+     * @param mixed $inNumRA
+     * @return array
+     */
+    public static function getListMatriculasRa($inNumRA)
+    {
+        $enrollment = new EnrollmentSEDDataSource;
+        $outActiveEnrolments = $enrollment->getListarMatriculasRA(new InAluno($inNumRA, null, "SP"));
+
+        return self::getListEnrollmentsActives($outActiveEnrolments);
+    }
+
+    /**
+     * Summary of getListEnrollmentsActives
+     * @param OutListaMatriculaRA $list
+     * @return array
+     */
+    public static function getListEnrollmentsActives(OutListaMatriculaRA $list)
+    {
+        $listOfActiveEnrollments = [];
+        $outListMatriculas = $list->getOutListaMatriculas();
+       
+        foreach($outListMatriculas as $enrollment){
+            if($enrollment->outDescSitMatricula === 'ATIVO'){
+                $listOfActiveEnrollments[] = $enrollment;
+            }
+        }
+
+        return $listOfActiveEnrollments;
+    }
+
     public static function fetchSchoolData(InEscola $inEscola)
     {
         $dataSource = new SchoolSEDDataSource();
         return $dataSource->getSchool($inEscola);
+    }
+
+    public static function mapToTAGInepId($sedInepId)
+    {
+        if (strlen($sedInepId) < 6) {
+            return self::CODIGO_UF . "0" . $sedInepId;
+        }
+        return self::CODIGO_UF . $sedInepId;
     }
 }
