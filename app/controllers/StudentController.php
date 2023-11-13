@@ -8,6 +8,7 @@ Yii::import('application.modules.sedsp.models.Enrollment.*');
 Yii::import('application.modules.sedsp.usecases.*');
 Yii::import('application.modules.sedsp.usecases.Student.*');
 Yii::import('application.modules.sedsp.interfaces.*');
+Yii::import('application.modules.sedsp.datasources.sed.Enrollment.*');
 
 class StudentController extends Controller implements AuthenticateSEDTokenInterface
 {
@@ -571,16 +572,15 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
 
         $dataSource = new StudentSEDDataSource();
         $outListStudent = $dataSource->getListStudents($this->createInListarAlunos($studentIdentification->name));
-
-        $govId = $this->getGovId($studentIdentification, $outListStudent);
         
         $studentDatasource = new StudentSEDDataSource();
-        $response = $studentDatasource->exibirFichaAluno(new InAluno($govId, null, "SP"));
+        $response = $studentDatasource->exibirFichaAluno(
+            new InAluno($this->getGovId($studentIdentification, $outListStudent),null,"SP")
+        );
         $infoAluno = $response->outDadosPessoais->outNomeAluno;
 
         $dataSource = new StudentSEDDataSource();
         $outListStudent = $dataSource->getListStudents($this->createInListarAlunos($infoAluno));
-
 
         if ($outListStudent->outErro !== null) {
             $inConsult = $this->createInConsult($student);
@@ -601,7 +601,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         }
     }
 
-    public function editExistingStudentInSedsp($outListStudent, $student, $studentIdentification) {
+    public function editExistingStudentInSedsp($outListStudent, $student, $studentIdentification)
+    {
         if ($outListStudent->outErro === null) {
             $editStudentSedspUseCase = new EditStudentSedspUseCase;
             return $editStudentSedspUseCase->exec($outListStudent, $student, $studentIdentification);

@@ -12,7 +12,7 @@ class EnrollmentSEDDataSource extends SedDataSource
      * @return OutListaMatriculaRA|OutErro
      * @throws Exception
      */
-    public function getListarMatriculasRA($inAluno)
+    public function getListarMatriculasRA(InAluno $inAluno)
     {
         try {
             $url = '/ncaapi/api/Matricula/ListarMatriculasRA';
