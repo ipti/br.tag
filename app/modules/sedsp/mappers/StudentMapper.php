@@ -483,7 +483,7 @@ class StudentMapper
         $outListMatriculas = $list->getOutListaMatriculas();
        
         foreach($outListMatriculas as $enrollment){
-            if($enrollment->outDescSitMatricula === 'ATIVO'){
+            if($enrollment->outAnoLetivo === Yii::app()->user->year){
                 $listOfActiveEnrollments[] = $enrollment;
             }
         }
