@@ -76,7 +76,8 @@ return array(
         'sedsp',
         'classdiary',
         'curricularcomponents',
-        'stages'
+        'stages',
+        'instanceconfig',
     ),
     // application components
     'components' => array(
