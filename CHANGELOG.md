@@ -1,3 +1,6 @@
+## [Versão 3.63.100]
+- Corrigido a questão das notas sumirem quando eram salvas
+
 ## [Versão 3.63.99]
 - Corrigido a visibilidade de aulas datas em lançamentos de notas
 
