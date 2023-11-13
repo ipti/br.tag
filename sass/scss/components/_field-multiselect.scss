@@ -44,5 +44,14 @@
             max-height: 60px;
         }
     }
+    .helper .select2-container{
+        width: 100% !important;  /* Certifique-se de que a largura é definida como 100% */
+        max-width: none !important;  /* Remova qualquer configuração de max-width */
+        height: auto !important;  /* Permita que a altura seja ajustada automaticamente */
+        max-height: none !important;  /* Remova qualquer configuração de max-height */
+        overflow: visible !important;
+
+    }
+
 
 }
