@@ -6,9 +6,18 @@
  * @property string $description;
  * @property string $action;
  * @property string $inep_id;
+ * @property string $idSchool;
+ * @property integer $idClass;
+ * @property integer $identifier;
  */
 class ValidationSagresModel extends CActiveRecord
 {
+    public $idClass;
+    public $idSchool;
+    public $identifier;
+	public $idProfessional;
+
+
     public function tableName()
     {
         return 'inconsistency_sagres';

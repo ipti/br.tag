@@ -17,18 +17,24 @@ class ReportsRepository
 
     public function getIndexData(): array
     {
-        $classrooms = Classroom::model()->findAll(
-            array(
-                'condition' => 'school_inep_fk=' . $this->currentSchool . ' && school_year = ' . $this->currentYear,
-                'order' => 'name'
-            )
-        );
+        $classrooms = Classroom::model()->findAll(array(
+            'condition' => 'school_inep_fk = :school_id and school_year = :year',
+            'order' => 'name',
+            'params' =>  array(
+                ':school_id'=> $this->currentSchool,
+                ':year'=>  $this->currentYear,
+            ),
+        ));
 
         $students = StudentIdentification::model()->findAll(
             array(
-                'condition' => 'school_inep_id_fk = ' . $this->currentSchool . ' && send_year = ' . $this->currentYear,
-                'order' => 'name'
-            )
+                'condition' => 'school_inep_id_fk = :school_id and send_year = :year',
+                'order' => 'name',
+                'params' =>  array(
+                    ':school_id'=> $this->currentSchool,
+                    ':year'=>  $this->currentYear,
+                ),
+            ),
         );
 
         $schools = SchoolIdentification::model()->findAll();
@@ -2310,13 +2316,18 @@ class ReportsRepository
     /**
      * Carregar a caixa de seleção com os alunos matriculados pelo id da turma
      */
-    public function getStudentClassroomsOptions($id): void
+    public function getStudentClassroomsOptions($id)
     {
-        $classroom = Classroom::model()->findByPk($id);
+        $classroom = Classroom::model()->with("studentEnrollments.studentFk")->findByPk($id);
         $enrollments = $classroom->studentEnrollments;
+        $students = array();
         foreach ($enrollments as $enrollment) {
-            echo htmlspecialchars(CHtml::tag('option', array('value' => $enrollment->studentFk->id), $enrollment->studentFk->name, true));
+            array_push($students, [
+                "id" => $enrollment->studentFk->id,
+                "name" => $enrollment->studentFk->name
+            ]);
         }
+        return $students;
     }
 
     /**

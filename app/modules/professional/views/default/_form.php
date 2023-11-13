@@ -123,27 +123,29 @@
 										<h3>
 											Atendimentos
 										</h3>
-										<table class="tag-table-primary table-bordered table-striped"
-											aria-describedby="tabela de atendimentos">
-											<thead>
-												<tr>
-													<th style="text-align: center; min-width: 200px;">Data</th>
-													<th style="text-align: center; min-width: 200px;">Local</th>
-												</tr>
-											</thead>
-											<tbody>
-												<?php 
-												foreach ($modelAttendances as $attendance) {
-												?>
+										<div style="max-height: 300px; overflow-y: scroll;">
+											<table class="tag-table-primary table-bordered table-striped"
+												aria-describedby="tabela de atendimentos">
+												<thead>
 													<tr>
-														<td style="text-align: center;"><?php echo date("d/m/Y", strtotime($attendance->date)) ?></td>
-														<td style="text-align: center;"><?php echo $attendance->local?></td>
+														<th style="text-align: center; min-width: 200px;">Data</th>
+														<th style="text-align: center; min-width: 200px;">Local</th>
 													</tr>
-												<?php
-												}
-												?>
-											</tbody>
-										</table>
+												</thead>
+												<tbody>
+													<?php 
+													foreach ($modelAttendances as $attendance) {
+													?>
+														<tr>
+															<td style="text-align: center;"><?php echo date("d/m/Y", strtotime($attendance->date)) ?></td>
+															<td style="text-align: center;"><?php echo $attendance->local?></td>
+														</tr>
+													<?php
+													}
+													?>
+												</tbody>
+											</table>
+										</div>
 									</div>
 								</div>
 							</div>				
