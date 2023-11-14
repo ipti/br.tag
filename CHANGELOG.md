@@ -1,3 +1,6 @@
+## [Versão 3.63.102]
+- Corrigida a responsividade da tela de reaproveitamento de alunos
+
 ## [Versão 3.63.101]
 - Corrigido o estilo e padronização das caixas de texto na tela de cadastrar e atualizar usuário
 
