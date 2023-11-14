@@ -25,61 +25,57 @@ $year = (Yii::app()->user->year);
 $model = new StudentEnrollment();
 ?>
 <div class="main">
-    <div class="row-fluid">
-        <div class="span12" style="margin-left: 20px;">
-            <h1>
-                <?php echo $title; ?>
-            </h1>
-
+    <div class="mobile-row ">
+        <div class="column clearleft">
+            <h1><?php echo $title; ?></h1>
+        </div>
+        <div class="column clearfix align-items--center justify-content--end show--desktop" id="save">
+            <?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('class' => 't-button-primary  last', 'type' => 'submit')); ?>
         </div>
     </div>
-        <?php if (Yii::app()->user->hasFlash('success')) : ?>
-            <div class="alert alert-success">
-                <?php echo Yii::app()->user->getFlash('success') ?>
-            </div>
-        <?php endif ?>
+    <?php if (Yii::app()->user->hasFlash('success')) : ?>
+        <div class="alert alert-success">
+            <?php echo Yii::app()->user->getFlash('success') ?>
+        </div>
+    <?php endif ?>
         <div class="widget widget-tabs border-bottom-none">
-            <div class="widget-body form-horizontal">
+            <div class="widget-body">
                 <div class="tab-content">
                     <div class="tab-pane active" id="student">
-                        <div class="row-fluid">
-                            <div class="span5">
-                                <div class="control-group t-multiselect" id="classrooms-select">
-                                    <?php echo Chtml::label('Turma de ' . $lastYear . ':', '', array('class' => 'controls control-label ml-10 required')); ?>
-                                    <div class="controls">
-                                        <?php echo chtml::dropDownList('Classrooms', "", CHtml::listData(Classroom::model()->findAll(
-                                            "school_year = :sy AND school_inep_fk = :si order by name",
-                                            array("sy" => (Yii::app()->user->year - 1), "si" => yii::app()->user->school)
-                                        ), 'id', 'name'), array(
-                                            'class' => 'select-search-on',
-                                            'multiple' => 'multiple',
-                                            'placeholder' => Yii::t('default', 'Select Classrooms'),
-                                        ));
-                                        ?>
-                                    </div>
+                        <div class="row">
+                            <div class="column is-two-fifths clearleft">
+                                <div class="t-field-select t-multiselect clear-margin--top" id="classrooms-select">
+                                    <?php echo Chtml::label('Turma de ' . $lastYear . ':', '', array('class' => 't-field-select__label--required')); ?>
+                                    <?php echo chtml::dropDownList('Classrooms', "", CHtml::listData(Classroom::model()->findAll(
+                                        "school_year = :sy AND school_inep_fk = :si order by name",
+                                        array("sy" => (Yii::app()->user->year - 1), "si" => yii::app()->user->school)
+                                    ), 'id', 'name'), array(
+                                        'class' => 'select-search-on t-field-select__input select2-container',
+                                        'multiple' => 'multiple',
+                                        'placeholder' => Yii::t('default', 'Select Classrooms'),
+                                    ));
+                                    ?>
                                 </div>
                             </div>
-                            <div class="span5">
-                                <div class="control-group" id="oneClassrom-select">
-                                    <?php echo Chtml::label('Turma de ' . Yii::app()->user->year . ':', '', array('class' => 'controls control-label ml-10 required')); ?>
-                                    <div class="controls">
-                                        <?php echo $form->dropDownList($model, 'classroom_fk', CHtml::listData(Classroom::model()->findAll(
-                                            "school_year = :sy AND school_inep_fk = :si order by name",
-                                            array("sy" => (Yii::app()->user->year), "si" => yii::app()->user->school)
-                                        ), 'id', 'name'), array("prompt" => "Selecione uma Turma", 'class' => 'select-search-on')); ?>
-                                        <?php echo $form->error($model, 'classroom_fk'); ?>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="span1">
-                                <div class="tag-buttons-container buttons">
-                                    <div class="control-group" id="save">
-                                        <?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('class' => 't-button-primary  last', 'type' => 'submit')); ?>
-                                    </div>
+                            <div class="column clearleft--on-mobile is-two-fifths">
+                                <div class="t-field-select" id="oneClassrom-select">
+                                    <?php echo Chtml::label('Turma de ' . Yii::app()->user->year . ':', '', array('class' => 't-field-select__label--required')); ?>
+                                    <?php echo $form->dropDownList($model, 'classroom_fk', CHtml::listData(Classroom::model()->findAll(
+                                        "school_year = :sy AND school_inep_fk = :si order by name",
+                                        array("sy" => (Yii::app()->user->year), "si" => yii::app()->user->school)
+                                    ), 'id', 'name'), array("prompt" => "Selecione uma Turma", 'class' => 'select-search-on t-field-select__input select2-container')); ?>
+                                    <?php echo $form->error($model, 'classroom_fk'); ?>
                                 </div>
                             </div>
                         </div>
-                        <span style="clear:both;display:block"></span>
+
+                        <div class="row show--tablet">
+                            <div class="t-buttons-container">
+                                <div class="column clearfix" >
+                                    <?php echo CHtml::htmlButton(Yii::t('default', 'Save'), array('class' => 't-button-primary full--width last', 'type' => 'submit')); ?>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <?php $this->endWidget(); ?>
