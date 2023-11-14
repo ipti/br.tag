@@ -392,14 +392,14 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column clearleft is-two-fifths">
                             <div class=" t-field-text js-hide-not-required" id="emailResponsable">
                                 <?php echo $form->labelEx(
-                                    $modelStudentIdentification, 'email_responsable', 
+                                    $modelStudentIdentification, 'email_responsable',
                                     array('class' => 't-field-text__label')
                                 ); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'email_responsable', 
+                                <?php echo $form->textField($modelStudentIdentification, 'email_responsable',
                                 array(
-                                    'size' => 60, 
-                                    'maxlength' => 255, 
-                                    'class' => 't-field-text__input', 
+                                    'size' => 60,
+                                    'maxlength' => 255,
+                                    'class' => 't-field-text__input',
                                     'placeholder' => 'Digite o Email'
                                 )); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'email_responsable'); ?>
