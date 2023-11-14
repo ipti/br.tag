@@ -14,3 +14,18 @@ $(".js-instructor-select").on("change", function (){
         $('.js-chage-name').val(name);
     }
 });
+$(document).on("click", "#addSchool", function () {
+    $("#addSchools").modal("show");
+});
+
+$(document).on("click", "saveSchool", function () {
+    // var multiselect = document.getElementByClassName('optionSchool');
+    // var selectedOptions = [];
+    // for (var i = 0; i < multiselect.options.length; i++) {
+    //     if (multiselect.options[i].selected) {
+    //         selectedOptions.push(multiselect.options[i].value);
+    //     }
+    // }
+    // var numberOfSelectedOptions = selectedOptions.length;
+    // alert('Número de opções selecionadas: ' + numberOfSelectedOptions);
+});

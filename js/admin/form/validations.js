@@ -33,6 +33,8 @@ $(document).ready(function() {
 });
 
 
+
+
 $(form + 'name').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());

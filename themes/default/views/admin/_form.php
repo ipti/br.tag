@@ -180,7 +180,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         CHtml::listData(SchoolIdentification::model()->findAll('situation=1 order by name'), 'inep_id', 'name'),
                                         array(
                                             'multiple' => 'multiple',
-                                            'class' => 'select-search-on t-multiselect helper'
+                                            'class' => 'select-search-on t-multiselect helper optionSchool'
                                         )
                                     ); ?>
                                 </div>
@@ -189,7 +189,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
                                     </div>
                                     <div class="t-buttons-container justify-content--center">
-                                        <button type="button" class="t-button-primary clear-margin--right" onclick="addTeachingData()" data-dismiss="modal">Salvar</button>
+                                        <button type="button" class="t-button-primary clear-margin--right" onclick="saveSchool()" data-dismiss="modal">Salvar</button>
                                     </div>
                                 </div>
                             </div>
