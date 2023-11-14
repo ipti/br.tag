@@ -189,6 +189,7 @@ class CustomProvider extends Base
 
     /**
      * Gera a identificação da turma.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function identificationClass()
     {
@@ -202,5 +203,20 @@ class CustomProvider extends Base
         }
 
         return $identificacao;
+    }
+
+    /**
+     * Gera nome do plano de curso.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function classPlan()
+    {
+        $adjectives = ['Plano', 'Aula', 'Teste'];
+        $nouns = ['Português', 'Inglês', 'Geografia', 'História', 'Ciências', 'Matemática', 'História'];
+
+        $randomAdjective = $adjectives[array_rand($adjectives)];
+        $randomNoun = $nouns[array_rand($nouns)];
+
+        return $randomAdjective . ' ' . $randomNoun;
     }
 }

@@ -27,3 +27,6 @@ require_once __DIR__ . '/../builders/StudentBuilder.php';
 
 require_once __DIR__ . "/../robots/WizardRobots.php";
 require_once __DIR__ . '/../builders/WizardBuilder.php';
+
+require_once __DIR__ . "/../robots/ClassPlanRobots.php";
+require_once __DIR__ . '/../builders/ClassPlanBuilder.php';
