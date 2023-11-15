@@ -9,48 +9,56 @@ class UpdateFichaAlunoInTAGUseCase
 
         try {
             $mapper = (object) StudentMapper::parseToTAGExibirFichaAluno($response);
+            $mapperStudentIdentification = $mapper->StudentIdentification;
 
-            $studentIdentification = $this->createOrUpdateStudentIdentification($mapper->StudentIdentification);
-            $this->createOrUpdateStudentDocumentsAndAddress(
-                $mapper->StudentDocumentsAndAddress, $studentIdentification, $mapper->StudentDocumentsAndAddress->gov_id
-            );
+            $studentIdentification = $this->createOrUpdateStudentIdentification($mapperStudentIdentification);
+            $studentId = $studentIdentification->id;
+
+            $mapperStudentDocuments = $mapper->StudentDocumentsAndAddress;
+            $govId = $mapperStudentDocuments->gov_id;
+
+            $idStudentDocuments = $this->findStudentByIdentification($govId)->id;
+            $this->updateStudentDocsAndAddress($mapperStudentDocuments, $studentId, $govId, $idStudentDocuments);
 
             return $studentIdentification;
         } catch (Exception $e) {
-            $this->handleException($mapper->StudentIdentification, $e);
+            $this->handleException($mapperStudentIdentification, $e);
         }
     }
 
     private function createOrUpdateStudentIdentification($studentIdentification)
     {
-        if ($studentIdentification === null) {
-            $studentIdentification = $this->createAndSaveStudentIdentification($studentIdentification);
-        } else {
-            $aluno = $this->findStudentByIdentification($studentIdentification->gov_id);
-            $aluno->attributes = $studentIdentification->attributes;
-            $aluno->sedsp_sync = 1;
-            $aluno->save();
+        $existingStudent = $this->findStudentByIdentification($studentIdentification->gov_id);
+
+        if ($existingStudent) {
+            $existingStudent->attributes = $studentIdentification->attributes;
+            
+            if ($existingStudent->save()) {
+                $existingStudent->sedsp_sync = 1;
+                return $existingStudent->save();
+            }
+
+            return false;
         }
 
-        return $studentIdentification;
+        return $this->createAndSaveStudentIdentification($studentIdentification);
     }
 
-    private function createOrUpdateStudentDocumentsAndAddress($studentDocumentsAndAddress,$studentIdentification,$govId)
+    private function updateStudentDocsAndAddress($docsAndAddress, $studentId, $govId, $idStudentDocuments)
     {
-        if ($studentDocumentsAndAddress === null) {
-            $studentDocumentsAndAddress = $this->createAndSaveStudentDocumentsAndAddress(
-                $studentDocumentsAndAddress, $studentIdentification, $govId
-            );
-        } else {
-            $studentDocumentsAndAddress->save();
+        if ($docsAndAddress === null) {
+            return $this->createStudentDocumentsAndAddress($docsAndAddress, $studentId, $govId);
         }
+    
+        $studentDocument = StudentDocumentsAndAddress::model()->findByPk($idStudentDocuments);
+        $studentDocument->attributes = $docsAndAddress->attributes;
 
-        return $studentDocumentsAndAddress;
+        return $studentDocument->save();
     }
 
     private function findStudentByIdentification($govId)
     {
-        return StudentIdentification::model()->findByAttributes(array('gov_id' => $govId));
+        return StudentIdentification::model()->findByAttributes(['gov_id' => $govId]);
     }
 
     private function handleException($studentIdentification, $e)
@@ -59,22 +67,21 @@ class UpdateFichaAlunoInTAGUseCase
         $aluno->attributes = $studentIdentification->attributes;
         $aluno->sedsp_sync = 0;
         $aluno->save();
+        
         $log = new LogError();
         $log->salvarDadosEmArquivo($e->getMessage());
     }
 
 
-    public function createAndSaveStudentDocumentsAndAddress($attributes, $studentIdentification, $govId)
+    public function createStudentDocumentsAndAddress($attributes, $id, $govId)
     {
         $studentDocumentsAndAddress = new StudentDocumentsAndAddress();
         $studentDocumentsAndAddress->attributes = $attributes->getAttributes();
         $studentDocumentsAndAddress->edcenso_city_fk = $attributes->edcenso_city_fk;
         $studentDocumentsAndAddress->gov_id = $govId;
-        $studentDocumentsAndAddress->id = $studentIdentification->id;
+        $studentDocumentsAndAddress->id = $id;
 
-        if ($studentDocumentsAndAddress->save()) {
-            return true;
-        }
+        return $studentDocumentsAndAddress->save();
     }
 
     public function createAndSaveStudentIdentification($attributes)
@@ -83,8 +90,6 @@ class UpdateFichaAlunoInTAGUseCase
         $studentIdentification->attributes = $attributes->getAttributes();
         $studentIdentification->gov_id = $attributes->gov_id;
 
-        if ($studentIdentification->save()) {
-            return $studentIdentification;
-        }
+        return $studentIdentification->save();
     }
 }
