@@ -39,12 +39,12 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     <?php } else { ?>
                         <div style="font-weight: bold;margin-right: 20px;">
-                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png" style="width: 25px;margin-right: 2px;">Não sincronizado 
+                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png" style="width: 25px;margin-right: 2px;">Não sincronizado
                         </div>
                     <?php } ?>
 
                     <a href="<?php echo $this->createUrl('sedsp/default/UpdateStudentFromSedsp', array('gov_id' => $modelStudentIdentification->gov_id, 'id' => $modelStudentIdentification->id)); ?>"
-                        onclick="return confirm('Tem certeza de que deseja prosseguir com a importação?\n\nEsta ação resultará na substituição dos dados atuais do aluno pelos dados do aluno da sedsp.');"
+                        onclick="return confirm('Tem certeza de que deseja realizar a importação?\n\nEsta ação resultará na substituição dos dados atuais do aluno pelos dados do aluno da sedsp.');"
                         style="margin-right: 10px;background: #2e33b7;color: white;font-size: 13px;padding-left: 4px;padding-right: 4px;border-radius: 6px;">
                         Importar dados da SED
                     </a>
