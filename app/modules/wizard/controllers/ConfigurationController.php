@@ -92,6 +92,7 @@ class ConfigurationController extends Controller
             $logYear = "";
             foreach ($_POST["Classrooms"] as $classroom) {
                 $emrollments = StudentEnrollment::model()->findAll("classroom_fk = :c", array("c" => $classroom));
+                $emrollments->status = 2;
                 $logYear = Classroom::model()->findByPk($classroom)->school_year;
                 foreach ($emrollments as $e) {
                     $enrollment = new StudentEnrollment();
@@ -108,6 +109,7 @@ class ConfigurationController extends Controller
                         $enrollment->classroom_fk = $c->id;
                         $enrollment->student_inep_id = $st->inep_id;
                         $enrollment->classroom_inep_id = $c->inep_id;
+                        $enrollment->status = 1;
                         $save = $save && $enrollment->save();
                     }
                 }
