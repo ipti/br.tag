@@ -31,7 +31,8 @@ class GetExibirFichaAlunoFromSEDUseCase
             return $studentIdentification;
             
         } catch (Exception $e) {
-            CVarDumper::dump($e->getMessage(), 10, true);
+            $log = new LogError();
+            $log->salvarDadosEmArquivo($e->getMessage());
         }
 
         throw new SedspException("Não foi possivel cadastrar aluno", 1);
@@ -43,6 +44,7 @@ class GetExibirFichaAlunoFromSEDUseCase
     {
         $studentDocumentsAndAddress = new StudentDocumentsAndAddress();
         $studentDocumentsAndAddress->attributes = $attributes->getAttributes();
+        $studentDocumentsAndAddress->edcenso_city_fk = $attributes->edcenso_city_fk;
         $studentDocumentsAndAddress->gov_id = $gov_id;
         $studentDocumentsAndAddress->id = $studentIdentification->id;
 

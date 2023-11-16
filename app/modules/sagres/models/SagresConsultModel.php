@@ -61,6 +61,11 @@ class SagresConsultModel
             $inconsistencyModel->description = $value["description"];
             $inconsistencyModel->action = $value["action"];
             $inconsistencyModel->inep_id = $value['school'];
+            $inconsistencyModel->idClass = $value['idClass'];
+            $inconsistencyModel->idSchool = $value["school"];
+            $inconsistencyModel->identifier = $value["id"];
+            $inconsistencyModel->idStudent = $value["idStudent"];
+            $inconsistencyModel->idProfessional = $value["idProfessional"];
             $inconsistencyModel->insert();
         }
 

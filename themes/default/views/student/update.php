@@ -10,7 +10,7 @@
     ?>
 
     <div class="twoColumn">
-        <div class="columnone" style="padding-right: 1em">
+        <div class="columnone">
             <?php
             echo $this->renderPartial('_form', array(
                 'modelStudentIdentification' => $modelStudentIdentification,
@@ -20,7 +20,7 @@
                 'vaccines' => $vaccines,
                 'studentVaccinesSaves' => $studentVaccinesSaves,
                 'title' => $modelStudentIdentification->name));
-            ?>        
+            ?>
         </div>
         <div class="columntwo">
         </div>

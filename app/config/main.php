@@ -17,7 +17,7 @@ $log_config = array(
     ),
 );
 
-if(YII_DEBUG){
+if(!YII_DEBUG){
     array_push($log_config['routes'], array(
         'class'=>'CWebLogRoute',
       )
@@ -48,7 +48,8 @@ return array(
         'application.modules.quiz.models.*',
         'application.modules.sedsp.datasources.sed.*',
         'application.modules.sagres.soap.src.sagresEdu.*',
-        'application.components.utils.TagUtils'
+        'application.components.utils.TagUtils',
+        'ext.bncc-import.BNCCImport'
     ),
     'modules' => array(
         // uncomment the following to enable the Gii tool
@@ -75,7 +76,8 @@ return array(
         'sedsp',
         'classdiary',
         'curricularcomponents',
-        'foods'
+        'foods',
+        'stages'
     ),
     // application components
     'components' => array(
@@ -89,7 +91,7 @@ return array(
             // enable cookie-based authentication
             'allowAutoLogin' => true,
         ),
-        'cache'=>array( 
+        'cache'=>array(
             'class'=>'system.caching.CDbCache'
         ),
         // uncomment the following to enable URLs in path-format
@@ -156,7 +158,7 @@ return array(
             'itemTable' => 'auth_item',
             'assignmentTable' => 'auth_assignment',
             'itemChildTable' => 'auth_item_child',
-        ),   
+        ),
         'errorHandler' => array(
             // use 'site/error' action to display errors
             'errorAction' => 'site/error',

@@ -1,4 +1,5 @@
 <?php
+
 class GetRelacaoClassesFromSEDUseCase
 {
     /**
@@ -11,55 +12,45 @@ class GetRelacaoClassesFromSEDUseCase
             $classes = new ClassStudentsRelationSEDDataSource();
             $response = $classes->getRelacaoClasses($inRelacaoClasses);
 
-            $mapper = (object) ClassroomMapper::parseToTAGRelacaoClasses($response);
-            $schoolInepFk = SchoolMapper::mapToTAGInepId($inRelacaoClasses->getInCodEscola());
+            $mapper = (object)ClassroomMapper::parseToTAGRelacaoClasses($response);
+            $classrooms = $mapper->Classrooms;
 
-            //Aramazena as classes da escola de código $schoolInepFk
-            $indexedByClasses = [];
-            $allClasses = (object) Classroom::model()->findAll('school_inep_fk = :schoolInepFk', [':schoolInepFk' => $schoolInepFk]);
-            foreach ($allClasses as $value) {
-                $indexedByClasses[$value['gov_id']] = $value['gov_id'];
+            if (empty($classrooms)) {
+                $log = new LogError();
+                $log->salvarDadosEmArquivo($response->getOutErro());
+                return 2;
             }
 
             $status = false;
-            $classrooms = $mapper->Classrooms;
-            foreach($classrooms as $classroom) {
-                $classroomGovId = $classroom->gov_id;
+            foreach ($classrooms as $classroom) {
+                $createdClass = $this->createAndSaveNewClass($classroom);
 
-                if($indexedByClasses[$classroomGovId] !== null){ //Verifica se a Classe já existe no TAG
+                if ($createdClass) {
                     $status = true;
-                } else {
-                    $attributes = $classroom->getAttributes();
-                    $createdClass = $this->createAndSaveNewClass($attributes, $classroom->gov_id);
-                 
-                    if ($createdClass) {
-                        $status = true;
-                    }
                 }
             }
-            
+
             return $status;
         } catch (Exception $e) {
-            CVarDumper::dump($e->getMessage(), 10, true);
+            $log = new LogError();
+            $log->salvarDadosEmArquivo($e->getMessage());
         }
     }
 
-    public function createAndSaveNewClass($attributes, $govId)
-    {
-        $class = new Classroom();
-        $class->attributes = $attributes;
-        $class->gov_id = $govId;
 
-        if($class->validate() && $class->save()) {
+    public function createAndSaveNewClass($classroom)
+    {
+        if ($classroom->validate() && $classroom->save()) {
             return true;
         } else {
-            CVarDumper::dump($class->getErrors(), 10, true);
+            $log = new LogError();
+            $log->salvarDadosEmArquivo($classroom->getErrors());
         }
     }
 
-    public function getStudentsFromClass($classroomGovId)
+    public function getStudentsFromClass($numClasse)
     {
-        $inNumClasse = new InFormacaoClasse($classroomGovId);
+        $inNumClasse = new InFormacaoClasse($numClasse);
         $formacaoClasseSEDUseCase = new GetFormacaoClasseFromSEDUseCase();
         return $formacaoClasseSEDUseCase->exec($inNumClasse);
     }

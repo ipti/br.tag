@@ -8,7 +8,7 @@ $cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js', CC
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
 <div class="pageA4H" style="width: 1080px;">
-    <?php $this->renderPartial('head'); ?>
+    <?php $this->renderPartial('HeadWithoutSchool'); ?>
     <h3><?php echo Yii::t('default', 'TOTAL DE ALUNOS MATRICULADOS POR ESCOLA'); ?></h3>
     <h3><?php echo $header ?></h3>
     <div class="row-fluid hidden-print">
@@ -25,7 +25,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <th scope="col">ALUNOS</th>
         </thead>
         <tbody>
-            <?php 
+            <?php
             $countTotalClass = 0;
             $countTotalEnrollments = 0;
             foreach($report as $r) { ?>

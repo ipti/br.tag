@@ -10,15 +10,30 @@
  * @property string $gov_id
  * @property integer $id
  * @property string $name
+ * @property string $civil_name
  * @property string $birthday
  * @property integer $sex
  * @property integer $color_race
  * @property integer $filiation
+ * @property integer $filiation_no_declared
+ * @property integer $filiation_with_and_father
  * @property integer $id_email
  * @property integer $scholarity
  * @property string $filiation_1
+ * @property string $filiation_1_cpf
+ * @property string $filiation_1_birthday
+ * @property string $filiation_1_rg
+ * @property string $filiation_1_scholarity
+ * @property string $filiation_1_job
  * @property string $filiation_2
+ * @property string $filiation_2_cpf
+ * @property string $filiation_2_birthday
+ * @property string $filiation_2_rg
+ * @property string $filiation_2_scholarity
+ * @property string $filiation_2_job
  * @property integer $nationality
+ * @property integer $state
+ * @property integer $city
  * @property string $uf
  * @property integer $edcenso_nation_fk
  * @property integer $edcenso_uf_fk
@@ -62,9 +77,11 @@
  * @property string $responsable_job
  * @property integer $bf_participator
  * @property string $responsable_telephone
+ * @property string $responsable_email
  * @property string $tag_id
  * @property integer $no_documents_desc
  * @property string $fkid
+ * @property integer $sedsp_sync
  *
  * The followings are the available model relations:
  * @property StudentEnrollment[] $studentEnrollments
@@ -105,7 +122,7 @@ class StudentIdentification extends AltActiveRecord {
             return [];
         }
     }
-        
+
     /**
      * @return array validation rules for model attributes.
      */
@@ -114,7 +131,7 @@ class StudentIdentification extends AltActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('school_inep_id_fk, name, birthday, sex, color_race, filiation, nationality, edcenso_nation_fk, deficiency, send_year', 'required'),
+            array('school_inep_id_fk, birthday, sex, name, color_race, filiation, nationality, edcenso_city_fk, edcenso_uf_fk, edcenso_nation_fk, deficiency, send_year', 'required'),
             array('sex, color_race, filiation, scholarity, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_monocular_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_zoomed_test_18, resource_braille_test, resource_proof_language, resource_cd_audio, resource_video_libras, resource_none, send_year, responsable, responsable_scholarity, filiation_1_scholarity, filiation_2_scholarity, bf_participator, no_document_desc', 'numerical', 'integerOnly'=>true),
             array('register_type', 'length', 'max'=>2),
             array('school_inep_id_fk', 'length', 'max'=>8),
@@ -151,15 +168,15 @@ class StudentIdentification extends AltActiveRecord {
                 'StudentEnrollment',
                 'student_fk',
                 'with' => 'classroomFk',
-                'together' => true,  
+                'together' => true,
                 'order'=>'classroomFk.school_year DESC, status, studentEnrollments.id DESC'
             ),
             'lastEnrollment' => array(
-                self::HAS_ONE, 
+                self::HAS_ONE,
                     'StudentEnrollment',
                     'student_fk',
                     'with' => 'classroomFk',
-                    'together' => true,  
+                    'together' => true,
                     'order'=>'classroomFk.school_year DESC, lastEnrollment.id DESC'
                 )
         );

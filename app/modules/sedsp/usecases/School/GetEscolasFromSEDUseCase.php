@@ -5,55 +5,22 @@ class GetEscolasFromSEDUseCase
     public function exec(InEscola $inEscola)
     {
         $result = $this->fetchSchoolData($inEscola);
-        $schoolId = $this->buildSchoolId($result->getOutEscolas()[0]->getOutCodEscola());
+        $schoolId = SchoolMapper::mapToTAGInepId($result->getOutEscolas()[0]->getOutCodEscola());
 
-
-        if ($this->existSchool($inEscola)) {
+        $mapper = (object) SchoolMapper::parseToTAGSchool($result);
+        if ($this->saveSchool($mapper)) {
             $inRelacaoClasses = $this->getClassesFromSED($schoolId);
-            return $this->getSchoolClasses($inRelacaoClasses);
+        } else {
+            throw new SedspException('Não foi possível salvar a escola no banco de dados.');
         }
 
-        if ($this->createSchool($inEscola)) {
-            $inRelacaoClasses = $this->getClassesFromSED($schoolId);
-            return $this->getSchoolClasses($inRelacaoClasses);
-        } 
-        
-        throw new SedspException('Não foi possível salvar a escola no banco de dados.');
-    
-    }
-
-    public function existSchool(InEscola $inEscola)
-    {
-        $result = $this->fetchSchoolData($inEscola);
-        $schoolId = $this->buildSchoolId($result->getOutEscolas()[0]->getOutCodEscola());
-        $schoolModel = $this->findSchoolById($schoolId);
-
-        return ($schoolModel->inep_id !== null) ? true : false;
-    }
-
-    public function createSchool(InEscola $inEscola)
-    {
-        $result = $this->fetchSchoolData($inEscola);
-        $mapper = (object) SchoolMapper::parseToTAGSchool($result);
-        $schoolAttributes = $mapper->SchoolIdentification->getAttributes();
-
-        return $this->createAndSaveNewSchool($schoolAttributes);
-    }
-
-    public function buildSchoolId($sedInepId)
-    {
-        return SchoolMapper::mapToTAGInepId($sedInepId);
+        return $this->getSchoolClasses($inRelacaoClasses);
     }
 
     public function fetchSchoolData(InEscola $inEscola)
     {
         $dataSource = new SchoolSEDDataSource();
         return $dataSource->getSchool($inEscola);
-    }
-
-    private function findSchoolById($schoolId)
-    {
-        return SchoolIdentification::model()->find('inep_id = :inep_id', [':inep_id' => $schoolId]);
     }
 
     public function getClassesFromSED($schoolId)
@@ -64,19 +31,36 @@ class GetEscolasFromSEDUseCase
         return new InRelacaoClasses($inAnoLetivo, $inCodEscola, null, null, null, null);
     }
 
-    public function createAndSaveNewSchool($schoolAttributes)
+    /**
+     * Summary of createAndSaveNewSchool
+     * @param mixed $schoolAttributes
+     * @throws \SedspException
+     * @return bool
+     */
+    public function saveSchool($school)
     {
-        $school = new SchoolIdentification();
-        $school->attributes = $schoolAttributes;
-
-        if(!$school->validate()){
-            throw new SedspException(CJSON::encode([ 
-                'data'=> $schoolAttributes,
-                'errors' => $school->getErrors()
+        if(!$school->SchoolIdentification->validate()){
+            throw new SedspException(CJSON::encode([
+                'data'=> $school->SchoolIdentification->attributes,
+                'errors' => $school->SchoolIdentification->getErrors()
             ]));
         }
 
-        return $school->save();
+        $status = $school->SchoolIdentification->save();
+        if ($status) {
+            foreach ($school->SchoolUnities as $unity) {
+                if ($status) {
+                    if (!$unity->validate()) {
+                        throw new SedspException(CJSON::encode([
+                            'data' => $unity->attributes,
+                            'errors' => $unity->getErrors()
+                        ]));
+                    }
+                    $status = $unity->save();
+                }
+            }
+        }
+        return $status;
     }
 
     private function extractStateCode($schoolId)
