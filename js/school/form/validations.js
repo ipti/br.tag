@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -86,7 +86,7 @@ $(formIdentification + 'address_number').focusout(function () {
         removeError(id);
     }
 });
-/*$(formIdentification+'address_complement').focusout(function() { 
+/*$(formIdentification+'address_complement').focusout(function() {
  var id = '#'+$(this).attr("id");
  $(id).val($(id).val().toUpperCase());
  if(!validateAddress($(id).val(),20)) {
@@ -167,7 +167,7 @@ $('#ManagerIdentification_name').focusout(function () {
             addError(id, ret[1]);
         } else {
             removeError(id);
-        } 
+        }
     });
 });
 
