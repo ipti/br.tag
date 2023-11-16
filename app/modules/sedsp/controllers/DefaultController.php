@@ -337,14 +337,19 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
 
 			$exibirFicha = new UpdateFichaAlunoInTAGUseCase();
 			$statusSave = $exibirFicha->exec($inAluno);
-			$id = (int) $_GET["id"];
+            $id = (int) $_GET["id"];
 
+            if($statusSave === 401) {
+                Yii::app()->user->setFlash('error', "Não foi possível fazer a sincronização da SED para o TAG.");
+				$this->redirect(['/student/update', 'id' => $id]);
+            }
+			
 			if ($statusSave) {
 				Yii::app()->user->setFlash('success', "Aluno sincronizado com sucesso.");
-				$this->redirect(array('/student/update', 'id' => $id));
+				$this->redirect(['/student/update', 'id' => $id]);
 			} else {
 				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
-				$this->redirect(array('/student/update', 'id' => $id));
+				$this->redirect(['/student/update', 'id' => $id]);
 			}
 		} catch (Exception $e) {
 			Yii::app()->user->setFlash('error', "A escola do aluno não está cadastrada no TAG");
