@@ -7,6 +7,23 @@ class UpdateFichaAlunoInTAGUseCase
         $studentDatasource = new StudentSEDDataSource();
         $response = $studentDatasource->exibirFichaAluno($inAluno);
 
+        if (method_exists($response, "getOutErro") && $response->getOutErro() === "" && $response->getCode() === 401) {
+            
+            $student = StudentIdentification::model()->findByAttributes(array("gov_id"=> $inAluno->inNumRA));
+            $student->sedsp_sync = 0;
+            $student->save();
+
+            return $response->getCode();
+        }
+
+        if (method_exists($response, "getCode") && $response->getCode() === 401) {
+            $student = StudentIdentification::model()->findByAttributes(array("gov_id"=> $inAluno->inNumRA));
+            $student->sedsp_sync = 0;
+            $student->save();
+
+            return $response->getCode();
+        }
+
         try {
             $mapper = (object) StudentMapper::parseToTAGExibirFichaAluno($response);
             $mapperStudentIdentification = $mapper->StudentIdentification;
