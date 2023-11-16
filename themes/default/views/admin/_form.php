@@ -110,26 +110,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($model, 'name'); ?>
                                 </div>
                             </div>
-                            <div class="separator"></div>
                             <div class="column">
-                                <!-- <div class="t-field-select">
-                                        <?php echo CHtml::label(Yii::t('default', 'Schools'), 'schools', array('class' => 't-field-select__label')); ?>
-                                        <?php
-                                        echo CHtml::dropDownList(
-                                            'schools',
-                                            $userSchools,
-                                            CHtml::listData(SchoolIdentification::model()->findAll('situation=1 order by name'), 'inep_id', 'name'),
-                                            array(
-                                                'multiple' => 'multiple',
-                                                'class' => 'select-search-on t-multiselect t-field-select__input'
-                                            )
-                                        ); ?>
-                                </div> -->
-                                <div class="row">
-                                    <a href="#" class="t-button-primary add hidden-print" id="addSchool">
-                                        <i></i>
-                                        <?php echo Yii::t('default', 'Select School') ?>
-                                    </a>
+                                <div class="t-field-select">
+                                    <?php echo CHtml::label(Yii::t('default', 'Schools'), 'schools', array('class' => 't-field-select__label')); ?>
+                                    <input type="text" id="addSchool" class="t-field-text__input" />
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo CHtml::activeCheckbox($model, 'active', array('class' => 't-field-checkbox__input')) ?>
@@ -180,7 +164,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                         CHtml::listData(SchoolIdentification::model()->findAll('situation=1 order by name'), 'inep_id', 'name'),
                                         array(
                                             'multiple' => 'multiple',
-                                            'class' => 'select-search-on t-multiselect helper optionSchool'
+                                            'class' => 'select-search-on t-multiselect helper optionSchool',
+                                            'id' => 'optionSchool'
                                         )
                                     ); ?>
                                 </div>
@@ -189,7 +174,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
                                     </div>
                                     <div class="t-buttons-container justify-content--center">
-                                        <button type="button" class="t-button-primary clear-margin--right" onclick="saveSchool()" data-dismiss="modal">Salvar</button>
+                                        <button type="button" class="t-button-primary clear-margin--right saveSchool" data-dismiss="modal">Salvar</button>
                                     </div>
                                 </div>
                             </div>
