@@ -9,11 +9,6 @@
     flex-wrap: wrap;
 
 }
-
-/* .innerLR .tag-row {
-    display: flex;
-    justify-content: space-between;
-} */
 .modal-container-buttons {
     display: flex;
     justify-content: end;
@@ -265,7 +260,6 @@ table.dataTable {
 }
 
 .home-page-table-item.gray {
-    /* background-color: #ECECEC; */
     background-color: #eaeaf8;
 }
 
@@ -476,7 +470,6 @@ table.dataTable.no-footer {
 
 .grades-structure-container .modality-name {
     width: calc(100% - 140px);
-    /* margin: 0px 9px 0px 0px; */
 }
 
 .grades-structure-container .formula-select,
