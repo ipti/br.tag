@@ -9,12 +9,31 @@ class ClassPlanRobots
     }
 
     /**
+     * Url da página principal de plano de curso.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function pageClassPlan()
+    {
+        $this->tester->amOnPage("?r=courseplan");
+    }
+
+    /**
      * Url da página de criar plano de curso.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function pageCreate()
     {
         $this->tester->amOnPage('?r=courseplan/create');
+    }
+
+    /**
+     * Pesquisa o plano de curso.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function search($search)
+    {
+        $this->tester->click('.dataTables_filter input[type="search"]');
+        $this->tester->fillField('.dataTables_filter input[type="search"]', $search);
     }
 
     /**
@@ -45,6 +64,16 @@ class ClassPlanRobots
     {
         $this->tester->waitForElement('.last');
         $this->tester->executeJS("document.querySelector('.last').click();");
+    }
+
+    /**
+     * Botão de remover.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function btnRemove()
+    {
+        $this->tester->waitForElement('.delete');
+        $this->tester->executeJS("document.querySelector('.delete').click();");
     }
 
     /**

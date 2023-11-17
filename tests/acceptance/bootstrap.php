@@ -30,3 +30,6 @@ require_once __DIR__ . '/../builders/WizardBuilder.php';
 
 require_once __DIR__ . "/../robots/ClassPlanRobots.php";
 require_once __DIR__ . '/../builders/ClassPlanBuilder.php';
+
+require_once __DIR__ . "/../robots/ClassContentsRobots.php";
+require_once __DIR__ . "/../builders/ClassContentsBuilder.php";

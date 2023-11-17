@@ -35,8 +35,11 @@ class ClassPlanCest
 
         $robots->btn2Class();
         $robots->btnSave();
+        sleep(5);
 
         $teste->see('Plano de Curso salvo com sucesso!');
         $teste->canSeeInCurrentUrl('?r=courseplan/index');
+
+        return $classPlan;
     }
 }

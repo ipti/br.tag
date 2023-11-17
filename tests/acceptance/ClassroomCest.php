@@ -43,6 +43,7 @@ class ClassroomCest
     /**
      * Adicionar turma, preenchendo apenas os campos obrigatórios.
      * Tipo de Mediação Didático-Pedagógica - Educação a Distância - EAD.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function addClassroomEAD(AcceptanceTester $teste)
     {
@@ -75,6 +76,7 @@ class ClassroomCest
     /**
      * Adicionar turma, preenchendo apenas os campos obrigatórios.
      * Tipo de Mediação Didático-Pedagógica - Presencial.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function addClassroomInPerson(AcceptanceTester $teste)
     {
@@ -108,6 +110,7 @@ class ClassroomCest
     /**
      * Adicionar turma, preenchendo todos os campos.
      * Tipo de Mediação Didático-Pedagógica - Educação a Distância - EAD.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function allFieldsAddClassroomEAD(AcceptanceTester $teste)
     {
@@ -160,6 +163,7 @@ class ClassroomCest
     /**
      * Adicionar turma, preenchendo todos os campos.
      * Tipo de Mediação Didático-Pedagógica - Presencial
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function allFieldsAddInPerson(AcceptanceTester $teste)
     {
