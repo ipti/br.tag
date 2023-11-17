@@ -401,6 +401,7 @@ class EnrollmentController extends Controller
                 if ($grade["value"] != "" || ($_POST["isConcept"] == "1" && $grade["concept"] != "")) {
 
                     $gradeObject = Grade::model()->find("enrollment_fk = :enrollment and grade_unity_modality_fk = :modality and discipline_fk = :discipline_fk", [":enrollment" => $student["enrollmentId"], ":modality" => $grade["modalityId"], ":discipline_fk" => $_POST["discipline"]]);
+
                     if ($gradeObject == null) {
                         $gradeObject = new Grade();
                         $gradeObject->enrollment_fk = $student["enrollmentId"];
@@ -414,7 +415,7 @@ class EnrollmentController extends Controller
                     }
                     $gradeObject->save();
                 } else {
-                    Grade::model()->deleteAll("enrollment_fk = :enrollment and grade_unity_modality_fk = :modality", [":enrollment" => $student["enrollmentId"], ":modality" => $grade["modalityId"]]);
+                    Grade::model()->deleteAll("enrollment_fk = :enrollment and grade_unity_modality_fk = :modality and discipline_fk = :discipline", [":enrollment" => $student["enrollmentId"], ":modality" => $grade["modalityId"], ":discipline" => $_POST["discipline"]]);
                 }
             }
             // $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $student["enrollmentId"], "discipline_fk" => $_POST["discipline"]]);
