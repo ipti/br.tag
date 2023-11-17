@@ -557,7 +557,7 @@ class ClassroomController extends Controller
                                 $loginUseCase = new LoginUseCase();
                                 $loginUseCase->checkSEDToken();
 
-                                $result = $this->classroomSyncToSEDSP($modelClassroom, "create", "create", null);
+                                $result = $modelClassroom->syncToSEDSP("create", "create", null);
                             } else {
                                 $result = ["flash" => "success", "message" => "Turma adicionada com sucesso!"];
                             }
@@ -723,7 +723,8 @@ class ClassroomController extends Controller
                                 $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
 
                                 if (!property_exists($outConsultaTurmaClasse, "outErro")) {
-                                    $result = $this->classroomSyncToSEDSP($modelClassroom, "edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create");
+
+                                    $result = $modelClassroom->syncToSEDSP("edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create");
                                 } else {
                                     $result = ["flash" => "error", "message" => $outConsultaTurmaClasse->outErro];
                                 }
@@ -748,98 +749,6 @@ class ClassroomController extends Controller
             'modelTeachingData' => $modelTeachingData,
             'disabledFields' => $disableFieldsWhenItsUBATUBA
         ));
-    }
-
-    private function classroomSyncToSEDSP($modelClassroom, $tagAction, $sedspAction)
-    {
-        $inDiasDaSemana = new InDiasDaSemana(
-            $modelClassroom->week_days_monday,
-            ($modelClassroom->week_days_monday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
-            ($modelClassroom->week_days_monday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
-            $modelClassroom->week_days_tuesday,
-            ($modelClassroom->week_days_tuesday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
-            ($modelClassroom->week_days_tuesday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
-            $modelClassroom->week_days_wednesday,
-            ($modelClassroom->week_days_wednesday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
-            ($modelClassroom->week_days_wednesday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
-            $modelClassroom->week_days_thursday,
-            ($modelClassroom->week_days_thursday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
-            ($modelClassroom->week_days_thursday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
-            $modelClassroom->week_days_friday,
-            ($modelClassroom->week_days_friday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
-            ($modelClassroom->week_days_friday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
-            $modelClassroom->week_days_saturday,
-            ($modelClassroom->week_days_saturday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
-            ($modelClassroom->week_days_saturday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null)
-        );
-
-        $calendarFirstDay = Yii::app()->db->createCommand("select DATE(ce.start_date) as start_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) join calendar_stages as cs on cs.calendar_fk = c.id  where cs.stage_fk = :stage and YEAR(c.start_date) = :year and calendar_event_type_fk = 1000;")->bindParam(":stage", $modelClassroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryRow();
-        $calendarLastDay = Yii::app()->db->createCommand("select DATE(ce.end_date) as end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) join calendar_stages as cs on cs.calendar_fk = c.id where cs.stage_fk = :stage and YEAR(c.start_date) = :year and calendar_event_type_fk  = 1001;")->bindParam(":stage", $modelClassroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryRow();
-
-        $firstDay = date("d/m/Y", $calendarFirstDay == null ? strtotime("first monday of January " . Yii::app()->user->year) : strtotime($calendarFirstDay["start_date"]));
-        $lastDay = date("d/m/Y", $calendarLastDay == null ? strtotime("last friday of December " . Yii::app()->user->year) : strtotime($calendarLastDay["end_date"]));
-
-        if ($sedspAction == "create") {
-            $tipoEnsinoAndStage = ClassroomMapper::convertStageToTipoEnsino($modelClassroom->edcenso_stage_vs_modality_fk);
-
-            $inIncluirTurmaClasse = new InIncluirTurmaClasse(
-                Yii::app()->user->year,
-                substr(Yii::app()->user->school, 2),
-                $modelClassroom->sedspSchoolUnityFk->code,
-                $tipoEnsinoAndStage["tipoEnsino"],
-                $tipoEnsinoAndStage["serieAno"],
-                0,
-                ClassroomMapper::revertCodTurno($modelClassroom->turn),
-                0,
-                $modelClassroom->sedsp_acronym,
-                $modelClassroom->sedsp_classnumber,
-                $modelClassroom->sedsp_max_physical_capacity,
-                $firstDay,
-                $lastDay,
-                $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute,
-                $modelClassroom->final_hour . ":" . $modelClassroom->final_minute,
-                null,
-                null,
-                $inDiasDaSemana
-            );
-
-            $dataSource = new ClassroomSEDDataSource();
-            $result = $dataSource->incluirTurmaClasse($inIncluirTurmaClasse);
-        } else {
-            $inManutencaoTurmaClasse = new InManutencaoTurmaClasse(
-                Yii::app()->user->year,
-                $modelClassroom->gov_id,
-                0,
-                ClassroomMapper::revertCodTurno($modelClassroom->turn),
-                $modelClassroom->sedsp_acronym,
-                $modelClassroom->sedsp_max_physical_capacity,
-                $firstDay,
-                $lastDay,
-                $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute,
-                $modelClassroom->final_hour . ":" . $modelClassroom->final_minute,
-                0,
-                null,
-                null,
-                $modelClassroom->sedsp_classnumber,
-                $inDiasDaSemana
-            );
-
-            $dataSource = new ClassroomSEDDataSource();
-            $result = $dataSource->manutencaoTurmaClasse($inManutencaoTurmaClasse);
-        }
-
-        $flash = "success";
-        if ($result->outErro !== null) {
-            $message = "Turma " . ($tagAction == "create" ? "adicionada" : "atualizada") . "  no TAG, mas não foi possível sincronizá-la com o SEDSP. Motivo: " . $result->outErro;
-            $flash = "error";
-        } else {
-            $modelClassroom->sedsp_sync = 1;
-            $modelClassroom->gov_id = $sedspAction == "create" ? $result->outSucesso : $modelClassroom->gov_id;
-            $modelClassroom->save();
-            $message = "Turma " . ($tagAction == "create" ? "adicionada" : "atualizada") . " com sucesso!";
-        }
-
-        return ["flash" => $flash, "message" => $message];
     }
 
     /**
@@ -913,7 +822,7 @@ class ClassroomController extends Controller
         $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
 
         if (!property_exists($outConsultaTurmaClasse, "outErro")) {
-            $result = $this->classroomSyncToSEDSP($modelClassroom, "edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create");
+            $result = $modelClassroom->syncToSEDSP("edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create");
         } else {
             $result = ["flash" => "error", "message" => $outConsultaTurmaClasse->outErro];
         }
