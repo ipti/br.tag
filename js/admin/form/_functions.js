@@ -20,5 +20,10 @@ $(document).on("click", "#addSchool", function () {
 
 $(document).on("click", ".saveSchool", function () {
     const selecteds = $(".optionSchool").select2("data");
-    $("#addSchool").val('Número de opções selecionadas: ' + selecteds.length);
+    if(selecteds.length <= 0){
+        $("#addSchool").val('Selecione as escolas');
+    } else {
+        $("#addSchool").val('Número de opções selecionadas: ' + selecteds.length);
+    }
+
 });

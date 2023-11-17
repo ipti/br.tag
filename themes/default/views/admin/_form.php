@@ -155,6 +155,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </button>
                             </div>
                             <div class="t-modal__body">
+                                <div>
+                                   Pressione o botão de salvar para adicionar as escolas.
+                                </div>
                                 <div class="t-multiselect">
                                     <?php echo CHtml::label(Yii::t('default', 'Schools'), 'schools', array('class' => 't-field-select__label')); ?>
                                     <?php
