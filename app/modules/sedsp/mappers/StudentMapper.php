@@ -29,7 +29,12 @@ class StudentMapper
         $inDadosPessoais->setInNomeMae($studentIdentificationTag->filiation_1);
         $inDadosPessoais->setInNomePai($studentIdentificationTag->filiation_2);
         $inDadosPessoais->setInDataNascimento($studentIdentificationTag->birthday);
-        $inDadosPessoais->setInCorRaca($studentIdentificationTag->color_race);
+        
+        // Converte o valor '0' (Não declarada) para '6' no campo de cor/raça da sedsp
+        $inDadosPessoais->setInCorRaca(
+            $studentIdentificationTag->color_race === '0' ? '6' : $studentIdentificationTag->color_race
+        );
+        
         $inDadosPessoais->setInSexo($studentIdentificationTag->sex);
         $inDadosPessoais->setInBolsaFamilia($studentIdentificationTag->bf_participator);
         $inDadosPessoais->setInEmail($studentIdentificationTag->id_email);
