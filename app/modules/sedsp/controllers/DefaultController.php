@@ -343,7 +343,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
 				Yii::app()->user->setFlash('success', "Aluno sincronizado com sucesso.");
 				$this->redirect(array('/student/update', 'id' => $id));
 			} else {
-				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
+				Yii::app()->user->setFlash('error', "Não foi possível atualizar o estudante!");
 				$this->redirect(array('/student/update', 'id' => $id));
 			}
 		} catch (Exception $e) {
