@@ -1,4 +1,4 @@
-/* $(document).on("click", ".js-add-plate", function () {
+$(document).on("click", ".js-add-plate", function () {
     let idNextAccordion = $("#js-accordion .ui-accordion-header").length + 1;
     $.ajax({
         url: "?r=foods/foodMenu/plateAccordion",
@@ -22,14 +22,16 @@
                 });
             });
     });
-}); */
+});
 
-/* function  initializeSelect2() {
+function  initializeSelect2() {
     $("select.js-inicializate-select2").select2("destroy");
     $('select.js-inicializate-select2').select2();
-} */
+}
 function  initializeAccordion() {
-    $('#js-accordion').accordion("destroy");      
+    if($('#js-accordion').find('ui-accordion-header').length > 0){
+        $('#js-accordion').accordion("destroy"); 
+    }  
     $( "#js-accordion" ).accordion({
         collapsible: true,
         icons: false,

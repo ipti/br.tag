@@ -3,6 +3,14 @@ function parseDOM(htmlString) {
   wrapper.append(htmlString);
   return wrapper;
 }
+function  initializeAccordion() {
+  $('#js-accordion').accordion("destroy");      
+  $( "#js-accordion" ).accordion({
+      active: false,
+      collapsible: true,
+      icons: false,
+  });
+}
 
 const MenuComponent = function ({ day }) {
   const meals = [];
@@ -16,7 +24,15 @@ const MenuComponent = function ({ day }) {
     const container = $(".js-meals-component");
     const mealsElements = meals.map((meal) => MealsComponent(meal).render(0));
     container.html(mealsElements);
-
+    if($('#js-accordion-plate').find('ui-accordion-header').length > 0){
+      $('#js-accordion-plate').accordion("destroy");  
+    }
+        
+    $( "#js-accordion-plate" ).accordion({
+        active: false,
+        collapsible: true,
+        icons: false,
+    });
     initializeAccordion()
 
     $(".ui-accordion-header").off("keydown");
@@ -38,6 +54,7 @@ const MealsComponent = function (meal) {
 
   function addPlate({ name }) {
     meal.plates.push({ name });
+
     $(document).trigger("renderMenu");
   }
 
@@ -93,27 +110,25 @@ const MealsComponent = function (meal) {
           </div>
         </div>
         <div class="row">
-          <div class="js-plate-component"></div>
+          <div id="js-accordion-plate" class="js-plate-component column"></div>
         </div>
       </div>     
-    `;
+    `;  
     const wrapper = parseDOM(template);
 
     const title = wrapper.find('.js-meal-type');
     const containerPlates = wrapper.find(".js-plate-component");
 
     const plateElements = meal.plates.map((plate) => PlatesComponent(plate).render(containerPlates));
-
     wrapper.find(".js-plate-component").append(plateElements);
 
     wrapper.find(`.js-meal-select`).on("change", function (event) {
       title.text($(this).select2('data').text);
     });
 
-
     wrapper.find(".js-mealTime").on("change", (e) =>  { meal.hour = e.target.value });
 
-    wrapper.find('.js-add-plate').on('click', () =>  addPlate({ name: "dsadsadsa" })); 
+    wrapper.find('.js-add-plate').on('click', () =>  addPlate({ name: "" })); 
 
     return wrapper.children();
   }
@@ -137,17 +152,15 @@ const PlatesComponent = function () {
   /* Actions */
 
   function render(domElement) {
-    const container = $(".js-plate-component");
     const template = `
     <div class="ui-accordion-header row">
-      <div class="column">
+      <div class="column justify-content--space-between align-items--center is-one-third">
         <input type="text" name="name" class="t-accordion-input-header" autofocus="true" placeholder="Digite o nome do prato">
         <label>
           <span class="fa fa-pencil"  id="js-stopPropagation"></span>
         </label>
       </div>
-      <div class="class="column" js-ingredients-names">
-      </div>
+      <div class="class="column is-two-thirds" js-ingredients-names"></div>
     </div>
 
     <div class="ui-accordion-content">
@@ -178,7 +191,6 @@ const PlatesComponent = function () {
     `;
 
     const wrapper = parseDOM(template);
-
     return wrapper.children();
   }
 

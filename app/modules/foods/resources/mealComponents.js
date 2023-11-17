@@ -81,8 +81,7 @@ $(document).on('input', '.js-date', function () {
 const MenuComponent = function () {
   const meals = [];
   
-  function addMeal({day, hour, type, turn}) {
-    meals.push({day, hour, type, turn, plates: []});
+  function addMeal() {
     render();
   }
 
@@ -101,7 +100,7 @@ const MenuComponent = function () {
 
 /* MealsComponent */
 
-const MealsComponent = function ({day, hour, type, turn, plates}) {
+const MealsComponent = function () {
   
   function addMeal(idAccordion) {
     if ($(".ui-accordion-header").length > 0) {
@@ -124,10 +123,10 @@ const MealsComponent = function ({day, hour, type, turn, plates}) {
 
   function render(idAccordion) {
     const container = $(".js-meals-component");
-    const idNextAccordion = "D"+day+"M"+idAccordion
+    const idNextAccordion = "DM"+idAccordion
     const wrapper = $('<div></div>')
     const template = `
-    <div class="ui-accordion-header row" data-day-of-week="${day}" data-id-accordion="${idNextAccordion}">
+    <div class="ui-accordion-header row" data-day-of-week="" data-id-accordion="${idNextAccordion}">
       <div class="column justify-content--start js-meal-type" data-id-accordion="${idNextAccordion}">
         turno da refeição
       </div>
@@ -136,7 +135,7 @@ const MealsComponent = function ({day, hour, type, turn, plates}) {
         <span class="t-icon-trash js-remove-meal" data-id-accordion="${idNextAccordion}"></span>
       </div>
     </div>
-    <div class="ui-accordion-content" data-day-of-week="${day}" data-id-accordion="${idNextAccordion}">
+    <div class="ui-accordion-content" data-day-of-week="" data-id-accordion="${idNextAccordion}">
       <div class="row">
         <div class="t-field-text column">
           <label class="t-field-text__label--required">Hora da refeição *</label>
