@@ -110,7 +110,27 @@ class EnrollmentSEDDataSource extends SedDataSource
         }
     }
 
-        /**
+    /**
+     * Summary of getExibirMatriculaClasseRA
+     * @param InRemanejarMatricula $inRemanejarMatricula
+     * @return OutHandleApiResult|OutErro
+     * @throws Exception
+     */
+    public function addRemanejarMatricula(InRemanejarMatricula $inRemanejarMatricula)
+    {
+        try{
+            $url = '/ncaapi/api/Matricula/RemanejarMatricula';
+            $response = $this->getApiResponse('POST', $url, $inRemanejarMatricula);
+            return OutHandleApiResult::fromJson($response);
+        } catch (ClientException $e) {
+            return new OutErro($e);
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
+
+    /**
      * @param mixed $httpMethod
      * @param mixed $url
      * @param mixed $data
