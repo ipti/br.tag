@@ -386,7 +386,7 @@ class StudentMapper
             $studentEnrollment->school_inep_id_fk = $codSchool;
             $studentEnrollment->student_fk = $studentFk;
             $studentEnrollment->classroom_fk = $classroomFk;
-            $studentEnrollment->status = '1';
+            $studentEnrollment->status = self::mapSituationEnrollment($enrollment->getOutCodSitMatricula());
            
             $arrayMapEnrollments[] = $studentEnrollment;
         }
@@ -508,5 +508,38 @@ class StudentMapper
             return self::CODIGO_UF . "0" . $sedInepId;
         }
         return self::CODIGO_UF . $sedInepId;
+    }
+
+    public static function mapSituationEnrollment($codSitMatriculaSed)
+    {
+        //SED => TAG
+        $map = [
+            '0' => '1',  // MATRICULADO
+            '1' => '2',  // TRANSFERIDO
+            '2' => '2',
+            '3' => '3',
+            '4' => '4',
+            '5' => '5',
+            '6' => '6',
+            '7' => '7',
+            '8' => '8',
+            '9' => '9',
+            '10' => '10',
+            '11' => '11'
+        ];
+
+/*      <option value="1" selected="selected">MATRICULADO</option>
+        <option value="2">TRANSFERIDO</option>
+        <option value="3">CANCELADO</option>
+        <option value="4">DEIXOU DE FREQUENTAR</option>
+        <option value="5">REMANEJADO</option>
+        <option value="6">APROVADO</option>
+        <option value="7">APROVADO PELO CONSELHO</option>
+        <option value="8">REPROVADO</option>
+        <option value="9">CONCLUINTE</option>
+        <option value="10">INDETERMINADO</option>
+        <option value="11">OBITO</option> */
+
+        return $map[$codSitMatriculaSed]; 
     }
 }
