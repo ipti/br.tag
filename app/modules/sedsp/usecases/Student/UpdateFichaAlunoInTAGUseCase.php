@@ -37,6 +37,8 @@ class UpdateFichaAlunoInTAGUseCase
             $idStudentDocuments = $this->findStudentByIdentification($govId)->id;
             $this->updateStudentDocsAndAddress($mapperStudentDocuments, $studentId, $govId, $idStudentDocuments);
 
+            $this->createOrUpdateStudentEnrollment($mapper->StudentEnrollment);
+
             return $studentIdentification;
         } catch (Exception $e) {
             $this->handleException($mapperStudentIdentification, $e);
@@ -71,6 +73,32 @@ class UpdateFichaAlunoInTAGUseCase
         $studentDocument->attributes = $docsAndAddress->attributes;
 
         return $studentDocument->save();
+    }
+
+    public function createOrUpdateStudentEnrollment($studentEnrollments)
+    {
+
+        foreach($studentEnrollments as $studentEnrollment) {
+            $enrollment = StudentEnrollment::model()->find(array(
+                'condition' => 'school_inep_id_fk=:school_inep_id_fk AND student_fk=:student_fk AND classroom_fk=:classroom_fk',
+                'params' => array(
+                    ':school_inep_id_fk' => $studentEnrollment->school_inep_id_fk,
+                    ':student_fk' => $studentEnrollment->student_fk,
+                    ':classroom_fk' => $studentEnrollment->classroom_fk,
+                ),
+            ));
+            
+            if ($enrollment === null) {
+                $newEnrollment = new StudentEnrollment();
+                $newEnrollment->attributes = $studentEnrollment->attributes;
+                $newEnrollment->save();
+            } else {
+                $enrollment->attributes = $studentEnrollment->attributes;
+                $enrollment->save();
+            }
+        }
+
+        return $studentEnrollment;
     }
 
     private function findStudentByIdentification($govId)
