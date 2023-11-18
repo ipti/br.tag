@@ -101,7 +101,7 @@ class EnrollmentSEDDataSource extends SedDataSource
     {
         try{
             $url = '/ncaapi/api/Matricula/ExibirMatriculaClasseRA';
-            $response = $this->getApiResponse('POST', $url, $inExibirMatriculaClasseRA);
+            $response = $this->getApiResponse('GET', $url, $inExibirMatriculaClasseRA);
             return OutExibirMatriculaClasseRA::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
