@@ -365,7 +365,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                             if ($saved) {
                                 if(TagUtils::isInstance("UBATUBA")){
                                     if(!((date("H") >= 00) && (date("H") <= 06))){
-                                        $outResponse = $this->syncStudentWithSED($modelStudentIdentification->id);
+                                        $outResponse = $this->syncStudentWithSED($modelStudentIdentification->id, $modelEnrollment, $modelStudentIdentification);
                                     }
 
                                     if($outResponse->outErro !== null){
@@ -497,7 +497,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                             if(TagUtils::isInstance("UBATUBA")){
                                 
                                 $this->authenticateSedToken();
-                                $exi = $this->syncStudentWithSED($id);
+                                $exi = $this->syncStudentWithSED($id, $modelEnrollment, $modelStudentIdentification);
                                 
                                 if($exi->outErro !== null || $exi === false){
                                     Log::model()->saveAction(
@@ -558,7 +558,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
     }
 
     // Função para sincronizar aluno com o sistema SED
-    public function syncStudentWithSED($id) {
+    public function syncStudentWithSED($id, $modelEnrollment, $modelStudentIdentification) {
 
         $studentInfo = $this->getStudentInformation($id);
         $studentIdentification = $studentInfo['studentIdentification'];
@@ -637,8 +637,42 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 $studentIdentification->save();
             }
 
+
+            $class = Classroom::model()->findByPk($modelEnrollment->classroom_fk);
+            $numClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+            $inSituacao = $modelEnrollment->status !== null ? $modelEnrollment->status : '0';
+
+            $isEnrolledUseCase = new IsEnrolledUseCase;
+            $enrollmentExistsInSedsp = $isEnrolledUseCase->exec(
+                new InExibirMatriculaClasseRA(
+                    new InAluno($modelStudentIdentification->gov_id, null, 'SP'),
+                    $numClass,
+                    $inSituacao,
+                    null
+                )
+            );
+            
+            if($enrollmentExistsInSedsp->getOutErro() === "Matrícula não encontrada") {
+                $this->addEnrollmentToSedsp($modelStudentIdentification, $modelEnrollment);                               
+            }
+
             return $statusAdd;
         }
+    }
+
+    public function addEnrollmentToSedsp($modelStudentIdentification, $modelEnrollment)
+    {
+        $modelEnrollment->sedsp_sync = 0;
+        $enrollmentMapper = new EnrollmentMapper;
+        $mapper = (object) $enrollmentMapper->parseToSEDEnrollment($modelStudentIdentification, $modelEnrollment);
+
+        $addEnrollmentToSed = new AddMatriculaToSEDUseCase;
+        $statusAddEnrollmentToSed = $addEnrollmentToSed->exec($mapper->Enrollment);
+
+        if ($statusAddEnrollmentToSed->outErro === null) 
+        {
+            $modelEnrollment->sedsp_sync = 1;
+        }  
     }
 
     public function handleUnauthorizedError($statusCode) {
