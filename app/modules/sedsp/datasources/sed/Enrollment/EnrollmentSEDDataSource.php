@@ -111,7 +111,7 @@ class EnrollmentSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of getExibirMatriculaClasseRA
+     * Summary of addRemanejarMatricula
      * @param InRemanejarMatricula $inRemanejarMatricula
      * @return OutHandleApiResult|OutErro
      * @throws Exception
@@ -129,6 +129,25 @@ class EnrollmentSEDDataSource extends SedDataSource
         }
     }
 
+    /**
+     * Summary of addReclassificarMatricula
+     * @param InReclassificarMatricula $inReclassificarMatricula
+     * @return OutHandleApiResult|OutErro
+     * @throws Exception
+     */
+    public function addReclassificarMatricula(InReclassificarMatricula $inReclassificarMatricula)
+    {
+        try{
+            $url = '/ncaapi/api/Matricula/ReclassificarMatricula';
+            $response = $this->getApiResponse('POST', $url, $inReclassificarMatricula);
+            return OutHandleApiResult::fromJson($response);
+        } catch (ClientException $e) {
+            return new OutErro($e);
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
 
     /**
      * @param mixed $httpMethod
@@ -136,8 +155,8 @@ class EnrollmentSEDDataSource extends SedDataSource
      * @param mixed $data
      * @return mixed
      */
-    private function getApiResponse($HTTPMethod, $url, $data) {
-        $response = $this->client->request($HTTPMethod, $url, [
+    private function getApiResponse($httpMethod, $url, $data) {
+        $response = $this->client->request($httpMethod, $url, [
             'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
         ]);
     
