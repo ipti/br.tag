@@ -557,7 +557,7 @@ class ClassroomController extends Controller
                                 $loginUseCase = new LoginUseCase();
                                 $loginUseCase->checkSEDToken();
 
-                                $result = $modelClassroom->syncToSEDSP("create", "create", null);
+                                $result = $modelClassroom->syncToSEDSP("create", "create");
                             } else {
                                 $result = ["flash" => "success", "message" => "Turma adicionada com sucesso!"];
                             }
