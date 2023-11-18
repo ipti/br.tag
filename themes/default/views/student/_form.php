@@ -1560,6 +1560,22 @@ $form = $this->beginWidget('CActiveForm', array(
                                             </div>
                                         </div>
                                         <div class="align-items--center">
+                                            <?php
+                                                if (!$modelStudentIdentification->isNewRecord && TagUtils::isInstance("UBATUBA")) {
+                                                    $sedspSync = StudentEnrollment::model()->findByPk($me->id)->sedsp_sync;
+                                                    ?>
+                                                    <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
+                                                        <?php if ($sedspSync) { ?>
+                                                            <div style="font-weight: bold;margin-right: 20px;">
+                                                                <img src="/themes/default/img/SyncTrue.png" title="Sincronizado" style="width: 20px;margin-right: 20px;">
+                                                            </div>
+                                                        <?php } else { ?>
+                                                            <div style="font-weight: bold;margin-right: 20px;">
+                                                                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png" title="Não Sincronizado" style="width: 20px;margin-right: 20px;">
+                                                            </div>
+                                                        <?php } ?>
+                                                    </div>
+                                            <?php } ?>
                                             <span class="t-icon-down_arrow accordion-arrow-icon"></span>
                                         </div>
                                     </div>
