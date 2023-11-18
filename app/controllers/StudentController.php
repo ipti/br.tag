@@ -6,8 +6,9 @@ Yii::import('application.modules.sedsp.mappers.*');
 Yii::import('application.modules.sedsp.usecases.Enrollment.*');
 Yii::import('application.modules.sedsp.models.Enrollment.*');
 Yii::import('application.modules.sedsp.usecases.*');
+Yii::import('application.modules.sedsp.usecases.Student.*');
 Yii::import('application.modules.sedsp.interfaces.*');
-
+Yii::import('application.modules.sedsp.datasources.sed.Enrollment.*');
 
 
 class StudentController extends Controller implements AuthenticateSEDTokenInterface
