@@ -150,6 +150,25 @@ class EnrollmentSEDDataSource extends SedDataSource
 
 
     /**
+     * Summary of addBaixarMatricula
+     * @param InBaixarMatricula $inBaixarMatricula
+     * @return OutHandleApiResult|OutErro
+     * @throws Exception
+     */
+    public function addBaixarMatricula(InBaixarMatricula $inBaixarMatricula)
+    {
+        try{
+            $url = '/ncaapi/api/Matrícula/BaixarMatricula';
+            $response = $this->getApiResponse('POST', $url, $inBaixarMatricula);
+            return OutHandleApiResult::fromJson($response);
+        } catch (ClientException $e) {
+            return new OutErro($e);
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    /**
      * @param mixed $httpMethod
      * @param mixed $url
      * @param mixed $data
