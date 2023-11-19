@@ -516,29 +516,26 @@ class StudentMapper
         $map = [
             '0' => '1',  // MATRICULADO
             '1' => '2',  // TRANSFERIDO
-            '2' => '2',
-            '3' => '3',
-            '4' => '4',
-            '5' => '5',
-            '6' => '6',
-            '7' => '7',
-            '8' => '8',
-            '9' => '9',
-            '10' => '10',
-            '11' => '11'
+            '2' => '4',  // DEIXOU DE FREQUENTAR
+            '3' => '5',  // REMANEJADO
+            '4' => '11', // ÓBITO
+            '5' => '4',  // DEIXOU DE FREQUENTAR
+            '6' => '6',  // APROVADO
+            '7' => '4',  // DEIXOU DE FREQUENTAR
+            '8' => '4',  // DEIXOU DE FREQUENTAR
+            '9' => '3',  // CANCELADO
+            '10' => '5', // REMANEJADO
+            '11' => '3',  // CANCELADO
+            '12' => '3',  // CANCELADO
+            '13' => '3',  // CANCELADO
+            '14' => '3',  // CANCELADO
+            '15' => '9',  // CONCLUINTE
+            '16' => '2',  // TRANSFERIDO
+            '17' => '5',  // REMANEJADO
+            '18' => '4',  // DEIXOU DE FREQUENTAR
+            '19' => '2',  // TRANSFERIDO
+            '20' => '2'   // TRANSFERIDO
         ];
-
-/*      <option value="1" selected="selected">MATRICULADO</option>
-        <option value="2">TRANSFERIDO</option>
-        <option value="3">CANCELADO</option>
-        <option value="4">DEIXOU DE FREQUENTAR</option>
-        <option value="5">REMANEJADO</option>
-        <option value="6">APROVADO</option>
-        <option value="7">APROVADO PELO CONSELHO</option>
-        <option value="8">REPROVADO</option>
-        <option value="9">CONCLUINTE</option>
-        <option value="10">INDETERMINADO</option>
-        <option value="11">OBITO</option> */
 
         return $map[$codSitMatriculaSed]; 
     }
