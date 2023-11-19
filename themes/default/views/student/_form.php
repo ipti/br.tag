@@ -349,8 +349,15 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="t-field-select" id="filiation-select">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation', array('class' => 't-field-select__label--required')); ?>
-                                <?php echo $form->DropDownList($modelStudentIdentification, 'filiation', array(null => "Selecione a filiação", "0" => "Não declarado/Ignorado", "1" => "Pai e/ou Mãe"),
-                                array('class' => 'select-search-off t-field-select__input select2-container')); ?>
+                                <?php 
+                                    if(TagUtils::isInstance("UBATUBA")) {
+                                        echo $form->DropDownList($modelStudentIdentification, 'filiation', array("1" => "Pai e/ou Mãe"));
+                                    }else{
+                                        echo $form->DropDownList($modelStudentIdentification, 'filiation', array(null => "Selecione a filiação", "0" => "Não declarado/Ignorado", "1" => "Pai e/ou Mãe"));
+                                    }
+
+                                    array('class' => 'select-search-off t-field-select__input select2-container'); 
+                                ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation'); ?>
                             </div>
                         </div>
