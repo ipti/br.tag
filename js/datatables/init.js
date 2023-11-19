@@ -136,18 +136,20 @@ function initDatatable() {
             let indexActionButtons;
             if (action.includes("school")
                 || action.includes("activeDisableUser")) {
-                indexActionButtons = 2;
+                indexActionButtons = [2];
             }
-            if (action.includes("classroom")
-                || action.includes("instructor")
+            if (action.includes("instructor")
                 || action.includes("manageUsers")) {
-                indexActionButtons = 3;
+                indexActionButtons = [3];
             }
             if (action.includes("student")
                 || action.includes("curricularmatrix")
                 || action.includes("courseplan")
                 || action.includes("professional")) {
-                indexActionButtons = 4;
+                indexActionButtons = [4];
+            }
+            if (action.includes("classroom")) {
+                indexActionButtons = [4,5];
             }
             if (action.includes("student")) {
                 $(".js-tag-table").DataTable({
@@ -169,7 +171,7 @@ function initDatatable() {
                         items: 'cell'
                     },
                     // "bLengthChange": false,
-                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
+                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: indexActionButtons }],
                     searching: true,
                 });
             }else if ((action.includes("stock"))){
@@ -182,7 +184,7 @@ function initDatatable() {
                     },
                     ordering: false,
                     // "bLengthChange": false,
-                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
+                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: indexActionButtons }],
                 });
                 $(".transactions-table").dataTable({
                     language: getLanguagePtbr(),
@@ -193,7 +195,7 @@ function initDatatable() {
                     },
                     ordering: false,
                     // "bLengthChange": false,
-                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
+                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: indexActionButtons }],
                 });
             }else {
                 $(".js-tag-table").dataTable({
@@ -203,10 +205,10 @@ function initDatatable() {
                         items: 'cell'
                     },
                     // "bLengthChange": false,
-                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [indexActionButtons] }],
+                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: indexActionButtons }],
                 });
             }
-            
+
             //Definido placeholder para cada módulo
             if(action.includes("school")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar escola')
             else if(action.includes("activeDisableUser")) $('.dataTables_filter input[type="search"]').attr('placeholder', '  Pesquisar usuário')
@@ -232,11 +234,11 @@ function initDatatable() {
             $('.dataTables_filter label').prepend(
                 '<img src="../../../themes/default/img/search-icon.svg">'
             );
-            
+
             $('#student-identification-table_filter').css("display", "flex").prepend(
                 '<img class="loading-datatable-search" style="display:none; margin-top: 1.2%; height: 30px; width: 30px; padding: 4px" height="30px" width="30px" src="../../../themes/default/img/loadingTag.gif" alt="TAG Loading">'
             );
-        
+
         });
     }
 }
