@@ -653,9 +653,27 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             );
             
             if($enrollmentExistsInSedsp->getOutErro() === "Matrícula não encontrada") {
+                //InscreverStudent
+                $enrollStudentUseCase = new EnrollStudentUseCase;
+                $enrollStudentUseCase->exec();
+                
                 $this->addEnrollmentToSedsp($modelStudentIdentification, $modelEnrollment);                               
+            } 
+            
+            if($modelEnrollment->status === '2' || $modelEnrollment->status === '5' ) {
+                //remanejarmatricula
+                $reallocateEnrollmentUseCase = new ReallocateEnrollmentUseCase;
+                $reallocateEnrollmentUseCase->exec();
+            }elseif($modelEnrollment->status === '3' || $modelEnrollment->status === '11') {
+                //excluirmatricula
+                $deleteEnrollmentUseCase = new DeleteEnrollmentUseCase;
+                $deleteEnrollmentUseCase->exec();
+            }elseif($modelEnrollment->status === '4') {
+                //baixarmatricula
+                $terminateEnrollmentUseCase = new TerminateEnrollmentUseCase;
+                $terminateEnrollmentUseCase->exec();
             }
-
+            
             return $statusAdd;
         }
     }
@@ -673,6 +691,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         {
             $modelEnrollment->sedsp_sync = 1;
         }  
+
+        $modelEnrollment->save();
     }
 
     public function handleUnauthorizedError($statusCode) {
