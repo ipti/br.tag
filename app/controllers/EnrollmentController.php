@@ -227,13 +227,13 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
 
                         $inNumRA = StudentIdentification::model()->findByPk($model->student_fk);
                         $inAluno = new InAluno($inNumRA->gov_id, null, 'SP');
-                        $enrollment = new EnrollmentSEDDataSource;
+                        //$enrollment = new EnrollmentSEDDataSource;
                         $class = Classroom::model()->findByPk($model->classroom_fk);
                         $newClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
-                        
-                        $codTipoEnsino = $class->edcenso_stage_vs_modality_fk;
-                        $codSerieAno = $class->modality;
-                        
+                               
+                        $classroomMapper = new ClassroomMapper;
+                        $ensino = (object) $classroomMapper->convertStageToTipoEnsino($class->edcenso_stage_vs_modality_fk);
+                       
                         if($model->status === '2' || $model->status === '5') {
                             //remanejarmatricula
                             $inDataMovimento = date('d/m/Y', strtotime($model->create_date)); 
@@ -242,9 +242,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                             $inNumClasseDestino = $newClass; 
                             $inMatriculaRemanejar = new InMatriculaRemanejar($inDataMovimento, $inNumAluno, $inNumClasseOrigem, $inNumClasseDestino);
 
-                            $inCodTipoEnsino = $codTipoEnsino;
-                            $inCodSerieAno = $codSerieAno;
-                            $inNivelEnsino = new InNivelEnsino($inCodTipoEnsino, $inCodSerieAno);
+                            $inNivelEnsino = new InNivelEnsino($ensino->tipoEnsino,  $ensino->serieAno);
 
                             $inRemanejarMatricula = new InRemanejarMatricula($inAluno, $inMatriculaRemanejar, $inNivelEnsino, Yii::app()->user->year);
                             $reallocateEnrollmentUseCase = new ReallocateEnrollmentUseCase;
@@ -254,6 +252,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                             //excluirmatricula
                             $class = Classroom::model()->findByPk($model->classroom_fk);
                             $inNumClasse = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+                            
                             $inExcluirMatricula = new InExcluirMatricula($inAluno, $inNumClasse);
                             
                             $deleteEnrollmentUseCase = new DeleteEnrollmentUseCase;
