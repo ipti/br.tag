@@ -91,14 +91,20 @@ class UpdateFichaAlunoInTAGUseCase
             if ($enrollment === null) {
                 $newEnrollment = new StudentEnrollment();
                 $newEnrollment->attributes = $studentEnrollment->attributes;
-                $newEnrollment->save();
+                $newEnrollment->sedsp_sync = 0;
+                
+                if($newEnrollment->save()) {
+                    $newEnrollment->sedsp_sync = 1;
+                }
             } else {
                 $enrollment->attributes = $studentEnrollment->attributes;
-                $enrollment->save();
+                $enrollment->sedsp_sync = 0;
+
+                if($enrollment->save()){
+                    $enrollment->sedsp_sync = 1;
+                }
             }
         }
-
-        return $studentEnrollment;
     }
 
     private function findStudentByIdentification($govId)

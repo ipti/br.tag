@@ -1,48 +1,34 @@
 <?php
 
-class InMatricularAluno implements JsonSerializable
+class InReclassificarMatricula implements JsonSerializable
 {
-    public $inAnoLetivo;
-	public $inAluno;
-	public $inMatricula;
-	public $inNivelEnsino;
+    public ?InAluno $inAluno;
+	public ?InMatricula $inMatricula;
+	public ?InNivelEnsino $inNivelEnsino;
 
 	public function __construct(
-		?string $inAnoLetivo = null,
-		?InAluno $inAluno  = null,
-		?InMatricula $inMatricula  = null,
-		?InNivelEnsino $inNivelEnsino  = null
+		?InAluno $inAluno,
+		?InMatricula $inMatricula,
+		?InNivelEnsino $inNivelEnsino
 	) {
-		$this->inAnoLetivo = $inAnoLetivo;
 		$this->inAluno = $inAluno;
 		$this->inMatricula = $inMatricula;
 		$this->inNivelEnsino = $inNivelEnsino;
 	}
 
-	public function getInAnoLetivo(): ?string
-	{
-		return $this->inAnoLetivo;
-	}
-
-	public function getInAluno(): ?InAluno
+	public function get_inAluno(): ?InAluno
 	{
 		return $this->inAluno;
 	}
 
-	public function getInMatricula(): ?InMatricula
+	public function get_inMatricula(): ?InMatricula
 	{
 		return $this->inMatricula;
 	}
 
-	public function getInNivelEnsino(): ?InNivelEnsino
+	public function get_inNivelEnsino(): ?InNivelEnsino
 	{
 		return $this->inNivelEnsino;
-	}
-
-	public function setInAnoLetivo(?string $inAnoLetivo): self
-	{
-		$this->inAnoLetivo = $inAnoLetivo;
-		return $this;
 	}
 
 	public function setInAluno(?InAluno $inAluno): self
@@ -66,13 +52,11 @@ class InMatricularAluno implements JsonSerializable
 	public static function fromJson(array $data): self
 	{
 		return new self(
-			$data['inAnoLetivo'] ?? null,
 			($data['inAluno'] ?? null) !== null ? InAluno::fromJson($data['inAluno']) : null,
 			($data['inMatricula'] ?? null) !== null ? InMatricula::fromJson($data['inMatricula']) : null,
 			($data['inNivelEnsino'] ?? null) !== null ? InNivelEnsino::fromJson($data['inNivelEnsino']) : null
 		);
 	}
-
     public function jsonSerialize()
     {
         return get_object_vars($this);
