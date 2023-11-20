@@ -2316,13 +2316,18 @@ class ReportsRepository
     /**
      * Carregar a caixa de seleção com os alunos matriculados pelo id da turma
      */
-    public function getStudentClassroomsOptions($id): void
+    public function getStudentClassroomsOptions($id)
     {
-        $classroom = Classroom::model()->findByPk($id);
+        $classroom = Classroom::model()->with("studentEnrollments.studentFk")->findByPk($id);
         $enrollments = $classroom->studentEnrollments;
+        $students = array();
         foreach ($enrollments as $enrollment) {
-            echo htmlspecialchars(CHtml::tag('option', array('value' => $enrollment->studentFk->id), $enrollment->studentFk->name, true));
+            array_push($students, [
+                "id" => $enrollment->studentFk->id,
+                "name" => $enrollment->studentFk->name
+            ]);
         }
+        return $students;
     }
 
     /**

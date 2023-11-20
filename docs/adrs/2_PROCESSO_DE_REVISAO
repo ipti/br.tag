@@ -1,0 +1,37 @@
+---
+status: discução
+date: 07-11-2023
+deciders: Igor, Chagas, Gustavo, 
+---
+# Processo de revisão
+
+## Contexto
+
+Um grande número de funcionalidades está sendo entregue com defeitos, falhas e erros. Tarefas estão sendo entregues incompletas e/ou não estão sendo devidamente testadas. Como maneira de reduzir esses problemas, a equipe estabeleceu como resposta a essas questões o processo de revisão por pares. 
+
+## Motivadores de decisão
+
+* Grande número de bugs em produção
+* Vícios inerentes ao processo de testes pelo desenvolvedor
+
+## Opções consideradas
+
+1. Revisão realizada pela ferramenta de revisão do github, deve ser negociada entre o desenvolvedor da feature com seus colegas de trabalho. 
+A tarefa só pode ser incorporada quando aprovada por um colega de equipe. 
+2. 
+
+## Resultado da decisão
+
+
+
+### Consequências
+
+*
+*
+
+## More Information
+
+*
+*
+
+

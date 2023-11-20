@@ -141,12 +141,12 @@ class StudentSEDDataSource extends SedDataSource
      */
 
     /**
-     * Summary of addStudent
+     * Summary of addStudentToSed
      * @param InFichaAluno $inFichaAluno
-     * @return OutFichaAluno
+     * @return OutFichaAluno|RequestException
      * @throws Exception
      */
-    public function addStudent(InFichaAluno $inFichaAluno)
+    public function addStudentToSed(InFichaAluno $inFichaAluno)
     {
         try{
             $url = '/ncaapi/api/Aluno/FichaAluno';
@@ -154,7 +154,7 @@ class StudentSEDDataSource extends SedDataSource
 
             return OutFichaAluno::fromJson($response);
         } catch(RequestException $clienteException) {
-            echo 'Erro durante a requisição: ' . $clienteException->getMessage();
+            return $clienteException;
         } catch(Exception $exception) {
             throw $exception;
         }

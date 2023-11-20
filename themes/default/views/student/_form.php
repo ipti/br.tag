@@ -28,34 +28,34 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="mobile-row ">
     <div class="column clearleft">
+        <?php
+            if (!$modelStudentIdentification->isNewRecord && TagUtils::isInstance("UBATUBA")) {
+                $sedspSync = StudentIdentification::model()->findByPk($modelStudentIdentification->id)->sedsp_sync;
+                ?>
+                <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
+                    <?php if ($sedspSync) { ?>
+                        <div style="font-weight: bold;margin-right: 20px;">
+                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png" style="width: 25px; margin-right: 2px;">Sincronizado
+                        </div>
+                    <?php } else { ?>
+                        <div style="font-weight: bold;margin-right: 20px;">
+                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png" style="width: 25px;margin-right: 2px;">Não sincronizado
+                        </div>
+                    <?php } ?>
+
+                    <a href="<?php echo $this->createUrl('sedsp/default/UpdateStudentFromSedsp', array('gov_id' => $modelStudentIdentification->gov_id, 'id' => $modelStudentIdentification->id)); ?>"
+                        onclick="return confirm('Tem certeza de que deseja realizar a importação?\n\nEsta ação resultará na substituição dos dados atuais do aluno pelos dados do aluno da sedsp.');"
+                        style="margin-right: 10px;background: #2e33b7;color: white;font-size: 13px;padding-left: 4px;padding-right: 4px;border-radius: 6px;">
+                        Importar dados da SED
+                    </a>
+                </div>
+        <?php } ?>
         <h1><?php echo $title; ?></h1>
     </div>
     <div class="column clearfix align-items--center justify-content--end show--desktop">
         <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
         <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
-        <?php
-            if (!$modelStudentIdentification->isNewRecord && TagUtils::isInstance("UBATUBA")) {
-
-                $sedspSync = StudentIdentification::model()->findByPk($modelStudentIdentification->id)->sedsp_sync;
-                if ($sedspSync) { ?>
-                    <div style="text-align: center;margin-right: 10px;">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png" style="width: 40px; margin-right: 10px;">
-                        <div>Sincronizado com a sedsp</div>
-                    </div>
-                <?php } else { ?>
-                    <div style="text-align: center;margin-right: 10px;">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png" style="width: 40px;margin-right: 10px;">
-                        <div>Não sincronizado com a sedsp</div>
-                    </div>
-                <?php } ?>
-
-                <a href="<?php echo $this->createUrl('sedsp/default/UpdateStudentFromSedsp', array('gov_id' => $modelStudentIdentification->gov_id, 'id' => $modelStudentIdentification->id)); ?>"
-                    onclick="return confirm('Tem certeza de que deseja prosseguir com a importação?\n\nEsta ação resultará na substituição dos dados atuais do aluno pelos dados do aluno da sedsp.');"
-                    style="margin-right: 10px;background: #16205b;color: white;padding: 5px;border-radius: 5px;">
-                    Importar dados do SEDSP
-                </a>
-        <?php } ?>
-
+        
         <button class="t-button-primary  last save-student" type="button">
             <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
         </button>
@@ -391,9 +391,18 @@ $form = $this->beginWidget('CActiveForm', array(
                         <!-- Email responsável -->
                         <div class="column clearleft is-two-fifths">
                             <div class=" t-field-text js-hide-not-required" id="emailResponsable">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'id_email', array('class' => 't-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'id_email', array('size' => 60, 'maxlength' => 255, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Email')); ?>
-                                <?php echo $form->error($modelStudentIdentification, 'id_email'); ?>
+                                <?php echo $form->labelEx(
+                                    $modelStudentIdentification, 'email_responsable',
+                                    array('class' => 't-field-text__label')
+                                ); ?>
+                                <?php echo $form->textField($modelStudentIdentification, 'email_responsable',
+                                array(
+                                    'size' => 60,
+                                    'maxlength' => 255,
+                                    'class' => 't-field-text__input',
+                                    'placeholder' => 'Digite o Email'
+                                )); ?>
+                                <?php echo $form->error($modelStudentIdentification, 'email_responsable'); ?>
                             </div>
                         </div>
                         <!-- Profissião do responsavel -->

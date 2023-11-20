@@ -137,7 +137,7 @@ class StudentIdentification extends AltActiveRecord {
             array('school_inep_id_fk', 'length', 'max'=>8),
             array('inep_id', 'length', 'max'=>12),
             array('name, filiation_1, filiation_2', 'length', 'max'=>100),
-            array('id_email', 'length', 'max'=>255),
+            array('id_email, email_responsable', 'length', 'max'=>255),
             array('id_email', 'email'),
             array('birthday, filiation_1_birthday, filiation_2_birthday', 'length', 'max'=>10),
             array('responsable_name', 'length', 'max'=>90),

@@ -5,9 +5,13 @@ Yii::import('application.modules.sedsp.datasources.sed.Student.*');
 Yii::import('application.modules.sedsp.mappers.*');
 Yii::import('application.modules.sedsp.usecases.Enrollment.*');
 Yii::import('application.modules.sedsp.models.Enrollment.*');
+Yii::import('application.modules.sedsp.usecases.*');
+Yii::import('application.modules.sedsp.usecases.Student.*');
+Yii::import('application.modules.sedsp.interfaces.*');
+Yii::import('application.modules.sedsp.datasources.sed.Enrollment.*');
 
 
-class StudentController extends Controller
+class StudentController extends Controller implements AuthenticateSEDTokenInterface
 {
     //@done s1 - validação de todos os campos - Colocar uma ? para explicar as regras de cada campo(em todas as telas)
     //@done s1 - Recuperar endereço pelo CEP
@@ -26,6 +30,12 @@ class StudentController extends Controller
     private $STUDENT_DOCUMENTS_AND_ADDRESS = 'StudentDocumentsAndAddress';
     private $STUDENT_ENROLLMENT = 'StudentEnrollment';
     private $STUDENT_RESTRICTIONS = 'StudentRestrictions';
+
+    public function authenticateSedToken()
+    {
+        $loginUseCase = new LoginUseCase();
+        $loginUseCase->checkSEDToken();
+    }
 
     /**
      * @return array action filters
@@ -353,7 +363,7 @@ class StudentController extends Controller
                             }
 
                             if ($saved) {
-                                if(INSTANCE == "UBATUBA"){
+                                if(TagUtils::isInstance("UBATUBA")){
                                     if(!((date("H") >= 00) && (date("H") <= 06))){
                                         $outResponse = $this->syncStudentWithSED($modelStudentIdentification->id);
                                     }
@@ -484,12 +494,12 @@ class StudentController extends Controller
                         }
 
                         if ($saved) {
-                            if(INSTANCE == "UBATUBA"){
-                                if(!((date("H") >= 00) && (date("H") <= 06))){
-                                    $exi = $this->syncStudentWithSED($id);
-                                }
-
-                                if($exi->outErro !== null){
+                            if(TagUtils::isInstance("UBATUBA")){
+                                
+                                $this->authenticateSedToken();
+                                $exi = $this->syncStudentWithSED($id);
+                                
+                                if($exi->outErro !== null || $exi === false){
                                     Log::model()->saveAction(
                                         "student", $modelStudentIdentification->id,
                                         "U", $modelStudentIdentification->name
@@ -564,16 +574,40 @@ class StudentController extends Controller
         );
 
         $studentDatasource = new StudentSEDDataSource();
-        $response = $studentDatasource->exibirFichaAluno(new InAluno($studentIdentification->gov_id, null, "SP"));
+
+        $dataSource = new StudentSEDDataSource();
+        $outListStudent = $dataSource->getListStudents($this->createInListarAlunos($studentIdentification->name));
+        
+        if(method_exists($outListStudent,'getCode') && $this->handleUnauthorizedError($outListStudent->getCode())) {
+            return false;
+        }
+        
+
+        if($studentIdentification->gov_id === null){
+            $govId = $outListStudent->outListaAlunos[0]->getOutNumRa();
+        } else {
+            $govId = $studentIdentification->gov_id;
+        }
+
+        $response = $studentDatasource->exibirFichaAluno(new InAluno($govId, null, "SP"));
+        if(method_exists($response,'getCode') && $this->handleUnauthorizedError($response->getCode())) {
+            return false;
+        }
+        
         $infoAluno = $response->outDadosPessoais->outNomeAluno;
 
         $inListarAlunos = $this->createInListarAlunos($infoAluno);
         $dataSource = new StudentSEDDataSource();
         $outListStudent = $dataSource->getListStudents($inListarAlunos);
 
+
         if ($outListStudent->outErro !== null) {
             $inConsult = $this->createInConsult($student);
-            $statusAdd = $dataSource->addStudent($inConsult);
+            $statusAdd = $dataSource->addStudentToSed($inConsult);
+
+            if(method_exists($statusAdd,'getCode') && $this->handleUnauthorizedError($statusAdd->getCode())) {
+                return false;
+            }
 
             if($statusAdd->outErro === null) {
                 $stdi = StudentIdentification::model()->findByPk($id);
@@ -604,6 +638,12 @@ class StudentController extends Controller
             }
 
             return $statusAdd;
+        }
+    }
+
+    public function handleUnauthorizedError($statusCode) {
+        if ($statusCode === 401) {
+            return true;
         }
     }
 
