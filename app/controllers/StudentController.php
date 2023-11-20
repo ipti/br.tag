@@ -576,7 +576,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $studentDatasource = new StudentSEDDataSource();
 
         $dataSource = new StudentSEDDataSource();
-        $outListStudent = $dataSource->getListStudents($this->createInListarAlunos($studentIdentification->name));
+        $outListStudent = $dataSource->getListStudents($this->createInListarAlunos($studentIdentification->name, $studentIdentification->filiation_1, $studentIdentification->filiation_2));
         
         if(method_exists($outListStudent,'getCode') && $this->handleUnauthorizedError($outListStudent->getCode())) {
             return false;
@@ -613,119 +613,77 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 return false;
             }
 
-            $infoAluno = $response->outDadosPessoais->outNomeAluno;
-            $inListarAlunos = $this->createInListarAlunos($infoAluno);
+            $infoAluno = $response->outDadosPessoais->getOutNomeAluno();
+            $filiation1 = $response->outDadosPessoais->getOutNomeMae();
+            $filiation2 = $response->outDadosPessoais->getOutNomePai();
+
+            $inListarAlunos = $this->createInListarAlunos($infoAluno, $filiation1, $filiation2);
             $dataSource = new StudentSEDDataSource();
             $outListStudent = $dataSource->getListStudents($inListarAlunos);
 
-            if ($outListStudent->outErro === null) {
-                $outNumRA = $outListStudent->getOutListaAlunos();
-                $numRA = $outNumRA[0]->getOutNumRa();
-                
-                $student->InAluno->setInNumRA($numRA);
-    
-                $inManutencao = $this->createInManutencao($student);
-                $dataSource = new StudentSEDDataSource();
-                    
-               
-                $studentIdentification->gov_id = $numRA;
+            if ($outListStudent->outErro === null || !is_null($outListStudent)) {
+                      
+                $studentIdentification->gov_id = $govId;
                 $studentIdentification->save();
     
+                $dataSource = new StudentSEDDataSource();
+                $student->InAluno->setInNumRA($govId);
+                $inManutencao = $this->createInManutencao($student);
                 $statusAdd = $dataSource->editStudent($inManutencao);
     
                 if($statusAdd->outErro === null){
                     $studentIdentification->sedsp_sync = 1;
                     $studentIdentification->save();
                 }
+            }
+
+            $addEnrollment = true;
+            if($addEnrollment) {
+                //$class = Classroom::model()->findByPk($modelEnrollment->classroom_fk);
+                //$numClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+                //$inSituacao =  '0'; //$modelEnrollment->status !== null ? $modelEnrollment->status : '0';
     
-    
-                $class = Classroom::model()->findByPk($modelEnrollment->classroom_fk);
-                $numClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
-                $inSituacao = $modelEnrollment->status !== null ? $modelEnrollment->status : '0';
-    
-    
+                //$isEnrolledUseCase = new IsEnrolledUseCase;
+                //$enrollmentExistsInSedsp = $isEnrolledUseCase->exec(new InExibirMatriculaClasseRA($inAluno, $numClass, $inSituacao, null));
+                
                 $inAluno = new InAluno($modelStudentIdentification->gov_id, null, 'SP');
-    
-                $isEnrolledUseCase = new IsEnrolledUseCase;
-                $enrollmentExistsInSedsp = $isEnrolledUseCase->exec(
-                    new InExibirMatriculaClasseRA($inAluno, $numClass, $inSituacao, null)
-                );
-                
-                if($enrollmentExistsInSedsp->getOutErro() === "Matrícula não encontrada") {
-                    //InscreverStudent
-                    $inscreverAluno = new InscreverAluno(
-                        $inAluno,
-                        new InInscricao(
-                            "2024",
-                            "274461",
-                            null,
-                            "4",
-                            null,
-                            null, 
-                            null, 
-                            null, 
-                            null, 
-                            null, 
-                            null, 
-                            null, 
-                            null, 
-                            null, 
-                            null, 
-                            null, 
-                            null, 
-                            null, 
-                            null  
-                        ),
-                        new InNivelEnsino('14', '1')
-                    );
-    
-                    $enrollStudentUseCase = new EnrollStudentUseCase;
-                    $outEnroll = $enrollStudentUseCase->exec($inscreverAluno);
-                    
-                    $this->addEnrollmentToSedsp($modelStudentIdentification, $modelEnrollment);                               
-                } 
-                
-                if($modelEnrollment->status === '2' || $modelEnrollment->status === '5') {
-                    //remanejarmatricula
-                    $inRemanejarMatricula = new InRemanejarMatricula($inAluno);
-    
-                    $reallocateEnrollmentUseCase = new ReallocateEnrollmentUseCase;
-                    $reallocateEnrollmentUseCase->exec($inRemanejarMatricula);
-    
-                }elseif($modelEnrollment->status === '3' || $modelEnrollment->status === '11') {
-                    //excluirmatricula
-                    $inExcluirMatricula = new InExcluirMatricula($inAluno, );
-                    
-                    $deleteEnrollmentUseCase = new DeleteEnrollmentUseCase;
-                    $deleteEnrollmentUseCase->exec($inExcluirMatricula);
-                }elseif($modelEnrollment->status === '4') {
-                    //baixarmatricula
-                    $inBaixarMatricula = new InBaixarMatricula($inAluno, );
-                    
-                    $terminateEnrollmentUseCase = new TerminateEnrollmentUseCase;
-                    $terminateEnrollmentUseCase->exec($inBaixarMatricula);
-                }
-                
-                return $statusAdd;
+                $inAnoLetivo = Yii::app()->user->year;
+                $inCodEscola = substr($modelStudentIdentification->school_inep_id_fk, 2);
+                $inscricao = new InInscricao($inAnoLetivo, $inCodEscola, null, "4");
+                $inNivelEnsino = new InNivelEnsino('14', '1');
+
+                $outenr = $this->createEnrollStudent($inAluno, $inscricao, $inNivelEnsino);  
+                $outadd = $this->addEnrollmentToSedsp($modelStudentIdentification, $modelEnrollment);                               
+                 
             }
         }
+    }
+
+    private function createEnrollStudent(InAluno $inAluno, InInscricao $inscricao, InNivelEnsino $inNivelEnsino)
+    {
+        //InscreverStudent
+        $enrollStudent = new InscreverAluno($inAluno, $inscricao, $inNivelEnsino);
+        $enrollStudentUseCase = new EnrollStudentUseCase;
+        return $enrollStudentUseCase->exec($enrollStudent); 
     }
 
     public function addEnrollmentToSedsp($modelStudentIdentification, $modelEnrollment)
     {
         $modelEnrollment->sedsp_sync = 0;
+        $modelEnrollment->save();
+
         $enrollmentMapper = new EnrollmentMapper;
         $mapper = (object) $enrollmentMapper->parseToSEDEnrollment($modelStudentIdentification, $modelEnrollment);
 
         $addEnrollmentToSed = new AddMatriculaToSEDUseCase;
         $statusAddEnrollmentToSed = $addEnrollmentToSed->exec($mapper->Enrollment);
 
-        if ($statusAddEnrollmentToSed->outErro === null) 
-        {
+        if ($statusAddEnrollmentToSed->outErro === null) {
             $modelEnrollment->sedsp_sync = 1;
-        }  
-
-        $modelEnrollment->save();
+            return $modelEnrollment->save();
+        } else {
+            return $statusAddEnrollmentToSed->outErro;
+        }    
     }
 
     public function handleUnauthorizedError($statusCode) {
@@ -734,8 +692,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         }
     }
 
-    public function createInListarAlunos($nameStudent) {
-        return new InListarAlunos(new InFiltrosNomes($nameStudent, null, null, null), null, null);
+    public function createInListarAlunos($nameStudent, $nameFiliation1, $nameFiliation2) {
+        return new InListarAlunos(new InFiltrosNomes($nameStudent, null, $nameFiliation1, $nameFiliation2), null, null);
     }
 
     // Função para criar objeto InConsult em caso de aluno não cadastrado
