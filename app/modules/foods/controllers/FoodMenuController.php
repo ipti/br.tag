@@ -28,7 +28,7 @@ class FoodMenuController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','plateAccordion', 'getFood'),
+				'actions'=>array('index','view','plateAccordion', 'getFood', 'getTacoFoods'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -115,7 +115,16 @@ class FoodMenuController extends Controller
 			'idAccordion' => $idAccordion
 		));
 	}
-
+	public function actionGetTacoFoods() {
+		$foods = Food::model()->findAll(array(
+            'select' => 'id, description'
+        ));
+		$resultArray = array();
+		foreach ($foods as $food) {
+            $resultArray[$food->id] = $food->description;
+        }
+		echo CJSON::encode($resultArray);
+	}
 	public function actionGetFood() {
 		$idFood = Yii::app()->request->getQuery('idFood');
 		$food = Food::model()->findByAttributes(array('id' => $idFood));

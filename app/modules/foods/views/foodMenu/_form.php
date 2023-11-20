@@ -7,7 +7,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/_initialization.js', CClientScript::POS_END );
 $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END );
-$cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::POS_END );
+$cs->registerScriptFile($baseScriptUrl . '/components.js', CClientScript::POS_END );
 ?>
 
 <div class="form">
