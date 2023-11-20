@@ -9,6 +9,11 @@ class InstructorRobots
         $this->tester = $tester;
     }
 
+    public function pageIndexInstructor()
+    {
+        $this->tester->amOnPage('?r=instructor');
+    }
+
     /* Acessando página de adicionar professor */
     public function pageAddInstructor ()
     {
