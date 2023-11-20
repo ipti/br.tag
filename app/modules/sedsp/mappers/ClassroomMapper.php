@@ -57,7 +57,7 @@ class ClassroomMapper
         $listStudents = [];
         $students = $outFormacaoClasse->getOutAlunos();
         foreach ($students as $student) {
-            if ($student->getOutDescSitMatricula() === 'ATIVO') {
+            #if ($student->getOutDescSitMatricula() === 'ATIVO') {
                 $studentIdentification = new StudentIdentification();
                 $studentIdentification->gov_id = $student->getOutNumRa();
                 $studentIdentification->name = $student->getOutNomeAluno();
@@ -96,7 +96,7 @@ class ClassroomMapper
                 $studentIdentification->scholarity = $student->getOutSerieNivel();
 
                 $listStudents[] = $studentIdentification;
-            }
+            #}
         }
 
         $parseResult = [];
