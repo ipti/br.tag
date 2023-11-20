@@ -886,15 +886,13 @@ class ClassroomController extends Controller
                 }
                 if ($classroom->delete()) {
                     Log::model()->saveAction("classroom", $id, "D", $classroom->name);
-                    Yii::app()->user->setFlash('success', Yii::t('default', 'Turma excluída com sucesso!'));
-                    $this->redirect(array('index'));
+                    echo json_encode(["valid" => true, "message" => "Turma excluída com sucesso!"]);
                 }
             } catch (Exception $e) {
-                throw new CHttpException(901, "Não se pode remover turma com professores vinculados.");
+                echo json_encode(["valid" => false, "message" => "Não se pode remover turma com professores vinculados."]);
             }
         } else {
-            Yii::app()->user->setFlash('error', "Não foi possível remover a turma no SEDSP. Motivo:" . $erro);
-            $this->redirect(array('index'));
+            echo json_encode(["valid" => false, "message" => "Não foi possível remover a turma no SEDSP. Motivo: " . $erro]);
         }
     }
 
