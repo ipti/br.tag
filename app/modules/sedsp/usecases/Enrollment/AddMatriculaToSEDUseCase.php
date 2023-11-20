@@ -6,8 +6,8 @@ class AddMatriculaToSEDUseCase
 {
     /**
      * Summary of exec
-     * @param mixed $inMatricularAluno
-     * @return OutHandleApiResult
+     * @param InMatricularAluno $inMatricularAluno
+     * @return OutErro|OutHandleApiResult
      */
     public function exec(InMatricularAluno $inMatricularAluno) 
     {

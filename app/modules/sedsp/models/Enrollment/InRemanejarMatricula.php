@@ -3,38 +3,38 @@
 class InRemanejarMatricula implements JsonSerializable
 {
     public ?InAluno $inAluno;
-	public ?InMatricula $inMatricula;
+	public ?InMatriculaRemanejar $inMatriculaRemanejar;
 	public ?InNivelEnsino $inNivelEnsino;
 	public ?string $inAnoLetivo;
 
 	public function __construct(
 		?InAluno $inAluno,
-		?InMatricula $inMatricula,
+		?InMatriculaRemanejar $inMatriculaRemanejar,
 		?InNivelEnsino $inNivelEnsino,
 		?string $inAnoLetivo
 	) {
 		$this->inAluno = $inAluno;
-		$this->inMatricula = $inMatricula;
+		$this->inMatriculaRemanejar = $inMatriculaRemanejar;
 		$this->inNivelEnsino = $inNivelEnsino;
 		$this->inAnoLetivo = $inAnoLetivo;
 	}
 
-	public function get_inAluno(): ?InAluno
+	public function getInAluno(): ?InAluno
 	{
 		return $this->inAluno;
 	}
 
-	public function get_inMatricula(): ?InMatricula
+	public function getInMatriculaRemanejar(): ?InMatriculaRemanejar
 	{
-		return $this->inMatricula;
+		return $this->inMatriculaRemanejar;
 	}
 
-	public function get_inNivelEnsino(): ?InNivelEnsino
+	public function getInNivelEnsino(): ?InNivelEnsino
 	{
 		return $this->inNivelEnsino;
 	}
 
-	public function get_inAnoLetivo(): ?string
+	public function getInAnoLetivo(): ?string
 	{
 		return $this->inAnoLetivo;
 	}
@@ -45,9 +45,9 @@ class InRemanejarMatricula implements JsonSerializable
 		return $this;
 	}
 
-	public function setInMatricula(?InMatricula $inMatricula): self
+	public function setInMatriculaRemanejar(?InMatriculaRemanejar $inMatriculaRemanejar): self
 	{
-		$this->inMatricula = $inMatricula;
+		$this->inMatriculaRemanejar = $inMatriculaRemanejar;
 		return $this;
 	}
 
@@ -67,7 +67,7 @@ class InRemanejarMatricula implements JsonSerializable
 	{
 		return new self(
 			($data['inAluno'] ?? null) !== null ? InAluno::fromJson($data['inAluno']) : null,
-			($data['inMatricula'] ?? null) !== null ? InMatricula::fromJson($data['inMatricula']) : null,
+			($data['inMatriculaRemanejar'] ?? null) !== null ? InMatriculaRemanejar::fromJson($data['inMatriculaRemanejar']) : null,
 			($data['inNivelEnsino'] ?? null) !== null ? InNivelEnsino::fromJson($data['inNivelEnsino']) : null,
 			$data['inAnoLetivo'] ?? null
 		);
