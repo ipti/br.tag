@@ -5,24 +5,23 @@ class EnrollmentMapper
     public function parseToSEDEnrollment($studentIdentificationTag, $studentEnrollmentTag)
     {
         $parseResult = [];
-
-        //Matrículas
-        $inEnrollment = new InMatricularAluno;
-        $inEnrollment->setInAnoLetivo(Yii::app()->user->year);
-        $inEnrollment->setInAluno(
-            new InAluno($studentIdentificationTag->gov_id, null, 'SP')
-        );
+        
+        $inAnoLetivo = Yii::app()->user->year;
+        $inAluno = new InAluno($studentIdentificationTag->gov_id, null, 'SP');
 
         $numClass = Classroom::model()->findByPk($studentEnrollmentTag->classroom_fk);
         $inNumClass = $numClass->gov_id !== null ? $numClass->gov_id : $numClass->inep_id;
-
-        $inEnrollment->setInMatricula(
-            new InMatricula($studentEnrollmentTag->create_date, "00", $inNumClass)
-        );
-
         $modality = EdcensoStageVsModality::model()->findByPk($studentEnrollmentTag->edcenso_stage_vs_modality_fk);
-        $inEnrollment->setInNivelEnsino(new InNivelEnsino('6', '1'));
 
+        $inMatricula = new InMatricula(date('Y-m-d'), "00", "281760256");
+        $inNivelEnsino = new InNivelEnsino('14', '1');
+
+        //Matrículas
+        $inEnrollment = new InMatricularAluno;
+        $inEnrollment->setInAnoLetivo($inAnoLetivo);
+        $inEnrollment->setInAluno($inAluno);
+        $inEnrollment->setInMatricula($inMatricula);
+        $inEnrollment->setInNivelEnsino($inNivelEnsino);
 
         $parseResult["Enrollment"] = $inEnrollment;
 
