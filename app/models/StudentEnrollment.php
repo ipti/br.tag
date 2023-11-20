@@ -56,6 +56,7 @@
  * @property string $transfer_date
  * @property integer $stage
  * @property integer $reenrollment
+ * @property integer $sedsp_sync
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk

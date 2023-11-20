@@ -578,6 +578,7 @@ class ClassroomController extends Controller
             'modelClassroom' => $modelClassroom,
             'complementary_activities' => array(),
             'modelTeachingData' => $modelTeachingData,
+            'modelEnrollments' => [],
         ));
     }
 
@@ -585,6 +586,20 @@ class ClassroomController extends Controller
     {
         $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
         $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
+        $studentsEnrollments = $modelClassroom->studentEnrollments;
+        $modelEnrollments = [];
+        foreach($studentsEnrollments as $studentEnrollment) {
+            $array["enrollmentId"] = $studentEnrollment->id;
+            $array["studentId"] = $studentEnrollment->studentFk->id;
+            $array["studentName"] = $studentEnrollment->studentFk->name;
+            $array["enrollmentId"] = $studentEnrollment->id;
+            $array["dailyOrder"] = $studentEnrollment->daily_order;
+            if (TagUtils::isInstance("UBATUBA")) {
+                $array["synced"] = $studentEnrollment->studentFk->sedsp_sync && $studentEnrollment->sedsp_sync;
+            }
+            array_push($modelEnrollments, $array);
+        }
+
 
         $disableFieldsWhenItsUBATUBA = false;
         if (TagUtils::isInstance("UBATUBA") && $modelClassroom->gov_id != null && !empty($modelClassroom->studentEnrollments)) {
@@ -747,6 +762,7 @@ class ClassroomController extends Controller
         $this->render('update', array(
             'modelClassroom' => $modelClassroom,
             'modelTeachingData' => $modelTeachingData,
+            'modelEnrollments' => $modelEnrollments,
             'disabledFields' => $disableFieldsWhenItsUBATUBA
         ));
     }
