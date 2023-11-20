@@ -69,17 +69,17 @@
 class StudentEnrollment extends AltActiveRecord
 {
 
-    const STATUS_ACTIVE = "MATRICULADO";
-    const STATUS_CANCELED = "CANCELADO";
-    const STATUS_TRANSFERRED = "TRANSFERIDO";
-    const STATUS_ABANDONED = "DEIXOU DE FREQUENTAR";
-    const STATUS_RESTORED = "REMANEJADO";
-    const STATUS_APPROVED = "APROVADO";
-    const STATUS_APPROVEDBYCOUNCIL = "APROVADO PELO CONSELHO";
-    const STATUS_DISAPPROVED = "REPROVADO";
-    const STATUS_CONCLUDED = "CONCLUINTE";
-    const STATUS_INDETERMINED = "INDETERMINADO";
-    const STATUS_DEATH = "OBITO";
+    static const STATUS_ACTIVE = "MATRICULADO";
+    static const STATUS_CANCELED = "CANCELADO";
+    static const STATUS_TRANSFERRED = "TRANSFERIDO";
+    static const STATUS_ABANDONED = "DEIXOU DE FREQUENTAR";
+    static const STATUS_RESTORED = "REMANEJADO";
+    static const STATUS_APPROVED = "APROVADO";
+    static const STATUS_APPROVEDBYCOUNCIL = "APROVADO PELO CONSELHO";
+    static const STATUS_DISAPPROVED = "REPROVADO";
+    static const STATUS_CONCLUDED = "CONCLUINTE";
+    static const STATUS_INDETERMINED = "INDETERMINADO";
+    static const STATUS_DEATH = "OBITO";
 
     public $school_year;
 
@@ -610,5 +610,23 @@ class StudentEnrollment extends AltActiveRecord
         ];
 
         return $status[$this->status];
+    }
+
+    public static function getStatusId($status){
+        $statusList  = [
+             StudentEnrollment::STATUS_ACTIVE => "1" ,
+             StudentEnrollment::STATUS_TRANSFERRED => "2" ,
+             StudentEnrollment::STATUS_CANCELED => "3" ,
+             StudentEnrollment::STATUS_ABANDONED => "4" ,
+             StudentEnrollment::STATUS_RESTORED => "5" ,
+             StudentEnrollment::STATUS_APPROVED => "6" ,
+             StudentEnrollment::STATUS_APPROVEDBYCOUNCIL => "7" ,
+             StudentEnrollment::STATUS_DISAPPROVED => "8" ,
+             StudentEnrollment::STATUS_CONCLUDED => "9" ,
+             StudentEnrollment::STATUS_INDETERMINED => "10" ,
+             StudentEnrollment::STATUS_DEATH => "11" ,
+        ];
+
+        return $statusList[$this->status];
     }
 }

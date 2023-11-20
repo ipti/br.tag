@@ -1,5 +1,7 @@
 <?php
 
+Yii::import("application.domain.admin.usecases.*");
+
 class AdminController extends Controller
 {
     public $layout = 'fullmenu';
@@ -9,13 +11,29 @@ class AdminController extends Controller
         return [
             [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['CreateUser', 'index', 'conflicts'], 'users' => ['*'],
-            ], [
+                'actions' => ['CreateUser', 'index', 'conflicts'],
+                'users' => ['*'],
+            ],
+            [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
-                    'import', 'export', 'update', 'manageUsers', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
-                    'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster', 'gradesStructure'
-                ], 'users' => ['@'],
+                    'import',
+                    'export',
+                    'update',
+                    'manageUsers',
+                    'clearDB',
+                    'acl',
+                    'backup',
+                    'data',
+                    'exportStudentIdentify',
+                    'syncExport',
+                    'syncImport',
+                    'exportToMaster',
+                    'clearMaster',
+                    'importFromMaster',
+                    'gradesStructure'
+                ],
+                'users' => ['@'],
             ],
         ];
     }
@@ -162,7 +180,16 @@ class AdminController extends Controller
 
     public function actionGradesStructure()
     {
-        $stages = Yii::app()->db->createCommand("select distinct esvm.id, esvm.name from edcenso_stage_vs_modality esvm join curricular_matrix cm on cm.stage_fk = esvm.id where school_year = :year order by esvm.name")->bindParam(":year", Yii::app()->user->year)->queryAll();
+        $stages = Yii::app()->db->createCommand("
+            select
+                distinct esvm.id,
+                esvm.name
+            from edcenso_stage_vs_modality esvm
+                join curricular_matrix cm on cm.stage_fk = esvm.id
+            where school_year = :year order by esvm.name")
+            ->bindParam(":year", Yii::app()->user->year)
+            ->queryAll();
+
         $formulas = GradeCalculation::model()->findAll();
         $gradeUnity = new GradeUnity();
         $this->render('gradesStructure', [
@@ -174,27 +201,17 @@ class AdminController extends Controller
 
     public function actionGetUnities()
     {
-        $stage = EdcensoStageVsModality::model()->find("id = :id", [":id" => $_POST["stage"]])->stage;
-        switch ($stage) {
-            case 1:
-                $result["stageName"] = "Educação Infantil";
-                break;
-            case 2:
-                $result["stageName"] = "Ensino Fundamental Menor (Anos Iniciais)";
-                break;
-            case 3:
-            case 7:
-                $result["stageName"] = "Ensino Fundamental Maior (Anos Finais)";
-                break;
-            case 6:
-                $result["stageName"] = "Educação de Jovens e Adultos (EJA)";
-                break;
-            default:
-                $result["stageName"] = "a modalidade selecionada";
-                break;
-        }
+        $stage = Yii::app()->request->getPost("stage");
+
+        $result = [];
         $result["unities"] = [];
-        $gradeUnities = GradeUnity::model()->findAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $_POST["stage"]]);
+        $gradeUnities = GradeUnity::model()
+            ->with("gradeUnityModalities")
+            ->findAll(
+                "edcenso_stage_vs_modality_fk = :stage",
+                [":stage" => $stage]
+            );
+
         foreach ($gradeUnities as $gradeUnity) {
             $arr = $gradeUnity->attributes;
             $arr["modalities"] = [];
@@ -203,9 +220,16 @@ class AdminController extends Controller
             }
             array_push($result["unities"], $arr);
         }
-        $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $_POST["stage"]]);
+
+        $gradeRules = GradeRules::model()
+            ->find(
+                "edcenso_stage_vs_modality_fk = :stage",
+                [":stage" => $stage]
+            );
+
         $result["approvalMedia"] = $gradeRules->approvation_media;
         $result["finalRecoverMedia"] = $gradeRules->final_recover_media;
+
         echo json_encode($result);
     }
 
@@ -213,136 +237,25 @@ class AdminController extends Controller
     {
         set_time_limit(0);
         ignore_user_abort();
-        $valid = false;
-        if ($_POST["reply"] == "") {
-            $grades = Yii::app()->db->createCommand("
-                select * from grade g
-                join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
-                join grade_unity gu on gu.id = gum.grade_unity_fk
-                where edcenso_stage_vs_modality_fk = :stage
-            ")->bindParam(":stage", $_POST["stage"])->queryAll();
-            if ($grades == null) {
-                GradeUnity::model()->deleteAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $_POST["stage"]]);
-                foreach ($_POST["unities"] as $u) {
-                    $unity = new GradeUnity();
-                    $unity->edcenso_stage_vs_modality_fk = $_POST["stage"];
-                    $unity->name = $u["name"];
-                    $unity->type = $u["type"];
-                    $unity->grade_calculation_fk = $u["formula"];
-                    $unity->save();
-                    foreach ($u["modalities"] as $m) {
-                        $modality = new GradeUnityModality();
-                        $modality->name = $m["name"];
-                        $modality->type = $m["type"];
-                        $modality->weight = $m["weight"];
-                        $modality->grade_unity_fk = $unity->id;
-                        $modality->save();
-                    }
-                }
-                $valid = true;
-            }
 
-            $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $_POST["stage"]]);
-            if ($gradeRules == null) {
-                $gradeRules = new GradeRules();
-                $gradeRules->edcenso_stage_vs_modality_fk = $_POST["stage"];
-            }
-            $gradeRules->approvation_media = $_POST["approvalMedia"];
-            $gradeRules->final_recover_media = $_POST["finalRecoverMedia"];
-            $gradeRules->save();
+        $reply = Yii::app()->request->getPost("reply");
+        $stage = Yii::app()->request->getPost("stage");
+        $unities = Yii::app()->request->getPost("unities");
+        $approvalMedia = Yii::app()->request->getPost("approvalMedia");
+        $finalRecoverMedia = Yii::app()->request->getPost("finalRecoverMedia");
 
-            $this->refreshResults($_POST["stage"]);
-        } else {
-            // A = Toda a Matriz Curricular
-            // S = Todas as etapas de a modalidade selecionada.
-            $grades = $this->getGrades();
-
-            if ($_POST["reply"] == "A") {
-                // $grades = Yii::app()->db->createCommand("select * from grade")->queryAll();
-                $curricularMatrixes = Yii::app()->db->createCommand("select * from curricular_matrix cm where school_year = :year")->bindParam(":year", Yii::app()->user->year)->queryAll();
-            } else if ($_POST["reply"] == "S") {
-                $curricularMatrixes = $this->getCurricularMatrixes($this->getStage($_POST["stage"]));
-            }
-
-            foreach ($curricularMatrixes as $curricularMatrix) {
-                $matrixStageFk = $curricularMatrix["stage_fk"];
-                if (array_search($matrixStageFk, array_column($grades, "id")) == 0) {
-                    GradeUnity::model()->deleteAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $matrixStageFk]);
-                    foreach ($_POST["unities"] as $u) {
-                        $unity = new GradeUnity();
-                        $unity->edcenso_stage_vs_modality_fk = $matrixStageFk;
-                        $unity->name = $u["name"];
-                        $unity->type = $u["type"];
-                        $unity->grade_calculation_fk = $u["formula"];
-                        $unity->save();
-                        foreach ($u["modalities"] as $m) {
-                            $modality = new GradeUnityModality();
-                            $modality->name = $m["name"];
-                            $modality->type = $m["type"];
-                            $modality->weight = $m["weight"];
-                            $modality->grade_unity_fk = $unity->id;
-                            $modality->save();
-                        }
-                    }
-                    $valid = true;
-                }
-
-                $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $matrixStageFk]);
-                if ($gradeRules == null) {
-                    $gradeRules = new GradeRules();
-                    $gradeRules->edcenso_stage_vs_modality_fk = $curricularMatrix["stage_fk"];
-                }
-                $gradeRules->approvation_media = $_POST["approvalMedia"];
-                $gradeRules->final_recover_media = $_POST["finalRecoverMedia"];
-                $gradeRules->save();
-
-                $this->refreshResults($matrixStageFk);
-            }
+        try {
+            $usecase = new UpdateGradeStructUsecase($reply, $stage, $unities, $approvalMedia, $finalRecoverMedia);
+            $usecase->exec();
+            echo json_encode(["valid" => true]);
+        } catch (\Throwable $th) {
+            Yii::log($th->getMessage(), CLogger::LEVEL_ERROR);
+            echo json_encode(["valid" => false]);
         }
-        echo json_encode(["valid" => $valid]);
+
     }
 
 
-    private function getStage($stage)
-    {
-        return EdcensoStageVsModality::model()->find("id = :id", [":id" => $stage])->stage;
-    }
-
-    private function getGrades()
-    {
-        return Yii::app()->db->createCommand("
-            select esvm.id from grade g
-                join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
-                join grade_unity gu on gu.id = gum.grade_unity_fk
-                join edcenso_stage_vs_modality esvm on esvm.id = gu.edcenso_stage_vs_modality_fk
-            GROUP BY esvm.id
-            HAVING COUNT(1) > 0"
-        )
-            ->queryAll();
-    }
-
-    private function getCurricularMatrixes($stage)
-    {
-        return Yii::app()->db->createCommand("
-            select * from curricular_matrix cm
-            join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
-            where school_year = :year and esvm.stage = :stage
-        ")
-            ->bindParam(":year", Yii::app()->user->year)
-            ->bindParam(":stage", $stage)
-            ->queryAll();
-    }
-
-    private function refreshResults($stage)
-    {
-        $classrooms = Classroom::model()->findAll("edcenso_stage_vs_modality_fk = :stage and school_year = :year", ["stage" => $stage, "year" => Yii::app()->user->year]);
-        $curricularMatrixes = CurricularMatrix::model()->findAll("stage_fk = :stage", ["stage" => $stage]);
-        foreach ($classrooms as $classroom) {
-            foreach ($curricularMatrixes as $curricularMatrix) {
-                EnrollmentController::saveGradeResults($classroom->id, $curricularMatrix->discipline_fk);
-            }
-        }
-    }
 
     public function actionActiveDisableUser()
     {
@@ -397,41 +310,42 @@ class AdminController extends Controller
 
             // Atualizando a coluna que referência ao usuário na tabela de identificação de professor
             // A função save abstrai o processo de identificar se está ocorrendo um UPDATE ou INSERT
-            if($instructorId !== null){
+            if ($instructorId !== null) {
                 $instructorId->users_fk = null;
                 $instructorId->save();
             }
 
             // Excluindo o registro na tabela que representa o cargo de um profissional cadastrado
-            if($authAssign !== null){
-                $authAssign->delete('auth_assignment','userid =' .$id);
+            if ($authAssign !== null) {
+                $authAssign->delete('auth_assignment', 'userid =' . $id);
             }
 
             // Excluindo o registro na tabela que representa o acesso às escolas do usuário
-            if($userSchool !== null){
-            foreach($userSchool as $register){
-                $register->delete('users_school', 'user_fk='. $id);
+            if ($userSchool !== null) {
+                foreach ($userSchool as $register) {
+                    $register->delete('users_school', 'user_fk=' . $id);
 
                 }
             }
 
             // Excluindo o registro na tabela de usuário
-            $user->delete('users', 'id='.$id);
+            $user->delete('users', 'id=' . $id);
             $delete = true;
 
         }
 
         // Redirecionando para a tela de gerenciar usuários
-        if($delete){
+        if ($delete) {
             Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário excluído com sucesso!'));
             $this->redirect(array('admin/manageUsers'));
-        }else{
-            Yii::app()->user->setFlash('error', Yii::t('default','Erro! Não foi possível excluir o usuário, tente novamente!'));
+        } else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Erro! Não foi possível excluir o usuário, tente novamente!'));
 
         }
     }
 
-    public function actionEditPassword($id) {
+    public function actionEditPassword($id)
+    {
         $model = Users::model()->findByPk($id);
 
         if (isset($_POST['Users'], $_POST['Confirm'])) {
@@ -441,7 +355,7 @@ class AdminController extends Controller
                 $model->password = $password;
                 if ($model->save()) {
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Senha alterada com sucesso!'));
-                    if(Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
+                    if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
                         $this->redirect(['index']);
                     }
                     $this->redirect(['/']);
@@ -542,15 +456,21 @@ class AdminController extends Controller
         }
         $criteria = new CDbCriteria();
         $criteria->condition = "username != 'admin'";
-        $dataProvider = new CActiveDataProvider('Users', array(
-            'criteria' => $criteria,
-            'pagination' => false
-        ));
+        $dataProvider = new CActiveDataProvider(
+            'Users',
+            array(
+                'criteria' => $criteria,
+                'pagination' => false
+            )
+        );
 
-        $this->render('manageUsers', array(
-            'dataProvider' => $dataProvider,
-            'filter' => $filter,
-        ));
+        $this->render(
+            'manageUsers',
+            array(
+                'dataProvider' => $dataProvider,
+                'filter' => $filter,
+            )
+        );
     }
 
     public function actionUpdate($id)
@@ -586,7 +506,7 @@ class AdminController extends Controller
                         $auth->revoke($actualRole, $model->id);
                         $auth->assign($role, $model->id);
                     }
-                    if(isset($instructor) &&  $instructor != ""){
+                    if (isset($instructor) && $instructor != "") {
                         $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $instructor]);
 
                         $instructors->users_fk = $model->id;
@@ -613,7 +533,7 @@ class AdminController extends Controller
 
         $selectedInstructor = InstructorIdentification::model()->find("users_fk = :user_fk", ["user_fk" => $model->id]);
 
-        if(isset($selectedInstructor)){
+        if (isset($selectedInstructor)) {
             $instructorsResult[$selectedInstructor->id] = $selectedInstructor->name;
         }
 
@@ -634,8 +554,17 @@ class AdminController extends Controller
         $import = new BNCCImport();
 
         $import->importCSVInfantil();
-        $disciplines = ['Arte', 'Ciências', 'Educação Física', 'Ensino religioso',
-        'Geografia', 'História', 'Língua Inglesa', 'Língua Portuguesa', 'Matemática'];
+        $disciplines = [
+            'Arte',
+            'Ciências',
+            'Educação Física',
+            'Ensino religioso',
+            'Geografia',
+            'História',
+            'Língua Inglesa',
+            'Língua Portuguesa',
+            'Matemática'
+        ];
 
         foreach ($disciplines as $discipline) {
             $import->importCSVFundamental($discipline);
@@ -683,7 +612,7 @@ class AdminController extends Controller
         $countCriteria = $criteria;
 
         foreach ($_POST["order"] as $key => $order) {
-            switch($_POST["columns"][$order["column"]]["data"]) {
+            switch ($_POST["columns"][$order["column"]]["data"]) {
                 case "school":
                     $criteria->join = "join school_identification on inep_id = school_fk";
                     $criteria->order .= "TRIM(school_identification.name)";

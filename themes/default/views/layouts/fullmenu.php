@@ -80,7 +80,6 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
 <head>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.min.js"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ba-bbq.js"></script>
-    <link rel="stylesheet" href="/resources/demos/style.css">
 
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
@@ -438,7 +437,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
             <div class="modal-body">
                 <div class="row-fluid">
                     <div class=" span12">
-                        <?php echo CHtml::label(yii::t('default', 'Year'), 'year', array('class' => 'control-label')); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Year'), 'years', array('class' => 'control-label')); ?>
                         <select name="years" id="years" placeholder="Selecione o ano" style="width:100%">
                             <?php
                             $years = range(date('Y'), 2014);

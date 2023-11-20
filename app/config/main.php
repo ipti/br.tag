@@ -12,14 +12,15 @@ $log_config = array(
         array(
             'class' => 'CFileLogRoute',
             'levels' => 'error, warning, info',
-            'categories'=> 'application.*',
+            'categories'=> 'application',
         ),
     ),
 );
 
-if(!YII_DEBUG){
+if(YII_DEBUG){
     array_push($log_config['routes'], array(
         'class'=>'CWebLogRoute',
+        // 'showInFireBug'=>true,
       )
     );
 }

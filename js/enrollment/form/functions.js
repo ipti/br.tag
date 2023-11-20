@@ -6,7 +6,7 @@
 
 /**
  * Fill the fields with the data from {enrollments} in the {index}.
- * 
+ *
  * @param index {Integer}	Valid position from {enrollments}.
  */
 
@@ -20,13 +20,13 @@
         {
             toggleDisabledInputs('#student-enrollment', true)
             $('#StudentEnrollment_classroom_fk').prop( "disabled", false )
-        } else 
+        } else
         {
             toggleDisabledInputs('#student-enrollment', false)
         }
     });
 });
- 
+
 function toggleDisabledInputs(idForm, value) {
     $(idForm+" :input").each(function(){
         var input = $(this);

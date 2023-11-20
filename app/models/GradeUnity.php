@@ -17,6 +17,13 @@
  */
 class GradeUnity extends CActiveRecord
 {
+
+    public static const TYPE_UNITY = "U";
+    public static const TYPE_UNITY_BY_CONCEPT = "UC";
+    public static const TYPE_UNITY_WITH_RECOVERY = "UR";
+    public static const TYPE_SEMIANUAL_RECOVERY = "RS";
+    public static const TYPE_FINAL_RECOVERY = "RF";
+
 	/**
 	 * @return string the associated database table name
 	 */
