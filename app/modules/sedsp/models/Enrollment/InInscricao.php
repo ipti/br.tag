@@ -27,22 +27,21 @@ class InInscricao implements JsonSerializable
         ?string $inCodEscola,
         ?string $inCodUnidade,
         ?string $inFase,
-        ?string $inInteresseIntegral,
-        ?string $inInteresseEspanhol,
-        ?string $inNecesAtendNoturno,
-        ?string $inInteresseNovoTec,
-        ?string $inCodigoObservacaoOpcaoNoturno,
-        ?string $inCodigoEixoNovotecOpcaoUm,
-        ?string $inCodigoEscolaNovotecOpcaoUm,
-        ?string $inCodigoUnidadeNovotecOpcaoUm,
-        ?string $inFl_InteresseCentroIdiomas,
-        ?string $inFl_AceiteEscolaPEIDistante,
-        ?string $inCodigoEixoCELOpcaoUm,
-        ?string $inCodigoEscolaCELOpcaoUm,
-        ?string $inCodigoUnidadeCELOpcaoUm
-        ,
-        ?string $inCodigoEixoNovotecOpcaoDois,
-        ?string $inCodigoEixoNovotecOpcaoTres
+        ?string $inInteresseIntegral = null,
+        ?string $inInteresseEspanhol = null,
+        ?string $inNecesAtendNoturno = null,
+        ?string $inInteresseNovoTec = null,
+        ?string $inCodigoObservacaoOpcaoNoturno = null,
+        ?string $inCodigoEixoNovotecOpcaoUm = null ,
+        ?string $inCodigoEscolaNovotecOpcaoUm = null,
+        ?string $inCodigoUnidadeNovotecOpcaoUm = null,
+        ?string $inFl_InteresseCentroIdiomas = null,
+        ?string $inFl_AceiteEscolaPEIDistante = null,
+        ?string $inCodigoEixoCELOpcaoUm = null,
+        ?string $inCodigoEscolaCELOpcaoUm = null,
+        ?string $inCodigoUnidadeCELOpcaoUm = null,
+        ?string $inCodigoEixoNovotecOpcaoDois = null,
+        ?string $inCodigoEixoNovotecOpcaoTres = null
     ) {
         $this->inAnoLetivo = $inAnoLetivo;
         $this->inCodEscola = $inCodEscola;
