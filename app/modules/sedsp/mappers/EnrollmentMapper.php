@@ -11,10 +11,14 @@ class EnrollmentMapper
 
         $numClass = Classroom::model()->findByPk($studentEnrollmentTag->classroom_fk);
         $inNumClass = $numClass->gov_id !== null ? $numClass->gov_id : $numClass->inep_id;
-        $modality = EdcensoStageVsModality::model()->findByPk($studentEnrollmentTag->edcenso_stage_vs_modality_fk);
 
-        $inMatricula = new InMatricula(date('Y-m-d'), "00", "281760256");
-        $inNivelEnsino = new InNivelEnsino('14', '1');
+        $inMatricula = new InMatricula(date('Y-m-d'), "00", $inNumClass);
+        
+        $classroomMapper = new ClassroomMapper;
+        $ensino = (object) $classroomMapper->convertStageToTipoEnsino(
+            $studentEnrollmentTag->edcenso_stage_vs_modality_fk
+        );
+        $inNivelEnsino = new InNivelEnsino($ensino->tipoEnsino, $ensino->serieAno);
 
         //Matrículas
         $inEnrollment = new InMatricularAluno;
