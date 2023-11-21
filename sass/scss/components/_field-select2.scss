@@ -6,11 +6,14 @@
     width: 100%;
     margin-bottom: $SizeNormal;
     &__label{
+        
         &--required {
+            
             font-weight: bold;
         }
     }
     &__input {
+        width: 100% !important;
         &.select2-container{
             width: 100% !important;
             .select2-choice {
