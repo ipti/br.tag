@@ -1,6 +1,6 @@
 <?php
 
-/** 
+/**
  * @var ClassesController $this ClassesController
  * @var CActiveDataProvider $dataProvider CActiveDataProvider
  */
@@ -101,7 +101,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <select class="select-search-on frequency-input t-field-select__input" id="classroom">
                             <option>Selecione a turma</option>
                             <?php foreach ($classrooms as $classroom) : ?>
-                                <option value="<?= $classroom->id ?>" fundamentalMaior="<?=  (int)(!TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk))."" ?>"><?= $classroom->name ?></option>
+                                <option value="<?= $classroom->id ?>" fundamentalMaior="<?= (int)(!TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) . "" ?>"><?= $classroom->name ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -123,12 +123,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
         </div>
         <div class="mobile-row">
-            <!-- <div class="column no-grow">
-                <a id="classesSearch" class='t-button-icon secondary'>
-                    <span class="t-icon-search_icon"></span>-->
-            <!-- <?php echo Yii::t('default', 'Search') ?> -->
-            <!-- </a> 
-            </div> -->
             <img class="loading-frequency" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>
@@ -137,7 +131,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <?php $this->endWidget(); ?>
 
 </div>
-
 <div class="modal fade t-modal-container helper" id="save-justification-modal" tabindex="-1" role="dialog" aria-labelledby="Save Justification">
     <div class="modal-dialog" role="document">
         <div class="t-modal__header">

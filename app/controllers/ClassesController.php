@@ -356,7 +356,6 @@ class ClassesController extends Controller
         foreach ($classContent["contents"] as $content) {
             $this->saveClassContents($content, $schedule);
         }
-
     }
     private function saveClassContents($content, $schedule)
     {
@@ -515,7 +514,6 @@ class ClassesController extends Controller
             } else {
                 ClassFaults::model()->deleteAll("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
             }
-
         } else {
             if ($_POST["fault"] == "1") {
                 $enrollments = StudentEnrollment::model()->findAll("classroom_fk = :classroom_fk", ["classroom_fk" => $_POST["classroomId"]]);
@@ -551,7 +549,6 @@ class ClassesController extends Controller
                 $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
                 $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
                 $classFault->save();
-
             }
         }
     }

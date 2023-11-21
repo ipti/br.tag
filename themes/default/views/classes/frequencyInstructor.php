@@ -1,6 +1,6 @@
 <?php
 
-/** 
+/**
  * @var ClassesController $this ClassesController
  * @var CActiveDataProvider $dataProvider CActiveDataProvider
  */
@@ -98,21 +98,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
         </div>
         <div class="mobile-row">
-            <!-- <div class="column no-grow">
-                <a id="classesSearch" class='t-button-icon secondary'>
-                    <span class="t-icon-search_icon"></span> -->
-            <!-- <?php echo Yii::t('default', 'Search') ?> -->
-            <!-- </a>
-            </div> -->
         </div>
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>
         <div id="frequency-container" class="table-frequency">
         </div>
     </div>
     <?php $this->endWidget(); ?>
-
 </div>
-
 <div class="modal fade t-modal-container helper" id="save-justification-modal" tabindex="-1" role="dialog" aria-labelledby="Save Justification">
     <div class="modal-dialog" role="document">
         <div class="t-modal__header">
@@ -140,7 +132,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         </div>
                     </div>
                 </div>
-
                 <div class="t-modal__footer mobile-row">
                     <button type="button" class="t-button-primary btn-save-justification">Adicionar</button>
                 </div>

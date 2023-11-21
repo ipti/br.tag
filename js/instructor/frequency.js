@@ -1,4 +1,5 @@
-$("#classesSearch").on("click", function () {
+$("#month").on("change", function () {
+
     if ($("#classrooms").val() !== "" && $("#month").val() !== ""
         && $("#instructor").val() !== "" && $("#disciplines").val() !== "") {
         $(".alert-required-fields, .alert-incomplete-data").hide();
@@ -11,6 +12,7 @@ $("#classesSearch").on("click", function () {
                 classroom: $("#classrooms").val(),
                 discipline: $("#disciplines").val(),
                 month: $("#month").val(),
+
             },
             beforeSend: function () {
                 $(".loading-frequency").css("display", "inline-block");
