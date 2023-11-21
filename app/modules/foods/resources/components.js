@@ -119,7 +119,7 @@ const MealsComponent = function (meal) {
     const title = wrapper.find('.js-meal-type');
     const containerPlates = wrapper.find(".js-plate-component");
 
-    const plateElements = meal.plates.map((plate) => PlatesComponent(plate).render(containerPlates));
+    const plateElements = meal.plates.map((plate) => PlatesComponent().render(containerPlates));
     wrapper.find(".js-plate-component").append(plateElements);
 
     wrapper.find(`.js-meal-select`).on("change", function (event) {

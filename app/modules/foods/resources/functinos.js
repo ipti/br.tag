@@ -9,7 +9,7 @@ $(document).on("click", ".js-add-plate", function () {
     }).success(function (response) {
         $("#js-accordion").append(DOMPurify.sanitize(response))
         
-            initializeAccordion(idNextAccordion);
+            initializeAccordion();
             initializeSelect2()
             addTacoFood()
 
@@ -48,13 +48,12 @@ function addTacoFood() {
             },
             type: "GET",
         }).success(function (response) {
-    
-            response = JSON.parse(response)
+            response = JSON.parse(DOMPurify.sanitize(response))
             let line = createMealComponent(
                 response, $(select).attr('data-idAccordion')
                 );
             $(`table[data-idAccordion="${$(select).attr('data-idAccordion')}"] tbody`).append(line)
-            initializeAccordion($(select).attr('data-idAccordion'))
+            initializeAccordion()
 
             $(select).val('');
             initializeSelect2();
@@ -75,7 +74,7 @@ function removeTacoFood() {
         let name = closeButton.parent().find('.js-food-name').text()
         removeIngrendientsName(idAccordion, name)
         closeButton.parent().remove();
-        initializeAccordion(idAccordion)
+        initializeAccordion()
     })
 }
 function addIngrendientsName(idAccordion, name) {
