@@ -47,7 +47,20 @@
         justify-content: end;
     }
 }
-
+.flex-direction {
+    &--row {
+        flex-direction: row;
+    }
+    &--col {
+        flex-direction: column;
+    }
+    &--row-reverse {
+        flex-direction: row-reverse;
+    }
+    &--col-reverse {
+        flex-direction: column-reverse;
+    }
+}
 .text-align {
     &--center {
         text-align: center;

@@ -4,7 +4,9 @@
 .t-field-tarea {
     margin-bottom: $SizeLarge;
     &__label{
+        
         &--required {
+            
             font-weight: bold;
         }
     }
