@@ -98,7 +98,6 @@ table.dataTable {
     border-spacing: 0 5px !important;
 }
 
-
 .tag-table.table-striped tbody>tr:nth-child(odd)>td {
     background-color: #eaeaf8;
 }
@@ -279,7 +278,6 @@ table.dataTable {
 /*
     fullmenu-toggle-button
 */
-
 
 .logo-container {
     display: flex;

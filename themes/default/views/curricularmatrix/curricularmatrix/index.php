@@ -159,7 +159,7 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="tag-button-light btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Confirmar</button>
+                    <button type="button" class="btn btn-primary confirm-matrix-reuse" data-dismiss="modal">Confirmar</button>
                 </div>
             </div>
         </form>
