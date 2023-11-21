@@ -155,8 +155,10 @@ class FoodMenuController extends Controller
 		if(isset($_POST['FoodMenu']))
 		{
 			$model->attributes=$_POST['FoodMenu'];
-			if($model->save())
+			if($model->save()){
 				$this->redirect(array('view','id'=>$model->id));
+			}
+				
 		}
 
 		$this->render('update',array(
@@ -199,8 +201,10 @@ class FoodMenuController extends Controller
 	{
 		$model=new FoodMenu('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['FoodMenu']))
+		if(isset($_GET['FoodMenu'])){
 			$model->attributes=$_GET['FoodMenu'];
+		}
+			
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -218,7 +222,9 @@ class FoodMenuController extends Controller
 	{
 		$model=FoodMenu::model()->findByPk($id);
 		if($model===null)
+		{
 			throw new CHttpException(404,'The requested page does not exist.');
+		}
 		return $model;
 	}
 
