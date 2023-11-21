@@ -1,6 +1,15 @@
 <?php
+Yii::import('application.modules.sedsp.models.Student.*');
+Yii::import('application.modules.sedsp.datasources.sed.Student.*');
+Yii::import('application.modules.sedsp.mappers.*');
+Yii::import('application.modules.sedsp.usecases.Enrollment.*');
+Yii::import('application.modules.sedsp.models.Enrollment.*');
+Yii::import('application.modules.sedsp.usecases.*');
+Yii::import('application.modules.sedsp.usecases.Student.*');
+Yii::import('application.modules.sedsp.interfaces.*');
+Yii::import('application.modules.sedsp.datasources.sed.Enrollment.*');
 
-class EnrollmentController extends Controller
+class EnrollmentController extends Controller implements AuthenticateSEDTokenInterface
 {
     //@done s1 - Validar Ano Letivo
     //@done s1 - Verificar erro - Ao matricular um aluno que acabou de ser cadastrado não está salvando eno bancoo e aparece a mensagem de 'Aluno ja matriculado'
@@ -20,6 +29,12 @@ class EnrollmentController extends Controller
         return array(
             'accessControl', // perform access control for CRUD operations
         );
+    }
+
+    public function authenticateSedToken()
+    {
+        $loginUseCase = new LoginUseCase();
+        $loginUseCase->checkSEDToken();
     }
 
     /**
@@ -165,6 +180,9 @@ class EnrollmentController extends Controller
     {
         $model = $this->loadModel($id);
 
+        $class = Classroom::model()->findByPk($model->classroom_fk);
+        $oldClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+
         $modelStudentIdentification = StudentIdentification::model()->find('inep_id="' . $model->student_inep_id . '"');
         if ($model->student_fk == NULL && $model->classroom_fk == NULL) {
             $model->student_fk = $modelStudentIdentification->id;
@@ -200,6 +218,58 @@ class EnrollmentController extends Controller
                     Log::model()->saveAction("enrollment", $model->id, "U", $model->studentFk->name . "|" . $model->classroomFk->name);
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Matrícula alterada com sucesso!'));
                     // $this->redirect(array('student/'));
+                
+                    if(TagUtils::isInstance("UBATUBA")) {
+                        //$this->authenticateSedToken();
+
+                        //$studentMapper = new StudentMapper;
+                        //$status = $studentMapper->mapSituationEnrollmentToSed($model->status);
+
+                        $inNumRA = StudentIdentification::model()->findByPk($model->student_fk);
+                        $inAluno = new InAluno($inNumRA->gov_id, null, 'SP');
+                        $enrollment = new EnrollmentSEDDataSource;
+                        $class = Classroom::model()->findByPk($model->classroom_fk);
+                        $newClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+                        
+                        $codTipoEnsino = $class->edcenso_stage_vs_modality_fk;
+                        $codSerieAno = $class->modality;
+                        
+                        if($model->status === '2' || $model->status === '5') {
+                            //remanejarmatricula
+                            $inDataMovimento = date('d/m/Y', strtotime($model->create_date)); 
+                            $inNumAluno = "24"; //$enroll->outNumAluno;
+                            $inNumClasseOrigem = $oldClass; 
+                            $inNumClasseDestino = $newClass; 
+                            $inMatriculaRemanejar = new InMatriculaRemanejar($inDataMovimento, $inNumAluno, $inNumClasseOrigem, $inNumClasseDestino);
+
+                            $inCodTipoEnsino = $codTipoEnsino;
+                            $inCodSerieAno = $codSerieAno;
+                            $inNivelEnsino = new InNivelEnsino($inCodTipoEnsino, $inCodSerieAno);
+
+                            $inRemanejarMatricula = new InRemanejarMatricula($inAluno, $inMatriculaRemanejar, $inNivelEnsino, Yii::app()->user->year);
+                            $reallocateEnrollmentUseCase = new ReallocateEnrollmentUseCase;
+                            $reallocateEnrollmentUseCase->exec($inRemanejarMatricula);
+            
+                        }elseif($model->status === '3' || $model->status === '11') {
+                            //excluirmatricula
+                            $class = Classroom::model()->findByPk($model->classroom_fk);
+                            $inNumClasse = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+                            $inExcluirMatricula = new InExcluirMatricula($inAluno, $inNumClasse);
+                            
+                            $deleteEnrollmentUseCase = new DeleteEnrollmentUseCase;
+                            $deleteEnrollmentUseCase->exec($inExcluirMatricula);
+                        }elseif($model->status === '4') {
+                            //baixarmatricula
+                            $inTipoBaixa = '';
+                            $inMotivoBaixa = '';
+                            $inDataBaixa = '';
+                            $inNumClasse = '';
+                            $inBaixarMatricula = new InBaixarMatricula($inAluno, $inTipoBaixa, $inMotivoBaixa, $inDataBaixa, $inNumClasse);
+                            
+                            $terminateEnrollmentUseCase = new TerminateEnrollmentUseCase;
+                            $terminateEnrollmentUseCase->exec($inBaixarMatricula);
+                        } 
+                    }
                 }
             }
         }
@@ -232,7 +302,7 @@ class EnrollmentController extends Controller
 
 //		if(Yii::app()->request->isPostRequest)
 //		{
-//                    
+//
 //			// we only allow deletion via POST request
 //			$this->loadModel($id)->delete();
 //
@@ -332,8 +402,8 @@ class EnrollmentController extends Controller
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $disciplines = Yii::app()->db->createCommand(
-                "select ed.id from teaching_matrixes tm 
-                join instructor_teaching_data itd on itd.id = tm.teaching_data_fk 
+                "select ed.id from teaching_matrixes tm
+                join instructor_teaching_data itd on itd.id = tm.teaching_data_fk
                 join instructor_identification ii on ii.id = itd.instructor_fk
                 join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
                 join edcenso_discipline ed on ed.id = cm.discipline_fk
@@ -345,9 +415,9 @@ class EnrollmentController extends Controller
         } else {
             echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione...'), true);
             $classr = Yii::app()->db->createCommand(
-                "select curricular_matrix.discipline_fk 
-                from curricular_matrix 
-                    join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk 
+                "select curricular_matrix.discipline_fk
+                from curricular_matrix
+                    join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk
                 where stage_fk = :stage_fk and school_year = :year order by ed.name")
                 ->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)
                 ->bindParam(":year", Yii::app()->user->year)->queryAll();
@@ -360,31 +430,31 @@ class EnrollmentController extends Controller
     }
 
     public function actionSaveGradesReportCard()
-    {                                   
+    {
             $discipline = $_POST['discipline'];
             $students = $_POST['students'];
-            
+
             foreach($students as $std) {
                 $mediaFinal = 0;
                 $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $std['enrollmentId'], "discipline_fk" => $discipline]);
                 if(!isset($gradeResult)) {
                     $gradeResult = new GradeResults;
                 }
-        
+
                 $gradeResult->enrollment_fk = $std['enrollmentId'];
                 $gradeResult->discipline_fk = $discipline;
-                
+
                 foreach ($std['grades'] as $key => $value) {
-                    $index = $key + 1;                    
+                    $index = $key + 1;
                     $gradeResult->{"grade_" . $index} = $std['grades'][$key]['value'];
-                    $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];                    
-                    $mediaFinal += floatval($gradeResult->attributes["grade_" . $index]);
+                    $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];
+                    $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
+
+
+                    $mediaFinal += floatval($gradeResult->attributes["grade_" . $index] * ($index == 3 ? 2 : 1));
                 }
 
-                
-                $unities = count($std['grades']);
-                $gradeResult->final_media = number_format($mediaFinal / $unities, 1);
-                CVarDumper::dump( $gradeResult, 10, true);
+                $gradeResult->final_media = number_format($mediaFinal / 4, 1);
                 if(!$gradeResult->validate()) {
                     die( print_r($gradeResult->getErrors()) );
                 }
@@ -401,6 +471,7 @@ class EnrollmentController extends Controller
                 if ($grade["value"] != "" || ($_POST["isConcept"] == "1" && $grade["concept"] != "")) {
 
                     $gradeObject = Grade::model()->find("enrollment_fk = :enrollment and grade_unity_modality_fk = :modality and discipline_fk = :discipline_fk", [":enrollment" => $student["enrollmentId"], ":modality" => $grade["modalityId"], ":discipline_fk" => $_POST["discipline"]]);
+
                     if ($gradeObject == null) {
                         $gradeObject = new Grade();
                         $gradeObject->enrollment_fk = $student["enrollmentId"];
@@ -414,7 +485,7 @@ class EnrollmentController extends Controller
                     }
                     $gradeObject->save();
                 } else {
-                    Grade::model()->deleteAll("enrollment_fk = :enrollment and grade_unity_modality_fk = :modality", [":enrollment" => $student["enrollmentId"], ":modality" => $grade["modalityId"]]);
+                    Grade::model()->deleteAll("enrollment_fk = :enrollment and grade_unity_modality_fk = :modality and discipline_fk = :discipline", [":enrollment" => $student["enrollmentId"], ":modality" => $grade["modalityId"], ":discipline" => $_POST["discipline"]]);
                 }
             }
             // $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $student["enrollmentId"], "discipline_fk" => $_POST["discipline"]]);
@@ -438,13 +509,13 @@ class EnrollmentController extends Controller
         $criteria->params = array(':classroom_fk' => $_POST["classroom"]);
         $criteria->order = "se.daily_order, si.name";
         $studentEnrollments = StudentEnrollment::model()->findAll($criteria);
-                
-        
+
+
         if ($studentEnrollments != null) {
             $result["students"] = [];
             foreach ($studentEnrollments as $studentEnrollment) {
-                
-                $stage = isset($studentEnrollment->edcenso_stage_vs_modality_fk) 
+
+                $stage = isset($studentEnrollment->edcenso_stage_vs_modality_fk)
                 ? $studentEnrollment->edcenso_stage_vs_modality_fk :
                 $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk;
 
@@ -461,13 +532,14 @@ class EnrollmentController extends Controller
                 $arr["grades"] = [];
                 $arr["faults"] = [];
 
-                $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", 
+                $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk",
                 ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $_POST["discipline"]]);
-                                                
-                foreach ($unities as $key => $value) {        
-                    $index = $key + 1;            
-                    array_push($arr["grades"], ["value" => $gradeResult["grade_" . $index], "faults" => $gradeResult["grade_faults_" . $index]]);        
-                }               
+
+                foreach ($unities as $key => $value) {
+                    $index = $key + 1;
+                    array_push($arr["grades"], ["value" => $gradeResult["grade_" . $index], "faults" => $gradeResult["grade_faults_" . $index],
+                    "givenClasses" => $gradeResult["given_classes_" . $index]]);
+                }
 
                 $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
                 $result["unities"] = $unities;
@@ -575,14 +647,14 @@ class EnrollmentController extends Controller
         $criteria->join .= " join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id";
         $criteria->condition = "c.id = :classroom";
         $criteria->params = array(":classroom" => $classroom);// $gradeUnitiesByClassroom = GradeUnity::model()->findAll();
-        
+
         $gradeUnitiesByClassroom = GradeUnity::model()->findAll($criteria);
-        
+
 
         $studentEnrollments = StudentEnrollment::model()->findAll("classroom_fk = :classroom_fk", ["classroom_fk" => $classroom]);
-        
+
         foreach ($studentEnrollments as $studentEnrollment) {
-            
+
             $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $discipline]);
             if ($gradeResult == null) {
                 $gradeResult = new GradeResults();
@@ -638,7 +710,7 @@ class EnrollmentController extends Controller
                             $resultGradeResult = $grade["unityGrade"] != "" ? number_format($grade["unityGrade"], 1) : null;
 
                             $gradeResult["grade_" . ($gradeIndex + 1)] = $resultGradeResult  <= 10.0 ? $resultGradeResult : 10.0;
-                            
+
                             $gradeIndex++;
                             break;
                         case "UR":

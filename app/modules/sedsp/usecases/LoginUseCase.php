@@ -38,4 +38,15 @@ class LoginUseCase
         //Yii::app()->user->setState("SED_TOKEN", $auth->getAutenticacao());
         return Yii::app()->request->cookies['SED_TOKEN']->value;
     }
+
+    public function checkSEDToken()
+    {
+        try {
+            if (!isset(Yii::app()->request->cookies['SED_TOKEN'])) {
+                $this->exec("SME701", "zyd780mhz1s5");
+            }
+        } catch (\Throwable $th) {
+           return $th->getMessage();
+        }
+    }
 }

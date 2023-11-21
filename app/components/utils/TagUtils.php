@@ -3,6 +3,10 @@
 class TagUtils extends CApplicationComponent {
 
 
+    public static function isInstructor(){
+        return (bool)Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id);
+    }
+
     public static function isStageMinorEducation($stage){
         $refMinorStages = [
             '1', '2', '3', '4', '5', '6', '7', '8', '14', '15', '16', '17', '18'
@@ -48,7 +52,7 @@ class TagUtils extends CApplicationComponent {
             return in_array(strtoupper(INSTANCE), $instances);
         }
 
-        return strtoupper(INSTANCE) === strtoupper($instance);
+        return strtoupper(INSTANCE) === strtoupper($instance) || INSTANCE === "LOCALHOST";
     }
 }
 

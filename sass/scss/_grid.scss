@@ -23,6 +23,10 @@
     display: flex;
     flex-direction: row;
 
+    &.upper-margin {
+        margin-top: $SizeLarge;
+    }
+
     &.helper {
         padding-left: 13px;
     }

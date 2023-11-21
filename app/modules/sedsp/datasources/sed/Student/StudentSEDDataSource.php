@@ -3,7 +3,10 @@
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 
+
 require_once 'app/vendor/autoload.php';
+Yii::import('application.modules.sedsp.models.Student.*');
+Yii::import('application.modules.sedsp.models.*');
 
 /**
  * Summary of StudentSEDDataSource
@@ -31,7 +34,7 @@ class StudentSEDDataSource extends SedDataSource
             $response = $this->getApiResponse('GET', $url, $inConsultaRA);
             return OutConsultaRA::fromJson($response);
         } catch (ClientException $e) {
-            return new OutErro($e);
+            return new OutErro;
         } catch (Exception $exception) {
             throw $exception;
         }
@@ -94,6 +97,7 @@ class StudentSEDDataSource extends SedDataSource
         try {
             $url = '/ncaapi/api/Aluno/ExibirFichaAluno';
             $response = $this->getApiResponse('GET', $url, ["inAluno" => $inAluno]);
+            
             return OutExibirFichaAluno::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -137,12 +141,12 @@ class StudentSEDDataSource extends SedDataSource
      */
 
     /**
-     * Summary of addStudent
+     * Summary of addStudentToSed
      * @param InFichaAluno $inFichaAluno
-     * @return OutFichaAluno|OutErro
+     * @return OutFichaAluno|RequestException
      * @throws Exception
      */
-    public function addStudent(InFichaAluno $inFichaAluno)
+    public function addStudentToSed(InFichaAluno $inFichaAluno)
     {
         try{
             $url = '/ncaapi/api/Aluno/FichaAluno';
@@ -150,7 +154,28 @@ class StudentSEDDataSource extends SedDataSource
 
             return OutFichaAluno::fromJson($response);
         } catch(RequestException $clienteException) {
-            return new OutErro($clienteException);
+            return $clienteException;
+        } catch(Exception $exception) {
+            throw $exception;
+        }
+    }
+
+
+ 
+    /**
+     * Summary of editStudent
+     * @param InManutencao $inManutencao
+     * @return OutHandleApiResult
+     */
+    public function editStudent(InManutencao $inManutencao)
+    {
+        try{
+            $url = '/ncaapi/api/Aluno/Manutencao';
+            $response = $this->getApiResponse('POST', $url, $inManutencao);
+            
+            return OutHandleApiResult::fromJson($response);
+        } catch(RequestException $clienteException) {
+            echo 'Erro durante a requisição: ' . $clienteException->getMessage();
         } catch(Exception $exception) {
             throw $exception;
         }
@@ -167,7 +192,7 @@ class StudentSEDDataSource extends SedDataSource
         $response = $this->client->request($httpMethod, $url, [
             'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
         ]);
-    
+
         return json_decode($response->getBody()->getContents(), true);
     }
 }

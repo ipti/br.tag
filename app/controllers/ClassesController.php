@@ -38,9 +38,14 @@ class ClassesController extends Controller
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array(
                     'index',
-                    'frequency', 'saveFrequency',
-                    'classContents', 'getClassContents', 'saveClassContents',
-                    'getdisciplines', 'getfrequency', 'saveJustification'
+                    'frequency',
+                    'saveFrequency',
+                    'classContents',
+                    'getClassContents',
+                    'saveClassContents',
+                    'getdisciplines',
+                    'getfrequency',
+                    'saveJustification'
                 ),
                 'users' => array('@'),
             ),
@@ -69,15 +74,29 @@ class ClassesController extends Controller
                 . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
             $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
             $criteria->order = "name";
-            $criteria->params = array(':school_year' => Yii::app()->user->year, ':school_inep_fk' => Yii::app()->user->school, ':users_fk' => Yii::app()->user->loginInfos->id);
+            $criteria->params = array(
+                ':school_year' => Yii::app()->user->year,
+                ':school_inep_fk' => Yii::app()->user->school,
+                ':users_fk' => Yii::app()->user->loginInfos->id
+            );
 
             $classrooms = Classroom::model()->findAll($criteria);
+
         } else {
-            $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
+            $classrooms = Classroom::model()->findAll(
+                'school_year = :school_year and school_inep_fk = :school_inep_fk order by name',
+                [
+                    'school_year' => Yii::app()->user->year,
+                    'school_inep_fk' => Yii::app()->user->school
+                ]
+            );
         }
-        $this->render('classContents', array(
-            'classrooms' => $classrooms
-        ));
+        $this->render(
+            'classContents',
+            array(
+                'classrooms' => $classrooms
+            )
+        );
     }
 
     /**
@@ -85,44 +104,22 @@ class ClassesController extends Controller
      */
     public function actionGetClassContents()
     {
+        $classroomId = $_POST["classroom"];
+        $month = $_POST["month"];
+        $disciplineId = $_POST["discipline"];
+
+        $students = $this->getStudentsByClassroom($classroomId);
+
         if ($_POST["fundamentalMaior"] == "1") {
-            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"], "discipline_fk" => $_POST["discipline"]]);
+            $schedules = $this->getSchedulesFromMajorStage($classroomId, $month, $disciplineId);
         } else {
-            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"]]);
+            $schedules = $this->getSchedulesFromMinorStage($classroomId, $month);
         }
+
         if (!empty($schedules)) {
-            $students = Yii::app()->db->createCommand(
-                "select si.id, si.name from student_enrollment se
-                        join student_identification si on si.id = se.student_fk
-                        where classroom_fk = :classroom_fk
-                        order by si.name"
-            )
-                ->bindParam(":classroom_fk", $_POST["classroom"])->queryAll();
-            foreach ($schedules as $schedule) {
-                $classContents[$schedule->day]["available"] = date("Y-m-d") >= Yii::app()->user->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
-                $classContents[$schedule->day]["diary"] = $schedule->diary !== null ? $schedule->diary : "";
-                $classContents[$schedule->day]["students"] = [];
-                foreach ($students as $student) {
-                    $studentArray["id"] = $student["id"];
-                    $studentArray["name"] = $student["name"];
-                    $studentArray["diary"] = "";
-                    foreach ($schedule->classDiaries as $classDiary) {
-                        if ($classDiary->student_fk == $student["id"]) {
-                            $studentArray["diary"] = $classDiary->diary;
-                        }
-                    }
-                    array_push($classContents[$schedule->day]["students"], $studentArray);
-                }
+            $classContents = $this->buildClassContents($schedules, $students);
 
-                foreach ($schedule->classContents as $classContent) {
-                    if (!isset($classContents[$schedule->day]["contents"])) {
-                        $classContents[$schedule->day]["contents"] = [];
-                    }
-                    array_push($classContents[$schedule->day]["contents"], $classContent->courseClassFk->id);
-                }
-            }
-
-            if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            if (TagUtils::isInstructor()) {
                 if ($_POST["fundamentalMaior"] == "1") {
                     $courseClasses = Yii::app()->db->createCommand(
                         "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc
@@ -186,33 +183,156 @@ class ClassesController extends Controller
         }
     }
 
+
+    /**
+     * Summary of getSchedulesFromMajorStage
+     * @param integer $classroomId
+     * @param integer $month
+     * @param integer $disciplineId
+     * @return Schedule[]
+     */
+    private function getSchedulesFromMajorStage($classroomId, $month, $disciplineId)
+    {
+        return Schedule::model()->findAll(
+            "classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
+            [
+                "classroom_fk" => $classroomId,
+                "month" => $month,
+                "discipline_fk" => $disciplineId
+            ]
+        );
+    }
+
+    /**
+     * Summary of getSchedulesFromMinorStage
+     * @param integer $classroomId
+     * @param integer $month
+     * @return Schedule[]
+     */
+    private function getSchedulesFromMinorStage($classroomId, $month)
+    {
+        return Schedule::model()->findAll(
+            "classroom_fk = :classroom_fk and month = :month and unavailable = 0 group by day order by day, schedule",
+            [
+                "classroom_fk" => $classroomId,
+                "month" => $month
+            ]
+        );
+    }
+
+    /**
+     * Summary of getStudentsByClassroom
+     * @param mixed $classroomId
+     * @return mixed
+     */
+    private function getStudentsByClassroom($classroomId)
+    {
+        return Yii::app()->db->createCommand(
+            "select
+                    si.id,
+                    si.name
+                from student_enrollment se
+                    join student_identification si on si.id = se.student_fk
+                where classroom_fk = :classroom_fk
+                order by si.name"
+        )
+            ->bindParam(":classroom_fk", $classroomId)
+            ->queryAll();
+
+    }
+
+    /**
+     * Summary of buildClassContents
+     * @param Schedule[] $schedules
+     * @param mixed $students
+     * @return array
+     */
+    private function buildClassContents($schedules, $students)
+    {
+        $classContents = [];
+        foreach ($schedules as $schedule) {
+            $scheduleDate = date("Y-m-d", mktime(0, 0, 0, $schedule->month, $schedule->day, Yii::app()->user->year));
+            $classContents[$schedule->day]["available"] = date("Y-m-d") >= $scheduleDate;
+            $classContents[$schedule->day]["diary"] = $schedule->diary !== null ? $schedule->diary : "";
+            $classContents[$schedule->day]["students"] = [];
+
+            $studentArray = $this->updateStudentAnottations($schedule, $students);
+            array_push($classContents[$schedule->day]["students"], $studentArray);
+
+            foreach ($schedule->classContents as $classContent) {
+                if (!isset($classContents[$schedule->day]["contents"])) {
+                    $classContents[$schedule->day]["contents"] = [];
+                }
+                array_push($classContents[$schedule->day]["contents"], $classContent->courseClassFk->id);
+            }
+        }
+
+        return $classContents;
+
+    }
+
+    private function updateStudentAnottations($schedule, $students)
+    {
+        $studentArray = [];
+        foreach ($students as $student) {
+            $studentArray["id"] = $student["id"];
+            $studentArray["name"] = $student["name"];
+            $studentArray["diary"] = "";
+
+            foreach ($schedule->classDiaries as $classDiary) {
+                if ($classDiary->student_fk == $student["id"]) {
+                    $studentArray["diary"] = $classDiary->diary;
+                }
+            }
+        }
+
+        return $studentArray;
+    }
+
     /**
      * Save the contents for each class.
      */
 
     public function actionSaveClassContents()
     {
-        $is_minor_degree = $_POST["fundamentalMaior"];
+        $isMinorStage = $_POST["fundamentalMaior"];
         $classContents = $_POST["classContents"];
         $classroom = $_POST["classroom"];
         $month = $_POST["month"];
         $discipline = $_POST["discipline"];
 
-        $schedules = $this->loadScheduleByStage($is_minor_degree, $classroom, $month, $discipline);
+        $schedules = $this->loadScheduleByStage($isMinorStage, $classroom, $month, $discipline);
 
         foreach ($classContents as $classContent) {
-            $schedule_key = array_search($classContent["day"], array_column($schedules, 'day'));
-            $this->saveSchedule($schedules[$schedule_key], $classContent);
+            $scheduleKey = array_search($classContent["day"], array_column($schedules, 'day'));
+            if ($scheduleKey !== false) {
+                CVarDumper::dump($scheduleKey);
+                $this->saveSchedule($schedules[$scheduleKey], $classContent);
+            }
         }
     }
 
-    private function loadScheduleByStage($isMinorEducation, $classroom, $month, $discipline)
+    private function loadScheduleByStage($isMinorStage, $classroom, $month, $discipline)
     {
-        if ($isMinorEducation == "1") {
-            return Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk group by day order by day, schedule", ["classroom_fk" => $classroom, "month" => $month, "discipline_fk" => $discipline]);
+        if ($isMinorStage != "1") {
+            return Schedule::model()->findAll(
+                "classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk group by day order by day, schedule",
+                [
+                    "classroom_fk" => $classroom,
+                    "month" => $month,
+                    "discipline_fk" => $discipline
+                ]
+            );
         }
 
-        return Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month group by day order by day, schedule", ["classroom_fk" => $classroom, "month" => $month]);
+        return Schedule::model()->findAll(
+            "classroom_fk = :classroom_fk and month = :month group by day order by day, schedule",
+            [
+                "classroom_fk" => $classroom,
+                "month" => $month
+            ]
+        );
+
     }
 
     /**
@@ -281,14 +401,20 @@ class ClassesController extends Controller
             $criteria->order = "name";
             $criteria->params = array(':school_year' => Yii::app()->user->year, ':school_inep_fk' => Yii::app()->user->school, ':users_fk' => Yii::app()->user->loginInfos->id);
             $classrooms = Classroom::model()->findAll($criteria);
-            $this->render('frequencyInstructor', array(
-                'classrooms' => $classrooms
-            ));
+            $this->render(
+                'frequencyInstructor',
+                array(
+                    'classrooms' => $classrooms
+                )
+            );
         } else {
             $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
-            $this->render('frequency', array(
-                'classrooms' => $classrooms
-            ));
+            $this->render(
+                'frequency',
+                array(
+                    'classrooms' => $classrooms
+                )
+            );
         }
         // $this->render('frequency', array(
         //     'classrooms' => $classrooms
@@ -302,10 +428,24 @@ class ClassesController extends Controller
     public function actionGetFrequency()
     {
         if ($_POST["fundamentalMaior"] == "1") {
-            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"], "discipline_fk" => $_POST["discipline"]]);
+            $schedules = Schedule::model()->findAll(
+                "classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
+                [
+                    "classroom_fk" => $_POST["classroom"],
+                    "month" => $_POST["month"],
+                    "discipline_fk" => $_POST["discipline"]
+                ]
+            );
         } else {
-            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"]]);
+            $schedules = Schedule::model()->findAll(
+                "classroom_fk = :classroom_fk and month = :month and unavailable = 0 group by day order by day, schedule",
+                [
+                    "classroom_fk" => $_POST["classroom"],
+                    "month" => $_POST["month"]
+                ]
+            );
         }
+
         $criteria = new CDbCriteria();
         $criteria->with = array('studentFk');
         $criteria->together = true;
@@ -360,8 +500,9 @@ class ClassesController extends Controller
     }
 
     private
-    function saveFrequency($schedule)
-    {
+        function saveFrequency(
+        $schedule
+    ) {
 
 
         if ($_POST["studentId"] != null) {
@@ -400,6 +541,8 @@ class ClassesController extends Controller
             $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
             $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
             $classFault->save();
+
+
         } else {
             $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
             foreach ($schedules as $schedule) {

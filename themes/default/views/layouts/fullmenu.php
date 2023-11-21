@@ -61,6 +61,7 @@ $cs->registerCssFile($assetUrl . "/css/template.css?v=" . TAG_VERSION);
 $cs->registerCssFile($assetUrl . '/css/template2.css?v=' . TAG_VERSION);
 $cs->registerCssFile($assetUrl . "/css/admin.css?v=" . TAG_VERSION);
 $cs->registerCssFile($assetUrl . "/css/home.css?v=" . TAG_VERSION);
+$cs->registerCssFile(Yii::app()->baseUrl . "/css/form.css?v=" . TAG_VERSION);
 $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION);
 
 ?>
@@ -292,7 +293,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                         <span class="t-menu-item__text">Frequência</span>
                                     </a>
                                 </li>
-                                <?php if(!TagUtils::isInstance("BUZIOS")): ?>
+                                <?php if(!TagUtils::isInstance("BUZIOS") || TagUtils::isInstance("LOCALHOST")): ?>
                                     <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades") ? 'active' : '' ?>">
                                         <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('enrollment/grades') ?> ">
                                             <span class="t-icon-edition t-menu-item__icon"></span>
@@ -371,7 +372,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                         </a>
                                     </li>
                                     <?php } ?>
-                                    <?php if (INSTANCE == "UBATUBA" || INSTANCE == "TREINAMENTO" || INSTANCE == "SAOSEBASTIAO" || INSTANCE == "LOCALHOST" || INSTANCE == "DEMO") { ?>
+                                    <?php if (TagUtils::isInstance("UBATUBA") || INSTANCE == "TREINAMENTO" || INSTANCE == "SAOSEBASTIAO" || INSTANCE == "LOCALHOST" || INSTANCE == "DEMO") { ?>
                                         <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=sedsp") ? 'active' : '' ?>">
                                             <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('sedsp') ?>">
                                                 <span class="t-icon-sp  t-menu-item__icon"></span>
