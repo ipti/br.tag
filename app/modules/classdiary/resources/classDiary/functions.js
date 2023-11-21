@@ -1,6 +1,6 @@
 $('.js-add-course-classes-accordion').on("change", function (){
-    var optionSelected = $(this).val();
-     var PlanName = $(this).find('option[value="' + optionSelected + '"]').text();
+    let optionSelected = $(this).val();
+     let PlanName = $(this).find('option[value="' + optionSelected + '"]').text();
    
    
     $.ajax({
@@ -33,7 +33,6 @@ function renderFrequencyElement(w) {
     const stage_fk = urlParams.get("stage_fk")
     const discipline_fk = urlParams.get("discipline_fk")
     const date = $('.js-date').val()
-    // const url = w <= 640 ?  `RenderFrequencyElementMobile` : `RenderFrequencyElementDesktop`;
     const url =`RenderFrequencyElementMobile`;
     $.ajax({
         url: `${window.location.host}?r=classdiary/default/${url}&classroom_fk=${classroom_fk}&stage_fk=${stage_fk}&discipline_fk=${discipline_fk}&date=${date}`,
@@ -56,7 +55,7 @@ function updateClassesContents()
     }).success((response) => {
         
         if(response.valid==true){
-            var options = "";
+            let options = "";
             $.each(response["courseClasses"], function () {
                 options += '<option value="' + this.id + '" disciplineid="' + this.edid + '" disciplinename="' + this.edname + '">' + this.cpname + "|" + this.order + "|" + this.objective + "|" + this.edname + '</option>';
             });
@@ -64,11 +63,11 @@ function updateClassesContents()
             $("#coursePlan").select2("val", response["classContents"]);
             $('#coursePlan').select2({
                 formatSelection: function (state) {
-                    var textArray = state.text.split("|");
+                    let textArray = state.text.split("|");
                     return 'Plano de Aula "' + textArray[0] + '": Aula ' + textArray[1];
                 },
                 formatResult: function (data, container) {
-                    var textArray = data.text.split("|");
+                    let textArray = data.text.split("|");
                     if (textArray.length === 1) {
                         return "<div class='course-classes-optgroup'><b>" + textArray[0] + "</b></div>";
                     } else {
@@ -126,6 +125,6 @@ $(".js-change-date").on("click", function () {
     updateClassesContents();
 });
 
-var widthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+let widthWindow = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 renderFrequencyElement(widthWindow)
 updateClassesContents();
