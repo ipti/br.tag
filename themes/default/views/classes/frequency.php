@@ -72,7 +72,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <!-- Mês -->
                 <div class="column clearleft">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 't-field-select__label--required')); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Month') . " *",
+                         'month', array('class' => 't-field-select__label--required')); ?>
                         <?php
                         echo CHtml::dropDownList('month', '', array(
                             1 => 'Janeiro',
@@ -97,11 +98,16 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </div>
                 <div class="column">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 't-field-select__label--required')); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Classroom') . " *",
+                         'classroom', array('class' => 't-field-select__label--required')); ?>
                         <select class="select-search-on frequency-input t-field-select__input" id="classroom">
                             <option>Selecione a turma</option>
                             <?php foreach ($classrooms as $classroom) : ?>
-                                <option value="<?= $classroom->id ?>" fundamentalMaior="<?=  (int)(!TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk))."" ?>"><?= $classroom->name ?></option>
+                                <option value="<?= $classroom->id ?>"
+                                 fundamentalMaior="<?=  (int)(!TagUtils::isStageMinorEducation(
+                                    $classroom->edcenso_stage_vs_modality_fk))."" ?>">
+                                 <?= $classroom->name ?>
+                                </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -111,7 +117,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <div class="mobile-row helper">
                 <div class="column  clearleft on-tablet disciplines-container">
                     <div class="t-field-select js-load-frequency">
-                        <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 't-field-select__label--required')); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Discipline') . " *",
+                        'disciplines', array('class' => 't-field-select__label--required')); ?>
                         <?php
                         echo CHtml::dropDownList('disciplines', '', array(), array(
                             'key' => 'id',
@@ -123,13 +130,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
         </div>
         <div class="mobile-row">
-            <!-- <div class="column no-grow">
-                <a id="classesSearch" class='t-button-icon secondary'>
-                    <span class="t-icon-search_icon"></span>-->
-            <!-- <?php echo Yii::t('default', 'Search') ?> -->
-            <!-- </a> 
-            </div> -->
-            <img class="loading-frequency" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+            <img class="loading-frequency" 
+            style="display:none;margin: 10px 20px;"
+            height="30px" width="30px"
+            src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
         <div class="alert-incomplete-data alert alert-warning display-hide"></div>
         <div id="frequency-container" class="table-responsive frequecy-container"></div>
@@ -138,12 +142,14 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
 </div>
 
-<div class="modal fade t-modal-container helper" id="save-justification-modal" tabindex="-1" role="dialog" aria-labelledby="Save Justification">
+<div class="modal fade t-modal-container helper" 
+    id="save-justification-modal" tabindex="-1" role="dialog" aria-labelledby="Save Justification">
     <div class="modal-dialog" role="document">
         <div class="t-modal__header">
             <h4 class="modal-title" id="myModalLabel">Justificativa</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
-                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg"
+                alt="" style="vertical-align: -webkit-baseline-middle">
             </button>
         </div>
         <div class="centered-loading-gif">
