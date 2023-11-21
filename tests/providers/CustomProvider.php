@@ -219,4 +219,16 @@ class CustomProvider extends Base
 
         return $randomAdjective . ' ' . $randomNoun;
     }
+
+    /**
+     * Gera um titulo de calendário.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function titleCalendar()
+    {
+        $numeroAleatorio = $this->generator->numberBetween(1, 100);
+        $titulo = "Calendário $numeroAleatorio";
+
+        return $titulo;
+    }
 }

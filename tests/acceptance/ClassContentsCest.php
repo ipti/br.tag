@@ -24,6 +24,9 @@ class ClassContentsCest
         $classroom = new ClassroomCest();
         $addClassroom = $classroom->allFieldsAddClassroomEAD($teste);
 
+        //criar calendário
+        //criar quadros de horários:
+
         $builder = new ClassContentsBuilder();
         $dataClassContents = $builder->buildCompleted();
 

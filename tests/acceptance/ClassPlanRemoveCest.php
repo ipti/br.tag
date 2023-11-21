@@ -38,8 +38,11 @@ class ClassPlanRemoveCest
 
     public function error(AcceptanceTester $teste)
     {
+
         $create = new ClassPlanCest();
         $classPlan = $create->createPlan($teste);
+
+
 
         // criar aulas ministradas
         // quadro de horarios

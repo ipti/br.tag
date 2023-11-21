@@ -37,7 +37,6 @@ class ChangePasswordCest
         $tester->canSeeInCurrentUrl('admin/index');
     }
 
-    // Função para iniciar uma transação
     private function startTransaction(AcceptanceTester $tester)
     {
         $tester->comment("Iniciando transação...");

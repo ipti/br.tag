@@ -49,7 +49,7 @@ class ClassContentsRobots
 
     /**
      * Selecione o componente curricular/eixo.
-     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>remo
      */
     public function component($component)
     {
