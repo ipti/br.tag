@@ -4,9 +4,11 @@
 .t-field-number {
     margin-bottom: $SizeNormal;
     &__label{
+        
         display: flex;
         align-items: center;
         &--required {
+            
             font-weight: bold;
         }
     }

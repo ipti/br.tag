@@ -198,7 +198,8 @@
     }
     &-danger {
         cursor: pointer;
-        color: $colorsTextError;
+        color: $colorsTextError !important;
+        margin-top: $SizeNormal;
     }
 }
 .t-link-button {
