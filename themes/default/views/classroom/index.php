@@ -50,14 +50,13 @@
                 <div class="alert alert-success">
                     <?php echo Yii::app()->user->getFlash('success') ?>
                 </div>
-                <br/>
-            <?php endif ?>
-            <?php if (Yii::app()->user->hasFlash('error')): ?>
+            <?php elseif (Yii::app()->user->hasFlash('error')): ?>
                 <div class="alert alert-error">
                     <?php echo Yii::app()->user->getFlash('error') ?>
                 </div>
-                <br/>
-            <?php endif ?>
+            <?php else: ?>
+                <div class="alert no-show"></div>
+            <?php endif; ?>
             <div class="widget clearmargin">
                 <div class="widget-body">
                     <?php
@@ -101,14 +100,20 @@
                             'buttons' => array(
                                 'update' => array(
                                     'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
+
                                 ),
                                 'delete' => array(
                                     'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
                                 )
                             ),
                             'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
-                            'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
-                            'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
+                            'afterDelete' => 'function(link, success, data){
+                                data = JSON.parse(data);
+                                data.valid
+                                    ? $(".alert").addClass("alert-success").removeClass("alert-error").removeClass("no-show").text(data.message)
+                                    : $(".alert").removeClass("alert-success").addClass("alert-error").removeClass("no-show").text(data.message);
+                            }',
+                            'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center;'),
                         )
                     );
                     if (TagUtils::isInstance("UBATUBA")) {
@@ -141,6 +146,7 @@
                         'enableSorting' => false,
                         'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed
                         table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'afterAjaxUpdate' => 'function(id, data){initDatatable()}',
                         'columns' => $columns,
                     ));
                     ?>
