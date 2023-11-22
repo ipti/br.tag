@@ -260,10 +260,18 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                             $deleteEnrollmentUseCase->exec($inExcluirMatricula);
                         }elseif($model->status === '4') {
                             //baixarmatricula
-                            $inTipoBaixa = '';
-                            $inMotivoBaixa = '';
-                            $inDataBaixa = '';
-                            $inNumClasse = '';
+                            
+                            $inTipoBaixa = $_POST['reason'];
+                            if($inTipoBaixa == '1') {
+                                $inMotivoBaixa = $_POST['secondReason'];
+                            } else {
+                                $inMotivoBaixa = null;
+                            }
+                            
+                            $inDataBaixa = date('Y-m-d');
+                            $class = Classroom::model()->findByPk($model->classroom_fk);
+                            $inNumClasse = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+
                             $inBaixarMatricula = new InBaixarMatricula($inAluno, $inTipoBaixa, $inMotivoBaixa, $inDataBaixa, $inNumClasse);
                             
                             $terminateEnrollmentUseCase = new TerminateEnrollmentUseCase;
