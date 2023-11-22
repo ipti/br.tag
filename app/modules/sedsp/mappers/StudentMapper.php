@@ -389,6 +389,10 @@ class StudentMapper
             $studentEnrollment->status = self::mapSituationEnrollmentToTag($enrollment->getOutCodSitMatricula());
             $studentEnrollment->create_date = date( strtotime($enrollment->getOutDataInicioMatricula()));
            
+            $classroomMapper = new ClassroomMapper;
+            $edcensoStage = $classroomMapper->convertTipoEnsinoToStage($enrollment->getOutCodTipoEnsino, $enrollment->getOutCodTipoEnsino);    
+            $studentEnrollment->edcenso_stage_vs_modality_fk = $edcensoStage;
+
             $arrayMapEnrollments[] = $studentEnrollment;
         }
 
