@@ -22,19 +22,19 @@ class StudentMapper
         $inAluno->setInNumRA($studentIdentificationTag->gov_id);
         $inAluno->setInDigitoRA(null);
         $inAluno->setInSiglaUFRA($ufCidade->acronym);
-        
+
         // Dados Pessoais
         $inDadosPessoais = new InDadosPessoais();
         $inDadosPessoais->setInNomeAluno($studentIdentificationTag->name);
         $inDadosPessoais->setInNomeMae($studentIdentificationTag->filiation_1);
         $inDadosPessoais->setInNomePai($studentIdentificationTag->filiation_2);
         $inDadosPessoais->setInDataNascimento($studentIdentificationTag->birthday);
-        
+
         // Converte o valor '0' (Não declarada) para '6' no campo de cor/raça da sedsp
         $inDadosPessoais->setInCorRaca(
             $studentIdentificationTag->color_race === '0' ? '6' : $studentIdentificationTag->color_race
         );
-        
+
         $inDadosPessoais->setInSexo($studentIdentificationTag->sex);
         $inDadosPessoais->setInBolsaFamilia($studentIdentificationTag->bf_participator);
         $inDadosPessoais->setInEmail($studentIdentificationTag->id_email);
@@ -123,7 +123,7 @@ class StudentMapper
                     WHERE deficiency_type_gifted = 1 and id = :id ";
 
             $res = Yii::app()->db->createCommand($query)->bindValue(':id', $studentIdentificationTag->id)->queryAll();
-                        
+
             $deficiencyMap = [
                 'deficiency_type_blindness' => false,                              // Cegueira
                 'deficiency_type_low_vision' => false,                             // Baixa Visão
@@ -169,7 +169,7 @@ class StudentMapper
                 )  {
                     $inRecursoAvaliacao->setInGuiaInterprete('1');
                 }
-                    
+
                 $allDeafnessConditions = $deficiencyMap["deficiency_type_deafness"] === true &&
                                         $deficiencyMap["deficiency_type_disability_hearing"] === true &&
                                         $deficiencyMap["deficiency_type_deafblindness"] === true;
@@ -182,11 +182,11 @@ class StudentMapper
                 ) {
                     $inRecursoAvaliacao->setInInterpreteLibras('1');
                 }
-                    
+
                 if($resourceNone !== true && $inArrayDeficiency && $allDeafnessConditions) {
                     $inRecursoAvaliacao->setInLeituraLabial('1');
                 }
-                    
+
                 if(
                     $resourceNone !== true &&
                     $inArrayDeficiency &&
@@ -259,7 +259,7 @@ class StudentMapper
         $inDocuments->setInNumNis(null);
         $inDocuments->setInNumRg($studentDocumentsAndAddressTag->rg_number);
         $inDocuments->setInUfrg($studentDocumentsAndAddressTag->rgNumberEdcensoUfFk->acronym);
-        
+
         // Endereco
         $inEnderecoResidencial = new InEnderecoResidencial;
         $inEnderecoResidencial->setInLogradouro($studentDocumentsAndAddressTag->address);
@@ -315,10 +315,10 @@ class StudentMapper
         $studentIdentification->school_inep_id_fk = $inepId;
         $studentIdentification->gov_id = $numRA;
         $studentIdentification->name = $outDadosPessoais->getOutNomeAluno();
-        
+
         $filiation =  $outDadosPessoais->getOutNomeMae()!=""||$outDadosPessoais->getOutNomePai()!=""?1:0;
         $studentIdentification->filiation = $filiation;
-        
+
         $studentIdentification->filiation_1 = $outDadosPessoais->getOutNomeMae();
         $studentIdentification->filiation_2 = $outDadosPessoais->getOutNomePai();
         $studentIdentification->birthday = $outDadosPessoais->getOutDataNascimento();
@@ -380,8 +380,8 @@ class StudentMapper
                     ':codSchool' => $codSchool,
                 ],
             ])->id;
-            
-            
+
+
             $studentEnrollment = new StudentEnrollment();
             $studentEnrollment->school_inep_id_fk = $codSchool;
             $studentEnrollment->student_fk = $studentFk;
@@ -404,7 +404,7 @@ class StudentMapper
         $studentDocumentsAndAddress->complement = $outEnderecoResidencial->getOutComplemento();
         $studentDocumentsAndAddress->cep = $outEnderecoResidencial->getOutCep();
         $studentDocumentsAndAddress->residence_zone = $outEnderecoResidencial->getOutAreaLogradouro() == "URBANA" ? 1:2;
-        
+
         $studentDocumentsAndAddress->edcenso_uf_fk = intval(
             EdcensoUf::model()->find("acronym = :acronym",[":acronym" => $outEnderecoResidencial->getOutUfCidade()])->id
         );
@@ -418,10 +418,10 @@ class StudentMapper
             "Área onde se localizada em Comunidade remanescente de Quilombos" => 3,
             "Não está localizado em área de localização diferenciada" => 7
         ];
-        
+
         $location = $outEnderecoResidencial->getOutLocalizacaoDiferenciada();
         $studentDocumentsAndAddress->diff_location = $locationMap[$location] ?? 7;
-        
+
 
         //Civil_certification
         if (isset($outCertidaoNova)) {
@@ -466,7 +466,7 @@ class StudentMapper
             ':schoolInepIdFk' => $schoolInepIdFk
         ]);
 
-        return $command->queryScalar() === 1 ? true : false; 
+        return $command->queryScalar() === 1 ? true : false;
     }
 
     /**
@@ -491,7 +491,7 @@ class StudentMapper
     {
         $listOfActiveEnrollments = [];
         $outListMatriculas = $list->getOutListaMatriculas();
-       
+
         foreach($outListMatriculas as $enrollment){
             if($enrollment->outAnoLetivo === Yii::app()->user->year){
                 $listOfActiveEnrollments[] = $enrollment;
@@ -542,23 +542,23 @@ class StudentMapper
             '20' => '2'   // TRANSFERIDO
         ];
 
-        return $map[$codSitMatriculaSed]; 
+        return $map[$codSitMatriculaSed];
     }
 
     public static function mapSituationEnrollmentToSed($codSitMatriculaTag)
     {
-        //TAG                                       =>    SED
+        // TAG                                 =>   SED
         $map = [
             '1' => '0',                             // ATIVO / ENCERRADO
-            '2' => ['1', '16', '19', '20'],         // TRANSFERIDO, TRANSFERIDO (CONVERSÃO DO ABANDONO), TRANSFERIDO - CEEJA / EAD, NÃO COMPARECIMENTO - CEEJA / EAD 
-            '3' => ['9', '11', '12', '13', '14'],   // CESSÃO POR DESISTÊNCIA, CESSÃO POR EXAME, CESSÃO POR NÚMERO REDUZIDO DE ALUNOS, CESSÃO POR FALTA DE DOCENTE, CESSÃO POR DISPENSA 
-            '4' => ['2', '7', '8', '18'],           // ABANDONOU, CESSÃO POR NÃO FREQUÊNCIA, CESSÃO POR TRANSFERÊNCIA/REMANEJAMENTO, NÃO COMPARECIMENTO / FORA DO PRAZO  
-            '5' => ['3', '10', '17'],               // RECLASSIFICADO, REMANEJAMENTO, REMANEJADO (CONVERSÃO DO ABANDONO)
-            '6' => '5',                             // NÃO COMPARECIMENTO        
+            '2' => '1',                             // TRANSFERIDO,
+            '3' => '9',                             // CESSÃO POR DESISTÊNCIA
+            '4' => '2',                             // ABANDONOU
+            '5' => '3',                             // RECLASSIFICADO
+            '6' => '5',                             // NÃO COMPARECIMENTO
             '9' => '15',                            // CESSÃO POR CONCLUSÃO DO CURSO
-            '11' => '4'                             // FALECIDO
+            '11' => '4',
         ];
 
-        return $map[$codSitMatriculaTag][array_rand($map[$codSitMatriculaTag])];
+        return $map[$codSitMatriculaTag];
     }
 }
