@@ -118,6 +118,13 @@ class CalendarRobots
         $this->teste->wait(1);
     }
 
+    public function clickEndYearSchooling()
+    {
+        $seletorCss = "#createEvent .row-fluid:nth-child(2) .control-label";
+        $this->teste->executeJS("document.querySelector('$seletorCss').click();");
+        $this->teste->wait(1);
+    }
+
     public function event($event)
     {
         $this->teste->fillField('#CalendarEvent_name', $event);
@@ -140,8 +147,8 @@ class CalendarRobots
 
     public function confirmSave()
     {
-        $this->teste->waitForElementVisible('.confirmSave', 10);
-        $this->teste->executeJS("document.querySelector('.confirmSave').click();");
+        $this->teste->waitForElementVisible('.confirm-save-event', 10);
+        $this->teste->executeJS("document.querySelector('.confirm-save-event').click();");
         $this->teste->wait(1);
     }
 

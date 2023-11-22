@@ -23,8 +23,10 @@ class CalendarBuilder
     public function buildCompleted()
     {
         $this->calendar['title'] = $this->fakerCustom->titleCalendar();
-        $this->calendar['event'] = 'Inicio';
+        $this->calendar['event_start_name'] = 'Inicio';
+        $this->calendar['event_end_name'] = 'Final';
         $this->calendar['event_start'] = '1000';
+        $this->calendar['event_end'] = '1001';
 
         return $this->calendar;
     }

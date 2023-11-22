@@ -42,13 +42,25 @@ class CalendarCest
         sleep(2);
         $robots->clickStartYearSchooling();
         sleep(2);
-        $robots->event($dataBuilder['event']);
+        $robots->event($dataBuilder['event_start_name']);
         $robots->typeEvent($dataBuilder['event_start']);
         $robots->btnSaveEvent();
-        sleep(4);
+        sleep(2);
         $robots->confirmSave();
+        sleep(4);
 
-        sleep(10); //ver se funcionou
+
+        //Ver o preenchimento do final de ano letivo
+        // $robots->searchTitleCalendar($dataBuilder['title']);
+        // $robots->clickEndYearSchooling();
+        // sleep(2);
+        // $robots->event($dataBuilder['event_end_name']);
+        // $robots->typeEvent($dataBuilder['event_end']);
+        // $robots->btnSaveEvent();
+        // sleep(4);
+        // $robots->confirmSave();
+
+        // sleep(10); //ver se funcionou
     }
 
 }
