@@ -31,7 +31,13 @@ class UpdateGradeStructUsecase
     public function exec()
     {
         if ($this->reply === self::JUST_CURRENT_STAGE) {
-            $this->saveStruntForOneStage($this->stage, $this->unities, $this->approvalMedia, $this->finalRecoverMedia);
+            $justOneUsecase = new UpdateGradeJustOneStructUsecase(
+                $this->stage,
+                $this->unities,
+                $this->approvalMedia,
+                $this->finalRecoverMedia
+            );
+            $justOneUsecase->exec();
         } elseif ($this->reply === self::ALL_STAGES) {
             // A = Toda a Matriz Curricular
             $matrixes = $this->getAllMatrixes();
@@ -41,27 +47,6 @@ class UpdateGradeStructUsecase
             $matrixes = $this->getMatrixesForAllModalities($this->stage);
             $this->saveAndReplayForSimliarStages($matrixes, $this->unities, $this->approvalMedia, $this->finalRecoverMedia);
         }
-    }
-
-    private function saveStruntForOneStage($stage, $unities, $approvalMedia, $finalRecoverMedia)
-    {
-        $this->buildUnities($stage, $unities);
-
-        $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $stage]);
-        if ($gradeRules == null) {
-            $gradeRules = new GradeRules();
-            $gradeRules->edcenso_stage_vs_modality_fk = $stage;
-        }
-
-        $gradeRules->approvation_media = $approvalMedia;
-        $gradeRules->final_recover_media = $finalRecoverMedia;
-        $isSaved = $gradeRules->save();
-
-        if (!$isSaved) {
-            throw new CantSaveGradeRulesException();
-        }
-
-        $this->refreshResults($stage);
     }
 
     private function saveAndReplayForSimliarStages($curricularMatrixes, $unities, $approvalMedia, $finalRecoverMedia)
@@ -204,6 +189,5 @@ class UpdateGradeStructUsecase
             throw new CantSaveGradeResultsException();
         }
     }
-
 
 }

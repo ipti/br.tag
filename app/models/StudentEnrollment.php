@@ -69,17 +69,17 @@
 class StudentEnrollment extends AltActiveRecord
 {
 
-    static const STATUS_ACTIVE = "MATRICULADO";
-    static const STATUS_CANCELED = "CANCELADO";
-    static const STATUS_TRANSFERRED = "TRANSFERIDO";
-    static const STATUS_ABANDONED = "DEIXOU DE FREQUENTAR";
-    static const STATUS_RESTORED = "REMANEJADO";
-    static const STATUS_APPROVED = "APROVADO";
-    static const STATUS_APPROVEDBYCOUNCIL = "APROVADO PELO CONSELHO";
-    static const STATUS_DISAPPROVED = "REPROVADO";
-    static const STATUS_CONCLUDED = "CONCLUINTE";
-    static const STATUS_INDETERMINED = "INDETERMINADO";
-    static const STATUS_DEATH = "OBITO";
+    public const STATUS_ACTIVE = "MATRICULADO";
+    public const STATUS_CANCELED = "CANCELADO";
+    public const STATUS_TRANSFERRED = "TRANSFERIDO";
+    public const STATUS_ABANDONED = "DEIXOU DE FREQUENTAR";
+    public const STATUS_RESTORED = "REMANEJADO";
+    public const STATUS_APPROVED = "APROVADO";
+    public const STATUS_APPROVEDBYCOUNCIL = "APROVADO PELO CONSELHO";
+    public const STATUS_DISAPPROVED = "REPROVADO";
+    public const STATUS_CONCLUDED = "CONCLUINTE";
+    public const STATUS_INDETERMINED = "INDETERMINADO";
+    public const STATUS_DEATH = "OBITO";
 
     public $school_year;
 

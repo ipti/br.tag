@@ -27,7 +27,7 @@ function loadDisciplinesFromClassroom(classroomId, disciplineId) {
     if (classroomId !== "") {
         $.ajax({
             type: "POST",
-            url: "?r=enrollment/getDisciplines",
+            url: "?r=grades/getDisciplines",
             cache: false,
             data: {
                 classroom: classroomId,
@@ -68,7 +68,7 @@ function loadStudentsFromDiscipline(disciplineId) {
         $(".js-grades-alert").hide();
         $.ajax({
             type: "POST",
-            url: "?r=enrollment/getGrades",
+            url: "?r=grades/getGrades",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),

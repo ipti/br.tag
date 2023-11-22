@@ -2,7 +2,7 @@ $('#classroom').change(function () {
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
-            url: "?r=enrollment/getDisciplines",
+            url: "?r=grades/getDisciplines",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),

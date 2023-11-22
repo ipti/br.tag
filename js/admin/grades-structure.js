@@ -103,6 +103,7 @@ $(document).on("click", ".js-new-unity", function (e) {
     const unityHtml = `
         <div class='unity form-group form-inline'>
             <input type='hidden' class="unity-id">
+            <input type="hidden" class="unity-operation" value="create">
             <label class='control-label required'>Nome: <span class='red'>*</span></label>
             <input type='text' class='unity-name form-control' placeholder='1ª Unidade, 2ª Unidade, Recuperação Final, etc.'>
             <i class='remove-unity fa fa-times-circle-o button-icon-close'></i>
@@ -253,7 +254,9 @@ $(document).on("click", ".js-new-modality", function (e) {
 });
 
 $(document).on("click", ".remove-unity", function (e) {
-    $(this).closest(".unity").remove();
+    $(this).children(".modality").find(".modality-operation").val("remove")
+    $(this).closest(".unity").find(".unity-operation").val("remove");
+    $(this).closest(".unity").hide();
 });
 
 $(document).on("click", ".remove-modality", function (e) {
@@ -302,6 +305,7 @@ function saveUnities(reply) {
             name: $(this).find(".unity-name").val(),
             type: $(this).find("select.type-select").val(),
             formula: $(this).find("select.formula-select").val(),
+            operation: $(this).find(".unity-operation").val(),
             modalities: modalities,
         });
     });
