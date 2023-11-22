@@ -132,8 +132,7 @@ class CustomProvider extends Base
 
         return "$firstName $lastName";
     }
-
-    /**
+/**
      * Método que gera um nome para turma.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
