@@ -16,7 +16,7 @@ class InstructorController extends Controller
     public $layout = 'fullmenu';
     private $InstructorIdentification = 'InstructorIdentification';
     private $InstructorDocumentsAndAddress = 'InstructorDocumentsAndAddress';
-    private $InstructorVariableData = 'InstructorVariableData'; 
+    private $InstructorVariableData = 'InstructorVariableData';
     private $InstructorTeachingData = 'InstructorTeachingData';
 
     /**

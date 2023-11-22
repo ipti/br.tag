@@ -8,6 +8,8 @@ class FoodMenuController extends Controller
 	 */
 	public $layout='//layouts/column2';
 
+    public $MODEL_FOOD_MENU = 'FoodMenu';
+
 	/**
 	 * @return array action filters
 	 */
@@ -28,7 +30,8 @@ class FoodMenuController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','plateAccordion', 'getFood', 'getTacoFoods'),
+				'actions'=>array('index','view','plateAccordion', 'getFood', 'getTacoFoods',
+                                'getPublicTarget', 'getMealType'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -82,7 +85,7 @@ class FoodMenuController extends Controller
 				$model->attributes = $foodMenu;
 
 				$model->save();
-	
+
 				foreach ($publicTarget as $item) {
 					$fMenuVsFPublicTarget = new FoodMenuVsFoodPublicTarget;
 					$fMenuVsFPublicTarget->food_menu_fk = $model->id;
@@ -99,7 +102,7 @@ class FoodMenuController extends Controller
 				$transaction->rollback();
 				Yii::app()->user->setFlash('error', 'Erro ao executar operações de banco de dados: ' . $e->getMessage());
 			}
-				
+
 		}
 
 		$this->render('create',array(
@@ -136,8 +139,6 @@ class FoodMenuController extends Controller
 		$result["lip"] = is_numeric($food->lipidius_g) ? round($food->lipidius_g, 2) : $food->lipidius_g;
 		$result["cho"] = is_numeric($food->cholesterol_mg) ? round($food->cholesterol_mg, 2) : $food->cholesterol_mg;
 
-
-
 		echo json_encode($result);
 	}
 	/**
@@ -158,7 +159,7 @@ class FoodMenuController extends Controller
 			if($model->save()){
 				$this->redirect(array('view','id'=>$model->id));
 			}
-				
+
 		}
 
 		$this->render('update',array(
@@ -204,7 +205,7 @@ class FoodMenuController extends Controller
 		if(isset($_GET['FoodMenu'])){
 			$model->attributes=$_GET['FoodMenu'];
 		}
-			
+
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -240,4 +241,39 @@ class FoodMenuController extends Controller
 			Yii::app()->end();
 		}
 	}
+
+    public function actionGetPublicTarget(){
+        $publicsTarget = FoodPublicTarget::model()->findAll();
+        $publicsTarget = CHtml::listData($publicsTarget, 'id', 'name');
+        $options = array();
+        foreach($publicsTarget as $value => $name){
+            array_push(
+                $options,
+                CHtml::tag('option', ['value' => $value],
+                CHtml::encode($name),TRUE));
+        }
+        echo json_encode($options);
+    }
+    public function actionGetMealType(){
+        $mealsType = FoodMealType::model()->findAll();
+        $mealsType = CHtml::listData($mealsType, 'id', 'description');
+        $options = array();
+        foreach($mealsType as $value => $description){
+            array_push(
+                $options,
+                CHtml::tag('option', ['value'=> $value],
+                CHtml::encode($description),TRUE));
+        }
+        echo json_encode($options);
+    }
+
+
+    public function getFoodMenu(){
+        $foodMenus = FoodMenu::model()->findAll();
+        $foodMenus =
+    }
+
+    public function getSnacks(){
+
+    }
 }
