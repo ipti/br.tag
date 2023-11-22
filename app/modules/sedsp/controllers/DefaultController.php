@@ -343,12 +343,17 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
                 Yii::app()->user->setFlash('error', "Não foi possível fazer a sincronização da SED para o TAG.");
 				$this->redirect([self::REDIRECT_PATH, 'id' => $id]);
             }
+
+            if($statusSave === 23000){
+                Yii::app()->user->setFlash('error', 'Turma não localizada! Por favor, importe ou adicione uma turma.');
+				$this->redirect([self::REDIRECT_PATH, 'id' => $id]);
+            }
 			
 			if ($statusSave) {
 				Yii::app()->user->setFlash('success', "Aluno sincronizado com sucesso.");
 				$this->redirect([self::REDIRECT_PATH, 'id' => $id]);
 			} else {
-				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
+				Yii::app()->user->setFlash('error', 'erro ' . $statusSave);
 				$this->redirect([self::REDIRECT_PATH, 'id' => $id]);
 			}
 		} catch (Exception $e) {
