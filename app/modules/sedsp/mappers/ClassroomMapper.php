@@ -234,7 +234,7 @@ class ClassroomMapper
      * @throws \Exception
      * @return int
      */
-    private static function convertTipoEnsinoToStage($codTipoEnsino, $codSerieAno)
+    public static function convertTipoEnsinoToStage($codTipoEnsino, $codSerieAno)
     {
         $mapperTipoEnsino = [
             "3" => [

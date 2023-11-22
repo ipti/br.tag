@@ -29,10 +29,11 @@ class UpdateFichaAlunoInTAGUseCase
             $mapperStudentIdentification = $mapper->StudentIdentification;
 
             $studentIdentification = $this->createOrUpdateStudentIdentification($mapperStudentIdentification);
-            $studentId = $studentIdentification->id;
 
             $mapperStudentDocuments = $mapper->StudentDocumentsAndAddress;
             $govId = $mapperStudentDocuments->gov_id;
+            $studentId = StudentIdentification::model()->find('gov_id = :govId', [':govId' => $govId])->id;
+
 
             $idStudentDocuments = $this->findStudentByIdentification($govId)->id;
             $stausUp = $this->updateStudentDocsAndAddress($mapperStudentDocuments, $studentId, $govId, $idStudentDocuments);
@@ -111,7 +112,7 @@ class UpdateFichaAlunoInTAGUseCase
 
     private function findStudentByIdentification($govId)
     {
-        return StudentIdentification::model()->findByAttributes(['gov_id' => $govId]);
+        return StudentIdentification::model()->find('gov_id = :gov_id', [':gov_id' => $govId]);
     }
 
     private function handleException($studentIdentification, $e)
