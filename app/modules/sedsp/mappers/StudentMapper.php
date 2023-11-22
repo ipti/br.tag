@@ -387,6 +387,7 @@ class StudentMapper
             $studentEnrollment->student_fk = $studentFk;
             $studentEnrollment->classroom_fk = $classroomFk;
             $studentEnrollment->status = self::mapSituationEnrollmentToTag($enrollment->getOutCodSitMatricula());
+            $studentEnrollment->create_date = date( strtotime($enrollment->getOutDataInicioMatricula()));
            
             $arrayMapEnrollments[] = $studentEnrollment;
         }
