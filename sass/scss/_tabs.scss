@@ -111,3 +111,29 @@
         display: none;
     }
 }
+
+.t-tabs-secondary {
+    .t-tabs__list{
+        display: flex;
+        list-style: none;
+        text-align: center;
+        .t-tabs__item {
+            padding: $SizeXSmall;
+            font-weight: $fontWeightSemiBold;
+            font-size: $FontSizeTextNormal;
+            cursor: pointer;
+            .text-primary {
+                color: $colorsBaseInkNormal;
+            }
+            
+            .text-secondary {
+                color: $colorsBaseInkLight;
+            }
+            &.active {
+                border-bottom: $borderWidthInputFocus $colorsBaseInkNormal solid;
+            }
+        }
+        
+    }    
+    
+}

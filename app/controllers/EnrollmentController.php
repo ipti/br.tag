@@ -227,26 +227,28 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
 
                         $inNumRA = StudentIdentification::model()->findByPk($model->student_fk);
                         $inAluno = new InAluno($inNumRA->gov_id, null, 'SP');
-                        //$enrollment = new EnrollmentSEDDataSource;
+                        #$enrollment = new EnrollmentSEDDataSource;
                         $class = Classroom::model()->findByPk($model->classroom_fk);
                         $newClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
-                               
-                        $classroomMapper = new ClassroomMapper;
-                        $ensino = (object) $classroomMapper->convertStageToTipoEnsino($class->edcenso_stage_vs_modality_fk);
-                       
+                        
                         if($model->status === '2' || $model->status === '5') {
-                            //remanejarmatricula
-                            $inDataMovimento = date('d/m/Y', strtotime($model->create_date)); 
-                            $inNumAluno = "24"; //$enroll->outNumAluno;
+                            //addTrocarAlunoEntreClasses
+                            $classroomMapper = new ClassroomMapper;
+                            $ensino = (object) $classroomMapper->convertStageToTipoEnsino($class->edcenso_stage_vs_modality_fk);
+
+                            $inDataMovimento = date('d/m/Y'); 
+                            $inNumAluno = "00"; 
                             $inNumClasseOrigem = $oldClass; 
                             $inNumClasseDestino = $newClass; 
-                            $inMatriculaRemanejar = new InMatriculaRemanejar($inDataMovimento, $inNumAluno, $inNumClasseOrigem, $inNumClasseDestino);
+                   
+                            $inTrocarAlunoEntreClasses = new InTrocarAlunoEntreClasses(
+                                $inAluno,
+                                new InMatriculaTrocar(Yii::app()->user->year, $inDataMovimento, $inNumAluno, $inNumClasseOrigem, $inNumClasseDestino),
+                                new InNivelEnsino($ensino->tipoEnsino,  $ensino->serieAno)
+                            );
 
-                            $inNivelEnsino = new InNivelEnsino($ensino->tipoEnsino,  $ensino->serieAno);
-
-                            $inRemanejarMatricula = new InRemanejarMatricula($inAluno, $inMatriculaRemanejar, $inNivelEnsino, Yii::app()->user->year);
-                            $reallocateEnrollmentUseCase = new ReallocateEnrollmentUseCase;
-                            $reallocateEnrollmentUseCase->exec($inRemanejarMatricula);
+                            $trocarAlunoEntreClassesUseCase = new TrocarAlunoEntreClassesUseCase;
+                            $trocarAlunoEntreClassesUseCase->exec($inTrocarAlunoEntreClasses);
             
                         }elseif($model->status === '3' || $model->status === '11') {
                             //excluirmatricula
@@ -259,10 +261,18 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                             $deleteEnrollmentUseCase->exec($inExcluirMatricula);
                         }elseif($model->status === '4') {
                             //baixarmatricula
-                            $inTipoBaixa = '';
-                            $inMotivoBaixa = '';
-                            $inDataBaixa = '';
-                            $inNumClasse = '';
+                            
+                            $inTipoBaixa = $_POST['reason'];
+                            if($inTipoBaixa == '1') {
+                                $inMotivoBaixa = $_POST['secondReason'];
+                            } else {
+                                $inMotivoBaixa = null;
+                            }
+                            
+                            $inDataBaixa = date('Y-m-d');
+                            $class = Classroom::model()->findByPk($model->classroom_fk);
+                            $inNumClasse = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+
                             $inBaixarMatricula = new InBaixarMatricula($inAluno, $inTipoBaixa, $inMotivoBaixa, $inDataBaixa, $inNumClasse);
                             
                             $terminateEnrollmentUseCase = new TerminateEnrollmentUseCase;

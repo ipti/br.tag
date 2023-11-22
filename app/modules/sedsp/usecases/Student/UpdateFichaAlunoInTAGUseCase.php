@@ -35,13 +35,13 @@ class UpdateFichaAlunoInTAGUseCase
             $govId = $mapperStudentDocuments->gov_id;
 
             $idStudentDocuments = $this->findStudentByIdentification($govId)->id;
-            $this->updateStudentDocsAndAddress($mapperStudentDocuments, $studentId, $govId, $idStudentDocuments);
-
-            $this->createOrUpdateStudentEnrollment($mapper->StudentEnrollment);
+            $stausUp = $this->updateStudentDocsAndAddress($mapperStudentDocuments, $studentId, $govId, $idStudentDocuments);
+            $statusCr = $this->createOrUpdateStudentEnrollment($mapper->StudentEnrollment);
 
             return $studentIdentification;
         } catch (Exception $e) {
             $this->handleException($mapperStudentIdentification, $e);
+            return $e->getCode();
         }
     }
 
@@ -52,7 +52,7 @@ class UpdateFichaAlunoInTAGUseCase
         if ($existingStudent) {
             $existingStudent->attributes = $studentIdentification->attributes;
             
-            if ($existingStudent->save()) {
+            if ($existingStudent->validate() && $existingStudent->save()) {
                 $existingStudent->sedsp_sync = 1;
                 return $existingStudent->save();
             }
@@ -92,24 +92,26 @@ class UpdateFichaAlunoInTAGUseCase
                 $newEnrollment = new StudentEnrollment();
                 $newEnrollment->attributes = $studentEnrollment->attributes;
                 $newEnrollment->sedsp_sync = 0;
-                
-                if($newEnrollment->save()) {
+
+                if($newEnrollment->validate() && $newEnrollment->save()) {
                     $newEnrollment->sedsp_sync = 1;
                 }
+                return $newEnrollment->save();
             } else {
                 $enrollment->attributes = $studentEnrollment->attributes;
                 $enrollment->sedsp_sync = 0;
 
-                if($enrollment->save()){
+                if($enrollment->validate() && $enrollment->save()){
                     $enrollment->sedsp_sync = 1;
                 }
+                return $enrollment->save();
             }
         }
     }
 
     private function findStudentByIdentification($govId)
     {
-        return StudentIdentification::model()->findByAttributes(['gov_id' => $govId]);
+        return StudentIdentification::model()->find('gov_id = :gov_id', [':gov_id' => $govId]);
     }
 
     private function handleException($studentIdentification, $e)
