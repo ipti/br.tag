@@ -10,11 +10,13 @@ class EnrollmentMapper
         $inAluno = new InAluno($studentIdentificationTag->gov_id, null, 'SP');
 
         $numClass = Classroom::model()->findByPk($studentEnrollmentTag->classroom_fk);
-        $inNumClass = $numClass->gov_id !== null ? $numClass->gov_id : $numClass->inep_id;
-        $modality = EdcensoStageVsModality::model()->findByPk($studentEnrollmentTag->edcenso_stage_vs_modality_fk);
+        $inNumClass = $numClass->gov_id !== null ? $numClass->gov_id : $numClass->inep_id; 
+        $inMatricula = new InMatricula(date('Y-m-d'), "00", $inNumClass); // $inNumAluno -> Esse campo é gerado automaticamente se preenchido com “00”
 
-        $inMatricula = new InMatricula(date('Y-m-d'), "00", "281760256");
-        $inNivelEnsino = new InNivelEnsino('14', '1');
+        $classroomMapper = new ClassroomMapper;
+        $edcensoStage = $studentEnrollmentTag->edcenso_stage_vs_modality_fk;
+        $stage = (object) $classroomMapper->convertStageToTipoEnsino($edcensoStage);
+        $inNivelEnsino = new InNivelEnsino($stage->tipoEnsino, $stage->serieAno);
 
         //Matrículas
         $inEnrollment = new InMatricularAluno;
