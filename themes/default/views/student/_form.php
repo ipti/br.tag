@@ -1151,7 +1151,28 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column clearleft is-two-fifths">
                             <div class="t-buttons-container">
-                                <a href="#" class="t-button-primary  " id="new-enrollment-button">Adicionar Matrícula</a>
+                                <?php
+                                    if (TagUtils::isInstance("UBATUBA")) {
+                                        $idStudent = isset($_GET['id']) ? $_GET['id'] : null;
+                                    
+                                        if ($idStudent !== null) {
+                                            $sql = "SELECT COUNT(*) FROM classroom 
+                                                    WHERE id IN (SELECT classroom_fk FROM student_enrollment WHERE student_fk = :idStudent AND status = 1) 
+                                                    AND school_year = :schoolYear";
+                                    
+                                            $command = Yii::app()->db->createCommand($sql);
+                                            $command->bindValues(array(':idStudent' => $idStudent, ':schoolYear' => Yii::app()->user->year));
+                                            $existEnrollment = (int) $command->queryScalar();
+                                    
+                                            if ($existEnrollment === 0) {
+                                                echo '<a href="#" class="t-button-primary" id="new-enrollment-button">Adicionar Matrícula</a>';
+                                            }
+                                        }
+                                    } else {
+                                        echo '<a href="#" class="t-button-primary" id="new-enrollment-button">Adicionar Matrícula</a>';
+                                    }
+                                    
+                                ?>
                                 <?php
                                 echo  $modelStudentIdentification->isNewRecord ?  "" : '<a href=' . @Yii::app()->createUrl('student/transfer',
                                 array('id' => $modelStudentIdentification->id)) . ' class="t-button-secondary" id="transfer-student">Transferir Matrícula</a>'
