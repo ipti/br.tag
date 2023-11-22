@@ -386,7 +386,7 @@ class StudentMapper
             $studentEnrollment->school_inep_id_fk = $codSchool;
             $studentEnrollment->student_fk = $studentFk;
             $studentEnrollment->classroom_fk = $classroomFk;
-            $studentEnrollment->status = '1';
+            $studentEnrollment->status = self::mapSituationEnrollmentToTag($enrollment->getOutCodSitMatricula());
            
             $arrayMapEnrollments[] = $studentEnrollment;
         }
@@ -480,7 +480,7 @@ class StudentMapper
     /**
      * Summary of getListEnrollmentsActives
      * @param OutListaMatriculaRA $list
-     * @return array
+     * @return OutListaMatriculas[]
      */
     public static function getListEnrollmentsActives(OutListaMatriculaRA $list)
     {
@@ -508,5 +508,52 @@ class StudentMapper
             return self::CODIGO_UF . "0" . $sedInepId;
         }
         return self::CODIGO_UF . $sedInepId;
+    }
+
+    public static function mapSituationEnrollmentToTag($codSitMatriculaSed)
+    {
+        //SED => TAG
+        $map = [
+            '0' => '1',  // MATRICULADO
+            '1' => '2',  // TRANSFERIDO
+            '2' => '4',  // DEIXOU DE FREQUENTAR
+            '3' => '5',  // REMANEJADO
+            '4' => '11', // ÓBITO
+            '5' => '4',  // DEIXOU DE FREQUENTAR
+            '6' => '6',  // APROVADO
+            '7' => '4',  // DEIXOU DE FREQUENTAR
+            '8' => '4',  // DEIXOU DE FREQUENTAR
+            '9' => '3',  // CANCELADO
+            '10' => '5', // REMANEJADO
+            '11' => '3',  // CANCELADO
+            '12' => '3',  // CANCELADO
+            '13' => '3',  // CANCELADO
+            '14' => '3',  // CANCELADO
+            '15' => '9',  // CONCLUINTE
+            '16' => '2',  // TRANSFERIDO
+            '17' => '5',  // REMANEJADO
+            '18' => '4',  // DEIXOU DE FREQUENTAR
+            '19' => '2',  // TRANSFERIDO
+            '20' => '2'   // TRANSFERIDO
+        ];
+
+        return $map[$codSitMatriculaSed]; 
+    }
+
+    public static function mapSituationEnrollmentToSed($codSitMatriculaTag)
+    {
+        //TAG                                       =>    SED
+        $map = [
+            '1' => '0',                             // ATIVO / ENCERRADO
+            '2' => ['1', '16', '19', '20'],         // TRANSFERIDO, TRANSFERIDO (CONVERSÃO DO ABANDONO), TRANSFERIDO - CEEJA / EAD, NÃO COMPARECIMENTO - CEEJA / EAD 
+            '3' => ['9', '11', '12', '13', '14'],   // CESSÃO POR DESISTÊNCIA, CESSÃO POR EXAME, CESSÃO POR NÚMERO REDUZIDO DE ALUNOS, CESSÃO POR FALTA DE DOCENTE, CESSÃO POR DISPENSA 
+            '4' => ['2', '7', '8', '18'],           // ABANDONOU, CESSÃO POR NÃO FREQUÊNCIA, CESSÃO POR TRANSFERÊNCIA/REMANEJAMENTO, NÃO COMPARECIMENTO / FORA DO PRAZO  
+            '5' => ['3', '10', '17'],               // RECLASSIFICADO, REMANEJAMENTO, REMANEJADO (CONVERSÃO DO ABANDONO)
+            '6' => '5',                             // NÃO COMPARECIMENTO        
+            '9' => '15',                            // CESSÃO POR CONCLUSÃO DO CURSO
+            '11' => '4'                             // FALECIDO
+        ];
+
+        return $map[$codSitMatriculaTag][array_rand($map[$codSitMatriculaTag])];
     }
 }
