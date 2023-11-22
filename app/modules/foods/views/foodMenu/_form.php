@@ -7,7 +7,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/_initialization.js', CClientScript::POS_END );
 $cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END );
-$cs->registerScriptFile($baseScriptUrl . '/components.js', CClientScript::POS_END );
+$cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::POS_END );
 ?>
 
 <div class="form">
@@ -86,52 +86,6 @@ $cs->registerScriptFile($baseScriptUrl . '/components.js', CClientScript::POS_EN
 				<div id="js-accordion" class="js-meals-component t-accordeon-secondary"></div>
 			</div>
 		</div>
-		<!-- <div class="t-expansive-panel row">
-			<div class="column">
-				<div class="row">
-					<div class="t-field-text column">
-						<?= chtml::label('Hora da refeição *', 'mealTime', array('class'=> 't-field-text__label--required')); ?>
-						<?= CHtml::textField('mealTime', '', array('class'=> 't-field-text__input js-mealTime', 'id' => 'mealTime'));?>
-					</div>
-					<div class="t-field-select column">
-						<?= chtml::label('Refeição *', 'meal', array('class'=> 't-field-select__label--required'));?>
-						<?=  CHtml::dropDownList('meal', '',  array(
-										null => 'Selecione a refeição',
-										'0' => 'Café da manhã',
-										'1' => 'Almoço',
-										'2' => 'Lanche',
-										'3' => 'jantar',
-									), array('class' => 'select-search-on t-field-select__input js-meal')); ?>
-					</div>
-				</div>
-				<div class="row">
-					
-					<div class="t-field-select column">
-						<?= chtml::label('Turno *', 'shift', array('class'=> 't-field-select__label--required'));?>
-						<?=  CHtml::dropDownList('shift', '',  [
-										null => 'Selecione o turno',
-										'M' => 'Manhã',
-										'T' => 'Tarde',
-										'N' => 'Noite',
-						], array('class' => 'select-search-on t-field-select__input js-shift')); ?>
-					</div>
-					<div class="column"></div>
-				</div>
-				<div class="row">
-					<div class="column t-buttons-container">
-						<a class="t-button-secondary js-add-plate">
-							Adicionar Prato
-						</a>
-					</div>
-				</div>
-				<div class="row">
-					<div class="column">
-						<div id="js-accordion" class="t-accordeon-secondary">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> -->
 	</div>
 	<?php echo $form->errorSummary($model); ?>
 	<div class="row buttons">

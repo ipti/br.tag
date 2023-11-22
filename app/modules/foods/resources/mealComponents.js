@@ -80,20 +80,20 @@ $(document).on('input', '.js-date', function () {
 /* PlateComponent */
 const PlateComponent = function () {
   let idPlateAccordion = 0;
-  let foods = []
-  getFoods();
+  let foods =  getFoodList()
 
 
   function addPlate(idMealAccordion) {
     render(idMealAccordion)
     initializePlateAccordion(idMealAccordion)
+    initializeSelect2()
   }
   function initializePlateAccordion(idMealAccordion) {
     const container = $(`.js-plate-accordion[data-id-accordion='${idMealAccordion}']`) 
     if(container.find('.ui-accordion-header').length > 1) {
       container.accordion("destroy");
     }
-    
+    console.log(container)
     container.accordion({
       active: idPlateAccordion-1,
       collapsible: true,
@@ -120,7 +120,7 @@ const PlateComponent = function () {
             </select>
             </div>
         </div>
-        <table class="tag-table-secondary centralize js-add-line">
+        <table class="tag-table-secondary centralize js-meal-component-table">
             <tr>
               <th>Nome</th>
               <th>unidade</th>
@@ -141,7 +141,8 @@ const PlateComponent = function () {
     container.attr("data-id-accordion", idMealAccordion);
     container.append(template)
     removePlate(idPlateAccordion)
-    // addListTacoFood(idPlateAccordion)
+    addListTacoFood(idPlateAccordion)
+    addRowToTable(idPlateAccordion, idMealAccordion)
     idPlateAccordion++;
   }
   function removePlate(idPlateAccordion) {
@@ -157,39 +158,75 @@ const PlateComponent = function () {
   function addListTacoFood(idPlateAccordion) {
     const select = $(`.js-plate-accordion-content[data-id-accordion="${idPlateAccordion}"] .js-taco-foods`)
 
-    /* $.map(foods, function (name, id) {
+    $.map(foods, function (name, id) {
       select.append($('<option>', {
           value: id,
           text: name
       }));
-   }); */
-   for (var chave in objeto) {
-    if (objeto.hasOwnProperty(chave)) {
-        // Cria um elemento option
-        var option = document.createElement("option");
-        
-        option.value = chave;
-        option.text = objeto[chave];
-  
-        select.add(option);
-    }
-}
+   });
+   
 
-  }
-  function getFoods (){
+}
+  function getFoodList (){
     return new Promise(function(resolve, reject) {
       $.ajax({
           url: "?r=foods/foodMenu/getTacoFoods",
           type: "GET",
       }).done(function(response) {
-          foods = response;
-          console.log(foods)
+          foods = JSON.parse(response);
           resolve(response);
       }).fail(function(error) {
           reject(error);
       });
       
   });
+  }
+  function addRowToTable(idPlateAccordion, idMealAccordion) {
+    const select = $(`.js-plate-accordion-content[data-id-accordion="${idPlateAccordion}"] .js-taco-foods`)
+    select.on('change', function (event) {
+        getFood(select.val(), idPlateAccordion)
+    })
+
+    $(select).val('');
+    initializeSelect2();
+    console.log(idMealAccordion)
+    initializePlateAccordion(idMealAccordion)
+
+  }
+  function getFood (idFood, idPlateAccordion){
+    const table =  $(`.js-plate-accordion-content[data-id-accordion="${idPlateAccordion}"] .js-meal-component-table`)
+    
+    $.ajax({
+      url: "?r=foods/foodMenu/getFood",
+      data: {
+          idFood: idFood
+      },
+      type: "GET",
+    }).success(function (response) {
+        response = JSON.parse(DOMPurify.sanitize(response))
+        let line = createMealComponent(response);
+        table.append(line)
+    })
+  }
+  function createMealComponent({id, name, pt, lip, cho, kcal}) {
+    const line =  $(`<tr data-idTaco='${id}'></tr>`)
+        .append(`<td class='js-food-name'>${name}</td>`)
+        .append(`<td class='js-unit'><input class='t-field-text__input' type='text' style='width:50px !important'></td>`)
+        .append(`<td class='js-measure'>
+                <select class="js-inicializate-select2 t-field-select__input" style='width:100px'>
+                <option value="1">Concha</option>
+                <option value="2">Unidade</option>
+                <option value="3">Copos</option>
+                </select>
+            </td>`)
+        .append(`<td>3</td>`)
+        .append(`<td>${pt}</td>`)
+        .append(`<td>${lip}</td>`)
+        .append(`<td>${cho}</td>`)
+        .append(`<td>${kcal}</td>`)
+        .append(`<td class='js-remove-taco-food'><span class='t-icon-close t-button-icon'><span></td>`)
+
+        return line;
   }
   return {
     actions: {

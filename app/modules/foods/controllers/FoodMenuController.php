@@ -123,7 +123,7 @@ class FoodMenuController extends Controller
 		foreach ($foods as $food) {
             $resultArray[$food->id] = $food->description;
         }
-		echo CJSON::encode($resultArray);
+		echo json_encode($resultArray);
 	}
 	public function actionGetFood() {
 		$idFood = Yii::app()->request->getQuery('idFood');
@@ -135,8 +135,6 @@ class FoodMenuController extends Controller
 		$result["pt"] = is_numeric($food->protein_g) ? round($food->protein_g, 2) : $food->protein_g;
 		$result["lip"] = is_numeric($food->lipidius_g) ? round($food->lipidius_g, 2) : $food->lipidius_g;
 		$result["cho"] = is_numeric($food->cholesterol_mg) ? round($food->cholesterol_mg, 2) : $food->cholesterol_mg;
-
-
 
 		echo json_encode($result);
 	}
