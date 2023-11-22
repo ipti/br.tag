@@ -2,22 +2,23 @@
 
 require_once 'vendor/autoload.php';
 require_once 'app/vendor/autoload.php';
-require_once __DIR__.'/../providers/CustomProvider.php';
+require_once __DIR__ . '/../providers/CustomProvider.php';
 
-$yiit= __DIR__.'\..\..\app\vendor\yiisoft\yii\framework\yiit.php';
+$yiit = __DIR__ . '\..\..\app\vendor\yiisoft\yii\framework\yiit.php';
 require_once($yiit);
-$config= __DIR__.'/../../app/config/test.php';
+$config = __DIR__ . '/../../app/config/test.php';
 Yii::createWebApplication($config);
 
 /**
-* @property [] $instructor
-* @property [] $instructorTeaching
-* @property [] $instructorVariable
-* @property [] $instructorDocumentsAddress
-* @property Faker\Generator $faker
-* @property CustomProvider $fakerCustom
-*/
-class InstructorBuilder {
+ * @property [] $instructor
+ * @property [] $instructorTeaching
+ * @property [] $instructorVariable
+ * @property [] $instructorDocumentsAddress
+ * @property Faker\Generator $faker
+ * @property CustomProvider $fakerCustom
+ */
+class InstructorBuilder
+{
 
     private $faker = null;
     private $fakerCustom = null;
@@ -28,9 +29,10 @@ class InstructorBuilder {
      * @var $instructor
      * @var $instructorVariable
      * @var $instructorDocumentsAddress
-    */
+     */
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->faker = Faker\Factory::create('pt_BR');
         $this->fakerCustom = new CustomProvider($this->faker);
         $this->instructor = [];
@@ -48,8 +50,8 @@ class InstructorBuilder {
         $this->instructor['edcenso_city_fk'] = '2800308';
         $this->instructor['nis'] = $this->fakerCustom->nisNumber();
         $this->instructor['birthday_date'] = $this->faker->date('d/m/Y');
-        $this->instructor['sex'] = $this->faker->randomElement(['1','2']);
-        $this->instructor['color_race'] = 2;
+        $this->instructor['sex'] = $this->faker->randomElement(array(1, 2));
+        $this->instructor['color_race'] = $this->faker->randomElement(array(0, 1, 2, 3, 4, 5));
         $this->instructor['filiation'] = '1';
         $this->instructor['filiation_1'] = $this->faker->name();
         $this->instructorDocumentsAddress['address'] = "RUA " . $this->faker->name();
@@ -66,7 +68,7 @@ class InstructorBuilder {
         $this->instructorVariable['scholarity'] = '6';
         $this->instructorVariable['high_education_situation_1'] = '1';
         $this->instructorVariable['high_education_course_code_1_fk'] = '142P01';
-        $this->instructorVariable['high_education_final_year_1'] = $this->faker->numberBetween(2000,2023);
+        $this->instructorVariable['high_education_final_year_1'] = $this->faker->numberBetween(2000, 2023);
 
         return $this;
     }

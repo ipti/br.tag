@@ -1,9 +1,9 @@
 <?php
 
 require_once 'vendor/autoload.php';
-require_once __DIR__."/../robots/LoginRobots.php";
-require_once __DIR__."/../robots/InstructorRobots.php";
-require_once __DIR__."/../builders/InstructorBuilder.php";
+require_once __DIR__ . "/../robots/LoginRobots.php";
+require_once __DIR__ . "/../robots/InstructorRobots.php";
+require_once __DIR__ . "/../builders/InstructorBuilder.php";
 
 class InstructorCest
 {
@@ -20,6 +20,10 @@ class InstructorCest
         $robots->submit();
         sleep(2);
     }
+
+    /**
+     * Adicionar instructor sem ensino superior.
+     */
     public function addInstructorNoDegree(AcceptanceTester $test)
     {
         $robots = new InstructorRobots($test);
@@ -46,7 +50,7 @@ class InstructorCest
         $robots->btnProximo();
 
         // Preencher página de endereço
-         // Página de Endereço
+        // Página de Endereço
         $robots->stateAddress($builderInstructor->instructor["edcenso_uf_fk"]);
         sleep(3);
         $robots->cityAddress($builderInstructor->instructor["edcenso_city_fk"]);
@@ -65,6 +69,9 @@ class InstructorCest
         $test->canSeeInCurrentUrl('?r=instructor/index');
     }
 
+    /**
+     * Adicionar professor com graduação.
+     */
     public function addInstructorWithDegree(AcceptanceTester $test)
     {
         $robots = new InstructorRobots($test);
@@ -74,7 +81,7 @@ class InstructorCest
         $builderInstructorScholarity = $builder->scholarityDegree();
 
         // Preencher página de identificação
-         // Página de Identificação
+        // Página de Identificação
         $robots->name($builderInstructor->instructor["name"]);
         $robots->email($builderInstructor->instructor["email"]);
         $robots->nationality($builderInstructor->instructor["nationality"]);
