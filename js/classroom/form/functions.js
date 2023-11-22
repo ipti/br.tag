@@ -14,7 +14,7 @@ var removeTeachingData = function () {
             disciplines[discipline] = 0;
             $("#DisciplinesWithoutInstructors li[discipline = " + discipline + "]").remove();
         } else {
-            if(isRegent == 1) {
+            if (isRegent == 1) {
                 RegentTeacherCount--;
             }
             removeInstructor(instructor);
@@ -65,7 +65,7 @@ var removeDiscipline = function (instructor, discipline) {
 
 $(document).on("change", "#Role", function () {
     $(".regent-teacher-container").hide()
-    if($(this).val() == 1 && RegentTeacherCount < 2) {
+    if ($(this).val() == 1 && RegentTeacherCount < 2) {
         $(".regent-teacher-container").show()
     }
 })
@@ -113,7 +113,7 @@ var addTeachingData = function () {
 
         if (!hasInstructor) {
             regentLabel = ""
-            if(regent) {
+            if (regent) {
                 regentLabel = " (Regente)"
                 RegentTeacherCount++
             }
@@ -150,7 +150,7 @@ var addTeachingData = function () {
         }
         $(tag).append(html);
     }
-    if(RegentTeacherCount == 2) {
+    if (RegentTeacherCount == 2) {
         $(".regent-teacher-container").hide();
     }
     $('#RegentTeacher').prop('checked', false);
@@ -346,12 +346,12 @@ $(document).on("change", "#Classroom_edcenso_stage_vs_modality_fk", function () 
                 disciplines.push(this.id);
             });
             $("#Disciplines").html(html);
-            $(".li-discipline").each(function() {
+            $(".li-discipline").each(function () {
                 if (!disciplines.includes($(this).attr("discipline"))) {
                     $(this).remove();
                 }
             });
-            $(".li-instructor").each(function() {
+            $(".li-instructor").each(function () {
                 if (!$(this).find(".li-discipline").length) {
                     $(this).remove();
                 }
@@ -372,12 +372,12 @@ $(document).on("change", "#Classroom_edcenso_stage_vs_modality_fk", function () 
 $("#Classroom_edcenso_stage_vs_modality_fk").trigger("change");
 
 
-$("#js-t-sortable").on("sortupdate", function(event, ui) {
+$("#js-t-sortable").on("sortupdate", function (event, ui) {
     newOrderArray = $(this).sortable("toArray");
     $.ajax({
         url: `${window.location.host}?r=classroom/changeenrollments`,
         type: "POST",
-        data:{
+        data: {
             list: newOrderArray
         },
         beforeSend: function () {
@@ -405,26 +405,40 @@ $("#js-t-sortable").on("sortupdate", function(event, ui) {
             list.push(li);
         });
 
-       $("#js-t-sortable").html(list);
-       $("#daily").css("opacity", 1);
-       $("#js-t-sortable").sortable();
+        $("#js-t-sortable").html(list);
+        $("#daily").css("opacity", 1);
+        $("#js-t-sortable").sortable();
     })
 });
 
-$(document).on("click", ".sync-enrollments", function(e) {
+$(document).on("click", ".sync-enrollments", function (e) {
     var button = this;
     e.preventDefault();
     $.ajax({
         url: "?r=classroom/syncUnsyncedStudents",
         type: "POST",
-        data:{
+        data: {
             classroomId: classroomId
         },
         beforeSend: function () {
             $(button).css("pointer-events", "none");
             $(".loading-sync").show();
         },
-    }).success(function (response) {
+    }).success(function (data) {
+        data = JSON.parse(data);
+        var errors = "";
+        $.each(data, function () {
+            if (this.valid) {
+                $("td[enrollmentid=" + this.enrollmentId + "]").closest("tr").find(".sync-column").html('<img src="' + baseURL + '/img/SyncTrue.png" style="width: 21px;" alt="synced">');
+            } else {
+                errors += "<b>" + this.studentName + "</b>:<br>" + this.message + "<br><br>";
+            }
+        });
+        if (errors === "") {
+            $(".classroom-alert").removeClass("alert-error").addClass("alert-success").text("Matrículas sincronizadas com sucesso!").show();
+        } else {
+            $(".classroom-alert").addClass("alert-error").removeClass("alert-success").html("As seguintes matrículas não foram sincronizadas:<br><br>" + errors).show();
+        }
         $(button).removeAttr("pointer-events", "auto");
         $(".loading-sync").hide();
     })

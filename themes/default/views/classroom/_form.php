@@ -77,7 +77,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 e o SEDSP não autoriza realizar edições em tais campos.
             </div>
         <?php endif; ?>
-        <div class="alert alert-error classroom-error no-show"></div>
+        <div class="alert classroom-alert no-show"></div>
         <div class="t-tabs">
             <ul class="tab-classroom t-tabs__list">
                 <li id="tab-classroom" class="active t-tabs__item">
@@ -699,12 +699,12 @@ $form = $this->beginWidget('CActiveForm', array(
                                                                            name="enrollments[]"
                                                                            type='checkbox'/></td>
                                             <td width="30"><?= $i ?></td>
-                                            <td><?php echo $enrollment["enrollmentId"] ?></td>
+                                            <td enrollmentid="<?php echo $enrollment["enrollmentId"] ?>"><?php echo $enrollment["enrollmentId"] ?></td>
                                             <td>
                                                 <a href="<?= Yii::app()->createUrl('student/update', array('id' => $enrollment["studentId"])) ?>"> <?= $enrollment["studentName"] ?></a>
                                             </td>
                                             <?php if (TagUtils::isInstance("UBATUBA")): ?>
-                                                <td>
+                                                <td class="sync-column">
                                                     <?php if ($enrollment["synced"]) { ?>
                                                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
                                                              style="width: 21px;" alt="synced">
@@ -907,6 +907,7 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
 
     var firstTime = true;
 
+    var baseURL = '<?php echo Yii::app()->theme->baseUrl; ?>';
     var getAssistanceURL = '<?php echo Yii::app()->createUrl('classroom/getassistancetype') ?>';
     var jsonCompActv = '<?php echo json_encode($complementaryActivities); ?>';
     var updateLessonUrl = '<?php echo CController::createUrl('classroom/updateLesson'); ?>';

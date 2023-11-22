@@ -6,6 +6,7 @@ Yii::import('application.modules.sedsp.models.Classroom.*');
 Yii::import('application.modules.sedsp.models.Student.*');
 Yii::import('application.modules.sedsp.datasources.sed.Classroom.*');
 Yii::import('application.modules.sedsp.datasources.sed.ClassStudentsRelation.*');
+Yii::import('application.modules.sedsp.datasources.sed.Student.*');
 Yii::import('application.modules.sedsp.mappers.*');
 Yii::import('application.modules.sedsp.usecases.*');
 
@@ -329,43 +330,43 @@ class ClassroomController extends Controller
     {
         $disciplines = array();
 
-        if (isset($instructor->discipline_1_fk)){
+        if (isset($instructor->discipline_1_fk)) {
             array_push($disciplines, $instructor->discipline1Fk);
         }
-        if (isset($instructor->discipline_2_fk)){
+        if (isset($instructor->discipline_2_fk)) {
             array_push($disciplines, $instructor->discipline2Fk);
         }
-        if (isset($instructor->discipline_3_fk)){
+        if (isset($instructor->discipline_3_fk)) {
             array_push($disciplines, $instructor->discipline3Fk);
         }
-        if (isset($instructor->discipline_4_fk)){
+        if (isset($instructor->discipline_4_fk)) {
             array_push($disciplines, $instructor->discipline4Fk);
         }
-        if (isset($instructor->discipline_5_fk)){
+        if (isset($instructor->discipline_5_fk)) {
             array_push($disciplines, $instructor->discipline5Fk);
         }
-        if (isset($instructor->discipline_6_fk)){
+        if (isset($instructor->discipline_6_fk)) {
             array_push($disciplines, $instructor->discipline6Fk);
         }
-        if (isset($instructor->discipline_7_fk)){
+        if (isset($instructor->discipline_7_fk)) {
             array_push($disciplines, $instructor->discipline7Fk);
         }
-        if (isset($instructor->discipline_8_fk)){
+        if (isset($instructor->discipline_8_fk)) {
             array_push($disciplines, $instructor->discipline8Fk);
         }
-        if (isset($instructor->discipline_9_fk)){
+        if (isset($instructor->discipline_9_fk)) {
             array_push($disciplines, $instructor->discipline9Fk);
         }
-        if (isset($instructor->discipline_10_fk)){
+        if (isset($instructor->discipline_10_fk)) {
             array_push($disciplines, $instructor->discipline10Fk);
         }
-        if (isset($instructor->discipline_11_fk)){
+        if (isset($instructor->discipline_11_fk)) {
             array_push($disciplines, $instructor->discipline11Fk);
         }
-        if (isset($instructor->discipline_12_fk)){
+        if (isset($instructor->discipline_12_fk)) {
             array_push($disciplines, $instructor->discipline12Fk);
         }
-        if (isset($instructor->discipline_13_fk)){
+        if (isset($instructor->discipline_13_fk)) {
             array_push($disciplines, $instructor->discipline13Fk);
         }
 
@@ -458,6 +459,7 @@ class ClassroomController extends Controller
             'modelClassroom' => $modelClassroom,
         ));
     }
+
     public function actionBatchupdatEnrollment($id)
     {
         $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
@@ -588,7 +590,7 @@ class ClassroomController extends Controller
         $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
         $studentsEnrollments = $modelClassroom->studentEnrollments;
         $modelEnrollments = [];
-        foreach($studentsEnrollments as $studentEnrollment) {
+        foreach ($studentsEnrollments as $studentEnrollment) {
             $array["enrollmentId"] = $studentEnrollment->id;
             $array["studentId"] = $studentEnrollment->studentFk->id;
             $array["studentName"] = $studentEnrollment->studentFk->name;
@@ -629,17 +631,17 @@ class ClassroomController extends Controller
                     $frequencyByExam = FrequencyByExam::model()
                         ->findAllByAttributes(array('enrollment_fk' => $studentEnrollment->id));
 
-                    foreach ($gradeResults as $gradeResult){
+                    foreach ($gradeResults as $gradeResult) {
                         $gradeResult->delete();
                     }
-                    foreach ($frequencyAndMean as $eachFrequencyAndMean){
+                    foreach ($frequencyAndMean as $eachFrequencyAndMean) {
                         $eachFrequencyAndMean->delete();
                     }
-                    foreach ($frequencyByExam as $frequencyExam){
+                    foreach ($frequencyByExam as $frequencyExam) {
                         $frequencyExam->delete();
                     }
                     $studentEnrollment->delete();
-                    Yii::app()->user->setFlash('success','Matrículas de alunos excluídas com sucesso');
+                    Yii::app()->user->setFlash('success', 'Matrículas de alunos excluídas com sucesso');
                 }
             }
             $this->redirect(array('index'));
@@ -866,7 +868,7 @@ class ClassroomController extends Controller
     {
         $model = new Classroom('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Classroom'])){
+        if (isset($_GET['Classroom'])) {
             $model->attributes = $_GET['Classroom'];
         }
 
@@ -995,20 +997,33 @@ class ClassroomController extends Controller
         /* Yii::app()->user->setFlash('success', Yii::t('default', 'dayli order')); */
     }
 
-    public function actionSyncUnsyncedStudents() {
+    public function actionSyncUnsyncedStudents()
+    {
+        $loginUseCase = new LoginUseCase();
+        $loginUseCase->checkSEDToken();
+
         $classroom = Classroom::model()->findByPk($_POST["classroomId"]);
-        foreach($classroom->studentEnrollments as $studentEnrollment) {
-            if (!$studentEnrollment->studentFk->sedsp_sync) {
-                $this->syncStudentWithSED($studentEnrollment->student_fk);
+        $result = [];
+        foreach ($classroom->studentEnrollments as $studentEnrollment) {
+            $studentIdentification = $studentEnrollment->studentFk;
+            if (!$studentIdentification->sedsp_sync) {
+                $response = $this->syncStudentWithSED($studentIdentification->id);
+                if ($response->outErro === null) {
+                    array_push($result, ["enrollmentId" => $studentEnrollment->id, "valid" => true]);
+                } else {
+                    array_push($result, ["enrollmentId" => $studentEnrollment->id, "valid" => false, "studentName" => $studentIdentification->name, "message" => $response->outErro]);
+                }
             }
         }
+        echo json_encode($result);
     }
 
     //CÓDIGO DUPLICADO COM O QUE ESTÁ EM STUDENTCONTROLLER. JOGAR DEPOIS NO MODEL
     //////////////////////////////////////////////////////////
     ///
     // Função para sincronizar aluno com o sistema SED
-    public function syncStudentWithSED($id) {
+    public function syncStudentWithSED($id)
+    {
 
         $studentInfo = $this->getStudentInformation($id);
         $studentIdentification = $studentInfo['studentIdentification'];
@@ -1019,7 +1034,7 @@ class ClassroomController extends Controller
         $studentIdentification->save();
 
         $studentToSedMapper = new StudentMapper();
-        $student = (object) $studentToSedMapper->parseToSEDAlunoFicha(
+        $student = (object)$studentToSedMapper->parseToSEDAlunoFicha(
             $studentIdentification, $studentInfo['modelStudentDocumentsAndAddress']
         );
 
@@ -1028,7 +1043,7 @@ class ClassroomController extends Controller
         $dataSource = new StudentSEDDataSource();
         $outListStudent = $dataSource->getListStudents($this->createInListarAlunos($studentIdentification->name));
 
-        if($studentIdentification->gov_id === null){
+        if ($studentIdentification->gov_id === null) {
             $govId = $outListStudent->outListaAlunos[0]->getOutNumRa();
         } else {
             $govId = $studentIdentification->gov_id;
@@ -1045,7 +1060,7 @@ class ClassroomController extends Controller
             $inConsult = $this->createInConsult($student);
             $statusAdd = $dataSource->addStudent($inConsult);
 
-            if($statusAdd->outErro === null) {
+            if ($statusAdd->outErro === null) {
                 $stdi = StudentIdentification::model()->findByPk($id);
                 $stdi->gov_id = $statusAdd->outAluno->outNumRA;
                 $stdi->sedsp_sync = 1;
@@ -1068,7 +1083,7 @@ class ClassroomController extends Controller
 
             $statusAdd = $dataSource->editStudent($inManutencao);
 
-            if($statusAdd->outErro === null){
+            if ($statusAdd->outErro === null) {
                 $studentIdentification->sedsp_sync = 1;
                 $studentIdentification->save();
             }
@@ -1077,17 +1092,20 @@ class ClassroomController extends Controller
         }
     }
 
-    public function createInListarAlunos($nameStudent) {
+    public function createInListarAlunos($nameStudent)
+    {
         return new InListarAlunos(new InFiltrosNomes($nameStudent, null, null, null), null, null);
     }
 
     // Função para criar objeto InConsult em caso de aluno não cadastrado
+
     /**
      * Summary of createInConsult
      * @param mixed $student
      * @return InFichaAluno
      */
-    public function createInConsult($student) {
+    public function createInConsult($student)
+    {
         return new InFichaAluno(
             $student->InDadosPessoais,
             $student->InDeficiencia,
@@ -1101,12 +1119,14 @@ class ClassroomController extends Controller
     }
 
     // Função para criar objeto InManutencao em caso de aluno cadastrado
+
     /**
      * Summary of createInManutencao
      * @param mixed $student
      * @return InManutencao
      */
-    public function createInManutencao($student) {
+    public function createInManutencao($student)
+    {
         return new InManutencao(
             $student->InAluno,
             $student->InDadosPessoais,
@@ -1122,7 +1142,8 @@ class ClassroomController extends Controller
     }
 
     // Função para obter informações do aluno
-    public function getStudentInformation($id) {
+    public function getStudentInformation($id)
+    {
         $studentIdentification = StudentIdentification::model()->findByPk($id);
         $modelStudentDocumentsAndAddress = StudentDocumentsAndAddress::model()->findByPk($id);
         $studentEnrollment = StudentEnrollment::model()->findByPk($id);
