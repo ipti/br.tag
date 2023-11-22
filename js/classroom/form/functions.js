@@ -410,3 +410,22 @@ $("#js-t-sortable").on("sortupdate", function(event, ui) {
        $("#js-t-sortable").sortable();
     })
 });
+
+$(document).on("click", ".sync-enrollments", function(e) {
+    var button = this;
+    e.preventDefault();
+    $.ajax({
+        url: "?r=classroom/syncUnsyncedStudents",
+        type: "POST",
+        data:{
+            classroomId: classroomId
+        },
+        beforeSend: function () {
+            $(button).css("pointer-events", "none");
+            $(".loading-sync").show();
+        },
+    }).success(function (response) {
+        $(button).removeAttr("pointer-events", "auto");
+        $(".loading-sync").hide();
+    })
+});

@@ -605,12 +605,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo Yii::t('default', 'Ata de Notas') ?>
                                         </a>
                                     </div>
-                                    <?php if (TagUtils::isInstance("UBATUBA")): ?>
+                                    <?php if (TagUtils::isInstance("UBATUBA") && count($modelEnrollments) > 0): ?>
                                         <div class="reports_cards">
                                             <button class="t-button-primary sync-enrollments">
                                                 <span class="t-icon-export"></span>
                                                 Sincronizar Matrículas (SEDSP)
                                             </button>
+                                            <img class="loading-sync" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
                                         </div>
                                     <?php endif ?>
                                 </div>

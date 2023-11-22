@@ -45,7 +45,7 @@ class ClassroomController extends Controller
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
                     'batchupdatenrollment',
                     'getcomplementaryactivitytype', 'delete',
-                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'changeenrollments', 'batchupdatetransport', 'updateDisciplines', 'syncToSedsp'
+                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'changeenrollments', 'batchupdatetransport', 'updateDisciplines', 'syncToSedsp', 'syncUnsyncedStudents'
                 ),
                 'users' => array('@'),
             ),
@@ -595,7 +595,7 @@ class ClassroomController extends Controller
             $array["enrollmentId"] = $studentEnrollment->id;
             $array["dailyOrder"] = $studentEnrollment->daily_order;
             if (TagUtils::isInstance("UBATUBA")) {
-                $array["synced"] = $studentEnrollment->studentFk->sedsp_sync && $studentEnrollment->sedsp_sync;
+                $array["synced"] = $studentEnrollment->studentFk->sedsp_sync;
             }
             array_push($modelEnrollments, $array);
         }
@@ -995,4 +995,142 @@ class ClassroomController extends Controller
         /* Yii::app()->user->setFlash('success', Yii::t('default', 'dayli order')); */
     }
 
+    public function actionSyncUnsyncedStudents() {
+        $classroom = Classroom::model()->findByPk($_POST["classroomId"]);
+        foreach($classroom->studentEnrollments as $studentEnrollment) {
+            if (!$studentEnrollment->studentFk->sedsp_sync) {
+                $this->syncStudentWithSED($studentEnrollment->student_fk);
+            }
+        }
+    }
+
+    //CÓDIGO DUPLICADO COM O QUE ESTÁ EM STUDENTCONTROLLER. JOGAR DEPOIS NO MODEL
+    //////////////////////////////////////////////////////////
+    ///
+    // Função para sincronizar aluno com o sistema SED
+    public function syncStudentWithSED($id) {
+
+        $studentInfo = $this->getStudentInformation($id);
+        $studentIdentification = $studentInfo['studentIdentification'];
+        $studentIdentification->sedsp_sync = 0;
+
+
+        $studentIdentification->tag_to_sed = 1;
+        $studentIdentification->save();
+
+        $studentToSedMapper = new StudentMapper();
+        $student = (object) $studentToSedMapper->parseToSEDAlunoFicha(
+            $studentIdentification, $studentInfo['modelStudentDocumentsAndAddress']
+        );
+
+        $studentDatasource = new StudentSEDDataSource();
+
+        $dataSource = new StudentSEDDataSource();
+        $outListStudent = $dataSource->getListStudents($this->createInListarAlunos($studentIdentification->name));
+
+        if($studentIdentification->gov_id === null){
+            $govId = $outListStudent->outListaAlunos[0]->getOutNumRa();
+        } else {
+            $govId = $studentIdentification->gov_id;
+        }
+
+        $response = $studentDatasource->exibirFichaAluno(new InAluno($govId, null, "SP"));
+        $infoAluno = $response->outDadosPessoais->outNomeAluno;
+
+        $inListarAlunos = $this->createInListarAlunos($infoAluno);
+        $dataSource = new StudentSEDDataSource();
+        $outListStudent = $dataSource->getListStudents($inListarAlunos);
+
+        if ($outListStudent->outErro !== null) {
+            $inConsult = $this->createInConsult($student);
+            $statusAdd = $dataSource->addStudent($inConsult);
+
+            if($statusAdd->outErro === null) {
+                $stdi = StudentIdentification::model()->findByPk($id);
+                $stdi->gov_id = $statusAdd->outAluno->outNumRA;
+                $stdi->sedsp_sync = 1;
+                $stdi->save();
+
+                return $statusAdd;
+            }
+        } elseif ($outListStudent->outErro === null) {
+            $outNumRA = $outListStudent->getOutListaAlunos();
+            $numRA = $outNumRA[0]->getOutNumRa();
+
+            $student->InAluno->setInNumRA($numRA);
+
+            $inManutencao = $this->createInManutencao($student);
+            $dataSource = new StudentSEDDataSource();
+
+
+            $studentIdentification->gov_id = $numRA;
+            $studentIdentification->save();
+
+            $statusAdd = $dataSource->editStudent($inManutencao);
+
+            if($statusAdd->outErro === null){
+                $studentIdentification->sedsp_sync = 1;
+                $studentIdentification->save();
+            }
+
+            return $statusAdd;
+        }
+    }
+
+    public function createInListarAlunos($nameStudent) {
+        return new InListarAlunos(new InFiltrosNomes($nameStudent, null, null, null), null, null);
+    }
+
+    // Função para criar objeto InConsult em caso de aluno não cadastrado
+    /**
+     * Summary of createInConsult
+     * @param mixed $student
+     * @return InFichaAluno
+     */
+    public function createInConsult($student) {
+        return new InFichaAluno(
+            $student->InDadosPessoais,
+            $student->InDeficiencia,
+            $student->InRecursoAvaliacao,
+            $student->InDocumentos,
+            null,
+            null,
+            $student->InEnderecoResidencial,
+            null
+        );
+    }
+
+    // Função para criar objeto InManutencao em caso de aluno cadastrado
+    /**
+     * Summary of createInManutencao
+     * @param mixed $student
+     * @return InManutencao
+     */
+    public function createInManutencao($student) {
+        return new InManutencao(
+            $student->InAluno,
+            $student->InDadosPessoais,
+            $student->InDeficiencia,
+            $student->InRecursoAvaliacao,
+            $student->InDocumentos,
+            null,
+            null,
+            $student->InEnderecoResidencial,
+            null,
+            null
+        );
+    }
+
+    // Função para obter informações do aluno
+    public function getStudentInformation($id) {
+        $studentIdentification = StudentIdentification::model()->findByPk($id);
+        $modelStudentDocumentsAndAddress = StudentDocumentsAndAddress::model()->findByPk($id);
+        $studentEnrollment = StudentEnrollment::model()->findByPk($id);
+
+        return [
+            'studentIdentification' => $studentIdentification,
+            'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
+            'studentEnrollment' => $studentEnrollment,
+        ];
+    }
 }
