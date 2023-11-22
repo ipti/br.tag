@@ -390,7 +390,7 @@ class StudentMapper
             $studentEnrollment->create_date = date( strtotime($enrollment->getOutDataInicioMatricula()));
            
             $classroomMapper = new ClassroomMapper;
-            $edcensoStage = $classroomMapper->convertTipoEnsinoToStage($enrollment->getOutCodTipoEnsino, $enrollment->getOutCodTipoEnsino);    
+            $edcensoStage = $classroomMapper->convertTipoEnsinoToStage($enrollment->getOutCodTipoEnsino(), $enrollment->getOutCodSerieAno());    
             $studentEnrollment->edcenso_stage_vs_modality_fk = $edcensoStage;
 
             $arrayMapEnrollments[] = $studentEnrollment;
@@ -457,7 +457,7 @@ class StudentMapper
                 WHERE student_fk = :studentFk
                 AND classroom_inep_id = :classroomInepId
                 AND school_inep_id_fk = :schoolInepIdFk
-            ) AS result;";
+            ) AS result;";  
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([

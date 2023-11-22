@@ -111,7 +111,7 @@ class UpdateFichaAlunoInTAGUseCase
 
     private function findStudentByIdentification($govId)
     {
-        return StudentIdentification::model()->findByAttributes(['gov_id' => $govId]);
+        return StudentIdentification::model()->find('gov_id = :gov_id', [':gov_id' => $govId]);
     }
 
     private function handleException($studentIdentification, $e)
