@@ -215,19 +215,12 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                 $model->attributes = $_POST['StudentEnrollment'];
                 $model->school_inep_id_fk = Classroom::model()->findByPk([$_POST['StudentEnrollment']["classroom_fk"]])->school_inep_fk;
                 if ($model->save()) {
-                    Log::model()->saveAction("enrollment", $model->id, "U", $model->studentFk->name . "|" . $model->classroomFk->name);
-                    Yii::app()->user->setFlash('success', Yii::t('default', 'Matrícula alterada com sucesso!'));
-                    // $this->redirect(array('student/'));
-                
+                    $message = "";
                     if(TagUtils::isInstance("UBATUBA")) {
-                        //$this->authenticateSedToken();
-
-                        //$studentMapper = new StudentMapper;
-                        //$status = $studentMapper->mapSituationEnrollmentToSed($model->status);
+                        $this->authenticateSedToken();
 
                         $inNumRA = StudentIdentification::model()->findByPk($model->student_fk);
                         $inAluno = new InAluno($inNumRA->gov_id, null, 'SP');
-                        #$enrollment = new EnrollmentSEDDataSource;
                         $class = Classroom::model()->findByPk($model->classroom_fk);
                         $newClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
                         
@@ -248,7 +241,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                             );
 
                             $trocarAlunoEntreClassesUseCase = new TrocarAlunoEntreClassesUseCase;
-                            $trocarAlunoEntreClassesUseCase->exec($inTrocarAlunoEntreClasses);
+                            $result = $trocarAlunoEntreClassesUseCase->exec($inTrocarAlunoEntreClasses);
             
                         }elseif($model->status === '3' || $model->status === '11') {
                             //excluirmatricula
@@ -258,7 +251,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                             $inExcluirMatricula = new InExcluirMatricula($inAluno, $inNumClasse);
                             
                             $deleteEnrollmentUseCase = new DeleteEnrollmentUseCase;
-                            $deleteEnrollmentUseCase->exec($inExcluirMatricula);
+                            $result = $deleteEnrollmentUseCase->exec($inExcluirMatricula);
                         }elseif($model->status === '4') {
                             //baixarmatricula
                             
@@ -276,9 +269,22 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                             $inBaixarMatricula = new InBaixarMatricula($inAluno, $inTipoBaixa, $inMotivoBaixa, $inDataBaixa, $inNumClasse);
                             
                             $terminateEnrollmentUseCase = new TerminateEnrollmentUseCase;
-                            $terminateEnrollmentUseCase->exec($inBaixarMatricula);
+                            $result = $terminateEnrollmentUseCase->exec($inBaixarMatricula);
                         } 
+
+                        if ($result->outErro === null) {
+                            $flash = "success";
+                            $message .= "Matrícula alterada com sucesso!";
+                        } else {
+                            $flash = "error";
+                            $message .= "Matrícula alterada com sucesso no TAG, mas não foi possível sincronizá-la com o SEDSP. Motivo: " . $result->outErro;
+                        }
+                    } else {
+                        $flash = "success";
+                        $message .= "Matrícula alterada com sucesso!";
                     }
+                    Log::model()->saveAction("enrollment", $model->id, "U", $model->studentFk->name . "|" . $model->classroomFk->name);
+                    Yii::app()->user->setFlash($flash, $message);
                 }
             }
         }
