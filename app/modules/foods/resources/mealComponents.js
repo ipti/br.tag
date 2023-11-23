@@ -85,17 +85,16 @@ const PlateComponent = function () {
 
   function addPlate(idMealAccordion) {
     render(idMealAccordion)
-    initializePlateAccordion(idMealAccordion)
     initializeSelect2()
   }
-  function initializePlateAccordion(idMealAccordion) {
-    const container = $(`.js-plate-accordion[data-id-accordion='${idMealAccordion}']`) 
-    if(container.find('.ui-accordion-header').length > 1) {
+  function initializePlateAccordion() {
+    const container = $(`.js-plate-accordion-header[data-id-accordion='${idPlateAccordion-1}']`).parent()
+
+    if(container.data('ui-accordion')) {
       container.accordion("destroy");
     }
-    console.log(container)
     container.accordion({
-      active: idPlateAccordion-1,
+      active: idPlateAccordion,
       collapsible: true,
       icons: false,
     });
@@ -143,6 +142,7 @@ const PlateComponent = function () {
     removePlate(idPlateAccordion)
     addListTacoFood(idPlateAccordion)
     addRowToTable(idPlateAccordion, idMealAccordion)
+    initializePlateAccordion()
     idPlateAccordion++;
   }
   function removePlate(idPlateAccordion) {
@@ -181,16 +181,15 @@ const PlateComponent = function () {
       
   });
   }
-  function addRowToTable(idPlateAccordion, idMealAccordion) {
+  function addRowToTable(idPlateAccordion) {
     const select = $(`.js-plate-accordion-content[data-id-accordion="${idPlateAccordion}"] .js-taco-foods`)
     select.on('change', function (event) {
         getFood(select.val(), idPlateAccordion)
     })
 
+
     $(select).val('');
     initializeSelect2();
-    console.log(idMealAccordion)
-    initializePlateAccordion(idMealAccordion)
 
   }
   function getFood (idFood, idPlateAccordion){
@@ -205,7 +204,10 @@ const PlateComponent = function () {
     }).success(function (response) {
         response = JSON.parse(DOMPurify.sanitize(response))
         let line = createMealComponent(response);
+        removeFood(line, idPlateAccordion)
         table.append(line)
+
+        initializePlateAccordion()
     })
   }
   function createMealComponent({id, name, pt, lip, cho, kcal}) {
@@ -227,6 +229,13 @@ const PlateComponent = function () {
         .append(`<td class='js-remove-taco-food'><span class='t-icon-close t-button-icon'><span></td>`)
 
         return line;
+  }
+  function removeFood(line, idPlateAccordion) {
+    line.find('.js-remove-taco-food').on(
+      "click", function (event) {
+        $(this).parent().remove()
+      }
+    )
   }
   return {
     actions: {
