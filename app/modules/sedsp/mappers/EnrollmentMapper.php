@@ -14,7 +14,7 @@ class EnrollmentMapper
         $inMatricula = new InMatricula(date('Y-m-d'), "00", $inNumClass); // $inNumAluno -> Esse campo é gerado automaticamente se preenchido com “00”
 
         $classroomMapper = new ClassroomMapper;
-        $edcensoStage = $studentEnrollmentTag->edcenso_stage_vs_modality_fk;
+        $edcensoStage = $numClass->edcenso_stage_vs_modality_fk;
         $stage = (object) $classroomMapper->convertStageToTipoEnsino($edcensoStage);
         $inNivelEnsino = new InNivelEnsino($stage->tipoEnsino, $stage->serieAno);
 

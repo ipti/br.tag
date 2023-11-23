@@ -650,7 +650,11 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 $inAnoLetivo = Yii::app()->user->year;
                 $inCodEscola = substr($modelStudentIdentification->school_inep_id_fk, 2);
                 $inscricao = new InInscricao($inAnoLetivo, $inCodEscola, null, "4");
-                $inNivelEnsino = new InNivelEnsino('14', '1');
+                
+                $classroomMapper = new ClassroomMapper;
+                $edcensoStage = Classroom::model()->findByPk($modelEnrollment->classroom_fk)->edcenso_stage_vs_modality_fk;
+                $ensino = (object) $classroomMapper->convertStageToTipoEnsino($edcensoStage);
+                $inNivelEnsino = new InNivelEnsino($ensino->tipoEnsino, $ensino->serieAno);
 
                 $outenr = $this->createEnrollStudent($inAluno, $inscricao, $inNivelEnsino);  
                 $outadd = $this->addEnrollmentToSedsp($modelStudentIdentification, $modelEnrollment);                               
