@@ -1180,6 +1180,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                             if ($existEnrollment === 0) {
                                                 echo '<a href="#" class="t-button-primary" id="new-enrollment-button">Adicionar Matrícula</a>';
                                             }
+                                        } else {
+                                            echo '<a href="#" class="t-button-primary" id="new-enrollment-button">Adicionar Matrícula</a>';
                                         }
                                     } else {
                                         echo '<a href="#" class="t-button-primary" id="new-enrollment-button">Adicionar Matrícula</a>';

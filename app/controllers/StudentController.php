@@ -597,6 +597,10 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                     $stdi->sedsp_sync = 1;
                                   
                     $stdi->save();
+
+                    if($modelEnrollment->id !== null) {
+                        $this->processEnrollment($modelStudentIdentification, $modelEnrollment);
+                    }
     
                     return $statusAdd;
                 }
@@ -637,30 +641,26 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 }
             }
 
-            $addEnrollment = true;
-            if($addEnrollment) {
-                //$class = Classroom::model()->findByPk($modelEnrollment->classroom_fk);
-                //$numClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
-                //$inSituacao =  '0'; //$modelEnrollment->status !== null ? $modelEnrollment->status : '0';
-    
-                //$isEnrolledUseCase = new IsEnrolledUseCase;
-                //$enrollmentExistsInSedsp = $isEnrolledUseCase->exec(new InExibirMatriculaClasseRA($inAluno, $numClass, $inSituacao, null));
-                
-                $inAluno = new InAluno($modelStudentIdentification->gov_id, null, 'SP');
-                $inAnoLetivo = Yii::app()->user->year;
-                $inCodEscola = substr($modelStudentIdentification->school_inep_id_fk, 2);
-                $inscricao = new InInscricao($inAnoLetivo, $inCodEscola, null, "4");
-                
-                $classroomMapper = new ClassroomMapper;
-                $edcensoStage = Classroom::model()->findByPk($modelEnrollment->classroom_fk)->edcenso_stage_vs_modality_fk;
-                $ensino = (object) $classroomMapper->convertStageToTipoEnsino($edcensoStage);
-                $inNivelEnsino = new InNivelEnsino($ensino->tipoEnsino, $ensino->serieAno);
-
-                $outenr = $this->createEnrollStudent($inAluno, $inscricao, $inNivelEnsino);  
-                $outadd = $this->addEnrollmentToSedsp($modelStudentIdentification, $modelEnrollment);                               
-                 
+            if($modelEnrollment->id !== null) {
+                $this->processEnrollment($modelStudentIdentification, $modelEnrollment);
             }
         }
+    }
+
+    private function processEnrollment($modelStudentIdentification, $modelEnrollment)
+    {
+        $inAluno = new InAluno($modelStudentIdentification->gov_id, null, 'SP');
+        $inAnoLetivo = Yii::app()->user->year;
+        $inCodEscola = substr($modelStudentIdentification->school_inep_id_fk, 2);
+        $inscricao = new InInscricao($inAnoLetivo, $inCodEscola, null, "4");
+        
+        $classroomMapper = new ClassroomMapper;
+        $edcensoStage = Classroom::model()->findByPk($modelEnrollment->classroom_fk)->edcenso_stage_vs_modality_fk;
+        $ensino = (object) $classroomMapper->convertStageToTipoEnsino($edcensoStage);
+        $inNivelEnsino = new InNivelEnsino($ensino->tipoEnsino, $ensino->serieAno);
+
+        $this->createEnrollStudent($inAluno, $inscricao, $inNivelEnsino);  
+        $this->addEnrollmentToSedsp($modelStudentIdentification, $modelEnrollment); 
     }
 
     private function createEnrollStudent(InAluno $inAluno, InInscricao $inscricao, InNivelEnsino $inNivelEnsino)
