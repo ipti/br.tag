@@ -578,6 +578,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $dataSource = new StudentSEDDataSource();
         $outListStudent = $dataSource->getListStudents($this->createInListarAlunos($studentIdentification->name, $studentIdentification->filiation_1, $studentIdentification->filiation_2));
         
+        $return["identification"] = "";
+        $return["enrollment"] = "";
         if(method_exists($outListStudent,'getCode') && $this->handleUnauthorizedError($outListStudent->getCode())) {
             return false;
         }
@@ -599,11 +601,11 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                     $stdi->save();
 
                     if($modelEnrollment->id !== null) {
-                        $this->processEnrollment($modelStudentIdentification, $modelEnrollment);
+                        $enrollmentResult = $this->processEnrollment($modelStudentIdentification, $modelEnrollment);
                     }
-    
-                    return $statusAdd;
                 }
+                $result["identification"] = $statusAdd;
+                $result["enrollment"] = $enrollmentResult;
             }
         }elseif($type == self::UPDATE) {
             if($studentIdentification->gov_id === null){
@@ -625,8 +627,13 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $dataSource = new StudentSEDDataSource();
             $outListStudent = $dataSource->getListStudents($inListarAlunos);
 
-            if ($outListStudent->outErro === null || !is_null($outListStudent)) {
-                      
+            if ($outListStudent->outErro === null) {
+                if (is_null($outListStudent)) {
+                    $inFichaAluno = $this->createInConsult($student);
+                    $dataSource->addStudentToSed($inFichaAluno);
+                } else {
+
+                }
                 $studentIdentification->gov_id = $govId;
                 $studentIdentification->save();
     
@@ -642,8 +649,11 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             }
 
             if($modelEnrollment->id !== null) {
-                $this->processEnrollment($modelStudentIdentification, $modelEnrollment);
+                $enrollmentResult = $this->processEnrollment($modelStudentIdentification, $modelEnrollment);
             }
+
+            $result["identification"] = $statusAdd;
+            $result["enrollment"] = $enrollmentResult;
         }
     }
 
@@ -660,7 +670,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $inNivelEnsino = new InNivelEnsino($ensino->tipoEnsino, $ensino->serieAno);
 
         $this->createEnrollStudent($inAluno, $inscricao, $inNivelEnsino);  
-        $this->addEnrollmentToSedsp($modelStudentIdentification, $modelEnrollment); 
+        return $this->addEnrollmentToSedsp($modelStudentIdentification, $modelEnrollment); 
     }
 
     private function createEnrollStudent(InAluno $inAluno, InInscricao $inscricao, InNivelEnsino $inNivelEnsino)
@@ -684,10 +694,9 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
 
         if ($statusAddEnrollmentToSed->outErro === null) {
             $modelEnrollment->sedsp_sync = 1;
-            return $modelEnrollment->save();
-        } else {
-            return $statusAddEnrollmentToSed->outErro;
-        }    
+            $modelEnrollment->save();
+        }
+        return $statusAddEnrollmentToSed;
     }
 
     public function handleUnauthorizedError($statusCode) {
