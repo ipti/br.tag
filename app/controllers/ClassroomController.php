@@ -1004,7 +1004,7 @@ class ClassroomController extends Controller
         $result = [];
         foreach ($classroom->studentEnrollments as $studentEnrollment) {
             $studentIdentification = $studentEnrollment->studentFk;
-            if (!$studentIdentification->sedsp_sync) {
+            if (!$studentIdentification->sedsp_sync || !$studentEnrollment->sedsp_sync) {
                 $response = $this->syncStudentWithSED($studentIdentification->id);
                 if ($response->outErro === null) {
                     array_push($result, ["enrollmentId" => $studentEnrollment->id, "valid" => true]);
