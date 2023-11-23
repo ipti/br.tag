@@ -254,6 +254,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                             //excluirmatricula
                             $class = Classroom::model()->findByPk($model->classroom_fk);
                             $inNumClasse = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+                            
                             $inExcluirMatricula = new InExcluirMatricula($inAluno, $inNumClasse);
                             
                             $deleteEnrollmentUseCase = new DeleteEnrollmentUseCase;

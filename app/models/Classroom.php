@@ -428,6 +428,98 @@ class Classroom extends AltActiveRecord
         return $model->school_days;
     }
 
+    public function syncToSEDSP($tagAction, $sedspAction)
+    {
+        $inDiasDaSemana = new InDiasDaSemana(
+            $this->week_days_monday,
+            ($this->week_days_monday ? $this->initial_hour . ":" . $this->initial_minute : null),
+            ($this->week_days_monday ? $this->final_hour . ":" . $this->final_minute : null),
+            $this->week_days_tuesday,
+            ($this->week_days_tuesday ? $this->initial_hour . ":" . $this->initial_minute : null),
+            ($this->week_days_tuesday ? $this->final_hour . ":" . $this->final_minute : null),
+            $this->week_days_wednesday,
+            ($this->week_days_wednesday ? $this->initial_hour . ":" . $this->initial_minute : null),
+            ($this->week_days_wednesday ? $this->final_hour . ":" . $this->final_minute : null),
+            $this->week_days_thursday,
+            ($this->week_days_thursday ? $this->initial_hour . ":" . $this->initial_minute : null),
+            ($this->week_days_thursday ? $this->final_hour . ":" . $this->final_minute : null),
+            $this->week_days_friday,
+            ($this->week_days_friday ? $this->initial_hour . ":" . $this->initial_minute : null),
+            ($this->week_days_friday ? $this->final_hour . ":" . $this->final_minute : null),
+            $this->week_days_saturday,
+            ($this->week_days_saturday ? $this->initial_hour . ":" . $this->initial_minute : null),
+            ($this->week_days_saturday ? $this->final_hour . ":" . $this->final_minute : null)
+        );
+
+        $calendarFirstDay = Yii::app()->db->createCommand("select DATE(ce.start_date) as start_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) join calendar_stages as cs on cs.calendar_fk = c.id  where cs.stage_fk = :stage and YEAR(c.start_date) = :year and calendar_event_type_fk = 1000;")->bindParam(":stage", $this->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryRow();
+        $calendarLastDay = Yii::app()->db->createCommand("select DATE(ce.end_date) as end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) join calendar_stages as cs on cs.calendar_fk = c.id where cs.stage_fk = :stage and YEAR(c.start_date) = :year and calendar_event_type_fk  = 1001;")->bindParam(":stage", $this->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryRow();
+
+        $firstDay = date("d/m/Y", $calendarFirstDay == null ? strtotime("first monday of January " . Yii::app()->user->year) : strtotime($calendarFirstDay["start_date"]));
+        $lastDay = date("d/m/Y", $calendarLastDay == null ? strtotime("last friday of December " . Yii::app()->user->year) : strtotime($calendarLastDay["end_date"]));
+
+        if ($sedspAction == "create") {
+            $tipoEnsinoAndStage = ClassroomMapper::convertStageToTipoEnsino($this->edcenso_stage_vs_modality_fk);
+
+            $inIncluirTurmaClasse = new InIncluirTurmaClasse(
+                Yii::app()->user->year,
+                substr(Yii::app()->user->school, 2),
+                $this->sedspSchoolUnityFk->code,
+                $tipoEnsinoAndStage["tipoEnsino"],
+                $tipoEnsinoAndStage["serieAno"],
+                0,
+                ClassroomMapper::revertCodTurno($this->turn),
+                0,
+                $this->sedsp_acronym,
+                $this->sedsp_classnumber,
+                $this->sedsp_max_physical_capacity,
+                $firstDay,
+                $lastDay,
+                $this->initial_hour . ":" . $this->initial_minute,
+                $this->final_hour . ":" . $this->final_minute,
+                null,
+                null,
+                $inDiasDaSemana
+            );
+
+            $dataSource = new ClassroomSEDDataSource();
+            $result = $dataSource->incluirTurmaClasse($inIncluirTurmaClasse);
+        } else {
+            $inManutencaoTurmaClasse = new InManutencaoTurmaClasse(
+                Yii::app()->user->year,
+                $this->gov_id,
+                0,
+                ClassroomMapper::revertCodTurno($this->turn),
+                $this->sedsp_acronym,
+                $this->sedsp_max_physical_capacity,
+                $firstDay,
+                $lastDay,
+                $this->initial_hour . ":" . $this->initial_minute,
+                $this->final_hour . ":" . $this->final_minute,
+                0,
+                null,
+                null,
+                $this->sedsp_classnumber,
+                $inDiasDaSemana
+            );
+
+            $dataSource = new ClassroomSEDDataSource();
+            $result = $dataSource->manutencaoTurmaClasse($inManutencaoTurmaClasse);
+        }
+
+        $flash = "success";
+        if ($result->outErro !== null) {
+            $message = "Turma " . ($tagAction == "create" ? "adicionada" : "atualizada") . "  no TAG, mas não foi possível sincronizá-la com o SEDSP. Motivo: " . $result->outErro;
+            $flash = "error";
+        } else {
+            $this->sedsp_sync = 1;
+            $this->gov_id = $sedspAction == "create" ? $result->outSucesso : $this->gov_id;
+            $this->save();
+            $message = "Turma " . ($tagAction == "create" ? "adicionada" : "atualizada") . " com sucesso!";
+        }
+
+        return ["flash" => $flash, "message" => $message];
+    }
+
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!

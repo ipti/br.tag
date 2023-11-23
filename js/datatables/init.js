@@ -126,6 +126,7 @@ function initDatatable() {
     if ($(".js-tag-table").has(".empty").length > 0) {
         return;
     }
+
     if ($(".js-tag-table").length) {
         const isMobile = window.innerWidth <= 768;
         const numColumns = $(".js-tag-table th").length;
@@ -204,7 +205,7 @@ function initDatatable() {
                     select: {
                         items: 'cell'
                     },
-                    // "bLengthChange": false,
+                    // "bLengthChange":     ,
                     columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: indexActionButtons }],
                 });
             }
