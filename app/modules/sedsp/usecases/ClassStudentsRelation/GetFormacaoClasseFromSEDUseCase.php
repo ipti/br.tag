@@ -41,11 +41,14 @@ class GetFormacaoClasseFromSEDUseCase
 
             $status = true;
             $students = $mapper->Students;
+            $sitMatricula = $mapper->SitMatricula;
             foreach ($students as $student) {
                 try {
                     $inAluno = new InAluno($student->gov_id, null, $student->uf);
                     $studentIdentification = $this->getExibirFichaAlunoFromSEDUseCase->exec($inAluno);
-                    $this->createEnrollment($tagClassroom, $studentIdentification);
+                    $codeEnrollment = $sitMatricula[$student->gov_id]['0'];
+                    $this->createEnrollment($tagClassroom, $studentIdentification, $codeEnrollment);
+                
                 } catch (\Throwable $th) {
                     $log = new LogError();
                     $log->salvarDadosEmArquivo($th->getMessage());
@@ -100,7 +103,7 @@ class GetFormacaoClasseFromSEDUseCase
      *
      * @return bool
      */
-    private function createEnrollment($classroom, $studentModel)
+    private function createEnrollment($classroom, $studentModel, $codSitMatricula)
     {
         $studentEnrollment = $this->studentDatabaseSearch($studentModel->id, $classroom->id);
 
@@ -110,7 +113,7 @@ class GetFormacaoClasseFromSEDUseCase
             $studentEnrollment->student_inep_id = $studentModel->inep_id;
             $studentEnrollment->student_fk = $studentModel->id;
             $studentEnrollment->classroom_fk = $classroom->id;
-            $studentEnrollment->status = $this->mapStatusEnrollmentFromSed("2");
+            $studentEnrollment->status = $this->mapStatusEnrollmentFromSed($codSitMatricula);
             $studentEnrollment->school_admission_date = date("d/m/Y");
         }
         $studentEnrollment->sedsp_sync = 1;
