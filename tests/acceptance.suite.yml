@@ -15,3 +15,11 @@ modules:
          capabilities:
             chromeOptions:
                args: ["--disable-gpu", "--headless"]
+      - Db:
+         dsn: 'mysql:host=localhost;dbname=demo.tag.ong.br;charset=utf8mb4;user=root;password=root'
+         user: 'root'
+         password: 'root'
+         dump: 'tests/_data/dump-tag.sql'
+         populate: true
+         cleanup: true
+         populator: false
