@@ -15,9 +15,11 @@ class GetExibirFichaAlunoFromSEDUseCase
         $name = $response->getOutDadosPessoais()->getOutNomeAluno();
         $filiation_1 = $response->getOutDadosPessoais()->getOutNomeMae();
 
-        $studentExists = $this->checkIfStudentExists($name, $filiation_1);
-        
-		if($studentExists){
+        $studentModel = StudentIdentification::model()->find('name = :name and filiation_1 = :filiation_1', [':name' => $name, 'filiation_1' => $filiation_1]);
+
+		if($studentModel != null){
+            $studentModel->sedsp_sync = 1;
+            $studentModel->save();
             return false;
         }
         
@@ -61,30 +63,12 @@ class GetExibirFichaAlunoFromSEDUseCase
         $studentIdentification = new StudentIdentification();
         $studentIdentification->attributes = $attributes->getAttributes();
         $studentIdentification->gov_id = $attributes->gov_id;
+        $studentIdentification->sedsp_sync = 1;
 
         $sucess = $studentIdentification->validate() && $studentIdentification->save();
         
         if($sucess){
             return true;
         }
-    }
-
-    /**
-     * Summary of checkIfStudentIsEnrolled
-     * @param string $cpf
-     * @param string $name
-     * @return array | false
-     */
-    public function checkIfStudentExists($name, $filiation_1)
-    {
-        $studentIdentification = StudentIdentification::model()->find('name = :name and filiation_1 = :filiation_1', [':name' => $name, 'filiation_1' => $filiation_1]);   
-        $parseResult = [];
-        if($studentIdentification){
-            $parseResult["StudentIdentification"] = $studentIdentification;
-            $parseResult["StudentDocumentsAndAddress"] = $studentIdentification->documentsFk;
-            return $parseResult;
-        }
-
-        return false;
     }
 }

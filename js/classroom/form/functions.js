@@ -431,7 +431,14 @@ $(document).on("click", ".sync-enrollments", function (e) {
             if (this.valid) {
                 $("td[enrollmentid=" + this.enrollmentId + "]").closest("tr").find(".sync-column").html('<img src="' + baseURL + '/img/SyncTrue.png" style="width: 21px;" alt="synced">');
             } else {
-                errors += "<b>" + this.studentName + "</b>:<br>" + this.message + "<br><br>";
+                errors += "<b>" + this.studentName + "</b>";
+                if (this.identificationMessage != null) {
+                    errors += "<br>Ficha do Aluno: " + this.identificationMessage;
+                }
+                if (this.enrollmentMessage != null) {
+                    errors += "<br>Matrícula: " + this.enrollmentMessage;
+                }
+                errors += "<br><br>";
             }
         });
         if (errors === "") {
@@ -439,7 +446,7 @@ $(document).on("click", ".sync-enrollments", function (e) {
         } else {
             $(".classroom-alert").addClass("alert-error").removeClass("alert-success").html("As seguintes matrículas não foram sincronizadas:<br><br>" + errors).show();
         }
-        $(button).removeAttr("pointer-events", "auto");
+        $(button).css("pointer-events", "auto");
         $(".loading-sync").hide();
     })
 });

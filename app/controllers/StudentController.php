@@ -650,6 +650,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $result["identification"] = $statusAdd;
             $result["enrollment"] = $enrollmentResult;
         }
+
+        return $result;
     }
 
     private function processEnrollment($modelStudentIdentification, $modelEnrollment)
