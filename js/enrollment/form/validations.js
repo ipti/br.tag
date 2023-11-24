@@ -36,11 +36,11 @@ $(".save-enrollment").click(function () {
     var message = "";
     if ($("#StudentEnrollment_school_admission_date").val() === "") {
         error = true;
-        message += "Preencha o campo Data de Ingresso na Escola";
+        message += "Preencha o campo \"Data de Ingresso na Escola\"";
     }
     if ($("#reason").val() === '0' && $("#statusDropdown").val() === '4') {
         error = true;
-        message += "Preencha o Tipo da baixa:";
+        message += "Preencha o \"Tipo da Baixa\".";
     }
     if ($("#StudentEnrollment_public_transport").is(":checked") && $("#StudentEnrollment_transport_responsable_government").val() === "") {
         error = true;

@@ -129,7 +129,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php
                             if(TagUtils::isInstance("UBATUBA")){ ?>
                                 <div class="t-field-select" id="reasonDropdown" style="display: none;">
-                                    <label for="reason">Tipo da baixa:</label>
+                                    <label for="reason">Tipo da baixa</label>
                                     <select name="reason" id="reason" class="select-search-off t-field-select__input" style="width:100%">
                                         <option value="0">Selecione um tipo</option>
                                         <option value="1">Baixa por Transferência</option>
@@ -395,39 +395,3 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-    $(document).ready(function(){
-        $(document).on('change', '#reasonDropdown select', function() {
-            checkDropdownValue();
-        });
-
-        $('#statusDropdown').change(function(){
-            if($(this).val() == '4'){
-                $('#reasonDropdown').show();
-                checkDropdownValue();
-            } else {
-                $('#reasonDropdown').hide();
-                $('#secondDropdown').hide();
-            }
-        });
-
-        $(document).on('change', '#secondDropdown select', function() {
-            checkSecondDropdownValue();
-        });
-
-        function checkDropdownValue() {
-            var selectedValue = $('#reasonDropdown select').val();
-            var secondDropdown = $('#secondDropdown');
-
-            secondDropdown.hide();
-            if (selectedValue === '1') {
-                secondDropdown.show();
-            }
-        }
-
-        function checkSecondDropdownValue() {
-            var selectedValue = $('#secondDropdown select').val();
-            console.log("Valor selecionado no segundo dropdown: " + selectedValue);
-        }
-    });
-</script>

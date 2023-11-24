@@ -41,4 +41,32 @@ $(document).on("click", "#delete-enrollment", function () {
         }
     });
 });
- 
+
+$('#statusDropdown').change(function () {
+    if ($(this).val() == '4') {
+        $('#reasonDropdown').show();
+        checkDropdownValue();
+    } else {
+        $('#reasonDropdown').hide();
+        $('#secondDropdown').hide();
+    }
+});
+$("#statusDropdown").trigger("change");
+
+$(document).on('change', '#secondDropdown select', function () {
+    checkSecondDropdownValue();
+});
+
+function checkDropdownValue() {
+    var selectedValue = $('#reasonDropdown select').val();
+    var secondDropdown = $('#secondDropdown');
+
+    secondDropdown.hide();
+    if (selectedValue === '1') {
+        secondDropdown.show();
+    }
+}
+
+function checkSecondDropdownValue() {
+    var selectedValue = $('#secondDropdown select').val();
+}
