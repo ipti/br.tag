@@ -321,9 +321,8 @@ class StudentMapper
 
         $studentIdentification->filiation_1 = $outDadosPessoais->getOutNomeMae();
         $studentIdentification->filiation_2 = $outDadosPessoais->getOutNomePai();
-        $studentIdentification->birthday = $outDadosPessoais->getOutDataNascimento();
-        $studentIdentification->color_race = empty(
-            $outDadosPessoais->getOutCorRaca()) ? 0 : $outDadosPessoais->getOutCorRaca();
+        $studentIdentification->birthday = $outDadosPessoais->getOutDataNascimento(); 
+        $studentIdentification->color_race = $outDadosPessoais->getOutCorRaca() === '6' ? '0' : $outDadosPessoais->getOutCorRaca();
         $studentIdentification->sex = $outDadosPessoais->getOutCodSexo();
         $studentIdentification->bf_participator = $outDadosPessoais->getOutCodBolsaFamilia();
         $studentIdentification->nationality = intval($outDadosPessoais->getOutNacionalidade());

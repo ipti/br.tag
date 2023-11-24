@@ -72,7 +72,8 @@ class ClassroomMapper
                 }
 
                 $studentIdentification->sex = $outExibirFichaAluno->getOutCodSexo();
-                $studentIdentification->color_race = $outExibirFichaAluno->getOutCorRaca();
+
+                $studentIdentification->color_race = $outExibirFichaAluno->getOutCorRaca() === '6' ? '0' : $outExibirFichaAluno->getOutCorRaca();
                 $studentIdentification->filiation = 1;
                 $studentIdentification->filiation_1 = $outExibirFichaAluno->getOutNomeMae();
                 $studentIdentification->filiation_2 = $outExibirFichaAluno->getOutNomePai();
