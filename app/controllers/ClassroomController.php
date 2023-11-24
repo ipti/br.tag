@@ -1146,7 +1146,7 @@ class ClassroomController extends Controller
             $inscricao = new InInscricao($inAnoLetivo, $inCodEscola, null, "4");
 
             $classroomMapper = new ClassroomMapper;
-            $ensino = (object) $classroomMapper->convertStageToTipoEnsino($classroom->edcenso_stage_vs_modality);
+            $ensino = (object) $classroomMapper->convertStageToTipoEnsino($classroom->edcenso_stage_vs_modality_fk);
             $inNivelEnsino = new InNivelEnsino($ensino->tipoEnsino, $ensino->serieAno);
 
             $this->createEnrollStudent($inAluno, $inscricao, $inNivelEnsino);
