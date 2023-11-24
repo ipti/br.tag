@@ -583,7 +583,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             return false;
         }
 
-        if($type == self::CREATE) {
+        if($type == self::CREATE || ($type == self::UPDATE && $outListStudent->outListaAlunos === null)) {
             if ($outListStudent->outErro !== null || !is_null($outListStudent)) {
                 $inConsult = $this->createInConsult($student);
                 $statusAdd = $dataSource->addStudentToSed($inConsult);
@@ -607,11 +607,6 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 $result["enrollment"] = $enrollmentResult;
             }
         }elseif($type == self::UPDATE) {
-
-            if ($outListStudent->outListaAlunos === null) {
-                $inFichaAluno = $this->createInConsult($student);
-                $outAluno = $dataSource->addStudentToSed($inFichaAluno);
-            }
 
             if($studentIdentification->gov_id === null){
                 $govId = $outListStudent->outListaAlunos[0]->getOutNumRa();
