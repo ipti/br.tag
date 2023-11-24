@@ -43,29 +43,9 @@ class GetFormacaoClasseFromSEDUseCase
             $students = $mapper->Students;
             foreach ($students as $student) {
                 try {
-                    $studentModel = self::findStudentIdentificationByGovId($student->gov_id);
-                    if (!isset($studentModel)) {
-                        $inAluno = new InAluno($student->gov_id, null, $student->uf);
-                        $statusSaveStudent = $this->getExibirFichaAlunoFromSEDUseCase->exec($inAluno);
-
-                        if ($statusSaveStudent === true) {
-                            $studentModels = self::findStudentIdentificationByGovId($student->gov_id);
-                            $this->createEnrollment($tagClassroom, $studentModels);
-                        }
-                    } else {
-                        $studentModel->sedsp_sync = 1;
-                        $studentModel->save();
-
-                        $statusEnrollment = StudentEnrollment::model()->find('classroom_fk = :classroomFk and student_fk = :studentFk', [':classroomFk' => $tagClassroom->id, ':studentFk' => $studentModel->id]);
-
-
-                        if (!isset($statusEnrollment)) {
-                            $this->createEnrollment($tagClassroom, $studentModel);
-                        } else {
-                            $statusEnrollment->sedsp_sync = 1;
-                            $statusEnrollment->save();
-                        }
-                    }
+                    $inAluno = new InAluno($student->gov_id, null, $student->uf);
+                    $studentIdentification = $this->getExibirFichaAlunoFromSEDUseCase->exec($inAluno);
+                    $this->createEnrollment($tagClassroom, $studentIdentification);
                 } catch (\Throwable $th) {
                     $log = new LogError();
                     $log->salvarDadosEmArquivo($th->getMessage());
@@ -122,22 +102,19 @@ class GetFormacaoClasseFromSEDUseCase
      */
     private function createEnrollment($classroom, $studentModel)
     {
-        $findedEnrollment = $this->studentDatabaseSearch($classroom->school_inep_fk, $studentModel->id, $classroom->id);
+        $studentEnrollment = $this->studentDatabaseSearch($studentModel->id, $classroom->id);
 
-        if ($findedEnrollment !== null) {
-            $findedEnrollment->sedsp_sync = 1;
-            $findedEnrollment->save();
-            return false; // Já existe um aluno matriculado
+        if ($studentEnrollment == null) {
+            $studentEnrollment = new StudentEnrollment();
+            $studentEnrollment->school_inep_id_fk = $classroom->school_inep_fk;
+            $studentEnrollment->student_inep_id = $studentModel->inep_id;
+            $studentEnrollment->student_fk = $studentModel->id;
+            $studentEnrollment->classroom_fk = $classroom->id;
+            $studentEnrollment->status = $this->mapStatusEnrollmentFromSed("2");
+            $studentEnrollment->school_admission_date = date("d/m/Y");
         }
-
-        $studentEnrollment = new StudentEnrollment();
-        $studentEnrollment->school_inep_id_fk = $classroom->school_inep_fk;
-        $studentEnrollment->student_inep_id = $studentModel->inep_id;
-        $studentEnrollment->student_fk = $studentModel->id;
-        $studentEnrollment->classroom_fk = $classroom->id;
-        $studentEnrollment->status = $this->mapStatusEnrollmentFromSed("2");
-        $studentEnrollment->school_admission_date = date("d/m/Y");
         $studentEnrollment->sedsp_sync = 1;
+        $studentEnrollment->save();
 
         if ($studentEnrollment->validate() && $studentEnrollment->save()) {
             Yii::log('Aluno matriculado com sucesso.', CLogger::LEVEL_INFO);
@@ -200,12 +177,11 @@ class GetFormacaoClasseFromSEDUseCase
      * @param string $classroomGovId
      * @return StudentEnrollment
      */
-    private function studentDatabaseSearch($schoolInepFk, $studentFk, $classroomGovId)
+    private function studentDatabaseSearch($studentFk, $classroomGovId)
     {
         return StudentEnrollment::model()->find(
-            'school_inep_id_fk = :school_inep_id_fk AND student_fk = :student_fk AND classroom_fk = :classroom_fk',
+            'student_fk = :student_fk AND classroom_fk = :classroom_fk',
             [
-                ':school_inep_id_fk' => $schoolInepFk,
                 ':student_fk' => $studentFk,
                 ':classroom_fk' => $classroomGovId
             ]
