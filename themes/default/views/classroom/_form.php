@@ -30,7 +30,6 @@ $form = $this->beginWidget(
             <?php echo $title; ?>
         </h1>
         <div class="tag-buttons-container buttons">
-
             <?php
             if ($modelClassroom->gov_id !== null && TagUtils::isInstance("UBATUBA")) :
                 $sedspSync = Classroom::model()->findByPk($modelClassroom->id)->sedsp_sync;
@@ -52,11 +51,15 @@ $form = $this->beginWidget(
                     </a>
                 <?php endif; ?>
             <?php endif; ?>
-
-            <button class="t-button-primary  last pull-right save-classroom" type="button">
-                <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
-            </button>
         </div>
+    </div>
+    <div class="column clearfix align-items--center justify-content--end show--desktop">
+        <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+        <?= $modelClassroom->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
+
+        <button class="t-button-primary  last pull-right save-classroom" type="button">
+            <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+        </button>
     </div>
 </div>
 
@@ -66,7 +69,26 @@ $form = $this->beginWidget(
             <?php echo Yii::app()->user->getFlash('success') ?>
         </div>
     <?php endif ?>
-
+    <div class="row reverse show--tablet">
+        <div class="t-buttons-container">
+            <div class="column clearfix">
+                <a data-toggle="tab" class='t-button-secondary prev' style="display:none;">
+                    <?php echo Yii::t('default', 'Previous') ?>
+                    <i></i>
+                </a>
+            </div>
+            <div class="column clearfix">
+                <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;">
+                    <?php echo Yii::t('default', 'Previous') ?>
+                    <i></i>
+                </a>
+                <?= $modelClassroom->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
+                <a class="t-button-primary last save-school-button" type="button">
+                    <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+                </a>
+            </div>
+        </div>
+    </div>
     <div class="widget widget-tabs border-bottom-none">
         <?php echo $form->errorSummary($modelClassroom); ?>
         <?php if (TagUtils::isInstance("UBATUBA") && $disabledFields) : ?>
@@ -76,7 +98,7 @@ $form = $this->beginWidget(
         <?php endif; ?>
         <div class="alert alert-error classroom-error no-show"></div>
         <div class="t-tabs js-tab-control">
-            <ul class="tab-classroom t-tabs__list">
+            <ul class="js-tab-classroom t-tabs__list">
                 <li id="tab-classroom" class="t-tabs__item active">
                     <a class="t-tabs__link first" href="#classroom" data-toggle="tab">
                         <span class="t-tabs__numeration">1</span>
@@ -518,12 +540,8 @@ $form = $this->beginWidget(
                                     'size' => 5, 'maxlength' => 5
                                 )
                             ); ?>
-                            <span style="margin: 0;"
-                                class="btn-action single glyphicons circle_question_mark"
-                                data-toggle="tooltip"
-                                data-placement="top"
-                                data-original-title="<?php echo Yii::t('help', 'School year');
-                            ?>">
+                            <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'School year');
+                                                                                                                                                                                ?>">
                                 <i></i>
                             </span>
                             <?php echo $form->error(
@@ -1290,6 +1308,7 @@ $form = $this->beginWidget(
             </form>
         </div>
     </div>
+
 </div>
 
 <?php

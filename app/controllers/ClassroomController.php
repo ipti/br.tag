@@ -542,7 +542,10 @@ class ClassroomController extends Controller
                         $modelTeachingData[$key]->regent = $td->RegentTeacher;
                         $modelTeachingData[$key]->disciplines = $td->Disciplines;
                         $teachingDataValidated = $teachingDataValidated && $modelTeachingData[$key]->validate();
+
+
                     }
+                    
 
                     if ($teachingDataValidated) {
                         foreach ($modelTeachingData as $key => $td) {

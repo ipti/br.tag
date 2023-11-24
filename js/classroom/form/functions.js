@@ -27,11 +27,15 @@ let removeTeachingData = function () {
 let removeInstructor = function (instructor) {
     for (let i = 0; i < teachingData.length; i++) {
         if (teachingData[i].Instructor == instructor) {
+            console.log(teachingData);
             for (let j = 0; j < teachingData[i].Disciplines.length; j++) {
                 removeDiscipline(instructor, teachingData[i].Disciplines[j])
             }
-            teachingData.splice(i, 1);
+            teachingData.splice(i, 0);
+
         }
+        // console.log(teachingData.splice(i, 1));
+        console.log(teachingData);
     }
     $("li[instructor = " + instructor + "]").remove();
 }

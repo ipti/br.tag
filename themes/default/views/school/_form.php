@@ -24,7 +24,7 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
     <div class="column clearfix align-items--center justify-content--end show--desktop">
         <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
-        <?= $modelSchoolIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
+        <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
         <button class="t-button-primary  last save-school-button" type="button">
             <?= $modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
         </button>
@@ -4327,7 +4327,6 @@ $form = $this->beginWidget('CActiveForm', array(
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <?php
