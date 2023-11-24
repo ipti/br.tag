@@ -67,8 +67,8 @@ class FoodMenuController extends Controller
 	{
 		$model = new FoodMenu;
 
-		$foodMenu = Yii::app()->request->getPost('FoodMenu');
-		$publicTarget = Yii::app()->request->getPost("public_target");
+		// $foodMenu = Yii::app()->request->getPost('FoodMenu');
+		// $publicTarget = Yii::app()->request->getPost("public_target");
 
 		if(isset($foodMenu) && isset($publicTarget))
 		{
@@ -110,6 +110,48 @@ class FoodMenuController extends Controller
 		));
 	}
 
+    public function actionCreate()
+    {
+        $request = FoodMenu::app()->request->getPost('foodMenu');
+        $foodMenu = new FoodMenu;
+
+        if(isset($foodMenu)){
+            // "SELECT id FROM food_menu ORDER BY id DESC LIMIT 1"
+            $lastFoodMenu = FoodMenu::app()->db->createCommand()
+            ->select('id')->from('food_menu')
+            ->order('id DESC')->limit(1);
+            $foodMenuNewId = $lastFoodMenu->id + 1;
+
+            $publicTarget = FoodPublicTarget::model()->findByPk($request['food_public_target']);
+            $foodMenu->description = $request['description'];
+            $foodMenu->start_date = strtotime(str_replace('/', '-', $request["start_date"]));
+            $foodMenu->final_date = strtotime(str_replace('/', '-', $request["final_date"]));
+            $foodMenu->save();
+
+            $weekDays = ["sunday", "monday", "tuesday", "wednessday", "thursday", "friday", "saturday"];
+
+            foreach($weekDays as $day){
+                if($request[$day] !== null){
+                    // $meals se trata da lista de refeições que um dia da semana possui
+                    $meals = $request[$day]["meals"];
+                    foreach($meals as $meal)
+                    {
+                        $foodMenuMeal = new FoodMenuMeal;
+                        $foodMenuMealNewId = FoodMenuMeal::app()->db->createCommand()->;
+                        $foodMealType = FoodMealType::model()->findByAttributes(array('description' => $meal['turn']));
+
+                        $foodMenuMeal->food_menuId = $foodMenuNewId;
+                        $foodMenuMeal->time = $meal["time"];
+                        $foodMenuMeal->food_meal_type_fk = $foodMealType->id;
+
+                    }
+                }
+            }
+
+
+
+        }
+    }
 
 	public function actionPlateAccordion ()
 	{
@@ -241,7 +283,9 @@ class FoodMenuController extends Controller
 			Yii::app()->end();
 		}
 	}
-
+    /**
+     * Método que retorna os públicos alvos que podem estar relacionados a um cardápio
+     */
     public function actionGetPublicTarget(){
         $publicsTarget = FoodPublicTarget::model()->findAll();
         $publicsTarget = CHtml::listData($publicsTarget, 'id', 'name');
@@ -254,6 +298,9 @@ class FoodMenuController extends Controller
         }
         echo json_encode($options);
     }
+    /**
+     * Método que retorna os tipos de refeição
+     */
     public function actionGetMealType(){
         $mealsType = FoodMealType::model()->findAll();
         $mealsType = CHtml::listData($mealsType, 'id', 'description');
@@ -268,10 +315,10 @@ class FoodMenuController extends Controller
     }
 
 
-    public function getFoodMenu(){
-        $foodMenus = FoodMenu::model()->findAll();
-        $foodMenus =
-    }
+    // public function getFoodMenu(){
+    //     $foodMenus = FoodMenu::model()->findAll();
+    //     $foodMenus =
+    // }
 
     public function getSnacks(){
 
