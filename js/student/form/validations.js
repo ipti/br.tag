@@ -783,7 +783,7 @@ $(".save-student").click(function () {
         message += "Campo <b>Localização / Zona de residência</b> é obrigatório.<br>";
     }
     
-    if (instance === "UBATUBA") {
+    if (instance === "UBATUBA" || instance === "LOCALHOST") {
         if ($("#StudentDocumentsAndAddress_edcenso_uf_fk").val() === "") {
             error = true;
             message += "Campo <b>Estado</b> é obrigatório.<br>";
