@@ -1,7 +1,6 @@
 <?php
 
 
-
 /**
  * Summary of GetFormacaoClasseFromSEDUseCase
  * @property ClassStudentsRelationSEDDataSource $classStudentsRelationSEDDataSource
@@ -13,13 +12,14 @@ class GetFormacaoClasseFromSEDUseCase
     /**
      * Summary of exec
      * @param InFormacaoClasse $inNumClasse
-     * @throws InvalidArgumentException 
+     * @throws InvalidArgumentException
      */
 
     public function __construct(
         ClassStudentsRelationSEDDataSource $classStudentsRelationSEDDataSource = null,
         GetExibirFichaAlunoFromSEDUseCase $getExibirFichaAlunoFromSEDUseCase = null
-    ) {
+    )
+    {
         $this->classStudentsRelationSEDDataSource = isset($classStudentsRelationSEDDataSource) ? $classStudentsRelationSEDDataSource : new ClassStudentsRelationSEDDataSource();
         $this->getExibirFichaAlunoFromSEDUseCase = isset($getExibirFichaAlunoFromSEDUseCase) ? $getExibirFichaAlunoFromSEDUseCase : new GetExibirFichaAlunoFromSEDUseCase();
     }
@@ -34,7 +34,7 @@ class GetFormacaoClasseFromSEDUseCase
         try {
             $response = $this->classStudentsRelationSEDDataSource->getClassroom($inFormacaoClasse);
 
-            $mapper = (object) ClassroomMapper::parseToTAGFormacaoClasse($response);
+            $mapper = (object)ClassroomMapper::parseToTAGFormacaoClasse($response);
 
             $numClass = $inFormacaoClasse->getInNumClasse();
             $tagClassroom = Classroom::model()->find('inep_id = :govId or gov_id = :govId', [':govId' => $numClass]);
@@ -44,27 +44,29 @@ class GetFormacaoClasseFromSEDUseCase
             foreach ($students as $student) {
                 try {
                     $studentModel = self::findStudentIdentificationByGovId($student->gov_id);
-                    
                     if (!isset($studentModel)) {
                         $inAluno = new InAluno($student->gov_id, null, $student->uf);
                         $statusSaveStudent = $this->getExibirFichaAlunoFromSEDUseCase->exec($inAluno);
-                        
-                        if($statusSaveStudent === true) {
+
+                        if ($statusSaveStudent === true) {
                             $studentModels = self::findStudentIdentificationByGovId($student->gov_id);
                             $this->createEnrollment($tagClassroom, $studentModels);
                         }
                     } else {
-                        $statusEnrollment = StudentEnrollment::model()->find(
-                            'classroom_fk = :classroomFk and student_fk = :studentFk',
-                            [':classroomFk' => $numClass, ':studentFk' => $studentModel->id]
-                        );
-                        
-                        if(!isset($statusEnrollment)) {
+                        $studentModel->sedsp_sync = 1;
+                        $studentModel->save();
+
+                        $statusEnrollment = StudentEnrollment::model()->find('classroom_fk = :classroomFk and student_fk = :studentFk', [':classroomFk' => $tagClassroom->id, ':studentFk' => $studentModel->id]);
+
+
+                        if (!isset($statusEnrollment)) {
                             $this->createEnrollment($tagClassroom, $studentModel);
+                        } else {
+                            $statusEnrollment->sedsp_sync = 1;
+                            $statusEnrollment->save();
                         }
                     }
-                }
-                catch (\Throwable $th) {
+                } catch (\Throwable $th) {
                     $log = new LogError();
                     $log->salvarDadosEmArquivo($th->getMessage());
                     $status = false;
@@ -77,7 +79,7 @@ class GetFormacaoClasseFromSEDUseCase
 
             $dados = [[$tagClassroom->gov_id, $count, $response->outQtdAtual],];
             $this->createCSVFile($tagClassroom->gov_id, $dados);
-            
+
             return $status;
         } catch (Exception $e) {
             $log = new LogError();
@@ -86,27 +88,28 @@ class GetFormacaoClasseFromSEDUseCase
         }
     }
 
-    public function createCSVFile($name, $dados) {
-        
+    public function createCSVFile($name, $dados)
+    {
+
         $path = 'app/modules/sedsp/numberOfStudentsCSV/';
-        if(!file_exists($path)) {
+        if (!file_exists($path)) {
             mkdir($path, 0777, true);
         }
 
-        $name = $path . $name .".csv";
+        $name = $path . $name . ".csv";
         $arquivo = fopen($name, 'w');
-    
+
         // Verifica se o arquivo foi aberto com sucesso
         if ($arquivo === false) {
             return false; // Falha ao abrir o arquivo
         }
-    
+
         foreach ($dados as $linha) {
             fputcsv($arquivo, $linha, ';');
         }
-    
+
         fclose($arquivo);
-    
+
         return true;
     }
 
@@ -122,6 +125,8 @@ class GetFormacaoClasseFromSEDUseCase
         $findedEnrollment = $this->studentDatabaseSearch($classroom->school_inep_fk, $studentModel->id, $classroom->id);
 
         if ($findedEnrollment !== null) {
+            $findedEnrollment->sedsp_sync = 1;
+            $findedEnrollment->save();
             return false; // Já existe um aluno matriculado
         }
 
@@ -132,7 +137,8 @@ class GetFormacaoClasseFromSEDUseCase
         $studentEnrollment->classroom_fk = $classroom->id;
         $studentEnrollment->status = $this->mapStatusEnrollmentFromSed("2");
         $studentEnrollment->school_admission_date = date("d/m/Y");
-        
+        $studentEnrollment->sedsp_sync = 1;
+
         if ($studentEnrollment->validate() && $studentEnrollment->save()) {
             Yii::log('Aluno matriculado com sucesso.', CLogger::LEVEL_INFO);
             return true;
@@ -142,24 +148,25 @@ class GetFormacaoClasseFromSEDUseCase
         }
     }
 
-    private function mapStatusEnrollmentFromSed($codSituation){
+    private function mapStatusEnrollmentFromSed($codSituation)
+    {
         $mapSEDToTAGSituations = [
-            "0"  => 1, // ATIVO/ENCERRADO                     => MATRICULADO
-            "2"  => 4, // ABANDONOU                           => DEIXOU DE FREQUENTAR
-            "1"  => 2, // TRANSFERIDO                         => TRANSFERIDO
+            "0" => 1, // ATIVO/ENCERRADO                     => MATRICULADO
+            "2" => 4, // ABANDONOU                           => DEIXOU DE FREQUENTAR
+            "1" => 2, // TRANSFERIDO                         => TRANSFERIDO
             "31" => 2, // BAIXA – TRANSFERÊNCIA               => TRANSFERIDO
             "19" => 2, // TRANSFERIDO - CEEJA / EAD           => TRANSFERIDO
             "16" => 2, // TRANSFERIDO (CONVERSÃO DO ABANDONO) => TRANSFERIDO
             "10" => 5, // REMANEJADO                          => Remanejado
             "17" => 5, // REMANEJADO (CONVERSÃO DO ABANDONO)  => Remanejado
-            "4"  => 11, // FALECIDO                           => FALECIDO
-            "5"  => 4, // NÃO COMPARECIMENTO                  => Deixou de Frequentar
+            "4" => 11, // FALECIDO                           => FALECIDO
+            "5" => 4, // NÃO COMPARECIMENTO                  => Deixou de Frequentar
             "18" => 4, // NÃO COMPARECIMENTO / FORA DO PRAZO  => Deixou de Frequentar
             "20" => 4, // NÃO COMPARECIMENTO - CEEJA / EAD    => Deixou de Frequentar
-            "3"  => 5, // RECLASSIFICADO                      => Remanejado
+            "3" => 5, // RECLASSIFICADO                      => Remanejado
         ];
 
-        if(array_key_exists($codSituation, $mapSEDToTAGSituations)){
+        if (array_key_exists($codSituation, $mapSEDToTAGSituations)) {
             return $mapSEDToTAGSituations[$codSituation];
         }
 

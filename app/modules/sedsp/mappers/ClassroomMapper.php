@@ -94,7 +94,6 @@ class ClassroomMapper
                 $studentIdentification->deficiency = 0;
                 $studentIdentification->send_year = $outFormacaoClasse->getOutAnoLetivo();
                 $studentIdentification->scholarity = $student->getOutSerieNivel();
-                $studentIdentification->sedsp_sync = 1;
 
                 $listStudents[] = $studentIdentification;
             #}
