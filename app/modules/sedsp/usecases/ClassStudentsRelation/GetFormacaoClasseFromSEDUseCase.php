@@ -116,6 +116,7 @@ class GetFormacaoClasseFromSEDUseCase
             $studentEnrollment->status = $this->mapStatusEnrollmentFromSed($codSitMatricula);
             $studentEnrollment->school_admission_date = date("d/m/Y");
         }
+        $studentEnrollment->status = $this->mapStatusEnrollmentFromSed($codSitMatricula);
         $studentEnrollment->sedsp_sync = 1;
         $studentEnrollment->save();
 
