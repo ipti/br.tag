@@ -87,14 +87,13 @@ const PlateComponent = function () {
     render(idMealAccordion)
     initializeSelect2()
   }
-  function initializePlateAccordion() {
-    const container = $(`.js-plate-accordion-header[data-id-accordion='${idPlateAccordion-1}']`).parent()
-
+  function initializePlateAccordion(accordionActive) {
+    const container = $(`.js-plate-accordion-header[data-id-accordion='${idPlateAccordion}']`).parent()
     if(container.data('ui-accordion')) {
       container.accordion("destroy");
     }
     container.accordion({
-      active: idPlateAccordion,
+      active: accordionActive,
       collapsible: true,
       icons: false,
     });
@@ -117,32 +116,32 @@ const PlateComponent = function () {
             <select class="t-field-select__input js-inicializate-select2 js-taco-foods">
                 <option value="">Busque pelo Alimento (TACO)</option>
             </select>
-            </div>
+          </div>
         </div>
         <table class="tag-table-secondary centralize js-meal-component-table">
-            <tr>
-              <th>Nome</th>
-              <th>unidade</th>
-              <th>Medida</th>
-              <th>Quantidade</th>
-              <th>PT</th>
-              <th>LIP</th>
-              <th>CHO</th>
-              <th>KCAL</th>
-              <th></th>
-            </tr>
-          </table>
-          <div class="row">
-              <a class="t-button-icon-danger js-remove-plate">Remover Prato</a>
-          </div>
+          <tr>
+            <th>Nome</th>
+            <th>unidade</th>
+            <th>Medida</th>
+            <th>Quantidade</th>
+            <th>PT</th>
+            <th>LIP</th>
+            <th>CHO</th>
+            <th>KCAL</th>
+            <th></th>
+          </tr>
+        </table>
+        <div class="row">
+            <a class="t-button-icon-danger js-remove-plate">Remover Prato</a>
+        </div>
       </div>
     `
     container.attr("data-id-accordion", idMealAccordion);
     container.append(template)
     removePlate(idPlateAccordion)
     addListTacoFood(idPlateAccordion)
-    addRowToTable(idPlateAccordion, idMealAccordion)
-    initializePlateAccordion()
+    addRowToTable(idPlateAccordion)
+    initializePlateAccordion(idPlateAccordion)
     idPlateAccordion++;
   }
   function removePlate(idPlateAccordion) {
@@ -204,14 +203,31 @@ const PlateComponent = function () {
     }).success(function (response) {
         response = JSON.parse(DOMPurify.sanitize(response))
         let line = createMealComponent(response);
-        removeFood(line, idPlateAccordion)
+        const accordionActive = table.closest(".js-plate-accordion-content").attr('data-id-accordion')
+        removeFood(line, accordionActive)
         table.append(line)
-
-        initializePlateAccordion()
+        calculateNutritionalValue(table) 
+        initializePlateAccordion(accordionActive)
     })
   }
+  function calculateNutritionalValue(table) {
+    let total_pt = total_lip = total_cho = total_kcal = 0;
+   /*  table.find('.js-pt').each((_,pt)=>{
+      total_pt += Number(pt.innerHTML)
+    }) */
+   /*  table.find('.js-lip').each((_,pt)=>{
+      total_lip += Number(pt.innerHTML)
+    }) */
+    table.find('.js-cho').each((_,pt)=>{
+      total_cho += Number(pt.innerHTML) ? Number(pt.innerHTML) : 0
+    })
+   /*  table.find('.js-kcal').each((_,pt)=>{
+      total_kcal += Number(pt.innerHTML)
+    }) */
+    console.log(total_cho)
+  }
   function createMealComponent({id, name, pt, lip, cho, kcal}) {
-    const line =  $(`<tr data-idTaco='${id}'></tr>`)
+    const line =  $(`<tr class='tr-aaaa' data-idTaco='${id}'></tr>`)
         .append(`<td class='js-food-name'>${name}</td>`)
         .append(`<td class='js-unit'><input class='t-field-text__input' type='text' style='width:50px !important'></td>`)
         .append(`<td class='js-measure'>
@@ -222,18 +238,19 @@ const PlateComponent = function () {
                 </select>
             </td>`)
         .append(`<td>3</td>`)
-        .append(`<td>${pt}</td>`)
-        .append(`<td>${lip}</td>`)
-        .append(`<td>${cho}</td>`)
-        .append(`<td>${kcal}</td>`)
-        .append(`<td class='js-remove-taco-food'><span class='t-icon-close t-button-icon'><span></td>`)
+        .append(`<td class='js-pt'>${pt}</td>`)
+        .append(`<td class='js-lip'>${lip}</td>`)
+        .append(`<td class='js-cho'>${cho}</td>`)
+        .append(`<td class='js-kcal'>${kcal}</td>`)
+        .append(`<td class='js-remove-taco-food' data-id-accordion='${idPlateAccordion}'><span class='t-icon-close t-button-icon'><span></td>`)
 
         return line;
   }
-  function removeFood(line, idPlateAccordion) {
+  function removeFood(line, accordionActive) {
     line.find('.js-remove-taco-food').on(
       "click", function (event) {
         $(this).parent().remove()
+        initializePlateAccordion(accordionActive)
       }
     )
   }
