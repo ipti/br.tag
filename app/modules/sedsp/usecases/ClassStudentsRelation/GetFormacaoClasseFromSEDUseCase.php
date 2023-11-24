@@ -41,13 +41,11 @@ class GetFormacaoClasseFromSEDUseCase
 
             $status = true;
             $students = $mapper->Students;
-            $sitMatricula = $mapper->SitMatricula;
             foreach ($students as $student) {
                 try {
                     $inAluno = new InAluno($student->gov_id, null, $student->uf);
                     $studentIdentification = $this->getExibirFichaAlunoFromSEDUseCase->exec($inAluno);
-                    $codeEnrollment = $sitMatricula[$student->gov_id]['0'];
-                    $this->createEnrollment($tagClassroom, $studentIdentification, $codeEnrollment);
+                    $this->createEnrollment($tagClassroom, $studentIdentification);
                 
                 } catch (\Throwable $th) {
                     $log = new LogError();
@@ -103,55 +101,34 @@ class GetFormacaoClasseFromSEDUseCase
      *
      * @return bool
      */
-    private function createEnrollment($classroom, $studentModel, $codSitMatricula)
+    private function createEnrollment($classroom, $studentModel)
     {
-        $studentEnrollment = $this->studentDatabaseSearch($studentModel->id, $classroom->id);
+        $enrollments = StudentMapper::getListMatriculasRa($studentModel->gov_id);
+        foreach($enrollments as $enrollment) {
+            if ($enrollment->getOutNumClasse() == $classroom->gov_id) {
+                $studentEnrollment = StudentEnrollment::model()->find('student_fk = :student_fk AND classroom_fk = :classroom_fk', [':student_fk' => $studentModel->id, ':classroom_fk' => $classroom->id]);
+                if ($studentEnrollment == null) {
+                    $studentEnrollment = new StudentEnrollment();
+                    $studentEnrollment->school_inep_id_fk = $classroom->school_inep_fk;
+                    $studentEnrollment->student_inep_id = $studentModel->inep_id;
+                    $studentEnrollment->student_fk = $studentModel->id;
+                    $studentEnrollment->classroom_fk = $classroom->id;
+                    $studentEnrollment->create_date = date("d/m/Y");
+                }
+                $studentEnrollment->status = StudentMapper::mapSituationEnrollmentToTag($enrollment->getOutCodSitMatricula());
+                $studentEnrollment->sedsp_sync = 1;
+                $studentEnrollment->save();
 
-        if ($studentEnrollment == null) {
-            $studentEnrollment = new StudentEnrollment();
-            $studentEnrollment->school_inep_id_fk = $classroom->school_inep_fk;
-            $studentEnrollment->student_inep_id = $studentModel->inep_id;
-            $studentEnrollment->student_fk = $studentModel->id;
-            $studentEnrollment->classroom_fk = $classroom->id;
-            $studentEnrollment->status = $this->mapStatusEnrollmentFromSed($codSitMatricula);
-            $studentEnrollment->school_admission_date = date("d/m/Y");
+                if ($studentEnrollment->validate() && $studentEnrollment->save()) {
+                    Yii::log('Aluno matriculado com sucesso.', CLogger::LEVEL_INFO);
+                    return true;
+                } else {
+                    Yii::log($studentEnrollment->getErrors(), CLogger::LEVEL_ERROR);
+                    return false;
+                }
+                break;
+            }
         }
-        $studentEnrollment->status = $this->mapStatusEnrollmentFromSed($codSitMatricula);
-        $studentEnrollment->sedsp_sync = 1;
-        $studentEnrollment->save();
-
-        if ($studentEnrollment->validate() && $studentEnrollment->save()) {
-            Yii::log('Aluno matriculado com sucesso.', CLogger::LEVEL_INFO);
-            return true;
-        } else {
-            Yii::log($studentEnrollment->getErrors(), CLogger::LEVEL_ERROR);
-            return false;
-        }
-    }
-
-    private function mapStatusEnrollmentFromSed($codSituation)
-    {
-        $mapSEDToTAGSituations = [
-            "0" => 1, // ATIVO/ENCERRADO                     => MATRICULADO
-            "2" => 4, // ABANDONOU                           => DEIXOU DE FREQUENTAR
-            "1" => 2, // TRANSFERIDO                         => TRANSFERIDO
-            "31" => 2, // BAIXA – TRANSFERÊNCIA               => TRANSFERIDO
-            "19" => 2, // TRANSFERIDO - CEEJA / EAD           => TRANSFERIDO
-            "16" => 2, // TRANSFERIDO (CONVERSÃO DO ABANDONO) => TRANSFERIDO
-            "10" => 5, // REMANEJADO                          => Remanejado
-            "17" => 5, // REMANEJADO (CONVERSÃO DO ABANDONO)  => Remanejado
-            "4" => 11, // FALECIDO                           => FALECIDO
-            "5" => 4, // NÃO COMPARECIMENTO                  => Deixou de Frequentar
-            "18" => 4, // NÃO COMPARECIMENTO / FORA DO PRAZO  => Deixou de Frequentar
-            "20" => 4, // NÃO COMPARECIMENTO - CEEJA / EAD    => Deixou de Frequentar
-            "3" => 5, // RECLASSIFICADO                      => Remanejado
-        ];
-
-        if (array_key_exists($codSituation, $mapSEDToTAGSituations)) {
-            return $mapSEDToTAGSituations[$codSituation];
-        }
-
-        return 10;
     }
 
     /**
@@ -172,24 +149,6 @@ class GetFormacaoClasseFromSEDUseCase
     public function findStudentIdentificationByName($studentName)
     {
         return StudentIdentification::model()->find('name = :name', [':name' => $studentName])->id;
-    }
-
-    /**
-     * Summary of studentDatabaseSearch
-     * @param string $schoolInepFk
-     * @param string $studentGovId
-     * @param string $classroomGovId
-     * @return StudentEnrollment
-     */
-    private function studentDatabaseSearch($studentFk, $classroomGovId)
-    {
-        return StudentEnrollment::model()->find(
-            'student_fk = :student_fk AND classroom_fk = :classroom_fk',
-            [
-                ':student_fk' => $studentFk,
-                ':classroom_fk' => $classroomGovId
-            ]
-        );
     }
 
     /**

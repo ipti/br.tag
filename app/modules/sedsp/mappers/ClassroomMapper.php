@@ -63,10 +63,6 @@ class ClassroomMapper
                 $studentIdentification->name = $student->getOutNomeAluno();
                 $studentIdentification->birthday = $student->getOutDataNascimento();
 
-                $sitMatricula[$student->getOutNumRa()] = [
-                    $student->getOutCodSitMatricula()
-                ];
-
                 $outExibirFichaAluno = $studentDatasource->exibirFichaAluno(
                     new InAluno($student->getOutNumRa(), $student->getOutDigitoRA(), "SP")
                 )->getOutDadosPessoais();
@@ -107,7 +103,6 @@ class ClassroomMapper
         $parseResult = [];
         $parseResult["Classroom"] = $classroomTag;
         $parseResult["Students"] = $listStudents;
-        $parseResult["SitMatricula"] = $sitMatricula;
 
         return $parseResult;
     }
