@@ -1009,7 +1009,7 @@ class ClassroomController extends Controller
         foreach ($classroom->studentEnrollments as $studentEnrollment) {
             $studentIdentification = $studentEnrollment->studentFk;
             if (!$studentIdentification->sedsp_sync || !$studentEnrollment->sedsp_sync) {
-                $response = $this->syncStudentWithSED($studentIdentification->id, $studentEnrollment, $studentIdentification, self::UPDATE);
+                $response = $this->syncStudentWithSED($studentIdentification->id, $studentEnrollment, self::UPDATE);
                 if ($response["identification"]->outErro !== null || $response["enrollment"]->outErro !== null) {
                     array_push($result, [
                         "enrollmentId" => $studentEnrollment->id,
@@ -1033,7 +1033,7 @@ class ClassroomController extends Controller
     //////////////////////////////////////////////////////////
     ///
     // Função para sincronizar aluno com o sistema SED
-    public function syncStudentWithSED($id, $modelEnrollment, $modelStudentIdentification, $type) {
+    public function syncStudentWithSED($id, $modelEnrollment, $type) {
 
         $studentInfo = $this->getStudentInformation($id);
         $studentIdentification = $studentInfo['studentIdentification'];
@@ -1118,7 +1118,7 @@ class ClassroomController extends Controller
             }
 
             if($modelEnrollment->id !== null) {
-                $enrollmentResult = $this->processEnrollment($modelStudentIdentification, $modelEnrollment);
+                $enrollmentResult = $this->processEnrollment($studentIdentification, $modelEnrollment);
             }
 
             $result["identification"] = $statusAdd;
