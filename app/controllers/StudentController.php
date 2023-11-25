@@ -593,14 +593,14 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 }
     
                 if($statusAdd->outErro === null) {
-                    $stdi = StudentIdentification::model()->findByPk($id);
-                    $stdi->gov_id = $statusAdd->outAluno->outNumRA;
-                    $stdi->sedsp_sync = 1;
+                    $studentFromSed = StudentIdentification::model()->findByPk($id);
+                    $studentFromSed->gov_id = $statusAdd->outAluno->outNumRA;
+                    $studentFromSed->sedsp_sync = 1;
                                   
-                    $stdi->save();
+                    $studentFromSed->save();
 
                     if($modelEnrollment->id !== null) {
-                        $enrollmentResult = $this->processEnrollment($modelStudentIdentification, $modelEnrollment);
+                        $enrollmentResult = $this->processEnrollment($studentFromSed, $modelEnrollment);
                     }
                 }
                 $result["identification"] = $statusAdd;
