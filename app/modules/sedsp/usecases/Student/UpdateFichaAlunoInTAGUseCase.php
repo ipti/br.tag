@@ -29,14 +29,9 @@ class UpdateFichaAlunoInTAGUseCase
             $mapperStudentIdentification = $mapper->StudentIdentification;
 
             $studentIdentification = $this->createOrUpdateStudentIdentification($mapperStudentIdentification);
-
             $mapperStudentDocuments = $mapper->StudentDocumentsAndAddress;
-            $govId = $mapperStudentDocuments->gov_id;
-            $studentId = StudentIdentification::model()->find('gov_id = :govId', [':govId' => $govId])->id;
-
-
-            $idStudentDocuments = $this->findStudentByIdentification($govId)->id;
-            $stausUp = $this->updateStudentDocsAndAddress($mapperStudentDocuments, $studentId, $govId, $idStudentDocuments);
+            
+            $stausUp = $this->updateStudentDocsAndAddress($mapperStudentDocuments);
             $statusCr = $this->createOrUpdateStudentEnrollment($mapper->StudentEnrollment);
 
             return $studentIdentification;
@@ -64,15 +59,8 @@ class UpdateFichaAlunoInTAGUseCase
         return $this->createAndSaveStudentIdentification($studentIdentification);
     }
 
-    private function updateStudentDocsAndAddress($docsAndAddress, $studentId, $govId, $idStudentDocuments)
+    private function updateStudentDocsAndAddress($studentDocument)
     {
-        if ($docsAndAddress === null) {
-            return $this->createStudentDocumentsAndAddress($docsAndAddress, $studentId, $govId);
-        }
-    
-        $studentDocument = StudentDocumentsAndAddress::model()->findByPk($idStudentDocuments);
-        $studentDocument->attributes = $docsAndAddress->attributes;
-
         return $studentDocument->save();
     }
 
@@ -124,18 +112,6 @@ class UpdateFichaAlunoInTAGUseCase
         
         $log = new LogError();
         $log->salvarDadosEmArquivo($e->getMessage());
-    }
-
-
-    public function createStudentDocumentsAndAddress($attributes, $id, $govId)
-    {
-        $studentDocumentsAndAddress = new StudentDocumentsAndAddress();
-        $studentDocumentsAndAddress->attributes = $attributes->getAttributes();
-        $studentDocumentsAndAddress->edcenso_city_fk = $attributes->edcenso_city_fk;
-        $studentDocumentsAndAddress->gov_id = $govId;
-        $studentDocumentsAndAddress->id = $id;
-
-        return $studentDocumentsAndAddress->save();
     }
 
     public function createAndSaveStudentIdentification($attributes)
