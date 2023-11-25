@@ -348,11 +348,12 @@ class StudentMapper
         //StudentDocuments
 
         $studentDocumentsAndAddress = StudentDocumentsAndAddress::model()->find("id = :id", ["id" => $studentIdentification->id]);
-        if ($studentDocumentsAndAddress == null) {
+        if ($studentDocumentsAndAddress === null) {
             $studentDocumentsAndAddress = new StudentDocumentsAndAddress;
         }
         $studentDocumentsAndAddress->school_inep_id_fk = $inepId;
         $studentDocumentsAndAddress->gov_id = $numRA;
+        $studentDocumentsAndAddress->student_fk = $studentIdentification->id;
         $studentDocumentsAndAddress->cpf = $outDocumentos->getOutCpf();
         $studentDocumentsAndAddress->nis = $outDocumentos->getOutNumNis();
 

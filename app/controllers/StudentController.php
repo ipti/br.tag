@@ -497,9 +497,9 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                             if(TagUtils::isInstance("UBATUBA")){
                                 
                                 $this->authenticateSedToken();
-                                $exi = $this->syncStudentWithSED($id, $modelEnrollment, $modelStudentIdentification, self::UPDATE);
+                                $exi = (object) $this->syncStudentWithSED($id, $modelEnrollment, $modelStudentIdentification, self::UPDATE);
                                 
-                                if($exi->outErro !== null || $exi === false){
+                                if($exi->identification->outErro !== null || $exi->enrollment->outErro !== null){
                                     Log::model()->saveAction(
                                         "student", $modelStudentIdentification->id,
                                         "U", $modelStudentIdentification->name
@@ -507,7 +507,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                                     $msg = '<p style="color: white;background: #23b923;
                                     padding:10px;border-radius: 4px;">O Cadastro de '.$modelStudentIdentification->name.
                                     ' foi alterado com sucesso!</p> Mas não foi possível fazer a sincronização!
-                                    </br><b>ERROR: </b>: '. $exi->outErro;
+                                    </br></br><b>ERROR: </b>'. $exi->identification->outErro .'</br>'. $exi->enrollment->outErro;
                                     
                                     echo Yii::app()->user->setFlash('error', Yii::t('default', $msg));
                                     $this->redirect(array('index', 'id' => $modelStudentIdentification->id));
