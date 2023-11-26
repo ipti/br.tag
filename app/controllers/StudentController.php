@@ -442,7 +442,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             //Atributos comuns entre as tabelas
             $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
             $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
-            $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
+            $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->id;
             date_default_timezone_set("America/Recife");
             $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
 
@@ -547,8 +547,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
     // Função para obter informações do aluno
     public function getStudentInformation($id) {
         $studentIdentification = StudentIdentification::model()->findByPk($id);
-        $modelStudentDocumentsAndAddress = StudentDocumentsAndAddress::model()->findByPk($id);
-        $studentEnrollment = StudentEnrollment::model()->findByPk($id);
+        $modelStudentDocumentsAndAddress = StudentDocumentsAndAddress::model()->find("student_fk = :studentFk", [":studentFk" => $studentIdentification->id]);
+        $studentEnrollment = StudentEnrollment::model()->find("student_fk = :studentFk", [":studentFk" => $id]);
         
         return [
             'studentIdentification' => $studentIdentification,
