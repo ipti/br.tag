@@ -63,6 +63,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                     'view',
                     'comparestudentname',
                     'getstudentajax',
+                    'syncToSedsp',
                     'getclassrooms',
                     'comparestudentcpf',
                     'comparestudentcivilregisterenrollmentnumber',
@@ -126,13 +127,14 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
     {
         $requestData = $_POST;
 
-        $columns = array(
-            0 => 'name',
-            1 => 'filiation_1',
-            2 => 'birthday',
-            3 => 'inep_id',
-            4 => 'actions'
-        );
+        $columns[0] = 'name';
+        $columns[1] = 'filiation_1';
+        $columns[2] = 'birthday';
+        $columns[3] = 'inep_id';
+        $columns[4] = 'actions';
+        if (TagUtils::isInstance("UBATUBA")) {
+            $columns[5] = 'sedsp_sync';
+        }
 
         $criteria = new CDbCriteria();
 
@@ -159,9 +161,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         // Ordem
         $sortColumn = $columns[$requestData['order'][0]['column']];
         $sortDirection = $requestData['order'][0]['dir'];
-        $criteria->order = $sortColumn ." ". $sortDirection;
-
-
+        $criteria->order = $sortColumn . " " . $sortDirection;
 
 
         $students = StudentIdentification::model()->findAll($criteria);
@@ -171,17 +171,25 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $data = array();
         foreach ($students as $student) {
             $nestedData = array();
-            $nestedData[] = "<a href='/?r=student/update&id=".$student->id."' cursor: pointer;>".$student->name."</a>";
+            $nestedData[] = "<a href='/?r=student/update&id=" . $student->id . "' cursor: pointer;>" . $student->name . "</a>";
             $nestedData[] = $student->filiation_1;
             $nestedData[] = $student->birthday;
             $nestedData[] = $student->inep_id;
-            $nestedData[] = "<a style='cursor: pointer;' title='Editar' id='student-edit'  href='/?r=student/update&id=".$student->id."'>
+            $nestedData[] = "<a style='cursor: pointer;' title='Editar' id='student-edit'  href='/?r=student/update&id=" . $student->id . "'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/editar.svg' . "' alt='Editar'></img>
                             </a>&nbsp;"
-                            ."<a style='cursor: pointer;' title='Excluir'
-                            id='student-delete' href='/?r=student/delete&id=".$student->id."'>
+                . "<a style='cursor: pointer;' title='Excluir'
+                            id='student-delete' href='/?r=student/delete&id=" . $student->id . "'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/deletar.svg' . "' alt='Excluir'></img>
                             </a>";
+            if (TagUtils::isInstance("UBATUBA")) {
+                $sync = "<a style='cursor: pointer;display: inline-block' title='Sincronizar' id='student-sync' class='" . ($student->sedsp_sync ? "sync" : "unsync") . "' href='/?r=student/syncToSedsp&id=" . $student->id . "'>";
+                $sync .= $student->sedsp_sync
+                    ? '<img src="' . Yii::app()->theme->baseUrl . '/img/SyncTrue.png" style="width: 25px;text-align: center">'
+                    : '<img src="' . Yii::app()->theme->baseUrl . '/img/notSync.png" style="width: 25px;text-align: center">';
+                $sync .= "</a>&nbsp;";
+                $nestedData[] = $sync;
+            }
             $data[] = $nestedData;
         }
 
@@ -194,6 +202,25 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         );
 
         echo json_encode($json_data);
+    }
+
+    public function actionSyncToSedsp($id)
+    {
+        $modelStudentIdentification = new StudentIdentification();
+
+        $this->authenticateSedToken();
+        $syncResult = (object) $modelStudentIdentification->syncStudentWithSED($id, new StudentEnrollment(), self::UPDATE);
+
+        if ($syncResult->identification->outErro !== null) {
+            $flash = "error";
+            $msg = 'Não foi possível sincronizar o aluno ' . $modelStudentIdentification->name . '. Motivo: ' . $syncResult->identification->outErro;
+        } else {
+            $flash = "success";
+            $msg = "Sincronização realizada com sucesso!";
+        }
+
+        Yii::app()->user->setFlash($flash, $msg);
+        $this->redirect(array('index'));
     }
 
     public function actionGetNotaryOffice()
@@ -367,11 +394,11 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                                 $flash = "success";
                                 $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!';
 
-                                if(TagUtils::isInstance("UBATUBA")){
+                                if (TagUtils::isInstance("UBATUBA")) {
 
                                     $syncResult = $modelStudentIdentification->syncStudentWithSED($modelStudentIdentification->id, self::CREATE);
 
-                                    if($syncResult->identification->outErro !== null || $syncResult->enrollment->outErro !== null){
+                                    if ($syncResult->identification->outErro !== null || $syncResult->enrollment->outErro !== null) {
                                         $flash = "error";
                                         $msg = '<span style="color: white;background: #23b923; padding:10px;border-radius: 4px;">Cadastro do aluno ' . $modelStudentIdentification->name .
                                             '  criado com sucesso no TAG, mas não foi possível sincronizá-lo com a SEDSP. Motivo: </span>';
@@ -495,16 +522,16 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                             $flash = "success";
                             $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!';
 
-                            if(TagUtils::isInstance("UBATUBA")){
+                            if (TagUtils::isInstance("UBATUBA")) {
 
                                 $this->authenticateSedToken();
-                                $syncResult = (object) $modelStudentIdentification->syncStudentWithSED($id, $modelEnrollment, self::UPDATE);
+                                $syncResult = (object)$modelStudentIdentification->syncStudentWithSED($id, $modelEnrollment, self::UPDATE);
 
-                                if($syncResult->identification->outErro !== null || $syncResult->enrollment->outErro !== null){
+                                if ($syncResult->identification->outErro !== null || $syncResult->enrollment->outErro !== null) {
                                     $flash = "error";
                                     $msg = '<span style="color: white;background: #23b923;
                                     padding:10px;border-radius: 4px;">Cadastro do aluno ' . $modelStudentIdentification->name .
-                                    '  alterado com sucesso no TAG, mas não foi possível sincronizá-lo com a SEDSP. Motivo: </span>';
+                                        '  alterado com sucesso no TAG, mas não foi possível sincronizá-lo com a SEDSP. Motivo: </span>';
                                     if ($syncResult->identification->outErro) {
                                         $msg .= "<br>Ficha do Aluno: " . $syncResult->identification->outErro;
                                     }
@@ -523,7 +550,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                             $this->redirect(array('index', 'id' => $modelStudentIdentification->id));
                         } else {
                             $msg = 'Não foi possível realizar as modificações do aluno: ' .
-                            $modelStudentIdentification->name;
+                                $modelStudentIdentification->name;
 
                             Yii::app()->user->setFlash('error', Yii::t('default', $msg));
                             $this->redirect(array('index', 'id' => $modelStudentIdentification->id));
@@ -576,7 +603,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 $modelEnrollment->save();
             }
             Yii::app()->user->setFlash('success', Yii::t('default', 'transferred enrollment'));
-            $this->redirect(array('student/update&id='.$modelStudentIdentification->id));
+            $this->redirect(array('student/update&id=' . $modelStudentIdentification->id));
         } else {
             $this->render('transfer', array(
                 'modelStudentIdentification' => $modelStudentIdentification,
@@ -584,13 +611,15 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             ));
         }
     }
-    public function actionGetClassrooms() {
+
+    public function actionGetClassrooms()
+    {
         $school_inep_id = $_POST["inep_id"];
         $school = SchoolIdentification::model()->findByPk($school_inep_id);
         $classrooms = $school->classrooms;
         foreach ($classrooms as $class) {
             if ($class->school_year == Yii::app()->user->year) {
-                echo "<option value='".htmlspecialchars($class->id)."'>".htmlspecialchars($class->name)."</option>";
+                echo "<option value='" . htmlspecialchars($class->id) . "'>" . htmlspecialchars($class->name) . "</option>";
             }
         }
     }
@@ -605,10 +634,10 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
     {
 
         $classes = Yii::app()->db->createCommand()
-                    ->select('classroom_inep_id')
-                    ->from('student_enrollment')
-                    ->where('student_fk = :id', array(':id' => $id))
-                    ->queryColumn();
+            ->select('classroom_inep_id')
+            ->from('student_enrollment')
+            ->where('student_fk = :id', array(':id' => $id))
+            ->queryColumn();
 
         try {
             $enrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
@@ -632,7 +661,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             }
 
             if ($delete) {
-                if(INSTANCE == "UBATUBA") {
+                if (INSTANCE == "UBATUBA") {
                     $this->excluirMatriculaFromSED($classes, $inNumRA);
                 }
 
@@ -644,16 +673,17 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         } catch (\Throwable $th) {
             Yii::app()->user->setFlash(
                 'error', Yii::t(
-                    'default','Esse aluno não pode ser excluído,
+                'default', 'Esse aluno não pode ser excluído,
                     pois existem dados de frequência, notas ou matrículadas vinculadas a ele!'
-                )
+            )
             );
             $this->redirect('?r=student');
         }
     }
 
-    public function excluirMatriculaFromSED($classes, $inNumRA) {
-        if(count($classes) != '0') {
+    public function excluirMatriculaFromSED($classes, $inNumRA)
+    {
+        if (count($classes) != '0') {
             $excluirMatriculaFromSEDUseCase = new ExcluirMatriculaFromSEDUseCase();
 
             foreach ($classes as $classe) {
@@ -666,7 +696,6 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             }
         }
     }
-
 
 
     /**
@@ -718,8 +747,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                     'a',
                     array(
                         'target' => '_blank', 'href' => yii::app()->createUrl(
-                            '/forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $mer_id)
-                        ),
+                        '/forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $mer_id)
+                    ),
                         'class' => "btn btn-primary btn-icon glyphicons notes_2",
                         'style' => 'margin-top: 5px; width: 110px'
                     ),
