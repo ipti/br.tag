@@ -27,14 +27,18 @@ class GetFormacaoClasseFromSEDUseCase
     /**
      * Summary of exec
      * @param InFormacaoClasse $inNumClasse
-     * @return bool
      */
     public function exec(InFormacaoClasse $inFormacaoClasse)
     {
         try {
             $response = $this->classStudentsRelationSEDDataSource->getClassroom($inFormacaoClasse);
-
-            $mapper = (object)ClassroomMapper::parseToTAGFormacaoClasse($response);
+            
+            if($response->outErro !== null) {
+                return $response->outErro;
+            }
+            
+            $year = $response->outAnoLetivo;
+            $mapper = (object) ClassroomMapper::parseToTAGFormacaoClasse($response);
 
             $numClass = $inFormacaoClasse->getInNumClasse();
             $tagClassroom = Classroom::model()->find('inep_id = :govId or gov_id = :govId', [':govId' => $numClass]);
@@ -54,9 +58,9 @@ class GetFormacaoClasseFromSEDUseCase
                 }
             }
 
-            $count = StudentEnrollment::model()->count(
-                'classroom_fk = :classroomId', array(':classroomId' => $tagClassroom->id)
-            );
+            $condition = 'classroom_fk = :classroomId AND status = 1 AND YEAR(create_date) = :year';
+            $params = [':classroomId' => $tagClassroom->id, ':year' => $year];
+            $count = StudentEnrollment::model()->count(['condition' => $condition, 'params' => $params]);
 
             $dados = [[$tagClassroom->gov_id, $count, $response->outQtdAtual],];
             $this->createCSVFile($tagClassroom->gov_id, $dados);
@@ -101,33 +105,41 @@ class GetFormacaoClasseFromSEDUseCase
      *
      * @return bool
      */
-    private function createEnrollment($classroom, $studentModel)
+    private function createEnrollment(Classroom $classroom, StudentIdentification $studentModel)
     {
         $enrollments = StudentMapper::getListMatriculasRa($studentModel->gov_id);
+
+        if($enrollments === null) {
+            return false;
+        }
+
         foreach($enrollments as $enrollment) {
+            $creareDate = DateTime::createFromFormat('d/m/Y', $enrollment->getOutDataInicioMatricula())->format('Y-m-d');
             if ($enrollment->getOutNumClasse() == $classroom->gov_id) {
                 $studentEnrollment = StudentEnrollment::model()->find('student_fk = :student_fk AND classroom_fk = :classroom_fk', [':student_fk' => $studentModel->id, ':classroom_fk' => $classroom->id]);
-                if ($studentEnrollment == null) {
+                if ($studentEnrollment === null) {
                     $studentEnrollment = new StudentEnrollment();
                     $studentEnrollment->school_inep_id_fk = $classroom->school_inep_fk;
                     $studentEnrollment->student_inep_id = $studentModel->inep_id;
                     $studentEnrollment->student_fk = $studentModel->id;
                     $studentEnrollment->classroom_fk = $classroom->id;
-                    $studentEnrollment->create_date = date("d/m/Y");
+                    $studentEnrollment->create_date = $creareDate;
                 }
                 $studentEnrollment->status = StudentMapper::mapSituationEnrollmentToTag($enrollment->getOutCodSitMatricula());
-                $studentEnrollment->sedsp_sync = 1;
-                $studentEnrollment->save();
+                $studentEnrollment->create_date = $creareDate;
 
                 if ($studentEnrollment->validate() && $studentEnrollment->save()) {
+                    $studentEnrollment->sedsp_sync = 1;
                     Yii::log('Aluno matriculado com sucesso.', CLogger::LEVEL_INFO);
-                    return true;
+                    
+                    return $studentEnrollment->save();
                 } else {
+                    $studentEnrollment->sedsp_sync = 0;
                     Yii::log($studentEnrollment->getErrors(), CLogger::LEVEL_ERROR);
-                    return false;
+                    return $studentEnrollment->save();
                 }
-                break;
             }
+            return false;
         }
     }
 
