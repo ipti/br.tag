@@ -544,7 +544,8 @@ class StudentMapper
             '17' => '5',  // REMANEJADO
             '18' => '4',  // DEIXOU DE FREQUENTAR
             '19' => '2',  // TRANSFERIDO
-            '20' => '2'   // TRANSFERIDO
+            '20' => '2',  // TRANSFERIDO
+            '31' => '2'   // TRANSFERIDO
         ];
 
         return $map[$codSitMatriculaSed];
