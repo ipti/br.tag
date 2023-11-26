@@ -43,8 +43,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                 <?php } ?>
 
-                <a href="<?php echo $this->createUrl('sedsp/default/UpdateStudentFromSedsp', array('gov_id' => $modelStudentIdentification->gov_id, 'id' => $modelStudentIdentification->id)); ?>"
-                   onclick="return confirm('Tem certeza de que deseja realizar a importação?\n\nEsta ação resultará na substituição dos dados atuais do aluno pelos dados do aluno da sedsp.');"
+                <a class="update-classroom-from-sedsp"
                    style="margin-right: 10px;background: #2e33b7;color: white;font-size: 13px;padding-left: 4px;padding-right: 4px;border-radius: 6px;">
                     Importar dados da SED
                 </a>
@@ -60,15 +59,18 @@ $form = $this->beginWidget('CActiveForm', array(
 </div>
 
 <div class="tag-inner">
-    <?php if (Yii::app()->user->hasFlash('success') && (!$modelClassroom->isNewRecord)): ?>
-        <div class="alert alert-success">
-            <?php echo Yii::app()->user->getFlash('success') ?>
-        </div>
-    <?php endif ?>
     <div class="widget widget-tabs border-bottom-none">
 
         <?php echo $form->errorSummary($modelClassroom); ?>
-        <?php if (TagUtils::isInstance("UBATUBA") && $disabledFields) { ?>
+        <?php if (Yii::app()->user->hasFlash('success') && (!$modelClassroom->isNewRecord)) { ?>
+            <div class="alert classroom-alert alert-success">
+                <?php echo Yii::app()->user->getFlash('success') ?>
+            </div>
+        <?php } elseif (Yii::app()->user->hasFlash('error') && (!$modelClassroom->isNewRecord)) { ?>
+            <div class="alert classroom-alert alert-error">
+                <?php echo Yii::app()->user->getFlash('error') ?>
+            </div>
+        <?php } elseif (TagUtils::isInstance("UBATUBA") && $disabledFields) { ?>
             <div class="alert classroom-alert alert-warning">
                 Alguns campos foram desabilitados porque a turma possui alunos matriculados e o SEDSP não autoriza
                 realizar edições em tais campos.
@@ -847,7 +849,7 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
     </div>
 
-    <div class="modal fade modal-content" id="importClassroomToSEDSP" tabindex="-1" role="dialog">
+    <div class="modal fade modal-content" id="importClassroomFromSEDSP" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
@@ -855,7 +857,7 @@ $form = $this->beginWidget('CActiveForm', array(
                          style="vertical-align: -webkit-baseline-middle">
                 </button>
                 <h4 class="modal-title"
-                    id="myModalLabel">Importar turma do SEDSP</h4>
+                    id="myModalLabel">Importar turma da SEDSP</h4>
             </div>
             <form method="post"
                   action="<?php echo $this->createUrl('sedsp/default/importClassroomFromSedsp', array('id' => $modelClassroom->id, 'gov_id' => $modelClassroom->gov_id)); ?>">

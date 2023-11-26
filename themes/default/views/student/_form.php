@@ -49,9 +49,8 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                 <?php } ?>
 
-                <a href="<?php echo $this->createUrl('sedsp/default/UpdateStudentFromSedsp', array('gov_id' => $modelStudentIdentification->gov_id, 'id' => $modelStudentIdentification->id)); ?>"
-                   onclick="return confirm('Tem certeza de que deseja realizar a importação?\n\nEsta ação resultará na substituição dos dados atuais do aluno pelos dados do aluno da sedsp.');"
-                   style="margin-right: 10px;background: #2e33b7;color: white;font-size: 13px;padding-left: 4px;padding-right: 4px;border-radius: 6px;">
+                <a class="update-student-from-sedsp"
+                   style="margin-right: 10px;background: #2e33b7;color: white;font-size: 13px;padding-left: 4px;padding-right: 4px;border-radius: 6px;cursor: pointer">
                     Importar dados da SED
                 </a>
             </div>
@@ -70,21 +69,22 @@ $form = $this->beginWidget('CActiveForm', array(
 </div>
 
 <div class="tag-inner">
-    <?php if (Yii::app()->user->hasFlash('success')) : ?>
-        <div class="alert alert-success">
-            <?php echo Yii::app()->user->getFlash('success') ?>
-        </div>
-    <?php elseif (Yii::app()->user->hasFlash('error')) : ?>
-        <div class="alert alert-error">
-            <?php echo Yii::app()->user->getFlash('error') ?>
-        </div>
-    <?php endif ?>
     <div class="widget widget-tabs border-bottom-none">
         <?php
         echo $form->errorSummary($modelStudentIdentification);
         echo $form->errorSummary($modelStudentDocumentsAndAddress);
         ?>
-        <div class="alert alert-error student-error no-show"></div>
+        <?php if (Yii::app()->user->hasFlash('success') && (!$modelClassroom->isNewRecord)) { ?>
+            <div class="alert student-alert alert-success">
+                <?php echo Yii::app()->user->getFlash('success') ?>
+            </div>
+        <?php } elseif (Yii::app()->user->hasFlash('error') && (!$modelClassroom->isNewRecord)) { ?>
+            <div class="alert student-alert alert-error">
+                <?php echo Yii::app()->user->getFlash('error') ?>
+            </div>
+        <?php } else { ?>
+            <div class="alert student-alert no-show"></div>
+        <?php } ?>
         <div class="t-tabs js-tab-control">
             <ul class="tab-student t-tabs__list">
                 <li id="tab-student-identify" class="t-tabs__item active">
@@ -2008,6 +2008,39 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-content" id="importStudentFromSEDSP" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt=""
+                         style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title"
+                    id="myModalLabel">Importar aluno da SEDSP</h4>
+            </div>
+            <form method="post"
+                  action="<?php echo $this->createUrl('sedsp/default/UpdateStudentFromSedsp', array('id' => $modelStudentIdentification->id, 'gov_id' => $modelStudentIdentification->gov_id)); ?>">
+                <div class="centered-loading-gif">
+                    <i class="fa fa-spin fa-spinner"></i>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-error no-show"></div>
+                    <div class="row-fluid">
+                        Você tem certeza?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">Cancelar
+                        </button>
+                        <button type="button"
+                                class="btn btn-primary import-student-button">Confirmar
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

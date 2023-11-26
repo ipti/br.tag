@@ -39,12 +39,12 @@ $('#create-dialog-form, #teachingdata-dialog-form, #update-dialog-form').keypres
 
 $('.heading-buttons').css('width', $('#content').width());
 
-$(".update-classroom-to-sedsp").click(function() {
-    $("#importClassroomToSEDSP").modal("show");
+$(".update-classroom-from-sedsp").click(function() {
+    $("#importClassroomFromSEDSP").modal("show");
 });
 
 $(".import-classroom-button").click(function() {
-    $("#importClassroomToSEDSP").find("form").submit();
+    $("#importClassroomFromSEDSP").find("form").submit();
 });
 
 $('#copy-gov-id').click(function() {
