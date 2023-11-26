@@ -33,12 +33,22 @@ class GetExibirFichaAlunoFromSEDUseCase
 
     public function createAndSaveStudentDocumentsAndAddress($studentDocumentsAndAddress, $studentIdentification)
     {
-        $studentDocumentsAndAddress->id = $studentIdentification->id;
-        if ($studentDocumentsAndAddress->validate() && $studentDocumentsAndAddress->save()) {
-            return $studentDocumentsAndAddress;
+        $documentos = StudentDocumentsAndAddress::model()->find('student_fk = :studentFk', [':studentFk' => $studentIdentification->id]);
+
+        if($documentos === null) {
+            if ($studentDocumentsAndAddress->validate() && $studentDocumentsAndAddress->save()) {
+                return $studentDocumentsAndAddress;
+            } else {
+                $log = new LogError();
+                $log->salvarDadosEmArquivo($studentDocumentsAndAddress->getErrors());
+            }
         } else {
-            $log = new LogError();
-            $log->salvarDadosEmArquivo($studentDocumentsAndAddress->getErrors());
+            if ($documentos->validate() && $documentos->save()) {
+                return $studentDocumentsAndAddress;
+            } else {
+                $log = new LogError();
+                $log->salvarDadosEmArquivo($documentos->getErrors());
+            }
         }
     }
 
