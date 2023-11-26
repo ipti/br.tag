@@ -165,6 +165,20 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ?>
                                 <?php echo $form->error($modelClassroom, 'modality'); ?>
                             </div>
+                            <?php if (TagUtils::isInstance("UBATUBA")) { ?>
+                                <!--Gov ID-->
+                                <div class="t-field-text js-hide-not-required">
+                                    <?php echo $form->labelEx($modelClassroom, 'gov_id', array('class' => 't-field-text__label')); ?>
+                                    <?php echo $form->textField($modelClassroom, 'gov_id', array('size' => 60, 'maxlength' => 12,
+                                        'class' => 't-field-text__input', 'placeholder' => 'Não possui', 'disabled' => 'disabled')); ?>
+                                    <button type="button" id="copy-gov-id" class="t-button-icon">
+                                        <span class="t-icon-copy"></span>
+                                    </button>
+                                    <span id="copy-message" style="display:none;">
+                                </span>
+                                    <?php echo $form->error($modelClassroom, 'gov_id'); ?>
+                                </div>
+                            <?php } ?>
                         </div>
                         <div class="column">
                             <!-- Etapa de Ensino -->
@@ -611,7 +625,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 <span class="t-icon-export"></span>
                                                 Sincronizar Matrículas (SEDSP)
                                             </button>
-                                            <img class="loading-sync" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+                                            <img class="loading-sync" style="display:none;margin: 10px 20px;"
+                                                 height="30px" width="30px"
+                                                 src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif"
+                                                 alt="TAG Loading">
                                         </div>
                                     <?php endif ?>
                                 </div>

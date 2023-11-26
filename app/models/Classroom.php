@@ -273,7 +273,8 @@ class Classroom extends AltActiveRecord
             'sedsp_acronym' => 'Sedsp Acronym',
             'sedsp_school_unity_fk' => 'Sedsp School Unity Fk',
             'sedsp_classnumber' => 'Sedsp Classnumber',
-            'sedsp_max_physical_capacity' => "Sedsp Max Physical Capacity"
+            'sedsp_max_physical_capacity' => "Sedsp Max Physical Capacity",
+            'gov_id' => "GOV ID"
         );
     }
 
