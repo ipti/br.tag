@@ -31,7 +31,7 @@ class UpdateFichaAlunoInTAGUseCase
             $studentIdentification = $this->createOrUpdateStudentIdentification($mapperStudentIdentification);
             $mapperStudentDocuments = $mapper->StudentDocumentsAndAddress;
             
-            $stausUp = $this->updateStudentDocsAndAddress($mapperStudentDocuments);
+            $stausUp = $this->updateStudentDocsAndAddress($mapperStudentDocuments, $mapperStudentIdentification->id);
             $statusCr = $this->createOrUpdateStudentEnrollment($mapper->StudentEnrollment);
 
             return $studentIdentification;
@@ -59,9 +59,16 @@ class UpdateFichaAlunoInTAGUseCase
         return $this->createAndSaveStudentIdentification($studentIdentification);
     }
 
-    private function updateStudentDocsAndAddress($studentDocument)
+    private function updateStudentDocsAndAddress($studentDocument, $idStudent)
     {
-        return $studentDocument->save();
+        $studentDocumentsAndAddress = StudentDocumentsAndAddress::model()->find('student_fk = :studentFk', [':studentFk' => $idStudent->id]);
+        if ($studentDocumentsAndAddress === null) {
+            $studentDocument->student_fk = $idStudent->id;
+            return $studentDocument->save();
+        } else {
+            $studentDocumentsAndAddress->student_fk = $idStudent->id;
+            return $studentDocumentsAndAddress->save();
+        }
     }
 
     public function createOrUpdateStudentEnrollment($studentEnrollments)
