@@ -24,42 +24,38 @@ $form = $this->beginWidget('CActiveForm', array(
 );
 ?>
 
-<div class="row-fluid hidden-print">
-    <div class="span12">
-        <h1>
-            <?php echo $title; ?>
-        </h1>
-        <div class="tag-buttons-container buttons">
-
-            <?php
-            if ($modelClassroom->gov_id !== null && TagUtils::isInstance("UBATUBA")):
-                $sedspSync = Classroom::model()->findByPk($modelClassroom->id)->sedsp_sync;
-                if ($sedspSync): ?>
-                    <div style="text-align: center;margin-right: 10px;">
+<div class="mobile-row ">
+    <div class="column clearleft">
+        <?php
+        if (!$modelClassroom->isNewRecord && TagUtils::isInstance("UBATUBA")) {
+            $sedspSync = Classroom::model()->findByPk($modelClassroom->id)->sedsp_sync;
+            ?>
+            <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
+                <?php if ($sedspSync) { ?>
+                    <div style="font-weight: bold;margin-right: 20px;">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
-                             style="width: 40px; margin-right: 10px;" alt="synced">
-                        <div>Sincronizado com a SEDSP</div>
+                             style="width: 25px; margin-right: 2px;">Sincronizado
                     </div>
-
-                <?php else: ?>
-                    <div style="text-align: center;margin-right: 10px;">
+                <?php } else { ?>
+                    <div style="font-weight: bold;margin-right: 20px;">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
-                             style="width: 40px;margin-right: 10px;" alt="not synced">
-                        <div>Não sincronizado com a SEDSP</div>
+                             style="width: 25px;margin-right: 2px;">Não sincronizado
                     </div>
-                <?php endif;
-                if (!$sedspSync): ?>
-                    <a class="update-classroom-to-sedsp"
-                       style="margin-right: 10px;background: #16205b;color: white;padding: 5px;border-radius: 5px;">
-                        Importar Turma do SEDSP
-                    </a>
-                <?php endif; ?>
-            <?php endif; ?>
+                <?php } ?>
 
-            <button class="t-button-primary  last pull-right save-classroom" type="button">
-                <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
-            </button>
-        </div>
+                <a href="<?php echo $this->createUrl('sedsp/default/UpdateStudentFromSedsp', array('gov_id' => $modelStudentIdentification->gov_id, 'id' => $modelStudentIdentification->id)); ?>"
+                   onclick="return confirm('Tem certeza de que deseja realizar a importação?\n\nEsta ação resultará na substituição dos dados atuais do aluno pelos dados do aluno da sedsp.');"
+                   style="margin-right: 10px;background: #2e33b7;color: white;font-size: 13px;padding-left: 4px;padding-right: 4px;border-radius: 6px;">
+                    Importar dados da SED
+                </a>
+            </div>
+        <?php } ?>
+        <h1><?php echo $title; ?></h1>
+    </div>
+    <div class="column clearfix align-items--center justify-content--end show--desktop">
+        <button class="t-button-primary  last save-classroom" type="button">
+            <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+        </button>
     </div>
 </div>
 
@@ -72,12 +68,14 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="widget widget-tabs border-bottom-none">
 
         <?php echo $form->errorSummary($modelClassroom); ?>
-        <?php if (TagUtils::isInstance("UBATUBA") && $disabledFields): ?>
-            <div class="alert alert-warning">Alguns campos foram desabilitados porque a turma possui alunos matriculados
-                e o SEDSP não autoriza realizar edições em tais campos.
+        <?php if (TagUtils::isInstance("UBATUBA") && $disabledFields) { ?>
+            <div class="alert classroom-alert alert-warning">
+                Alguns campos foram desabilitados porque a turma possui alunos matriculados e o SEDSP não autoriza
+                realizar edições em tais campos.
             </div>
-        <?php endif; ?>
-        <div class="alert classroom-alert no-show"></div>
+        <?php } else { ?>
+            <div class="alert classroom-alert no-show"></div>
+        <?php } ?>
         <div class="t-tabs">
             <ul class="tab-classroom t-tabs__list">
                 <li id="tab-classroom" class="active t-tabs__item">
