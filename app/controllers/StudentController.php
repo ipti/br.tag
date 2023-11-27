@@ -395,7 +395,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                                 $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!';
 
                                 if (TagUtils::isInstance("UBATUBA")) {
-
+                                    $this->authenticateSedToken();
                                     $syncResult = $modelStudentIdentification->syncStudentWithSED($modelStudentIdentification->id, $modelEnrollment, self::CREATE);
 
                                     if ($syncResult->identification->outErro !== null || $syncResult->enrollment->outErro !== null || $syncResult === false) {
