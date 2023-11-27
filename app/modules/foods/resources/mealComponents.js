@@ -58,11 +58,7 @@ const DateComponent = function () {
           <div class="text-primary">${daysOfWeek[day.order]}</div>
           <div class="text-secondary">${day.date}</div>
         </li>`;
-    }, `<ul class="t-tabs__list">`) +
-      `<li class="t-tabs__item js-change-pagination">
-        <div class="text-primary">Selecionar <br> outra data</div>
-      </li>
-      </ul>`;
+    }, `<ul class="t-tabs__list">`);
     container.html(template)
   }
 
@@ -250,9 +246,9 @@ const PlateComponent = function () {
     table.append(lineTotal)
   }
   function createMealComponent({id, name, pt, lip, cho, kcal}) {
-    const line =  $(`<tr data-idTaco='${id}'></tr>`)
+    const line =  $(`<tr class='js-food-ingredient' data-idTaco='${id}'></tr>`)
         .append(`<td class='js-food-name'>${name}</td>`)
-        .append(`<td class='js-unit'><input class='t-field-text__input' type='text' style='width:50px !important'></td>`)
+        .append(`<td class='js-amount'><input class='t-field-text__input' type='text' style='width:50px !important'></td>`)
         .append(`<td class='js-measure'>
                 <select class="js-inicializate-select2 t-field-select__input" style='width:100px'>
                 <option value="1">Concha</option>

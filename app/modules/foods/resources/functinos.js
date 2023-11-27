@@ -79,12 +79,15 @@ $(".js-save-menu").on("click", function () {
     foodMenu.thursday = getMealsByDay(4)
     foodMenu.friday = getMealsByDay(5)
     foodMenu.saturday = getMealsByDay(6)
+
+    console.log(foodMenu)
     
 });
 
 function getMealsByDay(day) {
     let meals = []
     $(`.js-meals-accordion-content[data-day-of-week='${day}']`).each((index, element) => {
+        const mealAccordion = element;
         let meal = {
                 "time": "",
                 "sequence": "",
@@ -92,59 +95,45 @@ function getMealsByDay(day) {
                 "food_meal_type": "",
                 "meals_component": []
         }
-        meal.time = $(element).find('.js-mealTime').val()
+        meal.time = $(mealAccordion).find('.js-mealTime').val()
         meal.sequence = index
-        meal.turn = $(element).find('select.js-shift').val()
-        meal.food_meal_type = $(element).find('select.js-food-meal-type').val()
-        getMealsComponent()
+        meal.turn = $(mealAccordion).find('select.js-shift').val()
+        meal.food_meal_type = $(mealAccordion).find('select.js-food-meal-type').val()
+
+
+        // get meals components
+
+        let meals_component = []
+        $(mealAccordion).find('.js-plate-accordion-content').each((index, element) => {
+           const plateAccordion = element
+           const idPlateAccordion = $(plateAccordion).attr('data-id-accordion')
+           let meal_component = {
+                "description": "",
+                "food_ingredients": []
+            }
+            
+            meal_component.description = $(mealAccordion).find(`.js-plate-accordion-header[data-id-accordion="${idPlateAccordion}"] .js-plate-name`).val()
+            meal_component.food_ingredients = getFoodIngredients(idPlateAccordion)
+            meal.meals_component.push(meal_component)
+        })
         meals.push(meal)
     })
     return meals
 }
-function getMealsComponent() {
-    
-}
-
-let mealsArray = [];
-
-function getPlates() {
-   let plates = $(".js-plate-accordion");
-   let paltesResult = [];
-   for (let index = 1; index <= plates.length; index++) {
-    let plate = {
-        name: $(`.js-plate-name[data-idAccordion="${index}"]`).val(),
-        ingredients:[]
-   }  
-    $(`tr[data-idAccordion="${index}"]`).each(function() {
-        let ingredient = {
-            idTaco: $(this).attr('data-idTaco'),
-            unit: $(this).find('td.js-unit input').val(),
-            measure: $(this).find('td.js-measure input').val()
+function getFoodIngredients(idPlateAccordion) {
+    const plateAccordion = $(`.js-plate-accordion-content[data-id-accordion='${idPlateAccordion}']`)
+    let foodIngredients = []
+    $(plateAccordion).find('.js-food-ingredient').each((index, element) => {
+        const row = element
+        let foodIngredient = {
+            "food_id_fk": "",
+            "food_measurement_fk": "",
+            "amount": "",
         }
-        plate.ingredients.push(ingredient);
-    });
-    paltesResult.push(plate)
-   }
-   return paltesResult;
+        foodIngredient.food_id_fk = $(row).attr('data-idTaco')
+        foodIngredient.food_measurement_fk = $(row).find('.js-measure input').val()
+        foodIngredient.amount = $(row).find('.js-amount input').val()
+        foodIngredients.push(foodIngredient)
+    })
+    return foodIngredients
 }
-
-$(document).on("click", ".js-save-meal", function () {
-    let meal = {
-        mealTime: "",
-        daysOfWeek: [
-
-        ],
-        mealType: "",
-        shift: "",
-        plates: []
-    }
-    meal.mealTime =  $('.js-mealTime').val();
-    meal.mealType =  $('select.js-meal').val();
-    meal.shift =  $('select.js-shift').val();
-
-    ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].forEach(function(day) {
-        meal.daysOfWeek[day] = $('#' + day).prop('checked');
-    });
-    meal.plates = console.log(getPlates())
-    mealsArray.push(meal)
-})
