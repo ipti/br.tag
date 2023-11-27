@@ -69,6 +69,8 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
+
+        return $dataStudent;
     }
 
     /**
@@ -129,6 +131,8 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
+
+        return $dataStudent;
     }
 
 
@@ -172,14 +176,14 @@ class StudentsCest
 
         // address
         $robots->zone($dataStudent->studentDocument['residence_zone']);
-        $robots ->btnProximo();
+        $robots->btnProximo();
         sleep(2);
 
         // matriculation
         $robots->btnAddMatriculation();
         sleep(2);
         $robots->classroom($dataStudent->studentEnrollment['classroom_fk']);
-        $robots ->btnProximo();
+        $robots->btnProximo();
 
         // health
         $robots->deficiency();
@@ -192,6 +196,8 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
+
+        return $dataStudent;
     }
 
     /**
@@ -254,6 +260,8 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
+
+        return $dataStudent;
     }
 
     /**
@@ -311,6 +319,8 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
+
+        return $dataStudent;
     }
 
     /**
@@ -333,6 +343,7 @@ class StudentsCest
         // social data
         $robots->btnProximo();
         sleep(2);
+
 
         // residence
         $robots->btnProximo();
@@ -475,6 +486,8 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
+
+        return $dataStudent;
     }
 
     /**
@@ -584,6 +597,8 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
+
+        return $dataStudent;
     }
 
     /**
@@ -715,6 +730,8 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
+
+        return $dataStudent;
     }
 
     /**
@@ -835,6 +852,8 @@ class StudentsCest
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
+
+        return $dataStudent;
     }
 
 }
