@@ -65,20 +65,20 @@ class FoodMenuController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$request = Yii::app()->request->getPost('FoodMenu');
-
         $foodMenu = new FoodMenu;
 
 		if(isset($request))
 		{
+            $request = Yii::app()->request->getPost('FoodMenu');
+            $request = json_decode($request, true);
 			if(
                 isset($request["start_date"]) &&
                 isset($request["final_date"])
-                && isset($request[""])) {
-
+                && isset($request["food_public_target"])
+            )
+            {
                 $startTimestamp = strtotime(str_replace('/', '-', $foodMenu["start_date"]));
 				$finalTimestamp = strtotime(str_replace('/', '-', $foodMenu["final_date"]));
-
 				$foodMenu->start_date = date('Y-m-d', $startTimestamp);
 				$foodMenu->final_date = date('Y-m-d', $finalTimestamp);
 			}
@@ -118,13 +118,17 @@ class FoodMenuController extends Controller
                                 $foodMenuMealComponent = new FoodMenuMealComponent;
                                 $foodMenuMealComponent->food_menu_mealId = $foodMenuMeal->id;
                                 $foodMenuMealComponent->description = $component["description"];
+                                $foodMenuMealComponent->save();
 
-                                foreach($component["food_ingredients"] as $ingredients)
+                                foreach($component["food_ingredients"] as $ingredient)
                                 {
-                                    
+                                    $foodIngredient = new FoodIngredient;
+                                    $foodIngredient->food_id_fk = $ingredient["food_id_fk"];
+                                    $foodIngredient->amount = $ingredient["amount"];
+                                    $foodIngredient->food_menu_meal_componentId = $foodMenuMealComponent->id;
+                                    $foodIngredient->save();
                                 }
                             }
-
                         }
                     }
                 }
@@ -139,57 +143,15 @@ class FoodMenuController extends Controller
 				Yii::app()->user->setFlash('error', 'Erro ao executar operações de banco de dados: ' . $e->getMessage());
 			}
 
-		}
+		}else
+        {
+            Yii::app()->user->setFlash('error', 'Ocorreu um erro. Tente novamente!');
+        }
 
 		$this->render('create',array(
 			'model'=>$model,
 		));
 	}
-
-    // public function actionCreate()
-    // {
-    //     $request = FoodMenu::app()->request->getPost('foodMenu');
-    //     $foodMenu = new FoodMenu;
-
-    //     if(isset($request)){
-
-    //         $foodMenu->description = $request['description'];
-    //         $publicTarget = FoodPublicTarget::model()->findByPk($request['food_public_target']);
-    //         $foodMenu->start_date = strtotime(str_replace('/', '-', $request["start_date"]));
-    //         $foodMenu->final_date = strtotime(str_replace('/', '-', $request["final_date"]));
-
-    //         $transaction = Yii::app()->db->beginTransaction();
-    //         try{
-
-    //             if($foodMenu->save()){
-
-    //             }
-    //         }catch(Exception $e){
-    //             $transaction->rollback();
-    //         }
-
-
-    //         $weekDays = ["sunday", "monday", "tuesday", "wednessday", "thursday", "friday", "saturday"];
-
-    //         foreach($weekDays as $day){
-    //             if($request[$day] !== null){
-    //                 // $meals se trata da lista de refeições que um dia da semana possui
-    //                 $meals = $request[$day]["meals"];
-    //                 foreach($meals as $meal)
-    //                 {
-    //                     $foodMenuMeal = new FoodMenuMeal;
-    //                     $foodMenuMealNewId = FoodMenuMeal::app()->db->createCommand()->;
-    //                     $foodMealType = FoodMealType::model()->findByAttributes(array('description' => $meal['turn']));
-
-    //                     $foodMenuMeal->food_menuId = $foodMenuNewId;
-    //                     $foodMenuMeal->time = $meal["time"];
-    //                     $foodMenuMeal->food_meal_type_fk = $foodMealType->id;
-
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
 
 	public function actionPlateAccordion ()
 	{
