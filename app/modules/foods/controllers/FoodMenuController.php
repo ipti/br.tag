@@ -31,7 +31,7 @@ class FoodMenuController extends Controller
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view','plateAccordion', 'getFood', 'getTacoFoods',
-                                'getPublicTarget', 'getMealType'),
+                                'getPublicTarget', 'getMealType', 'getFoodMeasurement'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -65,37 +65,66 @@ class FoodMenuController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model = new FoodMenu;
+		$request = Yii::app()->request->getPost('FoodMenu');
 
-		// $foodMenu = Yii::app()->request->getPost('FoodMenu');
-		// $publicTarget = Yii::app()->request->getPost("public_target");
+        $foodMenu = new FoodMenu;
 
-		if(isset($foodMenu) && isset($publicTarget))
+		if(isset($request))
 		{
-			if(isset($foodMenu["start_date"]) && isset($foodMenu["final_date"])) {
-				$startTimestamp = strtotime(str_replace('/', '-', $foodMenu["start_date"]));
+			if(
+                isset($request["start_date"]) &&
+                isset($request["final_date"])
+                && isset($request[""])) {
+
+                $startTimestamp = strtotime(str_replace('/', '-', $foodMenu["start_date"]));
 				$finalTimestamp = strtotime(str_replace('/', '-', $foodMenu["final_date"]));
 
-				$model->start_date = date('Y-m-d', $startTimestamp);
-				$model->final_date = date('Y-m-d', $finalTimestamp);
+				$foodMenu->start_date = date('Y-m-d', $startTimestamp);
+				$foodMenu->final_date = date('Y-m-d', $finalTimestamp);
 			}
 
 			$transaction = Yii::app()->db->beginTransaction();
 			try {
-				$model->attributes = $foodMenu;
+				$foodMenu->save();
+                $publicTarget = FoodPublicTarget::model()->findByPk($request['food_public_target']);
 
-				$model->save();
+                $foodMenuVsPublicTarget = new FoodMenuVsFoodPublicTarget;
+                $foodMenuVsPublicTarget->food_menu_fk = $foodMenu->id;
+                $foodMenuVsPublicTarget->food_public_target_fk = $publicTarget->id;
 
-				foreach ($publicTarget as $item) {
-					$fMenuVsFPublicTarget = new FoodMenuVsFoodPublicTarget;
-					$fMenuVsFPublicTarget->food_menu_fk = $model->id;
-					$fMenuVsFPublicTarget->food_public_target_fk = $item;
-					$fMenuVsFPublicTarget->save();
-				}
+                $foodMenuVsPublicTarget->save();
+
+                $weekDays = ["sunday", "monday", "tuesday", "wednessday", "thursday", "friday", "saturday"];
+
+                foreach($weekDays as $day){
+                    // Verifica se existe alguma refeição para o dia
+                    if($request[$day] !== null){
+                        // $meals se trata da lista de refeições que um dia da semana possui
+                        $meals = $request[$day]["meals"];
+                        foreach($meals as $meal)
+                        {
+                            $foodMenuMeal = new FoodMenuMeal;
+                            $foodMealType = FoodMealType::model()->findByAttributes(array('description' => $meal['turn']));
+
+                            $foodMenuMeal->food_menuId = $foodMenu->id;
+                            $foodMenuMeal->$day = 1;
+                            $foodMenuMeal->turn = $meal['turn'];
+                            $foodMenuMeal->meal_time = $meal["time"];
+                            $foodMenuMeal->food_meal_type_fk = $foodMealType->id;
+                            $foodMenuMeal->save();
+
+                            foreach($foodMenuMeal->meals_components as $components)
+                            {
+                                
+                            }
+
+                        }
+                    }
+                }
 
 				$transaction->commit();
 				Yii::app()->user->setFlash('success', 'Cardápio foi cadastrado com sucesso.');
-				$this->redirect(array('create'));
+                $this->redirect(array('create'));
 			}
 			catch(Exception $e)
 			{
@@ -115,18 +144,23 @@ class FoodMenuController extends Controller
     //     $request = FoodMenu::app()->request->getPost('foodMenu');
     //     $foodMenu = new FoodMenu;
 
-    //     if(isset($foodMenu)){
-    //         // "SELECT id FROM food_menu ORDER BY id DESC LIMIT 1"
-    //         $lastFoodMenu = FoodMenu::app()->db->createCommand()
-    //         ->select('id')->from('food_menu')
-    //         ->order('id DESC')->limit(1);
-    //         $foodMenuNewId = $lastFoodMenu->id + 1;
+    //     if(isset($request)){
 
-    //         $publicTarget = FoodPublicTarget::model()->findByPk($request['food_public_target']);
     //         $foodMenu->description = $request['description'];
+    //         $publicTarget = FoodPublicTarget::model()->findByPk($request['food_public_target']);
     //         $foodMenu->start_date = strtotime(str_replace('/', '-', $request["start_date"]));
     //         $foodMenu->final_date = strtotime(str_replace('/', '-', $request["final_date"]));
-    //         $foodMenu->save();
+
+    //         $transaction = Yii::app()->db->beginTransaction();
+    //         try{
+
+    //             if($foodMenu->save()){
+
+    //             }
+    //         }catch(Exception $e){
+    //             $transaction->rollback();
+    //         }
+
 
     //         $weekDays = ["sunday", "monday", "tuesday", "wednessday", "thursday", "friday", "saturday"];
 
@@ -311,7 +345,6 @@ class FoodMenuController extends Controller
         echo json_encode($options);
     }
 
-
     // public function getFoodMenu(){
     //     $foodMenus = FoodMenu::model()->findAll();
     //     $foodMenus =
@@ -319,5 +352,20 @@ class FoodMenuController extends Controller
 
     public function getSnacks(){
 
+    }
+
+    public function actionGetFoodMeasurement(){
+        $foodMeasurements = FoodMeasurement::model()->findAll();
+        $options = array();
+        foreach($foodMeasurements as $foodMeasurement){
+            array_push(
+                $options,
+                array(
+                    "id" => $foodMeasurement->id,
+                    "unit" => $foodMeasurement->unit,
+                    "value" => $foodMeasurement->value
+                ));
+        }
+        echo json_encode($options);
     }
 }
