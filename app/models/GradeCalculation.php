@@ -13,6 +13,11 @@
  */
 class GradeCalculation extends CActiveRecord
 {
+
+    public const OP_SUM = 1;
+    public const OP_MEDIA = 2;
+    public const OP_MEDIA_BY_WEIGTH = 3;
+
 	/**
 	 * @return string the associated database table name
 	 */

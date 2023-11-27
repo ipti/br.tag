@@ -14,7 +14,7 @@ $cs->registerScriptFile($baseUrl . '/js/admin/grades-structure.js', CClientScrip
 
 $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
 ?>
-<?php //echo $form->errorSummary($model); 
+<?php //echo $form->errorSummary($model);
 ?>
 
 <div class="main">
@@ -22,7 +22,8 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'classes-form',
         'enableAjaxValidation' => false,
-    ));
+    )
+    );
     ?>
     <div class="row-fluid">
         <div class="span12">
@@ -34,7 +35,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
         </div>
     </div>
     <div class="tag-inner">
-        <?php if (Yii::app()->user->hasFlash('success')) : ?>
+        <?php if (Yii::app()->user->hasFlash('success')): ?>
             <div class="alert alert-success">
                 <?php echo Yii::app()->user->getFlash('success') ?>
             </div>
@@ -50,15 +51,26 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                         'key' => 'id',
                         'class' => 'select-search-on control-input grades-structure-input',
                         'prompt' => 'Selecione o estágio...',
-                    ));
+                    )
+                    );
                     ?>
                 </div>
             </div>
             <img class="js-grades-structure-loading" style="display:none;margin: 10px 20px;" height="30px" width="30px"
-                 src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+                src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
 
         <div class="grades-rules-container js-grades-rules-container">
+            <div class="control-group form-inline">
+                <label class="control-label form-inline">Calculo da média final <span class="red">*</span></label>
+                <select class="calculation-final-media select-search-on control-input">
+                    <?php foreach ($formulas as $formula): ?>
+                        <option value="<?= $formula->id ?>">
+                            <?= $formula->name ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
             <div class="control-group form-inline">
                 <label class="control-label">Média de Aprovação <span class="red">*</span></label>
                 <input type="text" class="approval-media">
@@ -80,8 +92,10 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
         </div>
     </div>
     <div class="formulas">
-        <?php foreach ($formulas as $formula) : ?>
-            <option value="<?= $formula->id ?>"><?= $formula->name ?></option>
+        <?php foreach ($formulas as $formula): ?>
+            <option value="<?= $formula->id ?>">
+                <?= $formula->name ?>
+            </option>
         <?php endforeach; ?>
     </div>
     <div class="modal fade modal-content" id="js-saveandreply-modal" tabindex="-1" role="dialog">
@@ -89,7 +103,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt=""
-                         style="vertical-align: -webkit-baseline-middle">
+                        style="vertical-align: -webkit-baseline-middle">
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Salvar e Replicar para</h4>
             </div>
@@ -97,11 +111,12 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <div class="modal-body">
                     <div class="radios-container">
                         <div class="radio">
-                            <label><input type="radio" class="reply-option" name="reply-option" value="A"><span>Toda a Matriz Curricular.</span></label>
+                            <label><input type="radio" class="reply-option" name="reply-option" value="A"><span>Toda a
+                                    Matriz Curricular.</span></label>
                         </div>
                         <div class="radio">
-                            <label><input type="radio" class="reply-option" name="reply-option" value="S"><span>Todas as etapas de <span
-                                            class="stagemodalityname"></span>.</span></label>
+                            <label><input type="radio" class="reply-option" name="reply-option" value="S"><span>Todas as
+                                    etapas de <span class="stagemodalityname"></span>.</span></label>
                         </div>
                     </div>
                     <div class="modal-footer" style="margin-top: 50px">

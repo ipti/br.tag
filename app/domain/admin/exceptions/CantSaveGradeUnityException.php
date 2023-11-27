@@ -3,8 +3,8 @@
 
 final class CantSaveGradeUnityException extends Exception
 {
-    public function __construct($code = 0, Throwable $previous = null) {
-        parent::__construct("Não foi possivel salvar uma unidade para esse estrutura", $code, $previous);
+    public function __construct(GradeUnity $unity, $code = 0, Throwable $previous = null) {
+        parent::__construct("Não foi possivel salvar a unidade: ". $unity->name ." para etapa de código: ". $unity->edcensoStageVsModalityFk->name, $code, $previous);
     }
 
     public function __toString() {

@@ -243,9 +243,10 @@ class AdminController extends Controller
         $unities = Yii::app()->request->getPost("unities");
         $approvalMedia = Yii::app()->request->getPost("approvalMedia");
         $finalRecoverMedia = Yii::app()->request->getPost("finalRecoverMedia");
+        $calculationFinalMedia = Yii::app()->request->getPost("calculationFinalMedia");
 
         try {
-            $usecase = new UpdateGradeStructUsecase($reply, $stage, $unities, $approvalMedia, $finalRecoverMedia);
+            $usecase = new UpdateGradeStructUsecase($reply, $stage, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia);
             $usecase->exec();
             echo json_encode(["valid" => true]);
         } catch (\Throwable $th) {
@@ -267,6 +268,11 @@ class AdminController extends Controller
         $this->render('activeDisableUser', ['users' => $users]);
     }
 
+    public function actionPHPConfig(){
+
+        echo phpinfo();
+
+    }
     public function actionDisableUser($id)
     {
         $model = Users::model()->findByPk($id);

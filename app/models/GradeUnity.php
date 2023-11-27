@@ -14,6 +14,7 @@
  * @property GradeCalculation $gradeCalculationFk
  * @property EdcensoStageVsModality $edcensoStageVsModalityFk
  * @property GradeUnityModality[] $gradeUnityModalities
+ * @property int $countGradeUnityModalities
  */
 class GradeUnity extends CActiveRecord
 {
@@ -61,6 +62,7 @@ class GradeUnity extends CActiveRecord
 			'gradeCalculationFk' => array(self::BELONGS_TO, 'GradeCalculation', 'grade_calculation_fk'),
 			'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
 			'gradeUnityModalities' => array(self::HAS_MANY, 'GradeUnityModality', 'grade_unity_fk'),
+            'countGradeUnityModalities' => array(self::STAT, 'GradeUnityModality', 'grade_unity_fk'),
 		);
 	}
 

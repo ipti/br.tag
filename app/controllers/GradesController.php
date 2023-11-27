@@ -189,6 +189,7 @@ class GradesController extends Controller
 
     public function actionGetReportCardGrades()
     {
+
         $criteria = new CDbCriteria;
         $criteria->alias = "se";
         $criteria->join = "join student_identification si on si.id = se.student_fk";
@@ -239,50 +240,50 @@ class GradesController extends Controller
 
     public function actionSaveGrades()
     {
-        foreach ($_POST["students"] as $student) {
+        $students = Yii::app()->request->getPost("students");
+        $disciplineId = Yii::app()->request->getPost("discipline");
+        $classroomId = Yii::app()->request->getPost("classroom");
+        $isConcept = Yii::app()->request->getPost("isConcept");
+
+        foreach ($students as $student) {
             foreach ($student["grades"] as $grade) {
-                if ($grade["value"] != "" || ($_POST["isConcept"] == "1" && $grade["concept"] != "")) {
 
-                    $gradeObject = Grade::model()->find(
-                        "enrollment_fk = :enrollment and grade_unity_modality_fk = :modality and discipline_fk = :discipline_fk",
-                        [
-                            ":enrollment" => $student["enrollmentId"],
-                            ":modality" => $grade["modalityId"],
-                            ":discipline_fk" => $_POST["discipline"]
-                        ]
-                    );
+                $gradeObject = Grade::model()->findByPk($grade["id"]);
 
-                    if ($gradeObject == null) {
-                        $gradeObject = new Grade();
-                        $gradeObject->enrollment_fk = $student["enrollmentId"];
-                        $gradeObject->discipline_fk = $_POST["discipline"];
-                        $gradeObject->grade_unity_modality_fk = $grade["modalityId"];
-                    }
-                    if (!$_POST["isConcept"]) {
-                        $gradeObject->grade = $grade["value"];
-                    } else {
-                        $gradeObject->grade_concept_fk = $grade["concept"];
-                    }
-                    $gradeObject->save();
-                } else {
-                    Grade::model()->deleteAll(
-                        "enrollment_fk = :enrollment and grade_unity_modality_fk = :modality and discipline_fk = :discipline",
-                        [
-                            ":enrollment" => $student["enrollmentId"],
-                            ":modality" => $grade["modalityId"],
-                            ":discipline" => $_POST["discipline"]
-                        ]
-                    );
+                if ($gradeObject == null) {
+                    $gradeObject = new Grade();
+                    $gradeObject->enrollment_fk = $student["enrollmentId"];
+                    $gradeObject->discipline_fk = $disciplineId;
+                    $gradeObject->grade_unity_modality_fk = $grade["modalityId"];
                 }
+                if (!$isConcept) {
+                    $gradeObject->grade = $grade["value"] ?? "";
+                } else {
+                    $gradeObject->grade_concept_fk = $grade["concept"];
+                }
+                $gradeObject->save();
+
             }
         }
 
-        self::saveGradeResults($_POST["classroom"], $_POST["discipline"]);
+        self::saveGradeResults($classroomId, $disciplineId);
         echo json_encode(["valid" => true]);
+
     }
 
     public function actionGetGrades()
     {
+
+        Yii::import("application.domain.grades.usecases.GetStudentGradesByDisciplineUsecase");
+
+        $classroomId = Yii::app()->request->getPost("classroom");
+        $disciplineId = Yii::app()->request->getPost("discipline");
+
+        $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId);
+        $usecase->exec();
+
+        die();
+
         $criteria = new CDbCriteria;
         $criteria->alias = "se";
         $criteria->join = "join student_identification si on si.id = se.student_fk";
@@ -366,11 +367,28 @@ class GradesController extends Controller
         self::saveGradeResults($_POST["classroom"], $_POST["discipline"]);
     }
 
+
     public static function saveGradeResults($classroom, $discipline)
     {
-        $usecase = new CalculateGradeResultsUsecase();
+        $usecase = new CalculateGradeResultsUsecase(
+            $classroom,
+            $discipline
+        );
         $usecase->exec();
+
+        $studentEnrollments = StudentEnrollment::model()->findAll("classroom_fk = :classroom_fk", ["classroom_fk" => $classroom]);
+
+        foreach ($studentEnrollments as $key => $enrollment) {
+            $usecaseFinalMedia = new CalculateFinalMediaUsecase(
+                $enrollment->id,
+                $discipline
+            );
+            $usecaseFinalMedia->exec();
+        }
+
+
     }
+
 
 
 }

@@ -24,14 +24,13 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Grades'));
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'classes-form',
             'enableAjaxValidation' => false,
-            'action' => CHtml::normalizeUrl(array('enrollment/saveGrades')),
+            'action' => CHtml::normalizeUrl(array('grades/saveGrades')),
         ));
     ?>
     <div class="row-fluid hidden-print">
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Grades'); ?></h1>
             <div class="buttons row grades-buttons">
-                <!--<button class='t-button-primary calculate-media'>Calcular Média</button>-->
                 <button id="save"
                    class='t-button-primary  hidden-print no-show'><?php echo Yii::t('default', 'Save') ?>
                 </button>

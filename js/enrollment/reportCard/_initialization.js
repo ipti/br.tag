@@ -183,7 +183,7 @@ $("#save").on("click", function (e) {
 
     $.ajax({
         type: "POST",
-        url: "?r=enrollment/saveGradesReportCard",
+        url: "?r=grades/saveGradesReportCard",
         cache: false,
         data: {
             classroom: $("#classroom").val(),

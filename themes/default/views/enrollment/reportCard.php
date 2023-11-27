@@ -23,7 +23,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'classes-form',
             'enableAjaxValidation' => false,
-            'action' => CHtml::normalizeUrl(array('enrollment/saveGrades')),
+            'action' => CHtml::normalizeUrl(array('grades/saveGrades')),
         ));
     ?>
     <div class="row-fluid hidden-print">

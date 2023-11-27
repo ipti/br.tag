@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * Caso de uso para salvavemto da estrutura de notas e avaliação
  *
@@ -15,12 +16,13 @@ class UpdateGradeJustOneStructUsecase
     private const OP_UPDATE = "update";
     private const OP_REMOVE = "remove";
 
-    public function __construct($stage, $unities, $approvalMedia, $finalRecoverMedia)
+    public function __construct($stage, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia)
     {
         $this->stage = $stage;
         $this->unities = $unities;
         $this->approvalMedia = $approvalMedia;
         $this->finalRecoverMedia = $finalRecoverMedia;
+        $this->calculationFinalMedia = $calculationFinalMedia;
     }
 
     public function exec()
@@ -33,7 +35,8 @@ class UpdateGradeJustOneStructUsecase
         $rulesUseCase = new UpdateGradeRulesUsecase(
             $this->stage,
             $this->approvalMedia,
-            $this->finalRecoverMedia
+            $this->finalRecoverMedia,
+            $this->calculationFinalMedia
         );
         $rulesUseCase->exec();
 
@@ -57,7 +60,7 @@ class UpdateGradeJustOneStructUsecase
                 $isUnitySaved = $unityModel->save();
 
                 if (!$isUnitySaved) {
-                    throw new CantSaveGradeUnityException();
+                    throw new CantSaveGradeUnityException($unityModel);
                 }
 
                 $this->buildAvaliationModalities($unityModel, $unity["modalities"]);

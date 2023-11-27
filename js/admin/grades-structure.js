@@ -318,6 +318,7 @@ function saveUnities(reply) {
             unities: unities,
             approvalMedia: $(".approval-media").val(),
             finalRecoverMedia: $(".final-recover-media").val(),
+            finalMediaCalculation: $(".calculation-final-media").select2("val"),
             reply: reply ? $(".reply-option:checked").val() : "",
         },
         beforeSend: function (e) {

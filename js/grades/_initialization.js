@@ -27,14 +27,15 @@ $("#save").on("click", function (e) {
     e.preventDefault();
     $(".js-grades-alert").hide();
 
-    var students = [];
+    let students = [];
     $(".grades-table tbody tr").each(function () {
-        var grades = [];
+        let grades = [];
         if ($(".grades-table").attr("concept") === "1") {
             $(this)
                 .find(".grade-concept")
                 .each(function () {
                     grades.push({
+                        id: $(this).attr("gradeid"),
                         modalityId: $(this).attr("modalityid"),
                         concept: $(this).val(),
                     });
@@ -44,6 +45,7 @@ $("#save").on("click", function (e) {
                 .find(".grade")
                 .each(function () {
                     grades.push({
+                        id: $(this).attr("gradeid"),
                         modalityId: $(this).attr("modalityid"),
                         value: $(this).val(),
                     });
@@ -57,7 +59,7 @@ $("#save").on("click", function (e) {
 
     $.ajax({
         type: "POST",
-        url: "?r=enrollment/saveGrades",
+        url: "?r=grades/saveGrades",
         cache: false,
         data: {
             classroom: $("#classroom").val(),
