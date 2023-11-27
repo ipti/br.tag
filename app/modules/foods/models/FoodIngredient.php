@@ -1,21 +1,29 @@
 <?php
 
 /**
- * This is the model class for table "food_measurement".
+ * This is the model class for table "food_ingredient".
  *
- * The followings are the available columns in table 'food_measurement':
+ * The followings are the available columns in table 'food_ingredient':
  * @property integer $id
- * @property string $unit
- * @property double $value
+ * @property integer $food_id_fk
+ * @property string $observation
+ * @property integer $amount
+ * @property integer $replaceable
+ * @property integer $food_menu_meal_componentId
+ *
+ * The followings are the available model relations:
+ * @property Food $foodIdFk
+ * @property FoodMenuMealComponent $foodMenuMealComponent
+ * @property FoodIngredientAlternatives[] $foodIngredientAlternatives
  */
-class FoodMeasurement extends CActiveRecord
+class FoodIngredient extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'food_measurement';
+		return 'food_ingredient';
 	}
 
 	/**
@@ -26,12 +34,12 @@ class FoodMeasurement extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('unit, value', 'required'),
-			array('value', 'numerical'),
-			array('unit', 'length', 'max'=>14),
+			array('food_id_fk, amount, replaceable', 'required'),
+			array('food_id_fk, amount, replaceable, food_menu_meal_componentId', 'numerical', 'integerOnly'=>true),
+			array('observation', 'length', 'max'=>191),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, unit, value', 'safe', 'on'=>'search'),
+			array('id, food_id_fk, observation, amount, replaceable, food_menu_meal_componentId', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -43,6 +51,9 @@ class FoodMeasurement extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'foodIdFk' => array(self::BELONGS_TO, 'Food', 'food_id_fk'),
+			'foodMenuMealComponent' => array(self::BELONGS_TO, 'FoodMenuMealComponent', 'food_menu_meal_componentId'),
+			'foodIngredientAlternatives' => array(self::HAS_MANY, 'FoodIngredientAlternatives', 'food_ingredient_fk'),
 		);
 	}
 
@@ -53,8 +64,11 @@ class FoodMeasurement extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'unit' => 'Unit',
-			'value' => 'Value',
+			'food_id_fk' => 'Food Id Fk',
+			'observation' => 'Observation',
+			'amount' => 'Amount',
+			'replaceable' => 'Replaceable',
+			'food_menu_meal_componentId' => 'Food Menu Meal Component',
 		);
 	}
 
@@ -77,8 +91,11 @@ class FoodMeasurement extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('unit',$this->unit,true);
-		$criteria->compare('value',$this->value);
+		$criteria->compare('food_id_fk',$this->food_id_fk);
+		$criteria->compare('observation',$this->observation,true);
+		$criteria->compare('amount',$this->amount);
+		$criteria->compare('replaceable',$this->replaceable);
+		$criteria->compare('food_menu_meal_componentId',$this->food_menu_meal_componentId);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -89,7 +106,7 @@ class FoodMeasurement extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return FoodMeasurement the static model class
+	 * @return FoodIngredient the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

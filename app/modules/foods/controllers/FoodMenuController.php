@@ -113,9 +113,16 @@ class FoodMenuController extends Controller
                             $foodMenuMeal->food_meal_type_fk = $foodMealType->id;
                             $foodMenuMeal->save();
 
-                            foreach($foodMenuMeal->meals_components as $components)
+                            foreach($foodMenuMeal->meals_components as $component)
                             {
-                                
+                                $foodMenuMealComponent = new FoodMenuMealComponent;
+                                $foodMenuMealComponent->food_menu_mealId = $foodMenuMeal->id;
+                                $foodMenuMealComponent->description = $component["description"];
+
+                                foreach($component["food_ingredients"] as $ingredients)
+                                {
+                                    
+                                }
                             }
 
                         }
