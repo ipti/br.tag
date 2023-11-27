@@ -30,8 +30,10 @@ class UpdateFichaAlunoInTAGUseCase
 
             $studentIdentification = $this->createOrUpdateStudentIdentification($mapperStudentIdentification);
             $mapperStudentDocuments = $mapper->StudentDocumentsAndAddress;
-            
-            $stausUp = $this->updateStudentDocsAndAddress($mapperStudentDocuments, $mapperStudentIdentification->id);
+            $govId = $mapperStudentDocuments->gov_id;
+            $studentId = StudentIdentification::model()->find('gov_id = :govId', [':govId' => $govId])->id;
+
+            $stausUp = $this->updateStudentDocsAndAddress($mapperStudentDocuments, $studentId, $govId);
             $statusCr = $this->createOrUpdateStudentEnrollment($mapper->StudentEnrollment);
 
             return $studentIdentification;
@@ -59,16 +61,16 @@ class UpdateFichaAlunoInTAGUseCase
         return $this->createAndSaveStudentIdentification($studentIdentification);
     }
 
-    private function updateStudentDocsAndAddress($studentDocument, $idStudent)
+    private function updateStudentDocsAndAddress($docsAndAddress, $studentId, $govId)
     {
-        $studentDocumentsAndAddress = StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk' => $idStudent));
-        if ($studentDocumentsAndAddress === null) {
-            $studentDocument->student_fk = $idStudent;
-            return $studentDocument->save();
+        $studentDocument = StudentDocumentsAndAddress::model()->findByAttributes(array("student_fk" => $studentId));
+       
+        if($studentDocument === null) {
+            return $this->createStudentDocumentsAndAddress($docsAndAddress, $studentId, $govId);
         } else {
-            $studentDocumentsAndAddress->attributes = $studentDocument->attributes;
-            $studentDocumentsAndAddress->student_fk = $idStudent;
-            return $studentDocumentsAndAddress->save();
+            $studentDocument->attributes = $docsAndAddress->attributes;
+            $studentDocument->student_fk = $studentId;
+            return $studentDocument->save();
         }
     }
 
@@ -120,6 +122,18 @@ class UpdateFichaAlunoInTAGUseCase
         
         $log = new LogError();
         $log->salvarDadosEmArquivo($e->getMessage());
+    }
+
+
+    public function createStudentDocumentsAndAddress($attributes, $id, $govId)
+    {
+        $studentDocumentsAndAddress = new StudentDocumentsAndAddress();
+        $studentDocumentsAndAddress->attributes = $attributes->getAttributes();
+        $studentDocumentsAndAddress->edcenso_city_fk = $attributes->edcenso_city_fk;
+        $studentDocumentsAndAddress->gov_id = $govId;
+        $studentDocumentsAndAddress->student_fk = $id;
+
+        return $studentDocumentsAndAddress->save();
     }
 
     public function createAndSaveStudentIdentification($attributes)
