@@ -9,6 +9,16 @@ class ClassPlanRobots
     }
 
     /**
+     * Caso de teste para salvar plano de aula.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function saveSucess()
+    {
+        $this->tester->see('Plano de Curso salvo com sucesso!');
+        $this->tester->canSeeInCurrentUrl('?r=courseplan/index');
+    }
+
+    /**
      * Url da página principal de plano de curso.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */

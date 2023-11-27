@@ -1,14 +1,5 @@
 <?php
 
-require_once 'vendor/autoload.php';
-require_once 'app/vendor/autoload.php';
-require_once __DIR__ . '/../providers/CustomProvider.php';
-
-$yiit = __DIR__ . '\..\..\app\vendor\yiisoft\yii\framework\yiit.php';
-require_once($yiit);
-$config = __DIR__ . '/../../app/config/test.php';
-Yii::createWebApplication($config);
-
 /**
  * @property [] $instructor
  * @property [] $instructorTeaching

@@ -19,13 +19,11 @@ class CalendarCest
 
     /**
      * Adicionar calendário contemplando a etapa da turma selecionada.
+     * Preencher inicio e fim de ano letivo.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function addCalendarVinculadClass(AcceptanceTester $teste)
     {
-        $classroom = new ClassroomCest();
-        $addClassroom = $classroom->addClassroomEAD($teste);
-
         $builder = new CalendarBuilder();
         $dataBuilder = $builder->buildCompleted();
 
@@ -35,9 +33,11 @@ class CalendarCest
         $robots->btnNewCalendar();
         sleep(2);
         $robots->title($dataBuilder['title']);
-        $robots->stage('6');
+        $robots->stage($dataBuilder['stage_in_classroom']);
         $robots->btnSave();
         sleep(4);
+
+        //Preencher inicio do ano letivo.
         $robots->searchTitleCalendar($dataBuilder['title']);
         sleep(2);
         $robots->clickStartYearSchooling();
@@ -49,18 +49,14 @@ class CalendarCest
         $robots->confirmSave();
         sleep(4);
 
-
-        //Ver o preenchimento do final de ano letivo
-        // $robots->searchTitleCalendar($dataBuilder['title']);
-        // $robots->clickEndYearSchooling();
-        // sleep(2);
-        // $robots->event($dataBuilder['event_end_name']);
-        // $robots->typeEvent($dataBuilder['event_end']);
-        // $robots->btnSaveEvent();
-        // sleep(4);
-        // $robots->confirmSave();
-
-        // sleep(10); //ver se funcionou
+        //Preencher final do ano letivo.
+        $robots->clickEndYearSchooling();
+        sleep(2);
+        $robots->event($dataBuilder['event_end_name']);
+        $robots->typeEvent($dataBuilder['event_end']);
+        $robots->btnSaveEvent();
+        sleep(4);
+        $robots->confirmSave();
+        sleep(4);
     }
-
 }

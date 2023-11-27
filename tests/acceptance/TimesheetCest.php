@@ -16,7 +16,19 @@ class TimesheetCest
     }
 
     // tests
-    public function tryToTest(AcceptanceTester $I)
+    public function toGenerate(AcceptanceTester $teste)
     {
+        $builder = new TimesheetBuilder();
+        $dataBuilder = $builder->buildCompleted();
+
+        $robots = new TimesheetRobots($teste);
+        $robots->pageTimesheet();
+        sleep(2);
+        $robots->classroom($dataBuilder['classroom_fk']);
+        sleep(2);
+        $robots->btnGenerate();
+        sleep(10);
+
+        return $dataBuilder;
     }
 }

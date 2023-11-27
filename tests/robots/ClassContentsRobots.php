@@ -9,12 +9,27 @@ class ClassContentsRobots
     }
 
     /**
+     * Caso de teste.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function updateSucess()
+    {
+        $this->tester->see('Aulas ministradas atualizadas com sucesso!');
+        $this->tester->wait(1);
+    }
+
+    /**
      * Url da página de aulas ministradas.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function page()
     {
         $this->tester->amOnPage('?r=classes/classContents');
+    }
+
+    public function btnSave()
+    {
+        $this->tester->click('.show--desktop');
     }
 
     /**

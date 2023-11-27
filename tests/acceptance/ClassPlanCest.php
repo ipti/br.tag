@@ -23,6 +23,7 @@ class ClassPlanCest
         $matrix = new MatrixCest();
         $addMatrix = $matrix->addMatrix($teste);
 
+        sleep(5);
         $builder = new ClassPlanBuilder();
         $classPlan = $builder->buildCompleted();
         $robots = new ClassPlanRobots($teste);
@@ -37,8 +38,7 @@ class ClassPlanCest
         $robots->btnSave();
         sleep(5);
 
-        $teste->see('Plano de Curso salvo com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=courseplan/index');
+        $robots->saveSucess();
 
         return $classPlan;
     }

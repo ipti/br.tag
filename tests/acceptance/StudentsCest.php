@@ -1,5 +1,7 @@
 <?php
 
+ require_once __DIR__ . '\\ClassroomCest.php';
+
 class StudentsCest
 {
     public function _before(AcceptanceTester $tester)
@@ -49,6 +51,7 @@ class StudentsCest
         sleep(2);
 
         // address
+        $robots->address($dataStudent->studentDocument['address']);
         $robots->zone($dataStudent->studentDocument['residence_zone']);
         $robots->btnProximo();
         sleep(2);
@@ -111,6 +114,7 @@ class StudentsCest
         sleep(2);
 
         // address
+        $robots->address($dataStudent->studentDocument['address']);
         $robots->zone($dataStudent->studentDocument['residence_zone']);
         $robots->btnProximo();
         sleep(2);
@@ -137,6 +141,10 @@ class StudentsCest
      */
     public function addStudentsRapidAllFilledIn(AcceptanceTester $teste)
     {
+        sleep(5);
+        $classroom = new ClassroomCest();
+        $addClassroom = $classroom->addClassroomEAD($teste);
+
         sleep(5);
         $robots = new StudentsRobots($teste);
         $robots->pageRapidAddStudents();
@@ -169,6 +177,7 @@ class StudentsCest
         sleep(2);
 
         // address
+        $robots->address($dataStudent->studentDocument['address']);
         $robots->zone($dataStudent->studentDocument['residence_zone']);
         $robots->btnProximo();
         sleep(2);
@@ -176,7 +185,7 @@ class StudentsCest
         // matriculation
         $robots->btnAddMatriculation();
         sleep(2);
-        $robots->classroom($dataStudent->studentEnrollment['classroom_fk']);
+        $robots->classroom($addClassroom['name']);
         $robots->btnProximo();
 
         // health
@@ -369,6 +378,10 @@ class StudentsCest
     public function allFilledInNewCivilWithMotherAndFather(AcceptanceTester $teste)
     {
         sleep(5);
+        $classroom = new ClassroomCest();
+        $addClassroom = $classroom->addClassroomEAD($teste);
+
+        sleep(5);
         $robots = new StudentsRobots($teste);
         $robots->pageAddStudents();
         $builder = new StudentBuilder();
@@ -451,7 +464,7 @@ class StudentsCest
 
         // registration
         $robots->btnAddMatriculation();
-        $robots->classroom($dataStudent->studentEnrollment['classroom_fk']);
+        $robots->classroom($addClassroom['name']);
         $robots->ticketType($dataStudent->studentEnrollment['admission_type']);
         $robots->ticketDate($dataStudent->studentEnrollment['school_admission_date']);
         $robots->situationSerie($dataStudent->studentEnrollment['current_stage_situation']);
@@ -492,6 +505,10 @@ class StudentsCest
      */
     public function allFilledInNewCivil(AcceptanceTester $teste)
     {
+        sleep(5);
+        $classroom = new ClassroomCest();
+        $addClassroom = $classroom->addClassroomEAD($teste);
+
         sleep(5);
         $robots = new StudentsRobots($teste);
         $robots->pageAddStudents();
@@ -562,7 +579,7 @@ class StudentsCest
 
         // registration
         $robots->btnAddMatriculation();
-        $robots->classroom($dataStudent->studentEnrollment['classroom_fk']);
+        $robots->classroom($addClassroom['name']);
         $robots->ticketType($dataStudent->studentEnrollment['admission_type']);
         $robots->ticketDate($dataStudent->studentEnrollment['school_admission_date']);
         $robots->situationSerie($dataStudent->studentEnrollment['current_stage_situation']);
@@ -603,6 +620,10 @@ class StudentsCest
      */
     public function  allFilledInOldCivilWithMotherAndFather(AcceptanceTester $teste)
     {
+        sleep(5);
+        $classroom = new ClassroomCest();
+        $addClassroom = $classroom->addClassroomEAD($teste);
+
         sleep(5);
         $robots = new StudentsRobots($teste);
         $robots->pageAddStudents();
@@ -695,7 +716,7 @@ class StudentsCest
 
         // registration
         $robots->btnAddMatriculation();
-        $robots->classroom($dataStudent->studentEnrollment['classroom_fk']);
+        $robots->classroom($addClassroom['name']);
         $robots->ticketType($dataStudent->studentEnrollment['admission_type']);
         $robots->ticketDate($dataStudent->studentEnrollment['school_admission_date']);
         $robots->situationSerie($dataStudent->studentEnrollment['current_stage_situation']);
@@ -736,6 +757,10 @@ class StudentsCest
      */
     public function  allFilledInOldCivil(AcceptanceTester $teste)
     {
+        sleep(5);
+        $classroom = new ClassroomCest();
+        $addClassroom = $classroom->addClassroomEAD($teste);
+
         sleep(5);
         $robots = new StudentsRobots($teste);
         $robots->pageAddStudents();
@@ -817,7 +842,7 @@ class StudentsCest
 
         // registration
         $robots->btnAddMatriculation();
-        $robots->classroom($dataStudent->studentEnrollment['classroom_fk']);
+        $robots->classroom($addClassroom['name']);
         $robots->ticketType($dataStudent->studentEnrollment['admission_type']);
         $robots->ticketDate($dataStudent->studentEnrollment['school_admission_date']);
         $robots->situationSerie($dataStudent->studentEnrollment['current_stage_situation']);

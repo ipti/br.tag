@@ -28,6 +28,8 @@ class CalendarBuilder
         $this->calendar['event_start'] = '1000';
         $this->calendar['event_end'] = '1001';
 
+        $this->calendar['stage_in_classroom'] = '40'; // Curso Técnico  - Subsequente
+
         return $this->calendar;
     }
 

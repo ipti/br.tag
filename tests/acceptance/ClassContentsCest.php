@@ -17,28 +17,21 @@ class ClassContentsCest
     }
 
     // tests
-    public function register(AcceptanceTester $teste, $addMatrix)
+    public function register(AcceptanceTester $teste)
     {
-        sleep(5);
-
-        $classroom = new ClassroomCest();
-        $addClassroom = $classroom->allFieldsAddClassroomEAD($teste);
-
-        //criar calendário
-        //criar quadros de horários:
-
         $builder = new ClassContentsBuilder();
         $dataClassContents = $builder->buildCompleted();
 
         $robots = new ClassContentsRobots($teste);
         $robots->page();
         sleep(5);
-        $robots->classroom($addClassroom['name']);
+        $robots->classroom($dataClassContents['classroom']);
         sleep(2);
         $robots->month($dataClassContents['month']);
         sleep(2);
-        $robots->component($addMatrix['disciplines']);
-        sleep(10);
-        // $robots->component();
+        $robots->btnSave();
+        sleep(2);
+
+        $robots->updateSucess();
     }
 }

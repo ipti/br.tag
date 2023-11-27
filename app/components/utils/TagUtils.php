@@ -53,6 +53,7 @@ class TagUtils extends CApplicationComponent {
         }
 
         return strtoupper(INSTANCE) === strtoupper($instance);
+        // return strtoupper(INSTANCE) === strtoupper($instance) || INSTANCE === "LOCALHOST";
     }
 }
 

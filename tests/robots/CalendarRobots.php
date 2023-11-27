@@ -70,9 +70,14 @@ class CalendarRobots
         $this->teste->click('.btn-default');
     }
 
+    /**
+     * Botão salvar evento.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
     public function btnSaveEvent()
     {
-        $this->teste->click('.save-event');
+        $this->teste->waitForElementVisible('.save-event');
+        $this->teste->executeJS("document.querySelector('.save-event').click();");
     }
 
     /**
@@ -108,7 +113,7 @@ class CalendarRobots
 
     /**
      * Clicar no inicio do ano escolar.
-     * Dia 3 de janeiro.
+     * Dia 4 de janeiro.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function clickStartYearSchooling()
@@ -118,9 +123,14 @@ class CalendarRobots
         $this->teste->wait(1);
     }
 
+    /**
+     * Clicar no fim do ano escolar.
+     * Dia 1 de março.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
     public function clickEndYearSchooling()
     {
-        $seletorCss = "#createEvent .row-fluid:nth-child(2) .control-label";
+        $seletorCss = "#collapse47 .row-fluid:nth-child(1) .span3:nth-child(3) > .row-fluid:nth-child(3) .span1-7:nth-child(6) .calendar-text:nth-child(1)";
         $this->teste->executeJS("document.querySelector('$seletorCss').click();");
         $this->teste->wait(1);
     }
@@ -151,7 +161,4 @@ class CalendarRobots
         $this->teste->executeJS("document.querySelector('.confirm-save-event').click();");
         $this->teste->wait(1);
     }
-
-
-
 }
