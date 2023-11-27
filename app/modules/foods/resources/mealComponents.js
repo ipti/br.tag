@@ -87,12 +87,13 @@ const PlateComponent = function () {
     initializeSelect2()
   }
   function initializePlateAccordion(accordionActive) {
-    const container = $(`.js-plate-accordion-header[data-id-accordion='${idPlateAccordion}']`).parent()
+    const container = $(`.js-plate-accordion-header[data-id-accordion='${accordionActive}']`).parent()
+   
     if(container.data('ui-accordion')) {
-      container.accordion("destroy");
+      $(container).accordion("destroy");
     }
     container.accordion({
-      active: accordionActive,
+      active: Number(accordionActive),
       collapsible: true,
       icons: false,
     });
@@ -216,6 +217,7 @@ const PlateComponent = function () {
         table.append(line)
         calculateNutritionalValue(table) 
         initializePlateAccordion(accordionActive)
+        initializeSelect2()
     })
   }
   function calculateNutritionalValue(table) {
