@@ -2,7 +2,7 @@
 
 /**
  * @var StudentController $this StudentController
- * @var $form CActiveForm
+ * @var CActiveForm $form CActiveForm
  * @var $cs CClientScript
  * @var StudentIdentification $modelStudentIdentification StudentIdentification
  * @var StudentDocumentsAndAddress $modelStudentDocumentsAndAddress StudentDocumentsAndAddress
@@ -24,7 +24,12 @@ $form = $this->beginWidget('CActiveForm', array(
     'id' => 'student',
         'enableAjaxValidation' => false,
 ));
+/**
+ * @var CActiveForm $form CActiveForm
+*/
 ?>
+
+
 
 <div class="mobile-row ">
     <div class="column clearleft">
@@ -55,7 +60,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="column clearfix align-items--center justify-content--end show--desktop">
         <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
         <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
-        
+
         <button class="t-button-primary  last save-student" type="button">
             <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
         </button>
@@ -349,14 +354,22 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="t-field-select" id="filiation-select">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation', array('class' => 't-field-select__label--required')); ?>
-                                <?php 
+                                <?php
                                     if(TagUtils::isInstance("UBATUBA")) {
-                                        echo $form->DropDownList($modelStudentIdentification, 'filiation', array("1" => "Pai e/ou Mãe"));
+                                        echo $form->DropDownList(
+                                            $modelStudentIdentification,
+                                            'filiation',
+                                            array("1" => "Pai e/ou Mãe"),
+                                            array('class' => 'select-search-off t-field-select__input select2-container')
+                                        );
                                     }else{
-                                        echo $form->DropDownList($modelStudentIdentification, 'filiation', array(null => "Selecione a filiação", "0" => "Não declarado/Ignorado", "1" => "Pai e/ou Mãe"));
+                                        echo $form->DropDownList(
+                                            $modelStudentIdentification,
+                                            'filiation',
+                                            array(null => "Selecione a filiação", "0" => "Não declarado/Ignorado", "1" => "Pai e/ou Mãe"),
+                                            array('class' => 'select-search-off t-field-select__input select2-container')
+                                        );
                                     }
-
-                                    array('class' => 'select-search-off t-field-select__input select2-container'); 
                                 ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation'); ?>
                             </div>
@@ -1151,7 +1164,30 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column clearleft is-two-fifths">
                             <div class="t-buttons-container">
-                                <a href="#" class="t-button-primary  " id="new-enrollment-button">Adicionar Matrícula</a>
+                                <?php
+                                    if (TagUtils::isInstance("UBATUBA")) {
+                                        $idStudent = isset($_GET['id']) ? $_GET['id'] : null;
+                                    
+                                        if ($idStudent !== null) {
+                                            $sql = "SELECT COUNT(*) FROM classroom 
+                                                    WHERE id IN (SELECT classroom_fk FROM student_enrollment WHERE student_fk = :idStudent AND status = 1) 
+                                                    AND school_year = :schoolYear";
+                                    
+                                            $command = Yii::app()->db->createCommand($sql);
+                                            $command->bindValues(array(':idStudent' => $idStudent, ':schoolYear' => Yii::app()->user->year));
+                                            $existEnrollment = (int) $command->queryScalar();
+                                    
+                                            if ($existEnrollment === 0) {
+                                                echo '<a href="#" class="t-button-primary" id="new-enrollment-button">Adicionar Matrícula</a>';
+                                            }
+                                        } else {
+                                            echo '<a href="#" class="t-button-primary" id="new-enrollment-button">Adicionar Matrícula</a>';
+                                        }
+                                    } else {
+                                        echo '<a href="#" class="t-button-primary" id="new-enrollment-button">Adicionar Matrícula</a>';
+                                    }
+                                    
+                                ?>
                                 <?php
                                 echo  $modelStudentIdentification->isNewRecord ?  "" : '<a href=' . @Yii::app()->createUrl('student/transfer',
                                 array('id' => $modelStudentIdentification->id)) . ' class="t-button-secondary" id="transfer-student">Transferir Matrícula</a>'

@@ -145,9 +145,9 @@ $(".save-classroom").click(function () {
     }
     if (error) {
         $("html, body").animate({scrollTop: 0}, "fast");
-        $(this).closest("form").find(".classroom-error").html(message).show();
+        $(this).closest("form").find(".classroom-alert").addClass("alert-error").removeClass("alert-success").html(message).show();
     } else {
-        $(this).closest("form").find(".classroom-error").hide();
+        $(this).closest("form").find(".classroom-alert").hide();
         $('#teachingData').val(JSON.stringify(teachingData));
         $('#disciplines').val(JSON.stringify(disciplines));
         $("#classroom input").removeAttr("disabled");

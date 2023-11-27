@@ -158,8 +158,34 @@ class EnrollmentSEDDataSource extends SedDataSource
     public function addBaixarMatricula(InBaixarMatricula $inBaixarMatricula)
     {
         try{
-            $url = '/ncaapi/api/Matrícula/BaixarMatricula';
+            $url = '/ncaapi/api/Matricula/BaixarMatricula';
             $response = $this->getApiResponse('POST', $url, $inBaixarMatricula);
+            return OutHandleApiResult::fromJson($response);
+        } catch (ClientException $e) {
+            return new OutErro($e);
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    /**
+     * Summary of addBaixarMatricula
+     * @param InTrocarAlunoEntreClasses $inTrocarAlunoEntreClasses
+     * @return OutHandleApiResult|OutErro
+     * @throws Exception
+     */
+    public function addTrocarAlunoEntreClasses(InTrocarAlunoEntreClasses $inTrocarAlunoEntreClasses)
+    {
+        try{
+            $url = '/ncaapi/api/Matricula/TrocarAlunoEntreClasses';
+
+            $data = [
+                "inAluno" => $inTrocarAlunoEntreClasses->getInAluno(),
+                "inMatricula" => $inTrocarAlunoEntreClasses->getInMatricula(),
+                "inNivelEnsino" => $inTrocarAlunoEntreClasses->getInNivelEnsino()
+            ];
+
+            $response = $this->getApiResponse('POST', $url, $data);
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);

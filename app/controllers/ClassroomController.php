@@ -1,18 +1,23 @@
 <?php
 
 require_once 'app/vendor/autoload.php';
-Yii::import('application.modules.sedsp.models.*');
 Yii::import('application.modules.sedsp.models.Classroom.*');
+Yii::import('application.modules.sedsp.models.Enrollment.*');
 Yii::import('application.modules.sedsp.models.Student.*');
 Yii::import('application.modules.sedsp.datasources.sed.Classroom.*');
 Yii::import('application.modules.sedsp.datasources.sed.ClassStudentsRelation.*');
+Yii::import('application.modules.sedsp.datasources.sed.Enrollment.*');
+Yii::import('application.modules.sedsp.datasources.sed.Student.*');
 Yii::import('application.modules.sedsp.mappers.*');
 Yii::import('application.modules.sedsp.usecases.*');
+Yii::import('application.modules.sedsp.usecases.Enrollment.*');
 
 //-----------------------------------------CLASSE VALIDADA ATÉ A SEQUENCIA 35!!------------------------
 class ClassroomController extends Controller
 {
 
+    const CREATE = 'create';
+    const UPDATE = 'update';
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -45,7 +50,7 @@ class ClassroomController extends Controller
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
                     'batchupdatenrollment',
                     'getcomplementaryactivitytype', 'delete',
-                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'changeenrollments', 'batchupdatetransport', 'updateDisciplines', 'syncToSedsp'
+                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'changeenrollments', 'batchupdatetransport', 'updateDisciplines', 'syncToSedsp', 'syncUnsyncedStudents'
                 ),
                 'users' => array('@'),
             ),
@@ -329,43 +334,43 @@ class ClassroomController extends Controller
     {
         $disciplines = array();
 
-        if (isset($instructor->discipline_1_fk)){
+        if (isset($instructor->discipline_1_fk)) {
             array_push($disciplines, $instructor->discipline1Fk);
         }
-        if (isset($instructor->discipline_2_fk)){
+        if (isset($instructor->discipline_2_fk)) {
             array_push($disciplines, $instructor->discipline2Fk);
         }
-        if (isset($instructor->discipline_3_fk)){
+        if (isset($instructor->discipline_3_fk)) {
             array_push($disciplines, $instructor->discipline3Fk);
         }
-        if (isset($instructor->discipline_4_fk)){
+        if (isset($instructor->discipline_4_fk)) {
             array_push($disciplines, $instructor->discipline4Fk);
         }
-        if (isset($instructor->discipline_5_fk)){
+        if (isset($instructor->discipline_5_fk)) {
             array_push($disciplines, $instructor->discipline5Fk);
         }
-        if (isset($instructor->discipline_6_fk)){
+        if (isset($instructor->discipline_6_fk)) {
             array_push($disciplines, $instructor->discipline6Fk);
         }
-        if (isset($instructor->discipline_7_fk)){
+        if (isset($instructor->discipline_7_fk)) {
             array_push($disciplines, $instructor->discipline7Fk);
         }
-        if (isset($instructor->discipline_8_fk)){
+        if (isset($instructor->discipline_8_fk)) {
             array_push($disciplines, $instructor->discipline8Fk);
         }
-        if (isset($instructor->discipline_9_fk)){
+        if (isset($instructor->discipline_9_fk)) {
             array_push($disciplines, $instructor->discipline9Fk);
         }
-        if (isset($instructor->discipline_10_fk)){
+        if (isset($instructor->discipline_10_fk)) {
             array_push($disciplines, $instructor->discipline10Fk);
         }
-        if (isset($instructor->discipline_11_fk)){
+        if (isset($instructor->discipline_11_fk)) {
             array_push($disciplines, $instructor->discipline11Fk);
         }
-        if (isset($instructor->discipline_12_fk)){
+        if (isset($instructor->discipline_12_fk)) {
             array_push($disciplines, $instructor->discipline12Fk);
         }
-        if (isset($instructor->discipline_13_fk)){
+        if (isset($instructor->discipline_13_fk)) {
             array_push($disciplines, $instructor->discipline13Fk);
         }
 
@@ -458,6 +463,7 @@ class ClassroomController extends Controller
             'modelClassroom' => $modelClassroom,
         ));
     }
+
     public function actionBatchupdatEnrollment($id)
     {
         $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
@@ -557,7 +563,7 @@ class ClassroomController extends Controller
                                 $loginUseCase = new LoginUseCase();
                                 $loginUseCase->checkSEDToken();
 
-                                $result = $this->classroomSyncToSEDSP($modelClassroom, "create", "create", null);
+                                $result = $modelClassroom->syncToSEDSP("create", "create");
                             } else {
                                 $result = ["flash" => "success", "message" => "Turma adicionada com sucesso!"];
                             }
@@ -578,6 +584,7 @@ class ClassroomController extends Controller
             'modelClassroom' => $modelClassroom,
             'complementary_activities' => array(),
             'modelTeachingData' => $modelTeachingData,
+            'modelEnrollments' => [],
         ));
     }
 
@@ -585,6 +592,20 @@ class ClassroomController extends Controller
     {
         $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
         $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
+        $studentsEnrollments = $modelClassroom->studentEnrollments;
+        $modelEnrollments = [];
+        foreach ($studentsEnrollments as $studentEnrollment) {
+            $array["enrollmentId"] = $studentEnrollment->id;
+            $array["studentId"] = $studentEnrollment->studentFk->id;
+            $array["studentName"] = $studentEnrollment->studentFk->name;
+            $array["enrollmentId"] = $studentEnrollment->id;
+            $array["dailyOrder"] = $studentEnrollment->daily_order;
+            if (TagUtils::isInstance("UBATUBA")) {
+                $array["synced"] = $studentEnrollment->studentFk->sedsp_sync && $studentEnrollment->sedsp_sync;
+            }
+            array_push($modelEnrollments, $array);
+        }
+
 
         $disableFieldsWhenItsUBATUBA = false;
         if (TagUtils::isInstance("UBATUBA") && $modelClassroom->gov_id != null && !empty($modelClassroom->studentEnrollments)) {
@@ -614,17 +635,17 @@ class ClassroomController extends Controller
                     $frequencyByExam = FrequencyByExam::model()
                         ->findAllByAttributes(array('enrollment_fk' => $studentEnrollment->id));
 
-                    foreach ($gradeResults as $gradeResult){
+                    foreach ($gradeResults as $gradeResult) {
                         $gradeResult->delete();
                     }
-                    foreach ($frequencyAndMean as $eachFrequencyAndMean){
+                    foreach ($frequencyAndMean as $eachFrequencyAndMean) {
                         $eachFrequencyAndMean->delete();
                     }
-                    foreach ($frequencyByExam as $frequencyExam){
+                    foreach ($frequencyByExam as $frequencyExam) {
                         $frequencyExam->delete();
                     }
                     $studentEnrollment->delete();
-                    Yii::app()->user->setFlash('success','Matrículas de alunos excluídas com sucesso');
+                    Yii::app()->user->setFlash('success', 'Matrículas de alunos excluídas com sucesso');
                 }
             }
             $this->redirect(array('index'));
@@ -723,7 +744,8 @@ class ClassroomController extends Controller
                                 $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
 
                                 if (!property_exists($outConsultaTurmaClasse, "outErro")) {
-                                    $result = $this->classroomSyncToSEDSP($modelClassroom, "edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create");
+
+                                    $result = $modelClassroom->syncToSEDSP("edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create");
                                 } else {
                                     $result = ["flash" => "error", "message" => $outConsultaTurmaClasse->outErro];
                                 }
@@ -746,100 +768,9 @@ class ClassroomController extends Controller
         $this->render('update', array(
             'modelClassroom' => $modelClassroom,
             'modelTeachingData' => $modelTeachingData,
+            'modelEnrollments' => $modelEnrollments,
             'disabledFields' => $disableFieldsWhenItsUBATUBA
         ));
-    }
-
-    private function classroomSyncToSEDSP($modelClassroom, $tagAction, $sedspAction)
-    {
-        $inDiasDaSemana = new InDiasDaSemana(
-            $modelClassroom->week_days_monday,
-            ($modelClassroom->week_days_monday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
-            ($modelClassroom->week_days_monday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
-            $modelClassroom->week_days_tuesday,
-            ($modelClassroom->week_days_tuesday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
-            ($modelClassroom->week_days_tuesday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
-            $modelClassroom->week_days_wednesday,
-            ($modelClassroom->week_days_wednesday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
-            ($modelClassroom->week_days_wednesday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
-            $modelClassroom->week_days_thursday,
-            ($modelClassroom->week_days_thursday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
-            ($modelClassroom->week_days_thursday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
-            $modelClassroom->week_days_friday,
-            ($modelClassroom->week_days_friday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
-            ($modelClassroom->week_days_friday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
-            $modelClassroom->week_days_saturday,
-            ($modelClassroom->week_days_saturday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
-            ($modelClassroom->week_days_saturday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null)
-        );
-
-        $calendarFirstDay = Yii::app()->db->createCommand("select DATE(ce.start_date) as start_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) join calendar_stages as cs on cs.calendar_fk = c.id  where cs.stage_fk = :stage and YEAR(c.start_date) = :year and calendar_event_type_fk = 1000;")->bindParam(":stage", $modelClassroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryRow();
-        $calendarLastDay = Yii::app()->db->createCommand("select DATE(ce.end_date) as end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) join calendar_stages as cs on cs.calendar_fk = c.id where cs.stage_fk = :stage and YEAR(c.start_date) = :year and calendar_event_type_fk  = 1001;")->bindParam(":stage", $modelClassroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryRow();
-
-        $firstDay = date("d/m/Y", $calendarFirstDay == null ? strtotime("first monday of January " . Yii::app()->user->year) : strtotime($calendarFirstDay["start_date"]));
-        $lastDay = date("d/m/Y", $calendarLastDay == null ? strtotime("last friday of December " . Yii::app()->user->year) : strtotime($calendarLastDay["end_date"]));
-
-        if ($sedspAction == "create") {
-            $tipoEnsinoAndStage = ClassroomMapper::convertStageToTipoEnsino($modelClassroom->edcenso_stage_vs_modality_fk);
-
-            $inIncluirTurmaClasse = new InIncluirTurmaClasse(
-                Yii::app()->user->year,
-                substr(Yii::app()->user->school, 2),
-                $modelClassroom->sedspSchoolUnityFk->code,
-                $tipoEnsinoAndStage["tipoEnsino"],
-                $tipoEnsinoAndStage["serieAno"],
-                0,
-                ClassroomMapper::revertCodTurno($modelClassroom->turn),
-                0,
-                $modelClassroom->sedsp_acronym,
-                $modelClassroom->sedsp_classnumber,
-                $modelClassroom->sedsp_max_physical_capacity,
-                $firstDay,
-                $lastDay,
-                $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute,
-                $modelClassroom->final_hour . ":" . $modelClassroom->final_minute,
-                null,
-                null,
-                $inDiasDaSemana
-            );
-
-            $dataSource = new ClassroomSEDDataSource();
-            $result = $dataSource->incluirTurmaClasse($inIncluirTurmaClasse);
-        } else {
-            $inManutencaoTurmaClasse = new InManutencaoTurmaClasse(
-                Yii::app()->user->year,
-                $modelClassroom->gov_id,
-                0,
-                ClassroomMapper::revertCodTurno($modelClassroom->turn),
-                $modelClassroom->sedsp_acronym,
-                $modelClassroom->sedsp_max_physical_capacity,
-                $firstDay,
-                $lastDay,
-                $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute,
-                $modelClassroom->final_hour . ":" . $modelClassroom->final_minute,
-                0,
-                null,
-                null,
-                $modelClassroom->sedsp_classnumber,
-                $inDiasDaSemana
-            );
-
-            $dataSource = new ClassroomSEDDataSource();
-            $result = $dataSource->manutencaoTurmaClasse($inManutencaoTurmaClasse);
-        }
-
-        $flash = "success";
-        if ($result->outErro !== null) {
-            $message = "Turma " . ($tagAction == "create" ? "adicionada" : "atualizada") . "  no TAG, mas não foi possível sincronizá-la com o SEDSP. Motivo: " . $result->outErro;
-            $flash = "error";
-        } else {
-            $modelClassroom->sedsp_sync = 1;
-            $modelClassroom->gov_id = $sedspAction == "create" ? $result->outSucesso : $modelClassroom->gov_id;
-            $modelClassroom->save();
-            $message = "Turma " . ($tagAction == "create" ? "adicionada" : "atualizada") . " com sucesso!";
-        }
-
-        return ["flash" => $flash, "message" => $message];
     }
 
     /**
@@ -911,7 +842,7 @@ class ClassroomController extends Controller
         $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
 
         if (!property_exists($outConsultaTurmaClasse, "outErro")) {
-            $result = $this->classroomSyncToSEDSP($modelClassroom, "edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create");
+            $result = $modelClassroom->syncToSEDSP("edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create");
         } else {
             $result = ["flash" => "error", "message" => $outConsultaTurmaClasse->outErro];
         }
@@ -939,7 +870,7 @@ class ClassroomController extends Controller
     {
         $model = new Classroom('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Classroom'])){
+        if (isset($_GET['Classroom'])) {
             $model->attributes = $_GET['Classroom'];
         }
 
@@ -1068,4 +999,238 @@ class ClassroomController extends Controller
         /* Yii::app()->user->setFlash('success', Yii::t('default', 'dayli order')); */
     }
 
+    public function actionSyncUnsyncedStudents()
+    {
+        $loginUseCase = new LoginUseCase();
+        $loginUseCase->checkSEDToken();
+
+        $classroom = Classroom::model()->findByPk($_POST["classroomId"]);
+        $result = [];
+        foreach ($classroom->studentEnrollments as $studentEnrollment) {
+            $studentIdentification = $studentEnrollment->studentFk;
+            if (!$studentIdentification->sedsp_sync || !$studentEnrollment->sedsp_sync) {
+                $response = $this->syncStudentWithSED($studentIdentification->id, $studentEnrollment, $studentIdentification, self::UPDATE);
+                if ($response["identification"]->outErro !== null || $response["enrollment"]->outErro !== null) {
+                    array_push($result, [
+                        "enrollmentId" => $studentEnrollment->id,
+                        "valid" => false,
+                        "studentName" => $studentIdentification->name,
+                        "identificationMessage" => $response["identification"] != null ? $response["identification"]->outErro : null,
+                        "enrollmentMessage" => $response["enrollment"] != null ? $response["enrollment"]->outErro : null
+                        ]);
+                } else {
+                    array_push($result, [
+                        "enrollmentId" => $studentEnrollment->id,
+                        "valid" => true
+                    ]);
+                }
+            }
+        }
+        echo json_encode($result);
+    }
+
+    //CÓDIGO DUPLICADO COM O QUE ESTÁ EM STUDENTCONTROLLER. JOGAR DEPOIS NO MODEL
+    //////////////////////////////////////////////////////////
+    ///
+    // Função para sincronizar aluno com o sistema SED
+    public function syncStudentWithSED($id, $modelEnrollment, $modelStudentIdentification, $type) {
+
+        $studentInfo = $this->getStudentInformation($id);
+        $studentIdentification = $studentInfo['studentIdentification'];
+        $studentIdentification->sedsp_sync = 0;
+
+        $studentIdentification->tag_to_sed = 1;
+        $studentIdentification->save();
+
+        $studentToSedMapper = new StudentMapper();
+        $student = (object) $studentToSedMapper->parseToSEDAlunoFicha(
+            $studentIdentification, $studentInfo['modelStudentDocumentsAndAddress']
+        );
+
+        $studentDatasource = new StudentSEDDataSource();
+
+        $dataSource = new StudentSEDDataSource();
+        $outListStudent = $dataSource->getListStudents($this->createInListarAlunos($studentIdentification->name, $studentIdentification->filiation_1, $studentIdentification->filiation_2));
+
+        $return["identification"] = "";
+        $return["enrollment"] = "";
+        if(method_exists($outListStudent,'getCode') && $this->handleUnauthorizedError($outListStudent->getCode())) {
+            return false;
+        }
+
+        if($type == self::CREATE || ($type == self::UPDATE && $outListStudent->outListaAlunos === null)) {
+            if ($outListStudent->outErro !== null || !is_null($outListStudent)) {
+                $inConsult = $this->createInConsult($student);
+                $statusAdd = $dataSource->addStudentToSed($inConsult);
+
+                if(method_exists($statusAdd,'getCode') && $this->handleUnauthorizedError($statusAdd->getCode())) {
+                    return false;
+                }
+
+                if($statusAdd->outErro === null) {
+                    $stdi = StudentIdentification::model()->findByPk($id);
+                    $stdi->gov_id = $statusAdd->outAluno->outNumRA;
+                    $stdi->sedsp_sync = 1;
+
+                    $stdi->save();
+
+                    if($modelEnrollment->id !== null) {
+                        $enrollmentResult = $this->processEnrollment($modelStudentIdentification, $modelEnrollment);
+                    }
+                }
+                $result["identification"] = $statusAdd;
+                $result["enrollment"] = $enrollmentResult;
+            }
+        }elseif($type == self::UPDATE) {
+            if($studentIdentification->gov_id === null){
+                $govId = $outListStudent->outListaAlunos[0]->getOutNumRa();
+            } else {
+                $govId = $studentIdentification->gov_id;
+            }
+
+            $response = $studentDatasource->exibirFichaAluno(new InAluno($govId, null, "SP"));
+            if(method_exists($response,'getCode') && $this->handleUnauthorizedError($response->getCode())) {
+                return false;
+            }
+
+            $infoAluno = $response->outDadosPessoais->getOutNomeAluno();
+            $filiation1 = $response->outDadosPessoais->getOutNomeMae();
+            $filiation2 = $response->outDadosPessoais->getOutNomePai();
+
+            $inListarAlunos = $this->createInListarAlunos($infoAluno, $filiation1, $filiation2);
+            $dataSource = new StudentSEDDataSource();
+            $outListStudent = $dataSource->getListStudents($inListarAlunos);
+
+            if ($outListStudent->outErro === null) {
+
+                $studentIdentification->gov_id = $govId;
+                $studentIdentification->save();
+
+                $dataSource = new StudentSEDDataSource();
+                $student->InAluno->setInNumRA($govId);
+                $inManutencao = $this->createInManutencao($student);
+                $statusAdd = $dataSource->editStudent($inManutencao);
+
+                if($statusAdd->outErro === null){
+                    $studentIdentification->sedsp_sync = 1;
+                    $studentIdentification->save();
+                }
+            }
+
+            if($modelEnrollment->id !== null) {
+                $enrollmentResult = $this->processEnrollment($modelStudentIdentification, $modelEnrollment);
+            }
+
+            $result["identification"] = $statusAdd;
+            $result["enrollment"] = $enrollmentResult;
+        }
+
+        return $result;
+    }
+
+    private function processEnrollment($modelStudentIdentification, $modelEnrollment)
+    {
+        $inAluno = new InAluno($modelStudentIdentification->gov_id, null, 'SP');
+        $inAnoLetivo = Yii::app()->user->year;
+        $inCodEscola = substr($modelStudentIdentification->school_inep_id_fk, 2);
+        $inscricao = new InInscricao($inAnoLetivo, $inCodEscola, null, "4");
+
+        $classroomMapper = new ClassroomMapper;
+        $edcensoStage = Classroom::model()->findByPk($modelEnrollment->classroom_fk)->edcenso_stage_vs_modality_fk;
+        $ensino = (object) $classroomMapper->convertStageToTipoEnsino($edcensoStage);
+        $inNivelEnsino = new InNivelEnsino($ensino->tipoEnsino, $ensino->serieAno);
+
+        $this->createEnrollStudent($inAluno, $inscricao, $inNivelEnsino);
+        return $this->addEnrollmentToSedsp($modelStudentIdentification, $modelEnrollment);
+    }
+
+    private function createEnrollStudent(InAluno $inAluno, InInscricao $inscricao, InNivelEnsino $inNivelEnsino)
+    {
+        //InscreverStudent
+        $enrollStudent = new InscreverAluno($inAluno, $inscricao, $inNivelEnsino);
+        $enrollStudentUseCase = new EnrollStudentUseCase;
+        return $enrollStudentUseCase->exec($enrollStudent);
+    }
+
+    public function addEnrollmentToSedsp($modelStudentIdentification, $modelEnrollment)
+    {
+        $modelEnrollment->sedsp_sync = 0;
+        $modelEnrollment->save();
+
+        $enrollmentMapper = new EnrollmentMapper;
+        $mapper = (object) $enrollmentMapper->parseToSEDEnrollment($modelStudentIdentification, $modelEnrollment);
+
+        $addEnrollmentToSed = new AddMatriculaToSEDUseCase;
+        $statusAddEnrollmentToSed = $addEnrollmentToSed->exec($mapper->Enrollment);
+
+        if ($statusAddEnrollmentToSed->outErro === null) {
+            $modelEnrollment->sedsp_sync = 1;
+            $modelEnrollment->save();
+        }
+        return $statusAddEnrollmentToSed;
+    }
+
+    public function handleUnauthorizedError($statusCode) {
+        if ($statusCode === 401) {
+            return true;
+        }
+    }
+
+    public function createInListarAlunos($nameStudent, $nameFiliation1, $nameFiliation2) {
+        return new InListarAlunos(new InFiltrosNomes($nameStudent, null, $nameFiliation1, $nameFiliation2), null, null);
+    }
+
+    // Função para criar objeto InConsult em caso de aluno não cadastrado
+    /**
+     * Summary of createInConsult
+     * @param mixed $student
+     * @return InFichaAluno
+     */
+    public function createInConsult($student) {
+        return new InFichaAluno(
+            $student->InDadosPessoais,
+            $student->InDeficiencia,
+            $student->InRecursoAvaliacao,
+            $student->InDocumentos,
+            null,
+            null,
+            $student->InEnderecoResidencial,
+            null
+        );
+    }
+
+    // Função para criar objeto InManutencao em caso de aluno cadastrado
+    /**
+     * Summary of createInManutencao
+     * @param mixed $student
+     * @return InManutencao
+     */
+    public function createInManutencao($student) {
+        return new InManutencao(
+            $student->InAluno,
+            $student->InDadosPessoais,
+            $student->InDeficiencia,
+            $student->InRecursoAvaliacao,
+            $student->InDocumentos,
+            null,
+            null,
+            $student->InEnderecoResidencial,
+            null,
+            null
+        );
+    }
+
+    // Função para obter informações do aluno
+    public function getStudentInformation($id)
+    {
+        $studentIdentification = StudentIdentification::model()->findByPk($id);
+        $modelStudentDocumentsAndAddress = StudentDocumentsAndAddress::model()->findByPk($id);
+        $studentEnrollment = StudentEnrollment::model()->findByPk($id);
+
+        return [
+            'studentIdentification' => $studentIdentification,
+            'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
+            'studentEnrollment' => $studentEnrollment,
+        ];
+    }
 }

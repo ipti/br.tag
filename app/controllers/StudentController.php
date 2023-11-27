@@ -133,10 +133,10 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             3 => 'inep_id',
             4 => 'actions'
         );
-        
+
         $criteria = new CDbCriteria();
 
-        
+
         // Filtrar a pesquisa
         if (!empty($requestData['search']['value'])) {
             $criteria->condition = "name LIKE '%" . $requestData['search']['value'] . "%' OR " .
@@ -162,7 +162,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $criteria->order = $sortColumn ." ". $sortDirection;
 
 
-     
+
 
         $students = StudentIdentification::model()->findAll($criteria);
 
@@ -175,7 +175,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $nestedData[] = $student->filiation_1;
             $nestedData[] = $student->birthday;
             $nestedData[] = $student->inep_id;
-            $nestedData[] = "<a style='cursor: pointer;' title='Editar'  href='/?r=student/update&id=".$student->id."'>
+            $nestedData[] = "<a style='cursor: pointer;' title='Editar' id='student-edit'  href='/?r=student/update&id=".$student->id."'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/editar.svg' . "' alt='Editar'></img>
                             </a>&nbsp;"
                             ."<a style='cursor: pointer;' title='Excluir'
@@ -323,10 +323,10 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
             date_default_timezone_set("America/Recife");
             $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
-            
+
 
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
-                
+
                 if ($modelStudentIdentification->save()) {
                     $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
                     $modelStudentRestrictions->student_fk = $modelStudentIdentification->id;
@@ -412,7 +412,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
     }
 
 
-    /** 
+    /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
@@ -564,7 +564,6 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $studentIdentification = $studentInfo['studentIdentification'];
         $studentIdentification->sedsp_sync = 0;
 
-
         $studentIdentification->tag_to_sed = 1;
         $studentIdentification->save();
 
@@ -578,11 +577,13 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $dataSource = new StudentSEDDataSource();
         $outListStudent = $dataSource->getListStudents($this->createInListarAlunos($studentIdentification->name, $studentIdentification->filiation_1, $studentIdentification->filiation_2));
         
+        $return["identification"] = "";
+        $return["enrollment"] = "";
         if(method_exists($outListStudent,'getCode') && $this->handleUnauthorizedError($outListStudent->getCode())) {
             return false;
         }
 
-        if($type == self::CREATE) {
+        if($type == self::CREATE || ($type == self::UPDATE && $outListStudent->outListaAlunos === null)) {
             if ($outListStudent->outErro !== null || !is_null($outListStudent)) {
                 $inConsult = $this->createInConsult($student);
                 $statusAdd = $dataSource->addStudentToSed($inConsult);
@@ -597,11 +598,16 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                     $stdi->sedsp_sync = 1;
                                   
                     $stdi->save();
-    
-                    return $statusAdd;
+
+                    if($modelEnrollment->id !== null) {
+                        $enrollmentResult = $this->processEnrollment($modelStudentIdentification, $modelEnrollment);
+                    }
                 }
+                $result["identification"] = $statusAdd;
+                $result["enrollment"] = $enrollmentResult;
             }
         }elseif($type == self::UPDATE) {
+
             if($studentIdentification->gov_id === null){
                 $govId = $outListStudent->outListaAlunos[0]->getOutNumRa();
             } else {
@@ -621,8 +627,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $dataSource = new StudentSEDDataSource();
             $outListStudent = $dataSource->getListStudents($inListarAlunos);
 
-            if ($outListStudent->outErro === null || !is_null($outListStudent)) {
-                      
+            if ($outListStudent->outErro === null) {
+
                 $studentIdentification->gov_id = $govId;
                 $studentIdentification->save();
     
@@ -637,26 +643,31 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 }
             }
 
-            $addEnrollment = true;
-            if($addEnrollment) {
-                //$class = Classroom::model()->findByPk($modelEnrollment->classroom_fk);
-                //$numClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
-                //$inSituacao =  '0'; //$modelEnrollment->status !== null ? $modelEnrollment->status : '0';
-    
-                //$isEnrolledUseCase = new IsEnrolledUseCase;
-                //$enrollmentExistsInSedsp = $isEnrolledUseCase->exec(new InExibirMatriculaClasseRA($inAluno, $numClass, $inSituacao, null));
-                
-                $inAluno = new InAluno($modelStudentIdentification->gov_id, null, 'SP');
-                $inAnoLetivo = Yii::app()->user->year;
-                $inCodEscola = substr($modelStudentIdentification->school_inep_id_fk, 2);
-                $inscricao = new InInscricao($inAnoLetivo, $inCodEscola, null, "4");
-                $inNivelEnsino = new InNivelEnsino('14', '1');
-
-                $outenr = $this->createEnrollStudent($inAluno, $inscricao, $inNivelEnsino);  
-                $outadd = $this->addEnrollmentToSedsp($modelStudentIdentification, $modelEnrollment);                               
-                 
+            if($modelEnrollment->id !== null) {
+                $enrollmentResult = $this->processEnrollment($modelStudentIdentification, $modelEnrollment);
             }
+
+            $result["identification"] = $statusAdd;
+            $result["enrollment"] = $enrollmentResult;
         }
+
+        return $result;
+    }
+
+    private function processEnrollment($modelStudentIdentification, $modelEnrollment)
+    {
+        $inAluno = new InAluno($modelStudentIdentification->gov_id, null, 'SP');
+        $inAnoLetivo = Yii::app()->user->year;
+        $inCodEscola = substr($modelStudentIdentification->school_inep_id_fk, 2);
+        $inscricao = new InInscricao($inAnoLetivo, $inCodEscola, null, "4");
+        
+        $classroomMapper = new ClassroomMapper;
+        $edcensoStage = Classroom::model()->findByPk($modelEnrollment->classroom_fk)->edcenso_stage_vs_modality_fk;
+        $ensino = (object) $classroomMapper->convertStageToTipoEnsino($edcensoStage);
+        $inNivelEnsino = new InNivelEnsino($ensino->tipoEnsino, $ensino->serieAno);
+
+        $this->createEnrollStudent($inAluno, $inscricao, $inNivelEnsino);  
+        return $this->addEnrollmentToSedsp($modelStudentIdentification, $modelEnrollment); 
     }
 
     private function createEnrollStudent(InAluno $inAluno, InInscricao $inscricao, InNivelEnsino $inNivelEnsino)
@@ -680,10 +691,9 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
 
         if ($statusAddEnrollmentToSed->outErro === null) {
             $modelEnrollment->sedsp_sync = 1;
-            return $modelEnrollment->save();
-        } else {
-            return $statusAddEnrollmentToSed->outErro;
-        }    
+            $modelEnrollment->save();
+        }
+        return $statusAddEnrollmentToSed;
     }
 
     public function handleUnauthorizedError($statusCode) {
