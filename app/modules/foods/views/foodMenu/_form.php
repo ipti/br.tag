@@ -30,7 +30,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::PO
 		<div class="row">
 			<div class="t-field-text column">
 				<?php echo $form->labelEx($model, 'description', array('class' => 't-field-text__label')); ?>
-				<?php echo $form->textField($model,'description', array('class'=>'t-field-text__input')); ?>
+				<?php echo $form->textField($model,'description', array('class'=>'t-field-text__input js-menu-name')); ?>
 				<?php echo $form->error($model,'description'); ?>
 			</div>
 			<div class="t-multiselect clear-margin--top column">
@@ -38,7 +38,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::PO
 					<?=  chtml::dropDownList('public_target', "",
 					CHtml::listData(FoodPublicTarget::model()->findAll(), 'id', 'name'),
 					array(
-							'class' => 'select-search-on t-field-select__input',
+							'class' => 'select-search-on t-field-select__input js-public-target',
 							'placeholder' => Yii::t('default', 'Select Classrom'),
 							'prompt' => 'Selecione o Público Alvo'
                         ));
@@ -48,7 +48,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::PO
 		<div class="row">
 			<div class="t-field-text column">
 				<?php echo $form->labelEx($model,'start_date',  array('class' => 't-field-text__label')); ?>
-				<?php echo $form->textField($model,'start_date', array('class'=>'t-field-text__input js-date date', 'readonly' => 'readonly')); ?>
+				<?php echo $form->textField($model,'start_date', array('class'=>'t-field-text__input js-date date js-start-date', 'readonly' => 'readonly')); ?>
 				<?php echo $form->error($model,'start_date'); ?>
 			</div>
 			<div class="t-field-text column">
@@ -89,7 +89,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::PO
 	</div>
 	<?php echo $form->errorSummary($model); ?>
 	<div class="row buttons">
-		<a class="t-button-primary"><?= $model->isNewRecord ? 'Criar' : 'Salvar' ?></a>
+		<a class="t-button-primary js-save-menu"><?= $model->isNewRecord ? 'Criar' : 'Salvar' ?></a>
 	</div>
 				
 <?php $this->endWidget(); ?>

@@ -46,7 +46,9 @@ const DateComponent = function () {
 
     render(days)
   }
-
+  function getLastDay(){
+    return days[days.length-1].date
+  }
   function render(days) {
     const container = $(".js-days-of-week-component");
     const template = days.reduce((html, day, index) => {
@@ -66,7 +68,8 @@ const DateComponent = function () {
 
   return {
     actions: {
-      addDays: addDays
+      addDays: addDays,
+      getLastDay: getLastDay
     }
   }
 }
@@ -130,6 +133,17 @@ const PlateComponent = function () {
             <th>KCAL</th>
             <th></th>
           </tr>
+          <tr class='js-total hide'>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
         </table>
         <div class="row">
             <a class="t-button-icon-danger js-remove-plate">Remover Prato</a>
@@ -184,16 +198,13 @@ const PlateComponent = function () {
     const select = $(`.js-plate-accordion-content[data-id-accordion="${idPlateAccordion}"] .js-taco-foods`)
     select.on('change', function (event) {
         getFood(select.val(), idPlateAccordion)
+        $(select).val('');
+        initializeSelect2();
     })
-
-
-    $(select).val('');
-    initializeSelect2();
-
   }
   function getFood (idFood, idPlateAccordion){
     const table =  $(`.js-plate-accordion-content[data-id-accordion="${idPlateAccordion}"] .js-meal-component-table`)
-    
+    const totalLine = table.find('.js-total')
     $.ajax({
       url: "?r=foods/foodMenu/getFood",
       data: {
@@ -205,6 +216,7 @@ const PlateComponent = function () {
         let line = createMealComponent(response);
         const accordionActive = table.closest(".js-plate-accordion-content").attr('data-id-accordion')
         removeFood(line, accordionActive)
+        totalLine.remove()
         table.append(line)
         calculateNutritionalValue(table) 
         initializePlateAccordion(accordionActive)
@@ -212,22 +224,33 @@ const PlateComponent = function () {
   }
   function calculateNutritionalValue(table) {
     let total_pt = total_lip = total_cho = total_kcal = 0;
-   /*  table.find('.js-pt').each((_,pt)=>{
-      total_pt += Number(pt.innerHTML)
-    }) */
-   /*  table.find('.js-lip').each((_,pt)=>{
-      total_lip += Number(pt.innerHTML)
-    }) */
-    table.find('.js-cho').each((_,pt)=>{
-      total_cho += Number(pt.innerHTML) ? Number(pt.innerHTML) : 0
+    table.find('.js-pt').each((_,pt)=>{
+      total_pt += Number(pt.innerHTML) ? Number(pt.innerHTML) : 0
     })
-   /*  table.find('.js-kcal').each((_,pt)=>{
-      total_kcal += Number(pt.innerHTML)
-    }) */
-    console.log(total_cho)
+    table.find('.js-lip').each((_,lip)=>{
+      total_lip += Number(lip.innerHTML) ? Number(lip.innerHTML) : 0
+    })
+    table.find('.js-cho').each((_,cho)=>{
+      total_cho += Number(cho.innerHTML) ? Number(cho.innerHTML) : 0
+    })
+    table.find('.js-kcal').each((_,kcal)=>{
+      total_kcal += Number(kcal.innerHTML) ? Number(kcal.innerHTML) : 0
+    })
+
+    const lineTotal = $(`<tr class='js-total'></tr>`)
+        .append(`<td>Total</td>`)
+        .append(`<td></td>`)
+        .append(`<td></td>`)
+        .append(`<td></td>`)
+        .append(`<td>${total_pt.toFixed(2)}</td>`)
+        .append(`<td>${total_lip.toFixed(2)}</td>`)
+        .append(`<td>${total_cho.toFixed(2)}</td>`)
+        .append(`<td>${total_kcal.toFixed(2)}</td>`)
+        .append(`<td></td>`)
+    table.append(lineTotal)
   }
   function createMealComponent({id, name, pt, lip, cho, kcal}) {
-    const line =  $(`<tr class='tr-aaaa' data-idTaco='${id}'></tr>`)
+    const line =  $(`<tr data-idTaco='${id}'></tr>`)
         .append(`<td class='js-food-name'>${name}</td>`)
         .append(`<td class='js-unit'><input class='t-field-text__input' type='text' style='width:50px !important'></td>`)
         .append(`<td class='js-measure'>
@@ -247,9 +270,15 @@ const PlateComponent = function () {
         return line;
   }
   function removeFood(line, accordionActive) {
+    
     line.find('.js-remove-taco-food').on(
       "click", function (event) {
+         const table = line.closest('.js-meal-component-table')
+        const totalLine = line.nextAll().last() 
+
+        totalLine.remove()
         $(this).parent().remove()
+        calculateNutritionalValue(table)
         initializePlateAccordion(accordionActive)
       }
     )
@@ -312,7 +341,7 @@ const MealsComponent = function () {
         </div>
         <div class="t-field-select column">
             <label class='t-field-select__label--required'>Refeição *</label>
-            <select name="meal" class="js-inicializate-select2 select-search-on t-field-select__input js-change-meal-name">
+            <select name="meal" class="js-inicializate-select2 select-search-on t-field-select__input js-food-meal-type js-change-meal-name">
               <option value="">Selecione a refeição</option>
               <option value="0">Café da manhã</option>
               <option value="1">Almoço</option>
@@ -349,10 +378,15 @@ const MealsComponent = function () {
 
     changeMealsName(idMealAccordion)
     addPlateToMeal(idMealAccordion)
+    addHourMask(idMealAccordion)
     idMealAccordion++;
 
   }
 
+  function addHourMask(idMealAccordion) {
+    const input =  $(`.js-meals-accordion-content[data-id-accordion="${idMealAccordion}"] .js-mealTime`)
+    input.mask("99:99");
+  }
   function removeMeal(idAccordion) {
     $(`.ui-accordion-header[data-id-accordion="${idAccordion}"], .ui-accordion-content[data-id-accordion="${idAccordion}"]`).remove()
   }
