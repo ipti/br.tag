@@ -67,8 +67,7 @@ class ClassroomEditCest
         $robots->btnCriar();
         sleep(2);
 
-        $teste->see('Turma atualizada com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=classroom/index');
+        $robots->editSucess();
     }
 
     /**
@@ -121,7 +120,6 @@ class ClassroomEditCest
         $robots->btnCriar();
         sleep(2);
 
-        $teste->see('Turma atualizada com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=classroom/index');
+        $robots->editSucess();
     }
 }

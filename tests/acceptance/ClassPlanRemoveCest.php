@@ -33,35 +33,24 @@ class ClassPlanRemoveCest
         $teste->acceptPopup();
         sleep(5);
 
-        $teste->see('Plano de aula excluído com sucesso!');
+        $robots->removeSucess();
     }
 
     public function error(AcceptanceTester $teste)
     {
-
-        $create = new ClassPlanCest();
-        $classPlan = $create->createPlan($teste);
-
-
-
-        // criar aulas ministradas
-        // quadro de horarios
-        // matrix
-        // turmas
-
-        // isso tudo para excluir um plano de aula
-
+        $builder = new ClassPlanBuilder();
+        $dataBuilder = $builder->buildCompleted();
 
         $robots = new ClassPlanRobots($teste);
         $robots->pageClassPlan();
 
-        $search = $classPlan['name'];
+        $search = $dataBuilder['search_remove'];
         $robots->search($search);
         sleep(2);
         $robots->btnRemove();
         $teste->acceptPopup();
         sleep(2);
 
-        $teste->see('Não se pode remover plano de aula utilizado em alguma turma.');
+        $robots->removeErro();
     }
 }

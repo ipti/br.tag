@@ -34,7 +34,6 @@ class WizardCest
         $robots->btnSave();
         sleep(2);
 
-        $teste->see('Alunos matriculados com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=wizard/configuration/student');
+        $robots->addSucess();
     }
 }

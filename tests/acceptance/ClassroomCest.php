@@ -67,8 +67,7 @@ class ClassroomCest
         $robots->btnCriar();
         sleep(2);
 
-        $teste->see('Turma adicionada com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=classroom/index');
+        $robots->addSucess();
 
         return $dataClassroom;
     }
@@ -101,8 +100,7 @@ class ClassroomCest
         $robots->btnCriar();
         sleep(2);
 
-        $teste->see('Turma adicionada com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=classroom/index');
+        $robots->addSucess();
 
         return $dataClassroom;
     }
@@ -154,8 +152,7 @@ class ClassroomCest
         $robots->btnCriar();
         sleep(2);
 
-        $teste->see('Turma adicionada com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=classroom/index');
+        $robots->addSucess();
 
         return $dataClassroom;
     }
@@ -208,8 +205,7 @@ class ClassroomCest
         $robots->btnCriar();
         sleep(2);
 
-        $teste->see('Turma adicionada com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=classroom/index');
+        $robots->addSucess();
 
         return $dataClassroom;
     }

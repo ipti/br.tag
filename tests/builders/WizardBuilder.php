@@ -24,8 +24,8 @@ class WizardBuilder
 
     public function buildCompleted()
     {
-        $this->wizard['classrooms'] = '483'; // Turma 1
-        $this->wizard['oneClassrom'] = '494'; // 261605877 1 ETAPA PREESCOLA D TARDE ANUAL
+        $this->wizard['classrooms'] = '494'; // 261605877 1 ETAPA PREESCOLA D TARDE ANUAL
+        $this->wizard['oneClassrom'] = '571'; // DATA
 
         return $this->wizard;
     }

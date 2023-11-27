@@ -24,6 +24,7 @@ class ClassPlanBuilder
     public function buildCompleted()
     {
         $this->classplan['name'] = $this->fakerCustom->classPlan();
+        $this->classplan['search_remove'] = 'Gramática Básica';
 
         return $this->classplan;
     }

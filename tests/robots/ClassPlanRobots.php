@@ -19,6 +19,24 @@ class ClassPlanRobots
     }
 
     /**
+     * Caso de teste para excluir plano de aula.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function removeSucess()
+    {
+        $this->tester->see('Plano de aula excluído com sucesso!');
+    }
+
+    /**
+     * Caso de teste para excluir plano de aula (erro).
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function removeErro()
+    {
+        $this->tester->see('Não se pode remover plano de aula utilizado em alguma turma.');
+    }
+
+    /**
      * Url da página principal de plano de curso.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */

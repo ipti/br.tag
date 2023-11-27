@@ -9,6 +9,26 @@ class ClassroomRobots
     }
 
     /**
+     * Caso de teste para adicionar turma.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function addSucess()
+    {
+        $this->tester->see('Turma adicionada com sucesso!');
+        $this->tester->canSeeInCurrentUrl('?r=classroom/index');
+    }
+
+    /**
+     * Caso de teste para editar turma.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function editSucess()
+    {
+        $this->tester->see('Turma atualizada com sucesso!');
+        $this->tester->canSeeInCurrentUrl('?r=classroom/index');
+    }
+
+    /**
      * Url do módulo de turma.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
