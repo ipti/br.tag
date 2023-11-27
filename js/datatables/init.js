@@ -156,7 +156,7 @@ function initDatatable() {
                     serverSide: true,
                     responsive: true,
                     ajax: $.fn.dataTable.pipeline({
-                        url: `${window.location}/getstudentajax`,
+                        url: `?r=student/getstudentajax`,
                         pages: 5, // number of pages to cache
                         method: "POST", // Ajax HTTP method
                         data: function (d) {

@@ -24,60 +24,60 @@ $form = $this->beginWidget('CActiveForm', array(
 );
 ?>
 
-<div class="row-fluid hidden-print">
-    <div class="span12">
-        <h1>
-            <?php echo $title; ?>
-        </h1>
-        <div class="tag-buttons-container buttons">
-
-            <?php
-            if ($modelClassroom->gov_id !== null && TagUtils::isInstance("UBATUBA")):
-                $sedspSync = Classroom::model()->findByPk($modelClassroom->id)->sedsp_sync;
-                if ($sedspSync): ?>
-                    <div style="text-align: center;margin-right: 10px;">
+<div class="mobile-row ">
+    <div class="column clearleft">
+        <?php
+        if (!$modelClassroom->isNewRecord && TagUtils::isInstance("UBATUBA")) {
+            $sedspSync = Classroom::model()->findByPk($modelClassroom->id)->sedsp_sync;
+            ?>
+            <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
+                <?php if ($sedspSync) { ?>
+                    <div style="font-weight: bold;margin-right: 20px;">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
-                             style="width: 40px; margin-right: 10px;" alt="synced">
-                        <div>Sincronizado com a SEDSP</div>
+                             style="width: 25px; margin-right: 2px;">Sincronizado
                     </div>
-
-                <?php else: ?>
-                    <div style="text-align: center;margin-right: 10px;">
+                <?php } else { ?>
+                    <div style="font-weight: bold;margin-right: 20px;">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
-                             style="width: 40px;margin-right: 10px;" alt="not synced">
-                        <div>Não sincronizado com a SEDSP</div>
+                             style="width: 25px;margin-right: 2px;">Não sincronizado
                     </div>
-                <?php endif;
-                if (!$sedspSync): ?>
-                    <a class="update-classroom-to-sedsp"
-                       style="margin-right: 10px;background: #16205b;color: white;padding: 5px;border-radius: 5px;">
-                        Importar Turma do SEDSP
-                    </a>
-                <?php endif; ?>
-            <?php endif; ?>
+                <?php } ?>
 
-            <button class="t-button-primary  last pull-right save-classroom" type="button">
-                <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
-            </button>
-        </div>
+                <a class="update-classroom-from-sedsp"
+                   style="margin-right: 10px;background: #2e33b7;color: white;font-size: 13px;padding-left: 4px;padding-right: 4px;border-radius: 6px;">
+                    Importar dados da SED
+                </a>
+            </div>
+        <?php } ?>
+        <h1><?php echo $title; ?></h1>
+    </div>
+    <div class="column clearfix align-items--center justify-content--end show--desktop">
+        <button class="t-button-primary  last save-classroom" type="button">
+            <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+        </button>
     </div>
 </div>
 
 <div class="tag-inner">
-    <?php if (Yii::app()->user->hasFlash('success') && (!$modelClassroom->isNewRecord)): ?>
-        <div class="alert alert-success">
-            <?php echo Yii::app()->user->getFlash('success') ?>
-        </div>
-    <?php endif ?>
     <div class="widget widget-tabs border-bottom-none">
 
         <?php echo $form->errorSummary($modelClassroom); ?>
-        <?php if (TagUtils::isInstance("UBATUBA") && $disabledFields): ?>
-            <div class="alert alert-warning">Alguns campos foram desabilitados porque a turma possui alunos matriculados
-                e o SEDSP não autoriza realizar edições em tais campos.
+        <?php if (Yii::app()->user->hasFlash('success') && (!$modelClassroom->isNewRecord)) { ?>
+            <div class="alert classroom-alert alert-success">
+                <?php echo Yii::app()->user->getFlash('success') ?>
             </div>
-        <?php endif; ?>
-        <div class="alert classroom-alert no-show"></div>
+        <?php } elseif (Yii::app()->user->hasFlash('error') && (!$modelClassroom->isNewRecord)) { ?>
+            <div class="alert classroom-alert alert-error">
+                <?php echo Yii::app()->user->getFlash('error') ?>
+            </div>
+        <?php } elseif (TagUtils::isInstance("UBATUBA") && $disabledFields) { ?>
+            <div class="alert classroom-alert alert-warning">
+                Alguns campos foram desabilitados porque a turma possui alunos matriculados e o SEDSP não autoriza
+                realizar edições em tais campos.
+            </div>
+        <?php } else { ?>
+            <div class="alert classroom-alert no-show"></div>
+        <?php } ?>
         <div class="t-tabs">
             <ul class="tab-classroom t-tabs__list">
                 <li id="tab-classroom" class="active t-tabs__item">
@@ -165,6 +165,20 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ?>
                                 <?php echo $form->error($modelClassroom, 'modality'); ?>
                             </div>
+                            <?php if (TagUtils::isInstance("UBATUBA")) { ?>
+                                <!--Gov ID-->
+                                <div class="t-field-text js-hide-not-required">
+                                    <?php echo $form->labelEx($modelClassroom, 'gov_id', array('class' => 't-field-text__label')); ?>
+                                    <?php echo $form->textField($modelClassroom, 'gov_id', array('size' => 60, 'maxlength' => 12,
+                                        'class' => 't-field-text__input', 'placeholder' => 'Não possui', 'disabled' => 'disabled')); ?>
+                                    <button type="button" id="copy-gov-id" class="t-button-icon">
+                                        <span class="t-icon-copy"></span>
+                                    </button>
+                                    <span id="copy-message" style="display:none;">
+                                </span>
+                                    <?php echo $form->error($modelClassroom, 'gov_id'); ?>
+                                </div>
+                            <?php } ?>
                         </div>
                         <div class="column">
                             <!-- Etapa de Ensino -->
@@ -611,7 +625,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 <span class="t-icon-export"></span>
                                                 Sincronizar Matrículas (SEDSP)
                                             </button>
-                                            <img class="loading-sync" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+                                            <img class="loading-sync" style="display:none;margin: 10px 20px;"
+                                                 height="30px" width="30px"
+                                                 src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif"
+                                                 alt="TAG Loading">
                                         </div>
                                     <?php endif ?>
                                 </div>
@@ -832,7 +849,7 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
     </div>
 
-    <div class="modal fade modal-content" id="importClassroomToSEDSP" tabindex="-1" role="dialog">
+    <div class="modal fade modal-content" id="importClassroomFromSEDSP" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
@@ -840,7 +857,7 @@ $form = $this->beginWidget('CActiveForm', array(
                          style="vertical-align: -webkit-baseline-middle">
                 </button>
                 <h4 class="modal-title"
-                    id="myModalLabel">Importar turma do SEDSP</h4>
+                    id="myModalLabel">Importar turma da SEDSP</h4>
             </div>
             <form method="post"
                   action="<?php echo $this->createUrl('sedsp/default/importClassroomFromSedsp', array('id' => $modelClassroom->id, 'gov_id' => $modelClassroom->gov_id)); ?>">

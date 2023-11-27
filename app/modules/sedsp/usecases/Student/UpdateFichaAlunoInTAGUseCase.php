@@ -29,7 +29,6 @@ class UpdateFichaAlunoInTAGUseCase
             $mapperStudentIdentification = $mapper->StudentIdentification;
 
             $studentIdentification = $this->createOrUpdateStudentIdentification($mapperStudentIdentification);
-
             $mapperStudentDocuments = $mapper->StudentDocumentsAndAddress;
             $govId = $mapperStudentDocuments->gov_id;
             $studentId = StudentIdentification::model()->find('gov_id = :govId', [':govId' => $govId])->id;
