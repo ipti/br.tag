@@ -126,6 +126,7 @@ function initDatatable() {
     if ($(".js-tag-table").has(".empty").length > 0) {
         return;
     }
+
     if ($(".js-tag-table").length) {
         const isMobile = window.innerWidth <= 768;
         const numColumns = $(".js-tag-table th").length;
@@ -142,14 +143,12 @@ function initDatatable() {
                 || action.includes("manageUsers")) {
                 indexActionButtons = [3];
             }
-            if (action.includes("student")
+            if (action.includes("classroom")
+                || action.includes("student")
                 || action.includes("curricularmatrix")
                 || action.includes("courseplan")
                 || action.includes("professional")) {
                 indexActionButtons = [4];
-            }
-            if (action.includes("classroom")) {
-                indexActionButtons = [4,5];
             }
             if (action.includes("student")) {
                 $(".js-tag-table").DataTable({
@@ -157,7 +156,7 @@ function initDatatable() {
                     serverSide: true,
                     responsive: true,
                     ajax: $.fn.dataTable.pipeline({
-                        url: `${window.location}/getstudentajax`,
+                        url: `?r=student/getstudentajax`,
                         pages: 5, // number of pages to cache
                         method: "POST", // Ajax HTTP method
                         data: function (d) {
@@ -204,7 +203,7 @@ function initDatatable() {
                     select: {
                         items: 'cell'
                     },
-                    // "bLengthChange": false,
+                    // "bLengthChange":     ,
                     columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: indexActionButtons }],
                 });
             }
