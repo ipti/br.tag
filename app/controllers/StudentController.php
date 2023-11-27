@@ -63,6 +63,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                     'view',
                     'comparestudentname',
                     'getstudentajax',
+                    'syncToSedsp',
                     'getclassrooms',
                     'comparestudentcpf',
                     'comparestudentcivilregisterenrollmentnumber',
@@ -126,13 +127,14 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
     {
         $requestData = $_POST;
 
-        $columns = array(
-            0 => 'name',
-            1 => 'filiation_1',
-            2 => 'birthday',
-            3 => 'inep_id',
-            4 => 'actions'
-        );
+        $columns[0] = 'name';
+        $columns[1] = 'filiation_1';
+        $columns[2] = 'birthday';
+        $columns[3] = 'inep_id';
+        $columns[4] = 'actions';
+        if (TagUtils::isInstance("UBATUBA")) {
+            $columns[5] = 'sedsp_sync';
+        }
 
         $criteria = new CDbCriteria();
 
@@ -159,9 +161,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         // Ordem
         $sortColumn = $columns[$requestData['order'][0]['column']];
         $sortDirection = $requestData['order'][0]['dir'];
-        $criteria->order = $sortColumn ." ". $sortDirection;
-
-
+        $criteria->order = $sortColumn . " " . $sortDirection;
 
 
         $students = StudentIdentification::model()->findAll($criteria);
@@ -171,17 +171,25 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $data = array();
         foreach ($students as $student) {
             $nestedData = array();
-            $nestedData[] = "<a href='/?r=student/update&id=".$student->id."' cursor: pointer;>".$student->name."</a>";
+            $nestedData[] = "<a href='/?r=student/update&id=" . $student->id . "' cursor: pointer;>" . $student->name . "</a>";
             $nestedData[] = $student->filiation_1;
             $nestedData[] = $student->birthday;
             $nestedData[] = $student->inep_id;
-            $nestedData[] = "<a style='cursor: pointer;' title='Editar' id='student-edit'  href='/?r=student/update&id=".$student->id."'>
+            $nestedData[] = "<a style='cursor: pointer;' title='Editar' id='student-edit'  href='/?r=student/update&id=" . $student->id . "'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/editar.svg' . "' alt='Editar'></img>
                             </a>&nbsp;"
-                            ."<a style='cursor: pointer;' title='Excluir'
-                            id='student-delete' href='/?r=student/delete&id=".$student->id."'>
+                . "<a style='cursor: pointer;' title='Excluir'
+                            id='student-delete' href='/?r=student/delete&id=" . $student->id . "'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/deletar.svg' . "' alt='Excluir'></img>
                             </a>";
+            if (TagUtils::isInstance("UBATUBA")) {
+                $sync = "<a style='cursor: pointer;display: inline-block' title='Sincronizar' id='student-sync' class='" . ($student->sedsp_sync ? "sync" : "unsync") . "' href='/?r=student/syncToSedsp&id=" . $student->id . "'>";
+                $sync .= $student->sedsp_sync
+                    ? '<img src="' . Yii::app()->theme->baseUrl . '/img/SyncTrue.png" style="width: 25px;text-align: center">'
+                    : '<img src="' . Yii::app()->theme->baseUrl . '/img/notSync.png" style="width: 25px;text-align: center">';
+                $sync .= "</a>&nbsp;";
+                $nestedData[] = $sync;
+            }
             $data[] = $nestedData;
         }
 
@@ -194,6 +202,25 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         );
 
         echo json_encode($json_data);
+    }
+
+    public function actionSyncToSedsp($id)
+    {
+        $modelStudentIdentification = new StudentIdentification();
+
+        $this->authenticateSedToken();
+        $syncResult = (object) $modelStudentIdentification->syncStudentWithSED($id, new StudentEnrollment(), self::UPDATE);
+
+        if ($syncResult->identification->outErro !== null) {
+            $flash = "error";
+            $msg = 'Não foi possível sincronizar o aluno ' . $modelStudentIdentification->name . '. Motivo: ' . $syncResult->identification->outErro;
+        } else {
+            $flash = "success";
+            $msg = "Sincronização realizada com sucesso!";
+        }
+
+        Yii::app()->user->setFlash($flash, $msg);
+        $this->redirect(array('index'));
     }
 
     public function actionGetNotaryOffice()
@@ -364,33 +391,31 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                             }
 
                             if ($saved) {
-                                if(TagUtils::isInstance("UBATUBA")){
-                                    
-                                    $outResponse = $this->syncStudentWithSED($modelStudentIdentification->id, $modelEnrollment, $modelStudentIdentification, self::CREATE);
-                        
-                                    if($outResponse->outErro !== null || $outResponse === false){
-                                        Log::model()->saveAction(
-                                            "student", $modelStudentIdentification->id,
-                                            "U", $modelStudentIdentification->name
-                                        );
-                                        
-                                        $msg = '<p style="color: white;background: #23b923;
-                                        padding: 10px;border-radius: 4px;">O Cadastro de '.
-                                        $modelStudentIdentification->name .' foi alterado com sucesso!</p>
-                                        Mas não foi possível fazer a sincronização!
-                                        </br><b>ERROR: </b>: '. $outResponse->outErro;
-                                        
-                                        echo Yii::app()->user->setFlash('error', Yii::t('default', $msg));
-                                        $this->redirect(array('index', 'sid' => $modelStudentIdentification->id));
+                                $flash = "success";
+                                $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!';
+
+                                if (TagUtils::isInstance("UBATUBA")) {
+                                    $this->authenticateSedToken();
+                                    $syncResult = $modelStudentIdentification->syncStudentWithSED($modelStudentIdentification->id, $modelEnrollment, self::CREATE);
+
+                                    if ($syncResult->identification->outErro !== null || $syncResult->enrollment->outErro !== null || $syncResult === false) {
+                                        $flash = "error";
+                                        $msg = '<span style="color: white;background: #23b923; padding:10px;border-radius: 4px;">Cadastro do aluno ' . $modelStudentIdentification->name .
+                                            '  criado com sucesso no TAG, mas não foi possível sincronizá-lo com a SEDSP. Motivo: </span>';
+                                        if ($syncResult->identification->outErro) {
+                                            $msg .= "<br>Ficha do Aluno: " . $syncResult->identification->outErro;
+                                        }
+                                        if ($syncResult->enrollment->outErro) {
+                                            $msg .= "<br>Matrícula: " . $syncResult->enrollment->outErro;
+                                        }
                                     }
                                 }
-                                
+
                                 Log::model()->saveAction(
                                     "student", $modelStudentIdentification->id, "C", $modelStudentIdentification->name
                                 );
-                                $msg = 'O Cadastro de ' . $modelStudentIdentification->name .' foi criado com sucesso!';
-                                Yii::app()->user->setFlash('success', Yii::t('default', $msg));
-                        
+                                Yii::app()->user->setFlash($flash, Yii::t('default', $msg));
+
                                 $this->redirect(array('index', 'sid' => $modelStudentIdentification->id));
                             }
                         }
@@ -442,7 +467,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             //Atributos comuns entre as tabelas
             $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
             $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
-            $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
+            $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->id;
             date_default_timezone_set("America/Recife");
             $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
 
@@ -494,23 +519,25 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                         }
 
                         if ($saved) {
-                            if(TagUtils::isInstance("UBATUBA")){
-                                
+                            $flash = "success";
+                            $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!';
+
+                            if (TagUtils::isInstance("UBATUBA")) {
+
                                 $this->authenticateSedToken();
-                                $exi = $this->syncStudentWithSED($id, $modelEnrollment, $modelStudentIdentification, self::UPDATE);
-                                
-                                if($exi->outErro !== null || $exi === false){
-                                    Log::model()->saveAction(
-                                        "student", $modelStudentIdentification->id,
-                                        "U", $modelStudentIdentification->name
-                                    );
-                                    $msg = '<p style="color: white;background: #23b923;
-                                    padding:10px;border-radius: 4px;">O Cadastro de '.$modelStudentIdentification->name.
-                                    ' foi alterado com sucesso!</p> Mas não foi possível fazer a sincronização!
-                                    </br><b>ERROR: </b>: '. $exi->outErro;
-                                    
-                                    echo Yii::app()->user->setFlash('error', Yii::t('default', $msg));
-                                    $this->redirect(array('index', 'id' => $modelStudentIdentification->id));
+                                $syncResult = (object) $modelStudentIdentification->syncStudentWithSED($id, $modelEnrollment, self::UPDATE);
+
+                                if ($syncResult->identification->outErro !== null || $syncResult->enrollment->outErro !== null) {
+                                    $flash = "error";
+                                    $msg = '<span style="color: white;background: #23b923;
+                                    padding:10px;border-radius: 4px;">Cadastro do aluno ' . $modelStudentIdentification->name .
+                                        '  alterado com sucesso no TAG, mas não foi possível sincronizá-lo com a SEDSP. Motivo: </span>';
+                                    if ($syncResult->identification->outErro) {
+                                        $msg .= "<br>Ficha do Aluno: " . $syncResult->identification->outErro;
+                                    }
+                                    if ($syncResult->enrollment->outErro) {
+                                        $msg .= "<br>Matrícula: " . $syncResult->enrollment->outErro;
+                                    }
                                 }
                             }
 
@@ -519,12 +546,11 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                                 "U", $modelStudentIdentification->name
                             );
 
-                            $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!';
-                            Yii::app()->user->setFlash('success', Yii::t('default', $msg));
+                            Yii::app()->user->setFlash($flash, Yii::t('default', $msg));
                             $this->redirect(array('index', 'id' => $modelStudentIdentification->id));
                         } else {
                             $msg = 'Não foi possível realizar as modificações do aluno: ' .
-                            $modelStudentIdentification->name;
+                                $modelStudentIdentification->name;
 
                             Yii::app()->user->setFlash('error', Yii::t('default', $msg));
                             $this->redirect(array('index', 'id' => $modelStudentIdentification->id));
@@ -544,209 +570,6 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         ));
     }
 
-    // Função para obter informações do aluno
-    public function getStudentInformation($id) {
-        $studentIdentification = StudentIdentification::model()->findByPk($id);
-        $modelStudentDocumentsAndAddress = StudentDocumentsAndAddress::model()->findByPk($id);
-        $studentEnrollment = StudentEnrollment::model()->findByPk($id);
-        
-        return [
-            'studentIdentification' => $studentIdentification,
-            'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
-            'studentEnrollment' => $studentEnrollment,
-        ];
-    }
-
-    // Função para sincronizar aluno com o sistema SED
-    public function syncStudentWithSED($id, $modelEnrollment, $modelStudentIdentification, $type) {
-
-        $studentInfo = $this->getStudentInformation($id);
-        $studentIdentification = $studentInfo['studentIdentification'];
-        $studentIdentification->sedsp_sync = 0;
-
-        $studentIdentification->tag_to_sed = 1;
-        $studentIdentification->save();
-
-        $studentToSedMapper = new StudentMapper();
-        $student = (object) $studentToSedMapper->parseToSEDAlunoFicha(
-            $studentIdentification, $studentInfo['modelStudentDocumentsAndAddress']
-        );
-
-        $studentDatasource = new StudentSEDDataSource();
-
-        $dataSource = new StudentSEDDataSource();
-        $outListStudent = $dataSource->getListStudents($this->createInListarAlunos($studentIdentification->name, $studentIdentification->filiation_1, $studentIdentification->filiation_2));
-        
-        $return["identification"] = "";
-        $return["enrollment"] = "";
-        if(method_exists($outListStudent,'getCode') && $this->handleUnauthorizedError($outListStudent->getCode())) {
-            return false;
-        }
-
-        if($type == self::CREATE || ($type == self::UPDATE && $outListStudent->outListaAlunos === null)) {
-            if ($outListStudent->outErro !== null || !is_null($outListStudent)) {
-                $inConsult = $this->createInConsult($student);
-                $statusAdd = $dataSource->addStudentToSed($inConsult);
-    
-                if(method_exists($statusAdd,'getCode') && $this->handleUnauthorizedError($statusAdd->getCode())) {
-                    return false;
-                }
-    
-                if($statusAdd->outErro === null) {
-                    $stdi = StudentIdentification::model()->findByPk($id);
-                    $stdi->gov_id = $statusAdd->outAluno->outNumRA;
-                    $stdi->sedsp_sync = 1;
-                                  
-                    $stdi->save();
-
-                    if($modelEnrollment->id !== null) {
-                        $enrollmentResult = $this->processEnrollment($modelStudentIdentification, $modelEnrollment);
-                    }
-                }
-                $result["identification"] = $statusAdd;
-                $result["enrollment"] = $enrollmentResult;
-            }
-        }elseif($type == self::UPDATE) {
-
-            if($studentIdentification->gov_id === null){
-                $govId = $outListStudent->outListaAlunos[0]->getOutNumRa();
-            } else {
-                $govId = $studentIdentification->gov_id;
-            }
-
-            $response = $studentDatasource->exibirFichaAluno(new InAluno($govId, null, "SP"));
-            if(method_exists($response,'getCode') && $this->handleUnauthorizedError($response->getCode())) {
-                return false;
-            }
-
-            $infoAluno = $response->outDadosPessoais->getOutNomeAluno();
-            $filiation1 = $response->outDadosPessoais->getOutNomeMae();
-            $filiation2 = $response->outDadosPessoais->getOutNomePai();
-
-            $inListarAlunos = $this->createInListarAlunos($infoAluno, $filiation1, $filiation2);
-            $dataSource = new StudentSEDDataSource();
-            $outListStudent = $dataSource->getListStudents($inListarAlunos);
-
-            if ($outListStudent->outErro === null) {
-
-                $studentIdentification->gov_id = $govId;
-                $studentIdentification->save();
-    
-                $dataSource = new StudentSEDDataSource();
-                $student->InAluno->setInNumRA($govId);
-                $inManutencao = $this->createInManutencao($student);
-                $statusAdd = $dataSource->editStudent($inManutencao);
-    
-                if($statusAdd->outErro === null){
-                    $studentIdentification->sedsp_sync = 1;
-                    $studentIdentification->save();
-                }
-            }
-
-            if($modelEnrollment->id !== null) {
-                $enrollmentResult = $this->processEnrollment($modelStudentIdentification, $modelEnrollment);
-            }
-
-            $result["identification"] = $statusAdd;
-            $result["enrollment"] = $enrollmentResult;
-        }
-
-        return $result;
-    }
-
-    private function processEnrollment($modelStudentIdentification, $modelEnrollment)
-    {
-        $inAluno = new InAluno($modelStudentIdentification->gov_id, null, 'SP');
-        $inAnoLetivo = Yii::app()->user->year;
-        $inCodEscola = substr($modelStudentIdentification->school_inep_id_fk, 2);
-        $inscricao = new InInscricao($inAnoLetivo, $inCodEscola, null, "4");
-        
-        $classroomMapper = new ClassroomMapper;
-        $edcensoStage = Classroom::model()->findByPk($modelEnrollment->classroom_fk)->edcenso_stage_vs_modality_fk;
-        $ensino = (object) $classroomMapper->convertStageToTipoEnsino($edcensoStage);
-        $inNivelEnsino = new InNivelEnsino($ensino->tipoEnsino, $ensino->serieAno);
-
-        $this->createEnrollStudent($inAluno, $inscricao, $inNivelEnsino);  
-        return $this->addEnrollmentToSedsp($modelStudentIdentification, $modelEnrollment); 
-    }
-
-    private function createEnrollStudent(InAluno $inAluno, InInscricao $inscricao, InNivelEnsino $inNivelEnsino)
-    {
-        //InscreverStudent
-        $enrollStudent = new InscreverAluno($inAluno, $inscricao, $inNivelEnsino);
-        $enrollStudentUseCase = new EnrollStudentUseCase;
-        return $enrollStudentUseCase->exec($enrollStudent); 
-    }
-
-    public function addEnrollmentToSedsp($modelStudentIdentification, $modelEnrollment)
-    {
-        $modelEnrollment->sedsp_sync = 0;
-        $modelEnrollment->save();
-
-        $enrollmentMapper = new EnrollmentMapper;
-        $mapper = (object) $enrollmentMapper->parseToSEDEnrollment($modelStudentIdentification, $modelEnrollment);
-
-        $addEnrollmentToSed = new AddMatriculaToSEDUseCase;
-        $statusAddEnrollmentToSed = $addEnrollmentToSed->exec($mapper->Enrollment);
-
-        if ($statusAddEnrollmentToSed->outErro === null) {
-            $modelEnrollment->sedsp_sync = 1;
-            $modelEnrollment->save();
-        }
-        return $statusAddEnrollmentToSed;
-    }
-
-    public function handleUnauthorizedError($statusCode) {
-        if ($statusCode === 401) {
-            return true;
-        }
-    }
-
-    public function createInListarAlunos($nameStudent, $nameFiliation1, $nameFiliation2) {
-        return new InListarAlunos(new InFiltrosNomes($nameStudent, null, $nameFiliation1, $nameFiliation2), null, null);
-    }
-
-    // Função para criar objeto InConsult em caso de aluno não cadastrado
-    /**
-     * Summary of createInConsult
-     * @param mixed $student
-     * @return InFichaAluno
-     */
-    public function createInConsult($student) {
-        return new InFichaAluno(
-            $student->InDadosPessoais,
-            $student->InDeficiencia,
-            $student->InRecursoAvaliacao,
-            $student->InDocumentos,
-            null,
-            null,
-            $student->InEnderecoResidencial,
-            null
-        );
-    }
-
-    // Função para criar objeto InManutencao em caso de aluno cadastrado
-    /**
-     * Summary of createInManutencao
-     * @param mixed $student
-     * @return InManutencao
-     */
-    public function createInManutencao($student) {
-        return new InManutencao(
-            $student->InAluno,
-            $student->InDadosPessoais,
-            $student->InDeficiencia,
-            $student->InRecursoAvaliacao,
-            $student->InDocumentos,
-            null,
-            null,
-            $student->InEnderecoResidencial,
-            null,
-            null
-        );
-    }
-
-    
     public function actionTransfer($id)
     {
         $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
@@ -780,7 +603,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 $modelEnrollment->save();
             }
             Yii::app()->user->setFlash('success', Yii::t('default', 'transferred enrollment'));
-            $this->redirect(array('student/update&id='.$modelStudentIdentification->id));
+            $this->redirect(array('student/update&id=' . $modelStudentIdentification->id));
         } else {
             $this->render('transfer', array(
                 'modelStudentIdentification' => $modelStudentIdentification,
@@ -788,13 +611,15 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             ));
         }
     }
-    public function actionGetClassrooms() {
+
+    public function actionGetClassrooms()
+    {
         $school_inep_id = $_POST["inep_id"];
         $school = SchoolIdentification::model()->findByPk($school_inep_id);
         $classrooms = $school->classrooms;
         foreach ($classrooms as $class) {
             if ($class->school_year == Yii::app()->user->year) {
-                echo "<option value='".htmlspecialchars($class->id)."'>".htmlspecialchars($class->name)."</option>";
+                echo "<option value='" . htmlspecialchars($class->id) . "'>" . htmlspecialchars($class->name) . "</option>";
             }
         }
     }
@@ -809,10 +634,10 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
     {
 
         $classes = Yii::app()->db->createCommand()
-                    ->select('classroom_inep_id')
-                    ->from('student_enrollment')
-                    ->where('student_fk = :id', array(':id' => $id))
-                    ->queryColumn();
+            ->select('classroom_inep_id')
+            ->from('student_enrollment')
+            ->where('student_fk = :id', array(':id' => $id))
+            ->queryColumn();
 
         try {
             $enrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
@@ -830,13 +655,13 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
 
             $identification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
             $inNumRA = $identification->gov_id;
-        
+
             if (isset($identification->id) && $identification->id > 0) {
                 $identification->delete();
             }
 
             if ($delete) {
-                if(INSTANCE == "UBATUBA") {
+                if (INSTANCE == "UBATUBA") {
                     $this->excluirMatriculaFromSED($classes, $inNumRA);
                 }
 
@@ -848,18 +673,19 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         } catch (\Throwable $th) {
             Yii::app()->user->setFlash(
                 'error', Yii::t(
-                    'default','Esse aluno não pode ser excluído,
+                'default', 'Esse aluno não pode ser excluído,
                     pois existem dados de frequência, notas ou matrículadas vinculadas a ele!'
-                )
+            )
             );
             $this->redirect('?r=student');
         }
     }
 
-    public function excluirMatriculaFromSED($classes, $inNumRA) {
-        if(count($classes) != '0') {
+    public function excluirMatriculaFromSED($classes, $inNumRA)
+    {
+        if (count($classes) != '0') {
             $excluirMatriculaFromSEDUseCase = new ExcluirMatriculaFromSEDUseCase();
-        
+
             foreach ($classes as $classe) {
                 $statusDelete = $excluirMatriculaFromSEDUseCase->exec(
                     new InExcluirMatricula(new InAluno($inNumRA, null, 'SP'), $classe)
@@ -870,7 +696,6 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             }
         }
     }
-
 
 
     /**
@@ -922,8 +747,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                     'a',
                     array(
                         'target' => '_blank', 'href' => yii::app()->createUrl(
-                            '/forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $mer_id)
-                        ),
+                        '/forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $mer_id)
+                    ),
                         'class' => "btn btn-primary btn-icon glyphicons notes_2",
                         'style' => 'margin-top: 5px; width: 110px'
                     ),
@@ -962,7 +787,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         if ($model == $this->STUDENT_IDENTIFICATION) {
             $return = StudentIdentification::model()->findByPk($id);
         } elseif ($model == $this->STUDENT_DOCUMENTS_AND_ADDRESS) {
-            $return = StudentDocumentsAndAddress::model()->findByAttributes(array('id' => $id));
+            $return = StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk' => $id));
             if ($return === null) {
                 $return = new StudentDocumentsAndAddress;
             }
@@ -975,7 +800,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 $return = new StudentRestrictions;
             }
         }
-       
+
         return $return;
     }
 

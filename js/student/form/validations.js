@@ -858,9 +858,9 @@ $(".save-student").click(function () {
     }
     if (error) {
         $("html, body").animate({scrollTop: 0}, "fast");
-        $(this).closest("form").find(".student-error").html(message).show();
+        $(this).closest("form").find(".student-alert").addClass("alert-error").removeClass("alert-warning").removeClass("alert-success").html(message).show();
     } else {
-        $(this).closest("form").find(".student-error").hide();
+        $(this).closest("form").find(".student-alert").hide();
         $(formIdentification + "responsable_telephone").unmask();
         $(formIdentification + "responsable_cpf").unmask();
         $(formIdentification + "filiation_1_cpf").unmask();

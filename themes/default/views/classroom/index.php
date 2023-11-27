@@ -124,15 +124,15 @@
                                 'template' => '{sync}{unsync}',
                                 'buttons' => array(
                                     'sync' => array(
-                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/activeUser.svg',
+                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/SyncTrue.png',
                                         'visible' => '$data->sedsp_sync',
-                                        'options' => array('class' => 'sync', 'style' => "width: 100px; display: inline-block")
+                                        'options' => array('class' => 'sync', 'style' => "width: 25px; display: inline-block")
                                     ),
                                     'unsync' => array(
                                         'url' => 'Yii::app()->createUrl("classroom/syncToSedsp",array("id"=>$data->id))',
-                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/error-icon.svg',
+                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/notSync.png',
                                         'visible' => '!$data->sedsp_sync',
-                                        'options' => array('class' => 'unsync', 'style' => "width: 100px; display: inline-block")
+                                        'options' => array('class' => 'unsync', 'style' => "width: 25px; display: inline-block")
                                     ),
                                 ),
                                 'htmlOptions' => array('style' => 'text-align: center'),

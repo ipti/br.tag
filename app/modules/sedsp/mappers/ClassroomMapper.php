@@ -154,7 +154,7 @@ class ClassroomMapper
             $classroom->sedsp_sync = 1;
 
             $arrayClasses[] = $classroom;
-                    }
+        }
 
         $parseResult = [];
         $parseResult["Classrooms"] = $arrayClasses;
