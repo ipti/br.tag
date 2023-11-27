@@ -396,9 +396,9 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
 
                                 if (TagUtils::isInstance("UBATUBA")) {
 
-                                    $syncResult = $modelStudentIdentification->syncStudentWithSED($modelStudentIdentification->id, self::CREATE);
+                                    $syncResult = $modelStudentIdentification->syncStudentWithSED($modelStudentIdentification->id, $modelEnrollment, self::CREATE);
 
-                                    if ($syncResult->identification->outErro !== null || $syncResult->enrollment->outErro !== null) {
+                                    if ($syncResult->identification->outErro !== null || $syncResult->enrollment->outErro !== null || $syncResult === false) {
                                         $flash = "error";
                                         $msg = '<span style="color: white;background: #23b923; padding:10px;border-radius: 4px;">Cadastro do aluno ' . $modelStudentIdentification->name .
                                             '  criado com sucesso no TAG, mas não foi possível sincronizá-lo com a SEDSP. Motivo: </span>';
