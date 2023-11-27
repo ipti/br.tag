@@ -110,48 +110,45 @@ class FoodMenuController extends Controller
 		));
 	}
 
-    public function actionCreate()
-    {
-        $request = FoodMenu::app()->request->getPost('foodMenu');
-        $foodMenu = new FoodMenu;
+    // public function actionCreate()
+    // {
+    //     $request = FoodMenu::app()->request->getPost('foodMenu');
+    //     $foodMenu = new FoodMenu;
 
-        if(isset($foodMenu)){
-            // "SELECT id FROM food_menu ORDER BY id DESC LIMIT 1"
-            $lastFoodMenu = FoodMenu::app()->db->createCommand()
-            ->select('id')->from('food_menu')
-            ->order('id DESC')->limit(1);
-            $foodMenuNewId = $lastFoodMenu->id + 1;
+    //     if(isset($foodMenu)){
+    //         // "SELECT id FROM food_menu ORDER BY id DESC LIMIT 1"
+    //         $lastFoodMenu = FoodMenu::app()->db->createCommand()
+    //         ->select('id')->from('food_menu')
+    //         ->order('id DESC')->limit(1);
+    //         $foodMenuNewId = $lastFoodMenu->id + 1;
 
-            $publicTarget = FoodPublicTarget::model()->findByPk($request['food_public_target']);
-            $foodMenu->description = $request['description'];
-            $foodMenu->start_date = strtotime(str_replace('/', '-', $request["start_date"]));
-            $foodMenu->final_date = strtotime(str_replace('/', '-', $request["final_date"]));
-            $foodMenu->save();
+    //         $publicTarget = FoodPublicTarget::model()->findByPk($request['food_public_target']);
+    //         $foodMenu->description = $request['description'];
+    //         $foodMenu->start_date = strtotime(str_replace('/', '-', $request["start_date"]));
+    //         $foodMenu->final_date = strtotime(str_replace('/', '-', $request["final_date"]));
+    //         $foodMenu->save();
 
-            $weekDays = ["sunday", "monday", "tuesday", "wednessday", "thursday", "friday", "saturday"];
+    //         $weekDays = ["sunday", "monday", "tuesday", "wednessday", "thursday", "friday", "saturday"];
 
-            foreach($weekDays as $day){
-                if($request[$day] !== null){
-                    // $meals se trata da lista de refeições que um dia da semana possui
-                    $meals = $request[$day]["meals"];
-                    foreach($meals as $meal)
-                    {
-                        $foodMenuMeal = new FoodMenuMeal;
-                        $foodMenuMealNewId = FoodMenuMeal::app()->db->createCommand()->;
-                        $foodMealType = FoodMealType::model()->findByAttributes(array('description' => $meal['turn']));
+    //         foreach($weekDays as $day){
+    //             if($request[$day] !== null){
+    //                 // $meals se trata da lista de refeições que um dia da semana possui
+    //                 $meals = $request[$day]["meals"];
+    //                 foreach($meals as $meal)
+    //                 {
+    //                     $foodMenuMeal = new FoodMenuMeal;
+    //                     $foodMenuMealNewId = FoodMenuMeal::app()->db->createCommand()->;
+    //                     $foodMealType = FoodMealType::model()->findByAttributes(array('description' => $meal['turn']));
 
-                        $foodMenuMeal->food_menuId = $foodMenuNewId;
-                        $foodMenuMeal->time = $meal["time"];
-                        $foodMenuMeal->food_meal_type_fk = $foodMealType->id;
+    //                     $foodMenuMeal->food_menuId = $foodMenuNewId;
+    //                     $foodMenuMeal->time = $meal["time"];
+    //                     $foodMenuMeal->food_meal_type_fk = $foodMealType->id;
 
-                    }
-                }
-            }
-
-
-
-        }
-    }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
 	public function actionPlateAccordion ()
 	{
