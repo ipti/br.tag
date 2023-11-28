@@ -214,6 +214,7 @@ const PlateComponent = function () {
         const accordionActive = table.closest(".js-plate-accordion-content").attr('data-id-accordion')
         removeFood(line, accordionActive)
         totalLine.remove()
+        addFoodMeasurement(line)
         table.append(line)
         calculateNutritionalValue(table) 
         initializePlateAccordion(accordionActive)
@@ -251,10 +252,7 @@ const PlateComponent = function () {
         .append(`<td class='js-food-name'>${name}</td>`)
         .append(`<td class='js-amount'><input class='t-field-text__input' type='text' style='width:50px !important'></td>`)
         .append(`<td class='js-measure'>
-                <select class="js-inicializate-select2 t-field-select__input" style='width:100px'>
-                <option value="1">Concha</option>
-                <option value="2">Unidade</option>
-                <option value="3">Copos</option>
+                <select class="js-inicializate-select2 t-field-select__input js-food-measurement" style='width:100px'>
                 </select>
             </td>`)
         .append(`<td>3</td>`)
@@ -265,6 +263,35 @@ const PlateComponent = function () {
         .append(`<td class='js-remove-taco-food' data-id-accordion='${idPlateAccordion}'><span class='t-icon-close t-button-icon'><span></td>`)
 
         return line;
+  }
+  function addFoodMeasurement(line) {
+    return new Promise(function(resolve, reject) {
+      $.ajax({
+          url: "?r=foods/foodMenu/getFoodMeasurement",
+          type: "GET",
+      }).done(function(response) {
+        cratedMeasurementOptions(JSON.parse(response), line)
+      }).fail(function(error) {
+          reject(error);
+      });
+    });
+  }
+  function cratedMeasurementOptions(measurements, line){
+    const select = line.find('.js-food-measurement')
+    measurements.forEach(obj => {
+      console.log(obj)
+      const option = document.createElement("option");
+      option.text = obj.unit;
+      option.value = obj.id;
+    
+      // Adiciona os outros atributos como data-atributes
+      option.setAttribute("data-measure", obj.measure);
+      option.setAttribute("data-value", obj.value);
+    
+      // Adiciona a option ao select
+      select.append(option);
+    });
+    initializeSelect2()
   }
   function removeFood(line, accordionActive) {
     
