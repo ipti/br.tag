@@ -34,8 +34,12 @@ class FoodMenuController extends Controller
                                 'getPublicTarget', 'getMealType', 'getFoodMeasurement'),
 				'users'=>array('*'),
 			),
+            array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array('create'),
+				'users'=>array('?'),
+        ),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('update'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -67,25 +71,28 @@ class FoodMenuController extends Controller
 	{
         $modelFoodMenu = new FoodMenu;
 
-		if(isset($_POST['foodMenu']))
+        $rawBody = Yii::app()->request->getRawBody();
+        $request = CJSON::decode($rawBody);
+
+		if($request !== null)
 		{
-            $request = Yii::app()->request->getPost('FoodMenu');
-            $request = json_decode($request, true);
-			if(
-                isset($request["start_date"]) &&
-                isset($request["final_date"])
-                && isset($request["food_public_target"])
-            )
-            {
-                $startTimestamp = strtotime(str_replace('/', '-', $request["start_date"]));
-				$finalTimestamp = strtotime(str_replace('/', '-', $request["final_date"]));
-				$modelFoodMenu->start_date = date('Y-m-d', $startTimestamp);
-				$modelFoodMenu->final_date = date('Y-m-d', $finalTimestamp);
-			}
 
 			$transaction = Yii::app()->db->beginTransaction();
-			try {
+			// try {
+                if(
+                    isset($request["start_date"]) &&
+                    isset($request["final_date"])
+                    && isset($request["food_public_target"])
+                )
+                {
+                    $startTimestamp = strtotime(str_replace('/', '-', $request["start_date"]));
+                    $finalTimestamp = strtotime(str_replace('/', '-', $request["final_date"]));
+                    $modelFoodMenu->start_date = date('Y-m-d', $startTimestamp);
+                    $modelFoodMenu->final_date = date('Y-m-d', $finalTimestamp);
+                }
+                $modelFoodMenu->description = $request['description'];
 				$modelFoodMenu->save();
+
                 $publicTarget = FoodPublicTarget::model()->findByPk($request['food_public_target']);
 
                 $foodMenuVsPublicTarget = new FoodMenuVsFoodPublicTarget;
@@ -104,7 +111,8 @@ class FoodMenuController extends Controller
                         foreach($meals as $meal)
                         {
                             $foodMenuMeal = new FoodMenuMeal;
-                            $foodMealType = FoodMealType::model()->findByAttributes(array('description' => $meal['turn']));
+
+                            $foodMealType = FoodMealType::model()->findByPk($meal["food_meal_type"]);
 
                             $foodMenuMeal->food_menuId = $modelFoodMenu->id;
                             $foodMenuMeal->$day = 1;
@@ -113,7 +121,8 @@ class FoodMenuController extends Controller
                             $foodMenuMeal->food_meal_type_fk = $foodMealType->id;
                             $foodMenuMeal->save();
 
-                            foreach($foodMenuMeal->meals_components as $component)
+                            // var_dump($meal['meals_component']); OK
+                            foreach($meal["meals_component"] as $component)
                             {
                                 $foodMenuMealComponent = new FoodMenuMealComponent;
                                 $foodMenuMealComponent->food_menu_mealId = $foodMenuMeal->id;
@@ -126,6 +135,8 @@ class FoodMenuController extends Controller
                                     $foodIngredient->food_id_fk = $ingredient["food_id_fk"];
                                     $foodIngredient->amount = $ingredient["amount"];
                                     $foodIngredient->food_menu_meal_componentId = $foodMenuMealComponent->id;
+                                    $foodIngredient->food_measurement_fk =(int) $ingredient["food_measurement_id"];
+                                    CVarDumper::dump($foodIngredient->attributes, 10, true);
                                     $foodIngredient->save();
                                 }
                             }
@@ -134,22 +145,19 @@ class FoodMenuController extends Controller
                 }
 
 				$transaction->commit();
-				Yii::app()->user->setFlash('success', 'Cardápio foi cadastrado com sucesso.');
-                $this->redirect(array('create'));
-			}
-			catch(Exception $e)
-			{
+                echo 'Cardápio foi cadastrado com sucesso.';
+                Yii::app()->end();
+			// }
+			// catch(Exception $e)
+			// {
 				$transaction->rollback();
-				Yii::app()->user->setFlash('error', 'Erro ao executar operações de banco de dados: ' . $e->getMessage());
-			}
-
+                echo 'Erro ao executar operações de banco de dados.';
+                Yii::app()->end();
+			// }
 		}else{
-            Yii::app()->user->setFlash('error', 'Ocorreu um erro. Tente novamente!');
+            echo 'Ocorreu um erro. O objeto não foi recebido.';
+            Yii::app()->end();
         }
-
-		$this->render('create',array(
-			'model'=>$modelFoodMenu,
-		));
 	}
 
 	public function actionPlateAccordion ()
