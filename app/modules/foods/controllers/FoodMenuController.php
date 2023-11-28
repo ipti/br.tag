@@ -180,7 +180,7 @@ class FoodMenuController extends Controller
 		$result["lip"] = is_numeric($food->lipidius_g) ? round($food->lipidius_g, 2) : $food->lipidius_g;
 		$result["cho"] = is_numeric($food->cholesterol_mg) ? round($food->cholesterol_mg, 2) : $food->cholesterol_mg;
 
-		echo json_encode($result);
+		echo CJSON::encode($result);
 	}
 	/**
 	 * Updates a particular model.
@@ -295,7 +295,7 @@ class FoodMenuController extends Controller
                 CHtml::tag('option', ['value' => $value],
                 CHtml::encode($name),TRUE));
         }
-        echo json_encode($options);
+        echo CJSON::encode($options);
     }
     /**
      * Método que retorna os tipos de refeição
@@ -310,7 +310,7 @@ class FoodMenuController extends Controller
                 CHtml::tag('option', ['value'=> $value],
                 CHtml::encode($description),TRUE));
         }
-        echo json_encode($options);
+        echo CJSON::encode($options);
     }
 
     /**
@@ -325,9 +325,10 @@ class FoodMenuController extends Controller
                 array(
                     "id" => $foodMeasurement->id,
                     "unit" => $foodMeasurement->unit,
-                    "value" => $foodMeasurement->value
+                    "value" => $foodMeasurement->value,
+                    "measure" => $foodMeasurement->measure
                 ));
         }
-        echo json_encode($options);
+        echo CJSON::encode($options);
     }
 }
