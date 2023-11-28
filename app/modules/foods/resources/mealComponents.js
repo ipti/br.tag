@@ -79,7 +79,8 @@ $(document).on('input', '.js-date', function () {
 /* PlateComponent */
 const PlateComponent = function () {
   let idPlateAccordion = 0;
-  let foods =  getFoodList()
+  let foods = [] 
+  getFoodList()
 
 
   function addPlate(idMealAccordion) {
@@ -292,6 +293,9 @@ const MealsComponent = function () {
 
   const plates = PlateComponent();
   let idMealAccordion = 0;
+  let mealTypes =  []
+  
+  getMealTypeList()
 
   function addMeal() {
     const dayOfWeek = $('.js-day-tab.active').attr("data-day-of-week");
@@ -339,10 +343,6 @@ const MealsComponent = function () {
             <label class='t-field-select__label--required'>Refeição *</label>
             <select name="meal" class="js-inicializate-select2 select-search-on t-field-select__input js-food-meal-type js-change-meal-name">
               <option value="">Selecione a refeição</option>
-              <option value="0">Café da manhã</option>
-              <option value="1">Almoço</option>
-              <option value="2">Lanche</option>
-              <option value="3">Jantar</option>
           </select>
         </div>
       </div>
@@ -374,11 +374,29 @@ const MealsComponent = function () {
 
     changeMealsName(idMealAccordion)
     addPlateToMeal(idMealAccordion)
+    addMealTypeList(idMealAccordion)
     addHourMask(idMealAccordion)
     idMealAccordion++;
 
   }
-
+  function addMealTypeList(idMealAccordion) {
+    const select = $(`.js-meals-accordion-content[data-id-accordion="${idMealAccordion}"] .js-food-meal-type`)
+    select.append(mealTypes)
+  }
+  function getMealTypeList (){
+    return new Promise(function(resolve, reject) {
+      $.ajax({
+          url: "?r=foods/foodMenu/getMealType",
+          type: "GET",
+      }).done(function(response) {
+        mealTypes = DOMPurify.sanitize(JSON.parse(response));
+        resolve(response);
+      }).fail(function(error) {
+          reject(error);
+      });
+      
+  });
+  }
   function addHourMask(idMealAccordion) {
     const input =  $(`.js-meals-accordion-content[data-id-accordion="${idMealAccordion}"] .js-mealTime`)
     input.mask("99:99");

@@ -151,14 +151,6 @@ class FoodMenuController extends Controller
 			'model'=>$modelFoodMenu,
 		));
 	}
-
-	public function actionPlateAccordion ()
-	{
-		$idAccordion = Yii::app()->request->getQuery('id');
-		$this->renderPartial('_plateAccordion', array(
-			'idAccordion' => $idAccordion
-		));
-	}
 	public function actionGetTacoFoods() {
 		$foods = Food::model()->findAll(array(
             'select' => 'id, description'
