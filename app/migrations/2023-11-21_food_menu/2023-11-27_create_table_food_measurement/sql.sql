@@ -2,6 +2,7 @@ CREATE TABLE food_measurement (
 	id INT auto_increment NOT NULL,
     unit ENUM('Concha', 'Colher', 'Cálice', 'Caneca', 'Dedo', 'Dedo de copo', 'Dedo de caneca', 'Pitada', 'Punhado') NOT NULL,
     value FLOAT NOT NULL,
+	measure ENUM('Kg','mg','g','ml','L') NOT NULL,
     PRIMARY KEY(id)
    );
 ENGINE=InnoDB
