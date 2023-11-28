@@ -160,4 +160,12 @@ class ClassPlanRobots
     {
         $this->tester->selectOption('#CoursePlan_discipline_fk', $component);
     }
+
+    public function classPlan($classPlan)
+    {
+        $xpathSelector = "//a[text()='$classPlan']";
+
+        // Clique no link usando o seletor XPath
+        $this->tester->click($xpathSelector);
+    }
 }

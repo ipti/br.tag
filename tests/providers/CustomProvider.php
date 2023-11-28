@@ -210,7 +210,7 @@ class CustomProvider extends Base
      */
     public function classPlan()
     {
-        $adjectives = ['Plano', 'Aula', 'Teste'];
+        $adjectives = ['Plano', 'Aula', 'Teste', 'Fundamental', 'Curso', 'Técnica'];
         $nouns = ['Português', 'Inglês', 'Geografia', 'História', 'Ciências', 'Matemática', 'História'];
 
         $randomAdjective = $adjectives[array_rand($adjectives)];
