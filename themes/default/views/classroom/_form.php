@@ -54,8 +54,11 @@ $form = $this->beginWidget(
         </div>
     </div>
     <div class="column clearfix align-items--center justify-content--end show--desktop">
-        <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
-        <?= $modelClassroom->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
+        <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?>
+            <i></i>
+        </a>
+        <a data-toggle='tab' class='t-button-primary  next'><?php echo Yii::t('default', 'Next') ?><i></i></a>
+        <!-- <?= $modelClassroom->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?> -->
 
         <button class="t-button-primary  last pull-right save-classroom" type="button">
             <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
@@ -69,26 +72,7 @@ $form = $this->beginWidget(
             <?php echo Yii::app()->user->getFlash('success') ?>
         </div>
     <?php endif ?>
-    <div class="row reverse show--tablet">
-        <div class="t-buttons-container">
-            <div class="column clearfix">
-                <a data-toggle="tab" class='t-button-secondary prev' style="display:none;">
-                    <?php echo Yii::t('default', 'Previous') ?>
-                    <i></i>
-                </a>
-            </div>
-            <div class="column clearfix">
-                <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;">
-                    <?php echo Yii::t('default', 'Previous') ?>
-                    <i></i>
-                </a>
-                <?= $modelClassroom->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
-                <a class="t-button-primary last save-school-button" type="button">
-                    <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
-                </a>
-            </div>
-        </div>
-    </div>
+
     <div class="widget widget-tabs border-bottom-none">
         <?php echo $form->errorSummary($modelClassroom); ?>
         <?php if (TagUtils::isInstance("UBATUBA") && $disabledFields) : ?>
@@ -1181,6 +1165,22 @@ $form = $this->beginWidget(
 
             </div>
             <?php $this->endWidget(); ?>
+        </div>
+        <div class="row reverse show--tablet">
+            <div class="t-buttons-container">
+                <div class="column clearfix">
+                    <a data-toggle='tab' class='hide-responsive t-button-primary next'>
+                        <?php echo Yii::t('default', 'Next') ?>
+                    </a>
+                    <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;">
+                        <?php echo Yii::t('default', 'Previous') ?>
+                        <i></i>
+                    </a>
+                    <a class="t-button-primary last save-school-button" type="button" style="display:none;">
+                        <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 

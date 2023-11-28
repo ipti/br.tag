@@ -8498,9 +8498,9 @@ li.tlypageguide-active.tlypageguide_bottom:after {
     color: #fff;
 }
 
-.next {
+/* .next {
     float: right;
-}
+} */
 
 .nextBar {
     width: 100%;

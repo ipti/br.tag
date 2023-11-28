@@ -6,7 +6,7 @@ function changeTab(index){
 	var activePane = $('div .active');
 
 	var size = tabs.length -1;
-    
+
     if(index == 0){
         $('.prev').hide();
         $('.next').show();
@@ -20,17 +20,17 @@ function changeTab(index){
         $('.next').show();
         window.location.search.includes("update") ? $('.last').show() : $('.last').hide();
     }
-    
+
 	newTab = tabs[index];
 
     activeTab.removeClass("active");
     activePane.removeClass("active");
-    
+    b
     newPane = newTab.substring(4).toString();
 
     $('#' + newTab).addClass("active");
     $('#' + newPane).addClass("active");
-    
+
     $('html, body').animate({scrollTop: 0}, 'fast');
 }
 
