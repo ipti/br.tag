@@ -241,34 +241,18 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
 		$this->render('index', ['RA' => $ra]);
 	}
 
-    public function actionGenRA($id)
+    public function actionGenerateRA($studentId)
     {
         $this->authenticateSEDToken();
 
-        $genRA = new GenRA();
-        $msg = $genRA->exec($id);
-        try {
-            if (!$msg) {
-                $msg = $genRA->exec($id, true);
-            }
-            echo $msg;
-        } catch (\Throwable $th) {
-            header('Content-Type: application/json', true, 400);
-            echo CJSON::encode(
-                array(
-                    'success' => false,
-                    'message' => 'Bad Request',
-                    'id' => $id,
-                )
-            ); // Set the HTTP response code to 400
-            Yii::app()->end();
-        }
+        $generateRaUseCase = new GenerateRaUseCase;
+        $generationStatus = $generateRaUseCase->exec($studentId);
+
     }
 
     public function actionCreateRA($id)
     {
         $this->authenticateSEDToken();
-
 
         $createRA = new CreateRA();
         $msg = $createRA->exec($id);
@@ -317,9 +301,9 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
 			$statusSave = $exibirFicha->exec($inAluno);
 
 			if ($statusSave) {
-				Yii::app()->user->setFlash('success', "O Aluno cadastrado com sucesso.");
+				Yii::app()->user->setFlash('success', "O Aluno importado com sucesso.");
 			} else {
-				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
+				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado no TAG");
 			}
 		} catch (Exception $e) {
 			Yii::app()->user->setFlash('error', "A escola do aluno não está cadastrada no TAG");
@@ -343,12 +327,17 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
                 Yii::app()->user->setFlash('error', "Não foi possível fazer a sincronização da SED para o TAG.");
 				$this->redirect([self::REDIRECT_PATH, 'id' => $id]);
             }
+
+            if($statusSave === 23000){
+                Yii::app()->user->setFlash('error', 'Turma não localizada! Por favor, importe ou adicione uma turma.');
+				$this->redirect([self::REDIRECT_PATH, 'id' => $id]);
+            }
 			
 			if ($statusSave) {
 				Yii::app()->user->setFlash('success', "Aluno sincronizado com sucesso.");
 				$this->redirect([self::REDIRECT_PATH, 'id' => $id]);
 			} else {
-				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
+				Yii::app()->user->setFlash('error', 'erro ' . $statusSave);
 				$this->redirect([self::REDIRECT_PATH, 'id' => $id]);
 			}
 		} catch (Exception $e) {

@@ -121,10 +121,35 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="t-field-select">
-                                    <?php echo $form->labelEx($model, 'status', array('class' => 't-field-select__label')); ?>
-                                    <?php echo $form->DropDownList($model, 'status', StudentEnrollment::getListStatus(), array('options' => array('1' => array('selected' => true)), "prompt" => "Selecione", 'class' => 'select-search-off t-field-select__input', 'style'=>'width:100%')); ?>
-                                    <?php echo $form->error($model, 'status'); ?>
+                                <?php echo $form->labelEx($model, 'status', array('class' => 't-field-select__label')); ?>
+                                <?php echo $form->DropDownList($model, 'status', StudentEnrollment::getListStatus(), array('options' => array('1' => array('selected' => true)), "prompt" => "Selecione", 'class' => 'select-search-off t-field-select__input', 'style'=>'width:100%', 'id' => 'statusDropdown')); ?>
+                                <?php echo $form->error($model, 'status'); ?>
                             </div>
+
+                            <?php
+                            if(TagUtils::isInstance("UBATUBA")){ ?>
+                                <div class="t-field-select" id="reasonDropdown" style="display: none;">
+                                    <label for="reason">Tipo da baixa</label>
+                                    <select name="reason" id="reason" class="select-search-off t-field-select__input" style="width:100%">
+                                        <option value="0">Selecione um tipo</option>
+                                        <option value="1">Baixa por Transferência</option>
+                                        <option value="2">Não Comparecimento</option>
+                                        <option value="3">Abandono (Evasão)</option>
+                                        <option value="6">Cessão por objetivos atingidos</option>
+                                    </select>
+                                </div>
+                                <div id="secondDropdown" style="display: none;">
+                                    <label for="secondReason">Motivo da transferência:</label>
+                                    <select name="secondReason" id="secondReason" class="select-search-off t-field-select__input" style="width:100%">
+                                        <option value="1">Mudança de residência (Exceto para matrículas na educação básica)</option>
+                                        <option value="2">Mudança para outra escola particular/publica</option>
+                                        <option value="3">Mudança para outro estado</option>
+                                        <option value="4">Mudança para outro país</option>
+                                        <option value="5">Mudança para escola da rede particular</option>
+                                        <option value="6">Melhor ajustamento escolar</option>
+                                    </select>
+                                </div>
+                            <?php } ?>
 
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($model, 'another_scholarization_place', array('class' => 't-field-select__label')); ?>
@@ -368,3 +393,5 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
     var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies')?>';
 
 </script>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
