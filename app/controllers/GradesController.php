@@ -376,9 +376,9 @@ class GradesController extends Controller
         );
         $usecase->exec();
 
-        $studentEnrollments = StudentEnrollment::model()->findAll("classroom_fk = :classroom_fk", ["classroom_fk" => $classroom]);
+            $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($classroom);
 
-        foreach ($studentEnrollments as $key => $enrollment) {
+        foreach ($classroom->activeStudentEnrollments as $enrollment) {
             $usecaseFinalMedia = new CalculateFinalMediaUsecase(
                 $enrollment->id,
                 $discipline

@@ -1,21 +1,22 @@
 <?php
 
 /**
- * @property int $classroom
+ * @property int $classroomId
  * @property int $discipline
  */
 class CalculateGradeResultsUsecase
 {
     public function __construct($classroom, $discipline)
     {
-        $this->classroom = $classroom;
+        $this->classroomId = $classroom;
         $this->discipline = $discipline;
     }
 
     public function exec()
     {
-        $gradeUnities = $this->getUnitiesByClassroom($this->classroom);
-        $studentEnrollments = StudentEnrollment::model()->findAll("classroom_fk = :classroom_fk", ["classroom_fk" => $this->classroom]);
+        $gradeUnities = $this->getUnitiesByClassroom($this->classroomId);
+        $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($this->classroomId);
+        $studentEnrollments = $classroom->activeStudentEnrollments;
 
         foreach ($studentEnrollments as $studentEnrollment) {
             $this->calculateGradesForStudent($studentEnrollment, $gradeUnities);
@@ -44,45 +45,44 @@ class CalculateGradeResultsUsecase
 
     private function calculateNumericGrades($studentEnrollment, $discipline)
     {
-        $unitiesByDiscipline = $this->getGradeUnitiesByDiscipline($discipline, $studentEnrollment->id);
+        $unitiesByDiscipline = $this->getGradeUnitiesByDiscipline($studentEnrollment->classroom_fk);
         $gradeResult = $this->getGradesResultForStudent($studentEnrollment->id, $discipline);
 
         foreach ($unitiesByDiscipline as $index => $gradeUnity) {
             if ($gradeUnity->type == GradeUnity::TYPE_UNITY) {
                 $unityMedia = $this->calculateUnityMedia($studentEnrollment, $discipline, $gradeUnity);
-                $gradeResult->setAttribute("grade_" . ($index + 1), $unityMedia);
+                $gradeResult["grade_" . ($index + 1)] = is_nan($unityMedia) ? "" : $unityMedia;
             } elseif ($gradeUnity->type == GradeUnity::TYPE_FINAL_RECOVERY) {
-                $gradeResult = $this->calculateFinalRecovery($studentEnrollment, $discipline, $gradeUnity);
+                $gradeResult = $this->calculateFinalRecovery($gradeResult, $studentEnrollment, $discipline, $gradeUnity);
             }
         }
 
+        $gradeResult->validate();
+        CVarDumper::dump($gradeResult->getErrors(), 10, true);
         $gradeResult->save();
 
         return $gradeResult;
     }
 
-    private function calculateFinalRecovery($studentEnrollment, $discipline, $unity)
+    private function calculateFinalRecovery($gradeResult, $studentEnrollment, $discipline, $unity)
     {
-        $gradeResult = $this->getGradesResultForStudent($studentEnrollment->id, $discipline);
         $unityMedia = $this->calculateUnityMedia($studentEnrollment, $discipline, $unity);
-        $gradeResult->setAttribute("rec_final", strval($unityMedia));
+        $gradeResult->setAttribute("rec_final", is_nan($unityMedia) ? "" : $unityMedia);
 
         return $gradeResult;
     }
 
-    private function getGradeUnitiesByDiscipline($discipline, $enrollmentId)
+    private function getGradeUnitiesByDiscipline($classroom)
     {
+
         $criteria = new CDbCriteria();
         $criteria->alias = "gu";
-        $criteria->select = "distinct gu.id, gu.*";
-        $criteria->join = "join grade_unity_modality gum on gum.grade_unity_fk = gu.id";
-        $criteria->join .= " join grade g on g.grade_unity_modality_fk = gum.id";
-        $criteria->condition = "g.discipline_fk = :discipline_fk and enrollment_fk = :enrollment_fk";
-        $criteria->params = array(":discipline_fk" => $discipline, ":enrollment_fk" => $enrollmentId);
-        $criteria->order = "gu.id";
-        $gradeUnitiesByDiscipline = GradeUnity::model()->findAll($criteria);
+        $criteria->join = "join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id";
+        $criteria->join .= " join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id";
+        $criteria->condition = "c.id = :classroom";
+        $criteria->params = array(":classroom" => $classroom);
 
-        return $gradeUnitiesByDiscipline;
+        return GradeUnity::model()->findAll($criteria);
     }
 
 
@@ -212,6 +212,9 @@ class CalculateGradeResultsUsecase
             ->bindParam(":discipline_id", $discipline)
             ->bindParam(":unity_id", $unityId)->queryAll(), "id");
 
+        if($gradesIds == null){
+            return [];
+        }
 
         $grades = Grade::model()->findAll(
             array(

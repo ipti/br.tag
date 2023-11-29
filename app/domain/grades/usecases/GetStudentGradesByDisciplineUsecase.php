@@ -80,6 +80,13 @@ class GetStudentGradesByDisciplineUsecase
             ]
         );
 
+        if ($gradeResult == null) {
+            $gradeResult = new GradeResults();
+            $gradeResult->enrollment_fk = $studentEnrollment->id;
+            $gradeResult->discipline_fk = $discipline;
+            $gradeResult->save();
+        }
+
         $studentGradeResult->setFinalMedia($gradeResult->final_media);
 
         foreach ($unitiesByDiscipline as $key => $unity) {
@@ -93,25 +100,49 @@ class GetStudentGradesByDisciplineUsecase
                 } elseif ($unity->type == GradeUnity::TYPE_UNITY_BY_CONCEPT) {
                     $unityResult->setUnityMedia($gradeResult["grade_concept_" . ($key + 1)]);
                 }
+            } else {
+                $gradesResult = new GradeResults;
+                $gradesResult->enrollment_fk = $studentEnrollment->id;
+                $gradesResult->discipline_fk = $discipline;
+                $gradesResult->save();
             }
+
             foreach ($unity->gradeUnityModalities as $modality) {
-                $grade = "";
+                $grade;
                 $gradeIndex = array_search($modality->id, array_column($unityGrades, "grade_unity_modality_fk"));
                 if ($gradeIndex !== false) {
-                    $grade = $unityGrades[$gradeIndex]->grade;
+                    $grade = $unityGrades[$gradeIndex];
+                } else {
+                    $grade = new Grade();
+                    $grade->enrollment_fk = $studentEnrollment->id;
+                    $grade->discipline_fk = $discipline;
+                    $grade->grade_unity_modality_fk = $modality->id;
+                    $grade->grade = "";
+                    $grade->validate();
+                    $grade->save();
                 }
 
                 $gradeByModality = new GradeByModalityResult();
-                $gradeByModality->setValue($grade);
+                $gradeByModality->setValue($grade->grade);
                 $gradeByModality->setModalityId($modality->id);
-                $gradeByModality->setGradeId($unityGrades[$gradeIndex]->id);
-
+                $gradeByModality->setGradeId($grade->id);
                 $unityResult->addGrade($gradeByModality);
             }
+
+
             $studentGradeResult->addUnity($unityResult);
         }
 
         return $studentGradeResult;
+    }
+
+    private function initStudentGrades($enrollmentId, $disciplineId, $unitiesByDiscipline)
+    {
+
+        $gradeObject = new Grade();
+        $gradeObject->enrollment_fk = $student["enrollmentId"];
+        $gradeObject->discipline_fk = $disciplineId;
+        $gradeObject->grade_unity_modality_fk = $grade["modalityId"];
     }
 
     /**
