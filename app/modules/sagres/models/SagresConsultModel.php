@@ -52,7 +52,7 @@ class SagresConsultModel
             throw new ErrorException($e->getMessage());
         }
 
-        $inconsistencyList = $validationSagres->validator($education, $finalClass);
+/*         $inconsistencyList = $validationSagres->validator($education, $finalClass);
         
         foreach ($inconsistencyList as $value) {
             $inconsistencyModel = new ValidationSagresModel();
@@ -67,7 +67,7 @@ class SagresConsultModel
             $inconsistencyModel->idStudent = $value["idStudent"];
             $inconsistencyModel->idProfessional = $value["idProfessional"];
             $inconsistencyModel->insert();
-        }
+        } */
 
         return $education;
     }
@@ -315,6 +315,7 @@ class SagresConsultModel
                 ->setCpfProfessor([str_replace([".", "-"], "", $schedule['cpfInstructor'])]);
 
             $scheduleList[] = $scheduleType;
+
         }
 
         return $scheduleList;
@@ -400,12 +401,42 @@ class SagresConsultModel
                     and MONTH(`date`) = ".$month.";";
 
         $attendances = Yii::app()->db->createCommand($query)->bindValue(":professionalId", $professionalId)->queryAll();
+        $strMaxLength = 200;
 
         foreach ($attendances as $attendance) {
             $attendanceType = new AtendimentoTType();
             $attendanceType
                 ->setData(new DateTime($attendance['attendanceDate']))
                 ->setLocal($attendance['attendanceLocation']);
+
+                $dateOfAttendance = intval($attendance->getData()->format("Y"));
+                $currentDate = date('Y');
+                
+                //$idProfessional = $professional = Professional::model()->findByAttributes(array('id_professional' => $professionalId));
+
+                if($dateOfAttendance <= ($currentDate - 3)){
+                    $inconsistencyModel = new ValidationSagresModel();
+                    $inconsistencyModel->enrollment = 'ATENDIMENTO';
+                    $inconsistencyModel->school = 'MARIA DE TESTE';
+                    $inconsistencyModel->description = 'ANO DO ATENDIMENTO: ';
+                    $inconsistencyModel->action = 'INFORMAR UM ANO PARA O ATENDIMENTO MAIOR QUE: ';
+                    //$inconsistencyModel->idSchool = $idProfessional->inep_id_fk;
+                    //$inconsistencyModel->identifier = '3';
+                    $inconsistencyModel->idProfessional = $professionalId;
+                    $inconsistencyModel->insert();
+                }
+    
+                if(strlen($attendance->getLocal()) > $strMaxLength){
+                    $inconsistencyModel = new ValidationSagresModel();
+                    $inconsistencyModel->enrollment = 'ATENDIMENTO';
+                    $inconsistencyModel->school = 'MARIA DE TESTE';
+                    $inconsistencyModel->description = 'NOME DO LOCAL DO ATENDIMENTO COM MAIS DE 200 CARACTERES';
+                    $inconsistencyModel->action = 'INFORMAR UM NOME PARA O LOCAL DO ATENDIMENTO COM ATÉ 200 CARACTERES';
+                    //$inconsistencyModel->idSchool = ;
+                    $inconsistencyModel->identifier = '3';
+                    //$inconsistencyModel->idProfessional = ;
+                    $inconsistencyModel->insert();
+                }
 
             $attendanceList[] = $attendanceType;
         }
@@ -572,6 +603,7 @@ class SagresConsultModel
         ]);
 
         $professionals = $command->queryAll();
+        $strMaxLength = 50;
 
         foreach ($professionals as $professional) {
             $professionalType = new ProfissionalTType();
@@ -583,9 +615,56 @@ class SagresConsultModel
                 ->setAtendimento($this->getAttendances($professional['id_professional'], $month));
 
             $professionalList[] = $professionalType;
+
+
+            if (!$this->validaCPF($professional->getCpfProfissional())) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'PROFISSIONAL';
+                $inconsistencyModel->school = 'MARIA DE TESTE';
+                $inconsistencyModel->description = 'CPF INVÁLIDO: ';
+                $inconsistencyModel->action = 'INFORMAR UM CPF VÁLIDO';
+                $inconsistencyModel->identifier = '2';
+                $inconsistencyModel->insert();
+            }
+
+            if (strlen($professional->getEspecialidade()) > $strMaxLength) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'PROFISSIONAL';
+                $inconsistencyModel->school = 'MARIA DE TESTE';
+                $inconsistencyModel->description = 'ESPECIALIDADE COM MAIS DE 50 CARACTERES';
+                $inconsistencyModel->action = 'INFORMAR UM CPF VÁLIDO';
+                $inconsistencyModel->identifier = '2';
+                #$inconsistencyModel->idProfessional = $idProfessional->id_professional;
+                $inconsistencyModel->insert();
+                
+            }
         }
 
         return $professionalList;
+    }
+
+    public function validaCPF($cpf)
+    {
+        $cpf = preg_replace('/[^0-9]/is', '', $cpf);
+
+        if (strlen($cpf) != 11) {
+            return false;
+        }
+
+        if (preg_match('/(\d)\1{10}/', $cpf)) {
+            return false;
+        }
+
+        for ($t = 9; $t < 11; $t++) {
+            for ($d = 0, $c = 0; $c < $t; $c++) {
+                $d += $cpf[$c] * (($t + 1) - $c);
+            }
+            $d = ((10 * $d) % 11) % 10;
+            if ($cpf[$c] != $d) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
