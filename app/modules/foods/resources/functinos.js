@@ -66,7 +66,7 @@ $(".js-save-menu").on("click", function () {
     }
 
     //get menu infos
-    foodMenu.name = $('.js-menu-name').val()
+    foodMenu.description = $('.js-menu-name').val()
     foodMenu.food_public_target = $('select.js-public-target').val()
     foodMenu.start_date = $('.js-start-date').val()
     foodMenu.final_date = data.actions.getLastDay()
