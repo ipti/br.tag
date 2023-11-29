@@ -51,7 +51,7 @@ $(".js-save-menu").on("click", function () {
         "tuesday" :{
             "meals":[] 
         },
-        "wednessday" :{
+        "wednesday" :{
             "meals":[]
         },
         "thursday" :{
@@ -80,7 +80,16 @@ $(".js-save-menu").on("click", function () {
     foodMenu.friday = getMealsByDay(5)
     foodMenu.saturday = getMealsByDay(6)
 
-    console.log(foodMenu)
+    /* console.log(foodMenu) */
+    $.ajax({
+        url: "?r=foods/foodMenu/create",
+        data: {
+            foodMenu: foodMenu
+        },
+        type: "POST",
+      }).success(function (response) {
+            // alert('deu certo')
+      })
     
 });
 

@@ -333,7 +333,6 @@ const PlateComponent = function () {
   }
   function addUnitMask(line) {
     const input = line.find('.js-unit input')
-    console.log(input)
     $(input).mask('999.99', {reverse: true}); 
   }
   return {
