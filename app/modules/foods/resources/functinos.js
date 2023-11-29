@@ -38,7 +38,7 @@ function removeIngrendientsName(idAccordion, name){
 
 $(".js-save-menu").on("click", function () {
     let foodMenu = {
-        "name": "",
+        "description": "",
         "food_public_target": "",
         "start_date": "",
         "final_date": "",
@@ -103,7 +103,6 @@ function getMealsByDay(day) {
 
         // get meals components
 
-        let meals_component = []
         $(mealAccordion).find('.js-plate-accordion-content').each((index, element) => {
            const plateAccordion = element
            const idPlateAccordion = $(plateAccordion).attr('data-id-accordion')
@@ -127,12 +126,12 @@ function getFoodIngredients(idPlateAccordion) {
         const row = element
         let foodIngredient = {
             "food_id_fk": "",
-            "food_measurement_fk": "",
+            "food_measure_unit_id": "",
             "amount": "",
         }
         foodIngredient.food_id_fk = $(row).attr('data-idTaco')
-        foodIngredient.food_measurement_fk = $(row).find('.js-measure select').val()
-        foodIngredient.amount = $(row).find('.js-amount input').val()
+        foodIngredient.food_measure_unit_id = $(row).find('.js-measure select').val()
+        foodIngredient.amount = $(row).find('.js-unit input').val()
         foodIngredients.push(foodIngredient)
     })
     return foodIngredients

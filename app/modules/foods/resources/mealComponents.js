@@ -216,11 +216,34 @@ const PlateComponent = function () {
         removeFood(line, accordionActive)
         totalLine.remove()
         addFoodMeasurement(line)
+        addUnitMask(line)
+        changeAmount(line)
         table.append(line)
         calculateNutritionalValue(table) 
         initializePlateAccordion(accordionActive)
         initializeSelect2()
     })
+  }
+  function changeAmount(line) {
+    const input = line.find('.js-unit input')
+    const select = line.find('.js-measure select')
+    const td = line.find('.js-amount')
+    input.on('input', function (event) {
+      let newAmount = calculateAmount(
+        select.find('option:selected').attr('data-value'), 
+        select.find('option:selected').attr('data-measure'), input.val())
+      td.text(newAmount)
+    })
+    select.on('change', function (event) {
+      let newAmount = calculateAmount(
+        select.find('option:selected').attr('data-value')
+      , select.find('option:selected').attr('data-measure'), input.val())
+      td.text(newAmount)
+    })
+  }
+  function calculateAmount(value, measure, amount) {
+      amount = amount == "" ? 0 : amount
+      return (Number(amount) * Number(value)).toFixed(2) + measure
   }
   function calculateNutritionalValue(table) {
     let total_pt = total_lip = total_cho = total_kcal = 0;
@@ -252,12 +275,12 @@ const PlateComponent = function () {
   function createMealComponent({id, name, pt, lip, cho, kcal}) {
     const line =  $(`<tr class='js-food-ingredient' data-idTaco='${id}'></tr>`)
         .append(`<td class='js-food-name'>${name}</td>`)
-        .append(`<td class='js-amount'><input class='t-field-text__input' type='text' style='width:50px !important'></td>`)
+        .append(`<td class='js-unit'><input class='t-field-text__input' type='text' style='width:50px !important'></td>`)
         .append(`<td class='js-measure'>
                 <select class="js-inicializate-select2 t-field-select__input js-food-measurement" style='width:100px'>
                 </select>
             </td>`)
-        .append(`<td>3</td>`)
+        .append(`<td class='js-amount'></td>`)
         .append(`<td class='js-pt'>${pt}</td>`)
         .append(`<td class='js-lip'>${lip}</td>`)
         .append(`<td class='js-cho'>${cho}</td>`)
@@ -281,7 +304,6 @@ const PlateComponent = function () {
   function cratedMeasurementOptions(measurements, line){
     const select = line.find('.js-food-measurement')
     measurements.forEach(obj => {
-      console.log(obj)
       const option = document.createElement("option");
       option.text = obj.unit;
       option.value = obj.id;
@@ -308,6 +330,11 @@ const PlateComponent = function () {
         initializePlateAccordion(accordionActive)
       }
     )
+  }
+  function addUnitMask(line) {
+    const input = line.find('.js-unit input')
+    console.log(input)
+    $(input).mask('999.99', {reverse: true}); 
   }
   return {
     actions: {
