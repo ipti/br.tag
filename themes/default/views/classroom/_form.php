@@ -60,7 +60,7 @@ $form = $this->beginWidget(
         <a data-toggle='tab' class='t-button-primary  next'><?php echo Yii::t('default', 'Next') ?><i></i></a>
         <!-- <?= $modelClassroom->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?> -->
 
-        <button class="t-button-primary  last pull-right save-classroom" type="button">
+        <button class="t-button-primary  last pull-right save-classroom" style="display:none;" type="button">
             <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
         </button>
     </div>
