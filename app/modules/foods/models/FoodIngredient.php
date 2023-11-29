@@ -6,17 +6,17 @@
  *
  * The followings are the available columns in table 'food_ingredient':
  * @property integer $id
- * @property integer $food_id_fk
  * @property string $observation
  * @property integer $amount
  * @property integer $replaceable
  * @property integer $food_menu_meal_componentId
  * @property integer $food_measurement_fk
+ * @property integer $food_id_fk
  *
  * The followings are the available model relations:
- * @property Food $foodIdFk
  * @property FoodMenuMealComponent $foodMenuMealComponent
  * @property FoodMeasurement $foodMeasurementFk
+ * @property Food $foodIdFk
  * @property FoodIngredientAlternatives[] $foodIngredientAlternatives
  */
 class FoodIngredient extends CActiveRecord
@@ -37,12 +37,12 @@ class FoodIngredient extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('food_id_fk, amount, food_measurement_fk', 'required'),
-            array('food_id_fk, amount, replaceable, food_menu_meal_componentId, food_measurement_fk', 'numerical', 'integerOnly'=>true),
+            array('amount', 'required'),
+            array('amount, replaceable, food_menu_meal_componentId, food_measurement_fk, food_id_fk', 'numerical', 'integerOnly'=>true),
             array('observation', 'length', 'max'=>191),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, food_id_fk, observation, amount, replaceable, food_menu_meal_componentId, food_measurement_fk', 'safe', 'on'=>'search'),
+            array('id, observation, amount, replaceable, food_menu_meal_componentId, food_measurement_fk, food_id_fk', 'safe', 'on'=>'search'),
         );
     }
 
@@ -54,9 +54,9 @@ class FoodIngredient extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'foodIdFk' => array(self::BELONGS_TO, 'Food', 'food_id_fk'),
             'foodMenuMealComponent' => array(self::BELONGS_TO, 'FoodMenuMealComponent', 'food_menu_meal_componentId'),
             'foodMeasurementFk' => array(self::BELONGS_TO, 'FoodMeasurement', 'food_measurement_fk'),
+            'foodIdFk' => array(self::BELONGS_TO, 'Food', 'food_id_fk'),
             'foodIngredientAlternatives' => array(self::HAS_MANY, 'FoodIngredientAlternatives', 'food_ingredient_fk'),
         );
     }
@@ -68,12 +68,12 @@ class FoodIngredient extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'food_id_fk' => 'Food Id Fk',
             'observation' => 'Observation',
             'amount' => 'Amount',
             'replaceable' => 'Replaceable',
             'food_menu_meal_componentId' => 'Food Menu Meal Component',
             'food_measurement_fk' => 'Food Measurement Fk',
+            'food_id_fk' => 'Food Id Fk',
         );
     }
 
@@ -96,12 +96,12 @@ class FoodIngredient extends CActiveRecord
         $criteria=new CDbCriteria;
 
         $criteria->compare('id',$this->id);
-        $criteria->compare('food_id_fk',$this->food_id_fk);
         $criteria->compare('observation',$this->observation,true);
         $criteria->compare('amount',$this->amount);
         $criteria->compare('replaceable',$this->replaceable);
         $criteria->compare('food_menu_meal_componentId',$this->food_menu_meal_componentId);
         $criteria->compare('food_measurement_fk',$this->food_measurement_fk);
+        $criteria->compare('food_id_fk',$this->food_id_fk);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,

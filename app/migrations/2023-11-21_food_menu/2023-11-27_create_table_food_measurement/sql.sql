@@ -13,4 +13,5 @@ COLLATE=latin1_swedish_ci;
 ALTER TABLE food_ingredient DROP COLUMN measurementUnit;
 ALTER TABLE food_menu_meal ADD COLUMN (meal_time TIME, turn VARCHAR(100));
 ALTER TABLE food_ingredient ADD COLUMN (food_measurement_fk);
+ALTER TABLE food_ingredient
 ADD FOREIGN KEY (food_measurement_fk) REFERENCES food_measurement(id);
