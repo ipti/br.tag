@@ -68,8 +68,11 @@ class FoodMenuController extends Controller
 	{
         $modelFoodMenu = new FoodMenu;
 
-        $rawBody = Yii::app()->request->getRawBody();
-        $request = CJSON::decode($rawBody);
+        $request = Yii::app()->request->getPost('foodMenu');
+		/* var_dump($rawBody);
+		exit(); */
+
+        // $request = CJSON::decode($rawBody);
 
 		if($request !== null)
 		{
@@ -86,7 +89,8 @@ class FoodMenuController extends Controller
                     $modelFoodMenu->start_date = date('Y-m-d', $startTimestamp);
                     $modelFoodMenu->final_date = date('Y-m-d', $finalTimestamp);
                     $modelFoodMenu->description = $request['description'];
-
+					// CVarDumper::dump($modelFoodMenu, 10, true);
+					// exit();
                     // Verifica se a ação de salvar foodMenu ocorreu com sucesso
                     if($modelFoodMenu->save()){
 
@@ -103,9 +107,13 @@ class FoodMenuController extends Controller
                             // Verifica se existe alguma refeição para o dia
                             if($request[$day] !== null){
                                 // $meals se trata da lista de refeições que um dia da semana pode ter
-                                $meals = $request[$day]["meals"];
+                                $meals = $request[$day];
                                 foreach($meals as $meal)
                                 {
+									// CVarDumper::dump($meal, 10, true);
+									
+									
+				
                                     $foodMenuMeal = new FoodMenuMeal;
                                     $foodMealType = FoodMealType::model()->findByPk($meal["food_meal_type"]);
 
@@ -165,17 +173,11 @@ class FoodMenuController extends Controller
                 }
 		} else
         {
-            echo 'Ocorreu um erro. O objeto não foi recebido.';
-            Yii::app()->end();
+			$this->render('create', array(
+				'model'=>$modelFoodMenu,
+			));
+			Yii::app()->end();
         }
-	}
-
-	public function actionPlateAccordion ()
-	{
-		$idAccordion = Yii::app()->request->getQuery('id');
-		$this->renderPartial('_plateAccordion', array(
-			'idAccordion' => $idAccordion
-		));
 	}
 	public function actionGetTacoFoods() {
 		$foods = Food::model()->findAll(array(
@@ -185,7 +187,7 @@ class FoodMenuController extends Controller
 		foreach ($foods as $food) {
             $resultArray[$food->id] = $food->description;
         }
-		echo CJSON::encode($resultArray);
+		echo json_encode($resultArray);
 	}
 	public function actionGetFood() {
 		$idFood = Yii::app()->request->getQuery('idFood');
