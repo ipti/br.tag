@@ -69,8 +69,8 @@ class FoodMenuController extends Controller
         $modelFoodMenu = new FoodMenu;
 
         $request = Yii::app()->request->getPost('foodMenu');
-		/* var_dump($rawBody);
-		exit(); */
+		// CVarDumper::dump($request);
+        // exit();
 
         // $request = CJSON::decode($rawBody);
 
@@ -89,8 +89,7 @@ class FoodMenuController extends Controller
                     $modelFoodMenu->start_date = date('Y-m-d', $startTimestamp);
                     $modelFoodMenu->final_date = date('Y-m-d', $finalTimestamp);
                     $modelFoodMenu->description = $request['description'];
-					// CVarDumper::dump($modelFoodMenu, 10, true);
-					// exit();
+
                     // Verifica se a ação de salvar foodMenu ocorreu com sucesso
                     if($modelFoodMenu->save()){
 
@@ -105,15 +104,16 @@ class FoodMenuController extends Controller
 
                         foreach($weekDays as $day){
                             // Verifica se existe alguma refeição para o dia
+                            CVarDumper::dump($request[$day]);
                             if($request[$day] !== null){
                                 // $meals se trata da lista de refeições que um dia da semana pode ter
                                 $meals = $request[$day];
                                 foreach($meals as $meal)
                                 {
 									// CVarDumper::dump($meal, 10, true);
-									
-									
-				
+
+
+
                                     $foodMenuMeal = new FoodMenuMeal;
                                     $foodMealType = FoodMealType::model()->findByPk($meal["food_meal_type"]);
 
