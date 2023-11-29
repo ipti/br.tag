@@ -54,15 +54,15 @@ $form = $this->beginWidget(
         </div>
     </div>
     <div class="column clearfix align-items--center justify-content--end show--desktop">
-        <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?>
-            <i></i>
+        <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;">
+            <?php echo Yii::t('default', 'Previous') ?>
         </a>
-        <a data-toggle='tab' class='t-button-primary  next'><?php echo Yii::t('default', 'Next') ?><i></i></a>
-        <!-- <?= $modelClassroom->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?> -->
-
-        <button class="t-button-primary  last pull-right save-classroom" style="display:none;" type="button">
+        <a data-toggle='tab' class='t-button-primary  next'>
+            <?php echo Yii::t('default', 'Next') ?>
+        </a>
+        <a id="save" class='t-button-primary last pull-right save-classroom' style="display:none;">
             <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
-        </button>
+        </a>
     </div>
 </div>
 
@@ -1176,7 +1176,7 @@ $form = $this->beginWidget(
                         <?php echo Yii::t('default', 'Previous') ?>
                         <i></i>
                     </a>
-                    <a class="t-button-primary last save-school-button" type="button" style="display:none;">
+                    <a id="save" class="t-button-primary last  save-classroom" type="button" style="display:none;">
                         <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
                     </a>
                 </div>
