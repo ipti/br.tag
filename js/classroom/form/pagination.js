@@ -15,6 +15,7 @@ function changeTab(index){
 	var activePane = $('div .active');
 	var size = tabs.length -1;
 
+
     if(index == 0){
         $('.prev').hide();
         $('.next').show();
@@ -40,6 +41,7 @@ function changeTab(index){
     $('#' + newPane).addClass("active");
 
     $('html, body').animate({scrollTop: 0}, 'fast');
+    window.location.search.includes("update") ? $('.next').hide() : $('.next').show()
 }
 
 function change2nextTab(){
