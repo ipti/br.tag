@@ -141,18 +141,26 @@ class CalculateGradeResultsUsecase
      * @param int $discipline
      * @param GradeUnity $unity
      *
-     * @return float
+     * @return float|null
      */
-    private function calculateUnityMedia($enrollment, $discipline, $unity)
+    private function calculateUnityMedia($enrollment, $disciplineId, $unity)
     {
-        $grades = $this->getStudentGradesFromUnity(
-            $enrollment->id,
-            $discipline,
-            $unity->id
+
+        $checkGradesUsecase = new CheckIfUnityHasAllGradesUsecase(
+            $unity, $enrollment->id, $disciplineId
         );
+        $hasAllGrades = $checkGradesUsecase->exec();
 
+        if($hasAllGrades){
+            $grades = $this->getStudentGradesFromUnity(
+                $enrollment->id,
+                $disciplineId,
+                $unity->id
+            );
+            return $this->applyStrategyComputeGradesByFormula($unity, array_column($grades, "grade"));
+        }
 
-        return $this->applyStrategyComputeGradesByFormula($unity, array_column($grades, "grade"));
+        return null;
     }
 
     /**

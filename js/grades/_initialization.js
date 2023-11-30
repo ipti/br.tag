@@ -78,3 +78,25 @@ $("#save").on("click", function (e) {
         },
     });
 });
+
+$("#close-grades-diary").on("click", function (e) {
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: "?r=grades/calculateFinalMedia",
+        cache: false,
+        data: {
+            classroom: $("#classroom").val(),
+            discipline: $("#discipline").val(),
+        },
+        beforeSend: function () {
+            $(".js-grades-loading").css("display", "inline-block");
+            $(".js-grades-container, .grades-buttons")
+                .css("opacity", "0.4")
+                .css("pointer-events", "none");
+        },
+        success: function (data) {
+            $("#discipline").trigger("change", ["saveGrades"]);
+        },
+    });
+});
