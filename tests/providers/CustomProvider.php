@@ -121,11 +121,12 @@ class CustomProvider extends Base
         return $this->generator->randomElement($tipos);
     }
 
-     /**
+    /**
      * Método que gera um nome para filiação.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function filiationName() {
+    public function filiationName()
+    {
         $firstName = $this->generator->firstName();
         $lastName = $this->generator->lastName();
 
@@ -135,7 +136,8 @@ class CustomProvider extends Base
      * Método que gera um nome para turma.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function generateRandomClassName() {
+    public function generateRandomClassName()
+    {
         $adjectives = ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'Orange', 'Silver', 'Golden'];
         $nouns = ['Lions', 'Tigers', 'Bears', 'Eagles', 'Wolves', 'Dolphins', 'Sharks', 'Falcons'];
 
@@ -149,14 +151,16 @@ class CustomProvider extends Base
      * Método que gera o horário.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function generateRandomTime() {
-        $hour = str_pad(mt_rand(0, 23), 2, '0', STR_PAD_LEFT);
-        $minute = str_pad(mt_rand(0, 59), 2, '0', STR_PAD_LEFT);
+    public function generateRandomTime()
+    {
+        $hour = str_pad(random_int(0, 23), 2, '0', STR_PAD_LEFT);
+        $minute = str_pad(random_int(0, 59), 2, '0', STR_PAD_LEFT);
 
         return "$hour:$minute";
     }
 
-    public function generateRandomEndTime($startTime) {
+    public function generateRandomEndTime($startTime)
+    {
         do {
             $endTime = $this->generateRandomTime();
         } while ($this->compareTimes($startTime, $endTime) >= 0);
@@ -164,7 +168,8 @@ class CustomProvider extends Base
         return $endTime;
     }
 
-    private function compareTimes($time1, $time2) {
+    private function compareTimes($time1, $time2)
+    {
         $time1Parts = explode(':', $time1);
         $time2Parts = explode(':', $time2);
 
@@ -181,4 +186,48 @@ class CustomProvider extends Base
         return $hour1 - $hour2;
     }
 
+    /**
+     * Gera a identificação da turma.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function identificationClass()
+    {
+        $letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+        $numeros = [1, 2, 3, 4, 5, 6, 7];
+
+        $identificacao = $this->generator->randomElement($letras);
+
+        if ($this->generator->boolean(50)) {
+            $identificacao .= $this->generator->randomElement($numeros);
+        }
+
+        return $identificacao;
+    }
+
+    /**
+     * Gera nome do plano de curso.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function classPlan()
+    {
+        $adjectives = ['Plano', 'Aula', 'Teste', 'Fundamental', 'Curso', 'Técnica'];
+        $nouns = ['Português', 'Inglês', 'Geografia', 'História', 'Ciências', 'Matemática', 'História'];
+
+        $randomAdjective = $adjectives[array_rand($adjectives)];
+        $randomNoun = $nouns[array_rand($nouns)];
+
+        return $randomAdjective . ' ' . $randomNoun;
+    }
+
+    /**
+     * Gera um titulo de calendário.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function titleCalendar()
+    {
+        $numeroAleatorio = $this->generator->numberBetween(1, 100);
+        $titulo = "Calendário $numeroAleatorio";
+
+        return $titulo;
+    }
 }

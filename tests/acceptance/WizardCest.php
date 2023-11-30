@@ -1,20 +1,16 @@
 <?php
-require_once 'vendor/autoload.php';
-require_once __DIR__."/../robots/LoginRobots.php";
-require_once __DIR__."/../robots/WizardRobots.php";
-require_once __DIR__.'/../builders/WizardBuilder.php';
 
 class WizardCest
 {
     public function _before(AcceptanceTester $tester)
     {
-        $user = "admin";
-        $secret = "p@s4ipti";
+        $builder = new LoginBuilder();
+        $login = $builder->buildCompleted();
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
-        $robots->fieldUser($user);
-        $robots->fieldPassword($secret);
+        $robots->fieldUser($login['user']);
+        $robots->fieldPassword($login['secret']);
         $robots->submit();
         sleep(2);
     }
@@ -25,7 +21,7 @@ class WizardCest
      * Matricula em grupo.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function groupEnrollment (AcceptanceTester $teste)
+    public function groupEnrollment(AcceptanceTester $teste)
     {
         sleep(5);
         $robots = new WizardRobots($teste);
@@ -38,8 +34,6 @@ class WizardCest
         $robots->btnSave();
         sleep(2);
 
-        $teste->see('Alunos matriculados com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=wizard/configuration/student');
+        $robots->addSucess();
     }
-
 }

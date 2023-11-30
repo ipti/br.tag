@@ -142,7 +142,7 @@ class StudentsRobots
      */
     public function name ($name)
     {
-        $this->tester->fillField('#nameStudents input[type=text]', $name);
+        $this->tester->fillField('#StudentIdentification_name', $name);
     }
 
     /**
@@ -160,7 +160,7 @@ class StudentsRobots
      */
     public function civilName ($civilName)
     {
-        $this->tester->fillField('#civilName input[type=text]', $civilName);
+        $this->tester->fillField('#StudentIdentification_civil_name', $civilName);
     }
 
     /**
@@ -169,7 +169,7 @@ class StudentsRobots
      */
     public function dateOfBirth ($dateOfBirth)
     {
-        $this->tester->fillField('#dateOfBirth input[type=text]', $dateOfBirth);
+        $this->tester->fillField('#StudentIdentification_birthday', $dateOfBirth);
     }
 
     /**
@@ -178,7 +178,7 @@ class StudentsRobots
      */
     public function cpf ($cpf)
     {
-        $this->tester->fillField('#cpfStudents input[type=text]', $cpf);
+        $this->tester->fillField('#StudentDocumentsAndAddress_cpf', $cpf);
     }
 
     /**
@@ -187,7 +187,7 @@ class StudentsRobots
      */
     public function gender ($gender)
     {
-        $this->tester->selectOption('#gender-select select', $gender);
+        $this->tester->selectOption('#StudentIdentification_sex', $gender);
     }
 
     /**
@@ -196,7 +196,7 @@ class StudentsRobots
      */
     public function color ($color)
     {
-        $this->tester->selectOption('#color select', $color);
+        $this->tester->selectOption('#StudentIdentification_color_race', $color);
     }
 
     /**
@@ -205,7 +205,7 @@ class StudentsRobots
      */
     public function nationality ($nationality)
     {
-        $this->tester->selectOption('#nationality-select select', $nationality);
+        $this->tester->selectOption('#StudentIdentification_nationality', $nationality);
     }
 
     /**
@@ -214,7 +214,7 @@ class StudentsRobots
      */
     public function state ($state)
     {
-        $this->tester->selectOption('#state-select select', $state);
+        $this->tester->selectOption('#StudentIdentification_edcenso_uf_fk', $state);
     }
 
     /**
@@ -223,7 +223,7 @@ class StudentsRobots
      */
     public function city ($city)
     {
-        $this->tester->selectOption('#city-select select', $city);
+        $this->tester->selectOption('#StudentIdentification_edcenso_city_fk', $city);
     }
 
     /**
@@ -232,7 +232,7 @@ class StudentsRobots
      */
     public function email ($email)
     {
-        $this->tester->fillField('#email input[type=text]',$email);
+        $this->tester->fillField('#StudentIdentification_id_email',$email);
     }
 
     /**
@@ -241,11 +241,11 @@ class StudentsRobots
      */
     public function scholarity ($scholarity)
     {
-        $this->tester->selectOption('#scholarity-select select', $scholarity);
+        $this->tester->selectOption('#StudentIdentification_scholarity', $scholarity);
     }
 
     /**
-     * Selecionar o estado do estudante.
+     * Selecionar o nome do estudante.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function filiation ($filiation)
@@ -259,7 +259,7 @@ class StudentsRobots
      */
     public function responsable ($responsable)
     {
-        $this->tester->selectOption('#responsable-select select', $responsable);
+        $this->tester->selectOption('#StudentIdentification_responsable', $responsable);
     }
 
     /**
@@ -268,7 +268,7 @@ class StudentsRobots
      */
     public function responsableTelephone ($telephone)
     {
-        $this->tester->fillField('#telephone input[type=text]', $telephone);
+        $this->tester->fillField('#StudentIdentification_responsable_telephone', $telephone);
     }
 
     /**
@@ -277,7 +277,7 @@ class StudentsRobots
      */
     public function nameResponsable ($nameResponsable)
     {
-        $this->tester->fillField('#nameResponsable input[type=text]', $nameResponsable);
+        $this->tester->fillField('#StudentIdentification_responsable_name', $nameResponsable);
     }
 
     /**
@@ -286,7 +286,7 @@ class StudentsRobots
      */
     public function emailResponsable ($emailResponsable)
     {
-        $this->tester->fillField('#emailResponsable input[type=text]', $emailResponsable);
+        $this->tester->fillField('#StudentIdentification_email_responsable', $emailResponsable);
     }
 
     /**
@@ -295,7 +295,7 @@ class StudentsRobots
     */
     public function  responsableJob ($responsableJob)
     {
-        $this->tester->fillField('#responsableJob input[type=text]', $responsableJob);
+        $this->tester->fillField('#StudentIdentification_responsable_job', $responsableJob);
     }
 
     /**
@@ -313,7 +313,7 @@ class StudentsRobots
      */
     public function rgResposable ($rgResposable)
     {
-        $this->tester->fillField('#rgResposable input[type=text]', $rgResposable);
+        $this->tester->fillField('#StudentIdentification_responsable_rg', $rgResposable);
     }
 
     /**
@@ -322,7 +322,7 @@ class StudentsRobots
      */
     public function cpfResponsable ($cpfResponsable)
     {
-        $this->tester->fillField('#cpfResponsable input[type=text]', $cpfResponsable);
+        $this->tester->fillField('#StudentIdentification_responsable_cpf', $cpfResponsable);
     }
 
     /**
@@ -331,7 +331,7 @@ class StudentsRobots
      */
     public function filiationMain ($filiationMain)
     {
-        $this->tester->fillField('#filiationMain input[type=text]', $filiationMain);
+        $this->tester->fillField('#StudentIdentification_filiation_1', $filiationMain);
     }
 
     /**
@@ -340,7 +340,7 @@ class StudentsRobots
      */
     public function cpfFiliation1 ($cpfFiliation1)
     {
-        $this->tester->fillField('#cpfFiliation1 input[type=text]', $cpfFiliation1);
+        $this->tester->fillField('#StudentIdentification_filiation_1_cpf', $cpfFiliation1);
     }
 
     /**
@@ -349,7 +349,7 @@ class StudentsRobots
      */
     public function dateOfBirthFiliation ($dateFiliation)
     {
-        $this->tester->fillField('#dateOfBirthFiliation input[type=text]', $dateFiliation);
+        $this->tester->fillField('#StudentIdentification_filiation_1_birthday', $dateFiliation);
     }
 
     /**
@@ -358,7 +358,7 @@ class StudentsRobots
      */
     public function rgFiliation1 ($rgFiliation1)
     {
-        $this->tester->fillField('#rgFiliation1 input[type=text]', $rgFiliation1);
+        $this->tester->fillField('#StudentIdentification_filiation_1_rg', $rgFiliation1);
     }
 
     /**
@@ -367,7 +367,7 @@ class StudentsRobots
      */
     public function scholarityFiliation1 ($scholarityFiliation1)
     {
-        $this->tester->selectOption('#scholarityFiliation1-select select', $scholarityFiliation1);
+        $this->tester->selectOption('#StudentIdentification_filiation_1_scholarity', $scholarityFiliation1);
     }
 
     /**
@@ -376,7 +376,7 @@ class StudentsRobots
      */
     public function professionFiliation1 ($professionFiliation1)
     {
-        $this->tester->fillField('#professionFiliation1 input[type=text]', $professionFiliation1);
+        $this->tester->fillField('#StudentIdentification_filiation_1_job', $professionFiliation1);
     }
 
     /**
@@ -385,7 +385,7 @@ class StudentsRobots
      */
     public function filiationSecondary ($filiationSecondary)
     {
-        $this->tester->fillField('#filiationSecondary input[type=text]', $filiationSecondary);
+        $this->tester->fillField('#StudentIdentification_filiation_2', $filiationSecondary);
     }
 
     /**
@@ -394,7 +394,7 @@ class StudentsRobots
      */
     public function cpfFiliation2 ($cpfFiliation2)
     {
-        $this->tester->fillField('#cpfFiliation2 input[type=text]', $cpfFiliation2);
+        $this->tester->fillField('#StudentIdentification_filiation_2_cpf', $cpfFiliation2);
     }
 
     /**
@@ -403,7 +403,7 @@ class StudentsRobots
      */
     public function dateOfBirthFiliationSecondary ($dateSecondary)
     {
-        $this->tester->fillField('#dateSecondary input[type=text]', $dateSecondary);
+        $this->tester->fillField('#StudentIdentification_filiation_2_birthday', $dateSecondary);
     }
 
     /**
@@ -412,7 +412,7 @@ class StudentsRobots
      */
     public function rgFiliation2 ($rgFiliation2)
     {
-        $this->tester->fillField('#rgFiliation2 input[type=text]', $rgFiliation2);
+        $this->tester->fillField('#StudentIdentification_filiation_2_rg', $rgFiliation2);
     }
 
     /**
@@ -421,7 +421,7 @@ class StudentsRobots
      */
     public function scholarityFiliation2 ($scholarityFiliation2)
     {
-        $this->tester->selectOption('#scholarityFiliation2-select select', $scholarityFiliation2);
+        $this->tester->selectOption('#StudentIdentification_filiation_2_scholarity', $scholarityFiliation2);
     }
     /**
      * Preencher a profissão da filiação 2.
@@ -429,7 +429,7 @@ class StudentsRobots
      */
     public function jobFiliation2 ($jobFiliation2)
     {
-        $this->tester->fillField('#jobFiliation2 input[type=text]', $jobFiliation2);
+        $this->tester->fillField('#StudentIdentification_filiation_2_job', $jobFiliation2);
     }
 
     /**
@@ -438,7 +438,7 @@ class StudentsRobots
      */
     public function civilCertification ($civilCertification)
     {
-        $this->tester->selectOption('#civilCertification-select select', $civilCertification);
+        $this->tester->selectOption('#StudentDocumentsAndAddress_civil_certification', $civilCertification);
     }
 
     /**
@@ -447,7 +447,7 @@ class StudentsRobots
      */
     public function numberRegistration ($numberRegistration)
     {
-        $this->tester->fillField('#numberRegistration input[type=text]', $numberRegistration);
+        $this->tester->fillField('#StudentDocumentsAndAddress_civil_register_enrollment_number', $numberRegistration);
     }
 
     /**
@@ -456,7 +456,7 @@ class StudentsRobots
      */
     public function typeOfCivilCertificate ($typeOfCivil)
     {
-        $this->tester->selectOption('#typeOfCivil-select select', $typeOfCivil);
+        $this->tester->selectOption('#StudentDocumentsAndAddress_civil_certification_type', $typeOfCivil);
     }
 
     /**
@@ -465,7 +465,7 @@ class StudentsRobots
      */
     public function civilCertificationBook ($book)
     {
-        $this->tester->fillField('#bookCertification input[type=text]', $book);
+        $this->tester->fillField('#StudentDocumentsAndAddress_civil_certification_book', $book);
     }
 
     /**
@@ -474,7 +474,7 @@ class StudentsRobots
      */
     public function sheet ($sheet)
     {
-        $this->tester->fillField('#sheet input[type=text]', $sheet);
+        $this->tester->fillField('#StudentDocumentsAndAddress_civil_certification_sheet', $sheet);
     }
 
     /**
@@ -483,7 +483,7 @@ class StudentsRobots
      */
     public function ufRegistry ($ufRegistry)
     {
-        $this->tester->selectOption('#ufRegistry-select select', $ufRegistry);
+        $this->tester->selectOption('#StudentDocumentsAndAddress_notary_office_uf_fk', $ufRegistry);
     }
 
     /**
@@ -492,7 +492,7 @@ class StudentsRobots
      */
     public function dateOfIssue ($dateOfIssue)
     {
-        $this->tester->fillField('#certificationDate input[type=text]', $dateOfIssue);
+        $this->tester->fillField('#StudentDocumentsAndAddress_civil_certification_date', $dateOfIssue);
     }
 
     /**
@@ -501,7 +501,7 @@ class StudentsRobots
      */
     public function termNumber ($termNumber)
     {
-        $this->tester->fillField('#termNumber input[type=text]', $termNumber);
+        $this->tester->fillField('#StudentDocumentsAndAddress_civil_certification_term_number', $termNumber);
     }
 
     /**
@@ -510,7 +510,7 @@ class StudentsRobots
      */
     public function municipalityRegistry ($municipalityRegistry)
     {
-        $this->tester->selectOption('#municipalityRegistry-select select', $municipalityRegistry);
+        $this->tester->selectOption('#StudentDocumentsAndAddress_notary_office_city_fk', $municipalityRegistry);
     }
 
     /**
@@ -519,7 +519,7 @@ class StudentsRobots
      */
     public function notaryOffice ($notaryOffice)
     {
-        $this->tester->selectOption('#notaryOffice-select select', $notaryOffice);
+        $this->tester->selectOption('#StudentDocumentsAndAddress_edcenso_notary_office_fk', $notaryOffice);
     }
 
     /**
@@ -528,7 +528,7 @@ class StudentsRobots
      */
     public function numberCns ($numberCns)
     {
-        $this->tester->fillField('#numberCns input[type=text]', $numberCns);
+        $this->tester->fillField('#StudentDocumentsAndAddress_cns', $numberCns);
     }
 
     /**
@@ -537,7 +537,7 @@ class StudentsRobots
      */
     public function numberIdentity($numberIdentity)
     {
-        $this->tester->fillField('#numberIdentity input[type=text]', $numberIdentity);
+        $this->tester->fillField('#StudentDocumentsAndAddress_rg_number', $numberIdentity);
     }
 
     /**
@@ -546,7 +546,7 @@ class StudentsRobots
      */
     public function rgOrgan ($rgOrgan)
     {
-        $this->tester->selectOption('#rgOrgan-select select', $rgOrgan);
+        $this->tester->selectOption('#StudentDocumentsAndAddress_rg_number_edcenso_organ_id_emitter_fk', $rgOrgan);
     }
 
     /**
@@ -555,7 +555,7 @@ class StudentsRobots
      */
     public function identityDate ($identityDate)
     {
-        $this->tester->fillField('#identityDate input[type=text]', $identityDate);
+        $this->tester->fillField('#StudentDocumentsAndAddress_rg_number_expediction_date', $identityDate);
     }
 
     /**
@@ -564,7 +564,7 @@ class StudentsRobots
      */
     public function identyUF ($identyUF)
     {
-        $this->tester->selectOption('#identyUF-select select', $identyUF);
+        $this->tester->selectOption('#StudentDocumentsAndAddress_rg_number_edcenso_uf_fk', $identyUF);
     }
 
     /**
@@ -573,7 +573,7 @@ class StudentsRobots
      */
     public function justice ($justice)
     {
-        $this->tester->selectOption('#justice-select select', $justice);
+        $this->tester->selectOption('#StudentDocumentsAndAddress_justice_restriction', $justice);
     }
 
     /**
@@ -582,7 +582,7 @@ class StudentsRobots
      */
     public function justification ($justification)
     {
-        $this->tester->selectOption('#justification-select select', $justification);
+        $this->tester->selectOption('#StudentIdentification_no_document_desc', $justification);
     }
 
     /**
@@ -591,7 +591,7 @@ class StudentsRobots
      */
     public function nis ($nis)
     {
-        $this->tester->fillField('#nis input[type=text]', $nis);
+        $this->tester->fillField('#StudentDocumentsAndAddress_nis', $nis);
     }
 
     /**
@@ -600,7 +600,7 @@ class StudentsRobots
      */
     public function idInep ($idInep)
     {
-        $this->tester->fillField('#idInep input[type=text]',$idInep);
+        $this->tester->fillField('#StudentIdentification_inep_id',$idInep);
     }
 
     /**
@@ -609,7 +609,7 @@ class StudentsRobots
      */
     public function participantBF()
     {
-        $this->tester->click('#participantBF input[type=checkbox]');
+        $this->tester->click('#StudentIdentification_bf_participator');
     }
 
     /**
@@ -618,7 +618,7 @@ class StudentsRobots
      */
     public function postCensus()
     {
-        $this->tester->click('#postCensus input[type=checkbox]');
+        $this->tester->click('#StudentIdentification_send_year');
     }
 
     /**
@@ -627,7 +627,7 @@ class StudentsRobots
      */
     public function stateAddress($stateAddress)
     {
-        $this->tester->selectOption('#stateAddress-select select', $stateAddress);
+        $this->tester->selectOption('#StudentDocumentsAndAddress_edcenso_uf_fk', $stateAddress);
     }
 
     /**
@@ -636,7 +636,7 @@ class StudentsRobots
      */
     public function cep($cep)
     {
-        $this->tester->fillField('#cepAddress input[type=text]',$cep);
+        $this->tester->fillField('#StudentDocumentsAndAddress_cep',$cep);
     }
 
     /**
@@ -645,7 +645,7 @@ class StudentsRobots
      */
     public function cityAddress($cityAddress)
     {
-        $this->tester->selectOption('#cityAddress select', $cityAddress);
+        $this->tester->selectOption('#StudentDocumentsAndAddress_edcenso_city_fk', $cityAddress);
     }
 
     /**
@@ -654,7 +654,7 @@ class StudentsRobots
      */
     public function address ($address)
     {
-        $this->tester->fillField('#address input[type=text]', $address);
+        $this->tester->fillField('#StudentDocumentsAndAddress_address', $address);
     }
 
     /**
@@ -663,7 +663,7 @@ class StudentsRobots
      */
     public function neighborhood ($neighborhood)
     {
-        $this->tester->fillField('#neighborhood input[type=text]', $neighborhood);
+        $this->tester->fillField('#StudentDocumentsAndAddress_neighborhood', $neighborhood);
     }
 
     /**
@@ -672,7 +672,7 @@ class StudentsRobots
      */
     public function number ($number)
     {
-        $this->tester->fillField('#number input[type=text]', $number);
+        $this->tester->fillField('#StudentDocumentsAndAddress_number', $number);
     }
 
     /**
@@ -681,7 +681,7 @@ class StudentsRobots
      */
     public function complement ($complement)
     {
-        $this->tester->fillField('#complement input[type=text]', $complement);
+        $this->tester->fillField('#StudentDocumentsAndAddress_complement', $complement);
     }
 
     /**
@@ -690,7 +690,7 @@ class StudentsRobots
      */
     public function location ($location)
     {
-        $this->tester->selectOption('#location-select select', $location);
+        $this->tester->selectOption('#StudentDocumentsAndAddress_diff_location', $location);
     }
 
 
@@ -700,7 +700,7 @@ class StudentsRobots
      */
     public function zone($zone)
     {
-        $this->tester->executeJS("document.querySelector('#zone-select select').value = '{$zone}';");
+        $this->tester->executeJS("document.querySelector('#StudentDocumentsAndAddress_residence_zone').value = '{$zone}';");
     }
 
      /**
@@ -719,8 +719,9 @@ class StudentsRobots
      */
     public function classroom ($classroom)
     {
-        $script = "document.querySelector('#class-select select').value = '{$classroom}';";
-        $this->tester->executeJS($script);
+        $this->tester->waitForElement('#StudentEnrollment_classroom_fk');
+        $this->tester->executeJS("$('#StudentEnrollment_classroom_fk').select2('val', $classroom);");
+        // $this->tester->selectOption('#StudentEnrollment_classroom_fk', $classroom);
     }
 
     /**
@@ -729,7 +730,7 @@ class StudentsRobots
      */
     public function ticketType ($ticketType)
     {
-        $this->tester->selectOption('#ticketType-select select', $ticketType);
+        $this->tester->selectOption('#StudentEnrollment_admission_type', $ticketType);
     }
 
     /**
@@ -738,7 +739,7 @@ class StudentsRobots
      */
     public function ticketDate($ticketDate)
     {
-        $script = "document.querySelector('#ticketDate input[type=text]').value = '{$ticketDate}';";
+        $script = "document.querySelector('#StudentEnrollment_school_admission_date').value = '{$ticketDate}';";
         $this->tester->executeJS($script);
     }
 
@@ -748,7 +749,7 @@ class StudentsRobots
      */
     public function situationSerie ($situationSerie)
     {
-        $this->tester->selectOption('#situationSerie-select select', $situationSerie);
+        $this->tester->selectOption('#StudentEnrollment_current_stage_situation', $situationSerie);
     }
 
     /**
@@ -757,7 +758,7 @@ class StudentsRobots
      */
     public function registrationStatus ($registrationStatus)
     {
-        $this->tester->selectOption('#registrationStatus-select select', $registrationStatus);
+        $this->tester->selectOption('#StudentEnrollment_status', $registrationStatus);
     }
 
     /**
@@ -766,7 +767,7 @@ class StudentsRobots
      */
     public function situationYear ($situationYear)
     {
-        $this->tester->selectOption('#situationYear-select select', $situationYear);
+        $this->tester->selectOption('#StudentEnrollment_previous_stage_situation', $situationYear);
     }
 
     /**
@@ -775,7 +776,7 @@ class StudentsRobots
      */
     public function unifiedClassroom ($unifiedClassroom)
     {
-        $this->tester->selectOption('#unifiedClassroom-select select', $unifiedClassroom);
+        $this->tester->selectOption('#StudentEnrollment_unified_class', $unifiedClassroom);
     }
 
     /**
@@ -784,7 +785,7 @@ class StudentsRobots
      */
     public function schooling ($schooling)
     {
-        $this->tester->selectOption('#schooling-select select', $schooling);
+        $this->tester->selectOption('#StudentEnrollment_another_scholarization_place', $schooling);
     }
 
     /**
@@ -793,7 +794,7 @@ class StudentsRobots
      */
     public function stage ($stage)
     {
-        $this->tester->selectOption('#stage-select select', $stage);
+        $this->tester->selectOption('#Stage', $stage);
     }
 
     /**
@@ -802,7 +803,7 @@ class StudentsRobots
      */
     public function teachingStage ($teachingStage)
     {
-        $this->tester->selectOption('#teachingStage-select select', $teachingStage);
+        $this->tester->selectOption('#StudentEnrollment_edcenso_stage_vs_modality_fk', $teachingStage);
     }
 
     /**
@@ -811,7 +812,7 @@ class StudentsRobots
      */
     public function publicTransport ()
     {
-        $script = "document.querySelector('#publicTransport input[type=checkbox]').click();";
+        $script = "document.querySelector('#StudentEnrollment_public_transport').click();";
         $this->tester->executeJS($script);
     }
 
@@ -821,7 +822,10 @@ class StudentsRobots
      */
     public function transportResponsable ($transportResponsable)
     {
-        $script = "document.querySelector('#transport_responsable select').value = '{$transportResponsable}';";
+        $script = "
+            document.querySelector('#StudentEnrollment_transport_responsable_government').value =
+            '{$transportResponsable}';
+        ";
         $this->tester->executeJS($script);
     }
 
@@ -851,7 +855,7 @@ class StudentsRobots
      */
     public function deficiency ()
     {
-        $script = "document.querySelector('#deficiency-checkbox input[type=checkbox]').click();";
+        $script = "document.querySelector('#StudentIdentification_deficiency').click();";
         $this->tester->executeJS($script);
     }
 

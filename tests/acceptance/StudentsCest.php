@@ -1,22 +1,18 @@
 <?php
 
-require_once 'vendor/autoload.php';
-require_once __DIR__."/../robots/LoginRobots.php";
-require_once __DIR__.'/../robots/StudentsRobots.php';
-require_once __DIR__.'/../providers/CustomProvider.php';
-require_once __DIR__.'/../builders/StudentBuilder.php';
+ require_once __DIR__ . '\\ClassroomCest.php';
 
 class StudentsCest
 {
     public function _before(AcceptanceTester $tester)
     {
-        $user = "admin";
-        $secret = "p@s4ipti";
+        $builder = new LoginBuilder();
+        $login = $builder->buildCompleted();
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
-        $robots->fieldUser($user);
-        $robots->fieldPassword($secret);
+        $robots->fieldUser($login['user']);
+        $robots->fieldPassword($login['secret']);
         $robots->submit();
         sleep(2);
     }
@@ -46,23 +42,24 @@ class StudentsCest
         $robots->state($dataStudent->student['state']);
         sleep(2);
         $robots->city($dataStudent->student['city']);
-        $robots ->btnProximo();
+        $robots->btnProximo();
         sleep(2);
 
         // filiation
         $robots->filiation($dataStudent->student['filiation_no_declared']);
-        $robots ->btnProximo();
+        $robots->btnProximo();
         sleep(2);
 
         // address
+        $robots->address($dataStudent->studentDocument['address']);
         $robots->zone($dataStudent->studentDocument['residence_zone']);
-        $robots ->btnProximo();
+        $robots->btnProximo();
         sleep(2);
 
         // matriculation
         $robots->btnAddMatriculation();
         sleep(2);
-        $robots ->btnProximo();
+        $robots->btnProximo();
 
         // health
         $robots->btnCriar();
@@ -96,7 +93,7 @@ class StudentsCest
         $robots->state($dataStudent->student['state']);
         sleep(2);
         $robots->city($dataStudent->student['city']);
-        $robots ->btnProximo();
+        $robots->btnProximo();
         sleep(2);
 
         // filiation
@@ -117,14 +114,15 @@ class StudentsCest
         sleep(2);
 
         // address
+        $robots->address($dataStudent->studentDocument['address']);
         $robots->zone($dataStudent->studentDocument['residence_zone']);
-        $robots ->btnProximo();
+        $robots->btnProximo();
         sleep(2);
 
         // matriculation
         $robots->btnAddMatriculation();
         sleep(2);
-        $robots ->btnProximo();
+        $robots->btnProximo();
 
         // health
         $robots->btnCriar();
@@ -141,8 +139,12 @@ class StudentsCest
      * Filiação - Não declarado/Ignorado.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function addStudentsRapidAllFilledIn (AcceptanceTester $teste)
+    public function addStudentsRapidAllFilledIn(AcceptanceTester $teste)
     {
+        sleep(5);
+        $classroom = new ClassroomCest();
+        $addClassroom = $classroom->addClassroomEAD($teste);
+
         sleep(5);
         $robots = new StudentsRobots($teste);
         $robots->pageRapidAddStudents();
@@ -175,6 +177,7 @@ class StudentsCest
         sleep(2);
 
         // address
+        $robots->address($dataStudent->studentDocument['address']);
         $robots->zone($dataStudent->studentDocument['residence_zone']);
         $robots->btnProximo();
         sleep(2);
@@ -182,7 +185,7 @@ class StudentsCest
         // matriculation
         $robots->btnAddMatriculation();
         sleep(2);
-        $robots->classroom($dataStudent->studentEnrollment['classroom_fk']);
+        $robots->classroom($addClassroom['name']);
         $robots->btnProximo();
 
         // health
@@ -205,7 +208,7 @@ class StudentsCest
      * Filiação - Pai e/ou mãe.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function addStudentsFieldsRequiredWithMotherAndFather (AcceptanceTester $teste)
+    public function addStudentsFieldsRequiredWithMotherAndFather(AcceptanceTester $teste)
     {
         sleep(5);
         $robots = new StudentsRobots($teste);
@@ -327,7 +330,7 @@ class StudentsCest
      * Adicionar (normal) estudantes, não preenchido nenhum campo.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function fieldsNotFilledIn (AcceptanceTester $teste)
+    public function fieldsNotFilledIn(AcceptanceTester $teste)
     {
         //Data Students
         sleep(5);
@@ -372,8 +375,12 @@ class StudentsCest
      * Dados Sociais - Modelo Novo.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function allFilledInNewCivilWithMotherAndFather (AcceptanceTester $teste)
+    public function allFilledInNewCivilWithMotherAndFather(AcceptanceTester $teste)
     {
+        sleep(5);
+        $classroom = new ClassroomCest();
+        $addClassroom = $classroom->addClassroomEAD($teste);
+
         sleep(5);
         $robots = new StudentsRobots($teste);
         $robots->pageAddStudents();
@@ -457,7 +464,7 @@ class StudentsCest
 
         // registration
         $robots->btnAddMatriculation();
-        $robots->classroom($dataStudent->studentEnrollment['classroom_fk']);
+        $robots->classroom($addClassroom['name']);
         $robots->ticketType($dataStudent->studentEnrollment['admission_type']);
         $robots->ticketDate($dataStudent->studentEnrollment['school_admission_date']);
         $robots->situationSerie($dataStudent->studentEnrollment['current_stage_situation']);
@@ -471,7 +478,7 @@ class StudentsCest
         sleep(2);
         $robots->transportResponsable($dataStudent->studentEnrollment['transport_responsable_government']);
         $robots->typeTransport();
-	    $robots->typeOfService();
+        $robots->typeOfService();
         $robots->btnProximo();
         sleep(2);
 
@@ -496,8 +503,12 @@ class StudentsCest
      * Dados Sociais - Modelo Novo.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function allFilledInNewCivil (AcceptanceTester $teste)
+    public function allFilledInNewCivil(AcceptanceTester $teste)
     {
+        sleep(5);
+        $classroom = new ClassroomCest();
+        $addClassroom = $classroom->addClassroomEAD($teste);
+
         sleep(5);
         $robots = new StudentsRobots($teste);
         $robots->pageAddStudents();
@@ -568,7 +579,7 @@ class StudentsCest
 
         // registration
         $robots->btnAddMatriculation();
-        $robots->classroom($dataStudent->studentEnrollment['classroom_fk']);
+        $robots->classroom($addClassroom['name']);
         $robots->ticketType($dataStudent->studentEnrollment['admission_type']);
         $robots->ticketDate($dataStudent->studentEnrollment['school_admission_date']);
         $robots->situationSerie($dataStudent->studentEnrollment['current_stage_situation']);
@@ -582,7 +593,7 @@ class StudentsCest
         sleep(2);
         $robots->transportResponsable($dataStudent->studentEnrollment['transport_responsable_government']);
         $robots->typeTransport();
-	    $robots->typeOfService();
+        $robots->typeOfService();
         $robots->btnProximo();
         sleep(2);
 
@@ -609,6 +620,10 @@ class StudentsCest
      */
     public function  allFilledInOldCivilWithMotherAndFather(AcceptanceTester $teste)
     {
+        sleep(5);
+        $classroom = new ClassroomCest();
+        $addClassroom = $classroom->addClassroomEAD($teste);
+
         sleep(5);
         $robots = new StudentsRobots($teste);
         $robots->pageAddStudents();
@@ -701,7 +716,7 @@ class StudentsCest
 
         // registration
         $robots->btnAddMatriculation();
-        $robots->classroom($dataStudent->studentEnrollment['classroom_fk']);
+        $robots->classroom($addClassroom['name']);
         $robots->ticketType($dataStudent->studentEnrollment['admission_type']);
         $robots->ticketDate($dataStudent->studentEnrollment['school_admission_date']);
         $robots->situationSerie($dataStudent->studentEnrollment['current_stage_situation']);
@@ -715,7 +730,7 @@ class StudentsCest
         sleep(2);
         $robots->transportResponsable($dataStudent->studentEnrollment['transport_responsable_government']);
         $robots->typeTransport();
-	    $robots->typeOfService();
+        $robots->typeOfService();
         $robots->btnProximo();
         sleep(2);
 
@@ -742,6 +757,10 @@ class StudentsCest
      */
     public function  allFilledInOldCivil(AcceptanceTester $teste)
     {
+        sleep(5);
+        $classroom = new ClassroomCest();
+        $addClassroom = $classroom->addClassroomEAD($teste);
+
         sleep(5);
         $robots = new StudentsRobots($teste);
         $robots->pageAddStudents();
@@ -823,7 +842,7 @@ class StudentsCest
 
         // registration
         $robots->btnAddMatriculation();
-        $robots->classroom($dataStudent->studentEnrollment['classroom_fk']);
+        $robots->classroom($addClassroom['name']);
         $robots->ticketType($dataStudent->studentEnrollment['admission_type']);
         $robots->ticketDate($dataStudent->studentEnrollment['school_admission_date']);
         $robots->situationSerie($dataStudent->studentEnrollment['current_stage_situation']);
@@ -837,7 +856,7 @@ class StudentsCest
         sleep(2);
         $robots->transportResponsable($dataStudent->studentEnrollment['transport_responsable_government']);
         $robots->typeTransport();
-	    $robots->typeOfService();
+        $robots->typeOfService();
         $robots->btnProximo();
         sleep(2);
 
@@ -855,5 +874,4 @@ class StudentsCest
 
         return $dataStudent;
     }
-
 }

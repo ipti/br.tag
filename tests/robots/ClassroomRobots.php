@@ -9,6 +9,26 @@ class ClassroomRobots
     }
 
     /**
+     * Caso de teste para adicionar turma.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function addSucess()
+    {
+        $this->tester->see('Turma adicionada com sucesso!');
+        $this->tester->canSeeInCurrentUrl('?r=classroom/index');
+    }
+
+    /**
+     * Caso de teste para editar turma.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function editSucess()
+    {
+        $this->tester->see('Turma atualizada com sucesso!');
+        $this->tester->canSeeInCurrentUrl('?r=classroom/index');
+    }
+
+    /**
      * Url do módulo de turma.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
@@ -43,6 +63,26 @@ class ClassroomRobots
     {
         $this->tester->waitForElement('.save-classroom');
         $this->tester->executeJS("document.querySelector('.save-classroom').click();");
+    }
+
+    /**
+     * Botão de deletar.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function btnDelete()
+    {
+        $this->tester->waitForElement('.delete');
+        $this->tester->executeJS("document.querySelector('.delete').click();");
+    }
+
+    /**
+     * Botão de editar turmas.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function btnEdit()
+    {
+        $this->tester->waitForElement('img[alt="Editar"]');
+        $this->tester->executeJS('document.querySelector(\'img[alt="Editar"]\').click();');
     }
 
     /**
@@ -132,21 +172,21 @@ class ClassroomRobots
     }
 
     /**
-     * Seleciona a localização, caso a turma seja presencial.
-     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
-     */
-    public function location($location)
-    {
-        $this->tester->selectOption('#Classroom_diff_location', $location);
-    }
-
-    /**
      * Selecione o curso.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function educationCourse($educationCourse)
     {
         $this->tester->selectOption('#Classroom_edcenso_professional_education_course_fk', $educationCourse);
+    }
+
+    /**
+     * Seleciona a localização, caso a turma seja presencial.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function location($location)
+    {
+        $this->tester->selectOption('#Classroom_diff_location', $location);
     }
 
     /**
@@ -181,9 +221,9 @@ class ClassroomRobots
      * Checkbox para marcar os dias da semana.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function days()
+    public function days($weeekDays)
     {
-        $script = "document.querySelector('#Classroom_week_days_monday').click();";
+        $script = "document.querySelector('$weeekDays').click();";
         $this->tester->executeJS($script);
     }
 
@@ -191,19 +231,9 @@ class ClassroomRobots
      * Checkbox para marcar o tipo de atendimento.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function typeService()
+    public function typeService($typeService)
     {
-        $script = "document.querySelector('#Classroom_schooling').click();";
-        $this->tester->executeJS($script);
-    }
-
-    /**
-     * Checkbox para marcar que o tipo de atividade é atividade complementar.
-     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
-     */
-    public function typeServiceActivitiesComplementary()
-    {
-        $script = "document.querySelector('#Classroom_complementary_activity').click();";
+        $script = "document.querySelector('$typeService').click();";
         $this->tester->executeJS($script);
     }
 
@@ -234,13 +264,18 @@ class ClassroomRobots
         $this->tester->selectOption('#Instructors', $instructors);
     }
 
+    public function disciplines($disciplines)
+    {
+        $this->tester->selectOption('#Disciplines', $disciplines);
+    }
+
     /**
      * Selecionar um cargo para turma.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function role($role)
     {
-        $this->tester->selectOption('#role', $role);
+        $this->tester->selectOption('#Role', $role);
     }
 
     /**
@@ -259,5 +294,44 @@ class ClassroomRobots
     public function createNewComponent()
     {
         $this->tester->click('.ui-dialog-buttonset > button:nth-child(1)');
+    }
+
+
+    // sedsp
+
+    /**
+     * Selecione a unidade escolar.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function unity($unity)
+    {
+        $this->tester->selectOption('#Classroom_sedsp_school_unity_fk', $unity);
+    }
+
+    /**
+     * Inserir a turma.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function classroom($classroom)
+    {
+        $this->tester->selectOption('#Classroom_sedsp_acronym', $classroom);
+    }
+
+    /**
+     * Inserir a sala de aula.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function numberClassroom($numberClassroom)
+    {
+        $this->tester->fillField('#Classroom_sedsp_classnumber', $numberClassroom);
+    }
+
+    /**
+     * Inserir a capacidade fisica máxima.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function capacity($capacity)
+    {
+        $this->tester->fillField('#Classroom_sedsp_max_physical_capacity', $capacity);
     }
 }
