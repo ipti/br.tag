@@ -1,6 +1,6 @@
 function  initializeSelect2() {
-    $("select.js-inicializate-select2").select2("destroy");
-    $('select.js-inicializate-select2').select2();
+    $("select.js-initialize-select2").select2("destroy");
+    $('select.js-initialize-select2').select2();
 }
 function addIngrendientsName(idAccordion, name) {
 

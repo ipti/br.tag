@@ -20,7 +20,17 @@ $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::PO
 	// See class documentation of CActiveForm for details on this.
 	'enableAjaxValidation'=>false,
 )); ?>
-
+<div class="t-tabs row">
+	<div class="column">
+		<ul class="tab-instructor t-tabs__list ">
+			<li class="active t-tabs__item"><a data-toggle="tab" class="t-tabs__link">
+					<span class="t-tabs__numeration">1</span>
+					<?= $model->isNewRecord ? 'Criar Cardápio' : 'Salvar Cardápio' ?>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
 <div class="main form-content">
 		<div class="row">
 			<h3 class="column">
@@ -52,10 +62,18 @@ $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::PO
 				<?php echo $form->error($model,'start_date'); ?>
 			</div>
 			<div class="t-field-text column">
+				<?php echo $form->labelEx($model,'final_date',  array('class' => 't-field-text__label')); ?>
+				<?php echo $form->textField($model,'final_date', array('class'=>'t-field-text__input js-date date js-start-date', 'readonly' => 'readonly')); ?>
+				<?php echo $form->error($model,'final_date'); ?>
+			</div>	
+		</div>
+		<div class="row">
+			<div class="t-field-text column">
 				<?php echo $form->labelEx($model,'observation', array('class' => 't-field-select__label')); ?>
 				<?php echo $form->textField($model,'observation', array('class'=>'t-field-select__input')); ?>
 				<?php echo $form->error($model,'observation'); ?>
 			</div>
+			<div class="column"></div>
 		</div>
 		<div class="row">
 			<div class="column t-buttons-container">
@@ -65,7 +83,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::PO
 					</a>
 			</div>
 		</div>
-		<div class="t-tabs-secondary js-days-of-week-component">
+		<div class="t-tabs-secondary js-days-of-week-component row">
 				
 		</div>
 		<div class="row js-show-meals-header hide">

@@ -15,56 +15,40 @@ $(".js-date").datepicker({
   startDate: "01/01/" + $(".school-year").val(),
   endDate: "31/12/" + $(".school-year").val()
 }).on('changeDate', function (ev, indirect) {
-  data.actions.addDays($(this).val())
+  data.actions.render()
   $(".js-add-meal").removeClass('hide')
+  $(".js-show-meals-header").removeClass('hide')
 })
 
 const DateComponent = function () {
 
-  const days = []
   const daysOfWeek = ["Domingo", "Segunda-freia", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
 
-  function addDays(dayStart) {
-    days.length = 0;
-    const [day, month, year] = dayStart.split('/')
-    const dateFormat = [year, month, day].join('-');
-    const date = new Date(dateFormat)
-
-    for (let i = 0; i < 7; i++) {
-      date.setDate(date.getDate() + 1)
-      if (date.getDay() != 0 && date.getDay() != 6) {
-        let [day, month, year] = [date.getDate(), date.getMonth() + 1, date.getFullYear()]
-        day = day < 10 ? '0' + day : day
-        days.push({
-          date: [day, month, year].join('/'),
-          order: date.getDay()
-        });
-      }
-
-
-    }
-
-    render(days)
-  }
   function getLastDay(){
     return days[days.length-1].date
   }
-  function render(days) {
-    const container = $(".js-days-of-week-component");
-    const template = days.reduce((html, day, index) => {
-      const isActive = index === 0 ? "active" : "";
-      return html +
-        `<li class="t-tabs__item js-day-tab js-change-pagination ${isActive}" data-day-of-week=${day.order} >
-          <div class="text-primary">${daysOfWeek[day.order]}</div>
-          <div class="text-secondary">${day.date}</div>
-        </li>`;
-    }, `<ul class="t-tabs__list">`);
-    container.html(template)
+  function render() {
+      const container = $(".js-days-of-week-component");
+      const template = daysOfWeek.reduce((html, day, index) => {
+      const isActive = index === 1 ? "active" : ""; // Adiciona a classe "active" à segunda-feira
+      const isWeekend = index === 0 || index === 6; // Verifica se é sábado ou domingo
+    
+      if (!isWeekend) {
+        return html +
+          `<li class="t-tabs__item js-day-tab js-change-pagination ${isActive}" data-day-of-week=${index} >
+            <div class="text-primary">${day}</div>
+          </li>`;
+      } else {
+        return html; // Não adiciona <li> para sábado e domingo
+      }
+    }, `<ul class="t-tabs__list column">`);
+    
+    container.html(template);
   }
 
   return {
     actions: {
-      addDays: addDays,
+      render: render,
       getLastDay: getLastDay
     }
   }
@@ -73,7 +57,7 @@ const DateComponent = function () {
 const data = DateComponent();
 
 $(document).on('input', '.js-date', function () {
-  data.actions.addDays($(this).val())
+  data.actions.render()
 })
 
 /* PlateComponent */
@@ -103,18 +87,24 @@ const PlateComponent = function () {
   function render(idMealAccordion) {
 
     const container = $(`.ui-accordion-content[data-id-accordion='${idMealAccordion}'] .js-plate-accordion`) 
+    const background = (container.find('.js-plate-accordion-header').length % 2) === 0 ? 'even' : ''
     let template = `
-      <div class="ui-accordion-header js-plate-accordion-header" data-id-accordion='${idPlateAccordion}' data-meal-id='${idMealAccordion}'>
-        <input type="text" class="t-accordion-input-header js-plate-name" autofocus="true" placeholder="Digite o nome do prato" />
-        <label>
-        <span class="fa fa-pencil"  id="js-stopPropagation"></span>
-        </label>
-        <div class="row js-ingredients-names"></div>
+      <div class="ui-accordion-header js-plate-accordion-header row ${background}" data-id-accordion='${idPlateAccordion}' data-meal-id='${idMealAccordion}'>
+        <div class='column flex-direction--row align-items--baseline'>
+          <input type="text" class="t-accordion-input-header js-plate-name" autofocus="true" placeholder="Digite o nome do prato" />
+          <label>
+          <span class="fa fa-pencil" id="js-stopPropagation"></span>
+          </label>
+        </div>
+        <div class="column justify-content--space-between js-ingredients-names border-left">
+        <span></span>
+        <span class="t-icon-down_arrow" ></span>
+        </div>
       </div>
       <div class="ui-accordion-content js-plate-accordion-content" data-id-accordion='${idPlateAccordion}' data-meal-id='${idMealAccordion}'>
         <div class="row">
           <div class="t-field-select column clearfix">
-            <select class="t-field-select__input js-inicializate-select2 js-taco-foods">
+            <select class="t-field-select__input js-initialize-select2 js-taco-foods">
                 <option value="">Busque pelo Alimento (TACO)</option>
             </select>
           </div>
@@ -158,11 +148,14 @@ const PlateComponent = function () {
   }
   function removePlate(idPlateAccordion) {
   const button =  $(`.js-plate-accordion-content[data-id-accordion="${idPlateAccordion}"] .js-remove-plate`)
+  const container  = $(`.js-plate-accordion-header[data-id-accordion="${idPlateAccordion}"]`).parent()
+  
 
   button.on(
       "click", function (event) {
         $(`.js-plate-accordion-header[data-id-accordion="${idPlateAccordion}"], 
         .js-plate-accordion-content[data-id-accordion="${idPlateAccordion}"]`).remove()
+        updateBGColors(container)
       }
     )
   }
@@ -277,7 +270,7 @@ const PlateComponent = function () {
         .append(`<td class='js-food-name'>${name}</td>`)
         .append(`<td class='js-unit'><input class='t-field-text__input' type='text' style='width:50px !important'></td>`)
         .append(`<td class='js-measure'>
-                <select class="js-inicializate-select2 t-field-select__input js-food-measurement" style='width:100px'>
+                <select class="js-initialize-select2 t-field-select__input js-food-measurement" style='width:100px'>
                 </select>
             </td>`)
         .append(`<td class='js-amount'></td>`)
@@ -321,7 +314,7 @@ const PlateComponent = function () {
     
     line.find('.js-remove-taco-food').on(
       "click", function (event) {
-         const table = line.closest('.js-meal-component-table')
+        const table = line.closest('.js-meal-component-table')
         const totalLine = line.nextAll().last() 
 
         totalLine.remove()
@@ -330,6 +323,17 @@ const PlateComponent = function () {
         initializePlateAccordion(accordionActive)
       }
     )
+  }
+  function updateBGColors(container) {
+    container.find('.js-plate-accordion-header').each((index, element) => {
+      let isEven = (index % 2) === 0;
+  
+      if (isEven && !$(element).hasClass('even')) {
+        $(element).addClass('even');
+      } else if (!isEven && $(element).hasClass('even')) {
+        $(element).removeClass('even');
+      }
+    });
   }
   function addUnitMask(line) {
     const input = line.find('.js-unit input')
@@ -355,14 +359,12 @@ const MealsComponent = function () {
   function addMeal() {
     const dayOfWeek = $('.js-day-tab.active').attr("data-day-of-week");
     render(dayOfWeek)
-
-    initializeMealsAccordion()
     initializeSelect2()
   }
-  function initializeMealsAccordion() {
+  function initializeMealsAccordion(idAccordionAActive) {
     $('.js-meals-component').accordion("destroy");
     $( ".js-meals-component" ).accordion({
-      active: idMealAccordion-1,
+      active: Number(idAccordionAActive),
       collapsible: true,
       icons: false,
     });
@@ -376,14 +378,15 @@ const MealsComponent = function () {
 
   function render(mealDay) {
     const container = $(".js-meals-component");
-
+    const background = (container.find('.js-meals-accordion-header').length % 2) === 0 ? 'even' : ''
+    
     let template = `
 
-    <div class="ui-accordion-header js-meals-accordion-header row" data-day-of-week="${mealDay}" data-id-accordion="${idMealAccordion}">
+    <div class="ui-accordion-header js-meals-accordion-header row ${background}" data-day-of-week="${mealDay}" data-id-accordion="${idMealAccordion}">
       <div class="column justify-content--start js-meal-type">
         turno da refeição
       </div>
-      <div class="column justify-content--space-between">
+      <div class="column justify-content--space-between border-left">
         <span></span>
         <span class="t-icon-trash js-remove-meal" data-id-accordion="${idMealAccordion}"></span>
       </div>
@@ -396,7 +399,7 @@ const MealsComponent = function () {
         </div>
         <div class="t-field-select column">
             <label class='t-field-select__label--required'>Refeição *</label>
-            <select name="meal" class="js-inicializate-select2 select-search-on t-field-select__input js-food-meal-type js-change-meal-name">
+            <select name="meal" class="js-initialize-select2 select-search-on t-field-select__input js-food-meal-type js-change-meal-name">
               <option value="">Selecione a refeição</option>
           </select>
         </div>
@@ -404,7 +407,7 @@ const MealsComponent = function () {
       <div class="row">
 					<div class="t-field-select column">
             <label class="t-field-select__label--required">Turno *</label>
-            <select class="js-inicializate-select2 select-search-on t-field-select__input js-shift">
+            <select class="js-initialize-select2 select-search-on t-field-select__input js-shift">
                 <option value="">Selecione o turno</option>
                 <option value="M">Manhã</option>
                 <option value="T">Tarde</option>
@@ -421,7 +424,21 @@ const MealsComponent = function () {
           </a>
         </div>
       </div>
-      <div class="js-plate-accordion"></div>
+      <div class="row">
+        <div class="column t-accordeon--header">
+          <div class="row">
+            <div class="column">
+              Prato
+            </div>
+            <div class="column">
+              Ingredientes
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="js-plate-accordion column"></div>
+      </div>
     </div>     
           `;
 
@@ -431,6 +448,7 @@ const MealsComponent = function () {
     addPlateToMeal(idMealAccordion)
     addMealTypeList(idMealAccordion)
     addHourMask(idMealAccordion)
+    initializeMealsAccordion(idMealAccordion)
     idMealAccordion++;
 
   }
@@ -457,9 +475,22 @@ const MealsComponent = function () {
     input.mask("99:99");
   }
   function removeMeal(idAccordion) {
+    const container  = $(`.js-meals-accordion-header[data-id-accordion="${idAccordion}"]`).parent()
     $(`.ui-accordion-header[data-id-accordion="${idAccordion}"], .ui-accordion-content[data-id-accordion="${idAccordion}"]`).remove()
+    updateBGColors(container)
   }
-
+  function updateBGColors(container) {
+    container.find('.js-meals-accordion-header').each((index, element) => {
+      let isEven = (index % 2) === 0;
+  
+      if (isEven && !$(element).hasClass('even')) {
+        $(element).addClass('even');
+      } else if (!isEven && $(element).hasClass('even')) {
+        $(element).removeClass('even');
+      }
+    });
+  }
+  
   function changeMealsName(idAccordion) {
     const select = $(`.ui-accordion-content[data-id-accordion='${idAccordion}'] .js-change-meal-name`)
     const title = $(`.ui-accordion-header[data-id-accordion='${idAccordion}'] .js-meal-type`)
@@ -473,7 +504,7 @@ const MealsComponent = function () {
     
     button.on("click", function (event) {
       plates.actions.addPlate(idAccordion)
-      initializeMealsAccordion()
+      initializeMealsAccordion(idAccordion)
     })
   }
   return {
