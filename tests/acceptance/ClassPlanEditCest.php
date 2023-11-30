@@ -30,7 +30,7 @@ class ClassPlanEditCest
         $search = $dataClassPlan['name'];
 
         $robots->search($search);
-        sleep(2);
+        sleep(5);
         $robots->classPlan($search);
 
         $robots->name($classPlan['name']);
