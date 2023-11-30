@@ -12,8 +12,7 @@ $(".js-date").datepicker({
   orientation: "bottom left",
   clearBtn: true,
   maxViewMode: 2,
-  startDate: "01/01/" + $(".school-year").val(),
-  endDate: "31/12/" + $(".school-year").val()
+  showClearButton: false
 }).on('changeDate', function (ev, indirect) {
   data.actions.render()
   $(".js-add-meal").removeClass('hide')
@@ -96,9 +95,9 @@ const PlateComponent = function () {
           <span class="fa fa-pencil" id="js-stopPropagation"></span>
           </label>
         </div>
-        <div class="column justify-content--space-between js-ingredients-names border-left">
-        <span></span>
-        <span class="t-icon-down_arrow" ></span>
+        <div class="column justify-content--space-between  border-left">
+        <span class="js-ingredients-names"></span>
+        <span class="t-icon-down_arrow arrow" ></span>
         </div>
       </div>
       <div class="ui-accordion-content js-plate-accordion-content" data-id-accordion='${idPlateAccordion}' data-meal-id='${idMealAccordion}'>
@@ -211,6 +210,7 @@ const PlateComponent = function () {
         addFoodMeasurement(line)
         addUnitMask(line)
         changeAmount(line)
+        addIngrendientsName(idPlateAccordion, line.find('.js-food-name').text())
         table.append(line)
         calculateNutritionalValue(table) 
         initializePlateAccordion(accordionActive)
@@ -317,8 +317,10 @@ const PlateComponent = function () {
         const table = line.closest('.js-meal-component-table')
         const totalLine = line.nextAll().last() 
 
+        removeIngrendientsName(accordionActive, line.find('.js-food-name').text())
         totalLine.remove()
         $(this).parent().remove()
+        
         calculateNutritionalValue(table)
         initializePlateAccordion(accordionActive)
       }
@@ -339,6 +341,41 @@ const PlateComponent = function () {
     const input = line.find('.js-unit input')
     $(input).mask('999.99', {reverse: true}); 
   }
+  function addIngrendientsName(idAccordion, name) {
+
+      let oldIngrendientsName =  $(`.js-plate-accordion-header[data-id-accordion="${idAccordion}"]  .js-ingredients-names`)
+      let ingredientsList = oldIngrendientsName.text().trim().split(', ')
+      let firstNameNewIngredient = name.split(', ')[0]
+      
+      if(ingredientsList.indexOf(firstNameNewIngredient) === -1){
+          ingredientsList[0] == "" ?  ingredientsList[0] = firstNameNewIngredient: ingredientsList.push(firstNameNewIngredient)
+      }
+
+      let newIngredientsName = ingredientsList.join(", ");
+      oldIngrendientsName.html(newIngredientsName)
+
+  }
+  function removeIngrendientsName(idAccordion, name){
+
+    let allSelectedIngredients = [] 
+
+     let tdElements = $(`.js-plate-accordion-content[data-id-accordion="${idAccordion}"] .js-meal-component-table tr.js-food-ingredient td.js-food-name`) 
+    tdElements.each(function () {
+        allSelectedIngredients.push($(this).text());
+      });
+    let firstNameIngredient = name.split(', ')[0];
+    let count = allSelectedIngredients.reduce(function (acc, element) {
+        return acc + (element.split(', ')[0] === firstNameIngredient);
+      }, 0);
+
+    if(count == 1){
+        let oldIngrendientsName =  $(`.js-plate-accordion-header[data-id-accordion="${idAccordion}"]  .js-ingredients-names`)
+        console.log(oldIngrendientsName)
+        let ingredientsList = oldIngrendientsName.text().trim().split(', ')
+        let newIngredientsName = ingredientsList.filter((ingredient) => ingredient != firstNameIngredient)
+        oldIngrendientsName.html(newIngredientsName)
+    }
+}
   return {
     actions: {
       addPlate: addPlate,

@@ -75,6 +75,9 @@
         .border-left {
             border-left: solid 1px $colorsBaseCloudLightHover;
         }
+        .arrow {
+            font-size: $FontSizeTextNormal;
+        }
         &.even {
             background: #EAEDFC;
         }

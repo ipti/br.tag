@@ -63,14 +63,14 @@ $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::PO
 			</div>
 			<div class="t-field-text column">
 				<?php echo $form->labelEx($model,'final_date',  array('class' => 't-field-text__label')); ?>
-				<?php echo $form->textField($model,'final_date', array('class'=>'t-field-text__input js-date date js-start-date', 'readonly' => 'readonly')); ?>
+				<?php echo $form->textField($model,'final_date', array('class'=>'t-field-text__input js-date date js-final-date', 'readonly' => 'readonly')); ?>
 				<?php echo $form->error($model,'final_date'); ?>
 			</div>	
 		</div>
 		<div class="row">
 			<div class="t-field-text column">
 				<?php echo $form->labelEx($model,'observation', array('class' => 't-field-select__label')); ?>
-				<?php echo $form->textField($model,'observation', array('class'=>'t-field-select__input')); ?>
+				<?php echo $form->textField($model,'observation', array('class'=>'t-field-select__input js-observation')); ?>
 				<?php echo $form->error($model,'observation'); ?>
 			</div>
 			<div class="column"></div>
