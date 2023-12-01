@@ -80,4 +80,44 @@
             </div>
         </div>
     </div>
+
+    <!-- <div class="widget-body"> -->
+                <?php
+                // $this->widget('zii.widgets.grid.CGridView', [
+                //     'id' => 'foodmenugridview', 'dataProvider' => $dataProvider, 'ajaxUpdate' => false,
+                //     'itemsCssClass' => 'js-tag-table foodMenu-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                //     'enablePagination' => false, 'columns' => [
+                //         [
+                //             'header' => Yii::t('foodMenu.index', 'ID'),
+                //             'name' => 'id',
+                //             'value' => '$data->stageFk->name',
+                //         ], [
+                //             'header' => Yii::t('foodMenuModule.index', 'Description'),
+                //             'name' => 'description',
+                //             'value' => '$data->disciplineFk->name',
+                //         ], [
+                //             'header' => Yii::t('foodMenuModule.index', 'Start Date'),
+                //             'name' => 'start_date',
+                //             'htmlOptions' => ['width' => '150px']
+                //         ], [
+                //             'header' => Yii::t('foodMenuModule.index', 'Final Date'),
+                //             'name' => 'final_date',
+                //             'htmlOptions' => ['width' => '150px']
+                //         ],
+                        // [
+                        //     'header' => 'Ações',
+                        //     'class' => 'CButtonColumn',
+                        //     'template' => Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ? '{delete}' : '',
+                        //     'buttons' => array(
+                        //         'delete' => array(
+                        //             'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
+                        //         ),
+                        //     ),
+                        //     'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
+                        // ],
+
+                //     ],
+                // ]);
+                ?>
+    <!-- </div> -->
 </div>
