@@ -81,11 +81,14 @@ class FoodMenuController extends Controller
                 {
                     $sucess = true;
                     $transaction = Yii::app()->db->beginTransaction();
-                    // Atribui valores às propriedades do model foodMenu (Cardápio)
+                    $status = 200;
+                    $message = null;
+                    // Atribui valores às propriedades do model foodMenu(Cardápio) e trata o formato das datas
                     $startTimestamp = strtotime(str_replace('/', '-', $request["start_date"]));
                     $finalTimestamp = strtotime(str_replace('/', '-', $request["final_date"]));
                     $modelFoodMenu->start_date = date('Y-m-d', $startTimestamp);
                     $modelFoodMenu->final_date = date('Y-m-d', $finalTimestamp);
+                    $modelFoodMenu->observation = $request['observation'];
                     $modelFoodMenu->description = $request['description'];
 
                     // Verifica se a ação de salvar foodMenu ocorreu com sucesso
@@ -117,6 +120,7 @@ class FoodMenuController extends Controller
                                     $foodMenuMeal->meal_time = $meal["time"];
                                     $foodMenuMeal->food_meal_type_fk = $foodMealType->id;
 
+                                    // Verifica se a refeição foi salva com sucesso
                                     if($foodMenuMeal->save())
                                     {
                                         // $meal["meals_component"] se trata da lista de pratos que uma refeição pode ter
@@ -138,47 +142,44 @@ class FoodMenuController extends Controller
                                                     $foodIngredient->food_menu_meal_componentId = $foodMenuMealComponent->id;
                                                     $foodMeasurement = FoodMeasurement::model()->findByPk($ingredient["food_measurement_id"]);
                                                     $foodIngredient->food_measurement_fk = $foodMeasurement->id;
+
                                                     if(!$foodIngredient->save())
-                                                    {
-                                                        // echo 'Cardápio foi cadastrado com sucesso.';
-                                                        echo 'Ocorreu um erro. Não foi possível salvar um dos ingredientes <br>';
+                                                    { // Caso de erro: Falha quando ocorre um erro ao tentar salvar um ingrediente de um prato
                                                         $sucess = false;
-                                                    }
-                                                    else
-                                                    {
-                                                        echo 'Cardápio foi cadastrado com sucesso.<br>';
-                                                        // Yii::app()->end();
+                                                        $status = '500';
+                                                        $message = 'Ocorreu um erro ao salvar um ingrediente! Verifique as informações e tente novamente';
                                                     }
                                                 }
                                             }
                                         }
-                                    }else{
-                                        echo 'Ocorreu um erro. Não foi possível salvar uma refeição';
-                                        Yii::app()->end();
-                                        // Yii::app()->user->setFlash('error', 'Ocorreu um erro ao salvar uma refeição! Tente novamente');
+                                    }else{ // Caso de erro: Falha quando ocorre um erro ao tentar salvar uma refeição
+                                        $status = '500';
+                                        $message = 'Ocorreu um erro ao salvar uma refeição! Tente novamente';
                                     }
                                 }
                             }
                         }
+                    }else{
+                        $status = '500';
+                        $message = 'Ocorreu um erro ao salvar o cardápio! Tente novamente.';
                     }
-                    else{
-                        echo 'Ocorreu um erro. Não foi possível salvar o cardápio';
-                        Yii::app()->end();
-                        // Yii::app()->user->setFlash('error', 'Ocorreu um erro ao salvar o cardápio! Tente novamente.');
-                    }
-                    // Verifica se todos os comandos SQL foram executados corretamente
+                    // Verifica se todos os comandos SQL foram executados corretamente e salva as mudanças no banco de dados
                     if($sucess){
                         $transaction->commit();
-                        // Yii::app()->user->setFlash('success', 'Cardápio salvo com sucesso!');
+                        $status = '200';
+                        $message = 'Cardápio salvo com sucesso!'
+                        Log::model()->saveAction(
+                            "foodMenu", $modelFoodMenu->id, "C", $modelFoodMenu->description
+                        );
                     }else{
                         $transaction->rollback();
-                        // Yii::app()->user->setFlash('error', 'Ocorreu um erro ao salvar o registro! Verifique as informações e tente novamente.');
                     }
+                }else{
+                    $status = '500';
+                    $message = 'Ocorreu um erro! Campos obrigatórios do Cardápio não foram preenchidos.';
                 }
-                // Log::model()->saveAction(
-                //     "foodMenu", $modelFoodMenu->id, "C", $modelFoodMenu->description
-                // );
-                // Yii::app()->user->setFlash($flash, Yii::t('default', $msg));
+                // Enviando Status da Requisição para realizar tratamento no AJAX
+                throw new CHttpException($status, $message);
             }else{
 			$this->render('create', array(
 				'model'=>$modelFoodMenu,
