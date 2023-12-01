@@ -56,7 +56,7 @@ $(".js-save-menu").on("click", function () {
         },
         type: "POST",
       }).success(function (response) {
-            // alert('deu certo')
+        window.location.href = "?r=foods/foodMenu/index";
       })
 
 });
