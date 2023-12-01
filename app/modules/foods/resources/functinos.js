@@ -7,7 +7,7 @@ function addIngrendientsName(idAccordion, name) {
     let oldIngrendientsName =  $(`.js-ingredients-names[data-idAccordion="${idAccordion}"]`)
     let ingredientsList = oldIngrendientsName.text().trim().split(', ')
     let firstNameNewIngredient = name.split(', ')[0]
-    
+
     if(ingredientsList.indexOf(firstNameNewIngredient) === -1){
         ingredientsList[0] == "" ?  ingredientsList[0] = firstNameNewIngredient: ingredientsList.push(firstNameNewIngredient)
     }
@@ -18,8 +18,8 @@ function addIngrendientsName(idAccordion, name) {
 }
 function removeIngrendientsName(idAccordion, name){
 
-    let allSelectedIngredients = [] 
-    let tdElements = $(`tr[data-idAccordion='${idAccordion}'] td.js-food-name`); 
+    let allSelectedIngredients = []
+    let tdElements = $(`tr[data-idAccordion='${idAccordion}'] td.js-food-name`);
     tdElements.each(function () {
         allSelectedIngredients.push($(this).text());
       });
@@ -49,7 +49,7 @@ $(".js-save-menu").on("click", function () {
             "meals":[]
         },
         "tuesday" :{
-            "meals":[] 
+            "meals":[]
         },
         "wednesday" :{
             "meals":[]
@@ -75,7 +75,7 @@ $(".js-save-menu").on("click", function () {
     foodMenu.sunday = getMealsByDay(0)
     foodMenu.monday = getMealsByDay(1)
     foodMenu.tuesday = getMealsByDay(2)
-    foodMenu.wednessday = getMealsByDay(3)
+    foodMenu.wednesday = getMealsByDay(3)
     foodMenu.thursday = getMealsByDay(4)
     foodMenu.friday = getMealsByDay(5)
     foodMenu.saturday = getMealsByDay(6)
@@ -90,7 +90,7 @@ $(".js-save-menu").on("click", function () {
       }).success(function (response) {
             // alert('deu certo')
       })
-    
+
 });
 
 function getMealsByDay(day) {
@@ -119,7 +119,7 @@ function getMealsByDay(day) {
                 "description": "",
                 "food_ingredients": []
             }
-            
+
             meal_component.description = $(mealAccordion).find(`.js-plate-accordion-header[data-id-accordion="${idPlateAccordion}"] .js-plate-name`).val()
             meal_component.food_ingredients = getFoodIngredients(idPlateAccordion)
             meal.meals_component.push(meal_component)

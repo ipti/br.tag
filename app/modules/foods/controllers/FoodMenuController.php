@@ -69,10 +69,7 @@ class FoodMenuController extends Controller
         $modelFoodMenu = new FoodMenu;
 
         $request = Yii::app()->request->getPost('foodMenu');
-		/* var_dump($rawBody);
-		exit(); */
-
-        // $request = CJSON::decode($rawBody);
+        // CVarDumper::dump($request);exit();
 
 		if($request !== null)
 		{
@@ -83,14 +80,15 @@ class FoodMenuController extends Controller
                 isset($request["description"])
             )
                 {
+                    $sucess = true;
+                    $transaction = Yii::app()->db->beginTransaction();
                     // Atribui valores às propriedades do model foodMenu (Cardápio)
                     $startTimestamp = strtotime(str_replace('/', '-', $request["start_date"]));
                     $finalTimestamp = strtotime(str_replace('/', '-', $request["final_date"]));
                     $modelFoodMenu->start_date = date('Y-m-d', $startTimestamp);
                     $modelFoodMenu->final_date = date('Y-m-d', $finalTimestamp);
                     $modelFoodMenu->description = $request['description'];
-					// CVarDumper::dump($modelFoodMenu, 10, true);
-					// exit();
+
                     // Verifica se a ação de salvar foodMenu ocorreu com sucesso
                     if($modelFoodMenu->save()){
 
@@ -110,10 +108,6 @@ class FoodMenuController extends Controller
                                 $meals = $request[$day];
                                 foreach($meals as $meal)
                                 {
-									// CVarDumper::dump($meal, 10, true);
-									
-									
-				
                                     $foodMenuMeal = new FoodMenuMeal;
                                     $foodMealType = FoodMealType::model()->findByPk($meal["food_meal_type"]);
 
@@ -138,6 +132,7 @@ class FoodMenuController extends Controller
                                                 // $component["food_ingredients"] se trata da lista
                                                 foreach($component["food_ingredients"] as $ingredient)
                                                 {
+                                                    // CVarDumper::dump($ingredient);
                                                     $foodIngredient = new FoodIngredient;
                                                     $foodSearch = Food::model()->findByPk($ingredient["food_id_fk"]);
                                                     $foodIngredient->food_id_fk = $foodSearch->id;
@@ -145,21 +140,23 @@ class FoodMenuController extends Controller
                                                     $foodIngredient->food_menu_meal_componentId = $foodMenuMealComponent->id;
                                                     $foodMeasurement = FoodMeasurement::model()->findByPk($ingredient["food_measurement_id"]);
                                                     $foodIngredient->food_measurement_fk = $foodMeasurement->id;
-                                                    if($foodIngredient->save())
+                                                    if(!$foodIngredient->save())
                                                     {
-                                                        echo 'Cardápio foi cadastrado com sucesso.';
+                                                        // echo 'Cardápio foi cadastrado com sucesso.';
+                                                        echo 'Ocorreu um erro. Não foi possível salvar um dos ingredientes <br>';
+                                                        $sucess = false;
                                                     }
                                                     else
                                                     {
-                                                        echo 'Ocorreu um erro. Não foi possível salvar um dos ingredientes';
-                                                        Yii::app()->end();
+                                                        echo 'Cardápio foi cadastrado com sucesso.<br>';
+                                                        // Yii::app()->end();
                                                     }
                                                 }
                                             }
                                         }
                                     }else{
                                         echo 'Ocorreu um erro. Não foi possível salvar uma refeição';
-                                        Yii::app()->end();
+                                        // Yii::app()->end();
                                     }
                                 }
                             }
@@ -170,9 +167,13 @@ class FoodMenuController extends Controller
                         echo 'Ocorreu um erro. Não foi possível salvar o cardápio';
                         Yii::app()->end();
                     }
+                    if($sucess){
+                        $transaction->commit();
+                    }else{
+                        $transaction->rollback();
+                    }
                 }
-		} else
-        {
+		}else{
 			$this->render('create', array(
 				'model'=>$modelFoodMenu,
 			));
