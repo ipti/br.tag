@@ -79,6 +79,32 @@
       }
 }
 
+.clear-padding {
+    &--left {
+        padding-left: 0;
+    }
+
+    &--right {
+        padding-right: 0;
+    }
+    &--top {
+        padding-top: 0;
+    }
+    &--bottom {
+        padding-bottom: 0;
+    }
+    &--all {
+        padding: 0;
+    }
+    &--x {
+        padding-right: 0;
+        padding-left: 0;
+    }
+    &--y {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
 
 .clear-margin {
     &--left {

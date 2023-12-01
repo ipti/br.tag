@@ -6,6 +6,13 @@
     background: $colorsBaseWhiteNormal;
     border-radius: $borderRadiusNormal;
     overflow-y: scroll;
+
+    &.larger {
+        min-width: 60vw;
+        right: 20vw;
+        left: 20vw;
+        margin: auto;
+    }
     .t-modal__header {
         display: flex;
         align-items: center;
@@ -30,7 +37,7 @@
         a, button {
             flex: 1;
             padding: $spaceNormal;
-            
+
         }
     }
     &.height {
@@ -42,4 +49,4 @@
         }
     }
 }
-    
+
