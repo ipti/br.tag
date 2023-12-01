@@ -226,8 +226,7 @@ class CustomProvider extends Base
     public function titleCalendar()
     {
         $numeroAleatorio = $this->generator->numberBetween(1, 100);
-        $titulo = "Calendário $numeroAleatorio";
 
-        return $titulo;
+        return "Calendário $numeroAleatorio";
     }
 }
