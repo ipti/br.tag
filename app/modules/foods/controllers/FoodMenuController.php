@@ -67,10 +67,9 @@ class FoodMenuController extends Controller
 	public function actionCreate()
 	{
         $modelFoodMenu = new FoodMenu;
-
         $request = Yii::app()->request->getPost('foodMenu');
-        // CVarDumper::dump($request);exit();
 
+        // Verifica se há dados na requisição enviada
 		if($request !== null)
 		{
             if(
@@ -132,7 +131,6 @@ class FoodMenuController extends Controller
                                                 // $component["food_ingredients"] se trata da lista
                                                 foreach($component["food_ingredients"] as $ingredient)
                                                 {
-                                                    // CVarDumper::dump($ingredient);
                                                     $foodIngredient = new FoodIngredient;
                                                     $foodSearch = Food::model()->findByPk($ingredient["food_id_fk"]);
                                                     $foodIngredient->food_id_fk = $foodSearch->id;
@@ -156,24 +154,32 @@ class FoodMenuController extends Controller
                                         }
                                     }else{
                                         echo 'Ocorreu um erro. Não foi possível salvar uma refeição';
-                                        // Yii::app()->end();
+                                        Yii::app()->end();
+                                        // Yii::app()->user->setFlash('error', 'Ocorreu um erro ao salvar uma refeição! Tente novamente');
                                     }
                                 }
                             }
                         }
                     }
-                    else
-                    {
+                    else{
                         echo 'Ocorreu um erro. Não foi possível salvar o cardápio';
                         Yii::app()->end();
+                        // Yii::app()->user->setFlash('error', 'Ocorreu um erro ao salvar o cardápio! Tente novamente.');
                     }
+                    // Verifica se todos os comandos SQL foram executados corretamente
                     if($sucess){
                         $transaction->commit();
+                        // Yii::app()->user->setFlash('success', 'Cardápio salvo com sucesso!');
                     }else{
                         $transaction->rollback();
+                        // Yii::app()->user->setFlash('error', 'Ocorreu um erro ao salvar o registro! Verifique as informações e tente novamente.');
                     }
                 }
-		}else{
+                // Log::model()->saveAction(
+                //     "foodMenu", $modelFoodMenu->id, "C", $modelFoodMenu->description
+                // );
+                // Yii::app()->user->setFlash($flash, Yii::t('default', $msg));
+            }else{
 			$this->render('create', array(
 				'model'=>$modelFoodMenu,
 			));
