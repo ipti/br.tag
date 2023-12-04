@@ -105,11 +105,16 @@ class FoodMenuController extends Controller
 
                         foreach($weekDays as $day){
                             // Verifica se existe alguma refeição para o dia
+                            CVarDumper::dump($request[$day]);
                             if($request[$day] !== null){
                                 // $meals se trata da lista de refeições que um dia da semana pode ter
                                 $meals = $request[$day];
                                 foreach($meals as $meal)
                                 {
+									// CVarDumper::dump($meal, 10, true);
+
+
+
                                     $foodMenuMeal = new FoodMenuMeal;
                                     $foodMealType = FoodMealType::model()->findByPk($meal["food_meal_type"]);
 

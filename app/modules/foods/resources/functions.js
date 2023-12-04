@@ -1,6 +1,6 @@
 function  initializeSelect2() {
-    $("select.js-initialize-select2").select2("destroy");
-    $('select.js-initialize-select2').select2();
+    $("select.js-inicializate-select2").select2("destroy");
+    $('select.js-inicializate-select2').select2();
 }
 
 $(".js-save-menu").on("click", function () {
@@ -48,7 +48,7 @@ $(".js-save-menu").on("click", function () {
     foodMenu.friday = getMealsByDay(5)
     foodMenu.saturday = getMealsByDay(6)
 
-    // console.log(foodMenu)
+    /* console.log(foodMenu) */
     $.ajax({
         url: "?r=foods/foodMenu/create",
         data: {
@@ -56,7 +56,7 @@ $(".js-save-menu").on("click", function () {
         },
         type: "POST",
       }).success(function (response) {
-        window.location.href = "?r=foods/foodMenu/index";
+            window.location.href = "?r=foods/foodMenu/index";
       })
 
 });
