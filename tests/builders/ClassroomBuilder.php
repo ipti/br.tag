@@ -40,7 +40,7 @@ class ClassroomBuilder
         $this->classroom['complementary_activity_type_1'] = '10102'; // Robótica Educacional
         $this->classroom['aee_braille'] = '#Ensino\ do\ Sistema\ Braille';
         $this->classroom['aee_optical_and_non'] = '#Ensino\ do\ uso\ de\ recursos\ ópticos\ e\ não\ ópticos';
-        $this->classroom['Instructors'] = $this->faker->randomElement(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+        $this->classroom['Instructors'] = $this->faker->randomElement(array(1, 2, 3, 4));
         $this->classroom['Role'] = $this->faker->randomElement(array(1, 2, 3, 4, 5, 6, 7, 8));
         $this->classroom['ContractType'] = $this->faker->randomElement(array(1, 2, 3, 4));
 

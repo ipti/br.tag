@@ -230,4 +230,28 @@ class CustomProvider extends Base
 
         return $titulo;
     }
+
+    /**
+     * Gera nomes de escola.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function nameSchool()
+    {
+        $tipoEscola = $this->generator->randomElement(['Escola', 'Colegio', 'Instituto']);
+        $nomeComum = $this->generator->randomElement(['ABC', 'XYZ', 'Education', 'Aprendizagem', 'Futuro']);
+
+        return "$tipoEscola $nomeComum";
+    }
+
+    /**
+     * Gera código IES.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function codIES()
+    {
+        $prefixo = $this->generator->randomElement(['IES', 'UNI', 'FAC', 'UNIV']);
+        $numeroAleatorio = $this->generator->numerify('######'); // Pode ajustar a quantidade de dígitos conforme necessário
+
+        return "$prefixo$numeroAleatorio";
+    }
 }
