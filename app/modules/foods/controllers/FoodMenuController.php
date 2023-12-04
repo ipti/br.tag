@@ -169,7 +169,8 @@ class FoodMenuController extends Controller
                     // Verifica se todos os comandos SQL foram executados corretamente
                     if($sucess){
                         $transaction->commit();
-                        // Yii::app()->user->setFlash('success', 'Cardápio salvo com sucesso!');
+                        //  Yii::app()->user->setFlash('success', 'Cardápio salvo com sucesso!');
+					
                     }else{
                         $transaction->rollback();
                         // Yii::app()->user->setFlash('error', 'Ocorreu um erro ao salvar o registro! Verifique as informações e tente novamente.');
