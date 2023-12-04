@@ -45,29 +45,38 @@ $form=$this->beginWidget('CActiveForm', array(
                     <p>Selecione os itens e quantidades para adicionar ao estoque</p>
                     <div class="row">
                         <div class="column is-two-fifths t-field-select clearfix">
-                            <label class="t-field-text__label--required">Selecione o Alimento</label>
-                            <select class="select-search-off t-field-select__input select2-container">
-                                <option value="">Buscar Alimento</option>
+                            <?php echo CHtml::label('Selecione o Alimento', 'food_fk', array('class' => 't-field-select__label--required')); ?>
+                            <select class="select-search-on t-field-select__input select2-container" id="food" name="food">
+                                <option>Selecione a turma</option>
+                                <option>Arroz (KG)</option>
+                                <option>Feijão (KG)</option>
+                                <option>Macarrão (KG)</option>
                             </select>
                         </div>
                         <div class="column is-one-fifth clearleft--on-mobile t-field-text clearfix">
-                            <label class="t-field-text__label--required">Quantidade</label>
-                            <input type="text" class="t-field-text__input" placeholder="Valor"></input>
+                            <?php echo $form->labelEx($model,'amount', array('class' => 't-field-text__label--required')); ?>
+                            <?php echo $form->textField($model,'amount', array('class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Valor')); ?>
+                            <?php echo $form->error($model,'amount'); ?>
                         </div>
                         <div class="column is-one-fifth clearleft--on-mobile t-field-text clearfix">
-                            <label class="t-field-text__label--required">Validade</label>
-                            <input type="date" class="t-field-text__input date" placeholder="Valor"></input>
+                            <?php echo $form->labelEx($model,'expiration_date',  array('class' => 't-field-text__label')); ?>
+                            <?php echo $form->textField($model,'expiration_date', array('class'=>'t-field-text__input js-date clear-margin--all js-expiration-date', 'placeholder' => 'Selecione')); ?>
+                            <?php echo $form->error($model,'expiration_date'); ?>
                         </div>
                         <div class="column is-one-fifth clearleft--on-mobile t-buttons-container clearfix justify-content--end">
-                            <button class="t-button-secondary clear-margin--right full--width">Adicionar</button>
+                            <button class="t-button-secondary clear-margin--right full--width" id="add-food" type="button">Adicionar</button>
                         </div>
                     </div>
+
+                    <div id="foods_stock">
+                    </div>
+
                     <div class="t-modal__footer row reverse">
                         <div class="t-buttons-container justify-content--center">
                             <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
                         </div>
                         <div class="t-buttons-container justify-content--center">
-                            <button type="button" class="t-button-primary clear-margin--right js-add-classroom-diary" data-dismiss="modal">Salvar</button>
+                            <button type="button" class="t-button-primary clear-margin--right js-add-classroom-diary" data-dismiss="modal">Adicionar ao estoque</button>
                         </div>
                     </div>
                 </div>
