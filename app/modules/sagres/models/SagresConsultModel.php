@@ -141,10 +141,9 @@ class SagresConsultModel
     public function getSchools($referenceYear, $month, $finalClass)
     {
         $schoolList = [];
-
+        
         $query = "SELECT inep_id FROM school_identification";
         $schools = Yii::app()->db->createCommand($query)->queryAll();
-        $validationSagres = new \SagresValidations();
 
         foreach ($schools as $school) {
             $schoolType = new EscolaTType();
@@ -155,6 +154,69 @@ class SagresConsultModel
                 ->setCardapio($this->getMenuList($school['inep_id'], $referenceYear, $month));
 
             $schoolList[] = $schoolType;
+
+            $strMaxLength = 100;
+            $diretor = $schoolType->getDiretor();
+            $inconsistencies = [];
+
+            $sql = "SELECT name FROM school_identification WHERE inep_id = :inepId";
+            $params = array(':inepId' => $school['inep_id']);
+            $schoolRes = Yii::app()->db->createCommand($sql)->bindValues($params)->queryRow();
+    
+            if ($diretor->getNrAto() == null) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'DIRETOR';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'NÚMERO DO ATO DE NOMEAÇÃO NÃO PODE SER VAZIO';
+                $inconsistencyModel->action = 'INFORMAR UM NÚMERO DO ATO DE NOMEAÇÃO PARA O DIRETOR';
+                $inconsistencyModel->identifier = '4';
+                $inconsistencyModel->idSchool = $school['inep_id'];
+                $inconsistencyModel->insert();
+            }
+    
+            if (strlen($diretor->getNrAto()) > $strMaxLength) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'DIRETOR';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'NÚMERO DO ATO DE NOMEAÇÃO COM MAIS DE 100 CARACTERES';
+                $inconsistencyModel->action = 'INFORMAR UM NÚMERO DO ATO DE NOMEAÇÃO COM ATÉ 100 CARACTERES';
+                $inconsistencyModel->identifier = '4';
+                $inconsistencyModel->idSchool = $school['inep_id'];
+                $inconsistencyModel->insert();
+            }
+    
+            if ($diretor->getCpfDiretor() === null || !preg_match('/^[0-9]{11}$/', $diretor->getCpfDiretor())) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'DIRETOR';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'CPF NÃO CADASTRADO OU CPF NO FORMATO INVÁLIDO PARA O DIRETOR';
+                $inconsistencyModel->action = 'INFORMAR UM CPF VÁLIDO PARA O DIRETOR';
+                $inconsistencyModel->identifier = '4';
+                $inconsistencyModel->idSchool = $school['inep_id'];
+                $inconsistencyModel->insert();
+            }
+    
+            if (!$this->validaCPF($diretor->getCpfDiretor())) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'DIRETOR';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'CPF DO DIRETOR INVÁLIDO';
+                $inconsistencyModel->action = 'INFORMAR UM CPF VÁLIDO PARA O DIRETOR';
+                $inconsistencyModel->identifier = '4';
+                $inconsistencyModel->idSchool = $school['inep_id'];
+                $inconsistencyModel->insert();
+            }
+    
+            if(is_null($inconsistencies)){
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'DIRETOR';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'NÃO EXISTE DIRETOR CADASTRADO PARA A ESCOLA';
+                $inconsistencyModel->action = 'ADICIONE UM DIRETOR PARA A ESCOLA';
+                $inconsistencyModel->identifier = '4';
+                $inconsistencyModel->idSchool = $school['inep_id'];
+                $inconsistencyModel->insert();
+            }
         }
 
         return $schoolList;
