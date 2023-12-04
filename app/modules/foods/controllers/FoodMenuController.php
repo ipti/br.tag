@@ -314,16 +314,18 @@ class FoodMenuController extends Controller
      * Método que retorna os públicos alvos que podem estar relacionados a um cardápio
      */
     public function actionGetPublicTarget(){
-        $publicsTarget = FoodPublicTarget::model()->findAll();
-        $publicsTarget = CHtml::listData($publicsTarget, 'id', 'name');
-        $options = array();
-        foreach($publicsTarget as $value => $name){
-            array_push(
-                $options,
-                CHtml::tag('option', ['value' => $value],
-                CHtml::encode($name),TRUE));
+
+        $publicsTarget = FoodPublicTarget::model()->findAll(
+            array(
+                'select' => 'id, name'
+            )
+        );
+		$resultArray = array();
+		foreach ($publicsTarget as $publicTarget) {
+            $resultArray[$publicTarget->id] = $publicTarget->name;
         }
-        echo CJSON::encode($options);
+		echo json_encode($resultArray);
+
     }
     /**
      * Método que retorna os tipos de refeição

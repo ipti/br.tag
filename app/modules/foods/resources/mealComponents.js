@@ -15,8 +15,6 @@ $(".js-date").datepicker({
   showClearButton: false
 }).on('changeDate', function (ev, indirect) {
   data.actions.render()
-  $(".js-add-meal").removeClass('hide')
-  $(".js-show-meals-header").removeClass('hide')
 })
 
 const DateComponent = function () {
@@ -90,7 +88,7 @@ const PlateComponent = function () {
     let template = `
       <div class="ui-accordion-header js-plate-accordion-header row ${background}" data-id-accordion='${idPlateAccordion}' data-meal-id='${idMealAccordion}'>
         <div class='column flex-direction--row align-items--baseline'>
-          <input type="text" class="t-accordion-input-header js-plate-name" autofocus="true" placeholder="Digite o nome do prato" />
+          <input type="text" class="t-accordion-input-header js-plate-name" autofocus="true" name='Nome do Prato' placeholder="Digite o nome do prato" required='required' />
           <label>
           <span class="fa fa-pencil" id="js-stopPropagation"></span>
           </label>
@@ -268,9 +266,9 @@ const PlateComponent = function () {
   function createMealComponent({id, name, pt, lip, cho, kcal}) {
     const line =  $(`<tr class='js-food-ingredient' data-idTaco='${id}'></tr>`)
         .append(`<td class='js-food-name'>${name}</td>`)
-        .append(`<td class='js-unit'><input class='t-field-text__input' type='text' style='width:50px !important'></td>`)
+        .append(`<td class='js-unit'><input class='t-field-text__input' type='text' style='width:50px !important' required='required' name='Unidade'></td>`)
         .append(`<td class='js-measure'>
-                <select class="js-initialize-select2 t-field-select__input js-food-measurement" style='width:100px'>
+                <select class="js-initialize-select2 t-field-select__input js-food-measurement" style='width:100px' required='required'>
                 </select>
             </td>`)
         .append(`<td class='js-amount'></td>`)
@@ -431,12 +429,13 @@ const MealsComponent = function () {
     <div class="ui-accordion-content js-meals-accordion-content" data-day-of-week="${mealDay}" data-id-accordion="${idMealAccordion}">
       <div class="row">
         <div class="t-field-text column">
-          <label class="t-field-text__label--required">Hora da refeição *</label>
-          <input type='text' class='t-field-text__input js-mealTime' />
+          <label class="t-field-text__label--required">Hora da Refeição *</label>
+          <input type='text' class='t-field-text__input js-mealTime' required='required' name='Hora da Refeição' />
         </div>
         <div class="t-field-select column">
             <label class='t-field-select__label--required'>Refeição *</label>
-            <select name="meal" class="js-initialize-select2 select-search-on t-field-select__input js-food-meal-type js-change-meal-name">
+            <select required='required' name='Refeição'
+                    class="js-initialize-select2 select-search-on t-field-select__input js-food-meal-type js-change-meal-name">
               <option value="">Selecione a refeição</option>
           </select>
         </div>
@@ -444,7 +443,7 @@ const MealsComponent = function () {
       <div class="row">
 					<div class="t-field-select column">
             <label class="t-field-select__label--required">Turno *</label>
-            <select class="js-initialize-select2 select-search-on t-field-select__input js-shift">
+            <select class="js-initialize-select2 select-search-on t-field-select__input js-shift" name='Turno' required='required'>
                 <option value="">Selecione o turno</option>
                 <option value="M">Manhã</option>
                 <option value="T">Tarde</option>
