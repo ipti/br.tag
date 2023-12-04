@@ -546,7 +546,7 @@ class SagresConsultModel
     public function getMenuList($schoolId, $year, $month)
     {
         $menuList = [];
-
+        $strlen = 4;
         $query = "SELECT 
                     lm.date AS data,
                     lm.turn AS turno,
@@ -574,6 +574,50 @@ class SagresConsultModel
                 ->setAjustado(isset($menu['ajustado'])? $menu['ajustado']: false);
 
             $menuList[] = $menuType;
+
+            $sql = "SELECT name FROM school_identification WHERE inep_id = :inepId";
+            $params = array(':inepId' => $schoolId);
+            $schoolRes = Yii::app()->db->createCommand($sql)->bindValues($params)->queryRow();
+
+            if (!in_array($menu['turno'], [1, 2, 3, 4])) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'CARDÁPIO';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'TURNO INVÁLIDO';
+                $inconsistencyModel->action = 'INFORMAR UM TURNO VÁLIDO PARA O TURNO';
+                $inconsistencyModel->idSchool = $schoolId;
+                $inconsistencyModel->insert();
+            }
+
+            if (strlen($menu['descricaoMerenda']) <= $strlen) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'CARDÁPIO';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'DESCRIÇÃO PARA MERENDA MENOR QUE 5 CARACTERES';
+                $inconsistencyModel->action = 'INFORMAR UMA DESCRIÇÃO PARA MERENDA MAIOR QUE 4 CARACTERES';
+                $inconsistencyModel->idSchool = $schoolId;
+                $inconsistencyModel->insert();
+            }
+
+            if (!in_array($menu['ajustado'], [0, 1])) { # 0: Not, 1: True
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'CARDÁPIO';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'VALOR INVÁLIDO PARA O CAMPO AJUSTADO';
+                $inconsistencyModel->action = 'MARQUE OU DESMARQUE O CHECKBOX PARA O CAMPO AJUSTADO';
+                $inconsistencyModel->idSchool = $schoolId;
+                $inconsistencyModel->insert();
+            }
+
+            if (!$this->validateDate($menu['data'])) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'CARDÁPIO';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'DATA NO FORMATO INVÁLIDO';
+                $inconsistencyModel->action = 'ADICIONE UMA DATA NO FORMATO VÁLIDA';
+                $inconsistencyModel->idSchool = $schoolId;
+                $inconsistencyModel->insert();
+            }
         }
 
         return $menuList;
@@ -919,5 +963,17 @@ class SagresConsultModel
         } else {
             return 0;
         }
+    }
+
+    public function validateDate($date, $format = 'Y-m-d')
+    {
+        $dt = new DateTime($date);
+        $dat = $dt->format('Y-m-d');
+
+        $d = DateTime::createFromFormat($format, $dat);
+        if(intval($d->format('Y')) <= 1900)
+            return false;
+           
+        return $d && $d->format($format) == $dat;
     }
 }
