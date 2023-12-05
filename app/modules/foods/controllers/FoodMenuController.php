@@ -132,7 +132,7 @@ class FoodMenuController extends Controller
                                                 $foodIngredient->food_id_fk = $foodSearch->id;
                                                 $foodIngredient->amount = $ingredient["amount"];
                                                 $foodIngredient->food_menu_meal_componentId = $foodMenuMealComponent->id;
-                                                $foodMeasurement = FoodMeasurement::model()->findByPk($ingredient["food_measurement_id"]);
+                                                $foodMeasurement = FoodMeasurement::model()->findByPk($ingredient["food_measure_unit_id"]);
                                                 $foodIngredient->food_measurement_fk = $foodMeasurement->id;
                                                 if(!$foodIngredient->save()){
                                                     // Caso de erro: Falha quando ocorre um erro ao tentar salvar um ingrediente de um prato

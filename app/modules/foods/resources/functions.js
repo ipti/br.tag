@@ -56,7 +56,7 @@ $(".js-save-menu").on("click", function () {
         },
         type: "POST",
       }).success(function (response) {
-            window.location.href = "?r=foods/foodMenu/index";
+            // window.location.href = "?r=foods/foodMenu/index";
       })
 
 });
