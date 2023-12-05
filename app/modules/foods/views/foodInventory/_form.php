@@ -44,7 +44,7 @@ $form=$this->beginWidget('CActiveForm', array(
                 <div class="t-modal__body">
                     <p>Selecione os itens e quantidades para adicionar ao estoque</p>
                     <div class="row">
-                        <div class="column is-two-fifths t-field-select clearfix">
+                        <div class="column is-two-fifths t-field-select clear-margin--bottom clearfix">
                             <?php echo CHtml::label('Selecione o Alimento', 'food_fk', array('class' => 't-field-select__label--required')); ?>
                             <select class="select-search-on t-field-select__input select2-container" id="food" name="food">
                                 <option>Selecione a turma</option>
@@ -53,18 +53,18 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <option>Macarrão (KG)</option>
                             </select>
                         </div>
-                        <div class="column is-one-fifth clearleft--on-mobile t-field-text clearfix">
+                        <div class="column is-one-fifth clearleft--on-mobile t-field-text clear-margin--bottom clearfix">
                             <?php echo $form->labelEx($model,'amount', array('class' => 't-field-text__label--required')); ?>
                             <?php echo $form->textField($model,'amount', array('class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Valor')); ?>
                             <?php echo $form->error($model,'amount'); ?>
                         </div>
-                        <div class="column is-one-fifth clearleft--on-mobile t-field-text clearfix">
+                        <div class="column is-one-fifth clearleft--on-mobile t-field-text clear-margin--bottom clearfix">
                             <?php echo $form->labelEx($model,'expiration_date',  array('class' => 't-field-text__label')); ?>
                             <?php echo $form->textField($model,'expiration_date', array('class'=>'t-field-text__input js-date clear-margin--all js-expiration-date', 'placeholder' => 'Selecione')); ?>
                             <?php echo $form->error($model,'expiration_date'); ?>
                         </div>
-                        <div class="column is-one-fifth clearleft--on-mobile t-buttons-container clearfix justify-content--end">
-                            <button class="t-button-secondary clear-margin--right full--width" id="add-food" type="button">Adicionar</button>
+                        <div class="column is-one-fifth clearleft--on-mobile t-buttons-container clear-margin--bottom clearfix">
+                            <button class="t-button-secondary clear-margin--all full--width" id="add-food" type="button">Adicionar</button>
                         </div>
                     </div>
 
