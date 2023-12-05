@@ -14,8 +14,14 @@ $(document).ready(function() {
         $.map(publicTarget, function (name, id) {
             select.append($('<option>', {
                 value: id,
-                text: name
+                text: name,
+
             }));
         });
+        // select.select2('val' ,menuUpdate.food_public_target)
     })
 })
+
+
+
+

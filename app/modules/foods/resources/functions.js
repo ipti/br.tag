@@ -60,18 +60,19 @@ $(".js-save-menu").on("click", function () {
             window.location.href = "?r=foods/foodMenu/index";
         })
 
+    } else {
+        const erros = []
+        form.find(':input[required]').each(function () {
+            if (!this.validity.valid) {
+                if(!erros.includes(this.name))
+                erros.push(this.name)
+                console.log('Nome do campo:', this.name);
+            }
+        });
+         
+        showErros(erros)
     } 
 
-    const erros = []
-    form.find(':input[required]').each(function () {
-        if (!this.validity.valid) {
-            if(!erros.includes(this.name))
-            erros.push(this.name)
-            console.log('Nome do campo:', this.name);
-        }
-    });
-     
-    showErros(erros)
 
 });
 

@@ -7,7 +7,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/_initialization.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/menuComponents.js', CClientScript::POS_END);
 ?>
 
 <div class="form">
@@ -50,13 +50,15 @@ $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::PO
 				<label for="public_target" class="t-field-select__label">Publico Alvo *</label>
 				<select id="public_target" name="Público Alvo" class="select-search-on t-field-select__input js-public-target js-initialize-select2" required="required" placeholder="Select Classrom">
 					<option value="">Selecione o Público Alvo</option>
+					<option value="1">aaaaaaa</option>
 				</select>
 			</div>
 		</div>
 		<div class="row">
 			<div class="t-field-text column">
 				<label for="menu_start_date" class="t-field-text__label">Data Inicial</label>
-				<input type="text" id="menu_start_date" name="Data Inicial" class="t-field-text__input js-date date js-start-date" required="required">
+				<input type="text" id="menu_start_date" name="Data Inicial" 
+						class="t-field-text__input js-date date js-start-date" required="required">
 			</div>
 			<div class="t-field-text column">
 				<label for="menu_final_date" class="t-field-text__label">Data Final</label>

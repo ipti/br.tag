@@ -13,8 +13,6 @@ $(".js-date").datepicker({
   clearBtn: true,
   maxViewMode: 2,
   showClearButton: false
-}).on('changeDate', function (ev, indirect) {
-  data.actions.render()
 })
 
 const DateComponent = function () {
@@ -53,9 +51,7 @@ const DateComponent = function () {
 
 const data = DateComponent();
 
-$(document).on('input', '.js-date', function () {
-  data.actions.render()
-})
+data.actions.render()
 
 /* PlateComponent */
 const PlateComponent = function () {
@@ -383,7 +379,7 @@ const PlateComponent = function () {
 
 /* MealsComponent */
 
-const MealsComponent = function () {
+const MealsComponent = function (meal) {
 
   const plates = PlateComponent();
   let idMealAccordion = 0;
@@ -473,7 +469,9 @@ const MealsComponent = function () {
         </div>
       </div>
       <div class="row">
-        <div class="js-plate-accordion column"></div>
+        <div class="js-plate-accordion column">
+        /* meal.plates.map((e) => PlateComponent(e).render()).join("\n") */
+        </div>
       </div>
     </div>     
           `;
@@ -552,7 +550,7 @@ const MealsComponent = function () {
   }
 }
 
-const meals = MealsComponent();
+// const meals = MealsComponent();
 
 
 $(document).on("click", ".js-add-meal", function () {

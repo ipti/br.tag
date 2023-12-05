@@ -230,9 +230,20 @@ class FoodMenuController extends Controller
 			}
 
 		}
-
+        $modelMenu = [
+            "name" => "Cárdapio 2023",
+            "food_public_target" => "1",
+            "start_date" => "09/11/2023",
+            "final_date" => "10/12/2023",
+            "sunday" =>  [],
+            "monday" => [],
+            "thursday" => [],
+            "friday" => [],
+            "saturday" => []
+        ];
 		$this->render('update',array(
 			'model'=>$model,
+			'modelMenu'=>$modelMenu,
 		));
 	}
 
