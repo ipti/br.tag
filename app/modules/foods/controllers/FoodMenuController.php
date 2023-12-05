@@ -495,7 +495,7 @@ class FoodMenuController extends Controller
         // public $model;
         public $description;
         public $foodPublicTarget;
-        public startDate;
+        public $startDate;
         public $endDate;
         public $sunday = [];
         public $monday = [];
@@ -536,6 +536,14 @@ class FoodMenuController extends Controller
 
     class IngredientObject
     {
-        public 
+        public $food_id_fk;
+        public $amount;
+        public $food_measure_unit_id;
+
+        public __construct($model){
+            $this->food_id_fk = $model->id;
+            $this->amount = $model->amount;
+            $this->food_measure_unit_id = $model->food_measurement_fk;
+        }
     }
 }
