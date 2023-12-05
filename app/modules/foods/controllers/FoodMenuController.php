@@ -43,13 +43,17 @@ class FoodMenuController extends Controller
                     'getFoodMeasurement'),
 				'users'=>array('@'),
 			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
+            array('allow',
+                'actions'=>array('update'),
+                'users'=>array('*')
+            ),
+			// array('deny',  // deny all users
+			// 	'users'=>array('*'),
+			// ),
 		);
 	}
 
-	/**
+    /**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
@@ -182,17 +186,157 @@ class FoodMenuController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	// public function actionUpdate($id)
-	// {
-	// 	$model=$this->loadModel($id);
+	public function actionUpdate($id)
+	{
+		// $request = Yii::app()->request->getPost('foodMenu');
+        $request = Yii::app()->request->getRawBody();
+        $request = json_decode($request, true);
+        $modelFoodMenu=$this->loadModel($id);
+        $modelMenuMeals = FoodMenuMeal::model()->findAllByAttributes(array('food_menuId'=>$modelFoodMenu->id));
+        CVarDumper::dump($modelFoodMenu);
+        // exit();
 
-    //     $modelMenuMeal = FoodMenuMeal::model()->findByAttributes('food_menuId = :menuId', [':menuId'=>$model->id]);
-	// 	$request = Yii::app()->request->getPost('foodMenu');
+        if($request != null){
+            // Trecho do código para excluir todos os registros associados ao cardápio
+            foreach($modelMenuMeals as $modelMenuMeal){
+                $modelFoodComponents = FoodMenuMealComponent::model()->findAllByAttributes(array('food_menu_mealId'=>$modelMenuMeal->id));
+                foreach($modelFoodComponents as $modelFoodComponent){
+                    $modelFoodIngredients =  FoodIngredient::model()->findAllByAttributes(array('food_menu_meal_componentId'=>$modelFoodComponent->id));
+                    foreach($modelFoodIngredients as $modelFoodIngredient){
+                        $modelFoodIngredient->delete();
+                    }
+                    $modelFoodComponent->delete();
+                }
+                $modelMenuMeal->delete();
+            }
+            // Trecho de código para inserir novas informações
+            $weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+            foreach($weekDays as $day){
+                // Verifica se existe alguma refeição para o dia
+                if($request[$day] !== null){
+                    // $meals se trata da lista de refeições que um dia da semana pode ter
+                    $transaction = Yii::app()->db->beginTransaction();
+                    $meals = $request[$day];
+                    foreach($meals as $meal)
+                    {
+                        $foodMenuMeal = new FoodMenuMeal;
+                        $foodMealType = FoodMealType::model()->findByPk($meal["food_meal_type"]);
+                        $foodMenuMeal->food_menuId = $modelFoodMenu->id;
+                        $foodMenuMeal->$day = 1;
+                        $foodMenuMeal->turn = $meal['turn'];
+                        $foodMenuMeal->sequence = $meal['sequence'];
+                        $foodMenuMeal->meal_time = $meal["time"];
+                        $foodMenuMeal->food_meal_type_fk = $foodMealType->id;
 
-    //     if($request != null){
+                        // Verifica se a refeição foi salva com sucesso
+                        if($foodMenuMeal->save()){
+                            // $meal["meals_component"] se trata da lista de pratos que uma refeição pode ter
+                            foreach($meal["meals_component"] as $component)
+                            {
+                                $foodMenuMealComponent = new FoodMenuMealComponent;
+                                $foodMenuMealComponent->food_menu_mealId = $foodMenuMeal->id;
+                                $foodMenuMealComponent->description = $component["description"];
+                                // Verifica se o prato foi salvo com sucesso
+                                if($foodMenuMealComponent->save()){
+                                    // $component["food_ingredients"] se trata da lista
+                                    foreach($component["food_ingredients"] as $ingredient)
+                                    {
+                                        $foodIngredient = new FoodIngredient;
+                                        $foodSearch = Food::model()->findByPk($ingredient["food_id_fk"]);
+                                        $foodIngredient->food_id_fk = $foodSearch->id;
+                                        $foodIngredient->amount = $ingredient["amount"];
+                                        $foodIngredient->food_menu_meal_componentId = $foodMenuMealComponent->id;
+                                        $foodMeasurement = FoodMeasurement::model()->findByPk($ingredient["food_measure_unit_id"]);
+                                        $foodIngredient->food_measurement_fk = $foodMeasurement->id;
+                                        if(!$foodIngredient->save()){
+                                            // Caso de erro: Falha quando ocorre um erro ao tentar salvar um ingrediente de um prato
+                                            $message = 'Ocorreu um erro ao salvar um ingrediente! Verifique as informações e tente novamente';
+                                            $transaction->rollback();
+                                            throw new CHttpException(500, $message);
+                                        }
+                                    }
+                                }else{
+                                    $message = "Ocorreu um erro ao salvar um prato! Verifique as informações e tente novamente";
+                                    $transaction->rollback();
+                                    throw new CHttpException(500, $message);
+                                }
+                            }
+                        }else{
+                            // Caso de erro: Falha quando ocorre um erro ao tentar salvar uma refeição
+                            $message = 'Ocorreu um erro ao salvar uma refeição! Tente novamente';
+                            $transaction->rollback();
+                            throw new CHttpException(500, $message);
+                        }
+                    }
+                }
+            }
+        }else{
+            $publicTargetSql = "
+            SELECT * FROM food_public_target fpt
+            LEFT JOIN food_menu_vs_food_public_target fmvfpt ON fmvfpt.food_public_target_fk = fpt.id
+            WHERE fmvfpt.food_menu_fk = :id";
 
-    //     }
-	// }
+            $publicTarget = Yii::app()->db->createCommand($publicTargetSql)->bindParam(':id', $modelFoodMenu->id)->execute();
+
+            $sunday = [];$monday = [];$tuesday = [];$wednesday = [];$thursday = [];$friday = [];$saturday = [];
+
+            foreach($modelMenuMeals as $foodMenuMeal){
+                // Gerando "objeto" referente a uma refeição
+                $meal = [];
+                $meal['time'] = $foodMenuMeal->time;
+                $meal['sequnece'] = $foodMenuMeal->sequence;
+                $meal['turn'] = $foodMenuMeal->turn;
+                $meal['food_meal_type'] = $foodMenuMeal->food_meal_type_fk;
+                $meal['meals_component'] = [];
+
+                // Consultando a qual refeição o prato pertence
+                $mealComponents = FoodMenuMealComponent::model()->findAllByAttributes(array('food_menu_mealId' => $foodMenuMeal->id));
+                foreach($mealComponents as $modelComponent){
+                    $component['description'] = $modelComponent->description;
+                    $component['food_ingredients'] = [];
+
+                }
+
+
+                if($foodMenuMeal->sunday){
+
+                }else if($foodMenuMeal->monday){
+
+                }else if($foodMenuMeal->tuesday){
+
+                }else if($foodMenuMeal->wednesday){
+
+                }else if($foodMenuMeal->thursday){
+
+                }else if($foodMenuMeal->friday){
+
+                }else if($foodMenuMeal->saturday){
+
+                }
+            }
+
+            $response = [
+                'description' => $modelFoodMenu->description,
+                'food_public_target' => $publicTarget,
+                'start_date': ,
+                'final_date':
+                'sunday': {},
+                'monday': {},
+                'tuesday': {},
+                'wednesday': {},
+                'thursday': {},
+                'friday': {},
+                'saturday': {}
+
+            ];
+
+
+            // $this->render('update', array(
+            //     'model'=>$model,
+            // ));
+            echo 'request vazio';
+        }
+	}
 
 	public function actionGetTacoFoods() {
 		$foods = Food::model()->findAll(array(
@@ -341,5 +485,57 @@ class FoodMenuController extends Controller
                 ));
         }
         echo CJSON::encode($options);
+    }
+
+        /**
+     * Classe utilizada para manipular objeto JSON que será utilizado durante as requisições do projeto
+     */
+    class FoodMenuObject
+    {
+        // public $model;
+        public $description;
+        public $foodPublicTarget;
+        public startDate;
+        public $endDate;
+        public $sunday = [];
+        public $monday = [];
+        public $tuesday = [];
+        public $wednesday = [];
+        public $thursday = [];
+        public $friday = [];
+        public $saturday = [];
+
+        public function __construct($foodMenuModel, $foodPublicTarget){
+            $this->description = $model->description;
+            $this->foodPublicTarget = $model->foodPublicTarget;
+        }
+
+        public function setDayMeals($day, $meals){
+            $this->$day =
+        }
+    }
+
+
+    class MealObject
+    {
+        public $time;
+        public $sequence;
+        public $turn;
+        public $foodMealType;
+        public $mealsComponent = new ;
+
+
+    }
+
+    class MealComponentObject
+    {
+        public $description;
+        public $ingredients = new IngredientObject;
+    }
+
+
+    class IngredientObject
+    {
+        public 
     }
 }
