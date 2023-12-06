@@ -61,7 +61,6 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
             $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
             $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
             $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
-
             // Validação CPF->Nome
             if ($modelStudentDocumentsAndAddress->cpf != null) {
                 $student_test_cpf = StudentDocumentsAndAddress::model()->find('cpf=:cpf', array(':cpf' => $modelStudentDocumentsAndAddress->cpf));
@@ -109,7 +108,9 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
         $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
 
         if ($modelStudentIdentification->validate() && $modelStudentIdentification->save()) {
+
             $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
+
             $modelStudentEnrollment->school_inep_id_fk = Yii::app()->user->school;
             $modelStudentEnrollment->student_fk = $modelStudentIdentification->id;
             $modelStudentEnrollment->student_inep_id = $modelStudentIdentification->inep_id;
@@ -332,7 +333,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
                 Yii::app()->user->setFlash('error', 'Turma não localizada! Por favor, importe ou adicione uma turma.');
 				$this->redirect([self::REDIRECT_PATH, 'id' => $id]);
             }
-			
+
 			if ($statusSave) {
 				Yii::app()->user->setFlash('success', "Aluno sincronizado com sucesso.");
 				$this->redirect([self::REDIRECT_PATH, 'id' => $id]);

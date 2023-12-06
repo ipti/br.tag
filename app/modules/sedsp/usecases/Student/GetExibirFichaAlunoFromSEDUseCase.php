@@ -33,7 +33,7 @@ class GetExibirFichaAlunoFromSEDUseCase
 
     public function createAndSaveStudentDocumentsAndAddress($studentDocumentsAndAddress, $studentIdentification)
     {
-        $documentos = StudentDocumentsAndAddress::model()->find('student_fk = :studentFk', [':studentFk' => $studentIdentification->id]);
+        $documentos = StudentDocumentsAndAddress::model()->find('id = :studentFk', [':studentFk' => $studentIdentification->id]);
 
         if($documentos === null) {
             if ($studentDocumentsAndAddress->validate() && $studentDocumentsAndAddress->save()) {
