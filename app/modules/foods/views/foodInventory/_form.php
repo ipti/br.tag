@@ -43,7 +43,7 @@ $form=$this->beginWidget('CActiveForm', array(
             <form method="post">
                 <div class="t-modal__body">
                     <p>Selecione os itens e quantidades para adicionar ao estoque</p>
-                    <div class="row">
+                    <div class="tablet-row">
                         <div class="column is-two-fifths t-field-select clear-margin--bottom clearfix">
                             <?php echo CHtml::label('Selecione o Alimento', 'food_fk', array('class' => 't-field-select__label--required')); ?>
                             <select class="select-search-on t-field-select__input select2-container" id="food" name="food">
@@ -63,8 +63,8 @@ $form=$this->beginWidget('CActiveForm', array(
                             <?php echo $form->textField($model,'expiration_date', array('class'=>'t-field-text__input js-date clear-margin--all js-expiration-date', 'placeholder' => 'Selecione')); ?>
                             <?php echo $form->error($model,'expiration_date'); ?>
                         </div>
-                        <div class="column is-one-fifth clearleft--on-mobile t-buttons-container clear-margin--bottom clearfix">
-                            <button class="t-button-secondary clear-margin--all full--width" id="add-food" type="button">Adicionar</button>
+                        <div class="column is-one-fifth clearleft--on-mobile t-buttons-container clear-padding--bottom clear-margin--bottom clearfix">
+                            <button class="t-button-secondary clear-margin--all full--width align-self--end" id="add-food" type="button">Adicionar</button>
                         </div>
                     </div>
 

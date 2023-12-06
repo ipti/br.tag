@@ -47,6 +47,12 @@
         justify-content: end;
     }
 }
+.align-self {
+    &--end {
+        align-self: end;
+    }
+}
+
 .flex-direction {
     &--row {
         flex-direction: row;
