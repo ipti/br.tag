@@ -51,7 +51,14 @@ class StudentsCest
         sleep(2);
 
         // address
+        $robots->stateAddress($dataStudent->studentDocument['edcenso_uf_fk']);
+        $robots->cep($dataStudent->studentDocument['cep']);
+        sleep(2);
+        $robots->cityAddress($dataStudent->studentDocument['edcenso_city_fk']);
+        sleep(2);
         $robots->address($dataStudent->studentDocument['address']);
+        $robots->neighborhood($dataStudent->studentDocument['neighborhood']);
+        $robots->number($dataStudent->studentDocument['number']);
         $robots->zone($dataStudent->studentDocument['residence_zone']);
         $robots->btnProximo();
         sleep(2);
@@ -114,7 +121,14 @@ class StudentsCest
         sleep(2);
 
         // address
+        $robots->stateAddress($dataStudent->studentDocument['edcenso_uf_fk']);
+        $robots->cep($dataStudent->studentDocument['cep']);
+        sleep(2);
+        $robots->cityAddress($dataStudent->studentDocument['edcenso_city_fk']);
+        sleep(2);
         $robots->address($dataStudent->studentDocument['address']);
+        $robots->neighborhood($dataStudent->studentDocument['neighborhood']);
+        $robots->number($dataStudent->studentDocument['number']);
         $robots->zone($dataStudent->studentDocument['residence_zone']);
         $robots->btnProximo();
         sleep(2);
@@ -177,7 +191,14 @@ class StudentsCest
         sleep(2);
 
         // address
+        $robots->stateAddress($dataStudent->studentDocument['edcenso_uf_fk']);
+        $robots->cep($dataStudent->studentDocument['cep']);
+        sleep(2);
+        $robots->cityAddress($dataStudent->studentDocument['edcenso_city_fk']);
+        sleep(2);
         $robots->address($dataStudent->studentDocument['address']);
+        $robots->neighborhood($dataStudent->studentDocument['neighborhood']);
+        $robots->number($dataStudent->studentDocument['number']);
         $robots->zone($dataStudent->studentDocument['residence_zone']);
         $robots->btnProximo();
         sleep(2);
@@ -250,6 +271,14 @@ class StudentsCest
         sleep(2);
 
         // residence
+        $robots->stateAddress($dataStudent->studentDocument['edcenso_uf_fk']);
+        $robots->cep($dataStudent->studentDocument['cep']);
+        sleep(2);
+        $robots->cityAddress($dataStudent->studentDocument['edcenso_city_fk']);
+        sleep(2);
+        $robots->address($dataStudent->studentDocument['address']);
+        $robots->neighborhood($dataStudent->studentDocument['neighborhood']);
+        $robots->number($dataStudent->studentDocument['number']);
         $robots->zone($dataStudent->studentDocument['residence_zone']);
         $robots->btnProximo();
         sleep(2);
@@ -309,6 +338,14 @@ class StudentsCest
         sleep(2);
 
         // residence
+        $robots->stateAddress($dataStudent->studentDocument['edcenso_uf_fk']);
+        $robots->cep($dataStudent->studentDocument['cep']);
+        sleep(2);
+        $robots->cityAddress($dataStudent->studentDocument['edcenso_city_fk']);
+        sleep(2);
+        $robots->address($dataStudent->studentDocument['address']);
+        $robots->neighborhood($dataStudent->studentDocument['neighborhood']);
+        $robots->number($dataStudent->studentDocument['number']);
         $robots->zone($dataStudent->studentDocument['residence_zone']);
         $robots->btnProximo();
         sleep(2);

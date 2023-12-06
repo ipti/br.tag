@@ -627,7 +627,7 @@ class StudentsRobots
      */
     public function stateAddress($stateAddress)
     {
-        $this->tester->selectOption('#StudentDocumentsAndAddress_edcenso_uf_fk', $stateAddress);
+        $this->tester->executeJS("document.querySelector('#StudentDocumentsAndAddress_edcenso_uf_fk').value = '{$stateAddress}';");
     }
 
     /**
@@ -636,7 +636,11 @@ class StudentsRobots
      */
     public function cep($cep)
     {
-        $this->tester->fillField('#StudentDocumentsAndAddress_cep',$cep);
+        $this->tester->executeJS("
+            var addressField = document.querySelector('#StudentDocumentsAndAddress_cep');
+            addressField.value = '$cep';
+            addressField.dispatchEvent(new Event('input'));
+        ");
     }
 
     /**
@@ -645,17 +649,24 @@ class StudentsRobots
      */
     public function cityAddress($cityAddress)
     {
-        $this->tester->selectOption('#StudentDocumentsAndAddress_edcenso_city_fk', $cityAddress);
+        $this->tester->executeJS("
+            document.querySelector('#StudentDocumentsAndAddress_edcenso_city_fk').value = '{$cityAddress}';
+        ");
     }
 
     /**
      * Preencher o endereço do aluno.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function address ($address)
+    public function address($address)
     {
-        $this->tester->fillField('#StudentDocumentsAndAddress_address', $address);
+        $this->tester->executeJS("
+            var addressField = document.querySelector('#StudentDocumentsAndAddress_address');
+            addressField.value = '$address';
+            addressField.dispatchEvent(new Event('input'));
+        ");
     }
+
 
     /**
      * Preencher o bairro do estudante.
@@ -663,7 +674,11 @@ class StudentsRobots
      */
     public function neighborhood ($neighborhood)
     {
-        $this->tester->fillField('#StudentDocumentsAndAddress_neighborhood', $neighborhood);
+        $this->tester->executeJS("
+            var addressField = document.querySelector('#StudentDocumentsAndAddress_neighborhood');
+            addressField.value = '$neighborhood';
+            addressField.dispatchEvent(new Event('input'));
+        ");
     }
 
     /**
@@ -672,7 +687,11 @@ class StudentsRobots
      */
     public function number ($number)
     {
-        $this->tester->fillField('#StudentDocumentsAndAddress_number', $number);
+        $this->tester->executeJS("
+            var addressField = document.querySelector('#StudentDocumentsAndAddress_number');
+            addressField.value = '$number';
+            addressField.dispatchEvent(new Event('input'));
+        ");
     }
 
     /**
