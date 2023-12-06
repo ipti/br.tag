@@ -16,6 +16,10 @@ class SchoolCest
     }
 
     // tests
+    /**
+     * Adiciona uma escola, prenchendo apenas os campos obrigatórios.
+     * Unidade vinculada de Ed Básica ou ofertante de Ensino Superior: Não.
+     */
     public function addSchoolRequired(AcceptanceTester $teste)
     {
         sleep(5);
@@ -30,7 +34,7 @@ class SchoolCest
         $robots->regulation($dataBuilder['regulation']);
         $robots->linkedSchool();
         $robots->organRegulation();
-        $robots->codIes($dataBuilder['ies_code']);
+        // $robots->codIes($dataBuilder['ies_code']);
         $robots->btn2Address();
 
         sleep(2);
@@ -39,11 +43,12 @@ class SchoolCest
         $robots->location($dataBuilder['location']);
         $robots->district($dataBuilder['edcenso_district_fk']);
         $robots->locationDifferent($dataBuilder['id_difflocation']);
-        $robots->linkedUnity($dataBuilder['offer_or_linked_unity']);
+        $robots->linkedUnity($dataBuilder['no_linked_unity']);
         $robots->btn3Structure();
 
         sleep(2);
         $robots->operationLocation();
+        $robots->numberClassroom($dataBuilder['classroom_count']);
         $robots->occupation($dataBuilder['building_occupation_situation']);
         $robots->dependencies();
         $robots->water();
@@ -76,7 +81,9 @@ class SchoolCest
 
         sleep(2);
         $robots->btnCreate();
-        sleep(10);
+        sleep(5);
+
+        $robots->saveSucess();
 
     }
 }

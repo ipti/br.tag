@@ -104,8 +104,7 @@ class CustomProvider extends Base
      */
     public function inepId()
     {
-        $inep = '1';
-        $inep .= $this->generator->numerify('#########');
+        $inep = $this->generator->numerify('########');
 
         return $inep;
     }
@@ -237,7 +236,9 @@ class CustomProvider extends Base
      */
     public function nameSchool()
     {
-        $tipoEscola = $this->generator->randomElement(['Escola', 'Colegio', 'Instituto']);
+        $tipoEscola = $this->generator->randomElement([
+            'Musical', 'Escola', 'Colegio', 'Instituto', 'Alura', 'TAG', 'High School Musical'
+        ]);
         $nomeComum = $this->generator->randomElement(['ABC', 'XYZ', 'Education', 'Aprendizagem', 'Futuro']);
 
         return "$tipoEscola $nomeComum";
@@ -253,5 +254,16 @@ class CustomProvider extends Base
         $numeroAleatorio = $this->generator->numerify('######'); // Pode ajustar a quantidade de dígitos conforme necessário
 
         return "$prefixo$numeroAleatorio";
+    }
+
+    /**
+     * Gera código escola sede.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function codSchool()
+    {
+        $codSchool = $this->generator->numerify('########');
+
+        return $codSchool;
     }
 }

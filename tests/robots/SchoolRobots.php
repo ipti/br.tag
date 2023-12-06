@@ -13,6 +13,12 @@ class SchoolRobots
         $this->tester->amOnPage('?r=school/create');
     }
 
+    public function saveSucess()
+    {
+        $this->tester->see('Escola adicionada com sucesso!');
+        $this->tester->canSeeInCurrentUrl('?r=school/index');
+    }
+
     public function btnCreate()
     {
         $this->tester->click('.save-school-button');
@@ -93,6 +99,12 @@ class SchoolRobots
         $this->tester->fillField('#SchoolIdentification_ies_code', $codIes);
     }
 
+    public function codSchool($codSchool)
+    {
+        $this->tester->waitForElement('#SchoolIdentification_inep_head_school', 10);
+        $this->tester->fillField('#SchoolIdentification_inep_head_school', $codSchool);
+    }
+
     public function state($state)
     {
         $this->tester->waitForElement('#SchoolIdentification_edcenso_uf_fk');
@@ -127,10 +139,16 @@ class SchoolRobots
         $this->tester->selectOption('#SchoolIdentification_offer_or_linked_unity', $linkedUnity);
     }
 
+    public function numberClassroom($numberClassroom)
+    {
+        $this->tester->fillField('#SchoolStructure_classroom_count', $numberClassroom);
+    }
+
     public function operationLocation()
     {
         $script = "document.querySelector('#SchoolStructure_operation_location_building').click();";
         $this->tester->executeJS($script);
+        $this->tester->wait(3);
     }
 
     public function occupation($occupation)
