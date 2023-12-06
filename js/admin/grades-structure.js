@@ -441,15 +441,7 @@ function checkValidInputs() {
                         "Uma unidade de recuperação semestral ou final não podem ser a primeira.";
                     return false;
                 }
-                if (
-                    $(this).find("select.type-select").val() === "RF" &&
-                    index !== $(".unity").length - 1
-                ) {
-                    valid = false;
-                    message =
-                        "A unidade de recuperação final, quando utilizada, deve haver apenas 01, sendo a última unidade.";
-                    return false;
-                }
+
                 if (
                     rsCount === 2 &&
                     $(this).find("select.type-select").val() !== "RF"

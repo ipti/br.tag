@@ -37,7 +37,6 @@ class CalculateFinalMediaUsecase
             array_push($grades, $gradesResult->attributes["grade_" . ($i + 1)]);
         }
 
-
         $finalMedia = $this->applyStrategyComputeGradesByFormula($gradeRule->gradeCalculationFk, $grades);
         $gradesResult->setAttribute("final_media", $finalMedia);
         $gradesResult->save();
@@ -47,7 +46,6 @@ class CalculateFinalMediaUsecase
             $gradesResult->setAttribute("final_media", $finalMedia);
             $gradesResult->save();
         }
-
     }
 
     private function getGradeUnitiesByDiscipline($enrollmentId, $discipline)
@@ -60,9 +58,7 @@ class CalculateFinalMediaUsecase
         $criteria->condition = "g.discipline_fk = :discipline_fk and enrollment_fk = :enrollment_fk";
         $criteria->params = array(":discipline_fk" => $discipline, ":enrollment_fk" => $enrollmentId);
         $criteria->order = "gu.id";
-        $gradeUnitiesByDiscipline = GradeUnity::model()->findAll($criteria);
-
-        return $gradeUnitiesByDiscipline;
+        return GradeUnity::model()->findAll($criteria);
     }
 
 
@@ -110,6 +106,10 @@ class CalculateFinalMediaUsecase
                     $acc += floatval($grade);
                     return $acc;
                 });
+            case GradeCalculation::OP_MAX:
+                return max($grades);
+            case GradeCalculation::OP_MIN:
+                return min($grades);
             case GradeCalculation::OP_MEDIA:
                 $finalGrade = array_reduce($grades, function ($acc, $grade) {
                     /** @var Grade $grade */

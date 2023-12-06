@@ -9,6 +9,7 @@
  * @property [] $unities
  * @property mixed $approvalMedia
  * @property mixed $finalRecoverMedia
+ * @property mixed $calculationFinalMedia
  */
 class UpdateGradeJustOneStructUsecase
 {
@@ -73,6 +74,11 @@ class UpdateGradeJustOneStructUsecase
     private function buildAvaliationModalities($unity, $modalities)
     {
         foreach ($modalities as $m) {
+
+            if($unity != GradeUnity::TYPE_UNITY_WITH_RECOVERY  && $m->type == GradeUnityModality::TYPE_RECOVERY){
+                $m["operation"] = self::OP_REMOVE;
+            }
+
             if ($m["operation"] === self::OP_CREATE || $m["operation"] === self::OP_UPDATE) {
                 $modalityModel = GradeUnityModality::model()->find("id = :id", [":id" => $m["id"]]);
                 if ($modalityModel == null) {

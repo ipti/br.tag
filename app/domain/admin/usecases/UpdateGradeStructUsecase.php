@@ -8,6 +8,7 @@
  * @property [] $unities
  * @property mixed $approvalMedia
  * @property mixed $finalRecoverMedia
+ * @property mixed $calculationFinalMedia
  */
 class UpdateGradeStructUsecase
 {

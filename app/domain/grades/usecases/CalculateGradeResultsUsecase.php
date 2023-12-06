@@ -4,34 +4,29 @@
  * @property int $classroomId
  * @property int $discipline
  */
-class CalculateGradeResultsUsecase
-{
-    public function __construct($classroom, $discipline)
-    {
+class CalculateGradeResultsUsecase {
+    public function __construct($classroom, $discipline) {
         $this->classroomId = $classroom;
         $this->discipline = $discipline;
     }
 
-    public function exec()
-    {
+    public function exec() {
         $gradeUnities = $this->getUnitiesByClassroom($this->classroomId);
         $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($this->classroomId);
         $studentEnrollments = $classroom->activeStudentEnrollments;
 
-        foreach ($studentEnrollments as $studentEnrollment) {
+        foreach($studentEnrollments as $studentEnrollment) {
             $this->calculateGradesForStudent($studentEnrollment, $gradeUnities);
         }
     }
 
-    private function calculateGradesForStudent($studentEnrollment, $gradeUnities)
-    {
-        if ($gradeUnities[0]->type != GradeUnity::TYPE_UNITY_BY_CONCEPT) {
+    private function calculateGradesForStudent($studentEnrollment, $gradeUnities) {
+        if($gradeUnities[0]->type != GradeUnity::TYPE_UNITY_BY_CONCEPT) {
             $this->calculateNumericGrades($studentEnrollment, $this->discipline);
         }
     }
 
-    private function getUnitiesByClassroom($classroom)
-    {
+    private function getUnitiesByClassroom($classroom) {
 
         $criteria = new CDbCriteria();
         $criteria->alias = "gu";
@@ -43,37 +38,78 @@ class CalculateGradeResultsUsecase
         return GradeUnity::model()->findAll($criteria);
     }
 
-    private function calculateNumericGrades($studentEnrollment, $discipline)
-    {
+    private function calculateNumericGrades($studentEnrollment, $discipline) {
         $unitiesByDiscipline = $this->getGradeUnitiesByDiscipline($studentEnrollment->classroom_fk);
         $gradeResult = $this->getGradesResultForStudent($studentEnrollment->id, $discipline);
 
-        foreach ($unitiesByDiscipline as $index => $gradeUnity) {
-            if ($gradeUnity->type == GradeUnity::TYPE_UNITY) {
-                $unityMedia = $this->calculateUnityMedia($studentEnrollment, $discipline, $gradeUnity);
-                $gradeResult["grade_" . ($index + 1)] = is_nan($unityMedia) ? "" : $unityMedia;
-            } elseif ($gradeUnity->type == GradeUnity::TYPE_FINAL_RECOVERY) {
+        foreach($unitiesByDiscipline as $index => $gradeUnity) {
+            if($gradeUnity->type == GradeUnity::TYPE_UNITY) {
+                $gradeResult = $this->calculateCommonUnity($gradeResult, $studentEnrollment, $discipline, $gradeUnity, $index);
+            } elseif($gradeUnity->type == GradeUnity::TYPE_UNITY_WITH_RECOVERY) {
+                $gradeResult = $this->calculateUnityWithRecovery($gradeResult, $studentEnrollment, $discipline, $gradeUnity, $index);
+            } elseif($gradeUnity->type == GradeUnity::TYPE_FINAL_RECOVERY) {
                 $gradeResult = $this->calculateFinalRecovery($gradeResult, $studentEnrollment, $discipline, $gradeUnity);
             }
         }
 
-        $gradeResult->validate();
-        CVarDumper::dump($gradeResult->getErrors(), 10, true);
         $gradeResult->save();
 
         return $gradeResult;
     }
 
-    private function calculateFinalRecovery($gradeResult, $studentEnrollment, $discipline, $unity)
-    {
+    private function calculateFinalRecovery($gradeResult, $studentEnrollment, $discipline, $unity) {
         $unityMedia = $this->calculateUnityMedia($studentEnrollment, $discipline, $unity);
         $gradeResult->setAttribute("rec_final", is_nan($unityMedia) ? "" : $unityMedia);
 
         return $gradeResult;
     }
 
-    private function getGradeUnitiesByDiscipline($classroom)
-    {
+    private function calculateCommonUnity($gradeResult, $studentEnrollment, $discipline, $unity, $index) {
+        $unityMedia = $this->calculateUnityMedia($studentEnrollment, $discipline, $unity);
+        $gradeResult["grade_".($index + 1)] = is_nan($unityMedia) ? "" : $unityMedia;
+        return $gradeResult;
+    }
+
+    private function calculateUnityWithRecovery($gradeResult, $studentEnrollment, $discipline, $unity, $index) {
+        $unityMedia = $this->calculateUnityMedia($studentEnrollment, $discipline, $unity);
+        $recoveryGrade = $this->getRecoveryGradeFromUnity($studentEnrollment->id, $discipline, $unity->id);
+        $gradeWithRecovery = [(float)$unityMedia, (float)$recoveryGrade->grade];
+        $finalUnityMedia = max($gradeWithRecovery);
+        $gradeResult["grade_".($index + 1)] = is_nan($finalUnityMedia) ? "" : $finalUnityMedia;
+        return $gradeResult;
+    }
+
+    private function getRecoveryGradeFromUnity($enrollmentId, $discipline, $unityId) {
+
+        $gradesIds = array_column(Yii::app()->db->createCommand(
+            "SELECT
+                g.id
+            FROM grade g
+                join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
+                join grade_unity gu on gu.id = gum.grade_unity_fk
+            WHERE g.enrollment_fk = :enrollment_id
+                and g.discipline_fk = :discipline_id
+                and gu.id = :unity_id
+                and gum.type = '".GradeUnityModality::TYPE_RECOVERY."'"
+        )->bindParam(":enrollment_id", $enrollmentId)
+            ->bindParam(":discipline_id", $discipline)
+            ->bindParam(":unity_id", $unityId)->queryAll(), "id");
+
+        if($gradesIds == null) {
+            return [];
+        }
+
+        $grades = Grade::model()->find(
+            array(
+                'condition' => 'id =  :id',
+                'params' => [":id" => $gradesIds[0]]
+            )
+        );
+
+        return $grades;
+    }
+
+    private function getGradeUnitiesByDiscipline($classroom) {
 
         $criteria = new CDbCriteria();
         $criteria->alias = "gu";
@@ -92,8 +128,7 @@ class CalculateGradeResultsUsecase
      *
      * @return GradeResults
      */
-    private function getGradesResultForStudent($studentEnrollmentId, $disciplineId)
-    {
+    private function getGradesResultForStudent($studentEnrollmentId, $disciplineId) {
         $gradeResult = GradeResults::model()->find(
             "enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk",
             [
@@ -104,7 +139,7 @@ class CalculateGradeResultsUsecase
 
         $isNewGradeResult = $gradeResult == null;
 
-        if ($isNewGradeResult) {
+        if($isNewGradeResult) {
             $gradeResult = new GradeResults();
             $gradeResult->enrollment_fk = $studentEnrollmentId;
             $gradeResult->discipline_fk = $disciplineId;
@@ -143,15 +178,14 @@ class CalculateGradeResultsUsecase
      *
      * @return float|null
      */
-    private function calculateUnityMedia($enrollment, $disciplineId, $unity)
-    {
+    private function calculateUnityMedia($enrollment, $disciplineId, $unity) {
 
         $checkGradesUsecase = new CheckIfUnityHasAllGradesUsecase(
             $unity, $enrollment->id, $disciplineId
         );
         $hasAllGrades = $checkGradesUsecase->exec();
 
-        if($hasAllGrades){
+        if($hasAllGrades) {
             $grades = $this->getStudentGradesFromUnity(
                 $enrollment->id,
                 $disciplineId,
@@ -167,10 +201,9 @@ class CalculateGradeResultsUsecase
      * @param GradeUnity $unity
      * @param float[] $grades
      */
-    private function applyStrategyComputeGradesByFormula($unity, $grades)
-    {
+    private function applyStrategyComputeGradesByFormula($unity, $grades) {
 
-        switch ($unity->gradeCalculationFk->name) {
+        switch($unity->gradeCalculationFk->name) {
             default:
             case 'Soma':
                 return array_reduce($grades, function ($acc, $grade) {
@@ -185,11 +218,15 @@ class CalculateGradeResultsUsecase
                     return $acc;
                 });
                 return round($finalGrade / sizeof($grades), 2);
+            case 'Maior':
+                return max($grades);
+            case 'Menor':
+                    return min($grades);
             case 'Peso':
                 $acc = [0, 0];
                 $modalities = $unity->gradeUnityModalities;
 
-                foreach ($grades as $key => $grade) {
+                foreach($grades as $key => $grade) {
                     $acc[0] += $grade * $modalities[$key]->weight;
                     $acc[1] += $modalities[$key]->weight;
                 }
@@ -206,8 +243,7 @@ class CalculateGradeResultsUsecase
      *
      * @return Grade[]
      */
-    private function getStudentGradesFromUnity($enrollmentId, $discipline, $unityId)
-    {
+    private function getStudentGradesFromUnity($enrollmentId, $discipline, $unityId) {
 
         $gradesIds = array_column(Yii::app()->db->createCommand(
             "SELECT
@@ -215,18 +251,18 @@ class CalculateGradeResultsUsecase
                 FROM grade g
                 join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
                 join grade_unity gu on gu.id= gum.grade_unity_fk
-                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gu.id = :unity_id"
+                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gu.id = :unity_id and gum.type = '".GradeUnityModality::TYPE_COMMON."'"
         )->bindParam(":enrollment_id", $enrollmentId)
             ->bindParam(":discipline_id", $discipline)
             ->bindParam(":unity_id", $unityId)->queryAll(), "id");
 
-        if($gradesIds == null){
+        if($gradesIds == null) {
             return [];
         }
 
         $grades = Grade::model()->findAll(
             array(
-                'condition' => 'id IN (' . implode(',', $gradesIds) . ')',
+                'condition' => 'id IN ('.implode(',', $gradesIds).')',
             )
         );
 

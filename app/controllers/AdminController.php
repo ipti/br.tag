@@ -243,7 +243,7 @@ class AdminController extends Controller
         $unities = Yii::app()->request->getPost("unities");
         $approvalMedia = Yii::app()->request->getPost("approvalMedia");
         $finalRecoverMedia = Yii::app()->request->getPost("finalRecoverMedia");
-        $calculationFinalMedia = Yii::app()->request->getPost("calculationFinalMedia");
+        $calculationFinalMedia = Yii::app()->request->getPost("finalMediaCalculation");
 
         try {
             $usecase = new UpdateGradeStructUsecase($reply, $stage, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia);

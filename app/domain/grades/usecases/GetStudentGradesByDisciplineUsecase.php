@@ -36,7 +36,7 @@ class GetStudentGradesByDisciplineUsecase
         foreach ($unitiesByDiscipline as $unity) {
             $unityColumns[] = [
                 "name" => $unity->name,
-                "colspan" => $unity->countGradeUnityModalities,
+                "colspan" => $unity->countGradeUnityModalities + ($unity->type === GradeUnity::TYPE_UNITY_WITH_RECOVERY ? 1 : 0),
                 "modalities" => array_column($unity->gradeUnityModalities, 'name')
             ];
         }
@@ -93,7 +93,7 @@ class GetStudentGradesByDisciplineUsecase
             $unityGrades = $this->getStudentGradesFromUnity($studentEnrollment->id, $discipline, $unity->id);
             $unityResult = new GradeUnityResult($unity->name);
             if ($gradeResult != null) {
-                if ($unity->type == GradeUnity::TYPE_UNITY) {
+                if ($unity->type == GradeUnity::TYPE_UNITY || $unity->type == GradeUnity::TYPE_UNITY_WITH_RECOVERY) {
                     $unityResult->setUnityMedia($gradeResult["grade_" . ($key + 1)]);
                 } elseif ($unity->type == GradeUnity::TYPE_FINAL_RECOVERY) {
                     $unityResult->setUnityMedia($gradeResult["rec_final"]);
@@ -134,15 +134,6 @@ class GetStudentGradesByDisciplineUsecase
         }
 
         return $studentGradeResult;
-    }
-
-    private function initStudentGrades($enrollmentId, $disciplineId, $unitiesByDiscipline)
-    {
-
-        $gradeObject = new Grade();
-        $gradeObject->enrollment_fk = $student["enrollmentId"];
-        $gradeObject->discipline_fk = $disciplineId;
-        $gradeObject->grade_unity_modality_fk = $grade["modalityId"];
     }
 
     /**
