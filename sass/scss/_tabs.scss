@@ -130,7 +130,7 @@
                 color: $colorsBaseInkLight;
             }
             &.active {
-                border-bottom: $borderWidthInputFocus $colorsBaseInkNormal solid;
+                border-bottom: $borderWidthInputFocus #222C64  solid;
             }
         }
         

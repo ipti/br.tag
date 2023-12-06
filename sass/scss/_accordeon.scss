@@ -3,7 +3,7 @@
     .ui-accordion-header {
         display: flex !important;
         align-items: center;
-        background: $colorsBaseCloudLight ;
+        background: $colorsBaseCloudLight;
         cursor: pointer;
         padding: $SizeXXXSmall $SizeSmall !important;
         border-radius: 0;
@@ -20,6 +20,7 @@
             background: none;
             box-shadow: none;
             margin-bottom: 0;
+            padding: 0;
         }
 
         &.hide {
@@ -69,8 +70,17 @@
     @extend .t-accordeon;
 
     .ui-accordion-header {
-        background: $colorsBaseCloudDark;
+        background: $colorsBaseCloudLight;
         color: $colorsBaseInkLight;
+        .border-left {
+            border-left: solid 1px $colorsBaseCloudLightHover;
+        }
+        .arrow {
+            font-size: $FontSizeTextNormal;
+        }
+        &.even {
+            background: #EAEDFC;
+        }
 
     }
     .ui-accordion-content {

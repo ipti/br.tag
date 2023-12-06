@@ -1,39 +1,6 @@
 function  initializeSelect2() {
-    $("select.js-inicializate-select2").select2("destroy");
-    $('select.js-inicializate-select2').select2();
-}
-function addIngrendientsName(idAccordion, name) {
-
-    let oldIngrendientsName =  $(`.js-ingredients-names[data-idAccordion="${idAccordion}"]`)
-    let ingredientsList = oldIngrendientsName.text().trim().split(', ')
-    let firstNameNewIngredient = name.split(', ')[0]
-    
-    if(ingredientsList.indexOf(firstNameNewIngredient) === -1){
-        ingredientsList[0] == "" ?  ingredientsList[0] = firstNameNewIngredient: ingredientsList.push(firstNameNewIngredient)
-    }
-
-    let newIngredientsName = ingredientsList.join(", ");
-    oldIngrendientsName.html(newIngredientsName)
-
-}
-function removeIngrendientsName(idAccordion, name){
-
-    let allSelectedIngredients = [] 
-    let tdElements = $(`tr[data-idAccordion='${idAccordion}'] td.js-food-name`); 
-    tdElements.each(function () {
-        allSelectedIngredients.push($(this).text());
-      });
-    let firstNameIngredient = name.split(', ')[0];
-    let count = allSelectedIngredients.reduce(function (acc, element) {
-        return acc + (element.split(', ')[0] === firstNameIngredient);
-      }, 0);
-
-    if(count == 1){
-        let oldIngrendientsName =  $(`.js-ingredients-names[data-idAccordion="${idAccordion}"]`)
-        let ingredientsList = oldIngrendientsName.text().trim().split(', ')
-        let newIngredientsName = ingredientsList.filter((ingredient) => ingredient != firstNameIngredient)
-        oldIngrendientsName.html(newIngredientsName)
-    }
+    $("select.js-initialize-select2").select2("destroy");
+    $('select.js-initialize-select2').select2();
 }
 
 $(".js-save-menu").on("click", function () {
@@ -49,7 +16,7 @@ $(".js-save-menu").on("click", function () {
             "meals":[]
         },
         "tuesday" :{
-            "meals":[] 
+            "meals":[]
         },
         "wednesday" :{
             "meals":[]
@@ -69,18 +36,19 @@ $(".js-save-menu").on("click", function () {
     foodMenu.description = $('.js-menu-name').val()
     foodMenu.food_public_target = $('select.js-public-target').val()
     foodMenu.start_date = $('.js-start-date').val()
-    foodMenu.final_date = data.actions.getLastDay()
+    foodMenu.final_date = $('.js-final-date').val()
+    foodMenu.observation = $('.js-observation').val()
 
     //get meals
     foodMenu.sunday = getMealsByDay(0)
     foodMenu.monday = getMealsByDay(1)
     foodMenu.tuesday = getMealsByDay(2)
-    foodMenu.wednessday = getMealsByDay(3)
+    foodMenu.wednesday = getMealsByDay(3)
     foodMenu.thursday = getMealsByDay(4)
     foodMenu.friday = getMealsByDay(5)
     foodMenu.saturday = getMealsByDay(6)
 
-    /* console.log(foodMenu) */
+    // console.log(foodMenu)
     $.ajax({
         url: "?r=foods/foodMenu/create",
         data: {
@@ -88,9 +56,9 @@ $(".js-save-menu").on("click", function () {
         },
         type: "POST",
       }).success(function (response) {
-            // alert('deu certo')
+        window.location.href = "?r=foods/foodMenu/index";
       })
-    
+
 });
 
 function getMealsByDay(day) {
@@ -119,7 +87,7 @@ function getMealsByDay(day) {
                 "description": "",
                 "food_ingredients": []
             }
-            
+
             meal_component.description = $(mealAccordion).find(`.js-plate-accordion-header[data-id-accordion="${idPlateAccordion}"] .js-plate-name`).val()
             meal_component.food_ingredients = getFoodIngredients(idPlateAccordion)
             meal.meals_component.push(meal_component)
