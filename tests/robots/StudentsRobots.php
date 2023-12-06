@@ -3,10 +3,19 @@
 class StudentsRobots
 {
     public AcceptanceTester $tester;
-    
+
     public function __construct(AcceptanceTester $tester)
     {
         $this->tester = $tester;
+    }
+
+    /**
+     * Página de estudantes.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function pageStudents ()
+    {
+        $this->tester->amOnPage('?r=student');
     }
 
     /**
@@ -28,6 +37,16 @@ class StudentsRobots
     }
 
     /**
+     * Pesquisar estudante.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function search ($search)
+    {
+        $this->tester->click('.dataTables_filter input[type="search"]');
+        $this->tester->fillField('.dataTables_filter input[type="search"]', $search);
+    }
+
+    /**
      * Botão de próximo nas telas de cadastros de estudantes.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
@@ -45,6 +64,76 @@ class StudentsRobots
     {
         $this->tester->waitForElement('.save-student');
         $this->tester->executeJS("document.querySelector('.save-student').click();");
+    }
+
+    /**
+     * Botão 1: Dados do aluno.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function btn1Identify ()
+    {
+        $this->tester->waitForElementVisible('#tab-student-identify');
+        $this->tester->executeJS("document.querySelector('#tab-student-identify a').click();");
+    }
+
+    /**
+     * Botão 2: Filiação.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function btn2Affiliation ()
+    {
+        $this->tester->waitForElementVisible('#tab-student-affiliation');
+        $this->tester->executeJS("document.querySelector('#tab-student-affiliation a').click();");
+    }
+
+    /**
+     * Botão 3: Dados sociais.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function btn3Documents ()
+    {
+        $this->tester->waitForElementVisible('#tab-student-documents');
+        $this->tester->executeJS("document.querySelector('#tab-student-documents a').click();");
+    }
+
+    /**
+     * Botão 4: Endereço.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function btn4Address ()
+    {
+        $this->tester->waitForElementVisible('#tab-student-address');
+        $this->tester->executeJS("document.querySelector('#tab-student-address a').click();");
+    }
+
+    /**
+     * Botão 5: Matricula.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function btn5Enrollment ()
+    {
+        $this->tester->waitForElementVisible('#tab-student-enrollment');
+        $this->tester->executeJS("document.querySelector('#tab-student-enrollment a').click();");
+    }
+
+    /**
+     * Botão 6: Saúde.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function btn6Health ()
+    {
+        $this->tester->waitForElementVisible('#tab-student-health');
+        $this->tester->executeJS("document.querySelector('#tab-student-health a').click();");
+    }
+
+    /**
+     * Botão de editar estudantes.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function btnEdit ()
+    {
+        $this->tester->waitForElement('#student-edit');
+        $this->tester->executeJS("document.querySelector('#student-edit').click();");
     }
 
     /**

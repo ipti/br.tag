@@ -1,10 +1,19 @@
 <?php
 
 Yii::import('application.modules.sedsp.usecases.*');
+Yii::import('application.modules.sedsp.interfaces.*');
 
-class DefaultController extends Controller
+
+class DefaultController extends Controller implements AuthenticateSEDTokenInterface
 {
     private $ERROR_CONNECTION = 'Conexão com SEDSP falhou. Tente novamente mais tarde.';
+    const REDIRECT_PATH = '/student/update';
+
+	public function authenticateSedToken()
+    {
+        $loginUseCase = new LoginUseCase();
+        $loginUseCase->checkSEDToken();
+    }
 
     public function actionIndex()
     {
@@ -14,8 +23,6 @@ class DefaultController extends Controller
     public function actionManageRA()
     {
         $school_id = Yii::app()->user->school;
-        $ucidentifymulti = new IdentifyMultipleStudentRACode();
-        $students = $ucidentifymulti->exec($school_id);
 
         $criteira = new CDbCriteria;
         $criteira->select = 'DISTINCT t.*';
@@ -39,8 +46,7 @@ class DefaultController extends Controller
     {
         $RA = $_POST["ra"];
 
-        $loginUseCase = new LoginUseCase();
-        $loginUseCase->checkSEDToken();
+        $this->authenticateSEDToken();
 
         try {
             $createStudent = new CreateStudent();
@@ -55,7 +61,6 @@ class DefaultController extends Controller
             $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
             $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
             $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
-
             // Validação CPF->Nome
             if ($modelStudentDocumentsAndAddress->cpf != null) {
                 $student_test_cpf = StudentDocumentsAndAddress::model()->find('cpf=:cpf', array(':cpf' => $modelStudentDocumentsAndAddress->cpf));
@@ -89,8 +94,7 @@ class DefaultController extends Controller
 
     private function addClassroomStudent($RA, $classroomId, $classroomInepId, $classroomStage)
     {
-        $loginUseCase = new LoginUseCase();
-        $loginUseCase->checkSEDToken();
+        $this->authenticateSEDToken();
 
         $createStudent = new CreateStudent();
         $response = $createStudent->exec($RA);
@@ -104,7 +108,9 @@ class DefaultController extends Controller
         $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
 
         if ($modelStudentIdentification->validate() && $modelStudentIdentification->save()) {
+
             $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
+
             $modelStudentEnrollment->school_inep_id_fk = Yii::app()->user->school;
             $modelStudentEnrollment->student_fk = $modelStudentIdentification->id;
             $modelStudentEnrollment->student_inep_id = $modelStudentIdentification->inep_id;
@@ -124,14 +130,10 @@ class DefaultController extends Controller
     public function actionAddClassroom()
     {
         try {
-            $loginUseCase = new LoginUseCase();
-            $loginUseCase->checkSEDToken();
+			$this->authenticateSEDToken();
 
             $classroomNum = $_POST["classroomNum"];
             $importStudents = isset($_POST["importStudents"]);
-            $registerAllClasses = isset($_POST["registerAllClasses"]);
-            $inep_id = Yii::app()->user->school;
-            $year = date('Y');
 
             if ($classroomNum) {
                 $this->registerClassroom($classroomNum);
@@ -179,8 +181,7 @@ class DefaultController extends Controller
         $school_name = $_POST["schoolName"];
         $school_mun = $_POST["schoolMun"];
 
-        $loginUseCase = new LoginUseCase();
-        $loginUseCase->checkSEDToken();
+		$this->authenticateSEDToken();
 
         try {
             $createSchool = new CreateSchool();
@@ -241,36 +242,18 @@ class DefaultController extends Controller
 		$this->render('index', ['RA' => $ra]);
 	}
 
-    public function actionGenRA($id)
+    public function actionGenerateRA($studentId)
     {
-        $loginUseCase = new LoginUseCase();
-        $loginUseCase->checkSEDToken();
+        $this->authenticateSEDToken();
 
-        $genRA = new GenRA();
-        $msg = $genRA->exec($id);
-        try {
-            if (!$msg) {
-                $msg = $genRA->exec($id, true);
-            }
-            echo $msg;
-        } catch (\Throwable $th) {
-            header('Content-Type: application/json', true, 400);
-            echo CJSON::encode(
-                array(
-                    'success' => false,
-                    'message' => 'Bad Request',
-                    'id' => $id,
-                )
-            ); // Set the HTTP response code to 400
-            Yii::app()->end();
-        }
+        $generateRaUseCase = new GenerateRaUseCase;
+        $generationStatus = $generateRaUseCase->exec($studentId);
+
     }
 
     public function actionCreateRA($id)
     {
-        $loginUseCase = new LoginUseCase();
-        $loginUseCase->checkSEDToken();
-
+        $this->authenticateSEDToken();
 
         $createRA = new CreateRA();
         $msg = $createRA->exec($id);
@@ -283,8 +266,7 @@ class DefaultController extends Controller
 
     public function actionImportFullSchool()
     {
-        $loginUseCase = new LoginUseCase();
-        $loginUseCase->checkSEDToken();
+        $this->authenticateSEDToken();
 
         try {
             $inEscola = new InEscola($_POST['nameSchool'], null, null, null);
@@ -302,7 +284,7 @@ class DefaultController extends Controller
             }
         } catch (Exception $e) {
             Yii::app()->user->setFlash(
-                'error', "Ops! A operação atingiu o tempo limite. Por favor, tente novamente em alguns minutos."
+                'error', $e->getMessage()
             );
         } finally {
             $this->redirect(array('index'));
@@ -311,7 +293,7 @@ class DefaultController extends Controller
 
     public function actionImportStudentRA()
 	{
-		$this->checkSEDToken();
+		$this->authenticateSEDToken();
 
 		try {
 			$inAluno = new InAluno($_POST["numRA"], null, "SP");
@@ -320,9 +302,9 @@ class DefaultController extends Controller
 			$statusSave = $exibirFicha->exec($inAluno);
 
 			if ($statusSave) {
-				Yii::app()->user->setFlash('success', "O Aluno cadastrado com sucesso.");
+				Yii::app()->user->setFlash('success', "O Aluno importado com sucesso.");
 			} else {
-				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
+				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado no TAG");
 			}
 		} catch (Exception $e) {
 			Yii::app()->user->setFlash('error', "A escola do aluno não está cadastrada no TAG");
@@ -333,22 +315,31 @@ class DefaultController extends Controller
 
     public function actionUpdateStudentFromSedsp()
 	{
-        $loginUseCase = new LoginUseCase();
-        $loginUseCase->checkSEDToken();
+		$this->authenticateSEDToken();
 
 		try {
 			$inAluno = new InAluno($_GET["gov_id"], null, "SP");
 
 			$exibirFicha = new UpdateFichaAlunoInTAGUseCase();
 			$statusSave = $exibirFicha->exec($inAluno);
-			$id = (int) $_GET["id"];
+            $id = (int) $_GET["id"];
+
+            if($statusSave === 401) {
+                Yii::app()->user->setFlash('error', "Não foi possível fazer a sincronização da SED para o TAG.");
+				$this->redirect([self::REDIRECT_PATH, 'id' => $id]);
+            }
+
+            if($statusSave === 23000){
+                Yii::app()->user->setFlash('error', 'Turma não localizada! Por favor, importe ou adicione uma turma.');
+				$this->redirect([self::REDIRECT_PATH, 'id' => $id]);
+            }
 
 			if ($statusSave) {
 				Yii::app()->user->setFlash('success', "Aluno sincronizado com sucesso.");
-				$this->redirect(array('/student/update', 'id' => $id));
+				$this->redirect([self::REDIRECT_PATH, 'id' => $id]);
 			} else {
-				Yii::app()->user->setFlash('error', "O Aluno já está cadastrado");
-				$this->redirect(array('/student/update', 'id' => $id));
+				Yii::app()->user->setFlash('error', 'erro ' . $statusSave);
+				$this->redirect([self::REDIRECT_PATH, 'id' => $id]);
 			}
 		} catch (Exception $e) {
 			Yii::app()->user->setFlash('error', "A escola do aluno não está cadastrada no TAG");
@@ -357,8 +348,7 @@ class DefaultController extends Controller
 
     public function actionImportFullStudentsByClasses()
     {
-        $loginUseCase = new LoginUseCase();
-        $loginUseCase->checkSEDToken();
+        $this->authenticateSEDToken();
 
         $selectedClasses = Yii::app()->request->getPost('selectedClasses', '');
         $numClasses = explode(',', $selectedClasses);
@@ -374,8 +364,7 @@ class DefaultController extends Controller
 
     public function actionImportClassroomFromSedsp()
     {
-        $loginUseCase = new LoginUseCase();
-        $loginUseCase->checkSEDToken();
+        $this->authenticateSEDToken();
 
         try {
             $inConsultaTurmaClasse = new InConsultaTurmaClasse(Yii::app()->user->year, $_GET["gov_id"]);

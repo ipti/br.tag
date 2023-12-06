@@ -11,18 +11,19 @@ Yii::import('application.modules.sedsp.mappers.*');
  */
 class AddStudentToSED
 {
-    private  $studentTAGDataSource;
+    /* private  $studentTAGDataSource;
     private  $studentSEDDataSource;
 
     public function __construct($studentTAGDataSource = null, $studentSEDDataSource = null) {
         $this->studentTAGDataSource = $studentTAGDataSource ?? new StudentTAGDataSource();
         $this->studentSEDDataSource = $studentSEDDataSource ?? new StudentSEDDataSource();
     }
-    /**
+     /**
      * Summary of exec
      * @param mixed $tag_student_id
      * @return mixed
      */
+    /* 
     public function exec($tag_student_id)
     {
         $student = $this->studentTAGDataSource->getStudent($tag_student_id);
@@ -31,5 +32,6 @@ class AddStudentToSED
         $content = $response->getBody()->getContents();
         //Acessando os dados do aluno
         return json_decode($content);
-    }
+    } */
+     
 }

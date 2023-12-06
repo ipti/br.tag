@@ -76,6 +76,7 @@ return array(
         'sedsp',
         'classdiary',
         'curricularcomponents',
+        'foods',
         'stages'
     ),
     // application components
@@ -117,6 +118,10 @@ return array(
                 'merenda-escolar/menu'                      => 'lunch/lunch/',
                 'merenda-escolar/menu/<action:\w+>'         => 'lunch/lunch/<action>',
                 'merenda-escolar/menu/<action:\w+>/<id:\d+>'=> 'lunch/lunch/<action>',
+
+                'merenda/'                                  => 'foods/',
+                'merenda/cardápio'                          => 'foods/foodMenu/',
+                'merenda/cardápio/<action:\w+>'             => 'foods/foodMenu/<action>',
 
                 'boletim-escolar/'                          => 'schoolreport/',
                 'boletim-escolar/'                          => 'schoolreport/default/select',
