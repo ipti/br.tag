@@ -334,4 +334,13 @@ class ClassroomRobots
     {
         $this->tester->fillField('#Classroom_sedsp_max_physical_capacity', $capacity);
     }
+
+    /**
+     * Seleciona a escola para adicionar a uma turma.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function schoolSelect($schoolSelect)
+    {
+        $this->tester->selectOption('#SchoolIdentification_inep_id', $schoolSelect);
+    }
 }

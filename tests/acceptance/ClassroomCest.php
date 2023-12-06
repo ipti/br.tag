@@ -209,4 +209,41 @@ class ClassroomCest
 
         return $dataClassroom;
     }
+
+    /**
+     * Adicionar turma, preenchendo apenas os campos obrigatórios.
+     * Tipo de Mediação Didático-Pedagógica - Educação a Distância - EAD.
+     * Selecionando de maneira manual o código da escola.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function withSchoolAddClassroomEAD(AcceptanceTester $teste)
+    {
+        sleep(5);
+
+        $robots = new ClassroomRobots($teste);
+        $robots->schoolSelect('78571727');
+        sleep(5);
+
+        $robots->pageAddClassroom();
+
+        $builder = new ClassroomBuilder();
+        $dataClassroom = $builder->buildCompleted();
+
+        $robots->name($dataClassroom['name']);
+        $robots->stageVsModalaty($dataClassroom['edcenso_stage_vs_modality_fk']);
+        $robots->typeMediation($dataClassroom['pedagogical_mediation_type_EAD']);
+        $robots->modality($dataClassroom['modality']);
+        $robots->initialTime($dataClassroom['initial_time']);
+        $robots->finalTime($dataClassroom['final_time']);
+        $robots->days($dataClassroom['week_days_monday']);
+        $robots->typeService($dataClassroom['assistance_complementary_activity']);
+        sleep(2);
+        $robots->activitiesComplementary($dataClassroom['complementary_activity_type_1']);
+        $robots->btnCriar();
+        sleep(2);
+
+        $robots->addSucess();
+
+        return $dataClassroom;
+    }
 }
