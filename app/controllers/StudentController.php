@@ -474,6 +474,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
                 if ($modelStudentIdentification->save()) {
                     $modelStudentRestrictions->student_fk = $modelStudentIdentification->id;
+                    $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
                     if ($modelStudentDocumentsAndAddress->save() && $modelStudentRestrictions->save()) {
                         $saved = true;
                         if (
@@ -787,7 +788,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         if ($model == $this->STUDENT_IDENTIFICATION) {
             $return = StudentIdentification::model()->findByPk($id);
         } elseif ($model == $this->STUDENT_DOCUMENTS_AND_ADDRESS) {
-            $return = StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk' => $id));
+            $return = StudentDocumentsAndAddress::model()->findByAttributes(array('id' => $id));
             if ($return === null) {
                 $return = new StudentDocumentsAndAddress;
             }

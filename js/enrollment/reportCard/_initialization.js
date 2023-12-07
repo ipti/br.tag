@@ -65,7 +65,7 @@ $('#discipline').change(function (e, triggerEvent) {
                         html += `
                         <div class="column is-one-tenth clearleft">
                             <div class="t-field-text">
-                                <label class='t-field-text__label'>${order}° Bimestre</label>
+                                <label class='t-field-text__label'>${order}° Trimestre</label>
                                 <input type='text' class='givenClasses${i} t-field-text__input' value='${ givenClasses }'>
                             </div>
                         </div>`;
@@ -83,9 +83,9 @@ $('#discipline').change(function (e, triggerEvent) {
                                 <th rowspan='2' style='width:2%;'>Ordem</th>
                                 <th rowspan='2' style='width:2%;'>Ficha individual</th>
                                 <th rowspan='2' style='width:10%;'>Nome</th>
-                                <th colspan='2' style='width:20%;'>1° Bimestre</th>
-                                <th colspan='2' style='width:20%;'>2° Bimestre</th>
-                                <th colspan='2' style='width:20%;'>3° Bimestre</th>
+                                <th colspan='2' style='width:20%;'>1° Trimestre</th>
+                                <th colspan='2' style='width:20%;'>2° Trimestre</th>
+                                <th colspan='2' style='width:20%;'>3° Trimestre</th>
                                 <th rowspan='2' style='width:10%;vertical-align:middle;'>Média Final</th>
                             </tr>
                             <tr>
