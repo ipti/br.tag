@@ -1,3 +1,8 @@
+function parseDOM(htmlString) {
+  const wrapper = $('<div></div>');
+  wrapper.append(htmlString);
+  return wrapper;
+}
 /* DateComponent */
 
 $('.js-date').mask("99/99/9999");
@@ -407,7 +412,6 @@ const MealsComponent = function (meal) {
   }
 
   function render() {
-    
 
     const container = $(".js-meals-component");
     let template = `
@@ -425,7 +429,7 @@ const MealsComponent = function (meal) {
       <div class="row">
         <div class="t-field-text column">
           <label class="t-field-text__label--required">Hora da Refeição *</label>
-          <input type='text' class='t-field-text__input js-mealTime' required='required' name='Hora da Refeição' />
+          <input type='text' class='t-field-text__input js-mealTime' required='required' value="${meal.mealTime}" name='Hora da Refeição' />
         </div>
         <div class="t-field-select column">
             <label class='t-field-select__label--required'>Refeição *</label>
@@ -475,7 +479,11 @@ const MealsComponent = function (meal) {
     </div>     
           `;
 
-    container.append(template)
+    const wrapper = parseDOM(template);
+
+    wrapper.find(".js-mealTime").on("change", (e) =>  { meal.mealTime = e.target.value });
+    
+    container.append(wrapper.children())
 
     changeMealsName(meal.id)
     addPlateToMeal(meal.id)
