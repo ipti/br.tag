@@ -43,13 +43,13 @@ class FoodMenuController extends Controller
                     'getFoodMeasurement'),
 				'users'=>array('@'),
 			),
-            array('allow',
-                'actions'=>array('update'),
-                'users'=>array('*')
-            ),
-			// array('deny',  // deny all users
-			// 	'users'=>array('*'),
-			// ),
+            // array('allow',
+            //     'actions'=>array('update'),
+            //     'users'=>array('*')
+            // ),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
 		);
 	}
 
@@ -81,7 +81,6 @@ class FoodMenuController extends Controller
                 isset($request["food_public_target"]) &&
                 isset($request["description"])
             ){
-                // $transaction = Yii::app()->db->beginTransaction();
                 $message = null;
                 // Atribui valores às propriedades do model foodMenu(Cardápio) e trata o formato das datas
                 $startTimestamp = strtotime(str_replace('/', '-', $request["start_date"]));
@@ -171,10 +170,9 @@ class FoodMenuController extends Controller
             // Convertendo objeto do cardápio em um JSON para enviar como resposta da requisição AJAX
             $response = json_encode((array) $foodMenu);
 
-            echo $response;
-            // $this->render('update', array(
-            //     'data'=>$response,
-            // ));
+            $this->render('update', array(
+                'data'=>$response,
+            ));
         }
 	}
 
