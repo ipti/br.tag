@@ -14,6 +14,14 @@ $(document).on("click", "#js-entry-stock-button", function () {
     maxViewMode: 2,
     showClearButton: false
     });
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/foodInventory/getFoodAlias",
+        cache: false
+    }).success(function(response) {
+        //foods_description = JSON.parse(response);
+        console.log(response)
+    })
 });
 
 $(document).on("click", "#add-food", function () {
