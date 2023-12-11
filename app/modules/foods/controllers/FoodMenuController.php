@@ -68,63 +68,69 @@ class FoodMenuController extends Controller
 	{
         $modelFoodMenu = new FoodMenu;
         $request = Yii::app()->request->getPost('foodMenu');
+        $transaction = Yii::app()->db->beginTransaction();
         // Verifica se há dados na requisição enviada
-		if($request !== null)
+        // Caso negativo, renderiza o formulário
+		if($request === null)
 		{
-            if(
-                isset($request["start_date"]) &&
-                isset($request["final_date"]) &&
-                isset($request["food_public_target"]) &&
-                isset($request["description"])
-            ){
-                $message = null;
-                // Atribui valores às propriedades do model foodMenu(Cardápio) e trata o formato das datas
-                $startTimestamp = strtotime(str_replace('/', '-', $request["start_date"]));
-                $finalTimestamp = strtotime(str_replace('/', '-', $request["final_date"]));
-                $modelFoodMenu->start_date = date('Y-m-d', $startTimestamp);
-                $modelFoodMenu->final_date = date('Y-m-d', $finalTimestamp);
-                $modelFoodMenu->observation = $request['observation'];
-                $modelFoodMenu->description = $request['description'];
-
-                // Verifica se a ação de salvar foodMenu ocorreu com sucesso
-                if($modelFoodMenu->save()){
-                    // Atribui valores às propriedades do model FoodMenuVsFoodPublicTarget (Tabela N:N entre cardápio e publico alvo)
-                    $publicTarget = FoodPublicTarget::model()->findByPk($request['food_public_target']);
-                    $foodMenuVsPublicTarget = new FoodMenuVsFoodPublicTarget;
-                    $foodMenuVsPublicTarget->food_menu_fk = $modelFoodMenu->id;
-                    $foodMenuVsPublicTarget->food_public_target_fk = $publicTarget->id;
-                    $foodMenuVsPublicTarget->save();
-
-                    // Chamando método que irá salvar novos registros do cardápio
-                    $this->saveFoodMenuRelations($modelFoodMenu, $request);
-                    header('HTTP/1.1 201 Created');
-                    Log::model()->saveAction("foodMenu", $modelFoodMenu->id, "C", $modelFoodMenu->description);
-                    Yii::app()->end();
-                }else{
-                    $message = 'Ocorreu um erro ao salvar o cardápio! Tente novamente.';
-                    $transaction->rollback();
-                    throw new CHttpException(500, $message);
-                }
-            }else{
-                // Caso de erro> Falha quando um dos campos obrigatórios do cardápio não foram enviados
-                $message = 'Ocorreu um erro! Campos obrigatórios do Cardápio não foram preenchidos.';
-                throw new CHttpException(400, $message);
-            }
-        }else{
             $this->render('create', array(
                 'model'=>$modelFoodMenu,
             ));
         }
+
+        $allFieldsAreFilled =   isset($request["start_date"]) &&
+                                isset($request["final_date"]) &&
+                                isset($request["food_public_target"]) &&
+                                isset($request["description"]);
+
+        if($allFieldsAreFilled === false){
+            // Caso de erro> Falha quando um dos campos obrigatórios do cardápio não foram enviados
+            $message = 'Ocorreu um erro! Campos obrigatórios do Cardápio não foram preenchidos.';
+            throw new CHttpException(400, $message);
+        }
+
+        $message = null;
+        // Atribui valores às propriedades do model foodMenu(Cardápio) e trata o formato das datas
+        $startTimestamp = strtotime(str_replace('/', '-', $request["start_date"]));
+        $finalTimestamp = strtotime(str_replace('/', '-', $request["final_date"]));
+        $modelFoodMenu->start_date = date('Y-m-d', $startTimestamp);
+        $modelFoodMenu->final_date = date('Y-m-d', $finalTimestamp);
+        $modelFoodMenu->observation = $request['observation'];
+        $modelFoodMenu->description = $request['description'];
+
+        // Verifica se a ação de salvar foodMenu ocorreu com sucesso, caso falhe encerra a aplicação
+        $saveFoodMenuResult = $modelFoodMenu->save();
+
+        if($saveFoodMenuResult == false){
+            $message = 'Ocorreu um erro ao salvar o cardápio! Tente novamente.';
+            $transaction->rollback();
+            throw new CHttpException(500, $message);
+        }
+
+        // Atribui valores às propriedades do model FoodMenuVsFoodPublicTarget (Tabela N:N entre cardápio e publico alvo)
+        $publicTarget = FoodPublicTarget::model()->findByPk($request['food_public_target']);
+        $foodMenuVsPublicTarget = new FoodMenuVsFoodPublicTarget;
+        $foodMenuVsPublicTarget->food_menu_fk = $modelFoodMenu->id;
+        $foodMenuVsPublicTarget->food_public_target_fk = $publicTarget->id;
+        $foodMenuVsPublicTarget->save();
+
+        // Salvar alterações no banco
+        $transaction->commit();
+
+        // Chamando método que irá salvar novos registros do cardápio
+        $this->createFoodMenuRelations($modelFoodMenu, $request);
+        header('HTTP/1.1 201 Created');
+        Log::model()->saveAction("foodMenu", $modelFoodMenu->id, "C", $modelFoodMenu->description);
+        Yii::app()->end();
 	}
 
-    	/**
-	 * Updates a particular model.
+    /**
+     * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
 	public function actionUpdate($id)
 	{
-		// $request = Yii::app()->request->getPost('foodMenu');
         $request = Yii::app()->request->getRawBody();
         $request = json_decode($request, true);
         $modelFoodMenu=$this->loadModel($id);
@@ -144,7 +150,7 @@ class FoodMenuController extends Controller
                 $modelMenuMeal->delete();
             }
             // Chamada de função que irá salvar as novas informações do cardápio
-            $this->saveFoodMenuRelations($modelFoodMenu, $request);
+            $this->createFoodMenuRelations($modelFoodMenu, $request);
         }else{
             // Bloco de código para identificar qual o público alvo do cardápio
             $publicTargetSql = "
@@ -195,7 +201,6 @@ class FoodMenuController extends Controller
 
 		echo CJSON::encode($result);
 	}
-
 
 	/**
 	 * Deletes a particular model.
@@ -271,16 +276,23 @@ class FoodMenuController extends Controller
 			Yii::app()->end();
 		}
 	}
-    protected function saveFoodMenuRelations($modelFoodMenu, $request){
+    protected function createFoodMenuRelations($modelFoodMenu, $request){
         // Trecho de código para inserir novas informações
         $weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
         foreach($weekDays as $day){
             // Verifica se existe alguma refeição para o dia
             if($request[$day] !== null){
                 // $meals se trata da lista de refeições que um dia da semana pode ter
-                $transaction = Yii::app()->db->beginTransaction();
                 $meals = $request[$day];
-                foreach($meals as $meal)
+                $this->createMeals($modelFoodMenu, $meals, $day);
+            }
+        }
+    }
+    /**
+     * Método que salva no banco as alterações referentes às refeições
+     */
+    private function createMeals($modelFoodMenu,$meals, $day){
+        foreach($meals as $meal)
                 {
                     $foodMenuMeal = new FoodMenuMeal;
                     $foodMealType = FoodMealType::model()->findByPk($meal["food_meal_type"]);
@@ -331,11 +343,8 @@ class FoodMenuController extends Controller
                         throw new CHttpException(500, $message);
                     }
                 }
-            }
-        }
-        // Salvar alterações no banco
-        $transaction->commit();
     }
+
     /**
      * Método que retorna os públicos alvos que podem estar relacionados a um cardápio
      */
