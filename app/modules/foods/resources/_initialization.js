@@ -40,6 +40,14 @@ if(menuId)  {
     
     //segunda
     menuUpdate.monday.map((e) => {
+        let plates = []
+        e.meals_component.forEach((mealComponent)=>{
+            plates.push({
+                    description: mealComponent.description,
+                    id: plates.length,
+                    food_ingredients: mealComponent.food_ingredients
+            })
+        })
         meals.push({
             id: meals.length,
             mealDay: 1, 
@@ -47,7 +55,7 @@ if(menuId)  {
             mealTypeId: e.food_meal_type,
             mealType: 'Turno da refeição',
             shift: e.turn,
-            plates: e.meals_component  
+            plates: plates
         })
        
     })

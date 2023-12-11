@@ -259,7 +259,7 @@ class FoodMenuController extends Controller
                             "food_ingredients" => [
                                 [
                                     "amount" => "12",
-                                    "food_id_fk" => "1",
+                                    "food_id_fk" => "12",
                                     "food_measure_unit_id" => "1"
                                 ]
                             ]
