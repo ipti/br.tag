@@ -16,21 +16,18 @@ define ("DBCONFIG", serialize (array(
 
 
 return CMap::mergeArray(
-    require(dirname(__FILE__).'/main.php'),
-    array(
-        'components'=>array(
-            'fixture'=>array(
-                'class'=>'system.test.CDbFixtureManager',
-            ),
-            'db' => array(
-                'class'=>'CDbConnection',
-                'connectionString'=>'mysql:host=localhost;dbname=demo.tag.ong.br',
-                'username'=>'root',
-                'password'=>'root',
-                'emulatePrepare'=>true,  // needed by some MySQL installations
-            ),
-            /* uncomment the following to provide test database connection
-            // */
-        ),
-    )
+	require(dirname(__FILE__).'/main.php'),
+
+	array(
+		'components'=>array(
+			'fixture'=>array(
+				'class'=>'system.test.CDbFixtureManager',
+			),
+			/* uncomment the following to provide test database connection
+			// 'db'=>array(
+			// 	'connectionString'=>'DSN for test database',
+			// ),
+			// */
+		),
+	)
 );
