@@ -724,7 +724,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         if ($sid != null) {
             $student = $this->loadModel($sid, $this->STUDENT_IDENTIFICATION);
             if (isset($student->studentEnrollments[0]->id)) {
-                $merId = $student->studentEnrollments[0]->id;
+                $enrollmentId = $student->studentEnrollments[0]->id;
                 @$stage = $student->studentEnrollments[0]->classroomFk->edcensoStageVsModalityFk->stage;
                 $type = 1;
                 if ($stage == 1) {
@@ -748,7 +748,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                     'a',
                     array(
                         'target' => '_blank', 'href' => yii::app()->createUrl(
-                        '/forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $merId)
+                        '/forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $enrollmentId)
                     ),
                         'class' => "btn btn-primary btn-icon glyphicons notes_2",
                         'style' => 'margin-top: 5px; width: 110px'

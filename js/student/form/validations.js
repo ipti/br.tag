@@ -226,6 +226,7 @@ $(formIdentification + "nationality").change(function () {
     let br = nationality + ".br";
     let nobr = nationality + ".no-br";
     let simple = getUrlVars()["simple"];
+    const visbilityWhenSimple = simple === "1" ? "none" : "block";
     $(nationality).attr("disabled", "disabled");
     if ($(this).val() == 3) {
         $(nobr).removeAttr("disabled");
@@ -240,13 +241,13 @@ $(formIdentification + "nationality").change(function () {
             .trigger("change.select2");
         $(formIdentification + "edcenso_uf_fk")
             .closest(".js-change-required")
-            .css("display", simple === "1" ? "none" : "block")
+            .css("display", visbilityWhenSimple)
             .find("label")
             .removeClass("required")
             .html("Estado");
         $(formIdentification + "edcenso_city_fk")
             .closest(".js-change-required")
-            .css("display", simple === "1" ? "none" : "block")
+            .css("display", visbilityWhenSimple)
             .find("label")
             .removeClass("required")
             .html("Cidade");
@@ -260,7 +261,7 @@ $(formIdentification + "nationality").change(function () {
             .val("")
             .trigger("change.select2")
             .closest(".js-change-required")
-            .css("display", simple == "1" ? "none" : "block")
+            .css("display", visbilityWhenSimple)
             .find("label")
             .removeClass("required")
             .html("Estado");
@@ -268,7 +269,7 @@ $(formIdentification + "nationality").change(function () {
             .val("")
             .trigger("change.select2")
             .closest(".js-change-required")
-            .css("display", simple == "1" ? "none" : "block")
+            .css("display", visbilityWhenSimple)
             .find("label")
             .removeClass("required")
             .html("Cidade");
@@ -301,7 +302,7 @@ $(formIdentification + "nationality").change(function () {
                 .trigger("change.select2")
                 .attr("disabled", "disabled")
                 .closest(".js-change-required")
-                .css("display", simple == "1" ? "none" : "block")
+                .css("display", visbilityWhenSimple)
                 .find("label")
                 .removeClass("required")
                 .html("Estado");
@@ -310,7 +311,7 @@ $(formIdentification + "nationality").change(function () {
                 .trigger("change.select2")
                 .attr("disabled", "disabled")
                 .closest(".js-change-required")
-                .css("display", simple == "1" ? "none" : "block")
+                .css("display", visbilityWhenSimple)
                 .find("label")
                 .removeClass("required")
                 .html("Cidade");
