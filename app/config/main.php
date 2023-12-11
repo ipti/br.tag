@@ -84,6 +84,9 @@ return array(
         'utils' => array(
             'class' => 'application.components.utils.TagUtils'
         ),
+        'features' => array(
+            'class' => 'application.components.FeaturesComponent'
+        ),
         'assetManager' => array(
             'forceCopy' => YII_DEBUG
         ),

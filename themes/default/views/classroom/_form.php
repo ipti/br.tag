@@ -27,7 +27,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="mobile-row ">
     <div class="column clearleft">
         <?php
-        if (!$modelClassroom->isNewRecord && TagUtils::isInstance("UBATUBA")) {
+        if (!$modelClassroom->isNewRecord && Yii::app()->features->isEnable("FEAT_SEDSP")) {
             $sedspSync = Classroom::model()->findByPk($modelClassroom->id)->sedsp_sync;
             ?>
             <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
@@ -70,7 +70,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <div class="alert classroom-alert alert-error">
                 <?php echo Yii::app()->user->getFlash('error') ?>
             </div>
-        <?php } elseif (TagUtils::isInstance("UBATUBA") && $disabledFields) { ?>
+        <?php } elseif (Yii::app()->features->isEnable("FEAT_SEDSP") && $disabledFields) { ?>
             <div class="alert classroom-alert alert-warning">
                 Alguns campos foram desabilitados porque a turma possui alunos matriculados e o SEDSP não autoriza
                 realizar edições em tais campos.
@@ -165,7 +165,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ?>
                                 <?php echo $form->error($modelClassroom, 'modality'); ?>
                             </div>
-                            <?php if (TagUtils::isInstance("UBATUBA")) { ?>
+                            <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")) { ?>
                                 <!--Gov ID-->
                                 <div class="t-field-text js-hide-not-required">
                                     <?php echo $form->labelEx($modelClassroom, 'gov_id', array('class' => 't-field-text__label')); ?>
@@ -192,7 +192,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                      alt="TAG Loading">
                             </div>
 
-                            <?php if (TagUtils::isInstance("UBATUBA")): ?>
+                            <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
                                 <!-- Unidade Escolar -->
                                 <div class="t-field-select" id="sedsp_school_unity_fk">
                                     <?php echo $form->labelEx($modelClassroom, 'Unidade Escolar *', array('class' => 't-field-select__label--required')); ?>
@@ -619,7 +619,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo Yii::t('default', 'Ata de Notas') ?>
                                         </a>
                                     </div>
-                                    <?php if (TagUtils::isInstance("UBATUBA") && count($modelEnrollments) > 0): ?>
+                                    <?php if (Yii::app()->features->isEnable("FEAT_SEDSP") && count($modelEnrollments) > 0): ?>
                                         <div class="reports_cards">
                                             <button class="t-button-primary sync-enrollments">
                                                 <span class="t-icon-export"></span>
@@ -687,7 +687,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div id="widget-StudentsList" class="widget" style="margin-top: 8px;">
                             <?php
-                            $columnCount = TagUtils::isInstance("UBATUBA") ? 6 : 5;
+                            $columnCount = Yii::app()->features->isEnable("FEAT_SEDSP") ? 6 : 5;
                             ?>
                             <style type="text/css" media="print">
                                 a[href]:after {
@@ -701,7 +701,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <th><?php echo Yii::t('default', 'Pedido') ?></th>
                                     <th><?php echo Yii::t('default', 'Enrollment') ?></th>
                                     <th><?php echo Yii::t('default', 'Name') ?></th>
-                                    <?= TagUtils::isInstance("UBATUBA") ? "<th>Sincronizado</th>" : "" ?>
+                                    <?= Yii::app()->features->isEnable("FEAT_SEDSP") ? "<th>Sincronizado</th>" : "" ?>
                                     <th><?php echo Yii::t('default', 'Print') ?></th>
                                 </tr>
 
@@ -720,7 +720,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <td>
                                                 <a href="<?= Yii::app()->createUrl('student/update', array('id' => $enrollment["studentId"])) ?>"> <?= $enrollment["studentName"] ?></a>
                                             </td>
-                                            <?php if (TagUtils::isInstance("UBATUBA")): ?>
+                                            <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
                                                 <td class="sync-column">
                                                     <?php if ($enrollment["synced"]) { ?>
                                                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"

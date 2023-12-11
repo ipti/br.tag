@@ -33,28 +33,28 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="mobile-row ">
     <div class="column clearleft">
         <?php
-        if (!$modelStudentIdentification->isNewRecord && TagUtils::isInstance("UBATUBA")) {
+        if (!$modelStudentIdentification->isNewRecord && Yii::app()->features->isEnable("FEAT_SEDSP")):
             $sedspSync = StudentIdentification::model()->findByPk($modelStudentIdentification->id)->sedsp_sync;
             ?>
-            <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
-                <?php if ($sedspSync) { ?>
-                    <div style="font-weight: bold;margin-right: 20px;">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
-                             style="width: 25px; margin-right: 2px;">Sincronizado
-                    </div>
-                <?php } else { ?>
-                    <div style="font-weight: bold;margin-right: 20px;">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
-                             style="width: 25px;margin-right: 2px;">Não sincronizado
-                    </div>
-                <?php } ?>
+                <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
+                    <?php if ($sedspSync): ?>
+                            <div style="font-weight: bold;margin-right: 20px;">
+                                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
+                                     style="width: 25px; margin-right: 2px;">Sincronizado
+                            </div>
+                    <?php else: ?>
+                            <div style="font-weight: bold;margin-right: 20px;">
+                                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
+                                     style="width: 25px;margin-right: 2px;">Não sincronizado
+                            </div>
+                    <?php endif; ?>
 
-                <a class="update-student-from-sedsp"
-                   style="margin-right: 10px;background: #2e33b7;color: white;font-size: 13px;padding-left: 4px;padding-right: 4px;border-radius: 6px;cursor: pointer">
-                    Importar dados da SED
-                </a>
-            </div>
-        <?php } ?>
+                    <a class="update-student-from-sedsp"
+                       style="margin-right: 10px;background: #2e33b7;color: white;font-size: 13px;padding-left: 4px;padding-right: 4px;border-radius: 6px;cursor: pointer">
+                        Importar dados da SED
+                    </a>
+                </div>
+        <?php endif; ?>
         <h1><?php echo $title; ?></h1>
     </div>
     <div class="column clearfix align-items--center justify-content--end show--desktop">
@@ -75,15 +75,15 @@ $form = $this->beginWidget('CActiveForm', array(
         echo $form->errorSummary($modelStudentDocumentsAndAddress);
         ?>
         <?php if (Yii::app()->user->hasFlash('success') && (!$modelClassroom->isNewRecord)) { ?>
-            <div class="alert student-alert alert-success">
-                <?php echo Yii::app()->user->getFlash('success') ?>
-            </div>
+                <div class="alert student-alert alert-success">
+                    <?php echo Yii::app()->user->getFlash('success') ?>
+                </div>
         <?php } elseif (Yii::app()->user->hasFlash('error') && (!$modelClassroom->isNewRecord)) { ?>
-            <div class="alert student-alert alert-error">
-                <?php echo Yii::app()->user->getFlash('error') ?>
-            </div>
+                <div class="alert student-alert alert-error">
+                    <?php echo Yii::app()->user->getFlash('error') ?>
+                </div>
         <?php } else { ?>
-            <div class="alert student-alert no-show"></div>
+                <div class="alert student-alert no-show"></div>
         <?php } ?>
         <div class="t-tabs js-tab-control">
             <ul class="tab-student t-tabs__list">
@@ -167,8 +167,8 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-checkbox js-hide-not-required" id="show-student-civil-name-box">
                                 <input type="checkbox" class="t-field-checkbox__input"
                                        id="show-student-civil-name" <?php if ($modelStudentIdentification->civil_name != null) {
-                                    echo "checked";
-                                } ?>>
+                                           echo "checked";
+                                       } ?>>
                                 <label class="t-field-checkbox__label">Esse é um nome social?</label>
                             </div>
                             <div class="t-field-text student-civil-name" id="civilName" style="display: none;">
@@ -324,24 +324,24 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-                    <?php if (TagUtils::isInstance("UBATUBA")) { ?>
-                        <!--Gov ID-->
-                        <div class="row">
-                            <div class="column clearleft is-two-fifths">
-                                <div class="t-field-text js-hide-not-required">
-                                    <?php echo $form->labelEx($modelStudentIdentification, 'gov_id', array('class' => 't-field-text__label')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'gov_id', array('size' => 60, 'maxlength' => 12,
-                                        'class' => 't-field-text__input', 'placeholder' => 'Não possui', 'disabled' => 'disabled')); ?>
-                                    <button type="button" id="copy-gov-id" class="t-button-icon">
-                                        <span class="t-icon-copy"></span>
-                                    </button>
-                                    <span id="copy-message" style="display:none;">
-                                </span>
-                                    <?php echo $form->error($modelStudentIdentification, 'gov_id'); ?>
+                    <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
+                            <!--Gov ID-->
+                            <div class="row">
+                                <div class="column clearleft is-two-fifths">
+                                    <div class="t-field-text js-hide-not-required">
+                                        <?php echo $form->labelEx($modelStudentIdentification, 'gov_id', array('class' => 't-field-text__label')); ?>
+                                        <?php echo $form->textField($modelStudentIdentification, 'gov_id', array('size' => 60, 'maxlength' => 12,
+                                            'class' => 't-field-text__input', 'placeholder' => 'Não possui', 'disabled' => 'disabled')); ?>
+                                        <button type="button" id="copy-gov-id" class="t-button-icon">
+                                            <span class="t-icon-copy"></span>
+                                        </button>
+                                        <span id="copy-message" style="display:none;">
+                                    </span>
+                                        <?php echo $form->error($modelStudentIdentification, 'gov_id'); ?>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    <?php } ?>
+                    <?php endif; ?>
                 </div>
 
 
@@ -365,7 +365,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-select" id="filiation-select">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation', array('class' => 't-field-select__label--required')); ?>
                                 <?php
-                                if (TagUtils::isInstance("UBATUBA")) {
+                                if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
                                     echo $form->DropDownList(
                                         $modelStudentIdentification,
                                         'filiation',
@@ -389,7 +389,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-select" id="responsable-select">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable', array('class' => 't-field-select__label')); ?>
                                 <?php
-                                echo $form->dropDownList($modelStudentIdentification, 'responsable', array(null => "Selecione o responsável", 0 => 'Pai', 1 => 'Mãe', 2 => 'Outro',),
+                                echo $form->dropDownList($modelStudentIdentification, 'responsable', array(null => "Selecione o responsável", 0 => 'Pai', 1 => 'Mãe', 2 => 'Outro', ),
                                     array('class' => 'select-search-off t-field-select__input select2-container'));
                                 ?>
                                 <?php echo $form->error($modelStudentIdentification, 'responsable'); ?>
@@ -701,15 +701,15 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </label>
                             </div>
                         </div>
-                        <?php if (INSTANCE == "CLOC") : ?>
-                            <div class="column clearleft--on-mobile is-two-fifths">
-                                <label class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'consent_form',
-                                        array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0,
-                                            'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->consent_form)); ?>
-                                    <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['consent_form']; ?>
-                                </label>
-                            </div>
+                        <?php if (INSTANCE == "CLOC"): ?>
+                                <div class="column clearleft--on-mobile is-two-fifths">
+                                    <label class="t-field-checkbox">
+                                        <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'consent_form',
+                                            array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0,
+                                                'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->consent_form)); ?>
+                                        <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['consent_form']; ?>
+                                    </label>
+                                </div>
                         <?php endif; ?>
                     </div>
                     <div class="row">
@@ -1179,17 +1179,17 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column clearleft is-two-fifths">
                             <div class="t-buttons-container">
                                 <?php
-                                if (TagUtils::isInstance("UBATUBA")) {
+                                if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
                                     $idStudent = isset($_GET['id']) ? $_GET['id'] : null;
 
                                     if ($idStudent !== null) {
-                                        $sql = "SELECT COUNT(*) FROM classroom 
-                                                    WHERE id IN (SELECT classroom_fk FROM student_enrollment WHERE student_fk = :idStudent AND status = 1) 
+                                        $sql = "SELECT COUNT(*) FROM classroom
+                                                    WHERE id IN (SELECT classroom_fk FROM student_enrollment WHERE student_fk = :idStudent AND status = 1)
                                                     AND school_year = :schoolYear";
 
                                         $command = Yii::app()->db->createCommand($sql);
                                         $command->bindValues(array(':idStudent' => $idStudent, ':schoolYear' => Yii::app()->user->year));
-                                        $existEnrollment = (int)$command->queryScalar();
+                                        $existEnrollment = (int) $command->queryScalar();
 
                                         if ($existEnrollment === 0) {
                                             echo '<a href="#" class="t-button-primary" id="new-enrollment-button">Adicionar Matrícula</a>';
@@ -1204,8 +1204,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ?>
                                 <?php
                                 echo $modelStudentIdentification->isNewRecord ? "" : '<a href=' . @Yii::app()->createUrl('student/transfer',
-                                        array('id' => $modelStudentIdentification->id)) . ' class="t-button-secondary" id="transfer-student">Transferir Matrícula</a>'
-                                ?>
+                                    array('id' => $modelStudentIdentification->id)) . ' class="t-button-secondary" id="transfer-student">Transferir Matrícula</a>'
+                                    ?>
                             </div>
                         </div>
                     </div>
@@ -1542,9 +1542,9 @@ $form = $this->beginWidget('CActiveForm', array(
                         $error = $modelEnrollment->getErrors('enrollment_id');
                         if (!empty($error)) {
                             ?>
-                            <div class="alert alert-error">
-                                <?php echo $error[0]; ?>
-                            </div>
+                                <div class="alert alert-error">
+                                    <?php echo $error[0]; ?>
+                                </div>
                         <?php } ?>
                         <div id="enrollment" class="widget widget-scroll margin-bottom-none">
                             <div class="row">
@@ -1558,189 +1558,189 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php
                                         foreach ($modelStudentIdentification->studentEnrollments as $me) {
                                             ?>
-                                            <div class="ui-accordion-header justify-content--space-between">
-                                                <div>
-                                                    <div class="mobile-row align-items--center">
-                                                        <h4 class="t-title"><?php echo $me->classroomFk->name ?>
-                                                            - <?php echo $me->classroomFk->school_year ?></h4>
-                                                        <?php
-                                                        switch ($me->status) {
-                                                            case "1":
-                                                                echo "<label class='t-badge-success'>Matriculado</label>";
-                                                                break;
-                                                            case "2":
-                                                                $transfer_date = "";
-                                                                if (isset($me->transfer_date)) {
-                                                                    $transfer_date = date_create_from_format('Y-m-d', $me->transfer_date)->format('d/m/Y');
-                                                                }
-                                                                echo "<label class='t-badge-success'>Transferido " . $transfer_date . "</label>";
-                                                                break;
-                                                            case "3":
-                                                                echo "<label class='t-badge-critical'>Cancelado</label>";
-                                                                break;
-                                                            case "4":
-                                                                echo "<label class='t-badge-critical'>Deixou de Frequentar</label>";
-                                                                break;
-                                                            case "5":
-                                                                echo "<label class='t-badge-warning'>Remanejado</label>";
-                                                                break;
-                                                            case "6":
-                                                                echo "<label class='t-badge-success'>Aprovado</label>";
-                                                                break;
-                                                            case "7":
-                                                                echo "<label class='t-badge-success'>Aprovado pelo Conselho</label>";
-                                                                break;
-                                                            case "8":
-                                                                echo "<label class='t-badge-critical'>Reprovado</label>";
-                                                                break;
-                                                            case "9":
-                                                                echo "<label class='t-badge-success'>Concluinte</label>";
-                                                                break;
-                                                            case "10":
-                                                                echo "<label class='t-badge-warning'>Indeterminado</label>";
-                                                                break;
-                                                            case "11":
-                                                                echo "<label class='t-badge-critical'>Falecido</label>";
-                                                                break;
-                                                            default:
-                                                                echo "";
-                                                        }
-                                                        ?>
-                                                        <?php if ($me->classroomFk->school_year >= Yii::app()->user->year) { ?>
-                                                            <a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)); ?>'
-                                                               class="t-link-button--info">
-                                                                <div class="t-icon-pencil t-icon"></div>
-                                                            </a>
-                                                        <?php } ?>
-
-                                                    </div>
-                                                    <div id="accordion-school-label" class="mobile-row">
-                                                        <label class="accordion-label"><?php echo $me->schoolInepIdFk->name ?></label>
-                                                    </div>
-                                                </div>
-                                                <div class="align-items--center">
-                                                    <?php
-                                                    if (!$modelStudentIdentification->isNewRecord && TagUtils::isInstance("UBATUBA")) {
-                                                        $sedspSync = StudentEnrollment::model()->findByPk($me->id)->sedsp_sync;
-                                                        ?>
-                                                        <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
-                                                            <?php if ($sedspSync) { ?>
-                                                                <div style="font-weight: bold;margin-right: 20px;">
-                                                                    <img src="/themes/default/img/SyncTrue.png"
-                                                                         title="Sincronizado"
-                                                                         style="width: 20px;margin-right: 20px;">
-                                                                </div>
-                                                            <?php } else { ?>
-                                                                <div style="font-weight: bold;margin-right: 20px;">
-                                                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
-                                                                         title="Não Sincronizado"
-                                                                         style="width: 20px;margin-right: 20px;">
-                                                                </div>
+                                                <div class="ui-accordion-header justify-content--space-between">
+                                                    <div>
+                                                        <div class="mobile-row align-items--center">
+                                                            <h4 class="t-title"><?php echo $me->classroomFk->name ?>
+                                                                - <?php echo $me->classroomFk->school_year ?></h4>
+                                                            <?php
+                                                            switch ($me->status) {
+                                                                case "1":
+                                                                    echo "<label class='t-badge-success'>Matriculado</label>";
+                                                                    break;
+                                                                case "2":
+                                                                    $transfer_date = "";
+                                                                    if (isset($me->transfer_date)) {
+                                                                        $transfer_date = date_create_from_format('Y-m-d', $me->transfer_date)->format('d/m/Y');
+                                                                    }
+                                                                    echo "<label class='t-badge-success'>Transferido " . $transfer_date . "</label>";
+                                                                    break;
+                                                                case "3":
+                                                                    echo "<label class='t-badge-critical'>Cancelado</label>";
+                                                                    break;
+                                                                case "4":
+                                                                    echo "<label class='t-badge-critical'>Deixou de Frequentar</label>";
+                                                                    break;
+                                                                case "5":
+                                                                    echo "<label class='t-badge-warning'>Remanejado</label>";
+                                                                    break;
+                                                                case "6":
+                                                                    echo "<label class='t-badge-success'>Aprovado</label>";
+                                                                    break;
+                                                                case "7":
+                                                                    echo "<label class='t-badge-success'>Aprovado pelo Conselho</label>";
+                                                                    break;
+                                                                case "8":
+                                                                    echo "<label class='t-badge-critical'>Reprovado</label>";
+                                                                    break;
+                                                                case "9":
+                                                                    echo "<label class='t-badge-success'>Concluinte</label>";
+                                                                    break;
+                                                                case "10":
+                                                                    echo "<label class='t-badge-warning'>Indeterminado</label>";
+                                                                    break;
+                                                                case "11":
+                                                                    echo "<label class='t-badge-critical'>Falecido</label>";
+                                                                    break;
+                                                                default:
+                                                                    echo "";
+                                                            }
+                                                            ?>
+                                                            <?php if ($me->classroomFk->school_year >= Yii::app()->user->year) { ?>
+                                                                    <a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)); ?>'
+                                                                       class="t-link-button--info">
+                                                                        <div class="t-icon-pencil t-icon"></div>
+                                                                    </a>
                                                             <?php } ?>
+
                                                         </div>
-                                                    <?php } ?>
-                                                    <span class="t-icon-down_arrow accordion-arrow-icon"></span>
-                                                </div>
-                                            </div>
-                                            <div class="ui-accordion-content">
-                                                <div class="mobile-row">
-                                                    <label class="accordion-label--title">Turma:</label>
-                                                    <a href='<?php echo Yii::app()->createUrl("classroom/update", array("id" => $me->classroomFk->id)); ?>'
-                                                       class="t-link-button--info accordion-label">
-                                                        <?php echo $me->classroomFk->name; ?>
-                                                    </a>
-                                                </div>
-                                                <div class="mobile-row">
-                                                    <label class="accordion-label--title">Turno:</label>
-                                                    <label class="accordion-label">
-                                                        <?php
-                                                        switch ($me->classroomFk->turn) {
-                                                            case "M":
-                                                                echo "Matutino";
-                                                                break;
-                                                            case "T":
-                                                                echo "Vespertino";
-                                                                break;
-                                                            case "N":
-                                                                echo "Noturno";
-                                                                break;
-                                                            case "I":
-                                                                echo "Integral";
-                                                                break;
-                                                            default:
-                                                                echo "-";
-                                                        }
-                                                        ?>
-                                                    </label>
-                                                </div>
-                                                <div class="mobile-row">
-                                                    <label class="accordion-label--title">Ano:</label>
-                                                    <label class="accordion-label"><?php echo $me->classroomFk->school_year ?></label>
-                                                </div>
-                                                <div class="mobile-row upper-margin">
-                                                    <label class="accordion-label--title">Formulários:</label>
-                                                </div>
-                                                <div class="reports">
-                                                    <?php
-                                                    $forms = unserialize(FORMS);
-                                                    foreach ($forms as $item) {
-                                                        $link = Yii::app()->createUrl('forms/' . $item['action'], array('type' => $type, 'enrollment_id' => $me->id));
-                                                        ?>
-                                                        <a class="<?= $item['name'] == "Ficha de Matrícula" ? 't-button-primary' : 't-button-secondary' ?> mobile-margin"
-                                                           rel="noopener" target="_blank" href="<?= $link ?>">
-                                                            <span class="t-icon-printer"></span>
-                                                            <?php echo $item['name'] ?>
-                                                        </a>
-                                                        <?php
-                                                    }
-                                                    ?>
-                                                    <a class="t-button-secondary" rel="noopener" target="_blank"
-                                                       href="<?php echo @Yii::app()->createUrl('forms/EnrollmentGradesReport'
-                                                           , array('enrollment_id' => $me->id)) ?>">
-                                                        <span class="t-icon-printer"></span>
-                                                        Rendimento Escolar Por Atividades
-                                                    </a>
-                                                    <a class="t-button-secondary" rel="noopener" target="_blank"
-                                                       href="<?php echo @Yii::app()->createUrl('forms/IndividualRecord', array('enrollment_id' => $me->id)) ?>">
-                                                        <span class="t-icon-printer"></span>
-                                                        Ficha Individual
-                                                    </a>
-                                                </div>
-                                                <?php if ($me->classroomFk->school_year == date('Y')) { ?>
-                                                    <div class="mobile-row">
-                                                        <label class="accordion-label--title">Questionários:</label>
+                                                        <div id="accordion-school-label" class="mobile-row">
+                                                            <label class="accordion-label"><?php echo $me->schoolInepIdFk->name ?></label>
+                                                        </div>
                                                     </div>
-                                                <?php } ?>
-                                                <div class="reports">
-                                                    <?php
-                                                    if ($me->classroomFk->school_year == date('Y')) {
-                                                        $date = date('Y-m-d');
-                                                        $quizs = Quiz::model()->findAll('status = 1 AND init_date <=:init_date AND final_date >=:final_date'
-                                                            , [':init_date' => $date, ':final_date' => $date]);
-                                                        if (count($quizs) > 0) {
-                                                            foreach ($quizs as $quiz) {
-                                                                $link = Yii::app()->createUrl('quiz/default/answer', array('quizId' => $quiz->id, 'studentId' => $me->studentFk->id));
-                                                                ?>
-                                                                <a class="t-button-secondary mobile-margin"
+                                                    <div class="align-items--center">
+                                                        <?php
+                                                        if (!$modelStudentIdentification->isNewRecord && Yii::app()->features->isEnable("FEAT_SEDSP")) {
+                                                            $sedspSync = StudentEnrollment::model()->findByPk($me->id)->sedsp_sync;
+                                                            ?>
+                                                                <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
+                                                                    <?php if ($sedspSync) { ?>
+                                                                            <div style="font-weight: bold;margin-right: 20px;">
+                                                                                <img src="/themes/default/img/SyncTrue.png"
+                                                                                     title="Sincronizado"
+                                                                                     style="width: 20px;margin-right: 20px;">
+                                                                            </div>
+                                                                    <?php } else { ?>
+                                                                            <div style="font-weight: bold;margin-right: 20px;">
+                                                                                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
+                                                                                     title="Não Sincronizado"
+                                                                                     style="width: 20px;margin-right: 20px;">
+                                                                            </div>
+                                                                    <?php } ?>
+                                                                </div>
+                                                        <?php } ?>
+                                                        <span class="t-icon-down_arrow accordion-arrow-icon"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="ui-accordion-content">
+                                                    <div class="mobile-row">
+                                                        <label class="accordion-label--title">Turma:</label>
+                                                        <a href='<?php echo Yii::app()->createUrl("classroom/update", array("id" => $me->classroomFk->id)); ?>'
+                                                           class="t-link-button--info accordion-label">
+                                                            <?php echo $me->classroomFk->name; ?>
+                                                        </a>
+                                                    </div>
+                                                    <div class="mobile-row">
+                                                        <label class="accordion-label--title">Turno:</label>
+                                                        <label class="accordion-label">
+                                                            <?php
+                                                            switch ($me->classroomFk->turn) {
+                                                                case "M":
+                                                                    echo "Matutino";
+                                                                    break;
+                                                                case "T":
+                                                                    echo "Vespertino";
+                                                                    break;
+                                                                case "N":
+                                                                    echo "Noturno";
+                                                                    break;
+                                                                case "I":
+                                                                    echo "Integral";
+                                                                    break;
+                                                                default:
+                                                                    echo "-";
+                                                            }
+                                                            ?>
+                                                        </label>
+                                                    </div>
+                                                    <div class="mobile-row">
+                                                        <label class="accordion-label--title">Ano:</label>
+                                                        <label class="accordion-label"><?php echo $me->classroomFk->school_year ?></label>
+                                                    </div>
+                                                    <div class="mobile-row upper-margin">
+                                                        <label class="accordion-label--title">Formulários:</label>
+                                                    </div>
+                                                    <div class="reports">
+                                                        <?php
+                                                        $forms = unserialize(FORMS);
+                                                        foreach ($forms as $item) {
+                                                            $link = Yii::app()->createUrl('forms/' . $item['action'], array('type' => $type, 'enrollment_id' => $me->id));
+                                                            ?>
+                                                                <a class="<?= $item['name'] == "Ficha de Matrícula" ? 't-button-primary' : 't-button-secondary' ?> mobile-margin"
                                                                    rel="noopener" target="_blank" href="<?= $link ?>">
                                                                     <span class="t-icon-printer"></span>
-                                                                    <?php echo $quiz->name ?>
+                                                                    <?php echo $item['name'] ?>
                                                                 </a>
                                                                 <?php
+                                                        }
+                                                        ?>
+                                                        <a class="t-button-secondary" rel="noopener" target="_blank"
+                                                           href="<?php echo @Yii::app()->createUrl('forms/EnrollmentGradesReport'
+                                                               , array('enrollment_id' => $me->id)) ?>">
+                                                            <span class="t-icon-printer"></span>
+                                                            Rendimento Escolar Por Atividades
+                                                        </a>
+                                                        <a class="t-button-secondary" rel="noopener" target="_blank"
+                                                           href="<?php echo @Yii::app()->createUrl('forms/IndividualRecord', array('enrollment_id' => $me->id)) ?>">
+                                                            <span class="t-icon-printer"></span>
+                                                            Ficha Individual
+                                                        </a>
+                                                    </div>
+                                                    <?php if ($me->classroomFk->school_year == date('Y')) { ?>
+                                                            <div class="mobile-row">
+                                                                <label class="accordion-label--title">Questionários:</label>
+                                                            </div>
+                                                    <?php } ?>
+                                                    <div class="reports">
+                                                        <?php
+                                                        if ($me->classroomFk->school_year == date('Y')) {
+                                                            $date = date('Y-m-d');
+                                                            $quizs = Quiz::model()->findAll('status = 1 AND init_date <=:init_date AND final_date >=:final_date'
+                                                                , [':init_date' => $date, ':final_date' => $date]);
+                                                            if (count($quizs) > 0) {
+                                                                foreach ($quizs as $quiz) {
+                                                                    $link = Yii::app()->createUrl('quiz/default/answer', array('quizId' => $quiz->id, 'studentId' => $me->studentFk->id));
+                                                                    ?>
+                                                                                <a class="t-button-secondary mobile-margin"
+                                                                                   rel="noopener" target="_blank" href="<?= $link ?>">
+                                                                                    <span class="t-icon-printer"></span>
+                                                                                    <?php echo $quiz->name ?>
+                                                                                </a>
+                                                                                <?php
+                                                                }
                                                             }
                                                         }
-                                                    }
-                                                    ?>
-                                                </div>
-                                                <?php if ($me->classroomFk->school_year >= Yii::app()->user->year) { ?>
-                                                    <div class="row">
-                                                        <a href='#' id="delete-enrollment"
-                                                           class="t-link-button--warning" enrollment="<?= $me->id ?>">Cancelar
-                                                            Matrícula</a>
+                                                        ?>
                                                     </div>
-                                                <?php } ?>
-                                            </div>
-                                            <?php
+                                                    <?php if ($me->classroomFk->school_year >= Yii::app()->user->year) { ?>
+                                                            <div class="row">
+                                                                <a href='#' id="delete-enrollment"
+                                                                   class="t-link-button--warning" enrollment="<?= $me->id ?>">Cancelar
+                                                                    Matrícula</a>
+                                                            </div>
+                                                    <?php } ?>
+                                                </div>
+                                                <?php
                                         }
                                         ?>
                                     </div>
@@ -1980,13 +1980,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                 Vacinas
                             </h3>
                             <div class="t-field-checkbox-group vaccines-container">
-                                <?php foreach ($vaccines as $vaccine) : ?>
-                                    <div class="t-field-checkbox" id="vaccine-checkbox">
-                                        <?php echo CHtml::activeCheckBox($vaccine, "vaccine_id[]", array('checked' => in_array($vaccine->id, $studentVaccinesSaves), 'value' => $vaccine->id, 'uncheckValue' => null, 'class' => 'vaccine-checkbox', 'code' => $vaccine->code)); ?>
-                                        <label class="t-field-checkbox">
-                                            <?= $vaccine->name; ?>
-                                        </label>
-                                    </div>
+                                <?php foreach ($vaccines as $vaccine): ?>
+                                        <div class="t-field-checkbox" id="vaccine-checkbox">
+                                            <?php echo CHtml::activeCheckBox($vaccine, "vaccine_id[]", array('checked' => in_array($vaccine->id, $studentVaccinesSaves), 'value' => $vaccine->id, 'uncheckValue' => null, 'class' => 'vaccine-checkbox', 'code' => $vaccine->code)); ?>
+                                            <label class="t-field-checkbox">
+                                                <?= $vaccine->name; ?>
+                                            </label>
+                                        </div>
                                 <?php endforeach; ?>
                             </div>
                         </div>
@@ -2059,5 +2059,5 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
     var filled = -1;
 </script>
 <script>
-    var instance = <?php echo json_encode(INSTANCE); ?>;
+    const sedspEnable = <?php echo Yii::app()->features->isEnable("FEAT_SEDSP"); ?>;
 </script>

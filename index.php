@@ -39,6 +39,7 @@ require_once($yii);
 require_once($configtag);
 require_once($instance);
 
+require_once(dirname(__FILE__).'/app/components/FeaturesComponent.php');
 
 
 Yii::createWebApplication($config)->run();

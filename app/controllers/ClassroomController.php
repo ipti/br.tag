@@ -559,7 +559,7 @@ class ClassroomController extends Controller
                         }
                         if ($saved) {
 
-                            if (TagUtils::isInstance("UBATUBA")) {
+                            if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
                                 $loginUseCase = new LoginUseCase();
                                 $loginUseCase->checkSEDToken();
 
@@ -600,7 +600,7 @@ class ClassroomController extends Controller
             $array["studentName"] = $studentEnrollment->studentFk->name;
             $array["enrollmentId"] = $studentEnrollment->id;
             $array["dailyOrder"] = $studentEnrollment->daily_order;
-            if (TagUtils::isInstance("UBATUBA")) {
+            if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
                 $array["synced"] = $studentEnrollment->studentFk->sedsp_sync && $studentEnrollment->sedsp_sync;
             }
             array_push($modelEnrollments, $array);
@@ -608,7 +608,7 @@ class ClassroomController extends Controller
 
 
         $disableFieldsWhenItsUBATUBA = false;
-        if (TagUtils::isInstance("UBATUBA") && $modelClassroom->gov_id != null && !empty($modelClassroom->studentEnrollments)) {
+        if (Yii::app()->features->isEnable("FEAT_SEDSP") && $modelClassroom->gov_id != null && !empty($modelClassroom->studentEnrollments)) {
             $disableFieldsWhenItsUBATUBA = true;
         }
 
@@ -673,7 +673,7 @@ class ClassroomController extends Controller
             $modelClassroom->attributes = $_POST['Classroom'];
             $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
 
-            if (TagUtils::isInstance("UBATUBA") && !$disableFieldsWhenItsUBATUBA) {
+            if (Yii::app()->features->isEnable("FEAT_SEDSP") && !$disableFieldsWhenItsUBATUBA) {
 
                 if ($beforeChangeClassroom->turn != $modelClassroom->turn ||
                     $beforeChangeClassroom->sedsp_acronym != $modelClassroom->sedsp_acronym ||
@@ -732,7 +732,7 @@ class ClassroomController extends Controller
                         }
                         if ($saved) {
 
-                            if (TagUtils::isInstance("UBATUBA") && !$modelClassroom->sedsp_sync) {
+                            if (Yii::app()->features->isEnable("FEAT_SEDSP") && !$modelClassroom->sedsp_sync) {
                                 $loginUseCase = new LoginUseCase();
                                 $loginUseCase->checkSEDToken();
 
@@ -785,7 +785,7 @@ class ClassroomController extends Controller
         $teachingDatas = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
 
         $ableToDelete = true;
-        if (TagUtils::isInstance("UBATUBA")) {
+        if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
             if ($classroom->gov_id !== null) {
                 $loginUseCase = new LoginUseCase();
                 $loginUseCase->checkSEDToken();

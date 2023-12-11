@@ -214,7 +214,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                 $model->school_inep_id_fk = Classroom::model()->findByPk([$_POST['StudentEnrollment']["classroom_fk"]])->school_inep_fk;
                 if ($model->save()) {
                     $message = "";
-                    if (TagUtils::isInstance("UBATUBA")) {
+                    if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
                         $this->authenticateSedToken();
 
                         $inNumRA = StudentIdentification::model()->findByPk($model->student_fk);

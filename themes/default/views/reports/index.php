@@ -82,7 +82,7 @@ $this->breadcrumbs = array(
                     </div>
                 </button>
 
-                
+
                 <button type="button" class="report-box-container" data-toggle="modal" data-target="#studentswithdisabilitiesperclassroom" target="_blank">
                     <div class="pull-left" style="margin-right: 20px;">
                         <span class="t-icon-wheelchair t-reports_icons"></span>
@@ -137,7 +137,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <?php if (INSTANCE == "BUZIOS" || INSTANCE == "TREINAMENTO" || INSTANCE == "DEMO" || INSTANCE == "LOCALHOST") { ?>
+                <?php if(TagUtils::isInstance(["BUZIOS", "TREINAMENTO", "DEMO", "LOCALHOST"])) : ?>
                     <button type="button" class="report-box-container" data-toggle="modal" data-target="#quarterly-class-council" target="_blank">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-e-learning t-reports_icons"></span>
@@ -147,7 +147,7 @@ $this->breadcrumbs = array(
                             <span class="subtitle">Apresenta as matrículas, professores e avaliações da turma.</span>
                         </div>
                     </button>
-                <?php } ?>
+                <?php endif; ?>
 
                 <a href="<?php echo Yii::app()->createUrl('reports/studentsbetween5and14yearsoldreport', array('id' => Yii::app()->user->school)) ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
@@ -236,7 +236,7 @@ $this->breadcrumbs = array(
                         <span class="subtitle">Listagem de CPF, RG e NIS dos alunos por Turma</span>
                     </div>
                 </button>
-                
+
                 <button type="button" class="report-box-container" data-toggle="modal" data-target="#students-benefiting-from-the-bf" target="_blank">
                     <div class="pull-left" style="margin-right: 20px;">
                         <span class="t-group-bag t-reports_icons"></span>
@@ -295,7 +295,7 @@ $this->breadcrumbs = array(
                 </a>
 
                 <a href="<?php echo Yii::app()->createUrl('reports/TeachersByStage') ?>" target="_blank" rel="noopener">
-                    <button type="button" class="report-box-container">    
+                    <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-stage-teachers t-reports_icons"></span>
                         </div>
@@ -441,7 +441,7 @@ $this->breadcrumbs = array(
                 </a>
 
                 <a href="<?php echo Yii::app()->createUrl('reports/CnsPerSchool') ?>" target="_blank" rel="noopener">
-                    <button type="button" class="report-box-container">    
+                    <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-doctor t-reports_icons"></span>
                         </div>
@@ -462,7 +462,7 @@ $this->breadcrumbs = array(
                     </div>
                 </button>
                 <a href="<?php echo Yii::app()->createUrl('reports/StudentCpfRgNisAllClassrooms') ?>" target="_blank" rel="noopener">
-                    <button type="button" class="report-box-container">    
+                    <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-id-card-clip t-reports_icons"></span>
                         </div>
@@ -472,20 +472,20 @@ $this->breadcrumbs = array(
                         </div>
                     </button>
                 </a>
-                
+
                 <a href="<?php echo Yii::app()->createUrl('reports/AllClassroomsReportOfStudentsBenefitingFromTheBF') ?>" target="_blank" rel="noopener">
-                    <button type="button" class="report-box-container">    
+                    <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-group-bag t-reports_icons"></span>
                         </div>
-                        <div class="pull-left"> 
+                        <div class="pull-left">
                             <span class="title">Alunos Beneficiários do Bolsa Família de Todas as Turmas</span><br>
                             <span class="subtitle">Listagem dos alunos que participam do bolsa família</span>
                         </div>
                     </button>
                 </a>
             </div>
-            
+
             <?php if(Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
             <div class="container-box">
                 <p>Administrador</p>
@@ -501,7 +501,7 @@ $this->breadcrumbs = array(
                 </button>
 
                 <a href="<?php echo Yii::app()->createUrl('reports/AllSchoolsTransferReport') ?>" target="_blank" rel="noopener">
-                    <button type="button" class="report-box-container">    
+                    <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-transfer-all-school t-reports_icons"></span>
                         </div>
@@ -513,7 +513,7 @@ $this->breadcrumbs = array(
                 </a>
 
                 <a href="<?php echo Yii::app()->createUrl('reports/TeachersBySchool') ?>" target="_blank" rel="noopener">
-                    <button type="button" class="report-box-container">    
+                    <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-school-teacher t-reports_icons"></span>
                         </div>
@@ -525,7 +525,7 @@ $this->breadcrumbs = array(
                 </a>
 
                 <a href="<?php echo Yii::app()->createUrl('reports/StudentsWithDisabilitiesPerSchool') ?>" target="_blank" rel="noopener">
-                    <button type="button" class="report-box-container">  
+                    <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-wheelchair t-reports_icons"></span>
                         </div>
@@ -537,23 +537,23 @@ $this->breadcrumbs = array(
                 </a>
 
                 <a href="<?php echo Yii::app()->createUrl('reports/StatisticalData') ?>" target="_blank" rel="noopener">
-                    <button type="button" class="report-box-container">    
+                    <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-statistic-data t-reports_icons"></span>
                         </div>
                         <div class="pull-left">
                             <span class="title">Dados Estatísticos</span><br>
                             <span class="subtitle">Quantidade alunos por etapa de ensino</span>
-                        </div> 
+                        </div>
                     </button>
                 </a>
 
                 <a href="<?php echo Yii::app()->createUrl('reports/AllSchoolsReportOfStudentsBenefitingFromTheBF') ?>" target="_blank" rel="noopener">
-                    <button type="button" class="report-box-container">    
+                    <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-scholarship-schools t-reports_icons"></span>
                         </div>
-                        <div class="pull-left"> 
+                        <div class="pull-left">
                             <span class="title">Alunos Beneficiários do Bolsa Família de Todas as Escolas</span><br>
                             <span class="subtitle">Listagem dos alunos que participam do bolsa família</span>
                         </div>
@@ -561,7 +561,7 @@ $this->breadcrumbs = array(
                 </a>
 
                 <a href="<?php echo Yii::app()->createUrl('reports/NumberOfClassesPerSchool') ?>" target="_blank" rel="noopener">
-                    <button type="button" class="report-box-container">    
+                    <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-amount-school t-reports_icons"></span>
                         </div>
@@ -573,7 +573,7 @@ $this->breadcrumbs = array(
                 </a>
 
                 <a href="<?php echo Yii::app()->createUrl('reports/TotalNumberOfStudentsEnrolled') ?>" target="_blank" rel="noopener">
-                    <button type="button" class="report-box-container">    
+                    <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-student-registration t-reports_icons"></span>
                         </div>
@@ -986,7 +986,7 @@ $this->breadcrumbs = array(
             </form>
         </div>
     </div>
-    
+
     <div class="row">
         <div class="modal fade modal-content" id="studentswithdisabilitiesperclassroom" tabindex="-1" role="dialog">
             <div class="modal-header">

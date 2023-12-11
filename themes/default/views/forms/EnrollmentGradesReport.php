@@ -110,11 +110,11 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                     </tr>
                     <tr>
                         <td class="vertical-text">
-                            <?php if (INSTANCE == "BUZIOS") { ?>
+                            <?php if(TagUtils::isInstance("BUZIOS")): ?>
                                 <div>TRIMESTRES</div>
-                            <?php }else {?>
+                            <?php else: ?>
                                 <div>UNIDADES</div>
-                            <?php }?>
+                            <?php endif; ?>
                         </td>
                         <?php foreach ($baseDisciplines as $name): ?>
                             <td class="vertical-text">
@@ -129,7 +129,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
+                    <?php
                     for($i=1;$i<=count($unities);$i++) {?>
                         <tr>
                             <td><?= strtoupper($unities[$i-1]->name) ?></td>
@@ -137,7 +137,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                             $school_days = 0;
                             $workload = 0;
                             $faults = 0;
-                            for($j=0; $j < $rows; $j++) { 
+                            for($j=0; $j < $rows; $j++) {
                                 $school_days += $result[$j]['school_days'];
                                 $workload += $result[$j]['workload'];
                                 $faults += $result[$j]['faults'];
@@ -198,7 +198,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                 </tr>
                 <tr>
                     <td style="text-align:right;" colspan="1">FREQUÊNCIAS %</td>
-                    <?php for ($i=0; $i < $rows; $i++) { 
+                    <?php for ($i=0; $i < $rows; $i++) {
                         $totalDiasAula = $result[$i]['school_days'];
                         $quantidadeFaltas = $result[$i]['faults'];
                         $frequencia = (($totalDiasAula - $quantidadeFaltas) / $totalDiasAula) * 100;
@@ -267,7 +267,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
             background-repeat: no-repeat;
             background-position: center center;
             background-size: 100% 100%, auto;
-        } 
+        }
 
         .hidden-print {
             display: none;
@@ -283,4 +283,4 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
     function imprimirPagina() {
       window.print();
     }
-</script>   
+</script>
