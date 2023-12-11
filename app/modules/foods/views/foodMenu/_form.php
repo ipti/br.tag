@@ -5,9 +5,9 @@
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/_initialization.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/menuComponents.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/_initialization.js', CClientScript::POS_END);
 ?>
 
 <div class="form">
@@ -50,7 +50,6 @@ $cs->registerScriptFile($baseScriptUrl . '/menuComponents.js', CClientScript::PO
 				<label for="public_target" class="t-field-select__label">Publico Alvo *</label>
 				<select id="public_target" name="Público Alvo" class="select-search-on t-field-select__input js-public-target js-initialize-select2" required="required" placeholder="Select Classrom">
 					<option value="">Selecione o Público Alvo</option>
-					<option value="1">aaaaaaa</option>
 				</select>
 			</div>
 		</div>

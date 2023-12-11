@@ -49,8 +49,8 @@ $(".js-save-menu").on("click", function () {
         foodMenu.friday = getMealsByDay(5)
         foodMenu.saturday = getMealsByDay(6)
 
-        // console.log(foodMenu)
-        $.ajax({
+        console.log(foodMenu)
+       /*  $.ajax({
             url: "?r=foods/foodMenu/create",
             data: {
                 foodMenu: foodMenu
@@ -58,7 +58,7 @@ $(".js-save-menu").on("click", function () {
             type: "POST",
         }).success(function (response) {
             window.location.href = "?r=foods/foodMenu/index";
-        })
+        }) */
 
     } else {
         const erros = []
@@ -66,7 +66,6 @@ $(".js-save-menu").on("click", function () {
             if (!this.validity.valid) {
                 if(!erros.includes(this.name))
                 erros.push(this.name)
-                console.log('Nome do campo:', this.name);
             }
         });
          
@@ -135,5 +134,4 @@ function showErros(erros) {
     }, '');
     menuError.html(message)
     menuError.removeClass('hide')
-    console.log(erros)
 }

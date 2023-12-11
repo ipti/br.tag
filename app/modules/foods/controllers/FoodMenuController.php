@@ -235,10 +235,60 @@ class FoodMenuController extends Controller
             "food_public_target" => "1",
             "start_date" => "09/11/2023",
             "final_date" => "10/12/2023",
+            "observation" =>  "teste",
             "sunday" =>  [],
-            "monday" => [],
-            "thursday" => [],
-            "friday" => [],
+            "monday" => [
+                [
+                    "time" => "07:30",
+                    "sequence"=> 0,
+                    "turn"=> "M",
+                    "food_meal_type" =>1,
+                    "meals_component" =>[
+                        [
+                            "description" => "nome prato",
+                            "food_ingredients" => [
+                                [
+                                    "amount" => "12",
+                                    "food_id_fk" => "1",
+                                    "food_measure_unit_id" => "1"
+                                ]
+                            ]
+                        ],
+                        [
+                            "description" => "nome prato2",
+                            "food_ingredients" => [
+                                [
+                                    "amount" => "12",
+                                    "food_id_fk" => "1",
+                                    "food_measure_unit_id" => "1"
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                [
+                    "time" => "12:30",
+                    "sequence"=> 0,
+                    "turn"=> "T",
+                    "food_meal_type" =>2,
+                    "meals_component" =>[]
+                ]
+            ],
+            "tuesday" => [
+                [
+                    "time" => "19:30",
+                    "sequence"=> 0,
+                    "turn"=> "N",
+                    "food_meal_type" =>3
+                ]
+            ],
+            "wednesday" => [
+            ],
+            "thursday" => [
+                
+            ],
+            "friday" => [
+            ],
             "saturday" => []
         ];
 		$this->render('update',array(
