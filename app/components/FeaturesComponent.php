@@ -31,19 +31,22 @@ class FeaturesComponent extends CApplicationComponent
      *
      * @var string $featureKey
      *
-     * @return bool
+     * @return void
      */
     public function disable($featureKey)
     {
         $feature = InstanceConfig::model()->findByAttributes(["parameter_key" => $featureKey]);
+
+        if ($feature === false) {
+            throw new Exception("Feature não encontrada na base de dados", 1);
+        }
+
         $feature->value = false;
         $result = $feature->save();
 
         if ($result === false) {
-            throw new Exception("Não foi possível atualizar esse registro, veja se ainda está", 1);
+            throw new Exception("Não foi possível desativar feature, verifique se ela existe na base de dados", 1);
         }
-
-        return $feature->value ?? false;
     }
 
     /**
@@ -51,19 +54,22 @@ class FeaturesComponent extends CApplicationComponent
      *
      * @var string $featureKey
      *
-     * @return bool
+     * @return void
      */
     public function enable($featureKey)
     {
         $feature = InstanceConfig::model()->findByAttributes(["parameter_key" => $featureKey]);
+
+        if ($feature === false) {
+            throw new Exception("Feature não encontrada na base de dados", 1);
+        }
+
         $feature->value = true;
         $result = $feature->save();
 
         if ($result === false) {
-            throw new Exception("Não foi possível atualizar esse registro, veja se ainda está", 1);
+            throw new Exception("Não foi possível ativar feature, verifique se ela existe na base de dados", 1);
         }
-
-        return $feature->value ?? false;
     }
 
     /**
@@ -71,7 +77,7 @@ class FeaturesComponent extends CApplicationComponent
      *
      * @var string $featureKey
      *
-     * @return bool
+     * @return []
      */
     public function listAll()
     {

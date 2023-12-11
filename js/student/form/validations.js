@@ -578,8 +578,7 @@ $(formIdentification + "deficiency_type_disability_hearing").on(
             $(formIdentification + "deficiency_type_deafblindness")
                 .removeAttr("checked", "checked")
                 .attr("disabled", "disabled");
-        } else {
-            if (
+        } else if (
                 !$(formIdentification + "deficiency_type_blindness").is(
                     ":checked"
                 )
@@ -600,7 +599,6 @@ $(formIdentification + "deficiency_type_disability_hearing").on(
                     ).removeAttr("disabled");
                 }
             }
-        }
     }
 );
 $(formIdentification + "deficiency_type_deafblindness").on(
