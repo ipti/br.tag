@@ -43,10 +43,6 @@ class FoodMenuController extends Controller
                     'getFoodMeasurement'),
 				'users'=>array('@'),
 			),
-            // array('allow',
-            //     'actions'=>array('update'),
-            //     'users'=>array('*')
-            // ),
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
