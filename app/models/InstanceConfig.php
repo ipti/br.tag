@@ -32,7 +32,6 @@ class InstanceConfig extends CActiveRecord
             array('parameter_name', 'length', 'max' => 75),
             array('value', 'length', 'max' => 250),
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             array('id, parameter_key, parameter_name, value', 'safe', 'on' => 'search'),
         );
     }
@@ -75,7 +74,6 @@ class InstanceConfig extends CActiveRecord
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria;
 

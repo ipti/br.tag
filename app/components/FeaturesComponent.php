@@ -86,5 +86,3 @@ class FeaturesComponent extends CApplicationComponent
     }
 
 }
-
-?>
