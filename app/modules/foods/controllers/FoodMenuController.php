@@ -40,8 +40,13 @@ class FoodMenuController extends Controller
                     'getTacoFoods',
                     'getPublicTarget',
                     'getMealType',
-                    'getFoodMeasurement'),
+                    'getFoodMeasurement',
+                    'getMeals'),
 				'users'=>array('@'),
+			),
+            array('allow',  // deny all users
+                'actions' => array('getMeals'),
+                'users'=>array('*'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -170,7 +175,7 @@ class FoodMenuController extends Controller
                     if($sucess){
                         $transaction->commit();
                         //  Yii::app()->user->setFlash('success', 'Cardápio salvo com sucesso!');
-					
+
                     }else{
                         $transaction->rollback();
                         // Yii::app()->user->setFlash('error', 'Ocorreu um erro ao salvar o registro! Verifique as informações e tente novamente.');
@@ -243,15 +248,38 @@ class FoodMenuController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
-
+		$modelFoodMenu = FoodMenu::model()->findByPk($id);
+        $transaction = Yii::app()->db->beginTransaction();
+        try{
+            $modelFoodMenuMeals = FoodMenuMeal::model()->findAllByAttributes(array('food_menuId' => $modelFoodMenu->id));
+            foreach($modelFoodMenuMeals as $modelFoodMenuMeal){
+                $modelFoodMealComponents = FoodMenuMealComponent::model()->findAllByAttributes(array('food_menu_mealId' => $modelFoodMenuMeal->id));
+                foreach($modelFoodMealComponents as $modelFoodMealComponent){
+                    $modelFoodIngredients = FoodIngredient::model()
+                    ->deleteAllByAttributes(array('food_menu_meal_componentId'=> $modelFoodMealComponent->id));
+                }
+                $modelFoodMenuMeal->delete();
+            }
+            $modelFoodMenu->delete();
+            $transaction->commit();
+            header('HTTP/1.1 200 OK');
+            Log::model()->saveAction("foodMenu", $id, "D", $modelFoodMenu->description);
+            // echo json_encode(["valid" => true, "message" => "Cardápio excluído com sucesso!"]);
+            Yii::app()->end();
+        }catch(Exception $e){
+            $transaction->rollback();
+            throw new CHttpException(500, $e->getMessage());
+        }
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-
-		$returnUrl = isset($_POST['returnUrl']) ? $_POST['returnUrl'] : 'admin';
-		if (filter_var($returnUrl, FILTER_VALIDATE_URL)) {
-			$this->redirect($returnUrl);
-		}
+		// $returnUrl = isset($_POST['returnUrl']) ? $_POST['returnUrl'] : 'admin';
+		// if (filter_var($returnUrl, FILTER_VALIDATE_URL)) {
+		// 	$this->redirect($returnUrl);
+		// }
 	}
+
+    public function actionGetMeals(){
+        $currentDate =
+    }
 
 	/**
 	 * Lists all models.
