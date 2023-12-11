@@ -29,7 +29,7 @@ $(document).on("click", "#newTeacherDiscipline", function () {
 });
 
 $(".update-classroom-to-sedsp").click(function() {
-    $("#importClassroomToSEDSP").modal("show");+
+    $("#importClassroomToSEDSP").modal("show");
 });
 
 $(".import-classroom-button").click(function() {

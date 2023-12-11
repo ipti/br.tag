@@ -548,8 +548,6 @@ class ClassroomController extends Controller
                         $modelTeachingData[$key]->regent = $td->RegentTeacher;
                         $modelTeachingData[$key]->disciplines = $td->Disciplines;
                         $teachingDataValidated = $teachingDataValidated && $modelTeachingData[$key]->validate();
-
-
                     }
 
 
@@ -634,7 +632,7 @@ class ClassroomController extends Controller
                     $enro->create_date = date('Y-m-d');
                     $enro->update(array('classroom_fk', 'classroom_inep_id', 'status', 'create_date'));
                 }
-            }else{
+            } else {
                 foreach ($enrollments as $enrollment) {
                     $studentEnrollment = StudentEnrollment::model()->findByPk($enrollment);
                     $frequencyAndMean = FrequencyAndMeanByDiscipline::model()
@@ -687,7 +685,8 @@ class ClassroomController extends Controller
 
             if (TagUtils::isInstance("UBATUBA") && !$disableFieldsWhenItsUBATUBA) {
 
-                if ($beforeChangeClassroom->turn != $modelClassroom->turn ||
+                if (
+                    $beforeChangeClassroom->turn != $modelClassroom->turn ||
                     $beforeChangeClassroom->sedsp_acronym != $modelClassroom->sedsp_acronym ||
                     $beforeChangeClassroom->sedsp_classnumber != $modelClassroom->sedsp_classnumber ||
                     $beforeChangeClassroom->sedsp_max_physical_capacity != $modelClassroom->sedsp_max_physical_capacity ||
@@ -700,7 +699,8 @@ class ClassroomController extends Controller
                     $beforeChangeClassroom->week_days_wednesday != $modelClassroom->week_days_wednesday ||
                     $beforeChangeClassroom->week_days_thursday != $modelClassroom->week_days_thursday ||
                     $beforeChangeClassroom->week_days_friday != $modelClassroom->week_days_friday ||
-                    $beforeChangeClassroom->week_days_saturday != $modelClassroom->week_days_saturday) {
+                    $beforeChangeClassroom->week_days_saturday != $modelClassroom->week_days_saturday
+                ) {
 
                     $modelClassroom->sedsp_sync = 0;
                 }
@@ -1031,7 +1031,7 @@ class ClassroomController extends Controller
                         "studentName" => $studentIdentification->name,
                         "identificationMessage" => $response["identification"] != null ? $response["identification"]->outErro : null,
                         "enrollmentMessage" => $response["enrollment"] != null ? $response["enrollment"]->outErro : null
-                        ]);
+                    ]);
                 } else {
                     array_push($result, [
                         "enrollmentId" => $studentEnrollment->id,

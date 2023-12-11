@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  * @var CActiveForm $this CActiveForm
@@ -15,11 +14,12 @@ $cs->registerScriptFile($baseUrl . '/js/classroom/form/validations.js?v=1.0', CC
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/pagination.js', CClientScript::POS_END);
 
 
-$form = $this->beginWidget('CActiveForm',
-	array(
-        	'id' => 'classroom-form',
-        	'enableAjaxValidation' => false,
-    	)
+$form = $this->beginWidget(
+    'CActiveForm',
+    array(
+        'id' => 'classroom-form',
+        'enableAjaxValidation' => false,
+    )
 );
 ?>
 
@@ -28,32 +28,24 @@ $form = $this->beginWidget('CActiveForm',
         <?php
         if (!$modelClassroom->isNewRecord && TagUtils::isInstance("UBATUBA")) {
             $sedspSync = Classroom::model()->findByPk($modelClassroom->id)->sedsp_sync;
-            ?>
+        ?>
             <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
                 <?php if ($sedspSync) { ?>
                     <div style="font-weight: bold;margin-right: 20px;">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
-                             style="width: 25px; margin-right: 2px;">Sincronizado
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png" style="width: 25px; margin-right: 2px;">Sincronizado
                     </div>
                 <?php } else { ?>
                     <div style="font-weight: bold;margin-right: 20px;">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
-                             style="width: 25px;margin-right: 2px;">Não sincronizado
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png" style="width: 25px;margin-right: 2px;">Não sincronizado
                     </div>
                 <?php } ?>
 
-                <a class="update-classroom-from-sedsp"
-                   style="margin-right: 10px;background: #2e33b7;color: white;font-size: 13px;padding-left: 4px;padding-right: 4px;border-radius: 6px;">
+                <a class="update-classroom-from-sedsp" style="margin-right: 10px;background: #2e33b7;color: white;font-size: 13px;padding-left: 4px;padding-right: 4px;border-radius: 6px;">
                     Importar dados da SED
                 </a>
             </div>
         <?php } ?>
         <h1><?php echo $title; ?></h1>
-    </div>
-    <div class="column clearfix align-items--center justify-content--end show--desktop">
-        <button class="t-button-primary  last save-classroom" type="button">
-            <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
-        </button>
     </div>
     <div class="column clearfix align-items--center justify-content--end show--desktop">
         <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;">
@@ -74,7 +66,6 @@ $form = $this->beginWidget('CActiveForm',
             <?php echo Yii::app()->user->getFlash('success') ?>
         </div>
     <?php endif ?>
-    <!-- verificar essa parte -->
 
     <div class="widget widget-tabs border-bottom-none">
         <?php echo $form->errorSummary($modelClassroom); ?>
@@ -308,8 +299,8 @@ $form = $this->beginWidget('CActiveForm',
                             <?php echo $form->error($modelClassroom, 'modality'); ?>
                         </div>
 
-                        <!-- <?php if (TagUtils::isInstance("UBATUBA")) : ?>
-                             Unidade Escolar
+                        <?php if (TagUtils::isInstance("UBATUBA")) : ?>
+                            Unidade Escolar
                             <div class="t-field-select" id="sedsp_school_unity_fk">
                                 <?php echo $form->labelEx($modelClassroom, 'Unidade Escolar *', array('class' => 't-field-select__label--required')); ?>
                                 <?php echo $form->DropDownList($modelClassroom, 'sedsp_school_unity_fk', CHtml::listData(SedspSchoolUnities::model()->findAllByAttributes(array('school_inep_id_fk' => yii::app()->user->school)), 'id', 'description'), array('prompt' => 'Selecione a unidade escolar', 'class' => 'select-search-off t-field-select__input', 'disabled' => $disabledFields, 'style' => 'width: 80%')); ?>
@@ -330,21 +321,23 @@ $form = $this->beginWidget('CActiveForm',
                                 <?php echo $form->numberField($modelClassroom, 'sedsp_max_physical_capacity', array('size' => 2, 'min' => 1, 'max' => 99, 'maxlength' => 2, 'class' => 't-field-text__input', 'disabled' => $disabledFields)); ?>
                                 <?php echo $form->error($modelClassroom, 'sedsp_max_physical_capacity'); ?>
                             </div>
-                        <?php endif; ?> -->
+                        <?php endif; ?>
                         <?php if (TagUtils::isInstance("UBATUBA")) { ?>
-                                <!--Gov ID-->
-                                <div class="t-field-text js-hide-not-required">
-                                    <?php echo $form->labelEx($modelClassroom, 'gov_id', array('class' => 't-field-text__label')); ?>
-                                    <?php echo $form->textField($modelClassroom, 'gov_id', array('size' => 60, 'maxlength' => 12,
-                                        'class' => 't-field-text__input', 'placeholder' => 'Não possui', 'disabled' => 'disabled')); ?>
-                                    <button type="button" id="copy-gov-id" class="t-button-icon">
-                                        <span class="t-icon-copy"></span>
-                                    </button>
-                                    <span id="copy-message" style="display:none;">
+                            <!--Gov ID-->
+                            <div class="t-field-text js-hide-not-required">
+                                <?php echo $form->labelEx($modelClassroom, 'gov_id', array('class' => 't-field-text__label')); ?>
+                                <?php echo $form->textField($modelClassroom, 'gov_id', array(
+                                    'size' => 60, 'maxlength' => 12,
+                                    'class' => 't-field-text__input', 'placeholder' => 'Não possui', 'disabled' => 'disabled'
+                                )); ?>
+                                <button type="button" id="copy-gov-id" class="t-button-icon">
+                                    <span class="t-icon-copy"></span>
+                                </button>
+                                <span id="copy-message" style="display:none;">
                                 </span>
-                                    <?php echo $form->error($modelClassroom, 'gov_id'); ?>
-                                </div>
-                            <?php } ?>
+                                <?php echo $form->error($modelClassroom, 'gov_id'); ?>
+                            </div>
+                        <?php } ?>
                     </div>
                 </div>
                 <div class="row">
@@ -929,15 +922,14 @@ $form = $this->beginWidget('CActiveForm',
                 <div class="row-fluid">
                     <container>
                         <row class="reports">
-                        <?php if (TagUtils::isInstance("BUZIOS")): ?>
-                                        <div class="reports_cards">
-                                            <a class="t-button-secondary" rel="noopener" target="_blank"
-                                               href="<?= @Yii::app()->createUrl('classroom/batchupdatenrollment', array('id' => $modelClassroom->id)); ?>">
-                                                <span class="t-icon-printer"></span>
-                                                <?php echo Yii::t('default', 'Sinalizar rematricula') ?>
-                                            </a>
-                                        </div>
-                                    <?php endif; ?>
+                            <?php if (TagUtils::isInstance("BUZIOS")) : ?>
+                                <div class="reports_cards">
+                                    <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('classroom/batchupdatenrollment', array('id' => $modelClassroom->id)); ?>">
+                                        <span class="t-icon-printer"></span>
+                                        <?php echo Yii::t('default', 'Sinalizar rematricula') ?>
+                                    </a>
+                                </div>
+                            <?php endif; ?>
                             <div class="reports_cards">
                                 <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl(
                                                                                                         'classroom/batchupdatetransport',
@@ -1008,18 +1000,15 @@ $form = $this->beginWidget('CActiveForm',
                                     <?php echo Yii::t('default', 'Ata de Notas') ?>
                                 </a>
                             </div>
-                            <?php if (TagUtils::isInstance("UBATUBA") && count($modelEnrollments) > 0): ?>
-                                        <div class="reports_cards">
-                                            <button class="t-button-primary sync-enrollments">
-                                                <span class="t-icon-export"></span>
-                                                Sincronizar Matrículas (SEDSP)
-                                            </button>
-                                            <img class="loading-sync" style="display:none;margin: 10px 20px;"
-                                                 height="30px" width="30px"
-                                                 src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif"
-                                                 alt="TAG Loading">
-                                        </div>
-                                    <?php endif ?>
+                            <?php if (TagUtils::isInstance("UBATUBA") && count($modelEnrollments) > 0) : ?>
+                                <div class="reports_cards">
+                                    <button class="t-button-primary sync-enrollments">
+                                        <span class="t-icon-export"></span>
+                                        Sincronizar Matrículas (SEDSP)
+                                    </button>
+                                    <img class="loading-sync" style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+                                </div>
+                            <?php endif ?>
                         </row>
                     </container>
 
@@ -1029,12 +1018,11 @@ $form = $this->beginWidget('CActiveForm',
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                                <li>
-                                    <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatenrollment', array('id' => $modelClassroom->id)) ?>"
-                                       target="blank" class="hidden-print"><i></i>
-                                        <?php echo Yii::t('default', 'Sinalizar Rematricula') ?>
-                                    </a>
-                                </li>
+                            <li>
+                                <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatenrollment', array('id' => $modelClassroom->id)) ?>" target="blank" class="hidden-print"><i></i>
+                                    <?php echo Yii::t('default', 'Sinalizar Rematricula') ?>
+                                </a>
+                            </li>
                             <li>
                                 <a href="
                                         <?php echo Yii::app()->createUrl(
@@ -1135,14 +1123,12 @@ $form = $this->beginWidget('CActiveForm',
                                                         )) ?>"> <?= $enr->studentFk->name ?>
                                                 </a>
                                             </td>
-                                            <?php if (TagUtils::isInstance("UBATUBA")): ?>
+                                            <?php if (TagUtils::isInstance("UBATUBA")) : ?>
                                                 <td class="sync-column">
                                                     <?php if ($enrollment["synced"]) { ?>
-                                                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
-                                                             style="width: 21px;" alt="synced">
+                                                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png" style="width: 21px;" alt="synced">
                                                     <?php } else { ?>
-                                                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
-                                                             style="width: 21px" alt="not synced">
+                                                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png" style="width: 21px" alt="not synced">
                                                     <?php } ?>
                                                 </td>
                                             <?php endif ?>
@@ -1160,8 +1146,7 @@ $form = $this->beginWidget('CActiveForm',
                                                 </a>
                                                 Verificar isso aqui
                                                 -->
-                                                <a href="<?php echo @Yii::app()->createUrl('forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $enrollment["enrollmentId"])); ?>"
-                                                   target="_blank"> <i class="fa fa-eye" style="color:#3F45EA; "></i></a>
+                                                <a href="<?php echo @Yii::app()->createUrl('forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $enrollment["enrollmentId"])); ?>" target="_blank"> <i class="fa fa-eye" style="color:#3F45EA; "></i></a>
                                             </td>
                                         </tr>
                                     <?php $i++;
@@ -1229,8 +1214,9 @@ $form = $this->beginWidget('CActiveForm',
                     // if (isset($modelEnrollments)) {
                     //     $i = 1;
                     //     foreach ($modelEnrollments as $enrollment) {
-                    //         ?>
-                   <!--
+                    //
+                    ?>
+                    <!--
                              <li id="<?= $enrollment["enrollmentId"] ?>" class="ui-state-default">
                                  <span class="t-icon-slip"></span>
                                  <?= $enrollment["dailyOrder"] ?>
@@ -1238,7 +1224,7 @@ $form = $this->beginWidget('CActiveForm',
                                      <?= $enrollment["studentName"] ?>
                                  </span>
                              </li> -->
-                           <?php
+                    <?php
                     //         $i++;
                     //     }
 
@@ -1373,8 +1359,7 @@ $form = $this->beginWidget('CActiveForm',
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Importar turma do SEDSP</h4>
             </div>
-            <form method="post"
-                  action="<?php echo $this->createUrl('sedsp/default/importClassroomFromSedsp', array('id' => $modelClassroom->id, 'gov_id' => $modelClassroom->gov_id)); ?>">
+            <form method="post" action="<?php echo $this->createUrl('sedsp/default/importClassroomFromSedsp', array('id' => $modelClassroom->id, 'gov_id' => $modelClassroom->gov_id)); ?>">
                 <div class="centered-loading-gif">
                     <i class="fa fa-spin fa-spinner"></i>
                 </div>
