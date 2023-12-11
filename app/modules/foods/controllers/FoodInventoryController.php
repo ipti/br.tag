@@ -31,7 +31,12 @@ class FoodInventoryController extends Controller
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array(
                     'index',
-                    'getFoodAlias'
+                    'getFoodAlias',
+					'saveStock',
+					'getFoodInventory',
+					'saveStockSpent',
+					'deleteStockSpent',
+					'checkFoodInventorySpent'
                 ),
                 'users' => array('@'),
             ),
@@ -67,15 +72,98 @@ class FoodInventoryController extends Controller
     public function actionGetFoodAlias()
     {
         $criteria = new CDbCriteria();
-        $criteria->select = 'description';
+        $criteria->select = 'id, description';
         $criteria->condition = 'alias_id = t.id';
 
         $foods_description = Food::model()->findAll($criteria);
 
-        $values = array_column($foods_description, 'description');
+		$values = [];
+		foreach ($foods_description as $food) {
+			$values[$food->id] = $food->description;
+		}
 
         echo json_encode($values);
     }
+
+	public function actionSaveStock() {
+		$foodsOnStock = Yii::app()->request->getPost('foodsOnStock');
+
+        if (!empty($foodsOnStock)) {
+            foreach ($foodsOnStock as $foodData) {
+                $FoodInventory = new FoodInventory;
+				$expiration_date_Timestamp = strtotime(str_replace('/', '-', $foodData['expiration_date']));
+
+				var_dump($foodData['id'],Yii::app()->user->school,$foodData['amount'],date('Y-m-d', $expiration_date_Timestamp));
+                $FoodInventory->food_fk = $foodData['id'];
+                $FoodInventory->school_fk = Yii::app()->user->school;
+                $FoodInventory->amount = $foodData['amount'];
+                $FoodInventory->measurementUnit = 'Kg';
+                $FoodInventory->expiration_date = date('Y-m-d', $expiration_date_Timestamp);
+
+				$FoodInventory->save();
+            }
+        }
+	}
+
+	public function actionSaveStockSpent() {
+		$foodInventoryId = Yii::app()->request->getPost('foodInventoryId');
+		$amount = Yii::app()->request->getPost('amount');
+
+		var_dump($foodInventoryId, $amount);
+
+		$FoodInventorySpent = new FoodInventorySpent;
+
+		$FoodInventorySpent->amount = $amount;
+		$FoodInventorySpent->food_inventory_fk = $foodInventoryId;
+
+		$FoodInventorySpent->save();
+	}
+	
+	public function actionDeleteStockSpent() {
+		$foodInventoryId = Yii::app()->request->getPost('foodInventoryId');
+
+		$criteria = new CDbCriteria();
+		$criteria->condition = 'food_inventory_fk = :foodInventoryId';
+		$criteria->params = array(':foodInventoryId' => $foodInventoryId);
+
+		// Deletar os registros que atendem ao critério
+		FoodInventorySpent::model()->deleteAll($criteria);
+	}
+
+	public function actionGetFoodInventory() {
+		$criteria = new CDbCriteria();
+		$criteria->with = array('foodRelation');
+
+		$foodInventoryData = FoodInventory::model()->findAll($criteria);
+
+		$values = [];
+		foreach ($foodInventoryData as $stock) {
+			$exists = $this->checkFoodInventorySpent($stock->id); // Chamando a função usando $this->
+			$values[] = array(
+				'id' => $stock->id,
+				'foodId' => $stock->food_fk,
+                'description' => $stock->foodRelation->description,
+                'amount' => $stock->amount,
+				'measurementUnit' => $stock->measurementUnit,
+                'expiration_date' => date('d/m/Y', strtotime($stock->expiration_date)),
+				'spent' => $exists
+            );
+		}
+
+        echo json_encode($values);
+	}
+
+	public function checkFoodInventorySpent($foodInventoryId) {
+		$criteria = new CDbCriteria();
+		$criteria->select = 'food_inventory_fk'; // Seleciona apenas a coluna food_inventory_fk
+		$criteria->condition = 'food_inventory_fk = :foodInventoryId';
+		$criteria->params = array(':foodInventoryId' => $foodInventoryId);
+	
+		// Verifica se há alguma entrada correspondente na tabela food_inventory_spent
+		$exists = FoodInventorySpent::model()->exists($criteria);
+	
+		return $exists; // Retorna true se existe correspondência, false caso contrário
+	}
 
 	/**
 	 * Creates a new model.
@@ -96,7 +184,7 @@ class FoodInventoryController extends Controller
 		}
 
 		$this->render('create',array(
-			'model'=>$model,
+			'model'=>$model
 		));
 	}
 

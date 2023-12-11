@@ -29,7 +29,7 @@ class FoodInventory extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('school_fk, food_fk, amount, measurementUnit', 'required'),
+            array('school_fk, food_fk, amount', 'required'),
             array('food_fk', 'numerical', 'integerOnly'=>true),
             array('amount', 'numerical'),
             array('school_fk', 'length', 'max'=>8),
@@ -49,6 +49,7 @@ class FoodInventory extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+            'foodRelation' => array(self::BELONGS_TO, 'Food', 'food_fk'),
         );
     }
 

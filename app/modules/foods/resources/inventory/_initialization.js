@@ -1,3 +1,43 @@
+let foodsOnStock = [];
+
+$(document).ready(function() {
+    let food_inventory;
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/foodInventory/getFoodInventory",
+        cache: false
+    }).success(function(response) {
+        food_inventory = JSON.parse(response);
+        renderStockTable(food_inventory);
+    })
+    let foodSelect = $('#foodStockSelect');
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/foodInventory/getFoodAlias",
+        cache: false
+    }).success(function(response) {
+        foods_description = JSON.parse(response);
+        
+        Object.entries(foods_description).forEach(function([id, value]) {
+            value = value.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+            foodSelect.append($('<option>', {
+                value: id,
+                text: value
+            }));
+        });
+    })
+
+    $('#foodStockSelect').on('change', function() {
+        var foodId = $(this).val(); 
+
+        if(foodId == "total") {
+            renderStockTable(food_inventory);
+        } else {
+            renderStockTable(food_inventory, foodId);
+        }
+    });
+});
+
 $(document).on("click", "#js-entry-stock-button", function () {
     $("#js-entry-stock-modal").modal("show");
     $('.js-date').mask("99/99/9999");
@@ -14,38 +54,88 @@ $(document).on("click", "#js-entry-stock-button", function () {
     maxViewMode: 2,
     showClearButton: false
     });
+    let foodSelect = $('#food');
+    
     $.ajax({
         type: 'POST',
         url: "?r=foods/foodInventory/getFoodAlias",
         cache: false
     }).success(function(response) {
-        //foods_description = JSON.parse(response);
-        console.log(response)
+        foods_description = JSON.parse(response);
+        
+        Object.entries(foods_description).forEach(function([id, value]) {
+            value = value.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+            foodSelect.append($('<option>', {
+                value: id,
+                text: value
+            }));
+        });
     })
 });
 
 $(document).on("click", "#add-food", function () {
-    let food = $('#food').val();
+    let food = $('#food').find('option:selected').text();
+    let foodId = $('#food').val();
     let amount = $('.js-amount').val();
     let expiration_date = $('.js-expiration-date').val();
-    let foodsStockDiv = document.getElementById("foods_stock");
-    let div_stock_quantity = foodsStockDiv.querySelectorAll('.mobile-row').length;
 
-    let stock = `
-    <div class="mobile-row t-list-content" id="food_stock_${div_stock_quantity + 1}">
-        <div class="column is-two-fifths clearfix">${food}</div>
-        <div class="column is-one-fifth clearleft--on-mobile clearfix">${amount}</div>
-        <div class="column is-one-fifth clearleft--on-mobile clearfix">${expiration_date}</div>
-        <div class="column is-one-fifth clearleft--on-mobile clearfix justify-content--end">
-            <span class="t-icon-close t-icon" id="stock_button" data-buttonId="${div_stock_quantity + 1}"></span>
-        </div>
-    </div>
-    `;
-
-    foodsStockDiv.innerHTML += stock;
+    foodsOnStock.push({id: foodId, foodDescription: food, amount: amount, expiration_date: expiration_date});
+    console.log(foodsOnStock);
+    renderSelectedFoods(foodsOnStock);
 });
 
 $(document).on("click", "#stock_button", function () {
     let id = $(this).attr('data-buttonId');
-    $("#food_stock_" + id).remove();
+    foodsOnStock.splice(id, 1);
+    renderSelectedFoods(foodsOnStock);
+});
+
+$(document).on("click", "#save-food", function () {
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/foodInventory/saveStock",
+        cache: false,
+        data: {
+            foodsOnStock: foodsOnStock
+        }
+    })
+    foodsOnStock.splice(0, foodsOnStock.length);
+    let foodsStockDiv = document.getElementById("foods_stock");
+    foodsStockDiv.innerHTML = '';
+    $('.js-expiration-date').val('');
+    $('.js-amount').val('');
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/foodInventory/getFoodInventory",
+        cache: false
+    }).success(function(response) {
+        food_inventory = JSON.parse(response);
+        renderStockTable(food_inventory);
+    })
+});
+
+$(document).on("click", "#spent-checkbox", function () {
+    let foodInventoryId = $(this).attr('data-foodInventoryId');
+    let amount = $(this).attr('data-amount');
+    console.log($(this).is(':checked'));
+    if($(this).is(':checked')) {
+        $.ajax({
+            type: 'POST',
+            url: "?r=foods/foodInventory/saveStockSpent",
+            cache: false,
+            data: {
+                foodInventoryId: foodInventoryId,
+                amount: amount
+            }
+        })
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: "?r=foods/foodInventory/deleteStockSpent",
+            cache: false,
+            data: {
+                foodInventoryId: foodInventoryId,
+            }
+        })
+    }
 });

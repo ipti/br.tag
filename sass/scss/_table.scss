@@ -111,6 +111,11 @@
             text-align: center; 
         }
     }
+    &.align-start {
+        td, th {
+            text-align: start; 
+        }
+    }
 }
 
 .grid-view {

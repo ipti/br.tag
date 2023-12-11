@@ -1,6 +1,7 @@
 <?php
 /* @var $this FoodInventoryController */
 /* @var $model FoodInventory */
+/* @var foodInventoryData[] $foodInventoryData foodInventoryData[] */
 /* @var $form CActiveForm */
 
 $baseUrl = Yii::app()->baseUrl;
@@ -31,6 +32,21 @@ $form=$this->beginWidget('CActiveForm', array(
         <button class="t-button-primary">Solicitações</button>
         <a class="t-button-secondary"><span class="t-icon-printer"></span>Relatório de Estoque</a>
     </div>
+    <div class="row">
+        <div class="t-field-select column is-two-fifths clearfix">
+            <select class="select-search-on t-field-select__input select2-container" id="foodStockSelect">
+                <option value="total">Busque no estoque</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column is-four-fifths clearfix">
+            <table class="tag-table-secondary align-start">
+
+            </table>
+        </div>
+    </div>
+    
 
     <div class="modal fade t-modal-container larger" id="js-entry-stock-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog " role="document">
@@ -48,9 +64,6 @@ $form=$this->beginWidget('CActiveForm', array(
                             <?php echo CHtml::label('Selecione o Alimento', 'food_fk', array('class' => 't-field-select__label--required')); ?>
                             <select class="select-search-on t-field-select__input select2-container" id="food" name="food">
                                 <option>Selecione a turma</option>
-                                <option>Arroz (KG)</option>
-                                <option>Feijão (KG)</option>
-                                <option>Macarrão (KG)</option>
                             </select>
                         </div>
                         <div class="column is-one-fifth clearleft--on-mobile t-field-text clear-margin--bottom clearfix">
@@ -76,41 +89,13 @@ $form=$this->beginWidget('CActiveForm', array(
                             <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
                         </div>
                         <div class="t-buttons-container justify-content--center">
-                            <button type="button" class="t-button-primary clear-margin--right js-add-classroom-diary" data-dismiss="modal">Adicionar ao estoque</button>
+                            <button type="button" class="t-button-primary clear-margin--right js-add-classroom-diary" data-dismiss="modal" id="save-food">Adicionar ao estoque</button>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-
-	<!-- <div class="row">
-		<?php echo $form->labelEx($model,'school_fk'); ?>
-		<?php echo $form->textField($model,'school_fk',array('size'=>8,'maxlength'=>8)); ?>
-		<?php echo $form->error($model,'school_fk'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'food_fk'); ?>
-		<?php echo $form->textField($model,'food_fk'); ?>
-		<?php echo $form->error($model,'food_fk'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'amount'); ?>
-		<?php echo $form->textField($model,'amount'); ?>
-		<?php echo $form->error($model,'amount'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'measurementUnit'); ?>
-		<?php echo $form->textField($model,'measurementUnit',array('size'=>7,'maxlength'=>7)); ?>
-		<?php echo $form->error($model,'measurementUnit'); ?>
-	</div>
-
-    <div class="row ">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
-    </div> -->
 
 <?php $this->endWidget(); ?>
 </div>

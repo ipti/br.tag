@@ -1,3 +1,5 @@
+ALTER TABLE food_inventory ADD expiration_date DATE;
+
 ALTER TABLE food ADD alias_id int(11);
 
 UPDATE food SET alias_id = 2 WHERE id = 1;
