@@ -46,7 +46,22 @@ $form=$this->beginWidget('CActiveForm', array(
             </table>
         </div>
     </div>
-    
+
+    <div class="modal fade t-modal-container" id="js-movements-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog " role="document">
+            <div class="t-modal__header">
+                <h4 class="t-title" id="myModalLabel">Movimentações</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="">
+                </button>
+            </div>
+            <form method="post">
+                <div class="t-modal__body">
+                    <p>Entrada e saída de itens</p>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <div class="modal fade t-modal-container larger" id="js-entry-stock-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog " role="document">
@@ -66,12 +81,23 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <option>Selecione a turma</option>
                             </select>
                         </div>
-                        <div class="column is-one-fifth clearleft--on-mobile t-field-text clear-margin--bottom clearfix">
+                        <div class="column is-one-tenth clearleft--on-mobile t-field-text clear-margin--bottom clearfix">
                             <?php echo $form->labelEx($model,'amount', array('class' => 't-field-text__label--required')); ?>
                             <?php echo $form->textField($model,'amount', array('class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Valor')); ?>
                             <?php echo $form->error($model,'amount'); ?>
                         </div>
                         <div class="column is-one-fifth clearleft--on-mobile t-field-text clear-margin--bottom clearfix">
+                            <?php echo CHtml::label('Unidade', 'measurementUnit', array('class' => 't-field-select__label--required')); ?>
+                            <select class="select-search-on t-field-select__input select2-container" id="measurementUnit" name="measurementUnit">
+                                <option>Selecione</option>
+                                <option>g</option>
+                                <option>Kg</option>
+                                <option>L</option>
+                                <option>Pacote</option>
+                                <option>Unidade</option>
+                            </select>
+                        </div>
+                        <div class="column is-one-tenth clearleft--on-mobile t-field-text clear-margin--bottom clearfix">
                             <?php echo $form->labelEx($model,'expiration_date',  array('class' => 't-field-text__label')); ?>
                             <?php echo $form->textField($model,'expiration_date', array('class'=>'t-field-text__input js-date clear-margin--all js-expiration-date', 'placeholder' => 'Selecione')); ?>
                             <?php echo $form->error($model,'expiration_date'); ?>

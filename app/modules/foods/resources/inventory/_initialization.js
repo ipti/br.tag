@@ -17,7 +17,7 @@ $(document).ready(function() {
         cache: false
     }).success(function(response) {
         foods_description = JSON.parse(response);
-        
+
         Object.entries(foods_description).forEach(function([id, value]) {
             value = value.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
             foodSelect.append($('<option>', {
@@ -28,7 +28,7 @@ $(document).ready(function() {
     })
 
     $('#foodStockSelect').on('change', function() {
-        var foodId = $(this).val(); 
+        var foodId = $(this).val();
 
         if(foodId == "total") {
             renderStockTable(food_inventory);
@@ -37,6 +37,23 @@ $(document).ready(function() {
         }
     });
 });
+
+$(document).on("click", "#js-movements-button", function () {
+    $("#js-movements-modal").modal("show");
+    let foodInventoryId = $(this).attr('data-foodInventoryId');
+    console.log(foodInventoryId);
+
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/foodInventory/getStockMovement",
+        cache: false,
+        data: {
+            foodInventoryId: foodInventoryId
+        }
+    }).success(function(response) {
+        movements = JSON.parse(response);
+    })
+})
 
 $(document).on("click", "#js-entry-stock-button", function () {
     $("#js-entry-stock-modal").modal("show");
@@ -55,14 +72,14 @@ $(document).on("click", "#js-entry-stock-button", function () {
     showClearButton: false
     });
     let foodSelect = $('#food');
-    
+
     $.ajax({
         type: 'POST',
         url: "?r=foods/foodInventory/getFoodAlias",
         cache: false
     }).success(function(response) {
         foods_description = JSON.parse(response);
-        
+
         Object.entries(foods_description).forEach(function([id, value]) {
             value = value.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
             foodSelect.append($('<option>', {
@@ -75,12 +92,12 @@ $(document).on("click", "#js-entry-stock-button", function () {
 
 $(document).on("click", "#add-food", function () {
     let food = $('#food').find('option:selected').text();
+    let measurementUnit = $('#measurementUnit').find('option:selected').text();
     let foodId = $('#food').val();
     let amount = $('.js-amount').val();
     let expiration_date = $('.js-expiration-date').val();
 
-    foodsOnStock.push({id: foodId, foodDescription: food, amount: amount, expiration_date: expiration_date});
-    console.log(foodsOnStock);
+    foodsOnStock.push({id: foodId, foodDescription: food, amount: amount, measurementUnit: measurementUnit ,expiration_date: expiration_date});
     renderSelectedFoods(foodsOnStock);
 });
 
@@ -98,19 +115,20 @@ $(document).on("click", "#save-food", function () {
         data: {
             foodsOnStock: foodsOnStock
         }
-    })
-    foodsOnStock.splice(0, foodsOnStock.length);
-    let foodsStockDiv = document.getElementById("foods_stock");
-    foodsStockDiv.innerHTML = '';
-    $('.js-expiration-date').val('');
-    $('.js-amount').val('');
-    $.ajax({
-        type: 'POST',
-        url: "?r=foods/foodInventory/getFoodInventory",
-        cache: false
     }).success(function(response) {
-        food_inventory = JSON.parse(response);
-        renderStockTable(food_inventory);
+        foodsOnStock.splice(0, foodsOnStock.length);
+        let foodsStockDiv = document.getElementById("foods_stock");
+        foodsStockDiv.innerHTML = '';
+        $('.js-expiration-date').val('');
+        $('.js-amount').val('');
+        $.ajax({
+            type: 'POST',
+            url: "?r=foods/foodInventory/getFoodInventory",
+            cache: false
+        }).success(function(response) {
+            food_inventory = JSON.parse(response);
+            renderStockTable(food_inventory);
+        })
     })
 });
 

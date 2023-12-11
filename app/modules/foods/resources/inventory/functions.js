@@ -6,14 +6,15 @@ function renderSelectedFoods(foodsOnStock) {
         let stock = `
         <div class="mobile-row t-list-content" id="food_stock_${index}">
             <div class="column is-two-fifths clearfix">${food.foodDescription}</div>
-            <div class="column is-one-fifth clearleft--on-mobile clearfix">${food.amount}</div>
-            <div class="column is-one-fifth clearleft--on-mobile clearfix">${food.expiration_date}</div>
+            <div class="column is-one-tenth clearleft--on-mobile clearfix">${food.amount}</div>
+            <div class="column is-one-fifth clearleft--on-mobile clearfix">${food.measurementUnit}</div>
+            <div class="column is-one-tenth clearleft--on-mobile clearfix">${food.expiration_date}</div>
             <div class="column is-one-fifth clearleft--on-mobile clearfix justify-content--end">
                 <span class="t-icon-close t-icon" id="stock_button" data-buttonId="${index}"></span>
             </div>
         </div>
         `;
-        
+
         foodsStockDiv.innerHTML += stock;
     });
 };
@@ -37,14 +38,14 @@ function renderStockTable(foodsOnStock, id) {
             let foodDescription = stock.description;
             foodDescription = foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
             let measurementUnit = stock.measurementUnit !== null ? (" (" + stock.measurementUnit + ") ") : "";
-    
+
             $('<td>').text(foodDescription).appendTo(row);
             $('<td>').text(stock.amount + measurementUnit).appendTo(row);
             $('<td>').text(stock.expiration_date).appendTo(row);
             let checkboxInput = $('<td>').html('<input type="checkbox" id="spent-checkbox" data-foodInventoryId="'+ stock.id +'" data-amount="'+ stock.amount +'" ' + (stock.spent ? 'checked' : '') + '> Em falta');
             $(checkboxInput).appendTo(row);
-            $('<td>').html('<span class="t-icon-copy"></span>').appendTo(row);
-    
+            $('<td>').html('<span id="js-movements-button" class="t-icon-cart-arrow-down cursor-pointer" data-foodInventoryId="' + stock.id + '"></span>').appendTo(row);
+
             table.append(row);
         });
     } else {
@@ -56,14 +57,14 @@ function renderStockTable(foodsOnStock, id) {
                 let foodDescription = stock.description;
                 foodDescription = foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
                 let measurementUnit = stock.measurementUnit !== null ? (" (" + stock.measurementUnit + ") ") : "";
-        
+
                 $('<td>').text(foodDescription).appendTo(row);
                 $('<td>').text(stock.amount + measurementUnit).appendTo(row);
                 $('<td>').text(stock.expiration_date).appendTo(row);
                 let checkboxInput = $('<td>').html('<input type="checkbox" id="spent-checkbox" data-foodInventoryId="'+ stock.id +'" data-amount="'+ stock.amount +'" ' + (stock.spent ? 'checked' : '') + '> Em falta');
                 $(checkboxInput).appendTo(row);
-                $('<td>').html('<span class="t-icon-copy"></span>').appendTo(row);
-        
+                $('<td>').html('<span class="t-icon-cart-arrow-down"></span>').appendTo(row);
+
                 table.append(row);
             }
         });
@@ -77,5 +78,5 @@ function renderStockTable(foodsOnStock, id) {
         }
     }
 
-    
+
 }

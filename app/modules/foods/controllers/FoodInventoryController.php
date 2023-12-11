@@ -35,8 +35,10 @@ class FoodInventoryController extends Controller
 					'saveStock',
 					'getFoodInventory',
 					'saveStockSpent',
+					'saveStockReceived',
 					'deleteStockSpent',
-					'checkFoodInventorySpent'
+					'checkFoodInventorySpent',
+					'getStockMovement'
                 ),
                 'users' => array('@'),
             ),
@@ -97,19 +99,37 @@ class FoodInventoryController extends Controller
                 $FoodInventory->food_fk = $foodData['id'];
                 $FoodInventory->school_fk = Yii::app()->user->school;
                 $FoodInventory->amount = $foodData['amount'];
-                $FoodInventory->measurementUnit = 'Kg';
+                $FoodInventory->measurementUnit = $foodData['measurementUnit'];
                 $FoodInventory->expiration_date = date('Y-m-d', $expiration_date_Timestamp);
 
-				$FoodInventory->save();
+                $FoodInventory->save();
+
+                if($FoodInventory->save()) {
+                    $FoodInventoryReceived = new FoodInventoryReceived;
+                    $FoodInventoryReceived->food_inventory_fk = $FoodInventory->id;
+                    $FoodInventoryReceived->amount = $foodData['amount'];
+
+                    $FoodInventoryReceived->save();
+                }
+
             }
         }
+	}
+    public function actionSaveStockReceived() {
+		$foodInventoryId = Yii::app()->request->getPost('foodInventoryId');
+		$amount = Yii::app()->request->getPost('amount');
+
+        $FoodInventoryReceived = new FoodInventoryReceived;
+
+        $FoodInventoryReceived->food_inventory_fk = $foodInventoryId;
+        $FoodInventoryReceived->amount = $amount;
+
+        $FoodInventoryReceived->save();
 	}
 
 	public function actionSaveStockSpent() {
 		$foodInventoryId = Yii::app()->request->getPost('foodInventoryId');
 		$amount = Yii::app()->request->getPost('amount');
-
-		var_dump($foodInventoryId, $amount);
 
 		$FoodInventorySpent = new FoodInventorySpent;
 
@@ -118,7 +138,7 @@ class FoodInventoryController extends Controller
 
 		$FoodInventorySpent->save();
 	}
-	
+
 	public function actionDeleteStockSpent() {
 		$foodInventoryId = Yii::app()->request->getPost('foodInventoryId');
 
@@ -129,6 +149,51 @@ class FoodInventoryController extends Controller
 		// Deletar os registros que atendem ao critério
 		FoodInventorySpent::model()->deleteAll($criteria);
 	}
+
+    public function actionGetStockMovement() {
+        $criteria = new CDbCriteria;
+
+        $criteria->join = 'LEFT JOIN food_inventory_received received ON spent.food_inventory_fk = received.food_inventory_fk';
+        $criteria->alias = 'spent';
+
+        // Selecionar as colunas desejadas de cada tabela
+        $criteria->select = 'spent.*, received.*'; // Selecione todas as colunas de ambas as tabelas
+
+        // Executar a consulta
+        $command = Yii::app()->db->createCommand();
+        $command->select($criteria->select);
+        $command->from('food_inventory_spent spent');
+        $command->join($criteria->join);
+        $command->where($criteria->condition);
+
+        $result = $command->queryAll();
+
+        var_dump ( $result );
+
+        // // Agora, você pode percorrer os resultados para colocar as informações em vetores diferentes
+        // $spentData = array();
+        // $receivedData = array();
+
+        // foreach ($result as $row) {
+        //     // Colocar dados da food_inventory_spent em um vetor
+        //     $spentData[] = array(
+        //         'id' => $row['id'],
+        //         'amount' => $row['amount'],
+        //         'date' => $row['date'],
+        //         'food_inventory_fk' => $row['food_inventory_fk'],
+        //         // ... adicione as colunas desejadas da tabela food_inventory_spent
+        //     );
+
+        //     // Colocar dados da food_inventory_received em outro vetor
+        //     $receivedData[] = array(
+        //         'id' => $row['id'],
+        //         'amount' => $row['amount'],
+        //         'date' => $row['date'],
+        //         'food_inventory_fk' => $row['food_inventory_fk'],
+        //         // ... adicione as colunas desejadas da tabela food_inventory_received
+        //     );
+        // }
+    }
 
 	public function actionGetFoodInventory() {
 		$criteria = new CDbCriteria();
@@ -158,10 +223,10 @@ class FoodInventoryController extends Controller
 		$criteria->select = 'food_inventory_fk'; // Seleciona apenas a coluna food_inventory_fk
 		$criteria->condition = 'food_inventory_fk = :foodInventoryId';
 		$criteria->params = array(':foodInventoryId' => $foodInventoryId);
-	
+
 		// Verifica se há alguma entrada correspondente na tabela food_inventory_spent
 		$exists = FoodInventorySpent::model()->exists($criteria);
-	
+
 		return $exists; // Retorna true se existe correspondência, false caso contrário
 	}
 
