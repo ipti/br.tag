@@ -114,11 +114,10 @@ class FoodMenuController extends Controller
         $foodMenuVsPublicTarget->food_public_target_fk = $publicTarget->id;
         $foodMenuVsPublicTarget->save();
 
+        // Chamando método que irá adicionar novos registros relacionados ao cardápio
+        $this->createFoodMenuRelations($modelFoodMenu, $request, $transaction);
         // Salvar alterações no banco
         $transaction->commit();
-
-        // Chamando método que irá salvar novos registros do cardápio
-        $this->createFoodMenuRelations($modelFoodMenu, $request);
         header('HTTP/1.1 201 Created');
         Log::model()->saveAction("foodMenu", $modelFoodMenu->id, "C", $modelFoodMenu->description);
         Yii::app()->end();
@@ -136,46 +135,51 @@ class FoodMenuController extends Controller
         $modelFoodMenu=$this->loadModel($id);
         $modelMenuMeals = FoodMenuMeal::model()->findAllByAttributes(array('food_menuId'=>$modelFoodMenu->id));
 
-        if($request != null){
-            // Trecho do código para excluir todos os registros associados ao cardápio
-            foreach($modelMenuMeals as $modelMenuMeal){
-                $modelFoodComponents = FoodMenuMealComponent::model()->findAllByAttributes(array('food_menu_mealId'=>$modelMenuMeal->id));
-                foreach($modelFoodComponents as $modelFoodComponent){
-                    $modelFoodIngredients =  FoodIngredient::model()->findAllByAttributes(array('food_menu_meal_componentId'=>$modelFoodComponent->id));
-                    foreach($modelFoodIngredients as $modelFoodIngredient){
-                        $modelFoodIngredient->delete();
-                    }
-                    $modelFoodComponent->delete();
-                }
-                $modelMenuMeal->delete();
-            }
-            // Chamada de função que irá salvar as novas informações do cardápio
-            $this->createFoodMenuRelations($modelFoodMenu, $request);
-        }else{
-            // Bloco de código para identificar qual o público alvo do cardápio
-            $publicTargetSql = "
-            SELECT fpt.id, fpt.name FROM food_public_target fpt
-            LEFT JOIN food_menu_vs_food_public_target fmvfpt ON fmvfpt.food_public_target_fk = fpt.id
-            WHERE fmvfpt.food_menu_fk = :id";
-            $publicTarget = Yii::app()->db->createCommand($publicTargetSql)->bindParam(':id', $modelFoodMenu->id)->queryRow();
+        if($request == null){
+             // Bloco de código para identificar qual o público alvo do cardápio
+             $publicTargetSql = "
+             SELECT fpt.id, fpt.name FROM food_public_target fpt
+             LEFT JOIN food_menu_vs_food_public_target fmvfpt ON fmvfpt.food_public_target_fk = fpt.id
+             WHERE fmvfpt.food_menu_fk = :id";
+             $publicTarget = Yii::app()->db->createCommand($publicTargetSql)->bindParam(':id', $modelFoodMenu->id)->queryRow();
 
-            $weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+             $weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
-            // Criando objeto de cardápio que será utilizado para armazenar informações sobre o cardápio
-            $foodMenu = new FoodMenuObject($modelFoodMenu, $publicTarget);
-            $foodMenu->setDateFormated($modelFoodMenu);
-            // Atribuindo refeições associadas ao cardápio de acordo com o dia
-            foreach($weekDays as $day){
-                $foodMenu->setDayMeals($day, $modelMenuMeals);
-            }
+             // Criando objeto de cardápio que será utilizado para armazenar informações sobre o cardápio
+             $foodMenu = new FoodMenuObject($modelFoodMenu, $publicTarget);
+             $foodMenu->setDateFormated($modelFoodMenu);
+             // Atribuindo refeições associadas ao cardápio de acordo com o dia
+             foreach($weekDays as $day){
+                 $foodMenu->setDayMeals($day, $modelMenuMeals);
+             }
 
-            // Convertendo objeto do cardápio em um JSON para enviar como resposta da requisição AJAX
-            $response = json_encode((array) $foodMenu);
+             // Convertendo objeto do cardápio em um JSON para enviar como resposta da requisição AJAX
+             $response = json_encode((array) $foodMenu);
 
-            $this->render('update', array(
-                'data'=>$response,
-            ));
+             $this->render('update', array(
+                 'data'=>$response,
+             ));
         }
+        
+        // Trecho do código para excluir todos os registros associados ao cardápio
+        $transaction = Yii::app()->db->beginTransaction();
+        foreach($modelMenuMeals as $modelMenuMeal){
+            $modelFoodComponents = FoodMenuMealComponent::model()->findAllByAttributes(array('food_menu_mealId'=>$modelMenuMeal->id));
+            foreach($modelFoodComponents as $modelFoodComponent){
+                $modelFoodIngredients =  FoodIngredient::model()->findAllByAttributes(array('food_menu_meal_componentId'=>$modelFoodComponent->id));
+                foreach($modelFoodIngredients as $modelFoodIngredient){
+                    $modelFoodIngredient->delete();
+                }
+                $modelFoodComponent->delete();
+            }
+            $modelMenuMeal->delete();
+        }
+        // Chamada de função que irá salvar as novas informações do cardápio
+        $this->createFoodMenuRelations($modelFoodMenu, $request, $transaction);
+        $transaction->commit();
+        header('HTTP/1.1 200 OK');
+        Log::model()->saveAction("foodMenu", $modelFoodMenu->id, "U", $modelFoodMenu->description);
+        Yii::app()->end();
 	}
 
 	public function actionGetTacoFoods() {
@@ -276,22 +280,21 @@ class FoodMenuController extends Controller
 			Yii::app()->end();
 		}
 	}
-    protected function createFoodMenuRelations($modelFoodMenu, $request){
-        // Trecho de código para inserir novas informações
+    protected function createFoodMenuRelations($modelFoodMenu, $request, $transaction){
         $weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
         foreach($weekDays as $day){
             // Verifica se existe alguma refeição para o dia
             if($request[$day] !== null){
                 // $meals se trata da lista de refeições que um dia da semana pode ter
                 $meals = $request[$day];
-                $this->createMeals($modelFoodMenu, $meals, $day);
+                $this->createMeals($modelFoodMenu, $meals, $day, $transaction);
             }
         }
     }
     /**
      * Método que salva no banco as alterações referentes às refeições
      */
-    private function createMeals($modelFoodMenu,$meals, $day){
+    private function createMeals($modelFoodMenu,$meals, $day, $transaction){
         foreach($meals as $meal)
                 {
                     $foodMenuMeal = new FoodMenuMeal;
@@ -304,47 +307,62 @@ class FoodMenuController extends Controller
                     $foodMenuMeal->food_meal_type_fk = $foodMealType->id;
 
                     // Verifica se a refeição foi salva com sucesso
-                    if($foodMenuMeal->save()){
-                        // $meal["meals_component"] se trata da lista de pratos que uma refeição pode ter
-                        foreach($meal["meals_component"] as $component)
-                        {
-                            $foodMenuMealComponent = new FoodMenuMealComponent;
-                            $foodMenuMealComponent->food_menu_mealId = $foodMenuMeal->id;
-                            $foodMenuMealComponent->description = $component["description"];
-                            // Verifica se o prato foi salvo com sucesso
-                            if($foodMenuMealComponent->save()){
-                                // $component["food_ingredients"] se trata da lista
-                                foreach($component["food_ingredients"] as $ingredient)
-                                {
-                                    $foodIngredient = new FoodIngredient;
-                                    $foodSearch = Food::model()->findByPk($ingredient["food_id_fk"]);
-                                    $foodIngredient->food_id_fk = $foodSearch->id;
-                                    $foodIngredient->amount = $ingredient["amount"];
-                                    $foodIngredient->food_menu_meal_componentId = $foodMenuMealComponent->id;
-                                    $foodMeasurement = FoodMeasurement::model()->findByPk($ingredient["food_measure_unit_id"]);
-                                    $foodIngredient->food_measurement_fk = $foodMeasurement->id;
-                                    if(!$foodIngredient->save()){
-                                        // Caso de erro: Falha quando ocorre um erro ao tentar salvar um ingrediente de um prato
-                                        $message = 'Ocorreu um erro ao salvar um ingrediente! Verifique as informações e tente novamente';
-                                        $transaction->rollback();
-                                        throw new CHttpException(500, $message);
-                                    }
-                                }
-                            }else{
-                                $message = "Ocorreu um erro ao salvar um prato! Verifique as informações e tente novamente";
-                                $transaction->rollback();
-                                throw new CHttpException(500, $message);
-                            }
-                        }
-                    }else{
-                        // Caso de erro: Falha quando ocorre um erro ao tentar salvar uma refeição
-                        $message = 'Ocorreu um erro ao salvar uma refeição! Tente novamente';
-                        $transaction->rollback();
-                        throw new CHttpException(500, $message);
+                    $saveMenuMealResult = $foodMenuMeal->save();
+                    if($saveMenuMealResult === false){
+                         // Caso de erro: Falha quando ocorre um erro ao tentar salvar uma refeição
+                         $message = 'Ocorreu um erro ao salvar uma refeição! Tente novamente';
+                         $transaction->rollback();
+                         throw new CHttpException(500, $message);
                     }
+                    // Caso de sucesso: a refeição foi salva com sucesso
+                    $this->createComponents($foodMenuMeal, $meal, $transaction);
                 }
     }
 
+    /**
+     * Método que salva no banco as alterações referentes aos pratos
+     */
+    private function createComponents($foodMenuMeal, $meal, $transaction){
+        // $meal["meals_component"] se trata da lista de pratos que uma refeição pode ter
+        foreach($meal["meals_component"] as $component)
+        {
+            $foodMenuMealComponent = new FoodMenuMealComponent;
+            $foodMenuMealComponent->food_menu_mealId = $foodMenuMeal->id;
+            $foodMenuMealComponent->description = $component["description"];
+            // Verifica se o prato foi salvo com sucesso
+            $saveComponentResult = $foodMenuMealComponent->save();
+            if($saveComponentResult === false){
+                $message = "Ocorreu um erro ao salvar um prato! Verifique as informações e tente novamente";
+                $transaction->rollback();
+                throw new CHttpException(500, $message);
+            }
+            $this->createIngredients($foodMenuMealComponent, $component, $transaction);
+        }
+    }
+
+    /**
+     * Método que salva no banco as alterações relacionadas aos ingredientes de um prato
+     */
+    private function createIngredients($modelComponent, $component, $transaction){
+        // $component["food_ingredients"] se trata da lista de ingredientes que um prato possui
+        foreach($component["food_ingredients"] as $ingredient)
+        {
+            $foodIngredient = new FoodIngredient;
+            $foodSearch = Food::model()->findByPk($ingredient["food_id_fk"]);
+            $foodIngredient->food_id_fk = $foodSearch->id;
+            $foodIngredient->amount = $ingredient["amount"];
+            $foodIngredient->food_menu_meal_componentId = $modelComponent->id;
+            $foodMeasurement = FoodMeasurement::model()->findByPk($ingredient["food_measure_unit_id"]);
+            $foodIngredient->food_measurement_fk = $foodMeasurement->id;
+            $saveIngredientResult = $foodIngredient->save();
+            if($saveIngredientResult === false){
+                // Caso de erro: Falha quando ocorre um erro ao tentar salvar um ingrediente de um prato
+                $message = 'Ocorreu um erro ao salvar um ingrediente! Verifique as informações e tente novamente';
+                $transaction->rollback();
+                throw new CHttpException(500, $message);
+            }
+        }
+    }
     /**
      * Método que retorna os públicos alvos que podem estar relacionados a um cardápio
      */
