@@ -736,11 +736,25 @@ class StudentsRobots
      * Selecionar a sala de aula do estudante.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function classroom ($classroom)
+    public function classroom($classroom)
     {
-        $this->tester->waitForElement('#StudentEnrollment_classroom_fk');
-        $this->tester->executeJS("$('#StudentEnrollment_classroom_fk').select2('val', $classroom);");
-        // $this->tester->selectOption('#StudentEnrollment_classroom_fk', $classroom);
+        $this->tester->waitForElement('select#StudentEnrollment_classroom_fk');
+        $this->tester->executeJS("
+            var select2Selector = 'select#StudentEnrollment_classroom_fk';
+
+            var textoDaOpcao = '$classroom';
+
+            var select2 = $(select2Selector);
+
+            var options = select2.find('option');
+
+            options.each(function(index, option) {
+                if ($(option).text() === textoDaOpcao) {
+                    select2.val($(option).val()).trigger('change');
+                    return false;
+                }
+            });
+        ");
     }
 
     /**
@@ -820,10 +834,35 @@ class StudentsRobots
      * Selecione a etapa de ensino.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function teachingStage ($teachingStage)
+    public function teachingStage($teachingStage)
     {
-        $this->tester->selectOption('#StudentEnrollment_edcenso_stage_vs_modality_fk', $teachingStage);
+        $this->retry(function () use ($teachingStage) {
+            try {
+                $this->tester->selectOption('#StudentEnrollment_edcenso_stage_vs_modality_fk', $teachingStage);
+                return true;
+            } catch (\Facebook\WebDriver\Exception\StaleElementReferenceException $e) {
+                return false;
+            }
+        }, 5, 1000);
     }
+
+    private function retry($function, $maxAttempts, $waitMilliseconds)
+    {
+        $attempts = 0;
+        $result = null;
+
+        while ($attempts < $maxAttempts) {
+            $result = $function();
+            if ($result) {
+                break;
+            }
+            usleep($waitMilliseconds * 1000);
+            $attempts++;
+        }
+
+        return $result;
+    }
+
 
     /**
      * Checkbox para transporte publico escolar.
