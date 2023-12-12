@@ -20,7 +20,7 @@ function renderSelectedFoods(foodsOnStock) {
 };
 
 function renderStockTable(foodsOnStock, id) {
-    let table = $('.tag-table-secondary');
+    let table = $('#foodStockTable');
     table.empty();
 
     let head = $('<tr>').addClass('');
@@ -79,4 +79,16 @@ function renderStockTable(foodsOnStock, id) {
     }
 
 
+}
+function renderMovementsTable(movements) {
+    let table = $('#movementsTable');
+    table.empty();
+
+    let head = $('<tr>').addClass('');
+    $('<th>').text('Tipo').appendTo(head);
+    $('<th>').text('Item').appendTo(head);
+    $('<th>').text('Quantidade').appendTo(head);
+    $('<th>').text('Data').appendTo(head);
+
+    table.append(head);
 }

@@ -41,7 +41,7 @@ $form=$this->beginWidget('CActiveForm', array(
     </div>
     <div class="row">
         <div class="column is-four-fifths clearfix">
-            <table class="tag-table-secondary align-start">
+            <table id="foodStockTable" class="tag-table-secondary align-start">
 
             </table>
         </div>
@@ -58,6 +58,9 @@ $form=$this->beginWidget('CActiveForm', array(
             <form method="post">
                 <div class="t-modal__body">
                     <p>Entrada e saída de itens</p>
+                    <table id="movementsTable" class="tag-table-secondary align-start">
+
+                    </table>
                 </div>
             </form>
         </div>

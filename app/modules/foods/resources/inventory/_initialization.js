@@ -41,7 +41,6 @@ $(document).ready(function() {
 $(document).on("click", "#js-movements-button", function () {
     $("#js-movements-modal").modal("show");
     let foodInventoryId = $(this).attr('data-foodInventoryId');
-    console.log(foodInventoryId);
 
     $.ajax({
         type: 'POST',
@@ -52,6 +51,7 @@ $(document).on("click", "#js-movements-button", function () {
         }
     }).success(function(response) {
         movements = JSON.parse(response);
+        renderMovementsTable(movements);
     })
 })
 

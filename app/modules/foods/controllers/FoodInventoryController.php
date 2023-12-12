@@ -151,48 +151,30 @@ class FoodInventoryController extends Controller
 	}
 
     public function actionGetStockMovement() {
-        $criteria = new CDbCriteria;
+        $foodInventoryId = Yii::app()->request->getPost('foodInventoryId');
 
-        $criteria->join = 'LEFT JOIN food_inventory_received received ON spent.food_inventory_fk = received.food_inventory_fk';
-        $criteria->alias = 'spent';
+        $criteria = new CDbCriteria();
+        $criteria->select = 'amount, date';
+        $criteria->with = array('foodInventoryFk');
+        $criteria->condition = 'food_inventory_fk = :foodInventoryId';
+        $criteria->params = array(':foodInventoryId' => $foodInventoryId);
 
-        // Selecionar as colunas desejadas de cada tabela
-        $criteria->select = 'spent.*, received.*'; // Selecione todas as colunas de ambas as tabelas
+        $receivedData = FoodInventoryReceived::model()->findAll($criteria);
+        $spentData = FoodInventorySpent::model()->findAll($criteria);
 
-        // Executar a consulta
-        $command = Yii::app()->db->createCommand();
-        $command->select($criteria->select);
-        $command->from('food_inventory_spent spent');
-        $command->join($criteria->join);
-        $command->where($criteria->condition);
+        $values = [
+            'received_data' => [],
+            'spent_data' => []
 
-        $result = $command->queryAll();
+        ];
+		foreach ($receivedData as $data) {
+            array_push($values['received_data'], ['amount' => $data->amount, 'date' => date('d/m/Y', strtotime($data->date)) , 'measurementUnit' => $data->foodInventoryFk->measurementUnit]);
+		};
+		foreach ($spentData as $data) {
+			array_push($values['spent_data'], ['amount' => $data->amount, 'date' => date('d/m/Y', strtotime($data->date)), 'measurementUnit' => $data->foodInventoryFk->measurementUnit]);
+		};
 
-        var_dump ( $result );
-
-        // // Agora, você pode percorrer os resultados para colocar as informações em vetores diferentes
-        // $spentData = array();
-        // $receivedData = array();
-
-        // foreach ($result as $row) {
-        //     // Colocar dados da food_inventory_spent em um vetor
-        //     $spentData[] = array(
-        //         'id' => $row['id'],
-        //         'amount' => $row['amount'],
-        //         'date' => $row['date'],
-        //         'food_inventory_fk' => $row['food_inventory_fk'],
-        //         // ... adicione as colunas desejadas da tabela food_inventory_spent
-        //     );
-
-        //     // Colocar dados da food_inventory_received em outro vetor
-        //     $receivedData[] = array(
-        //         'id' => $row['id'],
-        //         'amount' => $row['amount'],
-        //         'date' => $row['date'],
-        //         'food_inventory_fk' => $row['food_inventory_fk'],
-        //         // ... adicione as colunas desejadas da tabela food_inventory_received
-        //     );
-        // }
+        echo json_encode($values);
     }
 
 	public function actionGetFoodInventory() {
