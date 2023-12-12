@@ -16,7 +16,23 @@ class FrequencyCest
     }
 
     // tests
-    public function tryToTest(AcceptanceTester $teste)
+    
+    /**
+     * Seleciona o ano 2023.
+     * Adiciona frequência.
+     */
+    public function addFrequency(AcceptanceTester $teste)
     {
+        $builder = new FrequencyBuilder();
+        $dataFrequency = $builder->buildCompleted();
+
+        $robots = new FrequencyRobots($teste);
+
+        $robots->yearSelect('2023');
+        $robots->pageFrequency();
+        $robots->month($dataFrequency['month']);
+
+        sleep(4);
+
     }
 }

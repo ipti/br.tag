@@ -45,3 +45,6 @@ require_once __DIR__ . "/../builders/TimesheetBuilder.php";
 
 require_once __DIR__ . "/../robots/SchoolRobots.php";
 require_once __DIR__ . "/../builders/SchoolBuilder.php";
+
+require_once __DIR__ . "/../robots/FrequencyRobots.php";
+require_once __DIR__ . "/../builders/FrequencyBuilder.php";
