@@ -246,4 +246,63 @@ class ClassroomCest
 
         return $dataClassroom;
     }
+
+    /**
+     * Adicionar turma, preenchendo todos os.
+     * Tipo de Mediação Didático-Pedagógica - Educação a Distância - EAD.
+     * Selecionando de maneira manual o ano.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function withYearAddClassroomEAD(AcceptanceTester $teste)
+    {
+        sleep(5);
+
+        $robots = new ClassroomRobots($teste);
+        $robots->yearSelect('2023');
+        sleep(5);
+
+        $matrix = new MatrixCest();
+        $addMatrix = $matrix->addMatrix($teste);
+
+        $robots = new ClassroomRobots($teste);
+        $robots->pageAddClassroom();
+
+        $builder = new ClassroomBuilder();
+        $dataClassroom = $builder->buildCompleted();
+
+        // Classroom
+        $robots->name($dataClassroom['name']);
+        $robots->stageVsModalaty($addMatrix['stages']);
+        $robots->typeMediation($dataClassroom['pedagogical_mediation_type_IN_PERSON']);
+        $robots->modality($dataClassroom['modality']);
+        $robots->location($dataClassroom['diff_location']);
+        $robots->educationCourse($dataClassroom['edcenso_professional_education_course_fk']);
+        $robots->initialTime($dataClassroom['initial_time']);
+        $robots->finalTime($dataClassroom['final_time']);
+        $robots->turn($dataClassroom['turn']);
+        $robots->days($dataClassroom['week_days_monday']);
+        $robots->typeService($dataClassroom['assistance_complementary_activity']);
+        sleep(2);
+        $robots->activitiesComplementary($dataClassroom['complementary_activity_type_1']);
+        $robots->activitiesEducation($dataClassroom['aee_braille']);
+        $robots->btn2Instructors();
+
+        // Instructors
+        sleep(2);
+        $robots->btnInstructor();
+        sleep(2);
+        $robots->instructorsToClassroom('13');
+        $robots->disciplines($addMatrix['disciplines']);
+        $robots->role($dataClassroom['Role']);
+        $robots->contractType($dataClassroom['ContractType']);
+        $robots->createNewComponent();
+        sleep(2);
+
+        $robots->btnCriar();
+        sleep(2);
+
+        $robots->addSucess();
+
+        return $dataClassroom;
+    }
 }
