@@ -20,6 +20,12 @@ $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js', CCl
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/functions.js', CClientScript::POS_END);
 
+$cs->registerScript("", '
+    var sedspEnable = '. Yii::app()->features->isEnable("FEAT_SEDSP") .'
+    sedspEnable = sedspEnable || false;
+',  CClientScript::POS_HEAD);
+
+
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'student',
     'enableAjaxValidation' => false,
@@ -2057,7 +2063,4 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
     var formEnrollment = '#StudentEnrollment_';
     var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>';
     var filled = -1;
-</script>
-<script>
-    const sedspEnable = <?php echo Yii::app()->features->isEnable("FEAT_SEDSP"); ?>;
 </script>

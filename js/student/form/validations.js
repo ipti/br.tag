@@ -944,6 +944,7 @@ function checkCivilRegisterEnrollmentNumberValidity(element) {
             }
         }
         if (valid) {
+            let year = value.substring(10, 14);
             let birthday = $(formIdentification + "birthday").cleanVal();
             if (birthday !== "" && birthday.length === 8) {
                 let birthdayYear = birthday.substring(4, 8);
