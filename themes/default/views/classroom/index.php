@@ -116,7 +116,7 @@
                             'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center;'),
                         )
                     );
-                    if (TagUtils::isInstance("UBATUBA")) {
+                    if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
                         array_push($columns,
                             array(
                                 'header' => 'Sincronizado',
