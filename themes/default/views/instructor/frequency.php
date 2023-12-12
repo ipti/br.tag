@@ -6,7 +6,7 @@
     $baseUrl = Yii::app()->baseUrl;
 	$themeUrl = Yii::app()->theme->baseUrl;
 	$cs = Yii::app()->getClientScript();
-	$cs->registerScriptFile($baseUrl . '/js/instructor/frequencyv='.TAG_VERSION, CClientScript::POS_END);
+	$cs->registerScriptFile($baseUrl . '/js/instructor/frequency.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 	$this->setPageTitle('TAG - ' . Yii::t('default', 'Instructor frequency'));
     ?>

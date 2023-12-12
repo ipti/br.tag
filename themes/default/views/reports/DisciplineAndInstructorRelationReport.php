@@ -2,7 +2,7 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/DisciplineAndIntructorRelationReport/_initializationv='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/DisciplineAndIntructorRelationReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 ?>

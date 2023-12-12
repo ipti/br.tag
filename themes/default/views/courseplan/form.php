@@ -9,11 +9,11 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/courseplan/form/_initializationv='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/courseplan/form/functionsv='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/courseplan/form/validationsv='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/courseplan/form/paginationv='.TAG_VERSION, CClientScript::POS_END);
-// $cs->registerScriptFile($themeUrl . '/js/jquery/jquery.dataTables.minv='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/courseplan/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/courseplan/form/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/courseplan/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/courseplan/form/pagination.js?v='.TAG_VERSION, CClientScript::POS_END);
+// $cs->registerScriptFile($themeUrl . '/js/jquery/jquery.dataTables.min.js?v='.TAG_VERSION, CClientScript::POS_END);
 // $cs->registerCssFile($themeUrl . '/css/jquery.dataTables.min.css');
 // $cs->registerCssFile($themeUrl . '/css/dataTables.fontAwesome.css');
 
