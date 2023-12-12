@@ -4,7 +4,7 @@
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/css/reports.css');
-$cs->registerScriptFile($baseUrl . '/js/reports/index/functions.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/index/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->pageTitle = 'TAG - ' . Yii::t('default', 'Reports');
 $this->breadcrumbs = array(

@@ -8,7 +8,7 @@
     );
 
     $cs = Yii::app()->getClientScript();
-    $cs->registerScriptFile($baseUrl . '/js/classroom/index/functions.js?v=1.0', CClientScript::POS_END);
+    $cs->registerScriptFile($baseUrl . '/js/classroom/index/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
     ?>
 

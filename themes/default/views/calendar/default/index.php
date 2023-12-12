@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * @var DefaultController $this calendar.defaultController
  * @var Calendar $modelCalendar Calendar
  * @var CalendarEvent $modelEvent CalendarEvent
@@ -11,7 +11,7 @@ $themeUrl = Yii::app()->theme->baseUrl;
 
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.1');
-$cs->registerScriptFile($baseScriptUrl . '/common/js/index.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/common/js/indexv='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('calendarModule.index', 'Calendar'));
 ?>
