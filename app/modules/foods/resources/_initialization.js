@@ -73,6 +73,12 @@ if(menuId)  {
     })
     const day = $('.js-day-tab.active').attr("data-day-of-week")
     meals.map((e) => MealsComponent(e, day).actions.render())
+    $('.js-meals-component').accordion("destroy");
+    $( ".js-meals-component" ).accordion({
+      active: false,
+      collapsible: true,
+      icons: false,
+    });
 }
 
 

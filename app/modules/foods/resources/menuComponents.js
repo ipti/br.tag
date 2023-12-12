@@ -63,18 +63,9 @@ data.actions.render()
 /* PlateComponent */
 const PlateComponent = function (plate, mealId) {
 
-  function initializePlateAccordion(accordionActive) {
-    const container = $(`.js-plate-accordion-header[data-id-accordion='${accordionActive}']`).parent()
-    if(container.data('ui-accordion')) {
-      $(container).accordion("destroy");
-    }
-    container.accordion({
-      active: Number(accordionActive),
-      collapsible: true,
-      icons: false,
-    });
-    $(".js-plate-accordion-header").off("keydown");
-  }
+  /* function initializePlateAccordion(accordionActive) {
+    
+  } */
   function render() {
 
     const container = $(`.ui-accordion-content[data-id-accordion='${mealId}'] .js-plate-accordion`) 
@@ -136,12 +127,12 @@ const PlateComponent = function (plate, mealId) {
     plate.food_ingredients.map((e) => {
       getFood(e)
     })
-    removePlate(plate.id)
+   /*  removePlate(plate.id) */
     addRowToTable()
-    initializePlateAccordion(plate.id)
+    
     initializeSelect2()
   }
-  function removePlate(idPlateAccordion) {
+ /*  function removePlate(idPlateAccordion) {
   const button =  $(`.js-plate-accordion-content[data-id-accordion="${idPlateAccordion}"] .js-remove-plate`)
   
 
@@ -151,7 +142,7 @@ const PlateComponent = function (plate, mealId) {
         .js-plate-accordion-content[data-id-accordion="${idPlateAccordion}"]`).remove()
       }
     )
-  }
+  } */
   function getFoodList (select){
   
       $.ajax({
@@ -363,16 +354,6 @@ const PlateComponent = function (plate, mealId) {
 
 const MealsComponent = function (meal, day) {
 
-
-  function initializeMealsAccordion(idAccordionAActive) {
-    $('.js-meals-component').accordion("destroy");
-    $( ".js-meals-component" ).accordion({
-      active: Number(idAccordionAActive),
-      collapsible: true,
-      icons: false,
-    });
-  }
-
   function render() {
     const container = $(".js-meals-component");
     let template = `
@@ -442,9 +423,10 @@ const MealsComponent = function (meal, day) {
     const wrapper = parseDOM(template);
 
     wrapper.find(".js-mealTime").on("change", (e) =>  { meal.mealTime = e.target.value });
+
+    const title = wrapper.find('.js-meal-name')
     wrapper.find("select.js-meal-type").on("change", (e) =>  { 
 
-      const title = $(`.ui-accordion-header[data-id-accordion='${meal.id}'] .js-meal-name`)
       meal.mealType = $(e.target).find(":selected").text();
       meal.mealTypeId = e.target.value
       
@@ -455,36 +437,10 @@ const MealsComponent = function (meal, day) {
      });
      wrapper.find("select.js-shift").on("change", (e) => { meal.shift = e.target.value })
      wrapper.find("select.js-shift").val(meal.shift).trigger("change")
-    container.append(wrapper.children())
-    meal.plates.map((e) => {PlateComponent(e, meal.id).actions.render()})
-    addPlateToMeal(meal.id)
-    getMealTypeList()
-    addHourMask(meal.id)
-    initializeMealsAccordion(meal.id)
-    initializeSelect2()
-  }
- 
-  function getMealTypeList (){
-    const select = $(`.js-meals-accordion-content[data-id-accordion="${meal.id}"] .js-meal-type`)
 
-      $.ajax({
-          url: "?r=foods/foodMenu/getMealType",
-          type: "GET",
-      }).success(function(response) {
-          select.append(DOMPurify.sanitize(JSON.parse(response)));
-          select.val(meal.mealTypeId).trigger('change')
-      })
-  
-  }
-  function addHourMask(idMealAccordion) {
-    const input =  $(`.js-meals-accordion-content[data-id-accordion="${idMealAccordion}"] .js-mealTime`)
-    input.mask("99:99");
-  }
-  function addPlateToMeal(idAccordion) {
-    const button = $(`.ui-accordion-content[data-id-accordion='${idAccordion}'] .js-add-plate`)
-    
-    
-    button.on("click", function (event) {
+    //adiciona prato à refeição
+    const platesContainer = wrapper.find('.js-plate-accordion')
+    wrapper.find('.js-add-plate').on("click", (e) => {
       const day = $('.js-day-tab.active').attr("data-day-of-week")
       $(".js-meals-component").html('')
       meal.plates.push({
@@ -493,7 +449,48 @@ const MealsComponent = function (meal, day) {
         food_ingredients: []
        })
        meals.map((e) => MealsComponent(e, day).actions.render())
+       if(platesContainer.data('ui-accordion')) {
+        $(platesContainer).accordion("destroy");
+      }
+      platesContainer.accordion({
+        active: meal.plates.length,
+        collapsible: true,
+        icons: false,
+      });
+      $(".js-plate-accordion-header").off("keydown");
     })
+
+    getMealTypeList(wrapper.find(".js-meal-type"))
+
+    // adiciona máscara no input de hora
+    wrapper.find(".js-mealTime").mask("99:99")
+
+    container.append(wrapper.children())
+    meal.plates.map((e) => {PlateComponent(e, meal.id).actions.render()})
+    platesContainer.accordion({
+      active: false,
+      collapsible: true,
+      icons: false,
+    });
+    $(".js-plate-accordion-header").off("keydown");
+    $('.js-meals-component').accordion("destroy");
+    $( ".js-meals-component" ).accordion({
+      active: meals.length,
+      collapsible: true,
+      icons: false,
+    });
+
+    initializeSelect2()
+  }
+ 
+  function getMealTypeList (select){
+      $.ajax({
+          url: "?r=foods/foodMenu/getMealType",
+          type: "GET",
+      }).success(function(response) {
+          select.append(DOMPurify.sanitize(JSON.parse(response)));
+          select.val(meal.mealTypeId).trigger('change')
+      })
   }
   return {
     actions: {
@@ -516,14 +513,18 @@ $(document).on("click", ".js-add-meal", function () {
     plates: []
    })
    meals.map((e) => MealsComponent(e, day).actions.render())
+   $('.js-meals-component').accordion("destroy");
+   $( ".js-meals-component" ).accordion({
+      active: meals.length,
+      collapsible: true,
+      icons: false,
+    });
 });
 
 $(document).on("click", ".js-remove-meal", function () {
   const day = $('.js-day-tab.active').attr("data-day-of-week")
   let mealIdRemoved = $(this).attr("data-id-accordion")
   meals = meals.filter((e) => e.id != mealIdRemoved)
-  
-    debugger
   $(".js-meals-component").html('')
   meals.map((e) => MealsComponent(e, day).actions.render())
 });
