@@ -1183,8 +1183,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $idStudent = isset($_GET['id']) ? $_GET['id'] : null;
 
                                     if ($idStudent !== null) {
-                                        $sql = "SELECT COUNT(*) FROM classroom 
-                                                    WHERE id IN (SELECT classroom_fk FROM student_enrollment WHERE student_fk = :idStudent AND status = 1) 
+                                        $sql = "SELECT COUNT(*) FROM classroom
+                                                    WHERE id IN (SELECT classroom_fk FROM student_enrollment WHERE student_fk = :idStudent AND status = 1)
                                                     AND school_year = :schoolYear";
 
                                         $command = Yii::app()->db->createCommand($sql);
