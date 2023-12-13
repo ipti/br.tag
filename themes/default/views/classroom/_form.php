@@ -32,7 +32,7 @@ $form = $this->beginWidget(
             <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
                 <?php if ($sedspSync) { ?>
                     <div style="font-weight: bold;margin-right: 20px;">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png" style="width: 25px; margin-right: 2px;">Sincronizado
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png" style="width: 25px; margin-right: 2px;">Sincronizado                 
                     </div>
                 <?php } else { ?>
                     <div style="font-weight: bold;margin-right: 20px;">
