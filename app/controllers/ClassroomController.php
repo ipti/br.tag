@@ -595,14 +595,16 @@ class ClassroomController extends Controller
         $studentsEnrollments = $modelClassroom->studentEnrollments;
         $modelEnrollments = [];
         foreach ($studentsEnrollments as $studentEnrollment) {
+            $array = [];
             $array["enrollmentId"] = $studentEnrollment->id;
             $array["studentId"] = $studentEnrollment->studentFk->id;
             $array["studentName"] = $studentEnrollment->studentFk->name;
-            $array["enrollmentId"] = $studentEnrollment->id;
             $array["dailyOrder"] = $studentEnrollment->daily_order;
+
             if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
                 $array["synced"] = $studentEnrollment->studentFk->sedsp_sync && $studentEnrollment->sedsp_sync;
             }
+
             array_push($modelEnrollments, $array);
         }
 
@@ -675,7 +677,8 @@ class ClassroomController extends Controller
 
             if (Yii::app()->features->isEnable("FEAT_SEDSP") && !$disableFieldsWhenItsUBATUBA) {
 
-                if ($beforeChangeClassroom->turn != $modelClassroom->turn ||
+                if (
+                    $beforeChangeClassroom->turn != $modelClassroom->turn ||
                     $beforeChangeClassroom->sedsp_acronym != $modelClassroom->sedsp_acronym ||
                     $beforeChangeClassroom->sedsp_classnumber != $modelClassroom->sedsp_classnumber ||
                     $beforeChangeClassroom->sedsp_max_physical_capacity != $modelClassroom->sedsp_max_physical_capacity ||
@@ -688,7 +691,8 @@ class ClassroomController extends Controller
                     $beforeChangeClassroom->week_days_wednesday != $modelClassroom->week_days_wednesday ||
                     $beforeChangeClassroom->week_days_thursday != $modelClassroom->week_days_thursday ||
                     $beforeChangeClassroom->week_days_friday != $modelClassroom->week_days_friday ||
-                    $beforeChangeClassroom->week_days_saturday != $modelClassroom->week_days_saturday) {
+                    $beforeChangeClassroom->week_days_saturday != $modelClassroom->week_days_saturday
+                ) {
 
                     $modelClassroom->sedsp_sync = 0;
                 }
@@ -696,71 +700,82 @@ class ClassroomController extends Controller
 
             $disciplines = json_decode($_POST['disciplines'], true);
             $this->setDisciplines($modelClassroom, $disciplines);
+            $hasWeekDaySelected = $modelClassroom->week_days_sunday ||
+                $modelClassroom->week_days_monday ||
+                $modelClassroom->week_days_tuesday ||
+                $modelClassroom->week_days_wednesday ||
+                $modelClassroom->week_days_thursday ||
+                $modelClassroom->week_days_friday ||
+                $modelClassroom->week_days_saturday;
 
-            if ($modelClassroom->week_days_sunday || $modelClassroom->week_days_monday || $modelClassroom->week_days_tuesday || $modelClassroom->week_days_wednesday || $modelClassroom->week_days_thursday || $modelClassroom->week_days_friday || $modelClassroom->week_days_saturday) {
+            if (!$hasWeekDaySelected) {
+                $modelClassroom->addError('week_days_sunday', Yii::t('default', 'Week Days') . ' ' . Yii::t('default', 'cannot be blank'));
+            }
 
-                if ($modelClassroom->validate() && $modelClassroom->save()) {
-                    $saved = true;
-                    $teachingDataValidated = true;
+            if ($hasWeekDaySelected && $modelClassroom->validate() && $modelClassroom->save()) {
+                $saved = true;
+                $teachingDataValidated = true;
 
-                    $teachingData = json_decode($_POST['teachingData']);
+                $teachingData = json_decode($_POST['teachingData']);
 
-                    foreach ($teachingData as $key => $td) {
-                        $modelTeachingData[$key] = new InstructorTeachingData;
-                        $modelTeachingData[$key]->classroom_id_fk = $modelClassroom->id;
-                        $modelTeachingData[$key]->school_inep_id_fk = $modelClassroom->school_inep_fk;
-                        $modelTeachingData[$key]->instructor_fk = $td->Instructor;
-                        $modelTeachingData[$key]->role = $td->Role;
-                        $modelTeachingData[$key]->contract_type = $td->ContractType;
-                        $modelTeachingData[$key]->regent = $td->RegentTeacher;
-                        $modelTeachingData[$key]->disciplines = $td->Disciplines;
-                        $teachingDataValidated = $teachingDataValidated && $modelTeachingData[$key]->validate();
-                    }
+                foreach ($teachingData as $key => $td) {
+                    $modelTeachingData[$key] = new InstructorTeachingData;
+                    $modelTeachingData[$key]->classroom_id_fk = $modelClassroom->id;
+                    $modelTeachingData[$key]->school_inep_id_fk = $modelClassroom->school_inep_fk;
+                    $modelTeachingData[$key]->instructor_fk = $td->Instructor;
+                    $modelTeachingData[$key]->role = $td->Role;
+                    $modelTeachingData[$key]->contract_type = $td->ContractType;
+                    $modelTeachingData[$key]->regent = $td->RegentTeacher;
+                    $modelTeachingData[$key]->disciplines = $td->Disciplines;
+                    $teachingDataValidated = $teachingDataValidated && $modelTeachingData[$key]->validate();
+                }
 
-                    if ($teachingDataValidated) {
-                        foreach ($modelTeachingData as $key => $td) {
-                            if ($saved) {
-                                $saved = $modelTeachingData[$key]->save();
-                                foreach ($td->disciplines as $discipline) {
-                                    $curricularMatrix = CurricularMatrix::model()->find("stage_fk = :stage_fk and discipline_fk = :discipline_fk and school_year = :year", ["stage_fk" => $modelClassroom->edcenso_stage_vs_modality_fk, "discipline_fk" => $discipline, "year" => Yii::app()->user->year]);
-                                    $teachingMatrixes = new TeachingMatrixes();
-                                    $teachingMatrixes->curricular_matrix_fk = $curricularMatrix->id;
-                                    $teachingMatrixes->teaching_data_fk = $modelTeachingData[$key]->id;
-                                    $teachingMatrixes->save();
-                                }
-                            }
-                        }
+                if ($teachingDataValidated) {
+                    foreach ($modelTeachingData as $key => $td) {
                         if ($saved) {
-
-                            if (Yii::app()->features->isEnable("FEAT_SEDSP") && !$modelClassroom->sedsp_sync) {
-                                $loginUseCase = new LoginUseCase();
-                                $loginUseCase->checkSEDToken();
-
-                                $inConsultaTurmaClasse = new InConsultaTurmaClasse(
-                                    Yii::app()->user->year,
-                                    $modelClassroom->gov_id
+                            $saved = $modelTeachingData[$key]->save();
+                            foreach ($td->disciplines as $discipline) {
+                                $curricularMatrix = CurricularMatrix::model()->find(
+                                    "stage_fk = :stage_fk and discipline_fk = :discipline_fk and school_year = :year",
+                                    [
+                                        "stage_fk" => $modelClassroom->edcenso_stage_vs_modality_fk,
+                                        "discipline_fk" => $discipline,
+                                        "year" => Yii::app()->user->year
+                                    ]
                                 );
-                                $dataSource = new ClassroomSEDDataSource();
-                                $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
-
-                                if (!property_exists($outConsultaTurmaClasse, "outErro")) {
-
-                                    $result = $modelClassroom->syncToSEDSP("edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create");
-                                } else {
-                                    $result = ["flash" => "error", "message" => $outConsultaTurmaClasse->outErro];
-                                }
-                            } else {
-                                $result = ["flash" => "success", "message" => "Turma atualizada com sucesso!"];
+                                $teachingMatrixes = new TeachingMatrixes();
+                                $teachingMatrixes->curricular_matrix_fk = $curricularMatrix->id;
+                                $teachingMatrixes->teaching_data_fk = $modelTeachingData[$key]->id;
+                                $teachingMatrixes->save();
                             }
-
-                            Log::model()->saveAction("classroom", $modelClassroom->id, "U", $modelClassroom->name);
-                            Yii::app()->user->setFlash($result["flash"], $result["message"]);
-                            $this->redirect(array('index'));
                         }
+                    }
+                    if ($saved) {
+                        if (Yii::app()->features->isEnable("FEAT_SEDSP") && !$modelClassroom->sedsp_sync) {
+                            $loginUseCase = new LoginUseCase();
+                            $loginUseCase->checkSEDToken();
+
+                            $inConsultaTurmaClasse = new InConsultaTurmaClasse(
+                                Yii::app()->user->year,
+                                $modelClassroom->gov_id
+                            );
+                            $dataSource = new ClassroomSEDDataSource();
+                            $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
+
+                            if (!property_exists($outConsultaTurmaClasse, "outErro")) {
+                                $result = $modelClassroom->syncToSEDSP("edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create");
+                            } else {
+                                $result = ["flash" => "error", "message" => $outConsultaTurmaClasse->outErro];
+                            }
+                        } else {
+                            $result = ["flash" => "success", "message" => "Turma atualizada com sucesso!"];
+                        }
+
+                        Log::model()->saveAction("classroom", $modelClassroom->id, "U", $modelClassroom->name);
+                        Yii::app()->user->setFlash($result["flash"], $result["message"]);
+                        $this->redirect(array('index'));
                     }
                 }
-            } else {
-                $modelClassroom->addError('week_days_sunday', Yii::t('default', 'Week Days') . ' ' . Yii::t('default', 'cannot be blank'));
             }
         }
 
@@ -989,7 +1004,8 @@ class ClassroomController extends Controller
         foreach ($enrollments as $i => $enrollment) {
             $enrollment->daily_order = $i + 1;
             $enrollment->save();
-        };
+        }
+        ;
         $result = array_map(function ($enrollment) {
             return ["id" => $enrollment->id, "name" => $enrollment->studentFk->name,
                 "daily_order" => $enrollment->daily_order];
@@ -1017,7 +1033,7 @@ class ClassroomController extends Controller
                         "studentName" => $studentIdentification->name,
                         "identificationMessage" => $response["identification"] != null ? $response["identification"]->outErro : null,
                         "enrollmentMessage" => $response["enrollment"] != null ? $response["enrollment"]->outErro : null
-                        ]);
+                    ]);
                 } else {
                     array_push($result, [
                         "enrollmentId" => $studentEnrollment->id,
