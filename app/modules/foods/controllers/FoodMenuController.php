@@ -41,13 +41,13 @@ class FoodMenuController extends Controller
                     'getPublicTarget',
                     'getMealType',
                     'getFoodMeasurement',
-                    'getMeals'),
+                    'viewMeals'),
 				'users'=>array('@'),
 			),
-            array('allow',  // deny all users
-                'actions' => array('getMeals'),
-                'users'=>array('*'),
-			),
+            // array('allow',  // deny all users
+            //     'actions' => array('viewMeals'),
+            //     'users'=>array('*'),
+			// ),
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
@@ -270,15 +270,38 @@ class FoodMenuController extends Controller
             $transaction->rollback();
             throw new CHttpException(500, $e->getMessage());
         }
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		// $returnUrl = isset($_POST['returnUrl']) ? $_POST['returnUrl'] : 'admin';
-		// if (filter_var($returnUrl, FILTER_VALIDATE_URL)) {
-		// 	$this->redirect($returnUrl);
-		// }
 	}
+    /**
+     * Essa função deve retornar um objeto com todas as refeições em todos os cardápios
+     * cadastrados para cada um dos dias da semana, onde a semana será baseada no dia atual
+     */
+    public function actionViewMeals(){
+        // Get the current date
+        date_default_timezone_set('America/Bahia');
+        $date = date('Y-m-d', time());
 
-    public function actionGetMeals(){
-        $currentDate =
+        // Create a filter to select foodMenus
+        $criteria = new CDbCriteria();
+        $criteria->addCondition("start_date <= :date AND final_date >= :date");
+        $criteria->params = array(':date' => $date);
+
+        // Select in database filtered foodMenus and assign it to models
+        $modelFoodMenus = FoodMenu::model()->findAll($criteria);
+        $foodMenu = new FoodMenuObject();
+        // Iterate throw foodMenus selected and assign to response object
+        $weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+        foreach($weekDays as $day){
+            foreach($modelFoodMenus as $modelFoodMenu){
+                $modelMeals = FoodMenuMeal::model()->findAllByAttributes(array("food_menuId" => $modelFoodMenu->id));
+                $foodMenu->setDayMeals($day, $modelMeals);
+            }
+        }
+
+        $response = json_encode((array) $foodMenu);
+
+        $this->render('viewMeals', array(
+            'data'=>$response,
+        ));
     }
 
 	/**
@@ -386,5 +409,110 @@ class FoodMenuController extends Controller
                 ));
         }
         echo CJSON::encode($options);
+    }
+}
+
+/**
+ * Classes that represents a foodMenu which will be manipulated and send as response to client request
+ */
+class FoodMenuObject {
+    public $description;
+    public $food_public_target;
+    public $start_date;
+    public $final_date;
+    public $sunday = [];
+    public $monday = [];
+    public $tuesday = [];
+    public $wednesday = [];
+    public $thursday = [];
+    public $friday = [];
+    public $saturday = [];
+
+    public function __construct($model = null, $foodPublicTarget = null){
+        if($model !== null && $foodPublicTarget !== null){
+            $this->description = $model->description;
+            $this->food_public_target = $foodPublicTarget['id'];
+        }
+    }
+
+    public function setDateFormated($model){
+        $inputStartDate = $model->start_date;
+        $inputFinalDate = $model->final_date;
+        $startDate = new DateTime($inputStartDate);
+        $finalDate = new DateTime($inputFinalDate);
+        $this->start_date = $startDate->format("m/d/Y");
+        $this->final_date = $finalDate->format("m/d/Y");
+    }
+
+    public function setDayMeals($day, $modelMeals){
+        foreach($modelMeals as $modelMeal){
+            if($modelMeal->$day){
+                $modelComponents = FoodMenuMealComponent::model()->findAllByAttributes(array('food_menu_mealId' => $modelMeal->id));
+                $meal = new MealObject($modelMeal);
+                $meal->setComponentMeal($modelComponents);
+                array_push($this->$day, (array) $meal);
+            }
+        }
+    }
+}
+/**
+ * Classe that represents a meal from a foodMenu to be loaded in JSON response
+ */
+class MealObject
+{
+    public $time;
+    public $sequence;
+    public $turn;
+    public $food_meal_type;
+    public $meals_component = [];
+
+    public function __construct($model){
+        $this->time = $model->meal_time;
+        $this->sequence = $model->sequence;
+        $this->turn = $model->turn;
+        $this->food_meal_type = $model->food_meal_type_fk;
+    }
+
+    public function setComponentMeal($modelComponents){
+        foreach($modelComponents as $modelComponent){
+            $modelIngredients = FoodIngredient::model()->findAllByAttributes(array('food_menu_meal_componentId' => $modelComponent->id));
+            $component = new MealComponentObject($modelComponent);
+            $component->setComponentIngredients($modelIngredients);
+            array_push($this->meals_component, (array) $component);
+        }
+    }
+}
+/**
+ * Classe that represents a Component from a meal to be loaded in JSON response
+ */
+class MealComponentObject
+{
+    public $description;
+    public $ingredients = [];
+
+    public function __construct($model){
+        $this->description = $model->description;
+    }
+
+    public function setComponentIngredients($modelIngredients){
+        foreach($modelIngredients as $modelIngredient){
+            $ingredient = new IngredientObject($modelIngredient);
+            array_push($this->ingredients, (array) $ingredient);
+        }
+    }
+}
+/**
+ * Classe that represents an ingredient from a component to be loaded in JSON response
+ */
+class IngredientObject
+{
+    public $food_id_fk;
+    public $amount;
+    public $food_measure_unit_id;
+
+    public function __construct($model){
+        $this->food_id_fk = $model->food_id_fk;
+        $this->amount = $model->amount;
+        $this->food_measure_unit_id = $model->food_measurement_fk;
     }
 }
