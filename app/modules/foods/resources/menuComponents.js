@@ -69,17 +69,12 @@ const data = DateComponent();
 data.actions.render()
 
 /* PlateComponent */
-const PlateComponent = function (plate, mealId) {
+const PlateComponent = function (plate) {
 
-  /* function initializePlateAccordion(accordionActive) {
-    
-  } */
   function render() {
 
-    const container = $(`.ui-accordion-content[data-id-accordion='${mealId}'] .js-plate-accordion`) 
-
     let template = `
-      <div class="ui-accordion-header js-plate-accordion-header row" data-meal-id='${mealId}'>
+      <div class="ui-accordion-header js-plate-accordion-header row">
         <div class='column flex-direction--row align-items--baseline'>
           <input type="text" class="t-accordion-input-header js-plate-name" autofocus="true" value='${plate.description}' name='Nome do Prato' placeholder="Digite o nome do prato" required='required' />
           <label>
@@ -91,7 +86,7 @@ const PlateComponent = function (plate, mealId) {
         <span class="t-icon-down_arrow arrow" ></span>
         </div>
       </div>
-      <div class="ui-accordion-content js-plate-accordion-content" data-meal-id='${mealId}'>
+      <div class="ui-accordion-content js-plate-accordion-content">
         <div class="row">
           <div class="t-field-select column clearfix">
             <select class="t-field-select__input js-initialize-select2 js-taco-foods">
@@ -129,6 +124,7 @@ const PlateComponent = function (plate, mealId) {
       </div>
     `
     const wrapper = parseDOM(template);
+
     wrapper.find(".js-plate-name").on("change", (e) =>  { plate.description = e.target.value });
     getFoodList(wrapper.find(".js-taco-foods"))
     const table = wrapper.find('table.js-meal-component-table')
@@ -138,9 +134,9 @@ const PlateComponent = function (plate, mealId) {
     })
     const selectFoods = wrapper.find('.js-taco-foods')
     addRowToTable(selectFoods, table)
-    container.append(wrapper.children())
+    // initializeSelect2()
+    return wrapper.children()
     
-    initializeSelect2()
   }
 
   function getFoodList (select){
@@ -355,16 +351,16 @@ const MealsComponent = function (meal, day) {
     const container = $(".js-meals-component");
     let template = `
     
-    <div class="ui-accordion-header js-meals-accordion-header row ${meal.mealDay != day ? 'hide' : '' }" data-day-of-week="${meal.mealDay}" data-id-accordion="${meal.id}">
+    <div class="ui-accordion-header js-meals-accordion-header row ${meal.mealDay != day ? 'hide' : '' }" data-day-of-week="${meal.mealDay}">
       <div class="column justify-content--start js-meal-name">
         ${meal.mealType == "Selecione a refeição" ? "Turno da refeição" : meal.mealType}
       </div>
       <div class="column justify-content--space-between border-left">
         <span></span>
-        <span class="t-icon-trash js-remove-meal" data-id-accordion="${meal.id}"></span>
+        <span class="t-icon-trash js-remove-meal"></span>
       </div>
     </div>
-    <div class="ui-accordion-content js-meals-accordion-content  ${meal.mealDay != day ? 'hide' : '' }" data-day-of-week="${meal.mealDay}" data-id-accordion="${meal.id}">
+    <div class="ui-accordion-content js-meals-accordion-content  ${meal.mealDay != day ? 'hide' : '' }" data-day-of-week="${meal.mealDay}">
       <div class="row">
         <div class="t-field-text column">
           <label class="t-field-text__label--required">Hora da Refeição *</label>
@@ -476,7 +472,8 @@ const MealsComponent = function (meal, day) {
     wrapper.find(".js-mealTime").mask("99:99")
 
     container.append(wrapper.children())
-    meal.plates.map((e) => {PlateComponent(e, meal.id).actions.render()})
+    const renderPlates = meal.plates.reduce((acc, plate) => acc.concat(PlateComponent(plate).actions.render()), []);
+    platesContainer.html(renderPlates)
     platesContainer.accordion({
       active: false,
       collapsible: true,
