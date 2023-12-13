@@ -387,12 +387,12 @@ $(document).on("change", "#Classroom_edcenso_stage_vs_modality_fk", function () 
 $("#Classroom_edcenso_stage_vs_modality_fk").trigger("change");
 
 
-$("#js-t-sortable").on("sortupdate", function(event, ui) {
+$("#js-t-sortable").on("sortupdate", function (event, ui) {
     newOrderArray = $(this).sortable("toArray");
     $.ajax({
         url: `${window.location.host}?r=classroom/changeenrollments`,
         type: "POST",
-        data:{
+        data: {
             list: newOrderArray
         },
         beforeSend: function () {
@@ -421,8 +421,48 @@ $("#js-t-sortable").on("sortupdate", function(event, ui) {
             list.push(li);
         });
 
-       $("#js-t-sortable").html(list);
-       $("#daily").css("opacity", 1);
-       $("#js-t-sortable").sortable();
+        $("#js-t-sortable").html(list);
+        $("#daily").css("opacity", 1);
+        $("#js-t-sortable").sortable();
+    })
+});
+
+$(document).on("click", ".sync-enrollments", function (e) {
+    var button = this;
+    e.preventDefault();
+    $.ajax({
+        url: "?r=classroom/syncUnsyncedStudents",
+        type: "POST",
+        data: {
+            classroomId: classroomId
+        },
+        beforeSend: function () {
+            $(button).css("pointer-events", "none");
+            $(".loading-sync").show();
+        },
+    }).success(function (data) {
+        data = JSON.parse(data);
+        var errors = "";
+        $.each(data, function () {
+            if (this.valid) {
+                $("td[enrollmentid=" + this.enrollmentId + "]").closest("tr").find(".sync-column").html('<img src="' + baseURL + '/img/SyncTrue.png" style="width: 21px;" alt="synced">');
+            } else {
+                errors += "<b>" + this.studentName + "</b>";
+                if (this.identificationMessage != null) {
+                    errors += "<br>Ficha do Aluno: " + this.identificationMessage;
+                }
+                if (this.enrollmentMessage != null) {
+                    errors += "<br>Matrícula: " + this.enrollmentMessage;
+                }
+                errors += "<br><br>";
+            }
+        });
+        if (errors === "") {
+            $(".classroom-alert").removeClass("alert-error").addClass("alert-success").text("Matrículas sincronizadas com sucesso!").show();
+        } else {
+            $(".classroom-alert").addClass("alert-error").removeClass("alert-success").html("As seguintes matrículas não foram sincronizadas:<br><br>" + errors).show();
+        }
+        $(button).css("pointer-events", "auto");
+        $(".loading-sync").hide();
     })
 });

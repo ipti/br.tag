@@ -33,5 +33,11 @@ $(".update-classroom-to-sedsp").click(function() {
 });
 
 $(".import-classroom-button").click(function() {
-    $("#importClassroomToSEDSP").find("form").submit();
+    $("#importClassroomFromSEDSP").find("form").submit();
+});
+
+$('#copy-gov-id').click(function() {
+    let govId = $('#Classroom_gov_id').val();
+    navigator.clipboard.writeText(govId);
+    $('#copy-message').text('Copiado!').fadeIn().delay(1000).fadeOut();
 });
