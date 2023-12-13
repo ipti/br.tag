@@ -41,7 +41,7 @@ class FoodMenuController extends Controller
                     'getPublicTarget',
                     'getMealType',
                     'getFoodMeasurement',
-                    'viewMeals'),
+                    'viewLunch'),
 				'users'=>array('@'),
 			),
             // array('allow',  // deny all users
@@ -275,7 +275,7 @@ class FoodMenuController extends Controller
      * Essa função deve retornar um objeto com todas as refeições em todos os cardápios
      * cadastrados para cada um dos dias da semana, onde a semana será baseada no dia atual
      */
-    public function actionViewMeals(){
+    public function actionViewLunch(){
         // Get the current date
         date_default_timezone_set('America/Bahia');
         $date = date('Y-m-d', time());
@@ -299,7 +299,7 @@ class FoodMenuController extends Controller
 
         $response = json_encode((array) $foodMenu);
 
-        $this->render('viewMeals', array(
+        $this->render('viewLunch', array(
             'data'=>$response,
         ));
     }
