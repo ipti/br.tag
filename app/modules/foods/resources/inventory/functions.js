@@ -44,7 +44,7 @@ function renderStockTable(foodsOnStock, id) {
             $('<td>').text(stock.expiration_date).appendTo(row);
             let checkboxInput = $('<td>').html('<input type="checkbox" id="spent-checkbox" data-foodInventoryId="'+ stock.id +'" data-amount="'+ stock.amount +'" ' + (stock.spent ? 'checked' : '') + '> Em falta');
             $(checkboxInput).appendTo(row);
-            $('<td>').html('<span id="js-movements-button" class="t-icon-cart-arrow-down cursor-pointer" data-foodInventoryId="' + stock.id + '"></span>').appendTo(row);
+            $('<td>').html('<span id="js-movements-button" class="t-icon-cart-arrow-down cursor-pointer" data-foodInventoryFoodId="' + stock.foodId + '" data-foodInventoryFoodName="'  + foodDescription + '"></span>').appendTo(row);
 
             table.append(row);
         });
@@ -63,7 +63,7 @@ function renderStockTable(foodsOnStock, id) {
                 $('<td>').text(stock.expiration_date).appendTo(row);
                 let checkboxInput = $('<td>').html('<input type="checkbox" id="spent-checkbox" data-foodInventoryId="'+ stock.id +'" data-amount="'+ stock.amount +'" ' + (stock.spent ? 'checked' : '') + '> Em falta');
                 $(checkboxInput).appendTo(row);
-                $('<td>').html('<span class="t-icon-cart-arrow-down"></span>').appendTo(row);
+                $('<td>').html('<span id="js-movements-button" class="t-icon-cart-arrow-down cursor-pointer" data-foodInventoryFoodId="' + stock.foodId + '" data-foodInventoryFoodName="'  + foodDescription + '"></span>').appendTo(row);
 
                 table.append(row);
             }
@@ -80,7 +80,7 @@ function renderStockTable(foodsOnStock, id) {
 
 
 }
-function renderMovementsTable(movements) {
+function renderMovementsTable(movements, foodName) {
     let table = $('#movementsTable');
     table.empty();
 
@@ -91,4 +91,17 @@ function renderMovementsTable(movements) {
     $('<th>').text('Data').appendTo(head);
 
     table.append(head);
+
+    $.each(movements, function(index, foodInventory) {
+        let row = $('<tr>').addClass('');
+        let measurementUnit = (" (" + foodInventory.measurementUnit + ") ");
+        let textColor = foodInventory.type == "Saída" ? 'text-color--red' : 'text-color--green';
+
+        $('<td class="' + textColor + '">').text(foodInventory.type).appendTo(row);
+        $('<td>').text(foodName).appendTo(row);
+        $('<td>').text(foodInventory.amount + measurementUnit).appendTo(row);
+        $('<td>').text(foodInventory.date).appendTo(row);
+
+        table.append(row);
+    });
 }

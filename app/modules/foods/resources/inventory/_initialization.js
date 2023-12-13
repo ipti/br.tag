@@ -40,18 +40,24 @@ $(document).ready(function() {
 
 $(document).on("click", "#js-movements-button", function () {
     $("#js-movements-modal").modal("show");
-    let foodInventoryId = $(this).attr('data-foodInventoryId');
+    let foodInventoryFoodId = $(this).attr('data-foodInventoryFoodId');
+    let foodName = $(this).attr('data-foodInventoryFoodName');
 
     $.ajax({
         type: 'POST',
         url: "?r=foods/foodInventory/getStockMovement",
         cache: false,
         data: {
-            foodInventoryId: foodInventoryId
+            foodInventoryFoodId: foodInventoryFoodId
         }
     }).success(function(response) {
         movements = JSON.parse(response);
-        renderMovementsTable(movements);
+        movements.sort((a, b) => {
+            const dateA = new Date(a.date.split('/').reverse().join('/'));
+            const dateB = new Date(b.date.split('/').reverse().join('/'));
+            return dateB - dateA;
+        });
+        renderMovementsTable(movements, foodName);
     })
 })
 

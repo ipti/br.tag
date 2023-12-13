@@ -151,28 +151,26 @@ class FoodInventoryController extends Controller
 	}
 
     public function actionGetStockMovement() {
-        $foodInventoryId = Yii::app()->request->getPost('foodInventoryId');
+        $foodInventoryFoodId = Yii::app()->request->getPost('foodInventoryFoodId');
 
         $criteria = new CDbCriteria();
         $criteria->select = 'amount, date';
         $criteria->with = array('foodInventoryFk');
-        $criteria->condition = 'food_inventory_fk = :foodInventoryId';
-        $criteria->params = array(':foodInventoryId' => $foodInventoryId);
+        $criteria->together = true;
+        $criteria->condition = 'foodInventoryFk.food_fk = :foodInventoryFoodId';
+        $criteria->params = array(':foodInventoryFoodId' => $foodInventoryFoodId);
 
         $receivedData = FoodInventoryReceived::model()->findAll($criteria);
         $spentData = FoodInventorySpent::model()->findAll($criteria);
 
-        $values = [
-            'received_data' => [],
-            'spent_data' => []
+        $values = [];
 
-        ];
 		foreach ($receivedData as $data) {
-            array_push($values['received_data'], ['amount' => $data->amount, 'date' => date('d/m/Y', strtotime($data->date)) , 'measurementUnit' => $data->foodInventoryFk->measurementUnit]);
-		};
+            array_push($values, ['type' => "Entrada",'amount' => $data->amount, 'date' => date('d/m/Y', strtotime($data->date)) , 'measurementUnit' => $data->foodInventoryFk->measurementUnit]);
+		}
 		foreach ($spentData as $data) {
-			array_push($values['spent_data'], ['amount' => $data->amount, 'date' => date('d/m/Y', strtotime($data->date)), 'measurementUnit' => $data->foodInventoryFk->measurementUnit]);
-		};
+			array_push($values, ['type' => "Saída",'amount' => $data->amount, 'date' => date('d/m/Y', strtotime($data->date)), 'measurementUnit' => $data->foodInventoryFk->measurementUnit]);
+		}
 
         echo json_encode($values);
     }

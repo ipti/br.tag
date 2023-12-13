@@ -57,6 +57,15 @@
     cursor: pointer;
 }
 
+.text-color {
+    &--red {
+        color: $colorsTextError;
+    }
+    &--green {
+        color: $colorsTextSuccess;
+    }
+}
+
 .flex-direction {
     &--row {
         flex-direction: row;
