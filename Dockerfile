@@ -2,7 +2,7 @@ FROM ipti/yii2:7.4-fpm
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-COPY --chown=www-data:www-data --chmod=644 . /app
+COPY . /app
 
 WORKDIR /app/app
 RUN composer update --no-plugins
