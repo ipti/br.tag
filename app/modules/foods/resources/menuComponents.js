@@ -119,7 +119,7 @@ const PlateComponent = function (plate) {
         </tr>
         </table>
         <div class="row">
-            <a class="t-button-icon-danger js-remove-plate">Remover Prato</a>
+            <a class="t-button-icon-danger js-remove-plate" data-id-plate="${plate.id}">Remover Prato</a>
         </div>
       </div>
     `
@@ -128,13 +128,32 @@ const PlateComponent = function (plate) {
     wrapper.find(".js-plate-name").on("change", (e) =>  { plate.description = e.target.value });
     getFoodList(wrapper.find(".js-taco-foods"))
     const table = wrapper.find('table.js-meal-component-table')
-    console.log(wrapper.children())
     plate.food_ingredients.map((e) => {
       getFood(e, table)
     })
+    wrapper.find(".js-remove-plate").on("click", (e) =>{
+      const plateIdToRemove = $(e.target).attr("data-id-plate");
+      const day = $('.js-day-tab.active').attr("data-day-of-week")
+      let accordionActive = 0
+      for (let i = 0; i < meals.length; i++) {
+        const meal = meals[i];
+        const plateIndex = meal.plates.findIndex(plate => plate.id === plateIdToRemove);
+        if (plateIndex !== -1) {
+            accordionActive = i
+            meal.plates.splice(plateIndex, 1);
+        }
+    }
+    $(".js-meals-component").html('')
+      meals.map((e) => MealsComponent(e, day).actions.render())
+      $('.js-meals-component').accordion("destroy");
+      $( ".js-meals-component" ).accordion({
+        active: accordionActive,
+        collapsible: true,
+        icons: false,
+      });
+    })
     const selectFoods = wrapper.find('.js-taco-foods')
     addRowToTable(selectFoods, table)
-    // initializeSelect2()
     return wrapper.children()
     
   }
@@ -438,7 +457,7 @@ const MealsComponent = function (meal, day) {
       $(".js-meals-component").html('')
       meal.plates.push({
         description: "",
-        id: meal.plates.length,
+        id: generateUniqueId(),
         food_ingredients: []
        })
        meals.map((e) => MealsComponent(e, day).actions.render())
@@ -455,22 +474,14 @@ const MealsComponent = function (meal, day) {
 
 
       $(".js-plate-accordion-header").off("keydown");
-      // console.log(index)
-      // initializeMealAccordion(meals);
 
-      $('.js-meals-component').accordion("destroy");
-    $( ".js-meals-component" ).accordion({
-      active: false,
-      collapsible: true,
-      icons: false,
-    });
     })
 
     getMealTypeList(wrapper.find(".js-meal-type"))
 
     // adiciona máscara no input de hora
     wrapper.find(".js-mealTime").mask("99:99")
-
+    
     container.append(wrapper.children())
     const renderPlates = meal.plates.reduce((acc, plate) => acc.concat(PlateComponent(plate).actions.render()), []);
     platesContainer.html(renderPlates)
@@ -505,7 +516,6 @@ $(document).on("click", ".js-add-meal", function () {
   const day = $('.js-day-tab.active').attr("data-day-of-week")
   $(".js-meals-component").html('')
    meals.push({
-    id: meals.length,
     mealDay: day, 
     mealTime: '',
     mealTypeId: '',

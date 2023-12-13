@@ -2,6 +2,9 @@ function  initializeSelect2() {
     $("select.js-initialize-select2").select2("destroy");
     $('select.js-initialize-select2').select2();
 }
+function generateUniqueId() {
+  return 'id_' + Date.now();
+}
 
 $(".js-save-menu").on("click", function () {
     const form = $('#food-menu-form')

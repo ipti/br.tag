@@ -44,12 +44,11 @@ if(menuId)  {
         e.meals_component.forEach((mealComponent)=>{
             plates.push({
                     description: mealComponent.description,
-                    id: plates.length,
+                    id: generateUniqueId(),
                     food_ingredients: mealComponent.food_ingredients
             })
         })
         meals.push({
-            id: meals.length,
             mealDay: 1, 
             mealTime: e.time,
             mealTypeId: e.food_meal_type,
@@ -62,7 +61,6 @@ if(menuId)  {
     //terça
     menuUpdate.tuesday.map((e) => {
         meals.push({
-                id: meals.length,
                 mealDay: 2, 
                 mealTime: e.time,
                 mealTypeId: e.food_meal_type,
