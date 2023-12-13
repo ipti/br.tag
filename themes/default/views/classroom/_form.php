@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  * @var CActiveForm $this CActiveForm
