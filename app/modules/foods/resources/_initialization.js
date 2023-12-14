@@ -42,11 +42,23 @@ if(menuId)  {
     menuUpdate.monday.map((e) => {
         let plates = []
         e.meals_component.forEach((mealComponent)=>{
+             let foodIngredients = mealComponent.food_ingredients.map((foodIngredient) => { 
+                
+               let food =  {
+                id: idIgredientes,
+                amount: foodIngredient.amount,
+                food_id_fk: foodIngredient.food_id_fk, 
+                food_measure_unit_id: foodIngredient.food_measure_unit_id
+            }
+            idIgredientes++
+            return food
+            })
             plates.push({
                     description: mealComponent.description,
-                    id: generateUniqueId(),
-                    food_ingredients: mealComponent.food_ingredients
+                    id: idplates,
+                    food_ingredients: foodIngredients
             })
+            idplates++
         })
         meals.push({
             mealDay: 1, 

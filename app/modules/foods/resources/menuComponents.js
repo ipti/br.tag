@@ -1,4 +1,6 @@
 let meals = [];
+let idplates = 0;
+let idIgredientes = 0;
 
 function parseDOM(htmlString) {
   const wrapper = $('<div></div>');
@@ -179,6 +181,7 @@ const PlateComponent = function (plate) {
     selectFoods.on('change', (e) => {
         table.find('tbody > :not(:first-child)').html('')
         plate.food_ingredients.push({
+            id: idIgredientes,
             food_id_fk: selectFoods.val(),
             food_measure_unit_id: "",
             amount: "",
@@ -205,6 +208,32 @@ const PlateComponent = function (plate) {
         let line = createMealComponent(response, food);
         const wrapper = parseDOM(line);
         wrapper.find(".js-unit").on("change", (e) =>  { food.amount = e.target.value });
+        wrapper.find('.js-remove-taco-food').on('click', (e)=> {
+          let accordionPlateActive = $(e.target).attr("data-id-plate")
+          let ingredientId = $(e.target).attr("data-id-food-ingredients")
+          let accordionMeals = 0
+          for (let i = 0; i < meals.length; i++) {
+            let meal = meals[i];
+            let plateIndex = meal.plates.findIndex(plate => plate.id == accordionPlateActive);
+          
+            if (plateIndex !== -1) {
+              meal.plates[plateIndex].food_ingredients = meal.plates[plateIndex].food_ingredients.filter(foodIngredient => foodIngredient.id === ingredientId);
+              accordionMeals = i;
+            }
+          }
+          
+          const day = $('.js-day-tab.active').attr("data-day-of-week")
+          $(".js-meals-component").html('')
+
+          meals.map((e) => MealsComponent(e, day).actions.render())
+          $('.js-meals-component').accordion("destroy");
+          $( ".js-meals-component" ).accordion({
+            active: accordionMeals,
+            collapsible: true,
+            icons: false,
+          });
+          
+        })
         table.find('.js-total').remove()
         addFoodMeasurement(line, food)
         addUnitMask(line)
@@ -276,7 +305,7 @@ const PlateComponent = function (plate) {
         .append(`<td class='js-lip'>${lip}</td>`)
         .append(`<td class='js-cho'>${cho}</td>`)
         .append(`<td class='js-kcal'>${kcal}</td>`)
-        .append(`<td class='js-remove-taco-food'><span class='t-icon-close t-button-icon'><span></td>`)
+        .append(`<td class='js-remove-taco-food'><span class='t-icon-close t-button-icon' data-id-plate='${plate.id}' data-id-food-ingredients="${food.id}"><span></td>`)
 
         return line;
   }
@@ -302,21 +331,6 @@ const PlateComponent = function (plate) {
       initializeSelect2()
       })
   }
- /*  function removeFood(line, accordionActive) {
-    
-    line.find('.js-remove-taco-food').on(
-      "click", function (event) {
-        const table = line.closest('.js-meal-component-table')
-        const totalLine = line.nextAll().last() 
-
-        removeIngrendientsName(accordionActive, line.find('.js-food-name').text())
-        totalLine.remove()
-        $(this).parent().remove()
-        
-        calculateNutritionalValue(table)
-      }
-    )
-  } */
   function addUnitMask(line) {
     const input = line.find('.js-unit input')
     $(input).mask('999.99', {reverse: true}); 
@@ -457,12 +471,19 @@ const MealsComponent = function (meal, day) {
       $(".js-meals-component").html('')
       meal.plates.push({
         description: "",
-        id: generateUniqueId(),
+        id: idplates,
         food_ingredients: []
        })
+       idplates++
+       
        meals.map((e) => MealsComponent(e, day).actions.render())
-
-
+       $('.js-meals-component').accordion("destroy");
+       $( ".js-meals-component" ).accordion({
+         active: meals.indexOf(meal),
+         collapsible: true,
+         icons: false,
+       });
+        
        if(platesContainer.data('ui-accordion')) {
         $(platesContainer).accordion("destroy");
       }
@@ -533,6 +554,7 @@ $(document).on("click", ".js-remove-meal", function () {
   meals = meals.filter((e) => e.id != mealIdRemoved)
   $(".js-meals-component").html('')
   meals.map((e) => MealsComponent(e, day).actions.render())
+
 });
 
 $(document).on("click", '.js-change-pagination', function () {
@@ -545,6 +567,12 @@ $(document).on("click", '.js-change-pagination', function () {
 
   $(".js-meals-component").html('')
   meals.map((e) => MealsComponent(e, day).actions.render())
+  $('.js-meals-component').accordion("destroy");
+      $( ".js-meals-component" ).accordion({
+        active: false,
+        collapsible: true,
+        icons: false,
+      });
 })
 
 
