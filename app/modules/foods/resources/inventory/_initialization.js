@@ -128,6 +128,7 @@ $(document).on("click", "#save-food", function () {
         foodsStockDiv.innerHTML = '';
         $('.js-expiration-date').val('');
         $('.js-amount').val('');
+        $('#info-alert').removeClass('hide').addClass('alert-success').html("Alimento(s) adicionado(s) ao estoque com sucesso.");
         $.ajax({
             type: 'POST',
             url: "?r=foods/foodInventory/getFoodInventory",
@@ -137,6 +138,8 @@ $(document).on("click", "#save-food", function () {
             food_inventory.sort((a, b) => b.amount - a.amount);
             renderStockTable(food_inventory);
         })
+    }).fail(function(error) {
+        $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível adicionar o alimento no sistema.");
     })
 });
 
@@ -164,6 +167,13 @@ $(document).on("click", "#spent-checkbox", function () {
                 renderStockTable(food_inventory);
             })
             $('#spent-checkbox').prop('disabled', true);
+            $('#info-alert').removeClass('hide').addClass('alert-success').html("Estoque de alimento retirado do sistema com sucesso.");
+        }).fail(function(error) {
+            $('#spent-checkbox').prop('checked', false);
+            $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível retirar o estoque do alimento do sistema.");
+
         })
+
+
     }
 });

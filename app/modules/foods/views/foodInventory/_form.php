@@ -28,6 +28,12 @@ $form=$this->beginWidget('CActiveForm', array(
 	<?php echo $form->errorSummary($model); ?>
 
     <div class="row">
+        <div class="column clearleft">
+            <div id="info-alert" class="alert hide"></div>
+        </div>
+    </div>
+
+    <div class="row">
         <button class="t-button-primary" id="js-entry-stock-button" type="button">Lançamento de Estoque</button>
         <button class="t-button-primary">Solicitações</button>
         <a class="t-button-secondary"><span class="t-icon-printer"></span>Relatório de Estoque</a>

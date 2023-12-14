@@ -13,6 +13,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Create FoodRequest</h1>
-
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<div id="mainPage" class="main">
+    <?php $this->renderPartial('_form', array('model'=>$model)); ?>
+</div>
