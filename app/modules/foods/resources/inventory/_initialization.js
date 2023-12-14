@@ -8,6 +8,7 @@ $(document).ready(function() {
         cache: false
     }).success(function(response) {
         food_inventory = JSON.parse(response);
+        food_inventory.sort((a, b) => b.amount - a.amount);
         renderStockTable(food_inventory);
     })
     let foodSelect = $('#foodStockSelect');
@@ -133,6 +134,7 @@ $(document).on("click", "#save-food", function () {
             cache: false
         }).success(function(response) {
             food_inventory = JSON.parse(response);
+            food_inventory.sort((a, b) => b.amount - a.amount);
             renderStockTable(food_inventory);
         })
     })
@@ -151,15 +153,17 @@ $(document).on("click", "#spent-checkbox", function () {
                 foodInventoryId: foodInventoryId,
                 amount: amount
             }
-        })
-    } else {
-        $.ajax({
-            type: 'POST',
-            url: "?r=foods/foodInventory/deleteStockSpent",
-            cache: false,
-            data: {
-                foodInventoryId: foodInventoryId,
-            }
+        }).success(function(response) {
+            $.ajax({
+                type: 'POST',
+                url: "?r=foods/foodInventory/getFoodInventory",
+                cache: false
+            }).success(function(response) {
+                food_inventory = JSON.parse(response);
+                food_inventory.sort((a, b) => b.amount - a.amount);
+                renderStockTable(food_inventory);
+            })
+            $('#spent-checkbox').prop('disabled', true);
         })
     }
 });

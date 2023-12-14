@@ -42,7 +42,7 @@ function renderStockTable(foodsOnStock, id) {
             $('<td>').text(foodDescription).appendTo(row);
             $('<td>').text(stock.amount + measurementUnit).appendTo(row);
             $('<td>').text(stock.expiration_date).appendTo(row);
-            let checkboxInput = $('<td>').html('<input type="checkbox" id="spent-checkbox" data-foodInventoryId="'+ stock.id +'" data-amount="'+ stock.amount +'" ' + (stock.spent ? 'checked' : '') + '> Em falta');
+            let checkboxInput = $('<td>').html('<input type="checkbox" id="spent-checkbox" data-foodInventoryId="'+ stock.id +'" data-amount="'+ stock.amount +'" ' + (stock.spent ? 'checked disabled' : '') + '> Em falta');
             $(checkboxInput).appendTo(row);
             $('<td>').html('<span id="js-movements-button" class="t-icon-cart-arrow-down cursor-pointer" data-foodInventoryFoodId="' + stock.foodId + '" data-foodInventoryFoodName="'  + foodDescription + '"></span>').appendTo(row);
 
@@ -61,7 +61,8 @@ function renderStockTable(foodsOnStock, id) {
                 $('<td>').text(foodDescription).appendTo(row);
                 $('<td>').text(stock.amount + measurementUnit).appendTo(row);
                 $('<td>').text(stock.expiration_date).appendTo(row);
-                let checkboxInput = $('<td>').html('<input type="checkbox" id="spent-checkbox" data-foodInventoryId="'+ stock.id +'" data-amount="'+ stock.amount +'" ' + (stock.spent ? 'checked' : '') + '> Em falta');
+                console.log(stock.spent);
+                let checkboxInput = $('<td>').html('<input type="checkbox" id="spent-checkbox" data-foodInventoryId="'+ stock.id +'" data-amount="'+ stock.amount +'" ' + (stock.spent ? 'checked disabled' : '') + '> Em falta');
                 $(checkboxInput).appendTo(row);
                 $('<td>').html('<span id="js-movements-button" class="t-icon-cart-arrow-down cursor-pointer" data-foodInventoryFoodId="' + stock.foodId + '" data-foodInventoryFoodName="'  + foodDescription + '"></span>').appendTo(row);
 

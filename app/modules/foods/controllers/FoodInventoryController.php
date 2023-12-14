@@ -89,31 +89,44 @@ class FoodInventoryController extends Controller
 
 	public function actionSaveStock() {
 		$foodsOnStock = Yii::app()->request->getPost('foodsOnStock');
-
-        if (!empty($foodsOnStock)) {
-            foreach ($foodsOnStock as $foodData) {
-                $FoodInventory = new FoodInventory;
+	
+		if (!empty($foodsOnStock)) {
+			foreach ($foodsOnStock as $foodData) {
+				$existingFood = FoodInventory::model()->findByAttributes(array('food_fk' => $foodData['id']));
 				$expiration_date_Timestamp = strtotime(str_replace('/', '-', $foodData['expiration_date']));
-
-				var_dump($foodData['id'],Yii::app()->user->school,$foodData['amount'],date('Y-m-d', $expiration_date_Timestamp));
-                $FoodInventory->food_fk = $foodData['id'];
-                $FoodInventory->school_fk = Yii::app()->user->school;
-                $FoodInventory->amount = $foodData['amount'];
-                $FoodInventory->measurementUnit = $foodData['measurementUnit'];
-                $FoodInventory->expiration_date = date('Y-m-d', $expiration_date_Timestamp);
-
-                $FoodInventory->save();
-
-                if($FoodInventory->save()) {
-                    $FoodInventoryReceived = new FoodInventoryReceived;
-                    $FoodInventoryReceived->food_inventory_fk = $FoodInventory->id;
-                    $FoodInventoryReceived->amount = $foodData['amount'];
-
-                    $FoodInventoryReceived->save();
-                }
-
-            }
-        }
+	
+				if (!$existingFood) {
+					$FoodInventory = new FoodInventory;
+					
+	
+					$FoodInventory->food_fk = $foodData['id'];
+					$FoodInventory->school_fk = Yii::app()->user->school;
+					$FoodInventory->amount = $foodData['amount'];
+					$FoodInventory->measurementUnit = $foodData['measurementUnit'];
+					$FoodInventory->expiration_date = date('Y-m-d', $expiration_date_Timestamp);
+	
+					if ($FoodInventory->save()) {
+						$FoodInventoryReceived = new FoodInventoryReceived;
+						$FoodInventoryReceived->food_fk = $foodData['id'];
+						$FoodInventoryReceived->food_inventory_fk = $FoodInventory->id;
+						$FoodInventoryReceived->amount = $foodData['amount'];
+	
+						$FoodInventoryReceived->save();
+					}
+				} else {
+					$FoodInventoryReceived = new FoodInventoryReceived;
+					$FoodInventoryReceived->food_fk = $foodData['id'];
+					$FoodInventoryReceived->food_inventory_fk = $existingFood->id;
+					$FoodInventoryReceived->amount = $foodData['amount'];
+	
+					$FoodInventoryReceived->save();
+	
+					$existingFood->amount += $foodData['amount'];
+					$existingFood->expiration_date =  date('Y-m-d', $expiration_date_Timestamp);
+					$existingFood->save();
+				}
+			}
+		}
 	}
     public function actionSaveStockReceived() {
 		$foodInventoryId = Yii::app()->request->getPost('foodInventoryId');
@@ -130,6 +143,11 @@ class FoodInventoryController extends Controller
 	public function actionSaveStockSpent() {
 		$foodInventoryId = Yii::app()->request->getPost('foodInventoryId');
 		$amount = Yii::app()->request->getPost('amount');
+
+		$existingFood = FoodInventory::model()->findByAttributes(array('id' => $foodInventoryId));
+
+		$existingFood->amount -= $amount;
+		$existingFood->save();
 
 		$FoodInventorySpent = new FoodInventorySpent;
 
@@ -183,7 +201,6 @@ class FoodInventoryController extends Controller
 
 		$values = [];
 		foreach ($foodInventoryData as $stock) {
-			$exists = $this->checkFoodInventorySpent($stock->id); // Chamando a função usando $this->
 			$values[] = array(
 				'id' => $stock->id,
 				'foodId' => $stock->food_fk,
@@ -191,7 +208,7 @@ class FoodInventoryController extends Controller
                 'amount' => $stock->amount,
 				'measurementUnit' => $stock->measurementUnit,
                 'expiration_date' => date('d/m/Y', strtotime($stock->expiration_date)),
-				'spent' => $exists
+				'spent' => ($stock->amount > 0) ? false : true
             );
 		}
 
