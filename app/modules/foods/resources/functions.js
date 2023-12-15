@@ -49,8 +49,8 @@ $(".js-save-menu").on("click", function () {
         foodMenu.friday = getMealsByDay(5)
         foodMenu.saturday = getMealsByDay(6)
 
-        console.log(foodMenu)
-       /*  $.ajax({
+        // console.log(foodMenu)
+        $.ajax({
             url: "?r=foods/foodMenu/create",
             data: {
                 foodMenu: foodMenu
@@ -58,7 +58,7 @@ $(".js-save-menu").on("click", function () {
             type: "POST",
         }).success(function (response) {
             window.location.href = "?r=foods/foodMenu/index";
-        }) */
+        })
 
     } else {
         const erros = []
@@ -89,7 +89,7 @@ function getMealsByDay(day) {
         meal.time = $(mealAccordion).find('.js-mealTime').val()
         meal.sequence = index
         meal.turn = $(mealAccordion).find('select.js-shift').val()
-        meal.food_meal_type = $(mealAccordion).find('select.js-food-meal-type').val()
+        meal.food_meal_type = $(mealAccordion).find('select.js-meal-type').val()
 
 
         // get meals components

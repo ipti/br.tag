@@ -1,4 +1,5 @@
 let meals = [];
+let idMeals = 0;
 let idplates = 0;
 let idIgredientes = 0;
 
@@ -76,7 +77,7 @@ const PlateComponent = function (plate) {
   function render() {
 
     let template = `
-      <div class="ui-accordion-header js-plate-accordion-header row">
+      <div class="ui-accordion-header js-plate-accordion-header row" data-id-accordion="${plate.id}">
         <div class='column flex-direction--row align-items--baseline'>
           <input type="text" class="t-accordion-input-header js-plate-name" autofocus="true" value='${plate.description}' name='Nome do Prato' placeholder="Digite o nome do prato" required='required' />
           <label>
@@ -88,7 +89,7 @@ const PlateComponent = function (plate) {
         <span class="t-icon-down_arrow arrow" ></span>
         </div>
       </div>
-      <div class="ui-accordion-content js-plate-accordion-content">
+      <div class="ui-accordion-content js-plate-accordion-content"  data-id-accordion="${plate.id}">
         <div class="row">
           <div class="t-field-select column clearfix">
             <select class="t-field-select__input js-initialize-select2 js-taco-foods">
@@ -136,14 +137,16 @@ const PlateComponent = function (plate) {
     wrapper.find(".js-remove-plate").on("click", (e) =>{
       const plateIdToRemove = $(e.target).attr("data-id-plate");
       const day = $('.js-day-tab.active').attr("data-day-of-week")
+      
       let accordionActive = 0
       for (let i = 0; i < meals.length; i++) {
         const meal = meals[i];
-        const plateIndex = meal.plates.findIndex(plate => plate.id === plateIdToRemove);
+        const plateIndex = meal.plates.findIndex(plate => plate.id == plateIdToRemove);
         if (plateIndex !== -1) {
             accordionActive = i
             meal.plates.splice(plateIndex, 1);
         }
+        
     }
     $(".js-meals-component").html('')
       meals.map((e) => MealsComponent(e, day).actions.render())
@@ -186,7 +189,7 @@ const PlateComponent = function (plate) {
             food_measure_unit_id: "",
             amount: "",
         })
-
+        idIgredientes++
         plate.food_ingredients.map((e) => {
           getFood(e, table)
         })
@@ -209,15 +212,16 @@ const PlateComponent = function (plate) {
         const wrapper = parseDOM(line);
         wrapper.find(".js-unit").on("change", (e) =>  { food.amount = e.target.value });
         wrapper.find('.js-remove-taco-food').on('click', (e)=> {
+          
           let accordionPlateActive = $(e.target).attr("data-id-plate")
           let ingredientId = $(e.target).attr("data-id-food-ingredients")
           let accordionMeals = 0
           for (let i = 0; i < meals.length; i++) {
             let meal = meals[i];
             let plateIndex = meal.plates.findIndex(plate => plate.id == accordionPlateActive);
-          
+            
             if (plateIndex !== -1) {
-              meal.plates[plateIndex].food_ingredients = meal.plates[plateIndex].food_ingredients.filter(foodIngredient => foodIngredient.id === ingredientId);
+              meal.plates[plateIndex].food_ingredients = meal.plates[plateIndex].food_ingredients.filter(foodIngredient =>  foodIngredient.id != ingredientId);
               accordionMeals = i;
             }
           }
@@ -390,7 +394,7 @@ const MealsComponent = function (meal, day) {
       </div>
       <div class="column justify-content--space-between border-left">
         <span></span>
-        <span class="t-icon-trash js-remove-meal"></span>
+        <span class="t-icon-trash js-remove-meal" data-id-accordion="${meal.id}" ></span>
       </div>
     </div>
     <div class="ui-accordion-content js-meals-accordion-content  ${meal.mealDay != day ? 'hide' : '' }" data-day-of-week="${meal.mealDay}">
@@ -537,6 +541,7 @@ $(document).on("click", ".js-add-meal", function () {
   const day = $('.js-day-tab.active').attr("data-day-of-week")
   $(".js-meals-component").html('')
    meals.push({
+    id:idMeals,
     mealDay: day, 
     mealTime: '',
     mealTypeId: '',
@@ -544,6 +549,7 @@ $(document).on("click", ".js-add-meal", function () {
     shift: '',
     plates: []
    })
+   idMeals++
    meals.map((e) => MealsComponent(e, day).actions.render())
   initializeMealAccordion(meals.length)
 });
@@ -554,7 +560,12 @@ $(document).on("click", ".js-remove-meal", function () {
   meals = meals.filter((e) => e.id != mealIdRemoved)
   $(".js-meals-component").html('')
   meals.map((e) => MealsComponent(e, day).actions.render())
-
+  $('.js-meals-component').accordion("destroy");
+    $( ".js-meals-component" ).accordion({
+        active: false,
+        collapsible: true,
+        icons: false,
+    });
 });
 
 $(document).on("click", '.js-change-pagination', function () {

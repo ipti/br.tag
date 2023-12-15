@@ -61,6 +61,7 @@ if(menuId)  {
             idplates++
         })
         meals.push({
+            id: idMeals,
             mealDay: 1, 
             mealTime: e.time,
             mealTypeId: e.food_meal_type,
@@ -68,6 +69,7 @@ if(menuId)  {
             shift: e.turn,
             plates: plates
         })
+        idMeals++
        
     })
     //terça
