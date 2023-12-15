@@ -13,8 +13,8 @@
 	$baseUrl = Yii::app()->baseUrl;
 	$themeUrl = Yii::app()->theme->baseUrl;
 	$cs = Yii::app()->getClientScript();
-	$cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js', CClientScript::POS_END);
-	 
+	$cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+
 
 ?>
 
@@ -40,7 +40,7 @@
 			<a style="text-decoration: underline;" target="_blank"
 				href="https://tagbr.atlassian.net/servicedesk/customer/portal/3">
 				Central de Atendimento TAG
-			</a> 
+			</a>
 			 e informe o código de erro:
 			<strong><?php echo $error['code'] ?></strong>
 			<br/>

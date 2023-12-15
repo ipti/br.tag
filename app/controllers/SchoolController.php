@@ -254,7 +254,7 @@ class SchoolController extends Controller
         $modelSchoolStructure = $this->loadModel($id, $this->SCHOOL_STRUCTURE);
         $modelManagerIdentification = $this->loadModel($id, $this->MANAGER_IDENTIFICATION);
 
-        $disableFieldWhenItsUBATUBA = TagUtils::isInstance("UBATUBA");
+        $disableFieldWhenItsUBATUBA = Yii::app()->features->isEnable("FEAT_SEDSP");
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($modelSchoolIdentification);

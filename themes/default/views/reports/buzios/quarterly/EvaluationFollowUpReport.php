@@ -3,7 +3,7 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/QuartelyClassCouncil/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/QuartelyClassCouncil/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $tableWhiteFieldsComplete = "<td></td><td></td><td></td><td></td><td></td>
@@ -58,15 +58,15 @@ $tableWhiteFieldsComplete = "<td></td><td></td><td></td><td></td><td></td>
                     <th scope="col" rowspan="2">* Observações individuais significativas para auxiliar no preenchimento do quadro descritivo:</th>
                 </tr>
                 <tr>
-                    <?php for ($i=0; $i < 8; $i++) { 
+                    <?php for ($i=0; $i < 8; $i++) {
                         echo "<th scope='col'>S</th>
                         <th scope='col'>P</th>
                         <th scope='col'>N</th>";
-                    }?> 
+                    }?>
                 </tr>
             </thead>
             <tbody>
-                <?php 
+                <?php
                 $count = 1;
                 foreach ($students as $student) { ?>
                     <tr>
@@ -194,12 +194,12 @@ $tableWhiteFieldsComplete = "<td></td><td></td><td></td><td></td><td></td>
             <p>_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________
             </p>
             </div>
-        </div> 
+        </div>
     </div>
     <p style="font-size: 14px;">
-        *Segundo os artigos 82, 112, e 114, parágrafo 3º, o processo de avaliação das disciplinas 
+        *Segundo os artigos 82, 112, e 114, parágrafo 3º, o processo de avaliação das disciplinas
         de Arte e Cultura e Educação Física será através de um relatório
-        trimestral da turma, elaborado pelo professor com observações individuais, 
+        trimestral da turma, elaborado pelo professor com observações individuais,
         em formulário específico enviado pela Secretaria Municipal de Educação, Esporte, Ciência e Tecnologia.
     </p>
     <div class="container-box signatures-container">

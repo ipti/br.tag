@@ -2,12 +2,12 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/site/index.js', CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts.js', CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/serial.js', CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/pie.js', CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/lang/pt.js', CClientScript::POS_END);
-$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/themes/light.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/site/index.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/serial.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/pie.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/lang/pt.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/themes/light.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 /* @var $this SiteController */
 
@@ -82,7 +82,7 @@ $logCount = count(Log::model()->findAll("school_fk = :school", [':school' => Yii
 			<!--        <div class="span6">-->
 			<!--            <div class="widget widget-scroll widget-gray margin-bottom-none"-->
 			<!--                 data-toggle="collapse-widget" data-scroll-height="223px"-->
-			<!--                 data-collapse-closed="false" total="--><? //= $logCount 
+			<!--                 data-collapse-closed="false" total="--><? //= $logCount
 																		?><!--">-->
 			<!--                <div class="widget-head"><h5 class="heading glyphicons parents"><i></i>Alunos Matriculados</h5>-->
 			<!--                </div>-->
@@ -94,7 +94,7 @@ $logCount = count(Log::model()->findAll("school_fk = :school", [':school' => Yii
 			<!--        <div class="span6">-->
 			<!--            <div class="widget widget-scroll widget-gray margin-bottom-none"-->
 			<!--                 data-toggle="collapse-widget" data-scroll-height="223px"-->
-			<!--                 data-collapse-closed="false" total="--><? //= $logCount 
+			<!--                 data-collapse-closed="false" total="--><? //= $logCount
 																		?><!--">-->
 			<!--                <div class="widget-head"><h5 class="heading glyphicons database_plus"><i></i>Base de Dados</h5>-->
 			<!--                </div>-->
@@ -108,7 +108,7 @@ $logCount = count(Log::model()->findAll("school_fk = :school", [':school' => Yii
 			<!--        <div class="span12">-->
 			<!--            <div class="widget widget-scroll widget-gray margin-bottom-none"-->
 			<!--                 data-toggle="collapse-widget" data-scroll-height="223px"-->
-			<!--                 data-collapse-closed="false" total="--><? //= $logCount 
+			<!--                 data-collapse-closed="false" total="--><? //= $logCount
 																		?><!--">-->
 			<!--                <div class="widget-head"><h5 class="heading glyphicons calendar"><i></i>Cadastros anuais</h5>-->
 			<!--                </div>-->

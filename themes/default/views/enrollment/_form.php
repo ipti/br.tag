@@ -2,8 +2,8 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js?v=1.0', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
 //@done S1 - 15 - A matricula precisa estar atribuida a um ano letivo, senão ela fica atemporal.
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'student-enrollment-form',
@@ -19,7 +19,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="tag-buttons-container buttons hide-responsive">
             <button class="t-button-primary last  save-enrollment"type="button">
                 <?= $model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save') ?>
-            </button>   
+            </button>
         </div>
     </div>
 </div>
@@ -63,13 +63,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php
                                 //@done S1 -  18 - Primeiro seleciona a etapa dae faz um filtro nas turma disponiveis para aquela etapa.
                                 echo $form->labelEx($model, 'classroom_fk', array('class' => 't-field-select__label')); ?>
-                                
-                                    <?php                                    
+
+                                    <?php
                                     echo $form->dropDownList($model, 'classroom_fk', CHtml::listData($classrooms, 'id', 'name', 'schoolInepFk.name'), array('class' => 'select-search-on t-field-select__input', 'style' => 'width:100%'));
                                     echo $form->error($model, 'classroom_fk');
 
                                     ?>
-                               
+
                             </div>
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($model, 'unified_class', array('class' => 't-field-select__label')); ?>
@@ -82,7 +82,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             //@done s1 - criar requisição ajax para filtrar a modalidade por Stage?>
                             <div class="t-field-select">
                                 <?php echo CHtml::label("Etapa", 'Stage', array('class' => 't-field-select__label')); ?>
-                               
+
                                     <?php echo CHtml::dropDownList("Stage", null, array(
                                         "0" => "Selecione a Modalidade",
                                         "1" => "Infantil",
@@ -104,7 +104,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         'style' => 'width:100%'
                                     )); ?>
                             </div>
-                            
+
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($model, 'edcenso_stage_vs_modality_fk', array('class' => 't-field-select__label')); ?>
                                     <?php echo $form->dropDownList($model, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa", 'class' => 'select-search-on t-field-select__input')); ?>
@@ -126,8 +126,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($model, 'status'); ?>
                             </div>
 
-                            <?php
-                            if(TagUtils::isInstance("UBATUBA")){ ?>
+                            <?php if(Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
                                 <div class="t-field-select" id="reasonDropdown" style="display: none;">
                                     <label for="reason">Tipo da baixa</label>
                                     <select name="reason" id="reason" class="select-search-off t-field-select__input" style="width:100%">
@@ -149,7 +148,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <option value="6">Melhor ajustamento escolar</option>
                                     </select>
                                 </div>
-                            <?php } ?>
+                            <?php endif; ?>
 
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($model, 'another_scholarization_place', array('class' => 't-field-select__label')); ?>
@@ -217,7 +216,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->checkBox($model, 'public_transport', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
                                 <?php echo $form->error($model, 'public_transport'); ?>
                                 <?php echo $form->labelEx($model, 'public_transport', array('class' => 't-field-checkbox__label--required required')); ?>
-                                
+
                             </div>
                             <div class="t-field-select" id="transport_responsable">
                                     <?php echo $form->labelEx($model, 'transport_responsable_government', array('class' => 't-field-select__label required')); ?>
@@ -246,7 +245,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_bus']; ?>
                                         </label>
                                     </div>
-                                    <div class="t-field-checkbox">  
+                                    <div class="t-field-checkbox">
                                         <?php echo $form->checkBox($model, 'vehicle_type_bike', array('value' => 1, 'uncheckValue' => 0, 'class'=>'t-field-checkbox__input')); ?>
                                         <label class="t-field-checkbox__label" for="StudentEnrollment_vehicle_type_bike">
                                             <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_bike']; ?>
@@ -288,7 +287,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_waterway_boat_35']; ?>
                                         </label>
                                     </div>
-                                    
+
                                 </div>
                             </div>
 
@@ -361,7 +360,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo $model->attributeLabels()['aee_optical_nonoptical']; ?>
                                         </label>
                                    </div>
-                                    
+
                                 </div>
                             </div>
 
