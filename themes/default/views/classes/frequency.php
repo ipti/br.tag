@@ -1,6 +1,6 @@
 <?php
 
-/** 
+/**
  * @var ClassesController $this ClassesController
  * @var CActiveDataProvider $dataProvider CActiveDataProvider
  */
@@ -8,7 +8,7 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization.js?v=1.0', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes'));
 
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
@@ -130,7 +130,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
         </div>
         <div class="mobile-row">
-            <img class="loading-frequency" 
+            <img class="loading-frequency"
             style="display:none;margin: 10px 20px;"
             height="30px" width="30px"
             src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
@@ -142,7 +142,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
 </div>
 
-<div class="modal fade t-modal-container helper" 
+<div class="modal fade t-modal-container helper"
     id="save-justification-modal" tabindex="-1" role="dialog" aria-labelledby="Save Justification">
     <div class="modal-dialog" role="document">
         <div class="t-modal__header">

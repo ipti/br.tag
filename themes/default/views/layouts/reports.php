@@ -1,12 +1,12 @@
 <?php
 $cs = Yii::app()->clientScript;
 $cs->scriptMap = array(
-    'jquery.js' => false,
-    'jquery.ba-bbq.js' => false
+    'jquery.js?v='.TAG_VERSION => false,
+    'jquery.ba-bbq.js?v='.TAG_VERSION => false
 );
 $baseUrl = Yii::app()->theme->baseUrl;
-$cs->registerScriptFile($baseUrl . '/js/jquery.min.js', CClientScript::POS_HEAD);
-$cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HEAD);
+$cs->registerScriptFile($baseUrl . '/js/jquery.min.js?v='.TAG_VERSION, CClientScript::POS_HEAD);
+$cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js?v='.TAG_VERSION, CClientScript::POS_HEAD);
 /*
 $result = Yii::app()->db->createCommand("SELECT `year`,
 	se_total/@x * 100 as se_percent,
@@ -50,7 +50,6 @@ $r = $imob = 0;
         <!-- Bootstrap -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/responsive.min.css" rel="stylesheet" type="text/css" />
-        <!--<link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap-select.css" rel="stylesheet" />-->
 
         <!-- Main Theme Stylesheet :: CSS -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.css?v=1.0" rel="stylesheet" type="text/css" />
@@ -68,13 +67,12 @@ $r = $imob = 0;
 
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/common.js"></script>
 
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js?v=1.0" ></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js?v=<?= TAG_VERSION ?>" ></script>
 
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/uniform.js" ></script>
 
         <!-- Select2 Plugin -->
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
-        
+
         <!-- QRCode Plugin -->
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.qrcode.min.js" type="text/javascript"></script>
         <!-- Print -->
@@ -83,20 +81,20 @@ $r = $imob = 0;
         <!-- Calendar -->
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.css' />
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.print.css' media='print' />
-        <script type='text/javascript' src='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.min.js'></script>
+        <script type='text/javascript' src='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.min.js?v=<?= TAG_VERSION ?>'></script>
 
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/jquery-ui-1.9.2.custom.min.css'/>
 
         <script>
-//            var dirty = false;  
+//            var dirty = false;
             $(document).ready(function(){
-                $(".select-search-off").select2({width: 'resolve',minimumResultsForSearch: -1}); 
-                $(".select-search-on").select2({width: 'resolve'}); 
-                $(".select-schools, .select-ComplementaryAT, .select-schools").select2({width: 'resolve', maximumSelectionSize: 6}); 
+                $(".select-search-off").select2({width: 'resolve',minimumResultsForSearch: -1});
+                $(".select-search-on").select2({width: 'resolve'});
+                $(".select-schools, .select-ComplementaryAT, .select-schools").select2({width: 'resolve', maximumSelectionSize: 6});
                 $(".select-disciplines").select2({width: 'resolve', maximumSelectionSize: 13});
                 $(".select-school").select2({dropdownCssClass: 'school-dropdown'});
             });
-//     
+//
 //                $('a').click(function(event){
 //                    if(dirty){
 //                        var con = confirm('Existem alterações para serem salvas... \nDeseja sair assim mesmo?');
@@ -106,12 +104,12 @@ $r = $imob = 0;
 //                    }
 //                });
 //                $('input, select').change(function(e){
-//                    dirty = true; 
+//                    dirty = true;
 //                });
             /**
              * Select2 Brazilian Portuguese translation
              */
-            
+
             (function ($) {
                 "use strict";
 
@@ -124,13 +122,13 @@ $r = $imob = 0;
                     formatSearching: function () { return "Buscando…"; }
                 });
             })(jQuery);
-            
+
             $(function () {
                 $("[id2='school']").change(function () {
                     $(".school").submit();
                 });
-            });     
-              
+            });
+
             var bagaca = true;
             $(document).on('click','#button-menu', function(){
                 if(bagaca){
@@ -139,20 +137,20 @@ $r = $imob = 0;
                     $('#content').css('margin','0 0 0 191px');
                 }
                 bagaca = !bagaca;
-                    
+
             });
-            
+
             //Ao clicar ENTER não fará nada.
             $('*').keypress(function(e) {
                 if (e.keyCode == $.ui.keyCode.ENTER) {
                     e.preventDefault();
                 }
             });
-            
+
         	$(document).ready(function(){
 
         		var valor = '<?php echo json_encode($r) ?>';
-        		
+
                 $("#imob").qrcode({
                 	// render method: 'canvas', 'image' or 'div'
                     render: 'canvas',

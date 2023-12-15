@@ -91,7 +91,6 @@ function getMealsByDay(day) {
         meal.turn = $(mealAccordion).find('select.js-shift').val()
         meal.food_meal_type = $(mealAccordion).find('select.js-meal-type').val()
 
-
         // get meals components
 
         $(mealAccordion).find('.js-plate-accordion-content').each((index, element) => {
