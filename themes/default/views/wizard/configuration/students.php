@@ -7,8 +7,8 @@ $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 
-$cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'school-configuration-form',

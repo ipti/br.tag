@@ -12,7 +12,7 @@ $cs->registerCssFile($baseUrl . '/css/responsive.min.css');
 $cs->registerCssFile($baseUrl . '/css/template.css?v=1.0');
 $cs->registerCssFile($baseUrl . '/css/template2.css');
 $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION);
-$cs->registerScriptFile(Yii::app()->baseUrl . '/js/site/login.js', CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->baseUrl . '/js/site/login.js?v='.TAG_VERSION, CClientScript::POS_END);
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'login-form',
     'enableClientValidation' => true,

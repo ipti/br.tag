@@ -74,7 +74,7 @@ class ConfigurationController extends Controller
                     }
 
                     //Sincronizar com o SEDSP
-                    if (TagUtils::isInstance("UBATUBA")) {
+                    if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
                         $loginUseCase = new LoginUseCase();
                         $loginUseCase->checkSEDToken();
 
@@ -89,7 +89,7 @@ class ConfigurationController extends Controller
 
                 Log::model()->saveAction("wizard_classroom", $logYear, "C", $logYear);
 
-                if(TagUtils::isInstance("UBATUBA") && !empty($errors)) {
+                if(Yii::app()->features->isEnable("FEAT_SEDSP") && !empty($errors)) {
                     $errorMessage = 'Turmas reutilizadas no TAG, com falha na sincronização com o SEDSP na(s) seguinte(s) turma(s): <br><br>';
                     foreach ($errors as $error) {
                         $errorMessage .= $error . '<br>';
