@@ -215,7 +215,7 @@ class FoodInventoryController extends Controller
                 'description' => $stock->foodRelation->description,
                 'amount' => $stock->amount,
 				'measurementUnit' => $stock->measurementUnit,
-                'expiration_date' => date('d/m/Y', strtotime($stock->expiration_date)),
+                'expiration_date' => ($stock->expiration_date != null) ? date('d/m/Y', strtotime($stock->expiration_date)) : "Não informada",
 				'spent' => ($stock->amount > 0) ? false : true
             );
 		}

@@ -26,43 +26,85 @@ $form=$this->beginWidget('CActiveForm', array(
             <div id="info-alert" class="alert hide"></div>
         </div>
     </div>
-    <div class="row">
-        <div class="column clearleft">
 
+	<div class="row">
+        <button class="t-button-primary" id="js-entry-request-button" type="button">Gerar Solicitação</button>
+    </div>
+
+	<div class="row">
+        <div class="t-field-select column is-two-fifths clearfix">
+            <select class="select-search-on t-field-select__input select2-container" id="foodRequestSelect">
+                <option value="total">Filtrar solicitações por alimento</option>
+            </select>
         </div>
     </div>
 
-	<!-- <p class="note">Fields with <span class="required">*</span> are required.</p>
-
-	<?php echo $form->errorSummary($model); ?>
-
 	<div class="row">
-		<?php echo $form->labelEx($model,'date'); ?>
-		<?php echo $form->textField($model,'date'); ?>
-		<?php echo $form->error($model,'date'); ?>
-	</div>
+        <div class="column is-four-fifths clearfix">
+            <table id="foodRequestTable" class="tag-table-secondary align-start">
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'food_fk'); ?>
-		<?php echo $form->textField($model,'food_fk'); ?>
-		<?php echo $form->error($model,'food_fk'); ?>
-	</div>
+            </table>
+        </div>
+    </div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'amount'); ?>
-		<?php echo $form->textField($model,'amount'); ?>
-		<?php echo $form->error($model,'amount'); ?>
-	</div>
+	<div class="modal fade t-modal-container larger" id="js-entry-request-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog " role="document">
+            <div class="t-modal__header">
+                <h4 class="t-title" id="myModalLabel">Gerar Solicitação</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="">
+                </button>
+            </div>
+            <form method="post">
+                <div class="t-modal__body">
+                    <p>Selecione os itens e quantidades para gerar solicitações</p>
+                    <div class="tablet-row">
+						<div class="column is-third t-field-select clear-margin--bottom clearfix">
+							<?php echo CHtml::label('Selecione o Alimento', 'food_fk', array('class' => 't-field-select__label--required')); ?>
+							<select class="select-search-on t-field-select__input select2-container clear-margin--all" id="food" name="food">
+								<option>Selecione o Alimento</option>
+							</select>
+						</div>
+						<div class="column is-one-tenth clearleft--on-mobile t-field-text clear-margin--bottom clearfix">
+							<?php echo $form->labelEx($model,'amount', array('class' => 't-field-text__label--required')); ?>
+							<?php echo $form->textField($model,'amount', array('class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Valor')); ?>
+							<?php echo $form->error($model,'amount'); ?>
+						</div>
+						<div class="column is-one-tenth clearleft--on-mobile t-field-text clear-margin--bottom clearfix">
+							<?php echo CHtml::label('Unidade', 'measurementUnit', array('class' => 't-field-select__label--required')); ?>
+							<select class="select-search-on t-field-select__input select2-container clear-margin--all" id="measurementUnit" name="measurementUnit">
+								<option>Selecione</option>
+								<option>g</option>
+								<option>Kg</option>
+								<option>L</option>
+								<option>Pacote</option>
+								<option>Unidade</option>
+							</select>
+						</div>
+						<div class="column t-field-text clearleft--on-mobile clear-margin--bottom is-two-fifths clearfix">
+							<?php echo $form->labelEx($model,'description', array('class' => 't-field-text__label--required')); ?>
+							<?php echo $form->textField($model,'description', array('class' => 't-field-text__input js-description clear-margin--all', 'placeholder' => 'Informe')); ?>
+							<?php echo $form->error($model,'description'); ?>
+						</div>
+						<div class="column is-one-tenth clearleft--on-mobile t-buttons-container clear-padding--bottom clear-margin--bottom clearfix">
+							<button class="t-button-secondary clear-margin--all full--width align-self--end" id="add-request" type="button">Adicionar</button>
+						</div>
+                    </div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'measurementUnit'); ?>
-		<?php echo $form->textField($model,'measurementUnit',array('size'=>7,'maxlength'=>7)); ?>
-		<?php echo $form->error($model,'measurementUnit'); ?>
-	</div>
+                    <div id="food_request"></div>
 
-	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
-	</div> -->
+                    <div class="t-modal__footer row reverse">
+                        <div class="t-buttons-container justify-content--center">
+                            <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="t-buttons-container justify-content--center">
+                            <button type="button" class="t-button-primary clear-margin--right" data-dismiss="modal" id="save-request">Enviar solicitação</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
 <?php $this->endWidget(); ?>
 

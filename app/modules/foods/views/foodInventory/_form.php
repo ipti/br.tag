@@ -35,7 +35,7 @@ $form=$this->beginWidget('CActiveForm', array(
 
     <div class="row">
         <button class="t-button-primary" id="js-entry-stock-button" type="button">Lançamento de Estoque</button>
-        <button class="t-button-primary">Solicitações</button>
+        <a class="t-button-primary" href="?r=foods/foodRequest/create">Solicitações</a>
         <a class="t-button-secondary"><span class="t-icon-printer"></span>Relatório de Estoque</a>
     </div>
     <div class="row">
@@ -87,7 +87,7 @@ $form=$this->beginWidget('CActiveForm', array(
                         <div class="column is-two-fifths t-field-select clear-margin--bottom clearfix">
                             <?php echo CHtml::label('Selecione o Alimento', 'food_fk', array('class' => 't-field-select__label--required')); ?>
                             <select class="select-search-on t-field-select__input select2-container" id="food" name="food">
-                                <option>Selecione a turma</option>
+                                <option>Selecione o Alimento</option>
                             </select>
                         </div>
                         <div class="column is-one-tenth clearleft--on-mobile t-field-text clear-margin--bottom clearfix">
@@ -124,7 +124,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
                         </div>
                         <div class="t-buttons-container justify-content--center">
-                            <button type="button" class="t-button-primary clear-margin--right js-add-classroom-diary" data-dismiss="modal" id="save-food">Adicionar ao estoque</button>
+                            <button type="button" class="t-button-primary clear-margin--right" data-dismiss="modal" id="save-food">Adicionar ao estoque</button>
                         </div>
                     </div>
                 </div>

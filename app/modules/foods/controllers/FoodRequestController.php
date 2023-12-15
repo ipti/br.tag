@@ -28,7 +28,14 @@ class FoodRequestController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array(
+					'index',
+					'view',
+					'getFoodAlias',
+					'saveRequest',
+					'getFoodRequest',
+					'saveRequestDelivered'
+				),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -43,6 +50,99 @@ class FoodRequestController extends Controller
 				'users'=>array('*'),
 			),
 		);
+	}
+
+	public function actionSaveRequest() {
+		$foodRequests = Yii::app()->request->getPost('foodRequests');
+
+		if (!empty($foodRequests)) {
+			foreach ($foodRequests as $request) {
+				$FoodRequest = new FoodRequest;
+
+				$FoodRequest->food_fk = $request['id'];
+				$FoodRequest->amount = $request['amount'];
+				$FoodRequest->measurementUnit = $request['measurementUnit'];
+				$FoodRequest->description = $request['description'];
+
+				if (!$FoodRequest->save()) {
+					Yii::app()->request->sendStatusCode(400);
+					$errors = $FoodRequest->getErrors();
+					echo json_encode(['error' => 'Ocorreu um erro ao salvar: ' . reset($errors)[0]]);
+				}
+			}
+		}
+	}
+
+	public function actionGetFoodRequest() {
+		$criteria = new CDbCriteria();
+		$criteria->with = array('foodFk');
+
+		$foodRequestData = FoodRequest::model()->findAll($criteria);
+
+		$values = [];
+		foreach ($foodRequestData as $request) {
+			$values[] = array(
+				'id' => $request->id,
+				'foodId' => $request->food_fk,
+                'foodName' => $request->foodFk->description,
+                'amount' => $request->amount,
+				'measurementUnit' => $request->measurementUnit,
+                'description' => $request->description,
+                'delivered' => $request->delivered == 0 ? false : true,
+				'date' => date('d/m/Y', strtotime($request->date)),
+            );
+		}
+
+        echo json_encode($values);
+	}
+
+	public function actionSaveRequestDelivered() {
+		$foodRequestId = Yii::app()->request->getPost('foodRequestId');
+
+		$existingRequest = FoodRequest::model()->findByAttributes(array('id' => $foodRequestId));
+		$existingRequest->delivered = 1;
+
+		$existingFoodInventory = FoodInventory::model()->findByAttributes(array('food_fk' => $existingRequest->food_fk));
+		var_dump($existingFoodInventory->amount);
+
+		if($existingFoodInventory !== null) {
+			var_dump($existingRequest->amount);
+			$existingFoodInventory->amount += $existingRequest->amount;
+			$existingFoodInventory->save();
+
+			$FoodInventoryReceived = new FoodInventoryReceived;
+			$FoodInventoryReceived->food_fk = $existingRequest->food_fk;
+			$FoodInventoryReceived->food_inventory_fk = $existingFoodInventory->id;
+			$FoodInventoryReceived->amount = $existingRequest->amount;
+
+			if(!$FoodInventoryReceived->save()) {
+				Yii::app()->request->sendStatusCode(400);
+				$errors = $FoodInventoryReceived->getErrors();
+				echo json_encode(['error' => 'Ocorreu um erro ao salvar: ' . reset($errors)[0]]);
+			}
+		} else {
+			$FoodInventory = new FoodInventory;
+
+			$FoodInventory->food_fk = $existingRequest->food_fk;
+			$FoodInventory->school_fk = Yii::app()->user->school;
+			$FoodInventory->amount = $existingRequest->amount;
+			$FoodInventory->measurementUnit = $existingRequest->measurementUnit;
+
+			if ($FoodInventory->save()) {
+				$FoodInventoryReceived = new FoodInventoryReceived;
+				$FoodInventoryReceived->food_fk = $existingRequest->food_fk;
+				$FoodInventoryReceived->food_inventory_fk = $FoodInventory->id;
+				$FoodInventoryReceived->amount = $existingRequest->amount;
+
+				$FoodInventoryReceived->save();
+			} else {
+				Yii::app()->request->sendStatusCode(400);
+				$errors = $FoodInventory->getErrors();
+				echo json_encode(['error' => 'Ocorreu um erro ao salvar: ' . reset($errors)[0]]);
+			}
+		}
+
+		$existingRequest->save();
 	}
 
 	/**
