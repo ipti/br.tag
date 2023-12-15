@@ -6,7 +6,7 @@
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/_initialization.js', CClientScript::POS_END );
-$cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END );
+$cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END );
 $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::POS_END );
 ?>
 
@@ -65,7 +65,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::PO
 				<?php echo $form->labelEx($model,'final_date',  array('class' => 't-field-text__label')); ?>
 				<?php echo $form->textField($model,'final_date', array('class'=>'t-field-text__input js-date date js-final-date', 'readonly' => 'readonly')); ?>
 				<?php echo $form->error($model,'final_date'); ?>
-			</div>	
+			</div>
 		</div>
 		<div class="row">
 			<div class="t-field-text column">
@@ -84,7 +84,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::PO
 			</div>
 		</div>
 		<div class="t-tabs-secondary js-days-of-week-component row">
-				
+
 		</div>
 		<div class="row js-show-meals-header hide">
 			<div class="column t-accordeon--header">
@@ -97,7 +97,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::PO
 					</div>
 				</div>
 			</div>
-			
+
 		</div>
 		<div class="row">
 			<div class="column">
@@ -109,9 +109,9 @@ $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::PO
 	<div class="row buttons">
 		<a class="t-button-primary js-save-menu"><?= $model->isNewRecord ? 'Criar' : 'Salvar' ?></a>
 	</div>
-				
+
 <?php $this->endWidget(); ?>
-	
+
 </div><!-- form -->
 <style>
 	.date[readonly] {
