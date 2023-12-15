@@ -26,12 +26,12 @@ $( "#js-accordion" ).accordion({
     })
 
 if(menuId)  {
-    // console.log(menuUpdate)
+     console.log(menuUpdate)
     const name = $('.js-menu-name')
     const startDate = $('.js-start-date')
     const finalDate = $('.js-final-date')
     const observation = $('.js-observation')
-    name.val(menuUpdate.name)
+    name.val(menuUpdate.description)
     startDate.val(menuUpdate.start_date)
     finalDate.val(menuUpdate.final_date)
     observation.val(menuUpdate.observation)

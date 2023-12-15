@@ -20,5 +20,5 @@ $this->menu=array(
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>
 <script type="text/javascript">
-	 var menuUpdate =  <?php echo json_encode($modelMenu); ?>
+	 var menuUpdate =  <?php echo $model; ?>
 </script>

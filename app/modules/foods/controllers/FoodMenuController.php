@@ -154,10 +154,10 @@ class FoodMenuController extends Controller
              }
 
              // Convertendo objeto do cardápio em um JSON para enviar como resposta da requisição AJAX
-             $response = json_encode((array) $foodMenu);
+             $model = json_encode((array) $foodMenu);
 
              $this->render('update', array(
-                 'data'=>$response,
+                 'model'=>$model,
              ));
         }
         
@@ -204,31 +204,6 @@ class FoodMenuController extends Controller
 		$result["cho"] = is_numeric($food->cholesterol_mg) ? round($food->cholesterol_mg, 2) : $food->cholesterol_mg;
 
 		echo CJSON::encode($result);
-	}
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['FoodMenu']))
-		{
-			$model->attributes=$_POST['FoodMenu'];
-			if($model->save()){
-				$this->redirect(array('view','id'=>$model->id));
-			}
-
-		}
-       
-		$this->render('update',array(
-			'model'=>$model,
-		));
 	}
 
 	/**

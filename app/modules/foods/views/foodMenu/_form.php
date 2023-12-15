@@ -102,7 +102,6 @@ $cs->registerScriptFile($baseScriptUrl . '/_initialization.js', CClientScript::P
 			</div>
 		</div>
 	</div>
-	<?php echo $form->errorSummary($model); ?>
 	<div class="row buttons">
 		<a class="t-button-primary js-save-menu"><?= $model->isNewRecord ? 'Criar' : 'Salvar' ?></a>
 	</div>
