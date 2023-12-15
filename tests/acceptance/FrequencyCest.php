@@ -12,11 +12,11 @@ class FrequencyCest
         $robots->fieldUser($login['user']);
         $robots->fieldPassword($login['secret']);
         $robots->submit();
-        sleep(2);
+        $robots->yearSelect('2023');
     }
 
     // tests
-    
+
     /**
      * Seleciona o ano 2023.
      * Adiciona frequência.
@@ -28,9 +28,9 @@ class FrequencyCest
 
         $robots = new FrequencyRobots($teste);
 
-        $robots->yearSelect('2023');
         $robots->pageFrequency();
         $robots->month($dataFrequency['month']);
+        $robots->classroom($dataFrequency['classroom']);
 
         sleep(4);
 

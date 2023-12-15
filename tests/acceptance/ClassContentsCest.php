@@ -8,12 +8,14 @@ class ClassContentsCest
         $builder = new LoginBuilder();
         $login = $builder->buildCompleted();
 
+        $builder = new LoginBuilder();
+        $login = $builder->buildCompleted();
+
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
         $robots->fieldUser($login['user']);
         $robots->fieldPassword($login['secret']);
         $robots->submit();
-        sleep(2);
     }
 
     // tests
@@ -24,11 +26,9 @@ class ClassContentsCest
 
         $robots = new ClassContentsRobots($teste);
         $robots->page();
-        sleep(5);
         $robots->classroom($dataClassContents['classroom']);
-        sleep(2);
         $robots->month($dataClassContents['month']);
-        sleep(2);
+        $robots->component($dataClassContents['disciplines']);
         $robots->btnSave();
         sleep(2);
 

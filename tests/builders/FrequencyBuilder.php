@@ -23,6 +23,7 @@ class FrequencyBuilder
     public function buildCompleted()
     {
         $this->frequency['month'] = $this->faker->randomElement(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12));
+        $this->frequency['classroom'] = 'TURMA 2023';
 
         return $this->frequency;
     }

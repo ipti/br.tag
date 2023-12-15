@@ -12,7 +12,6 @@ class InstructorCest
         $robots->fieldUser($login['user']);
         $robots->fieldPassword($login['secret']);
         $robots->submit();
-        sleep(2);
     }
 
     /**

@@ -25,6 +25,7 @@ class ClassContentsRobots
     public function page()
     {
         $this->tester->amOnPage('?r=classes/classContents');
+        $this->tester->wait(5);
     }
 
     public function btnSave()
@@ -50,7 +51,7 @@ class ClassContentsRobots
             selectField.dispatchEvent(event);
         ");
 
-        $this->tester->wait(1);
+        $this->tester->wait(2);
     }
 
     /**
@@ -60,6 +61,7 @@ class ClassContentsRobots
     public function month($month)
     {
         $this->tester->selectOption('#month', $month);
+        $this->tester->wait(2);
     }
 
     /**
@@ -69,5 +71,6 @@ class ClassContentsRobots
     public function component($component)
     {
         $this->tester->selectOption('#disciplines', $component);
+        $this->tester->wait(2);
     }
 }

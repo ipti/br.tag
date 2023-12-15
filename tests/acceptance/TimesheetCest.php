@@ -12,7 +12,6 @@ class TimesheetCest
         $robots->fieldUser($login['user']);
         $robots->fieldPassword($login['secret']);
         $robots->submit();
-        sleep(2);
     }
 
     // tests
@@ -23,11 +22,9 @@ class TimesheetCest
 
         $robots = new TimesheetRobots($teste);
         $robots->pageTimesheet();
-        sleep(2);
         $robots->classroom($dataBuilder['classroom_fk']);
-        sleep(2);
         $robots->btnGenerate();
-        sleep(10);
+        $robots->btnConfirm();
 
         return $dataBuilder;
     }

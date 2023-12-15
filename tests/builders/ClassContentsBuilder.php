@@ -22,8 +22,9 @@ class ClassContentsBuilder
 
     public function buildCompleted()
     {
-        $this->classContents['classroom'] = '571'; // DATA
+        $this->classContents['classroom'] = '62'; // ACAMPAMENTO
         $this->classContents['month'] = $this->faker->randomElement(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12));
+        $this->classContents['disciplines'] = $this->faker->randomElement(array(4, 7, 3));
 
         return $this->classContents;
     }

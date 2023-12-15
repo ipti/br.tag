@@ -45,17 +45,4 @@ class FrequencyRobots
     {
         $this->tester->selectOption('#disciplines', $component);
     }
-
-    /**
-     * Selecionar o ano.
-     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
-     */
-    public function yearSelect($yearSelect)
-    {
-        $this->tester->click('#schoolyear');
-        $this->tester->wait(2);
-        $this->tester->selectOption('#years', $yearSelect);
-        $this->tester->click('.btn-primary');
-    }
-
 }

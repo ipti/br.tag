@@ -7,12 +7,11 @@ class ManageStagesCest
         $builder = new LoginBuilder();
         $login = $builder->buildCompleted();
 
-        $robots = new LoginRobots($teste);
+        $robots = new LoginRobots($tester);
         $robots->pageLogin();
         $robots->fieldUser($login['user']);
         $robots->fieldPassword($login['secret']);
         $robots->submit();
-        sleep(2);
     }
 
     // tests

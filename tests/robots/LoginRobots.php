@@ -44,6 +44,7 @@ class LoginRobots
     public function submit()
     {
         $this->tester->click('.submit-button-login');
+        $this->tester->wait(2);
     }
 
     /**
@@ -53,6 +54,19 @@ class LoginRobots
     public function rememberMe()
     {
         $this->tester->click('#remember');
+    }
+
+    /**
+     * Selecionar o ano após feito o login.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function yearSelect($yearSelect)
+    {
+        $this->tester->click('#schoolyear');
+        $this->tester->wait(2);
+        $this->tester->selectOption('#years', $yearSelect);
+        $this->tester->click('.btn-primary');
+        $this->tester->wait(2);
     }
 
 }

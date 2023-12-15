@@ -15,6 +15,7 @@ class TimesheetRobots
     public function pageTimesheet()
     {
         $this->tester->amOnPage('?r=timesheet');
+        $this->tester->wait(2);
     }
 
     /**
@@ -23,7 +24,18 @@ class TimesheetRobots
      */
     public function btnGenerate()
     {
-        $this->tester->click('.btn-generate-timesheet');
+        $this->tester->waitForElementClickable('.wide-button', 10);
+        $this->tester->executeJS("document.querySelector('.wide-button').click();");
+    }
+
+    /**
+     * Botão para confirmar: Gerar outro Quadro de Horário.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function btnConfirm()
+    {
+        $this->tester->waitForElementClickable('.confirm-timesheet-generation', 10);
+        $this->tester->executeJS("document.querySelector('.confirm-timesheet-generation').click();");
     }
 
     /**
@@ -33,6 +45,7 @@ class TimesheetRobots
     public function classroom($classroom)
     {
         $this->tester->selectOption('#classroom_fk', $classroom);
+        $this->tester->wait(2);
     }
 
     /**
