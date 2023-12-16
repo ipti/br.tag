@@ -1,3 +1,6 @@
+## [Versão 3.64.101]
+- Criada a tela de gestão de estoque e de solicitações no modulo de merenda
+
 ## [Versão 3.63.101]
 - Corrigido o estilo e padronização das caixas de texto na tela de cadastrar e atualizar usuário
 
